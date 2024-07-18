@@ -3,13 +3,13 @@ import type { breakpoints, darkTheme, lightTheme } from '~/styles/tokens'
 type AppBreakpoints = typeof breakpoints
 
 type AppThemes = {
-  light: typeof lightTheme
   dark: typeof darkTheme
+  light: typeof lightTheme
 }
 
 declare module 'react-native-unistyles' {
-  // eslint-disable-next-line ts/consistent-type-definitions
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-interface -- go away
   export interface UnistylesBreakpoints extends AppBreakpoints {}
-  // eslint-disable-next-line ts/consistent-type-definitions
+  // eslint-disable-next-line @typescript-eslint/consistent-type-definitions, @typescript-eslint/no-empty-interface -- go away
   export interface UnistylesThemes extends AppThemes {}
 }

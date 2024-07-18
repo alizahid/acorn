@@ -2,18 +2,10 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "paths": {
-      "~/*": [
-        "./src/*"
-      ]
+      "~/*": ["./src/*"]
     },
-    "strict": true
+    "strict": true,
+    "strictNullChecks": true
   },
-  "include": [
-    "src",
-    "typings",
-    "babel.config.js",
-    "eslint.config.mjs",
-    ".expo/types/**/*.ts",
-    "expo-env.d.ts"
-  ]
+  "include": ["src", "typings", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }
