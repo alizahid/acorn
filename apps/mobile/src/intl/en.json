@@ -1,7 +1,34 @@
 {
+  "component": {
+    "auth": {
+      "credentials": {
+        "form": {
+          "action": {
+            "submit": "Save"
+          },
+          "field": {
+            "clientId": {
+              "error": "Client ID is required",
+              "placeholder": "Client ID"
+            }
+          }
+        },
+        "title": "Credentials"
+      }
+    }
+  },
   "screen": {
-    "landing": {
-      "title": "Acorn for Reddit"
+    "communities": {
+      "title": "Communities"
+    },
+    "home": {
+      "title": "Home"
+    },
+    "settings": {
+      "title": "Settings"
+    },
+    "users": {
+      "title": "Users"
     }
   }
 }
