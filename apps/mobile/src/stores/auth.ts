@@ -5,17 +5,17 @@ import { compute, computed } from 'zustand-computed-state'
 import { refreshAccessToken } from '~/lib/reddit'
 import { Store } from '~/lib/store'
 
-type Payload = {
+export type AuthPayload = {
   accessToken: string | null
   clientId: string | null
   expiresAt: Date | null
   refreshToken: string | null
 }
 
-type State = Payload & {
+type State = AuthPayload & {
   expired: boolean
-  refresh: () => Promise<Payload | null>
-  save: (payload: Payload) => void
+  refresh: () => Promise<AuthPayload | null>
+  save: (payload: AuthPayload) => void
 }
 
 export const useAuth = create<State>()(

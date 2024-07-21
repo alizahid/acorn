@@ -4,13 +4,13 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import { type FeedType } from '~/hooks/data/feed'
 import { Store } from '~/lib/store'
 
-type Payload = {
+export type PreferencesPayload = {
   feed: FeedType
   muted: boolean
 }
 
-type State = Payload & {
-  updatePreferences: (payload: Partial<Payload>) => void
+type State = PreferencesPayload & {
+  updatePreferences: (payload: Partial<PreferencesPayload>) => void
 }
 
 export const usePreferences = create<State>()(

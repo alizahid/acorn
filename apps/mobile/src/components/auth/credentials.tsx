@@ -6,12 +6,8 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Button } from '~/components/common/button'
-import {
-  getAccessToken,
-  getAuthCode,
-  type GetAuthCodeForm,
-  GetAuthCodeSchema,
-} from '~/lib/reddit'
+import { useSignIn } from '~/hooks/mutations/auth/sign-in'
+import { type GetAuthCodeForm, GetAuthCodeSchema } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 
 import { Text } from '../common/text'
@@ -26,30 +22,28 @@ export function Credentials({ style }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
-  const { save } = useAuth()
+  const { clientId, save } = useAuth()
+
+  const { isPending, signIn } = useSignIn({
+    onSuccess(data) {
+      if (!data) {
+        return
+      }
+
+      save(data)
+    },
+  })
 
   const { control, handleSubmit } = useForm<GetAuthCodeForm>({
     defaultValues: {
-      clientId: '',
+      clientId: clientId ?? '',
       state: createId(),
     },
     resolver: zodResolver(GetAuthCodeSchema),
   })
 
-  const onSubmit = handleSubmit(async (data) => {
-    const code = await getAuthCode(data)
-
-    if (!code) {
-      return
-    }
-
-    const payload = await getAccessToken(data.clientId, code)
-
-    if (!payload) {
-      return
-    }
-
-    save(payload)
+  const onSubmit = handleSubmit((data) => {
+    signIn(data)
   })
 
   return (
@@ -79,6 +73,7 @@ export function Credentials({ style }: Props) {
 
       <Button
         label={t('form.action.submit')}
+        loading={isPending}
         onPress={() => {
           void onSubmit()
         }}
