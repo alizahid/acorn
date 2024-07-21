@@ -22,7 +22,6 @@ export default function Layout() {
         name="index"
         options={{
           tabBarIcon: (props) => <HouseIcon {...props} weight="duotone" />,
-          title: t('home.title'),
         }}
       />
 

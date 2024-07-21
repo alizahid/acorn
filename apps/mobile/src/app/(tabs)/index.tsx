@@ -1,45 +1,43 @@
-import { FlashList } from '@shopify/flash-list'
+import { useFocusEffect, useNavigation } from 'expo-router'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { PostCard } from '~/components/posts/card'
-import { useFeed } from '~/hooks/data/feed'
-import { useFrame } from '~/hooks/frame'
+import { PostHeader } from '~/components/posts/header'
+import { PostList } from '~/components/posts/list'
+import { usePreferences } from '~/stores/preferences'
 
 export default function Screen() {
-  const frame = useFrame()
+  const navigation = useNavigation()
 
   const { styles } = useStyles(stylesheet)
 
-  const { posts } = useFeed('hot')
+  const { feed, updatePreferences } = usePreferences()
+
+  useFocusEffect(() => {
+    navigation.setOptions({
+      headerTitle: () => (
+        <PostHeader
+          onChange={(next) => {
+            updatePreferences({
+              feed: next,
+            })
+          }}
+          type={feed}
+        />
+      ),
+    })
+  })
 
   return (
     <View style={styles.main}>
-      <FlashList
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-        contentContainerStyle={styles.list(
-          frame.padding.top,
-          frame.padding.bottom,
-        )}
-        data={posts}
-        estimatedItemSize={frame.frame.width}
-        renderItem={({ item }) => <PostCard post={item} />}
-        scrollIndicatorInsets={frame.scroll}
-      />
+      <PostList type={feed} />
     </View>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  list: (top: number, bottom: number) => ({
-    paddingBottom: bottom,
-    paddingTop: top,
-  }),
   main: {
     backgroundColor: theme.colors.gray[1],
     flex: 1,
-  },
-  separator: {
-    height: theme.space[4],
   },
 }))

@@ -1,5 +1,6 @@
 import '~/styles/uni'
 
+import { ThemeProvider } from '@react-navigation/native'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { useFonts } from 'expo-font'
 import { getCalendars } from 'expo-localization'
@@ -9,6 +10,7 @@ import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { IntlProvider } from 'use-intl'
 
+import { useTheme } from '~/hooks/theme'
 import en from '~/intl/en.json'
 import { fonts } from '~/lib/fonts'
 import { persister, queryClient } from '~/lib/query'
@@ -19,6 +21,8 @@ const [calendar] = getCalendars()
 
 export default function RootLayout() {
   const [loaded] = useFonts(fonts)
+
+  const theme = useTheme()
 
   useEffect(() => {
     if (loaded) {
@@ -32,27 +36,29 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={styles.main}>
-      <PersistQueryClientProvider
-        client={queryClient}
-        persistOptions={{
-          persister,
-        }}
-      >
-        <IntlProvider
-          locale="en"
-          messages={en}
-          now={new Date()}
-          timeZone={calendar.timeZone ?? undefined}
+      <ThemeProvider value={theme}>
+        <PersistQueryClientProvider
+          client={queryClient}
+          persistOptions={{
+            persister,
+          }}
         >
-          <KeyboardAvoidingView
-            behavior="padding"
-            enabled={Platform.OS === 'ios'}
-            style={styles.main}
+          <IntlProvider
+            locale="en"
+            messages={en}
+            now={new Date()}
+            timeZone={calendar.timeZone ?? undefined}
           >
-            <Slot />
-          </KeyboardAvoidingView>
-        </IntlProvider>
-      </PersistQueryClientProvider>
+            <KeyboardAvoidingView
+              behavior="padding"
+              enabled={Platform.OS === 'ios'}
+              style={styles.main}
+            >
+              <Slot />
+            </KeyboardAvoidingView>
+          </IntlProvider>
+        </PersistQueryClientProvider>
+      </ThemeProvider>
     </GestureHandlerRootView>
   )
 }

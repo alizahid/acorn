@@ -1,5 +1,6 @@
 export type Post = {
   comments: number
+  content?: string
   createdAt: Date
   id: string
   media: {
@@ -9,7 +10,7 @@ export type Post = {
   permalink: string
   read: boolean
   saved: boolean
-  text?: string
+  spoiler: boolean
   title: string
   user: {
     id: string

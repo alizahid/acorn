@@ -43,7 +43,7 @@ export function PostImages({ images }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: (height: number) => ({
-    backgroundColor: theme.colors.grayA[2],
+    backgroundColor: theme.colors.grayA[3],
     height,
     width: height,
   }),
