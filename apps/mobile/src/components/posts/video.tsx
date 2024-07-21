@@ -7,6 +7,7 @@ import PlayIcon from 'react-native-phosphor/src/fill/Play'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { getDimensions } from '~/lib/media'
 import { getGif } from '~/lib/red-gifs'
 import { usePreferences } from '~/stores/preferences'
 import { type PostVideo } from '~/types/post'
@@ -62,15 +63,6 @@ export function PostVideo({ video }: Props) {
   }, [player])
 
   const controls = [
-    // {
-    //   Icon: CornersOutIcon,
-    //   key: 'fullscreen',
-    //   onPress() {
-    //     setFullscreen(true)
-
-    //     ref.current?.enterFullscreen()
-    //   },
-    // },
     {
       Icon: muted ? SpeakerNoneIcon : SpeakerHighIcon,
       key: 'volume',
@@ -82,8 +74,10 @@ export function PostVideo({ video }: Props) {
     },
   ]
 
+  const height = getDimensions(frame.width, video)
+
   return (
-    <View style={styles.main(frame.width)}>
+    <View style={styles.main(height, frame.width)}>
       <ReactNativePressable
         onPress={() => {
           if (playing) {
@@ -107,11 +101,9 @@ export function PostVideo({ video }: Props) {
         />
 
         {!playing ? (
-          <PlayIcon
-            color={theme.colors.accent[9]}
-            size={frame.width / 10}
-            style={styles.play(frame.width, frame.width / 10)}
-          />
+          <View style={styles.play}>
+            <PlayIcon color={theme.colors.accent[9]} size={frame.width / 8} />
+          </View>
         ) : null}
       </ReactNativePressable>
 
@@ -145,16 +137,21 @@ const stylesheet = createStyleSheet((theme) => ({
     position: 'absolute',
     right: 0,
   },
-  main: (height: number) => ({
+  main: (height: number, width: number) => ({
     backgroundColor: theme.colors.grayA[2],
     height,
-    width: height,
+    width,
   }),
-  play: (height: number, size: number) => ({
-    alignSelf: 'center',
+  play: {
+    alignItems: 'center',
+    bottom: 0,
+    flex: 1,
+    justifyContent: 'center',
+    left: 0,
     position: 'absolute',
-    top: height / 2 - size / 2,
-  }),
+    right: 0,
+    top: 0,
+  },
   video: {
     flex: 1,
   },

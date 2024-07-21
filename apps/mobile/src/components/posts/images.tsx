@@ -3,6 +3,7 @@ import { FlatList } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { getDimensions } from '~/lib/media'
 import { type PostImage } from '~/types/post'
 
 type Props = {
@@ -15,11 +16,13 @@ export function PostImages({ images }: Props) {
   const { styles } = useStyles(stylesheet)
 
   if (images.length === 1) {
+    const height = getDimensions(frame.width, images[0])
+
     return (
       <Image
         contentFit="contain"
         source={images[0].url}
-        style={styles.main(frame.width)}
+        style={styles.image(height, frame.width)}
       />
     )
   }
@@ -42,6 +45,10 @@ export function PostImages({ images }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  image: (height: number, width: number) => ({
+    height,
+    width,
+  }),
   main: (height: number) => ({
     backgroundColor: theme.colors.grayA[3],
     height,

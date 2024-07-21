@@ -36,3 +36,18 @@ export function getVideo(
     }
   }
 }
+
+export function getDimensions(
+  frameWidth: number,
+  {
+    height,
+    width,
+  }: {
+    height: number
+    width: number
+  },
+) {
+  const ratio = height / width
+
+  return frameWidth * ratio
+}
