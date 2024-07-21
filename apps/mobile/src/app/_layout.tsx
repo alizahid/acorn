@@ -4,7 +4,7 @@ import { ThemeProvider } from '@react-navigation/native'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { useFonts } from 'expo-font'
 import { getCalendars } from 'expo-localization'
-import { Slot, SplashScreen } from 'expo-router'
+import { SplashScreen, Stack } from 'expo-router'
 import { useEffect } from 'react'
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -54,7 +54,14 @@ export default function RootLayout() {
               enabled={Platform.OS === 'ios'}
               style={styles.main}
             >
-              <Slot />
+              <Stack>
+                <Stack.Screen
+                  name="(tabs)"
+                  options={{
+                    headerShown: false,
+                  }}
+                />
+              </Stack>
             </KeyboardAvoidingView>
           </IntlProvider>
         </PersistQueryClientProvider>
