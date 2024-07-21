@@ -6,8 +6,8 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { PostSkeleton } from '~/components/posts/skeleton'
-import { type FeedType, useFeed } from '~/hooks/data/feed'
 import { useFrame } from '~/hooks/frame'
+import { type FeedType, useFeed } from '~/hooks/queries/feed'
 
 type Props = {
   type: FeedType

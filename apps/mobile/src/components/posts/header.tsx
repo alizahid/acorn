@@ -7,7 +7,7 @@ import { type Icon } from 'react-native-phosphor/src/lib'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { FeedType } from '~/hooks/data/feed'
+import { FeedType } from '~/hooks/queries/feed'
 
 import { DropDown } from '../common/drop-down'
 

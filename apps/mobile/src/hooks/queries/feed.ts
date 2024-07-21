@@ -81,7 +81,7 @@ export function useFeed(type: FeedType) {
         (post) =>
           ({
             comments: post.data.num_comments,
-            content: post.data.selftext || undefined,
+            content: post.data.selftext.trim() || undefined,
             createdAt: new Date(post.data.created),
             id: post.data.id,
             media: {
@@ -96,7 +96,7 @@ export function useFeed(type: FeedType) {
             read: post.data.clicked,
             saved: post.data.saved,
             spoiler: post.data.spoiler,
-            title: post.data.title,
+            title: post.data.title.trim(),
             user: {
               id: post.data.author,
               name: post.data.author_fullname,
