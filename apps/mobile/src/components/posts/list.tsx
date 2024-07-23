@@ -1,12 +1,12 @@
 import { FlashList } from '@shopify/flash-list'
 import { useState } from 'react'
 import { View } from 'react-native'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { useFrame } from '~/hooks/frame'
 import { type FeedType, useFeed } from '~/hooks/queries/posts/feed'
 
 import { Empty } from '../common/empty'
@@ -17,7 +17,7 @@ type Props = {
 }
 
 export function PostList({ type }: Props) {
-  const frame = useFrame()
+  const frame = useSafeAreaFrame()
 
   const { styles } = useStyles(stylesheet)
 
@@ -42,12 +42,8 @@ export function PostList({ type }: Props) {
           <Spinner style={styles.spinner} />
         ) : null
       }
-      contentContainerStyle={styles.list(
-        frame.padding.top,
-        frame.padding.bottom,
-      )}
       data={posts}
-      estimatedItemSize={frame.frame.width}
+      estimatedItemSize={frame.width}
       extraData={{
         viewing,
       }}
@@ -68,7 +64,11 @@ export function PostList({ type }: Props) {
           viewing={viewing.includes(item.id)}
         />
       )}
-      scrollIndicatorInsets={frame.scroll}
+      scrollIndicatorInsets={{
+        bottom: 1,
+        right: 1,
+        top: 1,
+      }}
       viewabilityConfig={{
         itemVisiblePercentThreshold: 60,
       }}
@@ -77,10 +77,6 @@ export function PostList({ type }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  list: (top: number, bottom: number) => ({
-    paddingBottom: bottom,
-    paddingTop: top,
-  }),
   separator: {
     height: theme.space[4],
   },

@@ -1,6 +1,5 @@
 import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
-import { BlurView } from 'expo-blur'
 import { View } from 'react-native'
 import ArrowLeftIcon from 'react-native-phosphor/src/bold/ArrowLeft'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -20,7 +19,7 @@ export function Header({ navigation, options, ...props }: Props) {
   const left = back || options.headerLeft
 
   return (
-    <BlurView intensity={100} style={styles.main(insets.top)}>
+    <View style={styles.main(insets.top)}>
       <View style={styles.header}>
         {left ? (
           <View style={[styles.actions, styles.left]}>
@@ -55,7 +54,7 @@ export function Header({ navigation, options, ...props }: Props) {
           </View>
         ) : null}
       </View>
-    </BlurView>
+    </View>
   )
 }
 
@@ -73,12 +72,8 @@ const stylesheet = createStyleSheet((theme) => ({
     left: 0,
   },
   main: (inset: number) => ({
-    backgroundColor: theme.colors.grayA[1],
-    left: 0,
+    backgroundColor: theme.colors.grayA[2],
     paddingTop: inset,
-    position: 'absolute',
-    right: 0,
-    top: 0,
   }),
   right: {
     right: 0,

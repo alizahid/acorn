@@ -35,6 +35,9 @@
     "home": {
       "title": "Home"
     },
+    "search": {
+      "title": "Search"
+    },
     "settings": {
       "title": "Settings"
     },

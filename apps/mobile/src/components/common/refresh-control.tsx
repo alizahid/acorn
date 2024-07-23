@@ -24,10 +24,10 @@ export function RefreshControl({ color = 'accent', onRefresh }: Props) {
 
   return (
     <ReactNativeRefreshControl
-      colors={[theme.colors[color][9], theme.colors[color][10]]}
+      colors={[theme.colors[`${color}A`][9], theme.colors[`${color}A`][10]]}
       onRefresh={refresh}
       refreshing={refreshing}
-      tintColor={theme.colors[color][9]}
+      tintColor={theme.colors[`${color}A`][9]}
     />
   )
 }

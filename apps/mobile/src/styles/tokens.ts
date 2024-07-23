@@ -84,8 +84,8 @@ export const lightTheme = {
     // theme
     black: createPalette(colors.blackA),
     white: createPalette(colors.whiteA),
-    accent: createPaletteWithExtras(colors.indigo, 'indigo'),
-    accentA: createPaletteWithExtras(colors.indigoA, 'indigo'),
+    accent: createPaletteWithExtras(colors.mint, 'mint'),
+    accentA: createPaletteWithExtras(colors.mintA, 'mint'),
     gray: createPaletteWithExtras(colors.sage, 'sage'),
     grayA: createPaletteWithExtras(colors.sageA, 'sage'),
 
@@ -161,8 +161,8 @@ export const darkTheme = {
     // theme
     black: createPalette(colors.blackA),
     white: createPalette(colors.whiteA),
-    accent: createPaletteWithExtras(colors.indigoDark, 'indigo', true),
-    accentA: createPaletteWithExtras(colors.indigoDarkA, 'indigo', true),
+    accent: createPaletteWithExtras(colors.mintDark, 'mint', true),
+    accentA: createPaletteWithExtras(colors.mintDarkA, 'mint', true),
     gray: createPaletteWithExtras(colors.sageDark, 'sage', true),
     grayA: createPaletteWithExtras(colors.sageDarkA, 'sage', true),
 

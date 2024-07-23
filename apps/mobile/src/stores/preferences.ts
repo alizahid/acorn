@@ -16,7 +16,7 @@ type State = PreferencesPayload & {
 export const usePreferences = create<State>()(
   persist(
     (set) => ({
-      feed: 'rising',
+      feed: 'best',
       muted: true,
       updatePreferences(payload) {
         set(payload)

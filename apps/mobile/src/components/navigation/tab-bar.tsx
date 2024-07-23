@@ -1,5 +1,5 @@
 import { type BottomTabBarProps } from '@react-navigation/bottom-tabs'
-import { BlurView } from 'expo-blur'
+import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Pressable } from '../common/pressable'
@@ -10,7 +10,7 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <BlurView intensity={100} style={styles.main}>
+    <View style={styles.main}>
       {state.routes.map((route, index) => {
         const options = descriptors[route.key].options
 
@@ -39,25 +39,21 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
             style={styles.tab(insets.bottom)}
           >
             {options.tabBarIcon?.({
-              color: focused ? theme.colors.accentA[11] : theme.colors.grayA[7],
+              color: focused ? theme.colors.accentA[11] : theme.colors.grayA[9],
               focused,
               size: theme.space[5],
             })}
           </Pressable>
         )
       })}
-    </BlurView>
+    </View>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    backgroundColor: theme.colors.grayA[1],
-    bottom: 0,
+    backgroundColor: theme.colors.grayA[2],
     flexDirection: 'row',
-    left: 0,
-    position: 'absolute',
-    right: 0,
   },
   tab: (inset: number) => ({
     alignItems: 'center',
