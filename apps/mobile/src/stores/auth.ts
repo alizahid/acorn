@@ -14,7 +14,7 @@ export type AuthPayload = {
 }
 
 type State = AuthPayload & {
-  refresh: () => Promise<AuthPayload | null>
+  refresh: () => Promise<void>
   save: (payload: AuthPayload) => void
 }
 
@@ -44,7 +44,7 @@ export const useAuth = create<State>()(
           const refreshToken = get().refreshToken
 
           if (!clientId || !refreshToken) {
-            return null
+            return
           }
 
           const payload = await refreshAccessToken(clientId, refreshToken)
@@ -52,8 +52,6 @@ export const useAuth = create<State>()(
           if (payload) {
             set(payload)
           }
-
-          return payload
         },
         refreshToken: null,
         save(payload) {

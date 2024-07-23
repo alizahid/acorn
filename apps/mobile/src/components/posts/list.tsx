@@ -7,7 +7,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { useFrame } from '~/hooks/frame'
-import { type FeedType, useFeed } from '~/hooks/queries/feed'
+import { type FeedType, useFeed } from '~/hooks/queries/posts/feed'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -62,7 +62,11 @@ export function PostList({ type }: Props) {
       }}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => (
-        <PostCard post={item} viewing={viewing.includes(item.id)} />
+        <PostCard
+          feedType={type}
+          post={item}
+          viewing={viewing.includes(item.id)}
+        />
       )}
       scrollIndicatorInsets={frame.scroll}
       viewabilityConfig={{

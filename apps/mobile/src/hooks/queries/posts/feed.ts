@@ -1,9 +1,10 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import { decode } from 'entities'
 import { compact } from 'lodash'
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { type z } from 'zod'
 
+import { REDDIT_URI } from '~/lib/const'
 import { getImageUrl, getVideo } from '~/lib/media'
 import { redditApi } from '~/lib/reddit'
 import { ListingsSchema } from '~/schemas/reddit/listings'
@@ -24,13 +25,7 @@ type Params = {
 }
 
 export function useFeed(type: FeedType) {
-  const { accessToken, expired, refresh } = useAuth()
-
-  useEffect(() => {
-    if (expired) {
-      void refresh()
-    }
-  }, [expired, refresh])
+  const { accessToken, expired } = useAuth()
 
   const {
     data,
@@ -55,7 +50,7 @@ export function useFeed(type: FeedType) {
     },
     networkMode: 'offlineFirst',
     async queryFn({ pageParam }) {
-      const url = new URL(`/${type}`, 'https://oauth.reddit.com')
+      const url = new URL(`/${type}`, REDDIT_URI)
 
       url.searchParams.set('g', 'GLOBAL')
       url.searchParams.set('limit', '25')
@@ -66,7 +61,10 @@ export function useFeed(type: FeedType) {
         url.searchParams.set('after', pageParam.after)
       }
 
-      const payload = await redditApi(url, accessToken)
+      const payload = await redditApi({
+        accessToken,
+        url,
+      })
 
       return ListingsSchema.parse(payload)
     },
@@ -82,6 +80,7 @@ export function useFeed(type: FeedType) {
             content: decode(post.data.selftext.trim()) || undefined,
             createdAt: new Date(post.data.created * 1_000),
             id: post.data.id,
+            liked: post.data.likes,
             media: {
               images: post.data.preview?.images.map((image) => ({
                 height: image.source.height,

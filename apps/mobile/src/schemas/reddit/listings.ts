@@ -12,6 +12,7 @@ export const ListingsSchema = z.object({
           clicked: z.boolean(),
           created: z.number(),
           id: z.string(),
+          likes: z.boolean().nullable(),
           media: z
             .union([
               z.object({

@@ -2,7 +2,7 @@ import { addSeconds } from 'date-fns'
 import * as WebBrowser from 'expo-web-browser'
 import { z } from 'zod'
 
-import { REDIRECT_URI, SCOPES, USER_AGENT } from './const'
+import { REDDIT_SCOPES, REDDIT_URI, REDIRECT_URI, USER_AGENT } from './const'
 
 export const GetAuthCodeSchema = z.object({
   clientId: z.string().min(10),
@@ -19,7 +19,7 @@ export async function getAuthCode(data: GetAuthCodeForm) {
   oauth.searchParams.set('duration', 'permanent')
   oauth.searchParams.set('state', data.state)
   oauth.searchParams.set('redirect_uri', REDIRECT_URI)
-  oauth.searchParams.set('scope', SCOPES)
+  oauth.searchParams.set('scope', REDDIT_SCOPES)
 
   const result = await WebBrowser.openAuthSessionAsync(
     oauth.toString(),
@@ -113,16 +113,38 @@ export async function refreshAccessToken(clientId: string, token: string) {
   }
 }
 
-export async function redditApi<Response>(
-  url: string | URL,
-  accessToken: string | null,
-) {
-  const response = await fetch(url, {
-    headers: {
-      authorization: `Bearer ${String(accessToken)}`,
-      'user-agent': USER_AGENT,
-    },
-  })
+type ApiProps = {
+  accessToken: string | null
+  body?: FormData
+  method?: 'get' | 'post'
+  url: string | URL
+}
+
+export async function redditApi<Response>({
+  accessToken,
+  body,
+  method = 'get',
+  url,
+}: ApiProps) {
+  const headers = new Headers()
+
+  headers.set('authorization', `Bearer ${String(accessToken)}`)
+  headers.set('user-agent', USER_AGENT)
+
+  const request: RequestInit = {
+    headers,
+    method,
+  }
+
+  if (body) {
+    request.body = body
+
+    headers.set('content-type', 'multipart/form-data')
+  }
+
+  const input = typeof url === 'string' ? new URL(url, REDDIT_URI) : url
+
+  const response = await fetch(input, request)
 
   return (await response.json()) as Response
 }

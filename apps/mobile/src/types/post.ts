@@ -3,6 +3,7 @@ export type Post = {
   content?: string
   createdAt: Date
   id: string
+  liked: boolean | null
   media: {
     images?: Array<PostImage>
     video?: PostVideo

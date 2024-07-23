@@ -1,7 +1,5 @@
 import { useRouter } from 'expo-router'
 import { View } from 'react-native'
-import ArrowFatDownIcon from 'react-native-phosphor/src/duotone/ArrowFatDown'
-import ArrowFatUpIcon from 'react-native-phosphor/src/duotone/ArrowFatUp'
 import BookmarkSimpleIcon from 'react-native-phosphor/src/duotone/BookmarkSimple'
 import ChatCircleTextIcon from 'react-native-phosphor/src/duotone/ChatCircleText'
 import ClockIcon from 'react-native-phosphor/src/duotone/Clock'
@@ -9,19 +7,22 @@ import ShareFatIcon from 'react-native-phosphor/src/duotone/ShareFat'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
+import { type FeedType } from '~/hooks/queries/posts/feed'
 import { type Post } from '~/types/post'
 
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { PostImages } from './images'
 import { PostVideo } from './video'
+import { PostVote } from './vote'
 
 type Props = {
+  feedType: FeedType
   post: Post
   viewing: boolean
 }
 
-export function PostCard({ post, viewing }: Props) {
+export function PostCard({ feedType, post, viewing }: Props) {
   const router = useRouter()
 
   const f = useFormatter()
@@ -29,19 +30,6 @@ export function PostCard({ post, viewing }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const footer = [
-    {
-      Icon: ArrowFatUpIcon,
-      key: 'ups',
-      label: f.number(post.votes, {
-        notation: 'compact',
-      }),
-      onPress: () => null,
-    },
-    {
-      Icon: ArrowFatDownIcon,
-      key: 'downs',
-      onPress: () => null,
-    },
     {
       Icon: ChatCircleTextIcon,
       key: 'comments',
@@ -99,6 +87,8 @@ export function PostCard({ post, viewing }: Props) {
       ) : null}
 
       <View style={styles.footer}>
+        <PostVote feedType={feedType} post={post} />
+
         {footer.map((item) => {
           if (typeof item === 'string') {
             return <View key={item} style={styles.separator} />

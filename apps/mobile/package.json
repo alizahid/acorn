@@ -57,6 +57,7 @@
     "expo-web-browser": "~13.0.3",
     "fast-text-encoding": "^1.0.6",
     "lodash": "^4.17.21",
+    "mutative": "^1.0.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.52.1",
