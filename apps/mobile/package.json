@@ -26,6 +26,7 @@
     "@formatjs/intl-locale": "^4.0.0",
     "@formatjs/intl-numberformat": "^8.10.3",
     "@formatjs/intl-pluralrules": "^5.2.14",
+    "@formatjs/intl-relativetimeformat": "^11.2.14",
     "@hookform/resolvers": "^3.9.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/colors": "^3.0.0",

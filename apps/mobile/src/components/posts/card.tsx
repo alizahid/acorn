@@ -4,6 +4,7 @@ import ArrowFatDownIcon from 'react-native-phosphor/src/duotone/ArrowFatDown'
 import ArrowFatUpIcon from 'react-native-phosphor/src/duotone/ArrowFatUp'
 import BookmarkSimpleIcon from 'react-native-phosphor/src/duotone/BookmarkSimple'
 import ChatCircleTextIcon from 'react-native-phosphor/src/duotone/ChatCircleText'
+import ClockIcon from 'react-native-phosphor/src/duotone/Clock'
 import ShareFatIcon from 'react-native-phosphor/src/duotone/ShareFat'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
@@ -31,7 +32,9 @@ export function PostCard({ post, viewing }: Props) {
     {
       Icon: ArrowFatUpIcon,
       key: 'ups',
-      label: post.votes,
+      label: f.number(post.votes, {
+        notation: 'compact',
+      }),
     },
     {
       Icon: ArrowFatDownIcon,
@@ -41,7 +44,16 @@ export function PostCard({ post, viewing }: Props) {
       Icon: ChatCircleTextIcon,
       href: `/posts/${post.id}`,
       key: 'comments',
-      label: post.comments,
+      label: f.number(post.comments, {
+        notation: 'compact',
+      }),
+    },
+    {
+      Icon: ClockIcon,
+      key: 'created',
+      label: f.relativeTime(post.createdAt, {
+        style: 'narrow',
+      }),
     },
     'separator-1',
     {
@@ -102,10 +114,8 @@ export function PostCard({ post, viewing }: Props) {
               />
 
               {item.label !== undefined ? (
-                <Text highContrast={!post.read} size="2" style={styles.number}>
-                  {f.number(item.label, {
-                    notation: 'compact',
-                  })}
+                <Text highContrast={!post.read} size="2" style={styles.label}>
+                  {item.label}
                 </Text>
               ) : null}
             </Pressable>
@@ -131,7 +141,7 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[1],
     padding: theme.space[2],
   },
-  number: {
+  label: {
     fontVariant: ['tabular-nums'],
   },
   separator: {

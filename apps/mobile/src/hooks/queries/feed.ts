@@ -16,6 +16,8 @@ export type FeedType = (typeof FeedType)[number]
 
 type Page = z.infer<typeof ListingsSchema> | null
 
+export type FeedQuery = InfiniteData<Page>
+
 type Params = {
   after: string | null
   before: string | null
@@ -39,13 +41,7 @@ export function useFeed(type: FeedType) {
     isLoading,
     isRefetching,
     refetch,
-  } = useInfiniteQuery<
-    Page,
-    Error,
-    InfiniteData<Page>,
-    ['feed', FeedType],
-    Params
-  >({
+  } = useInfiniteQuery<Page, Error, FeedQuery, ['feed', FeedType], Params>({
     enabled: !expired,
     getNextPageParam(page) {
       return {
@@ -84,7 +80,7 @@ export function useFeed(type: FeedType) {
           ({
             comments: post.data.num_comments,
             content: decode(post.data.selftext.trim()) || undefined,
-            createdAt: new Date(post.data.created),
+            createdAt: new Date(post.data.created * 1_000),
             id: post.data.id,
             media: {
               images: post.data.preview?.images.map((image) => ({
