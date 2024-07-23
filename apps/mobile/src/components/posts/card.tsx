@@ -35,18 +35,22 @@ export function PostCard({ post, viewing }: Props) {
       label: f.number(post.votes, {
         notation: 'compact',
       }),
+      onPress: () => null,
     },
     {
       Icon: ArrowFatDownIcon,
       key: 'downs',
+      onPress: () => null,
     },
     {
       Icon: ChatCircleTextIcon,
-      href: `/posts/${post.id}`,
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
       }),
+      onPress: () => {
+        router.push(`/posts/${post.id}`)
+      },
     },
     {
       Icon: ClockIcon,
@@ -59,10 +63,12 @@ export function PostCard({ post, viewing }: Props) {
     {
       Icon: BookmarkSimpleIcon,
       key: 'save',
+      onPress: () => null,
     },
     {
       Icon: ShareFatIcon,
       key: 'share',
+      onPress: () => null,
     },
   ]
 
@@ -100,12 +106,9 @@ export function PostCard({ post, viewing }: Props) {
 
           return (
             <Pressable
+              disabled={!item.onPress}
               key={item.key}
-              onPress={() => {
-                if (item.href) {
-                  router.push(item.href)
-                }
-              }}
+              onPress={item.onPress}
               style={styles.action}
             >
               <item.Icon

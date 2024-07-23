@@ -11,12 +11,12 @@ import { HeaderButton } from './header-button'
 
 type Props = NativeStackHeaderProps | BottomTabHeaderProps
 
-export function Header({ navigation, options }: Props) {
+export function Header({ navigation, options, ...props }: Props) {
   const insets = useSafeAreaInsets()
 
   const { styles } = useStyles(stylesheet)
 
-  const back = navigation.canGoBack()
+  const back = 'back' in props
   const left = back || options.headerLeft
 
   return (
