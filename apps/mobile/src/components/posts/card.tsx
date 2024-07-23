@@ -64,12 +64,13 @@ export function PostCard({ post, viewing }: Props) {
         </Pressable>
 
         <Pressable
-          hitSlop={0}
           onPress={() => {
             router.push(`/posts/${post.id}`)
           }}
         >
-          <Text weight="medium">{post.title}</Text>
+          <Text highContrast={!post.read} weight="bold">
+            {post.title}
+          </Text>
         </Pressable>
       </View>
 
@@ -96,12 +97,12 @@ export function PostCard({ post, viewing }: Props) {
               style={styles.action}
             >
               <item.Icon
-                color={theme.colors.grayA[12]}
+                color={theme.colors.grayA[post.read ? 11 : 12]}
                 size={theme.typography[2].lineHeight}
               />
 
               {item.label !== undefined ? (
-                <Text size="2" style={styles.number}>
+                <Text highContrast={!post.read} size="2" style={styles.number}>
                   {f.number(item.label, {
                     notation: 'compact',
                   })}
@@ -125,9 +126,9 @@ const stylesheet = createStyleSheet((theme) => ({
   footer: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: theme.space[4],
   },
   header: {
+    gap: theme.space[1],
     padding: theme.space[2],
   },
   number: {
