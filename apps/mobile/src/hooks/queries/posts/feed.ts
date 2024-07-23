@@ -48,7 +48,6 @@ export function useFeed(type: FeedType) {
       after: null,
       before: null,
     },
-    networkMode: 'offlineFirst',
     async queryFn({ pageParam }) {
       const url = new URL(`/${type}`, REDDIT_URI)
 
