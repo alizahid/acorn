@@ -7,12 +7,12 @@ import { redditApi } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 
 type Variables = {
-  direction: 1 | 0 | -1
+  action: 'save' | 'unsave'
   feedType: FeedType
   postId: string
 }
 
-export function useVote() {
+export function useSave() {
   const queryClient = useQueryClient()
 
   const { accessToken, expired } = useAuth()
@@ -26,13 +26,12 @@ export function useVote() {
       const body = new FormData()
 
       body.append('id', `${TYPE_LINK}${variables.postId}`)
-      body.append('dir', String(variables.direction))
 
       await redditApi({
         accessToken,
         body,
         method: 'post',
-        url: '/api/vote',
+        url: `/api/${variables.action}`,
       })
     },
     onMutate(variables) {
@@ -53,17 +52,7 @@ export function useVote() {
 
               for (const item of page?.data.children ?? []) {
                 if (item.data.id === variables.postId) {
-                  item.data.ups =
-                    item.data.ups -
-                    (item.data.likes ? 1 : item.data.likes === null ? 0 : -1) +
-                    variables.direction
-
-                  item.data.likes =
-                    variables.direction === 1
-                      ? true
-                      : variables.direction === 0
-                        ? null
-                        : false
+                  item.data.saved = variables.action === 'save'
 
                   found = true
 
@@ -79,6 +68,6 @@ export function useVote() {
 
   return {
     isPending,
-    vote: mutate,
+    save: mutate,
   }
 }

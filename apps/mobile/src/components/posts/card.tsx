@@ -4,9 +4,11 @@ import BookmarkSimpleIcon from 'react-native-phosphor/src/duotone/BookmarkSimple
 import ChatCircleTextIcon from 'react-native-phosphor/src/duotone/ChatCircleText'
 import ClockIcon from 'react-native-phosphor/src/duotone/Clock'
 import ShareFatIcon from 'react-native-phosphor/src/duotone/ShareFat'
+import BookmarkSimpleFillIcon from 'react-native-phosphor/src/fill/BookmarkSimple'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
+import { useSave } from '~/hooks/mutations/posts/save'
 import { type FeedType } from '~/hooks/queries/posts/feed'
 import { type Post } from '~/types/post'
 
@@ -29,6 +31,8 @@ export function PostCard({ feedType, post, viewing }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const { save } = useSave()
+
   const footer = [
     {
       Icon: ChatCircleTextIcon,
@@ -49,9 +53,16 @@ export function PostCard({ feedType, post, viewing }: Props) {
     },
     'separator-1',
     {
-      Icon: BookmarkSimpleIcon,
+      Icon: post.saved ? BookmarkSimpleFillIcon : BookmarkSimpleIcon,
+      color: post.saved ? theme.colors.accentA[9] : undefined,
       key: 'save',
-      onPress: () => null,
+      onPress: () => {
+        save({
+          action: post.saved ? 'unsave' : 'save',
+          feedType,
+          postId: post.id,
+        })
+      },
     },
     {
       Icon: ShareFatIcon,
@@ -102,7 +113,7 @@ export function PostCard({ feedType, post, viewing }: Props) {
               style={styles.action}
             >
               <item.Icon
-                color={theme.colors.grayA[post.read ? 11 : 12]}
+                color={item.color ?? theme.colors.grayA[post.read ? 11 : 12]}
                 size={theme.typography[2].lineHeight}
               />
 
