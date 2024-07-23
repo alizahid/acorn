@@ -61,6 +61,7 @@ export function Credentials({ style }: Props) {
             error={
               fieldState.error ? t('form.field.clientId.error') : undefined
             }
+            label={t('form.field.clientId.label')}
             onChangeText={field.onChange}
             onSubmitEditing={() => {
               void onSubmit()

@@ -17,9 +17,10 @@ import { PostVideo } from './video'
 
 type Props = {
   post: Post
+  viewing: boolean
 }
 
-export function PostCard({ post }: Props) {
+export function PostCard({ post, viewing }: Props) {
   const router = useRouter()
 
   const f = useFormatter()
@@ -55,21 +56,27 @@ export function PostCard({ post }: Props) {
 
   return (
     <View>
-      <Pressable
-        onPress={() => {
-          router.push(`/posts/${post.id}`)
-        }}
-        style={styles.title}
-      >
-        <Text highContrast weight="medium">
-          {post.title}
-        </Text>
-      </Pressable>
+      <View style={styles.header}>
+        <Pressable>
+          <Text highContrast={false} size="1" weight="medium">
+            r/{post.subreddit}
+          </Text>
+        </Pressable>
+
+        <Pressable
+          hitSlop={0}
+          onPress={() => {
+            router.push(`/posts/${post.id}`)
+          }}
+        >
+          <Text weight="medium">{post.title}</Text>
+        </Pressable>
+      </View>
 
       {post.media.video ? (
-        <PostVideo video={post.media.video} />
+        <PostVideo key={post.id} video={post.media.video} viewing={viewing} />
       ) : post.media.images ? (
-        <PostImages images={post.media.images} />
+        <PostImages images={post.media.images} key={post.id} />
       ) : null}
 
       <View style={styles.footer}>
@@ -89,11 +96,11 @@ export function PostCard({ post }: Props) {
               style={styles.action}
             >
               <item.Icon
-                color={theme.colors.grayA[11]}
+                color={theme.colors.grayA[12]}
                 size={theme.typography[2].lineHeight}
               />
 
-              {item.label ? (
+              {item.label !== undefined ? (
                 <Text size="2" style={styles.number}>
                   {f.number(item.label, {
                     notation: 'compact',
@@ -120,13 +127,13 @@ const stylesheet = createStyleSheet((theme) => ({
     flexDirection: 'row',
     gap: theme.space[4],
   },
+  header: {
+    padding: theme.space[2],
+  },
   number: {
     fontVariant: ['tabular-nums'],
   },
   separator: {
     flex: 1,
-  },
-  title: {
-    margin: theme.space[2],
   },
 }))

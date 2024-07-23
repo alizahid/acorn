@@ -22,7 +22,7 @@ export function Text({
   children,
   color = 'gray',
   contrast = false,
-  highContrast = false,
+  highContrast = color === 'gray',
   size = '3',
   style,
   weight = 'regular',

@@ -1,13 +1,16 @@
 import { FlashList } from '@shopify/flash-list'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { PostSkeleton } from '~/components/posts/skeleton'
 import { useFrame } from '~/hooks/frame'
 import { type FeedType, useFeed } from '~/hooks/queries/feed'
+
+import { Empty } from '../common/empty'
+import { Loading } from '../common/loading'
 
 type Props = {
   type: FeedType
@@ -18,20 +21,26 @@ export function PostList({ type }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
-  const { fetchNextPage, hasNextPage, isFetchingNextPage, posts, refetch } =
-    useFeed(type)
+  const {
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isLoading,
+    posts,
+    refetch,
+  } = useFeed(type)
+
+  const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
     <FlashList
       ItemSeparatorComponent={() => <View style={styles.separator} />}
-      ListEmptyComponent={() => (
-        <>
-          <PostSkeleton />
-          <PostSkeleton />
-        </>
-      )}
+      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
+        !isFetching && isFetchingNextPage ? (
+          <Spinner style={styles.spinner} />
+        ) : null
       }
       contentContainerStyle={styles.list(
         frame.padding.top,
@@ -39,14 +48,26 @@ export function PostList({ type }: Props) {
       )}
       data={posts}
       estimatedItemSize={frame.frame.width}
+      extraData={{
+        viewing,
+      }}
+      keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()
         }
       }}
+      onViewableItemsChanged={({ viewableItems }) => {
+        setViewing(() => viewableItems.map((item) => item.key))
+      }}
       refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ item }) => <PostCard post={item} />}
+      renderItem={({ item }) => (
+        <PostCard post={item} viewing={viewing.includes(item.id)} />
+      )}
       scrollIndicatorInsets={frame.scroll}
+      viewabilityConfig={{
+        itemVisiblePercentThreshold: 60,
+      }}
     />
   )
 }

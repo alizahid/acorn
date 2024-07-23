@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react'
 import {
   type GestureResponderEvent,
+  type Insets,
   Pressable as ReactNativePressable,
   type StyleProp,
   type ViewStyle,
@@ -16,6 +17,7 @@ const Component = Animated.createAnimatedComponent(ReactNativePressable)
 type Props = {
   children: ReactNode
   disabled?: boolean
+  hitSlop?: number | Insets
   onLongPress?: (event: GestureResponderEvent) => void
   onPress?: (event: GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
@@ -24,6 +26,7 @@ type Props = {
 export function Pressable({
   children,
   disabled,
+  hitSlop,
   onLongPress,
   onPress,
   style,
@@ -37,6 +40,7 @@ export function Pressable({
   return (
     <Component
       disabled={disabled}
+      hitSlop={hitSlop}
       onLongPress={onLongPress}
       onPress={onPress}
       onPressIn={() => {

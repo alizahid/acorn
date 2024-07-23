@@ -13,12 +13,14 @@ import { usePreferences } from '~/stores/preferences'
 import { type PostVideo } from '~/types/post'
 
 import { Pressable } from '../common/pressable'
+import { Spinner } from '../common/spinner'
 
 type Props = {
   video: PostVideo
+  viewing: boolean
 }
 
-export function PostVideo({ video }: Props) {
+export function PostVideo({ video, viewing }: Props) {
   const frame = useSafeAreaFrame()
 
   const ref = useRef<VideoView>(null)
@@ -28,6 +30,7 @@ export function PostVideo({ video }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const [playing, setPlaying] = useState(false)
+  const [sound, setSound] = useState(false)
 
   const [source, setSource] = useState<VideoSource>(() => {
     if (video.provider === 'reddit') {
@@ -47,10 +50,30 @@ export function PostVideo({ video }: Props) {
 
   const player = useVideoPlayer(source, (instance) => {
     instance.loop = true
-    instance.muted = muted
+    instance.muted = !sound
 
-    instance.play()
+    if (viewing) {
+      instance.play()
+    }
   })
+
+  useEffect(() => {
+    if (viewing) {
+      player.play()
+    } else {
+      player.pause()
+    }
+  }, [player, viewing])
+
+  useEffect(() => {
+    setSound(() => {
+      const next = viewing && !muted
+
+      player.muted = next
+
+      return next
+    })
+  }, [muted, player, viewing])
 
   useEffect(() => {
     const subscription = player.addListener('playingChange', (isPlaying) => {
@@ -64,7 +87,7 @@ export function PostVideo({ video }: Props) {
 
   const controls = [
     {
-      Icon: muted ? SpeakerNoneIcon : SpeakerHighIcon,
+      Icon: sound ? SpeakerHighIcon : SpeakerNoneIcon,
       key: 'volume',
       onPress() {
         updatePreferences({
@@ -100,9 +123,13 @@ export function PostVideo({ video }: Props) {
           style={styles.video}
         />
 
-        {!playing ? (
+        {!playing || player.status === 'loading' ? (
           <View style={styles.play}>
-            <PlayIcon color={theme.colors.accent[9]} size={frame.width / 8} />
+            {player.status === 'loading' ? (
+              <Spinner />
+            ) : !playing ? (
+              <PlayIcon color={theme.colors.accent[9]} size={frame.width / 8} />
+            ) : null}
           </View>
         ) : null}
       </ReactNativePressable>

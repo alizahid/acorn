@@ -1,8 +1,10 @@
+import { decode } from 'entities'
+
 import { type ListingsSchema } from '~/schemas/reddit/listings'
 import { type PostVideo } from '~/types/post'
 
 export function getImageUrl(url: string) {
-  return url.replaceAll('&amp;', '&')
+  return decode(url)
 }
 
 export function getVideo(

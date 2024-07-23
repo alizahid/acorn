@@ -1,6 +1,7 @@
+import { parseISO } from 'date-fns'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
-import { compute, computed } from 'zustand-computed-state'
+import { computed } from 'zustand-computed'
 
 import { refreshAccessToken } from '~/lib/reddit'
 import { Store } from '~/lib/store'
@@ -13,28 +14,28 @@ export type AuthPayload = {
 }
 
 type State = AuthPayload & {
-  expired: boolean
   refresh: () => Promise<AuthPayload | null>
   save: (payload: AuthPayload) => void
+}
+
+function compute(state: State) {
+  const accessToken = state.accessToken
+  const refreshToken = state.refreshToken
+  const expiresAt =
+    typeof state.expiresAt === 'string' ? parseISO(state.expiresAt) : null
+
+  return {
+    expired:
+      !accessToken || !refreshToken || !expiresAt
+        ? true
+        : new Date() > expiresAt,
+  }
 }
 
 export const useAuth = create<State>()(
   computed(
     persist(
       (set, get) => ({
-        ...compute(get, (state) => ({
-          get expired() {
-            const accessToken = state.accessToken
-            const expiresAt = state.expiresAt
-            const refreshToken = state.refreshToken
-
-            if (!accessToken || !refreshToken || !expiresAt) {
-              return true
-            }
-
-            return new Date() > expiresAt
-          },
-        })),
         accessToken: null,
         clientId: null,
         expiresAt: null,
@@ -62,8 +63,8 @@ export const useAuth = create<State>()(
       {
         name: 'auth-storage',
         storage: createJSONStorage(() => new Store()),
-        version: 5,
       },
     ),
+    compute,
   ),
 )

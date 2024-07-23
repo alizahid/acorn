@@ -22,7 +22,7 @@ export function PostImages({ images }: Props) {
       <Image
         contentFit="contain"
         source={images[0].url}
-        style={styles.image(height, frame.width)}
+        style={[styles.main(frame.width), styles.image(height, frame.width)]}
       />
     )
   }

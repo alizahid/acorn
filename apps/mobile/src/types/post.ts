@@ -11,6 +11,7 @@ export type Post = {
   read: boolean
   saved: boolean
   spoiler: boolean
+  subreddit: string
   title: string
   user: {
     id: string

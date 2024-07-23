@@ -153,7 +153,7 @@ export const Content = forwardRef<Content, Props>(function Component(
 
           {title ? (
             <View style={styles.header}>
-              <Text align="center" highContrast weight="bold">
+              <Text align="center" weight="bold">
                 {title}
               </Text>
             </View>

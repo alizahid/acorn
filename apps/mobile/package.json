@@ -36,6 +36,7 @@
     "@tanstack/react-query": "^5.51.5",
     "@tanstack/react-query-persist-client": "^5.51.5",
     "date-fns": "^3.6.0",
+    "entities": "^5.0.0",
     "expo": "~51.0.21",
     "expo-blur": "~13.0.2",
     "expo-constants": "~16.0.2",
@@ -69,7 +70,7 @@
     "use-intl": "^3.17.1",
     "zod": "^3.23.8",
     "zustand": "^4.5.4",
-    "zustand-computed-state": "^0.1.8"
+    "zustand-computed": "^1.4.1"
   },
   "devDependencies": {
     "@babel/core": "^7.24.9",
@@ -87,5 +88,9 @@
     "rimraf": "^6.0.1",
     "simple-git-hooks": "^2.11.1",
     "typescript": "~5.3.3"
+  },
+  "patchedDependencies": {
+    "@shopify/flash-list@1.6.4": "patches/@shopify%2Fflash-list@1.6.4.patch",
+    "recyclerlistview@4.2.0": "patches/recyclerlistview@4.2.0.patch"
   }
 }

@@ -48,6 +48,7 @@ export const ListingsSchema = z.object({
           saved: z.boolean(),
           selftext: z.string(),
           spoiler: z.boolean(),
+          subreddit: z.string(),
           title: z.string(),
           ups: z.number(),
           url: z.string().nullish(),

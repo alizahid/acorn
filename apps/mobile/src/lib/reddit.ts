@@ -75,7 +75,7 @@ export async function getAccessToken(clientId: string, code: string) {
   return {
     accessToken: result.data.access_token,
     clientId,
-    expiresAt: addSeconds(new Date(), result.data.expires_in - 100),
+    expiresAt: addSeconds(new Date(), result.data.expires_in - 60),
     refreshToken: result.data.refresh_token,
   }
 }
@@ -108,7 +108,7 @@ export async function refreshAccessToken(clientId: string, token: string) {
   return {
     accessToken: result.data.access_token,
     clientId,
-    expiresAt: addSeconds(new Date(), result.data.expires_in - 100),
+    expiresAt: addSeconds(new Date(), result.data.expires_in - 60),
     refreshToken: result.data.refresh_token,
   }
 }

@@ -2,10 +2,12 @@ import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { BlurView } from 'expo-blur'
 import { View } from 'react-native'
+import ArrowLeftIcon from 'react-native-phosphor/src/bold/ArrowLeft'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Text } from '../common/text'
+import { HeaderButton } from './header-button'
 
 type Props = NativeStackHeaderProps | BottomTabHeaderProps
 
@@ -22,7 +24,14 @@ export function Header({ navigation, options }: Props) {
       <View style={styles.header}>
         {left ? (
           <View style={[styles.actions, styles.left]}>
-            {back ? null : null}
+            {back ? (
+              <HeaderButton
+                Icon={ArrowLeftIcon}
+                onPress={() => {
+                  navigation.goBack()
+                }}
+              />
+            ) : null}
 
             {options.headerLeft?.({
               canGoBack: back,
@@ -35,9 +44,7 @@ export function Header({ navigation, options }: Props) {
             children: options.title ?? '',
           })
         ) : (
-          <Text highContrast weight="bold">
-            {options.title}
-          </Text>
+          <Text weight="bold">{options.title}</Text>
         )}
 
         {options.headerRight ? (

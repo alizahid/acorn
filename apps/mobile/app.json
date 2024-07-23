@@ -15,16 +15,19 @@
       "typedRoutes": true
     },
     "extra": {
-      "router": {
-        "origin": false
-      },
       "eas": {
         "projectId": "8d7d5acc-3688-4cd2-b93f-52391f665348"
+      },
+      "router": {
+        "origin": false
       }
     },
     "icon": "./assets/images/icon.png",
     "ios": {
-      "bundleIdentifier": "blue.acorn"
+      "bundleIdentifier": "blue.acorn",
+      "config": {
+        "usesNonExemptEncryption": false
+      }
     },
     "orientation": "portrait",
     "plugins": [

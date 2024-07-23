@@ -1,4 +1,5 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import { decode } from 'entities'
 import { compact } from 'lodash'
 import { useEffect, useMemo } from 'react'
 import { type z } from 'zod'
@@ -33,6 +34,7 @@ export function useFeed(type: FeedType) {
     data,
     fetchNextPage,
     hasNextPage,
+    isFetching,
     isFetchingNextPage,
     isLoading,
     isRefetching,
@@ -81,7 +83,7 @@ export function useFeed(type: FeedType) {
         (post) =>
           ({
             comments: post.data.num_comments,
-            content: post.data.selftext.trim() || undefined,
+            content: decode(post.data.selftext.trim()) || undefined,
             createdAt: new Date(post.data.created),
             id: post.data.id,
             media: {
@@ -96,7 +98,8 @@ export function useFeed(type: FeedType) {
             read: post.data.clicked,
             saved: post.data.saved,
             spoiler: post.data.spoiler,
-            title: post.data.title.trim(),
+            subreddit: post.data.subreddit,
+            title: decode(post.data.title.trim()),
             user: {
               id: post.data.author,
               name: post.data.author_fullname,
@@ -110,6 +113,7 @@ export function useFeed(type: FeedType) {
   return {
     fetchNextPage,
     hasNextPage,
+    isFetching,
     isFetchingNextPage,
     isLoading,
     isRefetching,

@@ -9,6 +9,7 @@
           "field": {
             "clientId": {
               "error": "Client ID is required",
+              "label": "Client ID",
               "placeholder": "Client ID"
             }
           }

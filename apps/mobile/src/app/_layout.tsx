@@ -4,12 +4,13 @@ import { ThemeProvider } from '@react-navigation/native'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { useFonts } from 'expo-font'
 import { getCalendars } from 'expo-localization'
-import { SplashScreen, Stack } from 'expo-router'
+import { SplashScreen } from 'expo-router'
 import { useEffect } from 'react'
 import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { IntlProvider } from 'use-intl'
 
+import { Root } from '~/components/navigation/root'
 import { useTheme } from '~/hooks/theme'
 import en from '~/intl/en.json'
 import { fonts } from '~/lib/fonts'
@@ -54,14 +55,7 @@ export default function RootLayout() {
               enabled={Platform.OS === 'ios'}
               style={styles.main}
             >
-              <Stack>
-                <Stack.Screen
-                  name="(tabs)"
-                  options={{
-                    headerShown: false,
-                  }}
-                />
-              </Stack>
+              <Root />
             </KeyboardAvoidingView>
           </IntlProvider>
         </PersistQueryClientProvider>
