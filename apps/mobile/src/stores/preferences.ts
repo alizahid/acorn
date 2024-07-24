@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-import { type FeedType } from '~/hooks/queries/posts/feed'
+import { type FeedType } from '~/hooks/queries/posts/posts'
 import { Store } from '~/lib/store'
 
 export type PreferencesPayload = {

@@ -1,7 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { create } from 'mutative'
 
-import { type FeedQuery, type FeedType } from '~/hooks/queries/posts/feed'
+import {
+  type FeedType,
+  type PostsQueryData,
+  type PostsQueryKey,
+} from '~/hooks/queries/posts/posts'
 import { TYPE_LINK } from '~/lib/const'
 import { redditApi } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
@@ -35,8 +39,8 @@ export function useSave() {
       })
     },
     onMutate(variables) {
-      queryClient.setQueryData<FeedQuery>(
-        ['feed', variables.feedType],
+      queryClient.setQueryData<PostsQueryData>(
+        ['posts', variables.feedType] satisfies PostsQueryKey,
         (data) => {
           if (!data) {
             return data
@@ -50,9 +54,9 @@ export function useSave() {
                 break
               }
 
-              for (const item of page?.data.children ?? []) {
-                if (item.data.id === variables.postId) {
-                  item.data.saved = variables.action === 'save'
+              for (const item of page.posts) {
+                if (item.id === variables.postId) {
+                  item.saved = variables.action === 'save'
 
                   found = true
 

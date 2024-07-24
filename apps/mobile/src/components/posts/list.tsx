@@ -7,7 +7,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { type FeedType, useFeed } from '~/hooks/queries/posts/feed'
+import { type FeedType, usePosts } from '~/hooks/queries/posts/posts'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -29,7 +29,7 @@ export function PostList({ type }: Props) {
     isLoading,
     posts,
     refetch,
-  } = useFeed(type)
+  } = usePosts(type)
 
   const [viewing, setViewing] = useState<Array<string>>([])
 

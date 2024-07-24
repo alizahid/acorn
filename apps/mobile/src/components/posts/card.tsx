@@ -9,7 +9,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { useSave } from '~/hooks/mutations/posts/save'
-import { type FeedType } from '~/hooks/queries/posts/feed'
+import { type FeedType } from '~/hooks/queries/posts/posts'
 import { type Post } from '~/types/post'
 
 import { Pressable } from '../common/pressable'

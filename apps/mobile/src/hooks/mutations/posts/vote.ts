@@ -1,7 +1,11 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { create } from 'mutative'
 
-import { type FeedQuery, type FeedType } from '~/hooks/queries/posts/feed'
+import {
+  type FeedType,
+  type PostsQueryData,
+  type PostsQueryKey,
+} from '~/hooks/queries/posts/posts'
 import { TYPE_LINK } from '~/lib/const'
 import { redditApi } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
@@ -36,8 +40,8 @@ export function useVote() {
       })
     },
     onMutate(variables) {
-      queryClient.setQueryData<FeedQuery>(
-        ['feed', variables.feedType],
+      queryClient.setQueryData<PostsQueryData>(
+        ['posts', variables.feedType] satisfies PostsQueryKey,
         (data) => {
           if (!data) {
             return data
@@ -51,14 +55,14 @@ export function useVote() {
                 break
               }
 
-              for (const item of page?.data.children ?? []) {
-                if (item.data.id === variables.postId) {
-                  item.data.ups =
-                    item.data.ups -
-                    (item.data.likes ? 1 : item.data.likes === null ? 0 : -1) +
+              for (const item of page.posts) {
+                if (item.id === variables.postId) {
+                  item.votes =
+                    item.votes -
+                    (item.liked ? 1 : item.liked === null ? 0 : -1) +
                     variables.direction
 
-                  item.data.likes =
+                  item.liked =
                     variables.direction === 1
                       ? true
                       : variables.direction === 0
