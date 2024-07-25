@@ -1,13 +1,17 @@
+import { type Comment } from './comment'
+
 export type Post = {
+  body?: string
   comments: number
-  content?: string
   createdAt: Date
   id: string
   liked: boolean | null
   media: {
     images?: Array<PostImage>
+    meta: PostMediaMeta
     video?: PostVideo
   }
+  nsfw: boolean
   permalink: string
   read: boolean
   saved: boolean
@@ -19,6 +23,20 @@ export type Post = {
     name: string
   }
   votes: number
+}
+
+export type PostMediaMeta = Record<
+  string,
+  {
+    height: number
+    url: string
+    width: number
+  }
+>
+
+export type PostWithComments = {
+  comments: Array<Comment>
+  post: Post
 }
 
 export type PostImage = {

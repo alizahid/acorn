@@ -5,14 +5,14 @@ import {
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type ColorName } from '~/styles/colors'
+import { type ColorToken } from '~/styles/colors'
 
 import { Pressable } from './pressable'
 import { Spinner } from './spinner'
 import { Text } from './text'
 
 type Props = {
-  color?: ColorName
+  color?: ColorToken
   disabled?: boolean
   label: string
   loading?: boolean
@@ -46,7 +46,7 @@ export function Button({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (color?: ColorName) => ({
+  main: (color?: ColorToken) => ({
     alignItems: 'center',
     backgroundColor: theme.colors[`${color ?? 'accent'}A`][9],
     borderRadius: theme.radius[4],

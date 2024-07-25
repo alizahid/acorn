@@ -2,6 +2,10 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { create } from 'mutative'
 
 import {
+  type PostQueryData,
+  type PostQueryKey,
+} from '~/hooks/queries/posts/post'
+import {
   type FeedType,
   type PostsQueryData,
   type PostsQueryKey,
@@ -12,11 +16,11 @@ import { useAuth } from '~/stores/auth'
 
 type Variables = {
   action: 'save' | 'unsave'
-  feedType: FeedType
+  feedType?: FeedType
   postId: string
 }
 
-export function useSave() {
+export function usePostSave() {
   const queryClient = useQueryClient()
 
   const { accessToken, expired } = useAuth()
@@ -39,34 +43,49 @@ export function useSave() {
       })
     },
     onMutate(variables) {
-      queryClient.setQueryData<PostsQueryData>(
-        ['posts', variables.feedType] satisfies PostsQueryKey,
+      queryClient.setQueryData<PostQueryData>(
+        ['post', variables.postId] satisfies PostQueryKey,
         (data) => {
           if (!data) {
             return data
           }
 
           return create(data, (draft) => {
-            let found = false
-
-            for (const page of draft.pages) {
-              if (found) {
-                break
-              }
-
-              for (const item of page.posts) {
-                if (item.id === variables.postId) {
-                  item.saved = variables.action === 'save'
-
-                  found = true
-
-                  break
-                }
-              }
-            }
+            draft.post.saved = variables.action === 'save'
           })
         },
       )
+
+      if (variables.feedType) {
+        queryClient.setQueryData<PostsQueryData>(
+          ['posts', variables.feedType] satisfies PostsQueryKey,
+          (data) => {
+            if (!data) {
+              return data
+            }
+
+            return create(data, (draft) => {
+              let found = false
+
+              for (const page of draft.pages) {
+                if (found) {
+                  break
+                }
+
+                for (const item of page.posts) {
+                  if (item.id === variables.postId) {
+                    item.saved = variables.action === 'save'
+
+                    found = true
+
+                    break
+                  }
+                }
+              }
+            })
+          },
+        )
+      }
     },
   })
 

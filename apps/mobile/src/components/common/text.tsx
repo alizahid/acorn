@@ -2,30 +2,22 @@ import { createElement, type ReactNode } from 'react'
 import { type StyleProp, type TextStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type fonts } from '~/lib/fonts'
-import { type ColorName } from '~/styles/colors'
-import { type TypographyToken } from '~/styles/tokens'
+import { getTextStyles, type TextStyleProps } from '~/styles/text'
 
-type Props = {
-  align?: 'left' | 'center' | 'right'
+type Props = TextStyleProps & {
   children: ReactNode
-  color?: ColorName
-  contrast?: boolean
-  highContrast?: boolean
-  size?: TypographyToken
   style?: StyleProp<TextStyle>
-  weight?: keyof typeof fonts
 }
 
 export function Text({
-  align = 'left',
+  align,
   children,
-  color = 'gray',
-  contrast = false,
-  highContrast = color === 'gray',
-  size = '3',
+  color,
+  contrast,
+  highContrast,
+  size,
   style,
-  weight = 'regular',
+  weight,
 }: Props) {
   const { styles } = useStyles(stylesheet)
 
@@ -47,32 +39,5 @@ export function Text({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: ({
-    align,
-    color,
-    contrast,
-    highContrast,
-    size,
-    weight,
-  }: Required<
-    Pick<
-      Props,
-      'align' | 'color' | 'contrast' | 'highContrast' | 'size' | 'weight'
-    >
-  >) => ({
-    color:
-      theme.colors[`${color}A`][contrast ? 'contrast' : highContrast ? 12 : 11],
-    fontFamily: weight,
-    fontSize: theme.typography[size].fontSize,
-    fontWeight:
-      weight === 'bold'
-        ? '700'
-        : weight === 'medium'
-          ? '500'
-          : weight === 'light'
-            ? '300'
-            : '400',
-    lineHeight: theme.typography[size].lineHeight,
-    textAlign: align,
-  }),
+  main: getTextStyles(theme),
 }))

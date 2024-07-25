@@ -16,11 +16,12 @@ import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 
 type Props = {
+  margin?: number
   video: PostVideo
   viewing: boolean
 }
 
-export function PostVideo({ video, viewing }: Props) {
+export function PostVideo({ margin = 0, video, viewing }: Props) {
   const frame = useSafeAreaFrame()
 
   const ref = useRef<VideoView>(null)
@@ -100,7 +101,7 @@ export function PostVideo({ video, viewing }: Props) {
   const height = getDimensions(frame.width, video)
 
   return (
-    <View style={styles.main(height, frame.width)}>
+    <View style={styles.main(margin, height, frame.width)}>
       <ReactNativePressable
         onPress={() => {
           if (playing) {
@@ -164,9 +165,11 @@ const stylesheet = createStyleSheet((theme) => ({
     position: 'absolute',
     right: 0,
   },
-  main: (height: number, width: number) => ({
+  main: (margin: number, height: number, width: number) => ({
     backgroundColor: theme.colors.grayA[2],
     height,
+    marginHorizontal: -margin,
+    marginVertical: theme.space[2],
     width,
   }),
   play: {

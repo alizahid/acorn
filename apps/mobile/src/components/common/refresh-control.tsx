@@ -2,10 +2,10 @@ import { useCallback, useState } from 'react'
 import { RefreshControl as ReactNativeRefreshControl } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 
-import { type ColorName } from '~/styles/colors'
+import { type ColorToken } from '~/styles/colors'
 
 type Props = {
-  color?: ColorName
+  color?: ColorToken
   onRefresh: () => Promise<unknown>
 }
 

@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router'
-import { View } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import BookmarkSimpleIcon from 'react-native-phosphor/src/duotone/BookmarkSimple'
 import ChatCircleTextIcon from 'react-native-phosphor/src/duotone/ChatCircleText'
 import ClockIcon from 'react-native-phosphor/src/duotone/Clock'
@@ -8,10 +8,11 @@ import BookmarkSimpleFillIcon from 'react-native-phosphor/src/fill/BookmarkSimpl
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
-import { useSave } from '~/hooks/mutations/posts/save'
+import { usePostSave } from '~/hooks/mutations/posts/save'
 import { type FeedType } from '~/hooks/queries/posts/posts'
 import { type Post } from '~/types/post'
 
+import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { PostImages } from './images'
@@ -19,23 +20,36 @@ import { PostVideo } from './video'
 import { PostVote } from './vote'
 
 type Props = {
-  feedType: FeedType
+  body?: boolean
+  feedType?: FeedType
+  linkable?: boolean
+  margin?: number
   post: Post
+  style?: StyleProp<ViewStyle>
   viewing: boolean
 }
 
-export function PostCard({ feedType, post, viewing }: Props) {
+export function PostCard({
+  body,
+  feedType,
+  linkable = true,
+  margin = 0,
+  post,
+  style,
+  viewing,
+}: Props) {
   const router = useRouter()
 
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const { save } = useSave()
+  const { save } = usePostSave()
 
   const footer = [
     {
       Icon: ChatCircleTextIcon,
+      disabled: !linkable,
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
@@ -72,7 +86,7 @@ export function PostCard({ feedType, post, viewing }: Props) {
   ]
 
   return (
-    <View>
+    <View style={style}>
       <View style={styles.header}>
         <Pressable>
           <Text highContrast={false} size="1" weight="medium">
@@ -81,6 +95,7 @@ export function PostCard({ feedType, post, viewing }: Props) {
         </Pressable>
 
         <Pressable
+          disabled={!linkable}
           onPress={() => {
             router.push(`/posts/${post.id}`)
           }}
@@ -92,9 +107,22 @@ export function PostCard({ feedType, post, viewing }: Props) {
       </View>
 
       {post.media.video ? (
-        <PostVideo key={post.id} video={post.media.video} viewing={viewing} />
+        <PostVideo
+          key={post.id}
+          margin={margin}
+          video={post.media.video}
+          viewing={viewing}
+        />
       ) : post.media.images ? (
-        <PostImages images={post.media.images} key={post.id} />
+        <PostImages images={post.media.images} key={post.id} margin={margin} />
+      ) : null}
+
+      {body && post.body ? (
+        <View style={styles.body}>
+          <Markdown margin={margin + theme.space[2]} meta={post.media.meta}>
+            {post.body}
+          </Markdown>
+        </View>
       ) : null}
 
       <View style={styles.footer}>
@@ -107,18 +135,19 @@ export function PostCard({ feedType, post, viewing }: Props) {
 
           return (
             <Pressable
-              disabled={!item.onPress}
+              disabled={!item.onPress || item.disabled}
+              hitSlop={theme.space[4]}
               key={item.key}
               onPress={item.onPress}
               style={styles.action}
             >
               <item.Icon
-                color={item.color ?? theme.colors.grayA[post.read ? 11 : 12]}
+                color={item.color ?? theme.colors.grayA[post.read ? 11 : 11]}
                 size={theme.typography[2].lineHeight}
               />
 
               {item.label !== undefined ? (
-                <Text highContrast={!post.read} size="2" style={styles.label}>
+                <Text highContrast={!post.read} size="2" tabular>
                   {item.label}
                 </Text>
               ) : null}
@@ -135,18 +164,19 @@ const stylesheet = createStyleSheet((theme) => ({
     alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space[2],
-    padding: theme.space[2],
+  },
+  body: {
+    paddingHorizontal: theme.space[2],
   },
   footer: {
     alignItems: 'center',
     flexDirection: 'row',
+    gap: theme.space[4],
+    padding: theme.space[2],
   },
   header: {
     gap: theme.space[1],
     padding: theme.space[2],
-  },
-  label: {
-    fontVariant: ['tabular-nums'],
   },
   separator: {
     flex: 1,

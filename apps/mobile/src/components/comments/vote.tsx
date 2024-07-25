@@ -6,67 +6,66 @@ import ArrowFatUpIcon from 'react-native-phosphor/src/regular/ArrowFatUp'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
-import { usePostVote } from '~/hooks/mutations/posts/vote'
-import { type FeedType } from '~/hooks/queries/posts/posts'
-import { type Post } from '~/types/post'
+import { useCommentVote } from '~/hooks/mutations/comments/vote'
+import { type Comment } from '~/types/comment'
 
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 
 type Props = {
-  feedType?: FeedType
-  post: Post
+  comment: Comment
+  postId?: string
 }
 
-export function PostVote({ feedType, post }: Props) {
+export function CommentVote({ comment, postId }: Props) {
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const { vote } = usePostVote()
+  const { vote } = useCommentVote()
 
-  const Up = post.liked ? ArrowFatUpFillIcon : ArrowFatUpIcon
-  const Down = post.liked === false ? ArrowFatDownFillIcon : ArrowFatDownIcon
+  const Up = comment.liked ? ArrowFatUpFillIcon : ArrowFatUpIcon
+  const Down = comment.liked === false ? ArrowFatDownFillIcon : ArrowFatDownIcon
 
-  const color = theme.colors.grayA[post.read ? 11 : 12]
+  const color = theme.colors.grayA[11]
 
   return (
     <View style={styles.main}>
       <Pressable
-        hitSlop={theme.space[4]}
+        hitSlop={theme.space[2]}
         onPress={() => {
           vote({
-            direction: post.liked ? 0 : 1,
-            feedType,
-            postId: post.id,
+            commentId: comment.id,
+            direction: comment.liked ? 0 : 1,
+            postId,
           })
         }}
       >
         <Up
-          color={post.liked ? theme.colors.greenA[9] : color}
-          size={theme.typography[2].lineHeight}
+          color={comment.liked ? theme.colors.greenA[9] : color}
+          size={theme.typography[1].lineHeight}
         />
       </Pressable>
 
-      <Text size="2" tabular>
-        {f.number(post.votes, {
+      <Text size="1" tabular>
+        {f.number(comment.votes, {
           notation: 'compact',
         })}
       </Text>
 
       <Pressable
-        hitSlop={theme.space[4]}
+        hitSlop={theme.space[2]}
         onPress={() => {
           vote({
-            direction: post.liked === false ? 0 : -1,
-            feedType,
-            postId: post.id,
+            commentId: comment.id,
+            direction: comment.liked === false ? 0 : -1,
+            postId,
           })
         }}
       >
         <Down
-          color={post.liked === false ? theme.colors.redA[9] : color}
-          size={theme.typography[2].lineHeight}
+          color={comment.liked === false ? theme.colors.redA[9] : color}
+          size={theme.typography[1].lineHeight}
         />
       </Pressable>
     </View>
@@ -79,5 +78,6 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius[3],
     flexDirection: 'row',
     gap: theme.space[2],
+    marginRight: theme.space[2],
   },
 }))

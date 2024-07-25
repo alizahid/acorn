@@ -1,9 +1,8 @@
 import { z } from 'zod'
 
-export const ListingsSchema = z.object({
+export const PostsSchema = z.object({
   data: z.object({
-    after: z.string().nullable(),
-    before: z.string().nullable(),
+    after: z.string().nullish(),
     children: z.array(
       z.object({
         data: z.object({
@@ -11,6 +10,15 @@ export const ListingsSchema = z.object({
           author_fullname: z.string(),
           clicked: z.boolean(),
           created: z.number(),
+          gallery_data: z
+            .object({
+              items: z.array(
+                z.object({
+                  media_id: z.string(),
+                }),
+              ),
+            })
+            .nullish(),
           id: z.string(),
           likes: z.boolean().nullable(),
           media: z
@@ -31,7 +39,21 @@ export const ListingsSchema = z.object({
               }),
             ])
             .nullish(),
+          media_metadata: z
+            .record(
+              z.string(),
+              z.object({
+                id: z.string(),
+                s: z.object({
+                  u: z.string(),
+                  x: z.number(),
+                  y: z.number(),
+                }),
+              }),
+            )
+            .nullish(),
           num_comments: z.number(),
+          over_18: z.boolean(),
           permalink: z.string(),
           preview: z
             .object({
@@ -60,4 +82,4 @@ export const ListingsSchema = z.object({
   }),
 })
 
-export type ListingsSchema = z.infer<typeof ListingsSchema>
+export type PostsSchema = z.infer<typeof PostsSchema>

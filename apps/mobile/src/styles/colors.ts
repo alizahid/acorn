@@ -7,43 +7,46 @@ export function createPalette(colors: Record<string, string>) {
   ) as Record<ColorScale, string>
 }
 
-export type ColorName =
-  | 'accent'
-  | 'amber'
-  | 'blue'
-  | 'bronze'
-  | 'brown'
-  | 'crimson'
-  | 'cyan'
-  | 'gold'
-  | 'grass'
-  | 'gray'
-  | 'green'
-  | 'indigo'
-  | 'iris'
-  | 'jade'
-  | 'lime'
-  | 'mauve'
-  | 'mint'
-  | 'olive'
-  | 'orange'
-  | 'pink'
-  | 'plum'
-  | 'purple'
-  | 'red'
-  | 'ruby'
-  | 'sage'
-  | 'sand'
-  | 'sky'
-  | 'slate'
-  | 'teal'
-  | 'tomato'
-  | 'violet'
-  | 'yellow'
+export const ColorTokens = [
+  'accent',
+  'amber',
+  'blue',
+  'bronze',
+  'brown',
+  'crimson',
+  'cyan',
+  'gold',
+  'grass',
+  'gray',
+  'green',
+  'indigo',
+  'iris',
+  'jade',
+  'lime',
+  'mauve',
+  'mint',
+  'olive',
+  'orange',
+  'pink',
+  'plum',
+  'purple',
+  'red',
+  'ruby',
+  'sage',
+  'sand',
+  'sky',
+  'slate',
+  'teal',
+  'tomato',
+  'violet',
+  'yellow',
+] as const
+
+export type ColorToken = (typeof ColorTokens)[number]
 
 export function createPaletteWithExtras(
   colors: Record<string, string>,
-  name?: ColorName,
+  name?: ColorToken,
   dark?: boolean,
 ) {
   const palette = createPalette(colors)

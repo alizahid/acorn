@@ -1,10 +1,10 @@
 import { ActivityIndicator, type StyleProp, type ViewStyle } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 
-import { type ColorName } from '~/styles/colors'
+import { type ColorToken } from '~/styles/colors'
 
 type Props = {
-  color?: ColorName
+  color?: ColorToken
   contrast?: boolean
   size?: 'small' | 'large'
   style?: StyleProp<ViewStyle>

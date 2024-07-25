@@ -144,6 +144,8 @@ export async function redditApi<Response>({
 
   const input = typeof url === 'string' ? new URL(url, REDDIT_URI) : url
 
+  input.searchParams.set('g', 'GLOBAL')
+
   const response = await fetch(input, request)
 
   return (await response.json()) as Response
