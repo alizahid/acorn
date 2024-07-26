@@ -2,11 +2,15 @@ import { type BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { useKeyboard } from '~/hooks/keyboard'
+
 import { Pressable } from '../common/pressable'
 
 type Props = BottomTabBarProps
 
 export function TabBar({ descriptors, insets, navigation, state }: Props) {
+  const keyboard = useKeyboard()
+
   const { styles, theme } = useStyles(stylesheet)
 
   return (
@@ -36,7 +40,7 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
                 navigation.navigate(route.name, route.params)
               }
             }}
-            style={styles.tab(insets.bottom)}
+            style={styles.tab(insets.bottom, keyboard.visible)}
           >
             {options.tabBarIcon?.({
               color: focused ? theme.colors.accentA[11] : theme.colors.grayA[9],
@@ -55,10 +59,10 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.gray[2],
     flexDirection: 'row',
   },
-  tab: (inset: number) => ({
+  tab: (inset: number, keyboard: boolean) => ({
     alignItems: 'center',
     flex: 1,
-    paddingBottom: theme.space[4] + inset,
+    paddingBottom: theme.space[4] + (keyboard ? 0 : inset),
     paddingHorizontal: theme.space[2],
     paddingTop: theme.space[4],
   }),
