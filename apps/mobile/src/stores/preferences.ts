@@ -4,6 +4,8 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import { type FeedType } from '~/hooks/queries/posts/posts'
 import { Store } from '~/lib/store'
 
+export const PREFERENCES_KEY = 'preferences-storage'
+
 export type PreferencesPayload = {
   feed: FeedType
   muted: boolean
@@ -23,7 +25,7 @@ export const usePreferences = create<State>()(
       },
     }),
     {
-      name: 'preferences-storage',
+      name: PREFERENCES_KEY,
       storage: createJSONStorage(() => new Store()),
     },
   ),

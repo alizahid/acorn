@@ -126,6 +126,10 @@ export async function redditApi<Response>({
   method = 'get',
   url,
 }: ApiProps) {
+  if (!accessToken) {
+    return null
+  }
+
   const headers = new Headers()
 
   headers.set('authorization', `Bearer ${String(accessToken)}`)

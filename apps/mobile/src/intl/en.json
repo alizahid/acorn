@@ -1,22 +1,5 @@
 {
   "component": {
-    "auth": {
-      "credentials": {
-        "form": {
-          "action": {
-            "submit": "Save"
-          },
-          "field": {
-            "clientId": {
-              "error": "Client ID is required",
-              "label": "Client ID",
-              "placeholder": "Client ID"
-            }
-          }
-        },
-        "title": "Credentials"
-      }
-    },
     "posts": {
       "header": {
         "best": "Best",
@@ -29,6 +12,23 @@
     }
   },
   "screen": {
+    "auth": {
+      "signIn": {
+        "description": "Reddit for mobile",
+        "form": {
+          "action": {
+            "submit": "Sign in"
+          },
+          "field": {
+            "clientId": {
+              "error": "Client ID is required",
+              "placeholder": "Client ID"
+            }
+          }
+        },
+        "title": "Acorn"
+      }
+    },
     "communities": {
       "title": "Communities"
     },
@@ -39,6 +39,11 @@
       "title": "Search"
     },
     "settings": {
+      "menu": {
+        "credentials": "Credentials",
+        "profile": "Profile",
+        "signOut": "Sign out"
+      },
       "title": "Settings"
     },
     "users": {

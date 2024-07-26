@@ -1,16 +1,16 @@
 import { useMutation } from '@tanstack/react-query'
 
 import { getAccessToken, getAuthCode, type GetAuthCodeForm } from '~/lib/reddit'
-import { type AuthPayload } from '~/stores/auth'
+import { useAuth } from '~/stores/auth'
 
-type Data = Required<AuthPayload> | null
+export function useSignIn() {
+  const { save } = useAuth()
 
-type Props = {
-  onSuccess?: (data: Data) => void
-}
-
-export function useSignIn({ onSuccess }: Props) {
-  const { isPending, mutate } = useMutation<Data, Error, GetAuthCodeForm>({
+  const { isPending, mutateAsync } = useMutation<
+    unknown,
+    Error,
+    GetAuthCodeForm
+  >({
     async mutationFn(data) {
       const code = await getAuthCode(data)
 
@@ -18,15 +18,16 @@ export function useSignIn({ onSuccess }: Props) {
         return null
       }
 
-      return getAccessToken(data.clientId, code)
-    },
-    onSuccess(data) {
-      onSuccess?.(data)
+      const token = await getAccessToken(data.clientId, code)
+
+      if (token) {
+        save(token)
+      }
     },
   })
 
   return {
     isPending,
-    signIn: mutate,
+    signIn: mutateAsync,
   }
 }

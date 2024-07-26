@@ -6,6 +6,8 @@ import { computed } from 'zustand-computed'
 import { refreshAccessToken } from '~/lib/reddit'
 import { Store } from '~/lib/store'
 
+export const AUTH_KEY = 'auth-storage'
+
 export type AuthPayload = {
   accessToken: string | null
   clientId: string | null
@@ -22,7 +24,9 @@ function compute(state: State) {
   const accessToken = state.accessToken
   const refreshToken = state.refreshToken
   const expiresAt =
-    typeof state.expiresAt === 'string' ? parseISO(state.expiresAt) : null
+    typeof state.expiresAt === 'string'
+      ? parseISO(state.expiresAt)
+      : state.expiresAt
 
   return {
     expired:
@@ -59,7 +63,7 @@ export const useAuth = create<State>()(
         },
       }),
       {
-        name: 'auth-storage',
+        name: AUTH_KEY,
         storage: createJSONStorage(() => new Store()),
       },
     ),

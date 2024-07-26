@@ -1,4 +1,5 @@
-import { Tabs } from 'expo-router'
+import { Tabs, useFocusEffect, useRouter } from 'expo-router'
+import { useEffect } from 'react'
 import GearSixIcon from 'react-native-phosphor/src/duotone/GearSix'
 import HouseIcon from 'react-native-phosphor/src/duotone/House'
 import MagnifyingGlassIcon from 'react-native-phosphor/src/duotone/MagnifyingGlass'
@@ -13,9 +14,26 @@ import { useTranslations } from 'use-intl'
 
 import { Header } from '~/components/navigation/header'
 import { TabBar } from '~/components/navigation/tab-bar'
+import { useAuth } from '~/stores/auth'
 
 export default function Layout() {
+  const router = useRouter()
+
   const t = useTranslations('screen')
+
+  const { accessToken, expired, refresh } = useAuth()
+
+  useEffect(() => {
+    if (expired) {
+      void refresh()
+    }
+  }, [expired, refresh])
+
+  useFocusEffect(() => {
+    if (!accessToken) {
+      router.navigate('/auth/sign-in')
+    }
+  })
 
   return (
     <Tabs
