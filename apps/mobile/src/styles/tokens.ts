@@ -1,5 +1,6 @@
 import * as colors from '@radix-ui/colors'
 
+import { accentDark, accentDarkA, accentLight, accentLightA } from './accent'
 import { createPalette, createPaletteWithExtras } from './colors'
 
 export const breakpoints = {
@@ -84,8 +85,8 @@ export const lightTheme = {
     // theme
     black: createPalette(colors.blackA),
     white: createPalette(colors.whiteA),
-    accent: createPaletteWithExtras(colors.mint, 'mint'),
-    accentA: createPaletteWithExtras(colors.mintA, 'mint'),
+    accent: accentLight,
+    accentA: accentLightA,
     gray: createPaletteWithExtras(colors.sage, 'sage'),
     grayA: createPaletteWithExtras(colors.sageA, 'sage'),
 
@@ -161,8 +162,8 @@ export const darkTheme = {
     // theme
     black: createPalette(colors.blackA),
     white: createPalette(colors.whiteA),
-    accent: createPaletteWithExtras(colors.mintDark, 'mint', true),
-    accentA: createPaletteWithExtras(colors.mintDarkA, 'mint', true),
+    accent: accentDark,
+    accentA: accentDarkA,
     gray: createPaletteWithExtras(colors.sageDark, 'sage', true),
     grayA: createPaletteWithExtras(colors.sageDarkA, 'sage', true),
 
