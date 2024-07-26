@@ -55,7 +55,7 @@ export function PostCard({
         notation: 'compact',
       }),
       onPress: () => {
-        router.push(`/posts/${post.id}`)
+        router.navigate(`/posts/${post.id}`)
       },
     },
     {
@@ -97,7 +97,7 @@ export function PostCard({
         <Pressable
           disabled={!linkable}
           onPress={() => {
-            router.push(`/posts/${post.id}`)
+            router.navigate(`/posts/${post.id}`)
           }}
         >
           <Text highContrast={!post.read} weight="bold">

@@ -70,7 +70,7 @@ export function PostVideo({ margin = 0, video, viewing }: Props) {
     setSound(() => {
       const next = viewing && !muted
 
-      player.muted = next
+      player.muted = !next
 
       return next
     })
@@ -169,7 +169,6 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.grayA[2],
     height,
     marginHorizontal: -margin,
-    marginVertical: theme.space[2],
     width,
   }),
   play: {

@@ -25,8 +25,8 @@ export const PostsSchema = z.object({
             .union([
               z.object({
                 reddit_video: z.object({
-                  fallback_url: z.string(),
                   height: z.number(),
+                  hls_url: z.string(),
                   width: z.number(),
                 }),
               }),

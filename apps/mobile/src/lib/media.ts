@@ -17,7 +17,7 @@ export function getMeta(
         item.id,
         {
           height: item.s.y,
-          url: getImageUrl(item.s.u),
+          url: decode(item.s.u),
           width: item.s.x,
         },
       ]),
@@ -41,7 +41,7 @@ export function getImages(
 
         return {
           height: media.y,
-          url: getImageUrl(media.u),
+          url: decode(media.u),
           width: media.x,
         }
       }),
@@ -51,7 +51,7 @@ export function getImages(
   if (data.preview?.images) {
     return data.preview.images.map((image) => ({
       height: image.source.height,
-      url: getImageUrl(image.source.url),
+      url: decode(image.source.url),
       width: image.source.width,
     }))
   }
@@ -68,7 +68,7 @@ export function getVideo(
     return {
       height: media.reddit_video.height,
       provider: 'reddit',
-      url: media.reddit_video.fallback_url,
+      url: decode(media.reddit_video.hls_url),
       width: media.reddit_video.width,
     }
   }
@@ -102,8 +102,4 @@ export function getDimensions(
   const ratio = height / width
 
   return frameWidth * ratio
-}
-
-export function getImageUrl(url: string) {
-  return decode(url)
 }

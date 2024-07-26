@@ -58,7 +58,6 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.grayA[3],
     height,
     marginHorizontal: -margin,
-    marginVertical: theme.space[2],
     width: height,
   }),
 }))

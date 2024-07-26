@@ -70,7 +70,7 @@ export function PostList({ type }: Props) {
         top: 1,
       }}
       viewabilityConfig={{
-        itemVisiblePercentThreshold: 60,
+        itemVisiblePercentThreshold: 80,
       }}
     />
   )
