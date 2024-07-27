@@ -16,11 +16,18 @@ import { PostVoteCard } from './vote'
 type Props = {
   feedType?: FeedType
   interval?: TopInterval
+  linkable?: boolean
   post: Post
   subreddit?: string
 }
 
-export function PostFooterCard({ feedType, interval, post, subreddit }: Props) {
+export function PostFooterCard({
+  feedType,
+  interval,
+  linkable,
+  post,
+  subreddit,
+}: Props) {
   const router = useRouter()
 
   const f = useFormatter()
@@ -53,6 +60,7 @@ export function PostFooterCard({ feedType, interval, post, subreddit }: Props) {
 
   return (
     <Pressable
+      disabled={!linkable}
       onPress={() => {
         router.navigate(`/posts/${post.id}`)
       }}

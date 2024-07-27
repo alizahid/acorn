@@ -75,6 +75,7 @@ export function PostCard({
       <PostFooterCard
         feedType={feedType}
         interval={interval}
+        linkable={linkable}
         post={post}
         subreddit={subreddit}
       />
