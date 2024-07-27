@@ -45,9 +45,6 @@
         "signOut": "Sign out"
       },
       "title": "Settings"
-    },
-    "users": {
-      "title": "Users"
     }
   }
 }

@@ -3,12 +3,10 @@ import { useEffect } from 'react'
 import GearSixIcon from 'react-native-phosphor/src/duotone/GearSix'
 import HouseIcon from 'react-native-phosphor/src/duotone/House'
 import MagnifyingGlassIcon from 'react-native-phosphor/src/duotone/MagnifyingGlass'
-import UsersIcon from 'react-native-phosphor/src/duotone/Users'
 import UsersFourIcon from 'react-native-phosphor/src/duotone/UsersFour'
 import GearSixFillIcon from 'react-native-phosphor/src/fill/GearSix'
 import HouseFillIcon from 'react-native-phosphor/src/fill/House'
 import MagnifyingGlassFillIcon from 'react-native-phosphor/src/fill/MagnifyingGlass'
-import UsersFillIcon from 'react-native-phosphor/src/fill/Users'
 import UsersFourFillIcon from 'react-native-phosphor/src/fill/UsersFour'
 import { useTranslations } from 'use-intl'
 
@@ -76,18 +74,6 @@ export default function Layout() {
             return <Icon {...props} />
           },
           title: t('communities.title'),
-        }}
-      />
-
-      <Tabs.Screen
-        name="users"
-        options={{
-          tabBarIcon: (props) => {
-            const Icon = props.focused ? UsersFillIcon : UsersIcon
-
-            return <Icon {...props} />
-          },
-          title: t('users.title'),
         }}
       />
 
