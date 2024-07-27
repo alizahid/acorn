@@ -18,6 +18,7 @@ export type Post = {
   spoiler: boolean
   subreddit: string
   title: string
+  url?: string
   user: {
     id: string
     name: string
@@ -29,6 +30,7 @@ export type PostMediaMeta = Record<
   string,
   {
     height: number
+    type: 'image' | 'video' | 'gif'
     url: string
     width: number
   }
@@ -41,6 +43,7 @@ export type PostWithComments = {
 
 export type PostImage = {
   height: number
+  type: 'image' | 'video' | 'gif'
   url: string
   width: number
 }

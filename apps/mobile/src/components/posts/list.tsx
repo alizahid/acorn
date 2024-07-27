@@ -13,10 +13,11 @@ import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 
 type Props = {
+  subreddit?: string
   type: FeedType
 }
 
-export function PostList({ type }: Props) {
+export function PostList({ subreddit, type }: Props) {
   const frame = useSafeAreaFrame()
 
   const { styles } = useStyles(stylesheet)
@@ -27,16 +28,19 @@ export function PostList({ type }: Props) {
     isFetching,
     isFetchingNextPage,
     isLoading,
+    isRefetching,
     posts,
     refetch,
-  } = usePosts(type)
+  } = usePosts(type, subreddit)
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
     <FlashList
       ItemSeparatorComponent={() => <View style={styles.separator} />}
-      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+      ListEmptyComponent={
+        isRefetching ? null : isLoading ? <Loading /> : <Empty />
+      }
       ListFooterComponent={() =>
         !isFetching && isFetchingNextPage ? (
           <Spinner style={styles.spinner} />
@@ -61,6 +65,7 @@ export function PostList({ type }: Props) {
         <PostCard
           feedType={type}
           post={item}
+          subreddit={subreddit}
           viewing={viewing.includes(item.id)}
         />
       )}

@@ -21,7 +21,7 @@ type Props = {
   viewing: boolean
 }
 
-export function PostVideo({ margin = 0, video, viewing }: Props) {
+export function PostVideoCard({ margin = 0, video, viewing }: Props) {
   const frame = useSafeAreaFrame()
 
   const ref = useRef<VideoView>(null)

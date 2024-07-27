@@ -13,14 +13,22 @@ export function getMeta(
 ): PostMediaMeta {
   if (data.media_metadata) {
     return Object.fromEntries(
-      Object.values(data.media_metadata).map((item) => [
-        item.id,
-        {
-          height: item.s.y,
-          url: decode(item.s.u),
-          width: item.s.x,
-        },
-      ]),
+      Object.values(data.media_metadata).map((item) => {
+        const video = 'hlsUrl' in item
+        const gif = !video && 'mp4' in item.s
+
+        return [
+          item.id,
+          {
+            height: video ? item.y : item.s.y,
+            type: video ? 'video' : gif ? 'gif' : 'image',
+            url: decode(
+              video ? item.hlsUrl : 'mp4' in item.s ? item.s.mp4 : item.s.u,
+            ),
+            width: video ? item.x : item.s.x,
+          },
+        ]
+      }),
     )
   }
 
@@ -33,16 +41,22 @@ export function getImages(
   if (data.media_metadata && data.gallery_data) {
     return compact(
       data.gallery_data.items.map((item) => {
-        const media = data.media_metadata?.[item.media_id].s
+        const media = data.media_metadata?.[item.media_id]
 
         if (!media) {
           return
         }
 
+        const video = 'hlsUrl' in media
+        const gif = !video && 'mp4' in media.s
+
         return {
-          height: media.y,
-          url: decode(media.u),
-          width: media.x,
+          height: video ? media.y : media.s.y,
+          type: video ? 'video' : gif ? 'gif' : 'image',
+          url: decode(
+            video ? media.hlsUrl : 'mp4' in media.s ? media.s.mp4 : media.s.u,
+          ),
+          width: video ? media.x : media.s.x,
         }
       }),
     )
@@ -51,6 +65,7 @@ export function getImages(
   if (data.preview?.images) {
     return data.preview.images.map((image) => ({
       height: image.source.height,
+      type: 'image',
       url: decode(image.source.url),
       width: image.source.width,
     }))
@@ -68,6 +83,7 @@ export function getVideo(
     return {
       height: media.reddit_video.height,
       provider: 'reddit',
+      type: 'video',
       url: decode(media.reddit_video.hls_url),
       width: media.reddit_video.width,
     }
@@ -82,6 +98,7 @@ export function getVideo(
       return {
         height: media.oembed.height,
         provider: 'redgifs',
+        type: 'video',
         url: redGifsLink[1],
         width: media.oembed.width,
       }

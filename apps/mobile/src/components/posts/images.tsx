@@ -11,7 +11,7 @@ type Props = {
   margin?: number
 }
 
-export function PostImages({ images, margin = 0 }: Props) {
+export function PostImagesCard({ images, margin = 0 }: Props) {
   const frame = useSafeAreaFrame()
 
   const { styles } = useStyles(stylesheet)

@@ -18,6 +18,7 @@ type Variables = {
   direction: 1 | 0 | -1
   feedType?: FeedType
   postId: string
+  subreddit?: string
 }
 
 export function usePostVote() {
@@ -69,7 +70,11 @@ export function usePostVote() {
 
       if (variables.feedType) {
         queryClient.setQueryData<PostsQueryData>(
-          ['posts', variables.feedType] satisfies PostsQueryKey,
+          [
+            'posts',
+            variables.feedType,
+            variables.subreddit,
+          ] satisfies PostsQueryKey,
           (data) => {
             if (!data) {
               return data

@@ -7,23 +7,26 @@ import { type Icon } from 'react-native-phosphor/src/lib'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { FeedType } from '~/hooks/queries/posts/posts'
+import { FeedType, FeedTypeSubreddit } from '~/hooks/queries/posts/posts'
 
 import { DropDown } from '../common/drop-down'
 
 type Props = {
   onChange: (type: FeedType) => void
+  subreddit?: boolean
   type: FeedType
 }
 
-export function PostHeader({ onChange, type }: Props) {
+export function PostHeader({ onChange, subreddit, type }: Props) {
   const t = useTranslations('component.posts.header')
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const items = subreddit ? FeedTypeSubreddit : FeedType
+
   return (
     <DropDown
-      items={FeedType.map((value) => {
+      items={items.map((value) => {
         const Icon = icons[value]
 
         return {

@@ -18,6 +18,7 @@ type Variables = {
   action: 'save' | 'unsave'
   feedType?: FeedType
   postId: string
+  subreddit?: string
 }
 
 export function usePostSave() {
@@ -58,7 +59,11 @@ export function usePostSave() {
 
       if (variables.feedType) {
         queryClient.setQueryData<PostsQueryData>(
-          ['posts', variables.feedType] satisfies PostsQueryKey,
+          [
+            'posts',
+            variables.feedType,
+            variables.subreddit,
+          ] satisfies PostsQueryKey,
           (data) => {
             if (!data) {
               return data

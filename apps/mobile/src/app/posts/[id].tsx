@@ -10,9 +10,11 @@ import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { PostCard } from '~/components/posts/card'
 import { usePost } from '~/hooks/queries/posts/post'
+import { type FeedType } from '~/hooks/queries/posts/posts'
 import { getColorForIndex } from '~/lib/colors'
 
 type Params = {
+  feedType?: FeedType
   id: string
 }
 
@@ -23,11 +25,15 @@ export default function Screen() {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const { comments, isLoading, post, refetch } = usePost(params.id)
+  const { comments, isLoading, isRefetching, post, refetch } = usePost(
+    params.id,
+  )
 
   return (
     <FlashList
-      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+      ListEmptyComponent={
+        isRefetching ? null : isLoading ? <Loading /> : <Empty />
+      }
       ListFooterComponent={() => (
         <HandWavingIcon
           color={theme.colors.grayA[2]}
@@ -39,10 +45,12 @@ export default function Screen() {
         post ? (
           <PostCard
             body
+            feedType={params.feedType}
             linkable={false}
             margin={theme.space[1]}
             post={post}
             style={styles.post}
+            subreddit={post.subreddit}
             viewing
           />
         ) : null

@@ -7,7 +7,7 @@ export const PostsSchema = z.object({
       z.object({
         data: z.object({
           author: z.string(),
-          author_fullname: z.string(),
+          author_fullname: z.string().catch('[deleted]'),
           clicked: z.boolean(),
           created: z.number(),
           gallery_data: z
@@ -42,14 +42,30 @@ export const PostsSchema = z.object({
           media_metadata: z
             .record(
               z.string(),
-              z.object({
-                id: z.string(),
-                s: z.object({
-                  u: z.string(),
+              z.union([
+                z.object({
+                  id: z.string(),
+                  s: z.object({
+                    u: z.string(),
+                    x: z.number(),
+                    y: z.number(),
+                  }),
+                }),
+                z.object({
+                  id: z.string(),
+                  s: z.object({
+                    mp4: z.string(),
+                    x: z.number(),
+                    y: z.number(),
+                  }),
+                }),
+                z.object({
+                  hlsUrl: z.string(),
+                  id: z.string(),
                   x: z.number(),
                   y: z.number(),
                 }),
-              }),
+              ]),
             )
             .nullish(),
           num_comments: z.number(),

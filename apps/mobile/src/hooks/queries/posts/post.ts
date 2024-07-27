@@ -40,7 +40,7 @@ export function usePost(id?: string) {
         comments: compact(
           response[1].data.children.map((item) => transformComment(item)),
         ),
-        post: transformPost(response[0].data.children[0].data),
+        post: transformPost(response[0].data.children[0]),
       } satisfies PostQueryData
     },
     queryKey: ['post', id!],

@@ -1,4 +1,5 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import { compact } from 'lodash'
 
 import { REDDIT_URI } from '~/lib/const'
 import { redditApi } from '~/lib/reddit'
@@ -11,6 +12,10 @@ export const FeedType = ['new', 'best', 'top', 'rising', 'hot'] as const
 
 export type FeedType = (typeof FeedType)[number]
 
+export const FeedTypeSubreddit = ['new', 'top', 'rising', 'hot'] as const
+
+export type FeedTypeSubreddit = (typeof FeedType)[number]
+
 type Param = string | undefined | null
 
 type Page = {
@@ -18,11 +23,11 @@ type Page = {
   posts: Array<Post>
 }
 
-export type PostsQueryKey = ['posts', FeedType]
+export type PostsQueryKey = ['posts', FeedType, string?]
 
 export type PostsQueryData = InfiniteData<Page, Param>
 
-export function usePosts(type: FeedType) {
+export function usePosts(type: FeedType, subreddit?: string) {
   const { accessToken, expired } = useAuth()
 
   const {
@@ -41,7 +46,11 @@ export function usePosts(type: FeedType) {
     },
     initialPageParam: null,
     async queryFn({ pageParam }) {
-      const url = new URL(`/${type}`, REDDIT_URI)
+      const parts = compact([subreddit ? `r/${subreddit}` : null, type]).join(
+        '/',
+      )
+
+      const url = new URL(`/${parts}`, REDDIT_URI)
 
       url.searchParams.set('limit', '25')
 
@@ -58,10 +67,10 @@ export function usePosts(type: FeedType) {
 
       return {
         after: response.data.after,
-        posts: response.data.children.map((item) => transformPost(item.data)),
+        posts: response.data.children.map((item) => transformPost(item)),
       } satisfies Page
     },
-    queryKey: ['posts', type],
+    queryKey: ['posts', type, subreddit],
   })
 
   return {
