@@ -109,10 +109,9 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[2],
   },
   main: {
-    backgroundColor: theme.colors.grayA[2],
     flexDirection: 'row',
     gap: theme.space[4],
-    padding: theme.space[2],
+    padding: theme.space[3],
   },
   meta: {
     alignItems: 'flex-start',

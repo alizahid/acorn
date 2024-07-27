@@ -39,7 +39,7 @@ export function PostCard({
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View style={style}>
+    <View style={[styles.main, style]}>
       <Pressable
         disabled={!linkable}
         onPress={() => {
@@ -82,10 +82,13 @@ export function PostCard({
 
 const stylesheet = createStyleSheet((theme) => ({
   body: {
-    paddingHorizontal: theme.space[2],
+    paddingHorizontal: theme.space[3],
     paddingVertical: theme.space[3] / 2,
   },
+  main: {
+    backgroundColor: theme.colors.grayA[2],
+  },
   title: {
-    padding: theme.space[2],
+    padding: theme.space[3],
   },
 }))
