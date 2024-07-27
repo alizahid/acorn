@@ -10,11 +10,11 @@ export function useTheme() {
   return {
     colors: {
       background: theme.colors.gray[1],
-      border: theme.colors.grayA[6],
+      border: theme.colors.gray[6],
       card: theme.colors.gray[2],
       notification: theme.colors.accentA[9],
       primary: theme.colors.accentA[9],
-      text: theme.colors.grayA[11],
+      text: theme.colors.gray[11],
     },
     dark: scheme === 'dark',
   } satisfies Theme
