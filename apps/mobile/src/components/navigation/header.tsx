@@ -72,7 +72,7 @@ const stylesheet = createStyleSheet((theme) => ({
     left: 0,
   },
   main: (inset: number) => ({
-    backgroundColor: theme.colors.gray[2],
+    backgroundColor: theme.colors.gray[3],
     paddingTop: inset,
   }),
   right: {

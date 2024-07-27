@@ -53,7 +53,12 @@ export function PostFooterCard({ feedType, post, subreddit }: Props) {
   ]
 
   return (
-    <View style={styles.main}>
+    <Pressable
+      onPress={() => {
+        router.navigate(`/posts/${post.id}`)
+      }}
+      style={styles.main}
+    >
       <View style={styles.meta}>
         <Pressable
           hitSlop={theme.space[4]}
@@ -89,7 +94,7 @@ export function PostFooterCard({ feedType, post, subreddit }: Props) {
 
         <PostSaveCard feedType={feedType} post={post} subreddit={subreddit} />
       </View>
-    </View>
+    </Pressable>
   )
 }
 

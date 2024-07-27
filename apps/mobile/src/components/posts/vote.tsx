@@ -29,7 +29,6 @@ export function PostVoteCard({ feedType, post, subreddit }: Props) {
   return (
     <>
       <Pressable
-        hitSlop={theme.space[4]}
         onPress={() => {
           vote({
             direction: post.liked ? 0 : 1,
@@ -47,7 +46,6 @@ export function PostVoteCard({ feedType, post, subreddit }: Props) {
       </Pressable>
 
       <Pressable
-        hitSlop={theme.space[4]}
         onPress={() => {
           vote({
             direction: post.liked === false ? 0 : -1,

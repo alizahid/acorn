@@ -14,7 +14,6 @@ export function PostShareCard({ post }: Props) {
 
   return (
     <Pressable
-      hitSlop={theme.space[4]}
       onPress={() => {
         //
       }}
