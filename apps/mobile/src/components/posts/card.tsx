@@ -55,21 +55,16 @@ export function PostCard({
       {post.media.video ? (
         <PostVideoCard
           key={post.id}
-          margin={margin}
           video={post.media.video}
           viewing={viewing}
         />
       ) : post.media.images ? (
-        <PostImagesCard
-          images={post.media.images}
-          key={post.id}
-          margin={margin}
-        />
+        <PostImagesCard images={post.media.images} key={post.id} />
       ) : null}
 
       {body && post.body ? (
         <View style={styles.body}>
-          <Markdown margin={margin + theme.space[4]} meta={post.media.meta}>
+          <Markdown margin={margin + theme.space[5]} meta={post.media.meta}>
             {post.body}
           </Markdown>
         </View>

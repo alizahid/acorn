@@ -8,10 +8,9 @@ import { type PostImage } from '~/types/post'
 
 type Props = {
   images: Array<PostImage>
-  margin?: number
 }
 
-export function PostImagesCard({ images, margin = 0 }: Props) {
+export function PostImagesCard({ images }: Props) {
   const frame = useSafeAreaFrame()
 
   const { styles } = useStyles(stylesheet)
@@ -23,10 +22,7 @@ export function PostImagesCard({ images, margin = 0 }: Props) {
       <Image
         contentFit="contain"
         source={images[0].url}
-        style={[
-          styles.main(margin, frame.width),
-          styles.image(height, frame.width),
-        ]}
+        style={[styles.main(frame.width), styles.image(height, frame.width)]}
       />
     )
   }
@@ -44,7 +40,7 @@ export function PostImagesCard({ images, margin = 0 }: Props) {
         />
       )}
       snapToOffsets={images.map((image, index) => frame.width * index)}
-      style={styles.main(margin, frame.width)}
+      style={styles.main(frame.width)}
     />
   )
 }
@@ -54,10 +50,9 @@ const stylesheet = createStyleSheet((theme) => ({
     height,
     width,
   }),
-  main: (margin: number, height: number) => ({
+  main: (height: number) => ({
     backgroundColor: theme.colors.grayA[3],
     height,
-    marginHorizontal: -margin,
     width: height,
   }),
 }))
