@@ -1,7 +1,14 @@
 import { FlashList } from '@shopify/flash-list'
-import { useLocalSearchParams } from 'expo-router'
-import HandWavingIcon from 'react-native-phosphor/src/duotone/HandWaving'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+} from 'expo-router'
+import { View } from 'react-native'
+import {
+  useSafeAreaFrame,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { CommentCard } from '~/components/comments/card'
@@ -11,7 +18,6 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { PostCard } from '~/components/posts/card'
 import { usePost } from '~/hooks/queries/posts/post'
 import { type FeedType } from '~/hooks/queries/posts/posts'
-import { getColorForIndex } from '~/lib/colors'
 
 type Params = {
   feedType?: FeedType
@@ -20,34 +26,40 @@ type Params = {
 
 export default function Screen() {
   const frame = useSafeAreaFrame()
+  const insets = useSafeAreaInsets()
+
+  const navigation = useNavigation()
 
   const params = useLocalSearchParams<Params>()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const { comments, isLoading, isRefetching, post, refetch } = usePost(
     params.id,
   )
 
+  useFocusEffect(() => {
+    if (!post) {
+      return
+    }
+
+    navigation.setOptions({
+      title: post.subreddit,
+    })
+  })
+
   return (
     <FlashList
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListEmptyComponent={
         isRefetching ? null : isLoading ? <Loading /> : <Empty />
       }
-      ListFooterComponent={() => (
-        <HandWavingIcon
-          color={theme.colors.grayA[2]}
-          size={theme.space[9]}
-          style={styles.footer}
-        />
-      )}
       ListHeaderComponent={
         post ? (
           <PostCard
             body
             feedType={params.feedType}
             linkable={false}
-            margin={theme.space[1]}
             post={post}
             style={styles.post}
             subreddit={post.subreddit}
@@ -55,18 +67,13 @@ export default function Screen() {
           />
         ) : null
       }
+      contentContainerStyle={styles.list(insets.bottom)}
       data={comments}
       estimatedItemSize={frame.width}
       keyExtractor={(item) => item.id}
       refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ index, item }) => (
-        <CommentCard
-          comment={item}
-          postId={post?.id}
-          style={{
-            backgroundColor: theme.colors[`${getColorForIndex(index)}A`][2],
-          }}
-        />
+      renderItem={({ item }) => (
+        <CommentCard comment={item} postId={post?.id} />
       )}
       scrollIndicatorInsets={{
         bottom: 1,
@@ -78,11 +85,13 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  footer: {
-    marginHorizontal: 'auto',
-    marginVertical: theme.space[4],
-  },
+  list: (inset: number) => ({
+    paddingBottom: inset,
+  }),
   post: {
-    padding: theme.space[1],
+    marginBottom: theme.space[2],
+  },
+  separator: {
+    height: theme.space[2],
   },
 }))

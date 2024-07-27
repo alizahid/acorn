@@ -2,11 +2,13 @@ import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
+import { type ColorId, getColorForId } from '~/lib/colors'
 import { type Comment } from '~/types/comment'
 
 import { Markdown } from '../common/markdown'
 import { Text } from '../common/text'
-import { CommentVote } from './vote'
+import { CommentSaveCard } from './save'
+import { CommentVoteCard } from './vote'
 
 type Props = {
   comment: Comment
@@ -17,12 +19,22 @@ type Props = {
 export function CommentCard({ comment, postId, style }: Props) {
   const f = useFormatter()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
+
+  const color = getColorForId(comment.parentId ?? comment.id)
 
   return (
-    <View style={[styles.main, style]}>
+    <View style={[styles.main(color, comment.depth), style]}>
       <View style={styles.body}>
-        <Markdown size="2">{comment.body}</Markdown>
+        <Markdown
+          margin={
+            theme.space[3] * (comment.depth + 2) + (comment.depth > 0 ? 2 : 0)
+          }
+          meta={comment.media.meta}
+          size="2"
+        >
+          {comment.body}
+        </Markdown>
       </View>
 
       <View style={styles.footer}>
@@ -36,26 +48,18 @@ export function CommentCard({ comment, postId, style }: Props) {
           })}
         </Text>
 
-        <CommentVote comment={comment} postId={postId} />
-      </View>
+        <CommentVoteCard comment={comment} postId={postId} />
 
-      {comment.replies.length > 0
-        ? comment.replies.map((item) => (
-            <CommentCard
-              comment={item}
-              key={item.id}
-              postId={postId}
-              style={styles.reply}
-            />
-          ))
-        : null}
+        <CommentSaveCard comment={comment} postId={postId} />
+      </View>
     </View>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
   body: {
-    marginRight: theme.space[3],
+    paddingRight: theme.space[3],
+    paddingVertical: theme.space[3] / 2,
   },
   footer: {
     alignItems: 'center',
@@ -63,13 +67,11 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[4],
     marginBottom: theme.space[3],
   },
-  main: {
-    backgroundColor: theme.colors.grayA[2],
+  main: (color: ColorId, depth: number) => ({
+    backgroundColor: theme.colors[`${color}A`][2],
+    borderLeftColor: depth > 0 ? theme.colors[`${color}A`][6] : undefined,
+    borderLeftWidth: depth > 0 ? 2 : undefined,
+    marginLeft: theme.space[3] * depth,
     paddingLeft: theme.space[3],
-  },
-  reply: {
-    borderLeftColor: theme.colors.grayA[6],
-    borderLeftWidth: 2,
-    marginBottom: theme.space[3],
-  },
+  }),
 }))

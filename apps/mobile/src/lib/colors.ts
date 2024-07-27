@@ -1,3 +1,5 @@
+/* eslint-disable no-bitwise -- we doing cool things */
+
 const colors = [
   'amber',
   'blue',
@@ -26,6 +28,19 @@ const colors = [
   'yellow',
 ] as const
 
-export function getColorForIndex(index: number) {
-  return colors[index % colors.length]
+export type ColorId = (typeof colors)[number]
+
+export function getColorForId(id: string): ColorId {
+  return colors[getIndex(id)]
+}
+
+function getIndex(id: string): number {
+  let hash = 5381
+
+  for (let i = 0; i < id.length; i++) {
+    hash = (hash * 33) ^ id.charCodeAt(i)
+  }
+  const hashed = hash >>> 0
+
+  return hashed % colors.length
 }

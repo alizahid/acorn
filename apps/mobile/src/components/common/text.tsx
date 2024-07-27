@@ -19,6 +19,7 @@ export function Text({
   lines,
   size,
   style,
+  tabular,
   weight,
 }: Props) {
   const { styles } = useStyles(stylesheet)
@@ -34,6 +35,7 @@ export function Text({
         contrast,
         highContrast,
         size,
+        tabular,
         weight,
       }),
       style,

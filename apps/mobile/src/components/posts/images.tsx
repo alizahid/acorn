@@ -17,7 +17,7 @@ export function PostImagesCard({ images, margin = 0 }: Props) {
   const { styles } = useStyles(stylesheet)
 
   if (images.length === 1) {
-    const height = getDimensions(frame.width, images[0])
+    const { height } = getDimensions(frame.width, images[0])
 
     return (
       <Image

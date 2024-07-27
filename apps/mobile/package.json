@@ -94,6 +94,7 @@
   },
   "patchedDependencies": {
     "@shopify/flash-list@1.6.4": "patches/@shopify%2Fflash-list@1.6.4.patch",
-    "recyclerlistview@4.2.0": "patches/recyclerlistview@4.2.0.patch"
+    "recyclerlistview@4.2.0": "patches/recyclerlistview@4.2.0.patch",
+    "react-native-markdown-display@7.0.2": "patches/react-native-markdown-display@7.0.2.patch"
   }
 }

@@ -98,7 +98,7 @@ export function PostVideoCard({ margin = 0, video, viewing }: Props) {
     },
   ]
 
-  const height = getDimensions(frame.width, video)
+  const { height } = getDimensions(frame.width, video)
 
   return (
     <View style={styles.main(margin, height, frame.width)}>

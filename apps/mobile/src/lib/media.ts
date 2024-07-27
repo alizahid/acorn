@@ -15,7 +15,7 @@ export function getMeta(
     return Object.fromEntries(
       Object.values(data.media_metadata).map((item) => {
         const video = 'hlsUrl' in item
-        const gif = !video && 'mp4' in item.s
+        const gif = !video && 'gif' in item.s
 
         return [
           item.id,
@@ -23,7 +23,7 @@ export function getMeta(
             height: video ? item.y : item.s.y,
             type: video ? 'video' : gif ? 'gif' : 'image',
             url: decode(
-              video ? item.hlsUrl : 'mp4' in item.s ? item.s.mp4 : item.s.u,
+              video ? item.hlsUrl : 'gif' in item.s ? item.s.gif : item.s.u,
             ),
             width: video ? item.x : item.s.x,
           },
@@ -48,13 +48,13 @@ export function getImages(
         }
 
         const video = 'hlsUrl' in media
-        const gif = !video && 'mp4' in media.s
+        const gif = !video && 'gif' in media.s
 
         return {
           height: video ? media.y : media.s.y,
           type: video ? 'video' : gif ? 'gif' : 'image',
           url: decode(
-            video ? media.hlsUrl : 'mp4' in media.s ? media.s.mp4 : media.s.u,
+            video ? media.hlsUrl : 'gif' in media.s ? media.s.gif : media.s.u,
           ),
           width: video ? media.x : media.s.x,
         }
@@ -106,17 +106,17 @@ export function getVideo(
   }
 }
 
+export type Dimensions = {
+  height: number
+  width: number
+}
+
 export function getDimensions(
   frameWidth: number,
-  {
-    height,
-    width,
-  }: {
-    height: number
-    width: number
-  },
+  { height, width }: Dimensions,
 ) {
-  const ratio = height / width
-
-  return frameWidth * ratio
+  return {
+    height: (height / width) * frameWidth,
+    width: frameWidth,
+  }
 }

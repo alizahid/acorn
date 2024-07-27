@@ -27,6 +27,7 @@ export function usePost(id?: string) {
       const url = new URL(`/comments/${String(id)}`, REDDIT_URI)
 
       url.searchParams.set('limit', '100')
+      url.searchParams.set('threaded', 'false')
       url.searchParams.set('depth', '3')
 
       const payload = await redditApi({

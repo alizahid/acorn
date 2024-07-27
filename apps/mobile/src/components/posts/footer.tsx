@@ -115,6 +115,7 @@ const stylesheet = createStyleSheet((theme) => ({
     padding: theme.space[2],
   },
   meta: {
+    alignItems: 'flex-start',
     flex: 1,
     gap: theme.space[2],
   },

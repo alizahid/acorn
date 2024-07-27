@@ -49,7 +49,7 @@ export function useCommentVote() {
 
             return create(data, (draft) => {
               for (const item of draft.comments) {
-                if (item.id === variables.postId) {
+                if (item.id === variables.commentId) {
                   item.votes =
                     item.votes -
                     (item.liked ? 1 : item.liked === null ? 0 : -1) +

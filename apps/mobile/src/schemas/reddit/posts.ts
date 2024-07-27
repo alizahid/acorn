@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { MediaMetadataSchema } from './media'
+
 export const PostsSchema = z.object({
   data: z.object({
     after: z.string().nullish(),
@@ -39,35 +41,7 @@ export const PostsSchema = z.object({
               }),
             ])
             .nullish(),
-          media_metadata: z
-            .record(
-              z.string(),
-              z.union([
-                z.object({
-                  id: z.string(),
-                  s: z.object({
-                    u: z.string(),
-                    x: z.number(),
-                    y: z.number(),
-                  }),
-                }),
-                z.object({
-                  id: z.string(),
-                  s: z.object({
-                    mp4: z.string(),
-                    x: z.number(),
-                    y: z.number(),
-                  }),
-                }),
-                z.object({
-                  hlsUrl: z.string(),
-                  id: z.string(),
-                  x: z.number(),
-                  y: z.number(),
-                }),
-              ]),
-            )
-            .nullish(),
+          media_metadata: MediaMetadataSchema,
           num_comments: z.number(),
           over_18: z.boolean(),
           permalink: z.string(),

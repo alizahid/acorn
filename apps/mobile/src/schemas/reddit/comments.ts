@@ -1,31 +1,8 @@
 import { z } from 'zod'
 
-type Comments = {
-  data: {
-    after?: string | null
-    children: Array<
-      | {
-          after?: string | null
-          data: {
-            author: string
-            body: string
-            created: number
-            id: string
-            likes: boolean | null
-            replies: Comments
-            saved: boolean
-            ups: number
-          }
-          kind: 't1'
-        }
-      | {
-          kind: 'more'
-        }
-    >
-  }
-}
+import { MediaMetadataSchema } from './media'
 
-export const CommentsSchema: z.ZodType<Comments> = z.object({
+export const CommentsSchema = z.object({
   data: z.object({
     after: z.string().nullish(),
     children: z.array(
@@ -36,16 +13,11 @@ export const CommentsSchema: z.ZodType<Comments> = z.object({
             author: z.string(),
             body: z.string(),
             created: z.number(),
+            depth: z.number(),
             id: z.string(),
             likes: z.boolean().nullable(),
-            replies: z.lazy(
-              () =>
-                CommentsSchema.catch({
-                  data: {
-                    children: [],
-                  },
-                }) as z.ZodType<Comments>,
-            ),
+            media_metadata: MediaMetadataSchema,
+            parent_id: z.string(),
             saved: z.boolean(),
             ups: z.number(),
           }),

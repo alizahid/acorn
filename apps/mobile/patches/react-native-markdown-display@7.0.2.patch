@@ -1,0 +1,17 @@
+diff --git a/src/lib/renderRules.js b/src/lib/renderRules.js
+index 6f2ed8d41f316f3bf4116ccd40ea3c0513748edf..fc56889d23e8821d769a4661a5780476343a98fc 100644
+--- a/src/lib/renderRules.js
++++ b/src/lib/renderRules.js
+@@ -126,11 +126,7 @@ const renderRules = {
+           <Text
+             style={[modifiedInheritedStylesObj, styles.bullet_list_icon]}
+             accessible={false}>
+-            {Platform.select({
+-              android: '\u2022',
+-              ios: '\u00B7',
+-              default: '\u2022',
+-            })}
++            {'\u25cf'}
+           </Text>
+           <View style={styles._VIEW_SAFE_bullet_list_content}>{children}</View>
+         </View>

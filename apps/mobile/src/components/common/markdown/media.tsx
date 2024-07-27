@@ -8,23 +8,24 @@ import { Text } from '../text'
 
 type Props = {
   caption?: string
-  image: PostImage
+  media: PostImage
 }
 
-export function MarkdownImage({ caption, image }: Props) {
+export function MarkdownMedia({ caption, media }: Props) {
   const { styles } = useStyles(stylesheet)
 
   return (
     <View style={styles.main}>
       <Image
-        source={image.url}
+        key={media.url}
+        source={media.url}
         style={{
-          height: image.height,
-          width: image.width,
+          height: media.height,
+          width: media.width,
         }}
       />
 
-      {caption !== '' ? (
+      {caption && caption !== '' ? (
         <Text align="center" highContrast={false} size="2" weight="medium">
           {caption}
         </Text>

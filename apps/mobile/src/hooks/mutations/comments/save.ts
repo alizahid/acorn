@@ -48,7 +48,7 @@ export function useCommentSave() {
 
             return create(data, (draft) => {
               for (const item of draft.comments) {
-                if (item.id === variables.postId) {
+                if (item.id === variables.commentId) {
                   item.saved = variables.action === 'save'
 
                   break

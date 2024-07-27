@@ -2,11 +2,11 @@ import Component, { renderRules } from 'react-native-markdown-display'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { findImage } from '~/lib/image'
+import { findMedia } from '~/lib/markdown'
 import { getTextStyles, type TextStyleProps } from '~/styles/text'
 import { type PostMediaMeta } from '~/types/post'
 
-import { MarkdownImage } from './image'
+import { MarkdownMedia } from './media'
 
 type Props = TextStyleProps & {
   children: string
@@ -19,22 +19,24 @@ export function Markdown({ children, margin = 0, meta, ...props }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
+  const frameWidth = frame.width - margin
+
   return (
     <Component
       rules={{
         link(node, ...rest) {
-          const image = findImage({
+          const media = findMedia({
+            frameWidth,
             href: String(node.attributes.href),
             meta,
-            width: frame.width - margin * 2,
           })
 
-          if (image) {
+          if (media) {
             return (
-              <MarkdownImage
+              <MarkdownMedia
                 caption={node.children[0].content}
-                image={image}
                 key={node.key}
+                media={media}
               />
             )
           }
@@ -42,22 +44,37 @@ export function Markdown({ children, margin = 0, meta, ...props }: Props) {
           return renderRules.link?.(node, ...rest)
         },
         text(node, ...rest) {
-          const image = findImage({
+          const media = findMedia({
+            frameWidth,
             href: node.content,
             meta,
-            width: frame.width - margin * 2,
           })
 
-          if (image) {
-            return <MarkdownImage image={image} key={node.key} />
+          if (media) {
+            return <MarkdownMedia key={node.key} media={media} />
           }
 
           return renderRules.text?.(node, ...rest)
         },
       }}
       style={{
-        body: styles.main(props),
+        blockquote: styles.blockquote,
+        body: styles.body(props),
+        bullet_list: styles.bullet_list,
+        bullet_list_icon: styles.bullet_list_icon,
+        code_block: styles.code_block,
+        code_inline: styles.code_inline,
+        fence: styles.code_block,
+        heading1: styles.heading,
         link: styles.link,
+        list_item: styles.list_item,
+        ordered_list: styles.ordered_list,
+        ordered_list_icon: styles.ordered_list_icon,
+        paragraph: styles.paragraph,
+        table: styles.table,
+        td: styles.td,
+        th: styles.th,
+        tr: styles.tr,
       }}
     >
       {children}
@@ -66,9 +83,74 @@ export function Markdown({ children, margin = 0, meta, ...props }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  blockquote: {
+    backgroundColor: theme.colors.grayA[3],
+    borderLeftColor: theme.colors.grayA[6],
+    borderLeftWidth: 3,
+    borderRadius: theme.radius[3],
+    marginLeft: 0,
+    marginVertical: theme.space[3] / 2,
+    paddingHorizontal: theme.space[3] / 2,
+  },
+  body: getTextStyles(theme),
+  bullet_list: {
+    marginVertical: theme.space[3] / 2 / 2,
+  },
+  bullet_list_icon: {
+    marginLeft: theme.space[3] / 2,
+    marginRight: theme.space[3] / 2,
+  },
+  code_block: {
+    backgroundColor: theme.colors.grayA[3],
+    borderColor: theme.colors.grayA[6],
+    borderRadius: theme.radius[3],
+    fontFamily: 'monospace',
+    marginVertical: theme.space[3] / 2,
+  },
+  code_inline: {
+    backgroundColor: theme.colors.grayA[3],
+    borderWidth: 0,
+    fontFamily: 'monospace',
+  },
+  heading: {
+    fontFamily: 'medium',
+    lineHeight: undefined,
+  },
   link: {
     color: theme.colors.accentA[11],
     textDecorationLine: 'none',
   },
-  main: getTextStyles(theme),
+  list_item: {
+    marginVertical: theme.space[3] / 2 / 2,
+  },
+  ordered_list: {
+    marginVertical: theme.space[3] / 2 / 2,
+  },
+  ordered_list_icon: {
+    fontVariant: ['tabular-nums'],
+    marginLeft: theme.space[3] / 2,
+    marginRight: theme.space[3] / 2,
+  },
+  paragraph: {
+    marginBottom: theme.space[3] / 2,
+    marginTop: theme.space[3] / 2,
+  },
+  table: {
+    borderColor: theme.colors.grayA[6],
+    borderRadius: theme.radius[3],
+    marginVertical: theme.space[3] / 2,
+  },
+  td: {
+    padding: 0,
+    paddingHorizontal: theme.space[2],
+    paddingVertical: theme.space[1],
+  },
+  th: {
+    padding: 0,
+    paddingHorizontal: theme.space[2],
+    paddingVertical: theme.space[1],
+  },
+  tr: {
+    borderColor: theme.colors.grayA[6],
+  },
 }))

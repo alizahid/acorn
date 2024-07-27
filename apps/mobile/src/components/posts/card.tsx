@@ -69,7 +69,7 @@ export function PostCard({
 
       {body && post.body ? (
         <View style={styles.body}>
-          <Markdown margin={margin + theme.space[2]} meta={post.media.meta}>
+          <Markdown margin={margin + theme.space[4]} meta={post.media.meta}>
             {post.body}
           </Markdown>
         </View>
@@ -83,6 +83,7 @@ export function PostCard({
 const stylesheet = createStyleSheet((theme) => ({
   body: {
     paddingHorizontal: theme.space[2],
+    paddingVertical: theme.space[3] / 2,
   },
   title: {
     padding: theme.space[2],

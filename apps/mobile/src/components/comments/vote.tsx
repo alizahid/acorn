@@ -17,7 +17,7 @@ type Props = {
   postId?: string
 }
 
-export function CommentVote({ comment, postId }: Props) {
+export function CommentVoteCard({ comment, postId }: Props) {
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -32,7 +32,7 @@ export function CommentVote({ comment, postId }: Props) {
   return (
     <View style={styles.main}>
       <Pressable
-        hitSlop={theme.space[2]}
+        hitSlop={theme.space[4]}
         onPress={() => {
           vote({
             commentId: comment.id,
@@ -54,7 +54,7 @@ export function CommentVote({ comment, postId }: Props) {
       </Text>
 
       <Pressable
-        hitSlop={theme.space[2]}
+        hitSlop={theme.space[4]}
         onPress={() => {
           vote({
             commentId: comment.id,
@@ -78,6 +78,5 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius[3],
     flexDirection: 'row',
     gap: theme.space[2],
-    marginRight: theme.space[2],
   },
 }))

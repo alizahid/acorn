@@ -1,6 +1,7 @@
 import { decode } from 'entities'
-import { compact } from 'lodash'
 
+import { TYPE_COMMENT, TYPE_LINK } from '~/lib/const'
+import { getMeta } from '~/lib/media'
 import { type CommentsSchema } from '~/schemas/reddit/comments'
 import { type Comment } from '~/types/comment'
 
@@ -14,11 +15,15 @@ export function transformComment(
   return {
     body: decode(data.data.body.trim()),
     createdAt: new Date(data.data.created * 1_000),
+    depth: data.data.depth,
     id: data.data.id,
     liked: data.data.likes,
-    replies: compact(
-      data.data.replies.data.children.map((item) => transformComment(item)),
-    ),
+    media: {
+      meta: getMeta(data.data),
+    },
+    parentId: data.data.parent_id.startsWith(TYPE_LINK)
+      ? undefined
+      : data.data.parent_id.slice(TYPE_COMMENT.length),
     saved: data.data.saved,
     user: {
       name: data.data.author,
