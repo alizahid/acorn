@@ -15,7 +15,7 @@ export function transformPost(
     liked: data.data.likes,
     media: {
       images: getImages(data.data),
-      meta: getMeta(data.data),
+      meta: getMeta(data),
       video: getVideo(data.data.media),
     },
     nsfw: data.data.over_18,

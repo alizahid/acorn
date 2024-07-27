@@ -30,6 +30,8 @@ export const PostMediaMetadataSchema = z
   )
   .nullish()
 
+export type PostMediaMetadataSchema = z.infer<typeof PostMediaMetadataSchema>
+
 export const PostGalleryDataSchema = z
   .object({
     items: z.array(
@@ -39,6 +41,8 @@ export const PostGalleryDataSchema = z
     ),
   })
   .nullish()
+
+export type PostGalleryDataSchema = z.infer<typeof PostGalleryDataSchema>
 
 export const PostMediaSchema = z
   .union([
@@ -66,6 +70,8 @@ export const PostMediaSchema = z
   ])
   .nullish()
 
+export type PostMediaSchema = z.infer<typeof PostMediaSchema>
+
 export const PostPreviewSchema = z
   .object({
     images: z.array(
@@ -79,3 +85,5 @@ export const PostPreviewSchema = z
     ),
   })
   .nullish()
+
+export type PostPreviewSchema = z.infer<typeof PostPreviewSchema>

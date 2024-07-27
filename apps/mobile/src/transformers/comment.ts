@@ -19,7 +19,7 @@ export function transformComment(
     id: data.data.id,
     liked: data.data.likes,
     media: {
-      meta: getMeta(data.data),
+      meta: getMeta(data),
     },
     parentId: data.data.parent_id.startsWith(TYPE_LINK)
       ? undefined

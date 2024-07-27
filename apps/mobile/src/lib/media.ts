@@ -1,6 +1,7 @@
 import { decode } from 'entities'
 import { compact } from 'lodash'
 
+import { type CommentsSchema } from '~/schemas/reddit/comments'
 import { type PostsSchema } from '~/schemas/reddit/posts'
 import {
   type PostImage,
@@ -9,11 +10,17 @@ import {
 } from '~/types/post'
 
 export function getMeta(
-  data: PostsSchema['data']['children'][number]['data'],
+  data:
+    | PostsSchema['data']['children'][number]
+    | CommentsSchema['data']['children'][number],
 ): PostMediaMeta {
-  if (data.media_metadata) {
+  if (data.kind === 'more') {
+    return {}
+  }
+
+  if (data.data.media_metadata) {
     return Object.fromEntries(
-      Object.values(data.media_metadata).map((item) => {
+      Object.values(data.data.media_metadata).map((item) => {
         const video = 'hlsUrl' in item
         const gif = !video && 'gif' in item.s
 
