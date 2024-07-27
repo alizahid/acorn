@@ -90,6 +90,10 @@ export function getVideo(
   }
 
   if ('oembed' in media) {
+    if (media.oembed.type === 'rich') {
+      return
+    }
+
     const redGifsLink = /https:\/\/www\.redgifs\.com\/ifr\/(\w+)/.exec(
       media.oembed.html,
     )

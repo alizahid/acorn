@@ -1,6 +1,11 @@
 import { z } from 'zod'
 
-import { MediaMetadataSchema } from './media'
+import {
+  PostGalleryDataSchema,
+  PostMediaMetadataSchema,
+  PostMediaSchema,
+  PostPreviewSchema,
+} from './media'
 
 export const PostsSchema = z.object({
   data: z.object({
@@ -12,52 +17,15 @@ export const PostsSchema = z.object({
           author_fullname: z.string().catch('[deleted]'),
           clicked: z.boolean(),
           created: z.number(),
-          gallery_data: z
-            .object({
-              items: z.array(
-                z.object({
-                  media_id: z.string(),
-                }),
-              ),
-            })
-            .nullish(),
+          gallery_data: PostGalleryDataSchema,
           id: z.string(),
           likes: z.boolean().nullable(),
-          media: z
-            .union([
-              z.object({
-                reddit_video: z.object({
-                  height: z.number(),
-                  hls_url: z.string(),
-                  width: z.number(),
-                }),
-              }),
-              z.object({
-                oembed: z.object({
-                  height: z.number(),
-                  html: z.string(),
-                  width: z.number(),
-                }),
-              }),
-            ])
-            .nullish(),
-          media_metadata: MediaMetadataSchema,
+          media: PostMediaSchema,
+          media_metadata: PostMediaMetadataSchema,
           num_comments: z.number(),
           over_18: z.boolean(),
           permalink: z.string(),
-          preview: z
-            .object({
-              images: z.array(
-                z.object({
-                  source: z.object({
-                    height: z.number(),
-                    url: z.string(),
-                    width: z.number(),
-                  }),
-                }),
-              ),
-            })
-            .nullish(),
+          preview: PostPreviewSchema,
           saved: z.boolean(),
           selftext: z.string(),
           spoiler: z.boolean(),

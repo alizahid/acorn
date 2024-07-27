@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { MediaMetadataSchema } from './media'
+import { PostMediaMetadataSchema } from './media'
 
 export const CommentsSchema = z.object({
   data: z.object({
@@ -16,7 +16,7 @@ export const CommentsSchema = z.object({
             depth: z.number(),
             id: z.string(),
             likes: z.boolean().nullable(),
-            media_metadata: MediaMetadataSchema,
+            media_metadata: PostMediaMetadataSchema,
             parent_id: z.string(),
             saved: z.boolean(),
             ups: z.number(),

@@ -1,7 +1,6 @@
 import { FlashList } from '@shopify/flash-list'
 import { useState } from 'react'
 import { View } from 'react-native'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -18,14 +17,11 @@ type Props = {
 }
 
 export function PostList({ subreddit, type }: Props) {
-  const frame = useSafeAreaFrame()
-
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const {
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     isLoading,
     isRefetching,
@@ -35,6 +31,16 @@ export function PostList({ subreddit, type }: Props) {
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
+  const estimatedItemSize =
+    theme.space[3] + // title padding
+    theme.typography[3].lineHeight + // title
+    theme.space[3] + // title padding
+    theme.space[3] + // footer padding
+    theme.space[2] + // subreddit
+    theme.space[2] + // gap
+    theme.typography[2].lineHeight + // meta
+    theme.space[3] // footer padding
+
   return (
     <FlashList
       ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -42,12 +48,10 @@ export function PostList({ subreddit, type }: Props) {
         isRefetching ? null : isLoading ? <Loading /> : <Empty />
       }
       ListFooterComponent={() =>
-        !isFetching && isFetchingNextPage ? (
-          <Spinner style={styles.spinner} />
-        ) : null
+        isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
       data={posts}
-      estimatedItemSize={frame.width}
+      estimatedItemSize={estimatedItemSize}
       extraData={{
         viewing,
       }}
