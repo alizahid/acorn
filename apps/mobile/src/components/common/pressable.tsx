@@ -2,6 +2,7 @@ import { type ReactNode } from 'react'
 import {
   type GestureResponderEvent,
   type Insets,
+  type LayoutChangeEvent,
   Pressable as ReactNativePressable,
   type StyleProp,
   type ViewStyle,
@@ -18,6 +19,7 @@ type Props = {
   children: ReactNode
   disabled?: boolean
   hitSlop?: number | Insets
+  onLayout?: (event: LayoutChangeEvent) => void
   onLongPress?: (event: GestureResponderEvent) => void
   onPress?: (event: GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
@@ -27,6 +29,7 @@ export function Pressable({
   children,
   disabled,
   hitSlop,
+  onLayout,
   onLongPress,
   onPress,
   style,
@@ -41,6 +44,7 @@ export function Pressable({
     <Component
       disabled={disabled}
       hitSlop={hitSlop}
+      onLayout={onLayout}
       onLongPress={onLongPress}
       onPress={onPress}
       onPressIn={() => {

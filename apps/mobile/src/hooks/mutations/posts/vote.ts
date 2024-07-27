@@ -9,6 +9,7 @@ import {
   type FeedType,
   type PostsQueryData,
   type PostsQueryKey,
+  type TopInterval,
 } from '~/hooks/queries/posts/posts'
 import { TYPE_LINK } from '~/lib/const'
 import { redditApi } from '~/lib/reddit'
@@ -17,6 +18,7 @@ import { useAuth } from '~/stores/auth'
 type Variables = {
   direction: 1 | 0 | -1
   feedType?: FeedType
+  interval?: TopInterval
   postId: string
   subreddit?: string
 }
@@ -73,6 +75,7 @@ export function usePostVote() {
           [
             'posts',
             variables.feedType,
+            variables.interval,
             variables.subreddit,
           ] satisfies PostsQueryKey,
           (data) => {

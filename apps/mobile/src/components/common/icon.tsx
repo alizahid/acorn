@@ -102,7 +102,7 @@ import UsersFourRegular from 'react-native-phosphor/src/regular/UsersFour'
 
 export type IconName = keyof typeof icons
 
-type IconWeight = 'regular' | 'bold' | 'fill' | 'duotone'
+export type IconWeight = 'regular' | 'bold' | 'fill' | 'duotone'
 
 type Props = {
   color?: string

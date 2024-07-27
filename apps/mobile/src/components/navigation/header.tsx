@@ -38,9 +38,11 @@ export function Header({ navigation, options, ...props }: Props) {
         ) : null}
 
         {typeof options.headerTitle === 'function' ? (
-          options.headerTitle({
-            children: options.title ?? '',
-          })
+          <View style={styles.title}>
+            {options.headerTitle({
+              children: options.title ?? '',
+            })}
+          </View>
         ) : (
           <Text weight="bold">{options.title}</Text>
         )}
@@ -60,6 +62,8 @@ export function Header({ navigation, options, ...props }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   actions: {
     bottom: 0,
+    flexDirection: 'row',
+    gap: theme.space[2],
     position: 'absolute',
   },
   header: {
@@ -76,5 +80,9 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   right: {
     right: 0,
+  },
+  title: {
+    flexDirection: 'row',
+    gap: theme.space[2],
   },
 }))

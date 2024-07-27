@@ -136,8 +136,8 @@ export const Content = forwardRef<Content, Props>(function Component(
       }}
       style={[
         styles.main(
-          frame.height - insets.top,
           inset && !keyboard.visible ? insets.bottom : 0,
+          frame.height - insets.top,
         ),
         style,
         animatedStyle,
@@ -174,24 +174,20 @@ const stylesheet = createStyleSheet((theme) => ({
     height: 6,
     position: 'absolute',
     top: -12,
-    width: 64,
+    width: theme.space[8],
   },
   header: {
-    borderBottomColor: theme.colors.gray.a6,
-    borderBottomWidth: 1,
     height: theme.space[8],
     justifyContent: 'center',
   },
-  main: (maxHeight: number, paddingBottom: number) => ({
+  main: (inset: number, maxHeight: number) => ({
     backgroundColor: theme.colors.gray[1],
-    borderTopLeftRadius: theme.radius[5],
-    borderTopRightRadius: theme.radius[5],
+    borderRadius: theme.radius[5],
     bottom: 0,
     left: 0,
     maxHeight: maxHeight - theme.space[8],
-    paddingBottom,
+    paddingBottom: inset,
     position: 'absolute',
     right: 0,
-    width: '100%',
   }),
 }))

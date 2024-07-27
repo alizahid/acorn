@@ -1,28 +1,49 @@
 import { useFocusEffect, useNavigation } from 'expo-router'
 
-import { PostHeader } from '~/components/posts/header'
+import { FeedTypeMenu, TopIntervalMenu } from '~/components/posts/header'
 import { PostList } from '~/components/posts/list'
-import { usePreferences } from '~/stores/preferences'
+import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 
 export default function Screen() {
   const navigation = useNavigation()
 
-  const { feed, updatePreferences } = usePreferences()
+  const { feed, interval, updatePreferences } = usePreferences()
 
   useFocusEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
-        <PostHeader
-          onChange={(next) => {
-            updatePreferences({
-              feed: next,
-            })
-          }}
-          type={feed}
-        />
+        <>
+          <FeedTypeMenu
+            onChange={(nextFeed) => {
+              const next: Partial<PreferencesPayload> = {
+                feed: nextFeed,
+              }
+
+              if (nextFeed === 'top') {
+                next.interval = 'hour'
+              } else {
+                next.interval = undefined
+              }
+
+              updatePreferences(next)
+            }}
+            type={feed}
+          />
+
+          {feed === 'top' ? (
+            <TopIntervalMenu
+              interval={interval}
+              onChange={(next) => {
+                updatePreferences({
+                  interval: next,
+                })
+              }}
+            />
+          ) : null}
+        </>
       ),
     })
   })
 
-  return <PostList type={feed} />
+  return <PostList interval={interval} type={feed} />
 }

@@ -1,7 +1,7 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { usePostSave } from '~/hooks/mutations/posts/save'
-import { type FeedType } from '~/hooks/queries/posts/posts'
+import { type FeedType, type TopInterval } from '~/hooks/queries/posts/posts'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -9,11 +9,12 @@ import { Pressable } from '../common/pressable'
 
 type Props = {
   feedType?: FeedType
+  interval?: TopInterval
   post: Post
   subreddit?: string
 }
 
-export function PostSaveCard({ feedType, post, subreddit }: Props) {
+export function PostSaveCard({ feedType, interval, post, subreddit }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { save } = usePostSave()
@@ -26,6 +27,7 @@ export function PostSaveCard({ feedType, post, subreddit }: Props) {
         save({
           action: post.saved ? 'unsave' : 'save',
           feedType,
+          interval,
           postId: post.id,
           subreddit,
         })

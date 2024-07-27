@@ -5,9 +5,12 @@ import {
 } from 'expo-router'
 import { useState } from 'react'
 
-import { PostHeader } from '~/components/posts/header'
+import { FeedTypeMenu, TopIntervalMenu } from '~/components/posts/header'
 import { PostList } from '~/components/posts/list'
-import { type FeedTypeSubreddit } from '~/hooks/queries/posts/posts'
+import {
+  type FeedTypeSubreddit,
+  type TopInterval,
+} from '~/hooks/queries/posts/posts'
 
 type Params = {
   subreddit: string
@@ -19,21 +22,35 @@ export default function Screen() {
   const params = useLocalSearchParams<Params>()
 
   const [type, setType] = useState<FeedTypeSubreddit>('hot')
+  const [interval, setInterval] = useState<TopInterval>()
 
   useFocusEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <PostHeader
-          hideLabel
-          onChange={(next) => {
-            setType(next)
-          }}
-          type={type}
-        />
+      headerTitle: () => (
+        <>
+          <FeedTypeMenu
+            onChange={(next) => {
+              setType(next)
+
+              if (next === 'top') {
+                setInterval('hour')
+              } else {
+                setInterval(undefined)
+              }
+            }}
+            subreddit
+            type={type}
+          />
+
+          {type === 'top' ? (
+            <TopIntervalMenu interval={interval} onChange={setInterval} />
+          ) : null}
+        </>
       ),
-      title: params.subreddit,
     })
   })
 
-  return <PostList subreddit={params.subreddit} type={type} />
+  return (
+    <PostList interval={interval} subreddit={params.subreddit} type={type} />
+  )
 }

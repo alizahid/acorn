@@ -12,6 +12,17 @@ export const FeedType = ['new', 'best', 'top', 'rising', 'hot'] as const
 
 export type FeedType = (typeof FeedType)[number]
 
+export const TopInterval = [
+  'hour',
+  'day',
+  'week',
+  'month',
+  'year',
+  'all',
+] as const
+
+export type TopInterval = (typeof TopInterval)[number]
+
 export const FeedTypeSubreddit = ['new', 'top', 'rising', 'hot'] as const
 
 export type FeedTypeSubreddit = (typeof FeedType)[number]
@@ -23,11 +34,15 @@ type Page = {
   posts: Array<Post>
 }
 
-export type PostsQueryKey = ['posts', FeedType, string?]
+export type PostsQueryKey = ['posts', FeedType, TopInterval?, string?]
 
 export type PostsQueryData = InfiniteData<Page, Param>
 
-export function usePosts(type: FeedType, subreddit?: string) {
+export function usePosts(
+  type: FeedType,
+  interval?: TopInterval,
+  subreddit?: string,
+) {
   const { accessToken, expired } = useAuth()
 
   const {
@@ -58,6 +73,10 @@ export function usePosts(type: FeedType, subreddit?: string) {
         url.searchParams.set('after', pageParam)
       }
 
+      if (interval) {
+        url.searchParams.set('t', interval)
+      }
+
       const payload = await redditApi({
         accessToken,
         url,
@@ -70,7 +89,7 @@ export function usePosts(type: FeedType, subreddit?: string) {
         posts: response.data.children.map((item) => transformPost(item)),
       } satisfies Page
     },
-    queryKey: ['posts', type, subreddit],
+    queryKey: ['posts', type, interval, subreddit],
   })
 
   return {

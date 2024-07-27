@@ -6,17 +6,22 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { type FeedType, usePosts } from '~/hooks/queries/posts/posts'
+import {
+  type FeedType,
+  type TopInterval,
+  usePosts,
+} from '~/hooks/queries/posts/posts'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 
 type Props = {
+  interval?: TopInterval
   subreddit?: string
   type: FeedType
 }
 
-export function PostList({ subreddit, type }: Props) {
+export function PostList({ interval, subreddit, type }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const {
@@ -27,7 +32,7 @@ export function PostList({ subreddit, type }: Props) {
     isRefetching,
     posts,
     refetch,
-  } = usePosts(type, subreddit)
+  } = usePosts(type, interval, subreddit)
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
@@ -68,6 +73,7 @@ export function PostList({ subreddit, type }: Props) {
       renderItem={({ item }) => (
         <PostCard
           feedType={type}
+          interval={interval}
           post={item}
           subreddit={subreddit}
           viewing={viewing.includes(item.id)}
