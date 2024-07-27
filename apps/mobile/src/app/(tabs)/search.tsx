@@ -8,15 +8,14 @@ export default function Screen() {
 
   return (
     <View style={styles.main}>
-      <Text>Hello</Text>
+      <Text>Search</Text>
     </View>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet(() => ({
   main: {
     alignItems: 'center',
-    backgroundColor: theme.colors.gray[1],
     flex: 1,
     justifyContent: 'center',
   },
