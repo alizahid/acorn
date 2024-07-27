@@ -15,6 +15,7 @@ type Item = {
 }
 
 type Props = {
+  hideLabel?: boolean
   items: Array<Item>
   onChange?: (value: string) => void
   placeholder?: string
@@ -23,6 +24,7 @@ type Props = {
 }
 
 export function DropDown({
+  hideLabel = false,
   items,
   onChange,
   placeholder,
@@ -45,7 +47,9 @@ export function DropDown({
       >
         {selected?.icon}
 
-        <Text weight="bold">{selected?.label ?? placeholder}</Text>
+        {!hideLabel ? (
+          <Text weight="bold">{selected?.label ?? placeholder}</Text>
+        ) : null}
 
         <CaretDownIcon color={theme.colors.grayA[11]} size={theme.space[4]} />
       </Pressable>

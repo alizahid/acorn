@@ -12,12 +12,13 @@ import { FeedType, FeedTypeSubreddit } from '~/hooks/queries/posts/posts'
 import { DropDown } from '../common/drop-down'
 
 type Props = {
+  hideLabel?: boolean
   onChange: (type: FeedType) => void
   subreddit?: boolean
   type: FeedType
 }
 
-export function PostHeader({ onChange, subreddit, type }: Props) {
+export function PostHeader({ hideLabel, onChange, subreddit, type }: Props) {
   const t = useTranslations('component.posts.header')
 
   const { styles, theme } = useStyles(stylesheet)
@@ -26,6 +27,7 @@ export function PostHeader({ onChange, subreddit, type }: Props) {
 
   return (
     <DropDown
+      hideLabel={hideLabel}
       items={items.map((value) => {
         const Icon = icons[value]
 
