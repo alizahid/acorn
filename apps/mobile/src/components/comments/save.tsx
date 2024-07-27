@@ -19,7 +19,7 @@ export function CommentSaveCard({ comment, postId }: Props) {
 
   const Icon = comment.saved ? BookmarkSimpleFillIcon : BookmarkSimpleIcon
 
-  const color = theme.colors.grayA[11]
+  const color = theme.colors.gray.a11
 
   return (
     <Pressable
@@ -33,7 +33,7 @@ export function CommentSaveCard({ comment, postId }: Props) {
       }}
     >
       <Icon
-        color={comment.saved ? theme.colors.accentA[9] : color}
+        color={comment.saved ? theme.colors.accent.a9 : color}
         size={theme.typography[1].lineHeight}
       />
     </Pressable>

@@ -75,7 +75,7 @@ export function PostFooterCard({ feedType, post, subreddit }: Props) {
           {items.map((item) => (
             <View key={item.key} style={styles.item}>
               <item.Icon
-                color={theme.colors.grayA[post.read ? 11 : 12]}
+                color={theme.colors.gray[post.read ? 'a11' : 'a12']}
                 size={theme.typography[2].fontSize}
               />
 

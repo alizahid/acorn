@@ -51,7 +51,7 @@ const stylesheet = createStyleSheet((theme) => ({
     width,
   }),
   main: (height: number) => ({
-    backgroundColor: theme.colors.grayA[3],
+    backgroundColor: theme.colors.gray.a3,
     height,
     width: height,
   }),

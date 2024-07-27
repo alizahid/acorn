@@ -43,7 +43,7 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
             style={styles.tab(insets.bottom, keyboard.visible)}
           >
             {options.tabBarIcon?.({
-              color: focused ? theme.colors.accentA[11] : theme.colors.grayA[9],
+              color: focused ? theme.colors.accent.a11 : theme.colors.gray.a9,
               focused,
               size: theme.space[5],
             })}

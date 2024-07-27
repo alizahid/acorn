@@ -20,7 +20,7 @@ export function PostShareCard({ post }: Props) {
       style={styles.main}
     >
       <ShareFatIcon
-        color={theme.colors.grayA[post.read ? 11 : 12]}
+        color={theme.colors.gray[post.read ? 'a11' : 'a12']}
         size={theme.typography[2].lineHeight}
       />
     </Pressable>

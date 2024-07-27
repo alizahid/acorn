@@ -27,7 +27,7 @@ export function CommentVoteCard({ comment, postId }: Props) {
   const Up = comment.liked ? ArrowFatUpFillIcon : ArrowFatUpIcon
   const Down = comment.liked === false ? ArrowFatDownFillIcon : ArrowFatDownIcon
 
-  const color = theme.colors.grayA[11]
+  const color = theme.colors.gray.a11
 
   return (
     <View style={styles.main}>
@@ -42,7 +42,7 @@ export function CommentVoteCard({ comment, postId }: Props) {
         }}
       >
         <Up
-          color={comment.liked ? theme.colors.greenA[9] : color}
+          color={comment.liked ? theme.colors.green.a9 : color}
           size={theme.typography[1].lineHeight}
         />
       </Pressable>
@@ -64,7 +64,7 @@ export function CommentVoteCard({ comment, postId }: Props) {
         }}
       >
         <Down
-          color={comment.liked === false ? theme.colors.redA[9] : color}
+          color={comment.liked === false ? theme.colors.red.a9 : color}
           size={theme.typography[1].lineHeight}
         />
       </Pressable>

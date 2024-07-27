@@ -36,7 +36,7 @@ export function Skeleton({ style }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    backgroundColor: theme.colors.grayA[5],
+    backgroundColor: theme.colors.gray.a5,
     borderRadius: theme.radius[2],
   },
 }))

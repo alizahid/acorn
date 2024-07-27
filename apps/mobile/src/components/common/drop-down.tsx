@@ -51,7 +51,7 @@ export function DropDown({
           <Text weight="bold">{selected?.label ?? placeholder}</Text>
         ) : null}
 
-        <CaretDownIcon color={theme.colors.grayA[11]} size={theme.space[4]} />
+        <CaretDownIcon color={theme.colors.gray.a11} size={theme.space[4]} />
       </Pressable>
 
       <Modal inset ref={modal} title={placeholder}>
@@ -88,6 +88,6 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[2],
   },
   selected: {
-    backgroundColor: theme.colors.accentA[5],
+    backgroundColor: theme.colors.accent.a5,
   },
 }))

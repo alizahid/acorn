@@ -21,7 +21,7 @@ export function PostSaveCard({ feedType, post, subreddit }: Props) {
 
   const Icon = post.saved ? BookmarkSimpleFillIcon : BookmarkSimpleIcon
 
-  const color = theme.colors.grayA[post.read ? 11 : 12]
+  const color = theme.colors.gray[post.read ? 'a11' : 'a12']
 
   return (
     <Pressable
@@ -36,7 +36,7 @@ export function PostSaveCard({ feedType, post, subreddit }: Props) {
       style={[styles.main, post.saved && styles.saved]}
     >
       <Icon
-        color={post.saved ? theme.colors.white[12] : color}
+        color={post.saved ? theme.colors.white.a12 : color}
         size={theme.typography[2].lineHeight}
       />
     </Pressable>
@@ -52,6 +52,6 @@ const stylesheet = createStyleSheet((theme) => ({
     width: theme.space[6],
   },
   saved: {
-    backgroundColor: theme.colors.accentA[9],
+    backgroundColor: theme.colors.accent.a9,
   },
 }))

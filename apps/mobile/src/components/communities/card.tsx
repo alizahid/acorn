@@ -30,14 +30,14 @@ export function CommunityCard({ community }: Props) {
         {community.name}
       </Text>
 
-      <CaretRightIcon color={theme.colors.grayA[11]} size={theme.space[4]} />
+      <CaretRightIcon color={theme.colors.gray.a11} size={theme.space[4]} />
     </Pressable>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
   image: {
-    backgroundColor: theme.colors.grayA[3],
+    backgroundColor: theme.colors.gray.a3,
     borderRadius: theme.space[6],
     height: theme.space[6],
     width: theme.space[6],

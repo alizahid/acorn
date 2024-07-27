@@ -84,8 +84,8 @@ export function Markdown({ children, margin = 0, meta, ...props }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   blockquote: {
-    backgroundColor: theme.colors.grayA[3],
-    borderLeftColor: theme.colors.grayA[6],
+    backgroundColor: theme.colors.gray.a3,
+    borderLeftColor: theme.colors.gray.a6,
     borderLeftWidth: 3,
     borderRadius: theme.radius[3],
     marginLeft: 0,
@@ -101,14 +101,14 @@ const stylesheet = createStyleSheet((theme) => ({
     marginRight: theme.space[3] / 2,
   },
   code_block: {
-    backgroundColor: theme.colors.grayA[3],
-    borderColor: theme.colors.grayA[6],
+    backgroundColor: theme.colors.gray.a3,
+    borderColor: theme.colors.gray.a6,
     borderRadius: theme.radius[3],
     fontFamily: 'monospace',
     marginVertical: theme.space[3] / 2,
   },
   code_inline: {
-    backgroundColor: theme.colors.grayA[3],
+    backgroundColor: theme.colors.gray.a3,
     borderWidth: 0,
     fontFamily: 'monospace',
   },
@@ -117,7 +117,7 @@ const stylesheet = createStyleSheet((theme) => ({
     lineHeight: undefined,
   },
   link: {
-    color: theme.colors.accentA[11],
+    color: theme.colors.accent.a11,
     textDecorationLine: 'none',
   },
   list_item: {
@@ -136,7 +136,7 @@ const stylesheet = createStyleSheet((theme) => ({
     marginTop: theme.space[3] / 2,
   },
   table: {
-    borderColor: theme.colors.grayA[6],
+    borderColor: theme.colors.gray.a6,
     borderRadius: theme.radius[3],
     marginVertical: theme.space[3] / 2,
   },
@@ -151,6 +151,6 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[1],
   },
   tr: {
-    borderColor: theme.colors.grayA[6],
+    borderColor: theme.colors.gray.a6,
   },
 }))

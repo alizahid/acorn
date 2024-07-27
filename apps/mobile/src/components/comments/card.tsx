@@ -68,8 +68,8 @@ const stylesheet = createStyleSheet((theme) => ({
     marginBottom: theme.space[3],
   },
   main: (color: ColorId, depth: number) => ({
-    backgroundColor: theme.colors[`${color}A`][2],
-    borderLeftColor: depth > 0 ? theme.colors[`${color}A`][6] : undefined,
+    backgroundColor: theme.colors[color].a2,
+    borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
     borderLeftWidth: depth > 0 ? 2 : undefined,
     marginLeft: theme.space[3] * depth,
     paddingLeft: theme.space[3],

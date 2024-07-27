@@ -16,7 +16,7 @@ export function Empty({ message }: Props) {
 
   return (
     <View style={styles.main}>
-      <SmileySadIcon color={theme.colors.redA[9]} size={frame.width / 4} />
+      <SmileySadIcon color={theme.colors.red.a9} size={frame.width / 4} />
 
       {message ? (
         <Text size="4" weight="medium">

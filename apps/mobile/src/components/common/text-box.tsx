@@ -91,11 +91,11 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
         }}
         onSubmitEditing={onSubmitEditing}
         placeholder={placeholder}
-        placeholderTextColor={theme.colors.grayA[9]}
+        placeholderTextColor={theme.colors.gray.a9}
         ref={ref}
         returnKeyType={returnKeyType}
         secureTextEntry={secureTextEntry}
-        selectionColor={theme.colors.accentA[9]}
+        selectionColor={theme.colors.accent.a9}
         style={[
           styles.input(focused, Boolean(error), Boolean(multiline)),
           styleInput,
@@ -121,17 +121,17 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
 
 const stylesheet = createStyleSheet((theme) => ({
   input: (focused: boolean, error: boolean, multiline: boolean) => ({
-    backgroundColor: theme.colors.grayA[2],
+    backgroundColor: theme.colors.gray.a2,
     borderColor: focused
       ? error
-        ? theme.colors.redA[8]
-        : theme.colors.accentA[8]
+        ? theme.colors.red.a8
+        : theme.colors.accent.a8
       : error
-        ? theme.colors.redA[7]
-        : theme.colors.grayA[7],
+        ? theme.colors.red.a7
+        : theme.colors.gray.a7,
     borderRadius: theme.radius[4],
     borderWidth: 1,
-    color: theme.colors.grayA[12],
+    color: theme.colors.gray.a12,
     fontFamily: 'regular',
     fontSize: theme.typography[3].fontSize,
     height: multiline ? theme.space[9] : theme.space[7],

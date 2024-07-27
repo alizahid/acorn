@@ -81,7 +81,7 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[3] / 2,
   },
   main: {
-    backgroundColor: theme.colors.grayA[2],
+    backgroundColor: theme.colors.gray.a2,
   },
   title: {
     padding: theme.space[3],

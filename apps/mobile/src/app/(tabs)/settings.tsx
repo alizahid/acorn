@@ -68,7 +68,7 @@ export default function Screen() {
           >
             <Icon
               color={
-                theme.colors[`${item.color}A`][item.color === 'gray' ? 12 : 11]
+                theme.colors[item.color][item.color === 'gray' ? 'a12' : 'a11']
               }
               size={theme.typography[3].lineHeight}
             />
@@ -79,7 +79,7 @@ export default function Screen() {
 
             {'href' in item ? (
               <CaretRightIcon
-                color={theme.colors.grayA[9]}
+                color={theme.colors.gray.a9}
                 size={theme.space[4]}
               />
             ) : null}

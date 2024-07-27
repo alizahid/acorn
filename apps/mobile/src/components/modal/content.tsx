@@ -177,7 +177,7 @@ const stylesheet = createStyleSheet((theme) => ({
     width: 64,
   },
   header: {
-    borderBottomColor: theme.colors.grayA[6],
+    borderBottomColor: theme.colors.gray.a6,
     borderBottomWidth: 1,
     height: theme.space[8],
     justifyContent: 'center',

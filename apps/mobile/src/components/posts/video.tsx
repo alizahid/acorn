@@ -143,7 +143,7 @@ export function PostVideoCard({ video, viewing }: Props) {
             }}
             style={styles.control}
           >
-            <control.Icon color={theme.colors.grayA[11]} size={20} />
+            <control.Icon color={theme.colors.gray.a11} size={20} />
           </Pressable>
         ))}
       </View>
@@ -165,7 +165,7 @@ const stylesheet = createStyleSheet((theme) => ({
     right: 0,
   },
   main: (height: number, width: number) => ({
-    backgroundColor: theme.colors.grayA[2],
+    backgroundColor: theme.colors.gray.a2,
     height,
     width,
   }),

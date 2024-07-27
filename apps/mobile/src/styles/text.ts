@@ -29,8 +29,8 @@ export function getTextStyles(theme: UnistylesTheme) {
   }: TextStyleProps) {
     return {
       color:
-        theme.colors[`${color}A`][
-          contrast ? 'contrast' : highContrast ? 12 : 11
+        theme.colors[color][
+          contrast ? 'contrast' : highContrast ? 'a12' : 'a11'
         ],
       fontFamily: weight,
       fontSize: theme.typography[size].fontSize,
