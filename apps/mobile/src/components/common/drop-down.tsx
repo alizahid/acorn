@@ -1,10 +1,10 @@
 import React, { type ReactNode, useRef } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
-import CaretDownIcon from 'react-native-phosphor/src/bold/CaretDown'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Modal } from '~/components/modal'
 
+import { Icon } from './icon'
 import { Pressable } from './pressable'
 import { Text } from './text'
 
@@ -51,7 +51,11 @@ export function DropDown({
           <Text weight="bold">{selected?.label ?? placeholder}</Text>
         ) : null}
 
-        <CaretDownIcon color={theme.colors.gray.a11} size={theme.space[4]} />
+        <Icon
+          color={theme.colors.gray.a11}
+          name="CaretDown"
+          size={theme.space[4]}
+        />
       </Pressable>
 
       <Modal inset ref={modal} title={placeholder}>

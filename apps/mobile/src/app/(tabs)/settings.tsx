@@ -1,12 +1,9 @@
 import { useRouter } from 'expo-router'
 import { FlatList, View } from 'react-native'
-import CaretRightIcon from 'react-native-phosphor/src/bold/CaretRight'
-import DoorIcon from 'react-native-phosphor/src/duotone/Door'
-import FingerprintIcon from 'react-native-phosphor/src/duotone/Fingerprint'
-import UserCircleIcon from 'react-native-phosphor/src/duotone/UserCircle'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Icon, type IconName } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { signOut } from '~/lib/auth'
@@ -22,19 +19,19 @@ export default function Screen() {
     {
       color: 'gray',
       href: '/auth/profile',
-      icon: UserCircleIcon,
+      icon: 'UserCircle' satisfies IconName,
       key: 'profile',
     },
     {
       color: 'gray',
       href: '/auth/credentials',
-      icon: FingerprintIcon,
+      icon: 'FingerprintSimple' satisfies IconName,
       key: 'credentials',
     },
     'separator-1',
     {
       color: 'red',
-      icon: DoorIcon,
+      icon: 'Door' satisfies IconName,
       key: 'signOut',
       onPress: async () => {
         await signOut()
@@ -50,8 +47,6 @@ export default function Screen() {
         if (typeof item === 'string') {
           return <View style={styles.separator} />
         }
-
-        const Icon = item.icon
 
         return (
           <Pressable
@@ -70,7 +65,8 @@ export default function Screen() {
               color={
                 theme.colors[item.color][item.color === 'gray' ? 'a12' : 'a11']
               }
-              size={theme.typography[3].lineHeight}
+              name={item.icon}
+              size={theme.space[5]}
             />
 
             <Text color={item.color} style={styles.label}>
@@ -78,8 +74,9 @@ export default function Screen() {
             </Text>
 
             {'href' in item ? (
-              <CaretRightIcon
+              <Icon
                 color={theme.colors.gray.a9}
+                name="CaretRight"
                 size={theme.space[4]}
               />
             ) : null}
@@ -94,11 +91,12 @@ const stylesheet = createStyleSheet((theme) => ({
   item: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: theme.space[2],
-    padding: theme.space[3],
+    gap: theme.space[4],
+    paddingHorizontal: theme.space[4],
   },
   label: {
     flex: 1,
+    marginVertical: theme.space[4],
   },
   separator: {
     height: theme.space[6],

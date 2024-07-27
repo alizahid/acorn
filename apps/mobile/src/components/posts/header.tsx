@@ -1,15 +1,10 @@
-import ChartLineUpIcon from 'react-native-phosphor/src/duotone/ChartLineUp'
-import ClockIcon from 'react-native-phosphor/src/duotone/Clock'
-import FireIcon from 'react-native-phosphor/src/duotone/Fire'
-import MedalIcon from 'react-native-phosphor/src/duotone/Medal'
-import RankingIcon from 'react-native-phosphor/src/duotone/Ranking'
-import { type Icon } from 'react-native-phosphor/src/lib'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { FeedType, FeedTypeSubreddit } from '~/hooks/queries/posts/posts'
 
 import { DropDown } from '../common/drop-down'
+import { Icon, type IconName } from '../common/icon'
 
 type Props = {
   hideLabel?: boolean
@@ -28,15 +23,18 @@ export function PostHeader({ hideLabel, onChange, subreddit, type }: Props) {
   return (
     <DropDown
       hideLabel={hideLabel}
-      items={items.map((value) => {
-        const Icon = icons[value]
-
-        return {
-          icon: <Icon color={theme.colors[colors[value]][9]} size={20} />,
-          label: t(value),
-          value,
-        }
-      })}
+      items={items.map((value) => ({
+        icon: (
+          <Icon
+            color={theme.colors[colors[value]][9]}
+            name={icons[value]}
+            size={theme.typography[3].lineHeight}
+            weight="duotone"
+          />
+        ),
+        label: t(value),
+        value,
+      }))}
       onChange={(next) => {
         onChange(next as FeedType)
       }}
@@ -54,12 +52,12 @@ const stylesheet = createStyleSheet((theme) => ({
   },
 }))
 
-const icons: Record<FeedType, Icon> = {
-  best: MedalIcon,
-  hot: FireIcon,
-  new: ClockIcon,
-  rising: ChartLineUpIcon,
-  top: RankingIcon,
+const icons: Record<FeedType, IconName> = {
+  best: 'Medal',
+  hot: 'Flame',
+  new: 'Clock',
+  rising: 'ChartLineUp',
+  top: 'Ranking',
 }
 
 const colors = {

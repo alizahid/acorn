@@ -1,10 +1,10 @@
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
-import CaretRightIcon from 'react-native-phosphor/src/bold/CaretRight'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type Community } from '~/types/community'
 
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 
@@ -30,7 +30,11 @@ export function CommunityCard({ community }: Props) {
         {community.name}
       </Text>
 
-      <CaretRightIcon color={theme.colors.gray.a11} size={theme.space[4]} />
+      <Icon
+        color={theme.colors.gray.a9}
+        name="CaretRight"
+        size={theme.space[4]}
+      />
     </Pressable>
   )
 }

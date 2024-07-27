@@ -1,10 +1,9 @@
-import BookmarkSimpleIcon from 'react-native-phosphor/src/duotone/BookmarkSimple'
-import BookmarkSimpleFillIcon from 'react-native-phosphor/src/fill/BookmarkSimple'
 import { useStyles } from 'react-native-unistyles'
 
 import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { type Comment } from '~/types/comment'
 
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 
 type Props = {
@@ -16,8 +15,6 @@ export function CommentSaveCard({ comment, postId }: Props) {
   const { theme } = useStyles()
 
   const { save } = useCommentSave()
-
-  const Icon = comment.saved ? BookmarkSimpleFillIcon : BookmarkSimpleIcon
 
   const color = theme.colors.gray.a11
 
@@ -34,7 +31,9 @@ export function CommentSaveCard({ comment, postId }: Props) {
     >
       <Icon
         color={comment.saved ? theme.colors.accent.a9 : color}
-        size={theme.typography[1].lineHeight}
+        name="BookmarkSimple"
+        size={theme.space[4]}
+        weight={comment.saved ? 'fill' : 'duotone'}
       />
     </Pressable>
   )

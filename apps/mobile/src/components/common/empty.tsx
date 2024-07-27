@@ -1,8 +1,8 @@
 import { View } from 'react-native'
-import SmileySadIcon from 'react-native-phosphor/src/fill/SmileySad'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { Icon } from './icon'
 import { Text } from './text'
 
 type Props = {
@@ -16,7 +16,11 @@ export function Empty({ message }: Props) {
 
   return (
     <View style={styles.main}>
-      <SmileySadIcon color={theme.colors.red.a9} size={frame.width / 4} />
+      <Icon
+        color={theme.colors.red.a9}
+        name="CloudRain"
+        size={frame.width / 4}
+      />
 
       {message ? (
         <Text size="4" weight="medium">

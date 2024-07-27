@@ -1,13 +1,10 @@
-import ArrowFatDownIcon from 'react-native-phosphor/src/duotone/ArrowFatDown'
-import ArrowFatUpIcon from 'react-native-phosphor/src/duotone/ArrowFatUp'
-import ArrowFatDownFillIcon from 'react-native-phosphor/src/fill/ArrowFatDown'
-import ArrowFatUpFillIcon from 'react-native-phosphor/src/fill/ArrowFatUp'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { type FeedType } from '~/hooks/queries/posts/posts'
 import { type Post } from '~/types/post'
 
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 
 type Props = {
@@ -20,9 +17,6 @@ export function PostVoteCard({ feedType, post, subreddit }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { vote } = usePostVote()
-
-  const Up = post.liked ? ArrowFatUpFillIcon : ArrowFatUpIcon
-  const Down = post.liked === false ? ArrowFatDownFillIcon : ArrowFatDownIcon
 
   const color = theme.colors.gray[post.read ? 'a11' : 'a12']
 
@@ -39,9 +33,11 @@ export function PostVoteCard({ feedType, post, subreddit }: Props) {
         }}
         style={[styles.action, post.liked && styles.liked]}
       >
-        <Up
+        <Icon
           color={post.liked ? theme.colors.white.a12 : color}
-          size={theme.typography[2].lineHeight}
+          name="ArrowUp"
+          size={theme.space[5]}
+          weight="bold"
         />
       </Pressable>
 
@@ -56,9 +52,11 @@ export function PostVoteCard({ feedType, post, subreddit }: Props) {
         }}
         style={[styles.action, post.liked === false && styles.unliked]}
       >
-        <Down
+        <Icon
           color={post.liked === false ? theme.colors.white.a12 : color}
-          size={theme.typography[2].lineHeight}
+          name="ArrowDown"
+          size={theme.space[5]}
+          weight="bold"
         />
       </Pressable>
     </>

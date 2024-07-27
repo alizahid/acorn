@@ -1,14 +1,12 @@
 import { useRouter } from 'expo-router'
 import { View } from 'react-native'
-import ChatCircleTextIcon from 'react-native-phosphor/src/duotone/ChatCircleText'
-import ClockIcon from 'react-native-phosphor/src/duotone/Clock'
-import ThumbsUpIcon from 'react-native-phosphor/src/duotone/ThumbsUp'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { type FeedType } from '~/hooks/queries/posts/posts'
 import { type Post } from '~/types/post'
 
+import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { PostSaveCard } from './save'
@@ -30,27 +28,27 @@ export function PostFooterCard({ feedType, post, subreddit }: Props) {
 
   const items = [
     {
-      Icon: ThumbsUpIcon,
+      icon: 'ThumbsUp' satisfies IconName,
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
       }),
     },
     {
-      Icon: ChatCircleTextIcon,
+      icon: 'ChatCircleText' satisfies IconName,
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
       }),
     },
     {
-      Icon: ClockIcon,
+      icon: 'Clock' satisfies IconName,
       key: 'created',
       label: f.relativeTime(post.createdAt, {
         style: 'narrow',
       }),
     },
-  ]
+  ] as const
 
   return (
     <Pressable
@@ -74,8 +72,9 @@ export function PostFooterCard({ feedType, post, subreddit }: Props) {
         <View style={styles.items}>
           {items.map((item) => (
             <View key={item.key} style={styles.item}>
-              <item.Icon
+              <Icon
                 color={theme.colors.gray[post.read ? 'a11' : 'a12']}
+                name={item.icon}
                 size={theme.typography[2].fontSize}
               />
 

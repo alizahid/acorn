@@ -1,8 +1,9 @@
-import ShareFatIcon from 'react-native-phosphor/src/duotone/ShareFat'
+import { Share } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type Post } from '~/types/post'
 
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 
 type Props = {
@@ -15,13 +16,20 @@ export function PostShareCard({ post }: Props) {
   return (
     <Pressable
       onPress={() => {
-        //
+        const url = new URL(post.permalink, 'https://reddit.com')
+
+        void Share.share({
+          message: post.title,
+          url: url.toString(),
+        })
       }}
       style={styles.main}
     >
-      <ShareFatIcon
+      <Icon
         color={theme.colors.gray[post.read ? 'a11' : 'a12']}
-        size={theme.typography[2].lineHeight}
+        name="ShareFat"
+        size={theme.space[5]}
+        weight="duotone"
       />
     </Pressable>
   )

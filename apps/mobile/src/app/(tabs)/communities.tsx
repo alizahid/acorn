@@ -1,5 +1,4 @@
 import { FlashList } from '@shopify/flash-list'
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Empty } from '~/components/common/empty'
@@ -24,7 +23,6 @@ export default function Screen() {
 
   return (
     <FlashList
-      ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         !isFetching && isFetchingNextPage ? (
@@ -51,9 +49,6 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  separator: {
-    height: 1,
-  },
   spinner: {
     margin: theme.space[4],
   },

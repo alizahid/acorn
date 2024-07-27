@@ -1,14 +1,11 @@
 import { View } from 'react-native'
-import ArrowFatDownFillIcon from 'react-native-phosphor/src/fill/ArrowFatDown'
-import ArrowFatUpFillIcon from 'react-native-phosphor/src/fill/ArrowFatUp'
-import ArrowFatDownIcon from 'react-native-phosphor/src/regular/ArrowFatDown'
-import ArrowFatUpIcon from 'react-native-phosphor/src/regular/ArrowFatUp'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { type Comment } from '~/types/comment'
 
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 
@@ -24,9 +21,6 @@ export function CommentVoteCard({ comment, postId }: Props) {
 
   const { vote } = useCommentVote()
 
-  const Up = comment.liked ? ArrowFatUpFillIcon : ArrowFatUpIcon
-  const Down = comment.liked === false ? ArrowFatDownFillIcon : ArrowFatDownIcon
-
   const color = theme.colors.gray.a11
 
   return (
@@ -41,9 +35,11 @@ export function CommentVoteCard({ comment, postId }: Props) {
           })
         }}
       >
-        <Up
+        <Icon
           color={comment.liked ? theme.colors.green.a9 : color}
-          size={theme.typography[1].lineHeight}
+          name="ArrowUp"
+          size={theme.space[4]}
+          weight="bold"
         />
       </Pressable>
 
@@ -63,9 +59,11 @@ export function CommentVoteCard({ comment, postId }: Props) {
           })
         }}
       >
-        <Down
+        <Icon
           color={comment.liked === false ? theme.colors.red.a9 : color}
-          size={theme.typography[1].lineHeight}
+          name="ArrowDown"
+          size={theme.space[4]}
+          weight="bold"
         />
       </Pressable>
     </View>

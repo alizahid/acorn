@@ -1,9 +1,6 @@
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
 import { useEffect, useRef, useState } from 'react'
 import { Pressable as ReactNativePressable, View } from 'react-native'
-import SpeakerHighIcon from 'react-native-phosphor/src/duotone/SpeakerHigh'
-import SpeakerNoneIcon from 'react-native-phosphor/src/duotone/SpeakerNone'
-import PlayIcon from 'react-native-phosphor/src/fill/Play'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -12,6 +9,7 @@ import { getGif } from '~/lib/red-gifs'
 import { usePreferences } from '~/stores/preferences'
 import { type PostVideo } from '~/types/post'
 
+import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 
@@ -87,7 +85,7 @@ export function PostVideoCard({ video, viewing }: Props) {
 
   const controls = [
     {
-      Icon: sound ? SpeakerHighIcon : SpeakerNoneIcon,
+      icon: (sound ? 'SpeakerSimpleHigh' : 'SpeakerSimpleX') satisfies IconName,
       key: 'volume',
       onPress() {
         updatePreferences({
@@ -95,7 +93,7 @@ export function PostVideoCard({ video, viewing }: Props) {
         })
       },
     },
-  ]
+  ] as const
 
   const { height } = getDimensions(frame.width, video)
 
@@ -128,7 +126,12 @@ export function PostVideoCard({ video, viewing }: Props) {
             {player.status === 'loading' ? (
               <Spinner />
             ) : !playing ? (
-              <PlayIcon color={theme.colors.accent[9]} size={frame.width / 8} />
+              <Icon
+                color={theme.colors.accent[9]}
+                name="PlayCircle"
+                size={frame.width / 8}
+                weight="fill"
+              />
             ) : null}
           </View>
         ) : null}
@@ -143,7 +146,7 @@ export function PostVideoCard({ video, viewing }: Props) {
             }}
             style={styles.control}
           >
-            <control.Icon color={theme.colors.gray.a11} size={20} />
+            <Icon color={theme.colors.gray.a11} name={control.icon} size={20} />
           </Pressable>
         ))}
       </View>

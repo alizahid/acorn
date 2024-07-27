@@ -1,7 +1,6 @@
 import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { View } from 'react-native'
-import ArrowLeftIcon from 'react-native-phosphor/src/bold/ArrowLeft'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -25,7 +24,7 @@ export function Header({ navigation, options, ...props }: Props) {
           <View style={[styles.actions, styles.left]}>
             {back ? (
               <HeaderButton
-                Icon={ArrowLeftIcon}
+                icon="ArrowLeft"
                 onPress={() => {
                   navigation.goBack()
                 }}

@@ -1,23 +1,23 @@
-import { type Icon } from 'react-native-phosphor/src/lib'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type ColorToken } from '~/styles/colors'
 
+import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 
 type Props = {
-  Icon: Icon
   color?: ColorToken
   contrast?: boolean
+  icon: IconName
   loading?: boolean
   onPress?: () => void
 }
 
 export function HeaderButton({
-  Icon,
   color = 'accent',
   contrast,
+  icon,
   loading,
   onPress,
 }: Props) {
@@ -30,7 +30,9 @@ export function HeaderButton({
       ) : (
         <Icon
           color={theme.colors[color][contrast ? 'contrast' : 11]}
+          name={icon}
           size={theme.space[5]}
+          weight="bold"
         />
       )}
     </Pressable>
