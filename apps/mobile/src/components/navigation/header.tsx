@@ -15,7 +15,7 @@ export function Header({ navigation, options, ...props }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
-  const back = 'back' in props
+  const back = 'back' in props ? Boolean(props.back) : false
   const left = back || options.headerLeft
 
   return (
