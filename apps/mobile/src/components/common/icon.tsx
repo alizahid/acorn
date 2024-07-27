@@ -1,5 +1,7 @@
 import { type Icon } from 'react-native-phosphor'
 import ArrowDownBold from 'react-native-phosphor/src/bold/ArrowDown'
+import ArrowFatDownBold from 'react-native-phosphor/src/bold/ArrowFatDown'
+import ArrowFatUpBold from 'react-native-phosphor/src/bold/ArrowFatUp'
 import ArrowLeftBold from 'react-native-phosphor/src/bold/ArrowLeft'
 import ArrowUpBold from 'react-native-phosphor/src/bold/ArrowUp'
 import BookmarkSimpleBold from 'react-native-phosphor/src/bold/BookmarkSimple'
@@ -25,6 +27,8 @@ import ThumbsUpBold from 'react-native-phosphor/src/bold/ThumbsUp'
 import UserCircleBold from 'react-native-phosphor/src/bold/UserCircle'
 import UsersFourBold from 'react-native-phosphor/src/bold/UsersFour'
 import ArrowDownDuotone from 'react-native-phosphor/src/duotone/ArrowDown'
+import ArrowFatDownDuotone from 'react-native-phosphor/src/duotone/ArrowFatDown'
+import ArrowFatUpDuotone from 'react-native-phosphor/src/duotone/ArrowFatUp'
 import ArrowLeftDuotone from 'react-native-phosphor/src/duotone/ArrowLeft'
 import ArrowUpDuotone from 'react-native-phosphor/src/duotone/ArrowUp'
 import BookmarkSimpleDuotone from 'react-native-phosphor/src/duotone/BookmarkSimple'
@@ -50,6 +54,8 @@ import ThumbsUpDuotone from 'react-native-phosphor/src/duotone/ThumbsUp'
 import UserCircleDuotone from 'react-native-phosphor/src/duotone/UserCircle'
 import UsersFourDuotone from 'react-native-phosphor/src/duotone/UsersFour'
 import ArrowDownFill from 'react-native-phosphor/src/fill/ArrowDown'
+import ArrowFatDownFill from 'react-native-phosphor/src/fill/ArrowFatDown'
+import ArrowFatUpFill from 'react-native-phosphor/src/fill/ArrowFatUp'
 import ArrowLeftFill from 'react-native-phosphor/src/fill/ArrowLeft'
 import ArrowUpFill from 'react-native-phosphor/src/fill/ArrowUp'
 import BookmarkSimpleFill from 'react-native-phosphor/src/fill/BookmarkSimple'
@@ -75,6 +81,8 @@ import ThumbsUpFill from 'react-native-phosphor/src/fill/ThumbsUp'
 import UserCircleFill from 'react-native-phosphor/src/fill/UserCircle'
 import UsersFourFill from 'react-native-phosphor/src/fill/UsersFour'
 import ArrowDownRegular from 'react-native-phosphor/src/regular/ArrowDown'
+import ArrowFatDownRegular from 'react-native-phosphor/src/regular/ArrowFatDown'
+import ArrowFatUpRegular from 'react-native-phosphor/src/regular/ArrowFatUp'
 import ArrowLeftRegular from 'react-native-phosphor/src/regular/ArrowLeft'
 import ArrowUpRegular from 'react-native-phosphor/src/regular/ArrowUp'
 import BookmarkSimpleRegular from 'react-native-phosphor/src/regular/BookmarkSimple'
@@ -123,6 +131,18 @@ const icons = {
     duotone: ArrowDownDuotone,
     fill: ArrowDownFill,
     regular: ArrowDownRegular,
+  },
+  ArrowFatDown: {
+    bold: ArrowFatDownBold,
+    duotone: ArrowFatDownDuotone,
+    fill: ArrowFatDownFill,
+    regular: ArrowFatDownRegular,
+  },
+  ArrowFatUp: {
+    bold: ArrowFatUpBold,
+    duotone: ArrowFatUpDuotone,
+    fill: ArrowFatUpFill,
+    regular: ArrowFatUpRegular,
   },
   ArrowLeft: {
     bold: ArrowLeftBold,

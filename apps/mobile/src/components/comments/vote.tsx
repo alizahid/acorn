@@ -37,9 +37,9 @@ export function CommentVoteCard({ comment, postId }: Props) {
       >
         <Icon
           color={comment.liked ? theme.colors.green.a9 : color}
-          name="ArrowUp"
+          name="ArrowFatUp"
           size={theme.space[4]}
-          weight="bold"
+          weight={comment.liked ? 'fill' : 'bold'}
         />
       </Pressable>
 
@@ -61,9 +61,9 @@ export function CommentVoteCard({ comment, postId }: Props) {
       >
         <Icon
           color={comment.liked === false ? theme.colors.red.a9 : color}
-          name="ArrowDown"
+          name="ArrowFatDown"
           size={theme.space[4]}
-          weight="bold"
+          weight={comment.liked === false ? 'fill' : 'bold'}
         />
       </Pressable>
     </View>
