@@ -6,6 +6,7 @@ import { getTextStyles, type TextStyleProps } from '~/styles/text'
 
 type Props = TextStyleProps & {
   children: ReactNode
+  lines?: number
   style?: StyleProp<TextStyle>
 }
 
@@ -15,6 +16,7 @@ export function Text({
   color,
   contrast,
   highContrast,
+  lines,
   size,
   style,
   weight,
@@ -24,6 +26,7 @@ export function Text({
   // eslint-disable-next-line react/no-children-prop -- go away
   return createElement('RCTText', {
     children,
+    numberOfLines: lines,
     style: [
       styles.main({
         align,
