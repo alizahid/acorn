@@ -6,6 +6,7 @@ export const CommunitiesSchema = z.object({
     children: z.array(
       z.object({
         data: z.object({
+          community_icon: z.string(),
           display_name: z.string(),
           icon_img: z.string(),
           id: z.string(),

@@ -1,5 +1,5 @@
 export type Community = {
   id: string
-  image: string
+  image?: string
   name: string
 }
