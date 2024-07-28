@@ -7,39 +7,19 @@ import { getTextStyles, type TextStyleProps } from '~/styles/text'
 type Props = TextStyleProps & {
   children: ReactNode
   lines?: number
+  selectable?: boolean
   style?: StyleProp<TextStyle>
 }
 
-export function Text({
-  align,
-  children,
-  color,
-  contrast,
-  highContrast,
-  lines,
-  size,
-  style,
-  tabular,
-  weight,
-}: Props) {
+export function Text({ children, lines, selectable, style, ...props }: Props) {
   const { styles } = useStyles(stylesheet)
 
   // eslint-disable-next-line react/no-children-prop -- go away
   return createElement('RCTText', {
     children,
     numberOfLines: lines,
-    style: [
-      styles.main({
-        align,
-        color,
-        contrast,
-        highContrast,
-        size,
-        tabular,
-        weight,
-      }),
-      style,
-    ],
+    selectable,
+    style: [styles.main(props), style],
   })
 }
 
