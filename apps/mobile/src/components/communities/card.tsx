@@ -42,9 +42,9 @@ export function CommunityCard({ community }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   image: {
     backgroundColor: theme.colors.gray.a3,
-    borderRadius: theme.space[6],
-    height: theme.space[6],
-    width: theme.space[6],
+    borderRadius: theme.space[7],
+    height: theme.space[7],
+    width: theme.space[7],
   },
   main: {
     alignItems: 'center',
