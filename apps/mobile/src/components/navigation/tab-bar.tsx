@@ -56,7 +56,7 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    backgroundColor: theme.colors.gray[3],
+    backgroundColor: theme.colors.gray[1],
     flexDirection: 'row',
   },
   tab: (inset: number, keyboard: boolean) => ({

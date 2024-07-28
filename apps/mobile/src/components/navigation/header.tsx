@@ -75,7 +75,7 @@ const stylesheet = createStyleSheet((theme) => ({
     left: 0,
   },
   main: (inset: number) => ({
-    backgroundColor: theme.colors.gray[3],
+    backgroundColor: theme.colors.gray[1],
     paddingTop: inset,
   }),
   right: {

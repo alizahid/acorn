@@ -74,31 +74,54 @@ export function DropDown({
         ref={refs.setFloating}
         style={styles.menu(frame.width, floatingStyles.left)}
       >
-        {open
-          ? items.map((item) => (
-              <Item
-                item={item}
-                key={item.value}
-                onChange={(next) => {
-                  setOpen(false)
+        {open ? (
+          <>
+            <View style={styles.arrow} />
 
-                  onChange?.(next)
-                }}
-                value={value}
-              />
-            ))
-          : null}
+            <View style={styles.content}>
+              {items.map((item) => (
+                <Item
+                  item={item}
+                  key={item.value}
+                  onChange={(next) => {
+                    setOpen(false)
+
+                    onChange?.(next)
+                  }}
+                  value={value}
+                />
+              ))}
+            </View>
+          </>
+        ) : null}
       </View>
     </View>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  arrow: {
+    alignSelf: 'center',
+    backgroundColor: theme.colors.gray[12],
+    height: theme.space[3],
+    position: 'absolute',
+    top: -theme.space[1],
+    transform: [
+      {
+        rotate: '45deg',
+      },
+    ],
+    width: theme.space[3],
+  },
+  content: {
+    borderRadius: theme.radius[5],
+    overflow: 'hidden',
+  },
   menu: (frame: number, left: number) => ({
-    backgroundColor: theme.colors.gray[1],
+    backgroundColor: theme.colors.gray[12],
     borderRadius: theme.radius[5],
     left,
-    overflow: 'hidden',
+    marginTop: theme.space[1],
     position: 'absolute',
     top: '100%',
     width: frame / 3,

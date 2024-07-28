@@ -28,7 +28,7 @@ export function FeedTypeMenu({ onChange, subreddit, type }: FeedTypeMenuProps) {
     <DropDown
       items={items.map((value) => ({
         icon: {
-          color: theme.colors[colors[value]].a9,
+          color: theme.colors[colors[value]][9],
           name: icons[value],
           weight: 'duotone',
         },

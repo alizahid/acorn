@@ -33,7 +33,7 @@ export function Item({ item, onChange, value }: Props) {
         />
       ) : null}
 
-      <Text size="2" weight="medium">
+      <Text size="2" style={styles.label} weight="medium">
         {item.label}
       </Text>
     </Pressable>
@@ -41,6 +41,9 @@ export function Item({ item, onChange, value }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  label: {
+    color: theme.colors.gray[1],
+  },
   main: {
     alignItems: 'center',
     flexDirection: 'row',
@@ -48,6 +51,6 @@ const stylesheet = createStyleSheet((theme) => ({
     padding: theme.space[3],
   },
   selected: {
-    backgroundColor: theme.colors.accent.a5,
+    backgroundColor: theme.colors.accent[9],
   },
 }))
