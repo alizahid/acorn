@@ -1,5 +1,6 @@
+import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -11,6 +12,7 @@ import {
   type TopInterval,
   usePosts,
 } from '~/hooks/queries/posts/posts'
+import { type Post } from '~/types/post'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -23,6 +25,11 @@ type Props = {
 
 export function PostList({ interval, subreddit, type }: Props) {
   const { styles, theme } = useStyles(stylesheet)
+
+  const list = useRef<FlashList<Post>>(null)
+
+  // @ts-expect-error -- go away
+  useScrollToTop(list)
 
   const {
     fetchNextPage,
@@ -69,6 +76,7 @@ export function PostList({ interval, subreddit, type }: Props) {
       onViewableItemsChanged={({ viewableItems }) => {
         setViewing(() => viewableItems.map((item) => item.key))
       }}
+      ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => (
         <PostCard
