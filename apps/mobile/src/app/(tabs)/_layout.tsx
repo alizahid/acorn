@@ -39,8 +39,8 @@ export default function Layout() {
         options={{
           tabBarIcon: (props) => (
             <Icon
-              name="House"
               {...props}
+              name="House"
               weight={props.focused ? 'fill' : 'duotone'}
             />
           ),
@@ -52,8 +52,21 @@ export default function Layout() {
         options={{
           tabBarIcon: (props) => (
             <Icon
-              name="MagnifyingGlass"
               {...props}
+              name="MagnifyingGlass"
+              weight={props.focused ? 'fill' : 'duotone'}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="user"
+        options={{
+          tabBarIcon: (props) => (
+            <Icon
+              {...props}
+              name="UserCircle"
               weight={props.focused ? 'fill' : 'duotone'}
             />
           ),
@@ -65,8 +78,8 @@ export default function Layout() {
         options={{
           tabBarIcon: (props) => (
             <Icon
-              name="UsersFour"
               {...props}
+              name="UsersFour"
               weight={props.focused ? 'fill' : 'duotone'}
             />
           ),
@@ -79,8 +92,8 @@ export default function Layout() {
         options={{
           tabBarIcon: (props) => (
             <Icon
-              name="GearSix"
               {...props}
+              name="GearSix"
               weight={props.focused ? 'fill' : 'duotone'}
             />
           ),
