@@ -10,7 +10,7 @@ import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { PostFooterCard } from './footer'
-import { PostImagesCard } from './images'
+import { PostImageCard } from './image'
 import { PostVideoCard } from './video'
 
 type Props = {
@@ -61,7 +61,7 @@ export function PostCard({
           viewing={viewing}
         />
       ) : post.media.images ? (
-        <PostImagesCard images={post.media.images} key={post.id} />
+        <PostImageCard images={post.media.images} key={post.id} />
       ) : null}
 
       {body && post.body ? (

@@ -1,0 +1,67 @@
+diff --git a/src/components/ImageZoom.tsx b/src/components/ImageZoom.tsx
+index 29b011e431c134265c3086ce0c0e6abd9da932bc..1d0c7bf3ab299c433097066aecb0d97eb0bcb46d 100644
+--- a/src/components/ImageZoom.tsx
++++ b/src/components/ImageZoom.tsx
+@@ -2,6 +2,7 @@ import React, { forwardRef, ForwardRefRenderFunction } from 'react';
+ import { StyleSheet } from 'react-native';
+ import { GestureDetector } from 'react-native-gesture-handler';
+ import Animated from 'react-native-reanimated';
++import { Image } from 'expo-image';
+ 
+ import { useGestures } from '../hooks/useGestures';
+ import { useImageLayout } from '../hooks/useImageLayout';
+@@ -9,6 +10,8 @@ import { useImageZoomHandle } from '../hooks/useImageZoomHandle';
+ 
+ import type { ImageZoomProps, ImageZoomRef } from '../types';
+ 
++const AnimatedImage = Animated.createAnimatedComponent(Image)
++
+ const styles = StyleSheet.create({
+   image: {
+     flex: 1,
+@@ -70,10 +73,10 @@ const ImageZoom: ForwardRefRenderFunction<ImageZoomRef, ImageZoomProps> = (
+ 
+   return (
+     <GestureDetector gesture={gestures}>
+-      <Animated.Image
++      <AnimatedImage
+         style={[styles.image, style, animatedStyle]}
+-        source={{ uri }}
+-        resizeMode="contain"
++        source={uri}
++        contentFit="contain"
+         onLayout={onImageLayout}
+         {...props}
+       />
+diff --git a/src/types.ts b/src/types.ts
+index 51265986932df23959da62061dbd7930995fcda7..6b71bfb530fca86ee04252ab3b6a02335fc800bd 100644
+--- a/src/types.ts
++++ b/src/types.ts
+@@ -1,6 +1,4 @@
+ import type {
+-  ImageProps,
+-  ImageSourcePropType,
+   LayoutRectangle,
+ } from 'react-native';
+ import type {
+@@ -10,6 +8,7 @@ import type {
+   TapGestureHandlerEventPayload,
+ } from 'react-native-gesture-handler';
+ import { AnimatableValue } from 'react-native-reanimated';
++import { ImageProps, ImageSource } from 'expo-image';
+ 
+ export type OnPinchStartCallback = (
+   event: GestureStateChangeEvent<PinchGestureHandlerEventPayload>
+@@ -151,11 +150,7 @@ export type ImageZoomProps = Omit<ImageProps, 'source'> & {
+    * The values parameter provides additional detailed information for each animation value.
+    */
+   onResetAnimationEnd?: OnResetAnimationEndCallback;
+-  /**
+-   * @see https://facebook.github.io/react-native/docs/image.html#source
+-   * @default undefined
+-   */
+-  source?: ImageSourcePropType;
++  source?: ImageSource;
+ };
+ 
+ export type ImageZoomUseLayoutProps = Pick<ImageZoomProps, 'onLayout'>;

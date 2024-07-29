@@ -1,16 +1,17 @@
 import { Image } from 'expo-image'
-import { FlatList } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { getDimensions } from '~/lib/media'
 import { type PostImage } from '~/types/post'
 
+import { PostGalleryCard } from './gallery'
+
 type Props = {
   images: Array<PostImage>
 }
 
-export function PostImagesCard({ images }: Props) {
+export function PostImageCard({ images }: Props) {
   const frame = useSafeAreaFrame()
 
   const { styles } = useStyles(stylesheet)
@@ -22,37 +23,18 @@ export function PostImagesCard({ images }: Props) {
       <Image
         contentFit="contain"
         source={images[0].url}
-        style={[styles.main(frame.width), styles.image(height, frame.width)]}
+        style={[styles.main(height, frame.width)]}
       />
     )
   }
 
-  return (
-    <FlatList
-      data={images}
-      decelerationRate="fast"
-      horizontal
-      renderItem={({ item }) => (
-        <Image
-          contentFit="contain"
-          source={item.url}
-          style={styles.image(frame.width, frame.width)}
-        />
-      )}
-      snapToOffsets={images.map((image, index) => frame.width * index)}
-      style={styles.main(frame.width)}
-    />
-  )
+  return <PostGalleryCard images={images} />
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  image: (height: number, width: number) => ({
-    height,
-    width,
-  }),
-  main: (height: number) => ({
+  main: (height: number, width: number) => ({
     backgroundColor: theme.colors.gray.a3,
     height,
-    width: height,
+    width,
   }),
 }))

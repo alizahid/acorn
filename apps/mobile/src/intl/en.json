@@ -1,6 +1,9 @@
 {
   "component": {
     "posts": {
+      "gallery": {
+        "item": "{current} of {total}"
+      },
       "header": {
         "best": {
           "title": "Best"
