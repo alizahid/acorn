@@ -8,7 +8,7 @@ import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { CommunityCard } from '~/components/communities/card'
-import { useCommunities } from '~/hooks/queries/posts/communities'
+import { useCommunities } from '~/hooks/queries/communities/communities'
 import { type Community } from '~/types/community'
 
 export default function Screen() {
