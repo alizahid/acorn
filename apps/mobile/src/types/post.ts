@@ -1,5 +1,14 @@
 import { type Comment } from './comment'
 
+export type PostType =
+  | 'link'
+  | 'text'
+  | 'gallery'
+  | 'image'
+  | 'video'
+  | 'poll'
+  | 'crosspost'
+
 export type Post = {
   body?: string
   comments: number
@@ -18,6 +27,7 @@ export type Post = {
   spoiler: boolean
   subreddit: string
   title: string
+  type: PostType
   url?: string
   user: {
     id: string

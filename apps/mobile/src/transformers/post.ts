@@ -2,11 +2,27 @@ import { decode } from 'entities'
 
 import { getImages, getMeta, getVideo } from '~/lib/media'
 import { type PostsSchema } from '~/schemas/reddit/posts'
-import { type Post } from '~/types/post'
+import { type Post, type PostType } from '~/types/post'
 
 export function transformPost(
   data: PostsSchema['data']['children'][number],
 ): Post {
+  let type: PostType = 'link'
+
+  if (data.data.post_hint === 'image') {
+    type = 'image'
+  } else if (data.data.is_gallery) {
+    type = 'gallery'
+  } else if (data.data.is_video) {
+    type = 'video'
+  } else if (data.data.poll_data) {
+    type = 'poll'
+  } else if (data.data.crosspost_parent) {
+    type = 'crosspost'
+  } else if (data.data.is_self) {
+    type = 'text'
+  }
+
   return {
     body: decode(data.data.selftext.trim()) || undefined,
     comments: data.data.num_comments,
@@ -25,6 +41,7 @@ export function transformPost(
     spoiler: data.data.spoiler,
     subreddit: data.data.subreddit,
     title: decode(data.data.title.trim()),
+    type,
     url: data.data.url ?? undefined,
     user: {
       id: data.data.author,
