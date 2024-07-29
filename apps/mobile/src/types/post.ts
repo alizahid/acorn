@@ -13,6 +13,7 @@ export type Post = {
   body?: string
   comments: number
   createdAt: Date
+  crossPost?: Post
   id: string
   liked: boolean | null
   media: {

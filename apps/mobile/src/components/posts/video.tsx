@@ -1,6 +1,11 @@
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
 import { useEffect, useRef, useState } from 'react'
-import { Pressable as ReactNativePressable, View } from 'react-native'
+import {
+  Pressable as ReactNativePressable,
+  type StyleProp,
+  View,
+  type ViewStyle,
+} from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -11,14 +16,15 @@ import { type PostVideo } from '~/types/post'
 
 import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
-import { Spinner } from '../common/spinner'
 
 type Props = {
+  margin?: number
+  style?: StyleProp<ViewStyle>
   video: PostVideo
   viewing: boolean
 }
 
-export function PostVideoCard({ video, viewing }: Props) {
+export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
   const frame = useSafeAreaFrame()
 
   const ref = useRef<VideoView>(null)
@@ -95,10 +101,10 @@ export function PostVideoCard({ video, viewing }: Props) {
     },
   ] as const
 
-  const { height } = getDimensions(frame.width, video)
+  const { height } = getDimensions(frame.width - margin, video)
 
   return (
-    <View style={styles.main(height, frame.width)}>
+    <View style={[styles.main(height, frame.width - margin), style]}>
       <ReactNativePressable
         onPress={() => {
           if (playing) {
@@ -121,18 +127,14 @@ export function PostVideoCard({ video, viewing }: Props) {
           style={styles.video}
         />
 
-        {!playing || player.status === 'loading' ? (
+        {!playing ? (
           <View style={styles.play}>
-            {player.status === 'loading' ? (
-              <Spinner />
-            ) : !playing ? (
-              <Icon
-                color={theme.colors.accent[9]}
-                name="PlayCircle"
-                size={frame.width / 8}
-                weight="fill"
-              />
-            ) : null}
+            <Icon
+              color={theme.colors.accent[9]}
+              name="PlayCircle"
+              size={frame.width / 8}
+              weight="fill"
+            />
           </View>
         ) : null}
       </ReactNativePressable>

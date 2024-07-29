@@ -1,6 +1,6 @@
 import { ImageZoom } from '@likashefqet/react-native-image-zoom'
 import { useState } from 'react'
-import { View } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -17,9 +17,10 @@ import { Text } from '../common/text'
 
 type Props = {
   images: Array<PostImage>
+  style?: StyleProp<ViewStyle>
 }
 
-export function PostGalleryCard({ images }: Props) {
+export function PostGalleryCard({ images, style }: Props) {
   const frame = useSafeAreaFrame()
 
   const t = useTranslations('component.posts.gallery')
@@ -30,12 +31,12 @@ export function PostGalleryCard({ images }: Props) {
 
   const [current, setCurrent] = useState(0)
 
-  const style = useAnimatedStyle(() => ({
+  const animatedStyle = useAnimatedStyle(() => ({
     height: height.value,
   }))
 
   return (
-    <View>
+    <View style={style}>
       <Animated.FlatList
         data={images}
         decelerationRate="fast"
@@ -63,7 +64,7 @@ export function PostGalleryCard({ images }: Props) {
         }}
         showsHorizontalScrollIndicator={false}
         snapToOffsets={images.map((image, index) => frame.width * index)}
-        style={[styles.main(frame.width), style]}
+        style={[styles.main(frame.width), animatedStyle]}
       />
 
       <View style={styles.footer}>

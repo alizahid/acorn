@@ -1,4 +1,5 @@
-import { Image } from 'expo-image'
+import { Image, type ImageStyle } from 'expo-image'
+import { type StyleProp } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -9,26 +10,28 @@ import { PostGalleryCard } from './gallery'
 
 type Props = {
   images: Array<PostImage>
+  margin?: number
+  style?: StyleProp<ImageStyle>
 }
 
-export function PostImageCard({ images }: Props) {
+export function PostImageCard({ images, margin = 0, style }: Props) {
   const frame = useSafeAreaFrame()
 
   const { styles } = useStyles(stylesheet)
 
   if (images.length === 1) {
-    const { height } = getDimensions(frame.width, images[0])
+    const { height } = getDimensions(frame.width - margin, images[0])
 
     return (
       <Image
         contentFit="contain"
         source={images[0].url}
-        style={[styles.main(height, frame.width)]}
+        style={[styles.main(height, frame.width - margin), style]}
       />
     )
   }
 
-  return <PostGalleryCard images={images} />
+  return <PostGalleryCard images={images} style={style} />
 }
 
 const stylesheet = createStyleSheet((theme) => ({

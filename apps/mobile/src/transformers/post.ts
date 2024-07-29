@@ -23,10 +23,18 @@ export function transformPost(
     type = 'text'
   }
 
+  const crossPost = data.data.crosspost_parent_list?.at(0)
+
   return {
     body: decode(data.data.selftext.trim()) || undefined,
     comments: data.data.num_comments,
     createdAt: new Date(data.data.created * 1_000),
+    crossPost: crossPost
+      ? transformPost({
+          data: crossPost,
+          kind: 't3',
+        })
+      : undefined,
     id: data.data.id,
     liked: data.data.likes,
     media: {

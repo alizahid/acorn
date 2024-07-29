@@ -1,8 +1,10 @@
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { type Icon } from 'react-native-phosphor'
 import ArrowDownBold from 'react-native-phosphor/src/bold/ArrowDown'
 import ArrowFatDownBold from 'react-native-phosphor/src/bold/ArrowFatDown'
 import ArrowFatUpBold from 'react-native-phosphor/src/bold/ArrowFatUp'
 import ArrowLeftBold from 'react-native-phosphor/src/bold/ArrowLeft'
+import ArrowsSplitBold from 'react-native-phosphor/src/bold/ArrowsSplit'
 import ArrowUpBold from 'react-native-phosphor/src/bold/ArrowUp'
 import BookmarkSimpleBold from 'react-native-phosphor/src/bold/BookmarkSimple'
 import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
@@ -16,6 +18,7 @@ import FingerprintSimpleBold from 'react-native-phosphor/src/bold/FingerprintSim
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import HouseBold from 'react-native-phosphor/src/bold/House'
+import LinkBold from 'react-native-phosphor/src/bold/Link'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import PlayCircleBold from 'react-native-phosphor/src/bold/PlayCircle'
@@ -30,6 +33,7 @@ import ArrowDownDuotone from 'react-native-phosphor/src/duotone/ArrowDown'
 import ArrowFatDownDuotone from 'react-native-phosphor/src/duotone/ArrowFatDown'
 import ArrowFatUpDuotone from 'react-native-phosphor/src/duotone/ArrowFatUp'
 import ArrowLeftDuotone from 'react-native-phosphor/src/duotone/ArrowLeft'
+import ArrowsSplitDuotone from 'react-native-phosphor/src/duotone/ArrowsSplit'
 import ArrowUpDuotone from 'react-native-phosphor/src/duotone/ArrowUp'
 import BookmarkSimpleDuotone from 'react-native-phosphor/src/duotone/BookmarkSimple'
 import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
@@ -43,6 +47,7 @@ import FingerprintSimpleDuotone from 'react-native-phosphor/src/duotone/Fingerpr
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
+import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import PlayCircleDuotone from 'react-native-phosphor/src/duotone/PlayCircle'
@@ -57,6 +62,7 @@ import ArrowDownFill from 'react-native-phosphor/src/fill/ArrowDown'
 import ArrowFatDownFill from 'react-native-phosphor/src/fill/ArrowFatDown'
 import ArrowFatUpFill from 'react-native-phosphor/src/fill/ArrowFatUp'
 import ArrowLeftFill from 'react-native-phosphor/src/fill/ArrowLeft'
+import ArrowsSplitFill from 'react-native-phosphor/src/fill/ArrowsSplit'
 import ArrowUpFill from 'react-native-phosphor/src/fill/ArrowUp'
 import BookmarkSimpleFill from 'react-native-phosphor/src/fill/BookmarkSimple'
 import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
@@ -70,6 +76,7 @@ import FingerprintSimpleFill from 'react-native-phosphor/src/fill/FingerprintSim
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import HouseFill from 'react-native-phosphor/src/fill/House'
+import LinkFill from 'react-native-phosphor/src/fill/Link'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import PlayCircleFill from 'react-native-phosphor/src/fill/PlayCircle'
@@ -84,6 +91,7 @@ import ArrowDownRegular from 'react-native-phosphor/src/regular/ArrowDown'
 import ArrowFatDownRegular from 'react-native-phosphor/src/regular/ArrowFatDown'
 import ArrowFatUpRegular from 'react-native-phosphor/src/regular/ArrowFatUp'
 import ArrowLeftRegular from 'react-native-phosphor/src/regular/ArrowLeft'
+import ArrowsSplitRegular from 'react-native-phosphor/src/regular/ArrowsSplit'
 import ArrowUpRegular from 'react-native-phosphor/src/regular/ArrowUp'
 import BookmarkSimpleRegular from 'react-native-phosphor/src/regular/BookmarkSimple'
 import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
@@ -97,6 +105,7 @@ import FingerprintSimpleRegular from 'react-native-phosphor/src/regular/Fingerpr
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
+import LinkRegular from 'react-native-phosphor/src/regular/Link'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import PlayCircleRegular from 'react-native-phosphor/src/regular/PlayCircle'
@@ -116,13 +125,20 @@ type Props = {
   color?: string
   name: IconName
   size?: number
+  style?: StyleProp<ViewStyle>
   weight?: IconWeight
 }
 
-export function Icon({ color, name, size = 24, weight = 'regular' }: Props) {
+export function Icon({
+  color,
+  name,
+  size = 24,
+  style,
+  weight = 'regular',
+}: Props) {
   const Component = icons[name][weight]
 
-  return <Component color={color} size={size} weight={weight} />
+  return <Component color={color} size={size} style={style} weight={weight} />
 }
 
 const icons = {
@@ -155,6 +171,12 @@ const icons = {
     duotone: ArrowUpDuotone,
     fill: ArrowUpFill,
     regular: ArrowUpRegular,
+  },
+  ArrowsSplit: {
+    bold: ArrowsSplitBold,
+    duotone: ArrowsSplitDuotone,
+    fill: ArrowsSplitFill,
+    regular: ArrowsSplitRegular,
   },
   BookmarkSimple: {
     bold: BookmarkSimpleBold,
@@ -227,6 +249,12 @@ const icons = {
     duotone: HouseDuotone,
     fill: HouseFill,
     regular: HouseRegular,
+  },
+  Link: {
+    bold: LinkBold,
+    duotone: LinkDuotone,
+    fill: LinkFill,
+    regular: LinkRegular,
   },
   MagnifyingGlass: {
     bold: MagnifyingGlassBold,

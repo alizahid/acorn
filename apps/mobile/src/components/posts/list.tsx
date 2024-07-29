@@ -93,7 +93,7 @@ export function PostList({ interval, subreddit, type }: Props) {
         top: 1,
       }}
       viewabilityConfig={{
-        itemVisiblePercentThreshold: 80,
+        itemVisiblePercentThreshold: 60,
       }}
     />
   )
@@ -101,7 +101,7 @@ export function PostList({ interval, subreddit, type }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   separator: {
-    height: theme.space[4],
+    height: theme.space[5],
   },
   spinner: {
     margin: theme.space[4],
