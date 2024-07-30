@@ -29,7 +29,6 @@
     "@formatjs/intl-pluralrules": "^5.2.14",
     "@formatjs/intl-relativetimeformat": "^11.2.14",
     "@hookform/resolvers": "^3.9.0",
-    "@likashefqet/react-native-image-zoom": "^3.0.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/colors": "^3.0.0",
     "@react-native-async-storage/async-storage": "1.23.1",
@@ -95,7 +94,6 @@
   "patchedDependencies": {
     "@shopify/flash-list@1.6.4": "patches/@shopify%2Fflash-list@1.6.4.patch",
     "recyclerlistview@4.2.0": "patches/recyclerlistview@4.2.0.patch",
-    "react-native-markdown-display@7.0.2": "patches/react-native-markdown-display@7.0.2.patch",
-    "@likashefqet/react-native-image-zoom@3.0.0": "patches/@likashefqet%2Freact-native-image-zoom@3.0.0.patch"
+    "react-native-markdown-display@7.0.2": "patches/react-native-markdown-display@7.0.2.patch"
   }
 }

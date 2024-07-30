@@ -1,4 +1,4 @@
-import { ImageZoom } from '@likashefqet/react-native-image-zoom'
+import { Image } from 'expo-image'
 import { useState } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import Animated, {
@@ -60,7 +60,7 @@ export function PostGalleryCard({ images, style }: Props) {
         renderItem={({ item }) => {
           const dimensions = getDimensions(frame.width, item)
 
-          return <ImageZoom style={dimensions} uri={item.url} />
+          return <Image source={item.url} style={dimensions} />
         }}
         showsHorizontalScrollIndicator={false}
         snapToOffsets={images.map((image, index) => frame.width * index)}
@@ -90,10 +90,6 @@ const stylesheet = createStyleSheet((theme) => ({
     position: 'absolute',
     right: theme.space[2],
   },
-  image: (height: number, width: number) => ({
-    height,
-    width,
-  }),
   main: (frame: number) => ({
     backgroundColor: theme.colors.gray.a3,
     width: frame,
