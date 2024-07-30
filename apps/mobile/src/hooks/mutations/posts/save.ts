@@ -1,31 +1,22 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 import { create } from 'mutative'
 
 import {
   type PostQueryData,
   type PostQueryKey,
 } from '~/hooks/queries/posts/post'
-import {
-  type FeedType,
-  type PostsQueryData,
-  type PostsQueryKey,
-  type TopInterval,
-} from '~/hooks/queries/posts/posts'
+import { type PostsQueryData } from '~/hooks/queries/posts/posts'
 import { TYPE_LINK } from '~/lib/const'
+import { queryClient } from '~/lib/query'
 import { redditApi } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 
 type Variables = {
   action: 'save' | 'unsave'
-  feedType?: FeedType
-  interval?: TopInterval
   postId: string
-  subreddit?: string
 }
 
 export function usePostSave() {
-  const queryClient = useQueryClient()
-
   const { accessToken, expired } = useAuth()
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
@@ -59,46 +50,48 @@ export function usePostSave() {
         },
       )
 
-      if (variables.feedType) {
-        queryClient.setQueryData<PostsQueryData>(
-          [
-            'posts',
-            variables.feedType,
-            variables.interval,
-            variables.subreddit,
-          ] satisfies PostsQueryKey,
-          (data) => {
-            if (!data) {
-              return data
-            }
-
-            return create(data, (draft) => {
-              let found = false
-
-              for (const page of draft.pages) {
-                if (found) {
-                  break
-                }
-
-                for (const item of page.posts) {
-                  if (item.id === variables.postId) {
-                    item.saved = variables.action === 'save'
-
-                    found = true
-
-                    break
-                  }
-                }
-              }
-            })
-          },
-        )
-      }
+      updateAll(variables)
     },
   })
 
   return {
     isPending,
     save: mutate,
+  }
+}
+
+function updateAll(variables: Variables) {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: ['posts'],
+  })
+
+  for (const query of queries) {
+    queryClient.setQueryData<PostsQueryData>(query.queryKey, (data) => {
+      if (!data) {
+        return data
+      }
+
+      return create(data, (draft) => {
+        let found = false
+
+        for (const page of draft.pages) {
+          if (found) {
+            break
+          }
+
+          for (const item of page.posts) {
+            if (item.id === variables.postId) {
+              item.saved = variables.action === 'save'
+
+              found = true
+
+              break
+            }
+          }
+        }
+      })
+    })
   }
 }

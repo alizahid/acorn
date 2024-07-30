@@ -69,7 +69,7 @@ export default function Screen() {
               size={theme.space[5]}
             />
 
-            <Text color={item.color} style={styles.label}>
+            <Text color={item.color} style={styles.label} weight="medium">
               {t(`menu.${item.key}`)}
             </Text>
 

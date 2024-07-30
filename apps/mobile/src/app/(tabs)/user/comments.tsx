@@ -1,49 +1,55 @@
 import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
-import { useRef, useState } from 'react'
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+} from 'expo-router'
+import { useRef } from 'react'
 import { View } from 'react-native'
+import { Empty } from 'react-native-phosphor'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
+import { CommentCard } from '~/components/comments/card'
+import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
-import { PostCard } from '~/components/posts/card'
-import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
-import { type Post } from '~/types/post'
+import { useComments } from '~/hooks/queries/user/comments'
+import { type Comment } from '~/types/comment'
 
-import { Empty } from '../common/empty'
-import { Loading } from '../common/loading'
+type Params = {
+  user: string
+}
 
-export function PostList({
-  interval,
-  subreddit,
-  type,
-  userName,
-  userType,
-}: PostsProps) {
+export default function Screen() {
+  const navigation = useNavigation()
+  const params = useLocalSearchParams<Params>()
+
+  const t = useTranslations('screen.user.index.menu')
+
   const { styles } = useStyles(stylesheet)
 
-  const list = useRef<FlashList<Post>>(null)
+  useFocusEffect(() => {
+    navigation.setOptions({
+      title: t('comments'),
+    })
+  })
+
+  const list = useRef<FlashList<Comment>>(null)
 
   // @ts-expect-error -- go away
   useScrollToTop(list)
 
   const {
+    comments,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
     isRefetching,
-    posts,
     refetch,
-  } = usePosts({
-    interval,
-    subreddit,
-    type,
-    userName,
-    userType,
-  })
-
-  const [viewing, setViewing] = useState<Array<string>>([])
+  } = useComments(params.user)
 
   return (
     <FlashList
@@ -54,32 +60,21 @@ export function PostList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
-      data={posts}
-      estimatedItemSize={120}
-      extraData={{
-        viewing,
-      }}
+      data={comments}
+      estimatedItemSize={72}
       keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()
         }
       }}
-      onViewableItemsChanged={({ viewableItems }) => {
-        setViewing(() => viewableItems.map((item) => item.key))
-      }}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ item }) => (
-        <PostCard post={item} viewing={viewing.includes(item.id)} />
-      )}
+      renderItem={({ item }) => <CommentCard comment={item} />}
       scrollIndicatorInsets={{
         bottom: 1,
         right: 1,
         top: 1,
-      }}
-      viewabilityConfig={{
-        itemVisiblePercentThreshold: 60,
       }}
     />
   )

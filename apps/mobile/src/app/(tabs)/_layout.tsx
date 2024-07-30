@@ -63,6 +63,7 @@ export default function Layout() {
       <Tabs.Screen
         name="user"
         options={{
+          headerShown: false,
           tabBarIcon: (props) => (
             <Icon
               {...props}

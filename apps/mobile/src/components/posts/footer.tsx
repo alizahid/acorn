@@ -3,7 +3,6 @@ import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
-import { type FeedType, type TopInterval } from '~/hooks/queries/posts/posts'
 import { type Post } from '~/types/post'
 
 import { Icon, type IconName } from '../common/icon'
@@ -14,20 +13,11 @@ import { PostShareCard } from './share'
 import { PostVoteCard } from './vote'
 
 type Props = {
-  feedType?: FeedType
-  interval?: TopInterval
   linkable?: boolean
   post: Post
-  subreddit?: string
 }
 
-export function PostFooterCard({
-  feedType,
-  interval,
-  linkable,
-  post,
-  subreddit,
-}: Props) {
+export function PostFooterCard({ linkable, post }: Props) {
   const router = useRouter()
 
   const f = useFormatter()
@@ -96,21 +86,11 @@ export function PostFooterCard({
       </View>
 
       <View style={styles.actions}>
-        <PostVoteCard
-          feedType={feedType}
-          interval={interval}
-          post={post}
-          subreddit={subreddit}
-        />
+        <PostVoteCard post={post} />
 
         <PostShareCard post={post} />
 
-        <PostSaveCard
-          feedType={feedType}
-          interval={interval}
-          post={post}
-          subreddit={subreddit}
-        />
+        <PostSaveCard post={post} />
       </View>
     </Pressable>
   )

@@ -5,10 +5,7 @@ import {
   useNavigation,
 } from 'expo-router'
 import { View } from 'react-native'
-import {
-  useSafeAreaFrame,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { CommentCard } from '~/components/comments/card'
@@ -25,7 +22,6 @@ type Params = {
 }
 
 export default function Screen() {
-  const frame = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
 
   const navigation = useNavigation()
@@ -58,18 +54,16 @@ export default function Screen() {
         post ? (
           <PostCard
             body
-            feedType={params.feedType}
             linkable={false}
             post={post}
             style={styles.post}
-            subreddit={post.subreddit}
             viewing
           />
         ) : null
       }
       contentContainerStyle={styles.list(insets.bottom)}
       data={comments}
-      estimatedItemSize={frame.width}
+      estimatedItemSize={72}
       keyExtractor={(item) => item.id}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => (

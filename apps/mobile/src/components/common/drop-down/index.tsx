@@ -1,5 +1,5 @@
-import { useFloating } from '@floating-ui/react-native'
-import { useState } from 'react'
+import { type Placement, useFloating } from '@floating-ui/react-native'
+import { type ReactNode, useState } from 'react'
 import { Pressable, type StyleProp, View, type ViewStyle } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -15,21 +15,26 @@ export type DropDownItem = {
     weight?: IconWeight
   }
   label: string
+  left?: ReactNode
   value: string
 }
 
 type Props = {
+  hideLabel?: boolean
   items: Array<DropDownItem>
   onChange?: (value: string) => void
   placeholder?: string
+  placement?: Placement
   style?: StyleProp<ViewStyle>
   value?: string
 }
 
 export function DropDown({
+  hideLabel = false,
   items,
   onChange,
   placeholder,
+  placement = 'bottom',
   style,
   value,
 }: Props) {
@@ -37,7 +42,9 @@ export function DropDown({
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const { floatingStyles, refs } = useFloating()
+  const { floatingStyles, refs } = useFloating({
+    placement,
+  })
 
   const [open, setOpen] = useState(false)
 
@@ -61,7 +68,11 @@ export function DropDown({
           />
         ) : null}
 
-        <Text weight="bold">{selected?.label ?? placeholder}</Text>
+        {selected?.left}
+
+        {!hideLabel ? (
+          <Text weight="bold">{selected?.label ?? placeholder}</Text>
+        ) : null}
 
         <Icon
           color={theme.colors.gray.a11}
@@ -76,7 +87,13 @@ export function DropDown({
       >
         {open ? (
           <>
-            <View style={styles.arrow} />
+            <View
+              style={[
+                styles.arrow,
+                placement.includes('start') && styles.left,
+                placement.includes('end') && styles.right,
+              ]}
+            />
 
             <View style={styles.content}>
               {items.map((item) => (
@@ -117,6 +134,9 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius[5],
     overflow: 'hidden',
   },
+  left: {
+    left: theme.space[5],
+  },
   menu: (frame: number, left: number) => ({
     backgroundColor: theme.colors.gray[12],
     borderRadius: theme.radius[5],
@@ -126,6 +146,9 @@ const stylesheet = createStyleSheet((theme) => ({
     top: '100%',
     width: frame / 3,
   }),
+  right: {
+    right: theme.space[5],
+  },
   trigger: {
     alignItems: 'center',
     flexDirection: 'row',

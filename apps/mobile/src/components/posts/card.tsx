@@ -2,8 +2,6 @@ import { useRouter } from 'expo-router'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type FeedType, type TopInterval } from '~/hooks/queries/posts/posts'
-import { getPostUrl } from '~/lib/url'
 import { type Post } from '~/types/post'
 
 import { Markdown } from '../common/markdown'
@@ -17,25 +15,19 @@ import { PostVideoCard } from './video'
 
 type Props = {
   body?: boolean
-  feedType?: FeedType
-  interval?: TopInterval
   linkable?: boolean
   margin?: number
   post: Post
   style?: StyleProp<ViewStyle>
-  subreddit?: string
   viewing: boolean
 }
 
 export function PostCard({
   body,
-  feedType,
-  interval,
   linkable = true,
   margin = 0,
   post,
   style,
-  subreddit,
   viewing,
 }: Props) {
   const router = useRouter()
@@ -47,7 +39,7 @@ export function PostCard({
       <Pressable
         disabled={!linkable}
         onPress={() => {
-          router.navigate(getPostUrl(post.id, feedType))
+          router.navigate(`/posts/${post.id}`)
         }}
         style={styles.title}
       >
@@ -87,13 +79,7 @@ export function PostCard({
         </View>
       ) : null}
 
-      <PostFooterCard
-        feedType={feedType}
-        interval={interval}
-        linkable={linkable}
-        post={post}
-        subreddit={subreddit}
-      />
+      <PostFooterCard linkable={linkable} post={post} />
     </View>
   )
 }

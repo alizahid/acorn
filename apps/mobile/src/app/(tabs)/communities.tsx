@@ -38,7 +38,7 @@ export default function Screen() {
         ) : null
       }
       data={communities}
-      estimatedItemSize={200}
+      estimatedItemSize={56}
       keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {

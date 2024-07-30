@@ -33,6 +33,8 @@ export function Item({ item, onChange, value }: Props) {
         />
       ) : null}
 
+      {item.left}
+
       <Text size="2" style={styles.label} weight="medium">
         {item.label}
       </Text>

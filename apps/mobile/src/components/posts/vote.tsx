@@ -1,20 +1,16 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { usePostVote } from '~/hooks/mutations/posts/vote'
-import { type FeedType, type TopInterval } from '~/hooks/queries/posts/posts'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 
 type Props = {
-  feedType?: FeedType
-  interval?: TopInterval
   post: Post
-  subreddit?: string
 }
 
-export function PostVoteCard({ feedType, interval, post, subreddit }: Props) {
+export function PostVoteCard({ post }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { vote } = usePostVote()
@@ -27,10 +23,7 @@ export function PostVoteCard({ feedType, interval, post, subreddit }: Props) {
         onPress={() => {
           vote({
             direction: post.liked ? 0 : 1,
-            feedType,
-            interval,
             postId: post.id,
-            subreddit,
           })
         }}
         style={[styles.action, post.liked && styles.liked]}
@@ -47,10 +40,7 @@ export function PostVoteCard({ feedType, interval, post, subreddit }: Props) {
         onPress={() => {
           vote({
             direction: post.liked === false ? 0 : -1,
-            feedType,
-            interval,
             postId: post.id,
-            subreddit,
           })
         }}
         style={[styles.action, post.liked === false && styles.unliked]}

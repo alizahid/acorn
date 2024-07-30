@@ -13,7 +13,7 @@ export const CommentsSchema = z.object({
             author: z.string(),
             body: z.string(),
             created: z.number(),
-            depth: z.number(),
+            depth: z.number().nullish(),
             id: z.string(),
             likes: z.boolean().nullable(),
             media_metadata: PostMediaMetadataSchema,

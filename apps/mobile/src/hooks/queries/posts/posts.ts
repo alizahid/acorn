@@ -27,6 +27,20 @@ export const FeedTypeSubreddit = ['new', 'top', 'rising', 'hot'] as const
 
 export type FeedTypeSubreddit = (typeof FeedType)[number]
 
+export const FeedTypeUser = ['new', 'top', 'hot'] as const
+
+export type FeedTypeUser = (typeof FeedType)[number]
+
+export const UserFeedType = [
+  'submitted',
+  'comments',
+  'saved',
+  'upvoted',
+  'downvoted',
+] as const
+
+export type UserFeedType = (typeof UserFeedType)[number]
+
 type Param = string | undefined | null
 
 type Page = {
@@ -34,15 +48,34 @@ type Page = {
   posts: Array<Post>
 }
 
-export type PostsQueryKey = ['posts', FeedType, TopInterval?, string?]
+export type PostsQueryKey = [
+  'posts',
+  {
+    feedType?: FeedType
+    interval?: TopInterval
+    subreddit?: string
+    userName?: string
+    userType?: UserFeedType
+  },
+]
 
 export type PostsQueryData = InfiniteData<Page, Param>
 
-export function usePosts(
-  type: FeedType,
-  interval?: TopInterval,
-  subreddit?: string,
-) {
+export type PostsProps = {
+  interval?: TopInterval
+  subreddit?: string
+  type: FeedType
+  userName?: string
+  userType?: UserFeedType
+}
+
+export function usePosts({
+  interval,
+  subreddit,
+  type,
+  userName,
+  userType,
+}: PostsProps) {
   const { accessToken, expired } = useAuth()
 
   const {
@@ -61,9 +94,11 @@ export function usePosts(
     },
     initialPageParam: null,
     async queryFn({ pageParam }) {
-      const parts = compact([subreddit ? `r/${subreddit}` : null, type]).join(
-        '/',
-      )
+      const parts = (
+        userName && userType
+          ? ['user', userName, userType]
+          : compact([subreddit ? `r/${subreddit}` : null, type])
+      ).join('/')
 
       const url = new URL(`/${parts}`, REDDIT_URI)
 
@@ -75,6 +110,10 @@ export function usePosts(
 
       if (interval) {
         url.searchParams.set('t', interval)
+      }
+
+      if (userName && userType) {
+        url.searchParams.set('sort', userType)
       }
 
       const payload = await redditApi({
@@ -89,7 +128,16 @@ export function usePosts(
         posts: response.data.children.map((item) => transformPost(item)),
       } satisfies Page
     },
-    queryKey: ['posts', type, interval, subreddit],
+    queryKey: [
+      'posts',
+      {
+        feedType: type,
+        interval,
+        subreddit,
+        userName,
+        userType,
+      },
+    ],
   })
 
   return {

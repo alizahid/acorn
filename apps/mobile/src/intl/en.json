@@ -67,6 +67,23 @@
         "signOut": "Sign out"
       },
       "title": "Settings"
+    },
+    "user": {
+      "index": {
+        "header": {
+          "comment": "Comment",
+          "joined": "Joined",
+          "karma": "Karma",
+          "post": "Post"
+        },
+        "menu": {
+          "comments": "Comments",
+          "downvoted": "Downvoted",
+          "saved": "Saved",
+          "submitted": "Posts",
+          "upvoted": "Upvoted"
+        }
+      }
     }
   }
 }

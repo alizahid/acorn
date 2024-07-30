@@ -15,7 +15,7 @@ export function transformComment(
   return {
     body: decode(data.data.body.trim()),
     createdAt: new Date(data.data.created * 1_000),
-    depth: data.data.depth,
+    depth: data.data.depth ?? 0,
     id: data.data.id,
     liked: data.data.likes,
     media: {
