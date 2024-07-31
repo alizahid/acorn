@@ -122,8 +122,8 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   header: {
     flexDirection: 'row',
-    gap: theme.space[4],
-    justifyContent: 'space-between',
+    gap: theme.space[6],
+    justifyContent: 'center',
     padding: theme.space[4],
   },
   item: {
