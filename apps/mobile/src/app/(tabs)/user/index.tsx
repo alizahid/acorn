@@ -121,6 +121,7 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[1],
   },
   header: {
+    backgroundColor: theme.colors.accent.a2,
     flexDirection: 'row',
     gap: theme.space[6],
     justifyContent: 'center',

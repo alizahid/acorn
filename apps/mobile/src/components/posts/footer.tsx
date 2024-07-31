@@ -13,11 +13,11 @@ import { PostShareCard } from './share'
 import { PostVoteCard } from './vote'
 
 type Props = {
-  linkable?: boolean
+  expanded?: boolean
   post: Post
 }
 
-export function PostFooterCard({ linkable, post }: Props) {
+export function PostFooterCard({ expanded = false, post }: Props) {
   const router = useRouter()
 
   const f = useFormatter()
@@ -50,23 +50,36 @@ export function PostFooterCard({ linkable, post }: Props) {
 
   return (
     <Pressable
-      disabled={!linkable}
+      disabled={expanded}
       onPress={() => {
         router.navigate(`/posts/${post.id}`)
       }}
       style={styles.main}
     >
       <View style={styles.meta}>
-        <Pressable
-          hitSlop={theme.space[4]}
-          onPress={() => {
-            router.navigate(`/communities/${post.subreddit}`)
-          }}
-        >
-          <Text highContrast={false} lines={1} size="2" weight="medium">
-            {post.subreddit}
-          </Text>
-        </Pressable>
+        {expanded ? (
+          <Pressable
+            hitSlop={theme.space[4]}
+            onPress={() => {
+              router.navigate(`/user/submitted?user=${post.user.name}`)
+            }}
+          >
+            <Text highContrast={false} lines={1} size="2" weight="medium">
+              {post.user.name}
+            </Text>
+          </Pressable>
+        ) : (
+          <Pressable
+            hitSlop={theme.space[4]}
+            onPress={() => {
+              router.navigate(`/communities/${post.subreddit}`)
+            }}
+          >
+            <Text highContrast={false} lines={1} size="2" weight="medium">
+              {post.subreddit}
+            </Text>
+          </Pressable>
+        )}
 
         <View style={styles.items}>
           {items.map((item) => (

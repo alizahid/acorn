@@ -3,6 +3,7 @@ import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
+  useRouter,
 } from 'expo-router'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -12,7 +13,9 @@ import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
+import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
+import { Text } from '~/components/common/text'
 import { PostCard } from '~/components/posts/card'
 import { usePost } from '~/hooks/queries/posts/post'
 
@@ -23,6 +26,7 @@ type Params = {
 export default function Screen() {
   const insets = useSafeAreaInsets()
 
+  const router = useRouter()
   const navigation = useNavigation()
 
   const params = useLocalSearchParams<Params>()
@@ -39,7 +43,16 @@ export default function Screen() {
     }
 
     navigation.setOptions({
-      title: post.subreddit,
+      headerTitle: () => (
+        <Pressable
+          onPress={() => {
+            router.navigate(`/communities/${post.subreddit}`)
+          }}
+          style={styles.header}
+        >
+          <Text weight="bold">{post.subreddit}</Text>
+        </Pressable>
+      ),
     })
   })
 
@@ -51,13 +64,7 @@ export default function Screen() {
       }
       ListHeaderComponent={
         post ? (
-          <PostCard
-            body
-            linkable={false}
-            post={post}
-            style={styles.post}
-            viewing
-          />
+          <PostCard expanded post={post} style={styles.post} viewing />
         ) : null
       }
       contentContainerStyle={styles.list(insets.bottom)}
@@ -83,6 +90,11 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  header: {
+    height: theme.space[8],
+    justifyContent: 'center',
+    paddingHorizontal: theme.space[3],
+  },
   list: (inset: number) => ({
     paddingBottom: inset,
   }),

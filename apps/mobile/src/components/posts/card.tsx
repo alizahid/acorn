@@ -14,8 +14,7 @@ import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
 type Props = {
-  body?: boolean
-  linkable?: boolean
+  expanded?: boolean
   margin?: number
   post: Post
   style?: StyleProp<ViewStyle>
@@ -23,8 +22,7 @@ type Props = {
 }
 
 export function PostCard({
-  body,
-  linkable = true,
+  expanded = false,
   margin = 0,
   post,
   style,
@@ -37,7 +35,7 @@ export function PostCard({
   return (
     <View style={style}>
       <Pressable
-        disabled={!linkable}
+        disabled={expanded}
         onPress={() => {
           router.navigate(`/posts/${post.id}`)
         }}
@@ -71,7 +69,7 @@ export function PostCard({
         />
       ) : null}
 
-      {body && post.body ? (
+      {expanded && post.body ? (
         <View style={styles.body}>
           <Markdown margin={margin + theme.space[5]} meta={post.media.meta}>
             {post.body}
@@ -79,7 +77,7 @@ export function PostCard({
         </View>
       ) : null}
 
-      <PostFooterCard linkable={linkable} post={post} />
+      <PostFooterCard expanded={expanded} post={post} />
     </View>
   )
 }
