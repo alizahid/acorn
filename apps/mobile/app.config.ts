@@ -5,7 +5,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       backgroundColor: '#fff',
-      foregroundImage: './assets/images/adaptive-icon.png',
+      foregroundImage: './assets/artwork/adaptive-icon.png',
     },
   },
   experiments: {
@@ -25,7 +25,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     config: {
       usesNonExemptEncryption: false,
     },
-    icon: './assets/images/icon.png',
+    icon: './assets/artwork/icon.png',
   },
   name: 'Acorn',
   orientation: 'portrait',
@@ -43,7 +43,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   slug: 'acorn',
   splash: {
     backgroundColor: '#fff',
-    image: './assets/images/splash.png',
+    image: './assets/artwork/splash.png',
     resizeMode: 'contain',
   },
   updates: {
