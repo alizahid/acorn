@@ -45,8 +45,8 @@ export function transformPost(data: PostDataSchema): Post {
     type,
     url: data.url ?? undefined,
     user: {
-      id: data.author,
-      name: data.author_fullname,
+      id: data.author_fullname,
+      name: data.author,
     },
     votes: data.ups,
   }
