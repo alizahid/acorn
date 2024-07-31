@@ -61,7 +61,7 @@ export function PostFooterCard({ expanded = false, post }: Props) {
           <Pressable
             hitSlop={theme.space[4]}
             onPress={() => {
-              router.navigate(`/user/submitted?user=${post.user.name}`)
+              router.navigate(`/users/${post.user.name}/submitted`)
             }}
           >
             <Text highContrast={false} lines={1} size="2" weight="medium">

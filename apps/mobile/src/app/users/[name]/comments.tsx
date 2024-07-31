@@ -19,7 +19,7 @@ import { useComments } from '~/hooks/queries/user/comments'
 import { type Comment } from '~/types/comment'
 
 type Params = {
-  user: string
+  name: string
 }
 
 export default function Screen() {
@@ -49,7 +49,7 @@ export default function Screen() {
     isLoading,
     isRefetching,
     refetch,
-  } = useComments(params.user)
+  } = useComments(params.name)
 
   return (
     <FlashList

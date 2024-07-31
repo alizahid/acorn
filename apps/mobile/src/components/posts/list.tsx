@@ -2,6 +2,7 @@ import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRef, useState } from 'react'
 import { View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -13,13 +14,20 @@ import { type Post } from '~/types/post'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 
+type Props = PostsProps & {
+  inset?: boolean
+}
+
 export function PostList({
+  inset,
   interval,
   subreddit,
   type,
   userName,
   userType,
-}: PostsProps) {
+}: Props) {
+  const insets = useSafeAreaInsets()
+
   const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlashList<Post>>(null)
@@ -54,6 +62,7 @@ export function PostList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
+      contentContainerStyle={styles.main(inset ? insets.bottom : 0)}
       data={posts}
       estimatedItemSize={120}
       extraData={{
@@ -86,6 +95,9 @@ export function PostList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  main: (inset: number) => ({
+    paddingBottom: inset,
+  }),
   separator: {
     height: theme.space[5],
   },

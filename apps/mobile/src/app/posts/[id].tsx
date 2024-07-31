@@ -67,7 +67,7 @@ export default function Screen() {
           <PostCard expanded post={post} style={styles.post} viewing />
         ) : null
       }
-      contentContainerStyle={styles.list(insets.bottom)}
+      contentContainerStyle={styles.main(insets.bottom)}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}
@@ -95,7 +95,7 @@ const stylesheet = createStyleSheet((theme) => ({
     justifyContent: 'center',
     paddingHorizontal: theme.space[3],
   },
-  list: (inset: number) => ({
+  main: (inset: number) => ({
     paddingBottom: inset,
   }),
   post: {

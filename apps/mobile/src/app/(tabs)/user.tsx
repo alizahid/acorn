@@ -90,7 +90,7 @@ export default function Screen() {
               return
             }
 
-            router.navigate(`/user/${item}?user=${profile.name}`)
+            router.navigate(`/users/${profile.name}/${item}`)
           }}
           style={styles.item}
         >
