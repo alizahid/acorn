@@ -30,7 +30,9 @@ export function transformComment(
       media: {
         meta: getMeta(data.data),
       },
+      op: data.data.is_submitter,
       parentId: data.data.parent_id,
+      postId: data.data.link_id,
       saved: data.data.saved,
       user: {
         name: data.data.author,

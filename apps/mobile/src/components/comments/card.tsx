@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
@@ -6,17 +7,21 @@ import { type ColorId, getColorForId } from '~/lib/colors'
 import { type CommentReply } from '~/types/comment'
 
 import { Markdown } from '../common/markdown'
+import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { CommentSaveCard } from './save'
 import { CommentVoteCard } from './vote'
 
 type Props = {
   comment: CommentReply
+  href?: string
   postId?: string
   style?: StyleProp<ViewStyle>
 }
 
-export function CommentCard({ comment, postId, style }: Props) {
+export function CommentCard({ comment, href, postId, style }: Props) {
+  const router = useRouter()
+
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -24,7 +29,17 @@ export function CommentCard({ comment, postId, style }: Props) {
   const color = getColorForId(comment.parentId ?? comment.id)
 
   return (
-    <View style={[styles.main(color, comment.depth), style]}>
+    <Pressable
+      disabled={!href}
+      onPress={() => {
+        if (!href) {
+          return
+        }
+
+        router.navigate(href)
+      }}
+      style={[styles.main(color, comment.depth), style]}
+    >
       <View style={styles.body}>
         <Markdown
           margin={
@@ -38,7 +53,12 @@ export function CommentCard({ comment, postId, style }: Props) {
       </View>
 
       <View style={styles.footer}>
-        <Text highContrast={false} size="1" weight="medium">
+        <Text
+          color={comment.op ? 'accent' : 'gray'}
+          highContrast={false}
+          size="1"
+          weight="medium"
+        >
           {comment.user.name}
         </Text>
 
@@ -52,7 +72,7 @@ export function CommentCard({ comment, postId, style }: Props) {
 
         <CommentSaveCard comment={comment} postId={postId} />
       </View>
-    </View>
+    </Pressable>
   )
 }
 

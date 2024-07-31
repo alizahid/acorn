@@ -16,6 +16,7 @@ import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { useComments } from '~/hooks/queries/user/comments'
+import { removePrefix } from '~/lib/reddit'
 import { type Comment } from '~/types/comment'
 
 type Params = {
@@ -70,7 +71,12 @@ export default function Screen() {
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => {
         if (item.type === 'reply') {
-          return <CommentCard comment={item.data} />
+          return (
+            <CommentCard
+              comment={item.data}
+              href={`/posts/${removePrefix(item.data.postId)}`}
+            />
+          )
         }
 
         return null

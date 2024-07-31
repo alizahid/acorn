@@ -19,7 +19,9 @@ export type CommentReply = {
   media: {
     meta: PostMediaMeta
   }
+  op: boolean
   parentId?: string
+  postId: string
   saved: boolean
   user: {
     name: string
