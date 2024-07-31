@@ -1,5 +1,4 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
-import { compact } from 'lodash'
 
 import { REDDIT_URI } from '~/lib/const'
 import { redditApi } from '~/lib/reddit'
@@ -11,8 +10,8 @@ import { type Comment } from '~/types/comment'
 type Param = string | undefined | null
 
 type Page = {
-  after: Param
-  comments: Array<Comment | null>
+  comments: Array<Comment>
+  cursor: Param
 }
 
 export type CommentsQueryKey = ['comments']
@@ -35,7 +34,7 @@ export function useComments(user?: string) {
     {
       enabled: !expired || Boolean(user),
       getNextPageParam(page) {
-        return page.after
+        return page.cursor
       },
       initialPageParam: null,
       async queryFn({ pageParam }) {
@@ -54,19 +53,21 @@ export function useComments(user?: string) {
 
         const response = CommentsSchema.parse(payload)
 
+        const comments = response.data.children.filter(
+          (item) => item.kind === 't1',
+        )
+
         return {
-          after: response.data.after,
-          comments: response.data.children.map((item) =>
-            transformComment(item),
-          ),
-        } satisfies Page
+          comments: comments.map((item) => transformComment(item)),
+          cursor: response.data.after,
+        }
       },
       queryKey: ['comments'],
     },
   )
 
   return {
-    comments: compact(data?.pages.flatMap((page) => page.comments) ?? []),
+    comments: data?.pages.flatMap((page) => page.comments) ?? [],
     fetchNextPage,
     hasNextPage,
     isFetching,

@@ -1,6 +1,16 @@
 import { type PostMediaMeta } from './post'
 
-export type Comment = {
+export type Comment =
+  | {
+      data: CommentReply
+      type: 'reply'
+    }
+  | {
+      data: CommentMore
+      type: 'more'
+    }
+
+export type CommentReply = {
   body: string
   createdAt: Date
   depth: number
@@ -15,4 +25,12 @@ export type Comment = {
     name: string
   }
   votes: number
+}
+
+export type CommentMore = {
+  children: Array<string>
+  count: number
+  depth: number
+  id: string
+  parentId: string
 }

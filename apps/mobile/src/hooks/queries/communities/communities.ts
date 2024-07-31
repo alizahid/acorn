@@ -10,8 +10,8 @@ import { type Community } from '~/types/community'
 type Param = string | undefined | null
 
 type Page = {
-  after: Param
   communities: Array<Community>
+  cursor: Param
 }
 
 export type CommunitiesQueryKey = ['communities']
@@ -39,7 +39,7 @@ export function useCommunities() {
   >({
     enabled: !expired,
     getNextPageParam(page) {
-      return page.after
+      return page.cursor
     },
     initialPageParam: null,
     async queryFn({ pageParam }) {
@@ -59,11 +59,11 @@ export function useCommunities() {
       const response = CommunitiesSchema.parse(payload)
 
       return {
-        after: response.data.after,
         communities: response.data.children.map((item) =>
-          transformCommunity(item),
+          transformCommunity(item.data),
         ),
-      } satisfies Page
+        cursor: response.data.after,
+      }
     },
     queryKey: ['communities'],
   })

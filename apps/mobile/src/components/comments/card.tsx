@@ -3,7 +3,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { type ColorId, getColorForId } from '~/lib/colors'
-import { type Comment } from '~/types/comment'
+import { type CommentReply } from '~/types/comment'
 
 import { Markdown } from '../common/markdown'
 import { Text } from '../common/text'
@@ -11,7 +11,7 @@ import { CommentSaveCard } from './save'
 import { CommentVoteCard } from './vote'
 
 type Props = {
-  comment: Comment
+  comment: CommentReply
   postId?: string
   style?: StyleProp<ViewStyle>
 }

@@ -5,6 +5,10 @@ import {
   type PostQueryData,
   type PostQueryKey,
 } from '~/hooks/queries/posts/post'
+import {
+  type CommentsQueryData,
+  type CommentsQueryKey,
+} from '~/hooks/queries/user/comments'
 import { TYPE_COMMENT } from '~/lib/const'
 import { redditApi } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
@@ -39,6 +43,48 @@ export function useCommentVote() {
       })
     },
     onMutate(variables) {
+      queryClient.setQueryData<CommentsQueryData>(
+        ['comments'] satisfies CommentsQueryKey,
+        (previous) => {
+          if (!previous) {
+            return previous
+          }
+
+          return create(previous, (draft) => {
+            let found = false
+
+            for (const page of draft.pages) {
+              if (found) {
+                break
+              }
+
+              for (const item of page.comments) {
+                if (
+                  item.type === 'reply' &&
+                  item.data.id === variables.commentId
+                ) {
+                  item.data.votes =
+                    item.data.votes -
+                    (item.data.liked ? 1 : item.data.liked === null ? 0 : -1) +
+                    variables.direction
+
+                  item.data.liked =
+                    variables.direction === 1
+                      ? true
+                      : variables.direction === 0
+                        ? null
+                        : false
+
+                  found = true
+
+                  break
+                }
+              }
+            }
+          })
+        },
+      )
+
       if (variables.postId) {
         queryClient.setQueryData<PostQueryData>(
           ['post', variables.postId] satisfies PostQueryKey,
@@ -49,13 +95,16 @@ export function useCommentVote() {
 
             return create(data, (draft) => {
               for (const item of draft.comments) {
-                if (item.id === variables.commentId) {
-                  item.votes =
-                    item.votes -
-                    (item.liked ? 1 : item.liked === null ? 0 : -1) +
+                if (
+                  item.type === 'reply' &&
+                  item.data.id === variables.commentId
+                ) {
+                  item.data.votes =
+                    item.data.votes -
+                    (item.data.liked ? 1 : item.data.liked === null ? 0 : -1) +
                     variables.direction
 
-                  item.liked =
+                  item.data.liked =
                     variables.direction === 1
                       ? true
                       : variables.direction === 0

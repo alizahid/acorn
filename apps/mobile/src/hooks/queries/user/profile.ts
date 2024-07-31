@@ -28,7 +28,7 @@ export function useProfile() {
 
       const profile = ProfileSchema.parse(payload)
 
-      return transformProfile(profile) satisfies ProfileQueryData
+      return transformProfile(profile)
     },
     queryKey: ['profile'],
   })

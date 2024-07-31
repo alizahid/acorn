@@ -1,5 +1,3 @@
-import { type Comment } from './comment'
-
 export type PostType =
   | 'link'
   | 'text'
@@ -46,11 +44,6 @@ export type PostMediaMeta = Record<
     width: number
   }
 >
-
-export type PostWithComments = {
-  comments: Array<Comment>
-  post: Post
-}
 
 export type PostImage = {
   height: number

@@ -44,7 +44,7 @@ export type UserFeedType = (typeof UserFeedType)[number]
 type Param = string | undefined | null
 
 type Page = {
-  after: Param
+  cursor: Param
   posts: Array<Post>
 }
 
@@ -82,7 +82,6 @@ export function usePosts({
     data,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     isLoading,
     isRefetching,
@@ -90,7 +89,7 @@ export function usePosts({
   } = useInfiniteQuery<Page, Error, PostsQueryData, PostsQueryKey, Param>({
     enabled: !expired,
     getNextPageParam(page) {
-      return page.after
+      return page.cursor
     },
     initialPageParam: null,
     async queryFn({ pageParam }) {
@@ -124,9 +123,9 @@ export function usePosts({
       const response = PostsSchema.parse(payload)
 
       return {
-        after: response.data.after,
-        posts: response.data.children.map((item) => transformPost(item)),
-      } satisfies Page
+        cursor: response.data.after,
+        posts: response.data.children.map((item) => transformPost(item.data)),
+      }
     },
     queryKey: [
       'posts',
@@ -143,7 +142,6 @@ export function usePosts({
   return {
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     isLoading,
     isRefetching,

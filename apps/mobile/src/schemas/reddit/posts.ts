@@ -7,7 +7,7 @@ import {
   PostPreviewSchema,
 } from './media'
 
-export const PostDataSchema = z.object({
+const PostBaseSchema = z.object({
   author: z.string(),
   author_fullname: z.string().catch('[deleted]'),
   clicked: z.boolean(),
@@ -35,15 +35,19 @@ export const PostDataSchema = z.object({
   url: z.string().nullish(),
 })
 
+export const PostDataSchema = PostBaseSchema.extend({
+  crosspost_parent: z.string().nullish(),
+  crosspost_parent_list: z.array(PostBaseSchema).nullish(),
+})
+
+export type PostDataSchema = z.infer<typeof PostDataSchema>
+
 export const PostsSchema = z.object({
   data: z.object({
     after: z.string().nullish(),
     children: z.array(
       z.object({
-        data: PostDataSchema.extend({
-          crosspost_parent: z.string().nullish(),
-          crosspost_parent_list: z.array(PostDataSchema).nullish(),
-        }),
+        data: PostDataSchema,
         kind: z.literal('t3'),
       }),
     ),

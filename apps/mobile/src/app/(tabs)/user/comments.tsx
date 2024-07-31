@@ -62,7 +62,8 @@ export default function Screen() {
       }
       data={comments}
       estimatedItemSize={72}
-      keyExtractor={(item) => item.id}
+      getItemType={(item) => item.type}
+      keyExtractor={(item) => item.data.id}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()
@@ -70,7 +71,13 @@ export default function Screen() {
       }}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ item }) => <CommentCard comment={item} />}
+      renderItem={({ item }) => {
+        if (item.type === 'reply') {
+          return <CommentCard comment={item.data} />
+        }
+
+        return null
+      }}
       scrollIndicatorInsets={{
         bottom: 1,
         right: 1,

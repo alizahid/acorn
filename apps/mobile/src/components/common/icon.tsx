@@ -4,6 +4,7 @@ import ArrowDownBold from 'react-native-phosphor/src/bold/ArrowDown'
 import ArrowFatDownBold from 'react-native-phosphor/src/bold/ArrowFatDown'
 import ArrowFatUpBold from 'react-native-phosphor/src/bold/ArrowFatUp'
 import ArrowLeftBold from 'react-native-phosphor/src/bold/ArrowLeft'
+import ArrowSquareOutBold from 'react-native-phosphor/src/bold/ArrowSquareOut'
 import ArrowsSplitBold from 'react-native-phosphor/src/bold/ArrowsSplit'
 import ArrowUpBold from 'react-native-phosphor/src/bold/ArrowUp'
 import BookmarkSimpleBold from 'react-native-phosphor/src/bold/BookmarkSimple'
@@ -34,6 +35,7 @@ import ArrowDownDuotone from 'react-native-phosphor/src/duotone/ArrowDown'
 import ArrowFatDownDuotone from 'react-native-phosphor/src/duotone/ArrowFatDown'
 import ArrowFatUpDuotone from 'react-native-phosphor/src/duotone/ArrowFatUp'
 import ArrowLeftDuotone from 'react-native-phosphor/src/duotone/ArrowLeft'
+import ArrowSquareOutDuotone from 'react-native-phosphor/src/duotone/ArrowSquareOut'
 import ArrowsSplitDuotone from 'react-native-phosphor/src/duotone/ArrowsSplit'
 import ArrowUpDuotone from 'react-native-phosphor/src/duotone/ArrowUp'
 import BookmarkSimpleDuotone from 'react-native-phosphor/src/duotone/BookmarkSimple'
@@ -64,6 +66,7 @@ import ArrowDownFill from 'react-native-phosphor/src/fill/ArrowDown'
 import ArrowFatDownFill from 'react-native-phosphor/src/fill/ArrowFatDown'
 import ArrowFatUpFill from 'react-native-phosphor/src/fill/ArrowFatUp'
 import ArrowLeftFill from 'react-native-phosphor/src/fill/ArrowLeft'
+import ArrowSquareOutFill from 'react-native-phosphor/src/fill/ArrowSquareOut'
 import ArrowsSplitFill from 'react-native-phosphor/src/fill/ArrowsSplit'
 import ArrowUpFill from 'react-native-phosphor/src/fill/ArrowUp'
 import BookmarkSimpleFill from 'react-native-phosphor/src/fill/BookmarkSimple'
@@ -94,6 +97,7 @@ import ArrowDownRegular from 'react-native-phosphor/src/regular/ArrowDown'
 import ArrowFatDownRegular from 'react-native-phosphor/src/regular/ArrowFatDown'
 import ArrowFatUpRegular from 'react-native-phosphor/src/regular/ArrowFatUp'
 import ArrowLeftRegular from 'react-native-phosphor/src/regular/ArrowLeft'
+import ArrowSquareOutRegular from 'react-native-phosphor/src/regular/ArrowSquareOut'
 import ArrowsSplitRegular from 'react-native-phosphor/src/regular/ArrowsSplit'
 import ArrowUpRegular from 'react-native-phosphor/src/regular/ArrowUp'
 import BookmarkSimpleRegular from 'react-native-phosphor/src/regular/BookmarkSimple'
@@ -169,6 +173,12 @@ const icons = {
     duotone: ArrowLeftDuotone,
     fill: ArrowLeftFill,
     regular: ArrowLeftRegular,
+  },
+  ArrowSquareOut: {
+    bold: ArrowSquareOutBold,
+    duotone: ArrowSquareOutDuotone,
+    fill: ArrowSquareOutFill,
+    regular: ArrowSquareOutRegular,
   },
   ArrowUp: {
     bold: ArrowUpBold,

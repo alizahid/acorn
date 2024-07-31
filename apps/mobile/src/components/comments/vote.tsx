@@ -3,14 +3,14 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
-import { type Comment } from '~/types/comment'
+import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 
 type Props = {
-  comment: Comment
+  comment: CommentReply
   postId?: string
 }
 

@@ -5,6 +5,10 @@ import {
   type PostQueryData,
   type PostQueryKey,
 } from '~/hooks/queries/posts/post'
+import {
+  type CommentsQueryData,
+  type CommentsQueryKey,
+} from '~/hooks/queries/user/comments'
 import { TYPE_COMMENT } from '~/lib/const'
 import { redditApi } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
@@ -38,6 +42,37 @@ export function useCommentSave() {
       })
     },
     onMutate(variables) {
+      queryClient.setQueryData<CommentsQueryData>(
+        ['comments'] satisfies CommentsQueryKey,
+        (previous) => {
+          if (!previous) {
+            return previous
+          }
+
+          return create(previous, (draft) => {
+            let found = false
+
+            for (const page of draft.pages) {
+              if (found) {
+                break
+              }
+
+              for (const item of page.comments) {
+                if (
+                  item.type === 'reply' &&
+                  item.data.id === variables.commentId
+                ) {
+                  item.data.saved = variables.action === 'save'
+
+                  found = true
+
+                  break
+                }
+              }
+            }
+          })
+        },
+      )
       if (variables.postId) {
         queryClient.setQueryData<PostQueryData>(
           ['post', variables.postId] satisfies PostQueryKey,
@@ -48,8 +83,11 @@ export function useCommentSave() {
 
             return create(data, (draft) => {
               for (const item of draft.comments) {
-                if (item.id === variables.commentId) {
-                  item.saved = variables.action === 'save'
+                if (
+                  item.type === 'reply' &&
+                  item.data.id === variables.commentId
+                ) {
+                  item.data.saved = variables.action === 'save'
 
                   break
                 }

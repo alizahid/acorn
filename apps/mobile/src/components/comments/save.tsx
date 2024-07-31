@@ -1,13 +1,13 @@
 import { useStyles } from 'react-native-unistyles'
 
 import { useCommentSave } from '~/hooks/mutations/comments/save'
-import { type Comment } from '~/types/comment'
+import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 
 type Props = {
-  comment: Comment
+  comment: CommentReply
   postId?: string
 }
 

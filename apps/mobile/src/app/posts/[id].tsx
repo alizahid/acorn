@@ -9,15 +9,14 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { CommentCard } from '~/components/comments/card'
+import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { PostCard } from '~/components/posts/card'
 import { usePost } from '~/hooks/queries/posts/post'
-import { type FeedType } from '~/hooks/queries/posts/posts'
 
 type Params = {
-  feedType?: FeedType
   id: string
 }
 
@@ -64,11 +63,16 @@ export default function Screen() {
       contentContainerStyle={styles.list(insets.bottom)}
       data={comments}
       estimatedItemSize={72}
-      keyExtractor={(item) => item.id}
+      getItemType={(item) => item.type}
+      keyExtractor={(item) => item.data.id}
       refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ item }) => (
-        <CommentCard comment={item} postId={post?.id} />
-      )}
+      renderItem={({ item }) => {
+        if (item.type === 'reply') {
+          return <CommentCard comment={item.data} postId={post?.id} />
+        }
+
+        return <CommentMoreCard comment={item.data} post={post} />
+      }}
       scrollIndicatorInsets={{
         bottom: 1,
         right: 1,
