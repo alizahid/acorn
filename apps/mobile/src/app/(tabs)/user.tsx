@@ -7,8 +7,8 @@ import { Icon, type IconName } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
-import { UserFeedType } from '~/hooks/queries/posts/posts'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { UserFeedType } from '~/types/user'
 
 export default function Screen() {
   const router = useRouter()

@@ -1,25 +1,26 @@
 import { useFocusEffect, useNavigation } from 'expo-router'
 
-import { FeedTypeMenu, TopIntervalMenu } from '~/components/posts/header'
+import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
+import { FeedSortMenu } from '~/components/posts/sort'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 
 export default function Screen() {
   const navigation = useNavigation()
 
-  const { feed, interval, updatePreferences } = usePreferences()
+  const { interval, sort, updatePreferences } = usePreferences()
 
   useFocusEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
         <>
-          <FeedTypeMenu
-            onChange={(nextFeed) => {
+          <FeedSortMenu
+            onChange={(value) => {
               const next: Partial<PreferencesPayload> = {
-                feed: nextFeed,
+                sort: value,
               }
 
-              if (nextFeed === 'top') {
+              if (value === 'top') {
                 next.interval = 'hour'
               } else {
                 next.interval = undefined
@@ -27,17 +28,17 @@ export default function Screen() {
 
               updatePreferences(next)
             }}
-            type={feed}
+            value={sort}
           />
 
-          {feed === 'top' ? (
+          {sort === 'top' ? (
             <TopIntervalMenu
-              interval={interval}
               onChange={(next) => {
                 updatePreferences({
                   interval: next,
                 })
               }}
+              value={interval}
             />
           ) : null}
         </>
@@ -45,5 +46,5 @@ export default function Screen() {
     })
   })
 
-  return <PostList interval={interval} type={feed} />
+  return <PostList interval={interval} sort={sort} />
 }

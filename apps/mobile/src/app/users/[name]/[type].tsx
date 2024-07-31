@@ -5,37 +5,37 @@ import {
 } from 'expo-router'
 import { useState } from 'react'
 import { useTranslations } from 'use-intl'
+import { z } from 'zod'
 
-import { FeedTypeMenu, TopIntervalMenu } from '~/components/posts/header'
-import { PostList } from '~/components/posts/list'
-import {
-  type FeedTypeSubreddit,
-  type TopInterval,
-  type UserFeedType,
-} from '~/hooks/queries/posts/posts'
+import { TopIntervalMenu } from '~/components/posts/interval'
+import { FeedSortMenu } from '~/components/posts/sort'
+import { UserPostList } from '~/components/user/post-list'
+import { type TopInterval, type UserFeedSort } from '~/types/sort'
+import { UserFeedType } from '~/types/user'
 
-type Params = {
-  name: string
-  type: UserFeedType
-}
+const schema = z.object({
+  name: z.string().catch('mildpanda'),
+  type: z.enum(UserFeedType).catch('submitted'),
+})
 
 export default function Screen() {
   const navigation = useNavigation()
-  const params = useLocalSearchParams<Params>()
+
+  const params = schema.parse(useLocalSearchParams())
 
   const t = useTranslations('screen.user.index.menu')
 
-  const [type, setType] = useState<FeedTypeSubreddit>('hot')
+  const [sort, setSort] = useState<UserFeedSort>('hot')
   const [interval, setInterval] = useState<TopInterval>()
 
   useFocusEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <>
-          <FeedTypeMenu
+          <FeedSortMenu
             hideLabel
             onChange={(next) => {
-              setType(next)
+              setSort(next)
 
               if (next === 'top') {
                 setInterval('hour')
@@ -44,31 +44,31 @@ export default function Screen() {
               }
             }}
             placement="bottom-end"
-            type={type}
-            user
+            type="user"
+            value={sort}
           />
 
-          {type === 'top' ? (
+          {sort === 'top' ? (
             <TopIntervalMenu
               hideLabel
-              interval={interval}
               onChange={setInterval}
               placement="bottom-end"
+              value={interval}
             />
           ) : null}
         </>
       ),
-      title: t(params.type!),
+      title: t(params.type),
     })
   })
 
   return (
-    <PostList
+    <UserPostList
       inset
       interval={interval}
-      type={type}
-      userName={params.name}
-      userType={params.type}
+      sort={sort}
+      type={params.type}
+      username={params.name}
     />
   )
 }

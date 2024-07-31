@@ -1,15 +1,15 @@
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
-import { type FeedType, type TopInterval } from '~/hooks/queries/posts/posts'
 import { Store } from '~/lib/store'
+import { type FeedSort, type TopInterval } from '~/types/sort'
 
 export const PREFERENCES_KEY = 'preferences-storage'
 
 export type PreferencesPayload = {
-  feed: FeedType
   interval?: TopInterval
   muted: boolean
+  sort: FeedSort
 }
 
 type State = PreferencesPayload & {
@@ -19,8 +19,8 @@ type State = PreferencesPayload & {
 export const usePreferences = create<State>()(
   persist(
     (set) => ({
-      feed: 'best',
       muted: true,
+      sort: 'best',
       updatePreferences(payload) {
         set(payload)
       },

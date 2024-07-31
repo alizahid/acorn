@@ -11,6 +11,7 @@ import { Controller, useForm } from 'react-hook-form'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { z } from 'zod'
 
 import { Button } from '~/components/common/button'
 import { Logo } from '~/components/common/logo'
@@ -20,14 +21,15 @@ import { useSignIn } from '~/hooks/mutations/auth/sign-in'
 import { type GetAuthCodeForm, GetAuthCodeSchema } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 
-type Params = {
-  mode?: 'dismissible'
-}
+const schema = z.object({
+  mode: z.enum(['dismissible']).optional().catch(undefined),
+})
 
 export default function Screen() {
   const router = useRouter()
   const navigation = useNavigation()
-  const params = useLocalSearchParams<Params>()
+
+  const params = schema.parse(useLocalSearchParams())
 
   const t = useTranslations('screen.auth.signIn')
 

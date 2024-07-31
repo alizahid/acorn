@@ -5,7 +5,8 @@ import { PostsSchema } from '~/schemas/reddit/posts'
 import { useAuth } from '~/stores/auth'
 import { transformPost } from '~/transformers/post'
 import { type Post } from '~/types/post'
-import { type FeedSort, type TopInterval } from '~/types/sort'
+import { type TopInterval, type UserFeedSort } from '~/types/sort'
+import { type UserFeedType } from '~/types/user'
 
 type Param = string | undefined | null
 
@@ -14,24 +15,31 @@ type Page = {
   posts: Array<Post>
 }
 
-export type PostsQueryKey = [
+export type UserPostsQueryKey = [
   'posts',
+  string,
   {
-    community?: string
     interval?: TopInterval
-    sort?: FeedSort
+    sort?: UserFeedSort
+    type: UserFeedType
   },
 ]
 
-export type PostsQueryData = InfiniteData<Page, Param>
+export type UserPostsQueryData = InfiniteData<Page, Param>
 
-export type PostsProps = {
-  community?: string
+export type UserPostsProps = {
   interval?: TopInterval
-  sort: FeedSort
+  sort: UserFeedSort
+  type: UserFeedType
+  username: string
 }
 
-export function usePosts({ community, interval, sort }: PostsProps) {
+export function useUserPosts({
+  interval,
+  sort,
+  type,
+  username,
+}: UserPostsProps) {
   const { accessToken, expired } = useAuth()
 
   const {
@@ -42,18 +50,24 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     isLoading,
     isRefetching,
     refetch,
-  } = useInfiniteQuery<Page, Error, PostsQueryData, PostsQueryKey, Param>({
+  } = useInfiniteQuery<
+    Page,
+    Error,
+    UserPostsQueryData,
+    UserPostsQueryKey,
+    Param
+  >({
     enabled: !expired,
     getNextPageParam(page) {
       return page.cursor
     },
     initialPageParam: null,
     async queryFn({ pageParam }) {
-      const path = community ? `/r/${community}` : `/${sort}`
-
-      const url = new URL(path, REDDIT_URI)
+      const url = new URL(`/user/${username}/${type}`, REDDIT_URI)
 
       url.searchParams.set('limit', '25')
+      url.searchParams.set('type', 'link')
+      url.searchParams.set('sort', sort)
 
       if (pageParam) {
         url.searchParams.set('after', pageParam)
@@ -77,10 +91,11 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     },
     queryKey: [
       'posts',
+      username,
       {
-        community,
         interval,
         sort,
+        type,
       },
     ],
   })

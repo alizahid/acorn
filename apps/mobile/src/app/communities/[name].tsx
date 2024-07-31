@@ -4,34 +4,33 @@ import {
   useNavigation,
 } from 'expo-router'
 import { useState } from 'react'
+import { z } from 'zod'
 
-import { FeedTypeMenu, TopIntervalMenu } from '~/components/posts/header'
+import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
-import {
-  type FeedTypeSubreddit,
-  type TopInterval,
-} from '~/hooks/queries/posts/posts'
+import { FeedSortMenu } from '~/components/posts/sort'
+import { type CommunityFeedSort, type TopInterval } from '~/types/sort'
 
-type Params = {
-  name: string
-}
+const schema = z.object({
+  name: z.string().catch('acornapp'),
+})
 
 export default function Screen() {
   const navigation = useNavigation()
 
-  const params = useLocalSearchParams<Params>()
+  const params = schema.parse(useLocalSearchParams())
 
-  const [type, setType] = useState<FeedTypeSubreddit>('hot')
+  const [sort, setSort] = useState<CommunityFeedSort>('hot')
   const [interval, setInterval] = useState<TopInterval>()
 
   useFocusEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <>
-          <FeedTypeMenu
+          <FeedSortMenu
             hideLabel
             onChange={(next) => {
-              setType(next)
+              setSort(next)
 
               if (next === 'top') {
                 setInterval('hour')
@@ -40,16 +39,16 @@ export default function Screen() {
               }
             }}
             placement="bottom-end"
-            subreddit
-            type={type}
+            type="community"
+            value={sort}
           />
 
-          {type === 'top' ? (
+          {sort === 'top' ? (
             <TopIntervalMenu
               hideLabel
-              interval={interval}
               onChange={setInterval}
               placement="bottom-end"
+              value={interval}
             />
           ) : null}
         </>
@@ -59,6 +58,6 @@ export default function Screen() {
   })
 
   return (
-    <PostList inset interval={interval} subreddit={params.name} type={type} />
+    <PostList community={params.name} inset interval={interval} sort={sort} />
   )
 }

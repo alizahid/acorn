@@ -8,17 +8,17 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
+import { type UserPostsProps, useUserPosts } from '~/hooks/queries/user/posts'
 import { type Post } from '~/types/post'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 
-type Props = PostsProps & {
+type Props = UserPostsProps & {
   inset?: boolean
 }
 
-export function PostList({ community, inset, interval, sort }: Props) {
+export function UserPostList({ inset, interval, sort, type, username }: Props) {
   const insets = useSafeAreaInsets()
 
   const { styles } = useStyles(stylesheet)
@@ -35,10 +35,11 @@ export function PostList({ community, inset, interval, sort }: Props) {
     isLoading,
     posts,
     refetch,
-  } = usePosts({
-    community,
+  } = useUserPosts({
     interval,
     sort,
+    type,
+    username,
   })
 
   const [viewing, setViewing] = useState<Array<string>>([])

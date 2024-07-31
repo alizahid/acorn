@@ -9,3 +9,13 @@ export type Profile = {
   }
   name: string
 }
+
+export const UserFeedType = [
+  'submitted',
+  'comments',
+  'saved',
+  'upvoted',
+  'downvoted',
+] as const
+
+export type UserFeedType = (typeof UserFeedType)[number]
