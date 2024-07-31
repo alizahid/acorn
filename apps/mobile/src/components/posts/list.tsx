@@ -40,7 +40,6 @@ export function PostList({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefetching,
     posts,
     refetch,
   } = usePosts({
@@ -56,9 +55,7 @@ export function PostList({
   return (
     <FlashList
       ItemSeparatorComponent={() => <View style={styles.separator} />}
-      ListEmptyComponent={
-        isRefetching ? null : isLoading ? <Loading /> : <Empty />
-      }
+      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }

@@ -47,16 +47,13 @@ export default function Screen() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefetching,
     refetch,
   } = useComments(params.name)
 
   return (
     <FlashList
       ItemSeparatorComponent={() => <View style={styles.separator} />}
-      ListEmptyComponent={
-        isRefetching ? null : isLoading ? <Loading /> : <Empty />
-      }
+      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }

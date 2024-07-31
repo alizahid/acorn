@@ -55,9 +55,8 @@ export function AccountSwitchCard() {
             {account.id === accountId ? (
               <Icon
                 color={theme.colors.accent.a9}
-                name="Check"
+                name="CheckCircle"
                 size={theme.typography[3].lineHeight}
-                weight="bold"
               />
             ) : (
               <View style={styles.check} />
@@ -77,7 +76,6 @@ export function AccountSwitchCard() {
             color={theme.colors.green.a9}
             name="PlusCircle"
             size={theme.typography[3].lineHeight}
-            weight="bold"
           />
 
           <Text weight="medium">Add account</Text>

@@ -1,8 +1,10 @@
+import { Image } from 'expo-image'
 import { View } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { Icon } from './icon'
+import notFound from '~/images/not-found.png'
+
 import { Text } from './text'
 
 type Props = {
@@ -12,15 +14,11 @@ type Props = {
 export function Empty({ message }: Props) {
   const frame = useSafeAreaFrame()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   return (
     <View style={styles.main}>
-      <Icon
-        color={theme.colors.red.a9}
-        name="CloudRain"
-        size={frame.width / 4}
-      />
+      <Image source={notFound} style={styles.image(frame.width)} />
 
       {message ? (
         <Text size="4" weight="medium">
@@ -32,6 +30,10 @@ export function Empty({ message }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  image: (size: number) => ({
+    height: size,
+    width: size,
+  }),
   main: {
     alignItems: 'center',
     flex: 1,

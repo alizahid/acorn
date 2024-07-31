@@ -64,7 +64,7 @@ export default function Layout() {
       <Tabs.Screen
         name="user"
         options={{
-          headerLeft: () => <AccountSwitchCard />,
+          headerRight: () => <AccountSwitchCard />,
           tabBarIcon: (props) => (
             <Icon
               {...props}

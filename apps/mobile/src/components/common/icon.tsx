@@ -12,7 +12,7 @@ import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
 import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
 import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
 import ChatCircleTextBold from 'react-native-phosphor/src/bold/ChatCircleText'
-import CheckBold from 'react-native-phosphor/src/bold/Check'
+import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CloudRainBold from 'react-native-phosphor/src/bold/CloudRain'
 import DoorBold from 'react-native-phosphor/src/bold/Door'
@@ -47,7 +47,7 @@ import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
 import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
 import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
 import ChatCircleTextDuotone from 'react-native-phosphor/src/duotone/ChatCircleText'
-import CheckDuotone from 'react-native-phosphor/src/duotone/Check'
+import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CloudRainDuotone from 'react-native-phosphor/src/duotone/CloudRain'
 import DoorDuotone from 'react-native-phosphor/src/duotone/Door'
@@ -82,7 +82,7 @@ import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
 import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
 import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
 import ChatCircleTextFill from 'react-native-phosphor/src/fill/ChatCircleText'
-import CheckFill from 'react-native-phosphor/src/fill/Check'
+import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CloudRainFill from 'react-native-phosphor/src/fill/CloudRain'
 import DoorFill from 'react-native-phosphor/src/fill/Door'
@@ -117,7 +117,7 @@ import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
 import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
 import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
 import ChatCircleTextRegular from 'react-native-phosphor/src/regular/ChatCircleText'
-import CheckRegular from 'react-native-phosphor/src/regular/Check'
+import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CloudRainRegular from 'react-native-phosphor/src/regular/CloudRain'
 import DoorRegular from 'react-native-phosphor/src/regular/Door'
@@ -238,11 +238,11 @@ const icons = {
     fill: ChatCircleTextFill,
     regular: ChatCircleTextRegular,
   },
-  Check: {
-    bold: CheckBold,
-    duotone: CheckDuotone,
-    fill: CheckFill,
-    regular: CheckRegular,
+  CheckCircle: {
+    bold: CheckCircleBold,
+    duotone: CheckCircleDuotone,
+    fill: CheckCircleFill,
+    regular: CheckCircleRegular,
   },
   Clock: {
     bold: ClockBold,

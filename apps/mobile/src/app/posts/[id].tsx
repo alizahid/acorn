@@ -33,9 +33,7 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
-  const { comments, isLoading, isRefetching, post, refetch } = usePost(
-    params.id,
-  )
+  const { comments, isLoading, post, refetch } = usePost(params.id)
 
   useFocusEffect(() => {
     if (!post) {
@@ -59,9 +57,7 @@ export default function Screen() {
   return (
     <FlashList
       ItemSeparatorComponent={() => <View style={styles.separator} />}
-      ListEmptyComponent={
-        isRefetching ? null : isLoading ? <Loading /> : <Empty />
-      }
+      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListHeaderComponent={
         post ? (
           <PostCard expanded post={post} style={styles.post} viewing />
