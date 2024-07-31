@@ -9,6 +9,14 @@ export const queryClient = new QueryClient({
     queries: {
       gcTime: Infinity,
       staleTime: Infinity,
+      throwOnError(error) {
+        if (__DEV__) {
+          // eslint-disable-next-line no-console -- dev
+          console.log(error)
+        }
+
+        return false
+      },
     },
   },
 })

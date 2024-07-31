@@ -197,6 +197,11 @@ export async function redditApi<Response>({
 
   input.searchParams.set('g', 'GLOBAL')
 
+  if (__DEV__) {
+    // eslint-disable-next-line no-console -- dev
+    console.log('reddit', input.toString())
+  }
+
   const response = await fetch(input, request)
 
   return (await response.json()) as Response
