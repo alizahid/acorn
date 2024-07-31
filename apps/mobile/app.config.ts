@@ -4,7 +4,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ...config,
   android: {
     adaptiveIcon: {
-      backgroundColor: '#fff',
+      backgroundColor: '#101211',
       foregroundImage: './assets/artwork/adaptive-icon.png',
     },
   },
@@ -42,7 +42,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   scheme: 'acorn',
   slug: 'acorn',
   splash: {
-    backgroundColor: '#fff',
+    backgroundColor: '#101211',
     image: './assets/artwork/splash.png',
     resizeMode: 'contain',
   },
