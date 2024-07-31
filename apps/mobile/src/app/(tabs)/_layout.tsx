@@ -77,6 +77,7 @@ export default function Layout() {
       <Tabs.Screen
         name="communities"
         options={{
+          headerShown: false,
           tabBarIcon: (props) => (
             <Icon
               {...props}
@@ -84,7 +85,6 @@ export default function Layout() {
               weight={props.focused ? 'fill' : 'duotone'}
             />
           ),
-          title: t('communities.title'),
         }}
       />
 

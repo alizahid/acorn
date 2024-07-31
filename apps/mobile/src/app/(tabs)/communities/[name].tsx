@@ -13,7 +13,7 @@ import {
 } from '~/hooks/queries/posts/posts'
 
 type Params = {
-  subreddit: string
+  name: string
 }
 
 export default function Screen() {
@@ -54,11 +54,9 @@ export default function Screen() {
           ) : null}
         </>
       ),
-      title: params.subreddit,
+      title: params.name,
     })
   })
 
-  return (
-    <PostList interval={interval} subreddit={params.subreddit} type={type} />
-  )
+  return <PostList interval={interval} subreddit={params.name} type={type} />
 }
