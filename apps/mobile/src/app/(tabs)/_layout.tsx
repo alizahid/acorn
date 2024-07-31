@@ -64,6 +64,7 @@ export default function Layout() {
         name="user"
         options={{
           headerShown: false,
+          lazy: false,
           tabBarIcon: (props) => (
             <Icon
               {...props}
@@ -78,6 +79,7 @@ export default function Layout() {
         name="communities"
         options={{
           headerShown: false,
+          lazy: false,
           tabBarIcon: (props) => (
             <Icon
               {...props}
