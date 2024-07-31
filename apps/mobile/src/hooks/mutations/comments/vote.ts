@@ -9,8 +9,7 @@ import {
   type CommentsQueryData,
   type CommentsQueryKey,
 } from '~/hooks/queries/user/comments'
-import { TYPE_COMMENT } from '~/lib/const'
-import { redditApi } from '~/lib/reddit'
+import { addPrefix, redditApi } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 
 type Variables = {
@@ -32,7 +31,7 @@ export function useCommentVote() {
 
       const body = new FormData()
 
-      body.append('id', `${TYPE_COMMENT}${variables.commentId}`)
+      body.append('id', addPrefix(variables.commentId, 'comment'))
       body.append('dir', String(variables.direction))
 
       await redditApi({

@@ -2,7 +2,7 @@ import { addHours } from 'date-fns'
 import * as SecureStore from 'expo-secure-store'
 import { z } from 'zod'
 
-import { USER_AGENT } from './const'
+import { USER_AGENT } from './reddit'
 
 const GifSchema = z.object({
   gif: z.object({

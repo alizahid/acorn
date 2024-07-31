@@ -6,9 +6,8 @@ import {
   type PostQueryKey,
 } from '~/hooks/queries/posts/post'
 import { type PostsQueryData } from '~/hooks/queries/posts/posts'
-import { TYPE_LINK } from '~/lib/const'
 import { queryClient } from '~/lib/query'
-import { redditApi } from '~/lib/reddit'
+import { addPrefix, redditApi } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 
 type Variables = {
@@ -27,7 +26,7 @@ export function usePostSave() {
 
       const body = new FormData()
 
-      body.append('id', `${TYPE_LINK}${variables.postId}`)
+      body.append('id', addPrefix(variables.postId, 'link'))
 
       await redditApi({
         accessToken,

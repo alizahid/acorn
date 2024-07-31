@@ -2,7 +2,20 @@ import { addSeconds } from 'date-fns'
 import * as WebBrowser from 'expo-web-browser'
 import { z } from 'zod'
 
-import { REDDIT_SCOPES, REDDIT_URI, REDIRECT_URI, USER_AGENT } from './const'
+export const REDIRECT_URI = 'acorn://login'
+export const USER_AGENT = 'ios:blue.acorn:v1.0.0'
+
+export const REDDIT_URI = 'https://oauth.reddit.com'
+export const REDDIT_SCOPES = [
+  'history',
+  'identity',
+  'mysubreddits',
+  'read',
+  'report',
+  'save',
+  'subscribe',
+  'vote',
+].join(' ')
 
 export const GetAuthCodeSchema = z.object({
   clientId: z.string().min(10),
@@ -146,11 +159,34 @@ export async function redditApi<Response>({
     headers.set('content-type', 'multipart/form-data')
   }
 
-  const input = typeof url === 'string' ? new URL(url, REDDIT_URI) : url
+  const input = new URL(url, REDDIT_URI)
 
   input.searchParams.set('g', 'GLOBAL')
 
   const response = await fetch(input, request)
 
   return (await response.json()) as Response
+}
+
+const prefixes = {
+  account: 't2_',
+  award: 't6_',
+  comment: 't1_',
+  link: 't3_',
+  message: 't4_',
+  subreddit: 't5_',
+} as const
+
+export function addPrefix(id: string, type: keyof typeof prefixes) {
+  const prefix = prefixes[type]
+
+  if (id.startsWith(prefix)) {
+    return id
+  }
+
+  return prefix + id
+}
+
+export function removePrefix(id: string) {
+  return id.split('_').pop()!
 }

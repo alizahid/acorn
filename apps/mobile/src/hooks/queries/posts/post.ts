@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { REDDIT_URI } from '~/lib/const'
-import { redditApi } from '~/lib/reddit'
+import { REDDIT_URI, redditApi } from '~/lib/reddit'
 import { PostSchema } from '~/schemas/reddit/post'
 import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'

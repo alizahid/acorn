@@ -1,6 +1,5 @@
 import { decode } from 'entities'
 
-import { TYPE_COMMENT, TYPE_LINK } from '~/lib/const'
 import { getMeta } from '~/lib/media'
 import { type CommentsSchema } from '~/schemas/reddit/comments'
 import { type Comment } from '~/types/comment'
@@ -31,9 +30,7 @@ export function transformComment(
       media: {
         meta: getMeta(data.data),
       },
-      parentId: data.data.parent_id.startsWith(TYPE_LINK)
-        ? undefined
-        : data.data.parent_id.slice(TYPE_COMMENT.length),
+      parentId: data.data.parent_id,
       saved: data.data.saved,
       user: {
         name: data.data.author,

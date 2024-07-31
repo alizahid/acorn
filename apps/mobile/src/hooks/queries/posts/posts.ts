@@ -1,8 +1,7 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import { compact } from 'lodash'
 
-import { REDDIT_URI } from '~/lib/const'
-import { redditApi } from '~/lib/reddit'
+import { REDDIT_URI, redditApi } from '~/lib/reddit'
 import { PostsSchema } from '~/schemas/reddit/posts'
 import { useAuth } from '~/stores/auth'
 import { transformPost } from '~/transformers/post'
