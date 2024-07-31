@@ -5,6 +5,7 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { Header } from '~/components/navigation/header'
 import { TabBar } from '~/components/navigation/tab-bar'
+import { AccountSwitchCard } from '~/components/user/switch'
 import { useAuth } from '~/stores/auth'
 
 export default function Layout() {
@@ -22,7 +23,7 @@ export default function Layout() {
 
   useFocusEffect(() => {
     if (!accessToken) {
-      router.navigate('/auth/sign-in')
+      router.navigate('/sign-in')
     }
   })
 
@@ -63,6 +64,7 @@ export default function Layout() {
       <Tabs.Screen
         name="user"
         options={{
+          headerLeft: () => <AccountSwitchCard />,
           tabBarIcon: (props) => (
             <Icon
               {...props}

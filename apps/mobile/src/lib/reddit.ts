@@ -2,6 +2,9 @@ import { addSeconds } from 'date-fns'
 import * as WebBrowser from 'expo-web-browser'
 import { z } from 'zod'
 
+import { type ProfileSchema } from '~/schemas/reddit/profile'
+import { type Account } from '~/stores/auth'
+
 export const REDIRECT_URI = 'acorn://login'
 export const USER_AGENT = 'ios:blue.acorn:v1.0.0'
 
@@ -60,7 +63,10 @@ export const GetTokenSchema = z.object({
 
 export type GetTokenPayload = z.infer<typeof GetTokenSchema>
 
-export async function getAccessToken(clientId: string, code: string) {
+export async function getAccessToken(
+  clientId: string,
+  code: string,
+): Promise<Account | null> {
   const url = new URL('/api/v1/access_token', 'https://www.reddit.com')
 
   const data = new FormData()
@@ -85,15 +91,24 @@ export async function getAccessToken(clientId: string, code: string) {
     return null
   }
 
+  const id = await getAccountName(result.data.access_token)
+
+  if (!id) {
+    return null
+  }
+
   return {
     accessToken: result.data.access_token,
-    clientId,
     expiresAt: addSeconds(new Date(), result.data.expires_in - 60),
+    id,
     refreshToken: result.data.refresh_token,
   }
 }
 
-export async function refreshAccessToken(clientId: string, token: string) {
+export async function refreshAccessToken(
+  clientId: string,
+  token: string,
+): Promise<Account | null> {
   const url = new URL('/api/v1/access_token', 'https://www.reddit.com')
 
   const data = new FormData()
@@ -118,16 +133,35 @@ export async function refreshAccessToken(clientId: string, token: string) {
     return null
   }
 
+  const id = await getAccountName(result.data.access_token)
+
+  if (!id) {
+    return null
+  }
+
   return {
     accessToken: result.data.access_token,
-    clientId,
     expiresAt: addSeconds(new Date(), result.data.expires_in - 60),
+    id,
     refreshToken: result.data.refresh_token,
   }
 }
 
+async function getAccountName(accessToken: string) {
+  const response = await redditApi<ProfileSchema>({
+    accessToken,
+    url: '/api/v1/me',
+  })
+
+  if (!response) {
+    return null
+  }
+
+  return response.name
+}
+
 type ApiProps = {
-  accessToken: string | null
+  accessToken?: string
   body?: FormData
   method?: 'get' | 'post'
   url: string | URL

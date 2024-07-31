@@ -27,7 +27,7 @@ export const usePreferences = create<State>()(
     }),
     {
       name: PREFERENCES_KEY,
-      storage: createJSONStorage(() => new Store()),
+      storage: createJSONStorage(() => new Store(PREFERENCES_KEY)),
     },
   ),
 )

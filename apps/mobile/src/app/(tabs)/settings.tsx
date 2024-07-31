@@ -6,12 +6,14 @@ import { useTranslations } from 'use-intl'
 import { Icon, type IconName } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
-import { signOut } from '~/lib/auth'
+import { useSignOut } from '~/hooks/mutations/auth/sign-out'
 
 export default function Screen() {
   const router = useRouter()
 
   const t = useTranslations('screen.settings')
+
+  const { signOut } = useSignOut()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -33,8 +35,8 @@ export default function Screen() {
       color: 'red',
       icon: 'Door' satisfies IconName,
       key: 'signOut',
-      onPress: async () => {
-        await signOut()
+      onPress: () => {
+        signOut()
       },
     },
   ] as const
@@ -56,7 +58,7 @@ export default function Screen() {
               }
 
               if ('onPress' in item) {
-                void item.onPress()
+                item.onPress()
               }
             }}
             style={styles.item}

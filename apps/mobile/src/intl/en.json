@@ -36,6 +36,11 @@
           "year": "This year"
         }
       }
+    },
+    "user": {
+      "switch": {
+        "title": "Switch accounts"
+      }
     }
   },
   "screen": {

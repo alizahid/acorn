@@ -21,8 +21,9 @@ export function Root() {
       />
 
       <Stack.Screen
-        name="(modal)"
+        name="sign-in"
         options={{
+          gestureEnabled: false,
           headerShown: false,
           presentation: 'modal',
         }}

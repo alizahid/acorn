@@ -1,6 +1,11 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createId } from '@paralleldrive/cuid2'
-import { useRouter } from 'expo-router'
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Controller, useForm } from 'react-hook-form'
 import { View } from 'react-native'
@@ -13,25 +18,45 @@ import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
 import { type GetAuthCodeForm, GetAuthCodeSchema } from '~/lib/reddit'
+import { useAuth } from '~/stores/auth'
+
+type Params = {
+  mode?: 'dismissible'
+}
 
 export default function Screen() {
   const router = useRouter()
+  const navigation = useNavigation()
+  const params = useLocalSearchParams<Params>()
 
   const t = useTranslations('screen.auth.signIn')
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const { clientId, setClientId } = useAuth()
   const { isPending, signIn } = useSignIn()
+
+  useFocusEffect(() => {
+    if (!params.mode) {
+      return
+    }
+
+    navigation.setOptions({
+      gestureEnabled: true,
+    })
+  })
 
   const { control, handleSubmit } = useForm<GetAuthCodeForm>({
     defaultValues: {
-      clientId: '',
+      clientId: clientId ?? '',
       state: createId(),
     },
     resolver: zodResolver(GetAuthCodeSchema),
   })
 
   const onSubmit = handleSubmit(async (data) => {
+    setClientId(data.clientId)
+
     await signIn(data)
 
     router.dismiss()

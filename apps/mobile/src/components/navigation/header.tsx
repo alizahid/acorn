@@ -28,6 +28,7 @@ export function Header({ navigation, options, ...props }: Props) {
                 onPress={() => {
                   navigation.goBack()
                 }}
+                weight="bold"
               />
             ) : null}
 

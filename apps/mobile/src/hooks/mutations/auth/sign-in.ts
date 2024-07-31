@@ -4,7 +4,7 @@ import { getAccessToken, getAuthCode, type GetAuthCodeForm } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 
 export function useSignIn() {
-  const { save } = useAuth()
+  const { addAccount } = useAuth()
 
   const { isPending, mutateAsync } = useMutation<
     unknown,
@@ -18,10 +18,10 @@ export function useSignIn() {
         return null
       }
 
-      const token = await getAccessToken(data.clientId, code)
+      const payload = await getAccessToken(data.clientId, code)
 
-      if (token) {
-        save(token)
+      if (payload) {
+        addAccount(payload)
       }
     },
   })

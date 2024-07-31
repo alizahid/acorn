@@ -1,8 +1,9 @@
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type ColorToken } from '~/styles/colors'
 
-import { Icon, type IconName } from '../common/icon'
+import { Icon, type IconName, type IconWeight } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 
@@ -12,6 +13,8 @@ type Props = {
   icon: IconName
   loading?: boolean
   onPress?: () => void
+  style?: StyleProp<ViewStyle>
+  weight?: IconWeight
 }
 
 export function HeaderButton({
@@ -20,11 +23,17 @@ export function HeaderButton({
   icon,
   loading,
   onPress,
+  style,
+  weight,
 }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <Pressable disabled={loading} onPress={onPress} style={styles.main}>
+    <Pressable
+      disabled={loading}
+      onPress={onPress}
+      style={[styles.main, style]}
+    >
       {loading ? (
         <Spinner color={color} contrast={contrast} />
       ) : (
@@ -32,7 +41,7 @@ export function HeaderButton({
           color={theme.colors[color][contrast ? 'contrast' : 11]}
           name={icon}
           size={theme.space[5]}
-          weight="bold"
+          weight={weight}
         />
       )}
     </Pressable>
