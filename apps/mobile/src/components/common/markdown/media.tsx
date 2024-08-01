@@ -2,13 +2,13 @@ import { Image } from 'expo-image'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type PostImage } from '~/types/post'
+import { type PostMedia } from '~/types/post'
 
 import { Text } from '../text'
 
 type Props = {
   caption?: string
-  media: PostImage
+  media: PostMedia
 }
 
 export function MarkdownMedia({ caption, media }: Props) {

@@ -16,14 +16,14 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { getDimensions } from '~/lib/media'
-import { type PostImage } from '~/types/post'
+import { type PostMedia } from '~/types/post'
 
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { HeaderButton } from '../navigation/header-button'
 
 type Props = {
-  images: Array<PostImage>
+  images: Array<PostMedia>
   margin?: number
   style?: StyleProp<ViewStyle>
 }

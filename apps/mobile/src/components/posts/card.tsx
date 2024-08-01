@@ -46,9 +46,7 @@ export function PostCard({
         </Text>
       </Pressable>
 
-      {post.type === 'link' ? (
-        <PostLinkCard margin={margin} post={post} />
-      ) : post.crossPost ? (
+      {post.crossPost ? (
         <CrossPostCard
           margin={margin}
           post={post.crossPost}
@@ -61,6 +59,8 @@ export function PostCard({
           video={post.media.video}
           viewing={viewing}
         />
+      ) : post.type === 'link' && post.url ? (
+        <PostLinkCard margin={margin} post={post} />
       ) : post.media.images ? (
         <PostGalleryCard
           images={post.media.images}

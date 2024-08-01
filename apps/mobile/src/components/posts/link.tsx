@@ -1,13 +1,15 @@
+import { Image } from 'expo-image'
 import * as Linking from 'expo-linking'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { getDimensions } from '~/lib/media'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { PostGalleryCard } from './gallery'
 
 type Props = {
   margin?: number
@@ -16,7 +18,11 @@ type Props = {
 }
 
 export function PostLinkCard({ margin = 0, post, style }: Props) {
+  const frame = useSafeAreaFrame()
+
   const { styles, theme } = useStyles(stylesheet)
+
+  const image = post.media.images?.at(0)
 
   return (
     <Pressable
@@ -29,11 +35,11 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
       }}
       style={[styles.main, style]}
     >
-      {post.media.images ? (
-        <PostGalleryCard
-          images={post.media.images}
+      {image ? (
+        <Image
           key={post.id}
-          margin={margin + theme.space[5]}
+          source={image.url}
+          style={styles.image(frame.width - margin, image.height, image.width)}
         />
       ) : null}
 
@@ -59,6 +65,11 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[3],
     padding: theme.space[3],
   },
+  image: (frameWidth: number, height: number, width: number) =>
+    getDimensions(frameWidth, {
+      height,
+      width,
+    }),
   main: {
     backgroundColor: theme.colors.gray.a3,
     borderRadius: theme.radius[4],

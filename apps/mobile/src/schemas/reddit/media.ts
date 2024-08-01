@@ -83,6 +83,13 @@ export const PostPreviewSchema = z
         }),
       }),
     ),
+    reddit_video_preview: z
+      .object({
+        height: z.number(),
+        hls_url: z.string(),
+        width: z.number(),
+      })
+      .nullish(),
   })
   .nullish()
 

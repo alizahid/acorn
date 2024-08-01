@@ -49,26 +49,24 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
       }}
       style={styles.main}
     >
-      {post.type === 'link' ? (
+      {post.media.video ? (
+        <PostVideoCard
+          key={post.id}
+          margin={margin + theme.space[5]}
+          video={post.media.video}
+          viewing={viewing}
+        />
+      ) : post.type === 'link' && post.url ? (
         <PostLinkCard
           margin={margin + theme.space[5]}
           post={post}
           style={styles.header}
-        />
-      ) : post.media.video ? (
-        <PostVideoCard
-          key={post.id}
-          margin={margin + theme.space[5]}
-          style={styles.header}
-          video={post.media.video}
-          viewing={viewing}
         />
       ) : post.media.images ? (
         <PostGalleryCard
           images={post.media.images}
           key={post.id}
           margin={margin + theme.space[5]}
-          style={styles.header}
         />
       ) : null}
 

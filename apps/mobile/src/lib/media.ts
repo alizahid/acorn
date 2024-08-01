@@ -2,12 +2,8 @@ import { decode } from 'entities'
 import { compact } from 'lodash'
 
 import { type CommentDataSchema } from '~/schemas/reddit/comments'
-import { type PostDataSchema, type PostsSchema } from '~/schemas/reddit/posts'
-import {
-  type PostImage,
-  type PostMediaMeta,
-  type PostVideo,
-} from '~/types/post'
+import { type PostDataSchema } from '~/schemas/reddit/posts'
+import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
 export function getMeta(
   data: PostDataSchema | CommentDataSchema,
@@ -36,7 +32,7 @@ export function getMeta(
   return {}
 }
 
-export function getImages(data: PostDataSchema): Array<PostImage> | undefined {
+export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
   if (data.media_metadata && data.gallery_data) {
     return compact(
       data.gallery_data.items.map((item) => {
@@ -71,40 +67,22 @@ export function getImages(data: PostDataSchema): Array<PostImage> | undefined {
   }
 }
 
-export function getVideo(
-  media: PostsSchema['data']['children'][number]['data']['media'],
-): PostVideo | undefined {
-  if (!media) {
-    return
-  }
-
-  if ('reddit_video' in media) {
+export function getVideo(data: PostDataSchema): PostMedia | undefined {
+  if (data.media && 'reddit_video' in data.media) {
     return {
-      height: media.reddit_video.height,
-      provider: 'reddit',
+      height: data.media.reddit_video.height,
       type: 'video',
-      url: decode(media.reddit_video.hls_url),
-      width: media.reddit_video.width,
+      url: decode(data.media.reddit_video.hls_url),
+      width: data.media.reddit_video.width,
     }
   }
 
-  if ('oembed' in media) {
-    if (media.oembed.type === 'rich') {
-      return
-    }
-
-    const redGifsLink = /https:\/\/www\.redgifs\.com\/ifr\/(\w+)/.exec(
-      media.oembed.html,
-    )
-
-    if (redGifsLink) {
-      return {
-        height: media.oembed.height,
-        provider: 'redgifs',
-        type: 'video',
-        url: redGifsLink[1],
-        width: media.oembed.width,
-      }
+  if (data.preview?.reddit_video_preview) {
+    return {
+      height: data.preview.reddit_video_preview.height,
+      type: 'video',
+      url: decode(data.preview.reddit_video_preview.hls_url),
+      width: data.preview.reddit_video_preview.width,
     }
   }
 }

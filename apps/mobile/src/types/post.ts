@@ -15,9 +15,9 @@ export type Post = {
   id: string
   liked: boolean | null
   media: {
-    images?: Array<PostImage>
+    images?: Array<PostMedia>
     meta: PostMediaMeta
-    video?: PostVideo
+    video?: PostMedia
   }
   nsfw: boolean
   permalink: string
@@ -45,13 +45,9 @@ export type PostMediaMeta = Record<
   }
 >
 
-export type PostImage = {
+export type PostMedia = {
   height: number
   type: 'image' | 'video' | 'gif'
   url: string
   width: number
-}
-
-export type PostVideo = PostImage & {
-  provider: 'reddit' | 'redgifs'
 }

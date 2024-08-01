@@ -1,4 +1,4 @@
-import { type PostImage, type PostMediaMeta } from '~/types/post'
+import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
 type FindMediaProps = {
   frameWidth: number
@@ -10,7 +10,7 @@ export function findMedia({
   frameWidth,
   href,
   meta,
-}: FindMediaProps): PostImage | undefined {
+}: FindMediaProps): PostMedia | undefined {
   const media = Object.values(meta ?? {}).find((item) => item.url === href)
 
   if (media) {

@@ -11,7 +11,11 @@ export function transformPost(data: PostDataSchema): Post {
     type = 'image'
   } else if (data.is_gallery) {
     type = 'gallery'
-  } else if (data.is_video) {
+  } else if (
+    Boolean(data.is_video) ||
+    data.post_hint === 'rich:video' ||
+    data.post_hint === 'hosted:video'
+  ) {
     type = 'video'
   } else if (data.poll_data) {
     type = 'poll'
@@ -33,7 +37,7 @@ export function transformPost(data: PostDataSchema): Post {
     media: {
       images: getImages(data),
       meta: getMeta(data),
-      video: getVideo(data.media),
+      video: getVideo(data),
     },
     nsfw: data.over_18,
     permalink: data.permalink,

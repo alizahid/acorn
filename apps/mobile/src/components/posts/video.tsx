@@ -1,4 +1,4 @@
-import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
+import { useVideoPlayer, VideoView } from 'expo-video'
 import { useEffect, useRef, useState } from 'react'
 import {
   Pressable as ReactNativePressable,
@@ -10,9 +10,8 @@ import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { getDimensions } from '~/lib/media'
-import { getGif } from '~/lib/red-gifs'
 import { usePreferences } from '~/stores/preferences'
-import { type PostVideo } from '~/types/post'
+import { type PostMedia } from '~/types/post'
 
 import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
@@ -20,7 +19,7 @@ import { Pressable } from '../common/pressable'
 type Props = {
   margin?: number
   style?: StyleProp<ViewStyle>
-  video: PostVideo
+  video: PostMedia
   viewing: boolean
 }
 
@@ -36,23 +35,7 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
   const [playing, setPlaying] = useState(false)
   const [sound, setSound] = useState(false)
 
-  const [source, setSource] = useState<VideoSource>(() => {
-    if (video.provider === 'reddit') {
-      return video.url
-    }
-
-    return null
-  })
-
-  useEffect(() => {
-    if (video.provider === 'redgifs') {
-      void getGif(video.url).then((data) => {
-        setSource(data.gif.urls.hd)
-      })
-    }
-  }, [video.provider, video.url])
-
-  const player = useVideoPlayer(source, (instance) => {
+  const player = useVideoPlayer(video.url, (instance) => {
     instance.loop = true
     instance.muted = !sound
 
