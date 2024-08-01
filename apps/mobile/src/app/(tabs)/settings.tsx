@@ -20,13 +20,13 @@ export default function Screen() {
   const menu = [
     {
       color: 'gray',
-      href: '/auth/profile',
+      href: '/settings',
       icon: 'UserCircle' satisfies IconName,
       key: 'profile',
     },
     {
       color: 'gray',
-      href: '/auth/credentials',
+      href: '/settings',
       icon: 'FingerprintSimple' satisfies IconName,
       key: 'credentials',
     },
