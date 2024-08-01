@@ -9,7 +9,7 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { CrossPostCard } from './crosspost'
 import { PostFooterCard } from './footer'
-import { PostImageCard } from './image'
+import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
@@ -62,7 +62,7 @@ export function PostCard({
           viewing={viewing}
         />
       ) : post.media.images ? (
-        <PostImageCard
+        <PostGalleryCard
           images={post.media.images}
           key={post.id}
           margin={margin}

@@ -1,97 +1,183 @@
 import { Image } from 'expo-image'
+import { ImageZoom } from 'expo-image-zoom'
 import { useState } from 'react'
-import { type StyleProp, View, type ViewStyle } from 'react-native'
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
+import {
+  FlatList,
+  Modal,
+  type StyleProp,
+  View,
+  type ViewStyle,
+} from 'react-native'
+import {
+  useSafeAreaFrame,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { getDimensions } from '~/lib/media'
 import { type PostImage } from '~/types/post'
 
+import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { HeaderButton } from '../navigation/header-button'
 
 type Props = {
   images: Array<PostImage>
+  margin?: number
   style?: StyleProp<ViewStyle>
 }
 
-export function PostGalleryCard({ images, style }: Props) {
+export function PostGalleryCard({ images, margin = 0, style }: Props) {
   const frame = useSafeAreaFrame()
+  const insets = useSafeAreaInsets()
 
   const t = useTranslations('component.posts.gallery')
 
   const { styles } = useStyles(stylesheet)
 
-  const height = useSharedValue(getDimensions(frame.width, images[0]).height)
+  const frameWidth = frame.width - margin
 
+  const [visible, setVisible] = useState(false)
   const [current, setCurrent] = useState(0)
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    height: height.value,
-  }))
+  const first = getDimensions(frameWidth, images[0])
 
   return (
-    <View style={style}>
-      <Animated.FlatList
-        data={images}
-        decelerationRate="fast"
-        horizontal
-        keyExtractor={(item) => item.url}
-        onScroll={(event) => {
-          const next = Math.round(
-            event.nativeEvent.contentOffset.x / frame.width,
-          )
-
-          setCurrent(next)
-
-          if (images[next]) {
-            const nextHeight = getDimensions(frame.width, images[next]).height
-
-            height.value = withTiming(nextHeight, {
-              duration: 150,
-            })
-          }
+    <>
+      <Pressable
+        onPress={() => {
+          setVisible(true)
         }}
-        renderItem={({ item }) => {
-          const dimensions = getDimensions(frame.width, item)
+        style={style}
+      >
+        <Image
+          source={images[current].url}
+          style={[styles.image(first.height, first.width)]}
+        />
 
-          return <Image source={item.url} style={dimensions} />
+        {images.length > 1 ? (
+          <View style={styles.count}>
+            <Text size="1" tabular>
+              {t('items', {
+                count: images.length,
+              })}
+            </Text>
+          </View>
+        ) : null}
+      </Pressable>
+
+      <Modal
+        animationType="fade"
+        onRequestClose={() => {
+          setVisible(false)
         }}
-        showsHorizontalScrollIndicator={false}
-        snapToOffsets={images.map((image, index) => frame.width * index)}
-        style={[styles.main(frame.width), animatedStyle]}
-      />
-
-      <View style={styles.footer}>
-        <Text size="1" tabular>
-          {t('item', {
-            current: current + 1,
-            total: images.length,
+        style={styles.modal}
+        transparent
+        visible={visible}
+      >
+        <FlatList
+          data={images}
+          decelerationRate="fast"
+          getItemLayout={(items, index) => ({
+            index,
+            length: frame.width,
+            offset: frame.width * index,
           })}
-        </Text>
-      </View>
-    </View>
+          horizontal
+          initialScrollIndex={current}
+          keyExtractor={(item) => item.url}
+          onScroll={(event) => {
+            const next = Math.round(
+              event.nativeEvent.contentOffset.x / frameWidth,
+            )
+
+            setCurrent(next)
+          }}
+          renderItem={({ item }) => {
+            const dimensions = getDimensions(frame.width, item)
+
+            return (
+              <Pressable
+                onPress={() => {
+                  setVisible(false)
+                }}
+                style={styles.item(dimensions.height, dimensions.width)}
+              >
+                <ImageZoom
+                  source={item.url}
+                  style={styles.image(dimensions.height, dimensions.width)}
+                />
+              </Pressable>
+            )
+          }}
+          showsHorizontalScrollIndicator={false}
+          snapToOffsets={images.map((image, index) => frameWidth * index)}
+          style={styles.list(frame.height, frame.width)}
+        />
+
+        <HeaderButton
+          icon="X"
+          onPress={() => {
+            setVisible(false)
+          }}
+          style={styles.header(insets.top)}
+        />
+
+        <View style={styles.footer(insets.bottom)}>
+          <Text size="1" tabular>
+            {t('item', {
+              count: images.length,
+              current: current + 1,
+            })}
+          </Text>
+        </View>
+      </Modal>
+    </>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  footer: {
+  count: {
     backgroundColor: theme.colors.black.a9,
-    borderRadius: theme.space[1],
+    borderRadius: theme.radius[2],
     bottom: theme.space[2],
-    flexDirection: 'row',
     paddingHorizontal: theme.space[1],
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
     right: theme.space[2],
   },
-  main: (frame: number) => ({
+  footer: (inset: number) => ({
+    alignSelf: 'center',
     backgroundColor: theme.colors.gray.a3,
-    width: frame,
+    borderRadius: theme.radius[2],
+    bottom: inset + theme.space[2],
+    paddingHorizontal: theme.space[1],
+    paddingVertical: theme.space[1] / 2,
+    position: 'absolute',
   }),
+  header: (inset: number) => ({
+    position: 'absolute',
+    right: 0,
+    top: inset,
+  }),
+  image: (height: number, width: number) => ({
+    backgroundColor: theme.colors.gray.a3,
+    height,
+    width,
+  }),
+  item: (height: number, width: number) => ({
+    alignSelf: 'center',
+    backgroundColor: theme.colors.gray.a3,
+    height,
+    width,
+  }),
+  list: (height: number, width: number) => ({
+    backgroundColor: theme.colors.gray[1],
+    height,
+    width,
+  }),
+  modal: {
+    flex: 1,
+  },
 }))

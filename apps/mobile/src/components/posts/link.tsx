@@ -7,7 +7,7 @@ import { type Post } from '~/types/post'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { PostImageCard } from './image'
+import { PostGalleryCard } from './gallery'
 
 type Props = {
   margin?: number
@@ -30,7 +30,7 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
       style={[styles.main, style]}
     >
       {post.media.images ? (
-        <PostImageCard
+        <PostGalleryCard
           images={post.media.images}
           key={post.id}
           margin={margin + theme.space[5]}

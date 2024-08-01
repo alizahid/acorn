@@ -7,7 +7,8 @@
     },
     "posts": {
       "gallery": {
-        "item": "{current} of {total}"
+        "item": "{current, number} of {count, number}",
+        "items": "{count, number} images"
       },
       "header": {
         "best": {

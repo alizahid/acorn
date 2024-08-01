@@ -8,7 +8,7 @@ import { type Post } from '~/types/post'
 import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { PostImageCard } from './image'
+import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
@@ -64,7 +64,7 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
           viewing={viewing}
         />
       ) : post.media.images ? (
-        <PostImageCard
+        <PostGalleryCard
           images={post.media.images}
           key={post.id}
           margin={margin + theme.space[5]}
