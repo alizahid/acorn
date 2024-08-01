@@ -26,7 +26,7 @@ export function PostVoteCard({ post }: Props) {
             postId: post.id,
           })
         }}
-        style={[styles.action, post.liked && styles.liked]}
+        style={[styles.main, post.liked && styles.liked]}
       >
         <Icon
           color={post.liked ? theme.colors.white.a12 : color}
@@ -43,7 +43,7 @@ export function PostVoteCard({ post }: Props) {
             postId: post.id,
           })
         }}
-        style={[styles.action, post.liked === false && styles.unliked]}
+        style={[styles.main, post.liked === false && styles.unliked]}
       >
         <Icon
           color={post.liked === false ? theme.colors.white.a12 : color}
@@ -57,15 +57,15 @@ export function PostVoteCard({ post }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  action: {
+  liked: {
+    backgroundColor: theme.colors.green.a9,
+  },
+  main: {
     alignItems: 'center',
     borderRadius: theme.radius[3],
     height: theme.space[6],
     justifyContent: 'center',
     width: theme.space[6],
-  },
-  liked: {
-    backgroundColor: theme.colors.green.a9,
   },
   unliked: {
     backgroundColor: theme.colors.red.a9,
