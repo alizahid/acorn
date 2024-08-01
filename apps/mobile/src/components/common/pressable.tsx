@@ -58,6 +58,7 @@ export function Pressable({
         })
       }}
       style={[animatedStyle, style]}
+      unstable_pressDelay={100}
     >
       {children}
     </Component>
