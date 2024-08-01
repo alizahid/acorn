@@ -7,7 +7,7 @@ export function useSignIn() {
   const { addAccount } = useAuth()
 
   const { isPending, mutateAsync } = useMutation<
-    unknown,
+    boolean,
     Error,
     GetAuthCodeForm
   >({
@@ -15,14 +15,18 @@ export function useSignIn() {
       const code = await getAuthCode(data)
 
       if (!code) {
-        return null
+        return false
       }
 
       const payload = await getAccessToken(data.clientId, code)
 
       if (payload) {
         addAccount(payload)
+
+        return true
       }
+
+      return false
     },
   })
 

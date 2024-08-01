@@ -6,9 +6,9 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
 import { Controller, useForm } from 'react-hook-form'
 import { View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -17,12 +17,13 @@ import { Button } from '~/components/common/button'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
+import { useKeyboard } from '~/hooks/keyboard'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
 import { type GetAuthCodeForm, GetAuthCodeSchema } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 
 const schema = z.object({
-  mode: z.enum(['dismissible']).optional().catch(undefined),
+  mode: z.enum(['dismissible', 'fixed']).catch('fixed'),
 })
 
 export default function Screen() {
@@ -33,18 +34,16 @@ export default function Screen() {
 
   const t = useTranslations('screen.auth.signIn')
 
-  const { styles, theme } = useStyles(stylesheet)
+  const keyboard = useKeyboard()
+
+  const { styles } = useStyles(stylesheet)
 
   const { clientId, setClientId } = useAuth()
   const { isPending, signIn } = useSignIn()
 
   useFocusEffect(() => {
-    if (!params.mode) {
-      return
-    }
-
     navigation.setOptions({
-      gestureEnabled: true,
+      gestureEnabled: params.mode === 'dismissible',
     })
   })
 
@@ -57,25 +56,33 @@ export default function Screen() {
   })
 
   const onSubmit = handleSubmit(async (data) => {
+    if (isPending) {
+      return
+    }
+
     setClientId(data.clientId)
 
-    await signIn(data)
+    const success = await signIn(data)
 
-    router.dismiss()
+    if (success) {
+      router.dismiss()
+    }
   })
 
   return (
-    <View style={styles.main}>
-      <StatusBar style="light" />
-
+    <Animated.ScrollView
+      contentContainerStyle={styles.content}
+      keyboardDismissMode="on-drag"
+      style={[styles.main, keyboard.styles]}
+    >
       <View style={styles.header}>
-        <Logo size={theme.space[9]} style={styles.logo} />
+        <Logo size={128} style={styles.logo} />
 
-        <Text align="center" size="6" weight="bold">
+        <Text size="8" weight="bold">
           {t('title')}
         </Text>
 
-        <Text align="center" highContrast={false} weight="medium">
+        <Text highContrast={false} size="2" weight="medium">
           {t('description')}
         </Text>
       </View>
@@ -111,7 +118,7 @@ export default function Screen() {
           }}
         />
       </View>
-    </View>
+    </Animated.ScrollView>
   )
 }
 
@@ -119,20 +126,26 @@ const stylesheet = createStyleSheet((theme) => ({
   clientId: {
     flex: 1,
   },
+  content: {
+    flexGrow: 1,
+    gap: theme.space[9],
+    justifyContent: 'center',
+    padding: theme.space[4],
+  },
   form: {
     flexDirection: 'row',
     gap: theme.space[4],
   },
   header: {
-    gap: theme.space[2],
+    alignItems: 'center',
+  },
+  keyboard: {
+    flex: 1,
   },
   logo: {
-    alignSelf: 'center',
+    marginBottom: theme.space[4],
   },
   main: {
     flex: 1,
-    gap: theme.space[9],
-    justifyContent: 'center',
-    padding: theme.space[4],
   },
 }))

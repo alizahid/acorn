@@ -13,6 +13,10 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
+  if (keyboard.visible) {
+    return null
+  }
+
   return (
     <View style={styles.main}>
       {state.routes.map((route, index) => {
@@ -40,7 +44,7 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
                 navigation.navigate(route.name, route.params)
               }
             }}
-            style={styles.tab(insets.bottom, keyboard.visible)}
+            style={styles.tab(insets.bottom)}
           >
             {options.tabBarIcon?.({
               color: focused ? theme.colors.accent.a11 : theme.colors.gray.a9,
@@ -59,10 +63,10 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.gray[1],
     flexDirection: 'row',
   },
-  tab: (inset: number, keyboard: boolean) => ({
+  tab: (inset: number) => ({
     alignItems: 'center',
     flex: 1,
-    paddingBottom: theme.space[4] + (keyboard ? 0 : inset),
+    paddingBottom: theme.space[4] + inset,
     paddingHorizontal: theme.space[2],
     paddingTop: theme.space[4],
   }),
