@@ -4,6 +4,7 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { computed } from 'zustand-computed'
 
+import { queryClient } from '~/lib/query'
 import { refreshAccessToken } from '~/lib/reddit'
 import { Store } from '~/lib/store'
 
@@ -16,10 +17,7 @@ export type Account = {
   refreshToken: string
 }
 
-export type AuthPayload = Pick<
-  Account,
-  'accessToken' | 'expiresAt' | 'refreshToken'
-> & {
+export type AuthPayload = Omit<Account, 'id'> & {
   clientId: string
 }
 
@@ -28,7 +26,7 @@ type State = Partial<AuthPayload> & {
   accounts: Array<Account>
   addAccount: (account: Account) => void
   refresh: () => Promise<void>
-  removeAccount: (id: string) => Array<Account>
+  removeAccount: (id: string) => void
   setAccount: (id: string) => void
   setClientId: (clientId: string) => void
 }
@@ -55,19 +53,9 @@ export const useAuth = create<State>()(
       (set, get) => ({
         accounts: [],
         addAccount(account) {
-          const index = get().accounts.findIndex(
-            (item) => item.id === account.id,
-          )
-
-          if (index >= 0) {
-            set({
-              accounts: updateAccount(get().accounts, account),
-            })
-          } else {
-            get().accounts.push(account)
-          }
-
-          set(getAccount(account))
+          set({
+            accounts: updateAccounts(get().accounts, account),
+          })
         },
         async refresh() {
           const { clientId, refreshToken } = get()
@@ -81,24 +69,37 @@ export const useAuth = create<State>()(
           if (payload) {
             set({
               ...getAccount(payload),
-              accounts: updateAccount(get().accounts, payload),
+              accounts: updateAccounts(get().accounts, payload),
             })
           }
         },
         removeAccount(id) {
-          const accounts = get().accounts.filter((item) => item.id === id)
+          const accounts = get().accounts.filter((item) => item.id !== id)
 
-          set({
-            accounts,
-          })
+          if (accounts.length === 0) {
+            queryClient.clear()
+          } else if (get().accountId === id) {
+            const next = accounts.at(0)
 
-          return accounts
+            set({
+              ...getAccount(next),
+              accounts,
+            })
+
+            queryClient.clear()
+          } else {
+            set({
+              accounts,
+            })
+          }
         },
         setAccount(id) {
           const account = get().accounts.find((item) => item.id === id)
 
           if (account) {
             set(getAccount(account))
+
+            queryClient.clear()
           }
         },
         setClientId(clientId) {
@@ -116,19 +117,23 @@ export const useAuth = create<State>()(
   ),
 )
 
-function updateAccount(accounts: Array<Account>, account: Account) {
-  const index = accounts.findIndex((item) => item.id === account.id)
-
+function updateAccounts(accounts: Array<Account>, account: Account) {
   return mutative(accounts, (draft) => {
-    draft[index] = account
+    const index = accounts.findIndex((item) => item.id === account.id)
+
+    if (index >= 0) {
+      draft[index] = account
+    } else {
+      draft.push(account)
+    }
   })
 }
 
-function getAccount({ accessToken, expiresAt, id, refreshToken }: Account) {
+function getAccount(account?: Account) {
   return {
-    accessToken,
-    accountId: id,
-    expiresAt,
-    refreshToken,
+    accessToken: account?.accessToken,
+    accountId: account?.id,
+    expiresAt: account?.expiresAt,
+    refreshToken: account?.refreshToken,
   }
 }

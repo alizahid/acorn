@@ -14,7 +14,7 @@ export default function Screen() {
   const router = useRouter()
   const navigation = useNavigation()
 
-  const t = useTranslations('screen.user.index')
+  const t = useTranslations('tab.user')
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)

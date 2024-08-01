@@ -1,12 +1,11 @@
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
+import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { useSwitch } from '~/hooks/mutations/auth/switch'
 import { useAuth } from '~/stores/auth'
 
-import { Icon } from '../common/icon'
 import { Modal } from '../common/modal'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
@@ -17,8 +16,7 @@ export function AccountSwitchCard() {
 
   const t = useTranslations('component.user.switch')
 
-  const { accountId, accounts } = useAuth()
-  const { switchAccount } = useSwitch()
+  const { accountId, accounts, removeAccount, setAccount } = useAuth()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -34,6 +32,16 @@ export function AccountSwitchCard() {
       />
 
       <Modal
+        left={
+          <HeaderButton
+            color="green"
+            icon="PlusCircle"
+            onPress={() => {
+              router.push('/sign-in?mode=dismissible')
+            }}
+            style={styles.item}
+          />
+        }
         onClose={() => {
           setVisible(false)
         }}
@@ -42,50 +50,48 @@ export function AccountSwitchCard() {
         visible={visible}
       >
         {accounts.map((account) => (
-          <Pressable
+          <View
             key={account.id}
-            onPress={() => {
-              if (account.id !== accountId) {
-                switchAccount(account.id)
-              }
-
-              setVisible(false)
-            }}
             style={[styles.item, account.id === accountId && styles.selected]}
           >
-            <Text size="2" weight="medium">
-              {account.id}
-            </Text>
-          </Pressable>
+            <Pressable
+              onPress={() => {
+                if (account.id !== accountId) {
+                  setAccount(account.id)
+                }
+
+                setVisible(false)
+              }}
+              style={styles.account}
+            >
+              <Text weight="medium">{account.id}</Text>
+            </Pressable>
+
+            <HeaderButton
+              color="red"
+              icon="Trash"
+              onPress={() => {
+                removeAccount(account.id)
+              }}
+              size={theme.space[4]}
+            />
+          </View>
         ))}
-
-        <Pressable
-          onPress={() => {
-            router.push('/sign-in?mode=dismissible')
-          }}
-          style={styles.item}
-        >
-          <Icon
-            color={theme.colors.green.a9}
-            name="PlusCircle"
-            size={theme.typography[2].lineHeight}
-          />
-
-          <Text size="2" weight="medium">
-            Add account
-          </Text>
-        </Pressable>
       </Modal>
     </>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  item: {
+  account: {
     alignItems: 'center',
+    flex: 1,
     flexDirection: 'row',
     gap: theme.space[2],
     padding: theme.space[3],
+  },
+  item: {
+    flexDirection: 'row',
   },
   modal: (count: number) => ({
     minHeight: 44 * (count + 3),

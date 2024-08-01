@@ -13,6 +13,7 @@ type Props = {
   icon: IconName
   loading?: boolean
   onPress?: () => void
+  size?: number
   style?: StyleProp<ViewStyle>
   weight?: IconWeight
 }
@@ -23,6 +24,7 @@ export function HeaderButton({
   icon,
   loading,
   onPress,
+  size,
   style,
   weight,
 }: Props) {
@@ -40,7 +42,7 @@ export function HeaderButton({
         <Icon
           color={theme.colors[color][contrast ? 'contrast' : 11]}
           name={icon}
-          size={theme.space[5]}
+          size={size ?? theme.space[5]}
           weight={weight}
         />
       )}

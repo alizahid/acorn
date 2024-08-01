@@ -29,7 +29,7 @@ export default function Screen() {
   const navigation = useNavigation()
   const params = useLocalSearchParams<Params>()
 
-  const t = useTranslations('screen.user.index.menu')
+  const t = useTranslations('tab.user.menu')
 
   const { styles } = useStyles(stylesheet)
 

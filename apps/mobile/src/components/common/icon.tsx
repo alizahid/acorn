@@ -19,6 +19,7 @@ import DoorBold from 'react-native-phosphor/src/bold/Door'
 import FingerprintSimpleBold from 'react-native-phosphor/src/bold/FingerprintSimple'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
+import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
 import LinkBold from 'react-native-phosphor/src/bold/Link'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
@@ -31,6 +32,7 @@ import ShareFatBold from 'react-native-phosphor/src/bold/ShareFat'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
 import ThumbsUpBold from 'react-native-phosphor/src/bold/ThumbsUp'
+import TrashBold from 'react-native-phosphor/src/bold/Trash'
 import UserCircleBold from 'react-native-phosphor/src/bold/UserCircle'
 import UsersFourBold from 'react-native-phosphor/src/bold/UsersFour'
 import UserSwitchBold from 'react-native-phosphor/src/bold/UserSwitch'
@@ -54,6 +56,7 @@ import DoorDuotone from 'react-native-phosphor/src/duotone/Door'
 import FingerprintSimpleDuotone from 'react-native-phosphor/src/duotone/FingerprintSimple'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
+import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
@@ -66,6 +69,7 @@ import ShareFatDuotone from 'react-native-phosphor/src/duotone/ShareFat'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
 import ThumbsUpDuotone from 'react-native-phosphor/src/duotone/ThumbsUp'
+import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
 import UserCircleDuotone from 'react-native-phosphor/src/duotone/UserCircle'
 import UsersFourDuotone from 'react-native-phosphor/src/duotone/UsersFour'
 import UserSwitchDuotone from 'react-native-phosphor/src/duotone/UserSwitch'
@@ -89,6 +93,7 @@ import DoorFill from 'react-native-phosphor/src/fill/Door'
 import FingerprintSimpleFill from 'react-native-phosphor/src/fill/FingerprintSimple'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
+import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
 import LinkFill from 'react-native-phosphor/src/fill/Link'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
@@ -101,6 +106,7 @@ import ShareFatFill from 'react-native-phosphor/src/fill/ShareFat'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
 import ThumbsUpFill from 'react-native-phosphor/src/fill/ThumbsUp'
+import TrashFill from 'react-native-phosphor/src/fill/Trash'
 import UserCircleFill from 'react-native-phosphor/src/fill/UserCircle'
 import UsersFourFill from 'react-native-phosphor/src/fill/UsersFour'
 import UserSwitchFill from 'react-native-phosphor/src/fill/UserSwitch'
@@ -124,6 +130,7 @@ import DoorRegular from 'react-native-phosphor/src/regular/Door'
 import FingerprintSimpleRegular from 'react-native-phosphor/src/regular/FingerprintSimple'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
+import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
 import LinkRegular from 'react-native-phosphor/src/regular/Link'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
@@ -136,6 +143,7 @@ import ShareFatRegular from 'react-native-phosphor/src/regular/ShareFat'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
 import ThumbsUpRegular from 'react-native-phosphor/src/regular/ThumbsUp'
+import TrashRegular from 'react-native-phosphor/src/regular/Trash'
 import UserCircleRegular from 'react-native-phosphor/src/regular/UserCircle'
 import UsersFourRegular from 'react-native-phosphor/src/regular/UsersFour'
 import UserSwitchRegular from 'react-native-phosphor/src/regular/UserSwitch'
@@ -280,6 +288,12 @@ const icons = {
     fill: GearSixFill,
     regular: GearSixRegular,
   },
+  HardDrives: {
+    bold: HardDrivesBold,
+    duotone: HardDrivesDuotone,
+    fill: HardDrivesFill,
+    regular: HardDrivesRegular,
+  },
   House: {
     bold: HouseBold,
     duotone: HouseDuotone,
@@ -351,6 +365,12 @@ const icons = {
     duotone: ThumbsUpDuotone,
     fill: ThumbsUpFill,
     regular: ThumbsUpRegular,
+  },
+  Trash: {
+    bold: TrashBold,
+    duotone: TrashDuotone,
+    fill: TrashFill,
+    regular: TrashRegular,
   },
   UserCircle: {
     bold: UserCircleBold,

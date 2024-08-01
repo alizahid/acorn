@@ -30,6 +30,8 @@
     },
     "user": {
       "switch": {
+        "add": "Add account",
+        "signOut": "Sign out of {id}",
         "title": "Switch accounts"
       }
     }
@@ -51,39 +53,28 @@
         },
         "title": "Acorn"
       }
-    },
+    }
+  },
+  "tab": {
     "communities": {
       "title": "Communities"
-    },
-    "home": {
-      "title": "Home"
     },
     "search": {
       "title": "Search"
     },
-    "settings": {
-      "menu": {
-        "credentials": "Credentials",
-        "profile": "Profile",
-        "signOut": "Sign out"
-      },
-      "title": "Settings"
-    },
     "user": {
-      "index": {
-        "header": {
-          "comment": "Comment",
-          "joined": "Joined",
-          "karma": "Karma",
-          "post": "Post"
-        },
-        "menu": {
-          "comments": "Comments",
-          "downvoted": "Downvoted",
-          "saved": "Saved",
-          "submitted": "Posts",
-          "upvoted": "Upvoted"
-        }
+      "header": {
+        "comment": "Comment",
+        "joined": "Joined",
+        "karma": "Karma",
+        "post": "Post"
+      },
+      "menu": {
+        "comments": "Comments",
+        "downvoted": "Downvoted",
+        "saved": "Saved",
+        "submitted": "Posts",
+        "upvoted": "Upvoted"
       }
     }
   }

@@ -23,7 +23,7 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const t = useTranslations('screen.user.index.menu')
+  const t = useTranslations('tab.user.menu')
 
   const [sort, setSort] = useState<UserFeedSort>('hot')
   const [interval, setInterval] = useState<TopInterval>()

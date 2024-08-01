@@ -1,11 +1,8 @@
 import { Stack } from 'expo-router'
-import { useTranslations } from 'use-intl'
 
 import { Header } from './header'
 
 export function Root() {
-  const t = useTranslations('screen.home')
-
   return (
     <Stack
       screenOptions={{
@@ -16,7 +13,6 @@ export function Root() {
         name="(tabs)"
         options={{
           headerShown: false,
-          title: t('title'),
         }}
       />
 

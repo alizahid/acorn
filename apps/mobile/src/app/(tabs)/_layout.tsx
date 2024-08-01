@@ -11,7 +11,7 @@ import { useAuth } from '~/stores/auth'
 export default function Layout() {
   const router = useRouter()
 
-  const t = useTranslations('screen')
+  const t = useTranslations('tab')
 
   const { accessToken, expired, refresh } = useAuth()
 
@@ -54,16 +54,6 @@ export default function Layout() {
       />
 
       <Tabs.Screen
-        name="user"
-        options={{
-          headerRight: () => <AccountSwitchCard />,
-          tabBarIcon: (props) => (
-            <Icon {...props} name="UserCircle" weight="duotone" />
-          ),
-        }}
-      />
-
-      <Tabs.Screen
         name="communities"
         options={{
           tabBarIcon: (props) => (
@@ -74,12 +64,12 @@ export default function Layout() {
       />
 
       <Tabs.Screen
-        name="settings"
+        name="user"
         options={{
+          headerRight: () => <AccountSwitchCard />,
           tabBarIcon: (props) => (
-            <Icon {...props} name="GearSix" weight="duotone" />
+            <Icon {...props} name="UserCircle" weight="duotone" />
           ),
-          title: t('settings.title'),
         }}
       />
     </Tabs>
