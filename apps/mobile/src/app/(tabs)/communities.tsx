@@ -23,7 +23,6 @@ export default function Screen() {
     communities,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     isLoading,
     refetch,
@@ -33,9 +32,7 @@ export default function Screen() {
     <FlashList
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
-        !isFetching && isFetchingNextPage ? (
-          <Spinner style={styles.spinner} />
-        ) : null
+        isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
       data={communities}
       estimatedItemSize={56}
@@ -47,6 +44,7 @@ export default function Screen() {
       }}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
+      removeClippedSubviews
       renderItem={({ item }) => <CommunityCard community={item} />}
       scrollIndicatorInsets={{
         bottom: 1,

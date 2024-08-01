@@ -8,6 +8,7 @@ import {
 import { useRef } from 'react'
 import { View } from 'react-native'
 import { Empty } from 'react-native-phosphor'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -24,6 +25,8 @@ type Params = {
 }
 
 export default function Screen() {
+  const insets = useSafeAreaInsets()
+
   const navigation = useNavigation()
   const params = useLocalSearchParams<Params>()
 
@@ -58,6 +61,7 @@ export default function Screen() {
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
+      contentContainerStyle={styles.main(insets.bottom)}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}
@@ -69,6 +73,7 @@ export default function Screen() {
       }}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
+      removeClippedSubviews
       renderItem={({ item }) => {
         if (item.type === 'reply') {
           return (
@@ -91,6 +96,9 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  main: (inset: number) => ({
+    paddingBottom: inset,
+  }),
   separator: {
     height: theme.space[5],
   },

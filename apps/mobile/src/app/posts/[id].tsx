@@ -71,6 +71,7 @@ export default function Screen() {
       getItemType={(item) => item.type}
       keyExtractor={(item) => item.data.id}
       refreshControl={<RefreshControl onRefresh={refetch} />}
+      removeClippedSubviews
       renderItem={({ item }) => {
         if (item.type === 'reply') {
           return <CommentCard comment={item.data} postId={post?.id} />

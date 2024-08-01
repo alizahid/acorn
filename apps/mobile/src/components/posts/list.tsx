@@ -67,6 +67,7 @@ export function PostList({ community, inset, interval, sort }: Props) {
       }}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
+      removeClippedSubviews
       renderItem={({ item }) => (
         <PostCard post={item} viewing={viewing.includes(item.id)} />
       )}
