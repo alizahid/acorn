@@ -12,9 +12,9 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
-import { Loading } from '~/components/common/loading'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
+import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { PostCard } from '~/components/posts/card'
 import { usePost } from '~/hooks/queries/posts/post'
@@ -33,7 +33,7 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
-  const { comments, isLoading, post, refetch } = usePost(params.id)
+  const { comments, isFetching, post, refetch } = usePost(params.id)
 
   useFocusEffect(() => {
     if (!post) {
@@ -57,7 +57,9 @@ export default function Screen() {
   return (
     <FlashList
       ItemSeparatorComponent={() => <View style={styles.separator} />}
-      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+      ListEmptyComponent={
+        isFetching ? <Spinner style={styles.spinner} /> : <Empty />
+      }
       ListHeaderComponent={
         post ? (
           <PostCard expanded post={post} style={styles.post} viewing />
@@ -99,5 +101,8 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   separator: {
     height: theme.space[2],
+  },
+  spinner: {
+    margin: theme.space[4],
   },
 }))
