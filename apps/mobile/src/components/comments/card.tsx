@@ -4,6 +4,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { type ColorId, getColorForId } from '~/lib/colors'
+import { removePrefix } from '~/lib/reddit'
 import { type CommentReply } from '~/types/comment'
 
 import { Markdown } from '../common/markdown'
@@ -14,12 +15,17 @@ import { CommentVoteCard } from './vote'
 
 type Props = {
   comment: CommentReply
-  href?: string
+  linkable?: boolean
   postId?: string
   style?: StyleProp<ViewStyle>
 }
 
-export function CommentCard({ comment, href, postId, style }: Props) {
+export function CommentCard({
+  comment,
+  linkable = false,
+  postId,
+  style,
+}: Props) {
   const router = useRouter()
 
   const f = useFormatter()
@@ -30,13 +36,13 @@ export function CommentCard({ comment, href, postId, style }: Props) {
 
   return (
     <Pressable
-      disabled={!href}
+      disabled={!linkable}
       onPress={() => {
-        if (!href) {
+        if (!postId) {
           return
         }
 
-        router.navigate(href)
+        router.navigate(`/posts/${removePrefix(postId)}`)
       }}
       style={[styles.main(color, comment.depth), style]}
     >
