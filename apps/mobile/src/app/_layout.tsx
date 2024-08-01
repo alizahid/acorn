@@ -15,12 +15,13 @@ import { useTheme } from '~/hooks/theme'
 import en from '~/intl/en.json'
 import { fonts } from '~/lib/fonts'
 import { persister, queryClient } from '~/lib/query'
+import { Sentry } from '~/lib/sentry'
 
 void SplashScreen.preventAutoHideAsync()
 
 const [calendar] = getCalendars()
 
-export default function RootLayout() {
+function Acorn() {
   const [loaded] = useFonts(fonts)
 
   const theme = useTheme()
@@ -69,3 +70,5 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 })
+
+export default Sentry.wrap(Acorn)
