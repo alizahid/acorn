@@ -66,7 +66,7 @@ export function useUserPosts({
       const url = new URL(`/user/${username}/${type}`, REDDIT_URI)
 
       url.searchParams.set('limit', '25')
-      url.searchParams.set('type', 'link')
+      url.searchParams.set('type', 'links')
       url.searchParams.set('sort', sort)
 
       if (pageParam) {
