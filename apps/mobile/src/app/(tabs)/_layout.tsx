@@ -39,11 +39,7 @@ export default function Layout() {
         name="index"
         options={{
           tabBarIcon: (props) => (
-            <Icon
-              {...props}
-              name="House"
-              weight={props.focused ? 'fill' : 'duotone'}
-            />
+            <Icon {...props} name="House" weight="duotone" />
           ),
         }}
       />
@@ -52,11 +48,7 @@ export default function Layout() {
         name="search"
         options={{
           tabBarIcon: (props) => (
-            <Icon
-              {...props}
-              name="MagnifyingGlass"
-              weight={props.focused ? 'fill' : 'duotone'}
-            />
+            <Icon {...props} name="MagnifyingGlass" weight="duotone" />
           ),
         }}
       />
@@ -66,11 +58,7 @@ export default function Layout() {
         options={{
           headerRight: () => <AccountSwitchCard />,
           tabBarIcon: (props) => (
-            <Icon
-              {...props}
-              name="UserCircle"
-              weight={props.focused ? 'fill' : 'duotone'}
-            />
+            <Icon {...props} name="UserCircle" weight="duotone" />
           ),
         }}
       />
@@ -79,11 +67,7 @@ export default function Layout() {
         name="communities"
         options={{
           tabBarIcon: (props) => (
-            <Icon
-              {...props}
-              name="UsersFour"
-              weight={props.focused ? 'fill' : 'duotone'}
-            />
+            <Icon {...props} name="UsersFour" weight="duotone" />
           ),
           title: t('communities.title'),
         }}
@@ -93,11 +77,7 @@ export default function Layout() {
         name="settings"
         options={{
           tabBarIcon: (props) => (
-            <Icon
-              {...props}
-              name="GearSix"
-              weight={props.focused ? 'fill' : 'duotone'}
-            />
+            <Icon {...props} name="GearSix" weight="duotone" />
           ),
           title: t('settings.title'),
         }}
