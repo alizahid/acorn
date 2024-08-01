@@ -10,32 +10,22 @@
         "item": "{current, number} of {count, number}",
         "items": "{count, number} images"
       },
-      "header": {
-        "best": {
-          "title": "Best"
-        },
-        "hot": {
-          "title": "Hot"
-        },
-        "new": {
-          "title": "New"
-        },
-        "placeholder": {
-          "feed": "Feed",
-          "interval": "Interval"
-        },
-        "rising": {
-          "title": "Rising"
-        },
-        "top": {
-          "all": "All time",
-          "day": "Today",
-          "hour": "Now",
-          "month": "This month",
-          "title": "Top",
-          "week": "This week",
-          "year": "This year"
-        }
+      "interval": {
+        "all": "All time",
+        "day": "Today",
+        "hour": "Now",
+        "month": "This month",
+        "placeholder": "Interval",
+        "week": "This week",
+        "year": "This year"
+      },
+      "sort": {
+        "best": "Best",
+        "hot": "Hot",
+        "new": "New",
+        "placeholder": "Sort",
+        "rising": "Rising",
+        "top": "Top"
       }
     },
     "user": {

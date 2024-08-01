@@ -43,7 +43,6 @@ export default function Screen() {
                 setInterval(undefined)
               }
             }}
-            placement="bottom-end"
             type="user"
             value={sort}
           />
@@ -52,7 +51,6 @@ export default function Screen() {
             <TopIntervalMenu
               hideLabel
               onChange={setInterval}
-              placement="bottom-end"
               value={interval}
             />
           ) : null}

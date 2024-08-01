@@ -64,7 +64,6 @@ const stylesheet = createStyleSheet((theme) => ({
   actions: {
     bottom: 0,
     flexDirection: 'row',
-    gap: theme.space[2],
     position: 'absolute',
   },
   header: {

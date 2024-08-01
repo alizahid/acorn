@@ -1,6 +1,5 @@
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -46,23 +45,17 @@ export function AccountSwitchCard() {
           <Pressable
             key={account.id}
             onPress={() => {
-              switchAccount(account.id)
+              if (account.id !== accountId) {
+                switchAccount(account.id)
+              }
 
               setVisible(false)
             }}
-            style={styles.item}
+            style={[styles.item, account.id === accountId && styles.selected]}
           >
-            {account.id === accountId ? (
-              <Icon
-                color={theme.colors.accent.a9}
-                name="CheckCircle"
-                size={theme.typography[3].lineHeight}
-              />
-            ) : (
-              <View style={styles.check} />
-            )}
-
-            <Text weight="medium">{account.id}</Text>
+            <Text size="2" weight="medium">
+              {account.id}
+            </Text>
           </Pressable>
         ))}
 
@@ -75,10 +68,12 @@ export function AccountSwitchCard() {
           <Icon
             color={theme.colors.green.a9}
             name="PlusCircle"
-            size={theme.typography[3].lineHeight}
+            size={theme.typography[2].lineHeight}
           />
 
-          <Text weight="medium">Add account</Text>
+          <Text size="2" weight="medium">
+            Add account
+          </Text>
         </Pressable>
       </Modal>
     </>
@@ -86,16 +81,16 @@ export function AccountSwitchCard() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  check: {
-    width: theme.typography[3].lineHeight,
-  },
   item: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: theme.space[4],
-    padding: theme.space[4],
+    gap: theme.space[2],
+    padding: theme.space[3],
   },
   modal: (count: number) => ({
-    minHeight: 56 * (count + 3),
+    minHeight: 44 * (count + 3),
   }),
+  selected: {
+    backgroundColor: theme.colors.accent.a5,
+  },
 }))

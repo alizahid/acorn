@@ -1,4 +1,3 @@
-import { type Placement } from '@floating-ui/react-native'
 import { Text, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -10,17 +9,11 @@ import { DropDown } from '../common/drop-down'
 type Props = {
   hideLabel?: boolean
   onChange: (value: TopInterval) => void
-  placement?: Placement
   value?: TopInterval
 }
 
-export function TopIntervalMenu({
-  hideLabel,
-  onChange,
-  placement,
-  value,
-}: Props) {
-  const t = useTranslations('component.posts.header')
+export function TopIntervalMenu({ hideLabel, onChange, value }: Props) {
+  const t = useTranslations('component.posts.interval')
 
   const { styles } = useStyles(stylesheet)
 
@@ -28,7 +21,7 @@ export function TopIntervalMenu({
     <DropDown
       hideLabel={hideLabel}
       items={TopInterval.map((item) => ({
-        label: t(`top.${item}`),
+        label: t(item),
         left: (
           <View style={styles.interval}>
             <Text style={[styles.label, item === 'all' && styles.infinity]}>
@@ -41,8 +34,7 @@ export function TopIntervalMenu({
       onChange={(next) => {
         onChange(next as TopInterval)
       }}
-      placeholder={t('placeholder.interval')}
-      placement={placement}
+      placeholder={t('placeholder')}
       style={styles.main}
       value={value}
     />

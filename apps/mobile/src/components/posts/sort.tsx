@@ -1,4 +1,3 @@
-import { type Placement } from '@floating-ui/react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -19,19 +18,17 @@ type SortMap = {
 type Props<Type extends SortType> = {
   hideLabel?: boolean
   onChange: (value: SortMap[Type]) => void
-  placement?: Placement
   type?: Type
   value: SortMap[Type]
 }
 
-export function FeedSortMenu<Type extends SortType = 'home'>({
+export function FeedSortMenu<Type extends SortType>({
   hideLabel,
   onChange,
-  placement,
   type,
   value,
 }: Props<Type>) {
-  const t = useTranslations('component.posts.header')
+  const t = useTranslations('component.posts.sort')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -51,14 +48,13 @@ export function FeedSortMenu<Type extends SortType = 'home'>({
           name: icons[item],
           weight: 'duotone',
         },
-        label: t(`${item}.title`),
+        label: t(item),
         value: item,
       }))}
       onChange={(next) => {
         onChange(next as SortMap[Type])
       }}
-      placeholder={t('placeholder.feed')}
-      placement={placement}
+      placeholder={t('placeholder')}
       style={styles.main}
       value={value}
     />

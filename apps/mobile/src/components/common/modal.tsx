@@ -16,13 +16,23 @@ import { Text } from './text'
 
 type Props = {
   children: ReactNode
+  left?: ReactNode
   onClose: () => void
+  right?: ReactNode
   style?: StyleProp<ViewStyle>
   title?: string
   visible?: boolean
 }
 
-export function Modal({ children, onClose, style, title, visible }: Props) {
+export function Modal({
+  children,
+  left,
+  onClose,
+  right,
+  style,
+  title,
+  visible,
+}: Props) {
   const frame = useSafeAreaFrame()
 
   const { styles } = useStyles(stylesheet)
@@ -44,16 +54,23 @@ export function Modal({ children, onClose, style, title, visible }: Props) {
 
         <View style={styles.content(frame.height)}>
           <View style={styles.header}>
+            {left ? (
+              <View style={[styles.actions, styles.left]}>{left}</View>
+            ) : null}
+
             {title ? <Text weight="bold">{title}</Text> : null}
 
-            <HeaderButton
-              icon="X"
-              onPress={() => {
-                onClose()
-              }}
-              style={styles.close}
-              weight="bold"
-            />
+            <View style={[styles.actions, styles.right]}>
+              {right}
+
+              <HeaderButton
+                icon="X"
+                onPress={() => {
+                  onClose()
+                }}
+                weight="bold"
+              />
+            </View>
           </View>
 
           <ScrollView contentContainerStyle={style}>{children}</ScrollView>
@@ -64,9 +81,9 @@ export function Modal({ children, onClose, style, title, visible }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  close: {
+  actions: {
+    flexDirection: 'row',
     position: 'absolute',
-    right: 0,
     top: 0,
   },
   content: (frameHeight: number) => ({
@@ -82,6 +99,9 @@ const stylesheet = createStyleSheet((theme) => ({
     height: theme.space[8],
     justifyContent: 'center',
   },
+  left: {
+    left: 0,
+  },
   main: {
     flex: 1,
     justifyContent: 'center',
@@ -95,5 +115,8 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.gray.a9,
     flex: 1,
     position: 'absolute',
+  },
+  right: {
+    right: 0,
   },
 }))
