@@ -13,6 +13,8 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 
+export const PRESS_DELAY = 130
+
 const Component = Animated.createAnimatedComponent(ReactNativePressable)
 
 type Props = {
@@ -23,6 +25,7 @@ type Props = {
   onLongPress?: (event: GestureResponderEvent) => void
   onPress?: (event: GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
+  without?: boolean
 }
 
 export function Pressable({
@@ -33,6 +36,7 @@ export function Pressable({
   onLongPress,
   onPress,
   style,
+  without,
 }: Props) {
   const opacity = useSharedValue(1)
 
@@ -48,17 +52,25 @@ export function Pressable({
       onLongPress={onLongPress}
       onPress={onPress}
       onPressIn={() => {
+        if (without) {
+          return
+        }
+
         opacity.value = withTiming(0.5, {
           duration: 100,
         })
       }}
       onPressOut={() => {
+        if (without) {
+          return
+        }
+
         opacity.value = withTiming(1, {
           duration: 100,
         })
       }}
       style={[animatedStyle, style]}
-      unstable_pressDelay={100}
+      unstable_pressDelay={PRESS_DELAY}
     >
       {children}
     </Component>

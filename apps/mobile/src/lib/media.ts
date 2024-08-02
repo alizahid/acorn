@@ -93,11 +93,11 @@ export type Dimensions = {
 }
 
 export function getDimensions(
-  frameWidth: number,
+  maxWidth: number,
   { height, width }: Dimensions,
-) {
+): Dimensions {
   return {
-    height: (height / width) * frameWidth,
-    width: frameWidth,
+    height: (height / width) * maxWidth,
+    width: maxWidth,
   }
 }
