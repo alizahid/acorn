@@ -33,11 +33,11 @@ export function PostGalleryCard({ images, margin = 0, style }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
-  const frameWidth = frame.width - margin
-
   const [visible, setVisible] = useState(false)
 
-  const first = getDimensions(frameWidth, images[0])
+  const frameWidth = frame.width - margin
+
+  const dimensions = getDimensions(frameWidth, images[0])
 
   return (
     <>
@@ -49,7 +49,7 @@ export function PostGalleryCard({ images, margin = 0, style }: Props) {
       >
         <AnimatedImage
           source={images[0].url}
-          style={[styles.image(first.height, first.width)]}
+          style={[styles.image(dimensions.height, dimensions.width)]}
         />
 
         {images.length > 1 ? (
