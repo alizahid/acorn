@@ -66,6 +66,8 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
       icon: (muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh') satisfies IconName,
       key: 'volume',
       onPress() {
+        player.muted = !muted
+
         updatePreferences({
           muted: !muted,
         })
