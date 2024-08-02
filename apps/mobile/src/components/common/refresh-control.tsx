@@ -6,10 +6,11 @@ import { type ColorToken } from '~/styles/colors'
 
 type Props = {
   color?: ColorToken
+  offset?: number
   onRefresh: () => Promise<unknown>
 }
 
-export function RefreshControl({ color = 'accent', onRefresh }: Props) {
+export function RefreshControl({ color = 'accent', offset, onRefresh }: Props) {
   const { theme } = useStyles()
 
   const [refreshing, setRefreshing] = useState(false)
@@ -26,6 +27,7 @@ export function RefreshControl({ color = 'accent', onRefresh }: Props) {
     <ReactNativeRefreshControl
       colors={[theme.colors[color].a9, theme.colors[color].a10]}
       onRefresh={refresh}
+      progressViewOffset={offset}
       refreshing={refreshing}
       tintColor={theme.colors[color].a9}
     />

@@ -62,6 +62,7 @@ export default function Screen() {
 
   return (
     <UserPostList
+      header
       inset
       interval={interval}
       sort={sort}

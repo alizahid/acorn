@@ -46,5 +46,5 @@ export default function Screen() {
     })
   })
 
-  return <PostList interval={interval} sort={sort} />
+  return <PostList header interval={interval} sort={sort} tabBar />
 }

@@ -9,6 +9,7 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -27,6 +28,8 @@ const schema = z.object({
 })
 
 export default function Screen() {
+  const insets = useSafeAreaInsets()
+
   const router = useRouter()
   const navigation = useNavigation()
 
@@ -71,7 +74,7 @@ export default function Screen() {
 
   return (
     <Animated.ScrollView
-      contentContainerStyle={styles.content}
+      contentContainerStyle={styles.content(insets.bottom)}
       keyboardDismissMode="on-drag"
       style={[styles.main, keyboard.styles]}
     >
@@ -126,12 +129,13 @@ const stylesheet = createStyleSheet((theme) => ({
   clientId: {
     flex: 1,
   },
-  content: {
+  content: (inset: number) => ({
     flexGrow: 1,
     gap: theme.space[9],
     justifyContent: 'center',
     padding: theme.space[4],
-  },
+    paddingBottom: theme.space[4] + inset,
+  }),
   form: {
     flexDirection: 'row',
     gap: theme.space[4],

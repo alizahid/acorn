@@ -6,7 +6,6 @@ import {
   useRouter,
 } from 'expo-router'
 import { View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { CommentCard } from '~/components/comments/card'
@@ -17,6 +16,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { PostCard } from '~/components/posts/card'
+import { useCommon } from '~/hooks/common'
 import { usePost } from '~/hooks/queries/posts/post'
 
 type Params = {
@@ -24,12 +24,12 @@ type Params = {
 }
 
 export default function Screen() {
-  const insets = useSafeAreaInsets()
-
   const router = useRouter()
   const navigation = useNavigation()
 
   const params = useLocalSearchParams<Params>()
+
+  const common = useCommon()
 
   const { styles } = useStyles(stylesheet)
 
@@ -56,6 +56,9 @@ export default function Screen() {
 
   return (
     <FlashList
+      {...common.listProps({
+        header: true,
+      })}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListEmptyComponent={
         isFetching ? <Spinner style={styles.spinner} /> : <Empty />
@@ -65,24 +68,23 @@ export default function Screen() {
           <PostCard expanded post={post} style={styles.post} viewing />
         ) : null
       }
-      contentContainerStyle={styles.main(insets.bottom)}
+      contentContainerStyle={styles.main(
+        common.headerHeight,
+        common.insets.bottom,
+      )}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}
       keyExtractor={(item) => item.data.id}
-      refreshControl={<RefreshControl onRefresh={refetch} />}
-      removeClippedSubviews
+      refreshControl={
+        <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
+      }
       renderItem={({ item }) => {
         if (item.type === 'reply') {
           return <CommentCard comment={item.data} postId={post?.id} />
         }
 
         return <CommentMoreCard comment={item.data} post={post} />
-      }}
-      scrollIndicatorInsets={{
-        bottom: 1,
-        right: 1,
-        top: 1,
       }}
     />
   )
@@ -94,8 +96,9 @@ const stylesheet = createStyleSheet((theme) => ({
     justifyContent: 'center',
     paddingHorizontal: theme.space[3],
   },
-  main: (inset: number) => ({
-    paddingBottom: inset,
+  main: (top: number, bottom: number) => ({
+    paddingBottom: bottom,
+    paddingTop: top,
   }),
   post: {
     marginBottom: theme.space[2],

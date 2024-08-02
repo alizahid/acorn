@@ -8,7 +8,6 @@ import {
 import { useRef } from 'react'
 import { View } from 'react-native'
 import { Empty } from 'react-native-phosphor'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -16,6 +15,7 @@ import { CommentCard } from '~/components/comments/card'
 import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
+import { useCommon } from '~/hooks/common'
 import { useComments } from '~/hooks/queries/user/comments'
 import { type Comment } from '~/types/comment'
 
@@ -24,8 +24,6 @@ type Params = {
 }
 
 export default function Screen() {
-  const insets = useSafeAreaInsets()
-
   const navigation = useNavigation()
   const params = useLocalSearchParams<Params>()
 
@@ -41,6 +39,8 @@ export default function Screen() {
 
   const list = useRef<FlashList<Comment>>(null)
 
+  const common = useCommon()
+
   // @ts-expect-error -- go away
   useScrollToTop(list)
 
@@ -55,12 +55,18 @@ export default function Screen() {
 
   return (
     <FlashList
+      {...common.listProps({
+        header: true,
+      })}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
-      contentContainerStyle={styles.main(insets.bottom)}
+      contentContainerStyle={styles.main(
+        common.headerHeight,
+        common.insets.bottom,
+      )}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}
@@ -71,8 +77,9 @@ export default function Screen() {
         }
       }}
       ref={list}
-      refreshControl={<RefreshControl onRefresh={refetch} />}
-      removeClippedSubviews
+      refreshControl={
+        <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
+      }
       renderItem={({ item }) => {
         if (item.type === 'reply') {
           return <CommentCard comment={item.data} linkable />
@@ -80,18 +87,14 @@ export default function Screen() {
 
         return null
       }}
-      scrollIndicatorInsets={{
-        bottom: 1,
-        right: 1,
-        top: 1,
-      }}
     />
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (inset: number) => ({
-    paddingBottom: inset,
+  main: (top: number, bottom: number) => ({
+    paddingBottom: bottom,
+    paddingTop: top,
   }),
   separator: {
     height: theme.space[5],

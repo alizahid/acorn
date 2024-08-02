@@ -56,6 +56,12 @@ export default function Screen() {
   })
 
   return (
-    <PostList community={params.name} inset interval={interval} sort={sort} />
+    <PostList
+      community={params.name}
+      header
+      inset
+      interval={interval}
+      sort={sort}
+    />
   )
 }

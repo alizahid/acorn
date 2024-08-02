@@ -19,10 +19,7 @@ export function MarkdownMedia({ caption, media }: Props) {
       <Image
         key={media.url}
         source={media.url}
-        style={{
-          height: media.height,
-          width: media.width,
-        }}
+        style={styles.image(media.height, media.width)}
       />
 
       {caption && caption !== '' ? (
@@ -35,6 +32,11 @@ export function MarkdownMedia({ caption, media }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  image: (height: number, width: number) => ({
+    backgroundColor: theme.colors.gray.a3,
+    height,
+    width,
+  }),
   main: {
     gap: theme.space[2],
   },

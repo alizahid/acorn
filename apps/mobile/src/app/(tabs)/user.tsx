@@ -7,6 +7,7 @@ import { Icon, type IconName } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
+import { useCommon } from '~/hooks/common'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { UserFeedType } from '~/types/user'
 
@@ -18,6 +19,8 @@ export default function Screen() {
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
+
+  const common = useCommon()
 
   const { profile, refetch } = useProfile()
 
@@ -60,6 +63,10 @@ export default function Screen() {
 
   return (
     <FlatList
+      {...common.listProps({
+        header: true,
+        tabBar: true,
+      })}
       ListHeaderComponent={
         <View style={styles.header}>
           {header.map((item) => (
@@ -80,9 +87,15 @@ export default function Screen() {
           ))}
         </View>
       }
+      contentContainerStyle={styles.main(
+        common.headerHeight,
+        common.tabBarHeight,
+      )}
       data={UserFeedType}
       keyExtractor={(item) => item}
-      refreshControl={<RefreshControl onRefresh={refetch} />}
+      refreshControl={
+        <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
+      }
       renderItem={({ item }) => (
         <Pressable
           onPress={() => {
@@ -137,6 +150,10 @@ const stylesheet = createStyleSheet((theme) => ({
     flex: 1,
     marginVertical: theme.space[4],
   },
+  main: (top: number, bottom: number) => ({
+    paddingBottom: bottom,
+    paddingTop: top,
+  }),
 }))
 
 const icons: Record<UserFeedType, IconName> = {
