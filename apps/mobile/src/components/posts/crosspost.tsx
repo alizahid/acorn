@@ -5,7 +5,7 @@ import { useFormatter } from 'use-intl'
 
 import { type Post } from '~/types/post'
 
-import { Icon, type IconName } from '../common/icon'
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { PostGalleryCard } from './gallery'
@@ -27,14 +27,14 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
 
   const footer = [
     {
-      icon: 'ThumbsUp' satisfies IconName,
+      icon: 'ThumbsUp',
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'ChatCircleText' satisfies IconName,
+      icon: 'ChatCircleText',
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
