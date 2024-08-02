@@ -1,4 +1,4 @@
-import { useScrollToTop } from '@react-navigation/native'
+import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRef, useState } from 'react'
 import { View } from 'react-native'
@@ -33,6 +33,7 @@ export function PostList({
   const list = useRef<FlashList<Post>>(null)
 
   const common = useCommon()
+  const focused = useIsFocused()
 
   // @ts-expect-error -- go away
   useScrollToTop(list)
@@ -90,8 +91,14 @@ export function PostList({
         />
       }
       renderItem={({ item }) => (
-        <PostCard post={item} viewing={viewing.includes(item.id)} />
+        <PostCard
+          post={item}
+          viewing={focused ? viewing.includes(item.id) : false}
+        />
       )}
+      viewabilityConfig={{
+        itemVisiblePercentThreshold: 60,
+      }}
     />
   )
 }

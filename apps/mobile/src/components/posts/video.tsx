@@ -33,11 +33,10 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const [playing, setPlaying] = useState(false)
-  const [sound, setSound] = useState(false)
 
   const player = useVideoPlayer(video.url, (instance) => {
     instance.loop = true
-    instance.muted = !sound
+    instance.muted = muted
 
     if (viewing) {
       instance.play()
@@ -53,16 +52,6 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
   }, [player, viewing])
 
   useEffect(() => {
-    setSound(() => {
-      const next = viewing && !muted
-
-      player.muted = !next
-
-      return next
-    })
-  }, [muted, player, viewing])
-
-  useEffect(() => {
     const subscription = player.addListener('playingChange', (isPlaying) => {
       setPlaying(isPlaying)
     })
@@ -74,7 +63,7 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
 
   const controls = [
     {
-      icon: (sound ? 'SpeakerSimpleHigh' : 'SpeakerSimpleX') satisfies IconName,
+      icon: (muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh') satisfies IconName,
       key: 'volume',
       onPress() {
         updatePreferences({
@@ -84,10 +73,12 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
     },
   ] as const
 
-  const { height } = getDimensions(frame.width - margin, video)
+  const frameWidth = frame.width - margin
+
+  const { height } = getDimensions(frameWidth, video)
 
   return (
-    <View style={[styles.main(height, frame.width - margin), style]}>
+    <View style={[styles.main(height, frameWidth), style]}>
       <ReactNativePressable
         onPress={() => {
           if (playing) {
