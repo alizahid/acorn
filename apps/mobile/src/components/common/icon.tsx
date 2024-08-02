@@ -12,15 +12,9 @@ import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
 import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
 import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
 import ChatCircleTextBold from 'react-native-phosphor/src/bold/ChatCircleText'
-import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
-import CloudRainBold from 'react-native-phosphor/src/bold/CloudRain'
-import DoorBold from 'react-native-phosphor/src/bold/Door'
 import FastForwardBold from 'react-native-phosphor/src/bold/FastForward'
-import FingerprintSimpleBold from 'react-native-phosphor/src/bold/FingerprintSimple'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
-import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
-import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
 import LinkBold from 'react-native-phosphor/src/bold/Link'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
@@ -52,15 +46,9 @@ import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
 import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
 import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
 import ChatCircleTextDuotone from 'react-native-phosphor/src/duotone/ChatCircleText'
-import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
-import CloudRainDuotone from 'react-native-phosphor/src/duotone/CloudRain'
-import DoorDuotone from 'react-native-phosphor/src/duotone/Door'
 import FastForwardDuotone from 'react-native-phosphor/src/duotone/FastForward'
-import FingerprintSimpleDuotone from 'react-native-phosphor/src/duotone/FingerprintSimple'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
-import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
-import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
@@ -92,15 +80,9 @@ import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
 import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
 import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
 import ChatCircleTextFill from 'react-native-phosphor/src/fill/ChatCircleText'
-import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
-import CloudRainFill from 'react-native-phosphor/src/fill/CloudRain'
-import DoorFill from 'react-native-phosphor/src/fill/Door'
 import FastForwardFill from 'react-native-phosphor/src/fill/FastForward'
-import FingerprintSimpleFill from 'react-native-phosphor/src/fill/FingerprintSimple'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
-import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
-import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
 import LinkFill from 'react-native-phosphor/src/fill/Link'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
@@ -132,15 +114,9 @@ import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
 import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
 import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
 import ChatCircleTextRegular from 'react-native-phosphor/src/regular/ChatCircleText'
-import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
-import CloudRainRegular from 'react-native-phosphor/src/regular/CloudRain'
-import DoorRegular from 'react-native-phosphor/src/regular/Door'
 import FastForwardRegular from 'react-native-phosphor/src/regular/FastForward'
-import FingerprintSimpleRegular from 'react-native-phosphor/src/regular/FingerprintSimple'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
-import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
-import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
 import LinkRegular from 'react-native-phosphor/src/regular/Link'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
@@ -258,29 +234,11 @@ const icons = {
     fill: ChatCircleTextFill,
     regular: ChatCircleTextRegular,
   },
-  CheckCircle: {
-    bold: CheckCircleBold,
-    duotone: CheckCircleDuotone,
-    fill: CheckCircleFill,
-    regular: CheckCircleRegular,
-  },
   Clock: {
     bold: ClockBold,
     duotone: ClockDuotone,
     fill: ClockFill,
     regular: ClockRegular,
-  },
-  CloudRain: {
-    bold: CloudRainBold,
-    duotone: CloudRainDuotone,
-    fill: CloudRainFill,
-    regular: CloudRainRegular,
-  },
-  Door: {
-    bold: DoorBold,
-    duotone: DoorDuotone,
-    fill: DoorFill,
-    regular: DoorRegular,
   },
   FastForward: {
     bold: FastForwardBold,
@@ -288,29 +246,11 @@ const icons = {
     fill: FastForwardFill,
     regular: FastForwardRegular,
   },
-  FingerprintSimple: {
-    bold: FingerprintSimpleBold,
-    duotone: FingerprintSimpleDuotone,
-    fill: FingerprintSimpleFill,
-    regular: FingerprintSimpleRegular,
-  },
   Flame: {
     bold: FlameBold,
     duotone: FlameDuotone,
     fill: FlameFill,
     regular: FlameRegular,
-  },
-  GearSix: {
-    bold: GearSixBold,
-    duotone: GearSixDuotone,
-    fill: GearSixFill,
-    regular: GearSixRegular,
-  },
-  HardDrives: {
-    bold: HardDrivesBold,
-    duotone: HardDrivesDuotone,
-    fill: HardDrivesFill,
-    regular: HardDrivesRegular,
   },
   House: {
     bold: HouseBold,
