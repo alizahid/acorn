@@ -39,7 +39,11 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
         <Image
           key={post.id}
           source={image.url}
-          style={styles.image(frame.width - margin, image.height, image.width)}
+          style={styles.image(
+            frame.width - margin - theme.space[5],
+            image.height,
+            image.width,
+          )}
         />
       ) : null}
 
