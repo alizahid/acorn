@@ -58,7 +58,7 @@ export function FakeModal({ children, onClose, visible }: Props) {
 
   const overlayStyle = useAnimatedStyle(
     () => ({
-      opacity: interpolate(translate.value, [0, frame.width], [1, 0]),
+      opacity: interpolate(translate.value, [0, frame.height], [1, 0]),
     }),
     [translate.value],
   )
