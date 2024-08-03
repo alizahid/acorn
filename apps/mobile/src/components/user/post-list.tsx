@@ -99,7 +99,7 @@ export function UserPostList({
         />
       )}
       viewabilityConfig={{
-        itemVisiblePercentThreshold: 60,
+        itemVisiblePercentThreshold: 80,
       }}
     />
   )
