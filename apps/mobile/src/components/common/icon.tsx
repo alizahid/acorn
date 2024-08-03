@@ -24,6 +24,7 @@ import PauseBold from 'react-native-phosphor/src/bold/Pause'
 import PlayBold from 'react-native-phosphor/src/bold/Play'
 import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
+import ResizeBold from 'react-native-phosphor/src/bold/Resize'
 import RewindBold from 'react-native-phosphor/src/bold/Rewind'
 import ShareFatBold from 'react-native-phosphor/src/bold/ShareFat'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
@@ -58,6 +59,7 @@ import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
 import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
 import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
+import ResizeDuotone from 'react-native-phosphor/src/duotone/Resize'
 import RewindDuotone from 'react-native-phosphor/src/duotone/Rewind'
 import ShareFatDuotone from 'react-native-phosphor/src/duotone/ShareFat'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
@@ -92,6 +94,7 @@ import PauseFill from 'react-native-phosphor/src/fill/Pause'
 import PlayFill from 'react-native-phosphor/src/fill/Play'
 import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
+import ResizeFill from 'react-native-phosphor/src/fill/Resize'
 import RewindFill from 'react-native-phosphor/src/fill/Rewind'
 import ShareFatFill from 'react-native-phosphor/src/fill/ShareFat'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
@@ -126,6 +129,7 @@ import PauseRegular from 'react-native-phosphor/src/regular/Pause'
 import PlayRegular from 'react-native-phosphor/src/regular/Play'
 import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
+import ResizeRegular from 'react-native-phosphor/src/regular/Resize'
 import RewindRegular from 'react-native-phosphor/src/regular/Rewind'
 import ShareFatRegular from 'react-native-phosphor/src/regular/ShareFat'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
@@ -305,6 +309,12 @@ const icons = {
     duotone: RankingDuotone,
     fill: RankingFill,
     regular: RankingRegular,
+  },
+  Resize: {
+    bold: ResizeBold,
+    duotone: ResizeDuotone,
+    fill: ResizeFill,
+    regular: ResizeRegular,
   },
   Rewind: {
     bold: RewindBold,

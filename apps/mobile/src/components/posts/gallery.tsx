@@ -2,22 +2,16 @@ import { Image } from 'expo-image'
 import { ImageZoom } from 'expo-image-zoom'
 import { useState } from 'react'
 import { FlatList, type StyleProp, View, type ViewStyle } from 'react-native'
-import Animated from 'react-native-reanimated'
-import {
-  useSafeAreaFrame,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { useCommon } from '~/hooks/common'
 import { getDimensions } from '~/lib/media'
 import { type PostMedia } from '~/types/post'
 
 import { FakeModal } from '../common/fake-modal'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-
-const AnimatedImage = Animated.createAnimatedComponent(Image)
 
 type Props = {
   images: Array<PostMedia>
@@ -26,16 +20,20 @@ type Props = {
 }
 
 export function PostGalleryCard({ images, margin = 0, style }: Props) {
-  const frame = useSafeAreaFrame()
-  const insets = useSafeAreaInsets()
+  const common = useCommon()
 
   const t = useTranslations('component.posts.gallery')
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const [visible, setVisible] = useState(false)
 
-  const frameWidth = frame.width - margin
+  const frameWidth = common.frame.width - margin
+  const maxHeight =
+    common.frame.height -
+    common.headerHeight -
+    common.tabBarHeight -
+    theme.space[9]
 
   const dimensions = getDimensions(frameWidth, images[0])
 
@@ -47,9 +45,10 @@ export function PostGalleryCard({ images, margin = 0, style }: Props) {
         }}
         style={style}
       >
-        <AnimatedImage
+        <Image
+          contentFit="cover"
           source={images[0].url}
-          style={[styles.image(dimensions.height, dimensions.width)]}
+          style={[styles.main(maxHeight, dimensions.height, dimensions.width)]}
         />
 
         {images.length > 1 ? (
@@ -70,7 +69,10 @@ export function PostGalleryCard({ images, margin = 0, style }: Props) {
         visible={visible}
       >
         <FlatList
-          contentContainerStyle={styles.content(insets.top, insets.bottom)}
+          contentContainerStyle={styles.content(
+            common.insets.top,
+            common.insets.bottom,
+          )}
           data={images}
           decelerationRate="fast"
           horizontal
@@ -80,14 +82,18 @@ export function PostGalleryCard({ images, margin = 0, style }: Props) {
               <ImageZoom
                 source={item.url}
                 style={styles.image(
-                  frame.height - insets.top - insets.bottom,
-                  frame.width,
+                  common.frame.height -
+                    common.insets.top -
+                    common.insets.bottom,
+                  common.frame.width,
                 )}
               />
             )
           }}
           showsHorizontalScrollIndicator={false}
-          snapToOffsets={images.map((image, index) => frame.width * index)}
+          snapToOffsets={images.map(
+            (image, index) => common.frame.width * index,
+          )}
         />
       </FakeModal>
     </>
@@ -110,6 +116,11 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   image: (height: number, width: number) => ({
     height,
+    width,
+  }),
+  main: (maxHeight: number, height: number, width: number) => ({
+    backgroundColor: theme.colors.gray.a2,
+    height: Math.min(maxHeight, height),
     width,
   }),
 }))

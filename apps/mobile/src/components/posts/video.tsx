@@ -1,4 +1,4 @@
-import { useVideoPlayer, VideoView } from 'expo-video'
+import { useVideoPlayer, type VideoContentFit, VideoView } from 'expo-video'
 import { useEffect, useRef, useState } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import Animated, {
@@ -6,9 +6,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { useCommon } from '~/hooks/common'
 import { getDimensions } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
@@ -24,7 +24,7 @@ type Props = {
 }
 
 export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
-  const frame = useSafeAreaFrame()
+  const common = useCommon()
 
   const ref = useRef<VideoView>(null)
 
@@ -35,8 +35,14 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
   const opacity = useSharedValue(0)
 
   const [playing, setPlaying] = useState(false)
+  const [contentFit, setContentFit] = useState<VideoContentFit>('cover')
 
-  const frameWidth = frame.width - margin
+  const frameWidth = common.frame.width - margin
+  const maxHeight =
+    common.frame.height -
+    common.headerHeight -
+    common.tabBarHeight -
+    theme.space[9]
 
   const player = useVideoPlayer(video.url, (instance) => {
     instance.muted = true
@@ -69,11 +75,22 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
 
   const controls = [
     {
+      icon: 'Resize',
+      key: 'resize',
+      onPress() {
+        setContentFit((previous) =>
+          previous === 'contain' ? 'cover' : 'contain',
+        )
+      },
+      weight: 'regular',
+    },
+    {
       icon: 'Rewind',
       key: 'rewind',
       onPress() {
         player.seekBy(-10)
       },
+      weight: 'fill',
     },
     {
       icon: playing ? 'Pause' : 'Play',
@@ -85,6 +102,7 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
           player.play()
         }
       },
+      weight: 'fill',
     },
     {
       icon: 'FastForward',
@@ -92,6 +110,17 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
       onPress() {
         player.seekBy(10)
       },
+      weight: 'fill',
+    },
+    {
+      icon: muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh',
+      key: 'volume',
+      onPress() {
+        updatePreferences({
+          muted: !muted,
+        })
+      },
+      weight: 'regular',
     },
   ] as const
 
@@ -115,10 +144,11 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
           allowsFullscreen={false}
           allowsPictureInPicture={false}
           allowsVideoFrameAnalysis={false}
+          contentFit={contentFit}
           nativeControls={false}
           player={player}
           ref={ref}
-          style={styles.video(dimensions.height, dimensions.width)}
+          style={styles.video(maxHeight, dimensions.height, dimensions.width)}
         />
       </Pressable>
 
@@ -133,25 +163,11 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
               color={theme.colors.white.a11}
               name={control.icon}
               size={theme.space[5]}
+              weight={control.weight}
             />
           </Pressable>
         ))}
       </Animated.View>
-
-      <Pressable
-        onPress={() => {
-          updatePreferences({
-            muted: !muted,
-          })
-        }}
-        style={[styles.control, styles.volume]}
-      >
-        <Icon
-          color={theme.colors.white.a11}
-          name={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
-          size={theme.space[4]}
-        />
-      </Pressable>
     </View>
   )
 }
@@ -174,14 +190,8 @@ const stylesheet = createStyleSheet((theme) => ({
   main: {
     backgroundColor: theme.colors.gray.a2,
   },
-  video: (height: number, width: number) => ({
-    height,
+  video: (maxHeight: number, height: number, width: number) => ({
+    height: Math.min(maxHeight, height),
     width,
   }),
-  volume: {
-    bottom: theme.space[4],
-    padding: theme.space[2],
-    position: 'absolute',
-    right: theme.space[4],
-  },
 }))
