@@ -4,7 +4,6 @@ import { useTranslations } from 'use-intl'
 
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { type ColorId, getColorForId } from '~/lib/colors'
-import { removePrefix } from '~/lib/reddit'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
 
@@ -36,7 +35,7 @@ export function CommentMoreCard({ comment, post }: Props) {
         }
 
         if (comment.id === '_') {
-          const url = `https://www.reddit.com/r/${post.subreddit}/comments/${removePrefix(post.id)}/comment/${removePrefix(comment.parentId)}/`
+          const url = `https://www.reddit.com/r/${post.subreddit}/comments/${post.id}/comment/${comment.parentId}/`
 
           void Linking.openURL(url)
         } else {

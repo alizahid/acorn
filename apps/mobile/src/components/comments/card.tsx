@@ -4,7 +4,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { type ColorId, getColorForId } from '~/lib/colors'
-import { removePrefix } from '~/lib/reddit'
 import { type CommentReply } from '~/types/comment'
 
 import { Markdown } from '../common/markdown'
@@ -42,7 +41,7 @@ export function CommentCard({
           return
         }
 
-        router.navigate(`/posts/${removePrefix(postId)}`)
+        router.navigate(`/posts/${postId}`)
       }}
       style={[styles.main(color, comment.depth), style]}
     >

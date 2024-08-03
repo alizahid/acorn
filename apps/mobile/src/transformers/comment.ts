@@ -1,6 +1,7 @@
 import { decode } from 'entities'
 
 import { getMeta } from '~/lib/media'
+import { removePrefix } from '~/lib/reddit'
 import { type CommentsSchema } from '~/schemas/reddit/comments'
 import { type Comment } from '~/types/comment'
 
@@ -14,7 +15,7 @@ export function transformComment(
         count: data.data.count,
         depth: data.data.depth,
         id: data.data.id,
-        parentId: data.data.parent_id,
+        parentId: removePrefix(data.data.parent_id),
       },
       type: 'more',
     }
@@ -31,7 +32,7 @@ export function transformComment(
         meta: getMeta(data.data),
       },
       op: data.data.is_submitter,
-      parentId: data.data.parent_id,
+      parentId: removePrefix(data.data.parent_id),
       postId: data.data.link_id,
       saved: data.data.saved,
       user: {
