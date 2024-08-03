@@ -61,9 +61,13 @@ export function CommentCard({ collapsed, comment, style }: Props) {
           })}
         </Text>
 
-        <CommentVoteCard comment={comment} />
+        {!collapsed ? (
+          <>
+            <CommentVoteCard comment={comment} />
 
-        <CommentSaveCard comment={comment} />
+            <CommentSaveCard comment={comment} />
+          </>
+        ) : null}
       </View>
     </View>
   )
