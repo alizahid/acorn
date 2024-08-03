@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
@@ -7,55 +6,44 @@ import { type ColorId, getColorForId } from '~/lib/colors'
 import { type CommentReply } from '~/types/comment'
 
 import { Markdown } from '../common/markdown'
-import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { CommentSaveCard } from './save'
 import { CommentVoteCard } from './vote'
 
 type Props = {
+  collapsed?: boolean
   comment: CommentReply
-  linkable?: boolean
-  postId?: string
   style?: StyleProp<ViewStyle>
 }
 
-export function CommentCard({
-  comment,
-  linkable = false,
-  postId,
-  style,
-}: Props) {
-  const router = useRouter()
-
+export function CommentCard({ collapsed, comment, style }: Props) {
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const color = getColorForId(comment.parentId ?? comment.id)
+  const color = getColorForId(comment.parentId ?? comment.postId)
 
   return (
-    <Pressable
-      disabled={!linkable}
-      onPress={() => {
-        if (!postId) {
-          return
-        }
-
-        router.navigate(`/posts/${postId}`)
-      }}
-      style={[styles.main(color, comment.depth), style]}
+    <View
+      style={[
+        styles.main(color, comment.depth),
+        collapsed && styles.collapsed,
+        style,
+      ]}
     >
-      <View style={styles.body}>
-        <Markdown
-          margin={
-            theme.space[3] * (comment.depth + 2) + (comment.depth > 0 ? 2 : 0)
-          }
-          meta={comment.media.meta}
-          size="2"
-        >
-          {comment.body}
-        </Markdown>
-      </View>
+      {!collapsed ? (
+        <View style={styles.body}>
+          <Markdown
+            margin={
+              theme.space[3] * (comment.depth + 2) + (comment.depth > 0 ? 2 : 0)
+            }
+            meta={comment.media.meta}
+            size="2"
+          >
+            {comment.body}
+          </Markdown>
+        </View>
+      ) : null}
 
       <View style={styles.footer}>
         <Text
@@ -73,11 +61,11 @@ export function CommentCard({
           })}
         </Text>
 
-        <CommentVoteCard comment={comment} postId={postId} />
+        <CommentVoteCard comment={comment} />
 
-        <CommentSaveCard comment={comment} postId={postId} />
+        <CommentSaveCard comment={comment} />
       </View>
-    </Pressable>
+    </View>
   )
 }
 
@@ -85,6 +73,9 @@ const stylesheet = createStyleSheet((theme) => ({
   body: {
     paddingRight: theme.space[3],
     paddingVertical: theme.space[3] / 2,
+  },
+  collapsed: {
+    paddingTop: theme.space[3],
   },
   footer: {
     alignItems: 'center',

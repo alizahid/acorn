@@ -11,10 +11,9 @@ import { Text } from '../common/text'
 
 type Props = {
   comment: CommentReply
-  postId?: string
 }
 
-export function CommentVoteCard({ comment, postId }: Props) {
+export function CommentVoteCard({ comment }: Props) {
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -31,7 +30,7 @@ export function CommentVoteCard({ comment, postId }: Props) {
           vote({
             commentId: comment.id,
             direction: comment.liked ? 0 : 1,
-            postId,
+            postId: comment.postId,
           })
         }}
       >
@@ -55,7 +54,7 @@ export function CommentVoteCard({ comment, postId }: Props) {
           vote({
             commentId: comment.id,
             direction: comment.liked === false ? 0 : -1,
-            postId,
+            postId: comment.postId,
           })
         }}
       >

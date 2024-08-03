@@ -8,6 +8,8 @@ import { type Comment } from '~/types/comment'
 export function transformComment(
   data: CommentsSchema['data']['children'][number],
 ): Comment {
+  const parentId = removePrefix(data.data.parent_id)
+
   if (data.kind === 'more') {
     return {
       data: {
@@ -15,11 +17,13 @@ export function transformComment(
         count: data.data.count,
         depth: data.data.depth,
         id: data.data.id,
-        parentId: removePrefix(data.data.parent_id),
+        parentId,
       },
       type: 'more',
     }
   }
+
+  const postId = removePrefix(data.data.link_id)
 
   return {
     data: {
@@ -32,8 +36,8 @@ export function transformComment(
         meta: getMeta(data.data),
       },
       op: data.data.is_submitter,
-      parentId: removePrefix(data.data.parent_id),
-      postId: data.data.link_id,
+      parentId: parentId === postId ? undefined : parentId,
+      postId,
       saved: data.data.saved,
       user: {
         name: data.data.author,

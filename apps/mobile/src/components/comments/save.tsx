@@ -8,10 +8,9 @@ import { Pressable } from '../common/pressable'
 
 type Props = {
   comment: CommentReply
-  postId?: string
 }
 
-export function CommentSaveCard({ comment, postId }: Props) {
+export function CommentSaveCard({ comment }: Props) {
   const { theme } = useStyles()
 
   const { save } = useCommentSave()
@@ -25,7 +24,7 @@ export function CommentSaveCard({ comment, postId }: Props) {
         save({
           action: comment.saved ? 'unsave' : 'save',
           commentId: comment.id,
-          postId,
+          postId: comment.postId,
         })
       }}
     >

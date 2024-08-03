@@ -1,4 +1,5 @@
 import * as Linking from 'expo-linking'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -15,9 +16,10 @@ import { Text } from '../common/text'
 type Props = {
   comment: CommentMore
   post?: Post
+  style?: StyleProp<ViewStyle>
 }
 
-export function CommentMoreCard({ comment, post }: Props) {
+export function CommentMoreCard({ comment, post, style }: Props) {
   const t = useTranslations('component.comments.more')
 
   const { styles, theme } = useStyles(stylesheet)
@@ -46,7 +48,7 @@ export function CommentMoreCard({ comment, post }: Props) {
           })
         }
       }}
-      style={styles.main(color, comment.depth)}
+      style={[styles.main(color, comment.depth), style]}
     >
       {isPending ? (
         <Spinner />

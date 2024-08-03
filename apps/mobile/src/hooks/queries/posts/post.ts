@@ -1,4 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { create } from 'mutative'
+import { useMemo } from 'react'
+import { MMKV } from 'react-native-mmkv'
 
 import { queryClient } from '~/lib/query'
 import { REDDIT_URI, redditApi } from '~/lib/reddit'
@@ -11,6 +14,8 @@ import { type Post } from '~/types/post'
 
 import { type PostsQueryData } from './posts'
 
+const COLLAPSED_KEY = 'collapsed'
+
 export type PostQueryKey = ['post', string]
 
 export type PostQueryData = {
@@ -18,16 +23,18 @@ export type PostQueryData = {
   post: Post
 }
 
-export function usePost(id?: string) {
+export function usePost(id: string) {
   const { accessToken, expired } = useAuth()
 
-  const { data, isFetching, isRefetching, refetch } = useQuery<
+  const postQueryKey = ['post', id] satisfies PostQueryKey
+
+  const query = useQuery<
     PostQueryData,
     Error,
     PostQueryData | undefined,
     PostQueryKey
   >({
-    enabled: !expired && Boolean(id),
+    enabled: !expired,
     initialData() {
       return getPost(id)
     },
@@ -52,16 +59,13 @@ export function usePost(id?: string) {
         post: transformPost(post.data),
       }
     },
-    queryKey: ['post', id!],
-    staleTime(query) {
-      if (!query.state.data) {
+    queryKey: postQueryKey,
+    staleTime({ state }) {
+      if (!state.data) {
         return 0
       }
 
-      if (
-        query.state.data.comments.length === 0 &&
-        query.state.data.post.comments > 0
-      ) {
+      if (state.data.comments.length === 0 && state.data.post.comments > 0) {
         return 0
       }
 
@@ -69,20 +73,81 @@ export function usePost(id?: string) {
     },
   })
 
+  const collapsedQueryKey = ['collapsed', id] as const
+
+  const collapsed = useQuery({
+    initialData: [],
+    queryFn() {
+      const store = new MMKV({
+        id: `collapsed-${id}`,
+      })
+
+      const data = store.getString(COLLAPSED_KEY)
+
+      if (data) {
+        return data.split(',')
+      }
+
+      return []
+    },
+    queryKey: collapsedQueryKey,
+  })
+
+  const collapse = useMutation({
+    // eslint-disable-next-line @typescript-eslint/require-await -- go away
+    async mutationFn(commentId: string) {
+      const previousComments =
+        queryClient.getQueryData<PostQueryData>(postQueryKey)
+
+      const ids = getCollapsible(previousComments?.comments ?? [], commentId)
+
+      const previous =
+        queryClient.getQueryData<Array<string>>(collapsedQueryKey) ?? []
+
+      const next = create(previous, (draft) => {
+        for (const itemId of ids) {
+          const index = draft.indexOf(itemId)
+
+          if (index >= 0) {
+            draft.splice(index, 1)
+          } else {
+            draft.push(itemId)
+          }
+        }
+      })
+
+      queryClient.setQueryData<Array<string>>(collapsedQueryKey, () => next)
+
+      const store = new MMKV({
+        id: `collapsed-${id}`,
+      })
+
+      store.set(COLLAPSED_KEY, next.join(','))
+    },
+  })
+
+  const comments = useMemo(() => {
+    const items = query.data?.comments ?? []
+
+    return items.filter((comment) =>
+      comment.data.parentId
+        ? !collapsed.data.includes(comment.data.parentId ?? comment.data.id)
+        : true,
+    )
+  }, [collapsed.data, query.data?.comments])
+
   return {
-    comments: data?.comments ?? [],
-    isFetching,
-    isRefetching,
-    post: data?.post,
-    refetch,
+    collapse: collapse.mutate,
+    collapsed: collapsed.data,
+    comments,
+    isFetching: query.isFetching,
+    isRefetching: query.isRefetching,
+    post: query.data?.post,
+    refetch: query.refetch,
   }
 }
 
-function getPost(id?: string) {
-  if (!id) {
-    return
-  }
-
+function getPost(id: string) {
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
@@ -107,4 +172,25 @@ function getPost(id?: string) {
       }
     }
   }
+}
+
+export function getCollapsible(
+  comments: Array<Comment>,
+  id: string,
+): Array<string> {
+  const ids: Array<string> = [id]
+
+  function findChildren(parentId: string) {
+    const children = comments.filter((item) => item.data.parentId === parentId)
+
+    for (const child of children) {
+      ids.push(child.data.id)
+
+      findChildren(child.data.id)
+    }
+  }
+
+  findChildren(id)
+
+  return ids
 }

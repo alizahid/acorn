@@ -4,28 +4,32 @@ import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
+  useRouter,
 } from 'expo-router'
 import { useRef } from 'react'
 import { View } from 'react-native'
 import { Empty } from 'react-native-phosphor'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
 import { Loading } from '~/components/common/loading'
+import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { useCommon } from '~/hooks/common'
 import { useComments } from '~/hooks/queries/user/comments'
 import { type Comment } from '~/types/comment'
 
-type Params = {
-  name: string
-}
+const schema = z.object({
+  name: z.string().catch('mildpanda'),
+})
 
 export default function Screen() {
+  const router = useRouter()
   const navigation = useNavigation()
-  const params = useLocalSearchParams<Params>()
+  const params = schema.parse(useLocalSearchParams())
 
   const t = useTranslations('tab.user.menu')
 
@@ -82,7 +86,15 @@ export default function Screen() {
       }
       renderItem={({ item }) => {
         if (item.type === 'reply') {
-          return <CommentCard comment={item.data} linkable />
+          return (
+            <Pressable
+              onPress={() => {
+                router.navigate(`/posts/${item.data.postId}`)
+              }}
+            >
+              <CommentCard comment={item.data} />
+            </Pressable>
+          )
         }
 
         return null

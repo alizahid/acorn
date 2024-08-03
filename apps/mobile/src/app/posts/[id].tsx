@@ -7,6 +7,7 @@ import {
 } from 'expo-router'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
@@ -19,21 +20,23 @@ import { PostCard } from '~/components/posts/card'
 import { useCommon } from '~/hooks/common'
 import { usePost } from '~/hooks/queries/posts/post'
 
-type Params = {
-  id: string
-}
+const schema = z.object({
+  id: z.string().catch('17jkixh'),
+})
 
 export default function Screen() {
   const router = useRouter()
   const navigation = useNavigation()
 
-  const params = useLocalSearchParams<Params>()
+  const params = schema.parse(useLocalSearchParams())
 
   const common = useCommon()
 
   const { styles } = useStyles(stylesheet)
 
-  const { comments, isFetching, post, refetch } = usePost(params.id)
+  const { collapse, collapsed, comments, isFetching, post, refetch } = usePost(
+    params.id,
+  )
 
   useFocusEffect(() => {
     if (!post) {
@@ -81,7 +84,18 @@ export default function Screen() {
       }
       renderItem={({ item }) => {
         if (item.type === 'reply') {
-          return <CommentCard comment={item.data} postId={post?.id} />
+          return (
+            <Pressable
+              onPress={() => {
+                collapse(item.data.id)
+              }}
+            >
+              <CommentCard
+                collapsed={collapsed.includes(item.data.id)}
+                comment={item.data}
+              />
+            </Pressable>
+          )
         }
 
         return <CommentMoreCard comment={item.data} post={post} />
