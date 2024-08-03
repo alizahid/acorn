@@ -15,6 +15,7 @@ import ChatCircleTextBold from 'react-native-phosphor/src/bold/ChatCircleText'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import FastForwardBold from 'react-native-phosphor/src/bold/FastForward'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
+import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
 import LinkBold from 'react-native-phosphor/src/bold/Link'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
@@ -50,6 +51,7 @@ import ChatCircleTextDuotone from 'react-native-phosphor/src/duotone/ChatCircleT
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import FastForwardDuotone from 'react-native-phosphor/src/duotone/FastForward'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
+import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
@@ -85,6 +87,7 @@ import ChatCircleTextFill from 'react-native-phosphor/src/fill/ChatCircleText'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import FastForwardFill from 'react-native-phosphor/src/fill/FastForward'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
+import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
 import LinkFill from 'react-native-phosphor/src/fill/Link'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
@@ -120,6 +123,7 @@ import ChatCircleTextRegular from 'react-native-phosphor/src/regular/ChatCircleT
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import FastForwardRegular from 'react-native-phosphor/src/regular/FastForward'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
+import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
 import LinkRegular from 'react-native-phosphor/src/regular/Link'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
@@ -255,6 +259,12 @@ const icons = {
     duotone: FlameDuotone,
     fill: FlameFill,
     regular: FlameRegular,
+  },
+  HardDrives: {
+    bold: HardDrivesBold,
+    duotone: HardDrivesDuotone,
+    fill: HardDrivesFill,
+    regular: HardDrivesRegular,
   },
   House: {
     bold: HouseBold,

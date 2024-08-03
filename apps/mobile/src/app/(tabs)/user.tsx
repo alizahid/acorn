@@ -9,6 +9,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { useCommon } from '~/hooks/common'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { useAuth } from '~/stores/auth'
 import { UserFeedType } from '~/types/user'
 
 export default function Screen() {
@@ -22,6 +23,7 @@ export default function Screen() {
 
   const common = useCommon()
 
+  const { clearCache } = useAuth()
   const { profile, refetch } = useProfile()
 
   useFocusEffect(() => {
@@ -61,6 +63,30 @@ export default function Screen() {
     },
   ] as const
 
+  const items = [
+    ...UserFeedType.map((item) => ({
+      icon: icons[item],
+      key: item,
+      label: t(`menu.${item}`),
+      onPress() {
+        if (!profile) {
+          return
+        }
+
+        router.navigate(`/users/${profile.name}/${item}`)
+      },
+    })),
+    'separator-1',
+    {
+      icon: 'HardDrives',
+      key: 'cache',
+      label: t('settings.cache'),
+      onPress() {
+        clearCache()
+      },
+    },
+  ] as const
+
   return (
     <FlatList
       {...common.listProps({
@@ -91,40 +117,42 @@ export default function Screen() {
         common.headerHeight,
         common.tabBarHeight,
       )}
-      data={UserFeedType}
-      keyExtractor={(item) => item}
+      data={items}
+      keyExtractor={(item) => (typeof item === 'string' ? item : item.key)}
       refreshControl={
         <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
       }
-      renderItem={({ item }) => (
-        <Pressable
-          onPress={() => {
-            if (!profile) {
-              return
-            }
+      renderItem={({ item }) => {
+        if (typeof item === 'string') {
+          return <View style={styles.separator} />
+        }
 
-            router.navigate(`/users/${profile.name}/${item}`)
-          }}
-          style={styles.item}
-        >
-          <Icon
-            color={theme.colors.accent.a11}
-            name={icons[item]}
-            size={theme.space[5]}
-            weight="duotone"
-          />
+        return (
+          <Pressable
+            onPress={() => {
+              item.onPress()
+            }}
+            style={styles.item}
+          >
+            <Icon
+              color={theme.colors.accent.a11}
+              name={item.icon}
+              size={theme.space[5]}
+              weight="duotone"
+            />
 
-          <Text style={styles.label} weight="medium">
-            {t(`menu.${item}`)}
-          </Text>
+            <Text style={styles.label} weight="medium">
+              {item.label}
+            </Text>
 
-          <Icon
-            color={theme.colors.gray.a9}
-            name="CaretRight"
-            size={theme.space[4]}
-          />
-        </Pressable>
-      )}
+            <Icon
+              color={theme.colors.gray.a9}
+              name="CaretRight"
+              size={theme.space[4]}
+            />
+          </Pressable>
+        )
+      }}
     />
   )
 }
@@ -154,6 +182,9 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingBottom: bottom,
     paddingTop: top,
   }),
+  separator: {
+    height: theme.space[4],
+  },
 }))
 
 const icons: Record<UserFeedType, IconName> = {
