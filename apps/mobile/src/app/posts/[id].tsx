@@ -12,6 +12,7 @@ import { z } from 'zod'
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
+import { Loading } from '~/components/common/loading'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -64,7 +65,15 @@ export default function Screen() {
       })}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListEmptyComponent={
-        isFetching ? <Spinner style={styles.spinner} /> : <Empty />
+        isFetching ? (
+          post ? (
+            <Spinner style={styles.spinner} />
+          ) : (
+            <Loading />
+          )
+        ) : (
+          <Empty />
+        )
       }
       ListHeaderComponent={
         post ? (
