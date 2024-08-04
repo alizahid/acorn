@@ -3,6 +3,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { type ColorId, getColorForId } from '~/lib/colors'
+import { withoutAgo } from '~/lib/intl'
 import { type CommentReply } from '~/types/comment'
 
 import { Markdown } from '../common/markdown'
@@ -56,9 +57,11 @@ export function CommentCard({ collapsed, comment, style }: Props) {
         </Text>
 
         <Text highContrast={false} size="1">
-          {f.relativeTime(comment.createdAt, {
-            style: 'narrow',
-          })}
+          {withoutAgo(
+            f.relativeTime(comment.createdAt, {
+              style: 'narrow',
+            }),
+          )}
         </Text>
 
         {!collapsed ? (

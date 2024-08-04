@@ -64,8 +64,8 @@
     },
     "user": {
       "header": {
+        "age": "Age",
         "comment": "Comment",
-        "joined": "Joined",
         "karma": "Karma",
         "post": "Post"
       },

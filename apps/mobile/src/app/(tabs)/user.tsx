@@ -9,6 +9,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { useCommon } from '~/hooks/common'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { withoutAgo } from '~/lib/intl'
 import { useAuth } from '~/stores/auth'
 import { UserFeedType } from '~/types/user'
 
@@ -56,10 +57,12 @@ export default function Screen() {
       }),
     },
     {
-      key: 'joined',
-      value: f.relativeTime(profile?.createdAt ?? new Date(), {
-        style: 'narrow',
-      }),
+      key: 'age',
+      value: withoutAgo(
+        f.relativeTime(profile?.createdAt ?? new Date(), {
+          style: 'narrow',
+        }),
+      ),
     },
   ] as const
 

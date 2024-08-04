@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
+import { withoutAgo } from '~/lib/intl'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -42,9 +43,11 @@ export function PostFooterCard({ expanded = false, post }: Props) {
     {
       icon: 'Clock',
       key: 'created',
-      label: f.relativeTime(post.createdAt, {
-        style: 'narrow',
-      }),
+      label: withoutAgo(
+        f.relativeTime(post.createdAt, {
+          style: 'narrow',
+        }),
+      ),
     },
   ] as const
 
