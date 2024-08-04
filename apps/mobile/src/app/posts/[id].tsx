@@ -5,7 +5,8 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { View } from 'react-native'
+import { useRef, useState } from 'react'
+import { type TextInput, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
@@ -18,6 +19,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { PostCard } from '~/components/posts/card'
+import { PostReplyCard } from '~/components/posts/reply'
 import { useCommon } from '~/hooks/common'
 import { usePost } from '~/hooks/queries/posts/post'
 
@@ -39,6 +41,11 @@ export default function Screen() {
     params.id,
   )
 
+  const reply = useRef<TextInput>(null)
+
+  const [commentId, setCommentId] = useState<string>()
+  const [user, setUser] = useState<string>()
+
   useFocusEffect(() => {
     if (!post) {
       return
@@ -59,59 +66,82 @@ export default function Screen() {
   })
 
   return (
-    <FlashList
-      {...common.listProps({
-        header: true,
-      })}
-      ItemSeparatorComponent={() => <View style={styles.separator} />}
-      ListEmptyComponent={
-        isFetching ? (
-          post ? (
-            <Spinner style={styles.spinner} />
+    <>
+      <FlashList
+        {...common.listProps({
+          header: true,
+        })}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ListEmptyComponent={
+          isFetching ? (
+            post ? (
+              <Spinner style={styles.spinner} />
+            ) : (
+              <Loading />
+            )
           ) : (
-            <Loading />
-          )
-        ) : (
-          <Empty />
-        )
-      }
-      ListHeaderComponent={
-        post ? (
-          <PostCard expanded post={post} style={styles.post} viewing />
-        ) : null
-      }
-      contentContainerStyle={styles.main(
-        common.headerHeight,
-        common.insets.bottom,
-      )}
-      data={comments}
-      estimatedItemSize={72}
-      getItemType={(item) => item.type}
-      keyExtractor={(item) => item.data.id}
-      refreshControl={
-        <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
-      }
-      renderItem={({ item }) => {
-        if (item.type === 'reply') {
-          const hidden = collapsed.includes(item.data.id)
-
-          return (
-            <Pressable
-              onPress={() => {
-                collapse({
-                  commentId: item.data.id,
-                  hide: !hidden,
-                })
-              }}
-            >
-              <CommentCard collapsed={hidden} comment={item.data} />
-            </Pressable>
+            <Empty />
           )
         }
+        ListHeaderComponent={
+          post ? (
+            <PostCard expanded post={post} style={styles.post} viewing />
+          ) : null
+        }
+        contentContainerStyle={styles.main(common.headerHeight)}
+        data={comments}
+        estimatedItemSize={72}
+        getItemType={(item) => item.type}
+        keyExtractor={(item) => item.data.id}
+        refreshControl={
+          <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
+        }
+        renderItem={({ item }) => {
+          if (item.type === 'reply') {
+            const hidden = collapsed.includes(item.data.id)
 
-        return <CommentMoreCard comment={item.data} post={post} />
-      }}
-    />
+            return (
+              <Pressable
+                onPress={() => {
+                  collapse({
+                    commentId: item.data.id,
+                    hide: !hidden,
+                  })
+                }}
+              >
+                <CommentCard
+                  collapsed={hidden}
+                  comment={item.data}
+                  onReply={() => {
+                    setCommentId(item.data.id)
+                    setUser(item.data.user.name)
+
+                    reply.current?.focus()
+                  }}
+                />
+              </Pressable>
+            )
+          }
+
+          return <CommentMoreCard comment={item.data} post={post} />
+        }}
+      />
+
+      <PostReplyCard
+        commentId={commentId}
+        onReset={() => {
+          if (!post) {
+            return
+          }
+
+          setCommentId(undefined)
+          setUser(undefined)
+        }}
+        postId={post?.id}
+        ref={reply}
+        user={user}
+      />
+    </>
   )
 }
 
@@ -121,8 +151,7 @@ const stylesheet = createStyleSheet((theme) => ({
     justifyContent: 'center',
     paddingHorizontal: theme.space[3],
   },
-  main: (top: number, bottom: number) => ({
-    paddingBottom: bottom,
+  main: (top: number) => ({
     paddingTop: top,
   }),
   post: {

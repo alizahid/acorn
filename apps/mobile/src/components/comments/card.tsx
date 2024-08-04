@@ -6,7 +6,9 @@ import { type ColorId, getColorForId } from '~/lib/colors'
 import { withoutAgo } from '~/lib/intl'
 import { type CommentReply } from '~/types/comment'
 
+import { Icon } from '../common/icon'
 import { Markdown } from '../common/markdown'
+import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { CommentSaveCard } from './save'
 import { CommentVoteCard } from './vote'
@@ -14,10 +16,11 @@ import { CommentVoteCard } from './vote'
 type Props = {
   collapsed?: boolean
   comment: CommentReply
+  onReply?: () => void
   style?: StyleProp<ViewStyle>
 }
 
-export function CommentCard({ collapsed, comment, style }: Props) {
+export function CommentCard({ collapsed, comment, onReply, style }: Props) {
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -67,6 +70,22 @@ export function CommentCard({ collapsed, comment, style }: Props) {
         {!collapsed ? (
           <>
             <CommentVoteCard comment={comment} />
+
+            {onReply ? (
+              <Pressable
+                hitSlop={theme.space[4]}
+                onPress={() => {
+                  onReply()
+                }}
+              >
+                <Icon
+                  color={theme.colors.gray.a11}
+                  name="ArrowBendUpLeft"
+                  size={theme.space[4]}
+                  weight="bold"
+                />
+              </Pressable>
+            ) : null}
 
             <CommentSaveCard comment={comment} />
           </>

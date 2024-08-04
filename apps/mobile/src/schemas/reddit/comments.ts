@@ -69,3 +69,18 @@ export const MoreCommentsSchema = z.object({
 })
 
 export type MoreCommentsSchema = z.infer<typeof MoreCommentsSchema>
+
+export const CreateCommentSchema = z.object({
+  json: z.object({
+    data: z.object({
+      things: z.array(
+        z.object({
+          data: CommentDataSchema,
+          kind: z.literal('t1'),
+        }),
+      ),
+    }),
+  }),
+})
+
+export type CreateCommentSchema = z.infer<typeof CreateCommentSchema>

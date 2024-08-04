@@ -19,6 +19,11 @@
         "week": "This week",
         "year": "This year"
       },
+      "reply": {
+        "comment": "Replying to {user}",
+        "placeholder": "Say something nice",
+        "submit": "Reply"
+      },
       "sort": {
         "best": "Best",
         "hot": "Hot",
