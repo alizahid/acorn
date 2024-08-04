@@ -16,6 +16,7 @@ export const REDDIT_SCOPES = [
   'read',
   'report',
   'save',
+  'submit',
   'subscribe',
   'vote',
 ].join(' ')
