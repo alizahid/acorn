@@ -12,6 +12,7 @@ import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
+import { CommentsSortMenu } from '~/components/comments/sort'
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
 import { Pressable } from '~/components/common/pressable'
@@ -22,6 +23,7 @@ import { PostCard } from '~/components/posts/card'
 import { PostReplyCard } from '~/components/posts/reply'
 import { useCommon } from '~/hooks/common'
 import { usePost } from '~/hooks/queries/posts/post'
+import { type CommentFeedSort } from '~/types/sort'
 
 const schema = z.object({
   id: z.string().catch('17jkixh'),
@@ -37,31 +39,31 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
-  const { collapse, collapsed, comments, isFetching, post, refetch } = usePost(
-    params.id,
-  )
-
   const reply = useRef<TextInput>(null)
 
+  const [sort, setSort] = useState<CommentFeedSort>('confidence')
   const [commentId, setCommentId] = useState<string>()
   const [user, setUser] = useState<string>()
 
-  useFocusEffect(() => {
-    if (!post) {
-      return
-    }
+  const { collapse, collapsed, comments, isFetching, post, refetch } = usePost(
+    params.id,
+    sort,
+  )
 
+  useFocusEffect(() => {
     navigation.setOptions({
-      headerTitle: () => (
-        <Pressable
-          onPress={() => {
-            router.navigate(`/communities/${post.subreddit}`)
-          }}
-          style={styles.header}
-        >
-          <Text weight="bold">{post.subreddit}</Text>
-        </Pressable>
-      ),
+      headerRight: () => <CommentsSortMenu onChange={setSort} value={sort} />,
+      headerTitle: () =>
+        post ? (
+          <Pressable
+            onPress={() => {
+              router.navigate(`/communities/${post.subreddit}`)
+            }}
+            style={styles.header}
+          >
+            <Text weight="bold">{post.subreddit}</Text>
+          </Pressable>
+        ) : null,
     })
   })
 

@@ -1,5 +1,7 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import { create } from 'mutative'
 
+import { queryClient } from '~/lib/query'
 import { REDDIT_URI, redditApi } from '~/lib/reddit'
 import { PostsSchema } from '~/schemas/reddit/posts'
 import { useAuth } from '~/stores/auth'
@@ -93,5 +95,41 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     isRefetching,
     posts: data?.pages.flatMap((page) => page.posts) ?? [],
     refetch,
+  }
+}
+
+export function updatePosts(id: string, updater: (draft: Post) => void) {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: ['posts'],
+  })
+
+  for (const query of queries) {
+    queryClient.setQueryData<PostsQueryData>(query.queryKey, (data) => {
+      if (!data) {
+        return data
+      }
+
+      return create(data, (draft) => {
+        let found = false
+
+        for (const page of draft.pages) {
+          if (found) {
+            break
+          }
+
+          for (const item of page.posts) {
+            if (item.id === id) {
+              updater(item)
+
+              found = true
+
+              break
+            }
+          }
+        }
+      })
+    })
   }
 }

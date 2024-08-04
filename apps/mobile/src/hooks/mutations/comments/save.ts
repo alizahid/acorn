@@ -1,10 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { create } from 'mutative'
 
-import {
-  type PostQueryData,
-  type PostQueryKey,
-} from '~/hooks/queries/posts/post'
+import { updatePost } from '~/hooks/queries/posts/post'
 import {
   type CommentsQueryData,
   type CommentsQueryKey,
@@ -73,27 +70,15 @@ export function useCommentSave() {
         },
       )
       if (variables.postId) {
-        queryClient.setQueryData<PostQueryData>(
-          ['post', variables.postId] satisfies PostQueryKey,
-          (data) => {
-            if (!data) {
-              return data
+        updatePost(variables.postId, (draft) => {
+          for (const item of draft.comments) {
+            if (item.type === 'reply' && item.data.id === variables.commentId) {
+              item.data.saved = variables.action === 'save'
+
+              break
             }
-
-            return create(data, (draft) => {
-              for (const item of draft.comments) {
-                if (
-                  item.type === 'reply' &&
-                  item.data.id === variables.commentId
-                ) {
-                  item.data.saved = variables.action === 'save'
-
-                  break
-                }
-              }
-            })
-          },
-        )
+          }
+        })
       }
     },
   })

@@ -3,6 +3,14 @@
     "comments": {
       "more": {
         "label": "{count, plural, =0 {More hidden replies} =1 {1 more reply} other {# more replies}}"
+      },
+      "sort": {
+        "confidence": "Best",
+        "controversial": "Controversial",
+        "new": "New",
+        "old": "Old",
+        "placeholder": "Sort comments",
+        "top": "Top"
       }
     },
     "posts": {

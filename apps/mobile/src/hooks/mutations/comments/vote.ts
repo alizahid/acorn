@@ -1,10 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { create } from 'mutative'
 
-import {
-  type PostQueryData,
-  type PostQueryKey,
-} from '~/hooks/queries/posts/post'
+import { updatePost } from '~/hooks/queries/posts/post'
 import {
   type CommentsQueryData,
   type CommentsQueryKey,
@@ -85,37 +82,25 @@ export function useCommentVote() {
       )
 
       if (variables.postId) {
-        queryClient.setQueryData<PostQueryData>(
-          ['post', variables.postId] satisfies PostQueryKey,
-          (data) => {
-            if (!data) {
-              return data
+        updatePost(variables.postId, (draft) => {
+          for (const item of draft.comments) {
+            if (item.type === 'reply' && item.data.id === variables.commentId) {
+              item.data.votes =
+                item.data.votes -
+                (item.data.liked ? 1 : item.data.liked === null ? 0 : -1) +
+                variables.direction
+
+              item.data.liked =
+                variables.direction === 1
+                  ? true
+                  : variables.direction === 0
+                    ? null
+                    : false
+
+              break
             }
-
-            return create(data, (draft) => {
-              for (const item of draft.comments) {
-                if (
-                  item.type === 'reply' &&
-                  item.data.id === variables.commentId
-                ) {
-                  item.data.votes =
-                    item.data.votes -
-                    (item.data.liked ? 1 : item.data.liked === null ? 0 : -1) +
-                    variables.direction
-
-                  item.data.liked =
-                    variables.direction === 1
-                      ? true
-                      : variables.direction === 0
-                        ? null
-                        : false
-
-                  break
-                }
-              }
-            })
-          },
-        )
+          }
+        })
       }
     },
   })

@@ -11,24 +11,37 @@ import { transformComment } from '~/transformers/comment'
 import { transformPost } from '~/transformers/post'
 import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
+import { type CommentFeedSort } from '~/types/sort'
 
 import { type PostsQueryData } from './posts'
 
 const COLLAPSED_KEY = 'collapsed'
 
-export type PostQueryKey = ['post', string]
+export type PostQueryKey = [
+  'post',
+  {
+    id: string
+    sort?: CommentFeedSort
+  },
+]
 
 export type PostQueryData = {
   comments: Array<Comment>
   post: Post
 }
 
-export function usePost(postId: string) {
+export function usePost(postId: string, sort?: CommentFeedSort) {
   const { accessToken, expired } = useAuth()
 
   const storeId = `collapsed-${postId}`
 
-  const postQueryKey = ['post', postId] satisfies PostQueryKey
+  const postQueryKey = [
+    'post',
+    {
+      id: postId,
+      sort,
+    },
+  ] satisfies PostQueryKey
 
   const query = useQuery<
     PostQueryData,
@@ -45,6 +58,10 @@ export function usePost(postId: string) {
 
       url.searchParams.set('limit', '100')
       url.searchParams.set('threaded', 'false')
+
+      if (sort) {
+        url.searchParams.set('sort', sort)
+      }
 
       const payload = await redditApi({
         accessToken,
@@ -102,10 +119,10 @@ export function usePost(postId: string) {
       commentId: string
       hide: boolean
     }) {
-      const previousComments =
-        queryClient.getQueryData<PostQueryData>(postQueryKey)
+      const comments =
+        queryClient.getQueryData<PostQueryData>(postQueryKey)?.comments ?? []
 
-      const ids = getCollapsible(previousComments?.comments ?? [], commentId)
+      const ids = getCollapsible(comments, commentId)
 
       const previous =
         queryClient.getQueryData<Array<string>>(collapsedQueryKey) ?? []
@@ -122,7 +139,7 @@ export function usePost(postId: string) {
         }
       })
 
-      queryClient.setQueryData<Array<string>>(collapsedQueryKey, () => next)
+      queryClient.setQueryData<Array<string>>(collapsedQueryKey, next)
 
       const store = new Store(storeId)
 
@@ -154,11 +171,28 @@ export function usePost(postId: string) {
 function getPost(id: string) {
   const cache = queryClient.getQueryCache()
 
-  const queries = cache.findAll({
+  const queriesPost = cache.findAll({
+    queryKey: [
+      'post',
+      {
+        id,
+      },
+    ],
+  })
+
+  for (const query of queriesPost) {
+    const data = query.state.data as PostQueryData | undefined
+
+    if (data) {
+      return data
+    }
+  }
+
+  const queriesPosts = cache.findAll({
     queryKey: ['posts'],
   })
 
-  for (const query of queries) {
+  for (const query of queriesPosts) {
     const data = query.state.data as PostsQueryData | undefined
 
     if (!data) {
@@ -178,10 +212,7 @@ function getPost(id: string) {
   }
 }
 
-export function getCollapsible(
-  comments: Array<Comment>,
-  id: string,
-): Array<string> {
+function getCollapsible(comments: Array<Comment>, id: string): Array<string> {
   const ids: Array<string> = [id]
 
   function findChildren(parentId: string) {
@@ -197,4 +228,32 @@ export function getCollapsible(
   findChildren(id)
 
   return ids
+}
+
+export function updatePost(
+  id: string,
+  updater: (draft: PostQueryData) => void,
+) {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: [
+      'post',
+      {
+        id,
+      },
+    ],
+  })
+
+  for (const query of queries) {
+    queryClient.setQueryData<PostQueryData>(query.queryKey, (previous) => {
+      if (!previous) {
+        return previous
+      }
+
+      return create(previous, (draft) => {
+        updater(draft)
+      })
+    })
+  }
 }

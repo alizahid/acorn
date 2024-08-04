@@ -16,6 +16,18 @@ export const UserFeedSort = ['new', 'top', 'hot'] as const
 
 export type UserFeedSort = (typeof UserFeedSort)[number]
 
+// comment
+
+export const CommentFeedSort = [
+  'confidence',
+  'top',
+  'new',
+  'old',
+  'controversial',
+] as const
+
+export type CommentFeedSort = (typeof CommentFeedSort)[number]
+
 // top
 
 export const TopInterval = [

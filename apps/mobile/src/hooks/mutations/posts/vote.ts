@@ -1,12 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
-import { create } from 'mutative'
 
-import {
-  type PostQueryData,
-  type PostQueryKey,
-} from '~/hooks/queries/posts/post'
-import { type PostsQueryData } from '~/hooks/queries/posts/posts'
-import { queryClient } from '~/lib/query'
+import { updatePost } from '~/hooks/queries/posts/post'
+import { updatePosts } from '~/hooks/queries/posts/posts'
 import { addPrefix, redditApi } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 
@@ -37,81 +32,38 @@ export function usePostVote() {
       })
     },
     onMutate(variables) {
-      queryClient.setQueryData<PostQueryData>(
-        ['post', variables.postId] satisfies PostQueryKey,
-        (data) => {
-          if (!data) {
-            return data
-          }
+      updatePost(variables.postId, (draft) => {
+        draft.post.votes =
+          draft.post.votes -
+          (draft.post.liked ? 1 : draft.post.liked === null ? 0 : -1) +
+          variables.direction
 
-          return create(data, (draft) => {
-            draft.post.votes =
-              draft.post.votes -
-              (draft.post.liked ? 1 : draft.post.liked === null ? 0 : -1) +
-              variables.direction
+        draft.post.liked =
+          variables.direction === 1
+            ? true
+            : variables.direction === 0
+              ? null
+              : false
+      })
 
-            draft.post.liked =
-              variables.direction === 1
-                ? true
-                : variables.direction === 0
-                  ? null
-                  : false
-          })
-        },
-      )
+      updatePosts(variables.postId, (draft) => {
+        draft.votes =
+          draft.votes -
+          (draft.liked ? 1 : draft.liked === null ? 0 : -1) +
+          variables.direction
 
-      updateAll(variables)
+        draft.liked =
+          variables.direction === 1
+            ? true
+            : variables.direction === 0
+              ? null
+              : false
+      })
     },
   })
 
   return {
     isPending,
     vote: mutate,
-  }
-}
-
-function updateAll(variables: Variables) {
-  const cache = queryClient.getQueryCache()
-
-  const queries = cache.findAll({
-    queryKey: ['posts'],
-  })
-
-  for (const query of queries) {
-    queryClient.setQueryData<PostsQueryData>(query.queryKey, (data) => {
-      if (!data) {
-        return data
-      }
-
-      return create(data, (draft) => {
-        let found = false
-
-        for (const page of draft.pages) {
-          if (found) {
-            break
-          }
-
-          for (const item of page.posts) {
-            if (item.id === variables.postId) {
-              item.votes =
-                item.votes -
-                (item.liked ? 1 : item.liked === null ? 0 : -1) +
-                variables.direction
-
-              item.liked =
-                variables.direction === 1
-                  ? true
-                  : variables.direction === 0
-                    ? null
-                    : false
-
-              found = true
-
-              break
-            }
-          }
-        }
-      })
-    })
   }
 }

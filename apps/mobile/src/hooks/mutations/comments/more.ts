@@ -1,10 +1,6 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { create } from 'mutative'
+import { useMutation } from '@tanstack/react-query'
 
-import {
-  type PostQueryData,
-  type PostQueryKey,
-} from '~/hooks/queries/posts/post'
+import { updatePost } from '~/hooks/queries/posts/post'
 import { addPrefix, REDDIT_URI, redditApi } from '~/lib/reddit'
 import { MoreCommentsSchema } from '~/schemas/reddit/comments'
 import { useAuth } from '~/stores/auth'
@@ -17,8 +13,6 @@ type Variables = {
 }
 
 export function useLoadMoreComments() {
-  const queryClient = useQueryClient()
-
   const { accessToken, expired } = useAuth()
 
   const { isPending, mutate } = useMutation<
@@ -51,28 +45,19 @@ export function useLoadMoreComments() {
         return
       }
 
-      queryClient.setQueryData<PostQueryData>(
-        ['post', variables.postId] satisfies PostQueryKey,
-        (previous) => {
-          if (!previous) {
-            return previous
-          }
+      updatePost(variables.postId, (draft) => {
+        const index = draft.comments.findIndex(
+          (item) => item.type === 'more' && item.data.id === variables.id,
+        )
 
-          return create(previous, (draft) => {
-            const index = draft.comments.findIndex(
-              (item) => item.type === 'more' && item.data.id === variables.id,
-            )
+        if (index >= 0) {
+          const comments = data.json.data.things.map((item) =>
+            transformComment(item),
+          )
 
-            if (index >= 0) {
-              const comments = data.json.data.things.map((item) =>
-                transformComment(item),
-              )
-
-              draft.comments.splice(index, 1, ...comments)
-            }
-          })
-        },
-      )
+          draft.comments.splice(index, 1, ...comments)
+        }
+      })
     },
   })
 
