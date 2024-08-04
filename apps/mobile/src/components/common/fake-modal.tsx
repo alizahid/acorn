@@ -32,7 +32,7 @@ export function FakeModal({ children, onClose, visible }: Props) {
     }
   }, [translate, visible])
 
-  const threshold = frame.height * 0.3
+  const threshold = frame.height * 0.2
 
   const gesture = Gesture.Pan()
     .onUpdate((event) => {
