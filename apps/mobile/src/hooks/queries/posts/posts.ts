@@ -55,7 +55,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
 
       const url = new URL(path, REDDIT_URI)
 
-      url.searchParams.set('limit', '25')
+      url.searchParams.set('limit', '100')
 
       if (pageParam) {
         url.searchParams.set('after', pageParam)

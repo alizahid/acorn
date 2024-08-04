@@ -80,11 +80,10 @@ export function usePost(postId: string, sort?: CommentFeedSort) {
     },
     queryKey: postQueryKey,
     staleTime({ state }) {
-      if (!state.data) {
-        return 0
-      }
-
-      if (state.data.comments.length === 0 && state.data.post.comments > 0) {
+      if (
+        !state.data ||
+        (state.data.comments.length === 0 && state.data.post.comments > 0)
+      ) {
         return 0
       }
 
@@ -171,28 +170,11 @@ export function usePost(postId: string, sort?: CommentFeedSort) {
 function getPost(id: string) {
   const cache = queryClient.getQueryCache()
 
-  const queriesPost = cache.findAll({
-    queryKey: [
-      'post',
-      {
-        id,
-      },
-    ],
-  })
-
-  for (const query of queriesPost) {
-    const data = query.state.data as PostQueryData | undefined
-
-    if (data) {
-      return data
-    }
-  }
-
-  const queriesPosts = cache.findAll({
+  const queries = cache.findAll({
     queryKey: ['posts'],
   })
 
-  for (const query of queriesPosts) {
+  for (const query of queries) {
     const data = query.state.data as PostsQueryData | undefined
 
     if (!data) {
