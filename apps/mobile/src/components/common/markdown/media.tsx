@@ -33,7 +33,6 @@ export function MarkdownMedia({ caption, media }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   image: (height: number, width: number) => ({
-    backgroundColor: theme.colors.gray.a3,
     height,
     width,
   }),
