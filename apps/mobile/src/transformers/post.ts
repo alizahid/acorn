@@ -1,3 +1,4 @@
+import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
 import { getImages, getMeta, getVideo } from '~/lib/media'
@@ -30,7 +31,7 @@ export function transformPost(data: PostDataSchema): Post {
   return {
     body: decode(data.selftext.trim()) || undefined,
     comments: data.num_comments,
-    createdAt: new Date(data.created * 1_000),
+    createdAt: fromUnixTime(data.created),
     crossPost: crossPost ? transformPost(crossPost) : undefined,
     id: data.id,
     liked: data.likes,
@@ -44,7 +45,9 @@ export function transformPost(data: PostDataSchema): Post {
     read: data.clicked,
     saved: data.saved,
     spoiler: data.spoiler,
-    subreddit: data.subreddit,
+    subreddit: data.subreddit.startsWith('u_')
+      ? `u/${data.subreddit.slice(2)}`
+      : data.subreddit,
     title: decode(data.title.trim()),
     type,
     url: data.url ?? undefined,

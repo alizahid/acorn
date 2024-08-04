@@ -1,3 +1,4 @@
+import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
 import { getMeta } from '~/lib/media'
@@ -28,7 +29,7 @@ export function transformComment(
   return {
     data: {
       body: decode(data.data.body.trim()),
-      createdAt: new Date(data.data.created * 1_000),
+      createdAt: fromUnixTime(data.data.created),
       depth: data.data.depth ?? 0,
       id: data.data.id,
       liked: data.data.likes,
