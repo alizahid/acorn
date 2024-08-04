@@ -77,19 +77,15 @@ export function PostGalleryCard({ images, margin = 0, style }: Props) {
           decelerationRate="fast"
           horizontal
           keyExtractor={(item) => item.url}
-          renderItem={({ item }) => {
-            return (
-              <ImageZoom
-                source={item.url}
-                style={styles.image(
-                  common.frame.height -
-                    common.insets.top -
-                    common.insets.bottom,
-                  common.frame.width,
-                )}
-              />
-            )
-          }}
+          renderItem={({ item }) => (
+            <ImageZoom
+              source={item.url}
+              style={styles.image(
+                common.frame.height - common.insets.top - common.insets.bottom,
+                common.frame.width,
+              )}
+            />
+          )}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={images.map(
             (image, index) => common.frame.width * index,
