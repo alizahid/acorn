@@ -8,9 +8,9 @@ export const ENCRYPTION_KEY = 'encryption-key'
 export class Store implements StateStorage {
   client: MMKV
 
-  constructor(id: string, encryptionKey = this.encryptionKey) {
+  constructor(id: string) {
     this.client = new MMKV({
-      encryptionKey,
+      encryptionKey: this.encryptionKey,
       id,
     })
   }
