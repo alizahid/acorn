@@ -93,16 +93,18 @@ export default function Screen() {
       }
       renderItem={({ item }) => {
         if (item.type === 'reply') {
+          const hidden = collapsed.includes(item.data.id)
+
           return (
             <Pressable
               onPress={() => {
-                collapse(item.data.id)
+                collapse({
+                  commentId: item.data.id,
+                  hide: !hidden,
+                })
               }}
             >
-              <CommentCard
-                collapsed={collapsed.includes(item.data.id)}
-                comment={item.data}
-              />
+              <CommentCard collapsed={hidden} comment={item.data} />
             </Pressable>
           )
         }

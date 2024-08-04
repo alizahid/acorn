@@ -23,12 +23,12 @@ export type PostQueryData = {
   post: Post
 }
 
-export function usePost(id: string) {
+export function usePost(postId: string) {
   const { accessToken, expired } = useAuth()
 
-  const storeId = `collapsed-${id}`
+  const storeId = `collapsed-${postId}`
 
-  const postQueryKey = ['post', id] satisfies PostQueryKey
+  const postQueryKey = ['post', postId] satisfies PostQueryKey
 
   const query = useQuery<
     PostQueryData,
@@ -38,10 +38,10 @@ export function usePost(id: string) {
   >({
     enabled: !expired,
     initialData() {
-      return getPost(id)
+      return getPost(postId)
     },
     async queryFn() {
-      const url = new URL(`/comments/${String(id)}`, REDDIT_URI)
+      const url = new URL(`/comments/${postId}`, REDDIT_URI)
 
       url.searchParams.set('limit', '100')
       url.searchParams.set('threaded', 'false')
@@ -75,7 +75,7 @@ export function usePost(id: string) {
     },
   })
 
-  const collapsedQueryKey = ['collapsed', id] as const
+  const collapsedQueryKey = ['collapsed', postId] as const
 
   const collapsed = useQuery({
     initialData: [],
@@ -95,7 +95,13 @@ export function usePost(id: string) {
 
   const collapse = useMutation({
     // eslint-disable-next-line @typescript-eslint/require-await -- go away
-    async mutationFn(commentId: string) {
+    async mutationFn({
+      commentId,
+      hide,
+    }: {
+      commentId: string
+      hide: boolean
+    }) {
       const previousComments =
         queryClient.getQueryData<PostQueryData>(postQueryKey)
 
@@ -105,13 +111,13 @@ export function usePost(id: string) {
         queryClient.getQueryData<Array<string>>(collapsedQueryKey) ?? []
 
       const next = create(previous, (draft) => {
-        for (const itemId of ids) {
-          const index = draft.indexOf(itemId)
+        for (const id of ids) {
+          const index = draft.indexOf(id)
 
-          if (index >= 0) {
-            draft.splice(index, 1)
+          if (hide) {
+            draft.push(id)
           } else {
-            draft.push(itemId)
+            draft.splice(index, 1)
           }
         }
       })
