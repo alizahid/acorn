@@ -56,6 +56,7 @@ export const useAuth = create<State>()(
         accounts: [],
         addAccount(account) {
           set({
+            ...getAccount(account),
             accounts: updateAccounts(get().accounts, account),
           })
         },
@@ -84,6 +85,11 @@ export const useAuth = create<State>()(
           const accounts = get().accounts.filter((item) => item.id !== id)
 
           if (accounts.length === 0) {
+            set({
+              ...getAccount(),
+              accounts,
+            })
+
             queryClient.clear()
           } else if (get().accountId === id) {
             const next = accounts.at(0)
