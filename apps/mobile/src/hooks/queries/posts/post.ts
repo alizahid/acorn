@@ -1,10 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { create } from 'mutative'
 import { useMemo } from 'react'
-import { MMKV } from 'react-native-mmkv'
 
 import { queryClient } from '~/lib/query'
 import { REDDIT_URI, redditApi } from '~/lib/reddit'
+import { Store } from '~/lib/store'
 import { PostSchema } from '~/schemas/reddit/post'
 import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
@@ -25,6 +25,8 @@ export type PostQueryData = {
 
 export function usePost(id: string) {
   const { accessToken, expired } = useAuth()
+
+  const storeId = `collapsed-${id}`
 
   const postQueryKey = ['post', id] satisfies PostQueryKey
 
@@ -78,11 +80,9 @@ export function usePost(id: string) {
   const collapsed = useQuery({
     initialData: [],
     queryFn() {
-      const store = new MMKV({
-        id: `collapsed-${id}`,
-      })
+      const store = new Store(storeId)
 
-      const data = store.getString(COLLAPSED_KEY)
+      const data = store.getItem(COLLAPSED_KEY)
 
       if (data) {
         return data.split(',')
@@ -118,11 +118,9 @@ export function usePost(id: string) {
 
       queryClient.setQueryData<Array<string>>(collapsedQueryKey, () => next)
 
-      const store = new MMKV({
-        id: `collapsed-${id}`,
-      })
+      const store = new Store(storeId)
 
-      store.set(COLLAPSED_KEY, next.join(','))
+      store.setItem(COLLAPSED_KEY, next.join(','))
     },
   })
 
