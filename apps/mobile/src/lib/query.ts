@@ -10,6 +10,11 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
       throwOnError(error) {
+        if (__DEV__) {
+          // eslint-disable-next-line no-console -- dev
+          console.log(error)
+        }
+
         Sentry.captureException(error)
 
         return false
