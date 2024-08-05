@@ -1,5 +1,5 @@
+import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { Image } from 'expo-image'
-import { ImageZoom } from 'expo-image-zoom'
 import { useState } from 'react'
 import { FlatList, type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -78,14 +78,20 @@ export function PostGalleryCard({ images, margin = 0, style }: Props) {
           horizontal
           keyExtractor={(item) => item.url}
           renderItem={({ item }) => (
-            <ImageZoom
-              source={item.url}
-              style={styles.image(
-                common.frame.height - common.insets.top - common.insets.bottom,
-                common.frame.width,
-              )}
-            />
+            <Zoomable isDoubleTapEnabled>
+              <Image
+                contentFit="contain"
+                source={item.url}
+                style={styles.image(
+                  common.frame.height -
+                    common.insets.top -
+                    common.insets.bottom,
+                  common.frame.width,
+                )}
+              />
+            </Zoomable>
           )}
+          scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={images.map(
             (image, index) => common.frame.width * index,

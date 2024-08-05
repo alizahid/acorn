@@ -32,14 +32,12 @@ export function FakeModal({ children, onClose, visible }: Props) {
     }
   }, [translate, visible])
 
-  const threshold = frame.height * 0.2
-
   const gesture = Gesture.Pan()
     .onUpdate((event) => {
       translate.value = event.translationY > 0 ? event.translationY : 0
     })
     .onEnd((event) => {
-      if (event.translationY > threshold) {
+      if (event.translationY > 100) {
         translate.value = withTiming(
           frame.height,
           {
