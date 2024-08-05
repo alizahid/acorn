@@ -55,7 +55,6 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
     scheme: 'acorn',
     slug: 'acorn',
     splash: {
-      backgroundColor: '#101211',
       image: './assets/artwork/splash.png',
       resizeMode: 'contain',
     },
