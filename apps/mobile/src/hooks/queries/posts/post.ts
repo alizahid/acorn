@@ -44,9 +44,9 @@ export function usePost(postId: string, sort?: CommentFeedSort) {
   ] satisfies PostQueryKey
 
   const query = useQuery<
-    PostQueryData,
-    Error,
     PostQueryData | undefined,
+    Error,
+    PostQueryData,
     PostQueryKey
   >({
     enabled: !expired,
