@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
@@ -21,6 +22,8 @@ type Props = {
 }
 
 export function CommentCard({ collapsed, comment, onReply, style }: Props) {
+  const router = useRouter()
+
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -50,14 +53,21 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
       ) : null}
 
       <View style={styles.footer}>
-        <Text
-          color={comment.op ? 'accent' : 'gray'}
-          highContrast={false}
-          size="1"
-          weight="medium"
+        <Pressable
+          hitSlop={theme.space[3]}
+          onPress={() => {
+            router.navigate(`/users/${comment.user.name}/submitted`)
+          }}
         >
-          {comment.user.name}
-        </Text>
+          <Text
+            color={comment.op ? 'accent' : 'gray'}
+            highContrast={false}
+            size="1"
+            weight="medium"
+          >
+            {comment.user.name}
+          </Text>
+        </Pressable>
 
         <Text highContrast={false} size="1">
           {withoutAgo(
@@ -97,8 +107,7 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   body: {
-    paddingRight: theme.space[3],
-    paddingVertical: theme.space[3] / 2,
+    padding: theme.space[3],
   },
   collapsed: {
     paddingTop: theme.space[3],

@@ -86,8 +86,7 @@ export function PostCard({
 
 const stylesheet = createStyleSheet((theme) => ({
   body: {
-    paddingHorizontal: theme.space[3],
-    paddingVertical: theme.space[3] / 2,
+    padding: theme.space[3],
   },
   title: {
     padding: theme.space[3],
