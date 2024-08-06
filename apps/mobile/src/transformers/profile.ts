@@ -1,6 +1,7 @@
 import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
+import { removePrefix } from '~/lib/reddit'
 import { type ProfileSchema } from '~/schemas/reddit/profile'
 import { type Profile } from '~/types/user'
 
@@ -15,5 +16,7 @@ export function transformProfile({ data }: ProfileSchema): Profile {
       total: data.total_karma,
     },
     name: data.name,
+    subreddit: removePrefix(data.subreddit.name),
+    subscribed: data.subreddit.user_is_subscriber,
   }
 }

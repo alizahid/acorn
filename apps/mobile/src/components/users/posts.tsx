@@ -10,23 +10,29 @@ import { PostCard } from '~/components/posts/card'
 import { useCommon } from '~/hooks/common'
 import { type UserPostsProps, useUserPosts } from '~/hooks/queries/user/posts'
 import { type Post } from '~/types/post'
+import { type Profile } from '~/types/user'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { type PostLabel } from '../posts/footer'
+import { UserFollowCard } from './follow'
 
 type Props = UserPostsProps & {
   header?: boolean
   inset?: boolean
   label?: PostLabel
+  onRefresh?: () => void
+  profile?: Profile
   tabBar?: boolean
 }
 
-export function UserPostList({
+export function UserPostsList({
   header,
   inset,
   interval,
   label,
+  onRefresh,
+  profile,
   sort,
   tabBar,
   type,
@@ -69,6 +75,9 @@ export function UserPostList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
+      ListHeaderComponent={
+        profile ? <UserFollowCard profile={profile} /> : null
+      }
       contentContainerStyle={styles.main({
         header: header ? common.headerHeight : 0,
         inset: inset ? common.insets.bottom : 0,
@@ -92,7 +101,11 @@ export function UserPostList({
       refreshControl={
         <RefreshControl
           offset={header ? common.headerHeight : 0}
-          onRefresh={refetch}
+          onRefresh={() => {
+            onRefresh?.()
+
+            return refetch()
+          }}
         />
       }
       renderItem={({ item }) => (

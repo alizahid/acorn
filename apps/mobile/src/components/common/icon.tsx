@@ -15,7 +15,6 @@ import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
 import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
 import ChatCircleTextBold from 'react-native-phosphor/src/bold/ChatCircleText'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
-import FastForwardBold from 'react-native-phosphor/src/bold/FastForward'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
@@ -23,12 +22,8 @@ import LinkBold from 'react-native-phosphor/src/bold/Link'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
-import PauseBold from 'react-native-phosphor/src/bold/Pause'
-import PlayBold from 'react-native-phosphor/src/bold/Play'
 import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
-import ResizeBold from 'react-native-phosphor/src/bold/Resize'
-import RewindBold from 'react-native-phosphor/src/bold/Rewind'
 import ShareFatBold from 'react-native-phosphor/src/bold/ShareFat'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
@@ -53,7 +48,6 @@ import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
 import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
 import ChatCircleTextDuotone from 'react-native-phosphor/src/duotone/ChatCircleText'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
-import FastForwardDuotone from 'react-native-phosphor/src/duotone/FastForward'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
@@ -61,12 +55,8 @@ import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
-import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
-import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
 import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
-import ResizeDuotone from 'react-native-phosphor/src/duotone/Resize'
-import RewindDuotone from 'react-native-phosphor/src/duotone/Rewind'
 import ShareFatDuotone from 'react-native-phosphor/src/duotone/ShareFat'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
@@ -91,7 +81,6 @@ import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
 import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
 import ChatCircleTextFill from 'react-native-phosphor/src/fill/ChatCircleText'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
-import FastForwardFill from 'react-native-phosphor/src/fill/FastForward'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
@@ -99,12 +88,8 @@ import LinkFill from 'react-native-phosphor/src/fill/Link'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
-import PauseFill from 'react-native-phosphor/src/fill/Pause'
-import PlayFill from 'react-native-phosphor/src/fill/Play'
 import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
-import ResizeFill from 'react-native-phosphor/src/fill/Resize'
-import RewindFill from 'react-native-phosphor/src/fill/Rewind'
 import ShareFatFill from 'react-native-phosphor/src/fill/ShareFat'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
@@ -129,7 +114,6 @@ import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
 import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
 import ChatCircleTextRegular from 'react-native-phosphor/src/regular/ChatCircleText'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
-import FastForwardRegular from 'react-native-phosphor/src/regular/FastForward'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
@@ -137,12 +121,8 @@ import LinkRegular from 'react-native-phosphor/src/regular/Link'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
-import PauseRegular from 'react-native-phosphor/src/regular/Pause'
-import PlayRegular from 'react-native-phosphor/src/regular/Play'
 import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
-import ResizeRegular from 'react-native-phosphor/src/regular/Resize'
-import RewindRegular from 'react-native-phosphor/src/regular/Rewind'
 import ShareFatRegular from 'react-native-phosphor/src/regular/ShareFat'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
@@ -268,12 +248,6 @@ const icons = {
     fill: ClockFill,
     regular: ClockRegular,
   },
-  FastForward: {
-    bold: FastForwardBold,
-    duotone: FastForwardDuotone,
-    fill: FastForwardFill,
-    regular: FastForwardRegular,
-  },
   Flame: {
     bold: FlameBold,
     duotone: FlameDuotone,
@@ -316,18 +290,6 @@ const icons = {
     fill: PaperPlaneTiltFill,
     regular: PaperPlaneTiltRegular,
   },
-  Pause: {
-    bold: PauseBold,
-    duotone: PauseDuotone,
-    fill: PauseFill,
-    regular: PauseRegular,
-  },
-  Play: {
-    bold: PlayBold,
-    duotone: PlayDuotone,
-    fill: PlayFill,
-    regular: PlayRegular,
-  },
   PlusCircle: {
     bold: PlusCircleBold,
     duotone: PlusCircleDuotone,
@@ -339,18 +301,6 @@ const icons = {
     duotone: RankingDuotone,
     fill: RankingFill,
     regular: RankingRegular,
-  },
-  Resize: {
-    bold: ResizeBold,
-    duotone: ResizeDuotone,
-    fill: ResizeFill,
-    regular: ResizeRegular,
-  },
-  Rewind: {
-    bold: RewindBold,
-    duotone: RewindDuotone,
-    fill: RewindFill,
-    regular: RewindRegular,
   },
   ShareFat: {
     bold: ShareFatBold,

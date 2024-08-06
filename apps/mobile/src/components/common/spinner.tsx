@@ -20,7 +20,7 @@ export function Spinner({
 
   return (
     <ActivityIndicator
-      color={theme.colors[color][contrast ? 'contrast' : 9]}
+      color={theme.colors[color][contrast ? 'contrast' : 'a9']}
       size={size}
       style={style}
     />

@@ -1,15 +1,22 @@
-import { Tabs, useFocusEffect, useRouter } from 'expo-router'
+import {
+  Tabs,
+  useFocusEffect,
+  useGlobalSearchParams,
+  useRouter,
+} from 'expo-router'
 import { useEffect } from 'react'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Header } from '~/components/navigation/header'
+import { PagerHeader } from '~/components/navigation/pager'
 import { TabBar } from '~/components/navigation/tab-bar'
-import { AccountSwitchCard } from '~/components/user/switch'
+import { AccountSwitchCard } from '~/components/users/switch'
 import { useAuth } from '~/stores/auth'
 
 export default function Layout() {
   const router = useRouter()
+  const params = useGlobalSearchParams()
 
   const t = useTranslations('tab')
 
@@ -54,12 +61,20 @@ export default function Layout() {
       />
 
       <Tabs.Screen
+        initialParams={{
+          page: 0,
+        }}
         name="communities"
         options={{
+          header: () => (
+            <PagerHeader
+              active={Number(params.page) || 0}
+              items={[t('communities.communities'), t('communities.users')]}
+            />
+          ),
           tabBarIcon: (props) => (
             <Icon {...props} name="UsersFour" weight="duotone" />
           ),
-          title: t('communities.title'),
         }}
       />
 

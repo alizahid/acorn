@@ -9,16 +9,20 @@ import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { useCommon } from '~/hooks/common'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
+import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
+import { CommunityJoinCard } from '../communities/join'
 import { type PostLabel } from './footer'
 
 type Props = PostsProps & {
   header?: boolean
   inset?: boolean
   label?: PostLabel
+  onRefresh?: () => void
+  profile?: Community
   tabBar?: boolean
 }
 
@@ -28,6 +32,8 @@ export function PostList({
   inset,
   interval,
   label,
+  onRefresh,
+  profile,
   sort,
   tabBar,
 }: Props) {
@@ -67,6 +73,9 @@ export function PostList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
+      ListHeaderComponent={
+        profile ? <CommunityJoinCard community={profile} /> : null
+      }
       contentContainerStyle={styles.main({
         header: header ? common.headerHeight : 0,
         inset: inset ? common.insets.bottom : 0,
@@ -90,7 +99,11 @@ export function PostList({
       refreshControl={
         <RefreshControl
           offset={header ? common.headerHeight : 0}
-          onRefresh={refetch}
+          onRefresh={() => {
+            onRefresh?.()
+
+            return refetch()
+          }}
         />
       }
       renderItem={({ item }) => (

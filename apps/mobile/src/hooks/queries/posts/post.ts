@@ -30,15 +30,15 @@ export type PostQueryData = {
   post: Post
 }
 
-export function usePost(postId: string, sort?: CommentFeedSort) {
+export function usePost(id: string, sort?: CommentFeedSort) {
   const { accessToken, expired } = useAuth()
 
-  const storeId = `collapsed-${postId}`
+  const storeId = `collapsed-${id}`
 
   const postQueryKey = [
     'post',
     {
-      id: postId,
+      id,
       sort,
     },
   ] satisfies PostQueryKey
@@ -51,10 +51,10 @@ export function usePost(postId: string, sort?: CommentFeedSort) {
   >({
     enabled: !expired,
     initialData() {
-      return getPost(postId)
+      return getPost(id)
     },
     async queryFn() {
-      const url = new URL(`/comments/${postId}`, REDDIT_URI)
+      const url = new URL(`/comments/${id}`, REDDIT_URI)
 
       url.searchParams.set('limit', '100')
       url.searchParams.set('threaded', 'false')
@@ -91,7 +91,7 @@ export function usePost(postId: string, sort?: CommentFeedSort) {
     },
   })
 
-  const collapsedQueryKey = ['collapsed', postId] as const
+  const collapsedQueryKey = ['collapsed', id] as const
 
   const collapsed = useQuery({
     initialData: [],
@@ -127,11 +127,11 @@ export function usePost(postId: string, sort?: CommentFeedSort) {
         queryClient.getQueryData<Array<string>>(collapsedQueryKey) ?? []
 
       const next = create(previous, (draft) => {
-        for (const id of ids) {
-          const index = draft.indexOf(id)
+        for (const itemId of ids) {
+          const index = draft.indexOf(itemId)
 
           if (hide) {
-            draft.push(id)
+            draft.push(itemId)
           } else {
             draft.splice(index, 1)
           }

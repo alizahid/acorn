@@ -8,6 +8,8 @@ export type Profile = {
     total: number
   }
   name: string
+  subreddit: string
+  subscribed: boolean
 }
 
 export const UserFeedType = [

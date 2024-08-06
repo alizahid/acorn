@@ -9,7 +9,7 @@ import { z } from 'zod'
 
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { FeedSortMenu } from '~/components/posts/sort'
-import { UserPostList } from '~/components/user/post-list'
+import { UserPostsList } from '~/components/users/posts'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { useAuth } from '~/stores/auth'
 import { type TopInterval, type UserFeedSort } from '~/types/sort'
@@ -29,7 +29,7 @@ export default function Screen() {
 
   const { accountId } = useAuth()
 
-  const { profile } = useProfile(params.name)
+  const { profile, refetch } = useProfile(params.name)
 
   const [sort, setSort] = useState<UserFeedSort>('hot')
   const [interval, setInterval] = useState<TopInterval>()
@@ -74,11 +74,15 @@ export default function Screen() {
   })
 
   return (
-    <UserPostList
+    <UserPostsList
       header
       inset
       interval={interval}
       label="subreddit"
+      onRefresh={() => {
+        void refetch()
+      }}
+      profile={accountId === profile?.name ? undefined : profile}
       sort={sort}
       type={params.type}
       username={params.name}

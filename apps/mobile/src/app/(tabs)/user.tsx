@@ -1,15 +1,15 @@
 import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { FlatList, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useFormatter, useTranslations } from 'use-intl'
+import { useTranslations } from 'use-intl'
 
 import { Icon, type IconName } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
+import { ProfileCard } from '~/components/users/profile'
 import { useCommon } from '~/hooks/common'
 import { useProfile } from '~/hooks/queries/user/profile'
-import { withoutAgo } from '~/lib/intl'
 import { useAuth } from '~/stores/auth'
 import { UserFeedType } from '~/types/user'
 
@@ -18,7 +18,6 @@ export default function Screen() {
   const navigation = useNavigation()
 
   const t = useTranslations('tab.user')
-  const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -36,35 +35,6 @@ export default function Screen() {
       title: profile.name,
     })
   })
-
-  const header = [
-    {
-      key: 'karma',
-      value: f.number(profile?.karma.total ?? 0, {
-        notation: 'compact',
-      }),
-    },
-    {
-      key: 'post',
-      value: f.number(profile?.karma.post ?? 0, {
-        notation: 'compact',
-      }),
-    },
-    {
-      key: 'comment',
-      value: f.number(profile?.karma.comment ?? 0, {
-        notation: 'compact',
-      }),
-    },
-    {
-      key: 'age',
-      value: withoutAgo(
-        f.relativeTime(profile?.createdAt ?? new Date(), {
-          style: 'narrow',
-        }),
-      ),
-    },
-  ] as const
 
   const items = [
     ...UserFeedType.map((item) => ({
@@ -96,26 +66,7 @@ export default function Screen() {
         header: true,
         tabBar: true,
       })}
-      ListHeaderComponent={
-        <View style={styles.header}>
-          {header.map((item) => (
-            <View key={item.key} style={styles.badge}>
-              <Text
-                align="center"
-                highContrast={false}
-                size="1"
-                weight="medium"
-              >
-                {t(`header.${item.key}`)}
-              </Text>
-
-              <Text align="center" tabular weight="bold">
-                {item.value}
-              </Text>
-            </View>
-          ))}
-        </View>
-      }
+      ListHeaderComponent={<ProfileCard profile={profile} />}
       contentContainerStyle={styles.main(
         common.headerHeight,
         common.tabBarHeight,
@@ -161,16 +112,6 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  badge: {
-    gap: theme.space[1],
-  },
-  header: {
-    backgroundColor: theme.colors.accent.a2,
-    flexDirection: 'row',
-    gap: theme.space[6],
-    justifyContent: 'center',
-    padding: theme.space[4],
-  },
   item: {
     alignItems: 'center',
     flexDirection: 'row',

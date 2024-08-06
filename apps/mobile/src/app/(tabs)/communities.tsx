@@ -1,73 +1,45 @@
-import { useScrollToTop } from '@react-navigation/native'
-import { FlashList } from '@shopify/flash-list'
+import { useRouter } from 'expo-router'
 import { useRef } from 'react'
+import { View } from 'react-native'
+import Pager from 'react-native-pager-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { Empty } from '~/components/common/empty'
-import { Loading } from '~/components/common/loading'
-import { RefreshControl } from '~/components/common/refresh-control'
-import { Spinner } from '~/components/common/spinner'
-import { CommunityCard } from '~/components/communities/card'
-import { useCommon } from '~/hooks/common'
-import { useCommunities } from '~/hooks/queries/communities/communities'
-import { type Community } from '~/types/community'
+import { CommunitiesList } from '~/components/communities/list'
 
 export default function Screen() {
+  const router = useRouter()
+
+  const pager = useRef<Pager>(null)
+
   const { styles } = useStyles(stylesheet)
 
-  const list = useRef<FlashList<Community>>(null)
-
-  const common = useCommon()
-
-  // @ts-expect-error -- go away
-  useScrollToTop(list)
-
-  const {
-    communities,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    refetch,
-  } = useCommunities()
-
   return (
-    <FlashList
-      {...common.listProps({
-        header: true,
-        tabBar: true,
-      })}
-      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-      ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
-      }
-      contentContainerStyle={styles.main(
-        common.headerHeight,
-        common.tabBarHeight,
-      )}
-      data={communities}
-      estimatedItemSize={56}
-      keyExtractor={(item) => item.id}
-      onEndReached={() => {
-        if (hasNextPage) {
-          void fetchNextPage()
-        }
+    <Pager
+      onPageSelected={(event) => {
+        router.setParams({
+          page: event.nativeEvent.position,
+        })
       }}
-      ref={list}
-      refreshControl={
-        <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
-      }
-      renderItem={({ item }) => <CommunityCard community={item} />}
-    />
+      ref={pager}
+      style={styles.main}
+    >
+      <View key="communities" style={styles.page}>
+        <CommunitiesList type="communities" />
+      </View>
+
+      <View key="users" style={styles.page}>
+        <CommunitiesList type="users" />
+      </View>
+    </Pager>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: (top: number, bottom: number) => ({
-    paddingBottom: bottom,
-    paddingTop: top,
-  }),
-  spinner: {
-    margin: theme.space[4],
+const stylesheet = createStyleSheet(() => ({
+  main: {
+    flex: 1,
+  },
+  page: {
+    height: '100%',
+    width: '100%',
   },
 }))

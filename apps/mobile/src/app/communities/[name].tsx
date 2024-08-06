@@ -9,6 +9,7 @@ import { z } from 'zod'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
 import { FeedSortMenu } from '~/components/posts/sort'
+import { useCommunity } from '~/hooks/queries/communities/community'
 import { type CommunityFeedSort, type TopInterval } from '~/types/sort'
 
 const schema = z.object({
@@ -19,6 +20,8 @@ export default function Screen() {
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
+
+  const { community, refetch } = useCommunity(params.name)
 
   const [sort, setSort] = useState<CommunityFeedSort>('hot')
   const [interval, setInterval] = useState<TopInterval>()
@@ -62,6 +65,8 @@ export default function Screen() {
       inset
       interval={interval}
       label="user"
+      onRefresh={refetch}
+      profile={community}
       sort={sort}
     />
   )

@@ -8,6 +8,10 @@ export const ProfileSchema = z.object({
     id: z.string(),
     link_karma: z.number(),
     name: z.string(),
+    subreddit: z.object({
+      name: z.string(),
+      user_is_subscriber: z.boolean(),
+    }),
     total_karma: z.number(),
   }),
 })

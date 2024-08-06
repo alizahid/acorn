@@ -14,7 +14,7 @@ import { HeaderButton } from '../navigation/header-button'
 export function AccountSwitchCard() {
   const router = useRouter()
 
-  const t = useTranslations('component.user.switch')
+  const t = useTranslations('component.users.switch')
 
   const { accountId, accounts, removeAccount, setAccount } = useAuth()
 

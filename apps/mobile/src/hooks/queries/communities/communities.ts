@@ -1,6 +1,6 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 
-import { REDDIT_URI, redditApi } from '~/lib/reddit'
+import { isUser, REDDIT_URI, redditApi } from '~/lib/reddit'
 import { CommunitiesSchema } from '~/schemas/reddit/communities'
 import { useAuth } from '~/stores/auth'
 import { transformCommunity } from '~/transformers/community'
@@ -67,8 +67,10 @@ export function useCommunities() {
     queryKey: ['communities'],
   })
 
+  const communities = data?.pages.flatMap((page) => page.communities) ?? []
+
   return {
-    communities: data?.pages.flatMap((page) => page.communities) ?? [],
+    communities: communities.filter((community) => !isUser(community.name)),
     fetchNextPage,
     hasNextPage,
     isFetching,
@@ -76,5 +78,6 @@ export function useCommunities() {
     isLoading,
     isRefetching,
     refetch,
+    users: communities.filter((community) => isUser(community.name)),
   }
 }

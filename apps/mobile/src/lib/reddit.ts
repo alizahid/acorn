@@ -229,5 +229,19 @@ export function addPrefix(id: string, type: keyof typeof prefixes) {
 }
 
 export function removePrefix(id: string) {
-  return id.split('_').pop()!
+  if (id.startsWith('u_') || id.startsWith('u/')) {
+    return id.slice(2)
+  }
+
+  for (const prefix of Object.values(prefixes)) {
+    if (id.startsWith(prefix)) {
+      return id.slice(3)
+    }
+  }
+
+  return id
+}
+
+export function isUser(name: string) {
+  return name.startsWith('u/') || name.startsWith('u_')
 }

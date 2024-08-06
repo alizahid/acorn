@@ -2,6 +2,7 @@ import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { isUser, removePrefix } from '~/lib/reddit'
 import { type Community } from '~/types/community'
 
 import { Icon } from '../common/icon'
@@ -20,7 +21,11 @@ export function CommunityCard({ community }: Props) {
   return (
     <Pressable
       onPress={() => {
-        router.navigate(`/communities/${community.name}`)
+        if (isUser(community.name)) {
+          router.navigate(`/users/${removePrefix(community.name)}/submitted`)
+        } else {
+          router.navigate(`/communities/${community.name}`)
+        }
       }}
       style={styles.main}
     >

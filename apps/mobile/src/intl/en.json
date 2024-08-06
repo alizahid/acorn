@@ -13,6 +13,14 @@
         "top": "Top"
       }
     },
+    "communities": {
+      "follow": {
+        "age": "Age",
+        "join": "Join",
+        "leave": "Leave",
+        "subscribers": "Subscribers"
+      }
+    },
     "posts": {
       "gallery": {
         "item": "{current, number} of {count, number}",
@@ -41,7 +49,19 @@
         "top": "Top"
       }
     },
-    "user": {
+    "users": {
+      "follow": {
+        "age": "Age",
+        "follow": "Follow",
+        "karma": "Karma",
+        "unfollow": "Unfollow"
+      },
+      "profile": {
+        "age": "Age",
+        "comment": "Comment",
+        "karma": "Karma",
+        "post": "Post"
+      },
       "switch": {
         "add": "Add account",
         "signOut": "Sign out of {id}",
@@ -70,18 +90,13 @@
   },
   "tab": {
     "communities": {
-      "title": "Communities"
+      "communities": "Communities",
+      "users": "Users"
     },
     "search": {
       "title": "Search"
     },
     "user": {
-      "header": {
-        "age": "Age",
-        "comment": "Comment",
-        "karma": "Karma",
-        "post": "Post"
-      },
       "menu": {
         "comments": "Comments",
         "downvoted": "Downvoted",
