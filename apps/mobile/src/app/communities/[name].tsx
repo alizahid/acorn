@@ -61,6 +61,7 @@ export default function Screen() {
       header
       inset
       interval={interval}
+      label="user"
       sort={sort}
     />
   )

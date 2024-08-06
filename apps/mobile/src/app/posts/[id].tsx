@@ -87,7 +87,13 @@ export default function Screen() {
         }
         ListHeaderComponent={
           post ? (
-            <PostCard expanded post={post} style={styles.post} viewing />
+            <PostCard
+              expanded
+              label="user"
+              post={post}
+              style={styles.post}
+              viewing
+            />
           ) : null
         }
         contentContainerStyle={styles.main(common.headerHeight)}

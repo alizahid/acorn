@@ -54,7 +54,7 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
           size={theme.typography[2].lineHeight}
         />
 
-        <Text highContrast={false} lines={1} size="2">
+        <Text highContrast={false} lines={1} size="2" style={styles.url}>
           {post.url}
         </Text>
       </View>
@@ -79,5 +79,8 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius[4],
     marginHorizontal: theme.space[3],
     overflow: 'hidden',
+  },
+  url: {
+    flex: 1,
   },
 }))

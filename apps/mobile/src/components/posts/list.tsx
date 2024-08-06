@@ -13,10 +13,12 @@ import { type Post } from '~/types/post'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
+import { type PostLabel } from './footer'
 
 type Props = PostsProps & {
   header?: boolean
   inset?: boolean
+  label?: PostLabel
   tabBar?: boolean
 }
 
@@ -25,6 +27,7 @@ export function PostList({
   header,
   inset,
   interval,
+  label,
   sort,
   tabBar,
 }: Props) {
@@ -92,6 +95,7 @@ export function PostList({
       }
       renderItem={({ item }) => (
         <PostCard
+          label={label}
           post={item}
           viewing={focused ? viewing.includes(item.id) : false}
         />

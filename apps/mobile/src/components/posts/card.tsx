@@ -8,13 +8,14 @@ import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { CrossPostCard } from './crosspost'
-import { PostFooterCard } from './footer'
+import { PostFooterCard, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
 type Props = {
   expanded?: boolean
+  label?: PostLabel
   margin?: number
   post: Post
   style?: StyleProp<ViewStyle>
@@ -23,6 +24,7 @@ type Props = {
 
 export function PostCard({
   expanded = false,
+  label,
   margin = 0,
   post,
   style,
@@ -77,7 +79,7 @@ export function PostCard({
         </View>
       ) : null}
 
-      <PostFooterCard expanded={expanded} post={post} />
+      <PostFooterCard expanded={expanded} label={label} post={post} />
     </View>
   )
 }

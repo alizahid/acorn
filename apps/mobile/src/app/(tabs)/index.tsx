@@ -46,5 +46,7 @@ export default function Screen() {
     })
   })
 
-  return <PostList header interval={interval} sort={sort} tabBar />
+  return (
+    <PostList header interval={interval} label="subreddit" sort={sort} tabBar />
+  )
 }

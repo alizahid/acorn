@@ -17,6 +17,7 @@ export function Text({ children, lines, selectable, style, ...props }: Props) {
   // eslint-disable-next-line react/no-children-prop -- go away
   return createElement('RCTText', {
     children,
+    ellipsizeMode: lines ? 'tail' : undefined,
     numberOfLines: lines,
     selectable,
     style: [styles.main(props), style],
