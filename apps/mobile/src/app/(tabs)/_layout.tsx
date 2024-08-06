@@ -1,10 +1,4 @@
-import {
-  Tabs,
-  useFocusEffect,
-  useGlobalSearchParams,
-  useRouter,
-} from 'expo-router'
-import { useEffect } from 'react'
+import { Tabs, useGlobalSearchParams } from 'expo-router'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -12,27 +6,11 @@ import { Header } from '~/components/navigation/header'
 import { PagerHeader } from '~/components/navigation/pager'
 import { TabBar } from '~/components/navigation/tab-bar'
 import { AccountSwitchCard } from '~/components/users/switch'
-import { useAuth } from '~/stores/auth'
 
 export default function Layout() {
-  const router = useRouter()
   const params = useGlobalSearchParams()
 
   const t = useTranslations('tab')
-
-  const { accessToken, expired, refresh } = useAuth()
-
-  useEffect(() => {
-    if (expired) {
-      void refresh()
-    }
-  }, [expired, refresh])
-
-  useFocusEffect(() => {
-    if (!accessToken) {
-      router.navigate('/sign-in')
-    }
-  })
 
   return (
     <Tabs
