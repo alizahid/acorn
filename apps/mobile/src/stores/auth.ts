@@ -56,7 +56,6 @@ export const useAuth = create<State>()(
         accounts: [],
         addAccount(account) {
           set({
-            ...getAccount(account),
             accounts: updateAccounts(get().accounts, account),
           })
         },
