@@ -10,6 +10,8 @@ import { z } from 'zod'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { FeedSortMenu } from '~/components/posts/sort'
 import { UserPostList } from '~/components/user/post-list'
+import { useProfile } from '~/hooks/queries/user/profile'
+import { useAuth } from '~/stores/auth'
 import { type TopInterval, type UserFeedSort } from '~/types/sort'
 import { UserFeedType } from '~/types/user'
 
@@ -25,10 +27,21 @@ export default function Screen() {
 
   const t = useTranslations('tab.user.menu')
 
+  const { accountId } = useAuth()
+
+  const { profile } = useProfile(params.name)
+
   const [sort, setSort] = useState<UserFeedSort>('hot')
   const [interval, setInterval] = useState<TopInterval>()
 
   useFocusEffect(() => {
+    const title =
+      params.type === 'submitted'
+        ? accountId === profile?.name
+          ? t('submitted')
+          : profile?.name
+        : t(params.type)
+
     navigation.setOptions({
       headerRight: () => (
         <>
@@ -56,7 +69,7 @@ export default function Screen() {
           ) : null}
         </>
       ),
-      title: t(params.type),
+      title,
     })
   })
 
@@ -65,6 +78,7 @@ export default function Screen() {
       header
       inset
       interval={interval}
+      label="subreddit"
       sort={sort}
       type={params.type}
       username={params.name}
