@@ -4,7 +4,7 @@ import { decode } from 'entities'
 import { type ProfileSchema } from '~/schemas/reddit/profile'
 import { type Profile } from '~/types/user'
 
-export function transformProfile(data: ProfileSchema): Profile {
+export function transformProfile({ data }: ProfileSchema): Profile {
   return {
     createdAt: fromUnixTime(data.created),
     id: data.id,

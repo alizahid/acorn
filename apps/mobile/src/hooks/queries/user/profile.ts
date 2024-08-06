@@ -6,31 +6,31 @@ import { useAuth } from '~/stores/auth'
 import { transformProfile } from '~/transformers/profile'
 import { type Profile } from '~/types/user'
 
-export type ProfileQueryKey = ['profile']
+export type ProfileQueryKey = ['users', string]
 
 export type ProfileQueryData = Profile
 
-export function useProfile() {
+export function useProfile(name?: string) {
   const { accessToken, expired } = useAuth()
 
   const { data, isLoading, isRefetching, refetch } = useQuery<
-    ProfileQueryData,
-    Error,
     ProfileQueryData | undefined,
+    Error,
+    ProfileQueryData,
     ProfileQueryKey
   >({
-    enabled: !expired,
+    enabled: !expired || !name,
     async queryFn() {
       const payload = await redditApi({
         accessToken,
-        url: '/api/v1/me',
+        url: `/user/${name!}/about`,
       })
 
       const profile = ProfileSchema.parse(payload)
 
       return transformProfile(profile)
     },
-    queryKey: ['profile'],
+    queryKey: ['users', name!],
   })
 
   return {

@@ -24,8 +24,8 @@ export default function Screen() {
 
   const common = useCommon()
 
-  const { clearCache } = useAuth()
-  const { profile, refetch } = useProfile()
+  const { accountId, clearCache } = useAuth()
+  const { profile, refetch } = useProfile(accountId)
 
   useFocusEffect(() => {
     if (!profile) {
