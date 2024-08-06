@@ -66,12 +66,14 @@ export const PostMediaSchema = z
         type: z.literal('video'),
         width: z.number(),
       }),
+      type: z.string(),
     }),
     z.object({
       oembed: z.object({
         html: z.string(),
         type: z.literal('rich'),
       }),
+      type: z.string(),
     }),
   ])
   .nullish()

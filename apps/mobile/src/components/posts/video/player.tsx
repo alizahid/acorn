@@ -1,4 +1,4 @@
-import { useVideoPlayer, VideoView } from 'expo-video'
+import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
 import { useEffect, useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -8,18 +8,25 @@ import { getDimensions } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
-import { FakeModal } from '../common/fake-modal'
-import { Icon } from '../common/icon'
-import { Pressable } from '../common/pressable'
+import { FakeModal } from '../../common/fake-modal'
+import { Icon } from '../../common/icon'
+import { Pressable } from '../../common/pressable'
 
 type Props = {
   margin?: number
+  source: VideoSource
   style?: StyleProp<ViewStyle>
   video: PostMedia
   viewing: boolean
 }
 
-export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
+export function VideoPlayer({
+  margin = 0,
+  source,
+  style,
+  video,
+  viewing,
+}: Props) {
   const common = useCommon()
 
   const { muted, updatePreferences } = usePreferences()
@@ -35,7 +42,7 @@ export function PostVideoCard({ margin = 0, style, video, viewing }: Props) {
     common.tabBarHeight -
     theme.space[9]
 
-  const player = useVideoPlayer(video.url, (instance) => {
+  const player = useVideoPlayer(source, (instance) => {
     instance.muted = true
     instance.loop = true
 

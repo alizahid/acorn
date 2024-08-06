@@ -90,6 +90,26 @@ export function getVideo(data: PostDataSchema): PostMedia | undefined {
     }
   }
 
+  if (data.media && 'oembed' in data.media) {
+    if (data.media.oembed.type === 'video') {
+      if (data.media.type === 'redgifs.com') {
+        const parts = /https:\/\/www\.redgifs\.com\/ifr\/(\w+)/.exec(
+          data.media.oembed.html,
+        )
+
+        if (parts) {
+          return {
+            height: data.media.oembed.height,
+            provider: 'redgifs',
+            type: 'video',
+            url: parts[1],
+            width: data.media.oembed.width,
+          }
+        }
+      }
+    }
+  }
+
   if (data.preview?.reddit_video_preview) {
     return {
       height: data.preview.reddit_video_preview.height,
