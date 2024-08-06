@@ -2,7 +2,6 @@ import { addSeconds } from 'date-fns'
 import * as WebBrowser from 'expo-web-browser'
 import { z } from 'zod'
 
-import { type ProfileSchema } from '~/schemas/reddit/profile'
 import { type Account } from '~/stores/auth'
 
 export const REDIRECT_URI = 'acorn://login'
@@ -149,7 +148,9 @@ export async function refreshAccessToken(
 }
 
 async function getAccountName(accessToken: string) {
-  const response = await redditApi<ProfileSchema>({
+  const response = await redditApi<{
+    name: string
+  }>({
     accessToken,
     url: '/api/v1/me',
   })
