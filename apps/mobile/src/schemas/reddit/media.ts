@@ -11,6 +11,7 @@ export const PostMediaMetadataSchema = z
           x: z.number(),
           y: z.number(),
         }),
+        status: z.literal('valid'),
       }),
       z.object({
         id: z.string(),
@@ -19,12 +20,17 @@ export const PostMediaMetadataSchema = z
           x: z.number(),
           y: z.number(),
         }),
+        status: z.literal('valid'),
       }),
       z.object({
         hlsUrl: z.string(),
         id: z.string(),
+        status: z.literal('valid'),
         x: z.number(),
         y: z.number(),
+      }),
+      z.object({
+        status: z.literal('failed'),
       }),
     ]),
   )

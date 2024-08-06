@@ -10,22 +10,35 @@ export function getMeta(
 ): PostMediaMeta {
   if (data.media_metadata) {
     return Object.fromEntries(
-      Object.values(data.media_metadata).map((item) => {
-        const video = 'hlsUrl' in item
-        const gif = !video && 'gif' in item.s
+      compact<[string, PostMedia]>(
+        Object.values(data.media_metadata).map((item) => {
+          if (item.status === 'failed') {
+            return null
+          }
 
-        return [
-          item.id,
-          {
-            height: video ? item.y : item.s.y,
-            type: video ? 'video' : gif ? 'gif' : 'image',
-            url: decode(
-              video ? item.hlsUrl : 'gif' in item.s ? item.s.gif : item.s.u,
-            ),
-            width: video ? item.x : item.s.x,
-          },
-        ]
-      }),
+          if ('hlsUrl' in item) {
+            return [
+              item.id,
+              {
+                height: item.y,
+                type: 'video',
+                url: decode(item.hlsUrl),
+                width: item.x,
+              },
+            ]
+          }
+
+          return [
+            item.id,
+            {
+              height: item.s.y,
+              type: 'gif' in item.s ? 'gif' : 'image',
+              url: decode('gif' in item.s ? item.s.gif : item.s.u),
+              width: item.s.x,
+            },
+          ]
+        }),
+      ),
     )
   }
 
@@ -38,7 +51,7 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
       data.gallery_data.items.map((item) => {
         const media = data.media_metadata?.[item.media_id]
 
-        if (!media) {
+        if (!media || media.status === 'failed') {
           return
         }
 

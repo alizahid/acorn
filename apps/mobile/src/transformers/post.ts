@@ -6,26 +6,6 @@ import { type PostDataSchema } from '~/schemas/reddit/posts'
 import { type Post, type PostType } from '~/types/post'
 
 export function transformPost(data: PostDataSchema): Post {
-  let type: PostType = 'link'
-
-  if (data.post_hint === 'image') {
-    type = 'image'
-  } else if (data.is_gallery) {
-    type = 'gallery'
-  } else if (
-    Boolean(data.is_video) ||
-    data.post_hint === 'rich:video' ||
-    data.post_hint === 'hosted:video'
-  ) {
-    type = 'video'
-  } else if (data.poll_data) {
-    type = 'poll'
-  } else if (data.crosspost_parent) {
-    type = 'crosspost'
-  } else if (data.is_self) {
-    type = 'text'
-  }
-
   const crossPost = data.crosspost_parent_list?.at(0)
 
   return {
@@ -49,7 +29,7 @@ export function transformPost(data: PostDataSchema): Post {
       ? `u/${data.subreddit.slice(2)}`
       : data.subreddit,
     title: decode(data.title.trim()),
-    type,
+    type: getType(data),
     url: data.url ?? undefined,
     user: {
       id: data.author_fullname,
@@ -57,4 +37,36 @@ export function transformPost(data: PostDataSchema): Post {
     },
     votes: data.ups,
   }
+}
+
+function getType(data: PostDataSchema): PostType {
+  if (data.post_hint === 'image') {
+    return 'image'
+  }
+
+  if (data.is_gallery) {
+    return 'gallery'
+  }
+
+  if (
+    Boolean(data.is_video) ||
+    data.post_hint === 'rich:video' ||
+    data.post_hint === 'hosted:video'
+  ) {
+    return 'video'
+  }
+
+  if (data.poll_data) {
+    return 'poll'
+  }
+
+  if (data.crosspost_parent) {
+    return 'crosspost'
+  }
+
+  if (data.is_self) {
+    return 'text'
+  }
+
+  return 'link'
 }

@@ -35,19 +35,11 @@ export type Post = {
   votes: number
 }
 
-export type PostMediaMeta = Record<
-  string,
-  {
-    height: number
-    type: 'image' | 'video' | 'gif'
-    url: string
-    width: number
-  }
->
-
 export type PostMedia = {
   height: number
   type: 'image' | 'video' | 'gif'
   url: string
   width: number
 }
+
+export type PostMediaMeta = Record<string, PostMedia>
