@@ -51,7 +51,6 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
     >
       {post.media.video ? (
         <PostVideoCard
-          key={post.id}
           margin={margin + theme.space[5]}
           video={post.media.video}
           viewing={viewing}
@@ -65,8 +64,8 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
       ) : post.media.images ? (
         <PostGalleryCard
           images={post.media.images}
-          key={post.id}
           margin={margin + theme.space[5]}
+          recyclingKey={post.id}
         />
       ) : null}
 

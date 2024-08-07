@@ -37,7 +37,7 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
     >
       {image ? (
         <Image
-          key={post.id}
+          recyclingKey={post.id}
           source={image.url}
           style={styles.image(
             frame.width - margin - theme.space[5],

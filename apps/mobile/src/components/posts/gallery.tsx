@@ -16,10 +16,16 @@ import { Text } from '../common/text'
 type Props = {
   images: Array<PostMedia>
   margin?: number
+  recyclingKey?: string
   style?: StyleProp<ViewStyle>
 }
 
-export function PostGalleryCard({ images, margin = 0, style }: Props) {
+export function PostGalleryCard({
+  images,
+  margin = 0,
+  recyclingKey,
+  style,
+}: Props) {
   const common = useCommon()
 
   const t = useTranslations('component.posts.gallery')
@@ -47,6 +53,7 @@ export function PostGalleryCard({ images, margin = 0, style }: Props) {
       >
         <Image
           contentFit="cover"
+          recyclingKey={recyclingKey}
           source={images[0].url}
           style={[styles.main(maxHeight, dimensions.height, dimensions.width)]}
         />
@@ -76,11 +83,12 @@ export function PostGalleryCard({ images, margin = 0, style }: Props) {
           data={images}
           decelerationRate="fast"
           horizontal
-          keyExtractor={(item) => item.url}
+          keyExtractor={(item, index) => String(index)}
           renderItem={({ item }) => (
             <Zoomable isDoubleTapEnabled>
               <Image
                 contentFit="contain"
+                recyclingKey={recyclingKey}
                 source={item.url}
                 style={styles.image(
                   common.frame.height -

@@ -19,7 +19,6 @@ export function MarkdownMedia({ caption, media }: Props) {
   return (
     <View style={styles.main}>
       <Image
-        key={media.url}
         source={media.url}
         style={styles.image(media.height, media.width)}
       />

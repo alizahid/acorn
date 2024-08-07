@@ -29,7 +29,11 @@ export function CommunityCard({ community }: Props) {
       }}
       style={styles.main}
     >
-      <Image key={community.id} source={community.image} style={styles.image} />
+      <Image
+        recyclingKey={community.id}
+        source={community.image}
+        style={styles.image}
+      />
 
       <Text style={styles.name} weight="medium">
         {community.name}
