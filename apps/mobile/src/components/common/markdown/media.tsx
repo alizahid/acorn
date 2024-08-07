@@ -40,6 +40,8 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   main: {
     gap: theme.space[2],
+    marginTop: -3,
+    paddingTop: 3,
   },
 }))
 

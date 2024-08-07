@@ -107,7 +107,8 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   body: {
-    padding: theme.space[3],
+    paddingRight: theme.space[3],
+    paddingVertical: theme.space[3],
   },
   collapsed: {
     paddingTop: theme.space[3],
