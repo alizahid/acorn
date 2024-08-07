@@ -26,6 +26,7 @@ import { usePost } from '~/hooks/queries/posts/post'
 import { type CommentFeedSort } from '~/types/sort'
 
 const schema = z.object({
+  commentId: z.string().optional(),
   id: z.string().catch('17jkixh'),
 })
 

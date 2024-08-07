@@ -1,14 +1,13 @@
 /* eslint-disable react/no-array-index-key -- go away */
 
-import * as Linking from 'expo-linking'
 import { Children, type PropsWithChildren } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { handleLink } from '~/lib/link'
 import { type TypographyToken } from '~/styles/tokens'
 import { type PostMediaMeta } from '~/types/post'
 
-import { Pressable } from '../pressable'
 import { Text } from '../text'
 import { findMedia, MarkdownMedia } from './media'
 
@@ -48,19 +47,25 @@ export function Link({ children, frameWidth, href, meta }: LinkProps) {
   })
 
   if (media) {
-    return <MarkdownMedia caption={children} media={media} />
+    const caption = (
+      Array.isArray(children) ? children[0] === href : children === href
+    )
+      ? undefined
+      : children
+
+    return <MarkdownMedia caption={caption} media={media} />
   }
 
   return (
-    <Pressable
+    <Text
+      color="accent"
       onPress={() => {
-        void Linking.openURL(href)
+        handleLink(href)
       }}
+      size="2"
     >
-      <Text color="accent" size="2">
-        {children}
-      </Text>
-    </Pressable>
+      {children}
+    </Text>
   )
 }
 
