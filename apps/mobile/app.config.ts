@@ -26,6 +26,11 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
         backgroundColor: '#101211',
         foregroundImage: './assets/artwork/adaptive-icon.png',
       },
+      splash: {
+        dark: {
+          backgroundColor: '#101211',
+        },
+      },
     },
     experiments: {
       tsconfigPaths: true,
@@ -45,6 +50,11 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
         usesNonExemptEncryption: false,
       },
       icon: './assets/artwork/icon.png',
+      splash: {
+        dark: {
+          backgroundColor: '#101211',
+        },
+      },
     },
     name: 'Acorn',
     orientation: 'portrait',
@@ -55,6 +65,7 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
     scheme: 'acorn',
     slug: 'acorn',
     splash: {
+      backgroundColor: '#fbfdfc',
       image: './assets/artwork/splash.png',
       resizeMode: 'contain',
     },
