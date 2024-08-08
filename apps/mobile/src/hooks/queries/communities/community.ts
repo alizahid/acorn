@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { queryClient } from '~/lib/query'
 import { redditApi } from '~/lib/reddit'
-import { CommunitySchema } from '~/schemas/reddit/communities'
+import { CommunitySchema } from '~/schemas/communities'
 import { useAuth } from '~/stores/auth'
 import { transformCommunity } from '~/transformers/community'
 import { type Community } from '~/types/community'

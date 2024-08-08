@@ -2,7 +2,7 @@ import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import { sortBy } from 'lodash'
 
 import { isUser, REDDIT_URI, redditApi } from '~/lib/reddit'
-import { CommunitiesSchema } from '~/schemas/reddit/communities'
+import { CommunitiesSchema } from '~/schemas/communities'
 import { useAuth } from '~/stores/auth'
 import { transformCommunity } from '~/transformers/community'
 import { type Community } from '~/types/community'

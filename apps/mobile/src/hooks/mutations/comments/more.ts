@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { addPrefix, REDDIT_URI, redditApi } from '~/lib/reddit'
-import { MoreCommentsSchema } from '~/schemas/reddit/comments'
+import { MoreCommentsSchema } from '~/schemas/comments'
 import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
 

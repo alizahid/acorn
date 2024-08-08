@@ -1,7 +1,7 @@
 import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
-import { type CommunityDataSchema } from '~/schemas/reddit/communities'
+import { type CommunityDataSchema } from '~/schemas/communities'
 import { type Community } from '~/types/community'
 
 export function transformCommunity(data: CommunityDataSchema): Community {

@@ -3,7 +3,7 @@ import { decode } from 'entities'
 
 import { getMeta } from '~/lib/media'
 import { removePrefix } from '~/lib/reddit'
-import { type CommentsSchema } from '~/schemas/reddit/comments'
+import { type CommentsSchema } from '~/schemas/comments'
 import { type Comment } from '~/types/comment'
 
 export function transformComment(

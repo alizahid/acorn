@@ -2,7 +2,7 @@ import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
 import { removePrefix } from '~/lib/reddit'
-import { type ProfileSchema } from '~/schemas/reddit/profile'
+import { type ProfileSchema } from '~/schemas/profile'
 import { type Profile } from '~/types/user'
 
 export function transformProfile({ data }: ProfileSchema): Profile {

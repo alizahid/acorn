@@ -1,8 +1,8 @@
 import { decode } from 'entities'
 import { compact } from 'lodash'
 
-import { type CommentDataSchema } from '~/schemas/reddit/comments'
-import { type PostDataSchema } from '~/schemas/reddit/posts'
+import { type CommentDataSchema } from '~/schemas/comments'
+import { type PostDataSchema } from '~/schemas/posts'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
 export function getMeta(

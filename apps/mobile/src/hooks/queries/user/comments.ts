@@ -1,7 +1,7 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 
 import { REDDIT_URI, redditApi } from '~/lib/reddit'
-import { CommentsSchema } from '~/schemas/reddit/comments'
+import { CommentsSchema } from '~/schemas/comments'
 import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
 import { type Comment } from '~/types/comment'

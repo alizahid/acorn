@@ -2,7 +2,7 @@ import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
 import { getImages, getMeta, getVideo } from '~/lib/media'
-import { type PostDataSchema } from '~/schemas/reddit/posts'
+import { type PostDataSchema } from '~/schemas/posts'
 import { type Post, type PostType } from '~/types/post'
 
 export function transformPost(data: PostDataSchema): Post {

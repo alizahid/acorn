@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { redditApi } from '~/lib/reddit'
-import { ProfileSchema } from '~/schemas/reddit/profile'
+import { ProfileSchema } from '~/schemas/profile'
 import { useAuth } from '~/stores/auth'
 import { transformProfile } from '~/transformers/profile'
 import { type Profile } from '~/types/user'
