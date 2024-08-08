@@ -20,7 +20,7 @@ export const usePreferences = create<State>()(
   persist(
     (set) => ({
       muted: true,
-      sort: 'best',
+      sort: 'hot',
       updatePreferences(payload) {
         set(payload)
       },
