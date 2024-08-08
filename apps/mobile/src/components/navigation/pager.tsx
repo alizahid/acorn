@@ -91,7 +91,7 @@ export function PagerHeader({ active, items, onChange }: Props) {
                 color={index === active ? 'accent' : 'gray'}
                 contrast
                 size="2"
-                weight={index === active ? 'bold' : 'medium'}
+                weight="medium"
               >
                 {item}
               </Text>
