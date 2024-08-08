@@ -39,17 +39,16 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
       ]}
     >
       {!collapsed ? (
-        <View style={styles.body}>
-          <Markdown
-            margin={
-              theme.space[3] * (comment.depth + 2) + (comment.depth > 0 ? 2 : 0)
-            }
-            meta={comment.media.meta}
-            size="2"
-          >
-            {comment.body}
-          </Markdown>
-        </View>
+        <Markdown
+          margin={
+            theme.space[3] * (comment.depth + 2) + (comment.depth > 0 ? 2 : 0)
+          }
+          meta={comment.media.meta}
+          size="2"
+          style={styles.body}
+        >
+          {comment.body}
+        </Markdown>
       ) : null}
 
       <View style={styles.footer}>

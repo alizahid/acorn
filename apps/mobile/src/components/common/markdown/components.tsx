@@ -1,10 +1,13 @@
 /* eslint-disable react/no-array-index-key -- go away */
 
-import { Children, type PropsWithChildren } from 'react'
+import { Image as ExpoImage } from 'expo-image'
+import { Children, type PropsWithChildren, useState } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { handleLink } from '~/lib/link'
+import { type Dimensions, getDimensions } from '~/lib/media'
 import { type TypographyToken } from '~/styles/tokens'
 import { type PostMediaMeta } from '~/types/post'
 
@@ -25,18 +28,25 @@ type LinkProps = Props & {
   meta?: PostMediaMeta
 }
 
+type ImageProps = Props & {
+  alt?: string
+  margin?: number
+  src: string
+  title?: string
+}
+
 type ListProps = TextProps & {
   start?: number
 }
 
-export function Wrapper({ children }: Props) {
+export function Wrapper({ children, style }: Props) {
   const { styles } = useStyles(stylesheet)
 
   const nodes = Children.toArray(children).filter(
     (node) => typeof node !== 'string',
   )
 
-  return <View style={styles.wrapper}>{nodes}</View>
+  return <View style={[styles.wrapper, style]}>{nodes}</View>
 }
 
 export function Link({ children, frameWidth, href, meta }: LinkProps) {
@@ -66,6 +76,27 @@ export function Link({ children, frameWidth, href, meta }: LinkProps) {
     >
       {children}
     </Text>
+  )
+}
+
+export function Image({ margin = 0, src }: ImageProps) {
+  const frame = useSafeAreaFrame()
+
+  const [dimensions, setDimensions] = useState<Dimensions>()
+
+  return (
+    <ExpoImage
+      onLoad={(event) => {
+        setDimensions(
+          getDimensions(frame.width - margin, {
+            height: event.source.height,
+            width: event.source.width,
+          }),
+        )
+      }}
+      source={src}
+      style={dimensions}
+    />
   )
 }
 

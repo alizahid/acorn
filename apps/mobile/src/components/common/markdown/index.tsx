@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison -- go away */
 
 import MarkdownToJsx from 'markdown-to-jsx'
+import { type PropsWithChildren } from 'react'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
 import { type TypographyToken } from '~/styles/tokens'
@@ -11,6 +13,7 @@ import {
   BlockQuote,
   Code,
   CodeBlock,
+  Image,
   LineBreak,
   Link,
   List,
@@ -27,9 +30,10 @@ type Props = {
   margin?: number
   meta?: PostMediaMeta
   size?: TypographyToken
+  style?: StyleProp<ViewStyle>
 }
 
-export function Markdown({ children, margin = 0, meta, size }: Props) {
+export function Markdown({ children, margin = 0, meta, size, style }: Props) {
   const frame = useSafeAreaFrame()
 
   const frameWidth = frame.width - margin
@@ -41,6 +45,8 @@ export function Markdown({ children, margin = 0, meta, size }: Props) {
   return (
     <MarkdownToJsx
       options={{
+        forceBlock: true,
+        forceWrapper: true,
         overrides: {
           a: {
             component: Link,
@@ -109,6 +115,18 @@ export function Markdown({ children, margin = 0, meta, size }: Props) {
             props: {
               size: '4',
               weight: 'bold',
+            },
+          },
+          image: {
+            component: Image,
+            props: {
+              margin,
+            },
+          },
+          img: {
+            component: Image,
+            props: {
+              margin,
             },
           },
           li: {
@@ -207,7 +225,9 @@ export function Markdown({ children, margin = 0, meta, size }: Props) {
 
           return next()
         },
-        wrapper: Wrapper,
+        wrapper: (wrapper: PropsWithChildren) => (
+          <Wrapper {...wrapper} style={style} />
+        ),
       }}
     >
       {children}

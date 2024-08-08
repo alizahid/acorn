@@ -71,11 +71,14 @@ export function PostCard({
       ) : null}
 
       {expanded && post.body ? (
-        <View style={styles.body}>
-          <Markdown margin={margin + theme.space[5]} meta={post.media.meta}>
-            {post.body}
-          </Markdown>
-        </View>
+        <Markdown
+          margin={margin + theme.space[5]}
+          meta={post.media.meta}
+          size="2"
+          style={styles.body}
+        >
+          {post.body}
+        </Markdown>
       ) : null}
 
       <PostFooterCard expanded={expanded} label={label} post={post} />
