@@ -1,4 +1,5 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import { sortBy } from 'lodash'
 
 import { isUser, REDDIT_URI, redditApi } from '~/lib/reddit'
 import { CommunitiesSchema } from '~/schemas/reddit/communities'
@@ -67,7 +68,10 @@ export function useCommunities() {
     queryKey: ['communities'],
   })
 
-  const communities = data?.pages.flatMap((page) => page.communities) ?? []
+  const communities = sortBy(
+    data?.pages.flatMap((page) => page.communities) ?? [],
+    (item) => item.name.toLowerCase(),
+  )
 
   return {
     communities: communities.filter((community) => !isUser(community.name)),
