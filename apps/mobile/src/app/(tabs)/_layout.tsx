@@ -1,5 +1,6 @@
-import { Tabs, useGlobalSearchParams } from 'expo-router'
+import { Tabs, useGlobalSearchParams, useRouter } from 'expo-router'
 import { useTranslations } from 'use-intl'
+import { z } from 'zod'
 
 import { Icon } from '~/components/common/icon'
 import { Header } from '~/components/navigation/header'
@@ -7,8 +8,14 @@ import { PagerHeader } from '~/components/navigation/pager'
 import { TabBar } from '~/components/navigation/tab-bar'
 import { AccountSwitchCard } from '~/components/users/switch'
 
+const schema = z.object({
+  communitiesType: z.coerce.number().catch(0),
+})
+
 export default function Layout() {
-  const params = useGlobalSearchParams()
+  const router = useRouter()
+
+  const params = schema.parse(useGlobalSearchParams())
 
   const t = useTranslations('tab')
 
@@ -46,8 +53,13 @@ export default function Layout() {
         options={{
           header: () => (
             <PagerHeader
-              active={Number(params.page) || 0}
+              active={params.communitiesType}
               items={[t('communities.communities'), t('communities.users')]}
+              onChange={(index) => {
+                router.setParams({
+                  communitiesType: index,
+                })
+              }}
             />
           ),
           tabBarIcon: (props) => (
