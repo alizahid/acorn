@@ -25,6 +25,7 @@ export function Root() {
   return (
     <Stack
       screenOptions={{
+        fullScreenGestureEnabled: true,
         header: (props) => <Header {...props} />,
       }}
     >
