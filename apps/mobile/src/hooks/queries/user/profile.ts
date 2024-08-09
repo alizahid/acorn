@@ -19,7 +19,7 @@ export function useProfile(name?: string) {
     ProfileQueryData,
     ProfileQueryKey
   >({
-    enabled: !expired || !name,
+    enabled: !expired && Boolean(name),
     async queryFn() {
       const payload = await redditApi({
         accessToken,

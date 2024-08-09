@@ -30,7 +30,7 @@ export function useComments(user?: string) {
     refetch,
   } = useInfiniteQuery<Page, Error, CommentsQueryData, CommentsQueryKey, Param>(
     {
-      enabled: !expired || Boolean(user),
+      enabled: !expired && Boolean(user),
       getNextPageParam(page) {
         return page.cursor
       },
