@@ -44,7 +44,7 @@ export function CommunitiesList({ type }: Props) {
   return (
     <FlashList
       {...common.listProps({
-        header: true,
+        pager: true,
         tabBar: true,
       })}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
@@ -52,7 +52,7 @@ export function CommunitiesList({ type }: Props) {
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
       contentContainerStyle={styles.main(
-        common.headerHeight,
+        common.pagerHeaderHeight,
         common.tabBarHeight,
       )}
       data={data[type]}
@@ -65,7 +65,7 @@ export function CommunitiesList({ type }: Props) {
       }}
       ref={list}
       refreshControl={
-        <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
+        <RefreshControl offset={common.pagerHeaderHeight} onRefresh={refetch} />
       }
       renderItem={({ item }) => <CommunityCard community={item} />}
     />

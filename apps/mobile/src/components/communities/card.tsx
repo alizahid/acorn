@@ -1,5 +1,6 @@
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { isUser, removePrefix } from '~/lib/reddit'
@@ -11,9 +12,10 @@ import { Text } from '../common/text'
 
 type Props = {
   community: Community
+  style?: StyleProp<ViewStyle>
 }
 
-export function CommunityCard({ community }: Props) {
+export function CommunityCard({ community, style }: Props) {
   const router = useRouter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -27,7 +29,7 @@ export function CommunityCard({ community }: Props) {
           router.navigate(`/communities/${community.name}`)
         }
       }}
-      style={styles.main}
+      style={[styles.main, style]}
     >
       <Image
         recyclingKey={community.id}

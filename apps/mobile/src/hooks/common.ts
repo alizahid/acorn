@@ -13,21 +13,54 @@ export function useCommon() {
 
   const headerHeight = insets.top + theme.space[8]
 
+  const pagerHeaderHeight = insets.top + 64
+
+  const searchHeaderHeight = insets.top + 120
+
   const tabBarHeight =
-    theme.space[4] + theme.space[5] + insets.bottom + theme.space[4]
+    insets.bottom + theme.space[4] + theme.space[5] + theme.space[4]
 
   const maxHeight = frame.height - headerHeight - tabBarHeight - theme.space[9]
 
   const listProps = useCallback(
-    ({ header, tabBar }: { header?: boolean; tabBar?: boolean }) => ({
-      removeClippedSubviews: true,
-      scrollIndicatorInsets: {
-        bottom: tabBar ? tabBarHeight - insets.bottom + 1 : 1,
-        right: 1,
-        top: header ? headerHeight - insets.top + 1 : 1,
-      },
-    }),
-    [headerHeight, insets.bottom, insets.top, tabBarHeight],
+    ({
+      header,
+      pager,
+      search,
+      tabBar,
+    }: {
+      header?: boolean
+      pager?: boolean
+      search?: boolean
+      tabBar?: boolean
+    }) => {
+      const top = search
+        ? searchHeaderHeight - insets.top + 1
+        : pager
+          ? pagerHeaderHeight - insets.top + 1
+          : header
+            ? headerHeight - insets.top + 1
+            : 1
+
+      const bottom = tabBar ? tabBarHeight - insets.bottom + 1 : 1
+
+      return {
+        removeClippedSubviews: true,
+        scrollIndicatorInsets: {
+          bottom,
+          right: 1,
+          top,
+        },
+      }
+    },
+    [
+      headerHeight,
+      insets.bottom,
+      insets.top,
+      pagerHeaderHeight,
+      searchHeaderHeight,
+      tabBarHeight,
+    ],
   )
 
   return {
@@ -36,6 +69,8 @@ export function useCommon() {
     insets,
     listProps,
     maxHeight,
+    pagerHeaderHeight,
+    searchHeaderHeight,
     tabBarHeight,
   }
 }

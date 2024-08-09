@@ -1,13 +1,14 @@
 import { z } from 'zod'
 
 export const CommunityDataSchema = z.object({
-  community_icon: z.string(),
+  community_icon: z.string().nullish(),
   created: z.number(),
   display_name: z.string(),
-  icon_img: z.string(),
+  icon_img: z.string().nullish(),
   id: z.string(),
-  subscribers: z.number(),
-  user_is_subscriber: z.boolean(),
+  subreddit_type: z.string().nullish(),
+  subscribers: z.number().nullish(),
+  user_is_subscriber: z.boolean().nullish(),
 })
 
 export type CommunityDataSchema = z.infer<typeof CommunityDataSchema>

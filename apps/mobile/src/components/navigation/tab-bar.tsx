@@ -2,20 +2,12 @@ import { type BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { BlurView } from 'expo-blur'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { useKeyboard } from '~/hooks/keyboard'
-
 import { Pressable } from '../common/pressable'
 
 type Props = BottomTabBarProps
 
 export function TabBar({ descriptors, insets, navigation, state }: Props) {
-  const keyboard = useKeyboard()
-
   const { styles, theme } = useStyles(stylesheet)
-
-  if (keyboard.visible) {
-    return null
-  }
 
   return (
     <BlurView intensity={100} style={styles.main}>

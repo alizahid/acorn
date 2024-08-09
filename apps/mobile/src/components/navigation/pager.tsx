@@ -112,8 +112,8 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   header: {
     alignItems: 'center',
-    height: theme.space[8],
     justifyContent: 'center',
+    padding: theme.space[4],
   },
   item: {
     height: theme.space[6],

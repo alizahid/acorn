@@ -33,6 +33,7 @@ import UserCircleBold from 'react-native-phosphor/src/bold/UserCircle'
 import UsersFourBold from 'react-native-phosphor/src/bold/UsersFour'
 import UserSwitchBold from 'react-native-phosphor/src/bold/UserSwitch'
 import XBold from 'react-native-phosphor/src/bold/X'
+import XCircleBold from 'react-native-phosphor/src/bold/XCircle'
 import ArchiveDuotone from 'react-native-phosphor/src/duotone/Archive'
 import ArrowBendUpLeftDuotone from 'react-native-phosphor/src/duotone/ArrowBendUpLeft'
 import ArrowDownDuotone from 'react-native-phosphor/src/duotone/ArrowDown'
@@ -66,6 +67,7 @@ import UserCircleDuotone from 'react-native-phosphor/src/duotone/UserCircle'
 import UsersFourDuotone from 'react-native-phosphor/src/duotone/UsersFour'
 import UserSwitchDuotone from 'react-native-phosphor/src/duotone/UserSwitch'
 import XDuotone from 'react-native-phosphor/src/duotone/X'
+import XCircleDuotone from 'react-native-phosphor/src/duotone/XCircle'
 import ArchiveFill from 'react-native-phosphor/src/fill/Archive'
 import ArrowBendUpLeftFill from 'react-native-phosphor/src/fill/ArrowBendUpLeft'
 import ArrowDownFill from 'react-native-phosphor/src/fill/ArrowDown'
@@ -99,6 +101,7 @@ import UserCircleFill from 'react-native-phosphor/src/fill/UserCircle'
 import UsersFourFill from 'react-native-phosphor/src/fill/UsersFour'
 import UserSwitchFill from 'react-native-phosphor/src/fill/UserSwitch'
 import XFill from 'react-native-phosphor/src/fill/X'
+import XCircleFill from 'react-native-phosphor/src/fill/XCircle'
 import ArchiveRegular from 'react-native-phosphor/src/regular/Archive'
 import ArrowBendUpLeftRegular from 'react-native-phosphor/src/regular/ArrowBendUpLeft'
 import ArrowDownRegular from 'react-native-phosphor/src/regular/ArrowDown'
@@ -132,6 +135,7 @@ import UserCircleRegular from 'react-native-phosphor/src/regular/UserCircle'
 import UsersFourRegular from 'react-native-phosphor/src/regular/UsersFour'
 import UserSwitchRegular from 'react-native-phosphor/src/regular/UserSwitch'
 import XRegular from 'react-native-phosphor/src/regular/X'
+import XCircleRegular from 'react-native-phosphor/src/regular/XCircle'
 
 export type IconName = keyof typeof icons
 
@@ -355,5 +359,11 @@ const icons = {
     duotone: XDuotone,
     fill: XFill,
     regular: XRegular,
+  },
+  XCircle: {
+    bold: XCircleBold,
+    duotone: XCircleDuotone,
+    fill: XCircleFill,
+    regular: XCircleRegular,
   },
 } satisfies Record<string, Record<IconWeight, Icon>>

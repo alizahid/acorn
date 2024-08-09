@@ -6,6 +6,7 @@ import { Icon } from '~/components/common/icon'
 import { Header } from '~/components/navigation/header'
 import { PagerHeader } from '~/components/navigation/pager'
 import { TabBar } from '~/components/navigation/tab-bar'
+import { SearchHeader } from '~/components/search/header'
 import { AccountSwitchCard } from '~/components/users/switch'
 
 const schema = z.object({
@@ -39,6 +40,7 @@ export default function Layout() {
       <Tabs.Screen
         name="search"
         options={{
+          header: () => <SearchHeader />,
           tabBarIcon: (props) => (
             <Icon {...props} name="MagnifyingGlass" weight="duotone" />
           ),

@@ -49,6 +49,17 @@
         "top": "Top"
       }
     },
+    "search": {
+      "bar": {
+        "query": {
+          "placeholder": "Search"
+        },
+        "type": {
+          "community": "Communities",
+          "post": "Posts"
+        }
+      }
+    },
     "users": {
       "follow": {
         "age": "Age",
