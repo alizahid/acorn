@@ -49,7 +49,7 @@ export function VideoPlayer({
   useEffect(() => {
     player.muted = visible ? false : !viewing || muted
 
-    if (viewing) {
+    if (viewing || visible) {
       player.play()
     } else {
       player.pause()
