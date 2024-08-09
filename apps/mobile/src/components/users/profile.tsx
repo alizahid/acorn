@@ -67,7 +67,8 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[1],
   },
   main: {
-    backgroundColor: theme.colors.accent.a2,
+    alignItems: 'center',
+    backgroundColor: theme.colors.accent.a3,
     flexDirection: 'row',
     gap: theme.space[6],
     justifyContent: 'center',
