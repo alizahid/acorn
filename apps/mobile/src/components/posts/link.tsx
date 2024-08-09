@@ -1,9 +1,9 @@
 import { Image } from 'expo-image'
-import * as Linking from 'expo-linking'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { handleLink } from '~/lib/link'
 import { getDimensions } from '~/lib/media'
 import { type Post } from '~/types/post'
 
@@ -31,7 +31,7 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
           return
         }
 
-        void Linking.openURL(post.url)
+        handleLink(post.url)
       }}
       style={[styles.main, style]}
     >

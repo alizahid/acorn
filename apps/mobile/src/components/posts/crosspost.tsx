@@ -55,7 +55,7 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
           video={post.media.video}
           viewing={viewing}
         />
-      ) : post.type === 'link' && post.url ? (
+      ) : post.url && !post.url.endsWith(post.permalink) ? (
         <PostLinkCard
           margin={margin + theme.space[5]}
           post={post}
@@ -73,12 +73,24 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
         <Text weight="medium">{post.title}</Text>
 
         <View style={styles.footer}>
-          <Icon
-            color={theme.colors.accent.a11}
-            name="ArrowsSplit"
-            size={theme.typography[2].lineHeight}
-            style={styles.crossPost}
-          />
+          <Pressable
+            hitSlop={theme.space[4]}
+            onPress={() => {
+              router.push(`/communities/${post.subreddit}`)
+            }}
+            style={styles.item}
+          >
+            <Icon
+              color={theme.colors.accent.a11}
+              name="ArrowsSplit"
+              size={theme.typography[2].lineHeight}
+              style={styles.crossPost}
+            />
+
+            <Text size="2" weight="medium">
+              {post.subreddit}
+            </Text>
+          </Pressable>
 
           {footer.map((item) => (
             <View key={item.key} style={styles.item}>
@@ -120,6 +132,7 @@ const stylesheet = createStyleSheet((theme) => ({
     marginTop: theme.space[3],
   },
   item: {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space[2],
   },

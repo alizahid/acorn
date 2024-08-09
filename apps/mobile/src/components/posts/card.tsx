@@ -60,7 +60,7 @@ export function PostCard({
           video={post.media.video}
           viewing={viewing}
         />
-      ) : post.type === 'link' && post.url ? (
+      ) : post.url && !post.url.endsWith(post.permalink) ? (
         <PostLinkCard margin={margin} post={post} />
       ) : post.media.images ? (
         <PostGalleryCard

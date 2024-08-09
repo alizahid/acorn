@@ -48,11 +48,7 @@ function getType(data: PostDataSchema): PostType {
     return 'gallery'
   }
 
-  if (
-    Boolean(data.is_video) ||
-    data.post_hint === 'rich:video' ||
-    data.post_hint === 'hosted:video'
-  ) {
+  if (Boolean(data.is_video) || data.post_hint === 'rich:video') {
     return 'video'
   }
 
