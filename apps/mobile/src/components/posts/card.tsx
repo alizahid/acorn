@@ -48,26 +48,32 @@ export function PostCard({
         </Text>
       </Pressable>
 
-      {post.crossPost ? (
+      {post.type === 'crosspost' && post.crossPost ? (
         <CrossPostCard
           margin={margin}
           post={post.crossPost}
           viewing={viewing}
         />
-      ) : post.media.video ? (
+      ) : null}
+
+      {post.type === 'video' && post.media.video ? (
         <PostVideoCard
           margin={margin}
           video={post.media.video}
           viewing={viewing}
         />
-      ) : post.url && !post.url.endsWith(post.permalink) ? (
-        <PostLinkCard margin={margin} post={post} />
-      ) : post.media.images ? (
+      ) : null}
+
+      {post.type === 'image' && post.media.images ? (
         <PostGalleryCard
           images={post.media.images}
           margin={margin}
           recyclingKey={post.id}
         />
+      ) : null}
+
+      {post.type === 'link' ? (
+        <PostLinkCard margin={margin} post={post} />
       ) : null}
 
       {expanded && post.body ? (

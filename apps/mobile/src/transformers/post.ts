@@ -40,28 +40,24 @@ export function transformPost(data: PostDataSchema): Post {
 }
 
 function getType(data: PostDataSchema): PostType {
-  if (data.post_hint === 'image') {
-    return 'image'
-  }
-
-  if (data.is_gallery) {
-    return 'gallery'
-  }
-
-  if (Boolean(data.is_video) || data.post_hint === 'rich:video') {
-    return 'video'
-  }
-
-  if (data.poll_data) {
-    return 'poll'
-  }
-
   if (data.crosspost_parent) {
     return 'crosspost'
   }
 
   if (data.is_self) {
     return 'text'
+  }
+
+  if (Boolean(data.is_video) || data.post_hint === 'rich:video') {
+    return 'video'
+  }
+
+  if (data.post_hint === 'image' || data.is_gallery) {
+    return 'image'
+  }
+
+  if (data.poll_data) {
+    return 'poll'
   }
 
   return 'link'

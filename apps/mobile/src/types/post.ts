@@ -1,7 +1,6 @@
 export type PostType =
   | 'link'
   | 'text'
-  | 'gallery'
   | 'image'
   | 'video'
   | 'poll'
