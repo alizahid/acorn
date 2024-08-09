@@ -44,13 +44,8 @@ export function PagerHeader({ active, items, onChange }: Props) {
       return
     }
 
-    translate.value = withTiming(nextTranslate, {
-      duration: 250,
-    })
-
-    width.value = withTiming(nextWidth, {
-      duration: 250,
-    })
+    translate.value = withTiming(nextTranslate)
+    width.value = withTiming(nextWidth)
   }, [active, translate, width])
 
   const style = useAnimatedStyle(() => ({
@@ -63,7 +58,7 @@ export function PagerHeader({ active, items, onChange }: Props) {
   }))
 
   return (
-    <BlurView intensity={100} style={styles.main(insets.top)}>
+    <BlurView intensity={75} style={styles.main(insets.top)}>
       <View style={styles.header}>
         <View style={styles.items}>
           <Animated.View style={[styles.active, style]} />

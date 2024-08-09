@@ -134,7 +134,8 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingTop: header,
   }),
   separator: {
-    height: theme.space[5],
+    backgroundColor: theme.colors.gray.a3,
+    height: 1,
   },
   spinner: {
     margin: theme.space[4],

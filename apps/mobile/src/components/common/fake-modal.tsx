@@ -26,9 +26,7 @@ export function FakeModal({ children, onClose, visible }: Props) {
 
   useEffect(() => {
     if (visible) {
-      translate.value = withTiming(0, {
-        duration: 250,
-      })
+      translate.value = withTiming(0)
     }
   }, [translate, visible])
 
@@ -38,19 +36,11 @@ export function FakeModal({ children, onClose, visible }: Props) {
     })
     .onEnd((event) => {
       if (event.translationY > 100) {
-        translate.value = withTiming(
-          frame.height,
-          {
-            duration: 250,
-          },
-          () => {
-            runOnJS(onClose)()
-          },
-        )
-      } else {
-        translate.value = withTiming(0, {
-          duration: 250,
+        translate.value = withTiming(frame.height, undefined, () => {
+          runOnJS(onClose)()
         })
+      } else {
+        translate.value = withTiming(0)
       }
     })
 

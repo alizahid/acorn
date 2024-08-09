@@ -109,7 +109,7 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingTop: top,
   }),
   separator: {
-    height: theme.space[5],
+    height: theme.space[2],
   },
   spinner: {
     margin: theme.space[4],

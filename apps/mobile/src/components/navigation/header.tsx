@@ -19,7 +19,7 @@ export function Header({ navigation, options, ...props }: Props) {
   const left = back || options.headerLeft
 
   return (
-    <BlurView intensity={100} style={styles.main(insets.top)}>
+    <BlurView intensity={75} style={styles.main(insets.top)}>
       <View style={styles.header}>
         {left ? (
           <View style={[styles.actions, styles.left]}>

@@ -87,15 +87,7 @@ export default function Screen() {
           )
         }
         ListHeaderComponent={
-          post ? (
-            <PostCard
-              expanded
-              label="user"
-              post={post}
-              style={styles.post}
-              viewing
-            />
-          ) : null
+          post ? <PostCard expanded label="user" post={post} viewing /> : null
         }
         contentContainerStyle={styles.main(common.headerHeight)}
         data={comments}
@@ -163,9 +155,6 @@ const stylesheet = createStyleSheet((theme) => ({
   main: (top: number) => ({
     paddingTop: top,
   }),
-  post: {
-    marginBottom: theme.space[2],
-  },
   separator: {
     height: theme.space[2],
   },

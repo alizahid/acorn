@@ -30,7 +30,7 @@ export function SearchHeader() {
   const { styles } = useStyles(stylesheet)
 
   return (
-    <BlurView intensity={100} style={styles.main(insets.top)}>
+    <BlurView intensity={75} style={styles.main(insets.top)}>
       <View style={styles.header}>
         <View>
           <TextBox
