@@ -20,7 +20,7 @@ type Props = {
 export function RedGifsVideo({ margin = 0, style, video, viewing }: Props) {
   const common = useCommon()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const { get, source } = useRedGifs(video.url)
 
@@ -43,16 +43,13 @@ export function RedGifsVideo({ margin = 0, style, video, viewing }: Props) {
   }
 
   const frameWidth = common.frame.width - margin
-  const maxHeight =
-    common.frame.height -
-    common.headerHeight -
-    common.tabBarHeight -
-    theme.space[9]
 
   const dimensions = getDimensions(frameWidth, video)
 
   return (
-    <View style={styles.main(maxHeight, dimensions.height, dimensions.width)}>
+    <View
+      style={styles.main(common.maxHeight, dimensions.height, dimensions.width)}
+    >
       <Spinner />
     </View>
   )

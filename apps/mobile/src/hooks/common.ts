@@ -16,6 +16,8 @@ export function useCommon() {
   const tabBarHeight =
     theme.space[4] + theme.space[5] + insets.bottom + theme.space[4]
 
+  const maxHeight = frame.height - headerHeight - tabBarHeight - theme.space[9]
+
   const listProps = useCallback(
     ({ header, tabBar }: { header?: boolean; tabBar?: boolean }) => ({
       removeClippedSubviews: true,
@@ -33,6 +35,7 @@ export function useCommon() {
     headerHeight,
     insets,
     listProps,
+    maxHeight,
     tabBarHeight,
   }
 }

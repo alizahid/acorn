@@ -30,16 +30,11 @@ export function PostGalleryCard({
 
   const t = useTranslations('component.posts.gallery')
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const [visible, setVisible] = useState(false)
 
   const frameWidth = common.frame.width - margin
-  const maxHeight =
-    common.frame.height -
-    common.headerHeight -
-    common.tabBarHeight -
-    theme.space[9]
 
   const first = images[0]
 
@@ -65,7 +60,11 @@ export function PostGalleryCard({
             recyclingKey={recyclingKey}
             source={first.url}
             style={[
-              styles.main(maxHeight, dimensions.height, dimensions.width),
+              styles.main(
+                common.maxHeight,
+                dimensions.height,
+                dimensions.width,
+              ),
             ]}
           />
 
@@ -141,7 +140,6 @@ const stylesheet = createStyleSheet((theme) => ({
     width,
   }),
   main: (maxHeight: number, height: number, width: number) => ({
-    backgroundColor: theme.colors.gray.a2,
     height: Math.min(maxHeight, height),
     width,
   }),

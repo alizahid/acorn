@@ -36,11 +36,6 @@ export function VideoPlayer({
   const [visible, setVisible] = useState(false)
 
   const frameWidth = common.frame.width - margin
-  const maxHeight =
-    common.frame.height -
-    common.headerHeight -
-    common.tabBarHeight -
-    theme.space[9]
 
   const player = useVideoPlayer(source, (instance) => {
     instance.muted = true
@@ -78,7 +73,11 @@ export function VideoPlayer({
           contentFit="cover"
           nativeControls={false}
           player={player}
-          style={styles.main(maxHeight, dimensions.height, dimensions.width)}
+          style={styles.main(
+            common.maxHeight,
+            dimensions.height,
+            dimensions.width,
+          )}
         />
 
         <Pressable

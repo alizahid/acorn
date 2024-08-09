@@ -1,8 +1,8 @@
 import { Image } from 'expo-image'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { useCommon } from '~/hooks/common'
 import { handleLink } from '~/lib/link'
 import { getDimensions } from '~/lib/media'
 import { type Post } from '~/types/post'
@@ -18,11 +18,21 @@ type Props = {
 }
 
 export function PostLinkCard({ margin = 0, post, style }: Props) {
-  const frame = useSafeAreaFrame()
+  const common = useCommon()
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const frameWidth = common.frame.width - margin
+
   const image = post.media.images?.[0]
+
+  const dimensions = getDimensions(
+    frameWidth,
+    image ?? {
+      height: 0,
+      width: 0,
+    },
+  )
 
   return (
     <Pressable
@@ -40,9 +50,9 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
           recyclingKey={post.id}
           source={image.url}
           style={styles.image(
-            frame.width - margin - theme.space[5],
-            image.height,
-            image.width,
+            common.maxHeight,
+            dimensions.height,
+            dimensions.width,
           )}
         />
       ) : null}
@@ -69,11 +79,10 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[3],
     padding: theme.space[3],
   },
-  image: (frameWidth: number, height: number, width: number) =>
-    getDimensions(frameWidth, {
-      height,
-      width,
-    }),
+  image: (maxHeight: number, height: number, width: number) => ({
+    height: Math.min(maxHeight, height),
+    width,
+  }),
   main: {
     backgroundColor: theme.colors.gray.a3,
     borderRadius: theme.radius[4],
