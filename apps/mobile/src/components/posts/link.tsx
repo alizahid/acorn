@@ -22,7 +22,7 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const image = post.media.images?.at(0)
+  const image = post.media.images?.[0]
 
   return (
     <Pressable

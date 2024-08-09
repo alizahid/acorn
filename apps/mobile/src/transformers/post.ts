@@ -6,7 +6,7 @@ import { type PostDataSchema } from '~/schemas/posts'
 import { type Post, type PostType } from '~/types/post'
 
 export function transformPost(data: PostDataSchema): Post {
-  const crossPost = data.crosspost_parent_list?.at(0)
+  const crossPost = data.crosspost_parent_list?.[0]
 
   return {
     body: decode(data.selftext.trim()) || undefined,

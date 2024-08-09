@@ -91,7 +91,7 @@ export const useAuth = create<State>()(
 
             queryClient.clear()
           } else if (get().accountId === id) {
-            const next = accounts.at(0)
+            const next = accounts[0]
 
             set({
               ...getAccount(next),

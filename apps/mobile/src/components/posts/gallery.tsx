@@ -41,33 +41,45 @@ export function PostGalleryCard({
     common.tabBarHeight -
     theme.space[9]
 
-  const dimensions = getDimensions(frameWidth, images[0])
+  const first = images[0]
+
+  const dimensions = getDimensions(
+    frameWidth,
+    first ?? {
+      height: 0,
+      width: 0,
+    },
+  )
 
   return (
     <>
-      <Pressable
-        onPress={() => {
-          setVisible(true)
-        }}
-        style={style}
-      >
-        <Image
-          contentFit="cover"
-          recyclingKey={recyclingKey}
-          source={images[0].url}
-          style={[styles.main(maxHeight, dimensions.height, dimensions.width)]}
-        />
+      {first ? (
+        <Pressable
+          onPress={() => {
+            setVisible(true)
+          }}
+          style={style}
+        >
+          <Image
+            contentFit="cover"
+            recyclingKey={recyclingKey}
+            source={first.url}
+            style={[
+              styles.main(maxHeight, dimensions.height, dimensions.width),
+            ]}
+          />
 
-        {images.length > 1 ? (
-          <View style={styles.count}>
-            <Text contrast size="1" tabular>
-              {t('items', {
-                count: images.length,
-              })}
-            </Text>
-          </View>
-        ) : null}
-      </Pressable>
+          {images.length > 1 ? (
+            <View style={styles.count}>
+              <Text contrast size="1" tabular>
+                {t('items', {
+                  count: images.length,
+                })}
+              </Text>
+            </View>
+          ) : null}
+        </Pressable>
+      ) : null}
 
       <FakeModal
         onClose={() => {

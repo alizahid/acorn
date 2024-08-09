@@ -11,7 +11,7 @@ export function handleLink(href: string) {
       if (url.pathname.startsWith('/r/')) {
         const [, , name, , id, , commentId] = url.pathname.split('/')
 
-        if (commentId) {
+        if (commentId && id) {
           router.navigate({
             params: {
               commentId,
@@ -26,7 +26,7 @@ export function handleLink(href: string) {
             },
             pathname: '/posts/[id]',
           })
-        } else {
+        } else if (name) {
           router.navigate({
             params: {
               name,
@@ -46,7 +46,7 @@ export function handleLink(href: string) {
             },
             pathname: '/posts/[id]',
           })
-        } else {
+        } else if (name) {
           router.navigate({
             params: {
               name,

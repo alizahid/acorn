@@ -20,7 +20,7 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
   return (
     <BlurView intensity={100} style={styles.main}>
       {state.routes.map((route, index) => {
-        const options = descriptors[route.key].options
+        const options = descriptors[route.key]?.options
 
         const focused = state.index === index
 
@@ -46,7 +46,7 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
             }}
             style={styles.tab(insets.bottom)}
           >
-            {options.tabBarIcon?.({
+            {options?.tabBarIcon?.({
               color: focused ? theme.colors.accent.a11 : theme.colors.gray.a9,
               focused,
               size: theme.space[5],

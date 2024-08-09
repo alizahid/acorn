@@ -61,7 +61,13 @@ export function usePostReply() {
         return
       }
 
-      const comment = transformComment(data.json.data.things[0])
+      const payload = data.json.data.things[0]
+
+      if (!payload) {
+        return
+      }
+
+      const comment = transformComment(payload)
 
       updatePost(variables.postId, (draft) => {
         if (comment.data.parentId) {
@@ -70,6 +76,10 @@ export function usePostReply() {
           )
 
           const parent = draft.comments[index]
+
+          if (!parent) {
+            return
+          }
 
           comment.data.depth = parent.data.depth + 1
 

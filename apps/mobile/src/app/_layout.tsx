@@ -49,7 +49,7 @@ function Acorn() {
             locale="en"
             messages={en}
             now={new Date()}
-            timeZone={calendar.timeZone ?? undefined}
+            timeZone={calendar?.timeZone ?? undefined}
           >
             <KeyboardAvoidingView
               behavior="padding"

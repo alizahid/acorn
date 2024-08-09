@@ -73,6 +73,10 @@ export function usePost(id: string, sort?: CommentFeedSort) {
       const post = response[0].data.children[0]
       const comments = response[1].data.children
 
+      if (!post) {
+        throw new Error('Post not found')
+      }
+
       return {
         comments: comments.map((item) => transformComment(item)),
         post: transformPost(post.data),
