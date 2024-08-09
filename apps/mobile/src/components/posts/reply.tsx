@@ -1,5 +1,6 @@
 import { forwardRef, useState } from 'react'
 import { TextInput, View } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -35,7 +36,7 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
     const [text, setText] = useState('')
 
     return (
-      <View style={styles.main}>
+      <Animated.View style={[styles.main, keyboard.styles]}>
         <TextInput
           editable={!isPending}
           multiline
@@ -50,7 +51,7 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
           placeholderTextColor={theme.colors.gray.a9}
           ref={ref}
           selectionColor={theme.colors.accent.a9}
-          style={styles.input(insets.bottom, keyboard.visible)}
+          style={styles.input(insets.bottom, focused)}
           textAlignVertical="top"
           value={text}
         />
@@ -102,7 +103,7 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
             </Pressable>
           </View>
         ) : null}
-      </View>
+      </Animated.View>
     )
   },
 )

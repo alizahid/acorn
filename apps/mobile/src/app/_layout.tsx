@@ -6,7 +6,6 @@ import { useFonts } from 'expo-font'
 import { getCalendars } from 'expo-localization'
 import { SplashScreen } from 'expo-router'
 import { useEffect } from 'react'
-import { KeyboardAvoidingView, Platform, StyleSheet } from 'react-native'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { IntlProvider } from 'use-intl'
 
@@ -37,7 +36,7 @@ function Acorn() {
   }
 
   return (
-    <GestureHandlerRootView style={styles.main}>
+    <GestureHandlerRootView>
       <ThemeProvider value={theme}>
         <PersistQueryClientProvider
           client={queryClient}
@@ -51,24 +50,12 @@ function Acorn() {
             now={new Date()}
             timeZone={calendar?.timeZone ?? undefined}
           >
-            <KeyboardAvoidingView
-              behavior="padding"
-              enabled={Platform.OS === 'ios'}
-              style={styles.main}
-            >
-              <Root />
-            </KeyboardAvoidingView>
+            <Root />
           </IntlProvider>
         </PersistQueryClientProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
   )
 }
-
-const styles = StyleSheet.create({
-  main: {
-    flex: 1,
-  },
-})
 
 export default Sentry.wrap(Acorn)
