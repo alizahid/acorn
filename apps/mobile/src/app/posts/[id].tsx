@@ -23,6 +23,7 @@ import { PostCard } from '~/components/posts/card'
 import { PostReplyCard } from '~/components/posts/reply'
 import { useCommon } from '~/hooks/common'
 import { usePost } from '~/hooks/queries/posts/post'
+import { type Comment } from '~/types/comment'
 import { type CommentFeedSort } from '~/types/sort'
 
 const schema = z.object({
@@ -40,11 +41,13 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
+  const list = useRef<FlashList<Comment>>(null)
   const reply = useRef<TextInput>(null)
 
   const [sort, setSort] = useState<CommentFeedSort>('confidence')
   const [commentId, setCommentId] = useState<string>()
   const [user, setUser] = useState<string>()
+  const [index, setIndex] = useState(0)
 
   const { collapse, collapsed, comments, isFetching, post, refetch } = usePost(
     params.id,
@@ -94,6 +97,7 @@ export default function Screen() {
         estimatedItemSize={72}
         getItemType={(item) => item.type}
         keyExtractor={(item) => item.data.id}
+        ref={list}
         refreshControl={
           <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
         }
@@ -130,6 +134,19 @@ export default function Screen() {
 
       <PostReplyCard
         commentId={commentId}
+        onFocus={() => {
+          const next = comments.findIndex(
+            (comment, previous) => previous > index && comment.data.depth === 0,
+          )
+
+          setIndex(next)
+
+          list.current?.scrollToIndex({
+            animated: true,
+            index: next,
+            viewOffset: common.headerHeight,
+          })
+        }}
         onReset={() => {
           if (!post) {
             return
