@@ -72,7 +72,7 @@ export function PostCard({
         />
       ) : null}
 
-      {post.type === 'link' ? (
+      {post.type === 'link' && post.url ? (
         <PostLinkCard margin={margin} post={post} />
       ) : null}
 
