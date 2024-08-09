@@ -136,7 +136,12 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           },
           li: {
             component: Text,
-            props,
+            props: {
+              ...props,
+              style: {
+                flex: 1,
+              },
+            },
           },
           ol: {
             component: List,
@@ -148,9 +153,6 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           },
           pre: {
             component: CodeBlock,
-            props: {
-              type: 'pre',
-            },
           },
           span: {
             component: Text,
@@ -179,9 +181,6 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           },
           table: {
             component: Table,
-            props: {
-              type: 'table',
-            },
           },
           tbody: {
             component: TableBody,
@@ -206,9 +205,6 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           },
           tr: {
             component: TableRow,
-            props: {
-              type: 'tr',
-            },
           },
           ul: {
             component: List,
