@@ -13,10 +13,12 @@ import {
   BlockQuote,
   Code,
   CodeBlock,
+  fixMarkdown,
   Image,
   LineBreak,
   Link,
   List,
+  Spoiler,
   StrikeThrough,
   Table,
   TableBody,
@@ -48,6 +50,9 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
         forceBlock: true,
         forceWrapper: true,
         overrides: {
+          Spoiler: {
+            component: Spoiler,
+          },
           a: {
             component: Link,
             props: {
@@ -230,7 +235,7 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
         ),
       }}
     >
-      {children}
+      {fixMarkdown(children)}
     </MarkdownToJsx>
   )
 }

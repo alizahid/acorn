@@ -1,7 +1,12 @@
 /* eslint-disable react/no-array-index-key -- go away */
 
 import { Image as ExpoImage } from 'expo-image'
-import { Children, type PropsWithChildren, useState } from 'react'
+import {
+  Children,
+  type PropsWithChildren,
+  type ReactNode,
+  useState,
+} from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -42,11 +47,7 @@ type ListProps = TextProps & {
 export function Wrapper({ children, style }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  const nodes = Children.toArray(children).filter(
-    (node) => typeof node !== 'string',
-  )
-
-  return <View style={[styles.wrapper, style]}>{nodes}</View>
+  return <View style={[styles.wrapper, style]}>{cleanUp(children)}</View>
 }
 
 export function Link({ children, frameWidth, href, meta }: LinkProps) {
@@ -180,7 +181,7 @@ export function TableBody({ children, style }: Props) {
   )
 }
 
-export function TableRow({ children }: PropsWithChildren) {
+export function TableRow({ children }: Props) {
   const { styles } = useStyles(stylesheet)
 
   return (
@@ -191,6 +192,22 @@ export function TableRow({ children }: PropsWithChildren) {
         </View>
       ))}
     </View>
+  )
+}
+
+export function Spoiler({ children }: Props) {
+  const [visible, setVisible] = useState(false)
+
+  const onPress = visible
+    ? undefined
+    : () => {
+        setVisible(true)
+      }
+
+  return (
+    <Text onPress={onPress}>
+      {visible ? children : children?.toString().replaceAll(/./g, '█')}
+    </Text>
   )
 }
 
@@ -245,3 +262,11 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[3],
   },
 }))
+
+export function cleanUp(children: ReactNode) {
+  return Children.toArray(children).filter((node) => typeof node !== 'string')
+}
+
+export function fixMarkdown(markdown: string) {
+  return markdown.replaceAll(/>!(.*?)!</g, '<Spoiler>$1</Spoiler>')
+}
