@@ -4,7 +4,8 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
-import { type ColorId, getColorForId } from '~/lib/colors'
+import { getDepthColor } from '~/lib/colors'
+import { type ColorToken } from '~/styles/colors'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
 
@@ -26,7 +27,7 @@ export function CommentMoreCard({ comment, post, style }: Props) {
 
   const { isPending, loadMore } = useLoadMoreComments()
 
-  const color = getColorForId(comment.parentId)
+  const color = getDepthColor(comment.depth)
 
   return (
     <Pressable
@@ -74,7 +75,7 @@ export function CommentMoreCard({ comment, post, style }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (color: ColorId, depth: number) => ({
+  main: (color: ColorToken, depth: number) => ({
     alignItems: 'center',
     backgroundColor: theme.colors[color].a2,
     borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,

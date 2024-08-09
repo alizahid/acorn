@@ -3,8 +3,9 @@ import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
-import { type ColorId, getColorForId } from '~/lib/colors'
+import { getDepthColor } from '~/lib/colors'
 import { withoutAgo } from '~/lib/intl'
+import { type ColorToken } from '~/styles/colors'
 import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
@@ -28,7 +29,7 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const color = getColorForId(comment.parentId ?? comment.postId)
+  const color = getDepthColor(comment.depth)
 
   return (
     <View
@@ -118,7 +119,7 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[4],
     marginBottom: theme.space[3],
   },
-  main: (color: ColorId, depth: number) => ({
+  main: (color: ColorToken, depth: number) => ({
     backgroundColor: theme.colors[color].a2,
     borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
     borderLeftWidth: depth > 0 ? 2 : undefined,
