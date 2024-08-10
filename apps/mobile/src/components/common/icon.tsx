@@ -14,7 +14,9 @@ import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
 import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
 import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
 import ChatCircleTextBold from 'react-native-phosphor/src/bold/ChatCircleText'
+import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
+import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
@@ -48,7 +50,9 @@ import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
 import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
 import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
 import ChatCircleTextDuotone from 'react-native-phosphor/src/duotone/ChatCircleText'
+import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
+import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
@@ -82,7 +86,9 @@ import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
 import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
 import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
 import ChatCircleTextFill from 'react-native-phosphor/src/fill/ChatCircleText'
+import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
+import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
@@ -116,7 +122,9 @@ import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
 import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
 import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
 import ChatCircleTextRegular from 'react-native-phosphor/src/regular/ChatCircleText'
+import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
+import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
@@ -246,11 +254,23 @@ const icons = {
     fill: ChatCircleTextFill,
     regular: ChatCircleTextRegular,
   },
+  CheckCircle: {
+    bold: CheckCircleBold,
+    duotone: CheckCircleDuotone,
+    fill: CheckCircleFill,
+    regular: CheckCircleRegular,
+  },
   Clock: {
     bold: ClockBold,
     duotone: ClockDuotone,
     fill: ClockFill,
     regular: ClockRegular,
+  },
+  Copy: {
+    bold: CopyBold,
+    duotone: CopyDuotone,
+    fill: CopyFill,
+    regular: CopyRegular,
   },
   Flame: {
     bold: FlameBold,

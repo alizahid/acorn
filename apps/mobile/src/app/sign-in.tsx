@@ -1,5 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createId } from '@paralleldrive/cuid2'
+import * as Linking from 'expo-linking'
 import {
   useFocusEffect,
   useLocalSearchParams,
@@ -15,12 +16,14 @@ import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { Button } from '~/components/common/button'
+import { Copy } from '~/components/common/copy'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
 import { useKeyboard } from '~/hooks/keyboard'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
 import { type AuthCodeForm, AuthCodeSchema } from '~/reddit/auth'
+import { REDIRECT_URI } from '~/reddit/config'
 import { useAuth } from '~/stores/auth'
 
 const schema = z.object({
@@ -79,7 +82,7 @@ export default function Screen() {
       style={[styles.main, keyboard.styles]}
     >
       <View style={styles.header}>
-        <Logo size={128} style={styles.logo} />
+        <Logo style={styles.logo} />
 
         <Text size="8" weight="bold">
           {t('title')}
@@ -121,6 +124,25 @@ export default function Screen() {
           }}
         />
       </View>
+
+      <View style={styles.instructions}>
+        <Text>
+          {t.rich('instructions', {
+            link: (text) => (
+              <Text
+                color="accent"
+                onPress={() => {
+                  void Linking.openURL('https://www.reddit.com/prefs/apps')
+                }}
+              >
+                {text}
+              </Text>
+            ),
+          })}
+        </Text>
+
+        <Copy value={REDIRECT_URI} />
+      </View>
     </Animated.ScrollView>
   )
 }
@@ -143,8 +165,8 @@ const stylesheet = createStyleSheet((theme) => ({
   header: {
     alignItems: 'center',
   },
-  keyboard: {
-    flex: 1,
+  instructions: {
+    gap: theme.typography[3].lineHeight,
   },
   logo: {
     marginBottom: theme.space[4],
