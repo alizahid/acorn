@@ -111,6 +111,12 @@ export function LineBreak({ size }: TextProps) {
   return <Text size={size}>{'\n'}</Text>
 }
 
+export function HorizontalRule() {
+  const { styles } = useStyles(stylesheet)
+
+  return <View style={styles.hr} />
+}
+
 export function Code({ children, size }: TextProps) {
   const { styles } = useStyles(stylesheet)
 
@@ -227,6 +233,10 @@ const stylesheet = createStyleSheet((theme) => ({
   divider: {
     borderTopColor: theme.colors.gray.a6,
     borderTopWidth: 1,
+  },
+  hr: {
+    backgroundColor: theme.colors.gray.a6,
+    height: 1,
   },
   li: {
     flexDirection: 'row',

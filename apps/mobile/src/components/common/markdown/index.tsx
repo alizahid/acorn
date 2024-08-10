@@ -14,6 +14,7 @@ import {
   Code,
   CodeBlock,
   fixMarkdown,
+  HorizontalRule,
   Image,
   LineBreak,
   Link,
@@ -47,6 +48,7 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
   return (
     <MarkdownToJsx
       options={{
+        disableParsingRawHTML: true,
         forceBlock: true,
         forceWrapper: true,
         overrides: {
@@ -121,6 +123,9 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
               size: '4',
               weight: 'bold',
             },
+          },
+          hr: {
+            component: HorizontalRule,
           },
           image: {
             component: Image,
