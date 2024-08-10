@@ -12,18 +12,16 @@ import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 import { Text } from '../common/text'
-import { HeaderButton } from '../navigation/header-button'
 
 type Props = {
   commentId?: string
-  onFocus?: () => void
   onReset: () => void
   postId?: string
   user?: string
 }
 
 export const PostReplyCard = forwardRef<TextInput, Props>(
-  function PostReplyCard({ commentId, onFocus, onReset, postId, user }, ref) {
+  function PostReplyCard({ commentId, onReset, postId, user }, ref) {
     const insets = useSafeAreaInsets()
 
     const t = useTranslations('component.posts.reply')
@@ -105,13 +103,6 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
             </Pressable>
           </View>
         ) : null}
-
-        <HeaderButton
-          contrast
-          icon="ArrowDown"
-          onPress={onFocus}
-          style={styles.focus}
-        />
       </Animated.View>
     )
   },
@@ -121,15 +112,6 @@ const stylesheet = createStyleSheet((theme) => ({
   button: {
     marginLeft: 'auto',
     padding: theme.space[4],
-  },
-  focus: {
-    backgroundColor: theme.colors.accent.a9,
-    borderRadius: theme.space[8],
-    height: theme.space[7],
-    position: 'absolute',
-    right: theme.space[4],
-    top: -(theme.space[4] + theme.space[7]),
-    width: theme.space[7],
   },
   footer: {
     alignItems: 'center',
