@@ -6,6 +6,13 @@ export const PostMediaMetadataSchema = z
     z.union([
       z.object({
         id: z.string(),
+        p: z.array(
+          z.object({
+            u: z.string(),
+            x: z.number(),
+            y: z.number(),
+          }),
+        ),
         s: z.object({
           u: z.string(),
           x: z.number(),
@@ -84,6 +91,13 @@ export const PostPreviewSchema = z
   .object({
     images: z.array(
       z.object({
+        resolutions: z.array(
+          z.object({
+            height: z.number(),
+            url: z.string(),
+            width: z.number(),
+          }),
+        ),
         source: z.object({
           height: z.number(),
           url: z.string(),

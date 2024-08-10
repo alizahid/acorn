@@ -59,7 +59,7 @@ export function PostGalleryCard({
           <Image
             contentFit="cover"
             recyclingKey={recyclingKey}
-            source={first.url}
+            source={first.thumbnail ?? first.url}
             style={[
               styles.main(
                 common.maxHeight,

@@ -24,7 +24,7 @@ export function getMeta(
                 type: 'video',
                 url: decode(item.hlsUrl),
                 width: item.x,
-              },
+              } satisfies PostMedia,
             ]
           }
 
@@ -35,7 +35,7 @@ export function getMeta(
               type: 'gif' in item.s ? 'gif' : 'image',
               url: decode('gif' in item.s ? item.s.gif : item.s.u),
               width: item.s.x,
-            },
+            } satisfies PostMedia,
           ]
         }),
       ),
@@ -58,25 +58,38 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
         const video = 'hlsUrl' in media
         const gif = !video && 'gif' in media.s
 
+        const thumbnail =
+          'p' in media
+            ? media.p.find((resolution) => resolution.x === 640)?.u
+            : undefined
+
         return {
           height: video ? media.y : media.s.y,
+          thumbnail: thumbnail ? decode(thumbnail) : undefined,
           type: video ? 'video' : gif ? 'gif' : 'image',
           url: decode(
             video ? media.hlsUrl : 'gif' in media.s ? media.s.gif : media.s.u,
           ),
           width: video ? media.x : media.s.x,
-        }
+        } satisfies PostMedia
       }),
     )
   }
 
   if (data.preview?.images) {
-    return data.preview.images.map((image) => ({
-      height: image.source.height,
-      type: 'image',
-      url: decode(image.source.url),
-      width: image.source.width,
-    }))
+    return data.preview.images.map((image) => {
+      const thumbnail = image.resolutions.find(
+        (resolution) => resolution.width === 640,
+      )?.url
+
+      return {
+        height: image.source.height,
+        thumbnail: thumbnail ? decode(thumbnail) : undefined,
+        type: 'image',
+        url: decode(image.source.url),
+        width: image.source.width,
+      }
+    })
   }
 }
 
