@@ -2,6 +2,7 @@ import { FlashList } from '@shopify/flash-list'
 import { useLocalSearchParams } from 'expo-router'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useDebounce } from 'use-debounce'
 import { z } from 'zod'
 
 import { Empty } from '~/components/common/empty'
@@ -27,8 +28,10 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
+  const [query] = useDebounce(params.query, 500)
+
   const { isLoading, refetch, results } = useSearch({
-    query: params.query,
+    query,
     type: params.type,
   })
 
