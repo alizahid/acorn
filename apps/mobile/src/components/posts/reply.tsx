@@ -127,7 +127,7 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingBottom: (open ? 0 : inset) + theme.space[4],
   }),
   main: {
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.a2,
   },
   reset: {
     alignItems: 'center',
