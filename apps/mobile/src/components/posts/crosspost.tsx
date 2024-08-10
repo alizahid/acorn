@@ -66,7 +66,11 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
       ) : null}
 
       {post.type === 'link' && post.url ? (
-        <PostLinkCard margin={margin} post={post} />
+        <PostLinkCard
+          margin={margin + theme.space[5]}
+          post={post}
+          style={styles.header}
+        />
       ) : null}
 
       <View style={styles.content}>

@@ -50,7 +50,7 @@ export function PostCard({
 
       {post.type === 'crosspost' && post.crossPost ? (
         <CrossPostCard
-          margin={margin}
+          margin={margin + theme.space[5]}
           post={post.crossPost}
           viewing={viewing}
         />
@@ -73,7 +73,7 @@ export function PostCard({
       ) : null}
 
       {post.type === 'link' && post.url ? (
-        <PostLinkCard margin={margin} post={post} />
+        <PostLinkCard margin={margin + theme.space[5]} post={post} />
       ) : null}
 
       {expanded && post.body ? (
