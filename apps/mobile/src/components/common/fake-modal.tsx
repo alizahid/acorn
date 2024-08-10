@@ -32,13 +32,17 @@ export function FakeModal({ children, onClose, visible }: Props) {
 
   const gesture = Gesture.Pan()
     .onUpdate((event) => {
-      translate.value = event.translationY > 0 ? event.translationY : 0
+      translate.value = event.translationY
     })
     .onEnd((event) => {
-      if (event.translationY > 100) {
-        translate.value = withTiming(frame.height, undefined, () => {
-          runOnJS(onClose)()
-        })
+      if (Math.abs(event.translationY) > 100) {
+        translate.value = withTiming(
+          event.translationY < 0 ? -frame.height : frame.height,
+          undefined,
+          () => {
+            runOnJS(onClose)()
+          },
+        )
       } else {
         translate.value = withTiming(0)
       }
@@ -46,7 +50,11 @@ export function FakeModal({ children, onClose, visible }: Props) {
 
   const overlayStyle = useAnimatedStyle(
     () => ({
-      opacity: interpolate(translate.value, [0, frame.height], [1, 0]),
+      opacity: interpolate(
+        translate.value,
+        [-frame.height, 0, frame.height],
+        [0, 1, 0],
+      ),
     }),
     [translate.value],
   )

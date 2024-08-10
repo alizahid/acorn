@@ -1,4 +1,3 @@
-import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { Image } from 'expo-image'
 import { useState } from 'react'
 import { FlatList, type StyleProp, View, type ViewStyle } from 'react-native'
@@ -12,6 +11,7 @@ import { type PostMedia } from '~/types/post'
 import { FakeModal } from '../common/fake-modal'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { Zoom } from '../common/zoom'
 
 type Props = {
   images: Array<PostMedia>
@@ -96,7 +96,7 @@ export function PostGalleryCard({
           horizontal
           keyExtractor={(item, index) => String(index)}
           renderItem={({ item }) => (
-            <Zoomable isDoubleTapEnabled>
+            <Zoom>
               <Image
                 contentFit="contain"
                 recyclingKey={recyclingKey}
@@ -108,7 +108,7 @@ export function PostGalleryCard({
                   common.frame.width,
                 )}
               />
-            </Zoomable>
+            </Zoom>
           )}
           scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
