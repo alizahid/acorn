@@ -2,7 +2,8 @@ import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import { create } from 'mutative'
 
 import { queryClient } from '~/lib/query'
-import { REDDIT_URI, redditApi } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
+import { REDDIT_URI } from '~/reddit/config'
 import { PostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
 import { transformPost } from '~/transformers/post'
@@ -19,6 +20,7 @@ type Page = {
 export type PostsQueryKey = [
   'posts',
   {
+    accountId?: string
     community?: string
     interval?: TopInterval
     sort?: FeedSort
@@ -34,7 +36,7 @@ export type PostsProps = {
 }
 
 export function usePosts({ community, interval, sort }: PostsProps) {
-  const { accessToken, expired } = useAuth()
+  const { accountId, expired } = useAuth()
 
   const {
     data,
@@ -65,8 +67,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
         url.searchParams.set('t', interval)
       }
 
-      const payload = await redditApi({
-        accessToken,
+      const payload = await reddit({
         url,
       })
 
@@ -80,6 +81,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     queryKey: [
       'posts',
       {
+        accountId,
         community,
         interval,
         sort,
@@ -98,11 +100,24 @@ export function usePosts({ community, interval, sort }: PostsProps) {
   }
 }
 
-export function updatePosts(id: string, updater: (draft: Post) => void) {
+export function updatePosts(
+  id: string,
+  updater: (draft: Post) => void,
+  search?: boolean,
+) {
   const cache = queryClient.getQueryCache()
 
+  const queryKey = search
+    ? [
+        'search',
+        {
+          type: 'post',
+        },
+      ]
+    : ['posts']
+
   const queries = cache.findAll({
-    queryKey: ['posts'],
+    queryKey,
   })
 
   for (const query of queries) {

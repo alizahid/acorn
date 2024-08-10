@@ -1,12 +1,9 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { create } from 'mutative'
+import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
-import {
-  type CommentsQueryData,
-  type CommentsQueryKey,
-} from '~/hooks/queries/user/comments'
-import { addPrefix, redditApi } from '~/lib/reddit'
+import { updateComments } from '~/hooks/queries/user/comments'
+import { addPrefix } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 
 type Variables = {
@@ -16,9 +13,7 @@ type Variables = {
 }
 
 export function useCommentSave() {
-  const queryClient = useQueryClient()
-
-  const { accessToken, expired } = useAuth()
+  const { expired } = useAuth()
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
@@ -30,45 +25,17 @@ export function useCommentSave() {
 
       body.append('id', addPrefix(variables.commentId, 'comment'))
 
-      await redditApi({
-        accessToken,
+      await reddit({
         body,
         method: 'post',
         url: `/api/${variables.action}`,
       })
     },
     onMutate(variables) {
-      queryClient.setQueryData<CommentsQueryData>(
-        ['comments'] satisfies CommentsQueryKey,
-        (previous) => {
-          if (!previous) {
-            return previous
-          }
+      updateComments(variables.commentId, (draft) => {
+        draft.saved = variables.action === 'save'
+      })
 
-          return create(previous, (draft) => {
-            let found = false
-
-            for (const page of draft.pages) {
-              if (found) {
-                break
-              }
-
-              for (const item of page.comments) {
-                if (
-                  item.type === 'reply' &&
-                  item.data.id === variables.commentId
-                ) {
-                  item.data.saved = variables.action === 'save'
-
-                  found = true
-
-                  break
-                }
-              }
-            }
-          })
-        },
-      )
       if (variables.postId) {
         updatePost(variables.postId, (draft) => {
           for (const item of draft.comments) {

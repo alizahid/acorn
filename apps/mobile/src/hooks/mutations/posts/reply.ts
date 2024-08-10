@@ -2,7 +2,8 @@ import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
-import { addPrefix, redditApi } from '~/lib/reddit'
+import { addPrefix } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
 import { CreateCommentSchema } from '~/schemas/comments'
 import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
@@ -14,7 +15,7 @@ type Variables = {
 }
 
 export function usePostReply() {
-  const { accessToken, expired } = useAuth()
+  const { expired } = useAuth()
 
   const { isPending, mutate } = useMutation<
     CreateCommentSchema | undefined,
@@ -38,8 +39,7 @@ export function usePostReply() {
         ),
       )
 
-      const response = await redditApi({
-        accessToken,
+      const response = await reddit({
         body,
         method: 'post',
         url: '/api/comment',
@@ -55,6 +55,14 @@ export function usePostReply() {
       updatePosts(variables.postId, (draft) => {
         draft.comments++
       })
+
+      updatePosts(
+        variables.postId,
+        (draft) => {
+          draft.comments++
+        },
+        true,
+      )
     },
     onSuccess(data, variables) {
       if (!data) {

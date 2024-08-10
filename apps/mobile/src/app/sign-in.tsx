@@ -20,7 +20,7 @@ import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
 import { useKeyboard } from '~/hooks/keyboard'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
-import { type GetAuthCodeForm, GetAuthCodeSchema } from '~/lib/reddit'
+import { type AuthCodeForm, AuthCodeSchema } from '~/reddit/auth'
 import { useAuth } from '~/stores/auth'
 
 const schema = z.object({
@@ -50,12 +50,12 @@ export default function Screen() {
     })
   })
 
-  const { control, handleSubmit } = useForm<GetAuthCodeForm>({
+  const { control, handleSubmit } = useForm<AuthCodeForm>({
     defaultValues: {
       clientId: clientId ?? '',
       state: createId(),
     },
-    resolver: zodResolver(GetAuthCodeSchema),
+    resolver: zodResolver(AuthCodeSchema),
   })
 
   const onSubmit = handleSubmit(async (data) => {

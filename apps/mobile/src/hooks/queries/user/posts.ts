@@ -1,6 +1,7 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 
-import { REDDIT_URI, redditApi } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
+import { REDDIT_URI } from '~/reddit/config'
 import { PostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
 import { transformPost } from '~/transformers/post'
@@ -19,6 +20,7 @@ export type UserPostsQueryKey = [
   'posts',
   string,
   {
+    accountId?: string
     interval?: TopInterval
     sort?: UserFeedSort
     type: UserFeedType
@@ -40,7 +42,7 @@ export function useUserPosts({
   type,
   username,
 }: UserPostsProps) {
-  const { accessToken, expired } = useAuth()
+  const { accountId, expired } = useAuth()
 
   const {
     data,
@@ -77,8 +79,7 @@ export function useUserPosts({
         url.searchParams.set('t', interval)
       }
 
-      const payload = await redditApi({
-        accessToken,
+      const payload = await reddit({
         url,
       })
 
@@ -93,6 +94,7 @@ export function useUserPosts({
       'posts',
       username,
       {
+        accountId,
         interval,
         sort,
         type,

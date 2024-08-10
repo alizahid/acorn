@@ -6,8 +6,8 @@ import { createJSONStorage, persist } from 'zustand/middleware'
 import { computed } from 'zustand-computed'
 
 import { CACHE_KEY, queryClient } from '~/lib/query'
-import { refreshAccessToken } from '~/lib/reddit'
 import { Store } from '~/lib/store'
+import { refreshAccessToken } from '~/reddit/token'
 
 export const AUTH_KEY = 'auth-storage'
 
@@ -56,6 +56,7 @@ export const useAuth = create<State>()(
         accounts: [],
         addAccount(account) {
           set({
+            ...getAccount(account),
             accounts: updateAccounts(get().accounts, account),
           })
         },
@@ -88,8 +89,6 @@ export const useAuth = create<State>()(
               ...getAccount(),
               accounts,
             })
-
-            queryClient.clear()
           } else if (get().accountId === id) {
             const next = accounts[0]
 
@@ -97,8 +96,6 @@ export const useAuth = create<State>()(
               ...getAccount(next),
               accounts,
             })
-
-            queryClient.clear()
           } else {
             set({
               accounts,
@@ -109,9 +106,9 @@ export const useAuth = create<State>()(
           const account = get().accounts.find((item) => item.id === id)
 
           if (account) {
-            set(getAccount(account))
-
-            queryClient.clear()
+            set({
+              ...getAccount(account),
+            })
           }
         },
         setClientId(clientId) {

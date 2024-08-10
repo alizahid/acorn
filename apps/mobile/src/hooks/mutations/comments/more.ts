@@ -1,7 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
-import { addPrefix, REDDIT_URI, redditApi } from '~/lib/reddit'
+import { addPrefix } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
+import { REDDIT_URI } from '~/reddit/config'
 import { MoreCommentsSchema } from '~/schemas/comments'
 import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
@@ -13,7 +15,7 @@ type Variables = {
 }
 
 export function useLoadMoreComments() {
-  const { accessToken, expired } = useAuth()
+  const { expired } = useAuth()
 
   const { isPending, mutate } = useMutation<
     MoreCommentsSchema | undefined,
@@ -33,8 +35,7 @@ export function useLoadMoreComments() {
       url.searchParams.set('link_id', addPrefix(variables.postId, 'link'))
       url.searchParams.set('children', variables.children.join(','))
 
-      const response = await redditApi({
-        accessToken,
+      const response = await reddit({
         url,
       })
 

@@ -3,8 +3,9 @@ import { create } from 'mutative'
 import { useMemo } from 'react'
 
 import { queryClient } from '~/lib/query'
-import { REDDIT_URI, redditApi } from '~/lib/reddit'
 import { Store } from '~/lib/store'
+import { reddit } from '~/reddit/api'
+import { REDDIT_URI } from '~/reddit/config'
 import { PostSchema } from '~/schemas/post'
 import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
@@ -31,17 +32,9 @@ export type PostQueryData = {
 }
 
 export function usePost(id: string, sort?: CommentFeedSort) {
-  const { accessToken, expired } = useAuth()
+  const { expired } = useAuth()
 
   const storeId = `collapsed-${id}`
-
-  const postQueryKey = [
-    'post',
-    {
-      id,
-      sort,
-    },
-  ] satisfies PostQueryKey
 
   const query = useQuery<
     PostQueryData | undefined,
@@ -63,8 +56,7 @@ export function usePost(id: string, sort?: CommentFeedSort) {
         url.searchParams.set('sort', sort)
       }
 
-      const payload = await redditApi({
-        accessToken,
+      const payload = await reddit({
         url,
       })
 
@@ -82,7 +74,13 @@ export function usePost(id: string, sort?: CommentFeedSort) {
         post: transformPost(post.data),
       }
     },
-    queryKey: postQueryKey,
+    queryKey: [
+      'post',
+      {
+        id,
+        sort,
+      },
+    ],
     staleTime({ state }) {
       if (
         !state.data ||
@@ -123,7 +121,13 @@ export function usePost(id: string, sort?: CommentFeedSort) {
       hide: boolean
     }) {
       const comments =
-        queryClient.getQueryData<PostQueryData>(postQueryKey)?.comments ?? []
+        queryClient.getQueryData<PostQueryData>([
+          'post',
+          {
+            id,
+            sort,
+          },
+        ])?.comments ?? []
 
       const ids = getCollapsible(comments, commentId)
 

@@ -2,7 +2,8 @@ import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
-import { addPrefix, redditApi } from '~/lib/reddit'
+import { addPrefix } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 
 type Variables = {
@@ -11,7 +12,7 @@ type Variables = {
 }
 
 export function usePostSave() {
-  const { accessToken, expired } = useAuth()
+  const { expired } = useAuth()
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
@@ -23,8 +24,7 @@ export function usePostSave() {
 
       body.append('id', addPrefix(variables.postId, 'link'))
 
-      await redditApi({
-        accessToken,
+      await reddit({
         body,
         method: 'post',
         url: `/api/${variables.action}`,
@@ -38,6 +38,14 @@ export function usePostSave() {
       updatePosts(variables.postId, (draft) => {
         draft.saved = variables.action === 'save'
       })
+
+      updatePosts(
+        variables.postId,
+        (draft) => {
+          draft.saved = variables.action === 'save'
+        },
+        true,
+      )
     },
   })
 

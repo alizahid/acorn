@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { type ProfileQueryKey } from '~/hooks/queries/user/profile'
-import { addPrefix, redditApi } from '~/lib/reddit'
+import { addPrefix } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 
 type Variables = {
@@ -12,7 +13,7 @@ type Variables = {
 }
 
 export function useFollow() {
-  const { accessToken, expired } = useAuth()
+  const { expired } = useAuth()
 
   const queryClient = useQueryClient()
 
@@ -27,19 +28,23 @@ export function useFollow() {
       body.append('sr', addPrefix(variables.id, 'subreddit'))
       body.append('action', variables.action === 'follow' ? 'sub' : 'unsub')
 
-      await redditApi({
-        accessToken,
+      await reddit({
         body,
         method: 'post',
         url: '/api/subscribe',
       })
 
       await queryClient.invalidateQueries({
-        queryKey: ['users', variables.name] satisfies ProfileQueryKey,
+        queryKey: [
+          'users',
+          {
+            name: variables.name,
+          },
+        ] satisfies ProfileQueryKey,
       })
 
       void queryClient.invalidateQueries({
-        queryKey: ['communities'] satisfies CommunitiesQueryKey,
+        queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
       })
     },
   })

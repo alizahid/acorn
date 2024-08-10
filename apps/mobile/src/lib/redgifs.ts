@@ -3,7 +3,7 @@ import * as SecureStore from 'expo-secure-store'
 import { type VideoSource } from 'expo-video'
 import { z } from 'zod'
 
-import { USER_AGENT } from './reddit'
+import { USER_AGENT } from '~/reddit/config'
 
 const GifSchema = z.object({
   gif: z.object({

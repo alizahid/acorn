@@ -1,16 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
 
-import { getAccessToken, getAuthCode, type GetAuthCodeForm } from '~/lib/reddit'
+import { type AuthCodeForm, getAuthCode } from '~/reddit/auth'
+import { getAccessToken } from '~/reddit/token'
 import { useAuth } from '~/stores/auth'
 
 export function useSignIn() {
   const { addAccount } = useAuth()
 
-  const { isPending, mutateAsync } = useMutation<
-    boolean,
-    Error,
-    GetAuthCodeForm
-  >({
+  const { isPending, mutateAsync } = useMutation<boolean, Error, AuthCodeForm>({
     async mutationFn(data) {
       const code = await getAuthCode(data)
 

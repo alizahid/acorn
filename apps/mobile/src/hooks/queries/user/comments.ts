@@ -1,10 +1,13 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import { create } from 'mutative'
 
-import { REDDIT_URI, redditApi } from '~/lib/reddit'
+import { queryClient } from '~/lib/query'
+import { reddit } from '~/reddit/api'
+import { REDDIT_URI } from '~/reddit/config'
 import { CommentsSchema } from '~/schemas/comments'
 import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
-import { type Comment } from '~/types/comment'
+import { type Comment, type CommentReply } from '~/types/comment'
 
 type Param = string | undefined | null
 
@@ -13,12 +16,18 @@ type Page = {
   cursor: Param
 }
 
-export type CommentsQueryKey = ['comments']
+export type CommentsQueryKey = [
+  'comments',
+  {
+    accountId?: string
+    user: string
+  },
+]
 
 export type CommentsQueryData = InfiniteData<Page, Param>
 
 export function useComments(user?: string) {
-  const { accessToken, expired } = useAuth()
+  const { accountId, expired } = useAuth()
 
   const {
     data,
@@ -44,8 +53,7 @@ export function useComments(user?: string) {
           url.searchParams.set('after', pageParam)
         }
 
-        const payload = await redditApi({
-          accessToken,
+        const payload = await reddit({
           url,
         })
 
@@ -60,7 +68,13 @@ export function useComments(user?: string) {
           cursor: response.data.after,
         }
       },
-      queryKey: ['comments'],
+      queryKey: [
+        'comments',
+        {
+          accountId,
+          user: user!,
+        },
+      ],
     },
   )
 
@@ -72,5 +86,44 @@ export function useComments(user?: string) {
     isLoading,
     isRefetching,
     refetch,
+  }
+}
+
+export function updateComments(
+  id: string,
+  updater: (draft: CommentReply) => void,
+) {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: ['comments'],
+  })
+
+  for (const query of queries) {
+    queryClient.setQueryData<CommentsQueryData>(query.queryKey, (data) => {
+      if (!data) {
+        return data
+      }
+
+      return create(data, (draft) => {
+        let found = false
+
+        for (const page of draft.pages) {
+          if (found) {
+            break
+          }
+
+          for (const item of page.comments) {
+            if (item.data.id === id && item.type === 'reply') {
+              updater(item.data)
+
+              found = true
+
+              break
+            }
+          }
+        }
+      })
+    })
   }
 }

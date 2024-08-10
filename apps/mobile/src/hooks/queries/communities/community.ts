@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { queryClient } from '~/lib/query'
-import { redditApi } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
 import { CommunitySchema } from '~/schemas/communities'
 import { useAuth } from '~/stores/auth'
 import { transformCommunity } from '~/transformers/community'
@@ -9,12 +9,18 @@ import { type Community } from '~/types/community'
 
 import { type CommunitiesQueryData } from './communities'
 
-export type CommunityQueryKey = ['community', string]
+export type CommunityQueryKey = [
+  'community',
+  {
+    accountId?: string
+    name: string
+  },
+]
 
 export type CommunityQueryData = Community
 
 export function useCommunity(name: string) {
-  const { accessToken, expired } = useAuth()
+  const { accountId, expired } = useAuth()
 
   const { data, isLoading, isRefetching, refetch } = useQuery<
     CommunityQueryData | undefined,
@@ -27,8 +33,7 @@ export function useCommunity(name: string) {
       return getCommunity(name)
     },
     async queryFn() {
-      const payload = await redditApi({
-        accessToken,
+      const payload = await reddit({
         url: `/r/${name}/about`,
       })
 
@@ -36,7 +41,13 @@ export function useCommunity(name: string) {
 
       return transformCommunity(response.data)
     },
-    queryKey: ['community', name],
+    queryKey: [
+      'community',
+      {
+        accountId,
+        name,
+      },
+    ],
     staleTime({ state }) {
       if (!state.data) {
         return 0

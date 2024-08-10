@@ -2,7 +2,8 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { type CommunityQueryKey } from '~/hooks/queries/communities/community'
-import { addPrefix, redditApi } from '~/lib/reddit'
+import { addPrefix } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 
 type Variables = {
@@ -12,7 +13,7 @@ type Variables = {
 }
 
 export function useJoin() {
-  const { accessToken, expired } = useAuth()
+  const { expired } = useAuth()
 
   const queryClient = useQueryClient()
 
@@ -27,19 +28,23 @@ export function useJoin() {
       body.append('sr', addPrefix(variables.id, 'subreddit'))
       body.append('action', variables.action === 'join' ? 'sub' : 'unsub')
 
-      await redditApi({
-        accessToken,
+      await reddit({
         body,
         method: 'post',
         url: '/api/subscribe',
       })
 
       await queryClient.invalidateQueries({
-        queryKey: ['community', variables.name] satisfies CommunityQueryKey,
+        queryKey: [
+          'community',
+          {
+            name: variables.name,
+          },
+        ] satisfies CommunityQueryKey,
       })
 
       void queryClient.invalidateQueries({
-        queryKey: ['communities'] satisfies CommunitiesQueryKey,
+        queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
       })
     },
   })

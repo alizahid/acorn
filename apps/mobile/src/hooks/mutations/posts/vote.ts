@@ -2,7 +2,8 @@ import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
-import { addPrefix, redditApi } from '~/lib/reddit'
+import { addPrefix } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 
 type Variables = {
@@ -11,7 +12,7 @@ type Variables = {
 }
 
 export function usePostVote() {
-  const { accessToken, expired } = useAuth()
+  const { expired } = useAuth()
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
@@ -24,8 +25,7 @@ export function usePostVote() {
       body.append('id', addPrefix(variables.postId, 'link'))
       body.append('dir', String(variables.direction))
 
-      await redditApi({
-        accessToken,
+      await reddit({
         body,
         method: 'post',
         url: '/api/vote',
@@ -59,6 +59,24 @@ export function usePostVote() {
               ? null
               : false
       })
+
+      updatePosts(
+        variables.postId,
+        (draft) => {
+          draft.votes =
+            draft.votes -
+            (draft.liked ? 1 : draft.liked === null ? 0 : -1) +
+            variables.direction
+
+          draft.liked =
+            variables.direction === 1
+              ? true
+              : variables.direction === 0
+                ? null
+                : false
+        },
+        true,
+      )
     },
   })
 

@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { REDDIT_URI, redditApi } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
+import { REDDIT_URI } from '~/reddit/config'
 import { CommunitiesSchema } from '~/schemas/communities'
 import { PostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
@@ -34,7 +35,7 @@ export function useSearch<Type extends SearchType>({
   query,
   type,
 }: SearchProps<Type>) {
-  const { accessToken, expired } = useAuth()
+  const { expired } = useAuth()
 
   const { data, isLoading, isRefetching, refetch } = useQuery<
     SearchQueryData<Type> | undefined,
@@ -51,8 +52,7 @@ export function useSearch<Type extends SearchType>({
       url.searchParams.set('q', query)
       url.searchParams.set('type', type === 'community' ? 'sr' : 'link')
 
-      const payload = await redditApi({
-        accessToken,
+      const payload = await reddit({
         url,
       })
 

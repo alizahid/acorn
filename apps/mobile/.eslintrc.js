@@ -10,6 +10,7 @@ module.exports = {
     require.resolve('@vercel/style-guide/eslint/browser'),
     require.resolve('@vercel/style-guide/eslint/typescript'),
     require.resolve('@vercel/style-guide/eslint/react'),
+    'plugin:@tanstack/eslint-plugin-query/recommended',
     'plugin:prettier/recommended',
   ],
   globals: {

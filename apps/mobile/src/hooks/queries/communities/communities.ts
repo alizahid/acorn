@@ -1,7 +1,9 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import { sortBy } from 'lodash'
 
-import { isUser, REDDIT_URI, redditApi } from '~/lib/reddit'
+import { isUser } from '~/lib/reddit'
+import { reddit } from '~/reddit/api'
+import { REDDIT_URI } from '~/reddit/config'
 import { CommunitiesSchema } from '~/schemas/communities'
 import { useAuth } from '~/stores/auth'
 import { transformCommunity } from '~/transformers/community'
@@ -14,12 +16,17 @@ type Page = {
   cursor: Param
 }
 
-export type CommunitiesQueryKey = ['communities']
+export type CommunitiesQueryKey = [
+  'communities',
+  {
+    accountId?: string
+  },
+]
 
 export type CommunitiesQueryData = InfiniteData<Page, Param>
 
 export function useCommunities() {
-  const { accessToken, expired } = useAuth()
+  const { accountId, expired } = useAuth()
 
   const {
     data,
@@ -51,8 +58,7 @@ export function useCommunities() {
         url.searchParams.set('after', pageParam)
       }
 
-      const payload = await redditApi({
-        accessToken,
+      const payload = await reddit({
         url,
       })
 
@@ -65,7 +71,12 @@ export function useCommunities() {
         cursor: response.data.after,
       }
     },
-    queryKey: ['communities'],
+    queryKey: [
+      'communities',
+      {
+        accountId,
+      },
+    ],
   })
 
   const communities = sortBy(
