@@ -1,4 +1,5 @@
 import { Image } from 'expo-image'
+import * as StatusBar from 'expo-status-bar'
 import { useState } from 'react'
 import { FlatList, type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -83,14 +84,12 @@ export function PostGalleryCard({
       <FakeModal
         onClose={() => {
           setVisible(false)
+
+          StatusBar.setStatusBarHidden(false, 'fade')
         }}
         visible={visible}
       >
         <FlatList
-          contentContainerStyle={styles.content(
-            common.insets.top,
-            common.insets.bottom,
-          )}
           data={images}
           decelerationRate="fast"
           horizontal
@@ -101,12 +100,7 @@ export function PostGalleryCard({
                 contentFit="contain"
                 recyclingKey={recyclingKey}
                 source={item.url}
-                style={styles.image(
-                  common.frame.height -
-                    common.insets.top -
-                    common.insets.bottom,
-                  common.frame.width,
-                )}
+                style={styles.image(common.frame.height, common.frame.width)}
               />
             </Zoom>
           )}
@@ -122,10 +116,6 @@ export function PostGalleryCard({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  content: (top: number, bottom: number) => ({
-    paddingBottom: bottom,
-    paddingTop: top,
-  }),
   count: {
     backgroundColor: theme.colors.black.a9,
     borderRadius: theme.radius[2],

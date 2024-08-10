@@ -1,3 +1,4 @@
+import * as StatusBar from 'expo-status-bar'
 import { type ReactNode, useState } from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
@@ -14,6 +15,7 @@ type Props = {
 }
 
 export function Zoom({ children }: Props) {
+  const [hidden, setHidden] = useState(false)
   const [zoomed, setZoomed] = useState(false)
   const [dimensions, setDimensions] = useState({
     height: 0,
@@ -56,8 +58,9 @@ export function Zoom({ children }: Props) {
     runOnJS(setZoomed)(false)
   }
 
-  const tap = Gesture.Tap()
+  const doubleTap = Gesture.Tap()
     .numberOfTaps(2)
+    .maxDuration(250)
     .onEnd((event) => {
       scale.value = withTiming(zoomed ? 1 : 3)
 
@@ -69,6 +72,14 @@ export function Zoom({ children }: Props) {
       }
 
       runOnJS(setZoomed)(!zoomed)
+    })
+
+  const singleTap = Gesture.Tap()
+    .requireExternalGestureToFail(doubleTap)
+    .onEnd(() => {
+      runOnJS(StatusBar.setStatusBarHidden)(!hidden, 'fade')
+
+      runOnJS(setHidden)(!hidden)
     })
 
   const pinch = Gesture.Pinch()
@@ -159,7 +170,9 @@ export function Zoom({ children }: Props) {
   }))
 
   return (
-    <GestureDetector gesture={Gesture.Simultaneous(tap, pinch, pan)}>
+    <GestureDetector
+      gesture={Gesture.Simultaneous(singleTap, doubleTap, pinch, pan)}
+    >
       <Animated.View
         onLayout={(event) => {
           const layout = event.nativeEvent.layout
