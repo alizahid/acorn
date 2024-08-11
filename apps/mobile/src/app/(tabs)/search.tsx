@@ -7,7 +7,6 @@ import { z } from 'zod'
 
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
-import { RefreshControl } from '~/components/common/refresh-control'
 import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
 import { useCommon } from '~/hooks/common'
@@ -30,7 +29,7 @@ export default function Screen() {
 
   const [query] = useDebounce(params.query, 500)
 
-  const { isLoading, refetch, results } = useSearch({
+  const { isLoading, results } = useSearch({
     query,
     type: params.type,
   })
@@ -55,9 +54,6 @@ export default function Screen() {
       getItemType={() => params.type}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
-      refreshControl={
-        <RefreshControl offset={common.height.search} onRefresh={refetch} />
-      }
       renderItem={({ item }) => {
         if (params.type === 'community') {
           return <CommunityCard community={item as Community} />
