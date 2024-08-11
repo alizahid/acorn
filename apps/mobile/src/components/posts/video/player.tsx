@@ -110,7 +110,7 @@ export function VideoPlayer({
           contentFit="contain"
           nativeControls
           player={player}
-          style={styles.video}
+          style={styles.video(common.insets.top, common.insets.bottom)}
         />
       </FakeModal>
     </>
@@ -122,9 +122,11 @@ const stylesheet = createStyleSheet((theme) => ({
     height: Math.min(maxHeight, height),
     width,
   }),
-  video: {
+  video: (top: number, bottom: number) => ({
     flex: 1,
-  },
+    paddingBottom: bottom + theme.space[4],
+    paddingTop: top + theme.space[4],
+  }),
   volume: {
     backgroundColor: theme.colors.black.a9,
     borderRadius: theme.space[4],
