@@ -11,7 +11,6 @@ import {
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { HeaderButton } from '../navigation/header-button'
 import { Text } from './text'
 
 type Props = {
@@ -60,17 +59,9 @@ export function Modal({
 
             {title ? <Text weight="bold">{title}</Text> : null}
 
-            <View style={[styles.actions, styles.right]}>
-              {right}
-
-              <HeaderButton
-                icon="X"
-                onPress={() => {
-                  onClose()
-                }}
-                weight="bold"
-              />
-            </View>
+            {right ? (
+              <View style={[styles.actions, styles.right]}>{right}</View>
+            ) : null}
           </View>
 
           <ScrollView contentContainerStyle={style}>{children}</ScrollView>

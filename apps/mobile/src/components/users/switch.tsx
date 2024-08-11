@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { View } from 'react-native'
+import Swipeable from 'react-native-gesture-handler/Swipeable'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -18,7 +18,7 @@ export function AccountSwitchCard() {
 
   const { accountId, accounts, removeAccount, setAccount } = useAuth()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const [visible, setVisible] = useState(false)
 
@@ -32,27 +32,36 @@ export function AccountSwitchCard() {
       />
 
       <Modal
-        left={
+        onClose={() => {
+          setVisible(false)
+        }}
+        right={
           <HeaderButton
             color="green"
             icon="PlusCircle"
             onPress={() => {
               router.push('/sign-in?mode=dismissible')
             }}
-            style={styles.item}
           />
         }
-        onClose={() => {
-          setVisible(false)
-        }}
         style={styles.modal(accounts.length)}
         title={t('title')}
         visible={visible}
       >
         {accounts.map((account) => (
-          <View
+          <Swipeable
+            containerStyle={styles.swipeable}
             key={account.id}
-            style={[styles.item, account.id === accountId && styles.selected]}
+            renderRightActions={() => (
+              <HeaderButton
+                color="red"
+                contrast
+                icon="Trash"
+                onPress={() => {
+                  removeAccount(account.id)
+                }}
+              />
+            )}
           >
             <Pressable
               onPress={() => {
@@ -62,20 +71,11 @@ export function AccountSwitchCard() {
 
                 setVisible(false)
               }}
-              style={styles.account}
+              style={[styles.item, account.id === accountId && styles.selected]}
             >
               <Text weight="medium">{account.id}</Text>
             </Pressable>
-
-            <HeaderButton
-              color="red"
-              icon="Trash"
-              onPress={() => {
-                removeAccount(account.id)
-              }}
-              size={theme.space[4]}
-            />
-          </View>
+          </Swipeable>
         ))}
       </Modal>
     </>
@@ -83,20 +83,17 @@ export function AccountSwitchCard() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  account: {
-    alignItems: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    gap: theme.space[2],
-    padding: theme.space[3],
-  },
   item: {
-    flexDirection: 'row',
+    backgroundColor: theme.colors.gray[1],
+    padding: theme.space[3],
   },
   modal: (count: number) => ({
     minHeight: 44 * (count + 3),
   }),
   selected: {
-    backgroundColor: theme.colors.accent.a5,
+    backgroundColor: theme.colors.accent[5],
+  },
+  swipeable: {
+    backgroundColor: theme.colors.red.a9,
   },
 }))

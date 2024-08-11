@@ -40,7 +40,7 @@ export function HeaderButton({
         <Spinner color={color} contrast={contrast} />
       ) : (
         <Icon
-          color={theme.colors[color][contrast ? 'contrast' : 11]}
+          color={theme.colors[color][contrast ? 'contrast' : 9]}
           name={icon}
           size={size ?? theme.space[5]}
           weight={weight}
