@@ -47,7 +47,7 @@ export function useComments(user?: string) {
       async queryFn({ pageParam }) {
         const url = new URL(`/user/${user!}/comments`, REDDIT_URI)
 
-        url.searchParams.set('limit', '100')
+        url.searchParams.set('limit', '50')
 
         if (pageParam) {
           url.searchParams.set('after', pageParam)
