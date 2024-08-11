@@ -7,11 +7,12 @@ import { HeaderButton } from '../navigation/header-button'
 import { Text } from './text'
 
 type Props = {
+  code?: boolean
   style?: StyleProp<ViewStyle>
   value: string
 }
 
-export function Copy({ style, value }: Props) {
+export function Copy({ code = true, style, value }: Props) {
   const { styles } = useStyles(stylesheet)
 
   const timer = useRef<NodeJS.Timeout>()
@@ -20,7 +21,9 @@ export function Copy({ style, value }: Props) {
 
   return (
     <View style={[styles.main, style]}>
-      <Text style={styles.uri}>{value}</Text>
+      <Text code={code} style={styles.uri}>
+        {value}
+      </Text>
 
       <HeaderButton
         color={copied ? 'green' : 'accent'}

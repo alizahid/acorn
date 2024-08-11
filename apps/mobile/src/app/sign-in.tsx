@@ -102,6 +102,7 @@ export default function Screen() {
               {...field}
               autoCapitalize="none"
               autoCorrect={false}
+              code
               error={
                 fieldState.error ? t('form.field.clientId.error') : undefined
               }

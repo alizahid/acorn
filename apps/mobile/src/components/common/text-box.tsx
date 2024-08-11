@@ -28,6 +28,7 @@ type Props = Pick<
   | 'secureTextEntry'
   | 'value'
 > & {
+  code?: boolean
   error?: string
   hint?: string
   label?: string
@@ -40,6 +41,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
     autoCapitalize,
     autoComplete,
     autoCorrect,
+    code,
     editable = true,
     error,
     hint,
@@ -97,7 +99,12 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
         secureTextEntry={secureTextEntry}
         selectionColor={theme.colors.accent.a9}
         style={[
-          styles.input(focused, Boolean(error), Boolean(multiline)),
+          styles.input(
+            focused,
+            Boolean(error),
+            Boolean(multiline),
+            Boolean(code),
+          ),
           styleInput,
         ]}
         textAlignVertical={multiline ? 'top' : 'center'}
@@ -120,7 +127,12 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
 })
 
 const stylesheet = createStyleSheet((theme) => ({
-  input: (focused: boolean, error: boolean, multiline: boolean) => ({
+  input: (
+    focused: boolean,
+    error: boolean,
+    multiline: boolean,
+    code: boolean,
+  ) => ({
     backgroundColor: theme.colors.gray.a2,
     borderColor: focused
       ? error
@@ -132,7 +144,7 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius[3],
     borderWidth: 1,
     color: theme.colors.gray.a12,
-    fontFamily: 'regular',
+    fontFamily: code ? 'mono' : 'regular',
     fontSize: theme.typography[3].fontSize,
     height: multiline ? theme.space[9] : theme.space[7],
     paddingHorizontal: theme.space[3],
