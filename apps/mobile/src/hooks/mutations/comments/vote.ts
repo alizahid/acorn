@@ -5,6 +5,7 @@ import { updateComments } from '~/hooks/queries/user/comments'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
+import { type CommentReply } from '~/types/comment'
 
 type Variables = {
   commentId: string
@@ -34,34 +35,17 @@ export function useCommentVote() {
     },
     onMutate(variables) {
       updateComments(variables.commentId, (draft) => {
-        draft.votes =
-          draft.votes -
-          (draft.liked ? 1 : draft.liked === null ? 0 : -1) +
-          variables.direction
-
-        draft.liked =
-          variables.direction === 1
-            ? true
-            : variables.direction === 0
-              ? null
-              : false
+        update(variables, draft)
       })
 
       if (variables.postId) {
         updatePost(variables.postId, (draft) => {
-          for (const item of draft.comments) {
-            if (item.type === 'reply' && item.data.id === variables.commentId) {
-              item.data.votes =
-                item.data.votes -
-                (item.data.liked ? 1 : item.data.liked === null ? 0 : -1) +
-                variables.direction
-
-              item.data.liked =
-                variables.direction === 1
-                  ? true
-                  : variables.direction === 0
-                    ? null
-                    : false
+          for (const comment of draft.comments) {
+            if (
+              comment.type === 'reply' &&
+              comment.data.id === variables.commentId
+            ) {
+              update(variables, comment.data)
 
               break
             }
@@ -75,4 +59,14 @@ export function useCommentVote() {
     isPending,
     vote: mutate,
   }
+}
+
+function update(variables: Variables, draft: CommentReply) {
+  draft.votes =
+    draft.votes -
+    (draft.liked ? 1 : draft.liked === null ? 0 : -1) +
+    variables.direction
+
+  draft.liked =
+    variables.direction === 1 ? true : variables.direction === 0 ? null : false
 }

@@ -38,9 +38,12 @@ export function useCommentSave() {
 
       if (variables.postId) {
         updatePost(variables.postId, (draft) => {
-          for (const item of draft.comments) {
-            if (item.type === 'reply' && item.data.id === variables.commentId) {
-              item.data.saved = variables.action === 'save'
+          for (const comment of draft.comments) {
+            if (
+              comment.type === 'reply' &&
+              comment.data.id === variables.commentId
+            ) {
+              comment.data.saved = variables.action === 'save'
 
               break
             }

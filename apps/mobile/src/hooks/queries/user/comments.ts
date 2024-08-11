@@ -113,9 +113,9 @@ export function updateComments(
             break
           }
 
-          for (const item of page.comments) {
-            if (item.data.id === id && item.type === 'reply') {
-              updater(item.data)
+          for (const comment of page.comments) {
+            if (comment.data.id === id && comment.type === 'reply') {
+              updater(comment.data)
 
               found = true
 

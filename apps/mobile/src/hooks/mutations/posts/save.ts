@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
+import { updateSearch } from '~/hooks/queries/search/search'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
@@ -39,13 +40,9 @@ export function usePostSave() {
         draft.saved = variables.action === 'save'
       })
 
-      updatePosts(
-        variables.postId,
-        (draft) => {
-          draft.saved = variables.action === 'save'
-        },
-        true,
-      )
+      updateSearch(variables.postId, (draft) => {
+        draft.saved = variables.action === 'save'
+      })
     },
   })
 

@@ -100,21 +100,10 @@ export function usePosts({ community, interval, sort }: PostsProps) {
   }
 }
 
-export function updatePosts(
-  id: string,
-  updater: (draft: Post) => void,
-  search?: boolean,
-) {
+export function updatePosts(id: string, updater: (draft: Post) => void) {
   const cache = queryClient.getQueryCache()
 
-  const queryKey = search
-    ? [
-        'search',
-        {
-          type: 'post',
-        },
-      ]
-    : ['posts']
+  const queryKey = ['posts']
 
   const queries = cache.findAll({
     queryKey,
@@ -134,9 +123,9 @@ export function updatePosts(
             break
           }
 
-          for (const item of page.posts) {
-            if (item.id === id) {
-              updater(item)
+          for (const post of page.posts) {
+            if (post.id === id) {
+              updater(post)
 
               found = true
 

@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
+import { create } from 'mutative'
 
+import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { CommunitiesSchema } from '~/schemas/communities'
@@ -89,5 +91,41 @@ export function useSearch<Type extends SearchType>({
     isRefetching,
     refetch,
     results: data ?? [],
+  }
+}
+
+export function updateSearch(id: string, updater: (draft: Post) => void) {
+  const cache = queryClient.getQueryCache()
+
+  const queryKey = [
+    'search',
+    {
+      type: 'post',
+    },
+  ]
+
+  const queries = cache.findAll({
+    queryKey,
+  })
+
+  for (const query of queries) {
+    queryClient.setQueryData<SearchQueryData<'post'>>(
+      query.queryKey,
+      (previous) => {
+        if (!previous) {
+          return previous
+        }
+
+        return create(previous, (draft) => {
+          for (const post of draft) {
+            if (post.id === id) {
+              updater(post)
+
+              break
+            }
+          }
+        })
+      },
+    )
   }
 }
