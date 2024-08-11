@@ -6,3 +6,7 @@ export type Community = {
   subscribed: boolean
   subscribers: number
 }
+
+export const CommunitiesType = ['communities', 'users'] as const
+
+export type CommunitiesType = (typeof CommunitiesType)[number]

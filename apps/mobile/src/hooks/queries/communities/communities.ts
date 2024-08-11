@@ -1,5 +1,6 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
-import { sortBy } from 'lodash'
+import { sortBy, uniq } from 'lodash'
+import { useMemo } from 'react'
 
 import { isUser } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
@@ -79,13 +80,26 @@ export function useCommunities() {
     ],
   })
 
-  const communities = sortBy(
-    data?.pages.flatMap((page) => page.communities) ?? [],
-    (item) => item.name.toLowerCase(),
+  const communities = useMemo(
+    () =>
+      getCommunities(
+        data?.pages.flatMap((page) => page.communities) ?? [],
+        false,
+      ),
+    [data?.pages],
+  )
+
+  const users = useMemo(
+    () =>
+      getCommunities(
+        data?.pages.flatMap((page) => page.communities) ?? [],
+        true,
+      ),
+    [data?.pages],
   )
 
   return {
-    communities: communities.filter((community) => !isUser(community.name)),
+    communities,
     fetchNextPage,
     hasNextPage,
     isFetching,
@@ -93,6 +107,17 @@ export function useCommunities() {
     isLoading,
     isRefetching,
     refetch,
-    users: communities.filter((community) => isUser(community.name)),
+    users,
   }
+}
+
+function getCommunities(communities: Array<Community>, filter: boolean) {
+  return uniq(
+    sortBy(communities, (community) => community.name.toLowerCase())
+      .filter((community) => isUser(community.name) === filter)
+      .flatMap((community) => [
+        community.name.slice(0, 1).toLowerCase(),
+        community,
+      ]),
+  )
 }

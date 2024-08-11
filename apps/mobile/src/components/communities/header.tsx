@@ -1,18 +1,28 @@
 import { BlurView } from 'expo-blur'
+import { useGlobalSearchParams, useRouter } from 'expo-router'
 import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
+import { z } from 'zod'
+
+import { CommunitiesType } from '~/types/community'
 
 import { SegmentedControl } from '../common/segmented-control'
 
-type Props = {
-  active?: number
-  items: Array<string>
-  onChange?: (index: number) => void
-}
+const schema = z.object({
+  query: z.string().catch(''),
+  type: z.enum(CommunitiesType).catch('communities'),
+})
 
-export function CommunitiesHeader({ active, items, onChange }: Props) {
+export function CommunitiesHeader() {
   const insets = useSafeAreaInsets()
+
+  const router = useRouter()
+
+  const params = schema.parse(useGlobalSearchParams())
+
+  const t = useTranslations('component.communities.header')
 
   const { styles } = useStyles(stylesheet)
 
@@ -20,10 +30,12 @@ export function CommunitiesHeader({ active, items, onChange }: Props) {
     <BlurView intensity={75} style={styles.main(insets.top)}>
       <View style={styles.header}>
         <SegmentedControl
-          active={active}
-          items={items}
+          active={CommunitiesType.indexOf(params.type)}
+          items={CommunitiesType.map((item) => t(item))}
           onChange={(index) => {
-            onChange?.(index)
+            router.setParams({
+              type: CommunitiesType[index],
+            })
           }}
         />
       </View>

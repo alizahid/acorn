@@ -19,6 +19,10 @@
         "join": "Join",
         "leave": "Leave",
         "subscribers": "Subscribers"
+      },
+      "header": {
+        "communities": "Communities",
+        "users": "Users"
       }
     },
     "posts": {
@@ -51,7 +55,7 @@
       }
     },
     "search": {
-      "bar": {
+      "header": {
         "query": {
           "placeholder": "Search"
         },
@@ -102,10 +106,6 @@
     }
   },
   "tab": {
-    "communities": {
-      "communities": "Communities",
-      "users": "Users"
-    },
     "search": {
       "title": "Search"
     },

@@ -8,6 +8,7 @@ import { z } from 'zod'
 
 import { SearchType } from '~/types/search'
 
+import { Icon } from '../common/icon'
 import { SegmentedControl } from '../common/segmented-control'
 import { TextBox } from '../common/text-box'
 import { HeaderButton } from '../navigation/header-button'
@@ -24,14 +25,20 @@ export function SearchHeader() {
 
   const params = schema.parse(useGlobalSearchParams())
 
-  const t = useTranslations('component.search.bar')
+  const t = useTranslations('component.search.header')
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   return (
     <BlurView intensity={75} style={styles.main(insets.top)}>
       <View style={styles.header}>
         <View>
+          <Icon
+            color={theme.colors.gray.a9}
+            name="MagnifyingGlass"
+            style={styles.search}
+          />
+
           <TextBox
             onChangeText={(query) => {
               router.setParams({
@@ -88,6 +95,7 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.gray.a3,
     borderRadius: theme.radius[4],
     borderWidth: 0,
+    paddingLeft: theme.space[2] + theme.space[5] + theme.space[2],
   },
   main: (inset: number) => ({
     left: 0,
@@ -96,4 +104,9 @@ const stylesheet = createStyleSheet((theme) => ({
     right: 0,
     top: 0,
   }),
+  search: {
+    left: theme.space[2],
+    position: 'absolute',
+    top: theme.space[2],
+  },
 }))
