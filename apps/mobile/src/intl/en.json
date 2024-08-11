@@ -23,6 +23,7 @@
     },
     "posts": {
       "gallery": {
+        "gif": "GIF",
         "item": "{current, number} of {count, number}",
         "items": "{count, number} images"
       },

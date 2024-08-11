@@ -48,7 +48,11 @@ function getType(data: PostDataSchema): PostType {
     return 'text'
   }
 
-  if (Boolean(data.is_video) || data.post_hint === 'rich:video') {
+  if (
+    Boolean(data.is_video) ||
+    data.post_hint === 'rich:video' ||
+    (data.media && 'oembed' in data.media && data.media.oembed.type === 'video')
+  ) {
     return 'video'
   }
 

@@ -87,22 +87,32 @@ export const PostMediaSchema = z
 
 export type PostMediaSchema = z.infer<typeof PostMediaSchema>
 
+export const PostPreviewImageSchema = z.object({
+  resolutions: z.array(
+    z.object({
+      height: z.number(),
+      url: z.string(),
+      width: z.number(),
+    }),
+  ),
+  source: z.object({
+    height: z.number(),
+    url: z.string(),
+    width: z.number(),
+  }),
+})
+
+export type PostPreviewImageSchema = z.infer<typeof PostPreviewImageSchema>
+
 export const PostPreviewSchema = z
   .object({
     images: z.array(
-      z.object({
-        resolutions: z.array(
-          z.object({
-            height: z.number(),
-            url: z.string(),
-            width: z.number(),
-          }),
-        ),
-        source: z.object({
-          height: z.number(),
-          url: z.string(),
-          width: z.number(),
-        }),
+      PostPreviewImageSchema.extend({
+        variants: z
+          .object({
+            gif: PostPreviewImageSchema.nullish(),
+          })
+          .nullish(),
       }),
     ),
     reddit_video_preview: z

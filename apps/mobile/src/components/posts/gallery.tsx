@@ -69,8 +69,16 @@ export function PostGalleryCard({
             ]}
           />
 
+          {first.type === 'gif' ? (
+            <View style={[styles.label, styles.gif]}>
+              <Text contrast size="1">
+                {t('gif')}
+              </Text>
+            </View>
+          ) : null}
+
           {images.length > 1 ? (
-            <View style={styles.count}>
+            <View style={[styles.label, styles.count]}>
               <Text contrast size="1" tabular>
                 {t('items', {
                   count: images.length,
@@ -117,18 +125,23 @@ export function PostGalleryCard({
 
 const stylesheet = createStyleSheet((theme) => ({
   count: {
+    right: theme.space[2],
+  },
+  gif: {
+    left: theme.space[2],
+  },
+  image: (height: number, width: number) => ({
+    height,
+    width,
+  }),
+  label: {
     backgroundColor: theme.colors.black.a9,
     borderRadius: theme.radius[2],
     bottom: theme.space[2],
     paddingHorizontal: theme.space[1],
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
-    right: theme.space[2],
   },
-  image: (height: number, width: number) => ({
-    height,
-    width,
-  }),
   main: (maxHeight: number, height: number, width: number) => ({
     height: Math.min(maxHeight, height),
     width,

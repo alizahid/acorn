@@ -60,7 +60,7 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
 
         const thumbnail =
           'p' in media
-            ? media.p.find((resolution) => resolution.x === 640)?.u
+            ? media.p.find((resolution) => [640, 320].includes(resolution.x))?.u
             : undefined
 
         return {
@@ -78,16 +78,18 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
 
   if (data.preview?.images) {
     return data.preview.images.map((image) => {
-      const thumbnail = image.resolutions.find(
-        (resolution) => resolution.width === 640,
+      const item = image.variants?.gif ?? image
+
+      const thumbnail = item.resolutions.find((resolution) =>
+        [640, 320].includes(resolution.width),
       )?.url
 
       return {
-        height: image.source.height,
+        height: item.source.height,
         thumbnail: thumbnail ? decode(thumbnail) : undefined,
-        type: 'image',
-        url: decode(image.source.url),
-        width: image.source.width,
+        type: image.variants?.gif ? 'gif' : 'image',
+        url: decode(item.source.url),
+        width: item.source.width,
       }
     })
   }
