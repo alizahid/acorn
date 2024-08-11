@@ -1,6 +1,6 @@
 import { BlurView } from 'expo-blur'
 import { useGlobalSearchParams, useRouter } from 'expo-router'
-import { FlatList, View } from 'react-native'
+import { View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -8,8 +8,7 @@ import { z } from 'zod'
 
 import { SearchType } from '~/types/search'
 
-import { Pressable } from '../common/pressable'
-import { Text } from '../common/text'
+import { SegmentedControl } from '../common/segmented-control'
 import { TextBox } from '../common/text-box'
 import { HeaderButton } from '../navigation/header-button'
 
@@ -59,25 +58,14 @@ export function SearchHeader() {
           ) : null}
         </View>
 
-        <FlatList
-          contentContainerStyle={styles.list}
-          data={SearchType}
-          horizontal
-          keyExtractor={(item) => item}
-          renderItem={({ item }) => (
-            <Pressable
-              onPress={() => {
-                router.setParams({
-                  type: item,
-                })
-              }}
-              style={[styles.item, item === params.type && styles.selected]}
-            >
-              <Text contrast size="2" weight="medium">
-                {t(`type.${item}`)}
-              </Text>
-            </Pressable>
-          )}
+        <SegmentedControl
+          active={SearchType.indexOf(params.type)}
+          items={SearchType.map((item) => t(`type.${item}`))}
+          onChange={(index) => {
+            router.setParams({
+              type: SearchType[index],
+            })
+          }}
         />
       </View>
     </BlurView>
@@ -101,16 +89,6 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius[4],
     borderWidth: 0,
   },
-  item: {
-    backgroundColor: theme.colors.gray.a3,
-    borderRadius: theme.radius[6],
-    height: theme.space[6],
-    justifyContent: 'center',
-    paddingHorizontal: theme.space[3],
-  },
-  list: {
-    gap: theme.space[2],
-  },
   main: (inset: number) => ({
     left: 0,
     paddingTop: inset,
@@ -118,7 +96,4 @@ const stylesheet = createStyleSheet((theme) => ({
     right: 0,
     top: 0,
   }),
-  selected: {
-    backgroundColor: theme.colors.accent.a9,
-  },
 }))

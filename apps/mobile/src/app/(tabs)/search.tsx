@@ -47,17 +47,14 @@ export default function Screen() {
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       contentContainerStyle={styles.main(
         params.type,
-        common.searchHeaderHeight,
-        common.tabBarHeight,
+        common.height.search,
+        common.height.tabBar,
       )}
       data={results}
       estimatedItemSize={params.type === 'community' ? 56 : 120}
       getItemType={() => params.type}
       refreshControl={
-        <RefreshControl
-          offset={common.searchHeaderHeight}
-          onRefresh={refetch}
-        />
+        <RefreshControl offset={common.height.search} onRefresh={refetch} />
       }
       renderItem={({ item }) => {
         if (params.type === 'community') {

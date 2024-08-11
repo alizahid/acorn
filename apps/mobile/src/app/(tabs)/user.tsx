@@ -68,13 +68,13 @@ export default function Screen() {
       })}
       ListHeaderComponent={<ProfileCard profile={profile} />}
       contentContainerStyle={styles.main(
-        common.headerHeight,
-        common.tabBarHeight,
+        common.height.header,
+        common.height.tabBar,
       )}
       data={items}
       keyExtractor={(item) => (typeof item === 'string' ? item : item.key)}
       refreshControl={
-        <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
+        <RefreshControl offset={common.height.header} onRefresh={refetch} />
       }
       renderItem={({ item }) => {
         if (typeof item === 'string') {

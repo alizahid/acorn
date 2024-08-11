@@ -77,9 +77,9 @@ export function PostList({
         profile ? <CommunityJoinCard community={profile} /> : null
       }
       contentContainerStyle={styles.main({
-        header: header ? common.headerHeight : 0,
+        header: header ? common.height.header : 0,
         inset: inset ? common.insets.bottom : 0,
-        tabBar: tabBar ? common.tabBarHeight : 0,
+        tabBar: tabBar ? common.height.tabBar : 0,
       })}
       data={posts}
       estimatedItemSize={120}
@@ -98,7 +98,7 @@ export function PostList({
       ref={list}
       refreshControl={
         <RefreshControl
-          offset={header ? common.headerHeight : 0}
+          offset={header ? common.height.header : 0}
           onRefresh={() => {
             onRefresh?.()
 
@@ -114,7 +114,7 @@ export function PostList({
         />
       )}
       viewabilityConfig={{
-        itemVisiblePercentThreshold: 80,
+        itemVisiblePercentThreshold: 100,
       }}
     />
   )

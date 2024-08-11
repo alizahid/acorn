@@ -68,7 +68,7 @@ export default function Screen() {
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
       contentContainerStyle={styles.main(
-        common.headerHeight,
+        common.height.header,
         common.insets.bottom,
       )}
       data={comments}
@@ -82,7 +82,7 @@ export default function Screen() {
       }}
       ref={list}
       refreshControl={
-        <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
+        <RefreshControl offset={common.height.header} onRefresh={refetch} />
       }
       renderItem={({ item }) => {
         if (item.type === 'reply') {

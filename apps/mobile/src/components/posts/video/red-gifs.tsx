@@ -48,7 +48,11 @@ export function RedGifsVideo({ margin = 0, style, video, viewing }: Props) {
 
   return (
     <View
-      style={styles.main(common.maxHeight, dimensions.height, dimensions.width)}
+      style={styles.main(
+        common.height.max,
+        dimensions.height,
+        dimensions.width,
+      )}
     >
       <Spinner />
     </View>

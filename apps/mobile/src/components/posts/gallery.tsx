@@ -62,7 +62,7 @@ export function PostGalleryCard({
             source={first.thumbnail ?? first.url}
             style={[
               styles.main(
-                common.maxHeight,
+                common.height.max,
                 dimensions.height,
                 dimensions.width,
               ),

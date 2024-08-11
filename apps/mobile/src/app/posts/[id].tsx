@@ -89,13 +89,13 @@ export default function Screen() {
         ListHeaderComponent={
           post ? <PostCard expanded label="user" post={post} viewing /> : null
         }
-        contentContainerStyle={styles.main(common.headerHeight)}
+        contentContainerStyle={styles.main(common.height.header)}
         data={comments}
         estimatedItemSize={72}
         getItemType={(item) => item.type}
         keyExtractor={(item) => item.data.id}
         refreshControl={
-          <RefreshControl offset={common.headerHeight} onRefresh={refetch} />
+          <RefreshControl offset={common.height.header} onRefresh={refetch} />
         }
         renderItem={({ item }) => {
           if (item.type === 'reply') {

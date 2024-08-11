@@ -50,7 +50,7 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
           recyclingKey={post.id}
           source={image.url}
           style={styles.image(
-            common.maxHeight,
+            common.height.max,
             dimensions.height,
             dimensions.width,
           )}

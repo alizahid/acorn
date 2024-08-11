@@ -3,8 +3,8 @@ import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { Icon } from '~/components/common/icon'
+import { CommunitiesHeader } from '~/components/communities/header'
 import { Header } from '~/components/navigation/header'
-import { PagerHeader } from '~/components/navigation/pager'
 import { TabBar } from '~/components/navigation/tab-bar'
 import { SearchHeader } from '~/components/search/header'
 import { AccountSwitchCard } from '~/components/users/switch'
@@ -54,7 +54,7 @@ export default function Layout() {
         name="communities"
         options={{
           header: () => (
-            <PagerHeader
+            <CommunitiesHeader
               active={params.communitiesType}
               items={[t('communities.communities'), t('communities.users')]}
               onChange={(index) => {

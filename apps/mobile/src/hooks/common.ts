@@ -11,38 +11,41 @@ export function useCommon() {
 
   const { theme } = useStyles()
 
-  const headerHeight = insets.top + theme.space[8]
-
-  const pagerHeaderHeight = insets.top + 64
-
-  const searchHeaderHeight = insets.top + 120
-
-  const tabBarHeight =
-    insets.bottom + theme.space[4] + theme.space[5] + theme.space[4]
-
-  const maxHeight = frame.height - headerHeight - tabBarHeight - theme.space[9]
+  const height = {
+    communities: insets.top + 64,
+    header: insets.top + theme.space[8],
+    max: frame.height * 0.6,
+    search: insets.top + 120,
+    tabBar: insets.bottom + theme.space[4] + theme.space[5] + theme.space[4],
+  }
 
   const listProps = useCallback(
     ({
+      communities,
       header,
-      pager,
       search,
       tabBar,
     }: {
+      communities?: boolean
       header?: boolean
-      pager?: boolean
       search?: boolean
       tabBar?: boolean
     }) => {
-      const top = search
-        ? searchHeaderHeight - insets.top + 1
-        : pager
-          ? pagerHeaderHeight - insets.top + 1
-          : header
-            ? headerHeight - insets.top + 1
-            : 1
+      let top = 1
 
-      const bottom = tabBar ? tabBarHeight - insets.bottom + 1 : 1
+      if (communities) {
+        top += height.communities - insets.top
+      }
+
+      if (header) {
+        top += height.header - insets.top
+      }
+
+      if (search) {
+        top += height.search - insets.top
+      }
+
+      const bottom = tabBar ? height.tabBar - insets.bottom + 1 : 1
 
       return {
         removeClippedSubviews: true,
@@ -54,23 +57,19 @@ export function useCommon() {
       }
     },
     [
-      headerHeight,
+      height.communities,
+      height.header,
+      height.search,
+      height.tabBar,
       insets.bottom,
       insets.top,
-      pagerHeaderHeight,
-      searchHeaderHeight,
-      tabBarHeight,
     ],
   )
 
   return {
     frame,
-    headerHeight,
+    height,
     insets,
     listProps,
-    maxHeight,
-    pagerHeaderHeight,
-    searchHeaderHeight,
-    tabBarHeight,
   }
 }
