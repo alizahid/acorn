@@ -9,6 +9,7 @@ import { type TypographyToken } from '~/styles/tokens'
 
 export type TextStyleProps = {
   align?: 'left' | 'center' | 'right'
+  code?: boolean
   color?: ColorToken
   contrast?: boolean
   highContrast?: boolean
@@ -21,6 +22,7 @@ export function getTextStyles(theme: UnistylesTheme) {
   return function styles({
     align = 'left',
     color = 'gray',
+    code,
     contrast = false,
     highContrast = color === 'gray',
     size = '3',
@@ -32,17 +34,9 @@ export function getTextStyles(theme: UnistylesTheme) {
         theme.colors[color][
           contrast ? 'contrast' : highContrast ? 'a12' : 'a11'
         ],
-      fontFamily: weight,
+      fontFamily: code ? 'mono' : weight,
       fontSize: theme.typography[size].fontSize,
       fontVariant: tabular ? ['tabular-nums'] : undefined,
-      fontWeight:
-        weight === 'bold'
-          ? '700'
-          : weight === 'medium'
-            ? '500'
-            : weight === 'light'
-              ? '300'
-              : '400',
       lineHeight: theme.typography[size].lineHeight,
       textAlign: align,
     } satisfies UnistylesValues

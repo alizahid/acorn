@@ -118,10 +118,8 @@ export function HorizontalRule() {
 }
 
 export function Code({ children, size }: TextProps) {
-  const { styles } = useStyles(stylesheet)
-
   return (
-    <Text size={size} style={styles.code}>
+    <Text code size={size}>
       {children}
     </Text>
   )
@@ -222,9 +220,6 @@ const stylesheet = createStyleSheet((theme) => ({
     borderLeftColor: theme.colors.accent.a6,
     borderLeftWidth: 2,
     paddingLeft: theme.space[3],
-  },
-  code: {
-    fontFamily: 'monospace',
   },
   del: {
     textDecorationLine: 'line-through',

@@ -1,3 +1,4 @@
+import { default as Constants } from 'expo-constants'
 import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
 import { FlatList, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -38,6 +39,7 @@ export default function Screen() {
 
   const items = [
     ...UserFeedType.map((item) => ({
+      arrow: true,
       icon: icons[item],
       key: item,
       label: t(`menu.${item}`),
@@ -51,6 +53,7 @@ export default function Screen() {
     })),
     'separator-1',
     {
+      arrow: false,
       icon: 'HardDrives',
       key: 'cache',
       label: t('settings.cache'),
@@ -66,6 +69,11 @@ export default function Screen() {
         header: true,
         tabBar: true,
       })}
+      ListFooterComponent={
+        <Text code highContrast={false} size="1" style={styles.version}>
+          v{Constants.expoConfig?.version ?? 0}
+        </Text>
+      }
       ListHeaderComponent={<ProfileCard profile={profile} />}
       contentContainerStyle={styles.main(
         common.height.header,
@@ -99,11 +107,13 @@ export default function Screen() {
               {item.label}
             </Text>
 
-            <Icon
-              color={theme.colors.gray.a9}
-              name="CaretRight"
-              size={theme.space[4]}
-            />
+            {item.arrow ? (
+              <Icon
+                color={theme.colors.gray.a9}
+                name="CaretRight"
+                size={theme.space[4]}
+              />
+            ) : null}
           </Pressable>
         )
       }}
@@ -128,6 +138,10 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   separator: {
     height: theme.space[4],
+  },
+  version: {
+    margin: theme.space[4],
+    marginTop: theme.space[6],
   },
 }))
 
