@@ -94,6 +94,7 @@ export default function Screen() {
         estimatedItemSize={72}
         getItemType={(item) => item.type}
         keyExtractor={(item) => item.data.id}
+        keyboardDismissMode="on-drag"
         refreshControl={
           <RefreshControl offset={common.height.header} onRefresh={refetch} />
         }

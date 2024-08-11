@@ -53,6 +53,8 @@ export default function Screen() {
       data={results}
       estimatedItemSize={params.type === 'community' ? 56 : 120}
       getItemType={() => params.type}
+      keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps="handled"
       refreshControl={
         <RefreshControl offset={common.height.search} onRefresh={refetch} />
       }
