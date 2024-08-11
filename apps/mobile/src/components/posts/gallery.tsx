@@ -3,6 +3,7 @@ import * as StatusBar from 'expo-status-bar'
 import { useState } from 'react'
 import { FlatList, type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import Zoom from 'react-native-zoom-reanimated'
 import { useTranslations } from 'use-intl'
 
 import { useCommon } from '~/hooks/common'
@@ -12,7 +13,6 @@ import { type PostMedia } from '~/types/post'
 import { FakeModal } from '../common/fake-modal'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { Zoom } from '../common/zoom'
 
 type Props = {
   images: Array<PostMedia>

@@ -74,6 +74,7 @@
     "react-native-screens": "3.31.1",
     "react-native-svg": "15.2.0",
     "react-native-unistyles": "^2.9.1",
+    "react-native-zoom-reanimated": "^1.4.5",
     "use-debounce": "^10.0.2",
     "use-intl": "^3.17.2",
     "zod": "^3.23.8",
