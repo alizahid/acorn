@@ -74,7 +74,9 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
       ) : null}
 
       <View style={styles.content}>
-        <Text weight="medium">{post.title}</Text>
+        <Text lines={3} weight="medium">
+          {post.title}
+        </Text>
 
         <View style={styles.footer}>
           <Pressable
