@@ -1,7 +1,8 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation } from '@tanstack/react-query'
 
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { type CommunityQueryKey } from '~/hooks/queries/communities/community'
+import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
@@ -14,8 +15,6 @@ type Variables = {
 
 export function useJoin() {
   const { expired } = useAuth()
-
-  const queryClient = useQueryClient()
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {

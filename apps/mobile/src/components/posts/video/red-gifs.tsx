@@ -22,19 +22,21 @@ export function RedGifsVideo({ margin = 0, style, video, viewing }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
-  const { get, source } = useRedGifs(video.url)
+  const { data, get } = useRedGifs(video.url)
 
   useEffect(() => {
-    get({
-      id: video.url,
-    })
-  }, [get, video.url])
+    if (data && data.expiresAt > new Date()) {
+      return
+    }
 
-  if (source) {
+    get(video.url)
+  }, [data, get, video.url])
+
+  if (data) {
     return (
       <VideoPlayer
         margin={margin}
-        source={source}
+        source={data.source}
         style={style}
         video={video}
         viewing={viewing}

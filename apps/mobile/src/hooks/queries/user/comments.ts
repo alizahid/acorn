@@ -100,12 +100,12 @@ export function updateComments(
   })
 
   for (const query of queries) {
-    queryClient.setQueryData<CommentsQueryData>(query.queryKey, (data) => {
-      if (!data) {
-        return data
+    queryClient.setQueryData<CommentsQueryData>(query.queryKey, (previous) => {
+      if (!previous) {
+        return previous
       }
 
-      return create(data, (draft) => {
+      return create(previous, (draft) => {
         let found = false
 
         for (const page of draft.pages) {
