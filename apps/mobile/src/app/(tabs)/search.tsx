@@ -1,5 +1,7 @@
+import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useLocalSearchParams } from 'expo-router'
+import { useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
@@ -25,6 +27,11 @@ export default function Screen() {
 
   const common = useCommon()
 
+  const list = useRef<FlashList<Community | Post>>(null)
+
+  // @ts-expect-error -- go away
+  useScrollToTop(list)
+
   const { styles } = useStyles(stylesheet)
 
   const [query] = useDebounce(params.query, 500)
@@ -33,6 +40,13 @@ export default function Screen() {
     query,
     type: params.type,
   })
+
+  useEffect(() => {
+    list.current?.scrollToOffset({
+      animated: true,
+      offset: 0,
+    })
+  }, [params.type])
 
   return (
     <FlashList
@@ -54,6 +68,7 @@ export default function Screen() {
       getItemType={() => params.type}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
+      ref={list}
       renderItem={({ item }) => {
         if (params.type === 'community') {
           return <CommunityCard community={item as Community} />
@@ -68,11 +83,18 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (type: SearchType, header: number, tabBar: number) => ({
-    paddingBottom: tabBar + (type === 'community' ? theme.space[2] : 0),
-    paddingTop: header + (type === 'community' ? theme.space[2] : 0),
+  main: (type: SearchType, top: number, bottom: number) => ({
+    paddingBottom: bottom + (type === 'community' ? theme.space[2] : 0),
+    paddingTop: top + (type === 'community' ? theme.space[2] : 0),
   }),
-  separator: (type: SearchType) => ({
-    height: type === 'post' ? theme.space[5] : 0,
-  }),
+  separator: (type: SearchType) => {
+    if (type === 'community') {
+      return {}
+    }
+
+    return {
+      backgroundColor: theme.colors.gray.a6,
+      height: 1,
+    }
+  },
 }))
