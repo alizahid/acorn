@@ -49,7 +49,7 @@ export default function Screen() {
 
   const sticky = data[params.type]
     .map((item, index) => (typeof item === 'string' ? index : null))
-    .filter((item) => item !== null) as Array<number>
+    .filter((item) => item !== null) as unknown as Array<number>
 
   return (
     <FlashList
