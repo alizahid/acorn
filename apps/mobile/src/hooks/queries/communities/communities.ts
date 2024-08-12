@@ -36,7 +36,6 @@ export function useCommunities() {
     isFetching,
     isFetchingNextPage,
     isLoading,
-    isRefetching,
     refetch,
   } = useInfiniteQuery<
     Page,
@@ -105,7 +104,6 @@ export function useCommunities() {
     isFetching,
     isFetchingNextPage,
     isLoading,
-    isRefetching,
     refetch,
     users,
   }

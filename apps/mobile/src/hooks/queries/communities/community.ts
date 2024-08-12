@@ -22,7 +22,7 @@ export type CommunityQueryData = Community
 export function useCommunity(name: string) {
   const { accountId, expired } = useAuth()
 
-  const { data, isLoading, isRefetching, refetch } = useQuery<
+  const { data, isLoading, refetch } = useQuery<
     CommunityQueryData | undefined,
     Error,
     CommunityQueryData,
@@ -60,7 +60,6 @@ export function useCommunity(name: string) {
   return {
     community: data,
     isLoading,
-    isRefetching,
     refetch,
   }
 }

@@ -50,7 +50,6 @@ export function useUserPosts({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefetching,
     refetch,
   } = useInfiniteQuery<
     Page,
@@ -107,7 +106,6 @@ export function useUserPosts({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefetching,
     posts: data?.pages.flatMap((page) => page.posts) ?? [],
     refetch,
   }

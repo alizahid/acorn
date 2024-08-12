@@ -18,7 +18,7 @@ export type ProfileQueryData = Profile
 export function useProfile(name?: string) {
   const { expired } = useAuth()
 
-  const { data, isLoading, isRefetching, refetch } = useQuery<
+  const { data, isLoading, refetch } = useQuery<
     ProfileQueryData | undefined,
     Error,
     ProfileQueryData,
@@ -44,7 +44,6 @@ export function useProfile(name?: string) {
 
   return {
     isLoading,
-    isRefetching,
     profile: data,
     refetch,
   }

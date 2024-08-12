@@ -39,7 +39,7 @@ export function useSearch<Type extends SearchType>({
 }: SearchProps<Type>) {
   const { expired } = useAuth()
 
-  const { data, isLoading, isRefetching, refetch } = useQuery<
+  const { data, isLoading, refetch } = useQuery<
     SearchQueryData<Type> | undefined,
     Error,
     SearchQueryData<Type>,
@@ -88,7 +88,6 @@ export function useSearch<Type extends SearchType>({
 
   return {
     isLoading,
-    isRefetching,
     refetch,
     results: data ?? [],
   }

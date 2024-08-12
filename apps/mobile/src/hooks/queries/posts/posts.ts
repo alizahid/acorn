@@ -44,7 +44,6 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefetching,
     refetch,
   } = useInfiniteQuery<Page, Error, PostsQueryData, PostsQueryKey, Param>({
     enabled: !expired,
@@ -94,7 +93,6 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefetching,
     posts: data?.pages.flatMap((page) => page.posts) ?? [],
     refetch,
   }

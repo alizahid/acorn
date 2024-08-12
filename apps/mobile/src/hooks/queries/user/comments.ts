@@ -35,7 +35,6 @@ export function useComments(user?: string) {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefetching,
     refetch,
   } = useInfiniteQuery<Page, Error, CommentsQueryData, CommentsQueryKey, Param>(
     {
@@ -84,7 +83,6 @@ export function useComments(user?: string) {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefetching,
     refetch,
   }
 }

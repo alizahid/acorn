@@ -169,7 +169,6 @@ export function usePost(id: string, sort?: CommentFeedSort) {
     collapsed: collapsed.data,
     comments,
     isFetching: query.isFetching,
-    isRefetching: query.isRefetching,
     post: query.data?.post,
     refetch: query.refetch,
   }
