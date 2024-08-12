@@ -1,0 +1,125 @@
+{
+  "component": {
+    "comments": {
+      "more": {
+        "label": "{count, plural, =0 {More hidden replies} =1 {1 more reply} other {# more replies}}"
+      },
+      "sort": {
+        "confidence": "Best",
+        "controversial": "Controversial",
+        "new": "New",
+        "old": "Old",
+        "placeholder": "Sort comments",
+        "top": "Top"
+      }
+    },
+    "communities": {
+      "follow": {
+        "age": "Age",
+        "join": "Join",
+        "leave": "Leave",
+        "subscribers": "Subscribers"
+      },
+      "header": {
+        "communities": "Communities",
+        "users": "Users"
+      }
+    },
+    "posts": {
+      "gallery": {
+        "gif": "GIF",
+        "item": "{current, number} of {count, number}",
+        "items": "{count, number} images"
+      },
+      "interval": {
+        "all": "All time",
+        "day": "Today",
+        "hour": "Now",
+        "month": "This month",
+        "placeholder": "Interval",
+        "week": "This week",
+        "year": "This year"
+      },
+      "reply": {
+        "comment": "Replying to {user}",
+        "placeholder": "Say something nice",
+        "submit": "Reply"
+      },
+      "sort": {
+        "best": "Best",
+        "hot": "Hot",
+        "new": "New",
+        "placeholder": "Sort",
+        "rising": "Rising",
+        "top": "Top"
+      }
+    },
+    "search": {
+      "header": {
+        "query": {
+          "placeholder": "Search"
+        },
+        "type": {
+          "community": "Communities",
+          "post": "Posts"
+        }
+      }
+    },
+    "users": {
+      "follow": {
+        "age": "Age",
+        "follow": "Follow",
+        "karma": "Karma",
+        "unfollow": "Unfollow"
+      },
+      "profile": {
+        "age": "Age",
+        "comment": "Comment",
+        "karma": "Karma",
+        "post": "Post"
+      },
+      "switch": {
+        "add": "Add account",
+        "signOut": "Sign out of {id}",
+        "title": "Switch accounts"
+      }
+    }
+  },
+  "screen": {
+    "auth": {
+      "signIn": {
+        "description": "Reddit for mobile",
+        "form": {
+          "action": {
+            "submit": "Sign in"
+          },
+          "field": {
+            "clientId": {
+              "error": "Client ID is required",
+              "placeholder": "Client ID"
+            }
+          }
+        },
+        "instructions": "Head over to <link>Reddit</link> to create an app and grab the client id. Use the following redirect uri.",
+        "title": "Acorn"
+      }
+    }
+  },
+  "tab": {
+    "search": {
+      "title": "Search"
+    },
+    "user": {
+      "menu": {
+        "comments": "Comments",
+        "downvoted": "Downvoted",
+        "saved": "Saved",
+        "submitted": "Posts",
+        "upvoted": "Upvoted"
+      },
+      "settings": {
+        "cache": "Clear cache"
+      }
+    }
+  }
+}
