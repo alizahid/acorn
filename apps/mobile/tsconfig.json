@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "~/*": ["./src/*"]
+    },
+    "strict": true,
+    "strictNullChecks": true
+  },
+  "extends": "expo/tsconfig.base",
+  "include": [
+    "src",
+    "typings",
+    "app.config.ts",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ]
+}
