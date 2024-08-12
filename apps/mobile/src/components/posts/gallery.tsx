@@ -3,14 +3,15 @@ import * as StatusBar from 'expo-status-bar'
 import { useState } from 'react'
 import { FlatList, type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import Zoom from 'react-native-zoom-reanimated'
 import { useTranslations } from 'use-intl'
 
 import { useCommon } from '~/hooks/common'
+import { useImagePlaceholder } from '~/hooks/image'
 import { getDimensions } from '~/lib/media'
 import { type PostMedia } from '~/types/post'
 
 import { FakeModal } from '../common/fake-modal'
+import { ImageZoom } from '../common/image-zoom'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 
@@ -33,13 +34,15 @@ export function PostGalleryCard({
 
   const { styles } = useStyles(stylesheet)
 
+  const placeholder = useImagePlaceholder()
+
   const [visible, setVisible] = useState(false)
 
   const frameWidth = common.frame.width - margin
 
   const first = images[0]
 
-  const dimensions = getDimensions(
+  const firstDimensions = getDimensions(
     frameWidth,
     first ?? {
       height: 0,
@@ -58,14 +61,15 @@ export function PostGalleryCard({
           without
         >
           <Image
+            {...placeholder}
             contentFit="cover"
             recyclingKey={recyclingKey}
             source={first.thumbnail ?? first.url}
             style={[
               styles.main(
                 common.height.max,
-                dimensions.height,
-                dimensions.width,
+                firstDimensions.height,
+                firstDimensions.width,
               ),
             ]}
           />
@@ -91,6 +95,7 @@ export function PostGalleryCard({
       ) : null}
 
       <FakeModal
+        close
         onClose={() => {
           setVisible(false)
 
@@ -101,18 +106,20 @@ export function PostGalleryCard({
         <FlatList
           data={images}
           decelerationRate="fast"
+          disableScrollViewPanResponder
           horizontal
           keyExtractor={(item, index) => String(index)}
-          renderItem={({ item }) => (
-            <Zoom>
-              <Image
-                contentFit="contain"
+          renderItem={({ item }) => {
+            const dimensions = getDimensions(common.frame.width, item)
+
+            return (
+              <ImageZoom
                 recyclingKey={recyclingKey}
                 source={item.url}
-                style={styles.image(common.frame.height, common.frame.width)}
+                style={styles.image(dimensions.height, dimensions.width)}
               />
-            </Zoom>
-          )}
+            )
+          }}
           scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={images.map(
@@ -132,6 +139,7 @@ const stylesheet = createStyleSheet((theme) => ({
     left: theme.space[2],
   },
   image: (height: number, width: number) => ({
+    alignSelf: 'center',
     height,
     width,
   }),

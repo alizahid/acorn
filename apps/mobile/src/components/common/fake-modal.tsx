@@ -8,21 +8,25 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+
+import { useCommon } from '~/hooks/common'
+
+import { HeaderButton } from '../navigation/header-button'
 
 type Props = {
   children: ReactNode
+  close?: boolean
   onClose: () => void
   visible: boolean
 }
 
-export function FakeModal({ children, onClose, visible }: Props) {
-  const frame = useSafeAreaFrame()
+export function FakeModal({ children, close, onClose, visible }: Props) {
+  const common = useCommon()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
-  const translate = useSharedValue(frame.height)
+  const translate = useSharedValue(common.frame.height)
 
   useEffect(() => {
     if (visible) {
@@ -37,7 +41,7 @@ export function FakeModal({ children, onClose, visible }: Props) {
     .onEnd((event) => {
       if (Math.abs(event.translationY) > 100) {
         translate.value = withTiming(
-          event.translationY < 0 ? -frame.height : frame.height,
+          event.translationY < 0 ? -common.frame.height : common.frame.height,
           undefined,
           () => {
             runOnJS(onClose)()
@@ -48,18 +52,18 @@ export function FakeModal({ children, onClose, visible }: Props) {
       }
     })
 
-  const overlayStyle = useAnimatedStyle(
+  const overlay = useAnimatedStyle(
     () => ({
       opacity: interpolate(
         translate.value,
-        [-frame.height, 0, frame.height],
+        [-common.frame.height, 0, common.frame.height],
         [0, 1, 0],
       ),
     }),
     [translate.value],
   )
 
-  const contentStyle = useAnimatedStyle(() => ({
+  const content = useAnimatedStyle(() => ({
     transform: [
       {
         translateY: translate.value,
@@ -69,25 +73,41 @@ export function FakeModal({ children, onClose, visible }: Props) {
 
   return (
     <Modal transparent visible={visible}>
-      <Animated.View
-        pointerEvents="none"
-        style={[styles.overlay, overlayStyle]}
-      />
+      <Animated.View pointerEvents="none" style={[styles.overlay, overlay]} />
 
       <GestureDetector gesture={gesture}>
-        <Animated.View style={[styles.main, contentStyle]}>
+        <Animated.View collapsable={false} style={[styles.main, content]}>
           {children}
         </Animated.View>
       </GestureDetector>
+
+      {close ? (
+        <Animated.View style={[styles.close(common.insets.top), overlay]}>
+          <HeaderButton
+            icon="X"
+            onPress={() => {
+              translate.value = withTiming(
+                common.frame.height,
+                undefined,
+                () => {
+                  runOnJS(onClose)()
+                },
+              )
+            }}
+            size={theme.space[6]}
+            weight="bold"
+          />
+        </Animated.View>
+      ) : null}
     </Modal>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  header: (inset: number) => ({
+  close: (inset: number) => ({
     position: 'absolute',
-    right: 0,
-    top: inset,
+    right: theme.space[4],
+    top: inset + theme.space[4],
   }),
   main: {
     ...StyleSheet.absoluteFillObject,

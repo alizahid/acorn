@@ -1,5 +1,5 @@
 import { decode } from 'entities'
-import { compact } from 'lodash'
+import { compact, maxBy } from 'lodash'
 
 import { type CommentDataSchema } from '~/schemas/comments'
 import { type PostDataSchema } from '~/schemas/posts'
@@ -58,10 +58,7 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
         const video = 'hlsUrl' in media
         const gif = !video && 'gif' in media.s
 
-        const thumbnail =
-          'p' in media
-            ? media.p.find((resolution) => [640, 320].includes(resolution.x))?.u
-            : undefined
+        const thumbnail = 'p' in media ? maxBy(media.p, 'x')?.u : undefined
 
         return {
           height: video ? media.y : media.s.y,
@@ -80,9 +77,7 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
     return data.preview.images.map((image) => {
       const item = image.variants?.gif ?? image
 
-      const thumbnail = item.resolutions.find((resolution) =>
-        [640, 320].includes(resolution.width),
-      )?.url
+      const thumbnail = maxBy(item.resolutions, 'width')?.url
 
       return {
         height: item.source.height,

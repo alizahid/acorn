@@ -3,6 +3,7 @@ import { type ReactNode } from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { useImagePlaceholder } from '~/hooks/image'
 import { getDimensions } from '~/lib/media'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
@@ -16,9 +17,12 @@ type Props = {
 export function MarkdownMedia({ caption, media }: Props) {
   const { styles } = useStyles(stylesheet)
 
+  const placeholder = useImagePlaceholder()
+
   return (
     <View style={styles.main}>
       <Image
+        {...placeholder}
         source={media.url}
         style={styles.image(media.height, media.width)}
       />

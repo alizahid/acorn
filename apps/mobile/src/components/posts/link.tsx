@@ -3,6 +3,7 @@ import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useCommon } from '~/hooks/common'
+import { useImagePlaceholder } from '~/hooks/image'
 import { handleLink } from '~/lib/link'
 import { getDimensions } from '~/lib/media'
 import { type Post } from '~/types/post'
@@ -21,6 +22,8 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
   const common = useCommon()
 
   const { styles, theme } = useStyles(stylesheet)
+
+  const placeholder = useImagePlaceholder()
 
   const frameWidth = common.frame.width - margin
 
@@ -47,6 +50,7 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
     >
       {image ? (
         <Image
+          {...placeholder}
           recyclingKey={post.id}
           source={image.url}
           style={styles.image(
