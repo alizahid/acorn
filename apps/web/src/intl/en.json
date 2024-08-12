@@ -1,0 +1,22 @@
+{
+  "page": {
+    "landing": {
+      "footer": {
+        "github": "GitHub",
+        "reddit": "Reddit"
+      },
+      "header": {
+        "description": "Reddit for mobile",
+        "title": "Acorn"
+      },
+      "meta": {
+        "description": "Browse Reddit better on your mobile than ever before!",
+        "title": "Acorn: Reddit for mobile"
+      },
+      "screenshot": {
+        "dark": "Dark mode",
+        "light": "Light mode"
+      }
+    }
+  }
+}
