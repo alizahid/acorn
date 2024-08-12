@@ -5,7 +5,6 @@ import { useTranslations } from 'use-intl'
 
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { getDepthColor } from '~/lib/colors'
-import { type ColorToken } from '~/styles/colors'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
 
@@ -27,8 +26,6 @@ export function CommentMoreCard({ comment, post, style }: Props) {
 
   const { isPending, loadMore } = useLoadMoreComments()
 
-  const color = getDepthColor(comment.depth)
-
   return (
     <Pressable
       disabled={isPending}
@@ -49,7 +46,7 @@ export function CommentMoreCard({ comment, post, style }: Props) {
           })
         }
       }}
-      style={[styles.main(color, comment.depth), style]}
+      style={[styles.main(comment.depth), style]}
     >
       {isPending ? (
         <Spinner />
@@ -75,15 +72,19 @@ export function CommentMoreCard({ comment, post, style }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (color: ColorToken, depth: number) => ({
-    alignItems: 'center',
-    backgroundColor: theme.colors[color].a2,
-    borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
-    borderLeftWidth: depth > 0 ? 2 : undefined,
-    flexDirection: 'row',
-    gap: theme.space[4],
-    justifyContent: 'center',
-    marginLeft: theme.space[3] * depth,
-    paddingVertical: theme.space[2],
-  }),
+  main: (depth: number) => {
+    const color = getDepthColor(depth)
+
+    return {
+      alignItems: 'center',
+      backgroundColor: theme.colors[color].a3,
+      borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
+      borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
+      flexDirection: 'row',
+      gap: theme.space[4],
+      justifyContent: 'center',
+      marginLeft: theme.space[3] * depth,
+      paddingVertical: theme.space[2],
+    }
+  },
 }))

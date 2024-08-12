@@ -5,7 +5,6 @@ import { useFormatter } from 'use-intl'
 
 import { getDepthColor } from '~/lib/colors'
 import { withoutAgo } from '~/lib/intl'
-import { type ColorToken } from '~/styles/colors'
 import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
@@ -29,15 +28,9 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const color = getDepthColor(comment.depth)
-
   return (
     <View
-      style={[
-        styles.main(color, comment.depth),
-        collapsed && styles.collapsed,
-        style,
-      ]}
+      style={[styles.main(comment.depth), collapsed && styles.collapsed, style]}
     >
       {!collapsed ? (
         <Markdown
@@ -119,11 +112,15 @@ const stylesheet = createStyleSheet((theme) => ({
     gap: theme.space[4],
     marginBottom: theme.space[3],
   },
-  main: (color: ColorToken, depth: number) => ({
-    backgroundColor: theme.colors[color].a2,
-    borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
-    borderLeftWidth: depth > 0 ? 2 : undefined,
-    marginLeft: theme.space[3] * depth,
-    paddingLeft: theme.space[3],
-  }),
+  main: (depth: number) => {
+    const color = getDepthColor(depth)
+
+    return {
+      backgroundColor: theme.colors[color].a3,
+      borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
+      borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
+      marginLeft: theme.space[3] * depth,
+      paddingLeft: theme.space[3],
+    }
+  },
 }))
