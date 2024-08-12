@@ -1,4 +1,3 @@
-import { accentDark, accentLight } from './accent'
 import { type BlackAndWhite, type Colors, createPalette } from './colors'
 
 export const breakpoints = {
@@ -81,10 +80,10 @@ export type RadiusToken = keyof typeof typography
 export const lightTheme = {
   colors: {
     // theme
-    accent: accentLight,
+    accent: createPalette<Colors>('orange', 'orangeA'),
     black: createPalette<BlackAndWhite>('blackA'),
     white: createPalette<BlackAndWhite>('whiteA'),
-    gray: createPalette<Colors>('sage', 'sageA'),
+    gray: createPalette<Colors>('sand', 'sandA'),
 
     // radix
     amber: createPalette<Colors>('amber', 'amberA'),
@@ -126,10 +125,10 @@ export const lightTheme = {
 export const darkTheme = {
   colors: {
     // theme
-    accent: accentDark,
+    accent: createPalette<Colors>('orangeDark', 'orangeDarkA'),
     black: createPalette<BlackAndWhite>('blackA'),
     white: createPalette<BlackAndWhite>('whiteA'),
-    gray: createPalette<Colors>('sageDark', 'sageDarkA'),
+    gray: createPalette<Colors>('sandDark', 'sandDarkA'),
 
     // radix
     amber: createPalette<Colors>('amberDark', 'amberDarkA'),

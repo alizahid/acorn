@@ -88,7 +88,12 @@ export default function Screen() {
           {t('title')}
         </Text>
 
-        <Text highContrast={false} size="2" weight="medium">
+        <Text
+          highContrast={false}
+          size="2"
+          style={styles.description}
+          weight="medium"
+        >
           {t('description')}
         </Text>
       </View>
@@ -159,6 +164,9 @@ const stylesheet = createStyleSheet((theme) => ({
     padding: theme.space[4],
     paddingBottom: theme.space[4] + inset,
   }),
+  description: {
+    marginTop: theme.space[2],
+  },
   form: {
     flexDirection: 'row',
     gap: theme.space[4],

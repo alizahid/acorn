@@ -42,6 +42,7 @@ export function AccountSwitchCard() {
             onPress={() => {
               router.push('/sign-in?mode=dismissible')
             }}
+            weight="bold"
           />
         }
         style={styles.modal(accounts.length)}
