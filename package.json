@@ -1,0 +1,25 @@
+{
+  "name": "acorn",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "turbo build",
+    "clean": "rimraf --glob '**/.next' '**/.expo' '**/.turbo'",
+    "dev": "bun clean; turbo dev --parallel",
+    "lint": "turbo lint",
+    "lint:types": "turbo lint:types",
+    "nuke": "bun clean '**/node_modules'; rm bun.lockb",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.0.11",
+    "prettier": "^3.3.3",
+    "pretty-quick": "^4.0.0",
+    "rimraf": "^6.0.1",
+    "turbo": "^2.0.6"
+  },
+  "packageManager": "bun@1.1.22"
+}

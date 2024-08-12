@@ -1,0 +1,59 @@
+# dependencies
+#
+node_modules
+.pnp
+.pnp.js
+
+# env
+#
+.env
+.env*.local
+
+# testing
+#
+coverage
+
+# turbo
+#
+.turbo
+
+# vercel
+#
+.vercel
+
+# outputs
+#
+.next/
+out/
+build
+dist
+web-build/
+
+# debug
+#
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# misc
+#
+.DS_Store
+*.pem
+
+# typescript
+#
+tsconfig.tsbuildinfo
+
+# sentry
+#
+.env.sentry-build-plugin
+
+# expo
+#
+.expo/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
