@@ -116,7 +116,11 @@ export function PostGalleryCard({
               <ImageZoom
                 recyclingKey={recyclingKey}
                 source={item.url}
-                style={styles.image(dimensions.height, dimensions.width)}
+                style={styles.image(
+                  common.frame.height,
+                  dimensions.height,
+                  dimensions.width,
+                )}
               />
             )
           }}
@@ -138,9 +142,10 @@ const stylesheet = createStyleSheet((theme) => ({
   gif: {
     left: theme.space[2],
   },
-  image: (height: number, width: number) => ({
+  image: (maxHeight: number, height: number, width: number) => ({
     alignSelf: 'center',
     height,
+    maxHeight,
     width,
   }),
   label: {
