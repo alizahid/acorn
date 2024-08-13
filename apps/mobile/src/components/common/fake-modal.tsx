@@ -1,5 +1,5 @@
 import { type ReactNode, useEffect } from 'react'
-import { Modal, StyleSheet } from 'react-native'
+import { Modal, type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
   interpolate,
@@ -18,10 +18,11 @@ type Props = {
   children: ReactNode
   close?: boolean
   onClose: () => void
+  style?: StyleProp<ViewStyle>
   visible: boolean
 }
 
-export function FakeModal({ children, close, onClose, visible }: Props) {
+export function FakeModal({ children, close, onClose, style, visible }: Props) {
   const common = useCommon()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -76,7 +77,10 @@ export function FakeModal({ children, close, onClose, visible }: Props) {
       <Animated.View pointerEvents="none" style={[styles.overlay, overlay]} />
 
       <GestureDetector gesture={gesture}>
-        <Animated.View collapsable={false} style={[styles.main, content]}>
+        <Animated.View
+          collapsable={false}
+          style={[styles.main, content, style]}
+        >
           {children}
         </Animated.View>
       </GestureDetector>

@@ -102,6 +102,7 @@ export function VideoPlayer({
         onClose={() => {
           setVisible(false)
         }}
+        style={styles.modal}
         visible={visible}
       >
         <VideoView
@@ -111,7 +112,11 @@ export function VideoPlayer({
           contentFit="contain"
           nativeControls
           player={player}
-          style={styles.video(common.insets.top, common.insets.bottom)}
+          style={styles.video(
+            common.frame.height,
+            dimensions.height,
+            dimensions.width,
+          )}
         />
       </FakeModal>
     </>
@@ -123,10 +128,13 @@ const stylesheet = createStyleSheet((theme) => ({
     height: Math.min(maxHeight, height),
     width,
   }),
-  video: (top: number, bottom: number) => ({
-    flex: 1,
-    paddingBottom: bottom + theme.space[4],
-    paddingTop: top + theme.space[4],
+  modal: {
+    justifyContent: 'center',
+  },
+  video: (maxHeight: number, height: number, width: number) => ({
+    height,
+    maxHeight,
+    width,
   }),
   volume: {
     backgroundColor: theme.colors.black.a9,
