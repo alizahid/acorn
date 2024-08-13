@@ -54,7 +54,7 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    player.muted = visible ? muted : !viewing || muted
+    player.muted = visible ? false : !viewing || muted
 
     if (visible || (viewing && (nsfw ? true : !post.nsfw))) {
       player.play()
@@ -62,18 +62,6 @@ export function VideoPlayer({
       player.pause()
     }
   }, [muted, nsfw, player, post.nsfw, viewing, visible])
-
-  useEffect(() => {
-    const volumeChange = player.addListener('volumeChange', (volume) => {
-      updatePreferences({
-        muted: volume.isMuted,
-      })
-    })
-
-    return () => {
-      volumeChange.remove()
-    }
-  }, [player, updatePreferences])
 
   const dimensions = getDimensions(frameWidth, video)
 
