@@ -43,7 +43,7 @@ export function usePost(id: string, sort?: CommentFeedSort) {
     PostQueryKey
   >({
     enabled: !expired,
-    initialData() {
+    placeholderData() {
       return getPost(id)
     },
     async queryFn() {
@@ -81,16 +81,6 @@ export function usePost(id: string, sort?: CommentFeedSort) {
         sort,
       },
     ],
-    staleTime({ state }) {
-      if (
-        !state.data ||
-        (state.data.comments.length === 0 && state.data.post.comments > 0)
-      ) {
-        return 0
-      }
-
-      return Infinity
-    },
   })
 
   const collapsedQueryKey = ['collapsed', id] as const

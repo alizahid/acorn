@@ -29,9 +29,7 @@ export function useCommunity(name: string) {
     CommunityQueryKey
   >({
     enabled: !expired,
-    initialData() {
-      return getCommunity(name)
-    },
+    placeholderData: getCommunity(name),
     async queryFn() {
       const payload = await reddit({
         url: `/r/${name}/about`,
@@ -48,13 +46,6 @@ export function useCommunity(name: string) {
         name,
       },
     ],
-    staleTime({ state }) {
-      if (!state.data) {
-        return 0
-      }
-
-      return Infinity
-    },
   })
 
   return {

@@ -42,7 +42,7 @@ export async function getGif(id: string): Promise<Gif> {
   const expires = Number(uri.searchParams.get('expires')) || 0
 
   return {
-    expiresAt: fromUnixTime(expires),
+    expiresAt: fromUnixTime(expires - 60),
     source: {
       headers: {
         authorization: `Bearer ${token}`,
