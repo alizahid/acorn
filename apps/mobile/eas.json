@@ -4,8 +4,8 @@
       "channel": "development",
       "developmentClient": true,
       "distribution": "internal",
-      "ios": {
-        "simulator": true
+      "env": {
+        "CHANNEL": "development"
       }
     },
     "preview": {
@@ -18,6 +18,12 @@
       },
       "channel": "production",
       "distribution": "store"
+    },
+    "simulator": {
+      "extends": "development",
+      "ios": {
+        "simulator": true
+      }
     }
   }
 }

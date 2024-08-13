@@ -4,6 +4,10 @@
   "private": true,
   "main": "index.js",
   "scripts": {
+    "build": "env-cmd eas build --profile production --platform ios --local",
+    "build:dev": "env-cmd eas build --profile development --platform ios --local",
+    "build:preview": "env-cmd eas build --profile preview --platform ios --local",
+    "build:sim": "env-cmd eas build --profile simulator --platform ios --local",
     "clean": "rimraf --glob .expo",
     "dev": "bun clean; expo start --ios",
     "lint": "eslint . --fix",
@@ -73,6 +77,7 @@
     "@babel/core": "^7.25.2",
     "@types/lodash": "^4.17.7",
     "@types/react": "~18.2.79",
+    "env-cmd": "^10.1.0",
     "eslint-config-custom": "workspace:*",
     "typescript": "~5.3.3"
   },

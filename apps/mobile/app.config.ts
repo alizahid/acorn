@@ -19,6 +19,16 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
     ])
   }
 
+  const projectId = '8d7d5acc-3688-4cd2-b93f-52391f665348'
+
+  let name = 'Acorn'
+  let bundleIdentifier = 'blue.acorn'
+
+  if (process.env.CHANNEL === 'development') {
+    name += 'Devcorn'
+    bundleIdentifier += '.dev'
+  }
+
   return {
     ...config,
     android: {
@@ -38,14 +48,14 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
     },
     extra: {
       eas: {
-        projectId: '8d7d5acc-3688-4cd2-b93f-52391f665348',
+        projectId,
       },
       router: {
         origin: false,
       },
     },
     ios: {
-      bundleIdentifier: 'blue.acorn',
+      bundleIdentifier,
       config: {
         usesNonExemptEncryption: false,
       },
@@ -56,7 +66,7 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
         },
       },
     },
-    name: 'Acorn',
+    name,
     orientation: 'portrait',
     plugins,
     runtimeVersion: {
@@ -70,7 +80,7 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
       resizeMode: 'contain',
     },
     updates: {
-      url: 'https://u.expo.dev/edf2549b-dfeb-447c-8d58-77a5f6c52174',
+      url: `https://u.expo.dev/${projectId}`,
     },
     userInterfaceStyle: 'automatic',
     version: '1.0.0',
