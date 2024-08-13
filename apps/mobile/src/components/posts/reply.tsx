@@ -61,7 +61,7 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
             {user ? (
               <Pressable onPress={onReset} style={styles.reset}>
                 <Icon
-                  color={theme.colors.red.a11}
+                  color={theme.colors.red.a9}
                   name="X"
                   size={theme.typography[2].lineHeight}
                   weight="fill"

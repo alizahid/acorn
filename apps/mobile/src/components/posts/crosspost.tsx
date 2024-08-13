@@ -87,7 +87,7 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
             style={styles.item}
           >
             <Icon
-              color={theme.colors.accent.a11}
+              color={theme.colors.accent.a9}
               name="ArrowsSplit"
               size={theme.typography[2].lineHeight}
               style={styles.crossPost}
