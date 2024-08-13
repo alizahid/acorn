@@ -7,8 +7,10 @@ import { type FeedSort, type TopInterval } from '~/types/sort'
 export const PREFERENCES_KEY = 'preferences-storage'
 
 export type PreferencesPayload = {
+  browser: boolean
   interval?: TopInterval
   muted: boolean
+  nsfw: boolean
   sort: FeedSort
 }
 
@@ -19,7 +21,9 @@ type State = PreferencesPayload & {
 export const usePreferences = create<State>()(
   persist(
     (set) => ({
+      browser: false,
       muted: true,
+      nsfw: false,
       sort: 'hot',
       updatePreferences(payload) {
         set(payload)

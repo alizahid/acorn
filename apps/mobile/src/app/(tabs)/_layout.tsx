@@ -1,4 +1,5 @@
 import { Tabs } from 'expo-router'
+import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { CommunitiesHeader } from '~/components/communities/header'
@@ -8,6 +9,8 @@ import { SearchHeader } from '~/components/search/header'
 import { AccountSwitchCard } from '~/components/users/switch'
 
 export default function Layout() {
+  const t = useTranslations('tab')
+
   return (
     <Tabs
       screenOptions={{
@@ -36,9 +39,16 @@ export default function Layout() {
       />
 
       <Tabs.Screen
-        initialParams={{
-          page: 0,
+        name="user"
+        options={{
+          headerRight: () => <AccountSwitchCard />,
+          tabBarIcon: (props) => (
+            <Icon {...props} name="UserCircle" weight="duotone" />
+          ),
         }}
+      />
+
+      <Tabs.Screen
         name="communities"
         options={{
           header: () => <CommunitiesHeader />,
@@ -49,12 +59,12 @@ export default function Layout() {
       />
 
       <Tabs.Screen
-        name="user"
+        name="settings"
         options={{
-          headerRight: () => <AccountSwitchCard />,
           tabBarIcon: (props) => (
-            <Icon {...props} name="UserCircle" weight="duotone" />
+            <Icon {...props} name="GearSix" weight="duotone" />
           ),
+          title: t('settings.title'),
         }}
       />
     </Tabs>

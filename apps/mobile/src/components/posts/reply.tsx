@@ -1,10 +1,10 @@
 import { forwardRef, useState } from 'react'
 import { TextInput, View } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { useCommon } from '~/hooks/common'
 import { useKeyboard } from '~/hooks/keyboard'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
 
@@ -22,7 +22,7 @@ type Props = {
 
 export const PostReplyCard = forwardRef<TextInput, Props>(
   function PostReplyCard({ commentId, onReset, postId, user }, ref) {
-    const insets = useSafeAreaInsets()
+    const common = useCommon()
 
     const t = useTranslations('component.posts.reply')
 
@@ -51,7 +51,7 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
           placeholderTextColor={theme.colors.gray.a9}
           ref={ref}
           selectionColor={theme.colors.accent.a9}
-          style={styles.input(insets.bottom, focused)}
+          style={styles.input(common.insets.bottom, focused)}
           textAlignVertical="top"
           value={text}
         />

@@ -1,3 +1,4 @@
+import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import * as StatusBar from 'expo-status-bar'
 import { useState } from 'react'
@@ -8,9 +9,11 @@ import { useTranslations } from 'use-intl'
 import { useCommon } from '~/hooks/common'
 import { useImagePlaceholder } from '~/hooks/image'
 import { getDimensions } from '~/lib/media'
-import { type PostMedia } from '~/types/post'
+import { usePreferences } from '~/stores/preferences'
+import { type Post, type PostMedia } from '~/types/post'
 
 import { FakeModal } from '../common/fake-modal'
+import { Icon } from '../common/icon'
 import { ImageZoom } from '../common/image-zoom'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
@@ -18,6 +21,7 @@ import { Text } from '../common/text'
 type Props = {
   images: Array<PostMedia>
   margin?: number
+  post: Post
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
 }
@@ -25,6 +29,7 @@ type Props = {
 export function PostGalleryCard({
   images,
   margin = 0,
+  post,
   recyclingKey,
   style,
 }: Props) {
@@ -32,8 +37,9 @@ export function PostGalleryCard({
 
   const t = useTranslations('component.posts.gallery')
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
+  const { nsfw } = usePreferences()
   const placeholder = useImagePlaceholder()
 
   const [visible, setVisible] = useState(false)
@@ -73,6 +79,30 @@ export function PostGalleryCard({
               ),
             ]}
           />
+
+          {post.nsfw && !nsfw ? (
+            <BlurView
+              intensity={100}
+              pointerEvents="none"
+              style={[
+                styles.main(
+                  common.height.max,
+                  firstDimensions.height,
+                  firstDimensions.width,
+                ),
+                styles.blur,
+              ]}
+            >
+              <Icon
+                color={theme.colors.gray.a12}
+                name="Warning"
+                size={theme.space[6]}
+                weight="fill"
+              />
+
+              <Text weight="medium">{t('nsfw')}</Text>
+            </BlurView>
+          ) : null}
 
           {first.type === 'gif' ? (
             <View style={[styles.label, styles.gif]}>
@@ -136,6 +166,12 @@ export function PostGalleryCard({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  blur: {
+    alignItems: 'center',
+    gap: theme.space[4],
+    justifyContent: 'center',
+    position: 'absolute',
+  },
   count: {
     right: theme.space[2],
   },

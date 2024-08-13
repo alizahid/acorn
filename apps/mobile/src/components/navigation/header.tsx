@@ -2,8 +2,9 @@ import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { BlurView } from 'expo-blur'
 import { View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+
+import { useCommon } from '~/hooks/common'
 
 import { Text } from '../common/text'
 import { HeaderButton } from './header-button'
@@ -11,7 +12,7 @@ import { HeaderButton } from './header-button'
 type Props = NativeStackHeaderProps | BottomTabHeaderProps
 
 export function Header({ navigation, options, ...props }: Props) {
-  const insets = useSafeAreaInsets()
+  const common = useCommon()
 
   const { styles } = useStyles(stylesheet)
 
@@ -19,7 +20,7 @@ export function Header({ navigation, options, ...props }: Props) {
   const left = back || options.headerLeft
 
   return (
-    <BlurView intensity={75} style={styles.main(insets.top)}>
+    <BlurView intensity={75} style={styles.main(common.insets.top)}>
       <View style={styles.header}>
         {left ? (
           <View style={[styles.actions, styles.left]}>

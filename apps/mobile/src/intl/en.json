@@ -29,7 +29,8 @@
       "gallery": {
         "gif": "GIF",
         "item": "{current, number} of {count, number}",
-        "items": "{count, number} images"
+        "items": "{count, number} images",
+        "nsfw": "Sensitive content - tap to view"
       },
       "interval": {
         "all": "All time",
@@ -52,6 +53,9 @@
         "placeholder": "Sort",
         "rising": "Rising",
         "top": "Top"
+      },
+      "video": {
+        "nsfw": "Sensitive content - tap to watch"
       }
     },
     "search": {
@@ -109,6 +113,21 @@
     "search": {
       "title": "Search"
     },
+    "settings": {
+      "menu": {
+        "cache": {
+          "query": "Clear data",
+          "title": "Cache"
+        },
+        "general": {
+          "browser": "Open links in browser",
+          "muted": "Mute feed",
+          "nsfw": "Blur nsfw",
+          "title": "General"
+        }
+      },
+      "title": "Settings"
+    },
     "user": {
       "menu": {
         "comments": "Comments",
@@ -116,9 +135,6 @@
         "saved": "Saved",
         "submitted": "Posts",
         "upvoted": "Upvoted"
-      },
-      "settings": {
-        "cache": "Clear cache"
       }
     }
   }

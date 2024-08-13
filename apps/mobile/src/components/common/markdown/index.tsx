@@ -3,8 +3,8 @@
 import MarkdownToJsx from 'markdown-to-jsx'
 import { type PropsWithChildren } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 
+import { useCommon } from '~/hooks/common'
 import { type TypographyToken } from '~/styles/tokens'
 import { type PostMediaMeta } from '~/types/post'
 
@@ -37,9 +37,9 @@ type Props = {
 }
 
 export function Markdown({ children, margin = 0, meta, size, style }: Props) {
-  const frame = useSafeAreaFrame()
+  const common = useCommon()
 
-  const frameWidth = frame.width - margin
+  const frameWidth = common.frame.width - margin
 
   const props = {
     size,

@@ -1,8 +1,8 @@
 import { Image } from 'expo-image'
 import { View } from 'react-native'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { useCommon } from '~/hooks/common'
 import notFound from '~/images/not-found.png'
 
 import { Text } from './text'
@@ -12,13 +12,13 @@ type Props = {
 }
 
 export function Empty({ message }: Props) {
-  const frame = useSafeAreaFrame()
+  const common = useCommon()
 
   const { styles } = useStyles(stylesheet)
 
   return (
     <View style={styles.main}>
-      <Image source={notFound} style={styles.image(frame.width)} />
+      <Image source={notFound} style={styles.image(common.frame.width)} />
 
       {message ? (
         <Text size="4" weight="medium">

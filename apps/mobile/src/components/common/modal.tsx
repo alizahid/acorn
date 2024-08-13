@@ -8,8 +8,9 @@ import {
   View,
   type ViewStyle,
 } from 'react-native'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+
+import { useCommon } from '~/hooks/common'
 
 import { Text } from './text'
 
@@ -32,7 +33,7 @@ export function Modal({
   title,
   visible,
 }: Props) {
-  const frame = useSafeAreaFrame()
+  const common = useCommon()
 
   const { styles } = useStyles(stylesheet)
 
@@ -51,7 +52,7 @@ export function Modal({
           style={styles.overlay}
         />
 
-        <View style={styles.content(frame.height)}>
+        <View style={styles.content(common.frame.height)}>
           <View style={styles.header}>
             {left ? (
               <View style={[styles.actions, styles.left]}>{left}</View>

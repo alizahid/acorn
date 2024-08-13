@@ -1,12 +1,10 @@
 import { useCallback } from 'react'
-import {
-  useSafeAreaFrame,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context'
+import { useWindowDimensions } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export function useCommon() {
   const insets = useSafeAreaInsets()
-  const frame = useSafeAreaFrame()
+  const frame = useWindowDimensions()
 
   const height = {
     communities: insets.top + 64,

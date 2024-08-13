@@ -59,6 +59,7 @@ export function PostCard({
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
           margin={margin}
+          post={post}
           video={post.media.video}
           viewing={viewing}
         />
@@ -68,6 +69,7 @@ export function PostCard({
         <PostGalleryCard
           images={post.media.images}
           margin={margin}
+          post={post}
           recyclingKey={post.id}
         />
       ) : null}

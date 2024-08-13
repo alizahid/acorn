@@ -1,11 +1,11 @@
 import { BlurView } from 'expo-blur'
 import { useGlobalSearchParams, useRouter } from 'expo-router'
 import { View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { useCommon } from '~/hooks/common'
 import { SearchType } from '~/types/search'
 
 import { Icon } from '../common/icon'
@@ -19,7 +19,7 @@ const schema = z.object({
 })
 
 export function SearchHeader() {
-  const insets = useSafeAreaInsets()
+  const common = useCommon()
 
   const router = useRouter()
 
@@ -30,7 +30,7 @@ export function SearchHeader() {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <BlurView intensity={75} style={styles.main(insets.top)}>
+    <BlurView intensity={75} style={styles.main(common.insets.top)}>
       <View style={styles.header}>
         <View>
           <Icon

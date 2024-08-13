@@ -10,6 +10,7 @@ import ArrowSquareOutBold from 'react-native-phosphor/src/bold/ArrowSquareOut'
 import ArrowsSplitBold from 'react-native-phosphor/src/bold/ArrowsSplit'
 import ArrowUpBold from 'react-native-phosphor/src/bold/ArrowUp'
 import BookmarkSimpleBold from 'react-native-phosphor/src/bold/BookmarkSimple'
+import BrowserBold from 'react-native-phosphor/src/bold/Browser'
 import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
 import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
 import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
@@ -17,7 +18,9 @@ import ChatCircleTextBold from 'react-native-phosphor/src/bold/ChatCircleText'
 import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
+import DropBold from 'react-native-phosphor/src/bold/Drop'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
+import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
 import LinkBold from 'react-native-phosphor/src/bold/Link'
@@ -34,6 +37,7 @@ import TrashBold from 'react-native-phosphor/src/bold/Trash'
 import UserCircleBold from 'react-native-phosphor/src/bold/UserCircle'
 import UsersFourBold from 'react-native-phosphor/src/bold/UsersFour'
 import UserSwitchBold from 'react-native-phosphor/src/bold/UserSwitch'
+import WarningBold from 'react-native-phosphor/src/bold/Warning'
 import XBold from 'react-native-phosphor/src/bold/X'
 import XCircleBold from 'react-native-phosphor/src/bold/XCircle'
 import ArchiveDuotone from 'react-native-phosphor/src/duotone/Archive'
@@ -46,6 +50,7 @@ import ArrowSquareOutDuotone from 'react-native-phosphor/src/duotone/ArrowSquare
 import ArrowsSplitDuotone from 'react-native-phosphor/src/duotone/ArrowsSplit'
 import ArrowUpDuotone from 'react-native-phosphor/src/duotone/ArrowUp'
 import BookmarkSimpleDuotone from 'react-native-phosphor/src/duotone/BookmarkSimple'
+import BrowserDuotone from 'react-native-phosphor/src/duotone/Browser'
 import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
 import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
 import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
@@ -53,7 +58,9 @@ import ChatCircleTextDuotone from 'react-native-phosphor/src/duotone/ChatCircleT
 import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
+import DropDuotone from 'react-native-phosphor/src/duotone/Drop'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
+import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
@@ -70,6 +77,7 @@ import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
 import UserCircleDuotone from 'react-native-phosphor/src/duotone/UserCircle'
 import UsersFourDuotone from 'react-native-phosphor/src/duotone/UsersFour'
 import UserSwitchDuotone from 'react-native-phosphor/src/duotone/UserSwitch'
+import WarningDuotone from 'react-native-phosphor/src/duotone/Warning'
 import XDuotone from 'react-native-phosphor/src/duotone/X'
 import XCircleDuotone from 'react-native-phosphor/src/duotone/XCircle'
 import ArchiveFill from 'react-native-phosphor/src/fill/Archive'
@@ -82,6 +90,7 @@ import ArrowSquareOutFill from 'react-native-phosphor/src/fill/ArrowSquareOut'
 import ArrowsSplitFill from 'react-native-phosphor/src/fill/ArrowsSplit'
 import ArrowUpFill from 'react-native-phosphor/src/fill/ArrowUp'
 import BookmarkSimpleFill from 'react-native-phosphor/src/fill/BookmarkSimple'
+import BrowserFill from 'react-native-phosphor/src/fill/Browser'
 import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
 import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
 import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
@@ -89,7 +98,9 @@ import ChatCircleTextFill from 'react-native-phosphor/src/fill/ChatCircleText'
 import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
+import DropFill from 'react-native-phosphor/src/fill/Drop'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
+import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
 import LinkFill from 'react-native-phosphor/src/fill/Link'
@@ -106,6 +117,7 @@ import TrashFill from 'react-native-phosphor/src/fill/Trash'
 import UserCircleFill from 'react-native-phosphor/src/fill/UserCircle'
 import UsersFourFill from 'react-native-phosphor/src/fill/UsersFour'
 import UserSwitchFill from 'react-native-phosphor/src/fill/UserSwitch'
+import WarningFill from 'react-native-phosphor/src/fill/Warning'
 import XFill from 'react-native-phosphor/src/fill/X'
 import XCircleFill from 'react-native-phosphor/src/fill/XCircle'
 import ArchiveRegular from 'react-native-phosphor/src/regular/Archive'
@@ -118,6 +130,7 @@ import ArrowSquareOutRegular from 'react-native-phosphor/src/regular/ArrowSquare
 import ArrowsSplitRegular from 'react-native-phosphor/src/regular/ArrowsSplit'
 import ArrowUpRegular from 'react-native-phosphor/src/regular/ArrowUp'
 import BookmarkSimpleRegular from 'react-native-phosphor/src/regular/BookmarkSimple'
+import BrowserRegular from 'react-native-phosphor/src/regular/Browser'
 import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
 import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
 import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
@@ -125,7 +138,9 @@ import ChatCircleTextRegular from 'react-native-phosphor/src/regular/ChatCircleT
 import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
+import DropRegular from 'react-native-phosphor/src/regular/Drop'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
+import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
 import LinkRegular from 'react-native-phosphor/src/regular/Link'
@@ -142,6 +157,7 @@ import TrashRegular from 'react-native-phosphor/src/regular/Trash'
 import UserCircleRegular from 'react-native-phosphor/src/regular/UserCircle'
 import UsersFourRegular from 'react-native-phosphor/src/regular/UsersFour'
 import UserSwitchRegular from 'react-native-phosphor/src/regular/UserSwitch'
+import WarningRegular from 'react-native-phosphor/src/regular/Warning'
 import XRegular from 'react-native-phosphor/src/regular/X'
 import XCircleRegular from 'react-native-phosphor/src/regular/XCircle'
 
@@ -230,6 +246,12 @@ const icons = {
     fill: BookmarkSimpleFill,
     regular: BookmarkSimpleRegular,
   },
+  Browser: {
+    bold: BrowserBold,
+    duotone: BrowserDuotone,
+    fill: BrowserFill,
+    regular: BrowserRegular,
+  },
   CaretDown: {
     bold: CaretDownBold,
     duotone: CaretDownDuotone,
@@ -272,11 +294,23 @@ const icons = {
     fill: CopyFill,
     regular: CopyRegular,
   },
+  Drop: {
+    bold: DropBold,
+    duotone: DropDuotone,
+    fill: DropFill,
+    regular: DropRegular,
+  },
   Flame: {
     bold: FlameBold,
     duotone: FlameDuotone,
     fill: FlameFill,
     regular: FlameRegular,
+  },
+  GearSix: {
+    bold: GearSixBold,
+    duotone: GearSixDuotone,
+    fill: GearSixFill,
+    regular: GearSixRegular,
   },
   HardDrives: {
     bold: HardDrivesBold,
@@ -373,6 +407,12 @@ const icons = {
     duotone: UsersFourDuotone,
     fill: UsersFourFill,
     regular: UsersFourRegular,
+  },
+  Warning: {
+    bold: WarningBold,
+    duotone: WarningDuotone,
+    fill: WarningFill,
+    regular: WarningRegular,
   },
   X: {
     bold: XBold,

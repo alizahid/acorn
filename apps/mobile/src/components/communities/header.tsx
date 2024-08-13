@@ -1,11 +1,11 @@
 import { BlurView } from 'expo-blur'
 import { useGlobalSearchParams, useRouter } from 'expo-router'
 import { View } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { useCommon } from '~/hooks/common'
 import { CommunitiesType } from '~/types/community'
 
 import { SegmentedControl } from '../common/segmented-control'
@@ -16,7 +16,7 @@ const schema = z.object({
 })
 
 export function CommunitiesHeader() {
-  const insets = useSafeAreaInsets()
+  const common = useCommon()
 
   const router = useRouter()
 
@@ -27,7 +27,7 @@ export function CommunitiesHeader() {
   const { styles } = useStyles(stylesheet)
 
   return (
-    <BlurView intensity={75} style={styles.main(insets.top)}>
+    <BlurView intensity={75} style={styles.main(common.insets.top)}>
       <View style={styles.header}>
         <SegmentedControl
           active={CommunitiesType.indexOf(params.type)}

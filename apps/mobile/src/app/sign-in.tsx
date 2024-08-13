@@ -10,7 +10,6 @@ import {
 import { Controller, useForm } from 'react-hook-form'
 import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -20,6 +19,7 @@ import { Copy } from '~/components/common/copy'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
+import { useCommon } from '~/hooks/common'
 import { useKeyboard } from '~/hooks/keyboard'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
 import { type AuthCodeForm, AuthCodeSchema } from '~/reddit/auth'
@@ -31,7 +31,7 @@ const schema = z.object({
 })
 
 export default function Screen() {
-  const insets = useSafeAreaInsets()
+  const common = useCommon()
 
   const router = useRouter()
   const navigation = useNavigation()
@@ -77,7 +77,7 @@ export default function Screen() {
 
   return (
     <Animated.ScrollView
-      contentContainerStyle={styles.content(insets.bottom)}
+      contentContainerStyle={styles.content(common.insets.bottom)}
       keyboardDismissMode="on-drag"
       style={[styles.main, keyboard.styles]}
     >

@@ -8,10 +8,10 @@ import {
   useState,
 } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { handleLink } from '~/lib/link'
+import { useCommon } from '~/hooks/common'
+import { useLink } from '~/hooks/link'
 import { type Dimensions, getDimensions } from '~/lib/media'
 import { type TypographyToken } from '~/styles/tokens'
 import { type PostMediaMeta } from '~/types/post'
@@ -51,6 +51,8 @@ export function Wrapper({ children, style }: Props) {
 }
 
 export function Link({ children, frameWidth, href, meta }: LinkProps) {
+  const handleLink = useLink()
+
   const media = findMedia({
     frameWidth,
     href,
@@ -81,7 +83,7 @@ export function Link({ children, frameWidth, href, meta }: LinkProps) {
 }
 
 export function Image({ margin = 0, src }: ImageProps) {
-  const frame = useSafeAreaFrame()
+  const common = useCommon()
 
   const [dimensions, setDimensions] = useState<Dimensions>()
 
@@ -89,7 +91,7 @@ export function Image({ margin = 0, src }: ImageProps) {
     <ExpoImage
       onLoad={(event) => {
         setDimensions(
-          getDimensions(frame.width - margin, {
+          getDimensions(common.frame.width - margin, {
             height: event.source.height,
             width: event.source.width,
           }),
