@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -22,21 +21,13 @@ export function RedGifsVideo({ margin = 0, style, video, viewing }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
-  const { data, get } = useRedGifs(video.url)
+  const { gif } = useRedGifs(video.url)
 
-  useEffect(() => {
-    if (data && data.expiresAt > new Date()) {
-      return
-    }
-
-    get(video.url)
-  }, [data, get, video.url])
-
-  if (data) {
+  if (gif) {
     return (
       <VideoPlayer
         margin={margin}
-        source={data.source}
+        source={gif.source}
         style={style}
         video={video}
         viewing={viewing}

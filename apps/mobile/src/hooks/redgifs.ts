@@ -1,61 +1,44 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
-import { type VideoSource } from 'expo-video'
-import { create } from 'mutative'
+import { useQuery } from '@tanstack/react-query'
+import { differenceInMilliseconds } from 'date-fns'
 
-import { queryClient } from '~/lib/query'
-import { getGif } from '~/lib/redgifs'
+import { getGif, type Gif } from '~/lib/redgifs'
 
-type Item = {
-  expiresAt: Date
-  source: VideoSource
-}
+type RedGifsQueryKey = [
+  'redgifs',
+  {
+    id: string
+  },
+]
 
-type RedGifsData = Record<string, Item>
+type RedGifsData = Gif
 
 export function useRedGifs(id: string) {
-  const queryKey = ['redgifs']
-
-  const { data } = useQuery<RedGifsData>({
-    initialData: {},
-    queryKey,
-  })
-
-  const { isPending, mutate } = useMutation<Item | undefined, Error, string>({
-    async mutationFn(variables) {
-      const cache = queryClient.getQueryData<RedGifsData>(queryKey)
-
-      if (!cache) {
-        return getGif(variables)
-      }
-
-      const exists = cache[variables]
-
-      if (exists && exists.expiresAt > new Date()) {
-        return
-      }
-
-      return getGif(variables)
+  const { data, isLoading } = useQuery<
+    RedGifsData | undefined,
+    Error,
+    RedGifsData,
+    RedGifsQueryKey
+  >({
+    queryFn() {
+      return getGif(id)
     },
-    onSuccess(item, variables) {
-      if (!item) {
-        return
+    queryKey: [
+      'redgifs',
+      {
+        id,
+      },
+    ],
+    staleTime({ state }) {
+      if (!state.data) {
+        return 0
       }
 
-      queryClient.setQueryData<RedGifsData>(queryKey, (previous) => {
-        if (!previous) {
-          return previous
-        }
-
-        return create(previous, (draft) => {
-          draft[variables] = item
-        })
-      })
+      return differenceInMilliseconds(state.data.expiresAt, new Date())
     },
   })
 
   return {
-    data: data[id],
-    get: mutate,
-    isPending,
+    gif: data,
+    isLoading,
   }
 }
