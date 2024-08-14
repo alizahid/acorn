@@ -1,3 +1,4 @@
+import { useIsFocused } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import {
   useFocusEffect,
@@ -37,6 +38,7 @@ export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
   const common = useCommon()
+  const focused = useIsFocused()
 
   const { styles } = useStyles(stylesheet)
 
@@ -87,7 +89,9 @@ export default function Screen() {
           )
         }
         ListHeaderComponent={
-          post ? <PostCard expanded label="user" post={post} viewing /> : null
+          post ? (
+            <PostCard expanded label="user" post={post} viewing={focused} />
+          ) : null
         }
         contentContainerStyle={styles.main(common.height.header)}
         data={comments}

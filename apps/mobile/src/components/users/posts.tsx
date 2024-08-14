@@ -62,7 +62,7 @@ export function UserPostsList({
     username,
   })
 
-  const [viewing, setViewing] = useState<Array<string>>([])
+  const [viewing, setViewing] = useState<string>()
 
   return (
     <FlashList
@@ -95,7 +95,11 @@ export function UserPostsList({
         }
       }}
       onViewableItemsChanged={({ viewableItems }) => {
-        setViewing(() => viewableItems.map((item) => item.key))
+        const viewable = viewableItems[0]?.key
+
+        if (viewable) {
+          setViewing(() => viewable)
+        }
       }}
       ref={list}
       refreshControl={
@@ -112,11 +116,12 @@ export function UserPostsList({
         <PostCard
           label={label}
           post={item}
-          viewing={focused ? viewing.includes(item.id) : false}
+          viewing={focused ? viewing === item.id : false}
         />
       )}
       viewabilityConfig={{
         itemVisiblePercentThreshold: 100,
+        waitForInteraction: false,
       }}
     />
   )

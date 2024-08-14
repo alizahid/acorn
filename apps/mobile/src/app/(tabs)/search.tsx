@@ -1,7 +1,7 @@
-import { useScrollToTop } from '@react-navigation/native'
+import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useLocalSearchParams } from 'expo-router'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
@@ -25,9 +25,10 @@ const schema = z.object({
 export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
-  const common = useCommon()
-
   const list = useRef<FlashList<Community | Post>>(null)
+
+  const common = useCommon()
+  const focused = useIsFocused()
 
   // @ts-expect-error -- go away
   useScrollToTop(list)
@@ -47,6 +48,8 @@ export default function Screen() {
       offset: 0,
     })
   }, [params.type])
+
+  const [viewing, setViewing] = useState<string>()
 
   return (
     <FlashList
@@ -68,6 +71,13 @@ export default function Screen() {
       getItemType={() => params.type}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
+      onViewableItemsChanged={({ viewableItems }) => {
+        const viewable = viewableItems[0]?.key
+
+        if (viewable) {
+          setViewing(() => viewable)
+        }
+      }}
       ref={list}
       renderItem={({ item }) => {
         if (params.type === 'community') {
@@ -75,8 +85,16 @@ export default function Screen() {
         }
 
         return (
-          <PostCard label="subreddit" post={item as Post} viewing={false} />
+          <PostCard
+            label="subreddit"
+            post={item as Post}
+            viewing={focused ? viewing === item.id : false}
+          />
         )
+      }}
+      viewabilityConfig={{
+        itemVisiblePercentThreshold: 100,
+        waitForInteraction: false,
       }}
     />
   )
