@@ -145,8 +145,9 @@ export function VideoPlayer({
           player={player}
           style={styles.video(
             common.frame.height,
-            dimensions.height,
-            dimensions.width,
+            common.frame.width,
+            video.height,
+            video.width,
           )}
         />
       </FakeModal>
@@ -168,11 +169,23 @@ const stylesheet = createStyleSheet((theme) => ({
   modal: {
     justifyContent: 'center',
   },
-  video: (maxHeight: number, height: number, width: number) => ({
-    height,
-    maxHeight,
-    width,
-  }),
+  video: (
+    frameHeight: number,
+    frameWidth: number,
+    height: number,
+    width: number,
+  ) => {
+    const dimensions = getDimensions(frameWidth, {
+      height,
+      width,
+    })
+
+    return {
+      height: dimensions.height,
+      maxHeight: frameHeight,
+      width: dimensions.width,
+    }
+  },
   volume: {
     backgroundColor: theme.colors.black.a9,
     borderRadius: theme.space[4],
