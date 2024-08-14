@@ -20,12 +20,11 @@ import { Text } from '../text'
 import { findMedia, MarkdownMedia } from './media'
 
 type Props = PropsWithChildren<{
+  margin?: number
+  recyclingKey?: string
+  size?: TypographyToken
   style?: StyleProp<ViewStyle>
 }>
-
-type TextProps = Props & {
-  size?: TypographyToken
-}
 
 type LinkProps = Props & {
   frameWidth: number
@@ -40,7 +39,7 @@ type ImageProps = Props & {
   title?: string
 }
 
-type ListProps = TextProps & {
+type ListProps = Props & {
   start?: number
 }
 
@@ -50,7 +49,14 @@ export function Wrapper({ children, style }: Props) {
   return <View style={[styles.wrapper, style]}>{cleanUp(children)}</View>
 }
 
-export function Link({ children, frameWidth, href, meta }: LinkProps) {
+export function Link({
+  children,
+  frameWidth,
+  href,
+  margin,
+  meta,
+  recyclingKey,
+}: LinkProps) {
   const handleLink = useLink()
 
   const media = findMedia({
@@ -66,7 +72,14 @@ export function Link({ children, frameWidth, href, meta }: LinkProps) {
       ? undefined
       : children
 
-    return <MarkdownMedia caption={caption} media={media} />
+    return (
+      <MarkdownMedia
+        caption={caption}
+        margin={margin}
+        media={media}
+        recyclingKey={recyclingKey}
+      />
+    )
   }
 
   return (
@@ -109,7 +122,7 @@ export function BlockQuote({ children }: Props) {
   return <View style={styles.blockquote}>{cleanUp(children)}</View>
 }
 
-export function LineBreak({ size }: TextProps) {
+export function LineBreak({ size }: Props) {
   return <Text size={size}>{'\n'}</Text>
 }
 
@@ -119,7 +132,7 @@ export function HorizontalRule() {
   return <View style={styles.hr} />
 }
 
-export function Code({ children, size }: TextProps) {
+export function Code({ children, size }: Props) {
   return (
     <Text code size={size}>
       {children}
@@ -127,7 +140,7 @@ export function Code({ children, size }: TextProps) {
   )
 }
 
-export function StrikeThrough({ children, size }: TextProps) {
+export function StrikeThrough({ children, size }: Props) {
   const { styles } = useStyles(stylesheet)
 
   return (

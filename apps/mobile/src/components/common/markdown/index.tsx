@@ -32,16 +32,26 @@ type Props = {
   children: string
   margin?: number
   meta?: PostMediaMeta
+  recyclingKey?: string
   size?: TypographyToken
   style?: StyleProp<ViewStyle>
 }
 
-export function Markdown({ children, margin = 0, meta, size, style }: Props) {
+export function Markdown({
+  children,
+  margin = 0,
+  meta,
+  recyclingKey,
+  size,
+  style,
+}: Props) {
   const common = useCommon()
 
   const frameWidth = common.frame.width - margin
 
   const props = {
+    margin,
+    recyclingKey,
     size,
   }
 
@@ -58,9 +68,9 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           a: {
             component: Link,
             props: {
+              ...props,
               frameWidth,
               meta,
-              size,
             },
           },
           blockquote: {
@@ -85,6 +95,7 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           h1: {
             component: Text,
             props: {
+              ...props,
               size: '6',
               weight: 'bold',
             },
@@ -92,6 +103,7 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           h2: {
             component: Text,
             props: {
+              ...props,
               size: '5',
               weight: 'bold',
             },
@@ -99,6 +111,7 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           h3: {
             component: Text,
             props: {
+              ...props,
               size: '5',
               weight: 'bold',
             },
@@ -106,6 +119,7 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           h4: {
             component: Text,
             props: {
+              ...props,
               size: '4',
               weight: 'bold',
             },
@@ -113,6 +127,7 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           h5: {
             component: Text,
             props: {
+              ...props,
               size: '4',
               weight: 'bold',
             },
@@ -120,6 +135,7 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           h6: {
             component: Text,
             props: {
+              ...props,
               size: '4',
               weight: 'bold',
             },
@@ -129,15 +145,11 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           },
           image: {
             component: Image,
-            props: {
-              margin,
-            },
+            props,
           },
           img: {
             component: Image,
-            props: {
-              margin,
-            },
+            props,
           },
           li: {
             component: Text,
@@ -166,6 +178,7 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           strong: {
             component: Text,
             props: {
+              ...props,
               size,
               weight: 'bold',
             },
@@ -173,6 +186,7 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           sub: {
             component: Text,
             props: {
+              ...props,
               size: '1',
               weight: 'light',
             },
@@ -180,15 +194,18 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           sup: {
             component: Text,
             props: {
+              ...props,
               size: '1',
               weight: 'light',
             },
           },
           table: {
             component: Table,
+            props,
           },
           tbody: {
             component: TableBody,
+            props,
           },
           td: {
             component: Text,
@@ -201,15 +218,18 @@ export function Markdown({ children, margin = 0, meta, size, style }: Props) {
           th: {
             component: Text,
             props: {
+              ...props,
               size,
               weight: 'bold',
             },
           },
           thead: {
             component: TableHeader,
+            props,
           },
           tr: {
             component: TableRow,
+            props,
           },
           ul: {
             component: List,

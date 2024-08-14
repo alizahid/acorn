@@ -1,9 +1,8 @@
-import { Image } from 'expo-image'
 import { type ReactNode } from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { useImagePlaceholder } from '~/hooks/image'
+import { PostGalleryCard } from '~/components/posts/gallery'
 import { getDimensions } from '~/lib/media'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
@@ -11,20 +10,25 @@ import { Text } from '../text'
 
 type Props = {
   caption?: ReactNode
+  margin?: number
   media: PostMedia
+  recyclingKey?: string
 }
 
-export function MarkdownMedia({ caption, media }: Props) {
+export function MarkdownMedia({
+  caption,
+  margin = 0,
+  media,
+  recyclingKey,
+}: Props) {
   const { styles } = useStyles(stylesheet)
-
-  const placeholder = useImagePlaceholder()
 
   return (
     <View style={styles.main}>
-      <Image
-        {...placeholder}
-        source={media.url}
-        style={styles.image(media.height, media.width)}
+      <PostGalleryCard
+        images={[media]}
+        margin={margin}
+        recyclingKey={recyclingKey}
       />
 
       {caption && caption !== '' ? (
