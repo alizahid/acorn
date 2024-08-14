@@ -25,7 +25,7 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
   let bundleIdentifier = 'blue.acorn'
 
   if (process.env.CHANNEL === 'development') {
-    name += 'Devcorn'
+    name = 'Devcorn'
     bundleIdentifier += '.dev'
   }
 
