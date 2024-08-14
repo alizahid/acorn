@@ -138,6 +138,7 @@ export function PostGalleryCard({
           decelerationRate="fast"
           disableScrollViewPanResponder
           horizontal
+          initialNumToRender={3}
           keyExtractor={(item, index) => String(index)}
           renderItem={({ item }) => {
             const dimensions = getDimensions(common.frame.width, item)

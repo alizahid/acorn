@@ -82,6 +82,7 @@ export function PostList({
         tabBar: tabBar ? common.height.tabBar : 0,
       })}
       data={posts}
+      drawDistance={common.frame.height}
       estimatedItemSize={120}
       extraData={{
         viewing,

@@ -67,6 +67,7 @@ export default function Screen() {
         common.height.tabBar,
       )}
       data={results}
+      drawDistance={common.frame.height}
       estimatedItemSize={params.type === 'community' ? 56 : 120}
       getItemType={() => params.type}
       keyboardDismissMode="on-drag"
