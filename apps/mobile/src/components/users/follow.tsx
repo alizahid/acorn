@@ -40,32 +40,41 @@ export function UserFollowCard({ profile }: Props) {
 
   return (
     <View style={styles.main}>
-      <View style={styles.info}>
-        {items.map((item) => (
-          <View key={item.key} style={styles.badge}>
-            <Text align="center" highContrast={false} size="1" weight="medium">
-              {t(item.key)}
-            </Text>
+      <Text weight="bold">{profile.name}</Text>
 
-            <Text align="center" tabular weight="bold">
-              {item.value}
-            </Text>
-          </View>
-        ))}
+      <View style={styles.content}>
+        <View style={styles.info}>
+          {items.map((item) => (
+            <View key={item.key} style={styles.badge}>
+              <Text
+                align="center"
+                highContrast={false}
+                size="1"
+                weight="medium"
+              >
+                {t(item.key)}
+              </Text>
+
+              <Text align="center" tabular weight="bold">
+                {item.value}
+              </Text>
+            </View>
+          ))}
+        </View>
+
+        <Button
+          color={profile.subscribed ? 'red' : 'accent'}
+          label={t(profile.subscribed ? 'unfollow' : 'follow')}
+          loading={isPending}
+          onPress={() => {
+            follow({
+              action: profile.subscribed ? 'unfollow' : 'follow',
+              id: profile.subreddit,
+              name: profile.name,
+            })
+          }}
+        />
       </View>
-
-      <Button
-        color={profile.subscribed ? 'red' : 'accent'}
-        label={t(profile.subscribed ? 'unfollow' : 'follow')}
-        loading={isPending}
-        onPress={() => {
-          follow({
-            action: profile.subscribed ? 'unfollow' : 'follow',
-            id: profile.subreddit,
-            name: profile.name,
-          })
-        }}
-      />
     </View>
   )
 }
@@ -74,16 +83,19 @@ const stylesheet = createStyleSheet((theme) => ({
   badge: {
     gap: theme.space[1],
   },
+  content: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[6],
+    justifyContent: 'space-between',
+  },
   info: {
     flexDirection: 'row',
     gap: theme.space[6],
   },
   main: {
-    alignItems: 'center',
     backgroundColor: theme.colors.accent.a3,
-    flexDirection: 'row',
-    gap: theme.space[6],
-    justifyContent: 'space-between',
+    gap: theme.space[4],
     padding: theme.space[4],
   },
 }))

@@ -2,11 +2,13 @@ import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
+  useRouter,
 } from 'expo-router'
 import { useState } from 'react'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { HeaderButton } from '~/components/navigation/header-button'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { FeedSortMenu } from '~/components/posts/sort'
 import { UserPostsList } from '~/components/users/posts'
@@ -21,6 +23,7 @@ const schema = z.object({
 })
 
 export default function Screen() {
+  const router = useRouter()
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
@@ -34,17 +37,27 @@ export default function Screen() {
   const [sort, setSort] = useState<UserFeedSort>('hot')
   const [interval, setInterval] = useState<TopInterval>()
 
-  useFocusEffect(() => {
-    const title =
-      params.type === 'submitted'
-        ? accountId === profile?.name
-          ? t('submitted')
-          : profile?.name
-        : t(params.type)
+  const show = profile && accountId !== profile.name
 
+  useFocusEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <>
+          {show ? (
+            <HeaderButton
+              contrast
+              icon="ChatCircleText"
+              onPress={() => {
+                router.navigate({
+                  params: {
+                    name: profile.name,
+                  },
+                  pathname: '/users/[name]/comments',
+                })
+              }}
+            />
+          ) : null}
+
           <FeedSortMenu
             hideLabel
             onChange={(next) => {
@@ -69,7 +82,7 @@ export default function Screen() {
           ) : null}
         </>
       ),
-      title,
+      title: t(params.type),
     })
   })
 
@@ -78,10 +91,8 @@ export default function Screen() {
       insets={['top', 'bottom', 'header']}
       interval={interval}
       label="subreddit"
-      onRefresh={() => {
-        void refetch()
-      }}
-      profile={accountId === profile?.name ? undefined : profile}
+      onRefresh={refetch}
+      profile={show ? profile : undefined}
       sort={sort}
       type={params.type}
       username={params.name}

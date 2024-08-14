@@ -14,15 +14,15 @@
       }
     },
     "communities": {
-      "follow": {
+      "header": {
+        "communities": "Communities",
+        "users": "Users"
+      },
+      "join": {
         "age": "Age",
         "join": "Join",
         "leave": "Leave",
         "subscribers": "Subscribers"
-      },
-      "header": {
-        "communities": "Communities",
-        "users": "Users"
       }
     },
     "posts": {

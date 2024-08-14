@@ -14,7 +14,7 @@ type Props = {
 }
 
 export function CommunityJoinCard({ community }: Props) {
-  const t = useTranslations('component.communities.follow')
+  const t = useTranslations('component.communities.join')
   const f = useFormatter()
 
   const { styles } = useStyles(stylesheet)

@@ -1,58 +1,47 @@
-import { useIsFocused } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
-import { useState } from 'react'
+import { useRouter } from 'expo-router'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
-import { PostCard } from '~/components/posts/card'
 import { type Insets, useCommon } from '~/hooks/common'
-import { type UserPostsProps, useUserPosts } from '~/hooks/queries/user/posts'
+import { useComments } from '~/hooks/queries/user/comments'
 import { type Profile } from '~/types/user'
 
+import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
-import { type PostLabel } from '../posts/footer'
+import { Pressable } from '../common/pressable'
 import { UserFollowCard } from './follow'
 
-type Props = UserPostsProps & {
+type Props = {
   insets: Insets
-  label?: PostLabel
   onRefresh?: () => void
   profile?: Profile
+  user: string
 }
 
-export function UserPostsList({
+export function UserCommentsList({
   insets = [],
-  interval,
-  label,
   onRefresh,
   profile,
-  sort,
-  type,
-  username,
+  user,
 }: Props) {
+  const router = useRouter()
+
   const { styles } = useStyles(stylesheet)
 
   const common = useCommon()
-  const focused = useIsFocused()
 
   const {
+    comments,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    posts,
     refetch,
-  } = useUserPosts({
-    interval,
-    sort,
-    type,
-    username,
-  })
-
-  const [viewing, setViewing] = useState<Array<string>>([])
+  } = useComments(user)
 
   const props = common.listProps(insets)
 
@@ -67,20 +56,14 @@ export function UserPostsList({
       ListHeaderComponent={
         profile ? <UserFollowCard profile={profile} /> : null
       }
-      data={posts}
-      drawDistance={common.frame.height}
-      estimatedItemSize={120}
-      extraData={{
-        viewing,
-      }}
-      keyExtractor={(item) => item.id}
+      data={comments}
+      estimatedItemSize={72}
+      getItemType={(item) => item.type}
+      keyExtractor={(item) => item.data.id}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()
         }
-      }}
-      onViewableItemsChanged={({ viewableItems }) => {
-        setViewing(() => viewableItems.map((item) => item.key))
       }}
       refreshControl={
         <RefreshControl
@@ -92,16 +75,20 @@ export function UserPostsList({
           }}
         />
       }
-      renderItem={({ item }) => (
-        <PostCard
-          label={label}
-          post={item}
-          viewing={focused ? viewing.includes(item.id) : false}
-        />
-      )}
-      viewabilityConfig={{
-        itemVisiblePercentThreshold: 100,
-        waitForInteraction: false,
+      renderItem={({ item }) => {
+        if (item.type === 'reply') {
+          return (
+            <Pressable
+              onPress={() => {
+                router.navigate(`/posts/${item.data.postId}`)
+              }}
+            >
+              <CommentCard comment={item.data} />
+            </Pressable>
+          )
+        }
+
+        return null
       }}
     />
   )
@@ -109,8 +96,7 @@ export function UserPostsList({
 
 const stylesheet = createStyleSheet((theme) => ({
   separator: {
-    backgroundColor: theme.colors.gray.a6,
-    height: 1,
+    height: theme.space[2],
   },
   spinner: {
     margin: theme.space[4],
