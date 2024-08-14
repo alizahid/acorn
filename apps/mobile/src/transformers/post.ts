@@ -40,7 +40,7 @@ export function transformPost(data: PostDataSchema): Post {
 }
 
 function getType(data: PostDataSchema): PostType {
-  if (data.crosspost_parent) {
+  if (data.crosspost_parent_list?.[0]) {
     return 'crosspost'
   }
 
