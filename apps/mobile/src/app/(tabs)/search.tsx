@@ -49,7 +49,7 @@ export default function Screen() {
     })
   }, [params.type])
 
-  const [viewing, setViewing] = useState<string>()
+  const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
     <FlashList
@@ -73,11 +73,7 @@ export default function Screen() {
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
       onViewableItemsChanged={({ viewableItems }) => {
-        const viewable = viewableItems[0]?.key
-
-        if (viewable) {
-          setViewing(() => viewable)
-        }
+        setViewing(() => viewableItems.map((item) => item.key))
       }}
       ref={list}
       renderItem={({ item }) => {
@@ -89,7 +85,7 @@ export default function Screen() {
           <PostCard
             label="subreddit"
             post={item as Post}
-            viewing={focused ? viewing === item.id : false}
+            viewing={focused ? viewing.includes(item.id) : false}
           />
         )
       }}
