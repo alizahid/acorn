@@ -1,13 +1,13 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
 
-import { type Post, type PostMedia } from '~/types/post'
+import { type PostMedia } from '~/types/post'
 
 import { VideoPlayer } from './player'
 import { RedGifsVideo } from './red-gifs'
 
 type Props = {
   margin?: number
-  post: Post
+  nsfw?: boolean
   style?: StyleProp<ViewStyle>
   video: PostMedia
   viewing: boolean
@@ -15,7 +15,7 @@ type Props = {
 
 export function PostVideoCard({
   margin = 0,
-  post,
+  nsfw,
   style,
   video,
   viewing,
@@ -24,7 +24,7 @@ export function PostVideoCard({
     return (
       <RedGifsVideo
         margin={margin}
-        post={post}
+        nsfw={nsfw}
         style={style}
         video={video}
         viewing={viewing}
@@ -35,7 +35,7 @@ export function PostVideoCard({
   return (
     <VideoPlayer
       margin={margin}
-      post={post}
+      nsfw={nsfw}
       source={video.url}
       style={style}
       video={video}

@@ -7,7 +7,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { useCommon } from '~/hooks/common'
+import { type Insets, useCommon } from '~/hooks/common'
 import { type UserPostsProps, useUserPosts } from '~/hooks/queries/user/posts'
 import { type Post } from '~/types/post'
 import { type Profile } from '~/types/user'
@@ -18,23 +18,19 @@ import { type PostLabel } from '../posts/footer'
 import { UserFollowCard } from './follow'
 
 type Props = UserPostsProps & {
-  header?: boolean
-  inset?: boolean
+  insets: Insets
   label?: PostLabel
   onRefresh?: () => void
   profile?: Profile
-  tabBar?: boolean
 }
 
 export function UserPostsList({
-  header,
-  inset,
+  insets = [],
   interval,
   label,
   onRefresh,
   profile,
   sort,
-  tabBar,
   type,
   username,
 }: Props) {
@@ -64,12 +60,11 @@ export function UserPostsList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
+  const props = common.listProps(insets)
+
   return (
     <FlashList
-      {...common.listProps({
-        header,
-        tabBar,
-      })}
+      {...props}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
@@ -78,11 +73,6 @@ export function UserPostsList({
       ListHeaderComponent={
         profile ? <UserFollowCard profile={profile} /> : null
       }
-      contentContainerStyle={styles.main({
-        header: header ? common.height.header : 0,
-        inset: inset ? common.insets.bottom : 0,
-        tabBar: tabBar ? common.height.tabBar : 0,
-      })}
       data={posts}
       drawDistance={common.frame.height}
       estimatedItemSize={120}
@@ -101,7 +91,7 @@ export function UserPostsList({
       ref={list}
       refreshControl={
         <RefreshControl
-          offset={header ? common.height.header : 0}
+          offset={props.progressViewOffset}
           onRefresh={() => {
             onRefresh?.()
 
@@ -125,18 +115,6 @@ export function UserPostsList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: ({
-    header,
-    inset,
-    tabBar,
-  }: {
-    header: number
-    inset: number
-    tabBar: number
-  }) => ({
-    paddingBottom: tabBar + inset,
-    paddingTop: header,
-  }),
   separator: {
     backgroundColor: theme.colors.gray.a6,
     height: 1,

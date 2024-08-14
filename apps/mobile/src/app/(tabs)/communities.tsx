@@ -23,7 +23,7 @@ const schema = z.object({
 export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const list = useRef<FlashList<Community | string>>(null)
 
@@ -51,31 +51,19 @@ export default function Screen() {
     .map((item, index) => (typeof item === 'string' ? index : null))
     .filter((item) => item !== null) as unknown as Array<number>
 
+  const props = common.listProps(
+    ['top', 'bottom', 'communities', 'tabBar'],
+    [-theme.space[2], theme.space[2]],
+  )
+
   return (
     <FlashList
-      {...common.listProps({
-        communities: true,
-        tabBar: true,
-      })}
+      {...props}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
-      StickyHeaderComponent={() => (
-        <View
-          style={{
-            backgroundColor: 'magenta',
-            height: 100,
-            width: 100,
-          }}
-        />
-      )}
-      contentContainerStyle={styles.main(
-        common.height.communities,
-        common.height.tabBar,
-      )}
       data={data[params.type]}
-      estimatedFirstItemOffset={common.height.communities}
       estimatedItemSize={56}
       getItemType={(item) =>
         typeof item === 'string' ? 'header' : 'community'
@@ -88,10 +76,7 @@ export default function Screen() {
       }}
       ref={list}
       refreshControl={
-        <RefreshControl
-          offset={common.height.communities}
-          onRefresh={refetch}
-        />
+        <RefreshControl offset={props.progressViewOffset} onRefresh={refetch} />
       }
       renderItem={({ item, target }) => {
         if (typeof item === 'string') {
@@ -100,7 +85,7 @@ export default function Screen() {
               style={[
                 styles.header,
                 target === 'StickyHeader' &&
-                  styles.sticky(common.height.communities),
+                  styles.sticky(props.progressViewOffset),
               ]}
             >
               <Text color="accent" weight="bold">
@@ -125,10 +110,6 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingRight: theme.space[4],
     paddingVertical: theme.space[2],
   },
-  main: (top: number, bottom: number) => ({
-    paddingBottom: bottom + theme.space[2],
-    paddingTop: top - theme.space[2],
-  }),
   spinner: {
     margin: theme.space[4],
   },

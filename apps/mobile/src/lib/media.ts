@@ -92,10 +92,14 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
 
 export function getVideo(data: PostDataSchema): PostMedia | undefined {
   if (data.media && 'reddit_video' in data.media) {
+    const url = new URL(decode(data.media.reddit_video.hls_url))
+
+    url.searchParams.delete('a')
+
     return {
       height: data.media.reddit_video.height,
       type: 'video',
-      url: decode(data.media.reddit_video.hls_url),
+      url: url.toString(),
       width: data.media.reddit_video.width,
     }
   }

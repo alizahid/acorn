@@ -8,7 +8,7 @@ import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 export default function Screen() {
   const navigation = useNavigation()
 
-  const { interval, sort, updatePreferences } = usePreferences()
+  const { interval, sort, update } = usePreferences()
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -26,7 +26,7 @@ export default function Screen() {
                 next.interval = undefined
               }
 
-              updatePreferences(next)
+              update(next)
             }}
             value={sort}
           />
@@ -34,7 +34,7 @@ export default function Screen() {
           {sort === 'top' ? (
             <TopIntervalMenu
               onChange={(next) => {
-                updatePreferences({
+                update({
                   interval: next,
                 })
               }}
@@ -47,6 +47,11 @@ export default function Screen() {
   })
 
   return (
-    <PostList header interval={interval} label="subreddit" sort={sort} tabBar />
+    <PostList
+      insets={['top', 'bottom', 'header', 'tabBar']}
+      interval={interval}
+      label="subreddit"
+      sort={sort}
+    />
   )
 }

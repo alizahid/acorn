@@ -1,41 +1,35 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
-import { useRef, useState } from 'react'
+import { type ReactElement, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { useCommon } from '~/hooks/common'
+import { type Insets, useCommon } from '~/hooks/common'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
-import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
-import { CommunityJoinCard } from '../communities/join'
 import { type PostLabel } from './footer'
 
 type Props = PostsProps & {
-  header?: boolean
-  inset?: boolean
+  header?: ReactElement
+  insets: Insets
   label?: PostLabel
   onRefresh?: () => void
-  profile?: Community
-  tabBar?: boolean
 }
 
 export function PostList({
   community,
   header,
-  inset,
+  insets = [],
   interval,
   label,
   onRefresh,
-  profile,
   sort,
-  tabBar,
 }: Props) {
   const { styles } = useStyles(stylesheet)
 
@@ -62,25 +56,17 @@ export function PostList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
+  const props = common.listProps(insets)
+
   return (
     <FlashList
-      {...common.listProps({
-        header,
-        tabBar,
-      })}
+      {...props}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
-      ListHeaderComponent={
-        profile ? <CommunityJoinCard community={profile} /> : null
-      }
-      contentContainerStyle={styles.main({
-        header: header ? common.height.header : 0,
-        inset: inset ? common.insets.bottom : 0,
-        tabBar: tabBar ? common.height.tabBar : 0,
-      })}
+      ListHeaderComponent={header}
       data={posts}
       drawDistance={common.frame.height}
       estimatedItemSize={120}
@@ -99,7 +85,7 @@ export function PostList({
       ref={list}
       refreshControl={
         <RefreshControl
-          offset={header ? common.height.header : 0}
+          offset={props.progressViewOffset}
           onRefresh={() => {
             onRefresh?.()
 
@@ -123,18 +109,6 @@ export function PostList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: ({
-    header,
-    inset,
-    tabBar,
-  }: {
-    header: number
-    inset: number
-    tabBar: number
-  }) => ({
-    paddingBottom: tabBar + inset,
-    paddingTop: header,
-  }),
   separator: {
     backgroundColor: theme.colors.gray.a6,
     height: 1,

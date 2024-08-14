@@ -10,7 +10,7 @@ import { type Community } from '~/types/community'
 import { Button } from '../common/button'
 
 type Props = {
-  community?: Community
+  community: Community
 }
 
 export function CommunityJoinCard({ community }: Props) {
@@ -24,14 +24,14 @@ export function CommunityJoinCard({ community }: Props) {
   const items = [
     {
       key: 'subscribers',
-      value: f.number(community?.subscribers ?? 0, {
+      value: f.number(community.subscribers, {
         notation: 'compact',
       }),
     },
     {
       key: 'age',
       value: withoutAgo(
-        f.relativeTime(community?.createdAt ?? new Date(), {
+        f.relativeTime(community.createdAt, {
           style: 'narrow',
         }),
       ),
@@ -55,14 +55,10 @@ export function CommunityJoinCard({ community }: Props) {
       </View>
 
       <Button
-        color={community?.subscribed ? 'red' : 'accent'}
-        label={t(community?.subscribed ? 'leave' : 'join')}
+        color={community.subscribed ? 'red' : 'accent'}
+        label={t(community.subscribed ? 'leave' : 'join')}
         loading={isPending}
         onPress={() => {
-          if (!community) {
-            return
-          }
-
           join({
             action: community.subscribed ? 'leave' : 'join',
             id: community.id,

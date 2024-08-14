@@ -57,20 +57,16 @@ export default function Screen() {
     refetch,
   } = useComments(params.name)
 
+  const props = common.listProps(['top', 'bottom', 'header'])
+
   return (
     <FlashList
-      {...common.listProps({
-        header: true,
-      })}
+      {...props}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
-      contentContainerStyle={styles.main(
-        common.height.header,
-        common.insets.bottom,
-      )}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}
@@ -82,7 +78,7 @@ export default function Screen() {
       }}
       ref={list}
       refreshControl={
-        <RefreshControl offset={common.height.header} onRefresh={refetch} />
+        <RefreshControl offset={props.progressViewOffset} onRefresh={refetch} />
       }
       renderItem={({ item }) => {
         if (item.type === 'reply') {
@@ -104,10 +100,6 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (top: number, bottom: number) => ({
-    paddingBottom: bottom,
-    paddingTop: top,
-  }),
   separator: {
     height: theme.space[2],
   },

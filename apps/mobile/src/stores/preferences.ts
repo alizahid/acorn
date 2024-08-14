@@ -15,7 +15,7 @@ export type PreferencesPayload = {
 }
 
 type State = PreferencesPayload & {
-  updatePreferences: (payload: Partial<PreferencesPayload>) => void
+  update: (payload: Partial<PreferencesPayload>) => void
 }
 
 export const usePreferences = create<State>()(
@@ -25,7 +25,7 @@ export const usePreferences = create<State>()(
       muted: true,
       nsfw: false,
       sort: 'hot',
-      updatePreferences(payload) {
+      update(payload) {
         set(payload)
       },
     }),

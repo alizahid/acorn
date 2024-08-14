@@ -6,6 +6,7 @@ import {
 import { useState } from 'react'
 import { z } from 'zod'
 
+import { CommunityJoinCard } from '~/components/communities/join'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
 import { FeedSortMenu } from '~/components/posts/sort'
@@ -61,12 +62,13 @@ export default function Screen() {
   return (
     <PostList
       community={params.name}
-      header
-      inset
+      header={
+        community ? <CommunityJoinCard community={community} /> : undefined
+      }
+      insets={['top', 'bottom', 'header']}
       interval={interval}
       label="user"
       onRefresh={refetch}
-      profile={community}
       sort={sort}
     />
   )

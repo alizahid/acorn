@@ -9,6 +9,7 @@ import { z } from 'zod'
 
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
+import { RefreshControl } from '~/components/common/refresh-control'
 import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
 import { useCommon } from '~/hooks/common'
@@ -33,11 +34,11 @@ export default function Screen() {
   // @ts-expect-error -- go away
   useScrollToTop(list)
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const [query] = useDebounce(params.query, 500)
 
-  const { isLoading, results } = useSearch({
+  const { isLoading, refetch, results } = useSearch({
     query,
     type: params.type,
   })
@@ -51,21 +52,21 @@ export default function Screen() {
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
+  const props = common.listProps(
+    ['top', 'bottom', 'search', 'tabBar'],
+    [
+      params.type === 'community' ? theme.space[2] : 0,
+      params.type === 'community' ? theme.space[2] : 0,
+    ],
+  )
+
   return (
     <FlashList
-      {...common.listProps({
-        search: true,
-        tabBar: true,
-      })}
+      {...props}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(params.type)} />
       )}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-      contentContainerStyle={styles.main(
-        params.type,
-        common.height.search,
-        common.height.tabBar,
-      )}
       data={results}
       drawDistance={common.frame.height}
       estimatedItemSize={params.type === 'community' ? 56 : 120}
@@ -76,6 +77,9 @@ export default function Screen() {
         setViewing(() => viewableItems.map((item) => item.key))
       }}
       ref={list}
+      refreshControl={
+        <RefreshControl offset={props.progressViewOffset} onRefresh={refetch} />
+      }
       renderItem={({ item }) => {
         if (params.type === 'community') {
           return <CommunityCard community={item as Community} />
@@ -98,10 +102,6 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (type: SearchType, top: number, bottom: number) => ({
-    paddingBottom: bottom + (type === 'community' ? theme.space[2] : 0),
-    paddingTop: top + (type === 'community' ? theme.space[2] : 0),
-  }),
   separator: (type: SearchType) => {
     if (type === 'community') {
       return {}

@@ -70,12 +70,12 @@ export default function Screen() {
     })
   })
 
+  const props = common.listProps(['top', 'header'])
+
   return (
     <>
       <FlashList
-        {...common.listProps({
-          header: true,
-        })}
+        {...props}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         ListEmptyComponent={
           isFetching ? (
@@ -93,14 +93,16 @@ export default function Screen() {
             <PostCard expanded label="user" post={post} viewing={focused} />
           ) : null
         }
-        contentContainerStyle={styles.main(common.height.header)}
         data={comments}
         estimatedItemSize={72}
         getItemType={(item) => item.type}
         keyExtractor={(item) => item.data.id}
         keyboardDismissMode="on-drag"
         refreshControl={
-          <RefreshControl offset={common.height.header} onRefresh={refetch} />
+          <RefreshControl
+            offset={props.progressViewOffset}
+            onRefresh={refetch}
+          />
         }
         renderItem={({ item }) => {
           if (item.type === 'reply') {
@@ -157,9 +159,6 @@ const stylesheet = createStyleSheet((theme) => ({
     justifyContent: 'center',
     paddingHorizontal: theme.space[3],
   },
-  main: (top: number) => ({
-    paddingTop: top,
-  }),
   separator: {
     height: theme.space[2],
   },

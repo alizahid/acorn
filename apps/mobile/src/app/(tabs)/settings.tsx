@@ -11,7 +11,7 @@ export default function Screen() {
   const t = useTranslations('tab.settings')
 
   const { clearCache } = useAuth()
-  const { browser, muted, nsfw, updatePreferences } = usePreferences()
+  const { browser, muted, nsfw, update } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -22,14 +22,14 @@ export default function Screen() {
           v{Constants.expoConfig?.version ?? 0}
         </Text>
       }
-      insets={['header', 'tabBar']}
+      insets={['top', 'bottom', 'header', 'tabBar']}
       items={[
         t('menu.general.title'),
         {
           icon: 'SpeakerSimpleX',
           label: t('menu.general.muted'),
           onSelect(value) {
-            updatePreferences({
+            update({
               muted: value,
             })
           },
@@ -40,7 +40,7 @@ export default function Screen() {
           icon: 'Drop',
           label: t('menu.general.nsfw'),
           onSelect(value) {
-            updatePreferences({
+            update({
               nsfw: !value,
             })
           },
@@ -51,7 +51,7 @@ export default function Screen() {
           icon: 'Browser',
           label: t('menu.general.browser'),
           onSelect(value) {
-            updatePreferences({
+            update({
               browser: value,
             })
           },

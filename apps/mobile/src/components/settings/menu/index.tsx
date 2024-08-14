@@ -5,7 +5,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { type IconName } from '~/components/common/icon'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
-import { useCommon } from '~/hooks/common'
+import { type Insets, useCommon } from '~/hooks/common'
 
 import { SettingsItem } from './item'
 
@@ -38,7 +38,7 @@ export type SettingsItem = {
 type Props = {
   footer?: ReactElement
   header?: ReactElement
-  insets?: Array<'header' | 'tabBar'>
+  insets: Insets
   items: Array<SettingsItem | string | null>
   onRefresh?: () => Promise<unknown>
 }
@@ -46,7 +46,7 @@ type Props = {
 export function SettingsMenu({
   footer,
   header,
-  insets,
+  insets = [],
   items,
   onRefresh,
 }: Props) {
@@ -54,29 +54,19 @@ export function SettingsMenu({
 
   const { styles } = useStyles(stylesheet)
 
-  const hasHeader = insets?.includes('header')
-  const hasTabBar = insets?.includes('tabBar')
+  const props = common.listProps(insets)
 
   return (
     <FlatList
-      {...common.listProps({
-        header: hasHeader,
-        tabBar: hasTabBar,
-      })}
+      {...props}
       ListFooterComponent={footer}
       ListHeaderComponent={header}
-      contentContainerStyle={styles.main(
-        hasHeader ? common.height.header : 0,
-        hasTabBar ? common.height.tabBar : 0,
-      )}
       data={items}
       keyExtractor={(item, index) => String(index)}
       refreshControl={
         onRefresh ? (
           <RefreshControl
-            offset={
-              insets?.includes('header') ? common.height.header : undefined
-            }
+            offset={props.progressViewOffset}
             onRefresh={onRefresh}
           />
         ) : undefined
@@ -121,11 +111,6 @@ const stylesheet = createStyleSheet((theme) => ({
   last: {
     marginBottom: theme.space[1],
   },
-  main: (top: number, bottom: number) => ({
-    flex: 1,
-    paddingBottom: bottom,
-    paddingTop: top,
-  }),
   separator: {
     height: theme.space[4],
   },

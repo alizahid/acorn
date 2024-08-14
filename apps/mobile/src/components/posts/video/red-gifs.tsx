@@ -5,13 +5,13 @@ import { Spinner } from '~/components/common/spinner'
 import { useCommon } from '~/hooks/common'
 import { useRedGifs } from '~/hooks/redgifs'
 import { getDimensions } from '~/lib/media'
-import { type Post, type PostMedia } from '~/types/post'
+import { type PostMedia } from '~/types/post'
 
 import { VideoPlayer } from './player'
 
 type Props = {
   margin?: number
-  post: Post
+  nsfw?: boolean
   style?: StyleProp<ViewStyle>
   video: PostMedia
   viewing: boolean
@@ -19,7 +19,7 @@ type Props = {
 
 export function RedGifsVideo({
   margin = 0,
-  post,
+  nsfw,
   style,
   video,
   viewing,
@@ -34,7 +34,7 @@ export function RedGifsVideo({
     return (
       <VideoPlayer
         margin={margin}
-        post={post}
+        nsfw={nsfw}
         source={gif.source}
         style={style}
         video={video}

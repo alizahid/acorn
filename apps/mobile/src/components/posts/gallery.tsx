@@ -10,7 +10,7 @@ import { useCommon } from '~/hooks/common'
 import { useImagePlaceholder } from '~/hooks/image'
 import { getDimensions } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
-import { type Post, type PostMedia } from '~/types/post'
+import { type PostMedia } from '~/types/post'
 
 import { FakeModal } from '../common/fake-modal'
 import { Icon } from '../common/icon'
@@ -21,7 +21,7 @@ import { Text } from '../common/text'
 type Props = {
   images: Array<PostMedia>
   margin?: number
-  post: Post
+  nsfw?: boolean
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
 }
@@ -29,7 +29,7 @@ type Props = {
 export function PostGalleryCard({
   images,
   margin = 0,
-  post,
+  nsfw,
   recyclingKey,
   style,
 }: Props) {
@@ -39,7 +39,7 @@ export function PostGalleryCard({
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const { nsfw } = usePreferences()
+  const preferences = usePreferences()
   const placeholder = useImagePlaceholder()
 
   const [visible, setVisible] = useState(false)
@@ -80,7 +80,7 @@ export function PostGalleryCard({
             ]}
           />
 
-          {post.nsfw && !nsfw ? (
+          {nsfw && !preferences.nsfw ? (
             <BlurView
               intensity={100}
               pointerEvents="none"

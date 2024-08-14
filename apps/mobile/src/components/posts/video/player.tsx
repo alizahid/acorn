@@ -9,7 +9,7 @@ import { Text } from '~/components/common/text'
 import { useCommon } from '~/hooks/common'
 import { getDimensions } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
-import { type Post, type PostMedia } from '~/types/post'
+import { type PostMedia } from '~/types/post'
 
 import { FakeModal } from '../../common/fake-modal'
 import { Icon } from '../../common/icon'
@@ -17,7 +17,7 @@ import { Pressable } from '../../common/pressable'
 
 type Props = {
   margin?: number
-  post: Post
+  nsfw?: boolean
   source: VideoSource
   style?: StyleProp<ViewStyle>
   video: PostMedia
@@ -26,7 +26,7 @@ type Props = {
 
 export function VideoPlayer({
   margin = 0,
-  post,
+  nsfw,
   source,
   style,
   video,
@@ -36,7 +36,7 @@ export function VideoPlayer({
 
   const common = useCommon()
 
-  const { muted, nsfw, updatePreferences } = usePreferences()
+  const preferences = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -54,14 +54,14 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    player.muted = visible ? false : !viewing || muted
+    player.muted = visible ? false : !viewing || preferences.muted
 
-    if (visible || (viewing && (nsfw ? true : !post.nsfw))) {
+    if (visible || (viewing && (preferences.nsfw ? true : !nsfw))) {
       player.play()
     } else {
       player.pause()
     }
-  }, [muted, nsfw, player, post.nsfw, viewing, visible])
+  }, [nsfw, player, preferences.muted, preferences.nsfw, viewing, visible])
 
   const dimensions = getDimensions(frameWidth, video)
 
@@ -88,7 +88,7 @@ export function VideoPlayer({
           )}
         />
 
-        {post.nsfw && !nsfw ? (
+        {nsfw && !preferences.nsfw ? (
           <BlurView
             intensity={100}
             pointerEvents="none"
@@ -114,15 +114,15 @@ export function VideoPlayer({
           <Pressable
             hitSlop={theme.space[3]}
             onPress={() => {
-              updatePreferences({
-                muted: !muted,
+              preferences.update({
+                muted: !preferences.muted,
               })
             }}
             style={styles.volume}
           >
             <Icon
               color={theme.colors.white.a11}
-              name={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
+              name={preferences.muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
               size={theme.space[4]}
             />
           </Pressable>

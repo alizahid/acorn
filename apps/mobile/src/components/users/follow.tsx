@@ -10,7 +10,7 @@ import { type Profile } from '~/types/user'
 import { Button } from '../common/button'
 
 type Props = {
-  profile?: Profile
+  profile: Profile
 }
 
 export function UserFollowCard({ profile }: Props) {
@@ -24,14 +24,14 @@ export function UserFollowCard({ profile }: Props) {
   const items = [
     {
       key: 'karma',
-      value: f.number(profile?.karma.total ?? 0, {
+      value: f.number(profile.karma.total, {
         notation: 'compact',
       }),
     },
     {
       key: 'age',
       value: withoutAgo(
-        f.relativeTime(profile?.createdAt ?? new Date(), {
+        f.relativeTime(profile.createdAt, {
           style: 'narrow',
         }),
       ),
@@ -55,14 +55,10 @@ export function UserFollowCard({ profile }: Props) {
       </View>
 
       <Button
-        color={profile?.subscribed ? 'red' : 'accent'}
-        label={t(profile?.subscribed ? 'unfollow' : 'follow')}
+        color={profile.subscribed ? 'red' : 'accent'}
+        label={t(profile.subscribed ? 'unfollow' : 'follow')}
         loading={isPending}
         onPress={() => {
-          if (!profile) {
-            return
-          }
-
           follow({
             action: profile.subscribed ? 'unfollow' : 'follow',
             id: profile.subreddit,

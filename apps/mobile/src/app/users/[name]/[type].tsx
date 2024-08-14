@@ -75,8 +75,7 @@ export default function Screen() {
 
   return (
     <UserPostsList
-      header
-      inset
+      insets={['top', 'bottom', 'header']}
       interval={interval}
       label="subreddit"
       onRefresh={() => {

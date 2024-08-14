@@ -52,7 +52,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     },
     initialPageParam: null,
     async queryFn({ pageParam }) {
-      const path = community ? `/r/${community}` : `/${sort}`
+      const path = community ? `/r/${community}/${sort}` : `/${sort}`
 
       const url = new URL(path, REDDIT_URI)
 
