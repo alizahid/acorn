@@ -21,7 +21,7 @@ export function Copy({ code = true, style, value }: Props) {
 
   return (
     <View style={[styles.main, style]}>
-      <Text code={code} style={styles.uri}>
+      <Text style={styles.uri} variant={code ? 'mono' : 'sans'}>
         {value}
       </Text>
 

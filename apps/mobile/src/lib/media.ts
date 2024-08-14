@@ -142,7 +142,15 @@ export type Dimensions = {
 export function getDimensions(
   maxWidth: number,
   { height, width }: Dimensions,
+  fit?: boolean,
 ): Dimensions {
+  if (fit && width < maxWidth) {
+    return {
+      height,
+      width,
+    }
+  }
+
   return {
     height: (height / width) * maxWidth,
     width: maxWidth,

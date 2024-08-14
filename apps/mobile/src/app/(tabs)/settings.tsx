@@ -18,7 +18,12 @@ export default function Screen() {
   return (
     <SettingsMenu
       footer={
-        <Text code highContrast={false} size="1" style={styles.version}>
+        <Text
+          highContrast={false}
+          size="1"
+          style={styles.version}
+          variant="mono"
+        >
           v{Constants.expoConfig?.version ?? 0}
         </Text>
       }

@@ -1,4 +1,3 @@
-import { type ReactNode } from 'react'
 import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -9,18 +8,13 @@ import { type PostMedia, type PostMediaMeta } from '~/types/post'
 import { Text } from '../text'
 
 type Props = {
-  caption?: ReactNode
+  caption?: string
   margin?: number
   media: PostMedia
   recyclingKey?: string
 }
 
-export function MarkdownMedia({
-  caption,
-  margin = 0,
-  media,
-  recyclingKey,
-}: Props) {
+export function Media({ caption, margin = 0, media, recyclingKey }: Props) {
   const { styles } = useStyles(stylesheet)
 
   return (
@@ -28,10 +22,11 @@ export function MarkdownMedia({
       <PostGalleryCard
         images={[media]}
         margin={margin}
+        maxHeight={10_000}
         recyclingKey={recyclingKey}
       />
 
-      {caption && caption !== '' ? (
+      {caption?.length ? (
         <Text align="center" highContrast={false} size="2" weight="medium">
           {caption}
         </Text>
@@ -54,24 +49,37 @@ const stylesheet = createStyleSheet((theme) => ({
 
 type FindMediaProps = {
   frameWidth: number
-  href: string
   meta?: PostMediaMeta
+  url: string
 }
 
 export function findMedia({
   frameWidth,
-  href,
   meta,
+  url,
 }: FindMediaProps): PostMedia | undefined {
-  const media = Object.values(meta ?? {}).find((item) => item.url === href)
+  const one = meta?.[url]
 
-  if (media) {
-    const { height, width } = getDimensions(frameWidth, media)
+  if (one) {
+    const { height, width } = getDimensions(frameWidth, one, true)
 
     return {
       height,
-      type: media.type,
-      url: media.url,
+      type: one.type,
+      url: one.url,
+      width,
+    }
+  }
+
+  const two = Object.values(meta ?? {}).find((item) => item.url === url)
+
+  if (two) {
+    const { height, width } = getDimensions(frameWidth, two, true)
+
+    return {
+      height,
+      type: two.type,
+      url: two.url,
       width,
     }
   }

@@ -1,0 +1,13 @@
+diff --git a/lib/index.js b/lib/index.js
+index a04d28bc4eaa17abbebee6325e3428494cf5affe..09c8f968ded9cb6ea3fec53ee96b59e54c44ce84 100644
+--- a/lib/index.js
++++ b/lib/index.js
+@@ -218,7 +218,7 @@
+  */
+ 
+ import {convert} from 'unist-util-is'
+-import {color} from 'unist-util-visit-parents/do-not-use-color'
++import {color} from './color'
+ 
+ /** @type {Readonly<ActionTuple>} */
+ const empty = []

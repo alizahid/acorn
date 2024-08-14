@@ -1,0 +1,12 @@
+diff --git a/package.json b/package.json
+index 8319d8d58af116e5c7ae2b30ac214b05763b85f4..259190fe0ad78b7b223293c66251a28820973f98 100644
+--- a/package.json
++++ b/package.json
+@@ -26,6 +26,7 @@
+     "development": "./lib/development.js",
+     "default": "./lib/default.js"
+   },
++  "main": "./lib/default.js",
+   "files": [
+     "lib/"
+   ],

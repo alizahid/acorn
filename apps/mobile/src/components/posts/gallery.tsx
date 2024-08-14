@@ -21,6 +21,7 @@ import { Text } from '../common/text'
 type Props = {
   images: Array<PostMedia>
   margin?: number
+  maxHeight?: number
   nsfw?: boolean
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
@@ -29,6 +30,7 @@ type Props = {
 export function PostGalleryCard({
   images,
   margin = 0,
+  maxHeight,
   nsfw,
   recyclingKey,
   style,
@@ -73,7 +75,7 @@ export function PostGalleryCard({
             source={first.thumbnail ?? first.url}
             style={[
               styles.main(
-                common.height.max,
+                maxHeight ?? common.height.max,
                 firstDimensions.height,
                 firstDimensions.width,
               ),
@@ -86,7 +88,7 @@ export function PostGalleryCard({
               pointerEvents="none"
               style={[
                 styles.main(
-                  common.height.max,
+                  maxHeight ?? common.height.max,
                   firstDimensions.height,
                   firstDimensions.width,
                 ),

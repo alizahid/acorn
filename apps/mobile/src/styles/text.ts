@@ -3,26 +3,25 @@ import {
   type UnistylesValues,
 } from 'react-native-unistyles/lib/typescript/src/types'
 
-import { type fonts } from '~/lib/fonts'
 import { type ColorToken } from '~/styles/colors'
 import { type TypographyToken } from '~/styles/tokens'
 
 export type TextStyleProps = {
   align?: 'left' | 'center' | 'right'
-  code?: boolean
   color?: ColorToken
   contrast?: boolean
   highContrast?: boolean
   size?: TypographyToken
   tabular?: boolean
-  weight?: keyof typeof fonts
+  variant?: 'sans' | 'mono'
+  weight?: 'light' | 'regular' | 'medium' | 'bold'
 }
 
 export function getTextStyles(theme: UnistylesTheme) {
   return function styles({
     align = 'left',
     color = 'gray',
-    code,
+    variant = 'sans',
     contrast = false,
     highContrast = color === 'gray',
     size = '3',
@@ -34,7 +33,7 @@ export function getTextStyles(theme: UnistylesTheme) {
         theme.colors[color][
           contrast ? 'contrast' : highContrast ? 'a12' : 'a11'
         ],
-      fontFamily: code ? 'mono' : weight,
+      fontFamily: `${variant}-${weight}`,
       fontSize: theme.typography[size].fontSize,
       fontVariant: tabular ? ['tabular-nums'] : undefined,
       lineHeight: theme.typography[size].lineHeight,
