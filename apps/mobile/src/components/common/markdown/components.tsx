@@ -106,7 +106,7 @@ export function Image({ margin = 0, src }: ImageProps) {
 export function BlockQuote({ children }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  return <View style={styles.blockquote}>{children}</View>
+  return <View style={styles.blockquote}>{cleanUp(children)}</View>
 }
 
 export function LineBreak({ size }: TextProps) {
@@ -158,7 +158,7 @@ export function List({ children, size, start }: ListProps) {
 export function CodeBlock({ children }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  return <View style={styles.pre}>{children}</View>
+  return <View style={styles.pre}>{cleanUp(children)}</View>
 }
 
 export function Table({ children }: Props) {
