@@ -104,6 +104,7 @@ export default function Screen() {
     <SettingsMenu
       footer={
         <Text
+          align="center"
           highContrast={false}
           size="1"
           style={styles.version}
