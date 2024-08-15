@@ -6,7 +6,6 @@ import { updateSearch } from '~/hooks/queries/search/search'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { CreateCommentSchema } from '~/schemas/comments'
-import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
 
 type Variables = {
@@ -16,18 +15,12 @@ type Variables = {
 }
 
 export function usePostReply() {
-  const { expired } = useAuth()
-
   const { isPending, mutate } = useMutation<
-    CreateCommentSchema | undefined,
+    CreateCommentSchema,
     Error,
     Variables
   >({
     async mutationFn(variables) {
-      if (expired) {
-        return
-      }
-
       const body = new FormData()
 
       body.append('api_type', 'json')
@@ -62,10 +55,6 @@ export function usePostReply() {
       })
     },
     onSuccess(data, variables) {
-      if (!data) {
-        return
-      }
-
       const payload = data.json.data.things[0]
 
       if (!payload) {

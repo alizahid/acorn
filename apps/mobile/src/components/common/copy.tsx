@@ -21,7 +21,7 @@ export function Copy({ code = true, style, value }: Props) {
 
   return (
     <View style={[styles.main, style]}>
-      <Text style={styles.uri} variant={code ? 'mono' : 'sans'}>
+      <Text style={styles.uri} variant={code ? 'mono' : 'sans'} weight="medium">
         {value}
       </Text>
 
@@ -55,6 +55,6 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   uri: {
     flex: 1,
-    paddingHorizontal: theme.space[3],
+    paddingHorizontal: theme.space[4],
   },
 }))

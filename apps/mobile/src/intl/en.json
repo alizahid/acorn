@@ -96,8 +96,8 @@
           },
           "field": {
             "clientId": {
-              "error": "Client ID is required",
-              "placeholder": "Client ID"
+              "error": "Client id is required",
+              "placeholder": "Client id"
             }
           }
         },

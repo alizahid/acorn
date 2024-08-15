@@ -42,7 +42,7 @@ export function useUserPosts({
   type,
   username,
 }: UserPostsProps) {
-  const { accountId, expired } = useAuth()
+  const { accountId } = useAuth()
 
   const {
     data,
@@ -58,7 +58,7 @@ export function useUserPosts({
     UserPostsQueryKey,
     Param
   >({
-    enabled: !expired,
+    enabled: Boolean(accountId),
     getNextPageParam(page) {
       return page.cursor
     },

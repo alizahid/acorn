@@ -16,7 +16,7 @@ export type ProfileQueryKey = [
 export type ProfileQueryData = Profile
 
 export function useProfile(name?: string) {
-  const { expired } = useAuth()
+  const { accountId } = useAuth()
 
   const { data, isLoading, refetch } = useQuery<
     ProfileQueryData | undefined,
@@ -24,7 +24,7 @@ export function useProfile(name?: string) {
     ProfileQueryData,
     ProfileQueryKey
   >({
-    enabled: !expired && Boolean(name),
+    enabled: Boolean(accountId) && Boolean(name),
     async queryFn() {
       const payload = await reddit({
         url: `/user/${name!}/about`,

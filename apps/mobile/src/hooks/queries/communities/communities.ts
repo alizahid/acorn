@@ -27,7 +27,7 @@ export type CommunitiesQueryKey = [
 export type CommunitiesQueryData = InfiniteData<Page, Param>
 
 export function useCommunities() {
-  const { accountId, expired } = useAuth()
+  const { accountId } = useAuth()
 
   const {
     data,
@@ -44,7 +44,7 @@ export function useCommunities() {
     CommunitiesQueryKey,
     Param
   >({
-    enabled: !expired,
+    enabled: Boolean(accountId),
     getNextPageParam(page) {
       return page.cursor
     },

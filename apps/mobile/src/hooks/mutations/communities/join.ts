@@ -5,7 +5,6 @@ import { type CommunityQueryKey } from '~/hooks/queries/communities/community'
 import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
-import { useAuth } from '~/stores/auth'
 
 type Variables = {
   action: 'join' | 'leave'
@@ -14,14 +13,8 @@ type Variables = {
 }
 
 export function useJoin() {
-  const { expired } = useAuth()
-
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      if (expired) {
-        return
-      }
-
       const body = new FormData()
 
       body.append('sr', addPrefix(variables.id, 'subreddit'))

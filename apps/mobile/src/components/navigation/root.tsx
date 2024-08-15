@@ -1,5 +1,4 @@
 import { Stack, useFocusEffect, useRouter } from 'expo-router'
-import { useEffect } from 'react'
 
 import { useAuth } from '~/stores/auth'
 
@@ -8,16 +7,10 @@ import { Header } from './header'
 export function Root() {
   const router = useRouter()
 
-  const { accessToken, expired, refresh } = useAuth()
-
-  useEffect(() => {
-    if (accessToken && expired) {
-      void refresh()
-    }
-  }, [accessToken, expired, refresh])
+  const { accountId } = useAuth()
 
   useFocusEffect(() => {
-    if (!accessToken) {
+    if (!accountId) {
       router.navigate('/sign-in')
     }
   })

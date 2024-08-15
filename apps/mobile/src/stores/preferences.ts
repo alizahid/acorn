@@ -1,7 +1,7 @@
 import { create } from 'zustand'
-import { createJSONStorage, persist } from 'zustand/middleware'
+import { persist } from 'zustand/middleware'
 
-import { Store } from '~/lib/store'
+import { createStore } from '~/lib/store'
 import {
   type CommentSort,
   type CommunityFeedSort,
@@ -50,7 +50,7 @@ export const usePreferences = create<State>()(
     }),
     {
       name: PREFERENCES_KEY,
-      storage: createJSONStorage(() => new Store(PREFERENCES_KEY)),
+      storage: createStore(PREFERENCES_KEY),
     },
   ),
 )

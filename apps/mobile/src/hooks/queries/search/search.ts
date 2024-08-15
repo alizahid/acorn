@@ -37,7 +37,7 @@ export function useSearch<Type extends SearchType>({
   query,
   type,
 }: SearchProps<Type>) {
-  const { expired } = useAuth()
+  const { accountId } = useAuth()
 
   const { data, isLoading, refetch } = useQuery<
     SearchQueryData<Type> | undefined,
@@ -45,7 +45,7 @@ export function useSearch<Type extends SearchType>({
     SearchQueryData<Type>,
     SearchQueryKey
   >({
-    enabled: !expired && query.length > 0,
+    enabled: Boolean(accountId) && query.length > 0,
     async queryFn() {
       const path = community ? `/r/${community}/search` : '/search'
 

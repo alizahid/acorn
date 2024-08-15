@@ -31,12 +31,12 @@ const schema = z.object({
 })
 
 export default function Screen() {
-  const common = useCommon()
-
   const router = useRouter()
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
+
+  const common = useCommon()
 
   const t = useTranslations('screen.auth.signIn')
 

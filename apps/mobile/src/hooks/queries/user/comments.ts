@@ -27,7 +27,7 @@ export type CommentsQueryKey = [
 export type CommentsQueryData = InfiniteData<Page, Param>
 
 export function useComments(user?: string) {
-  const { accountId, expired } = useAuth()
+  const { accountId } = useAuth()
 
   const {
     data,
@@ -38,7 +38,7 @@ export function useComments(user?: string) {
     refetch,
   } = useInfiniteQuery<Page, Error, CommentsQueryData, CommentsQueryKey, Param>(
     {
-      enabled: !expired && Boolean(user),
+      enabled: Boolean(accountId) && Boolean(user),
       getNextPageParam(page) {
         return page.cursor
       },

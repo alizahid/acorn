@@ -1,7 +1,8 @@
 import { createId } from '@paralleldrive/cuid2'
 import * as SecureStore from 'expo-secure-store'
 import { MMKV } from 'react-native-mmkv'
-import { type StateStorage } from 'zustand/middleware'
+import { parse, stringify } from 'superjson'
+import { type PersistStorage, type StateStorage } from 'zustand/middleware'
 
 export const ENCRYPTION_KEY = 'encryption-key'
 
@@ -15,16 +16,22 @@ export class Store implements StateStorage {
     })
   }
 
-  getItem(key: string) {
-    return this.client.getString(key) ?? null
+  getItem<Type>(key: string) {
+    const value = this.client.getString(key)
+
+    if (!value) {
+      return null
+    }
+
+    return parse<Type>(value)
   }
 
   removeItem(key: string) {
     this.client.delete(key)
   }
 
-  setItem(key: string, value: string) {
-    this.client.set(key, value)
+  setItem(key: string, value: unknown) {
+    this.client.set(key, stringify(value))
   }
 
   clear() {
@@ -44,4 +51,8 @@ export class Store implements StateStorage {
 
     return key
   }
+}
+
+export function createStore<State>(name: string): PersistStorage<State> {
+  return new Store(name)
 }

@@ -4,7 +4,6 @@ import { updatePost } from '~/hooks/queries/posts/post'
 import { updateComments } from '~/hooks/queries/user/comments'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
-import { useAuth } from '~/stores/auth'
 import { type CommentReply } from '~/types/comment'
 
 type Variables = {
@@ -14,14 +13,8 @@ type Variables = {
 }
 
 export function useCommentVote() {
-  const { expired } = useAuth()
-
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      if (expired) {
-        return
-      }
-
       const body = new FormData()
 
       body.append('id', addPrefix(variables.commentId, 'comment'))

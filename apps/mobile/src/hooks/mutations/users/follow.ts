@@ -5,7 +5,6 @@ import { type ProfileQueryKey } from '~/hooks/queries/user/profile'
 import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
-import { useAuth } from '~/stores/auth'
 
 type Variables = {
   action: 'follow' | 'unfollow'
@@ -14,14 +13,8 @@ type Variables = {
 }
 
 export function useFollow() {
-  const { expired } = useAuth()
-
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      if (expired) {
-        return
-      }
-
       const body = new FormData()
 
       body.append('sr', addPrefix(variables.id, 'subreddit'))

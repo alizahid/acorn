@@ -36,7 +36,7 @@ export type PostsProps = {
 }
 
 export function usePosts({ community, interval, sort }: PostsProps) {
-  const { accountId, expired } = useAuth()
+  const { accountId } = useAuth()
 
   const {
     data,
@@ -46,7 +46,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     isLoading,
     refetch,
   } = useInfiniteQuery<Page, Error, PostsQueryData, PostsQueryKey, Param>({
-    enabled: !expired,
+    enabled: Boolean(accountId),
     getNextPageParam(page) {
       return page.cursor
     },

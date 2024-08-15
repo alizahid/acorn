@@ -1,6 +1,7 @@
-import { useAuth } from '~/stores/auth'
+import { getAccount, updateAccounts, useAuth } from '~/stores/auth'
 
 import { REDDIT_URI, USER_AGENT } from './config'
+import { refreshAccessToken } from './token'
 
 type Props = {
   accessToken?: string
@@ -10,18 +11,30 @@ type Props = {
 }
 
 export async function reddit<Response>({
-  accessToken = useAuth.getState().accessToken,
+  accessToken,
   body,
   method = 'get',
   url,
 }: Props) {
-  if (!accessToken) {
-    return null
+  let token = accessToken ?? useAuth.getState().accessToken
+
+  if (!token) {
+    return
+  }
+
+  const expired = checkExpiry(Boolean(accessToken))
+
+  if (expired) {
+    token = await refresh()
+  }
+
+  if (!token) {
+    return
   }
 
   const headers = new Headers()
 
-  headers.set('authorization', `Bearer ${String(accessToken)}`)
+  headers.set('authorization', `Bearer ${String(token)}`)
   headers.set('user-agent', USER_AGENT)
 
   const request: RequestInit = {
@@ -47,4 +60,39 @@ export async function reddit<Response>({
   const response = await fetch(input, request)
 
   return (await response.json()) as Response
+}
+
+function checkExpiry(skip?: boolean) {
+  if (skip) {
+    return false
+  }
+
+  const { accessToken, expiresAt, refreshToken } = useAuth.getState()
+
+  if (!accessToken || !refreshToken || !expiresAt) {
+    return true
+  }
+
+  return new Date() > expiresAt
+}
+
+async function refresh() {
+  const { clientId, refreshToken } = useAuth.getState()
+
+  if (!clientId || !refreshToken) {
+    return
+  }
+
+  const payload = await refreshAccessToken(clientId, refreshToken)
+
+  if (!payload) {
+    return
+  }
+
+  useAuth.setState({
+    ...getAccount(payload),
+    accounts: updateAccounts(useAuth.getState().accounts, payload),
+  })
+
+  return payload.accessToken
 }

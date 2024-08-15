@@ -20,7 +20,7 @@ export type CommunityQueryKey = [
 export type CommunityQueryData = Community
 
 export function useCommunity(name: string) {
-  const { accountId, expired } = useAuth()
+  const { accountId } = useAuth()
 
   const { data, isLoading, refetch } = useQuery<
     CommunityQueryData | undefined,
@@ -28,7 +28,7 @@ export function useCommunity(name: string) {
     CommunityQueryData,
     CommunityQueryKey
   >({
-    enabled: !expired,
+    enabled: Boolean(accountId),
     placeholderData: getCommunity(name),
     async queryFn() {
       const payload = await reddit({

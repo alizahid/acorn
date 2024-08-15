@@ -32,7 +32,7 @@ export type PostQueryData = {
 }
 
 export function usePost(id: string, sort?: CommentSort) {
-  const { expired } = useAuth()
+  const { accountId } = useAuth()
 
   const storeId = `collapsed-${id}`
 
@@ -42,7 +42,7 @@ export function usePost(id: string, sort?: CommentSort) {
     PostQueryData,
     PostQueryKey
   >({
-    enabled: !expired,
+    enabled: Boolean(accountId),
     placeholderData() {
       return getPost(id)
     },
@@ -90,7 +90,7 @@ export function usePost(id: string, sort?: CommentSort) {
     queryFn() {
       const store = new Store(storeId)
 
-      const data = store.getItem(COLLAPSED_KEY)
+      const data = store.getItem<string>(COLLAPSED_KEY)
 
       if (data) {
         return data.split(',')

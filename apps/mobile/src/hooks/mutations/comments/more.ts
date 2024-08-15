@@ -5,7 +5,6 @@ import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { MoreCommentsSchema } from '~/schemas/comments'
-import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
 
 type Variables = {
@@ -15,18 +14,12 @@ type Variables = {
 }
 
 export function useLoadMoreComments() {
-  const { expired } = useAuth()
-
   const { isPending, mutate } = useMutation<
-    MoreCommentsSchema | undefined,
+    MoreCommentsSchema,
     Error,
     Variables
   >({
     async mutationFn(variables) {
-      if (expired) {
-        return
-      }
-
       const url = new URL('/api/morechildren', REDDIT_URI)
 
       url.searchParams.set('api_type', 'json')
@@ -42,10 +35,6 @@ export function useLoadMoreComments() {
       return MoreCommentsSchema.parse(response)
     },
     onSuccess(data, variables) {
-      if (!data) {
-        return
-      }
-
       updatePost(variables.postId, (draft) => {
         const index = draft.comments.findIndex(
           (item) => item.type === 'more' && item.data.id === variables.id,
