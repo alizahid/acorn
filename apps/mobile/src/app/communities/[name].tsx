@@ -11,7 +11,7 @@ import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
 import { FeedSortMenu } from '~/components/posts/sort'
 import { useCommunity } from '~/hooks/queries/communities/community'
-import { type CommunityFeedSort, type TopInterval } from '~/types/sort'
+import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
   name: z.string().catch('acornapp'),
@@ -22,10 +22,12 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
+  const { communityInterval, communitySort } = usePreferences()
+
   const { community, refetch } = useCommunity(params.name)
 
-  const [sort, setSort] = useState<CommunityFeedSort>('hot')
-  const [interval, setInterval] = useState<TopInterval>()
+  const [sort, setSort] = useState(communitySort)
+  const [interval, setInterval] = useState(communityInterval)
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -33,15 +35,7 @@ export default function Screen() {
         <>
           <FeedSortMenu
             hideLabel
-            onChange={(next) => {
-              setSort(next)
-
-              if (next === 'top') {
-                setInterval('hour')
-              } else {
-                setInterval(undefined)
-              }
-            }}
+            onChange={setSort}
             type="community"
             value={sort}
           />

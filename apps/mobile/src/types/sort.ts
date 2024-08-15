@@ -18,7 +18,7 @@ export type UserFeedSort = (typeof UserFeedSort)[number]
 
 // comment
 
-export const CommentFeedSort = [
+export const CommentSort = [
   'confidence',
   'top',
   'new',
@@ -26,7 +26,7 @@ export const CommentFeedSort = [
   'controversial',
 ] as const
 
-export type CommentFeedSort = (typeof CommentFeedSort)[number]
+export type CommentSort = (typeof CommentSort)[number]
 
 // top
 

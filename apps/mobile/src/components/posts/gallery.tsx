@@ -41,8 +41,8 @@ export function PostGalleryCard({
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const preferences = usePreferences()
   const placeholder = useImagePlaceholder()
+  const { blurNsfw } = usePreferences()
 
   const [visible, setVisible] = useState(false)
 
@@ -82,7 +82,7 @@ export function PostGalleryCard({
             ]}
           />
 
-          {nsfw && !preferences.nsfw ? (
+          {nsfw && blurNsfw ? (
             <BlurView
               intensity={100}
               pointerEvents="none"

@@ -3,13 +3,27 @@
     "comments": {
       "more": {
         "label": "{count, plural, =0 {More hidden replies} =1 {1 more reply} other {# more replies}}"
+      }
+    },
+    "common": {
+      "interval": {
+        "all": "All time",
+        "day": "Today",
+        "hour": "Now",
+        "month": "This month",
+        "placeholder": "Interval",
+        "week": "This week",
+        "year": "This year"
       },
       "sort": {
+        "best": "Best",
         "confidence": "Best",
         "controversial": "Controversial",
+        "hot": "Hot",
         "new": "New",
         "old": "Old",
-        "placeholder": "Sort comments",
+        "placeholder": "Sort",
+        "rising": "Rising",
         "top": "Top"
       }
     },
@@ -32,27 +46,10 @@
         "items": "{count, number} images",
         "nsfw": "Sensitive content - tap to view"
       },
-      "interval": {
-        "all": "All time",
-        "day": "Today",
-        "hour": "Now",
-        "month": "This month",
-        "placeholder": "Interval",
-        "week": "This week",
-        "year": "This year"
-      },
       "reply": {
         "comment": "Replying to {user}",
         "placeholder": "Say something nice",
         "submit": "Reply"
-      },
-      "sort": {
-        "best": "Best",
-        "hot": "Hot",
-        "new": "New",
-        "placeholder": "Sort",
-        "rising": "Rising",
-        "top": "Top"
       },
       "video": {
         "nsfw": "Sensitive content - tap to watch"
@@ -124,6 +121,17 @@
           "muted": "Mute feed",
           "nsfw": "Blur nsfw",
           "title": "General"
+        },
+        "sort": {
+          "communityInterval": "Community posts interval",
+          "communitySort": "Community posts sort",
+          "feedInterval": "Feed posts interval",
+          "feedSort": "Feed posts sort",
+          "postCommentSort": "Post comments sort",
+          "title": "Sort",
+          "userCommentSort": "User comments sort",
+          "userInterval": "User posts interval",
+          "userSort": "User posts sort"
         }
       },
       "title": "Settings"

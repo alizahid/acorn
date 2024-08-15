@@ -74,7 +74,7 @@ export function useUserPosts({
         url.searchParams.set('after', pageParam)
       }
 
-      if (interval) {
+      if (sort === 'top' && interval) {
         url.searchParams.set('t', interval)
       }
 

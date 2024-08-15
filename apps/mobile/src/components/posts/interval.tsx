@@ -13,7 +13,7 @@ type Props = {
 }
 
 export function TopIntervalMenu({ hideLabel, onChange, value }: Props) {
-  const t = useTranslations('component.posts.interval')
+  const t = useTranslations('component.common.interval')
 
   const { styles } = useStyles(stylesheet)
 
@@ -22,13 +22,7 @@ export function TopIntervalMenu({ hideLabel, onChange, value }: Props) {
       hideLabel={hideLabel}
       items={TopInterval.map((item) => ({
         label: t(item),
-        left: (
-          <View style={styles.interval}>
-            <Text style={[styles.label, item === 'all' && styles.infinity]}>
-              {intervals[item]}
-            </Text>
-          </View>
-        ),
+        left: <TopIntervalItem item={item} />,
         value: item,
       }))}
       onChange={(next) => {
@@ -41,25 +35,47 @@ export function TopIntervalMenu({ hideLabel, onChange, value }: Props) {
   )
 }
 
+type ItemProps = {
+  item: TopInterval
+  size?: number
+}
+
+export function TopIntervalItem({ item, size }: ItemProps) {
+  const { styles, theme } = useStyles(stylesheet)
+
+  return (
+    <View style={styles.interval(size ?? theme.space[4])}>
+      <Text
+        style={[
+          styles.label(size ?? theme.space[4]),
+          item === 'all' && styles.infinity,
+        ]}
+      >
+        {intervals[item]}
+      </Text>
+    </View>
+  )
+}
+
 const stylesheet = createStyleSheet((theme) => ({
   infinity: {
     fontSize: theme.space[3],
   },
-  interval: {
+  interval: (size: number) => ({
     alignItems: 'center',
     backgroundColor: theme.colors.gold[9],
-    borderRadius: theme.space[4],
-    height: theme.space[4],
+    borderRadius: size,
+    height: size,
     justifyContent: 'center',
-    width: theme.space[4],
-  },
-  label: {
+    width: size,
+  }),
+  label: (size: number) => ({
     color: theme.colors.gold.contrast,
-    fontFamily: 'medium',
-    fontSize: theme.space[2],
+    fontFamily: 'sans-medium',
+    fontSize: size / 2,
     fontVariant: ['tabular-nums'],
     textAlign: 'center',
-  },
+  }),
   main: {
     height: theme.space[8],
     paddingHorizontal: theme.space[3],

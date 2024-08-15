@@ -14,7 +14,7 @@ import { FeedSortMenu } from '~/components/posts/sort'
 import { UserPostsList } from '~/components/users/posts'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { useAuth } from '~/stores/auth'
-import { type TopInterval, type UserFeedSort } from '~/types/sort'
+import { usePreferences } from '~/stores/preferences'
 import { UserFeedType } from '~/types/user'
 
 const schema = z.object({
@@ -31,11 +31,12 @@ export default function Screen() {
   const t = useTranslations('tab.user.menu')
 
   const { accountId } = useAuth()
+  const { userInterval, userSort } = usePreferences()
 
   const { profile, refetch } = useProfile(params.name)
 
-  const [sort, setSort] = useState<UserFeedSort>('hot')
-  const [interval, setInterval] = useState<TopInterval>()
+  const [sort, setSort] = useState(userSort)
+  const [interval, setInterval] = useState(userInterval)
 
   const show = profile && accountId !== profile.name
 
@@ -58,20 +59,7 @@ export default function Screen() {
             />
           ) : null}
 
-          <FeedSortMenu
-            hideLabel
-            onChange={(next) => {
-              setSort(next)
-
-              if (next === 'top') {
-                setInterval('hour')
-              } else {
-                setInterval(undefined)
-              }
-            }}
-            type="user"
-            value={sort}
-          />
+          <FeedSortMenu hideLabel onChange={setSort} type="user" value={sort} />
 
           {sort === 'top' ? (
             <TopIntervalMenu

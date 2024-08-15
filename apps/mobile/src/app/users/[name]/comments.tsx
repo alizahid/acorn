@@ -14,7 +14,7 @@ import { TopIntervalMenu } from '~/components/posts/interval'
 import { UserCommentsList } from '~/components/users/comments'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { useAuth } from '~/stores/auth'
-import { type CommentFeedSort, type TopInterval } from '~/types/sort'
+import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
   name: z.string().catch('mildpanda'),
@@ -29,11 +29,12 @@ export default function Screen() {
   const t = useTranslations('tab.user.menu')
 
   const { accountId } = useAuth()
+  const { userCommentSort, userInterval } = usePreferences()
 
   const { profile, refetch } = useProfile(params.name)
 
-  const [sort, setSort] = useState<CommentFeedSort>('confidence')
-  const [interval, setInterval] = useState<TopInterval>()
+  const [sort, setSort] = useState(userCommentSort)
+  const [interval, setInterval] = useState(userInterval)
 
   const show = profile && accountId !== profile.name
 
@@ -57,18 +58,7 @@ export default function Screen() {
             />
           ) : null}
 
-          <CommentsSortMenu
-            onChange={(next) => {
-              setSort(next)
-
-              if (next === 'top') {
-                setInterval('hour')
-              } else {
-                setInterval(undefined)
-              }
-            }}
-            value={sort}
-          />
+          <CommentsSortMenu onChange={setSort} value={sort} />
 
           {sort === 'top' ? (
             <TopIntervalMenu

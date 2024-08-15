@@ -9,7 +9,7 @@ import { usePreferences } from '~/stores/preferences'
 export function useLink() {
   const router = useRouter()
 
-  const { browser } = usePreferences()
+  const { linkBrowser } = usePreferences()
 
   return useCallback(
     (href: string) => {
@@ -65,7 +65,7 @@ export function useLink() {
               })
             }
           }
-        } else if (browser) {
+        } else if (linkBrowser) {
           void Linking.openURL(href)
         } else {
           void WebBrowser.openBrowserAsync(href, {
@@ -76,7 +76,7 @@ export function useLink() {
       } catch (error) {
         Sentry.captureException(error)
 
-        if (browser) {
+        if (linkBrowser) {
           void Linking.openURL(href)
         } else {
           void WebBrowser.openBrowserAsync(href, {
@@ -86,6 +86,6 @@ export function useLink() {
         }
       }
     },
-    [browser, router],
+    [linkBrowser, router],
   )
 }

@@ -14,13 +14,13 @@ export function SegmentedControl({ active, items, onChange }: Props) {
     <Component
       activeFontStyle={{
         color: theme.colors.accent.contrast,
+        fontFamily: 'sans-bold',
         fontSize: theme.typography[2].fontSize,
-        fontWeight: 'bold',
       }}
       backgroundColor={theme.colors.gray.a3}
       fontStyle={{
         color: theme.colors.gray.a11,
-        fontFamily: 'regular',
+        fontFamily: 'sans-medium',
         fontSize: theme.typography[2].fontSize,
       }}
       onChange={(event) => {

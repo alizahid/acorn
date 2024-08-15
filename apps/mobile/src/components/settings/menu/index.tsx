@@ -2,16 +2,30 @@ import { type ReactElement } from 'react'
 import { FlatList, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type IconName } from '~/components/common/icon'
+import { type IconName, type IconWeight } from '~/components/common/icon'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { type Insets, useCommon } from '~/hooks/common'
 
 import { SettingsItem } from './item'
 
+type Icon = {
+  color?: string
+  name: IconName
+  weight?: IconWeight
+}
+
+export type SettingsItemOption = {
+  icon?: Icon
+  label: string
+  left?: ReactElement
+  right?: ReactElement
+  value: string
+}
+
 export type SettingsItem = {
   arrow?: boolean
-  icon: IconName
+  icon?: Icon
   label: string
   onPress?: () => void
 } & (
@@ -20,11 +34,7 @@ export type SettingsItem = {
     }
   | {
       onSelect: (value: string) => void
-      options: Array<{
-        icon?: IconName
-        label: string
-        value: string
-      }>
+      options: Array<SettingsItemOption>
       type: 'options'
       value?: string
     }

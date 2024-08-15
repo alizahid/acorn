@@ -12,7 +12,7 @@ import { transformComment } from '~/transformers/comment'
 import { transformPost } from '~/transformers/post'
 import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
-import { type CommentFeedSort } from '~/types/sort'
+import { type CommentSort } from '~/types/sort'
 
 import { type PostsQueryData } from './posts'
 
@@ -22,7 +22,7 @@ export type PostQueryKey = [
   'post',
   {
     id: string
-    sort?: CommentFeedSort
+    sort?: CommentSort
   },
 ]
 
@@ -31,7 +31,7 @@ export type PostQueryData = {
   post: Post
 }
 
-export function usePost(id: string, sort?: CommentFeedSort) {
+export function usePost(id: string, sort?: CommentSort) {
   const { expired } = useAuth()
 
   const storeId = `collapsed-${id}`

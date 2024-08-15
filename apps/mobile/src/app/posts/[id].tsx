@@ -24,7 +24,7 @@ import { PostCard } from '~/components/posts/card'
 import { PostReplyCard } from '~/components/posts/reply'
 import { useCommon } from '~/hooks/common'
 import { usePost } from '~/hooks/queries/posts/post'
-import { type CommentFeedSort } from '~/types/sort'
+import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
   commentId: z.string().optional(),
@@ -40,11 +40,13 @@ export default function Screen() {
   const common = useCommon()
   const focused = useIsFocused()
 
+  const { postCommentSort } = usePreferences()
+
   const { styles } = useStyles(stylesheet)
 
   const reply = useRef<TextInput>(null)
 
-  const [sort, setSort] = useState<CommentFeedSort>('confidence')
+  const [sort, setSort] = useState(postCommentSort)
   const [commentId, setCommentId] = useState<string>()
   const [user, setUser] = useState<string>()
 

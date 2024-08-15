@@ -62,7 +62,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
         url.searchParams.set('after', pageParam)
       }
 
-      if (interval) {
+      if (sort === 'top' && interval) {
         url.searchParams.set('t', interval)
       }
 

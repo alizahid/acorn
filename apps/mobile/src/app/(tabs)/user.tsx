@@ -33,7 +33,9 @@ export default function Screen() {
       insets={['top', 'bottom', 'header', 'tabBar']}
       items={UserFeedType.map((item) => ({
         arrow: true,
-        icon: icons[item],
+        icon: {
+          name: icons[item],
+        },
         label: t(`menu.${item}`),
         onPress() {
           if (!profile) {

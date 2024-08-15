@@ -36,7 +36,7 @@ export function VideoPlayer({
 
   const common = useCommon()
 
-  const preferences = usePreferences()
+  const { blurNsfw, feedMuted, update } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -54,14 +54,14 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    player.muted = visible ? false : !viewing || preferences.muted
+    player.muted = visible ? false : !viewing || feedMuted
 
-    if (visible || (viewing && (preferences.nsfw ? true : !nsfw))) {
+    if (visible || (viewing && (blurNsfw ? !nsfw : true))) {
       player.play()
     } else {
       player.pause()
     }
-  }, [nsfw, player, preferences.muted, preferences.nsfw, viewing, visible])
+  }, [blurNsfw, feedMuted, nsfw, player, viewing, visible])
 
   const dimensions = getDimensions(frameWidth, video)
 
@@ -88,7 +88,7 @@ export function VideoPlayer({
           )}
         />
 
-        {nsfw && !preferences.nsfw ? (
+        {nsfw && blurNsfw ? (
           <BlurView
             intensity={100}
             pointerEvents="none"
@@ -114,15 +114,15 @@ export function VideoPlayer({
           <Pressable
             hitSlop={theme.space[3]}
             onPress={() => {
-              preferences.update({
-                muted: !preferences.muted,
+              update({
+                feedMuted: !feedMuted,
               })
             }}
             style={styles.volume}
           >
             <Icon
               color={theme.colors.white.a11}
-              name={preferences.muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
+              name={feedMuted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
               size={theme.space[4]}
             />
           </Pressable>

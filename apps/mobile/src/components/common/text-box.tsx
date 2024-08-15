@@ -144,7 +144,7 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius[3],
     borderWidth: 1,
     color: theme.colors.gray.a12,
-    fontFamily: code ? 'mono' : 'regular',
+    fontFamily: code ? 'mono-regular' : 'sans-regular',
     fontSize: theme.typography[3].fontSize,
     height: multiline ? theme.space[9] : theme.space[7],
     paddingHorizontal: theme.space[3],

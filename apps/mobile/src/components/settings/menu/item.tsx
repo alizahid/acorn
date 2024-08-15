@@ -21,6 +21,12 @@ export function SettingsItem({ item, style }: Props) {
 
   const Component = item.type === 'switch' ? View : Pressable
 
+  const selected =
+    item.type === 'options'
+      ? (item.options.find((option) => option.value === item.value)?.right ??
+        item.options.find((option) => option.value === item.value)?.value)
+      : null
+
   return (
     <>
       <Component
@@ -33,22 +39,26 @@ export function SettingsItem({ item, style }: Props) {
         }}
         style={[styles.main, style]}
       >
-        <Icon
-          color={theme.colors.accent.a9}
-          name={item.icon}
-          size={theme.space[5]}
-          weight="duotone"
-        />
+        {item.icon ? (
+          <Icon
+            color={item.icon.color ?? theme.colors.accent.a9}
+            name={item.icon.name}
+            size={theme.space[5]}
+            weight={item.icon.weight ?? 'duotone'}
+          />
+        ) : null}
 
         <Text style={styles.label} weight="medium">
           {item.label}
         </Text>
 
-        {item.type === 'options' ? (
+        {typeof selected === 'string' ? (
           <Text color="accent" weight="bold">
-            {item.options.find((option) => option.value === item.value)?.value}
+            {selected}
           </Text>
-        ) : null}
+        ) : (
+          selected
+        )}
 
         {item.type === 'switch' ? (
           <Switch
@@ -97,11 +107,14 @@ export function SettingsItem({ item, style }: Props) {
             >
               {option.icon ? (
                 <Icon
-                  color="accent"
-                  name={option.icon}
+                  color={option.icon.color ?? theme.colors.accent.a9}
+                  name={option.icon.name}
                   size={theme.typography[2].lineHeight}
+                  weight={option.icon.weight}
                 />
               ) : null}
+
+              {option.left}
 
               <Text size="2" style={styles.label} weight="medium">
                 {option.label}

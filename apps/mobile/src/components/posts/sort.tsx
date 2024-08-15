@@ -28,7 +28,7 @@ export function FeedSortMenu<Type extends SortType>({
   type,
   value,
 }: Props<Type>) {
-  const t = useTranslations('component.posts.sort')
+  const t = useTranslations('component.common.sort')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -44,8 +44,8 @@ export function FeedSortMenu<Type extends SortType>({
       hideLabel={hideLabel}
       items={items.map((item) => ({
         icon: {
-          color: theme.colors[colors[item]][9],
-          name: icons[item],
+          color: theme.colors[FeedSortColors[item]][9],
+          name: FeedSortIcons[item],
           weight: 'duotone',
         },
         label: t(item),
@@ -68,7 +68,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
 }))
 
-const icons: Record<FeedSort, IconName> = {
+export const FeedSortIcons: Record<FeedSort, IconName> = {
   best: 'Medal',
   hot: 'Flame',
   new: 'Clock',
@@ -76,7 +76,7 @@ const icons: Record<FeedSort, IconName> = {
   top: 'Ranking',
 }
 
-const colors: Record<FeedSort, ColorToken> = {
+export const FeedSortColors: Record<FeedSort, ColorToken> = {
   best: 'green',
   hot: 'red',
   new: 'blue',

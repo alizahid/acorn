@@ -2,16 +2,28 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 import { Store } from '~/lib/store'
-import { type FeedSort, type TopInterval } from '~/types/sort'
+import {
+  type CommentSort,
+  type CommunityFeedSort,
+  type FeedSort,
+  type TopInterval,
+  type UserFeedSort,
+} from '~/types/sort'
 
 export const PREFERENCES_KEY = 'preferences-storage'
 
 export type PreferencesPayload = {
-  browser: boolean
-  interval?: TopInterval
-  muted: boolean
-  nsfw: boolean
-  sort: FeedSort
+  blurNsfw: boolean
+  communityInterval: TopInterval
+  communitySort: CommunityFeedSort
+  feedInterval: TopInterval
+  feedMuted: boolean
+  feedSort: FeedSort
+  linkBrowser: boolean
+  postCommentSort: CommentSort
+  userCommentSort: CommentSort
+  userInterval: TopInterval
+  userSort: UserFeedSort
 }
 
 type State = PreferencesPayload & {
@@ -21,13 +33,20 @@ type State = PreferencesPayload & {
 export const usePreferences = create<State>()(
   persist(
     (set) => ({
-      browser: false,
-      muted: true,
-      nsfw: false,
-      sort: 'hot',
+      blurNsfw: true,
+      communityInterval: 'hour',
+      communitySort: 'hot',
+      feedInterval: 'hour',
+      feedMuted: true,
+      feedSort: 'hot',
+      linkBrowser: true,
+      postCommentSort: 'confidence',
       update(payload) {
         set(payload)
       },
+      userCommentSort: 'new',
+      userInterval: 'hour',
+      userSort: 'new',
     }),
     {
       name: PREFERENCES_KEY,
