@@ -23,9 +23,9 @@
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.6",
     "rimraf": "^6.0.1",
-    "turbo": "^2.0.12"
+    "turbo": "^2.0.13"
   },
-  "packageManager": "bun@1.1.22",
+  "packageManager": "bun@1.1.24",
   "patchedDependencies": {
     "@shopify/flash-list@1.6.4": "patches/@shopify%2Fflash-list@1.6.4.patch",
     "recyclerlistview@4.2.0": "patches/recyclerlistview@4.2.0.patch",
