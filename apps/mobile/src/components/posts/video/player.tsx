@@ -188,6 +188,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   volume: {
     backgroundColor: theme.colors.black.a9,
+    borderCurve: 'continuous',
     borderRadius: theme.space[4],
     bottom: theme.space[3],
     padding: theme.space[2],

@@ -72,6 +72,7 @@ export function CommentVoteCard({ comment }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   main: {
     alignItems: 'center',
+    borderCurve: 'continuous',
     borderRadius: theme.radius[3],
     flexDirection: 'row',
     gap: theme.space[2],

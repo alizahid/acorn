@@ -93,6 +93,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   input: {
     backgroundColor: theme.colors.gray.a3,
+    borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     borderWidth: 0,
     paddingLeft: theme.space[2] + theme.space[5] + theme.space[2],

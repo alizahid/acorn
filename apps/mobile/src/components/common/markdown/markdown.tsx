@@ -387,6 +387,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   codeBlock: {
     backgroundColor: theme.colors.accent.a3,
+    borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     paddingHorizontal: theme.space[3],
     paddingVertical: theme.space[2],
@@ -424,6 +425,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   table: {
     borderColor: theme.colors.gray.a6,
+    borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     borderWidth: 1,
     overflow: 'hidden',

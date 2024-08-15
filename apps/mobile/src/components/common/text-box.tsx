@@ -141,6 +141,7 @@ const stylesheet = createStyleSheet((theme) => ({
       : error
         ? theme.colors.red.a7
         : theme.colors.gray.a7,
+    borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     borderWidth: 1,
     color: theme.colors.gray.a12,

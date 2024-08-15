@@ -64,6 +64,7 @@ const stylesheet = createStyleSheet((theme) => ({
   interval: (size: number) => ({
     alignItems: 'center',
     backgroundColor: theme.colors.gold[9],
+    borderCurve: 'continuous',
     borderRadius: size,
     height: size,
     justifyContent: 'center',

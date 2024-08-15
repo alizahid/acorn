@@ -53,6 +53,7 @@ export function CommunityCard({ community, style }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   image: {
     backgroundColor: theme.colors.gray.a3,
+    borderCurve: 'continuous',
     borderRadius: theme.space[7],
     height: theme.space[7],
     width: theme.space[7],

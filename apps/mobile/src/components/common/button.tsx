@@ -49,6 +49,7 @@ const stylesheet = createStyleSheet((theme) => ({
   main: (color?: ColorToken) => ({
     alignItems: 'center',
     backgroundColor: theme.colors[color ?? 'accent'].a9,
+    borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     flexDirection: 'row',
     gap: theme.space[2],

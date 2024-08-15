@@ -90,6 +90,7 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   main: {
     backgroundColor: theme.colors.gray.a3,
+    borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     marginHorizontal: theme.space[3],
     overflow: 'hidden',

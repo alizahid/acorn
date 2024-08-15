@@ -189,6 +189,7 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   label: {
     backgroundColor: theme.colors.black.a9,
+    borderCurve: 'continuous',
     borderRadius: theme.radius[2],
     bottom: theme.space[2],
     paddingHorizontal: theme.space[1],

@@ -38,6 +38,7 @@ export function PostShareCard({ post }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   main: {
     alignItems: 'center',
+    borderCurve: 'continuous',
     borderRadius: theme.radius[3],
     height: theme.space[6],
     justifyContent: 'center',

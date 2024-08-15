@@ -80,6 +80,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   content: (frameHeight: number) => ({
     backgroundColor: theme.colors.gray[1],
+    borderCurve: 'continuous',
     borderRadius: theme.radius[6],
     maxHeight: frameHeight * 0.6,
     overflow: 'hidden',
