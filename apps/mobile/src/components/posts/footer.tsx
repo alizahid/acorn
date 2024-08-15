@@ -4,6 +4,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { withoutAgo } from '~/lib/intl'
+import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -58,7 +59,12 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
     <Pressable
       disabled={expanded}
       onPress={() => {
-        router.navigate(`/posts/${post.id}`)
+        router.navigate({
+          params: {
+            id: removePrefix(post.id),
+          },
+          pathname: '/posts/[id]',
+        })
       }}
       style={styles.main}
     >
@@ -67,9 +73,20 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
           hitSlop={theme.space[4]}
           onPress={() => {
             if (label === 'subreddit') {
-              router.navigate(`/communities/${post.subreddit}`)
+              router.navigate({
+                params: {
+                  name: removePrefix(post.subreddit),
+                },
+                pathname: '/communities/[name]',
+              })
             } else {
-              router.navigate(`/users/${post.user.name}/submitted`)
+              router.navigate({
+                params: {
+                  name: removePrefix(post.user.name),
+                  type: 'submitted',
+                },
+                pathname: '/users/[name]/[type]',
+              })
             }
           }}
         >

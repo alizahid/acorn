@@ -24,9 +24,20 @@ export function CommunityCard({ community, style }: Props) {
     <Pressable
       onPress={() => {
         if (isUser(community.name)) {
-          router.navigate(`/users/${removePrefix(community.name)}/submitted`)
+          router.navigate({
+            params: {
+              name: removePrefix(community.name),
+              type: 'submitted',
+            },
+            pathname: '/users/[name]/[type]',
+          })
         } else {
-          router.navigate(`/communities/${community.name}`)
+          router.navigate({
+            params: {
+              name: removePrefix(community.name),
+            },
+            pathname: '/communities/[name]',
+          })
         }
       }}
       style={[styles.main, style]}

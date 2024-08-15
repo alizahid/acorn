@@ -13,6 +13,7 @@ import { HeaderButton } from '~/components/navigation/header-button'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { UserCommentsList } from '~/components/users/comments'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 
@@ -49,7 +50,7 @@ export default function Screen() {
               onPress={() => {
                 router.navigate({
                   params: {
-                    name: profile.name,
+                    name: removePrefix(profile.name),
                     type: 'submitted',
                   },
                   pathname: '/users/[name]/[type]',

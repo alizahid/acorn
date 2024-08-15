@@ -13,6 +13,7 @@ import { TopIntervalMenu } from '~/components/posts/interval'
 import { FeedSortMenu } from '~/components/posts/sort'
 import { UserPostsList } from '~/components/users/posts'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { UserFeedType } from '~/types/user'
@@ -51,7 +52,7 @@ export default function Screen() {
               onPress={() => {
                 router.navigate({
                   params: {
-                    name: profile.name,
+                    name: removePrefix(profile.name),
                   },
                   pathname: '/users/[name]/comments',
                 })

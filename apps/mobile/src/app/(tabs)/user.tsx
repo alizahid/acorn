@@ -5,6 +5,7 @@ import { type IconName } from '~/components/common/icon'
 import { SettingsMenu } from '~/components/settings/menu'
 import { ProfileCard } from '~/components/users/profile'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 import { UserFeedType } from '~/types/user'
 
@@ -31,18 +32,24 @@ export default function Screen() {
     <SettingsMenu
       header={<ProfileCard profile={profile} />}
       insets={['top', 'bottom', 'header', 'tabBar']}
-      items={UserFeedType.map((item) => ({
+      items={UserFeedType.map((type) => ({
         arrow: true,
         icon: {
-          name: icons[item],
+          name: icons[type],
         },
-        label: t(`menu.${item}`),
+        label: t(`menu.${type}`),
         onPress() {
           if (!profile) {
             return
           }
 
-          router.navigate(`/users/${profile.name}/${item}`)
+          router.navigate({
+            params: {
+              name: removePrefix(profile.name),
+              type,
+            },
+            pathname: '/users/[name]/[type]',
+          })
         },
       }))}
       onRefresh={refetch}

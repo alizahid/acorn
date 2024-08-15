@@ -5,6 +5,7 @@ import { useFormatter } from 'use-intl'
 
 import { getDepthColor } from '~/lib/colors'
 import { withoutAgo } from '~/lib/intl'
+import { removePrefix } from '~/lib/reddit'
 import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
@@ -49,7 +50,13 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
         <Pressable
           hitSlop={theme.space[3]}
           onPress={() => {
-            router.navigate(`/users/${comment.user.name}/submitted`)
+            router.navigate({
+              params: {
+                name: removePrefix(comment.user.name),
+                type: 'submitted',
+              },
+              pathname: '/users/[name]/[type]',
+            })
           }}
         >
           <Text

@@ -24,6 +24,7 @@ import { PostCard } from '~/components/posts/card'
 import { PostReplyCard } from '~/components/posts/reply'
 import { useCommon } from '~/hooks/common'
 import { usePost } from '~/hooks/queries/posts/post'
+import { isUser, removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
@@ -62,7 +63,22 @@ export default function Screen() {
         post ? (
           <Pressable
             onPress={() => {
-              router.navigate(`/communities/${post.subreddit}`)
+              if (isUser(post.subreddit)) {
+                router.navigate({
+                  params: {
+                    name: removePrefix(post.subreddit),
+                    type: 'submitted',
+                  },
+                  pathname: '/users/[name]/[type]',
+                })
+              } else {
+                router.navigate({
+                  params: {
+                    name: removePrefix(post.subreddit),
+                  },
+                  pathname: '/communities/[name]',
+                })
+              }
             }}
             style={styles.header}
           >

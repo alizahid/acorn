@@ -7,6 +7,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { type Insets, useCommon } from '~/hooks/common'
 import { useComments } from '~/hooks/queries/user/comments'
+import { removePrefix } from '~/lib/reddit'
 import { type Profile } from '~/types/user'
 
 import { CommentCard } from '../comments/card'
@@ -80,7 +81,12 @@ export function UserCommentsList({
           return (
             <Pressable
               onPress={() => {
-                router.navigate(`/posts/${item.data.postId}`)
+                router.navigate({
+                  params: {
+                    id: removePrefix(item.data.postId),
+                  },
+                  pathname: '/posts/[id]',
+                })
               }}
             >
               <CommentCard comment={item.data} />

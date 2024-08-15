@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
 import { Markdown } from '../common/markdown'
@@ -39,7 +40,12 @@ export function PostCard({
       <Pressable
         disabled={expanded}
         onPress={() => {
-          router.navigate(`/posts/${post.id}`)
+          router.navigate({
+            params: {
+              id: removePrefix(post.id),
+            },
+            pathname: '/posts/[id]',
+          })
         }}
         style={styles.title}
       >
