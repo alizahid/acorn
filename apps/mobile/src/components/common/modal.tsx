@@ -1,18 +1,18 @@
 import { type ReactNode } from 'react'
 import {
   Modal as ReactNativeModal,
-  Pressable,
   ScrollView,
   type StyleProp,
   StyleSheet,
-  View,
   type ViewStyle,
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useCommon } from '~/hooks/common'
 
+import { Pressable } from './pressable'
 import { Text } from './text'
+import { View } from './view'
 
 type Props = {
   children: ReactNode
@@ -44,24 +44,36 @@ export function Modal({
       transparent
       visible={visible}
     >
-      <View style={styles.main}>
+      <View flexGrow={1} justify="center" p="6">
         <Pressable
+          flexGrow={1}
           onPress={() => {
             onClose()
           }}
           style={styles.overlay}
+          without
         />
 
         <View style={styles.content(common.frame.height)}>
-          <View style={styles.header}>
+          <View
+            align="center"
+            direction="row"
+            height="8"
+            justify="center"
+            style={styles.header}
+          >
             {left ? (
-              <View style={[styles.actions, styles.left]}>{left}</View>
+              <View direction="row" style={[styles.actions, styles.left]}>
+                {left}
+              </View>
             ) : null}
 
             {title ? <Text weight="bold">{title}</Text> : null}
 
             {right ? (
-              <View style={[styles.actions, styles.right]}>{right}</View>
+              <View direction="row" style={[styles.actions, styles.right]}>
+                {right}
+              </View>
             ) : null}
           </View>
 
@@ -74,7 +86,6 @@ export function Modal({
 
 const stylesheet = createStyleSheet((theme) => ({
   actions: {
-    flexDirection: 'row',
     position: 'absolute',
     top: 0,
   },
@@ -86,19 +97,10 @@ const stylesheet = createStyleSheet((theme) => ({
     overflow: 'hidden',
   }),
   header: {
-    alignItems: 'center',
     backgroundColor: theme.colors.gray.a2,
-    flexDirection: 'row',
-    height: theme.space[8],
-    justifyContent: 'center',
   },
   left: {
     left: 0,
-  },
-  main: {
-    flex: 1,
-    justifyContent: 'center',
-    padding: theme.space[6],
   },
   modal: {
     flex: 1,
@@ -106,7 +108,6 @@ const stylesheet = createStyleSheet((theme) => ({
   overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.gray.a9,
-    flex: 1,
     position: 'absolute',
   },
   right: {

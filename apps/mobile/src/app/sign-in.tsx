@@ -8,7 +8,6 @@ import {
   useRouter,
 } from 'expo-router'
 import { Controller, useForm } from 'react-hook-form'
-import { View } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -19,6 +18,7 @@ import { Copy } from '~/components/common/copy'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
+import { View } from '~/components/common/view'
 import { useCommon } from '~/hooks/common'
 import { useKeyboard } from '~/hooks/keyboard'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
@@ -81,24 +81,19 @@ export default function Screen() {
       keyboardDismissMode="on-drag"
       style={[styles.main, keyboard.styles]}
     >
-      <View style={styles.header}>
+      <View align="center">
         <Logo style={styles.logo} />
 
         <Text size="8" weight="bold">
           {t('title')}
         </Text>
 
-        <Text
-          highContrast={false}
-          size="2"
-          style={styles.description}
-          weight="medium"
-        >
+        <Text highContrast={false} mt="2" size="2" weight="medium">
           {t('description')}
         </Text>
       </View>
 
-      <View style={styles.form}>
+      <View direction="row" gap="4">
         <Controller
           control={control}
           name="clientId"
@@ -131,7 +126,7 @@ export default function Screen() {
         />
       </View>
 
-      <View style={styles.instructions}>
+      <View gap="4">
         <Text>
           {t.rich('instructions', {
             link: (text) => (
@@ -164,19 +159,6 @@ const stylesheet = createStyleSheet((theme) => ({
     padding: theme.space[4],
     paddingBottom: theme.space[4] + inset,
   }),
-  description: {
-    marginTop: theme.space[2],
-  },
-  form: {
-    flexDirection: 'row',
-    gap: theme.space[4],
-  },
-  header: {
-    alignItems: 'center',
-  },
-  instructions: {
-    gap: theme.typography[3].lineHeight,
-  },
   logo: {
     marginBottom: theme.space[4],
   },

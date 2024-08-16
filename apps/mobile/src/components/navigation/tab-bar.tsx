@@ -18,6 +18,8 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
 
         return (
           <Pressable
+            align="center"
+            flexGrow={1}
             key={route.key}
             onLongPress={() => {
               navigation.emit({
@@ -36,6 +38,7 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
                 navigation.navigate(route.name, route.params)
               }
             }}
+            pt="4"
             style={styles.tab(insets.bottom)}
           >
             {options?.tabBarIcon?.({
@@ -59,10 +62,6 @@ const stylesheet = createStyleSheet((theme) => ({
     right: 0,
   },
   tab: (inset: number) => ({
-    alignItems: 'center',
-    flex: 1,
     paddingBottom: theme.space[4] + inset,
-    paddingHorizontal: theme.space[2],
-    paddingTop: theme.space[4],
   }),
 }))

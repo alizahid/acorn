@@ -1,4 +1,3 @@
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { PostGalleryCard } from '~/components/posts/gallery'
@@ -6,6 +5,7 @@ import { getDimensions } from '~/lib/media'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
 import { Text } from '../text'
+import { View } from '../view'
 
 type Props = {
   caption?: string
@@ -42,8 +42,11 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   main: {
     gap: theme.space[2],
-    marginTop: -3,
-    paddingTop: 3,
+    transform: [
+      {
+        translateY: 3,
+      },
+    ],
   },
 }))
 

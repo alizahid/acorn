@@ -118,6 +118,7 @@ export function VideoPlayer({
                 feedMuted: !feedMuted,
               })
             }}
+            p="2"
             style={styles.volume}
           >
             <Icon
@@ -191,7 +192,6 @@ const stylesheet = createStyleSheet((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.space[4],
     bottom: theme.space[3],
-    padding: theme.space[2],
     position: 'absolute',
     right: theme.space[3],
   },

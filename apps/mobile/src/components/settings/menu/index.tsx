@@ -1,10 +1,11 @@
 import { type ReactElement } from 'react'
-import { FlatList, View } from 'react-native'
+import { FlatList } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type IconName, type IconWeight } from '~/components/common/icon'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
+import { View } from '~/components/common/view'
 import { type Insets, useCommon } from '~/hooks/common'
 
 import { SettingsItem } from './item'
@@ -83,16 +84,14 @@ export function SettingsMenu({
       }
       renderItem={({ index, item }) => {
         if (item === null) {
-          return <View style={styles.separator} />
+          return <View height="4" />
         }
 
         if (typeof item === 'string') {
           return (
-            <View style={[styles.header]}>
-              <Text highContrast={false} size="2" weight="medium">
-                {item}
-              </Text>
-            </View>
+            <Text highContrast={false} m="3" size="2" weight="medium">
+              {item}
+            </Text>
           )
         }
 
@@ -114,14 +113,7 @@ const stylesheet = createStyleSheet((theme) => ({
   first: {
     marginTop: theme.space[1],
   },
-  header: {
-    marginHorizontal: theme.space[3],
-    marginVertical: theme.space[3],
-  },
   last: {
     marginBottom: theme.space[1],
-  },
-  separator: {
-    height: theme.space[4],
   },
 }))

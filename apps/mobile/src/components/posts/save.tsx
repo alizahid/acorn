@@ -19,6 +19,9 @@ export function PostSaveCard({ post }: Props) {
 
   return (
     <Pressable
+      align="center"
+      height="6"
+      justify="center"
       onPress={() => {
         save({
           action: post.saved ? 'unsave' : 'save',
@@ -26,6 +29,7 @@ export function PostSaveCard({ post }: Props) {
         })
       }}
       style={[styles.main, post.saved && styles.saved]}
+      width="6"
     >
       <Icon
         color={post.saved ? theme.colors.white.a12 : color}
@@ -39,12 +43,8 @@ export function PostSaveCard({ post }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    alignItems: 'center',
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
-    height: theme.space[6],
-    justifyContent: 'center',
-    width: theme.space[6],
   },
   saved: {
     backgroundColor: theme.colors.accent.a9,

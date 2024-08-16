@@ -3,12 +3,7 @@
 import { Image as ExpoImage } from 'expo-image'
 import { type Nodes } from 'mdast-util-from-markdown/lib'
 import { type Table } from 'mdast-util-gfm-table/lib'
-import {
-  type StyleProp,
-  type TextStyle,
-  View,
-  type ViewStyle,
-} from 'react-native'
+import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useCommon } from '~/hooks/common'
@@ -20,6 +15,7 @@ import { type TypographyToken } from '~/styles/tokens'
 import { type PostMediaMeta } from '~/types/post'
 
 import { Text } from '../text'
+import { View } from '../view'
 import { findMedia, Media } from './media'
 import { Spoiler } from './spoiler'
 

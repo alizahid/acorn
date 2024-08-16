@@ -73,7 +73,7 @@ export const radius = {
   '6': 16,
 } as const
 
-export type RadiusToken = keyof typeof typography
+export type RadiusToken = keyof typeof radius
 
 /* eslint-disable sort-keys-fix/sort-keys-fix -- preserve order */
 

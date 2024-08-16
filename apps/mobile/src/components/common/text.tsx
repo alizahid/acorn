@@ -33,7 +33,7 @@ export function Text({
         ellipsizeMode={lines ? 'tail' : undefined}
         numberOfLines={lines}
         onPress={onPress}
-        style={[styles.main(props), style]}
+        style={[styles.main(props) as TextStyle, style]}
       >
         {children}
       </ReactNativeText>

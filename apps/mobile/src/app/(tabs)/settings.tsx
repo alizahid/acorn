@@ -1,6 +1,6 @@
 import { default as Constants } from 'expo-constants'
 import { useCallback, useMemo } from 'react'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { CommentSortColors, CommentSortIcons } from '~/components/comments/sort'
@@ -33,7 +33,7 @@ export default function Screen() {
   const { blurNsfw, feedMuted, linkBrowser, update, ...preferences } =
     usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useStyles()
 
   const enhanceSort = useCallback(
     (sort: FeedSort | CommentSort): SettingsItemOption => {
@@ -103,13 +103,7 @@ export default function Screen() {
   return (
     <SettingsMenu
       footer={
-        <Text
-          align="center"
-          highContrast={false}
-          size="1"
-          style={styles.version}
-          variant="mono"
-        >
+        <Text align="center" highContrast={false} m="4" size="1" variant="mono">
           v{Constants.expoConfig?.version ?? 0}
         </Text>
       }
@@ -171,16 +165,6 @@ export default function Screen() {
     />
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  sort: {
-    height: theme.space[5],
-    width: theme.space[5],
-  },
-  version: {
-    margin: theme.space[4],
-  },
-}))
 
 const icons = {
   ...CommentSortIcons,

@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router'
-import { View } from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
@@ -9,6 +9,7 @@ import { type Post } from '~/types/post'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
@@ -16,10 +17,11 @@ import { PostVideoCard } from './video'
 type Props = {
   margin?: number
   post: Post
+  style?: StyleProp<ViewStyle>
   viewing: boolean
 }
 
-export function CrossPostCard({ margin = 0, post, viewing }: Props) {
+export function CrossPostCard({ margin = 0, post, style, viewing }: Props) {
   const router = useRouter()
 
   const f = useFormatter()
@@ -45,6 +47,7 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
 
   return (
     <Pressable
+      mx="3"
       onPress={() => {
         router.navigate({
           params: {
@@ -53,7 +56,7 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
           pathname: '/posts/[id]',
         })
       }}
-      style={styles.main}
+      style={[styles.main, style]}
     >
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
@@ -81,18 +84,20 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
         />
       ) : null}
 
-      <View style={styles.content}>
+      <View gap="3" p="3">
         <Text lines={3} weight="medium">
           {post.title}
         </Text>
 
-        <View style={styles.footer}>
+        <View align="center" direction="row" gap="4">
           <Pressable
+            align="center"
+            direction="row"
+            gap="2"
             hitSlop={theme.space[4]}
             onPress={() => {
               router.push(`/communities/${post.subreddit}`)
             }}
-            style={styles.item}
           >
             <Icon
               color={theme.colors.accent.a9}
@@ -107,7 +112,7 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
           </Pressable>
 
           {footer.map((item) => (
-            <View key={item.key} style={styles.item}>
+            <View align="center" direction="row" gap="2" key={item.key}>
               <Icon
                 color={theme.colors.gray.a11}
                 name={item.icon}
@@ -126,10 +131,6 @@ export function CrossPostCard({ margin = 0, post, viewing }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  content: {
-    gap: theme.space[3],
-    padding: theme.space[3],
-  },
   crossPost: {
     transform: [
       {
@@ -137,24 +138,13 @@ const stylesheet = createStyleSheet((theme) => ({
       },
     ],
   },
-  footer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[4],
-  },
   header: {
     marginTop: theme.space[3],
-  },
-  item: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[2],
   },
   main: {
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    marginHorizontal: theme.space[3],
     overflow: 'hidden',
   },
 }))

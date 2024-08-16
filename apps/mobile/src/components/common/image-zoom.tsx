@@ -2,9 +2,11 @@ import { ZOOM_TYPE, Zoomable } from '@likashefqet/react-native-image-zoom'
 import { Image, type ImageStyle } from 'expo-image'
 import * as StatusBar from 'expo-status-bar'
 import { useState } from 'react'
-import { type StyleProp, StyleSheet, View } from 'react-native'
+import { type StyleProp, StyleSheet } from 'react-native'
 
 import { useImagePlaceholder } from '~/hooks/image'
+
+import { View } from './view'
 
 type Props = {
   recyclingKey?: string

@@ -1,8 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useRef } from 'react'
-import { View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import Pager from 'react-native-pager-view'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { CommunitiesList } from '~/components/communities/list'
@@ -20,8 +19,6 @@ export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
   const pager = useRef<Pager>(null)
-
-  const { styles } = useStyles(stylesheet)
 
   const type = params.type
 
@@ -61,19 +58,15 @@ export default function Screen() {
       ref={pager}
       style={styles.main}
     >
-      <View key="posts" style={styles.main}>
-        <CommunitiesList {...props} communities={communities} />
-      </View>
+      <CommunitiesList {...props} communities={communities} key="posts" />
 
-      <View key="communities" style={styles.main}>
-        <CommunitiesList {...props} communities={users} />
-      </View>
+      <CommunitiesList {...props} communities={users} key="communities" />
     </Pager>
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create({
   main: {
     flex: 1,
   },
-}))
+})

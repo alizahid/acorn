@@ -56,10 +56,13 @@ export function DropDown({
   return (
     <>
       <Pressable
+        align="center"
+        direction="row"
+        gap="2"
         onPress={() => {
           setVisible((previous) => !previous)
         }}
-        style={[styles.trigger, style]}
+        style={style}
       >
         {selected?.icon ? (
           <Icon
@@ -103,6 +106,9 @@ export function DropDown({
       >
         {data.map((item, index) => (
           <Pressable
+            align="center"
+            direction="row"
+            gap="2"
             key={item.value}
             onPress={() => {
               if (item.items) {
@@ -113,7 +119,8 @@ export function DropDown({
                 setVisible(false)
               }
             }}
-            style={[styles.item, item.value === value && styles.selected]}
+            p="3"
+            style={item.value === value && styles.selected}
           >
             {item.icon ? (
               <Icon
@@ -145,21 +152,10 @@ export function DropDown({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  item: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[2],
-    padding: theme.space[3],
-  },
   label: {
     flex: 1,
   },
   selected: {
     backgroundColor: theme.colors.accent.a5,
-  },
-  trigger: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[2],
   },
 }))

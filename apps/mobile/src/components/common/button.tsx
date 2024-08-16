@@ -32,8 +32,14 @@ export function Button({
 
   return (
     <Pressable
+      align="center"
+      direction="row"
       disabled={disabled ?? loading}
+      gap="2"
+      height="7"
+      justify="center"
       onPress={onPress}
+      px="4"
       style={[styles.main(color), style]}
     >
       <Text color={color} contrast size="3" weight="medium">
@@ -47,14 +53,8 @@ export function Button({
 
 const stylesheet = createStyleSheet((theme) => ({
   main: (color?: ColorToken) => ({
-    alignItems: 'center',
     backgroundColor: theme.colors[color ?? 'accent'].a9,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    flexDirection: 'row',
-    gap: theme.space[2],
-    height: theme.space[7],
-    justifyContent: 'center',
-    paddingHorizontal: theme.space[4],
   }),
 }))

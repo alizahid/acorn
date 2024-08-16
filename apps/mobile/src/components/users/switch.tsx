@@ -72,6 +72,7 @@ export function AccountSwitchCard() {
 
                 setVisible(false)
               }}
+              p="3"
               style={[styles.item, account.id === accountId && styles.selected]}
             >
               <Text weight="medium">{account.id}</Text>
@@ -86,7 +87,6 @@ export function AccountSwitchCard() {
 const stylesheet = createStyleSheet((theme) => ({
   item: {
     backgroundColor: theme.colors.gray[1],
-    padding: theme.space[3],
   },
   modal: (count: number) => ({
     minHeight: 44 * (count + 3),

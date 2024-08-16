@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router'
-import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
@@ -12,6 +12,7 @@ import { Icon } from '../common/icon'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 import { CommentSaveCard } from './save'
 import { CommentVoteCard } from './vote'
 
@@ -31,7 +32,9 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
 
   return (
     <View
-      style={[styles.main(comment.depth), collapsed && styles.collapsed, style]}
+      pl="3"
+      pt={collapsed ? '3' : undefined}
+      style={[styles.main(comment.depth), style]}
     >
       {!collapsed ? (
         <Markdown
@@ -46,7 +49,7 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
         </Markdown>
       ) : null}
 
-      <View style={styles.footer}>
+      <View align="center" direction="row" gap="4" mb="3">
         <Pressable
           hitSlop={theme.space[3]}
           onPress={() => {
@@ -110,15 +113,6 @@ const stylesheet = createStyleSheet((theme) => ({
     marginRight: theme.space[3],
     marginVertical: theme.space[3],
   },
-  collapsed: {
-    paddingTop: theme.space[3],
-  },
-  footer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[4],
-    marginBottom: theme.space[3],
-  },
   main: (depth: number) => {
     const color = getDepthColor(depth)
 
@@ -127,7 +121,6 @@ const stylesheet = createStyleSheet((theme) => ({
       borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       marginLeft: theme.space[3] * depth,
-      paddingLeft: theme.space[3],
     }
   },
 }))

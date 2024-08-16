@@ -1,9 +1,8 @@
 import { useIsFocused } from '@react-navigation/native'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
-import { View } from 'react-native'
+import { StyleSheet } from 'react-native'
 import Pager from 'react-native-pager-view'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { z } from 'zod'
 
@@ -27,8 +26,6 @@ export default function Screen() {
 
   const [query] = useDebounce(params.query, 500)
 
-  const { styles } = useStyles(stylesheet)
-
   const type = params.type
 
   useEffect(() => {
@@ -50,29 +47,27 @@ export default function Screen() {
       ref={pager}
       style={styles.main}
     >
-      <View key="posts" style={styles.main}>
-        <SearchList
-          focused={focused ? type === 'post' : false}
-          insets={insets}
-          query={query}
-          type="post"
-        />
-      </View>
+      <SearchList
+        focused={focused ? type === 'post' : false}
+        insets={insets}
+        key="posts"
+        query={query}
+        type="post"
+      />
 
-      <View key="communities" style={styles.main}>
-        <SearchList
-          focused={focused ? type === 'community' : false}
-          insets={insets}
-          query={query}
-          type="community"
-        />
-      </View>
+      <SearchList
+        focused={focused ? type === 'community' : false}
+        insets={insets}
+        key="communities"
+        query={query}
+        type="community"
+      />
     </Pager>
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create({
   main: {
     flex: 1,
   },
-}))
+})

@@ -1,6 +1,5 @@
 import { BlurView } from 'expo-blur'
 import { useGlobalSearchParams, useRouter } from 'expo-router'
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -9,6 +8,7 @@ import { useCommon } from '~/hooks/common'
 import { CommunitiesType } from '~/types/community'
 
 import { SegmentedControl } from '../common/segmented-control'
+import { View } from '../common/view'
 
 const schema = z.object({
   query: z.string().catch(''),
@@ -28,7 +28,7 @@ export function CommunitiesHeader() {
 
   return (
     <BlurView intensity={75} style={styles.main(common.insets.top)}>
-      <View style={styles.header}>
+      <View p="4">
         <SegmentedControl
           active={CommunitiesType.indexOf(params.type)}
           items={CommunitiesType.map((item) => t(item))}
@@ -43,10 +43,7 @@ export function CommunitiesHeader() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  header: {
-    padding: theme.space[4],
-  },
+const stylesheet = createStyleSheet(() => ({
   main: (inset: number) => ({
     left: 0,
     paddingTop: inset,

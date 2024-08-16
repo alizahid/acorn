@@ -7,8 +7,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { useRef, useState } from 'react'
-import { type TextInput, View } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type TextInput } from 'react-native'
 import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
@@ -20,6 +19,7 @@ import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
+import { View } from '~/components/common/view'
 import { PostCard } from '~/components/posts/card'
 import { PostReplyCard } from '~/components/posts/reply'
 import { useCommon } from '~/hooks/common'
@@ -43,8 +43,6 @@ export default function Screen() {
 
   const { postCommentSort } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
-
   const reply = useRef<TextInput>(null)
 
   const [sort, setSort] = useState(postCommentSort)
@@ -62,6 +60,8 @@ export default function Screen() {
       headerTitle: () =>
         post ? (
           <Pressable
+            height="8"
+            justify="center"
             onPress={() => {
               if (isUser(post.subreddit)) {
                 router.navigate({
@@ -80,7 +80,7 @@ export default function Screen() {
                 })
               }
             }}
-            style={styles.header}
+            px="3"
           >
             <Text weight="bold">{post.subreddit}</Text>
           </Pressable>
@@ -94,17 +94,9 @@ export default function Screen() {
     <>
       <FlashList
         {...props}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        ItemSeparatorComponent={() => <View height="2" />}
         ListEmptyComponent={
-          isFetching ? (
-            post ? (
-              <Spinner style={styles.spinner} />
-            ) : (
-              <Loading />
-            )
-          ) : (
-            <Empty />
-          )
+          isFetching ? post ? <Spinner m="4" /> : <Loading /> : <Empty />
         }
         ListHeaderComponent={
           post ? (
@@ -170,17 +162,3 @@ export default function Screen() {
     </>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  header: {
-    height: theme.space[8],
-    justifyContent: 'center',
-    paddingHorizontal: theme.space[3],
-  },
-  separator: {
-    height: theme.space[2],
-  },
-  spinner: {
-    margin: theme.space[4],
-  },
-}))

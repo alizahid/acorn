@@ -1,5 +1,5 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useStyles } from 'react-native-unistyles'
 
 import { type ColorToken } from '~/styles/colors'
 
@@ -28,13 +28,17 @@ export function HeaderButton({
   style,
   weight,
 }: Props) {
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useStyles()
 
   return (
     <Pressable
+      align="center"
       disabled={loading}
+      height="8"
+      justify="center"
       onPress={onPress}
-      style={[styles.main, style]}
+      style={style}
+      width="8"
     >
       {loading ? (
         <Spinner color={color} contrast={contrast} />
@@ -49,12 +53,3 @@ export function HeaderButton({
     </Pressable>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  main: {
-    alignItems: 'center',
-    height: theme.space[8],
-    justifyContent: 'center',
-    width: theme.space[8],
-  },
-}))

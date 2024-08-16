@@ -1,6 +1,5 @@
 import { useRouter } from 'expo-router'
-import { View } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { withoutAgo } from '~/lib/intl'
@@ -10,6 +9,7 @@ import { type Post } from '~/types/post'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 import { PostSaveCard } from './save'
 import { PostShareCard } from './share'
 import { PostVoteCard } from './vote'
@@ -27,7 +27,7 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
 
   const f = useFormatter()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useStyles()
 
   const items = [
     {
@@ -57,7 +57,9 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
 
   return (
     <Pressable
+      direction="row"
       disabled={expanded}
+      gap="4"
       onPress={() => {
         router.navigate({
           params: {
@@ -66,9 +68,9 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
           pathname: '/posts/[id]',
         })
       }}
-      style={styles.main}
+      p="3"
     >
-      <View style={styles.meta}>
+      <View align="start" flexGrow={1} gap="2">
         <Pressable
           hitSlop={theme.space[4]}
           onPress={() => {
@@ -95,9 +97,9 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
           </Text>
         </Pressable>
 
-        <View style={styles.items}>
+        <View direction="row" gap="2">
           {items.map((item) => (
-            <View key={item.key} style={styles.item}>
+            <View align="center" direction="row" gap="1" key={item.key}>
               <Icon
                 color={theme.colors.gray[post.read ? 'a11' : 'a12']}
                 name={item.icon}
@@ -112,7 +114,7 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
         </View>
       </View>
 
-      <View style={styles.actions}>
+      <View align="center" direction="row" gap="2">
         <PostVoteCard post={post} />
 
         <PostShareCard post={post} />
@@ -122,30 +124,3 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
     </Pressable>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  actions: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[2],
-  },
-  item: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[1],
-  },
-  items: {
-    flexDirection: 'row',
-    gap: theme.space[2],
-  },
-  main: {
-    flexDirection: 'row',
-    gap: theme.space[4],
-    padding: theme.space[3],
-  },
-  meta: {
-    alignItems: 'flex-start',
-    flex: 1,
-    gap: theme.space[2],
-  },
-}))

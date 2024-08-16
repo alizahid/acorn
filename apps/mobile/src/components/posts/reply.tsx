@@ -1,5 +1,5 @@
 import { forwardRef, useState } from 'react'
-import { TextInput, View } from 'react-native'
+import { TextInput } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -12,6 +12,7 @@ import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 
 type Props = {
   commentId?: string
@@ -57,9 +58,15 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
         />
 
         {focused ? (
-          <View style={styles.footer}>
+          <View align="center" direction="row" gap="4">
             {user ? (
-              <Pressable onPress={onReset} style={styles.reset}>
+              <Pressable
+                align="center"
+                direction="row"
+                gap="2"
+                onPress={onReset}
+                p="4"
+              >
                 <Icon
                   color={theme.colors.red.a9}
                   name="X"
@@ -77,6 +84,7 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
 
             <Pressable
               disabled={!postId || isPending}
+              ml="auto"
               onPress={() => {
                 if (!postId || text.length === 0) {
                   return
@@ -91,7 +99,7 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
                 setText('')
                 onReset()
               }}
-              style={styles.button}
+              p="4"
             >
               {isPending ? (
                 <Spinner />
@@ -109,15 +117,6 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
 )
 
 const stylesheet = createStyleSheet((theme) => ({
-  button: {
-    marginLeft: 'auto',
-    padding: theme.space[4],
-  },
-  footer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[4],
-  },
   input: (inset: number, open: boolean) => ({
     color: theme.colors.gray.contrast,
     fontSize: theme.typography[3].fontSize,
@@ -128,11 +127,5 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   main: {
     backgroundColor: theme.colors.gray.a2,
-  },
-  reset: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[2],
-    padding: theme.space[4],
   },
 }))

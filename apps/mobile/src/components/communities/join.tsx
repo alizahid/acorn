@@ -1,4 +1,3 @@
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
@@ -8,6 +7,7 @@ import { withoutAgo } from '~/lib/intl'
 import { type Community } from '~/types/community'
 
 import { Button } from '../common/button'
+import { View } from '../common/view'
 
 type Props = {
   community: Community
@@ -39,10 +39,17 @@ export function CommunityJoinCard({ community }: Props) {
   ] as const
 
   return (
-    <View style={styles.main}>
-      <View style={styles.info}>
+    <View
+      align="center"
+      direction="row"
+      gap="6"
+      justify="between"
+      p="4"
+      style={styles.main}
+    >
+      <View direction="row" gap="6">
         {items.map((item) => (
-          <View key={item.key} style={styles.badge}>
+          <View gap="1" key={item.key}>
             <Text align="center" highContrast={false} size="1" weight="medium">
               {t(item.key)}
             </Text>
@@ -71,19 +78,7 @@ export function CommunityJoinCard({ community }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  badge: {
-    gap: theme.space[1],
-  },
-  info: {
-    flexDirection: 'row',
-    gap: theme.space[6],
-  },
   main: {
-    alignItems: 'center',
     backgroundColor: theme.colors.accent.a3,
-    flexDirection: 'row',
-    gap: theme.space[6],
-    justifyContent: 'space-between',
-    padding: theme.space[4],
   },
 }))

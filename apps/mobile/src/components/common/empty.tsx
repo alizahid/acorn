@@ -1,11 +1,11 @@
 import { Image } from 'expo-image'
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useCommon } from '~/hooks/common'
 import notFound from '~/images/not-found.png'
 
 import { Text } from './text'
+import { View } from './view'
 
 type Props = {
   message?: string
@@ -17,7 +17,7 @@ export function Empty({ message }: Props) {
   const { styles } = useStyles(stylesheet)
 
   return (
-    <View style={styles.main}>
+    <View align="center" flexGrow={1} gap="4" justify="center">
       <Image source={notFound} style={styles.image(common.frame.width)} />
 
       {message ? (
@@ -29,15 +29,9 @@ export function Empty({ message }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet(() => ({
   image: (size: number) => ({
     height: size,
     width: size,
   }),
-  main: {
-    alignItems: 'center',
-    flex: 1,
-    gap: theme.space[4],
-    justifyContent: 'center',
-  },
 }))

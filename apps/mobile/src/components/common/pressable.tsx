@@ -12,13 +12,16 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
+
+import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
 export const PRESS_DELAY = 130
 
 const Component = Animated.createAnimatedComponent(ReactNativePressable)
 
 type Props = {
-  children: ReactNode
+  children?: ReactNode
   disabled?: boolean
   hitSlop?: number | Insets
   onLayout?: (event: LayoutChangeEvent) => void
@@ -26,7 +29,7 @@ type Props = {
   onPress?: (event: GestureResponderEvent) => void
   style?: StyleProp<ViewStyle>
   without?: boolean
-}
+} & ViewStyleProps
 
 export function Pressable({
   children,
@@ -37,7 +40,10 @@ export function Pressable({
   onPress,
   style,
   without,
+  ...props
 }: Props) {
+  const { styles } = useStyles(stylesheet)
+
   const opacity = useSharedValue(1)
 
   const animatedStyle = useAnimatedStyle(() => ({
@@ -69,10 +75,14 @@ export function Pressable({
           duration: 100,
         })
       }}
-      style={[animatedStyle, style]}
+      style={[animatedStyle, styles.main(props), style]}
       unstable_pressDelay={PRESS_DELAY}
     >
       {children}
     </Component>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  main: getViewStyles(theme),
+}))

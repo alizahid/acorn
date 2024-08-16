@@ -28,7 +28,11 @@ export function CommentMoreCard({ comment, post, style }: Props) {
 
   return (
     <Pressable
+      align="center"
+      direction="row"
       disabled={isPending}
+      gap="4"
+      justify="center"
       onPress={() => {
         if (!post) {
           return
@@ -46,6 +50,7 @@ export function CommentMoreCard({ comment, post, style }: Props) {
           })
         }
       }}
+      py="2"
       style={[styles.main(comment.depth), style]}
     >
       {isPending ? (
@@ -76,15 +81,10 @@ const stylesheet = createStyleSheet((theme) => ({
     const color = getDepthColor(depth)
 
     return {
-      alignItems: 'center',
       backgroundColor: theme.colors[color].a2,
       borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
-      flexDirection: 'row',
-      gap: theme.space[4],
-      justifyContent: 'center',
       marginLeft: theme.space[3] * depth,
-      paddingVertical: theme.space[2],
     }
   },
 }))

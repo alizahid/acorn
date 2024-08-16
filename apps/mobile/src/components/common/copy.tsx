@@ -1,10 +1,11 @@
 import * as Clipboard from 'expo-clipboard'
 import { useRef, useState } from 'react'
-import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HeaderButton } from '../navigation/header-button'
 import { Text } from './text'
+import { View } from './view'
 
 type Props = {
   code?: boolean
@@ -20,8 +21,13 @@ export function Copy({ code = true, style, value }: Props) {
   const [copied, setCopied] = useState(false)
 
   return (
-    <View style={[styles.main, style]}>
-      <Text style={styles.uri} variant={code ? 'mono' : 'sans'} weight="medium">
+    <View align="center" direction="row" style={[styles.main, style]}>
+      <Text
+        mx="4"
+        style={styles.uri}
+        variant={code ? 'mono' : 'sans'}
+        weight="medium"
+      >
         {value}
       </Text>
 
@@ -48,14 +54,11 @@ export function Copy({ code = true, style, value }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    alignItems: 'center',
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    flexDirection: 'row',
   },
   uri: {
     flex: 1,
-    paddingHorizontal: theme.space[4],
   },
 }))

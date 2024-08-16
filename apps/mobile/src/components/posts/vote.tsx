@@ -20,6 +20,9 @@ export function PostVoteCard({ post }: Props) {
   return (
     <>
       <Pressable
+        align="center"
+        height="6"
+        justify="center"
         onPress={() => {
           vote({
             direction: post.liked ? 0 : 1,
@@ -27,6 +30,7 @@ export function PostVoteCard({ post }: Props) {
           })
         }}
         style={[styles.main, post.liked && styles.liked]}
+        width="6"
       >
         <Icon
           color={post.liked ? theme.colors.white.a12 : color}
@@ -37,6 +41,9 @@ export function PostVoteCard({ post }: Props) {
       </Pressable>
 
       <Pressable
+        align="center"
+        height="6"
+        justify="center"
         onPress={() => {
           vote({
             direction: post.liked === false ? 0 : -1,
@@ -44,6 +51,7 @@ export function PostVoteCard({ post }: Props) {
           })
         }}
         style={[styles.main, post.liked === false && styles.unliked]}
+        width="6"
       >
         <Icon
           color={post.liked === false ? theme.colors.white.a12 : color}
@@ -61,12 +69,8 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.green.a9,
   },
   main: {
-    alignItems: 'center',
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
-    height: theme.space[6],
-    justifyContent: 'center',
-    width: theme.space[6],
   },
   unliked: {
     backgroundColor: theme.colors.red.a9,

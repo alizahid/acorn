@@ -1,6 +1,5 @@
 import { BlurView } from 'expo-blur'
 import { useGlobalSearchParams, useRouter } from 'expo-router'
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -11,6 +10,7 @@ import { SearchType } from '~/types/search'
 import { Icon } from '../common/icon'
 import { SegmentedControl } from '../common/segmented-control'
 import { TextBox } from '../common/text-box'
+import { View } from '../common/view'
 import { HeaderButton } from '../navigation/header-button'
 
 const schema = z.object({
@@ -31,7 +31,7 @@ export function SearchHeader() {
 
   return (
     <BlurView intensity={75} style={styles.main(common.insets.top)}>
-      <View style={styles.header}>
+      <View gap="4" p="4">
         <View>
           <Icon
             color={theme.colors.gray.a9}
@@ -86,10 +86,6 @@ const stylesheet = createStyleSheet((theme) => ({
     right: 0,
     top: 0,
     width: theme.space[7],
-  },
-  header: {
-    gap: theme.space[4],
-    padding: theme.space[4],
   },
   input: {
     backgroundColor: theme.colors.gray.a3,

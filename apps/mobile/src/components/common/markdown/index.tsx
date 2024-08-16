@@ -1,11 +1,11 @@
 import { useMemo } from 'react'
-import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type StyleProp, type ViewStyle } from 'react-native'
 
 import { parse } from '~/lib/markdown'
 import { type TypographyToken } from '~/styles/tokens'
 import { type PostMediaMeta } from '~/types/post'
 
+import { View } from '../view'
 import { Node } from './markdown'
 
 type Props = {
@@ -25,12 +25,10 @@ export function Markdown({
   size = '3',
   style,
 }: Props) {
-  const { styles } = useStyles(stylesheet)
-
   const nodes = useMemo(() => parse(children), [children])
 
   return (
-    <View style={[styles.main, style]}>
+    <View gap="3" style={style}>
       {nodes.children.map((node, index) => (
         <Node
           // eslint-disable-next-line react/no-array-index-key -- go away
@@ -45,9 +43,3 @@ export function Markdown({
     </View>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  main: {
-    gap: theme.space[3],
-  },
-}))

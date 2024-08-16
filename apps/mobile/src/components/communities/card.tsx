@@ -22,6 +22,9 @@ export function CommunityCard({ community, style }: Props) {
 
   return (
     <Pressable
+      align="center"
+      direction="row"
+      gap="4"
       onPress={() => {
         if (isUser(community.name)) {
           router.navigate({
@@ -40,7 +43,8 @@ export function CommunityCard({ community, style }: Props) {
           })
         }
       }}
-      style={[styles.main, style]}
+      px="4"
+      style={style}
     >
       <Image
         recyclingKey={community.id}
@@ -48,7 +52,7 @@ export function CommunityCard({ community, style }: Props) {
         style={styles.image}
       />
 
-      <Text style={styles.name} weight="medium">
+      <Text my="4" style={styles.name} weight="medium">
         {community.name}
       </Text>
 
@@ -69,14 +73,7 @@ const stylesheet = createStyleSheet((theme) => ({
     height: theme.space[7],
     width: theme.space[7],
   },
-  main: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[4],
-    paddingHorizontal: theme.space[4],
-  },
   name: {
     flex: 1,
-    marginVertical: theme.space[4],
   },
 }))

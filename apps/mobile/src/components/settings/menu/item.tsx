@@ -1,11 +1,12 @@
 import { useState } from 'react'
-import { type StyleProp, Switch, View, type ViewStyle } from 'react-native'
+import { type StyleProp, Switch, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Icon } from '~/components/common/icon'
 import { Modal } from '~/components/common/modal'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
+import { View } from '~/components/common/view'
 
 import { type SettingsItem } from '.'
 
@@ -30,6 +31,9 @@ export function SettingsItem({ item, style }: Props) {
   return (
     <>
       <Component
+        align="center"
+        direction="row"
+        gap="3"
         onPress={() => {
           if (item.type === 'options') {
             setVisible(true)
@@ -37,7 +41,8 @@ export function SettingsItem({ item, style }: Props) {
             item.onPress()
           }
         }}
-        style={[styles.main, style]}
+        px="3"
+        style={style}
       >
         {item.icon ? (
           <Icon
@@ -48,7 +53,7 @@ export function SettingsItem({ item, style }: Props) {
           />
         ) : null}
 
-        <Text style={styles.label} weight="medium">
+        <Text my="3" style={styles.label} weight="medium">
           {item.label}
         </Text>
 
@@ -94,16 +99,17 @@ export function SettingsItem({ item, style }: Props) {
         >
           {item.options.map((option) => (
             <Pressable
+              align="center"
+              direction="row"
+              gap="3"
               key={option.value}
               onPress={() => {
                 item.onSelect(option.value)
 
                 setVisible(false)
               }}
-              style={[
-                styles.main,
-                option.value === item.value && styles.selected,
-              ]}
+              px="3"
+              style={option.value === item.value && styles.selected}
             >
               {option.icon ? (
                 <Icon
@@ -116,7 +122,7 @@ export function SettingsItem({ item, style }: Props) {
 
               {option.left}
 
-              <Text size="2" style={styles.label} weight="medium">
+              <Text my="3" size="2" style={styles.label} weight="medium">
                 {option.label}
               </Text>
             </Pressable>
@@ -130,13 +136,6 @@ export function SettingsItem({ item, style }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   label: {
     flex: 1,
-    marginVertical: theme.space[3],
-  },
-  main: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[3],
-    paddingHorizontal: theme.space[3],
   },
   selected: {
     backgroundColor: theme.colors.accent.a5,

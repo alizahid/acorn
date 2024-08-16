@@ -1,4 +1,3 @@
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
@@ -8,6 +7,7 @@ import { type CommentReply } from '~/types/comment'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 
 type Props = {
   comment: CommentReply
@@ -23,7 +23,7 @@ export function CommentVoteCard({ comment }: Props) {
   const color = theme.colors.gray.a11
 
   return (
-    <View style={styles.main}>
+    <View align="center" direction="row" gap="2" style={styles.main}>
       <Pressable
         hitSlop={theme.space[4]}
         onPress={() => {
@@ -71,10 +71,7 @@ export function CommentVoteCard({ comment }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    alignItems: 'center',
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
-    flexDirection: 'row',
-    gap: theme.space[2],
   },
 }))

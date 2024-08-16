@@ -15,6 +15,9 @@ export function PostShareCard({ post }: Props) {
 
   return (
     <Pressable
+      align="center"
+      height="6"
+      justify="center"
       onPress={() => {
         const url = new URL(post.permalink, 'https://reddit.com')
 
@@ -24,6 +27,7 @@ export function PostShareCard({ post }: Props) {
         })
       }}
       style={styles.main}
+      width="6"
     >
       <Icon
         color={theme.colors.gray[post.read ? 'a11' : 'a12']}
@@ -37,11 +41,7 @@ export function PostShareCard({ post }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    alignItems: 'center',
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
-    height: theme.space[6],
-    justifyContent: 'center',
-    width: theme.space[6],
   },
 }))

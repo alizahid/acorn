@@ -1,4 +1,3 @@
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
@@ -8,6 +7,7 @@ import { withoutAgo } from '~/lib/intl'
 import { type Profile } from '~/types/user'
 
 import { Button } from '../common/button'
+import { View } from '../common/view'
 
 type Props = {
   profile: Profile
@@ -39,13 +39,13 @@ export function UserFollowCard({ profile }: Props) {
   ] as const
 
   return (
-    <View style={styles.main}>
+    <View gap="4" p="4" style={styles.main}>
       <Text weight="bold">{profile.name}</Text>
 
-      <View style={styles.content}>
-        <View style={styles.info}>
+      <View align="center" direction="row" gap="6" justify="between">
+        <View direction="row" gap="6">
           {items.map((item) => (
-            <View key={item.key} style={styles.badge}>
+            <View gap="1" key={item.key}>
               <Text
                 align="center"
                 highContrast={false}
@@ -80,22 +80,7 @@ export function UserFollowCard({ profile }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  badge: {
-    gap: theme.space[1],
-  },
-  content: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[6],
-    justifyContent: 'space-between',
-  },
-  info: {
-    flexDirection: 'row',
-    gap: theme.space[6],
-  },
   main: {
     backgroundColor: theme.colors.accent.a3,
-    gap: theme.space[4],
-    padding: theme.space[4],
   },
 }))

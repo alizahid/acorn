@@ -1,7 +1,6 @@
 import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRef, useState } from 'react'
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Empty } from '~/components/common/empty'
@@ -14,6 +13,8 @@ import { useSearch } from '~/hooks/queries/search/search'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
 import { type SearchType } from '~/types/search'
+
+import { View } from '../common/view'
 
 type Props = {
   focused?: boolean

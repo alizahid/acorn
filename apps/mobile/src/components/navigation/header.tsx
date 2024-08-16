@@ -1,12 +1,12 @@
 import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { BlurView } from 'expo-blur'
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useCommon } from '~/hooks/common'
 
 import { Text } from '../common/text'
+import { View } from '../common/view'
 import { HeaderButton } from './header-button'
 
 type Props = NativeStackHeaderProps | BottomTabHeaderProps
@@ -21,7 +21,7 @@ export function Header({ navigation, options, ...props }: Props) {
 
   return (
     <BlurView intensity={75} style={styles.main(common.insets.top)}>
-      <View style={styles.header}>
+      <View align="center" height="8" justify="center">
         {left ? (
           <View style={[styles.actions, styles.left]}>
             {back ? (
@@ -41,7 +41,7 @@ export function Header({ navigation, options, ...props }: Props) {
         ) : null}
 
         {typeof options.headerTitle === 'function' ? (
-          <View style={styles.title}>
+          <View direction="row" gap="2">
             {options.headerTitle({
               children: options.title ?? '',
             })}
@@ -62,16 +62,11 @@ export function Header({ navigation, options, ...props }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet(() => ({
   actions: {
     bottom: 0,
     flexDirection: 'row',
     position: 'absolute',
-  },
-  header: {
-    alignItems: 'center',
-    height: theme.space[8],
-    justifyContent: 'center',
   },
   left: {
     left: 0,
@@ -85,9 +80,5 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   right: {
     right: 0,
-  },
-  title: {
-    flexDirection: 'row',
-    gap: theme.space[2],
   },
 }))

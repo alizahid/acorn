@@ -6,6 +6,8 @@ import {
 import { type ColorToken } from '~/styles/colors'
 import { type TypographyToken } from '~/styles/tokens'
 
+import { getMargin, type MarginProps } from './space'
+
 export type TextStyleProps = {
   align?: 'left' | 'center' | 'right'
   color?: ColorToken
@@ -15,7 +17,7 @@ export type TextStyleProps = {
   tabular?: boolean
   variant?: 'sans' | 'mono'
   weight?: 'light' | 'regular' | 'medium' | 'bold'
-}
+} & MarginProps
 
 export function getTextStyles(theme: UnistylesTheme) {
   return function styles({
@@ -27,8 +29,10 @@ export function getTextStyles(theme: UnistylesTheme) {
     size = '3',
     tabular,
     weight = 'regular',
+    ...props
   }: TextStyleProps) {
     return {
+      ...getMargin(theme)(props),
       color:
         theme.colors[color][
           contrast ? 'contrast' : highContrast ? 'a12' : 'a11'

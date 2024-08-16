@@ -1,7 +1,8 @@
-import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Spinner } from '~/components/common/spinner'
+import { View } from '~/components/common/view'
 import { useCommon } from '~/hooks/common'
 import { useRedGifs } from '~/hooks/redgifs'
 import { getDimensions } from '~/lib/media'
@@ -49,6 +50,8 @@ export function RedGifsVideo({
 
   return (
     <View
+      align="center"
+      justify="center"
       style={styles.main(
         common.height.max,
         dimensions.height,
@@ -62,9 +65,7 @@ export function RedGifsVideo({
 
 const stylesheet = createStyleSheet(() => ({
   main: (maxHeight: number, height: number, width: number) => ({
-    alignItems: 'center',
     height: Math.min(maxHeight, height),
-    justifyContent: 'center',
     width,
   }),
 }))

@@ -1,22 +1,10 @@
-import { View } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
-
 import { Spinner } from './spinner'
+import { View } from './view'
 
 export function Loading() {
-  const { styles } = useStyles(stylesheet)
-
   return (
-    <View style={styles.main}>
+    <View align="center" flexGrow={1} justify="center">
       <Spinner size="large" />
     </View>
   )
 }
-
-const stylesheet = createStyleSheet({
-  main: {
-    alignItems: 'center',
-    flex: 1,
-    justifyContent: 'center',
-  },
-})

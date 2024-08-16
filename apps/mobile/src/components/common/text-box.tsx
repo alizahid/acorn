@@ -4,12 +4,12 @@ import {
   TextInput,
   type TextInputProps,
   type TextStyle,
-  View,
   type ViewStyle,
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Text } from './text'
+import { View } from './view'
 
 type Props = Pick<
   TextInputProps,

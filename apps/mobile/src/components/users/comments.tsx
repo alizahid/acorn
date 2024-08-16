@@ -1,7 +1,5 @@
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
-import { View } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -14,6 +12,7 @@ import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { Pressable } from '../common/pressable'
+import { View } from '../common/view'
 import { UserFollowCard } from './follow'
 
 type Props = {
@@ -31,8 +30,6 @@ export function UserCommentsList({
 }: Props) {
   const router = useRouter()
 
-  const { styles } = useStyles(stylesheet)
-
   const common = useCommon()
 
   const {
@@ -49,10 +46,10 @@ export function UserCommentsList({
   return (
     <FlashList
       {...props}
-      ItemSeparatorComponent={() => <View style={styles.separator} />}
+      ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
+        isFetchingNextPage ? <Spinner m="4" /> : null
       }
       ListHeaderComponent={
         profile ? <UserFollowCard profile={profile} /> : null
@@ -99,12 +96,3 @@ export function UserCommentsList({
     />
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  separator: {
-    height: theme.space[2],
-  },
-  spinner: {
-    margin: theme.space[4],
-  },
-}))

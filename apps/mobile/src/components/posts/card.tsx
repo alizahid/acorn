@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router'
-import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { removePrefix } from '~/lib/reddit'
@@ -8,6 +8,7 @@ import { type Post } from '~/types/post'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 import { CrossPostCard } from './crosspost'
 import { PostFooterCard, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
@@ -35,6 +36,8 @@ export function PostCard({
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const body = expanded && post.body
+
   return (
     <View style={style}>
       <Pressable
@@ -47,7 +50,7 @@ export function PostCard({
             pathname: '/posts/[id]',
           })
         }}
-        style={styles.title}
+        p="3"
       >
         <Text highContrast={!post.read} weight="bold">
           {post.title}
@@ -58,6 +61,7 @@ export function PostCard({
         <CrossPostCard
           margin={margin + theme.space[5]}
           post={post.crossPost}
+          style={body ? styles.expanded : null}
           viewing={viewing}
         />
       ) : null}
@@ -66,6 +70,7 @@ export function PostCard({
         <PostVideoCard
           margin={margin}
           nsfw={post.nsfw}
+          style={body ? styles.expanded : null}
           video={post.media.video}
           viewing={viewing}
         />
@@ -77,11 +82,16 @@ export function PostCard({
           margin={margin}
           nsfw={post.nsfw}
           recyclingKey={post.id}
+          style={body ? styles.expanded : null}
         />
       ) : null}
 
       {post.type === 'link' && post.url ? (
-        <PostLinkCard margin={margin + theme.space[5]} post={post} />
+        <PostLinkCard
+          margin={margin + theme.space[5]}
+          post={post}
+          style={body ? styles.expanded : null}
+        />
       ) : null}
 
       {expanded && post.body ? (
@@ -104,7 +114,7 @@ const stylesheet = createStyleSheet((theme) => ({
   body: {
     marginHorizontal: theme.space[3],
   },
-  title: {
-    padding: theme.space[3],
+  expanded: {
+    marginBottom: theme.space[3],
   },
 }))

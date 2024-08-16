@@ -2,7 +2,7 @@ import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import * as StatusBar from 'expo-status-bar'
 import { useState } from 'react'
-import { FlatList, type StyleProp, View, type ViewStyle } from 'react-native'
+import { FlatList, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -17,6 +17,7 @@ import { Icon } from '../common/icon'
 import { ImageZoom } from '../common/image-zoom'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 
 type Props = {
   images: Array<PostMedia>

@@ -1,7 +1,6 @@
 import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRef } from 'react'
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Empty } from '~/components/common/empty'
@@ -12,6 +11,8 @@ import { Text } from '~/components/common/text'
 import { CommunityCard } from '~/components/communities/card'
 import { type Insets, useCommon } from '~/hooks/common'
 import { type Community } from '~/types/community'
+
+import { View } from '../common/view'
 
 type Props = {
   communities: Array<string | Community>
@@ -52,7 +53,7 @@ export function CommunitiesList({
       {...props}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
+        isFetchingNextPage ? <Spinner m="4" /> : null
       }
       data={communities}
       estimatedItemSize={56}
@@ -73,6 +74,9 @@ export function CommunitiesList({
         if (typeof item === 'string') {
           return (
             <View
+              my="2"
+              pr="4"
+              py="2"
               style={[
                 styles.header,
                 target === 'StickyHeader' &&
@@ -96,13 +100,7 @@ export function CommunitiesList({
 const stylesheet = createStyleSheet((theme) => ({
   header: {
     backgroundColor: theme.colors.gray.a2,
-    marginVertical: theme.space[2],
     paddingLeft: theme.space[4] + theme.space[7] + theme.space[4],
-    paddingRight: theme.space[4],
-    paddingVertical: theme.space[2],
-  },
-  spinner: {
-    margin: theme.space[4],
   },
   sticky: (offset: number) => ({
     backgroundColor: theme.colors.gray[2],

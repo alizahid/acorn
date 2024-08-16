@@ -1,7 +1,6 @@
 import { useIsFocused } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useState } from 'react'
-import { View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -13,6 +12,7 @@ import { type Profile } from '~/types/user'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
+import { View } from '../common/view'
 import { type PostLabel } from '../posts/footer'
 import { UserFollowCard } from './follow'
 
@@ -59,10 +59,12 @@ export function UserPostsList({
   return (
     <FlashList
       {...props}
-      ItemSeparatorComponent={() => <View style={styles.separator} />}
+      ItemSeparatorComponent={() => (
+        <View height={1} style={styles.separator} />
+      )}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
+        isFetchingNextPage ? <Spinner m="4" /> : null
       }
       ListHeaderComponent={
         profile ? <UserFollowCard profile={profile} /> : null
@@ -110,9 +112,5 @@ export function UserPostsList({
 const stylesheet = createStyleSheet((theme) => ({
   separator: {
     backgroundColor: theme.colors.gray.a6,
-    height: 1,
-  },
-  spinner: {
-    margin: theme.space[4],
   },
 }))
