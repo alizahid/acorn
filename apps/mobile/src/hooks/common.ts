@@ -78,7 +78,6 @@ export function useCommon() {
       return {
         contentContainerStyle,
         progressViewOffset,
-        removeClippedSubviews: true,
         scrollIndicatorInsets,
       }
     },

@@ -12,7 +12,7 @@ type Props = TextStyleProps & {
   children: ReactNode
   lines?: number
   onPress?: () => void
-  selectable?: boolean
+  slow?: boolean
   style?: StyleProp<TextStyle>
 }
 
@@ -20,20 +20,19 @@ export function Text({
   children,
   lines,
   onPress,
-  selectable,
+  slow,
   style,
   ...props
 }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  if (onPress) {
+  if (onPress ?? slow) {
     return (
       <ReactNativeText
         allowFontScaling={false}
         ellipsizeMode={lines ? 'tail' : undefined}
         numberOfLines={lines}
         onPress={onPress}
-        selectable={selectable}
         style={[styles.main(props), style]}
       >
         {children}
@@ -46,7 +45,6 @@ export function Text({
     children,
     ellipsizeMode: lines ? 'tail' : undefined,
     numberOfLines: lines,
-    selectable,
     style: [styles.main(props), style],
   })
 }
