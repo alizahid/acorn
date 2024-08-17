@@ -1,4 +1,3 @@
-import { useMemo } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 
 import { parse } from '~/lib/markdown'
@@ -25,7 +24,7 @@ export function Markdown({
   size = '3',
   style,
 }: Props) {
-  const nodes = useMemo(() => parse(children), [children])
+  const nodes = parse(children)
 
   return (
     <View gap="3" style={style}>
