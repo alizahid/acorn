@@ -17,12 +17,14 @@
       },
       "sort": {
         "best": "Best",
+        "comments": "Comment count",
         "confidence": "Best",
         "controversial": "Controversial",
         "hot": "Hot",
         "new": "New",
         "old": "Old",
         "placeholder": "Sort",
+        "relevance": "Relevance",
         "rising": "Rising",
         "top": "Top"
       }
@@ -56,6 +58,14 @@
       }
     },
     "search": {
+      "filters": {
+        "interval": {
+          "placeholder": "Interval"
+        },
+        "sort": {
+          "placeholder": "Sort"
+        }
+      },
       "header": {
         "query": {
           "placeholder": "Search"

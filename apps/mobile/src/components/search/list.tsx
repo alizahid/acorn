@@ -15,6 +15,7 @@ import { type Post } from '~/types/post'
 import { type SearchType } from '~/types/search'
 
 import { View } from '../common/view'
+import { type SearchFilters, SearchPostFilters } from './filters'
 
 type Props = {
   focused?: boolean
@@ -33,8 +34,15 @@ export function SearchList({ focused, insets, query, type }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const [filters, setFilters] = useState<SearchFilters>({
+    interval: 'all',
+    sort: 'relevance',
+  })
+
   const { isLoading, refetch, results } = useSearch({
+    interval: filters.interval,
     query,
+    sort: filters.sort,
     type,
   })
 
@@ -50,6 +58,11 @@ export function SearchList({ focused, insets, query, type }: Props) {
       {...props}
       ItemSeparatorComponent={() => <View style={styles.separator(type)} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+      ListHeaderComponent={
+        type === 'post' ? (
+          <SearchPostFilters filters={filters} onChange={setFilters} />
+        ) : null
+      }
       data={results}
       drawDistance={common.frame.height}
       estimatedItemSize={type === 'community' ? 56 : 120}

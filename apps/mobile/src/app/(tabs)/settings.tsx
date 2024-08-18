@@ -3,17 +3,16 @@ import { useCallback, useMemo } from 'react'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { CommentSortColors, CommentSortIcons } from '~/components/comments/sort'
 import { Icon } from '~/components/common/icon'
 import { Text } from '~/components/common/text'
 import { TopIntervalItem } from '~/components/posts/interval'
-import { FeedSortColors, FeedSortIcons } from '~/components/posts/sort'
 import {
   type SettingsItem,
   type SettingsItemOption,
   SettingsMenu,
 } from '~/components/settings/menu'
 import { getTranslator } from '~/intl'
+import { SortColors, SortIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import {
@@ -37,15 +36,16 @@ export default function Screen() {
 
   const enhanceSort = useCallback(
     (sort: FeedSort | CommentSort): SettingsItemOption => {
-      const color = theme.colors[colors[sort]].a9
+      const icon = SortIcons[sort]
+      const color = theme.colors[SortColors[sort]].a9
 
       return {
         icon: {
           color,
-          name: icons[sort],
+          name: icon,
         },
         label: tSort(sort),
-        right: <Icon color={color} name={icons[sort]} size={theme.space[5]} />,
+        right: <Icon color={color} name={icon} size={theme.space[5]} />,
         value: sort,
       }
     },
@@ -164,14 +164,4 @@ export default function Screen() {
       ]}
     />
   )
-}
-
-const icons = {
-  ...CommentSortIcons,
-  ...FeedSortIcons,
-}
-
-const colors = {
-  ...CommentSortColors,
-  ...FeedSortColors,
 }

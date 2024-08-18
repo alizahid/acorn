@@ -28,6 +28,18 @@ export const CommentSort = [
 
 export type CommentSort = (typeof CommentSort)[number]
 
+// search
+
+export const SearchSort = [
+  'relevance',
+  'hot',
+  'top',
+  'new',
+  'comments',
+] as const
+
+export type SearchSort = (typeof SearchSort)[number]
+
 // top
 
 export const TopInterval = [

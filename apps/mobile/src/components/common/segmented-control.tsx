@@ -19,7 +19,7 @@ export function SegmentedControl({ active, items, onChange }: Props) {
       }}
       backgroundColor={theme.colors.gray.a3}
       fontStyle={{
-        color: theme.colors.gray.contrast,
+        color: theme.colors.gray.a11,
         fontFamily: 'sans-regular',
         fontSize: theme.typography[2].fontSize,
       }}

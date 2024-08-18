@@ -32,6 +32,7 @@ import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import ShareFatBold from 'react-native-phosphor/src/bold/ShareFat'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
+import TargetBold from 'react-native-phosphor/src/bold/Target'
 import ThumbsUpBold from 'react-native-phosphor/src/bold/ThumbsUp'
 import TrashBold from 'react-native-phosphor/src/bold/Trash'
 import UserCircleBold from 'react-native-phosphor/src/bold/UserCircle'
@@ -72,6 +73,7 @@ import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import ShareFatDuotone from 'react-native-phosphor/src/duotone/ShareFat'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
+import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
 import ThumbsUpDuotone from 'react-native-phosphor/src/duotone/ThumbsUp'
 import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
 import UserCircleDuotone from 'react-native-phosphor/src/duotone/UserCircle'
@@ -112,6 +114,7 @@ import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import ShareFatFill from 'react-native-phosphor/src/fill/ShareFat'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
+import TargetFill from 'react-native-phosphor/src/fill/Target'
 import ThumbsUpFill from 'react-native-phosphor/src/fill/ThumbsUp'
 import TrashFill from 'react-native-phosphor/src/fill/Trash'
 import UserCircleFill from 'react-native-phosphor/src/fill/UserCircle'
@@ -152,6 +155,7 @@ import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import ShareFatRegular from 'react-native-phosphor/src/regular/ShareFat'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
+import TargetRegular from 'react-native-phosphor/src/regular/Target'
 import ThumbsUpRegular from 'react-native-phosphor/src/regular/ThumbsUp'
 import TrashRegular from 'react-native-phosphor/src/regular/Trash'
 import UserCircleRegular from 'react-native-phosphor/src/regular/UserCircle'
@@ -377,6 +381,12 @@ const icons = {
     duotone: SpeakerSimpleXDuotone,
     fill: SpeakerSimpleXFill,
     regular: SpeakerSimpleXRegular,
+  },
+  Target: {
+    bold: TargetBold,
+    duotone: TargetDuotone,
+    fill: TargetFill,
+    regular: TargetRegular,
   },
   ThumbsUp: {
     bold: ThumbsUpBold,

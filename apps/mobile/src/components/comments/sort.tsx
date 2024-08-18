@@ -1,11 +1,10 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { type ColorToken } from '~/styles/colors'
+import { SortColors, SortIcons } from '~/lib/sort'
 import { CommentSort } from '~/types/sort'
 
 import { DropDown } from '../common/drop-down'
-import { type IconName } from '../common/icon'
 
 type Props = {
   onChange: (value: CommentSort) => void
@@ -22,8 +21,8 @@ export function CommentsSortMenu({ onChange, value }: Props) {
       hideLabel
       items={CommentSort.map((item) => ({
         icon: {
-          color: theme.colors[CommentSortColors[item]][9],
-          name: CommentSortIcons[item],
+          color: theme.colors[SortColors[item]][9],
+          name: SortIcons[item],
           weight: 'duotone',
         },
         label: t(item),
@@ -45,19 +44,3 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingHorizontal: theme.space[3],
   },
 }))
-
-export const CommentSortIcons: Record<CommentSort, IconName> = {
-  confidence: 'Medal',
-  controversial: 'Flame',
-  new: 'Clock',
-  old: 'Archive',
-  top: 'Ranking',
-}
-
-export const CommentSortColors: Record<CommentSort, ColorToken> = {
-  confidence: 'green',
-  controversial: 'red',
-  new: 'blue',
-  old: 'gray',
-  top: 'gold',
-}

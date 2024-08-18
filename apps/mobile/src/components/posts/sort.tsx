@@ -1,11 +1,10 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { type ColorToken } from '~/styles/colors'
+import { SortColors, SortIcons } from '~/lib/sort'
 import { CommunityFeedSort, FeedSort, UserFeedSort } from '~/types/sort'
 
 import { DropDown } from '../common/drop-down'
-import { type IconName } from '../common/icon'
 
 type SortType = 'home' | 'community' | 'user'
 
@@ -44,8 +43,8 @@ export function FeedSortMenu<Type extends SortType>({
       hideLabel={hideLabel}
       items={items.map((item) => ({
         icon: {
-          color: theme.colors[FeedSortColors[item]][9],
-          name: FeedSortIcons[item],
+          color: theme.colors[SortColors[item]][9],
+          name: SortIcons[item],
           weight: 'duotone',
         },
         label: t(item),
@@ -67,19 +66,3 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingHorizontal: theme.space[3],
   },
 }))
-
-export const FeedSortIcons: Record<FeedSort, IconName> = {
-  best: 'Medal',
-  hot: 'Flame',
-  new: 'Clock',
-  rising: 'ChartLineUp',
-  top: 'Ranking',
-}
-
-export const FeedSortColors: Record<FeedSort, ColorToken> = {
-  best: 'green',
-  hot: 'red',
-  new: 'blue',
-  rising: 'orange',
-  top: 'gold',
-}
