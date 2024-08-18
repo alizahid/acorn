@@ -89,6 +89,6 @@
     "@types/react": "~18.2.79",
     "env-cmd": "^10.1.0",
     "eslint-config-custom": "workspace:*",
-    "typescript": "~5.5.4"
+    "typescript": "~5.3.3"
   }
 }
