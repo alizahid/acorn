@@ -1,6 +1,6 @@
 import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
-import { useRef, useState } from 'react'
+import { type ReactElement, useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Empty } from '~/components/common/empty'
@@ -15,16 +15,27 @@ import { type Post } from '~/types/post'
 import { type SearchType } from '~/types/search'
 
 import { View } from '../common/view'
-import { type SearchFilters, SearchPostFilters } from './filters'
+import { type SearchFilters } from './filters'
 
 type Props = {
+  community?: string
+  filters?: SearchFilters
   focused?: boolean
+  header?: ReactElement
   insets?: Insets
   query: string
   type: SearchType
 }
 
-export function SearchList({ focused, insets, query, type }: Props) {
+export function SearchList({
+  community,
+  filters,
+  focused,
+  header,
+  insets,
+  query,
+  type,
+}: Props) {
   const list = useRef<FlashList<Community | Post>>(null)
 
   const common = useCommon()
@@ -34,15 +45,11 @@ export function SearchList({ focused, insets, query, type }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const [filters, setFilters] = useState<SearchFilters>({
-    interval: 'all',
-    sort: 'relevance',
-  })
-
   const { isLoading, refetch, results } = useSearch({
-    interval: filters.interval,
+    community,
+    interval: filters?.interval,
     query,
-    sort: filters.sort,
+    sort: filters?.sort,
     type,
   })
 
@@ -58,17 +65,12 @@ export function SearchList({ focused, insets, query, type }: Props) {
       {...props}
       ItemSeparatorComponent={() => <View style={styles.separator(type)} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-      ListHeaderComponent={
-        type === 'post' ? (
-          <SearchPostFilters filters={filters} onChange={setFilters} />
-        ) : null
-      }
+      ListHeaderComponent={header}
       data={results}
       drawDistance={common.frame.height}
       estimatedItemSize={type === 'community' ? 56 : 120}
       getItemType={() => type}
       keyboardDismissMode="on-drag"
-      keyboardShouldPersistTaps="handled"
       onViewableItemsChanged={({ viewableItems }) => {
         setViewing(() => viewableItems.map((item) => item.key))
       }}

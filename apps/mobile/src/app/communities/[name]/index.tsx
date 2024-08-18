@@ -2,11 +2,13 @@ import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
+  useRouter,
 } from 'expo-router'
 import { useState } from 'react'
 import { z } from 'zod'
 
 import { CommunityJoinCard } from '~/components/communities/join'
+import { HeaderButton } from '~/components/navigation/header-button'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
 import { FeedSortMenu } from '~/components/posts/sort'
@@ -18,6 +20,7 @@ const schema = z.object({
 })
 
 export default function Screen() {
+  const router = useRouter()
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
@@ -31,6 +34,21 @@ export default function Screen() {
 
   useFocusEffect(() => {
     navigation.setOptions({
+      headerLeft: () => (
+        <HeaderButton
+          contrast
+          icon="MagnifyingGlass"
+          onPress={() => {
+            router.navigate({
+              params: {
+                name: params.name,
+              },
+              pathname: '/communities/[name]/search',
+            })
+          }}
+          weight="bold"
+        />
+      ),
       headerRight: () => (
         <>
           <FeedSortMenu

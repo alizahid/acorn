@@ -61,6 +61,10 @@ export function useSearch<Type extends SearchType>({
       url.searchParams.set('q', query)
       url.searchParams.set('type', type === 'community' ? 'sr' : 'link')
 
+      if (community) {
+        url.searchParams.set('restrict_sr', 'true')
+      }
+
       if (type === 'post') {
         if (sort) {
           url.searchParams.set('sort', sort)

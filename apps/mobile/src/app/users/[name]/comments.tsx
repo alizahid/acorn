@@ -41,24 +41,24 @@ export default function Screen() {
 
   useFocusEffect(() => {
     navigation.setOptions({
+      headerLeft: () =>
+        show ? (
+          <HeaderButton
+            contrast
+            icon="PaperPlaneTilt"
+            onPress={() => {
+              router.navigate({
+                params: {
+                  name: removePrefix(profile.name),
+                  type: 'submitted',
+                },
+                pathname: '/users/[name]/[type]',
+              })
+            }}
+          />
+        ) : null,
       headerRight: () => (
         <>
-          {show ? (
-            <HeaderButton
-              contrast
-              icon="PaperPlaneTilt"
-              onPress={() => {
-                router.navigate({
-                  params: {
-                    name: removePrefix(profile.name),
-                    type: 'submitted',
-                  },
-                  pathname: '/users/[name]/[type]',
-                })
-              }}
-            />
-          ) : null}
-
           <CommentsSortMenu onChange={setSort} value={sort} />
 
           {sort === 'top' ? (

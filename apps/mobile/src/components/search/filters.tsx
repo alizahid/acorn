@@ -1,3 +1,4 @@
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -16,9 +17,10 @@ export type SearchFilters = {
 export type Props = {
   filters: SearchFilters
   onChange: (filters: SearchFilters) => void
+  style?: StyleProp<ViewStyle>
 }
 
-export function SearchPostFilters({ filters, onChange }: Props) {
+export function SearchPostFilters({ filters, onChange, style }: Props) {
   const t = useTranslations('component.search.filters')
   const tSort = useTranslations('component.common.sort')
   const tInterval = useTranslations('component.common.interval')
@@ -26,7 +28,12 @@ export function SearchPostFilters({ filters, onChange }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View direction="row" gap="4" justify="between" style={styles.main}>
+    <View
+      direction="row"
+      gap="4"
+      justify="between"
+      style={[styles.main, style]}
+    >
       <DropDown
         items={SearchSort.map((item) => ({
           icon: {
@@ -71,7 +78,7 @@ export function SearchPostFilters({ filters, onChange }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   item: {
     height: theme.space[8],
-    paddingHorizontal: theme.space[3],
+    paddingHorizontal: theme.space[2],
   },
   main: {
     backgroundColor: theme.colors.gray.a2,

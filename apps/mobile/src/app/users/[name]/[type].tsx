@@ -43,23 +43,23 @@ export default function Screen() {
 
   useFocusEffect(() => {
     navigation.setOptions({
+      headerLeft: () =>
+        show ? (
+          <HeaderButton
+            contrast
+            icon="ChatCircleText"
+            onPress={() => {
+              router.navigate({
+                params: {
+                  name: removePrefix(profile.name),
+                },
+                pathname: '/users/[name]/comments',
+              })
+            }}
+          />
+        ) : null,
       headerRight: () => (
         <>
-          {show ? (
-            <HeaderButton
-              contrast
-              icon="ChatCircleText"
-              onPress={() => {
-                router.navigate({
-                  params: {
-                    name: removePrefix(profile.name),
-                  },
-                  pathname: '/users/[name]/comments',
-                })
-              }}
-            />
-          ) : null}
-
           <FeedSortMenu hideLabel onChange={setSort} type="user" value={sort} />
 
           {sort === 'top' ? (

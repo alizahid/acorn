@@ -19,9 +19,9 @@ const schema = z.object({
 })
 
 export function SearchHeader() {
-  const common = useCommon()
-
   const router = useRouter()
+
+  const common = useCommon()
 
   const params = schema.parse(useGlobalSearchParams())
 
