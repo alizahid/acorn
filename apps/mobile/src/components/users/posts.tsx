@@ -70,7 +70,6 @@ export function UserPostsList({
         profile ? <UserFollowCard profile={profile} /> : null
       }
       data={posts}
-      drawDistance={common.frame.height}
       estimatedItemSize={120}
       extraData={{
         viewing,

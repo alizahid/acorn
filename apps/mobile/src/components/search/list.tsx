@@ -67,7 +67,6 @@ export function SearchList({
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListHeaderComponent={header}
       data={results}
-      drawDistance={common.frame.height}
       estimatedItemSize={type === 'community' ? 56 : 120}
       getItemType={() => type}
       keyboardDismissMode="on-drag"

@@ -70,7 +70,6 @@ export function PostList({
       }
       ListHeaderComponent={header}
       data={posts}
-      drawDistance={common.frame.height}
       estimatedItemSize={120}
       extraData={{
         viewing,
