@@ -12,7 +12,16 @@ import { gfmStrikethrough } from 'micromark-extension-gfm-strikethrough'
 import { gfmTable } from 'micromark-extension-gfm-table'
 
 export function parse(markdown: string) {
-  const value = markdown.replaceAll(/>!(.*?)!</g, ':spoiler[$1]')
+  const value = markdown
+    .replaceAll(/>!(.*?)!</g, ':spoiler[$1]')
+    .replaceAll(
+      /(?<!\S)(?:\/?r\/(?!\/))([\w-]+)\b/g,
+      '[r/$1](https://reddit.com/r/$1)',
+    )
+    .replaceAll(
+      /(?<!\S)(?:\/?u\/(?!\/))([\w-]+)\b/g,
+      '[u/$1](https://reddit.com/user/$1)',
+    )
 
   return fromMarkdown(value, {
     extensions: [
