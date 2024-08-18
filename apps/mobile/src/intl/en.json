@@ -126,6 +126,11 @@
       "title": "Search"
     },
     "settings": {
+      "footer": {
+        "reddit": "r/acornblue",
+        "version": "v{version}",
+        "web": "acorn.blue"
+      },
       "menu": {
         "cache": {
           "query": "Clear data",

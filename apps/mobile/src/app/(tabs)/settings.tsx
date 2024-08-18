@@ -1,16 +1,19 @@
-import { default as Constants } from 'expo-constants'
+import * as Application from 'expo-application'
 import { useCallback, useMemo } from 'react'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
+import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
+import { View } from '~/components/common/view'
 import { TopIntervalItem } from '~/components/posts/interval'
 import {
   type SettingsItem,
   type SettingsItemOption,
   SettingsMenu,
 } from '~/components/settings/menu'
+import { useLink } from '~/hooks/link'
 import { getTranslator } from '~/intl'
 import { SortColors, SortIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
@@ -31,6 +34,8 @@ export default function Screen() {
   const { clearCache } = useAuth()
   const { blurNsfw, feedMuted, linkBrowser, update, ...preferences } =
     usePreferences()
+
+  const handleLink = useLink()
 
   const { theme } = useStyles()
 
@@ -103,9 +108,33 @@ export default function Screen() {
   return (
     <SettingsMenu
       footer={
-        <Text align="center" highContrast={false} m="4" size="1" variant="mono">
-          v{Constants.expoConfig?.version ?? 0}
-        </Text>
+        <View direction="row" gap="4" justify="center" m="4">
+          <Text highContrast={false} size="2" variant="mono">
+            {t('footer.version', {
+              version: Application.nativeApplicationVersion,
+            })}
+          </Text>
+
+          <Pressable
+            onPress={() => {
+              handleLink('https://acorn.blue')
+            }}
+          >
+            <Text color="accent" size="2">
+              {t('footer.web')}
+            </Text>
+          </Pressable>
+
+          <Pressable
+            onPress={() => {
+              handleLink('https://reddit.com/r/acornblue')
+            }}
+          >
+            <Text color="accent" size="2">
+              {t('footer.reddit')}
+            </Text>
+          </Pressable>
+        </View>
       }
       insets={['top', 'bottom', 'header', 'tabBar']}
       items={[

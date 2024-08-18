@@ -20,6 +20,9 @@
       "distribution": "store"
     },
     "simulator": {
+      "env": {
+        "CHANNEL": "simulator"
+      },
       "extends": "development",
       "ios": {
         "simulator": true

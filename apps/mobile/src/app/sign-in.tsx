@@ -1,5 +1,4 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { createId } from '@paralleldrive/cuid2'
 import * as Linking from 'expo-linking'
 import {
   useFocusEffect,
@@ -56,7 +55,7 @@ export default function Screen() {
   const { control, handleSubmit } = useForm<AuthCodeForm>({
     defaultValues: {
       clientId: clientId ?? '',
-      state: createId(),
+      state: String(Math.random()),
     },
     resolver: zodResolver(AuthCodeSchema),
   })

@@ -1,8 +1,8 @@
-import { createId } from '@paralleldrive/cuid2'
+import * as Application from 'expo-application'
 import * as SecureStore from 'expo-secure-store'
 import { MMKV } from 'react-native-mmkv'
 import { parse, stringify } from 'superjson'
-import { type PersistStorage, type StateStorage } from 'zustand/middleware'
+import { type StateStorage } from 'zustand/middleware'
 
 export const ENCRYPTION_KEY = 'encryption-key'
 
@@ -45,14 +45,14 @@ export class Store implements StateStorage {
       return exists
     }
 
-    const key = createId()
+    const key = Application.applicationId
+
+    if (!key) {
+      throw new Error('Application id not found')
+    }
 
     SecureStore.setItem(ENCRYPTION_KEY, key)
 
     return key
   }
-}
-
-export function createStore<State>(name: string): PersistStorage<State> {
-  return new Store(name)
 }
