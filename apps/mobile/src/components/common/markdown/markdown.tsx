@@ -349,7 +349,11 @@ export function Node({ node, ...props }: Props) {
     // eslint-disable-next-line no-console -- go away
     console.log(`Markdown not available: ${node.type}`, JSON.stringify(node))
   } else {
-    Sentry.captureMessage(`Markdown not available: ${node.type}`)
+    Sentry.captureMessage('Markdown not available', {
+      extra: {
+        node,
+      },
+    })
   }
 
   return null
