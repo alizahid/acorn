@@ -26,15 +26,9 @@ export function ImageZoom({ recyclingKey, source, style }: Props) {
         isDoubleTapEnabled
         isPanEnabled={zoomed}
         isSingleTapEnabled
-        minPanPointers={zoomed ? 1 : undefined}
+        minPanPointers={1}
         onDoubleTap={(type) => {
           setZoomed(type === ZOOM_TYPE.ZOOM_IN)
-        }}
-        onPinchEnd={(event) => {
-          setZoomed(event.scale > 1)
-        }}
-        onPinchStart={(event) => {
-          setZoomed(event.scale > 1)
         }}
         onSingleTap={() => {
           StatusBar.setStatusBarHidden(!hidden, 'fade')
