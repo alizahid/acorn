@@ -2,15 +2,24 @@ const { resolve } = require('node:path')
 
 /**
  * @param {{
- *   ignorePatterns?: string | string[]
- *   next?: boolean
- *   overrides?: import('eslint').Linter.ConfigOverride[]
  *   root?: boolean
+ *   next?: boolean
+ *   plugins?: string[]
+ *   rules?: Partial<import('eslint').Linter.RulesRecord>
+ *   ignorePatterns?: string | string[]
+ *   overrides?: import('eslint').Linter.ConfigOverride[]
  * }}
  *
  * @returns {import('eslint').Linter.Config}
  */
-exports.create = ({ ignorePatterns = [], next, overrides = [], root }) => {
+exports.create = ({
+  ignorePatterns = [],
+  next = false,
+  overrides = [],
+  plugins = [],
+  root = false,
+  rules = {},
+}) => {
   const project = resolve(process.cwd(), 'tsconfig.json')
 
   /** @type {import('eslint').Linter.Config} */
@@ -92,6 +101,7 @@ exports.create = ({ ignorePatterns = [], next, overrides = [], root }) => {
       },
     ],
     plugins: [
+      ...plugins,
       'sort-keys-fix',
       'sort-destructure-keys',
       'simple-import-sort',
@@ -99,6 +109,7 @@ exports.create = ({ ignorePatterns = [], next, overrides = [], root }) => {
     ],
     root,
     rules: {
+      ...rules,
       'import/no-default-export': 'off',
       'import/no-extraneous-dependencies': [
         'error',
