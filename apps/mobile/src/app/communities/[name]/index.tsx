@@ -36,7 +36,7 @@ export default function Screen() {
     navigation.setOptions({
       headerLeft: () => (
         <HeaderButton
-          contrast
+          color="gray"
           icon="MagnifyingGlass"
           onPress={() => {
             router.navigate({

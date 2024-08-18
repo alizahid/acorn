@@ -46,7 +46,7 @@ export default function Screen() {
       headerLeft: () =>
         show ? (
           <HeaderButton
-            contrast
+            color="plum"
             icon="ChatCircleText"
             onPress={() => {
               router.navigate({

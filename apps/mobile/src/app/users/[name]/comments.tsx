@@ -44,7 +44,7 @@ export default function Screen() {
       headerLeft: () =>
         show ? (
           <HeaderButton
-            contrast
+            color="plum"
             icon="PaperPlaneTilt"
             onPress={() => {
               router.navigate({
