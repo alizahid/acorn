@@ -11,7 +11,7 @@ type Props = {
   children: string
   margin?: number
   meta?: PostMediaMeta
-  recyclingKey?: string
+  recyclingKey: string
   size?: TypographyToken
   style?: StyleProp<ViewStyle>
 }
@@ -24,14 +24,14 @@ export function Markdown({
   size = '3',
   style,
 }: Props) {
-  const nodes = parse(children)
+  const markdown = parse(children)
 
   return (
     <View gap="3" style={style}>
-      {nodes.children.map((node, index) => (
+      {markdown.children.map((node, index) => (
         <Node
           // eslint-disable-next-line react/no-array-index-key -- go away
-          key={index}
+          key={`${recyclingKey}-${index}`}
           margin={margin}
           meta={meta}
           node={node}
