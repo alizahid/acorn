@@ -120,6 +120,7 @@ export default function Screen() {
 
             return (
               <Pressable
+                delay
                 onPress={() => {
                   collapse({
                     commentId: item.data.id,
