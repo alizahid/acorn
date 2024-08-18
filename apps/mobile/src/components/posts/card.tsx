@@ -98,6 +98,7 @@ export function PostCard({
         <Markdown
           margin={margin + theme.space[5]}
           meta={post.media.meta}
+          recyclingKey={post.id}
           size="2"
           style={styles.body}
         >

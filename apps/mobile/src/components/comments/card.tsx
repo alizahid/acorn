@@ -42,6 +42,7 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
             theme.space[3] * (comment.depth + 2) + (comment.depth > 0 ? 2 : 0)
           }
           meta={comment.media.meta}
+          recyclingKey={comment.id}
           size="2"
           style={styles.body}
         >
