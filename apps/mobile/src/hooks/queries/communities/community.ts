@@ -29,7 +29,9 @@ export function useCommunity(name: string) {
     CommunityQueryKey
   >({
     enabled: Boolean(accountId),
-    placeholderData: getCommunity(name),
+    placeholderData() {
+      return getCommunity(name)
+    },
     async queryFn() {
       const payload = await reddit({
         url: `/r/${name}/about`,
