@@ -3,6 +3,7 @@ import { create } from 'mutative'
 import { useMemo } from 'react'
 
 import { queryClient } from '~/lib/query'
+import { removePrefix } from '~/lib/reddit'
 import { Store } from '~/lib/store'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
@@ -21,6 +22,7 @@ const COLLAPSED_KEY = 'collapsed'
 export type PostQueryKey = [
   'post',
   {
+    commentId?: string
     id: string
     sort?: CommentSort
   },
@@ -31,7 +33,13 @@ export type PostQueryData = {
   post: Post
 }
 
-export function usePost(id: string, sort?: CommentSort) {
+type Props = {
+  commentId?: string
+  id: string
+  sort?: CommentSort
+}
+
+export function usePost({ commentId, id, sort }: Props) {
   const { accountId } = useAuth()
 
   const storeId = `collapsed-${id}`
@@ -43,7 +51,11 @@ export function usePost(id: string, sort?: CommentSort) {
     PostQueryKey
   >({
     enabled: Boolean(accountId),
-    placeholderData() {
+    placeholderData(previous) {
+      if (previous) {
+        return previous
+      }
+
       return getPost(id)
     },
     async queryFn() {
@@ -51,6 +63,10 @@ export function usePost(id: string, sort?: CommentSort) {
 
       url.searchParams.set('limit', '100')
       url.searchParams.set('threaded', 'false')
+
+      if (commentId) {
+        url.searchParams.set('comment', removePrefix(commentId))
+      }
 
       if (sort) {
         url.searchParams.set('sort', sort)
@@ -77,6 +93,7 @@ export function usePost(id: string, sort?: CommentSort) {
     queryKey: [
       'post',
       {
+        commentId,
         id,
         sort,
       },
@@ -101,15 +118,16 @@ export function usePost(id: string, sort?: CommentSort) {
     queryKey: collapsedQueryKey,
   })
 
-  const collapse = useMutation({
-    // eslint-disable-next-line @typescript-eslint/require-await -- go away
-    async mutationFn({
-      commentId,
-      hide,
-    }: {
+  const collapse = useMutation<
+    unknown,
+    Error,
+    {
       commentId: string
       hide: boolean
-    }) {
+    }
+  >({
+    // eslint-disable-next-line @typescript-eslint/require-await -- go away
+    async mutationFn(variables) {
       const comments =
         queryClient.getQueryData<PostQueryData>([
           'post',
@@ -119,7 +137,7 @@ export function usePost(id: string, sort?: CommentSort) {
           },
         ])?.comments ?? []
 
-      const ids = getCollapsible(comments, commentId)
+      const ids = getCollapsible(comments, variables.commentId)
 
       const previous =
         queryClient.getQueryData<Array<string>>(collapsedQueryKey) ?? []
@@ -128,7 +146,7 @@ export function usePost(id: string, sort?: CommentSort) {
         for (const itemId of ids) {
           const index = draft.indexOf(itemId)
 
-          if (hide) {
+          if (variables.hide) {
             draft.push(itemId)
           } else {
             draft.splice(index, 1)

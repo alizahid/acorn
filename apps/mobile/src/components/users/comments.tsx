@@ -80,6 +80,7 @@ export function UserCommentsList({
               onPress={() => {
                 router.navigate({
                   params: {
+                    commentId: item.data.id,
                     id: removePrefix(item.data.postId),
                   },
                   pathname: '/posts/[id]',

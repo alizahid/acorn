@@ -29,7 +29,11 @@ export function useCommunity(name: string) {
     CommunityQueryKey
   >({
     enabled: Boolean(accountId),
-    placeholderData() {
+    placeholderData(previous) {
+      if (previous) {
+        return
+      }
+
       return getCommunity(name)
     },
     async queryFn() {

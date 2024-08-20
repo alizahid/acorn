@@ -1,4 +1,3 @@
-import * as Linking from 'expo-linking'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -8,21 +7,21 @@ import { getDepthColor } from '~/lib/colors'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
 
-import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 import { Text } from '../common/text'
 
 type Props = {
   comment: CommentMore
+  onThread: (id: string) => void
   post?: Post
   style?: StyleProp<ViewStyle>
 }
 
-export function CommentMoreCard({ comment, post, style }: Props) {
+export function CommentMoreCard({ comment, onThread, post, style }: Props) {
   const t = useTranslations('component.comments.more')
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const { isPending, loadMore } = useLoadMoreComments()
 
@@ -39,9 +38,7 @@ export function CommentMoreCard({ comment, post, style }: Props) {
         }
 
         if (comment.id === '_') {
-          const url = `https://www.reddit.com/r/${post.subreddit}/comments/${post.id}/comment/${comment.parentId}/`
-
-          void Linking.openURL(url)
+          onThread(comment.parentId)
         } else {
           loadMore({
             children: comment.children,
@@ -56,21 +53,11 @@ export function CommentMoreCard({ comment, post, style }: Props) {
       {isPending ? (
         <Spinner />
       ) : (
-        <>
-          <Text color="accent" size="2" weight="medium">
-            {t('label', {
-              count: comment.count,
-            })}
-          </Text>
-
-          {comment.id === '_' ? (
-            <Icon
-              color={theme.colors.accent.a11}
-              name="ArrowSquareOut"
-              size={theme.typography[2].lineHeight}
-            />
-          ) : null}
-        </>
+        <Text color="accent" size="2" weight="medium">
+          {t('label', {
+            count: comment.count,
+          })}
+        </Text>
       )}
     </Pressable>
   )

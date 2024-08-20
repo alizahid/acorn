@@ -13,6 +13,7 @@ import { z } from 'zod'
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
 import { CommentsSortMenu } from '~/components/comments/sort'
+import { CommentThreadCard } from '~/components/comments/thread'
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
 import { Pressable } from '~/components/common/pressable'
@@ -26,9 +27,10 @@ import { useCommon } from '~/hooks/common'
 import { usePost } from '~/hooks/queries/posts/post'
 import { isUser, removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
+import { type Comment } from '~/types/comment'
 
 const schema = z.object({
-  commentId: z.string().optional(),
+  commentId: z.string().min(1).optional().catch(undefined),
   id: z.string().catch('17jkixh'),
 })
 
@@ -43,16 +45,18 @@ export default function Screen() {
 
   const { postCommentSort } = usePreferences()
 
+  const list = useRef<FlashList<Comment>>(null)
   const reply = useRef<TextInput>(null)
 
   const [sort, setSort] = useState(postCommentSort)
   const [commentId, setCommentId] = useState<string>()
   const [user, setUser] = useState<string>()
 
-  const { collapse, collapsed, comments, isFetching, post, refetch } = usePost(
-    params.id,
+  const { collapse, collapsed, comments, isFetching, post, refetch } = usePost({
+    commentId: params.commentId,
+    id: params.id,
     sort,
-  )
+  })
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -99,15 +103,33 @@ export default function Screen() {
           isFetching ? post ? <Spinner m="4" /> : <Loading /> : <Empty />
         }
         ListHeaderComponent={
-          post ? (
-            <PostCard expanded label="user" post={post} viewing={focused} />
-          ) : null
+          <>
+            {post ? (
+              <PostCard expanded label="user" post={post} viewing={focused} />
+            ) : null}
+
+            {params.commentId ? (
+              <CommentThreadCard
+                onBack={() => {
+                  list.current?.scrollToIndex({
+                    animated: true,
+                    index: 0,
+                  })
+
+                  router.setParams({
+                    commentId: '',
+                  })
+                }}
+              />
+            ) : null}
+          </>
         }
         data={comments}
         estimatedItemSize={72}
         getItemType={(item) => item.type}
         keyExtractor={(item) => item.data.id}
         keyboardDismissMode="on-drag"
+        ref={list}
         refreshControl={
           <RefreshControl
             offset={props.progressViewOffset}
@@ -142,7 +164,22 @@ export default function Screen() {
             )
           }
 
-          return <CommentMoreCard comment={item.data} post={post} />
+          return (
+            <CommentMoreCard
+              comment={item.data}
+              onThread={(id) => {
+                list.current?.scrollToIndex({
+                  animated: true,
+                  index: 0,
+                })
+
+                router.setParams({
+                  commentId: id,
+                })
+              }}
+              post={post}
+            />
+          )
         }}
       />
 
