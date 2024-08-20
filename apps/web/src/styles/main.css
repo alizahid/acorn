@@ -1,13 +1,9 @@
 /* colors */
 
-@import '@radix-ui/colors/sand.css';
 @import '@radix-ui/colors/sand-dark.css';
-@import '@radix-ui/colors/sand-alpha.css';
 @import '@radix-ui/colors/sand-dark-alpha.css';
 
-@import '@radix-ui/colors/orange.css';
 @import '@radix-ui/colors/orange-dark.css';
-@import '@radix-ui/colors/orange-alpha.css';
 @import '@radix-ui/colors/orange-dark-alpha.css';
 
 /* tailwind */
