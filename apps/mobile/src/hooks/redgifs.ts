@@ -19,6 +19,7 @@ export function useRedGifs(id: string) {
     RedGifsData,
     RedGifsQueryKey
   >({
+    gcTime: 60 * 60 * 24,
     queryFn() {
       return getGif(id)
     },
@@ -33,7 +34,16 @@ export function useRedGifs(id: string) {
         return 0
       }
 
-      return differenceInMilliseconds(state.data.expiresAt, new Date())
+      const difference = differenceInMilliseconds(
+        state.data.expiresAt,
+        new Date(),
+      )
+
+      if (difference > 0) {
+        return difference
+      }
+
+      return 0
     },
   })
 
