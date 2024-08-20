@@ -1,3 +1,4 @@
+import { type FontVariant } from 'react-native'
 import {
   type UnistylesTheme,
   type UnistylesValues,
@@ -31,6 +32,12 @@ export function getTextStyles(theme: UnistylesTheme) {
     weight = 'regular',
     ...props
   }: TextStyleProps) {
+    const fontVariant: Array<FontVariant> = ['stylistic-four']
+
+    if (tabular) {
+      fontVariant.push('tabular-nums')
+    }
+
     return {
       ...getMargin(theme)(props),
       color:
@@ -39,7 +46,7 @@ export function getTextStyles(theme: UnistylesTheme) {
         ],
       fontFamily: `${variant}-${weight}`,
       fontSize: theme.typography[size].fontSize,
-      fontVariant: tabular ? ['tabular-nums'] : undefined,
+      fontVariant,
       lineHeight: theme.typography[size].lineHeight,
       textAlign: align,
     } satisfies UnistylesValues
