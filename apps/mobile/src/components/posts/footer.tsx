@@ -57,7 +57,6 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
 
   return (
     <Pressable
-      delay
       direction="row"
       disabled={expanded}
       gap="4"

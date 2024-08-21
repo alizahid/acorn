@@ -41,7 +41,6 @@ export function PostCard({
   return (
     <View style={style}>
       <Pressable
-        delay
         disabled={expanded}
         onPress={() => {
           router.navigate({

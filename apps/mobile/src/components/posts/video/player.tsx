@@ -72,7 +72,6 @@ export function VideoPlayer({
           setVisible(true)
         }}
         style={style}
-        without
       >
         <VideoView
           allowsFullscreen={false}

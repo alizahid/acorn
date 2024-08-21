@@ -67,7 +67,6 @@ export function PostGalleryCard({
             setVisible(true)
           }}
           style={style}
-          without
         >
           <Image
             {...placeholder}

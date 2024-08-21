@@ -51,7 +51,6 @@ export function Modal({
             onClose()
           }}
           style={styles.overlay}
-          without
         />
 
         <View style={styles.content(common.frame.height)}>
