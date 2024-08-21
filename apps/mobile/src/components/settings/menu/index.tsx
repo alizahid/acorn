@@ -73,6 +73,7 @@ export function SettingsMenu({
       ListFooterComponent={footer}
       ListHeaderComponent={header}
       data={items}
+      initialNumToRender={items.length}
       keyExtractor={(item, index) => String(index)}
       refreshControl={
         onRefresh ? (
