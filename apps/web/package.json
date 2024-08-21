@@ -10,8 +10,6 @@
     "start": "next start"
   },
   "dependencies": {
-    "@phosphor-icons/react": "^2.1.7",
-    "@radix-ui/colors": "^3.0.0",
     "next": "14.2.5",
     "next-intl": "^3.17.4",
     "react": "18.2.0",
@@ -19,6 +17,7 @@
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
+    "@radix-ui/colors": "^3.0.0",
     "@types/node": "^22.4.2",
     "@types/react": "18.2",
     "@types/react-dom": "18.2",

@@ -1,6 +1,9 @@
 {
   "page": {
     "landing": {
+      "download": {
+        "apple": "App Store"
+      },
       "footer": {
         "github": "GitHub",
         "reddit": "Reddit"

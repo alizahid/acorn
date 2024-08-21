@@ -13,6 +13,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     description: t('description'),
+    metadataBase: new URL('https://acorn.blue'),
     title: t('title'),
   }
 }

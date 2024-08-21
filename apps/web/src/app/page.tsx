@@ -1,8 +1,8 @@
-import { GithubLogo, RedditLogo } from '@phosphor-icons/react/dist/ssr'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
+import { Icon } from '~/components/icon'
 import { Logo } from '~/components/logo'
 
 export default function Page() {
@@ -11,12 +11,10 @@ export default function Page() {
   const links = [
     {
       href: 'https://www.reddit.com/r/acornblue/',
-      icon: <RedditLogo className="size-6" weight="light" />,
       key: 'reddit',
     },
     {
       href: 'https://github.com/alizahid/acorn',
-      icon: <GithubLogo className="size-6" weight="light" />,
       key: 'github',
     },
   ] as const
@@ -32,6 +30,21 @@ export default function Page() {
 
         <p className="font-medium text-gray-11">{t('header.description')}</p>
       </header>
+
+      <section className="flex">
+        <Link
+          className="rounded-[7px] outline-none focus-visible:ring focus-visible:ring-accent-9"
+          href="https://testflight.apple.com/join/uKWP3MFB"
+        >
+          <Image
+            alt={t('download.apple')}
+            height={40 * 1.25}
+            src="/images/app-store.svg"
+            unoptimized
+            width={120 * 1.25}
+          />
+        </Link>
+      </section>
 
       <section className="flex flex-col gap-6 lg:flex-row">
         <Image
@@ -52,12 +65,12 @@ export default function Page() {
       <footer className="flex gap-4">
         {links.map((link) => (
           <Link
-            className="text-accent-a11 transition-colors hover:text-accent-a12"
+            className="rounded-full p-2 text-accent-a11 outline-none transition-colors hover:text-accent-a12 focus-visible:bg-accent-4"
             href={link.href}
             key={link.key}
             title={t(`footer.${link.key}`)}
           >
-            {link.icon}
+            <Icon className="size-6" name={link.key} />
           </Link>
         ))}
       </footer>
