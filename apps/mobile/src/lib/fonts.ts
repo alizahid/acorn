@@ -1,11 +1,11 @@
-import monoBold from '../../assets/fonts/basis-mono-bold.ttf'
-import monoLight from '../../assets/fonts/basis-mono-light.ttf'
-import monoMedium from '../../assets/fonts/basis-mono-medium.ttf'
-import monoRegular from '../../assets/fonts/basis-mono-regular.ttf'
-import sansBold from '../../assets/fonts/basis-sans-bold.ttf'
-import sansLight from '../../assets/fonts/basis-sans-light.ttf'
-import sansMedium from '../../assets/fonts/basis-sans-medium.ttf'
-import sansRegular from '../../assets/fonts/basis-sans-regular.ttf'
+import monoBold from '../../assets/fonts/basis-mono-bold.otf'
+import monoLight from '../../assets/fonts/basis-mono-light.otf'
+import monoMedium from '../../assets/fonts/basis-mono-medium.otf'
+import monoRegular from '../../assets/fonts/basis-mono-regular.otf'
+import sansBold from '../../assets/fonts/basis-sans-bold.otf'
+import sansLight from '../../assets/fonts/basis-sans-light.otf'
+import sansMedium from '../../assets/fonts/basis-sans-medium.otf'
+import sansRegular from '../../assets/fonts/basis-sans-regular.otf'
 
 export const fonts = {
   'mono-bold': monoBold,
