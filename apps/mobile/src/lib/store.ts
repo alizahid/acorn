@@ -1,3 +1,4 @@
+import { createId } from '@paralleldrive/cuid2'
 import * as SecureStore from 'expo-secure-store'
 import { MMKV } from 'react-native-mmkv'
 import { parse, stringify } from 'superjson'
@@ -44,7 +45,7 @@ export class Store implements StateStorage {
       return exists
     }
 
-    const key = `ab${String(Math.random()).slice(2)}`
+    const key = createId()
 
     if (!key) {
       throw new Error('Application id not found')
