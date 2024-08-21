@@ -4,10 +4,10 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "build": "env-cmd eas build --profile production --platform ios --local",
-    "build:dev": "env-cmd eas build --profile development --platform ios --local",
-    "build:preview": "env-cmd eas build --profile preview --platform ios --local",
-    "build:sim": "env-cmd eas build --profile simulator --platform ios --local",
+    "build": "env-cmd .env.production.local eas build --profile production --platform ios --local",
+    "build:dev": "env-cmd -f .env.local eas build --profile development --platform ios --local",
+    "build:preview": "env-cmd -f .env.local eas build --profile preview --platform ios --local",
+    "build:sim": "env-cmd -f .env.local eas build --profile simulator --platform ios --local",
     "dev": "expo start --ios",
     "lint": "eslint . --fix",
     "lint:types": "tsc --noEmit"
