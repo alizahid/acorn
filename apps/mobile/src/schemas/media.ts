@@ -40,6 +40,16 @@ export const PostMediaMetadataSchema = z
         t: z.literal('emoji'),
       }),
       z.object({
+        id: z.string(),
+        s: z.object({
+          u: z.string(),
+          x: z.number(),
+          y: z.number(),
+        }),
+        status: z.literal('valid'),
+        t: z.literal('sticker'),
+      }),
+      z.object({
         hlsUrl: z.string(),
         id: z.string(),
         status: z.literal('valid'),
