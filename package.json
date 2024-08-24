@@ -25,7 +25,7 @@
     "rimraf": "^6.0.1",
     "turbo": "^2.0.14"
   },
-  "packageManager": "bun@1.1.25",
+  "packageManager": "bun@1.1.26",
   "patchedDependencies": {
     "@shopify/flash-list@1.6.4": "patches/@shopify%2Fflash-list@1.6.4.patch",
     "recyclerlistview@4.2.0": "patches/recyclerlistview@4.2.0.patch",
