@@ -118,7 +118,7 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
 
 const stylesheet = createStyleSheet((theme) => ({
   input: (inset: number, open: boolean) => ({
-    color: theme.colors.gray.contrast,
+    color: theme.colors.gray.a11,
     fontSize: theme.typography[3].fontSize,
     height: open ? theme.space[9] * 2 : undefined,
     lineHeight: theme.typography[3].lineHeight,
