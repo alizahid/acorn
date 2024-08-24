@@ -8,27 +8,21 @@ import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { type Insets, useCommon } from '~/hooks/common'
 import { type UserPostsProps, useUserPosts } from '~/hooks/queries/user/posts'
-import { type Profile } from '~/types/user'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
 import { type PostLabel } from '../posts/footer'
-import { UserFollowCard } from './follow'
 
 type Props = UserPostsProps & {
   insets: Insets
   label?: PostLabel
-  onRefresh?: () => void
-  profile?: Profile
 }
 
 export function UserPostsList({
   insets = [],
   interval,
   label,
-  onRefresh,
-  profile,
   sort,
   type,
   username,
@@ -66,9 +60,6 @@ export function UserPostsList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
-      ListHeaderComponent={
-        profile ? <UserFollowCard profile={profile} /> : null
-      }
       data={posts}
       estimatedItemSize={120}
       extraData={{
@@ -84,14 +75,7 @@ export function UserPostsList({
         setViewing(() => viewableItems.map((item) => item.key))
       }}
       refreshControl={
-        <RefreshControl
-          offset={props.progressViewOffset}
-          onRefresh={() => {
-            onRefresh?.()
-
-            return refetch()
-          }}
-        />
+        <RefreshControl offset={props.progressViewOffset} onRefresh={refetch} />
       }
       renderItem={({ item }) => (
         <PostCard

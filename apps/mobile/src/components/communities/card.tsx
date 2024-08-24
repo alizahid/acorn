@@ -30,9 +30,8 @@ export function CommunityCard({ community, style }: Props) {
           router.navigate({
             params: {
               name: removePrefix(community.name),
-              type: 'submitted',
             },
-            pathname: '/users/[name]/[type]',
+            pathname: '/users/[name]',
           })
         } else {
           router.navigate({

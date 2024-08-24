@@ -50,8 +50,6 @@ export function Root() {
           presentation: 'modal',
         }}
       />
-
-      <Stack.Screen name="communities/[name]/search" />
     </Stack>
   )
 }

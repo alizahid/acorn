@@ -33,15 +33,15 @@
       }
     },
     "communities": {
-      "header": {
-        "communities": "Communities",
-        "users": "Users"
-      },
-      "join": {
+      "about": {
         "age": "Age",
         "join": "Join",
         "leave": "Leave",
         "subscribers": "Subscribers"
+      },
+      "header": {
+        "communities": "Communities",
+        "users": "Users"
       }
     },
     "posts": {
@@ -80,7 +80,7 @@
       }
     },
     "users": {
-      "follow": {
+      "about": {
         "age": "Age",
         "follow": "Follow",
         "karma": "Karma",
@@ -120,7 +120,14 @@
     },
     "communities": {
       "search": {
-        "title": "Search in r/{community}"
+        "label": "Search in r/{community}",
+        "title": "Search"
+      }
+    },
+    "users": {
+      "user": {
+        "comments": "Comments",
+        "posts": "Posts"
       }
     }
   },

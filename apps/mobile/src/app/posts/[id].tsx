@@ -71,9 +71,8 @@ export default function Screen() {
                 router.navigate({
                   params: {
                     name: removePrefix(post.subreddit),
-                    type: 'submitted',
                   },
-                  pathname: '/users/[name]/[type]',
+                  pathname: '/users/[name]',
                 })
               } else {
                 router.navigate({

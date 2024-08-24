@@ -7,7 +7,7 @@ import {
 import { useState } from 'react'
 import { z } from 'zod'
 
-import { CommunityJoinCard } from '~/components/communities/join'
+import { CommunityAboutCard } from '~/components/communities/about'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
@@ -16,7 +16,7 @@ import { useCommunity } from '~/hooks/queries/communities/community'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
-  name: z.string().catch('acornapp'),
+  name: z.string().catch('acornblue'),
 })
 
 export default function Screen() {
@@ -75,7 +75,7 @@ export default function Screen() {
     <PostList
       community={params.name}
       header={
-        community ? <CommunityJoinCard community={community} /> : undefined
+        community ? <CommunityAboutCard community={community} /> : undefined
       }
       insets={['top', 'bottom', 'header']}
       interval={interval}

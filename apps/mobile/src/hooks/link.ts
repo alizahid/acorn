@@ -65,9 +65,8 @@ export function useLink() {
               router.navigate({
                 params: {
                   name,
-                  type: 'submitted',
                 },
-                pathname: '/users/[name]/[type]',
+                pathname: '/users/[name]',
               })
             }
           }

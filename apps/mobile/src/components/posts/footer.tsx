@@ -85,9 +85,8 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
               router.navigate({
                 params: {
                   name: removePrefix(post.user.name),
-                  type: 'submitted',
                 },
-                pathname: '/users/[name]/[type]',
+                pathname: '/users/[name]',
               })
             }
           }}

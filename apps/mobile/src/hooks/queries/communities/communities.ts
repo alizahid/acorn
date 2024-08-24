@@ -52,7 +52,7 @@ export function useCommunities() {
     async queryFn({ pageParam }) {
       const url = new URL('/subreddits/mine', REDDIT_URI)
 
-      url.searchParams.set('limit', '50')
+      url.searchParams.set('limit', '100')
 
       if (pageParam) {
         url.searchParams.set('after', pageParam)

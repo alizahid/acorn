@@ -2,19 +2,14 @@ import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
-  useRouter,
 } from 'expo-router'
 import { useState } from 'react'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { CommentsSortMenu } from '~/components/comments/sort'
-import { HeaderButton } from '~/components/navigation/header-button'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { UserCommentsList } from '~/components/users/comments'
-import { useProfile } from '~/hooks/queries/user/profile'
-import { removePrefix } from '~/lib/reddit'
-import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
@@ -22,41 +17,19 @@ const schema = z.object({
 })
 
 export default function Screen() {
-  const router = useRouter()
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
 
   const t = useTranslations('tab.user.menu')
 
-  const { accountId } = useAuth()
   const { userCommentSort, userInterval } = usePreferences()
-
-  const { profile, refetch } = useProfile(params.name)
 
   const [sort, setSort] = useState(userCommentSort)
   const [interval, setInterval] = useState(userInterval)
 
-  const show = profile && accountId !== profile.name
-
   useFocusEffect(() => {
     navigation.setOptions({
-      headerLeft: () =>
-        show ? (
-          <HeaderButton
-            color="plum"
-            icon="PaperPlaneTilt"
-            onPress={() => {
-              router.navigate({
-                params: {
-                  name: removePrefix(profile.name),
-                  type: 'submitted',
-                },
-                pathname: '/users/[name]/[type]',
-              })
-            }}
-          />
-        ) : null,
       headerRight: () => (
         <>
           <CommentsSortMenu onChange={setSort} value={sort} />
@@ -75,11 +48,6 @@ export default function Screen() {
   })
 
   return (
-    <UserCommentsList
-      insets={['top', 'bottom', 'header']}
-      onRefresh={refetch}
-      profile={show ? profile : undefined}
-      user={params.name}
-    />
+    <UserCommentsList insets={['top', 'bottom', 'header']} user={params.name} />
   )
 }

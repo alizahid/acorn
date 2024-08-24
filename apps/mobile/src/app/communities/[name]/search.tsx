@@ -22,7 +22,7 @@ import { SearchList } from '~/components/search/list'
 import { type Insets, useCommon } from '~/hooks/common'
 
 const schema = z.object({
-  name: z.string().catch('acornapp'),
+  name: z.string().catch('acornblue'),
 })
 
 export default function Screen() {
@@ -36,9 +36,7 @@ export default function Screen() {
 
   useFocusEffect(() => {
     navigation.setOptions({
-      title: t('title', {
-        community: params.name,
-      }),
+      title: t('title'),
     })
   })
 
@@ -68,7 +66,7 @@ export default function Screen() {
 
         <TextBox
           onChangeText={setQuery}
-          placeholder={t('title', {
+          placeholder={t('label', {
             community: params.name,
           })}
           styleInput={styles.input}

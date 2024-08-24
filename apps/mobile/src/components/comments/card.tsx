@@ -57,9 +57,8 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
             router.navigate({
               params: {
                 name: removePrefix(comment.user.name),
-                type: 'submitted',
               },
-              pathname: '/users/[name]/[type]',
+              pathname: '/users/[name]',
             })
           }}
         >

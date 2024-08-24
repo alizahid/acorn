@@ -13,8 +13,8 @@ type Props = {
   community: Community
 }
 
-export function CommunityJoinCard({ community }: Props) {
-  const t = useTranslations('component.communities.join')
+export function CommunityAboutCard({ community }: Props) {
+  const t = useTranslations('component.communities.about')
   const f = useFormatter()
 
   const { styles } = useStyles(stylesheet)

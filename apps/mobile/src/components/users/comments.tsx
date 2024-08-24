@@ -6,28 +6,19 @@ import { Spinner } from '~/components/common/spinner'
 import { type Insets, useCommon } from '~/hooks/common'
 import { useComments } from '~/hooks/queries/user/comments'
 import { removePrefix } from '~/lib/reddit'
-import { type Profile } from '~/types/user'
 
 import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { Pressable } from '../common/pressable'
 import { View } from '../common/view'
-import { UserFollowCard } from './follow'
 
 type Props = {
   insets: Insets
-  onRefresh?: () => void
-  profile?: Profile
   user: string
 }
 
-export function UserCommentsList({
-  insets = [],
-  onRefresh,
-  profile,
-  user,
-}: Props) {
+export function UserCommentsList({ insets = [], user }: Props) {
   const router = useRouter()
 
   const common = useCommon()
@@ -51,9 +42,6 @@ export function UserCommentsList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
-      ListHeaderComponent={
-        profile ? <UserFollowCard profile={profile} /> : null
-      }
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}
@@ -64,14 +52,7 @@ export function UserCommentsList({
         }
       }}
       refreshControl={
-        <RefreshControl
-          offset={props.progressViewOffset}
-          onRefresh={() => {
-            onRefresh?.()
-
-            return refetch()
-          }}
-        />
+        <RefreshControl offset={props.progressViewOffset} onRefresh={refetch} />
       }
       renderItem={({ item }) => {
         if (item.type === 'reply') {
