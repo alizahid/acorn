@@ -75,8 +75,7 @@ export function useLink() {
           void Linking.openURL(href)
         } else {
           void WebBrowser.openBrowserAsync(href, {
-            presentationStyle:
-              WebBrowser.WebBrowserPresentationStyle.FORM_SHEET,
+            presentationStyle: WebBrowser.WebBrowserPresentationStyle.AUTOMATIC,
           })
         }
       } catch (error) {
@@ -86,8 +85,7 @@ export function useLink() {
           void Linking.openURL(href)
         } else {
           void WebBrowser.openBrowserAsync(href, {
-            presentationStyle:
-              WebBrowser.WebBrowserPresentationStyle.FORM_SHEET,
+            presentationStyle: WebBrowser.WebBrowserPresentationStyle.AUTOMATIC,
           })
         }
       }

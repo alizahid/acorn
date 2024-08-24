@@ -12,12 +12,12 @@ import { getDimensions } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
-import { FakeModal } from '../common/fake-modal'
-import { Icon } from '../common/icon'
-import { ImageZoom } from '../common/image-zoom'
-import { Pressable } from '../common/pressable'
-import { Text } from '../common/text'
-import { View } from '../common/view'
+import { FakeModal } from '../../common/fake-modal'
+import { Icon } from '../../common/icon'
+import { Pressable } from '../../common/pressable'
+import { Text } from '../../common/text'
+import { View } from '../../common/view'
+import { GalleryImage } from './image'
 
 type Props = {
   images: Array<PostMedia>
@@ -138,25 +138,12 @@ export function PostGalleryCard({
         <FlatList
           data={images}
           decelerationRate="fast"
-          disableScrollViewPanResponder
           horizontal
           initialNumToRender={3}
           keyExtractor={(item, index) => String(index)}
-          renderItem={({ item }) => {
-            const dimensions = getDimensions(common.frame.width, item)
-
-            return (
-              <ImageZoom
-                recyclingKey={recyclingKey}
-                source={item.url}
-                style={styles.image(
-                  common.frame.height,
-                  dimensions.height,
-                  dimensions.width,
-                )}
-              />
-            )
-          }}
+          renderItem={({ item }) => (
+            <GalleryImage image={item} recyclingKey={recyclingKey} />
+          )}
           scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={images.map(
@@ -181,12 +168,6 @@ const stylesheet = createStyleSheet((theme) => ({
   gif: {
     left: theme.space[2],
   },
-  image: (maxHeight: number, height: number, width: number) => ({
-    alignSelf: 'center',
-    height,
-    maxHeight,
-    width,
-  }),
   label: {
     backgroundColor: theme.colors.black.a9,
     borderCurve: 'continuous',

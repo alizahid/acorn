@@ -27,6 +27,8 @@ import LinkBold from 'react-native-phosphor/src/bold/Link'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
+import PauseBold from 'react-native-phosphor/src/bold/Pause'
+import PlayBold from 'react-native-phosphor/src/bold/Play'
 import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import ShareFatBold from 'react-native-phosphor/src/bold/ShareFat'
@@ -68,6 +70,8 @@ import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
+import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
+import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
 import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import ShareFatDuotone from 'react-native-phosphor/src/duotone/ShareFat'
@@ -109,6 +113,8 @@ import LinkFill from 'react-native-phosphor/src/fill/Link'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
+import PauseFill from 'react-native-phosphor/src/fill/Pause'
+import PlayFill from 'react-native-phosphor/src/fill/Play'
 import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import ShareFatFill from 'react-native-phosphor/src/fill/ShareFat'
@@ -150,6 +156,8 @@ import LinkRegular from 'react-native-phosphor/src/regular/Link'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
+import PauseRegular from 'react-native-phosphor/src/regular/Pause'
+import PlayRegular from 'react-native-phosphor/src/regular/Play'
 import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import ShareFatRegular from 'react-native-phosphor/src/regular/ShareFat'
@@ -351,6 +359,18 @@ const icons = {
     duotone: PaperPlaneTiltDuotone,
     fill: PaperPlaneTiltFill,
     regular: PaperPlaneTiltRegular,
+  },
+  Pause: {
+    bold: PauseBold,
+    duotone: PauseDuotone,
+    fill: PauseFill,
+    regular: PauseRegular,
+  },
+  Play: {
+    bold: PlayBold,
+    duotone: PlayDuotone,
+    fill: PlayFill,
+    regular: PlayRegular,
   },
   PlusCircle: {
     bold: PlusCircleBold,
