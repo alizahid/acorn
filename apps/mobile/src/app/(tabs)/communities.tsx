@@ -1,11 +1,11 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import React, { useEffect, useRef } from 'react'
-import { StyleSheet } from 'react-native'
 import Pager from 'react-native-pager-view'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { CommunitiesList } from '~/components/communities/list'
-import { type Insets } from '~/hooks/common'
+import { type Insets, useCommon } from '~/hooks/common'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 import { CommunitiesType } from '~/types/community'
 
@@ -18,7 +18,11 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
+  const common = useCommon()
+
   const pager = useRef<Pager>(null)
+
+  const { styles } = useStyles(stylesheet)
 
   const type = params.type
 
@@ -41,7 +45,7 @@ export default function Screen() {
   const props = {
     fetchNextPage,
     hasNextPage,
-    insets: ['top', 'bottom', 'communities', 'tabBar'] satisfies Insets,
+    insets: [] satisfies Insets,
     isFetchingNextPage,
     isLoading,
     refetch,
@@ -56,7 +60,7 @@ export default function Screen() {
         })
       }}
       ref={pager}
-      style={styles.main}
+      style={styles.main(common.height.communities, common.height.tabBar)}
     >
       <CommunitiesList {...props} communities={communities} key="posts" />
 
@@ -65,8 +69,10 @@ export default function Screen() {
   )
 }
 
-const styles = StyleSheet.create({
-  main: {
+const stylesheet = createStyleSheet((theme) => ({
+  main: (top: number, bottom: number) => ({
     flex: 1,
-  },
-})
+    marginBottom: bottom - theme.space[2],
+    marginTop: top - theme.space[2],
+  }),
+}))

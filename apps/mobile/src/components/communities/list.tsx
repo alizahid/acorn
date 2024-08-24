@@ -46,7 +46,11 @@ export function CommunitiesList({
     .map((item, index) => (typeof item === 'string' ? index : null))
     .filter((item) => item !== null) as unknown as Array<number>
 
-  const props = common.listProps(insets, [-theme.space[2], theme.space[2]])
+  const props = common.listProps(
+    insets,
+    [0, theme.space[4]],
+    [theme.space[2], theme.space[2]],
+  )
 
   return (
     <FlashList
@@ -79,8 +83,7 @@ export function CommunitiesList({
               py="2"
               style={[
                 styles.header,
-                target === 'StickyHeader' &&
-                  styles.sticky(props.progressViewOffset),
+                target === 'StickyHeader' && styles.sticky,
               ]}
             >
               <Text color="accent" weight="bold">
@@ -102,8 +105,7 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.gray.a2,
     paddingLeft: theme.space[4] + theme.space[7] + theme.space[4],
   },
-  sticky: (offset: number) => ({
+  sticky: {
     backgroundColor: theme.colors.gray[2],
-    marginTop: offset,
-  }),
+  },
 }))

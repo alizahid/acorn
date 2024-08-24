@@ -21,8 +21,12 @@ export function useCommon() {
   }
 
   const listProps = useCallback(
-    (inset: Insets = [], offsets: Offsets = [0, 0]) => {
-      let progressViewOffset = 0
+    (
+      inset: Insets = [],
+      offsets: Offsets = [0, 0],
+      indicators: Offsets = [0, 0],
+    ) => {
+      let progressViewOffset = offsets[0]
 
       const contentContainerStyle = {
         paddingBottom: offsets[1],
@@ -30,9 +34,9 @@ export function useCommon() {
       }
 
       const scrollIndicatorInsets = {
-        bottom: 1,
+        bottom: indicators[1] + 1,
         right: 1,
-        top: 1,
+        top: indicators[0] + 1,
       }
 
       if (inset.includes('top')) {
