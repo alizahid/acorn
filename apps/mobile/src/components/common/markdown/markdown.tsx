@@ -58,9 +58,11 @@ export function Node({ node, ...props }: Props) {
       <View style={styles.blockQuote}>
         <View style={styles.blockQuoteBorder} />
 
-        {node.children.map((child, index) => (
-          <Node {...props} key={index} node={child} />
-        ))}
+        <View style={styles.blockQuoteContent}>
+          {node.children.map((child, index) => (
+            <Node {...props} key={index} node={child} />
+          ))}
+        </View>
       </View>
     )
   }
@@ -374,6 +376,9 @@ const stylesheet = createStyleSheet((theme) => ({
     position: 'absolute',
     top: theme.space[1],
     width: theme.space[1],
+  },
+  blockQuoteContent: {
+    gap: theme.space[3],
   },
   codeBlock: {
     backgroundColor: theme.colors.accent.a3,
