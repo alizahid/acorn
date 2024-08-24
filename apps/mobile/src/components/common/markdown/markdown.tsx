@@ -194,7 +194,7 @@ export function Node({ node, ...props }: Props) {
         text={{
           color: 'accent',
           onPress() {
-            handleLink(node.url)
+            void handleLink(node.url)
           },
         }}
       />

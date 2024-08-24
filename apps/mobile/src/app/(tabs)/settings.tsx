@@ -117,7 +117,7 @@ export default function Screen() {
 
           <Pressable
             onPress={() => {
-              handleLink('https://acorn.blue')
+              void handleLink('https://acorn.blue')
             }}
           >
             <Text color="accent" size="2">
@@ -127,7 +127,7 @@ export default function Screen() {
 
           <Pressable
             onPress={() => {
-              handleLink('https://reddit.com/r/acornblue')
+              void handleLink('https://reddit.com/r/acornblue')
             }}
           >
             <Text color="accent" size="2">

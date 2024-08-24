@@ -47,7 +47,7 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
           return
         }
 
-        handleLink(post.url)
+        void handleLink(post.url)
       }}
       style={[styles.main, style]}
     >

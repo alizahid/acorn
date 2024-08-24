@@ -11,13 +11,19 @@ export function useLink() {
 
   const { linkBrowser } = usePreferences()
 
-  return useCallback(
-    (href: string) => {
+  const handleLink = useCallback(
+    async (href: string) => {
       try {
         const url = new URL(href)
 
         if (url.hostname.endsWith('reddit.com')) {
-          if (url.pathname.startsWith('/r/')) {
+          if (url.pathname.includes('/s/')) {
+            const response = await fetch(url, {
+              method: 'trace',
+            })
+
+            void handleLink(response.url)
+          } else if (url.pathname.startsWith('/r/')) {
             const [, , name, , id, , commentId] = url.pathname.split('/')
 
             if (commentId && id) {
@@ -88,4 +94,6 @@ export function useLink() {
     },
     [linkBrowser, router],
   )
+
+  return handleLink
 }
