@@ -19,7 +19,6 @@ export function useRedGifs(id: string) {
     RedGifsData,
     RedGifsQueryKey
   >({
-    gcTime: 60 * 60 * 24,
     queryFn() {
       return getGif(id)
     },

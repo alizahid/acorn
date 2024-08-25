@@ -6,7 +6,7 @@ import { Sentry } from './sentry'
 
 export const CACHE_KEY = 'cache-storage'
 
-export const CACHE_TIME = 60 * 60
+export const CACHE_TIME = 1_000 * 60 * 60
 
 export const queryClient = new QueryClient({
   defaultOptions: {
