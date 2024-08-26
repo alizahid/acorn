@@ -36,7 +36,7 @@ export type Post = {
 
 export type PostMedia = {
   height: number
-  provider?: 'redgifs'
+  provider?: 'reddit' | 'redgifs'
   thumbnail?: string
   type: 'image' | 'video' | 'gif'
   url: string

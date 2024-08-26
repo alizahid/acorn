@@ -17,13 +17,13 @@ import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
 import ChatCircleTextBold from 'react-native-phosphor/src/bold/ChatCircleText'
 import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
+import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DropBold from 'react-native-phosphor/src/bold/Drop'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
-import LinkBold from 'react-native-phosphor/src/bold/Link'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
@@ -60,13 +60,13 @@ import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
 import ChatCircleTextDuotone from 'react-native-phosphor/src/duotone/ChatCircleText'
 import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
+import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DropDuotone from 'react-native-phosphor/src/duotone/Drop'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
-import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
@@ -103,13 +103,13 @@ import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
 import ChatCircleTextFill from 'react-native-phosphor/src/fill/ChatCircleText'
 import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
+import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DropFill from 'react-native-phosphor/src/fill/Drop'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
-import LinkFill from 'react-native-phosphor/src/fill/Link'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
@@ -146,13 +146,13 @@ import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
 import ChatCircleTextRegular from 'react-native-phosphor/src/regular/ChatCircleText'
 import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
+import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DropRegular from 'react-native-phosphor/src/regular/Drop'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
-import LinkRegular from 'react-native-phosphor/src/regular/Link'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
@@ -300,6 +300,12 @@ const icons = {
     fill: ClockFill,
     regular: ClockRegular,
   },
+  Compass: {
+    bold: CompassBold,
+    duotone: CompassDuotone,
+    fill: CompassFill,
+    regular: CompassRegular,
+  },
   Copy: {
     bold: CopyBold,
     duotone: CopyDuotone,
@@ -335,12 +341,6 @@ const icons = {
     duotone: HouseDuotone,
     fill: HouseFill,
     regular: HouseRegular,
-  },
-  Link: {
-    bold: LinkBold,
-    duotone: LinkDuotone,
-    fill: LinkFill,
-    regular: LinkRegular,
   },
   MagnifyingGlass: {
     bold: MagnifyingGlassBold,

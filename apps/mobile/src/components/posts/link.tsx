@@ -6,7 +6,7 @@ import { useCommon } from '~/hooks/common'
 import { useImagePlaceholder } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { getDimensions } from '~/lib/media'
-import { type Post } from '~/types/post'
+import { type PostMedia } from '~/types/post'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
@@ -15,11 +15,19 @@ import { View } from '../common/view'
 
 type Props = {
   margin?: number
-  post: Post
+  media?: PostMedia
+  recyclingKey?: string
   style?: StyleProp<ViewStyle>
+  url: string
 }
 
-export function PostLinkCard({ margin = 0, post, style }: Props) {
+export function PostLinkCard({
+  margin = 0,
+  media,
+  recyclingKey,
+  style,
+  url,
+}: Props) {
   const common = useCommon()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -29,11 +37,9 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
 
   const frameWidth = common.frame.width - margin
 
-  const image = post.media.images?.[0]
-
   const dimensions = getDimensions(
     frameWidth,
-    image ?? {
+    media ?? {
       height: 0,
       width: 0,
     },
@@ -43,19 +49,15 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
     <Pressable
       mx="3"
       onPress={() => {
-        if (!post.url) {
-          return
-        }
-
-        void handleLink(post.url)
+        void handleLink(url)
       }}
       style={[styles.main, style]}
     >
-      {image ? (
+      {media ? (
         <Image
           {...placeholder}
-          recyclingKey={post.id}
-          source={image.url}
+          recyclingKey={recyclingKey}
+          source={media.url}
           style={styles.image(
             common.height.max,
             dimensions.height,
@@ -67,12 +69,12 @@ export function PostLinkCard({ margin = 0, post, style }: Props) {
       <View align="center" direction="row" gap="3" p="3">
         <Icon
           color={theme.colors.gray.a11}
-          name="Link"
+          name="Compass"
           size={theme.typography[2].lineHeight}
         />
 
         <Text highContrast={false} lines={1} size="2" style={styles.url}>
-          {post.url}
+          {url}
         </Text>
       </View>
     </Pressable>

@@ -91,22 +91,9 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
 }
 
 export function getVideo(data: PostDataSchema): PostMedia | undefined {
-  if (data.media && 'reddit_video' in data.media) {
-    const url = new URL(decode(data.media.reddit_video.hls_url))
-
-    url.searchParams.delete('a')
-
-    return {
-      height: data.media.reddit_video.height,
-      type: 'video',
-      url: url.toString(),
-      width: data.media.reddit_video.width,
-    }
-  }
-
   if (data.media && 'oembed' in data.media) {
     if (data.media.oembed.type === 'video') {
-      if (data.media.type === 'redgifs.com') {
+      if (data.media.type.endsWith('redgifs.com')) {
         const parts = /https:\/\/www\.redgifs\.com\/ifr\/(\w+)/.exec(
           data.media.oembed.html,
         )
@@ -121,12 +108,37 @@ export function getVideo(data: PostDataSchema): PostMedia | undefined {
           }
         }
       }
+
+      if (data.url) {
+        return {
+          height: data.media.oembed.height,
+          thumbnail: data.media.oembed.thumbnail_url,
+          type: 'image',
+          url: data.url,
+          width: data.media.oembed.width,
+        }
+      }
+    }
+  }
+
+  if (data.media && 'reddit_video' in data.media) {
+    const url = new URL(decode(data.media.reddit_video.hls_url))
+
+    url.searchParams.delete('a')
+
+    return {
+      height: data.media.reddit_video.height,
+      provider: 'reddit',
+      type: 'video',
+      url: url.toString(),
+      width: data.media.reddit_video.width,
     }
   }
 
   if (data.preview?.reddit_video_preview) {
     return {
       height: data.preview.reddit_video_preview.height,
+      provider: 'reddit',
       type: 'video',
       url: decode(data.preview.reddit_video_preview.hls_url),
       width: data.preview.reddit_video_preview.width,

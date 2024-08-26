@@ -90,6 +90,7 @@ export const PostMediaSchema = z
       oembed: z.object({
         height: z.number(),
         html: z.string(),
+        thumbnail_url: z.string(),
         type: z.literal('video'),
         width: z.number(),
       }),
@@ -97,8 +98,11 @@ export const PostMediaSchema = z
     }),
     z.object({
       oembed: z.object({
+        height: z.number(),
         html: z.string(),
+        thumbnail_url: z.string(),
         type: z.literal('rich'),
+        width: z.number(),
       }),
       type: z.string(),
     }),
