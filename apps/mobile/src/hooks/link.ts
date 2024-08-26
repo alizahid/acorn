@@ -17,7 +17,9 @@ export function useLink() {
         const url = new URL(href)
 
         if (url.hostname.endsWith('reddit.com')) {
-          if (url.pathname.includes('/s/')) {
+          if (url.pathname.includes('/wiki/')) {
+            open(href)
+          } else if (url.pathname.includes('/s/')) {
             const response = await fetch(url, {
               method: 'trace',
             })
@@ -73,9 +75,7 @@ export function useLink() {
         } else if (linkBrowser) {
           void Linking.openURL(href)
         } else {
-          void WebBrowser.openBrowserAsync(href, {
-            presentationStyle: WebBrowser.WebBrowserPresentationStyle.AUTOMATIC,
-          })
+          open(href)
         }
       } catch (error) {
         Sentry.captureException(error)
@@ -83,9 +83,7 @@ export function useLink() {
         if (linkBrowser) {
           void Linking.openURL(href)
         } else {
-          void WebBrowser.openBrowserAsync(href, {
-            presentationStyle: WebBrowser.WebBrowserPresentationStyle.AUTOMATIC,
-          })
+          open(href)
         }
       }
     },
@@ -93,4 +91,10 @@ export function useLink() {
   )
 
   return handleLink
+}
+
+function open(url: string) {
+  void WebBrowser.openBrowserAsync(url, {
+    presentationStyle: WebBrowser.WebBrowserPresentationStyle.AUTOMATIC,
+  })
 }
