@@ -98,11 +98,11 @@ export const PostMediaSchema = z
     }),
     z.object({
       oembed: z.object({
-        height: z.number(),
+        height: z.number().nullish(),
         html: z.string(),
-        thumbnail_url: z.string(),
+        thumbnail_url: z.string().nullish(),
         type: z.literal('rich'),
-        width: z.number(),
+        width: z.number().nullish(),
       }),
       type: z.string(),
     }),
