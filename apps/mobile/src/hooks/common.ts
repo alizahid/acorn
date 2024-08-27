@@ -15,7 +15,7 @@ export function useCommon() {
   const height = {
     communities: insets.top + 64,
     header: insets.top + 48,
-    max: frame.height * 0.6,
+    max: frame.height * 0.5,
     search: insets.top + 120,
     tabBar: insets.bottom + 56,
   }

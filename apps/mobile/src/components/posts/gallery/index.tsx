@@ -1,7 +1,7 @@
 import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import * as StatusBar from 'expo-status-bar'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { FlatList, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -45,15 +45,16 @@ export function PostGalleryCard({
   const placeholder = useImagePlaceholder()
   const { blurNsfw } = usePreferences()
 
+  const list = useRef<FlatList<PostMedia>>(null)
+
   const [visible, setVisible] = useState(false)
+  const [initial, setInitial] = useState(0)
 
   const frameWidth = common.frame.width - margin
 
-  const first = images[0]
-
-  const firstDimensions = getDimensions(
+  const dimensions = getDimensions(
     frameWidth,
-    first ?? {
+    images[0] ?? {
       height: 0,
       width: 0,
     },
@@ -61,70 +62,88 @@ export function PostGalleryCard({
 
   return (
     <>
-      {first ? (
-        <Pressable
-          onPress={() => {
-            setVisible(true)
-          }}
-          style={style}
-        >
-          <Image
-            {...placeholder}
-            contentFit="cover"
-            recyclingKey={recyclingKey}
-            source={first.thumbnail ?? first.url}
+      <View style={style}>
+        <FlatList
+          data={images}
+          decelerationRate="fast"
+          getItemLayout={(item, index) => ({
+            index,
+            length: frameWidth,
+            offset: frameWidth * index,
+          })}
+          horizontal
+          initialNumToRender={3}
+          keyExtractor={(item, index) => String(index)}
+          ref={list}
+          renderItem={({ index, item }) => (
+            <Pressable
+              onPress={() => {
+                setInitial(index)
+
+                setVisible(true)
+              }}
+              style={styles.main(
+                common.height.max,
+                dimensions.height,
+                dimensions.width,
+              )}
+            >
+              <Image
+                {...placeholder}
+                contentFit="cover"
+                recyclingKey={recyclingKey}
+                source={item.thumbnail ?? item.url}
+                style={styles.image}
+              />
+
+              {item.type === 'gif' ? (
+                <View style={[styles.label, styles.gif]}>
+                  <Text contrast size="1">
+                    {t('gif')}
+                  </Text>
+                </View>
+              ) : null}
+            </Pressable>
+          )}
+          scrollEnabled={images.length > 1}
+          showsHorizontalScrollIndicator={false}
+          snapToOffsets={images.map((image, index) => frameWidth * index)}
+        />
+
+        {nsfw && blurNsfw ? (
+          <BlurView
+            intensity={100}
+            pointerEvents="none"
             style={[
               styles.main(
                 maxHeight ?? common.height.max,
-                firstDimensions.height,
-                firstDimensions.width,
+                dimensions.height,
+                dimensions.width,
               ),
+              styles.blur,
             ]}
-          />
+          >
+            <Icon
+              color={theme.colors.gray.a12}
+              name="Warning"
+              size={theme.space[6]}
+              weight="fill"
+            />
 
-          {nsfw && blurNsfw ? (
-            <BlurView
-              intensity={100}
-              pointerEvents="none"
-              style={[
-                styles.main(
-                  maxHeight ?? common.height.max,
-                  firstDimensions.height,
-                  firstDimensions.width,
-                ),
-                styles.blur,
-              ]}
-            >
-              <Icon
-                color={theme.colors.gray.a12}
-                name="Warning"
-                size={theme.space[6]}
-                weight="fill"
-              />
+            <Text weight="medium">{t('nsfw')}</Text>
+          </BlurView>
+        ) : null}
 
-              <Text weight="medium">{t('nsfw')}</Text>
-            </BlurView>
-          ) : null}
-
-          {first.type === 'gif' ? (
-            <View style={[styles.label, styles.gif]}>
-              <Text contrast size="1">
-                {t('gif')}
-              </Text>
-            </View>
-          ) : null}
-
-          {images.length > 1 ? (
-            <View style={[styles.label, styles.count]}>
-              <Text contrast size="1" tabular>
-                {t('items', {
-                  count: images.length,
-                })}
-              </Text>
-            </View>
-          ) : null}
-        </Pressable>
-      ) : null}
+        {images.length > 1 ? (
+          <View style={[styles.label, styles.count]}>
+            <Text contrast size="1" tabular>
+              {t('items', {
+                count: images.length,
+              })}
+            </Text>
+          </View>
+        ) : null}
+      </View>
 
       <FakeModal
         close
@@ -138,9 +157,25 @@ export function PostGalleryCard({
         <FlatList
           data={images}
           decelerationRate="fast"
+          getItemLayout={(item, index) => ({
+            index,
+            length: common.frame.width,
+            offset: common.frame.width * index,
+          })}
           horizontal
           initialNumToRender={3}
+          initialScrollIndex={initial}
           keyExtractor={(item, index) => String(index)}
+          onMomentumScrollEnd={(event) => {
+            const index = Math.round(
+              event.nativeEvent.contentOffset.x / common.frame.width,
+            )
+
+            list.current?.scrollToIndex({
+              animated: false,
+              index,
+            })
+          }}
           renderItem={({ item }) => (
             <GalleryImage image={item} recyclingKey={recyclingKey} />
           )}
@@ -167,6 +202,9 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   gif: {
     left: theme.space[2],
+  },
+  image: {
+    flex: 1,
   },
   label: {
     backgroundColor: theme.colors.black.a9,
