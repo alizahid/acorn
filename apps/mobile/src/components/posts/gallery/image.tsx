@@ -1,7 +1,12 @@
-import { ZOOM_TYPE, Zoomable } from '@likashefqet/react-native-image-zoom'
+import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { Image } from 'expo-image'
 import * as StatusBar from 'expo-status-bar'
 import { useRef, useState } from 'react'
+import {
+  runOnJS,
+  useAnimatedReaction,
+  useSharedValue,
+} from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -30,9 +35,18 @@ export function GalleryImage({ image, recyclingKey }: Props) {
 
   const ref = useRef<Image>(null)
 
+  const zoom = useSharedValue(1)
+
   const [playing, setPlaying] = useState(true)
-  const [zoomed, setZoomed] = useState(false)
+  const [zoomed, setZoomed] = useState(true)
   const [hidden, setHidden] = useState(false)
+
+  useAnimatedReaction(
+    () => zoom.value,
+    (next) => {
+      runOnJS(setZoomed)(next > 1)
+    },
+  )
 
   const dimensions = getDimensions(common.frame.width, image)
 
@@ -48,18 +62,19 @@ export function GalleryImage({ image, recyclingKey }: Props) {
         isDoubleTapEnabled
         isPanEnabled={zoomed}
         isSingleTapEnabled
+        maxScale={6}
         minPanPointers={1}
-        onDoubleTap={(type) => {
-          setZoomed(type === ZOOM_TYPE.ZOOM_IN)
-        }}
+        minScale={0.5}
         onSingleTap={() => {
           StatusBar.setStatusBarHidden(!hidden, 'fade')
 
           setHidden(!hidden)
         }}
+        scale={zoom}
       >
         <Image
           {...placeholder}
+          allowDownscaling={false}
           contentFit="contain"
           recyclingKey={recyclingKey}
           ref={ref}
