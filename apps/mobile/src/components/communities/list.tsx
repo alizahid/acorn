@@ -72,7 +72,10 @@ export function CommunitiesList({
       }}
       ref={list}
       refreshControl={
-        <RefreshControl offset={props.progressViewOffset} onRefresh={refetch} />
+        <RefreshControl
+          offset={props.progressViewOffset + theme.space[2]}
+          onRefresh={refetch}
+        />
       }
       renderItem={({ item, target }) => {
         if (typeof item === 'string') {
