@@ -23,7 +23,7 @@ export const queryClient = new QueryClient({
       },
     },
     queries: {
-      gcTime: CACHE_TIME,
+      gcTime: Infinity,
       placeholderData: keepPreviousData,
       staleTime: CACHE_TIME,
       throwOnError(error) {
