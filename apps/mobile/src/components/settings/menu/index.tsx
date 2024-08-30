@@ -1,4 +1,5 @@
-import { type ReactElement } from 'react'
+import { useScrollToTop } from '@react-navigation/native'
+import { type ReactElement, useRef } from 'react'
 import { FlatList } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -65,6 +66,10 @@ export function SettingsMenu({
 
   const { styles } = useStyles(stylesheet)
 
+  const list = useRef<FlatList<SettingsItem | string | null>>(null)
+
+  useScrollToTop(list)
+
   const props = common.listProps(insets)
 
   return (
@@ -75,6 +80,7 @@ export function SettingsMenu({
       data={items}
       initialNumToRender={items.length}
       keyExtractor={(item, index) => String(index)}
+      ref={list}
       refreshControl={
         onRefresh ? (
           <RefreshControl

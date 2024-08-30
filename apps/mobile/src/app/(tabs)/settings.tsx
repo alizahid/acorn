@@ -4,6 +4,7 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
+import { Logo } from '~/components/common/logo'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
@@ -108,32 +109,36 @@ export default function Screen() {
   return (
     <SettingsMenu
       footer={
-        <View direction="row" gap="4" justify="center" m="4">
-          <Text highContrast={false} size="2" variant="mono">
-            {t('footer.version', {
-              version: Application.nativeApplicationVersion,
-            })}
-          </Text>
+        <View align="center" gap="4" p="4">
+          <Logo size={theme.space[8]} />
 
-          <Pressable
-            onPress={() => {
-              void handleLink('https://acorn.blue')
-            }}
-          >
-            <Text color="accent" size="2">
-              {t('footer.web')}
+          <View direction="row" gap="4" justify="center">
+            <Text highContrast={false} size="2" variant="mono">
+              {t('footer.version', {
+                version: Application.nativeApplicationVersion,
+              })}
             </Text>
-          </Pressable>
 
-          <Pressable
-            onPress={() => {
-              void handleLink('https://reddit.com/r/acornblue')
-            }}
-          >
-            <Text color="accent" size="2">
-              {t('footer.reddit')}
-            </Text>
-          </Pressable>
+            <Pressable
+              onPress={() => {
+                void handleLink('https://acorn.blue')
+              }}
+            >
+              <Text color="accent" size="2">
+                {t('footer.web')}
+              </Text>
+            </Pressable>
+
+            <Pressable
+              onPress={() => {
+                void handleLink('https://reddit.com/r/acornblue')
+              }}
+            >
+              <Text color="accent" size="2">
+                {t('footer.reddit')}
+              </Text>
+            </Pressable>
+          </View>
         </View>
       }
       insets={['top', 'bottom', 'header', 'tabBar']}
