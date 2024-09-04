@@ -47,10 +47,5 @@ export default function Screen() {
     })
   })
 
-  return (
-    <UserCommentsList
-      insets={['top', 'bottom', 'header']}
-      username={params.name}
-    />
-  )
+  return <UserCommentsList inset username={params.name} />
 }

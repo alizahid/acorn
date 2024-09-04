@@ -1,126 +1,21 @@
-import { useCallback } from 'react'
 import { useWindowDimensions } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-
-export type Insets = Array<
-  | 'top'
-  | 'bottom'
-  | 'header'
-  | 'communities'
-  | 'community'
-  | 'user'
-  | 'search'
-  | 'tabBar'
->
-
-type Offsets = [top: number, bottom: number]
 
 export function useCommon() {
   const insets = useSafeAreaInsets()
   const frame = useWindowDimensions()
 
   const height = {
-    communities: insets.top + 68,
-    community: insets.top + 48 + 116,
-    header: insets.top + 48,
     max: frame.height * 0.5,
-    search: insets.top + 124,
-    tabBar: insets.bottom + 56,
-    user: insets.top + 116,
   }
 
-  const listProps = useCallback(
-    (
-      inset: Insets = [],
-      offsets: Offsets = [0, 0],
-      indicators: Offsets = [0, 0],
-    ) => {
-      let progressViewOffset = offsets[0]
-
-      const contentContainerStyle = {
-        paddingBottom: offsets[1],
-        paddingTop: offsets[0],
-      }
-
-      const scrollIndicatorInsets = {
-        bottom: indicators[1] + 1,
-        right: 1,
-        top: indicators[0] + 1,
-      }
-
-      if (inset.includes('top')) {
-        progressViewOffset += insets.top
-
-        contentContainerStyle.paddingTop += insets.top
-      }
-
-      if (inset.includes('bottom')) {
-        contentContainerStyle.paddingBottom += insets.bottom
-      }
-
-      if (inset.includes('header')) {
-        progressViewOffset += height.header - insets.top
-
-        contentContainerStyle.paddingTop += height.header - insets.top
-
-        scrollIndicatorInsets.top += height.header - insets.top
-      }
-
-      if (inset.includes('communities')) {
-        progressViewOffset += height.communities - insets.top
-
-        contentContainerStyle.paddingTop += height.communities - insets.top
-
-        scrollIndicatorInsets.top += height.communities - insets.top
-      }
-
-      if (inset.includes('community')) {
-        progressViewOffset += height.community - insets.top
-
-        contentContainerStyle.paddingTop += height.community - insets.top
-
-        scrollIndicatorInsets.top += height.community - insets.top
-      }
-
-      if (inset.includes('user')) {
-        progressViewOffset += height.user - insets.top
-
-        contentContainerStyle.paddingTop += height.user - insets.top
-
-        scrollIndicatorInsets.top += height.user - insets.top
-      }
-
-      if (inset.includes('search')) {
-        progressViewOffset += height.search - insets.top
-
-        contentContainerStyle.paddingTop += height.search - insets.top
-
-        scrollIndicatorInsets.top += height.search - insets.top
-      }
-
-      if (inset.includes('tabBar')) {
-        contentContainerStyle.paddingBottom += height.tabBar - insets.bottom
-
-        scrollIndicatorInsets.bottom += height.tabBar - insets.bottom
-      }
-
-      return {
-        contentContainerStyle,
-        progressViewOffset,
-        scrollIndicatorInsets,
-      }
+  const listProps = {
+    scrollIndicatorInsets: {
+      bottom: 1,
+      right: 1,
+      top: 1,
     },
-    [
-      height.communities,
-      height.community,
-      height.header,
-      height.search,
-      height.tabBar,
-      height.user,
-      insets.bottom,
-      insets.top,
-    ],
-  )
+  } as const
 
   return {
     frame,

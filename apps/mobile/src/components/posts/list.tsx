@@ -1,13 +1,13 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
-import Animated, { type SharedValue } from 'react-native-reanimated'
+import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { type Insets, useCommon } from '~/hooks/common'
+import { useCommon } from '~/hooks/common'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { type Post } from '~/types/post'
 
@@ -20,17 +20,15 @@ const List = Animated.createAnimatedComponent(FlashList<Post>)
 
 type Props = PostsProps & {
   header?: ReactElement
-  insets: Insets
+  inset?: boolean
   label?: PostLabel
-  offset?: SharedValue<number>
-  offsetMax?: number
   onRefresh?: () => void
 }
 
 export function PostList({
   community,
   header,
-  insets = [],
+  inset,
   interval,
   label,
   onRefresh,
@@ -61,11 +59,9 @@ export function PostList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const props = common.listProps(insets)
-
   return (
     <List
-      {...props}
+      {...common.listProps}
       ItemSeparatorComponent={() => (
         <View height={1} style={styles.separator} />
       )}
@@ -74,6 +70,7 @@ export function PostList({
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
       ListHeaderComponent={header}
+      contentContainerStyle={styles.content(inset ? common.insets.bottom : 0)}
       data={posts}
       estimatedItemSize={120}
       extraData={{
@@ -91,7 +88,6 @@ export function PostList({
       ref={list}
       refreshControl={
         <RefreshControl
-          offset={props.progressViewOffset}
           onRefresh={() => {
             onRefresh?.()
 
@@ -115,6 +111,9 @@ export function PostList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  content: (inset: number) => ({
+    paddingBottom: inset,
+  }),
   separator: {
     backgroundColor: theme.colors.gray.a6,
   },

@@ -93,7 +93,7 @@ export default function Screen() {
           />
         </>
       }
-      insets={['top', 'header', 'bottom']}
+      inset
       query={debounced}
       type="post"
     />

@@ -1,5 +1,4 @@
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
-import { BlurView } from 'expo-blur'
 import { type SharedValue } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -31,7 +30,7 @@ export function UserHeader({ navigation, offset, onChange, username }: Props) {
   const { follow, isPending } = useFollow()
 
   return (
-    <BlurView intensity={100} style={styles.main(common.insets.top)}>
+    <View pt={common.insets.top} style={styles.main}>
       <View align="center" direction="row" height="8" justify="center">
         <HeaderButton
           icon="ArrowLeft"
@@ -68,7 +67,7 @@ export function UserHeader({ navigation, offset, onChange, username }: Props) {
         offset={offset}
         onChange={onChange}
       />
-    </BlurView>
+    </View>
   )
 }
 
@@ -83,13 +82,9 @@ const stylesheet = createStyleSheet((theme) => ({
     right: 0,
     top: 0,
   },
-  main: (inset: number) => ({
-    left: 0,
-    paddingTop: inset,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  }),
+  main: {
+    backgroundColor: theme.colors.gray[1],
+  },
   title: (width: number) => ({
     maxWidth: width - theme.space[8] * 2 - theme.space[4] * 2,
   }),

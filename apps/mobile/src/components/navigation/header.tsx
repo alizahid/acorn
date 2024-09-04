@@ -1,6 +1,5 @@
 import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
-import { BlurView } from 'expo-blur'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useCommon } from '~/hooks/common'
@@ -20,7 +19,7 @@ export function Header({ navigation, options, ...props }: Props) {
   const left = back || options.headerLeft
 
   return (
-    <BlurView intensity={100} style={styles.main(common.insets.top)}>
+    <View pt={common.insets.top} style={styles.main}>
       <View align="center" height="8" justify="center">
         {left ? (
           <View style={[styles.actions, styles.left]}>
@@ -58,11 +57,11 @@ export function Header({ navigation, options, ...props }: Props) {
           </View>
         ) : null}
       </View>
-    </BlurView>
+    </View>
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const stylesheet = createStyleSheet((theme) => ({
   actions: {
     bottom: 0,
     flexDirection: 'row',
@@ -71,13 +70,9 @@ const stylesheet = createStyleSheet(() => ({
   left: {
     left: 0,
   },
-  main: (inset: number) => ({
-    left: 0,
-    paddingTop: inset,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  }),
+  main: {
+    backgroundColor: theme.colors.gray[1],
+  },
   right: {
     right: 0,
   },

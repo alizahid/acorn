@@ -9,7 +9,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { CommunityCard } from '~/components/communities/card'
-import { type Insets, useCommon } from '~/hooks/common'
+import { useCommon } from '~/hooks/common'
 import { type Community } from '~/types/community'
 
 import { View } from '../common/view'
@@ -18,7 +18,6 @@ type Props = {
   communities: Array<string | Community>
   fetchNextPage: () => void
   hasNextPage: boolean
-  insets: Insets
   isFetchingNextPage: boolean
   isLoading: boolean
   refetch: () => Promise<unknown>
@@ -28,14 +27,13 @@ export function CommunitiesList({
   communities,
   fetchNextPage,
   hasNextPage,
-  insets,
   isFetchingNextPage,
   isLoading,
   refetch,
 }: Props) {
   const common = useCommon()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlashList<Community | string>>(null)
 
@@ -46,19 +44,14 @@ export function CommunitiesList({
     .map((item, index) => (typeof item === 'string' ? index : null))
     .filter((item) => item !== null) as unknown as Array<number>
 
-  const props = common.listProps(
-    insets,
-    [0, theme.space[4]],
-    [theme.space[2], theme.space[2]],
-  )
-
   return (
     <FlashList
-      {...props}
+      {...common.listProps}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
+      contentContainerStyle={styles.content}
       data={communities}
       estimatedItemSize={56}
       getItemType={(item) =>
@@ -71,17 +64,12 @@ export function CommunitiesList({
         }
       }}
       ref={list}
-      refreshControl={
-        <RefreshControl
-          offset={props.progressViewOffset + theme.space[2]}
-          onRefresh={refetch}
-        />
-      }
-      renderItem={({ item, target }) => {
+      refreshControl={<RefreshControl onRefresh={refetch} />}
+      renderItem={({ index, item, target }) => {
         if (typeof item === 'string') {
           return (
             <View
-              my="2"
+              // my="2"
               pr="4"
               py="2"
               style={[
@@ -96,7 +84,12 @@ export function CommunitiesList({
           )
         }
 
-        return <CommunityCard community={item} />
+        const previous = typeof communities[index - 1] === 'string'
+        const next = typeof communities[index + 1] === 'string'
+
+        return (
+          <CommunityCard community={item} style={styles.card(previous, next)} />
+        )
       }}
       stickyHeaderIndices={sticky}
     />
@@ -104,6 +97,13 @@ export function CommunitiesList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  card: (previous: boolean, next: boolean) => ({
+    marginBottom: next ? theme.space[2] : undefined,
+    marginTop: previous ? theme.space[2] : undefined,
+  }),
+  content: {
+    paddingBottom: theme.space[2],
+  },
   header: {
     backgroundColor: theme.colors.gray.a2,
     paddingLeft: theme.space[4] + theme.space[7] + theme.space[4],

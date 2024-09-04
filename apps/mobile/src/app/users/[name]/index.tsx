@@ -57,7 +57,7 @@ export default function Screen() {
       style={styles.main}
     >
       <UserPostsList
-        insets={['top', 'user', 'bottom']}
+        inset
         key="posts"
         label="subreddit"
         onRefresh={refetch}
@@ -67,7 +67,7 @@ export default function Screen() {
       />
 
       <UserCommentsList
-        insets={['top', 'user', 'bottom']}
+        inset
         key="comments"
         onRefresh={refetch}
         username={params.name}

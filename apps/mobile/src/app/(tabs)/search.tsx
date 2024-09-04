@@ -68,18 +68,12 @@ export default function Screen() {
             style={styles.filters}
           />
         }
-        insets={['top', 'search', 'bottom', 'tabBar']}
         key="posts"
         query={debounced}
         type="post"
       />
 
-      <SearchList
-        insets={['top', 'search', 'bottom', 'tabBar']}
-        key="communities"
-        query={debounced}
-        type="community"
-      />
+      <SearchList key="communities" query={debounced} type="community" />
     </Pager>
   )
 }

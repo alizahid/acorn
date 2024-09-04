@@ -8,7 +8,7 @@ import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
-import { type Insets, useCommon } from '~/hooks/common'
+import { useCommon } from '~/hooks/common'
 import { useSearch } from '~/hooks/queries/search/search'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
@@ -22,7 +22,7 @@ type Props = {
   filters?: SearchFilters
   focused?: boolean
   header?: ReactElement
-  insets?: Insets
+  inset?: boolean
   query: string
   type: SearchTab
 }
@@ -32,7 +32,7 @@ export function SearchList({
   filters,
   focused,
   header,
-  insets,
+  inset,
   query,
   type,
 }: Props) {
@@ -43,7 +43,7 @@ export function SearchList({
   // @ts-expect-error -- go away
   useScrollToTop(list)
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const { isLoading, refetch, results } = useSearch({
     community,
@@ -55,17 +55,13 @@ export function SearchList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const props = common.listProps(insets, [
-    type === 'community' ? theme.space[2] : 0,
-    type === 'community' ? theme.space[2] : 0,
-  ])
-
   return (
     <FlashList
-      {...props}
+      {...common.listProps}
       ItemSeparatorComponent={() => <View style={styles.separator(type)} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListHeaderComponent={header}
+      contentContainerStyle={styles.content(inset ? common.insets.bottom : 0)}
       data={results}
       estimatedItemSize={type === 'community' ? 56 : 120}
       getItemType={() => type}
@@ -74,9 +70,7 @@ export function SearchList({
         setViewing(() => viewableItems.map((item) => item.key))
       }}
       ref={list}
-      refreshControl={
-        <RefreshControl offset={props.progressViewOffset} onRefresh={refetch} />
-      }
+      refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => {
         if (type === 'community') {
           return <CommunityCard community={item as Community} />
@@ -99,6 +93,9 @@ export function SearchList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  content: (inset: number) => ({
+    paddingBottom: inset,
+  }),
   separator: (type: SearchTab) => {
     if (type === 'community') {
       return {}

@@ -85,7 +85,7 @@ export default function Screen() {
           ) : null}
         </View>
       }
-      insets={['top', 'header', 'bottom']}
+      inset
       interval={interval}
       label="user"
       onRefresh={refetch}

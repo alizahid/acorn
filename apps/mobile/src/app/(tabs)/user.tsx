@@ -31,7 +31,6 @@ export default function Screen() {
   return (
     <SettingsMenu
       header={<ProfileCard profile={profile} />}
-      insets={['top', 'bottom', 'header', 'tabBar']}
       items={UserFeedType.map((type) => ({
         arrow: true,
         icon: {

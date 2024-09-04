@@ -6,13 +6,10 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { CommunitiesHeader } from '~/components/communities/header'
 import { CommunitiesList } from '~/components/communities/list'
-import { type Insets, useCommon } from '~/hooks/common'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 
 export default function Screen() {
   const navigation = useNavigation()
-
-  const common = useCommon()
 
   const pager = useRef<Pager>(null)
 
@@ -46,7 +43,6 @@ export default function Screen() {
   const props = {
     fetchNextPage,
     hasNextPage,
-    insets: [] satisfies Insets,
     isFetchingNextPage,
     isLoading,
     refetch,
@@ -58,7 +54,7 @@ export default function Screen() {
         offset.value = event.nativeEvent.offset + event.nativeEvent.position
       }}
       ref={pager}
-      style={styles.main(common.height.communities, common.height.tabBar)}
+      style={styles.main}
     >
       <CommunitiesList {...props} communities={communities} key="posts" />
 
@@ -67,10 +63,8 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: (top: number, bottom: number) => ({
+const stylesheet = createStyleSheet(() => ({
+  main: {
     flex: 1,
-    marginBottom: bottom - theme.space[2],
-    marginTop: top - theme.space[2],
-  }),
+  },
 }))

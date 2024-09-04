@@ -6,7 +6,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { type Insets, useCommon } from '~/hooks/common'
+import { useCommon } from '~/hooks/common'
 import { type UserPostsProps, useUserPosts } from '~/hooks/queries/user/posts'
 
 import { Empty } from '../common/empty'
@@ -15,13 +15,13 @@ import { View } from '../common/view'
 import { type PostLabel } from '../posts/footer'
 
 type Props = UserPostsProps & {
-  insets: Insets
+  inset?: boolean
   label?: PostLabel
   onRefresh?: () => void
 }
 
 export function UserPostsList({
-  insets = [],
+  inset,
   interval,
   label,
   onRefresh,
@@ -50,11 +50,9 @@ export function UserPostsList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const props = common.listProps(insets)
-
   return (
     <FlashList
-      {...props}
+      {...common.listProps}
       ItemSeparatorComponent={() => (
         <View height={1} style={styles.separator} />
       )}
@@ -62,6 +60,7 @@ export function UserPostsList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
+      contentContainerStyle={styles.content(inset ? common.insets.bottom : 0)}
       data={posts}
       estimatedItemSize={120}
       extraData={{
@@ -78,7 +77,6 @@ export function UserPostsList({
       }}
       refreshControl={
         <RefreshControl
-          offset={props.progressViewOffset}
           onRefresh={() => {
             onRefresh?.()
 
@@ -102,6 +100,9 @@ export function UserPostsList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  content: (inset: number) => ({
+    paddingBottom: inset,
+  }),
   separator: {
     backgroundColor: theme.colors.gray.a6,
   },

@@ -1,9 +1,10 @@
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
-import { type Insets, useCommon } from '~/hooks/common'
+import { useCommon } from '~/hooks/common'
 import { useComments } from '~/hooks/queries/user/comments'
 import { removePrefix } from '~/lib/reddit'
 
@@ -14,15 +15,17 @@ import { Pressable } from '../common/pressable'
 import { View } from '../common/view'
 
 type Props = {
-  insets: Insets
+  inset?: boolean
   onRefresh?: () => void
   username: string
 }
 
-export function UserCommentsList({ insets = [], onRefresh, username }: Props) {
+export function UserCommentsList({ inset, onRefresh, username }: Props) {
   const router = useRouter()
 
   const common = useCommon()
+
+  const { styles } = useStyles(stylesheet)
 
   const {
     comments,
@@ -33,16 +36,15 @@ export function UserCommentsList({ insets = [], onRefresh, username }: Props) {
     refetch,
   } = useComments(username)
 
-  const props = common.listProps(insets)
-
   return (
     <FlashList
-      {...props}
+      {...common.listProps}
       ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
+      contentContainerStyle={styles.content(inset ? common.insets.bottom : 0)}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}
@@ -54,7 +56,6 @@ export function UserCommentsList({ insets = [], onRefresh, username }: Props) {
       }}
       refreshControl={
         <RefreshControl
-          offset={props.progressViewOffset}
           onRefresh={() => {
             onRefresh?.()
 
@@ -86,3 +87,9 @@ export function UserCommentsList({ insets = [], onRefresh, username }: Props) {
     />
   )
 }
+
+const stylesheet = createStyleSheet(() => ({
+  content: (inset: number) => ({
+    paddingBottom: inset,
+  }),
+}))

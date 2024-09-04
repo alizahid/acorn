@@ -28,12 +28,5 @@ export default function Screen() {
     })
   })
 
-  return (
-    <PostList
-      insets={['top', 'bottom', 'header', 'tabBar']}
-      interval={interval}
-      label="subreddit"
-      sort={sort}
-    />
-  )
+  return <PostList interval={interval} label="subreddit" sort={sort} />
 }

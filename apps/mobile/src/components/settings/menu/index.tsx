@@ -7,7 +7,7 @@ import { type IconName, type IconWeight } from '~/components/common/icon'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { type Insets, useCommon } from '~/hooks/common'
+import { useCommon } from '~/hooks/common'
 
 import { SettingsItem } from './item'
 
@@ -50,18 +50,11 @@ export type SettingsItem = {
 type Props = {
   footer?: ReactElement
   header?: ReactElement
-  insets: Insets
   items: Array<SettingsItem | string | null>
   onRefresh?: () => Promise<unknown>
 }
 
-export function SettingsMenu({
-  footer,
-  header,
-  insets = [],
-  items,
-  onRefresh,
-}: Props) {
+export function SettingsMenu({ footer, header, items, onRefresh }: Props) {
   const common = useCommon()
 
   const { styles } = useStyles(stylesheet)
@@ -70,11 +63,9 @@ export function SettingsMenu({
 
   useScrollToTop(list)
 
-  const props = common.listProps(insets)
-
   return (
     <FlatList
-      {...props}
+      {...common.listProps}
       ListFooterComponent={footer}
       ListHeaderComponent={header}
       data={items}
@@ -82,12 +73,7 @@ export function SettingsMenu({
       keyExtractor={(item, index) => String(index)}
       ref={list}
       refreshControl={
-        onRefresh ? (
-          <RefreshControl
-            offset={props.progressViewOffset}
-            onRefresh={onRefresh}
-          />
-        ) : undefined
+        onRefresh ? <RefreshControl onRefresh={onRefresh} /> : undefined
       }
       renderItem={({ index, item }) => {
         if (item === null) {

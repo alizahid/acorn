@@ -141,7 +141,6 @@ export default function Screen() {
           </View>
         </View>
       }
-      insets={['top', 'bottom', 'header', 'tabBar']}
       items={[
         t('menu.general.title'),
         {

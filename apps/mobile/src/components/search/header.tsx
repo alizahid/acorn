@@ -1,4 +1,3 @@
-import { BlurView } from 'expo-blur'
 import { type SharedValue } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -32,7 +31,7 @@ export function SearchHeader({
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <BlurView intensity={100} style={styles.main(common.insets.top)}>
+    <View pt={common.insets.top} style={styles.main}>
       <View m="4" mb="0">
         <Icon
           color={theme.colors.gray.a9}
@@ -67,7 +66,7 @@ export function SearchHeader({
           onChange(index)
         }}
       />
-    </BlurView>
+    </View>
   )
 }
 
@@ -86,13 +85,9 @@ const stylesheet = createStyleSheet((theme) => ({
     borderWidth: 0,
     paddingLeft: theme.space[2] + theme.space[5] + theme.space[2],
   },
-  main: (inset: number) => ({
-    left: 0,
-    paddingTop: inset,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-  }),
+  main: {
+    backgroundColor: theme.colors.gray[1],
+  },
   search: {
     left: theme.space[2],
     position: 'absolute',

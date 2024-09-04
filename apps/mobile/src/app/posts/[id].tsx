@@ -96,12 +96,10 @@ export default function Screen() {
     })
   })
 
-  const props = common.listProps(['top', 'header'])
-
   return (
     <>
       <FlashList
-        {...props}
+        {...common.listProps}
         ItemSeparatorComponent={() => <View height="2" />}
         ListEmptyComponent={
           isFetching ? post ? <Spinner m="4" /> : <Loading /> : <Empty />
@@ -148,12 +146,7 @@ export default function Screen() {
         keyExtractor={(item) => item.data.id}
         keyboardDismissMode="on-drag"
         ref={list}
-        refreshControl={
-          <RefreshControl
-            offset={props.progressViewOffset}
-            onRefresh={refetch}
-          />
-        }
+        refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={({ item }) => {
           if (item.type === 'reply') {
             const hidden = collapsed.includes(item.data.id)

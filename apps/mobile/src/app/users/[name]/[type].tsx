@@ -51,7 +51,7 @@ export default function Screen() {
 
   return (
     <UserPostsList
-      insets={['top', 'bottom', 'header']}
+      inset
       interval={interval}
       label="subreddit"
       sort={sort}
