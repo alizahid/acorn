@@ -1,6 +1,6 @@
 import { useIsFocused } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
-import { useState } from 'react'
+import { type ReactElement, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -15,11 +15,13 @@ import { View } from '../common/view'
 import { type PostLabel } from '../posts/footer'
 
 type Props = UserPostsProps & {
+  header?: ReactElement
   insets: Insets
   label?: PostLabel
 }
 
 export function UserPostsList({
+  header,
   insets = [],
   interval,
   label,
@@ -60,6 +62,7 @@ export function UserPostsList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
+      ListHeaderComponent={header}
       data={posts}
       estimatedItemSize={120}
       extraData={{

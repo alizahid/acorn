@@ -67,7 +67,6 @@ export default function Screen() {
           ) : null}
         </>
       ),
-      title: params.name,
     })
   })
 

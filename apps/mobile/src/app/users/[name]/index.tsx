@@ -1,8 +1,4 @@
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-} from 'expo-router'
+import { useLocalSearchParams } from 'expo-router'
 import { useRef, useState } from 'react'
 import Pager from 'react-native-pager-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -22,8 +18,6 @@ const schema = z.object({
 })
 
 export default function Screen() {
-  const navigation = useNavigation()
-
   const params = schema.parse(useLocalSearchParams())
 
   const t = useTranslations('screen.users.user')
@@ -38,35 +32,21 @@ export default function Screen() {
 
   const [page, setPage] = useState(0)
 
-  useFocusEffect(() => {
-    navigation.setOptions({
-      title: params.name,
-    })
-  })
+  const header = profile ? <UserAboutCard profile={profile} /> : undefined
 
   return (
     <>
-      {profile ? (
-        <UserAboutCard
-          profile={profile}
-          style={styles.about(common.height.header)}
-        />
-      ) : null}
-
-      <View p="4" style={styles.tabs(profile ? 0 : common.height.header)}>
+      <View p="4" style={styles.header(common.height.header)}>
         <SegmentedControl
           active={page}
           items={[t('posts'), t('comments')]}
           onChange={(index) => {
             pager.current?.setPage(index)
-
-            setPage(index)
           }}
         />
       </View>
 
       <Pager
-        initialPage={page}
         onPageSelected={(event) => {
           setPage(event.nativeEvent.position)
         }}
@@ -74,6 +54,7 @@ export default function Screen() {
         style={styles.main}
       >
         <UserPostsList
+          header={header}
           insets={['bottom']}
           key="posts"
           label="subreddit"
@@ -83,6 +64,7 @@ export default function Screen() {
         />
 
         <UserCommentsList
+          header={header}
           insets={['bottom']}
           key="comments"
           user={params.name}
@@ -93,14 +75,11 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  about: (top: number) => ({
+  header: (top: number) => ({
+    backgroundColor: theme.colors.gray.a3,
     marginTop: top,
   }),
   main: {
     flex: 1,
   },
-  tabs: (top: number) => ({
-    backgroundColor: theme.colors.gray.a3,
-    marginTop: top,
-  }),
 }))

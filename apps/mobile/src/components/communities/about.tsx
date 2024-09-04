@@ -39,40 +39,44 @@ export function CommunityAboutCard({ community }: Props) {
   ] as const
 
   return (
-    <View
-      align="center"
-      direction="row"
-      gap="6"
-      justify="between"
-      p="4"
-      style={styles.main}
-    >
-      <View direction="row" gap="6">
-        {items.map((item) => (
-          <View gap="1" key={item.key}>
-            <Text align="center" highContrast={false} size="1" weight="medium">
-              {t(item.key)}
-            </Text>
+    <View gap="4" p="4" style={styles.main}>
+      <Text tabular weight="bold">
+        r/{community.name}
+      </Text>
 
-            <Text align="center" tabular weight="bold">
-              {item.value}
-            </Text>
-          </View>
-        ))}
+      <View align="center" direction="row" gap="4" justify="between">
+        <View direction="row" gap="6">
+          {items.map((item) => (
+            <View gap="1" key={item.key}>
+              <Text
+                align="center"
+                highContrast={false}
+                size="1"
+                weight="medium"
+              >
+                {t(item.key)}
+              </Text>
+
+              <Text align="center" tabular weight="bold">
+                {item.value}
+              </Text>
+            </View>
+          ))}
+        </View>
+
+        <Button
+          color={community.subscribed ? 'red' : 'accent'}
+          label={t(community.subscribed ? 'leave' : 'join')}
+          loading={isPending}
+          onPress={() => {
+            join({
+              action: community.subscribed ? 'leave' : 'join',
+              id: community.id,
+              name: community.name,
+            })
+          }}
+        />
       </View>
-
-      <Button
-        color={community.subscribed ? 'red' : 'accent'}
-        label={t(community.subscribed ? 'leave' : 'join')}
-        loading={isPending}
-        onPress={() => {
-          join({
-            action: community.subscribed ? 'leave' : 'join',
-            id: community.id,
-            name: community.name,
-          })
-        }}
-      />
     </View>
   )
 }

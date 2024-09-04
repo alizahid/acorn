@@ -1,5 +1,6 @@
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
+import { type ReactElement } from 'react'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -14,11 +15,12 @@ import { Pressable } from '../common/pressable'
 import { View } from '../common/view'
 
 type Props = {
+  header?: ReactElement
   insets: Insets
   user: string
 }
 
-export function UserCommentsList({ insets = [], user }: Props) {
+export function UserCommentsList({ header, insets = [], user }: Props) {
   const router = useRouter()
 
   const common = useCommon()
@@ -42,6 +44,7 @@ export function UserCommentsList({ insets = [], user }: Props) {
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
+      ListHeaderComponent={header}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}

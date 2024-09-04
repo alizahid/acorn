@@ -41,40 +41,44 @@ export function UserAboutCard({ profile, style }: Props) {
   ] as const
 
   return (
-    <View
-      align="center"
-      direction="row"
-      gap="4"
-      justify="between"
-      p="4"
-      style={[styles.main, style]}
-    >
-      <View direction="row" gap="6">
-        {items.map((item) => (
-          <View gap="1" key={item.key}>
-            <Text align="center" highContrast={false} size="1" weight="medium">
-              {t(item.key)}
-            </Text>
+    <View gap="4" p="4" style={[styles.main, style]}>
+      <Text tabular weight="bold">
+        u/{profile.name}
+      </Text>
 
-            <Text align="center" tabular weight="bold">
-              {item.value}
-            </Text>
-          </View>
-        ))}
+      <View align="center" direction="row" gap="4" justify="between">
+        <View direction="row" gap="6">
+          {items.map((item) => (
+            <View gap="1" key={item.key}>
+              <Text
+                align="center"
+                highContrast={false}
+                size="1"
+                weight="medium"
+              >
+                {t(item.key)}
+              </Text>
+
+              <Text align="center" tabular weight="bold">
+                {item.value}
+              </Text>
+            </View>
+          ))}
+        </View>
+
+        <Button
+          color={profile.subscribed ? 'red' : 'accent'}
+          label={t(profile.subscribed ? 'unfollow' : 'follow')}
+          loading={isPending}
+          onPress={() => {
+            follow({
+              action: profile.subscribed ? 'unfollow' : 'follow',
+              id: profile.subreddit,
+              name: profile.name,
+            })
+          }}
+        />
       </View>
-
-      <Button
-        color={profile.subscribed ? 'red' : 'accent'}
-        label={t(profile.subscribed ? 'unfollow' : 'follow')}
-        loading={isPending}
-        onPress={() => {
-          follow({
-            action: profile.subscribed ? 'unfollow' : 'follow',
-            id: profile.subreddit,
-            name: profile.name,
-          })
-        }}
-      />
     </View>
   )
 }
