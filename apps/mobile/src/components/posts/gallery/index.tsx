@@ -83,7 +83,7 @@ export function PostGalleryCard({
                 setVisible(true)
               }}
               style={styles.main(
-                common.height.max,
+                maxHeight ?? common.height.max,
                 dimensions.height,
                 dimensions.width,
               )}
