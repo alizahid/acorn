@@ -11,7 +11,7 @@ import { transformCommunity } from '~/transformers/community'
 import { transformPost } from '~/transformers/post'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
-import { type SearchType } from '~/types/search'
+import { type SearchTab } from '~/types/search'
 import { type SearchSort, type TopInterval } from '~/types/sort'
 
 export type SearchQueryKey = [
@@ -21,15 +21,15 @@ export type SearchQueryKey = [
     interval?: TopInterval
     query: string
     sort?: SearchSort
-    type: SearchType
+    type: SearchTab
   },
 ]
 
-export type SearchQueryData<Type extends SearchType> = Array<
+export type SearchQueryData<Type extends SearchTab> = Array<
   Type extends 'community' ? Community : Post
 >
 
-export type SearchProps<Type extends SearchType> = {
+export type SearchProps<Type extends SearchTab> = {
   community?: string
   interval?: TopInterval
   query: string
@@ -37,7 +37,7 @@ export type SearchProps<Type extends SearchType> = {
   type: Type
 }
 
-export function useSearch<Type extends SearchType>({
+export function useSearch<Type extends SearchTab>({
   community,
   interval,
   query,

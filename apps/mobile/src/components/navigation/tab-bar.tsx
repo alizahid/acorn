@@ -10,7 +10,7 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <BlurView intensity={75} style={styles.main}>
+    <BlurView intensity={100} style={styles.main}>
       {state.routes.map((route, index) => {
         const options = descriptors[route.key]?.options
 

@@ -7,6 +7,6 @@ export type Community = {
   subscribers: number
 }
 
-export const CommunitiesType = ['communities', 'users'] as const
+export const CommunityTab = ['communities', 'users'] as const
 
-export type CommunitiesType = (typeof CommunitiesType)[number]
+export type CommunityTab = (typeof CommunityTab)[number]

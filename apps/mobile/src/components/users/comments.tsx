@@ -1,6 +1,5 @@
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
-import { type ReactElement } from 'react'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -15,12 +14,12 @@ import { Pressable } from '../common/pressable'
 import { View } from '../common/view'
 
 type Props = {
-  header?: ReactElement
   insets: Insets
-  user: string
+  onRefresh?: () => void
+  username: string
 }
 
-export function UserCommentsList({ header, insets = [], user }: Props) {
+export function UserCommentsList({ insets = [], onRefresh, username }: Props) {
   const router = useRouter()
 
   const common = useCommon()
@@ -32,7 +31,7 @@ export function UserCommentsList({ header, insets = [], user }: Props) {
     isFetchingNextPage,
     isLoading,
     refetch,
-  } = useComments(user)
+  } = useComments(username)
 
   const props = common.listProps(insets)
 
@@ -44,7 +43,6 @@ export function UserCommentsList({ header, insets = [], user }: Props) {
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
-      ListHeaderComponent={header}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}
@@ -55,7 +53,14 @@ export function UserCommentsList({ header, insets = [], user }: Props) {
         }
       }}
       refreshControl={
-        <RefreshControl offset={props.progressViewOffset} onRefresh={refetch} />
+        <RefreshControl
+          offset={props.progressViewOffset}
+          onRefresh={() => {
+            onRefresh?.()
+
+            return refetch()
+          }}
+        />
       }
       renderItem={({ item }) => {
         if (item.type === 'reply') {

@@ -2,10 +2,8 @@ import { Tabs } from 'expo-router'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
-import { CommunitiesHeader } from '~/components/communities/header'
 import { Header } from '~/components/navigation/header'
 import { TabBar } from '~/components/navigation/tab-bar'
-import { SearchHeader } from '~/components/search/header'
 import { AccountSwitchCard } from '~/components/users/switch'
 
 export default function Layout() {
@@ -31,7 +29,6 @@ export default function Layout() {
       <Tabs.Screen
         name="search"
         options={{
-          header: () => <SearchHeader />,
           tabBarIcon: (props) => (
             <Icon {...props} name="MagnifyingGlass" weight="duotone" />
           ),
@@ -51,7 +48,6 @@ export default function Layout() {
       <Tabs.Screen
         name="communities"
         options={{
-          header: () => <CommunitiesHeader />,
           tabBarIcon: (props) => (
             <Icon {...props} name="UsersFour" weight="duotone" />
           ),

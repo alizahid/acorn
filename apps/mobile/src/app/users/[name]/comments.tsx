@@ -32,7 +32,7 @@ export default function Screen() {
     navigation.setOptions({
       headerRight: () => (
         <>
-          <CommentsSortMenu onChange={setSort} value={sort} />
+          <CommentsSortMenu hideLabel onChange={setSort} value={sort} />
 
           {sort === 'top' ? (
             <TopIntervalMenu
@@ -48,6 +48,9 @@ export default function Screen() {
   })
 
   return (
-    <UserCommentsList insets={['top', 'bottom', 'header']} user={params.name} />
+    <UserCommentsList
+      insets={['top', 'bottom', 'header']}
+      username={params.name}
+    />
   )
 }

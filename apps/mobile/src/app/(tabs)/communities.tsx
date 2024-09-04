@@ -1,22 +1,16 @@
-import { useLocalSearchParams, useRouter } from 'expo-router'
-import React, { useEffect, useRef } from 'react'
+import { useFocusEffect, useNavigation } from 'expo-router'
+import React, { useRef } from 'react'
 import Pager from 'react-native-pager-view'
+import { useSharedValue } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { z } from 'zod'
 
+import { CommunitiesHeader } from '~/components/communities/header'
 import { CommunitiesList } from '~/components/communities/list'
 import { type Insets, useCommon } from '~/hooks/common'
 import { useCommunities } from '~/hooks/queries/communities/communities'
-import { CommunitiesType } from '~/types/community'
-
-const schema = z.object({
-  type: z.enum(CommunitiesType).catch('communities'),
-})
 
 export default function Screen() {
-  const router = useRouter()
-
-  const params = schema.parse(useLocalSearchParams())
+  const navigation = useNavigation()
 
   const common = useCommon()
 
@@ -24,13 +18,7 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
-  const type = params.type
-
-  useEffect(() => {
-    const index = CommunitiesType.indexOf(type)
-
-    pager.current?.setPage(index)
-  }, [type])
+  const offset = useSharedValue(0)
 
   const {
     communities,
@@ -41,6 +29,19 @@ export default function Screen() {
     refetch,
     users,
   } = useCommunities()
+
+  useFocusEffect(() => {
+    navigation.setOptions({
+      header: () => (
+        <CommunitiesHeader
+          offset={offset}
+          onChange={(next) => {
+            pager.current?.setPage(next)
+          }}
+        />
+      ),
+    })
+  })
 
   const props = {
     fetchNextPage,
@@ -53,11 +54,8 @@ export default function Screen() {
 
   return (
     <Pager
-      initialPage={0}
-      onPageSelected={(event) => {
-        router.setParams({
-          type: CommunitiesType[event.nativeEvent.position],
-        })
+      onPageScroll={(event) => {
+        offset.value = event.nativeEvent.offset + event.nativeEvent.position
       }}
       ref={pager}
       style={styles.main(common.height.communities, common.height.tabBar)}

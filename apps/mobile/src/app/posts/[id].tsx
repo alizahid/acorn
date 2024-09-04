@@ -8,6 +8,8 @@ import {
 } from 'expo-router'
 import { useRef, useState } from 'react'
 import { type TextInput } from 'react-native'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
@@ -43,7 +45,11 @@ export default function Screen() {
   const common = useCommon()
   const focused = useIsFocused()
 
+  const t = useTranslations('screen.posts.post')
+
   const { postCommentSort } = usePreferences()
+
+  const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlashList<Comment>>(null)
   const reply = useRef<TextInput>(null)
@@ -60,7 +66,6 @@ export default function Screen() {
 
   useFocusEffect(() => {
     navigation.setOptions({
-      headerRight: () => <CommentsSortMenu onChange={setSort} value={sort} />,
       headerTitle: () =>
         post ? (
           <Pressable
@@ -106,6 +111,20 @@ export default function Screen() {
             {post ? (
               <PostCard expanded label="user" post={post} viewing={focused} />
             ) : null}
+
+            <View
+              align="center"
+              direction="row"
+              gap="4"
+              justify="between"
+              mb="2"
+              pl="3"
+              style={styles.header}
+            >
+              <Text weight="bold">{t('comments')}</Text>
+
+              <CommentsSortMenu onChange={setSort} value={sort} />
+            </View>
 
             {params.commentId ? (
               <CommentThreadCard
@@ -198,3 +217,9 @@ export default function Screen() {
     </>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  header: {
+    backgroundColor: theme.colors.gray.a2,
+  },
+}))

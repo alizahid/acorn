@@ -5,13 +5,15 @@ import {
   useRouter,
 } from 'expo-router'
 import { useState } from 'react'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
-import { CommunityAboutCard } from '~/components/communities/about'
+import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
 import { FeedSortMenu } from '~/components/posts/sort'
+import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
 import { usePreferences } from '~/stores/preferences'
 
@@ -25,12 +27,12 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { communityInterval, communitySort } = usePreferences()
+  const preferences = usePreferences()
 
   const { community, refetch } = useCommunity(params.name)
+  const { isPending, join } = useJoin()
 
-  const [sort, setSort] = useState(communitySort)
-  const [interval, setInterval] = useState(communityInterval)
+  const { styles } = useStyles(stylesheet)
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -49,34 +51,41 @@ export default function Screen() {
           weight="bold"
         />
       ),
-      headerRight: () => (
-        <>
-          <FeedSortMenu
-            hideLabel
-            onChange={setSort}
-            type="community"
-            value={sort}
+      headerRight: () =>
+        community ? (
+          <HeaderButton
+            color={community.subscribed ? 'red' : 'accent'}
+            icon={community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
+            loading={isPending}
+            onPress={() => {
+              join({
+                action: community.subscribed ? 'leave' : 'join',
+                id: community.id,
+                name: community.name,
+              })
+            }}
           />
-
-          {sort === 'top' ? (
-            <TopIntervalMenu
-              hideLabel
-              onChange={setInterval}
-              value={interval}
-            />
-          ) : null}
-        </>
-      ),
+        ) : null,
+      title: params.name,
     })
   })
+
+  const [sort, setSort] = useState(preferences.communitySort)
+  const [interval, setInterval] = useState(preferences.communityInterval)
 
   return (
     <PostList
       community={params.name}
       header={
-        community ? <CommunityAboutCard community={community} /> : undefined
+        <View direction="row" justify="between" style={styles.header}>
+          <FeedSortMenu onChange={setSort} type="community" value={sort} />
+
+          {sort === 'top' ? (
+            <TopIntervalMenu onChange={setInterval} value={interval} />
+          ) : null}
+        </View>
       }
-      insets={['top', 'bottom', 'header']}
+      insets={['top', 'header', 'bottom']}
       interval={interval}
       label="user"
       onRefresh={refetch}
@@ -84,3 +93,9 @@ export default function Screen() {
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  header: {
+    backgroundColor: theme.colors.gray.a2,
+  },
+}))

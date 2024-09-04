@@ -1,84 +1,83 @@
 import { useIsFocused } from '@react-navigation/native'
-import { useLocalSearchParams, useRouter } from 'expo-router'
-import { useEffect, useRef, useState } from 'react'
+import { useFocusEffect, useNavigation } from 'expo-router'
+import { useRef, useState } from 'react'
 import Pager from 'react-native-pager-view'
+import { useSharedValue } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
-import { z } from 'zod'
 
-import { View } from '~/components/common/view'
 import {
   type SearchFilters,
   SearchPostFilters,
 } from '~/components/search/filters'
+import { SearchHeader } from '~/components/search/header'
 import { SearchList } from '~/components/search/list'
-import { useCommon } from '~/hooks/common'
-import { SearchType } from '~/types/search'
-
-const schema = z.object({
-  query: z.string().catch(''),
-  type: z.enum(SearchType).catch('post'),
-})
 
 export default function Screen() {
-  const router = useRouter()
+  const navigation = useNavigation()
 
   const focused = useIsFocused()
 
-  const params = schema.parse(useLocalSearchParams())
-
-  const common = useCommon()
+  const pager = useRef<Pager>(null)
 
   const { styles } = useStyles(stylesheet)
 
-  const pager = useRef<Pager>(null)
+  const offset = useSharedValue(0)
 
+  useFocusEffect(() => {
+    navigation.setOptions({
+      header: () => (
+        <SearchHeader
+          offset={offset}
+          onChange={(next) => {
+            pager.current?.setPage(next)
+          }}
+          onQueryChange={setQuery}
+          query={query}
+        />
+      ),
+    })
+  })
+
+  const [page, setPage] = useState(0)
+  const [query, setQuery] = useState('')
   const [filters, setFilters] = useState<SearchFilters>({
     interval: 'all',
     sort: 'relevance',
   })
 
-  const [query] = useDebounce(params.query, 500)
-
-  const type = params.type
-
-  useEffect(() => {
-    const index = SearchType.indexOf(type)
-
-    pager.current?.setPage(index)
-  }, [type])
+  const [debounced] = useDebounce(query, 500)
 
   return (
     <Pager
-      initialPage={0}
+      onPageScroll={(event) => {
+        offset.value = event.nativeEvent.offset + event.nativeEvent.position
+      }}
       onPageSelected={(event) => {
-        router.setParams({
-          type: SearchType[event.nativeEvent.position],
-        })
+        setPage(event.nativeEvent.position)
       }}
       ref={pager}
       style={styles.main}
     >
-      <View flexGrow={1} key="posts" style={styles.posts(common.height.search)}>
-        <SearchPostFilters
-          filters={filters}
-          onChange={setFilters}
-          style={styles.filters}
-        />
-
-        <SearchList
-          focused={focused ? type === 'post' : false}
-          insets={['bottom', 'tabBar']}
-          query={query}
-          type="post"
-        />
-      </View>
+      <SearchList
+        focused={focused ? page === 0 : false}
+        header={
+          <SearchPostFilters
+            filters={filters}
+            onChange={setFilters}
+            style={styles.filters}
+          />
+        }
+        insets={['top', 'search', 'bottom', 'tabBar']}
+        key="posts"
+        query={debounced}
+        type="post"
+      />
 
       <SearchList
-        focused={focused ? type === 'community' : false}
-        insets={['top', 'bottom', 'search', 'tabBar']}
+        insets={['top', 'search', 'bottom', 'tabBar']}
         key="communities"
-        query={query}
+        query={debounced}
         type="community"
       />
     </Pager>
@@ -92,7 +91,4 @@ const stylesheet = createStyleSheet((theme) => ({
   main: {
     flex: 1,
   },
-  posts: (top: number) => ({
-    paddingTop: top,
-  }),
 }))

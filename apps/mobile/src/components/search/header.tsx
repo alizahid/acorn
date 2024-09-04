@@ -1,11 +1,10 @@
 import { BlurView } from 'expo-blur'
-import { useGlobalSearchParams, useRouter } from 'expo-router'
+import { type SharedValue } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
-import { z } from 'zod'
 
 import { useCommon } from '~/hooks/common'
-import { SearchType } from '~/types/search'
+import { SearchTab } from '~/types/search'
 
 import { Icon } from '../common/icon'
 import { SegmentedControl } from '../common/segmented-control'
@@ -13,68 +12,61 @@ import { TextBox } from '../common/text-box'
 import { View } from '../common/view'
 import { HeaderButton } from '../navigation/header-button'
 
-const schema = z.object({
-  query: z.string().catch(''),
-  type: z.enum(SearchType).catch('post'),
-})
+type Props = {
+  offset: SharedValue<number>
+  onChange: (index: number) => void
+  onQueryChange: (query: string) => void
+  query: string
+}
 
-export function SearchHeader() {
-  const router = useRouter()
-
+export function SearchHeader({
+  offset,
+  onChange,
+  onQueryChange,
+  query,
+}: Props) {
   const common = useCommon()
-
-  const params = schema.parse(useGlobalSearchParams())
 
   const t = useTranslations('component.search.header')
 
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <BlurView intensity={75} style={styles.main(common.insets.top)}>
-      <View gap="4" p="4">
-        <View>
-          <Icon
-            color={theme.colors.gray.a9}
-            name="MagnifyingGlass"
-            style={styles.search}
-          />
-
-          <TextBox
-            onChangeText={(query) => {
-              router.setParams({
-                query,
-              })
-            }}
-            placeholder={t('query.placeholder')}
-            styleInput={styles.input}
-            value={params.query}
-          />
-
-          {params.query.length > 0 ? (
-            <HeaderButton
-              color="gray"
-              icon="XCircle"
-              onPress={() => {
-                router.setParams({
-                  query: '',
-                })
-              }}
-              style={styles.clear}
-              weight="fill"
-            />
-          ) : null}
-        </View>
-
-        <SegmentedControl
-          active={SearchType.indexOf(params.type)}
-          items={SearchType.map((item) => t(`type.${item}`))}
-          onChange={(index) => {
-            router.setParams({
-              type: SearchType[index],
-            })
-          }}
+    <BlurView intensity={100} style={styles.main(common.insets.top)}>
+      <View m="4" mb="0">
+        <Icon
+          color={theme.colors.gray.a9}
+          name="MagnifyingGlass"
+          style={styles.search}
         />
+
+        <TextBox
+          onChangeText={onQueryChange}
+          placeholder={t('query.placeholder')}
+          styleInput={styles.input}
+          value={query}
+        />
+
+        {query.length > 0 ? (
+          <HeaderButton
+            color="gray"
+            icon="XCircle"
+            onPress={() => {
+              onQueryChange('')
+            }}
+            style={styles.clear}
+            weight="fill"
+          />
+        ) : null}
       </View>
+
+      <SegmentedControl
+        items={SearchTab.map((item) => t(`tab.${item}`))}
+        offset={offset}
+        onChange={(index) => {
+          onChange(index)
+        }}
+      />
     </BlurView>
   )
 }

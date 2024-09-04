@@ -12,7 +12,7 @@ import { type Insets, useCommon } from '~/hooks/common'
 import { useSearch } from '~/hooks/queries/search/search'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
-import { type SearchType } from '~/types/search'
+import { type SearchTab } from '~/types/search'
 
 import { View } from '../common/view'
 import { type SearchFilters } from './filters'
@@ -24,7 +24,7 @@ type Props = {
   header?: ReactElement
   insets?: Insets
   query: string
-  type: SearchType
+  type: SearchTab
 }
 
 export function SearchList({
@@ -99,7 +99,7 @@ export function SearchList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  separator: (type: SearchType) => {
+  separator: (type: SearchTab) => {
     if (type === 'community') {
       return {}
     }

@@ -1,34 +1,76 @@
-import Component from '@react-native-segmented-control/segmented-control'
-import { useStyles } from 'react-native-unistyles'
+import Animated, {
+  type SharedValue,
+  useAnimatedStyle,
+} from 'react-native-reanimated'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
+
+import { useCommon } from '~/hooks/common'
+
+import { Pressable } from './pressable'
+import { Text } from './text'
+import { View } from './view'
 
 type Props = {
-  active?: number
   items: Array<string>
-  onChange?: (index: number) => void
+  offset: SharedValue<number>
+  onChange: (index: number) => void
 }
 
-export function SegmentedControl({ active, items, onChange }: Props) {
-  const { theme } = useStyles()
+export function SegmentedControl({ items, offset, onChange }: Props) {
+  const common = useCommon()
+
+  const { styles, theme } = useStyles(stylesheet)
+
+  const width =
+    (common.frame.width - theme.space[6] - theme.space[1]) / items.length
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateX: offset.value * width + theme.space[1] / 2,
+      },
+    ],
+  }))
 
   return (
-    <Component
-      activeFontStyle={{
-        color: theme.colors.accent.contrast,
-        fontFamily: 'sans-bold',
-        fontSize: theme.typography[2].fontSize,
-      }}
-      backgroundColor={theme.colors.gray.a3}
-      fontStyle={{
-        color: theme.colors.gray.a11,
-        fontFamily: 'sans-regular',
-        fontSize: theme.typography[2].fontSize,
-      }}
-      onChange={(event) => {
-        onChange?.(event.nativeEvent.selectedSegmentIndex)
-      }}
-      selectedIndex={active}
-      tintColor={theme.colors.accent.a9}
-      values={items}
-    />
+    <View direction="row" m="4" style={styles.main}>
+      <Animated.View style={[styles.selected(width), animatedStyle]} />
+
+      {items.map((item, index) => (
+        <Pressable
+          align="center"
+          flexBasis={1}
+          flexGrow={1}
+          key={item}
+          onPress={() => {
+            onChange(index)
+          }}
+          p="2"
+        >
+          <Text size="2" weight="medium">
+            {item}
+          </Text>
+        </Pressable>
+      ))}
+    </View>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  main: {
+    backgroundColor: theme.colors.gray.a3,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
+  },
+  selected: (width: number) => ({
+    backgroundColor: theme.colors.accent.a9,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[3],
+    bottom: theme.space[1] / 2,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: theme.space[1] / 2,
+    width,
+  }),
+}))

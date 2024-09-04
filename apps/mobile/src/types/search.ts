@@ -1,3 +1,3 @@
-export const SearchType = ['post', 'community'] as const
+export const SearchTab = ['post', 'community'] as const
 
-export type SearchType = (typeof SearchType)[number]
+export type SearchTab = (typeof SearchTab)[number]

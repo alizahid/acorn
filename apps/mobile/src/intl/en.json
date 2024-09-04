@@ -37,6 +37,7 @@
         "age": "Age",
         "join": "Join",
         "leave": "Leave",
+        "loading": "Loading",
         "subscribers": "Subscribers"
       },
       "header": {
@@ -73,18 +74,16 @@
         "query": {
           "placeholder": "Search"
         },
-        "type": {
+        "tab": {
           "community": "Communities",
           "post": "Posts"
         }
       }
     },
     "users": {
-      "about": {
-        "age": "Age",
-        "follow": "Follow",
-        "karma": "Karma",
-        "unfollow": "Unfollow"
+      "header": {
+        "comments": "Comments",
+        "posts": "Posts"
       },
       "profile": {
         "age": "Age",
@@ -120,14 +119,13 @@
     },
     "communities": {
       "search": {
-        "label": "Search in r/{community}",
-        "title": "Search"
+        "placeholder": "Search",
+        "title": "Search in r/{community}"
       }
     },
-    "users": {
-      "user": {
-        "comments": "Comments",
-        "posts": "Posts"
+    "posts": {
+      "post": {
+        "comments": "Comments"
       }
     }
   },

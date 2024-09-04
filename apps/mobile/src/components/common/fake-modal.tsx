@@ -77,10 +77,7 @@ export function FakeModal({ children, close, onClose, style, visible }: Props) {
       <Animated.View pointerEvents="none" style={[styles.overlay, overlay]} />
 
       <GestureDetector gesture={gesture}>
-        <Animated.View
-          collapsable={false}
-          style={[styles.main, content, style]}
-        >
+        <Animated.View style={[styles.main, content, style]}>
           {children}
         </Animated.View>
       </GestureDetector>

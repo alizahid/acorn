@@ -38,6 +38,8 @@ import TargetBold from 'react-native-phosphor/src/bold/Target'
 import ThumbsUpBold from 'react-native-phosphor/src/bold/ThumbsUp'
 import TrashBold from 'react-native-phosphor/src/bold/Trash'
 import UserCircleBold from 'react-native-phosphor/src/bold/UserCircle'
+import UserCircleMinusBold from 'react-native-phosphor/src/bold/UserCircleMinus'
+import UserCirclePlusBold from 'react-native-phosphor/src/bold/UserCirclePlus'
 import UsersFourBold from 'react-native-phosphor/src/bold/UsersFour'
 import UserSwitchBold from 'react-native-phosphor/src/bold/UserSwitch'
 import WarningBold from 'react-native-phosphor/src/bold/Warning'
@@ -81,6 +83,8 @@ import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
 import ThumbsUpDuotone from 'react-native-phosphor/src/duotone/ThumbsUp'
 import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
 import UserCircleDuotone from 'react-native-phosphor/src/duotone/UserCircle'
+import UserCircleMinusDuotone from 'react-native-phosphor/src/duotone/UserCircleMinus'
+import UserCirclePlusDuotone from 'react-native-phosphor/src/duotone/UserCirclePlus'
 import UsersFourDuotone from 'react-native-phosphor/src/duotone/UsersFour'
 import UserSwitchDuotone from 'react-native-phosphor/src/duotone/UserSwitch'
 import WarningDuotone from 'react-native-phosphor/src/duotone/Warning'
@@ -124,6 +128,8 @@ import TargetFill from 'react-native-phosphor/src/fill/Target'
 import ThumbsUpFill from 'react-native-phosphor/src/fill/ThumbsUp'
 import TrashFill from 'react-native-phosphor/src/fill/Trash'
 import UserCircleFill from 'react-native-phosphor/src/fill/UserCircle'
+import UserCircleMinusFill from 'react-native-phosphor/src/fill/UserCircleMinus'
+import UserCirclePlusFill from 'react-native-phosphor/src/fill/UserCirclePlus'
 import UsersFourFill from 'react-native-phosphor/src/fill/UsersFour'
 import UserSwitchFill from 'react-native-phosphor/src/fill/UserSwitch'
 import WarningFill from 'react-native-phosphor/src/fill/Warning'
@@ -167,6 +173,8 @@ import TargetRegular from 'react-native-phosphor/src/regular/Target'
 import ThumbsUpRegular from 'react-native-phosphor/src/regular/ThumbsUp'
 import TrashRegular from 'react-native-phosphor/src/regular/Trash'
 import UserCircleRegular from 'react-native-phosphor/src/regular/UserCircle'
+import UserCircleMinusRegular from 'react-native-phosphor/src/regular/UserCircleMinus'
+import UserCirclePlusRegular from 'react-native-phosphor/src/regular/UserCirclePlus'
 import UsersFourRegular from 'react-native-phosphor/src/regular/UsersFour'
 import UserSwitchRegular from 'react-native-phosphor/src/regular/UserSwitch'
 import WarningRegular from 'react-native-phosphor/src/regular/Warning'
@@ -425,6 +433,18 @@ const icons = {
     duotone: UserCircleDuotone,
     fill: UserCircleFill,
     regular: UserCircleRegular,
+  },
+  UserCircleMinus: {
+    bold: UserCircleMinusBold,
+    duotone: UserCircleMinusDuotone,
+    fill: UserCircleMinusFill,
+    regular: UserCircleMinusRegular,
+  },
+  UserCirclePlus: {
+    bold: UserCirclePlusBold,
+    duotone: UserCirclePlusDuotone,
+    fill: UserCirclePlusFill,
+    regular: UserCirclePlusRegular,
   },
   UserSwitch: {
     bold: UserSwitchBold,

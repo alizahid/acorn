@@ -1,6 +1,7 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
+import Animated, { type SharedValue } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -15,10 +16,14 @@ import { Loading } from '../common/loading'
 import { View } from '../common/view'
 import { type PostLabel } from './footer'
 
+const List = Animated.createAnimatedComponent(FlashList<Post>)
+
 type Props = PostsProps & {
   header?: ReactElement
   insets: Insets
   label?: PostLabel
+  offset?: SharedValue<number>
+  offsetMax?: number
   onRefresh?: () => void
 }
 
@@ -59,7 +64,7 @@ export function PostList({
   const props = common.listProps(insets)
 
   return (
-    <FlashList
+    <List
       {...props}
       ItemSeparatorComponent={() => (
         <View height={1} style={styles.separator} />

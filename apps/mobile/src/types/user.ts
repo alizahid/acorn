@@ -21,3 +21,7 @@ export const UserFeedType = [
 ] as const
 
 export type UserFeedType = (typeof UserFeedType)[number]
+
+export const UserTab = ['posts', 'comments'] as const
+
+export type UserTab = (typeof UserTab)[number]

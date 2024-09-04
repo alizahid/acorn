@@ -3,7 +3,14 @@ import { useWindowDimensions } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export type Insets = Array<
-  'top' | 'bottom' | 'header' | 'communities' | 'search' | 'tabBar'
+  | 'top'
+  | 'bottom'
+  | 'header'
+  | 'communities'
+  | 'community'
+  | 'user'
+  | 'search'
+  | 'tabBar'
 >
 
 type Offsets = [top: number, bottom: number]
@@ -13,11 +20,13 @@ export function useCommon() {
   const frame = useWindowDimensions()
 
   const height = {
-    communities: insets.top + 64,
+    communities: insets.top + 68,
+    community: insets.top + 48 + 116,
     header: insets.top + 48,
     max: frame.height * 0.5,
-    search: insets.top + 120,
+    search: insets.top + 124,
     tabBar: insets.bottom + 56,
+    user: insets.top + 116,
   }
 
   const listProps = useCallback(
@@ -65,6 +74,22 @@ export function useCommon() {
         scrollIndicatorInsets.top += height.communities - insets.top
       }
 
+      if (inset.includes('community')) {
+        progressViewOffset += height.community - insets.top
+
+        contentContainerStyle.paddingTop += height.community - insets.top
+
+        scrollIndicatorInsets.top += height.community - insets.top
+      }
+
+      if (inset.includes('user')) {
+        progressViewOffset += height.user - insets.top
+
+        contentContainerStyle.paddingTop += height.user - insets.top
+
+        scrollIndicatorInsets.top += height.user - insets.top
+      }
+
       if (inset.includes('search')) {
         progressViewOffset += height.search - insets.top
 
@@ -87,9 +112,11 @@ export function useCommon() {
     },
     [
       height.communities,
+      height.community,
       height.header,
       height.search,
       height.tabBar,
+      height.user,
       insets.bottom,
       insets.top,
     ],

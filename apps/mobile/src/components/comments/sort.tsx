@@ -7,18 +7,19 @@ import { CommentSort } from '~/types/sort'
 import { DropDown } from '../common/drop-down'
 
 type Props = {
+  hideLabel?: boolean
   onChange: (value: CommentSort) => void
   value: CommentSort
 }
 
-export function CommentsSortMenu({ onChange, value }: Props) {
+export function CommentsSortMenu({ hideLabel, onChange, value }: Props) {
   const t = useTranslations('component.common.sort')
 
   const { styles, theme } = useStyles(stylesheet)
 
   return (
     <DropDown
-      hideLabel
+      hideLabel={hideLabel}
       items={CommentSort.map((item) => ({
         icon: {
           color: theme.colors[SortColors[item]][9],

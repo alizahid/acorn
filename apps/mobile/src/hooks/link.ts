@@ -2,6 +2,7 @@ import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
 import { useCallback } from 'react'
+import { useStyles } from 'react-native-unistyles'
 
 import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
@@ -10,6 +11,19 @@ export function useLink() {
   const router = useRouter()
 
   const { linkBrowser } = usePreferences()
+
+  const { theme } = useStyles()
+
+  const open = useCallback(
+    (url: string) => {
+      void WebBrowser.openBrowserAsync(url, {
+        controlsColor: theme.colors.accent[9],
+        presentationStyle: WebBrowser.WebBrowserPresentationStyle.AUTOMATIC,
+        toolbarColor: theme.colors.gray[3],
+      })
+    },
+    [theme.colors.accent, theme.colors.gray],
+  )
 
   const handleLink = useCallback(
     async (href: string) => {
@@ -87,14 +101,8 @@ export function useLink() {
         }
       }
     },
-    [linkBrowser, router],
+    [linkBrowser, open, router],
   )
 
   return handleLink
-}
-
-function open(url: string) {
-  void WebBrowser.openBrowserAsync(url, {
-    presentationStyle: WebBrowser.WebBrowserPresentationStyle.AUTOMATIC,
-  })
 }

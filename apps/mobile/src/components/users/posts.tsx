@@ -1,6 +1,6 @@
 import { useIsFocused } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
-import { type ReactElement, useState } from 'react'
+import { useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -15,16 +15,16 @@ import { View } from '../common/view'
 import { type PostLabel } from '../posts/footer'
 
 type Props = UserPostsProps & {
-  header?: ReactElement
   insets: Insets
   label?: PostLabel
+  onRefresh?: () => void
 }
 
 export function UserPostsList({
-  header,
   insets = [],
   interval,
   label,
+  onRefresh,
   sort,
   type,
   username,
@@ -62,7 +62,6 @@ export function UserPostsList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
-      ListHeaderComponent={header}
       data={posts}
       estimatedItemSize={120}
       extraData={{
@@ -78,7 +77,14 @@ export function UserPostsList({
         setViewing(() => viewableItems.map((item) => item.key))
       }}
       refreshControl={
-        <RefreshControl offset={props.progressViewOffset} onRefresh={refetch} />
+        <RefreshControl
+          offset={props.progressViewOffset}
+          onRefresh={() => {
+            onRefresh?.()
+
+            return refetch()
+          }}
+        />
       }
       renderItem={({ item }) => (
         <PostCard
