@@ -1,5 +1,7 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import { uniqBy } from 'lodash'
 import { create } from 'mutative'
+import { useMemo } from 'react'
 
 import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
@@ -88,12 +90,17 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     ],
   })
 
+  const posts = useMemo(
+    () => uniqBy(data?.pages.flatMap((page) => page.posts) ?? [], 'id'),
+    [data?.pages],
+  )
+
   return {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    posts: data?.pages.flatMap((page) => page.posts) ?? [],
+    posts,
     refetch,
   }
 }
