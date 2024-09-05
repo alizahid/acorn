@@ -14,7 +14,7 @@ import BrowserBold from 'react-native-phosphor/src/bold/Browser'
 import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
 import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
 import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
-import ChatCircleTextBold from 'react-native-phosphor/src/bold/ChatCircleText'
+import ChatCenteredBold from 'react-native-phosphor/src/bold/ChatCentered'
 import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CompassBold from 'react-native-phosphor/src/bold/Compass'
@@ -30,8 +30,9 @@ import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
 import PauseBold from 'react-native-phosphor/src/bold/Pause'
 import PlayBold from 'react-native-phosphor/src/bold/Play'
 import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
+import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
-import ShareFatBold from 'react-native-phosphor/src/bold/ShareFat'
+import ShareBold from 'react-native-phosphor/src/bold/Share'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
@@ -59,7 +60,7 @@ import BrowserDuotone from 'react-native-phosphor/src/duotone/Browser'
 import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
 import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
 import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
-import ChatCircleTextDuotone from 'react-native-phosphor/src/duotone/ChatCircleText'
+import ChatCenteredDuotone from 'react-native-phosphor/src/duotone/ChatCentered'
 import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
@@ -75,8 +76,9 @@ import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneT
 import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
 import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
 import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
+import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
-import ShareFatDuotone from 'react-native-phosphor/src/duotone/ShareFat'
+import ShareDuotone from 'react-native-phosphor/src/duotone/Share'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
@@ -104,7 +106,7 @@ import BrowserFill from 'react-native-phosphor/src/fill/Browser'
 import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
 import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
 import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
-import ChatCircleTextFill from 'react-native-phosphor/src/fill/ChatCircleText'
+import ChatCenteredFill from 'react-native-phosphor/src/fill/ChatCentered'
 import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CompassFill from 'react-native-phosphor/src/fill/Compass'
@@ -120,8 +122,9 @@ import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
 import PauseFill from 'react-native-phosphor/src/fill/Pause'
 import PlayFill from 'react-native-phosphor/src/fill/Play'
 import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
+import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
-import ShareFatFill from 'react-native-phosphor/src/fill/ShareFat'
+import ShareFill from 'react-native-phosphor/src/fill/Share'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
@@ -149,7 +152,7 @@ import BrowserRegular from 'react-native-phosphor/src/regular/Browser'
 import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
 import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
 import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
-import ChatCircleTextRegular from 'react-native-phosphor/src/regular/ChatCircleText'
+import ChatCenteredRegular from 'react-native-phosphor/src/regular/ChatCentered'
 import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CompassRegular from 'react-native-phosphor/src/regular/Compass'
@@ -165,8 +168,9 @@ import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneT
 import PauseRegular from 'react-native-phosphor/src/regular/Pause'
 import PlayRegular from 'react-native-phosphor/src/regular/Play'
 import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
+import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
-import ShareFatRegular from 'react-native-phosphor/src/regular/ShareFat'
+import ShareRegular from 'react-native-phosphor/src/regular/Share'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
@@ -290,11 +294,11 @@ const icons = {
     fill: ChartLineUpFill,
     regular: ChartLineUpRegular,
   },
-  ChatCircleText: {
-    bold: ChatCircleTextBold,
-    duotone: ChatCircleTextDuotone,
-    fill: ChatCircleTextFill,
-    regular: ChatCircleTextRegular,
+  ChatCentered: {
+    bold: ChatCenteredBold,
+    duotone: ChatCenteredDuotone,
+    fill: ChatCenteredFill,
+    regular: ChatCenteredRegular,
   },
   CheckCircle: {
     bold: CheckCircleBold,
@@ -386,17 +390,23 @@ const icons = {
     fill: PlusCircleFill,
     regular: PlusCircleRegular,
   },
+  PushPin: {
+    bold: PushPinBold,
+    duotone: PushPinDuotone,
+    fill: PushPinFill,
+    regular: PushPinRegular,
+  },
   Ranking: {
     bold: RankingBold,
     duotone: RankingDuotone,
     fill: RankingFill,
     regular: RankingRegular,
   },
-  ShareFat: {
-    bold: ShareFatBold,
-    duotone: ShareFatDuotone,
-    fill: ShareFatFill,
-    regular: ShareFatRegular,
+  Share: {
+    bold: ShareBold,
+    duotone: ShareDuotone,
+    fill: ShareFill,
+    regular: ShareRegular,
   },
   SpeakerSimpleHigh: {
     bold: SpeakerSimpleHighBold,

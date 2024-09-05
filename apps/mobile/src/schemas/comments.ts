@@ -14,6 +14,7 @@ export const CommentDataSchema = z.object({
   media_metadata: PostMediaMetadataSchema,
   parent_id: z.string(),
   saved: z.boolean(),
+  stickied: z.boolean().nullish(),
   ups: z.number(),
 })
 

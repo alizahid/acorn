@@ -55,9 +55,17 @@ export function CommentCard({
         </Markdown>
       ) : null}
 
-      {/* {comment.body} */}
-
       <View align="center" direction="row" gap="4" mb="3">
+        {comment.sticky ? (
+          <Icon
+            color={theme.colors.accent.a9}
+            name="PushPin"
+            size={theme.space[4]}
+            style={styles.sticky}
+            weight="fill"
+          />
+        ) : null}
+
         <Pressable
           hitSlop={theme.space[3]}
           onPress={() => {
@@ -129,5 +137,8 @@ const stylesheet = createStyleSheet((theme) => ({
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       marginLeft: theme.space[3] * depth,
     }
+  },
+  sticky: {
+    marginRight: -theme.space[2],
   },
 }))

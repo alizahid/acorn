@@ -11,7 +11,6 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { PostSaveCard } from './save'
-import { PostShareCard } from './share'
 import { PostVoteCard } from './vote'
 
 export type PostLabel = 'user' | 'subreddit'
@@ -31,14 +30,14 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
 
   const items = [
     {
-      icon: 'ThumbsUp',
+      icon: 'ArrowFatUp',
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'ChatCircleText',
+      icon: 'ChatCentered',
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
@@ -96,7 +95,16 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
           </Text>
         </Pressable>
 
-        <View direction="row" gap="2">
+        <View align="center" direction="row" gap="2">
+          {post.sticky ? (
+            <Icon
+              color={theme.colors.accent.a9}
+              name="PushPin"
+              size={theme.typography[2].fontSize}
+              weight="fill"
+            />
+          ) : null}
+
           {items.map((item) => (
             <View align="center" direction="row" gap="1" key={item.key}>
               <Icon
@@ -115,8 +123,6 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
 
       <View align="center" direction="row" gap="2">
         <PostVoteCard post={post} />
-
-        <PostShareCard post={post} />
 
         <PostSaveCard post={post} />
       </View>

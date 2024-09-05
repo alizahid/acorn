@@ -25,6 +25,7 @@ export function transformPost(data: PostDataSchema): Post {
     read: data.clicked,
     saved: data.saved,
     spoiler: data.spoiler,
+    sticky: Boolean(data.stickied),
     subreddit: data.subreddit.startsWith('u_')
       ? `u/${data.subreddit.slice(2)}`
       : data.subreddit,

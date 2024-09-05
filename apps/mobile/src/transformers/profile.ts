@@ -16,6 +16,7 @@ export function transformProfile({ data }: ProfileSchema): Profile {
       total: data.total_karma,
     },
     name: data.name,
+    noFollow: Boolean(data.no_follow),
     subreddit: removePrefix(data.subreddit.name),
     subscribed: data.subreddit.user_is_subscriber,
   }

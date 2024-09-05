@@ -8,6 +8,7 @@ export type Profile = {
     total: number
   }
   name: string
+  noFollow: boolean
   subreddit: string
   subscribed: boolean
 }

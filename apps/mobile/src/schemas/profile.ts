@@ -8,6 +8,7 @@ export const ProfileSchema = z.object({
     id: z.string(),
     link_karma: z.number(),
     name: z.string(),
+    no_follow: z.boolean().nullish(),
     subreddit: z.object({
       name: z.string(),
       user_is_subscriber: z.boolean(),

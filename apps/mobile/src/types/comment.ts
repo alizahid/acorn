@@ -23,6 +23,7 @@ export type CommentReply = {
   parentId?: string
   postId: string
   saved: boolean
+  sticky: boolean
   user: {
     name: string
   }

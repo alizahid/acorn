@@ -17,7 +17,7 @@ type Sort =
 
 export const SortIcons: Record<Sort, IconName> = {
   best: 'Medal',
-  comments: 'ChatCircleText',
+  comments: 'ChatCentered',
   confidence: 'Medal',
   controversial: 'Flame',
   hot: 'Flame',

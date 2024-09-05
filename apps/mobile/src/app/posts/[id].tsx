@@ -7,6 +7,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { useRef, useState } from 'react'
+import { Share } from 'react-native'
 import { type TextInput } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -65,34 +66,50 @@ export default function Screen() {
   })
 
   useFocusEffect(() => {
+    if (!post) {
+      return
+    }
+
     navigation.setOptions({
-      headerTitle: () =>
-        post ? (
-          <Pressable
-            height="8"
-            justify="center"
-            onPress={() => {
-              if (isUser(post.subreddit)) {
-                router.navigate({
-                  params: {
-                    name: removePrefix(post.subreddit),
-                  },
-                  pathname: '/users/[name]',
-                })
-              } else {
-                router.navigate({
-                  params: {
-                    name: removePrefix(post.subreddit),
-                  },
-                  pathname: '/communities/[name]',
-                })
-              }
-            }}
-            px="3"
-          >
-            <Text weight="bold">{post.subreddit}</Text>
-          </Pressable>
-        ) : null,
+      headerRight: () => (
+        <HeaderButton
+          icon="Share"
+          onPress={() => {
+            const url = new URL(post.permalink, 'https://reddit.com')
+
+            void Share.share({
+              message: post.title,
+              url: url.toString(),
+            })
+          }}
+        />
+      ),
+      headerTitle: () => (
+        <Pressable
+          height="8"
+          justify="center"
+          onPress={() => {
+            if (isUser(post.subreddit)) {
+              router.navigate({
+                params: {
+                  name: removePrefix(post.subreddit),
+                },
+                pathname: '/users/[name]',
+              })
+            } else {
+              router.navigate({
+                params: {
+                  name: removePrefix(post.subreddit),
+                },
+                pathname: '/communities/[name]',
+              })
+            }
+          }}
+          px="3"
+        >
+          <Text weight="bold">{post.subreddit}</Text>
+        </Pressable>
+      ),
     })
   })
 
@@ -154,7 +171,7 @@ export default function Screen() {
                   />
                 ) : null}
 
-                <Text ml={params.commentId ? undefined : '4'} weight="bold">
+                <Text ml={params.commentId ? undefined : '3'} weight="bold">
                   {t('comments')}
                 </Text>
 
@@ -205,7 +222,7 @@ export default function Screen() {
                 onThread={(id) => {
                   list.current?.scrollToIndex({
                     animated: true,
-                    index: 0,
+                    index: 1,
                   })
 
                   router.setParams({

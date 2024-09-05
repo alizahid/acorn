@@ -40,6 +40,7 @@ export function transformComment(
       parentId: parentId === postId ? undefined : parentId,
       postId,
       saved: data.data.saved,
+      sticky: Boolean(data.data.stickied),
       user: {
         name: data.data.author,
       },

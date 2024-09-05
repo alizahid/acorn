@@ -29,6 +29,7 @@ const PostBaseSchema = z.object({
   saved: z.boolean(),
   selftext: z.string(),
   spoiler: z.boolean(),
+  stickied: z.boolean().nullish(),
   subreddit: z.string(),
   title: z.string(),
   ups: z.number(),

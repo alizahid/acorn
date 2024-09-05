@@ -23,6 +23,7 @@ export type Post = {
   read: boolean
   saved: boolean
   spoiler: boolean
+  sticky: boolean
   subreddit: string
   title: string
   type: PostType
