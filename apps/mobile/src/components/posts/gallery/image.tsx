@@ -125,6 +125,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   main: (aspectRatio: number) => ({
     alignSelf: 'center',
     aspectRatio,
+    maxHeight: runtime.screen.height,
     width: runtime.screen.width,
   }),
   play: {

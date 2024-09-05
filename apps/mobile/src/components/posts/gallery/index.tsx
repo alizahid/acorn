@@ -122,7 +122,7 @@ export function PostGalleryCard({ images, nsfw, recyclingKey, style }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   blur: {
     alignItems: 'center',
     bottom: 0,
@@ -153,7 +153,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: (aspectRatio: number) => ({
     aspectRatio,
-    maxHeight: runtime.screen.height * 0.5,
-    overflow: 'hidden',
+    width: '100%',
   }),
 }))

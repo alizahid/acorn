@@ -2,7 +2,6 @@ import { BlurView } from 'expo-blur'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
 import { useEffect, useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -24,8 +23,6 @@ type Props = {
 }
 
 export function VideoPlayer({ nsfw, source, style, video, viewing }: Props) {
-  const frame = useSafeAreaFrame()
-
   const t = useTranslations('component.posts.video')
 
   const preferences = usePreferences()
@@ -125,7 +122,7 @@ export function VideoPlayer({ nsfw, source, style, video, viewing }: Props) {
           contentFit="contain"
           nativeControls
           player={player}
-          style={styles.full(frame.width, video.width / video.height)}
+          style={styles.full(video.width / video.height)}
         />
       </FakeModal>
     </>
@@ -143,13 +140,14 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     right: 0,
     top: 0,
   },
-  full: (width: number, aspectRatio: number) => ({
+  full: (aspectRatio: number) => ({
     aspectRatio,
-    width,
+    maxHeight: runtime.screen.height,
+    width: runtime.screen.width,
   }),
   main: (aspectRatio: number) => ({
     aspectRatio,
-    maxHeight: runtime.screen.height * 0.5,
+    width: '100%',
   }),
   modal: {
     justifyContent: 'center',

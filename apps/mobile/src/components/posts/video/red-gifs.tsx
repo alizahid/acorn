@@ -44,9 +44,8 @@ export function RedGifsVideo({ nsfw, style, video, viewing }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet(() => ({
   main: (aspectRatio: number) => ({
     aspectRatio,
-    maxHeight: runtime.screen.height * 0.5,
   }),
 }))

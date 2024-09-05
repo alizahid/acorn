@@ -57,10 +57,9 @@ export function PostLinkCard({ media, recyclingKey, style, url }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   image: (aspectRatio: number) => ({
     aspectRatio,
-    maxHeight: runtime.screen.height * 0.5,
   }),
   main: {
     backgroundColor: theme.colors.gray.a3,
