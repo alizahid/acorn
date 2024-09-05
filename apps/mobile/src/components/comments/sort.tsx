@@ -1,3 +1,4 @@
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -9,10 +10,11 @@ import { DropDown } from '../common/drop-down'
 type Props = {
   hideLabel?: boolean
   onChange: (value: CommentSort) => void
+  style?: StyleProp<ViewStyle>
   value: CommentSort
 }
 
-export function CommentsSortMenu({ hideLabel, onChange, value }: Props) {
+export function CommentsSortMenu({ hideLabel, onChange, style, value }: Props) {
   const t = useTranslations('component.common.sort')
 
   const { styles, theme } = useStyles(stylesheet)
@@ -33,7 +35,7 @@ export function CommentsSortMenu({ hideLabel, onChange, value }: Props) {
         onChange(next as CommentSort)
       }}
       placeholder={t('placeholder')}
-      style={styles.main}
+      style={[styles.main, style]}
       value={value}
     />
   )

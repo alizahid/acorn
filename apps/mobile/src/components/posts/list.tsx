@@ -1,7 +1,6 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
-import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -15,8 +14,6 @@ import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
 import { type PostLabel } from './footer'
-
-const List = Animated.createAnimatedComponent(FlashList<Post>)
 
 type Props = PostsProps & {
   header?: ReactElement
@@ -59,7 +56,7 @@ export function PostList({
   const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
-    <List
+    <FlashList
       {...listProps}
       ItemSeparatorComponent={() => (
         <View height={1} style={styles.separator} />

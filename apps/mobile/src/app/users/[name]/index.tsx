@@ -1,4 +1,3 @@
-import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
 import {
   useFocusEffect,
   useLocalSearchParams,
@@ -8,12 +7,16 @@ import { useRef } from 'react'
 import Pager from 'react-native-pager-view'
 import { useSharedValue } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { SegmentedControl } from '~/components/common/segmented-control'
+import { HeaderButton } from '~/components/navigation/header-button'
 import { UserCommentsList } from '~/components/users/comments'
-import { UserHeader } from '~/components/users/header'
 import { UserPostsList } from '~/components/users/posts'
+import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { UserTab } from '~/types/user'
 
 const schema = z.object({
   name: z.string().catch('mildpanda'),
@@ -24,7 +27,10 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { refetch } = useProfile(params.name)
+  const t = useTranslations('screen.users.user')
+
+  const { profile, refetch } = useProfile(params.name)
+  const { follow, isPending } = useFollow()
 
   const pager = useRef<Pager>(null)
 
@@ -34,45 +40,60 @@ export default function Screen() {
 
   useFocusEffect(() => {
     navigation.setOptions({
-      header: (props: NativeStackHeaderProps) => (
-        <UserHeader
-          {...props}
-          offset={offset}
-          onChange={(next) => {
-            pager.current?.setPage(next)
-          }}
-          username={params.name}
-        />
-      ),
+      headerRight: () =>
+        profile ? (
+          <HeaderButton
+            color={profile.subscribed ? 'red' : 'accent'}
+            icon={profile.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
+            loading={isPending}
+            onPress={() => {
+              follow({
+                action: profile.subscribed ? 'unfollow' : 'follow',
+                id: profile.subreddit,
+                name: profile.name,
+              })
+            }}
+          />
+        ) : null,
       title: params.name,
     })
   })
 
   return (
-    <Pager
-      onPageScroll={(event) => {
-        offset.value = event.nativeEvent.offset + event.nativeEvent.position
-      }}
-      ref={pager}
-      style={styles.main}
-    >
-      <UserPostsList
-        inset
-        key="posts"
-        label="subreddit"
-        onRefresh={refetch}
-        sort="new"
-        type="submitted"
-        username={params.name}
+    <>
+      <SegmentedControl
+        items={UserTab.map((tab) => t(tab))}
+        offset={offset}
+        onChange={(next) => {
+          pager.current?.setPage(next)
+        }}
       />
 
-      <UserCommentsList
-        inset
-        key="comments"
-        onRefresh={refetch}
-        username={params.name}
-      />
-    </Pager>
+      <Pager
+        onPageScroll={(event) => {
+          offset.value = event.nativeEvent.offset + event.nativeEvent.position
+        }}
+        ref={pager}
+        style={styles.main}
+      >
+        <UserPostsList
+          inset
+          key="posts"
+          label="subreddit"
+          onRefresh={refetch}
+          sort="new"
+          type="submitted"
+          username={params.name}
+        />
+
+        <UserCommentsList
+          inset
+          key="comments"
+          onRefresh={refetch}
+          username={params.name}
+        />
+      </Pager>
+    </>
   )
 }
 

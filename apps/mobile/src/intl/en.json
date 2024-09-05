@@ -81,10 +81,6 @@
       }
     },
     "users": {
-      "header": {
-        "comments": "Comments",
-        "posts": "Posts"
-      },
       "profile": {
         "age": "Age",
         "comment": "Comment",
@@ -126,6 +122,12 @@
     "posts": {
       "post": {
         "comments": "Comments"
+      }
+    },
+    "users": {
+      "user": {
+        "comments": "Comments",
+        "posts": "Posts"
       }
     }
   },

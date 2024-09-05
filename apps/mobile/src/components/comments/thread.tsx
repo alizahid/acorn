@@ -40,6 +40,6 @@ export function CommentThreadCard({ onBack }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    backgroundColor: theme.colors.accent.a3,
+    backgroundColor: theme.colors.accent[2],
   },
 }))

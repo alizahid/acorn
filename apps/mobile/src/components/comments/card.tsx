@@ -19,11 +19,18 @@ import { CommentVoteCard } from './vote'
 type Props = {
   collapsed?: boolean
   comment: CommentReply
+  onPress: () => void
   onReply?: () => void
   style?: StyleProp<ViewStyle>
 }
 
-export function CommentCard({ collapsed, comment, onReply, style }: Props) {
+export function CommentCard({
+  collapsed,
+  comment,
+  onPress,
+  onReply,
+  style,
+}: Props) {
   const router = useRouter()
 
   const f = useFormatter()
@@ -31,7 +38,8 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View
+    <Pressable
+      onPress={onPress}
       pl="3"
       pt={collapsed ? '3' : undefined}
       style={[styles.main(comment.depth), style]}
@@ -46,6 +54,8 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
           {comment.body}
         </Markdown>
       ) : null}
+
+      {/* {comment.body} */}
 
       <View align="center" direction="row" gap="4" mb="3">
         <Pressable
@@ -101,7 +111,7 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
           </>
         ) : null}
       </View>
-    </View>
+    </Pressable>
   )
 }
 

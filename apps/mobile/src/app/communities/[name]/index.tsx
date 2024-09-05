@@ -74,28 +74,29 @@ export default function Screen() {
   const [interval, setInterval] = useState(preferences.communityInterval)
 
   return (
-    <PostList
-      community={params.name}
-      header={
-        <View direction="row" justify="between" style={styles.header}>
-          <FeedSortMenu onChange={setSort} type="community" value={sort} />
+    <>
+      <View direction="row" justify="between" style={styles.header}>
+        <FeedSortMenu onChange={setSort} type="community" value={sort} />
 
-          {sort === 'top' ? (
-            <TopIntervalMenu onChange={setInterval} value={interval} />
-          ) : null}
-        </View>
-      }
-      inset
-      interval={interval}
-      label="user"
-      onRefresh={refetch}
-      sort={sort}
-    />
+        {sort === 'top' ? (
+          <TopIntervalMenu onChange={setInterval} value={interval} />
+        ) : null}
+      </View>
+
+      <PostList
+        community={params.name}
+        inset
+        interval={interval}
+        label="user"
+        onRefresh={refetch}
+        sort={sort}
+      />
+    </>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
   header: {
-    backgroundColor: theme.colors.gray.a2,
+    backgroundColor: theme.colors.gray[2],
   },
 }))

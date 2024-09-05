@@ -15,7 +15,6 @@ import { z } from 'zod'
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
 import { CommentsSortMenu } from '~/components/comments/sort'
-import { CommentThreadCard } from '~/components/comments/thread'
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
 import { Pressable } from '~/components/common/pressable'
@@ -23,6 +22,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { HeaderButton } from '~/components/navigation/header-button'
 import { PostCard } from '~/components/posts/card'
 import { PostReplyCard } from '~/components/posts/reply'
 import { usePost } from '~/hooks/queries/posts/post'
@@ -30,9 +30,10 @@ import { listProps } from '~/lib/common'
 import { isUser, removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
+import { type Post } from '~/types/post'
 
 const schema = z.object({
-  commentId: z.string().min(1).optional().catch(undefined),
+  commentId: z.string().min(0).optional().catch(undefined),
   id: z.string().catch('17jkixh'),
 })
 
@@ -50,7 +51,7 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
-  const list = useRef<FlashList<Comment>>(null)
+  const list = useRef<FlashList<Post | Comment | null | undefined>>(null)
   const reply = useRef<TextInput>(null)
 
   const [sort, setSort] = useState(postCommentSort)
@@ -103,93 +104,124 @@ export default function Screen() {
         ListEmptyComponent={
           isFetching ? post ? <Spinner m="4" /> : <Loading /> : <Empty />
         }
-        ListHeaderComponent={
-          <>
-            {post ? (
-              <PostCard expanded label="user" post={post} viewing={focused} />
-            ) : null}
+        data={[post, null, ...comments]}
+        estimatedItemSize={72}
+        extraData={{
+          commentId: params.commentId,
+        }}
+        getItemType={(item) => {
+          if (item === null) {
+            return 'sticky'
+          }
 
-            <View
-              align="center"
-              direction="row"
-              gap="4"
-              justify="between"
-              mb="2"
-              pl="3"
-              style={styles.header}
-            >
-              <Text weight="bold">{t('comments')}</Text>
+          if (item?.type === 'more' || item?.type === 'reply') {
+            return 'comment'
+          }
 
-              <CommentsSortMenu onChange={setSort} value={sort} />
-            </View>
+          return 'post'
+        }}
+        keyExtractor={(item) => {
+          if (item === null) {
+            return 'sticky'
+          }
 
-            {params.commentId ? (
-              <CommentThreadCard
-                onBack={() => {
+          if (item?.type === 'more' || item?.type === 'reply') {
+            return item.data.id
+          }
+
+          return 'post'
+        }}
+        keyboardDismissMode="on-drag"
+        ref={list}
+        refreshControl={<RefreshControl onRefresh={refetch} />}
+        renderItem={({ item }) => {
+          if (item === null) {
+            return (
+              <View align="center" direction="row" style={styles.header}>
+                {params.commentId ? (
+                  <HeaderButton
+                    icon="ArrowLeft"
+                    onPress={() => {
+                      list.current?.scrollToIndex({
+                        animated: true,
+                        index: 1,
+                      })
+
+                      router.setParams({
+                        commentId: '',
+                      })
+                    }}
+                  />
+                ) : null}
+
+                <Text ml={params.commentId ? undefined : '4'} weight="bold">
+                  {t('comments')}
+                </Text>
+
+                <CommentsSortMenu
+                  onChange={setSort}
+                  style={styles.menu}
+                  value={sort}
+                />
+              </View>
+            )
+          }
+
+          if (!item) {
+            return null
+          }
+
+          if (item.type === 'reply') {
+            const hidden = collapsed.includes(item.data.id)
+
+            return (
+              <CommentCard
+                collapsed={hidden}
+                comment={item.data}
+                onPress={() => {
+                  if (params.commentId) {
+                    return
+                  }
+
+                  collapse({
+                    commentId: item.data.id,
+                    hide: !hidden,
+                  })
+                }}
+                onReply={() => {
+                  setCommentId(item.data.id)
+                  setUser(item.data.user.name)
+
+                  reply.current?.focus()
+                }}
+              />
+            )
+          }
+
+          if (item.type === 'more') {
+            return (
+              <CommentMoreCard
+                comment={item.data}
+                onThread={(id) => {
                   list.current?.scrollToIndex({
                     animated: true,
                     index: 0,
                   })
 
                   router.setParams({
-                    commentId: '',
+                    commentId: id,
                   })
                 }}
+                post={post}
               />
-            ) : null}
-          </>
-        }
-        data={comments}
-        estimatedItemSize={72}
-        getItemType={(item) => item.type}
-        keyExtractor={(item) => item.data.id}
-        keyboardDismissMode="on-drag"
-        ref={list}
-        refreshControl={<RefreshControl onRefresh={refetch} />}
-        renderItem={({ item }) => {
-          if (item.type === 'reply') {
-            const hidden = collapsed.includes(item.data.id)
-
-            return (
-              <Pressable
-                onPress={() => {
-                  collapse({
-                    commentId: item.data.id,
-                    hide: !hidden,
-                  })
-                }}
-              >
-                <CommentCard
-                  collapsed={hidden}
-                  comment={item.data}
-                  onReply={() => {
-                    setCommentId(item.data.id)
-                    setUser(item.data.user.name)
-
-                    reply.current?.focus()
-                  }}
-                />
-              </Pressable>
             )
           }
 
           return (
-            <CommentMoreCard
-              comment={item.data}
-              onThread={(id) => {
-                list.current?.scrollToIndex({
-                  animated: true,
-                  index: 0,
-                })
-
-                router.setParams({
-                  commentId: id,
-                })
-              }}
-              post={post}
-            />
+            <PostCard expanded label="user" post={item} viewing={focused} />
           )
         }}
+        stickyHeaderIndices={[1]}
       />
 
       <PostReplyCard
@@ -212,6 +244,9 @@ export default function Screen() {
 
 const stylesheet = createStyleSheet((theme) => ({
   header: {
-    backgroundColor: theme.colors.gray.a2,
+    backgroundColor: theme.colors.gray[2],
+  },
+  menu: {
+    marginLeft: 'auto',
   },
 }))

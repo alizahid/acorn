@@ -11,7 +11,6 @@ import { removePrefix } from '~/lib/reddit'
 import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
-import { Pressable } from '../common/pressable'
 import { View } from '../common/view'
 
 type Props = {
@@ -64,7 +63,8 @@ export function UserCommentsList({ inset, onRefresh, username }: Props) {
       renderItem={({ item }) => {
         if (item.type === 'reply') {
           return (
-            <Pressable
+            <CommentCard
+              comment={item.data}
               onPress={() => {
                 router.navigate({
                   params: {
@@ -74,9 +74,7 @@ export function UserCommentsList({ inset, onRefresh, username }: Props) {
                   pathname: '/posts/[id]',
                 })
               }}
-            >
-              <CommentCard comment={item.data} />
-            </Pressable>
+            />
           )
         }
 
