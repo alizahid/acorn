@@ -5,7 +5,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useCommon } from '~/hooks/common'
 import { useImagePlaceholder } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
-import { getDimensions } from '~/lib/media'
+import { getAspectRatio } from '~/lib/media'
 import { type PostMedia } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -14,36 +14,19 @@ import { Text } from '../common/text'
 import { View } from '../common/view'
 
 type Props = {
-  margin?: number
   media?: PostMedia
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
   url: string
 }
 
-export function PostLinkCard({
-  margin = 0,
-  media,
-  recyclingKey,
-  style,
-  url,
-}: Props) {
+export function PostLinkCard({ media, recyclingKey, style, url }: Props) {
   const common = useCommon()
 
   const { styles, theme } = useStyles(stylesheet)
 
   const handleLink = useLink()
   const placeholder = useImagePlaceholder()
-
-  const frameWidth = common.frame.width - margin
-
-  const dimensions = getDimensions(
-    frameWidth,
-    media ?? {
-      height: 0,
-      width: 0,
-    },
-  )
 
   return (
     <Pressable
@@ -58,11 +41,7 @@ export function PostLinkCard({
           {...placeholder}
           recyclingKey={recyclingKey}
           source={media.url}
-          style={styles.image(
-            common.height.max,
-            dimensions.height,
-            dimensions.width,
-          )}
+          style={styles.image(getAspectRatio(media), common.height.max)}
         />
       ) : null}
 
@@ -82,9 +61,9 @@ export function PostLinkCard({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  image: (maxHeight: number, height: number, width: number) => ({
-    height: Math.min(maxHeight, height),
-    width,
+  image: (aspectRatio: number, maxHeight: number) => ({
+    aspectRatio,
+    maxHeight,
   }),
   main: {
     backgroundColor: theme.colors.gray.a3,

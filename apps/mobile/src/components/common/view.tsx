@@ -6,15 +6,17 @@ import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
 type Props = ViewStyleProps & {
   children?: ReactNode
+  responder?: boolean
   style?: StyleProp<TextStyle>
 }
 
-export function View({ children, style, ...props }: Props) {
+export function View({ children, responder, style, ...props }: Props) {
   const { styles } = useStyles(stylesheet)
 
   // eslint-disable-next-line react/no-children-prop -- go away
   return createElement('RCTView', {
     children,
+    onStartShouldSetResponder: responder ? () => true : undefined,
     style: [styles.main(props), style],
   })
 }

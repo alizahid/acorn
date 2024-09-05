@@ -146,25 +146,16 @@ export function getVideo(data: PostDataSchema): PostMedia | undefined {
   }
 }
 
-export type Dimensions = {
+export function getAspectRatio({
+  height,
+  width,
+}: {
   height: number
   width: number
-}
-
-export function getDimensions(
-  maxWidth: number,
-  { height, width }: Dimensions,
-  fit?: boolean,
-): Dimensions {
-  if (fit && width < maxWidth) {
-    return {
-      height,
-      width,
-    }
+}) {
+  if (width > height) {
+    return width / height
   }
 
-  return {
-    height: (height / width) * maxWidth,
-    width: maxWidth,
-  }
+  return height / width
 }

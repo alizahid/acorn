@@ -7,7 +7,7 @@ import { VideoPlayer } from './player'
 import { RedGifsVideo } from './red-gifs'
 
 type Props = {
-  margin?: number
+  maxHeight?: number
   nsfw?: boolean
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
@@ -16,7 +16,7 @@ type Props = {
 }
 
 export function PostVideoCard({
-  margin = 0,
+  maxHeight,
   nsfw,
   recyclingKey,
   style,
@@ -25,20 +25,14 @@ export function PostVideoCard({
 }: Props) {
   if (video.provider === 'redgifs') {
     return (
-      <RedGifsVideo
-        margin={margin}
-        nsfw={nsfw}
-        style={style}
-        video={video}
-        viewing={viewing}
-      />
+      <RedGifsVideo nsfw={nsfw} style={style} video={video} viewing={viewing} />
     )
   }
 
   if (video.provider === 'reddit') {
     return (
       <VideoPlayer
-        margin={margin}
+        maxHeight={maxHeight}
         nsfw={nsfw}
         source={video.url}
         style={style}
@@ -56,11 +50,6 @@ export function PostVideoCard({
     : undefined
 
   return (
-    <PostLinkCard
-      margin={margin}
-      media={media}
-      recyclingKey={recyclingKey}
-      url={video.url}
-    />
+    <PostLinkCard media={media} recyclingKey={recyclingKey} url={video.url} />
   )
 }

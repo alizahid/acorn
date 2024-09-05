@@ -1,12 +1,16 @@
 /* eslint-disable react/no-array-index-key -- go away */
 
-import { Image as ExpoImage } from 'expo-image'
+import { Image } from 'expo-image'
 import { type Nodes } from 'mdast-util-from-markdown/lib'
 import { type Table } from 'mdast-util-gfm-table/lib'
-import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
+import {
+  ScrollView,
+  type StyleProp,
+  type TextStyle,
+  type ViewStyle,
+} from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { useCommon } from '~/hooks/common'
 import { useLink } from '~/hooks/link'
 import { getText } from '~/lib/markdown'
 import { Sentry } from '~/lib/sentry'
@@ -36,7 +40,6 @@ type TableProps = {
 
 type Props = {
   list?: ListProps
-  margin?: number
   meta?: PostMediaMeta
   node: Nodes
   recyclingKey?: string
@@ -47,8 +50,6 @@ type Props = {
 }
 
 export function Node({ node, ...props }: Props) {
-  const common = useCommon()
-
   const { styles, theme } = useStyles(stylesheet)
 
   const handleLink = useLink()
@@ -135,27 +136,23 @@ export function Node({ node, ...props }: Props) {
   }
 
   if (node.type === 'image') {
-    const media = findMedia({
-      frameWidth: common.frame.width,
-      meta: props.meta,
-      url: node.url,
-    })
+    const media = findMedia(node.url, props.meta)
 
     if (media) {
       return (
-        <ExpoImage
+        <Media
+          caption={node.title}
+          media={media}
           recyclingKey={props.recyclingKey}
-          source={media.url}
-          style={styles.media(media.height, media.width)}
         />
       )
     }
 
     return (
-      <ExpoImage
+      <Image
         recyclingKey={props.recyclingKey}
         source={node.url}
-        style={styles.image(common.frame.width)}
+        style={styles.image}
       />
     )
   }
@@ -169,11 +166,7 @@ export function Node({ node, ...props }: Props) {
   }
 
   if (node.type === 'link') {
-    const media = findMedia({
-      frameWidth: common.frame.width,
-      meta: props.meta,
-      url: node.url,
-    })
+    const media = findMedia(node.url, props.meta)
 
     if (media) {
       const caption = getText(node.children)
@@ -181,7 +174,6 @@ export function Node({ node, ...props }: Props) {
       return (
         <Media
           caption={caption === node.url ? undefined : caption}
-          margin={props.margin}
           media={media}
           recyclingKey={props.recyclingKey}
         />
@@ -282,25 +274,33 @@ export function Node({ node, ...props }: Props) {
 
   if (node.type === 'table') {
     return (
-      <View style={styles.table}>
-        {node.children.map((child, index) => (
-          <Node
-            {...props}
-            key={index}
-            node={child}
-            table={{
-              align: node.align,
-              index,
-            }}
-          />
-        ))}
-      </View>
+      <ScrollView contentContainerStyle={styles.table} horizontal>
+        <View responder>
+          {node.children.map((child, index) => (
+            <Node
+              {...props}
+              key={index}
+              node={child}
+              table={{
+                align: node.align,
+                index,
+              }}
+            />
+          ))}
+        </View>
+      </ScrollView>
     )
   }
 
   if (node.type === 'tableCell') {
     return node.children.map((child, index) => (
-      <View key={index} style={styles.tableCell}>
+      <View
+        flexBasis={1}
+        flexGrow={1}
+        key={index}
+        style={styles.tableCell}
+        width={200}
+      >
         <Node
           {...props}
           key={index}
@@ -315,9 +315,7 @@ export function Node({ node, ...props }: Props) {
 
   if (node.type === 'tableRow') {
     return (
-      <View
-        style={[styles.tableRow, Boolean(props.table?.index) && styles.divider]}
-      >
+      <View style={styles.tableRow(Boolean(props.table?.index))}>
         {node.children.map((child, index) => (
           <Node {...props} key={index} node={child} table={props.table} />
         ))}
@@ -391,16 +389,10 @@ const stylesheet = createStyleSheet((theme) => ({
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
   },
-  divider: {
-    borderTopColor: theme.colors.gray.a6,
-    borderTopWidth: 1,
-  },
   emphasis: {
     fontStyle: 'italic',
   },
-  image: (maxWidth: number) => ({
-    maxWidth,
-  }),
+  image: {},
   list: {
     gap: theme.space[2],
   },
@@ -414,15 +406,6 @@ const stylesheet = createStyleSheet((theme) => ({
   listText: {
     flexShrink: 1,
   },
-  media: (height: number, width: number) => ({
-    height,
-    transform: [
-      {
-        translateY: 3,
-      },
-    ],
-    width,
-  }),
   table: {
     borderColor: theme.colors.gray.a6,
     borderCurve: 'continuous',
@@ -431,13 +414,14 @@ const stylesheet = createStyleSheet((theme) => ({
     overflow: 'hidden',
   },
   tableCell: {
-    flex: 1,
     paddingHorizontal: theme.space[2],
     paddingVertical: theme.space[1],
   },
-  tableRow: {
+  tableRow: (divider: boolean) => ({
+    borderTopColor: divider ? theme.colors.gray.a6 : undefined,
+    borderTopWidth: divider ? 1 : undefined,
     flexDirection: 'row',
-  },
+  }),
   thematicBreak: {
     backgroundColor: theme.colors.gray.a6,
     height: 1,

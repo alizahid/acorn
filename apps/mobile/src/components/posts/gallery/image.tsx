@@ -16,7 +16,6 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useCommon } from '~/hooks/common'
 import { useImagePlaceholder } from '~/hooks/image'
-import { getDimensions } from '~/lib/media'
 import { type PostMedia } from '~/types/post'
 
 type Props = {
@@ -25,9 +24,9 @@ type Props = {
 }
 
 export function GalleryImage({ image, recyclingKey }: Props) {
-  const t = useTranslations('component.posts.gallery')
-
   const common = useCommon()
+
+  const t = useTranslations('component.posts.gallery')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -48,16 +47,8 @@ export function GalleryImage({ image, recyclingKey }: Props) {
     },
   )
 
-  const dimensions = getDimensions(common.frame.width, image)
-
   return (
-    <View
-      style={styles.main(
-        common.frame.height,
-        dimensions.height,
-        dimensions.width,
-      )}
-    >
+    <View style={styles.main(common.frame.width, image.width / image.height)}>
       <Zoomable
         isDoubleTapEnabled
         isPanEnabled={zoomed}
@@ -134,10 +125,9 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
   },
-  main: (maxHeight: number, height: number, width: number) => ({
+  main: (width: number, aspectRatio: number) => ({
     alignSelf: 'center',
-    height,
-    maxHeight,
+    aspectRatio,
     width,
   }),
   play: {

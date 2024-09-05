@@ -3,15 +3,14 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Spinner } from '~/components/common/spinner'
 import { View } from '~/components/common/view'
-import { useCommon } from '~/hooks/common'
 import { useRedGifs } from '~/hooks/redgifs'
-import { getDimensions } from '~/lib/media'
+import { getAspectRatio } from '~/lib/media'
 import { type PostMedia } from '~/types/post'
 
 import { VideoPlayer } from './player'
 
 type Props = {
-  margin?: number
+  maxHeight?: number
   nsfw?: boolean
   style?: StyleProp<ViewStyle>
   video: PostMedia
@@ -19,14 +18,12 @@ type Props = {
 }
 
 export function RedGifsVideo({
-  margin = 0,
+  maxHeight,
   nsfw,
   style,
   video,
   viewing,
 }: Props) {
-  const common = useCommon()
-
   const { styles } = useStyles(stylesheet)
 
   const { gif } = useRedGifs(video.url)
@@ -34,7 +31,7 @@ export function RedGifsVideo({
   if (gif) {
     return (
       <VideoPlayer
-        margin={margin}
+        maxHeight={maxHeight}
         nsfw={nsfw}
         source={gif.source}
         style={style}
@@ -44,19 +41,11 @@ export function RedGifsVideo({
     )
   }
 
-  const frameWidth = common.frame.width - margin
-
-  const dimensions = getDimensions(frameWidth, video)
-
   return (
     <View
       align="center"
       justify="center"
-      style={styles.main(
-        common.height.max,
-        dimensions.height,
-        dimensions.width,
-      )}
+      style={styles.main(getAspectRatio(video), maxHeight)}
     >
       <Spinner />
     </View>
@@ -64,8 +53,8 @@ export function RedGifsVideo({
 }
 
 const stylesheet = createStyleSheet(() => ({
-  main: (maxHeight: number, height: number, width: number) => ({
-    height: Math.min(maxHeight, height),
-    width,
+  main: (aspectRatio: number, maxHeight?: number) => ({
+    aspectRatio,
+    maxHeight,
   }),
 }))

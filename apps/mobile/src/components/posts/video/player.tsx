@@ -7,7 +7,7 @@ import { useTranslations } from 'use-intl'
 
 import { Text } from '~/components/common/text'
 import { useCommon } from '~/hooks/common'
-import { getDimensions } from '~/lib/media'
+import { getAspectRatio } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -16,7 +16,7 @@ import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
 
 type Props = {
-  margin?: number
+  maxHeight?: number
   nsfw?: boolean
   source: VideoSource
   style?: StyleProp<ViewStyle>
@@ -25,24 +25,22 @@ type Props = {
 }
 
 export function VideoPlayer({
-  margin = 0,
+  maxHeight,
   nsfw,
   source,
   style,
   video,
   viewing,
 }: Props) {
-  const t = useTranslations('component.posts.video')
-
   const common = useCommon()
 
-  const { blurNsfw, feedMuted, update } = usePreferences()
+  const t = useTranslations('component.posts.video')
+
+  const preferences = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
   const [visible, setVisible] = useState(false)
-
-  const frameWidth = common.frame.width - margin
 
   const player = useVideoPlayer(source, (instance) => {
     instance.muted = true
@@ -54,16 +52,21 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    player.muted = visible ? false : !viewing || feedMuted
+    player.muted = visible ? false : !viewing || preferences.feedMuted
 
-    if (visible || (viewing && (blurNsfw ? !nsfw : true))) {
+    if (visible || (viewing && (preferences.blurNsfw ? !nsfw : true))) {
       player.play()
     } else {
       player.pause()
     }
-  }, [blurNsfw, feedMuted, nsfw, player, viewing, visible])
-
-  const dimensions = getDimensions(frameWidth, video)
+  }, [
+    nsfw,
+    player,
+    preferences.blurNsfw,
+    preferences.feedMuted,
+    viewing,
+    visible,
+  ])
 
   return (
     <>
@@ -71,7 +74,10 @@ export function VideoPlayer({
         onPress={() => {
           setVisible(true)
         }}
-        style={style}
+        style={[
+          styles.main(getAspectRatio(video), maxHeight ?? common.height.max),
+          style,
+        ]}
       >
         <VideoView
           allowsFullscreen={false}
@@ -80,26 +86,11 @@ export function VideoPlayer({
           contentFit="cover"
           nativeControls={false}
           player={player}
-          style={styles.main(
-            common.height.max,
-            dimensions.height,
-            dimensions.width,
-          )}
+          style={styles.video}
         />
 
-        {nsfw && blurNsfw ? (
-          <BlurView
-            intensity={100}
-            pointerEvents="none"
-            style={[
-              styles.main(
-                common.height.max,
-                dimensions.height,
-                dimensions.width,
-              ),
-              styles.blur,
-            ]}
-          >
+        {nsfw && preferences.blurNsfw ? (
+          <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
             <Icon
               color={theme.colors.gray.a12}
               name="Warning"
@@ -113,8 +104,8 @@ export function VideoPlayer({
           <Pressable
             hitSlop={theme.space[3]}
             onPress={() => {
-              update({
-                feedMuted: !feedMuted,
+              preferences.update({
+                feedMuted: !preferences.feedMuted,
               })
             }}
             p="2"
@@ -122,7 +113,9 @@ export function VideoPlayer({
           >
             <Icon
               color={theme.colors.white.a11}
-              name={feedMuted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
+              name={
+                preferences.feedMuted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'
+              }
               size={theme.space[4]}
             />
           </Pressable>
@@ -143,12 +136,7 @@ export function VideoPlayer({
           contentFit="contain"
           nativeControls
           player={player}
-          style={styles.video(
-            common.frame.height,
-            common.frame.width,
-            video.height,
-            video.width,
-          )}
+          style={styles.full(common.frame.width, video.width / video.height)}
         />
       </FakeModal>
     </>
@@ -158,33 +146,27 @@ export function VideoPlayer({
 const stylesheet = createStyleSheet((theme) => ({
   blur: {
     alignItems: 'center',
+    bottom: 0,
     gap: theme.space[4],
     justifyContent: 'center',
+    left: 0,
     position: 'absolute',
+    right: 0,
+    top: 0,
   },
-  main: (maxHeight: number, height: number, width: number) => ({
-    height: Math.min(maxHeight, height),
+  full: (width: number, aspectRatio: number) => ({
+    aspectRatio,
     width,
+  }),
+  main: (aspectRatio: number, maxHeight: number) => ({
+    aspectRatio,
+    maxHeight,
   }),
   modal: {
     justifyContent: 'center',
   },
-  video: (
-    frameHeight: number,
-    frameWidth: number,
-    height: number,
-    width: number,
-  ) => {
-    const dimensions = getDimensions(frameWidth, {
-      height,
-      width,
-    })
-
-    return {
-      height: dimensions.height,
-      maxHeight: frameHeight,
-      width: dimensions.width,
-    }
+  video: {
+    flex: 1,
   },
   volume: {
     backgroundColor: theme.colors.black.a9,

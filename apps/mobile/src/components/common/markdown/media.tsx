@@ -1,29 +1,26 @@
+import { Image } from 'expo-image'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { PostGalleryCard } from '~/components/posts/gallery'
-import { getDimensions } from '~/lib/media'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
 import { Text } from '../text'
 import { View } from '../view'
 
 type Props = {
-  caption?: string
-  margin?: number
+  caption?: string | null
   media: PostMedia
   recyclingKey?: string
 }
 
-export function Media({ caption, margin = 0, media, recyclingKey }: Props) {
+export function Media({ caption, media, recyclingKey }: Props) {
   const { styles } = useStyles(stylesheet)
 
   return (
-    <View style={styles.main}>
-      <PostGalleryCard
-        images={[media]}
-        margin={margin}
-        maxHeight={10_000}
+    <View gap="2" style={styles.main}>
+      <Image
         recyclingKey={recyclingKey}
+        source={media.url}
+        style={styles.image(media.width / media.height, media.width)}
       />
 
       {caption?.length ? (
@@ -35,13 +32,13 @@ export function Media({ caption, margin = 0, media, recyclingKey }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  image: (height: number, width: number) => ({
-    height,
-    width,
+const stylesheet = createStyleSheet(() => ({
+  image: (aspectRatio: number, width: number) => ({
+    aspectRatio,
+    maxHeight: width,
+    width: '100%',
   }),
   main: {
-    gap: theme.space[2],
     transform: [
       {
         translateY: 3,
@@ -50,40 +47,11 @@ const stylesheet = createStyleSheet((theme) => ({
   },
 }))
 
-type FindMediaProps = {
-  frameWidth: number
-  meta?: PostMediaMeta
-  url: string
-}
-
-export function findMedia({
-  frameWidth,
-  meta,
-  url,
-}: FindMediaProps): PostMedia | undefined {
-  const one = meta?.[url]
-
-  if (one) {
-    const { height, width } = getDimensions(frameWidth, one, true)
-
-    return {
-      height,
-      type: one.type,
-      url: one.url,
-      width,
-    }
-  }
-
-  const two = Object.values(meta ?? {}).find((item) => item.url === url)
-
-  if (two) {
-    const { height, width } = getDimensions(frameWidth, two, true)
-
-    return {
-      height,
-      type: two.type,
-      url: two.url,
-      width,
-    }
-  }
+export function findMedia(
+  url: string,
+  meta?: PostMediaMeta,
+): PostMedia | undefined {
+  return (
+    meta?.[url] ?? Object.values(meta ?? {}).find((item) => item.url === url)
+  )
 }

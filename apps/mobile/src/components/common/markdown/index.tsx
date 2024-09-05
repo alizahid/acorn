@@ -9,7 +9,6 @@ import { Node } from './markdown'
 
 type Props = {
   children: string
-  margin?: number
   meta?: PostMediaMeta
   recyclingKey: string
   size?: TypographyToken
@@ -18,7 +17,6 @@ type Props = {
 
 export function Markdown({
   children,
-  margin = 0,
   meta,
   recyclingKey,
   size = '3',
@@ -32,7 +30,6 @@ export function Markdown({
         <Node
           // eslint-disable-next-line react/no-array-index-key -- go away
           key={`${recyclingKey}-${index}`}
-          margin={margin}
           meta={meta}
           node={node}
           recyclingKey={recyclingKey}

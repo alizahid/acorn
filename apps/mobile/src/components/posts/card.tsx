@@ -18,7 +18,6 @@ import { PostVideoCard } from './video'
 type Props = {
   expanded?: boolean
   label?: PostLabel
-  margin?: number
   post: Post
   style?: StyleProp<ViewStyle>
   viewing: boolean
@@ -27,14 +26,13 @@ type Props = {
 export function PostCard({
   expanded = false,
   label,
-  margin = 0,
   post,
   style,
   viewing,
 }: Props) {
   const router = useRouter()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const body = expanded && post.body
 
@@ -59,7 +57,6 @@ export function PostCard({
 
       {post.type === 'crosspost' && post.crossPost ? (
         <CrossPostCard
-          margin={margin + theme.space[5]}
           post={post.crossPost}
           style={body ? styles.expanded : null}
           viewing={viewing}
@@ -68,7 +65,6 @@ export function PostCard({
 
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
-          margin={margin}
           nsfw={post.nsfw}
           recyclingKey={post.id}
           style={body ? styles.expanded : null}
@@ -80,7 +76,6 @@ export function PostCard({
       {post.type === 'image' && post.media.images ? (
         <PostGalleryCard
           images={post.media.images}
-          margin={margin}
           nsfw={post.nsfw}
           recyclingKey={post.id}
           style={body ? styles.expanded : null}
@@ -89,7 +84,6 @@ export function PostCard({
 
       {post.type === 'link' && post.url ? (
         <PostLinkCard
-          margin={margin + theme.space[5]}
           media={post.media.images?.[0]}
           recyclingKey={post.id}
           style={body ? styles.expanded : null}
@@ -99,7 +93,6 @@ export function PostCard({
 
       {expanded && post.body ? (
         <Markdown
-          margin={margin + theme.space[5]}
           meta={post.media.meta}
           recyclingKey={post.id}
           size="2"

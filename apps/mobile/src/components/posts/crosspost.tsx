@@ -15,13 +15,12 @@ import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
 type Props = {
-  margin?: number
   post: Post
   style?: StyleProp<ViewStyle>
   viewing: boolean
 }
 
-export function CrossPostCard({ margin = 0, post, style, viewing }: Props) {
+export function CrossPostCard({ post, style, viewing }: Props) {
   const router = useRouter()
 
   const f = useFormatter()
@@ -60,7 +59,6 @@ export function CrossPostCard({ margin = 0, post, style, viewing }: Props) {
     >
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
-          margin={margin}
           nsfw={post.nsfw}
           recyclingKey={post.id}
           video={post.media.video}
@@ -71,7 +69,6 @@ export function CrossPostCard({ margin = 0, post, style, viewing }: Props) {
       {post.type === 'image' && post.media.images ? (
         <PostGalleryCard
           images={post.media.images}
-          margin={margin}
           nsfw={post.nsfw}
           recyclingKey={post.id}
         />
@@ -79,7 +76,6 @@ export function CrossPostCard({ margin = 0, post, style, viewing }: Props) {
 
       {post.type === 'link' && post.url ? (
         <PostLinkCard
-          margin={margin + theme.space[5]}
           media={post.media.images?.[0]}
           recyclingKey={post.id}
           style={styles.header}

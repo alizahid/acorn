@@ -1,14 +1,14 @@
 import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import * as StatusBar from 'expo-status-bar'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { FlatList, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useCommon } from '~/hooks/common'
 import { useImagePlaceholder } from '~/hooks/image'
-import { getDimensions } from '~/lib/media'
+import { getAspectRatio } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -21,7 +21,6 @@ import { GalleryImage } from './image'
 
 type Props = {
   images: Array<PostMedia>
-  margin?: number
   maxHeight?: number
   nsfw?: boolean
   recyclingKey?: string
@@ -30,7 +29,6 @@ type Props = {
 
 export function PostGalleryCard({
   images,
-  margin = 0,
   maxHeight,
   nsfw,
   recyclingKey,
@@ -45,84 +43,45 @@ export function PostGalleryCard({
   const placeholder = useImagePlaceholder()
   const { blurNsfw } = usePreferences()
 
-  const list = useRef<FlatList<PostMedia>>(null)
-
   const [visible, setVisible] = useState(false)
   const [initial, setInitial] = useState(0)
 
-  const frameWidth = common.frame.width - margin
+  const first = images[0]
 
-  const dimensions = getDimensions(
-    frameWidth,
-    images[0] ?? {
-      height: 0,
-      width: 0,
-    },
-  )
+  if (!first) {
+    return null
+  }
 
   return (
     <>
-      <View style={style}>
-        <FlatList
-          data={images}
-          decelerationRate="fast"
-          getItemLayout={(item, index) => ({
-            index,
-            length: frameWidth,
-            offset: frameWidth * index,
-          })}
-          horizontal
-          initialNumToRender={3}
-          keyExtractor={(item, index) => String(index)}
-          ref={list}
-          renderItem={({ index, item }) => (
-            <Pressable
-              onPress={() => {
-                setInitial(index)
+      <Pressable
+        onPress={() => {
+          setInitial(0)
 
-                setVisible(true)
-              }}
-              style={styles.main(
-                maxHeight ?? common.height.max,
-                dimensions.height,
-                dimensions.width,
-              )}
-            >
-              <Image
-                {...placeholder}
-                contentFit="cover"
-                recyclingKey={recyclingKey}
-                source={item.thumbnail ?? item.url}
-                style={styles.image}
-              />
-
-              {item.type === 'gif' ? (
-                <View style={[styles.label, styles.gif]}>
-                  <Text contrast size="1">
-                    {t('gif')}
-                  </Text>
-                </View>
-              ) : null}
-            </Pressable>
-          )}
-          scrollEnabled={images.length > 1}
-          showsHorizontalScrollIndicator={false}
-          snapToOffsets={images.map((image, index) => frameWidth * index)}
+          setVisible(true)
+        }}
+        style={[
+          styles.main(getAspectRatio(first), maxHeight ?? common.height.max),
+          style,
+        ]}
+      >
+        <Image
+          {...placeholder}
+          recyclingKey={recyclingKey}
+          source={first.thumbnail ?? first.url}
+          style={styles.image}
         />
 
+        {first.type === 'gif' ? (
+          <View style={[styles.label, styles.gif]}>
+            <Text contrast size="1">
+              {t('gif')}
+            </Text>
+          </View>
+        ) : null}
+
         {nsfw && blurNsfw ? (
-          <BlurView
-            intensity={100}
-            pointerEvents="none"
-            style={[
-              styles.main(
-                maxHeight ?? common.height.max,
-                dimensions.height,
-                dimensions.width,
-              ),
-              styles.blur,
-            ]}
-          >
+          <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
             <Icon
               color={theme.colors.gray.a12}
               name="Warning"
@@ -143,7 +102,7 @@ export function PostGalleryCard({
             </Text>
           </View>
         ) : null}
-      </View>
+      </Pressable>
 
       <FakeModal
         close
@@ -157,32 +116,17 @@ export function PostGalleryCard({
         <FlatList
           data={images}
           decelerationRate="fast"
-          getItemLayout={(item, index) => ({
-            index,
-            length: common.frame.width,
-            offset: common.frame.width * index,
-          })}
           horizontal
           initialNumToRender={3}
           initialScrollIndex={initial}
           keyExtractor={(item, index) => String(index)}
-          onMomentumScrollEnd={(event) => {
-            const index = Math.round(
-              event.nativeEvent.contentOffset.x / common.frame.width,
-            )
-
-            list.current?.scrollToIndex({
-              animated: false,
-              index,
-            })
-          }}
           renderItem={({ item }) => (
             <GalleryImage image={item} recyclingKey={recyclingKey} />
           )}
           scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={images.map(
-            (image, index) => common.frame.width * index,
+            (item, index) => common.frame.width * index,
           )}
         />
       </FakeModal>
@@ -193,9 +137,13 @@ export function PostGalleryCard({
 const stylesheet = createStyleSheet((theme) => ({
   blur: {
     alignItems: 'center',
+    bottom: 0,
     gap: theme.space[4],
     justifyContent: 'center',
+    left: 0,
     position: 'absolute',
+    right: 0,
+    top: 0,
   },
   count: {
     right: theme.space[2],
@@ -215,8 +163,9 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
   },
-  main: (maxHeight: number, height: number, width: number) => ({
-    height: Math.min(maxHeight, height),
-    width,
+  main: (aspectRatio: number, maxHeight: number) => ({
+    aspectRatio,
+    maxHeight,
+    overflow: 'hidden',
   }),
 }))

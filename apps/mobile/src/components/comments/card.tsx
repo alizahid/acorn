@@ -38,9 +38,6 @@ export function CommentCard({ collapsed, comment, onReply, style }: Props) {
     >
       {!collapsed ? (
         <Markdown
-          margin={
-            theme.space[3] * (comment.depth + 2) + (comment.depth > 0 ? 2 : 0)
-          }
           meta={comment.media.meta}
           recyclingKey={comment.id}
           size="2"
