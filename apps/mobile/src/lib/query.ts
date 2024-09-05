@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import { keepPreviousData, QueryClient } from '@tanstack/react-query'
+import { parse, stringify } from 'superjson'
 
 import { Sentry } from './sentry'
 
@@ -41,6 +42,12 @@ export const queryClient = new QueryClient({
 })
 
 export const persister = createAsyncStoragePersister({
+  deserialize(cache) {
+    return parse(cache)
+  },
   key: CACHE_KEY,
+  serialize(client) {
+    return stringify(client)
+  },
   storage: AsyncStorage,
 })
