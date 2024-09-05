@@ -15,8 +15,6 @@ export function PostVoteCard({ post }: Props) {
 
   const { vote } = usePostVote()
 
-  const color = theme.colors.gray[post.read ? 'a11' : 'a12']
-
   return (
     <>
       <Pressable
@@ -33,7 +31,7 @@ export function PostVoteCard({ post }: Props) {
         width="6"
       >
         <Icon
-          color={post.liked ? theme.colors.white.a12 : color}
+          color={post.liked ? theme.colors.white.a12 : theme.colors.gray.a12}
           name="ArrowUp"
           size={theme.space[5]}
           weight="bold"
@@ -54,7 +52,11 @@ export function PostVoteCard({ post }: Props) {
         width="6"
       >
         <Icon
-          color={post.liked === false ? theme.colors.white.a12 : color}
+          color={
+            post.liked === false
+              ? theme.colors.white.a12
+              : theme.colors.gray.a12
+          }
           name="ArrowDown"
           size={theme.space[5]}
           weight="bold"

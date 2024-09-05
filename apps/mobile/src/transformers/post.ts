@@ -22,7 +22,6 @@ export function transformPost(data: PostDataSchema): Post {
     },
     nsfw: data.over_18,
     permalink: data.permalink,
-    read: data.clicked,
     saved: data.saved,
     spoiler: data.spoiler,
     sticky: Boolean(data.stickied),

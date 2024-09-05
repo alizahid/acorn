@@ -50,9 +50,7 @@ export function PostCard({
         }}
         p="3"
       >
-        <Text highContrast={!post.read} weight="bold">
-          {post.title}
-        </Text>
+        <Text weight="bold">{post.title}</Text>
       </Pressable>
 
       {post.type === 'crosspost' && post.crossPost ? (

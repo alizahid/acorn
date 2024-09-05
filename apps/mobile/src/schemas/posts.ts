@@ -10,7 +10,6 @@ import {
 const PostBaseSchema = z.object({
   author: z.string(),
   author_fullname: z.string().catch('[deleted]'),
-  clicked: z.boolean(),
   created: z.number(),
   gallery_data: PostGalleryDataSchema,
   id: z.string(),

@@ -15,8 +15,6 @@ export function PostSaveCard({ post }: Props) {
 
   const { save } = usePostSave()
 
-  const color = theme.colors.gray[post.read ? 'a11' : 'a12']
-
   return (
     <Pressable
       align="center"
@@ -32,7 +30,7 @@ export function PostSaveCard({ post }: Props) {
       width="6"
     >
       <Icon
-        color={post.saved ? theme.colors.white.a12 : color}
+        color={post.saved ? theme.colors.white.a12 : theme.colors.gray.a12}
         name="BookmarkSimple"
         size={theme.space[5]}
         weight={post.saved ? 'fill' : 'duotone'}

@@ -108,13 +108,13 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
           {items.map((item) => (
             <View align="center" direction="row" gap="1" key={item.key}>
               <Icon
-                color={theme.colors.gray[post.read ? 'a11' : 'a12']}
+                color={theme.colors.gray.a12}
                 name={item.icon}
                 size={theme.typography[2].fontSize}
                 weight="duotone"
               />
 
-              <Text highContrast={!post.read} size="2" tabular>
+              <Text size="2" tabular>
                 {item.label}
               </Text>
             </View>
