@@ -4,8 +4,8 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
-import { useCommon } from '~/hooks/common'
 import { useComments } from '~/hooks/queries/user/comments'
+import { listProps } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 
 import { CommentCard } from '../comments/card'
@@ -23,8 +23,6 @@ type Props = {
 export function UserCommentsList({ inset, onRefresh, username }: Props) {
   const router = useRouter()
 
-  const common = useCommon()
-
   const { styles } = useStyles(stylesheet)
 
   const {
@@ -38,13 +36,13 @@ export function UserCommentsList({ inset, onRefresh, username }: Props) {
 
   return (
     <FlashList
-      {...common.listProps}
+      {...listProps}
       ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
-      contentContainerStyle={styles.content(inset ? common.insets.bottom : 0)}
+      contentContainerStyle={styles.content(inset)}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}
@@ -88,8 +86,8 @@ export function UserCommentsList({ inset, onRefresh, username }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
-  content: (inset: number) => ({
-    paddingBottom: inset,
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  content: (inset?: boolean) => ({
+    paddingBottom: inset ? runtime.insets.bottom : undefined,
   }),
 }))

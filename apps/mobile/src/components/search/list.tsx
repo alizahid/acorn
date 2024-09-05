@@ -8,8 +8,8 @@ import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
-import { useCommon } from '~/hooks/common'
 import { useSearch } from '~/hooks/queries/search/search'
+import { listProps } from '~/lib/common'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
 import { type SearchTab } from '~/types/search'
@@ -38,8 +38,6 @@ export function SearchList({
 }: Props) {
   const list = useRef<FlashList<Community | Post>>(null)
 
-  const common = useCommon()
-
   // @ts-expect-error -- go away
   useScrollToTop(list)
 
@@ -57,11 +55,11 @@ export function SearchList({
 
   return (
     <FlashList
-      {...common.listProps}
+      {...listProps}
       ItemSeparatorComponent={() => <View style={styles.separator(type)} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListHeaderComponent={header}
-      contentContainerStyle={styles.content(inset ? common.insets.bottom : 0)}
+      contentContainerStyle={styles.content(inset)}
       data={results}
       estimatedItemSize={type === 'community' ? 56 : 120}
       getItemType={() => type}
@@ -92,9 +90,9 @@ export function SearchList({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  content: (inset: number) => ({
-    paddingBottom: inset,
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  content: (inset?: boolean) => ({
+    paddingBottom: inset ? runtime.insets.bottom : undefined,
   }),
   separator: (type: SearchTab) => {
     if (type === 'community') {

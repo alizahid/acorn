@@ -8,9 +8,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-
-import { useCommon } from '~/hooks/common'
 
 import { HeaderButton } from '../navigation/header-button'
 
@@ -23,11 +22,11 @@ type Props = {
 }
 
 export function FakeModal({ children, close, onClose, style, visible }: Props) {
-  const common = useCommon()
+  const frame = useSafeAreaFrame()
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const translate = useSharedValue(common.frame.height)
+  const translate = useSharedValue(frame.height)
 
   useEffect(() => {
     if (visible) {
@@ -40,12 +39,17 @@ export function FakeModal({ children, close, onClose, style, visible }: Props) {
       translate.value = event.translationY
     })
     .onEnd((event) => {
-      if (Math.abs(event.translationY) > 100) {
+      if (
+        Math.abs(event.translationY) > 100 ||
+        Math.abs(event.velocityY) > 1_000
+      ) {
         translate.value = withTiming(
-          event.translationY < 0 ? -common.frame.height : common.frame.height,
+          event.translationY < 0 ? -frame.height : frame.height,
           undefined,
           () => {
             runOnJS(onClose)()
+
+            translate.value = frame.height
           },
         )
       } else {
@@ -57,7 +61,7 @@ export function FakeModal({ children, close, onClose, style, visible }: Props) {
     () => ({
       opacity: interpolate(
         translate.value,
-        [-common.frame.height, 0, common.frame.height],
+        [-frame.height, 0, frame.height],
         [0, 1, 0],
       ),
     }),
@@ -83,17 +87,13 @@ export function FakeModal({ children, close, onClose, style, visible }: Props) {
       </GestureDetector>
 
       {close ? (
-        <Animated.View style={[styles.close(common.insets.top), overlay]}>
+        <Animated.View style={[styles.close, overlay]}>
           <HeaderButton
             icon="X"
             onPress={() => {
-              translate.value = withTiming(
-                common.frame.height,
-                undefined,
-                () => {
-                  runOnJS(onClose)()
-                },
-              )
+              translate.value = withTiming(frame.height, undefined, () => {
+                runOnJS(onClose)()
+              })
             }}
             size={theme.space[6]}
             weight="bold"
@@ -104,12 +104,12 @@ export function FakeModal({ children, close, onClose, style, visible }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  close: (inset: number) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  close: {
     position: 'absolute',
     right: theme.space[4],
-    top: inset + theme.space[4],
-  }),
+    top: theme.space[4] + runtime.insets.top,
+  },
   main: {
     ...StyleSheet.absoluteFillObject,
   },

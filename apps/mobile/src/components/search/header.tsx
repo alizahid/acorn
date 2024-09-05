@@ -2,7 +2,6 @@ import { type SharedValue } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { useCommon } from '~/hooks/common'
 import { SearchTab } from '~/types/search'
 
 import { Icon } from '../common/icon'
@@ -24,14 +23,12 @@ export function SearchHeader({
   onQueryChange,
   query,
 }: Props) {
-  const common = useCommon()
-
   const t = useTranslations('component.search.header')
 
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View pt={common.insets.top} style={styles.main}>
+    <View style={styles.main}>
       <View m="4" mb="0">
         <Icon
           color={theme.colors.gray.a9}
@@ -70,7 +67,7 @@ export function SearchHeader({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   clear: {
     height: theme.space[7],
     position: 'absolute',
@@ -83,10 +80,11 @@ const stylesheet = createStyleSheet((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     borderWidth: 0,
-    paddingLeft: theme.space[2] + theme.space[5] + theme.space[2],
+    paddingLeft: theme.space[2] * 2 + theme.space[5],
   },
   main: {
     backgroundColor: theme.colors.gray[1],
+    paddingTop: runtime.insets.top,
   },
   search: {
     left: theme.space[2],

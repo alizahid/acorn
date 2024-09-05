@@ -7,8 +7,8 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { useCommon } from '~/hooks/common'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
+import { listProps } from '~/lib/common'
 import { type Post } from '~/types/post'
 
 import { Empty } from '../common/empty'
@@ -38,7 +38,6 @@ export function PostList({
 
   const list = useRef<FlashList<Post>>(null)
 
-  const common = useCommon()
   const focused = useIsFocused()
 
   // @ts-expect-error -- go away
@@ -61,7 +60,7 @@ export function PostList({
 
   return (
     <List
-      {...common.listProps}
+      {...listProps}
       ItemSeparatorComponent={() => (
         <View height={1} style={styles.separator} />
       )}
@@ -70,7 +69,7 @@ export function PostList({
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
       ListHeaderComponent={header}
-      contentContainerStyle={styles.content(inset ? common.insets.bottom : 0)}
+      contentContainerStyle={styles.content(inset)}
       data={posts}
       estimatedItemSize={120}
       extraData={{
@@ -110,9 +109,9 @@ export function PostList({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  content: (inset: number) => ({
-    paddingBottom: inset,
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  content: (inset?: boolean) => ({
+    paddingBottom: inset ? runtime.insets.bottom : undefined,
   }),
   separator: {
     backgroundColor: theme.colors.gray.a6,

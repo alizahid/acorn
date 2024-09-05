@@ -3,7 +3,6 @@ import { type SharedValue } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { useCommon } from '~/hooks/common'
 import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { UserTab } from '~/types/user'
@@ -20,8 +19,6 @@ type Props = NativeStackHeaderProps & {
 }
 
 export function UserHeader({ navigation, offset, onChange, username }: Props) {
-  const common = useCommon()
-
   const t = useTranslations('component.users.header')
 
   const { styles } = useStyles(stylesheet)
@@ -30,7 +27,7 @@ export function UserHeader({ navigation, offset, onChange, username }: Props) {
   const { follow, isPending } = useFollow()
 
   return (
-    <View pt={common.insets.top} style={styles.main}>
+    <View style={styles.main}>
       <View align="center" direction="row" height="8" justify="center">
         <HeaderButton
           icon="ArrowLeft"
@@ -41,7 +38,7 @@ export function UserHeader({ navigation, offset, onChange, username }: Props) {
           weight="bold"
         />
 
-        <Text lines={1} style={styles.title(common.frame.width)} weight="bold">
+        <Text lines={1} style={styles.title} weight="bold">
           {profile?.name}
         </Text>
 
@@ -71,7 +68,7 @@ export function UserHeader({ navigation, offset, onChange, username }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   back: {
     left: 0,
     position: 'absolute',
@@ -84,8 +81,9 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   main: {
     backgroundColor: theme.colors.gray[1],
+    paddingTop: runtime.insets.top,
   },
-  title: (width: number) => ({
-    maxWidth: width - theme.space[8] * 2 - theme.space[4] * 2,
-  }),
+  title: {
+    maxWidth: '60%',
+  },
 }))

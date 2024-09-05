@@ -9,7 +9,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { CommunityCard } from '~/components/communities/card'
-import { useCommon } from '~/hooks/common'
+import { listProps } from '~/lib/common'
 import { type Community } from '~/types/community'
 
 import { View } from '../common/view'
@@ -31,8 +31,6 @@ export function CommunitiesList({
   isLoading,
   refetch,
 }: Props) {
-  const common = useCommon()
-
   const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlashList<Community | string>>(null)
@@ -46,7 +44,7 @@ export function CommunitiesList({
 
   return (
     <FlashList
-      {...common.listProps}
+      {...listProps}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
@@ -106,7 +104,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   header: {
     backgroundColor: theme.colors.gray.a2,
-    paddingLeft: theme.space[4] + theme.space[7] + theme.space[4],
+    paddingLeft: theme.space[4] * 2 + theme.space[7],
   },
   sticky: {
     backgroundColor: theme.colors.gray[2],

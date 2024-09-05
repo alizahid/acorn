@@ -2,7 +2,6 @@ import { Image } from 'expo-image'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { useCommon } from '~/hooks/common'
 import { useImagePlaceholder } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { getAspectRatio } from '~/lib/media'
@@ -21,8 +20,6 @@ type Props = {
 }
 
 export function PostLinkCard({ media, recyclingKey, style, url }: Props) {
-  const common = useCommon()
-
   const { styles, theme } = useStyles(stylesheet)
 
   const handleLink = useLink()
@@ -41,7 +38,7 @@ export function PostLinkCard({ media, recyclingKey, style, url }: Props) {
           {...placeholder}
           recyclingKey={recyclingKey}
           source={media.url}
-          style={styles.image(getAspectRatio(media), common.height.max)}
+          style={styles.image(getAspectRatio(media))}
         />
       ) : null}
 
@@ -60,10 +57,10 @@ export function PostLinkCard({ media, recyclingKey, style, url }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  image: (aspectRatio: number, maxHeight: number) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  image: (aspectRatio: number) => ({
     aspectRatio,
-    maxHeight,
+    maxHeight: runtime.screen.height * 0.5,
   }),
   main: {
     backgroundColor: theme.colors.gray.a3,

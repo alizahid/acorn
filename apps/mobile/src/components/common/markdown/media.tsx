@@ -20,7 +20,7 @@ export function Media({ caption, media, recyclingKey }: Props) {
       <Image
         recyclingKey={recyclingKey}
         source={media.url}
-        style={styles.image(media.width / media.height, media.width)}
+        style={styles.image(media.height, media.width)}
       />
 
       {caption?.length ? (
@@ -33,8 +33,8 @@ export function Media({ caption, media, recyclingKey }: Props) {
 }
 
 const stylesheet = createStyleSheet(() => ({
-  image: (aspectRatio: number, width: number) => ({
-    aspectRatio,
+  image: (height: number, width: number) => ({
+    aspectRatio: width / height,
     maxHeight: width,
     width: '100%',
   }),

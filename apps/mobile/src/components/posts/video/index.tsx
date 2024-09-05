@@ -7,7 +7,6 @@ import { VideoPlayer } from './player'
 import { RedGifsVideo } from './red-gifs'
 
 type Props = {
-  maxHeight?: number
   nsfw?: boolean
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
@@ -16,7 +15,6 @@ type Props = {
 }
 
 export function PostVideoCard({
-  maxHeight,
   nsfw,
   recyclingKey,
   style,
@@ -32,7 +30,6 @@ export function PostVideoCard({
   if (video.provider === 'reddit') {
     return (
       <VideoPlayer
-        maxHeight={maxHeight}
         nsfw={nsfw}
         source={video.url}
         style={style}

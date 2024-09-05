@@ -1,7 +1,7 @@
 import { type SharedValue } from 'react-native-reanimated'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { useCommon } from '~/hooks/common'
 import { CommunityTab } from '~/types/community'
 
 import { SegmentedControl } from '../common/segmented-control'
@@ -13,12 +13,12 @@ type Props = {
 }
 
 export function CommunitiesHeader({ offset, onChange }: Props) {
-  const common = useCommon()
-
   const t = useTranslations('component.communities.header')
 
+  const { styles } = useStyles(stylesheet)
+
   return (
-    <View pt={common.insets.top}>
+    <View style={styles.main}>
       <SegmentedControl
         items={CommunityTab.map((item) => t(item))}
         offset={offset}
@@ -29,3 +29,9 @@ export function CommunitiesHeader({ offset, onChange }: Props) {
     </View>
   )
 }
+
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  main: {
+    paddingTop: runtime.insets.top,
+  },
+}))

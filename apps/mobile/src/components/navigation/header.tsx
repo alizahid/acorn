@@ -2,8 +2,6 @@ import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { useCommon } from '~/hooks/common'
-
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { HeaderButton } from './header-button'
@@ -11,15 +9,13 @@ import { HeaderButton } from './header-button'
 type Props = NativeStackHeaderProps | BottomTabHeaderProps
 
 export function Header({ navigation, options, ...props }: Props) {
-  const common = useCommon()
-
   const { styles } = useStyles(stylesheet)
 
   const back = 'back' in props ? Boolean(props.back) : false
   const left = back || options.headerLeft
 
   return (
-    <View pt={common.insets.top} style={styles.main}>
+    <View style={styles.main}>
       <View align="center" height="8" justify="center">
         {left ? (
           <View style={[styles.actions, styles.left]}>
@@ -61,7 +57,7 @@ export function Header({ navigation, options, ...props }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   actions: {
     bottom: 0,
     flexDirection: 'row',
@@ -72,6 +68,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   main: {
     backgroundColor: theme.colors.gray[1],
+    paddingTop: runtime.insets.top,
   },
   right: {
     right: 0,

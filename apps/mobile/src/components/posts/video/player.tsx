@@ -2,11 +2,11 @@ import { BlurView } from 'expo-blur'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
 import { useEffect, useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Text } from '~/components/common/text'
-import { useCommon } from '~/hooks/common'
 import { getAspectRatio } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
@@ -16,7 +16,6 @@ import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
 
 type Props = {
-  maxHeight?: number
   nsfw?: boolean
   source: VideoSource
   style?: StyleProp<ViewStyle>
@@ -24,15 +23,8 @@ type Props = {
   viewing: boolean
 }
 
-export function VideoPlayer({
-  maxHeight,
-  nsfw,
-  source,
-  style,
-  video,
-  viewing,
-}: Props) {
-  const common = useCommon()
+export function VideoPlayer({ nsfw, source, style, video, viewing }: Props) {
+  const frame = useSafeAreaFrame()
 
   const t = useTranslations('component.posts.video')
 
@@ -74,10 +66,7 @@ export function VideoPlayer({
         onPress={() => {
           setVisible(true)
         }}
-        style={[
-          styles.main(getAspectRatio(video), maxHeight ?? common.height.max),
-          style,
-        ]}
+        style={[styles.main(getAspectRatio(video)), style]}
       >
         <VideoView
           allowsFullscreen={false}
@@ -136,14 +125,14 @@ export function VideoPlayer({
           contentFit="contain"
           nativeControls
           player={player}
-          style={styles.full(common.frame.width, video.width / video.height)}
+          style={styles.full(frame.width, video.width / video.height)}
         />
       </FakeModal>
     </>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   blur: {
     alignItems: 'center',
     bottom: 0,
@@ -158,9 +147,9 @@ const stylesheet = createStyleSheet((theme) => ({
     aspectRatio,
     width,
   }),
-  main: (aspectRatio: number, maxHeight: number) => ({
+  main: (aspectRatio: number) => ({
     aspectRatio,
-    maxHeight,
+    maxHeight: runtime.screen.height * 0.5,
   }),
   modal: {
     justifyContent: 'center',

@@ -18,7 +18,6 @@ import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
-import { useCommon } from '~/hooks/common'
 import { useKeyboard } from '~/hooks/keyboard'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
 import { type AuthCodeForm, AuthCodeSchema } from '~/reddit/auth'
@@ -34,8 +33,6 @@ export default function Screen() {
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
-
-  const common = useCommon()
 
   const t = useTranslations('screen.auth.signIn')
 
@@ -76,7 +73,7 @@ export default function Screen() {
 
   return (
     <Animated.ScrollView
-      contentContainerStyle={styles.content(common.insets.bottom)}
+      contentContainerStyle={styles.content}
       keyboardDismissMode="on-drag"
       style={[styles.main, keyboard.styles]}
     >
@@ -147,17 +144,17 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   clientId: {
     flex: 1,
   },
-  content: (inset: number) => ({
+  content: {
     flexGrow: 1,
     gap: theme.space[9],
     justifyContent: 'center',
     padding: theme.space[4],
-    paddingBottom: theme.space[4] + inset,
-  }),
+    paddingBottom: theme.space[4] + runtime.insets.bottom,
+  },
   logo: {
     marginBottom: theme.space[4],
   },

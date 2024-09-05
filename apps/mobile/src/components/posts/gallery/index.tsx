@@ -3,10 +3,10 @@ import { Image } from 'expo-image'
 import * as StatusBar from 'expo-status-bar'
 import { useState } from 'react'
 import { FlatList, type StyleProp, type ViewStyle } from 'react-native'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { useCommon } from '~/hooks/common'
 import { useImagePlaceholder } from '~/hooks/image'
 import { getAspectRatio } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
@@ -21,20 +21,13 @@ import { GalleryImage } from './image'
 
 type Props = {
   images: Array<PostMedia>
-  maxHeight?: number
   nsfw?: boolean
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
 }
 
-export function PostGalleryCard({
-  images,
-  maxHeight,
-  nsfw,
-  recyclingKey,
-  style,
-}: Props) {
-  const common = useCommon()
+export function PostGalleryCard({ images, nsfw, recyclingKey, style }: Props) {
+  const frame = useSafeAreaFrame()
 
   const t = useTranslations('component.posts.gallery')
 
@@ -60,10 +53,7 @@ export function PostGalleryCard({
 
           setVisible(true)
         }}
-        style={[
-          styles.main(getAspectRatio(first), maxHeight ?? common.height.max),
-          style,
-        ]}
+        style={[styles.main(getAspectRatio(first)), style]}
       >
         <Image
           {...placeholder}
@@ -125,16 +115,14 @@ export function PostGalleryCard({
           )}
           scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
-          snapToOffsets={images.map(
-            (item, index) => common.frame.width * index,
-          )}
+          snapToOffsets={images.map((item, index) => frame.width * index)}
         />
       </FakeModal>
     </>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   blur: {
     alignItems: 'center',
     bottom: 0,
@@ -163,9 +151,9 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
   },
-  main: (aspectRatio: number, maxHeight: number) => ({
+  main: (aspectRatio: number) => ({
     aspectRatio,
-    maxHeight,
+    maxHeight: runtime.screen.height * 0.5,
     overflow: 'hidden',
   }),
 }))

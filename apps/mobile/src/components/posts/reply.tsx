@@ -4,7 +4,6 @@ import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { useCommon } from '~/hooks/common'
 import { useKeyboard } from '~/hooks/keyboard'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
 
@@ -23,8 +22,6 @@ type Props = {
 
 export const PostReplyCard = forwardRef<TextInput, Props>(
   function PostReplyCard({ commentId, onReset, postId, user }, ref) {
-    const common = useCommon()
-
     const t = useTranslations('component.posts.reply')
 
     const keyboard = useKeyboard()
@@ -52,7 +49,7 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
           placeholderTextColor={theme.colors.gray.a9}
           ref={ref}
           selectionColor={theme.colors.accent.a9}
-          style={styles.input(common.insets.bottom, focused)}
+          style={styles.input(focused)}
           textAlignVertical="top"
           value={text}
         />
@@ -116,14 +113,14 @@ export const PostReplyCard = forwardRef<TextInput, Props>(
   },
 )
 
-const stylesheet = createStyleSheet((theme) => ({
-  input: (inset: number, open: boolean) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  input: (open: boolean) => ({
     color: theme.colors.gray.a11,
     fontSize: theme.typography[3].fontSize,
     height: open ? theme.space[9] * 2 : undefined,
     lineHeight: theme.typography[3].lineHeight,
     padding: theme.space[3],
-    paddingBottom: (open ? 0 : inset) + theme.space[4],
+    paddingBottom: theme.space[4] + (open ? 0 : runtime.insets.bottom),
   }),
   main: {
     backgroundColor: theme.colors.gray.a2,

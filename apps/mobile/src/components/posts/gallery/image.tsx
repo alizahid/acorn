@@ -14,7 +14,6 @@ import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { useCommon } from '~/hooks/common'
 import { useImagePlaceholder } from '~/hooks/image'
 import { type PostMedia } from '~/types/post'
 
@@ -24,8 +23,6 @@ type Props = {
 }
 
 export function GalleryImage({ image, recyclingKey }: Props) {
-  const common = useCommon()
-
   const t = useTranslations('component.posts.gallery')
 
   const { styles, theme } = useStyles(stylesheet)
@@ -48,7 +45,7 @@ export function GalleryImage({ image, recyclingKey }: Props) {
   )
 
   return (
-    <View style={styles.main(common.frame.width, image.width / image.height)}>
+    <View style={styles.main(image.width / image.height)}>
       <Zoomable
         isDoubleTapEnabled
         isPanEnabled={zoomed}
@@ -111,7 +108,7 @@ export function GalleryImage({ image, recyclingKey }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   image: {
     flex: 1,
   },
@@ -125,10 +122,10 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
   },
-  main: (width: number, aspectRatio: number) => ({
+  main: (aspectRatio: number) => ({
     alignSelf: 'center',
     aspectRatio,
-    width,
+    width: runtime.screen.width,
   }),
   play: {
     backgroundColor: theme.colors.black.a9,

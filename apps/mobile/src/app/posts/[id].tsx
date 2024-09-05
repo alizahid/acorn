@@ -25,8 +25,8 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { PostCard } from '~/components/posts/card'
 import { PostReplyCard } from '~/components/posts/reply'
-import { useCommon } from '~/hooks/common'
 import { usePost } from '~/hooks/queries/posts/post'
+import { listProps } from '~/lib/common'
 import { isUser, removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -42,7 +42,6 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const common = useCommon()
   const focused = useIsFocused()
 
   const t = useTranslations('screen.posts.post')
@@ -99,7 +98,7 @@ export default function Screen() {
   return (
     <>
       <FlashList
-        {...common.listProps}
+        {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
         ListEmptyComponent={
           isFetching ? post ? <Spinner m="4" /> : <Loading /> : <Empty />

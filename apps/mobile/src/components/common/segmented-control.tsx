@@ -4,8 +4,6 @@ import Animated, {
 } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { useCommon } from '~/hooks/common'
-
 import { Pressable } from './pressable'
 import { Text } from './text'
 import { View } from './view'
@@ -17,12 +15,9 @@ type Props = {
 }
 
 export function SegmentedControl({ items, offset, onChange }: Props) {
-  const common = useCommon()
-
   const { styles, theme } = useStyles(stylesheet)
 
-  const width =
-    (common.frame.width - theme.space[6] - theme.space[1]) / items.length
+  const width = styles.item(items.length).width
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -56,7 +51,10 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  item: (items: number) => ({
+    width: (runtime.screen.width - theme.space[6] - theme.space[1]) / items,
+  }),
   main: {
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',

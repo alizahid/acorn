@@ -10,20 +10,13 @@ import { type PostMedia } from '~/types/post'
 import { VideoPlayer } from './player'
 
 type Props = {
-  maxHeight?: number
   nsfw?: boolean
   style?: StyleProp<ViewStyle>
   video: PostMedia
   viewing: boolean
 }
 
-export function RedGifsVideo({
-  maxHeight,
-  nsfw,
-  style,
-  video,
-  viewing,
-}: Props) {
+export function RedGifsVideo({ nsfw, style, video, viewing }: Props) {
   const { styles } = useStyles(stylesheet)
 
   const { gif } = useRedGifs(video.url)
@@ -31,7 +24,6 @@ export function RedGifsVideo({
   if (gif) {
     return (
       <VideoPlayer
-        maxHeight={maxHeight}
         nsfw={nsfw}
         source={gif.source}
         style={style}
@@ -45,16 +37,16 @@ export function RedGifsVideo({
     <View
       align="center"
       justify="center"
-      style={styles.main(getAspectRatio(video), maxHeight)}
+      style={styles.main(getAspectRatio(video))}
     >
       <Spinner />
     </View>
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
-  main: (aspectRatio: number, maxHeight?: number) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  main: (aspectRatio: number) => ({
     aspectRatio,
-    maxHeight,
+    maxHeight: runtime.screen.height * 0.5,
   }),
 }))

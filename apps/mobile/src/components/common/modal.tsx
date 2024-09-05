@@ -8,8 +8,6 @@ import {
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { useCommon } from '~/hooks/common'
-
 import { Pressable } from './pressable'
 import { Text } from './text'
 import { View } from './view'
@@ -33,8 +31,6 @@ export function Modal({
   title,
   visible,
 }: Props) {
-  const common = useCommon()
-
   const { styles } = useStyles(stylesheet)
 
   return (
@@ -53,7 +49,7 @@ export function Modal({
           style={styles.overlay}
         />
 
-        <View style={styles.content(common.frame.height)}>
+        <View style={styles.content}>
           <View
             align="center"
             direction="row"
@@ -83,18 +79,18 @@ export function Modal({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   actions: {
     position: 'absolute',
     top: 0,
   },
-  content: (frameHeight: number) => ({
+  content: {
     backgroundColor: theme.colors.gray[1],
     borderCurve: 'continuous',
     borderRadius: theme.radius[6],
-    maxHeight: frameHeight * 0.6,
+    maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
-  }),
+  },
   header: {
     backgroundColor: theme.colors.gray.a2,
   },

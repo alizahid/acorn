@@ -7,7 +7,7 @@ import { type IconName, type IconWeight } from '~/components/common/icon'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { useCommon } from '~/hooks/common'
+import { listProps } from '~/lib/common'
 
 import { SettingsItem } from './item'
 
@@ -55,8 +55,6 @@ type Props = {
 }
 
 export function SettingsMenu({ footer, header, items, onRefresh }: Props) {
-  const common = useCommon()
-
   const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlatList<SettingsItem | string | null>>(null)
@@ -65,7 +63,7 @@ export function SettingsMenu({ footer, header, items, onRefresh }: Props) {
 
   return (
     <FlatList
-      {...common.listProps}
+      {...listProps}
       ListFooterComponent={footer}
       ListHeaderComponent={header}
       data={items}
