@@ -55,7 +55,7 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
       },
     },
     ios: {
-      buildNumber: '7',
+      buildNumber: '8',
       bundleIdentifier,
       config: {
         usesNonExemptEncryption: false,
