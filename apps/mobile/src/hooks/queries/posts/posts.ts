@@ -1,4 +1,8 @@
-import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import {
+  type InfiniteData,
+  useInfiniteQuery,
+  useIsRestoring,
+} from '@tanstack/react-query'
 import { uniqBy } from 'lodash'
 import { create } from 'mutative'
 import { useMemo } from 'react'
@@ -39,6 +43,8 @@ export type PostsProps = {
 
 export function usePosts({ community, interval, sort }: PostsProps) {
   const { accountId } = useAuth()
+
+  const isRestoring = useIsRestoring()
 
   const {
     data,
@@ -99,7 +105,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading,
+    isLoading: isRestoring || isLoading,
     posts,
     refetch,
   }
