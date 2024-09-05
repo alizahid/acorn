@@ -66,6 +66,7 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
           backgroundColor: '#101211',
         },
       },
+      supportsTablet: true,
     },
     name,
     orientation: 'portrait',
