@@ -111,6 +111,7 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
                 color={theme.colors.gray[post.read ? 'a11' : 'a12']}
                 name={item.icon}
                 size={theme.typography[2].fontSize}
+                weight="duotone"
               />
 
               <Text highContrast={!post.read} size="2" tabular>
