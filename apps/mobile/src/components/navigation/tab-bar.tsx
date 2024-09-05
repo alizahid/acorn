@@ -6,7 +6,7 @@ import { View } from '../common/view'
 
 type Props = BottomTabBarProps
 
-export function TabBar({ descriptors, insets, navigation, state }: Props) {
+export function TabBar({ descriptors, navigation, state }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
@@ -39,7 +39,7 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
               }
             }}
             pt="4"
-            style={styles.tab(insets.bottom)}
+            style={styles.tab}
           >
             {options?.tabBarIcon?.({
               color: theme.colors[focused ? 'accent' : 'gray'].a9,
@@ -53,11 +53,11 @@ export function TabBar({ descriptors, insets, navigation, state }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   main: {
     backgroundColor: theme.colors.gray[1],
   },
-  tab: (inset: number) => ({
-    paddingBottom: theme.space[4] + inset,
-  }),
+  tab: {
+    paddingBottom: theme.space[4] + runtime.insets.bottom,
+  },
 }))
