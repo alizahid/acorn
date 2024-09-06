@@ -64,6 +64,8 @@ export default function Screen() {
     sort: sortPostComments,
   })
 
+  const [viewing, setViewing] = useState<Array<string>>([])
+
   useFocusEffect(() => {
     if (!post) {
       return
@@ -125,6 +127,7 @@ export default function Screen() {
         estimatedItemSize={72}
         extraData={{
           commentId: params.commentId,
+          viewing,
         }}
         getItemType={(item) => {
           if (typeof item === 'string') {
@@ -149,6 +152,9 @@ export default function Screen() {
           return 'post'
         }}
         keyboardDismissMode="on-drag"
+        onViewableItemsChanged={({ viewableItems }) => {
+          setViewing(() => viewableItems.map((item) => item.key))
+        }}
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={({ item }) => {
@@ -248,10 +254,18 @@ export default function Screen() {
           }
 
           return (
-            <PostCard expanded label="user" post={item} viewing={focused} />
+            <PostCard
+              expanded
+              label="user"
+              post={item}
+              viewing={focused ? viewing.includes('post') : false}
+            />
           )
         }}
         stickyHeaderIndices={[1]}
+        viewabilityConfig={{
+          waitForInteraction: false,
+        }}
       />
 
       <PostReplyCard
