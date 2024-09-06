@@ -52,7 +52,7 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
-  const list = useRef<FlashList<Post | Comment | null | undefined>>(null)
+  const list = useRef<FlashList<Post | Comment | string>>(null)
   const reply = useRef<TextInput>(null)
 
   const [sort, setSort] = useState(postCommentSort)
@@ -118,31 +118,32 @@ export default function Screen() {
       <FlashList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
-        ListEmptyComponent={
-          isFetching ? post ? <Spinner m="4" /> : <Loading /> : <Empty />
-        }
-        data={[post, null, ...comments]}
+        data={[
+          post ?? 'post',
+          'header',
+          ...(comments.length > 0 ? comments : ['empty']),
+        ]}
         estimatedItemSize={72}
         extraData={{
           commentId: params.commentId,
         }}
         getItemType={(item) => {
-          if (item === null) {
-            return 'sticky'
+          if (typeof item === 'string') {
+            return item
           }
 
-          if (item?.type === 'more' || item?.type === 'reply') {
+          if (item.type === 'more' || item.type === 'reply') {
             return 'comment'
           }
 
           return 'post'
         }}
         keyExtractor={(item) => {
-          if (item === null) {
-            return 'sticky'
+          if (typeof item === 'string') {
+            return item
           }
 
-          if (item?.type === 'more' || item?.type === 'reply') {
+          if (item.type === 'more' || item.type === 'reply') {
             return item.data.id
           }
 
@@ -152,39 +153,51 @@ export default function Screen() {
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={({ item }) => {
-          if (item === null) {
-            return (
-              <View align="center" direction="row" style={styles.header}>
-                {params.commentId ? (
-                  <HeaderButton
-                    icon="ArrowLeft"
-                    onPress={() => {
-                      list.current?.scrollToIndex({
-                        animated: true,
-                        index: 1,
-                      })
+          if (typeof item === 'string') {
+            if (item === 'header') {
+              return (
+                <View align="center" direction="row" style={styles.header}>
+                  {params.commentId ? (
+                    <HeaderButton
+                      icon="ArrowLeft"
+                      onPress={() => {
+                        list.current?.scrollToIndex({
+                          animated: true,
+                          index: 1,
+                        })
 
-                      router.setParams({
-                        commentId: '',
-                      })
-                    }}
+                        router.setParams({
+                          commentId: '',
+                        })
+                      }}
+                    />
+                  ) : null}
+
+                  <Text ml={params.commentId ? undefined : '3'} weight="bold">
+                    {t('comments')}
+                  </Text>
+
+                  <CommentsSortMenu
+                    onChange={setSort}
+                    style={styles.menu}
+                    value={sort}
                   />
-                ) : null}
+                </View>
+              )
+            }
 
-                <Text ml={params.commentId ? undefined : '3'} weight="bold">
-                  {t('comments')}
-                </Text>
+            if (item === 'empty') {
+              return isFetching ? (
+                post ? (
+                  <Spinner m="4" />
+                ) : (
+                  <Loading />
+                )
+              ) : (
+                <Empty />
+              )
+            }
 
-                <CommentsSortMenu
-                  onChange={setSort}
-                  style={styles.menu}
-                  value={sort}
-                />
-              </View>
-            )
-          }
-
-          if (!item) {
             return null
           }
 
