@@ -1,10 +1,9 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { parseISO } from 'date-fns'
 import { create as mutative } from 'mutative'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { CACHE_KEY, queryClient } from '~/lib/query'
+import { queryClient } from '~/lib/query'
 import { Store } from '~/lib/store'
 
 export const AUTH_KEY = 'auth-storage'
@@ -24,7 +23,6 @@ export type State = Partial<AuthPayload> & {
   accountId?: string
   accounts: Array<Account>
   addAccount: (account: Account) => void
-  clearCache: () => void
   removeAccount: (id: string) => void
   setAccount: (id: string) => void
   setClientId: (clientId: string) => void
@@ -39,11 +37,6 @@ export const useAuth = create<State>()(
           ...getAccount(account),
           accounts: updateAccounts(get().accounts, account),
         })
-      },
-      clearCache() {
-        queryClient.clear()
-
-        void AsyncStorage.removeItem(CACHE_KEY)
       },
       removeAccount(id) {
         const accounts = get().accounts.filter((item) => item.id !== id)
@@ -73,6 +66,8 @@ export const useAuth = create<State>()(
           set({
             ...getAccount(account),
           })
+
+          queryClient.clear()
         }
       },
       setClientId(clientId) {

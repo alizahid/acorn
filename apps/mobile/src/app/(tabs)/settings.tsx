@@ -15,8 +15,8 @@ import {
 } from '~/components/settings/menu'
 import { useLink } from '~/hooks/link'
 import { getTranslator } from '~/intl'
+import { queryClient } from '~/lib/query'
 import { SortColors, SortIcons } from '~/lib/sort'
-import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import {
   CommentSort,
@@ -31,7 +31,6 @@ export default function Screen() {
   const tSort = getTranslator('component.common.sort')
   const tInterval = getTranslator('component.common.interval')
 
-  const { clearCache } = useAuth()
   const { blurNsfw, feedMuted, linkBrowser, update, ...preferences } =
     usePreferences()
 
@@ -222,7 +221,7 @@ export default function Screen() {
           },
           label: t('menu.cache.query'),
           onPress() {
-            clearCache()
+            queryClient.clear()
           },
         },
       ]}
