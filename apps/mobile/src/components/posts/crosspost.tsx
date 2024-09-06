@@ -59,6 +59,7 @@ export function CrossPostCard({ post, style, viewing }: Props) {
     >
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
+          crossPost
           nsfw={post.nsfw}
           recyclingKey={post.id}
           video={post.media.video}
@@ -68,6 +69,7 @@ export function CrossPostCard({ post, style, viewing }: Props) {
 
       {post.type === 'image' && post.media.images ? (
         <PostGalleryCard
+          crossPost
           images={post.media.images}
           nsfw={post.nsfw}
           recyclingKey={post.id}
@@ -84,7 +86,7 @@ export function CrossPostCard({ post, style, viewing }: Props) {
       ) : null}
 
       <View gap="3" p="3">
-        <Text lines={3} weight="medium">
+        <Text lines={2} weight="medium">
           {post.title}
         </Text>
 

@@ -4,7 +4,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useImagePlaceholder } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
-import { getAspectRatio } from '~/lib/media'
 import { type PostMedia } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -38,7 +37,7 @@ export function PostLinkCard({ media, recyclingKey, style, url }: Props) {
           {...placeholder}
           recyclingKey={recyclingKey}
           source={media.url}
-          style={styles.image(getAspectRatio(media))}
+          style={styles.image}
         />
       ) : null}
 
@@ -58,9 +57,9 @@ export function PostLinkCard({ media, recyclingKey, style, url }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  image: (aspectRatio: number) => ({
-    aspectRatio,
-  }),
+  image: {
+    aspectRatio: 2,
+  },
   main: {
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',

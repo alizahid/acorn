@@ -6,7 +6,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Text } from '~/components/common/text'
-import { getAspectRatio } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -15,6 +14,7 @@ import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
 
 type Props = {
+  crossPost?: boolean
   nsfw?: boolean
   source: VideoSource
   style?: StyleProp<ViewStyle>
@@ -22,7 +22,14 @@ type Props = {
   viewing: boolean
 }
 
-export function VideoPlayer({ nsfw, source, style, video, viewing }: Props) {
+export function VideoPlayer({
+  crossPost,
+  nsfw,
+  source,
+  style,
+  video,
+  viewing,
+}: Props) {
   const t = useTranslations('component.posts.video')
 
   const preferences = usePreferences()
@@ -63,7 +70,7 @@ export function VideoPlayer({ nsfw, source, style, video, viewing }: Props) {
         onPress={() => {
           setVisible(true)
         }}
-        style={[styles.main(getAspectRatio(video)), style]}
+        style={[styles.main(crossPost), style]}
       >
         <VideoView
           allowsFullscreen={false}
@@ -72,7 +79,7 @@ export function VideoPlayer({ nsfw, source, style, video, viewing }: Props) {
           contentFit="cover"
           nativeControls={false}
           player={player}
-          style={styles.video}
+          style={styles.video(video.width / video.height)}
         />
 
         {nsfw && preferences.blurNsfw ? (
@@ -145,16 +152,17 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     maxHeight: runtime.screen.height,
     width: runtime.screen.width,
   }),
-  main: (aspectRatio: number) => ({
-    aspectRatio,
-    width: '100%',
+  main: (crossPost?: boolean) => ({
+    justifyContent: 'center',
+    maxHeight: runtime.screen.height * (crossPost ? 0.3 : 0.5),
+    overflow: 'hidden',
   }),
   modal: {
     justifyContent: 'center',
   },
-  video: {
-    flex: 1,
-  },
+  video: (aspectRatio: number) => ({
+    aspectRatio,
+  }),
   volume: {
     backgroundColor: theme.colors.black.a9,
     borderCurve: 'continuous',

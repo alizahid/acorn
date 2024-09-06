@@ -145,17 +145,3 @@ export function getVideo(data: PostDataSchema): PostMedia | undefined {
     }
   }
 }
-
-export function getAspectRatio({
-  height,
-  width,
-}: {
-  height: number
-  width: number
-}) {
-  if (width > height) {
-    return width / height
-  }
-
-  return height / width
-}

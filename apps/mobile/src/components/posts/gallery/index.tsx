@@ -8,7 +8,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useImagePlaceholder } from '~/hooks/image'
-import { getAspectRatio } from '~/lib/media'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -20,13 +19,20 @@ import { View } from '../../common/view'
 import { GalleryImage } from './image'
 
 type Props = {
+  crossPost?: boolean
   images: Array<PostMedia>
   nsfw?: boolean
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
 }
 
-export function PostGalleryCard({ images, nsfw, recyclingKey, style }: Props) {
+export function PostGalleryCard({
+  crossPost,
+  images,
+  nsfw,
+  recyclingKey,
+  style,
+}: Props) {
   const frame = useSafeAreaFrame()
 
   const t = useTranslations('component.posts.gallery')
@@ -53,13 +59,13 @@ export function PostGalleryCard({ images, nsfw, recyclingKey, style }: Props) {
 
           setVisible(true)
         }}
-        style={[styles.main(getAspectRatio(first)), style]}
+        style={[styles.main(crossPost), style]}
       >
         <Image
           {...placeholder}
           recyclingKey={recyclingKey}
           source={first.thumbnail ?? first.url}
-          style={styles.image}
+          style={styles.image(first.width / first.height)}
         />
 
         {first.type === 'gif' ? (
@@ -122,7 +128,7 @@ export function PostGalleryCard({ images, nsfw, recyclingKey, style }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   blur: {
     alignItems: 'center',
     bottom: 0,
@@ -139,9 +145,9 @@ const stylesheet = createStyleSheet((theme) => ({
   gif: {
     left: theme.space[2],
   },
-  image: {
-    flex: 1,
-  },
+  image: (aspectRatio: number) => ({
+    aspectRatio,
+  }),
   label: {
     backgroundColor: theme.colors.black.a9,
     borderCurve: 'continuous',
@@ -151,8 +157,9 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
   },
-  main: (aspectRatio: number) => ({
-    aspectRatio,
-    width: '100%',
+  main: (crossPost?: boolean) => ({
+    justifyContent: 'center',
+    maxHeight: runtime.screen.height * (crossPost ? 0.3 : 0.5),
+    overflow: 'hidden',
   }),
 }))

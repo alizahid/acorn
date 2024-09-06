@@ -4,19 +4,25 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { Spinner } from '~/components/common/spinner'
 import { View } from '~/components/common/view'
 import { useRedGifs } from '~/hooks/redgifs'
-import { getAspectRatio } from '~/lib/media'
 import { type PostMedia } from '~/types/post'
 
 import { VideoPlayer } from './player'
 
 type Props = {
+  crossPost?: boolean
   nsfw?: boolean
   style?: StyleProp<ViewStyle>
   video: PostMedia
   viewing: boolean
 }
 
-export function RedGifsVideo({ nsfw, style, video, viewing }: Props) {
+export function RedGifsVideo({
+  crossPost,
+  nsfw,
+  style,
+  video,
+  viewing,
+}: Props) {
   const { styles } = useStyles(stylesheet)
 
   const { gif } = useRedGifs(video.url)
@@ -24,6 +30,7 @@ export function RedGifsVideo({ nsfw, style, video, viewing }: Props) {
   if (gif) {
     return (
       <VideoPlayer
+        crossPost={crossPost}
         nsfw={nsfw}
         source={gif.source}
         style={style}
@@ -34,18 +41,25 @@ export function RedGifsVideo({ nsfw, style, video, viewing }: Props) {
   }
 
   return (
-    <View
-      align="center"
-      justify="center"
-      style={styles.main(getAspectRatio(video))}
-    >
-      <Spinner />
+    <View style={styles.main(crossPost)}>
+      <View
+        align="center"
+        justify="center"
+        style={styles.video(video.width / video.height)}
+      >
+        <Spinner />
+      </View>
     </View>
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
-  main: (aspectRatio: number) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  main: (crossPost?: boolean) => ({
+    justifyContent: 'center',
+    maxHeight: runtime.screen.height * (crossPost ? 0.3 : 0.5),
+    overflow: 'hidden',
+  }),
+  video: (aspectRatio: number) => ({
     aspectRatio,
   }),
 }))

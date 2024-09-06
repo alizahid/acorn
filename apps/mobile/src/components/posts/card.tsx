@@ -50,7 +50,9 @@ export function PostCard({
         }}
         p="3"
       >
-        <Text weight="bold">{post.title}</Text>
+        <Text lines={expanded ? undefined : 2} weight="bold">
+          {post.title}
+        </Text>
       </Pressable>
 
       {post.type === 'crosspost' && post.crossPost ? (
