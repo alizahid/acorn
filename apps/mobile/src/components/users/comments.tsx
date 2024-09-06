@@ -4,7 +4,10 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
-import { useComments } from '~/hooks/queries/user/comments'
+import {
+  useComments,
+  type UserCommentsProps,
+} from '~/hooks/queries/user/comments'
 import { listProps } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 
@@ -13,13 +16,18 @@ import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
 
-type Props = {
+type Props = UserCommentsProps & {
   inset?: boolean
   onRefresh?: () => void
-  username: string
 }
 
-export function UserCommentsList({ inset, onRefresh, username }: Props) {
+export function UserCommentsList({
+  inset,
+  interval,
+  onRefresh,
+  sort,
+  username,
+}: Props) {
   const router = useRouter()
 
   const { styles } = useStyles(stylesheet)
@@ -31,7 +39,11 @@ export function UserCommentsList({ inset, onRefresh, username }: Props) {
     isFetchingNextPage,
     isLoading,
     refetch,
-  } = useComments(username)
+  } = useComments({
+    interval,
+    sort,
+    username,
+  })
 
   return (
     <FlashList

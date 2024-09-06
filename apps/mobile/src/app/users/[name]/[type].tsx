@@ -3,7 +3,6 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { useState } from 'react'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -25,22 +24,32 @@ export default function Screen() {
 
   const t = useTranslations('tab.user.menu')
 
-  const { userInterval, userSort } = usePreferences()
-
-  const [sort, setSort] = useState(userSort)
-  const [interval, setInterval] = useState(userInterval)
+  const { intervalUserPosts, sortUserPosts, update } = usePreferences()
 
   useFocusEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <>
-          <FeedSortMenu hideLabel onChange={setSort} type="user" value={sort} />
+          <FeedSortMenu
+            hideLabel
+            onChange={(next) => {
+              update({
+                sortUserPosts: next,
+              })
+            }}
+            type="user"
+            value={sortUserPosts}
+          />
 
-          {sort === 'top' ? (
+          {sortUserPosts === 'top' ? (
             <TopIntervalMenu
               hideLabel
-              onChange={setInterval}
-              value={interval}
+              onChange={(next) => {
+                update({
+                  intervalUserPosts: next,
+                })
+              }}
+              value={intervalUserPosts}
             />
           ) : null}
         </>
@@ -52,9 +61,9 @@ export default function Screen() {
   return (
     <UserPostsList
       inset
-      interval={interval}
+      interval={intervalUserPosts}
       label="subreddit"
-      sort={sort}
+      sort={sortUserPosts}
       type={params.type}
       username={params.name}
     />

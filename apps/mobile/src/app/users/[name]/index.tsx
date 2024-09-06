@@ -90,6 +90,7 @@ export default function Screen() {
           inset
           key="comments"
           onRefresh={refetch}
+          sort="new"
           username={params.name}
         />
       </Pager>

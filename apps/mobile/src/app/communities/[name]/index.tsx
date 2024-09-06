@@ -4,7 +4,6 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
@@ -27,7 +26,8 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const preferences = usePreferences()
+  const { intervalCommunityPosts, sortCommunityPosts, update } =
+    usePreferences()
 
   const { community, refetch } = useCommunity(params.name)
   const { isPending, join } = useJoin()
@@ -70,26 +70,38 @@ export default function Screen() {
     })
   })
 
-  const [sort, setSort] = useState(preferences.communitySort)
-  const [interval, setInterval] = useState(preferences.communityInterval)
-
   return (
     <>
       <View direction="row" justify="between" style={styles.header}>
-        <FeedSortMenu onChange={setSort} type="community" value={sort} />
+        <FeedSortMenu
+          onChange={(next) => {
+            update({
+              sortCommunityPosts: next,
+            })
+          }}
+          type="community"
+          value={sortCommunityPosts}
+        />
 
-        {sort === 'top' ? (
-          <TopIntervalMenu onChange={setInterval} value={interval} />
+        {sortCommunityPosts === 'top' ? (
+          <TopIntervalMenu
+            onChange={(next) => {
+              update({
+                intervalCommunityPosts: next,
+              })
+            }}
+            value={intervalCommunityPosts}
+          />
         ) : null}
       </View>
 
       <PostList
         community={params.name}
         inset
-        interval={interval}
+        interval={intervalCommunityPosts}
         label="user"
         onRefresh={refetch}
-        sort={sort}
+        sort={sortCommunityPosts}
       />
     </>
   )

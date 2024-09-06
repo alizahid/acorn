@@ -66,12 +66,12 @@ export function usePosts({ community, interval, sort }: PostsProps) {
 
       url.searchParams.set('limit', '50')
 
-      if (pageParam) {
-        url.searchParams.set('after', pageParam)
-      }
-
       if (sort === 'top' && interval) {
         url.searchParams.set('t', interval)
+      }
+
+      if (pageParam) {
+        url.searchParams.set('after', pageParam)
       }
 
       const payload = await reddit({

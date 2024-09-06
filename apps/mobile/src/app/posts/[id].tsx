@@ -48,21 +48,20 @@ export default function Screen() {
 
   const t = useTranslations('screen.posts.post')
 
-  const { postCommentSort } = usePreferences()
+  const { sortPostComments, update } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlashList<Post | Comment | string>>(null)
   const reply = useRef<TextInput>(null)
 
-  const [sort, setSort] = useState(postCommentSort)
   const [commentId, setCommentId] = useState<string>()
   const [user, setUser] = useState<string>()
 
   const { collapse, collapsed, comments, isFetching, post, refetch } = usePost({
     commentId: params.commentId,
     id: params.id,
-    sort,
+    sort: sortPostComments,
   })
 
   useFocusEffect(() => {
@@ -178,9 +177,13 @@ export default function Screen() {
                   </Text>
 
                   <CommentsSortMenu
-                    onChange={setSort}
+                    onChange={(next) => {
+                      update({
+                        sortPostComments: next,
+                      })
+                    }}
                     style={styles.menu}
-                    value={sort}
+                    value={sortPostComments}
                   />
                 </View>
               )

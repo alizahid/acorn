@@ -70,12 +70,12 @@ export function useUserPosts({
       url.searchParams.set('type', 'links')
       url.searchParams.set('sort', sort)
 
-      if (pageParam) {
-        url.searchParams.set('after', pageParam)
-      }
-
       if (sort === 'top' && interval) {
         url.searchParams.set('t', interval)
+      }
+
+      if (pageParam) {
+        url.searchParams.set('after', pageParam)
       }
 
       const payload = await reddit({

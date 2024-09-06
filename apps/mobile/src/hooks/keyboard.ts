@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Keyboard } from 'react-native'
 import { useAnimatedKeyboard, useAnimatedStyle } from 'react-native-reanimated'
 
@@ -22,10 +22,6 @@ export function useKeyboard() {
     }
   }, [])
 
-  const dismiss = useCallback(() => {
-    Keyboard.dismiss()
-  }, [])
-
   const styles = useAnimatedStyle(() => ({
     paddingBottom: keyboard.height.value,
   }))
@@ -35,4 +31,8 @@ export function useKeyboard() {
     styles,
     visible,
   }
+}
+
+function dismiss() {
+  Keyboard.dismiss()
 }

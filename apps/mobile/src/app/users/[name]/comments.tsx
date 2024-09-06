@@ -3,7 +3,6 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { useState } from 'react'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -23,22 +22,31 @@ export default function Screen() {
 
   const t = useTranslations('tab.user.menu')
 
-  const { userCommentSort, userInterval } = usePreferences()
-
-  const [sort, setSort] = useState(userCommentSort)
-  const [interval, setInterval] = useState(userInterval)
+  const { intervalUserComments, sortUserComments, update } = usePreferences()
 
   useFocusEffect(() => {
     navigation.setOptions({
       headerRight: () => (
         <>
-          <CommentsSortMenu hideLabel onChange={setSort} value={sort} />
+          <CommentsSortMenu
+            hideLabel
+            onChange={(next) => {
+              update({
+                sortUserComments: next,
+              })
+            }}
+            value={sortUserComments}
+          />
 
-          {sort === 'top' ? (
+          {sortUserComments === 'top' ? (
             <TopIntervalMenu
               hideLabel
-              onChange={setInterval}
-              value={interval}
+              onChange={(next) => {
+                update({
+                  intervalUserComments: next,
+                })
+              }}
+              value={intervalUserComments}
             />
           ) : null}
         </>
@@ -47,5 +55,12 @@ export default function Screen() {
     })
   })
 
-  return <UserCommentsList inset username={params.name} />
+  return (
+    <UserCommentsList
+      inset
+      interval={intervalUserComments}
+      sort={sortUserComments}
+      username={params.name}
+    />
+  )
 }

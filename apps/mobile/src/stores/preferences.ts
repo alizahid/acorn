@@ -14,16 +14,17 @@ export const PREFERENCES_KEY = 'preferences-storage'
 
 export type PreferencesPayload = {
   blurNsfw: boolean
-  communityInterval: TopInterval
-  communitySort: CommunityFeedSort
-  feedInterval: TopInterval
   feedMuted: boolean
-  feedSort: FeedSort
+  intervalCommunityPosts: TopInterval
+  intervalFeedPosts: TopInterval
+  intervalUserComments: TopInterval
+  intervalUserPosts: TopInterval
   linkBrowser: boolean
-  postCommentSort: CommentSort
-  userCommentSort: CommentSort
-  userInterval: TopInterval
-  userSort: UserFeedSort
+  sortCommunityPosts: CommunityFeedSort
+  sortFeedPosts: FeedSort
+  sortPostComments: CommentSort
+  sortUserComments: CommentSort
+  sortUserPosts: UserFeedSort
 }
 
 type State = PreferencesPayload & {
@@ -34,19 +35,20 @@ export const usePreferences = create<State>()(
   persist(
     (set) => ({
       blurNsfw: true,
-      communityInterval: 'hour',
-      communitySort: 'hot',
-      feedInterval: 'hour',
       feedMuted: true,
-      feedSort: 'hot',
+      intervalCommunityPosts: 'hour',
+      intervalFeedPosts: 'hour',
+      intervalUserComments: 'all',
+      intervalUserPosts: 'all',
       linkBrowser: true,
-      postCommentSort: 'confidence',
+      sortCommunityPosts: 'hot',
+      sortFeedPosts: 'hot',
+      sortPostComments: 'confidence',
+      sortUserComments: 'new',
+      sortUserPosts: 'new',
       update(payload) {
         set(payload)
       },
-      userCommentSort: 'new',
-      userInterval: 'hour',
-      userSort: 'new',
     }),
     {
       name: PREFERENCES_KEY,

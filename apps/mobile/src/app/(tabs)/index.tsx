@@ -1,5 +1,4 @@
 import { useFocusEffect, useNavigation } from 'expo-router'
-import { useState } from 'react'
 
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
@@ -9,24 +8,41 @@ import { usePreferences } from '~/stores/preferences'
 export default function Screen() {
   const navigation = useNavigation()
 
-  const { feedInterval, feedSort } = usePreferences()
-
-  const [sort, setSort] = useState(feedSort)
-  const [interval, setInterval] = useState(feedInterval)
+  const { intervalFeedPosts, sortFeedPosts, update } = usePreferences()
 
   useFocusEffect(() => {
     navigation.setOptions({
       headerTitle: () => (
         <>
-          <FeedSortMenu onChange={setSort} value={sort} />
+          <FeedSortMenu
+            onChange={(next) => {
+              update({
+                sortFeedPosts: next,
+              })
+            }}
+            value={sortFeedPosts}
+          />
 
-          {sort === 'top' ? (
-            <TopIntervalMenu onChange={setInterval} value={interval} />
+          {sortFeedPosts === 'top' ? (
+            <TopIntervalMenu
+              onChange={(next) => {
+                update({
+                  intervalFeedPosts: next,
+                })
+              }}
+              value={intervalFeedPosts}
+            />
           ) : null}
         </>
       ),
     })
   })
 
-  return <PostList interval={interval} label="subreddit" sort={sort} />
+  return (
+    <PostList
+      interval={intervalFeedPosts}
+      label="subreddit"
+      sort={sortFeedPosts}
+    />
+  )
 }

@@ -153,15 +153,16 @@
           "title": "General"
         },
         "sort": {
-          "communityInterval": "Community posts interval",
-          "communitySort": "Community posts sort",
-          "feedInterval": "Feed posts interval",
-          "feedSort": "Feed posts sort",
-          "postCommentSort": "Post comments sort",
-          "title": "Sort",
-          "userCommentSort": "User comments sort",
-          "userInterval": "User posts interval",
-          "userSort": "User posts sort"
+          "intervalCommunityPosts": "Community posts interval",
+          "intervalFeedPosts": "Feed posts interval",
+          "intervalUserComments": "User comments intervals",
+          "intervalUserPosts": "User posts interval",
+          "sortCommunityPosts": "Community posts sort",
+          "sortFeedPosts": "Feed posts sort",
+          "sortPostComments": "Post comments sort",
+          "sortUserComments": "User comments sort",
+          "sortUserPosts": "User posts sort",
+          "title": "Sort"
         }
       },
       "title": "Settings"

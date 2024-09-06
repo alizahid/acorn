@@ -1,5 +1,4 @@
 import * as Application from 'expo-application'
-import { useCallback, useMemo } from 'react'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -40,26 +39,23 @@ export default function Screen() {
 
   const { theme } = useStyles()
 
-  const enhanceSort = useCallback(
-    (sort: FeedSort | CommentSort): SettingsItemOption => {
-      const icon = SortIcons[sort]
-      const color = theme.colors[SortColors[sort]].a9
+  function enhanceSort(sort: FeedSort | CommentSort): SettingsItemOption {
+    const icon = SortIcons[sort]
+    const color = theme.colors[SortColors[sort]].a9
 
-      return {
-        icon: {
-          color,
-          name: icon,
-        },
-        label: tSort(sort),
-        right: <Icon color={color} name={icon} size={theme.space[5]} />,
-        value: sort,
-      }
-    },
-    [tSort, theme.colors, theme.space],
-  )
+    return {
+      icon: {
+        color,
+        name: icon,
+      },
+      label: tSort(sort),
+      right: <Icon color={color} name={icon} size={theme.space[5]} />,
+      value: sort,
+    }
+  }
 
-  const enhanceInterval = useCallback(
-    (interval: TopInterval): SettingsItemOption => ({
+  function enhanceInterval(interval: TopInterval): SettingsItemOption {
+    return {
       label: tInterval(interval),
       left: (
         <TopIntervalItem
@@ -69,42 +65,45 @@ export default function Screen() {
       ),
       right: <TopIntervalItem item={interval} size={theme.space[5]} />,
       value: interval,
-    }),
-    [tInterval, theme.space, theme.typography],
-  )
+    }
+  }
 
-  const sort = useMemo<Array<SettingsItem>>(
-    () =>
-      (
-        [
-          ['feedSort', FeedSort.map((item) => enhanceSort(item))],
-          ['feedInterval', TopInterval.map((item) => enhanceInterval(item))],
+  const sort: Array<SettingsItem> = (
+    [
+      ['sortFeedPosts', FeedSort.map((item) => enhanceSort(item))],
+      ['intervalFeedPosts', TopInterval.map((item) => enhanceInterval(item))],
 
-          ['communitySort', CommunityFeedSort.map((item) => enhanceSort(item))],
-          [
-            'communityInterval',
-            TopInterval.map((item) => enhanceInterval(item)),
-          ],
+      [
+        'sortCommunityPosts',
+        CommunityFeedSort.map((item) => enhanceSort(item)),
+      ],
+      [
+        'intervalCommunityPosts',
+        TopInterval.map((item) => enhanceInterval(item)),
+      ],
 
-          ['postCommentSort', CommentSort.map((item) => enhanceSort(item))],
+      ['sortPostComments', CommentSort.map((item) => enhanceSort(item))],
 
-          ['userSort', UserFeedSort.map((item) => enhanceSort(item))],
-          ['userInterval', TopInterval.map((item) => enhanceInterval(item))],
-          ['userCommentSort', CommentSort.map((item) => enhanceSort(item))],
-        ] as const
-      ).map(([key, options]) => ({
-        label: t(`menu.sort.${key}`),
-        onSelect: (next) => {
-          update({
-            [key]: next,
-          })
-        },
-        options,
-        type: 'options',
-        value: preferences[key],
-      })),
-    [enhanceInterval, enhanceSort, preferences, t, update],
-  )
+      ['sortUserPosts', UserFeedSort.map((item) => enhanceSort(item))],
+      ['intervalUserPosts', TopInterval.map((item) => enhanceInterval(item))],
+
+      ['sortUserComments', CommentSort.map((item) => enhanceSort(item))],
+      [
+        'intervalUserComments',
+        TopInterval.map((item) => enhanceInterval(item)),
+      ],
+    ] as const
+  ).map(([key, options]) => ({
+    label: t(`menu.sort.${key}`),
+    onSelect: (next) => {
+      update({
+        [key]: next,
+      })
+    },
+    options,
+    type: 'options',
+    value: preferences[key],
+  }))
 
   return (
     <SettingsMenu

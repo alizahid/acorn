@@ -8,6 +8,7 @@ import { CommentsSchema } from '~/schemas/comments'
 import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
 import { type Comment, type CommentReply } from '~/types/comment'
+import { type CommentSort, type TopInterval } from '~/types/sort'
 
 type Param = string | undefined | null
 
@@ -20,13 +21,21 @@ export type CommentsQueryKey = [
   'comments',
   {
     accountId?: string
-    user: string
+    interval?: TopInterval
+    sort: CommentSort
+    username: string
   },
 ]
 
 export type CommentsQueryData = InfiniteData<Page, Param>
 
-export function useComments(user?: string) {
+export type UserCommentsProps = {
+  interval?: TopInterval
+  sort: CommentSort
+  username: string
+}
+
+export function useComments({ interval, sort, username }: UserCommentsProps) {
   const { accountId } = useAuth()
 
   const {
@@ -38,15 +47,20 @@ export function useComments(user?: string) {
     refetch,
   } = useInfiniteQuery<Page, Error, CommentsQueryData, CommentsQueryKey, Param>(
     {
-      enabled: Boolean(accountId) && Boolean(user),
+      enabled: Boolean(accountId) && Boolean(username),
       getNextPageParam(page) {
         return page.cursor
       },
       initialPageParam: null,
       async queryFn({ pageParam }) {
-        const url = new URL(`/user/${user!}/comments`, REDDIT_URI)
+        const url = new URL(`/user/${username}/comments`, REDDIT_URI)
 
         url.searchParams.set('limit', '50')
+        url.searchParams.set('sort', sort)
+
+        if (sort === 'top' && interval) {
+          url.searchParams.set('t', interval)
+        }
 
         if (pageParam) {
           url.searchParams.set('after', pageParam)
@@ -71,7 +85,9 @@ export function useComments(user?: string) {
         'comments',
         {
           accountId,
-          user: user!,
+          interval,
+          sort,
+          username,
         },
       ],
     },
