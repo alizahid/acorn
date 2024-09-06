@@ -135,6 +135,10 @@ export function Node({ node, ...props }: Props) {
     ))
   }
 
+  if (node.type === 'html') {
+    return node.value
+  }
+
   if (node.type === 'image') {
     const media = findMedia(node.url, props.meta)
 
