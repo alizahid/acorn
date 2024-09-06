@@ -211,11 +211,8 @@ export default function Screen() {
               <CommentCard
                 collapsed={hidden}
                 comment={item.data}
+                disabled={Boolean(params.commentId)}
                 onPress={() => {
-                  if (params.commentId) {
-                    return
-                  }
-
                   collapse({
                     commentId: item.data.id,
                     hide: !hidden,

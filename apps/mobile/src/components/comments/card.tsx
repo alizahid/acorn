@@ -19,6 +19,7 @@ import { CommentVoteCard } from './vote'
 type Props = {
   collapsed?: boolean
   comment: CommentReply
+  disabled?: boolean
   onPress: () => void
   onReply?: () => void
   style?: StyleProp<ViewStyle>
@@ -27,6 +28,7 @@ type Props = {
 export function CommentCard({
   collapsed,
   comment,
+  disabled,
   onPress,
   onReply,
   style,
@@ -39,6 +41,7 @@ export function CommentCard({
 
   return (
     <Pressable
+      disabled={disabled}
       onPress={onPress}
       pl="3"
       pt={collapsed ? '3' : undefined}
