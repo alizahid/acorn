@@ -53,6 +53,8 @@ export function Pressable({
       onLayout={onLayout}
       onLongPress={onLongPress}
       onPress={(event) => {
+        onPress?.(event)
+
         opacity.value = withTiming(
           0.5,
           {
@@ -64,8 +66,6 @@ export function Pressable({
             })
           },
         )
-
-        onPress?.(event)
       }}
       style={[animatedStyle, styles.main(props), style]}
     >
