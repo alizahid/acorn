@@ -17,12 +17,12 @@ type Sort =
 
 export const SortIcons: Record<Sort, IconName> = {
   best: 'Medal',
-  comments: 'ChatCentered',
+  comments: 'ChatCircle',
   confidence: 'Medal',
   controversial: 'Flame',
   hot: 'Flame',
   new: 'Clock',
-  old: 'Archive',
+  old: 'Package',
   relevance: 'Target',
   rising: 'ChartLineUp',
   top: 'Ranking',

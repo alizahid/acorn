@@ -33,7 +33,7 @@ export function PostSaveCard({ post }: Props) {
         color={post.saved ? theme.colors.white.a12 : theme.colors.gray.a12}
         name="BookmarkSimple"
         size={theme.space[5]}
-        weight={post.saved ? 'fill' : 'duotone'}
+        weight={post.saved ? 'fill' : 'bold'}
       />
     </Pressable>
   )

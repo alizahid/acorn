@@ -1,6 +1,5 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { type Icon } from 'react-native-phosphor'
-import ArchiveBold from 'react-native-phosphor/src/bold/Archive'
 import ArrowBendUpLeftBold from 'react-native-phosphor/src/bold/ArrowBendUpLeft'
 import ArrowDownBold from 'react-native-phosphor/src/bold/ArrowDown'
 import ArrowFatDownBold from 'react-native-phosphor/src/bold/ArrowFatDown'
@@ -14,7 +13,7 @@ import BrowserBold from 'react-native-phosphor/src/bold/Browser'
 import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
 import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
 import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
-import ChatCenteredBold from 'react-native-phosphor/src/bold/ChatCentered'
+import ChatCircleBold from 'react-native-phosphor/src/bold/ChatCircle'
 import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CompassBold from 'react-native-phosphor/src/bold/Compass'
@@ -26,6 +25,7 @@ import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
+import PackageBold from 'react-native-phosphor/src/bold/Package'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
 import PauseBold from 'react-native-phosphor/src/bold/Pause'
 import PlayBold from 'react-native-phosphor/src/bold/Play'
@@ -46,7 +46,6 @@ import UserSwitchBold from 'react-native-phosphor/src/bold/UserSwitch'
 import WarningBold from 'react-native-phosphor/src/bold/Warning'
 import XBold from 'react-native-phosphor/src/bold/X'
 import XCircleBold from 'react-native-phosphor/src/bold/XCircle'
-import ArchiveDuotone from 'react-native-phosphor/src/duotone/Archive'
 import ArrowBendUpLeftDuotone from 'react-native-phosphor/src/duotone/ArrowBendUpLeft'
 import ArrowDownDuotone from 'react-native-phosphor/src/duotone/ArrowDown'
 import ArrowFatDownDuotone from 'react-native-phosphor/src/duotone/ArrowFatDown'
@@ -60,7 +59,7 @@ import BrowserDuotone from 'react-native-phosphor/src/duotone/Browser'
 import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
 import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
 import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
-import ChatCenteredDuotone from 'react-native-phosphor/src/duotone/ChatCentered'
+import ChatCircleDuotone from 'react-native-phosphor/src/duotone/ChatCircle'
 import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
@@ -72,6 +71,7 @@ import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
+import PackageDuotone from 'react-native-phosphor/src/duotone/Package'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
 import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
 import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
@@ -92,7 +92,6 @@ import UserSwitchDuotone from 'react-native-phosphor/src/duotone/UserSwitch'
 import WarningDuotone from 'react-native-phosphor/src/duotone/Warning'
 import XDuotone from 'react-native-phosphor/src/duotone/X'
 import XCircleDuotone from 'react-native-phosphor/src/duotone/XCircle'
-import ArchiveFill from 'react-native-phosphor/src/fill/Archive'
 import ArrowBendUpLeftFill from 'react-native-phosphor/src/fill/ArrowBendUpLeft'
 import ArrowDownFill from 'react-native-phosphor/src/fill/ArrowDown'
 import ArrowFatDownFill from 'react-native-phosphor/src/fill/ArrowFatDown'
@@ -106,7 +105,7 @@ import BrowserFill from 'react-native-phosphor/src/fill/Browser'
 import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
 import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
 import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
-import ChatCenteredFill from 'react-native-phosphor/src/fill/ChatCentered'
+import ChatCircleFill from 'react-native-phosphor/src/fill/ChatCircle'
 import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CompassFill from 'react-native-phosphor/src/fill/Compass'
@@ -118,6 +117,7 @@ import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
+import PackageFill from 'react-native-phosphor/src/fill/Package'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
 import PauseFill from 'react-native-phosphor/src/fill/Pause'
 import PlayFill from 'react-native-phosphor/src/fill/Play'
@@ -138,7 +138,6 @@ import UserSwitchFill from 'react-native-phosphor/src/fill/UserSwitch'
 import WarningFill from 'react-native-phosphor/src/fill/Warning'
 import XFill from 'react-native-phosphor/src/fill/X'
 import XCircleFill from 'react-native-phosphor/src/fill/XCircle'
-import ArchiveRegular from 'react-native-phosphor/src/regular/Archive'
 import ArrowBendUpLeftRegular from 'react-native-phosphor/src/regular/ArrowBendUpLeft'
 import ArrowDownRegular from 'react-native-phosphor/src/regular/ArrowDown'
 import ArrowFatDownRegular from 'react-native-phosphor/src/regular/ArrowFatDown'
@@ -152,7 +151,7 @@ import BrowserRegular from 'react-native-phosphor/src/regular/Browser'
 import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
 import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
 import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
-import ChatCenteredRegular from 'react-native-phosphor/src/regular/ChatCentered'
+import ChatCircleRegular from 'react-native-phosphor/src/regular/ChatCircle'
 import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CompassRegular from 'react-native-phosphor/src/regular/Compass'
@@ -164,6 +163,7 @@ import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
+import PackageRegular from 'react-native-phosphor/src/regular/Package'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
 import PauseRegular from 'react-native-phosphor/src/regular/Pause'
 import PlayRegular from 'react-native-phosphor/src/regular/Play'
@@ -210,12 +210,6 @@ export function Icon({
 }
 
 const icons = {
-  Archive: {
-    bold: ArchiveBold,
-    duotone: ArchiveDuotone,
-    fill: ArchiveFill,
-    regular: ArchiveRegular,
-  },
   ArrowBendUpLeft: {
     bold: ArrowBendUpLeftBold,
     duotone: ArrowBendUpLeftDuotone,
@@ -294,11 +288,11 @@ const icons = {
     fill: ChartLineUpFill,
     regular: ChartLineUpRegular,
   },
-  ChatCentered: {
-    bold: ChatCenteredBold,
-    duotone: ChatCenteredDuotone,
-    fill: ChatCenteredFill,
-    regular: ChatCenteredRegular,
+  ChatCircle: {
+    bold: ChatCircleBold,
+    duotone: ChatCircleDuotone,
+    fill: ChatCircleFill,
+    regular: ChatCircleRegular,
   },
   CheckCircle: {
     bold: CheckCircleBold,
@@ -365,6 +359,12 @@ const icons = {
     duotone: MedalDuotone,
     fill: MedalFill,
     regular: MedalRegular,
+  },
+  Package: {
+    bold: PackageBold,
+    duotone: PackageDuotone,
+    fill: PackageFill,
+    regular: PackageRegular,
   },
   PaperPlaneTilt: {
     bold: PaperPlaneTiltBold,

@@ -36,7 +36,7 @@ export function CrossPostCard({ post, style, viewing }: Props) {
       }),
     },
     {
-      icon: 'ChatCentered',
+      icon: 'ChatCircle',
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',

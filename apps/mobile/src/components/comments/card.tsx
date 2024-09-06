@@ -79,7 +79,7 @@ export function CommentCard({
         >
           <Text
             color={comment.op ? 'accent' : 'gray'}
-            highContrast={false}
+            highContrast={!comment.op}
             size="1"
             weight="medium"
           >

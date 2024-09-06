@@ -37,7 +37,7 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
       }),
     },
     {
-      icon: 'ChatCentered',
+      icon: 'ChatCircle',
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
@@ -90,7 +90,7 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
             }
           }}
         >
-          <Text highContrast={false} lines={1} size="2" weight="medium">
+          <Text lines={1} size="2" weight="medium">
             {label === 'subreddit' ? post.subreddit : post.user.name}
           </Text>
         </Pressable>
@@ -111,7 +111,6 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
                 color={theme.colors.gray.a12}
                 name={item.icon}
                 size={theme.typography[2].fontSize}
-                weight="duotone"
               />
 
               <Text size="2" tabular>

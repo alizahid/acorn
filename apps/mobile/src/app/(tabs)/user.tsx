@@ -57,7 +57,7 @@ export default function Screen() {
 }
 
 const icons: Record<UserFeedType, IconName> = {
-  comments: 'ChatCentered',
+  comments: 'ChatCircle',
   downvoted: 'ArrowFatDown',
   saved: 'BookmarkSimple',
   submitted: 'PaperPlaneTilt',
