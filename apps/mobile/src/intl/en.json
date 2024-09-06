@@ -153,16 +153,19 @@
           "title": "General"
         },
         "sort": {
+          "community": "Community sort",
+          "feed": "Feed sort",
           "intervalCommunityPosts": "Community posts interval",
           "intervalFeedPosts": "Feed posts interval",
           "intervalUserComments": "User comments intervals",
           "intervalUserPosts": "User posts interval",
+          "post": "Post sort",
           "sortCommunityPosts": "Community posts sort",
           "sortFeedPosts": "Feed posts sort",
           "sortPostComments": "Post comments sort",
           "sortUserComments": "User comments sort",
           "sortUserPosts": "User posts sort",
-          "title": "Sort"
+          "user": "User sort"
         }
       },
       "title": "Settings"

@@ -47,9 +47,17 @@ export default function Screen() {
       icon: {
         color,
         name: icon,
+        weight: 'duotone',
       },
       label: tSort(sort),
-      right: <Icon color={color} name={icon} size={theme.space[5]} />,
+      right: (
+        <Icon
+          color={color}
+          name={icon}
+          size={theme.space[5]}
+          weight="duotone"
+        />
+      ),
       value: sort,
     }
   }
@@ -68,11 +76,15 @@ export default function Screen() {
     }
   }
 
-  const sort: Array<SettingsItem> = (
+  const sort: Array<SettingsItem | string | null> = (
     [
+      null,
+      t('menu.sort.feed'),
       ['sortFeedPosts', FeedSort.map((item) => enhanceSort(item))],
       ['intervalFeedPosts', TopInterval.map((item) => enhanceInterval(item))],
 
+      null,
+      t('menu.sort.community'),
       [
         'sortCommunityPosts',
         CommunityFeedSort.map((item) => enhanceSort(item)),
@@ -82,33 +94,47 @@ export default function Screen() {
         TopInterval.map((item) => enhanceInterval(item)),
       ],
 
+      null,
+      t('menu.sort.post'),
       ['sortPostComments', CommentSort.map((item) => enhanceSort(item))],
 
+      null,
+      t('menu.sort.user'),
       ['sortUserPosts', UserFeedSort.map((item) => enhanceSort(item))],
       ['intervalUserPosts', TopInterval.map((item) => enhanceInterval(item))],
-
       ['sortUserComments', CommentSort.map((item) => enhanceSort(item))],
       [
         'intervalUserComments',
         TopInterval.map((item) => enhanceInterval(item)),
       ],
     ] as const
-  ).map(([key, options]) => ({
-    label: t(`menu.sort.${key}`),
-    onSelect: (next) => {
-      update({
-        [key]: next,
-      })
-    },
-    options,
-    type: 'options',
-    value: preferences[key],
-  }))
+  ).map((item) => {
+    if (typeof item === 'string' || !item) {
+      return item
+    }
+
+    const [key, options] = item
+
+    return {
+      icon: {
+        name: key.startsWith('sort') ? 'SortAscending' : 'Clock',
+      },
+      label: t(`menu.sort.${key}`),
+      onSelect: (next) => {
+        update({
+          [key]: next,
+        })
+      },
+      options,
+      type: 'options',
+      value: preferences[key],
+    } satisfies SettingsItem
+  })
 
   return (
     <SettingsMenu
       footer={
-        <View align="center" gap="4" p="4">
+        <View align="center" gap="4" mt="4" p="4">
           <Logo size={theme.space[8]} />
 
           <View direction="row" gap="4" justify="center">
@@ -184,8 +210,10 @@ export default function Screen() {
           type: 'switch',
           value: linkBrowser,
         },
-        t('menu.sort.title'),
+
         ...sort,
+
+        null,
         t('menu.cache.title'),
         {
           icon: {

@@ -80,7 +80,14 @@ export function SettingsMenu({ footer, header, items, onRefresh }: Props) {
 
         if (typeof item === 'string') {
           return (
-            <Text highContrast={false} m="3" size="2" weight="medium">
+            <Text
+              highContrast={false}
+              mb="2"
+              mt="3"
+              mx="3"
+              size="2"
+              weight="medium"
+            >
               {item}
             </Text>
           )

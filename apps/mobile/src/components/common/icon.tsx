@@ -33,6 +33,7 @@ import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
 import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import ShareBold from 'react-native-phosphor/src/bold/Share'
+import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
@@ -79,6 +80,7 @@ import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
 import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import ShareDuotone from 'react-native-phosphor/src/duotone/Share'
+import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
@@ -125,6 +127,7 @@ import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
 import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import ShareFill from 'react-native-phosphor/src/fill/Share'
+import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
@@ -171,6 +174,7 @@ import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
 import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import ShareRegular from 'react-native-phosphor/src/regular/Share'
+import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
@@ -407,6 +411,12 @@ const icons = {
     duotone: ShareDuotone,
     fill: ShareFill,
     regular: ShareRegular,
+  },
+  SortAscending: {
+    bold: SortAscendingBold,
+    duotone: SortAscendingDuotone,
+    fill: SortAscendingFill,
+    regular: SortAscendingRegular,
   },
   SpeakerSimpleHigh: {
     bold: SpeakerSimpleHighBold,
