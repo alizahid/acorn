@@ -1,7 +1,7 @@
 import { type BottomTabBarProps } from '@react-navigation/bottom-tabs'
+import { Pressable } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { Pressable } from '../common/pressable'
 import { View } from '../common/view'
 
 type Props = BottomTabBarProps
@@ -18,8 +18,6 @@ export function TabBar({ descriptors, navigation, state }: Props) {
 
         return (
           <Pressable
-            align="center"
-            flexGrow={1}
             key={route.key}
             onLongPress={() => {
               navigation.emit({
@@ -38,7 +36,6 @@ export function TabBar({ descriptors, navigation, state }: Props) {
                 navigation.navigate(route.name, route.params)
               }
             }}
-            pt="4"
             style={styles.tab}
           >
             {options?.tabBarIcon?.({
@@ -58,6 +55,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: theme.colors.gray[1],
   },
   tab: {
+    alignItems: 'center',
+    flexGrow: 1,
     paddingBottom: theme.space[4] + runtime.insets.bottom,
+    paddingTop: theme.space[4],
   },
 }))

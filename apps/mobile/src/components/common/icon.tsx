@@ -18,7 +18,7 @@ import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
-import DropBold from 'react-native-phosphor/src/bold/Drop'
+import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
@@ -64,7 +64,7 @@ import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
-import DropDuotone from 'react-native-phosphor/src/duotone/Drop'
+import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
@@ -110,7 +110,7 @@ import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
-import DropFill from 'react-native-phosphor/src/fill/Drop'
+import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
@@ -156,7 +156,7 @@ import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
-import DropRegular from 'react-native-phosphor/src/regular/Drop'
+import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
@@ -318,11 +318,11 @@ const icons = {
     fill: CopyFill,
     regular: CopyRegular,
   },
-  Drop: {
-    bold: DropBold,
-    duotone: DropDuotone,
-    fill: DropFill,
-    regular: DropRegular,
+  EyeClosed: {
+    bold: EyeClosedBold,
+    duotone: EyeClosedDuotone,
+    fill: EyeClosedFill,
+    regular: EyeClosedRegular,
   },
   Flame: {
     bold: FlameBold,

@@ -1,4 +1,5 @@
 import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
+import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type IconName } from '~/components/common/icon'
@@ -7,6 +8,7 @@ import { ProfileCard } from '~/components/users/profile'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
+import { type ColorToken } from '~/styles/colors'
 import { UserFeedType } from '~/types/user'
 
 export default function Screen() {
@@ -17,6 +19,8 @@ export default function Screen() {
 
   const { accountId } = useAuth()
   const { profile, refetch } = useProfile(accountId)
+
+  const { theme } = useStyles()
 
   useFocusEffect(() => {
     if (!profile) {
@@ -34,6 +38,7 @@ export default function Screen() {
       items={UserFeedType.map((type) => ({
         arrow: true,
         icon: {
+          color: theme.colors[colors[type]].a9,
           name: icons[type],
         },
         label: t(`menu.${type}`),
@@ -62,4 +67,12 @@ const icons: Record<UserFeedType, IconName> = {
   saved: 'BookmarkSimple',
   submitted: 'PaperPlaneTilt',
   upvoted: 'ArrowFatUp',
+}
+
+const colors: Record<UserFeedType, ColorToken> = {
+  comments: 'plum',
+  downvoted: 'red',
+  saved: 'indigo',
+  submitted: 'accent',
+  upvoted: 'green',
 }

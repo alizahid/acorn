@@ -144,6 +144,7 @@ export default function Screen() {
         t('menu.general.title'),
         {
           icon: {
+            color: theme.colors.plum.a9,
             name: 'SpeakerSimpleX',
           },
           label: t('menu.general.muted'),
@@ -157,7 +158,8 @@ export default function Screen() {
         },
         {
           icon: {
-            name: 'Drop',
+            color: theme.colors.red.a9,
+            name: 'EyeClosed',
           },
           label: t('menu.general.nsfw'),
           onSelect(value) {
@@ -170,6 +172,7 @@ export default function Screen() {
         },
         {
           icon: {
+            color: theme.colors.indigo.a9,
             name: 'Browser',
           },
           label: t('menu.general.browser'),
@@ -186,6 +189,7 @@ export default function Screen() {
         t('menu.cache.title'),
         {
           icon: {
+            color: theme.colors.red.a9,
             name: 'HardDrives',
           },
           label: t('menu.cache.query'),
