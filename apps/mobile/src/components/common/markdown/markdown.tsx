@@ -331,14 +331,18 @@ export function Node({ node, ...props }: Props) {
     )
   }
 
-  if (node.type === 'textDirective' && node.name === 'spoiler') {
-    const spoiler = getText(node.children)
+  if (node.type === 'textDirective') {
+    if (node.name === 'spoiler') {
+      const spoiler = getText(node.children)
 
-    if (!spoiler) {
-      return null
+      if (!spoiler) {
+        return null
+      }
+
+      return <Spoiler size={props.size}>{spoiler}</Spoiler>
     }
 
-    return <Spoiler size={props.size}>{spoiler}</Spoiler>
+    return `:${node.name}`
   }
 
   if (node.type === 'thematicBreak') {
