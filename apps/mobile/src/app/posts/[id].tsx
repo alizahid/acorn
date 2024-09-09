@@ -6,9 +6,8 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { useRef, useState } from 'react'
-import { Share } from 'react-native'
-import { type TextInput } from 'react-native'
+import { useMemo, useRef, useState } from 'react'
+import { Share, type TextInput } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -114,16 +113,24 @@ export default function Screen() {
     })
   })
 
+  const data = useMemo(() => {
+    const items: Array<Post | Comment | string> = [post ?? 'post', 'header']
+
+    if (comments.length > 0) {
+      items.push(...comments)
+    } else {
+      items.push('empty')
+    }
+
+    return items
+  }, [comments, post])
+
   return (
     <>
       <FlashList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
-        data={[
-          post ?? 'post',
-          'header',
-          ...(comments.length > 0 ? comments : ['empty']),
-        ]}
+        data={data}
         estimatedItemSize={72}
         extraData={{
           commentId: params.commentId,
@@ -211,17 +218,13 @@ export default function Screen() {
           }
 
           if (item.type === 'reply') {
-            const hidden = collapsed.includes(item.data.id)
-
             return (
               <CommentCard
-                collapsed={hidden}
+                collapsed={collapsed.includes(item.data.id)}
                 comment={item.data}
-                disabled={Boolean(params.commentId)}
                 onPress={() => {
                   collapse({
                     commentId: item.data.id,
-                    hide: !hidden,
                   })
                 }}
                 onReply={() => {

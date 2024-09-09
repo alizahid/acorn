@@ -42,8 +42,6 @@ type Props = {
 export function usePost({ commentId, id, sort }: Props) {
   const { accountId } = useAuth()
 
-  const storeId = `collapsed-${id}`
-
   const query = useQuery<
     PostQueryData | undefined,
     Error,
@@ -100,7 +98,9 @@ export function usePost({ commentId, id, sort }: Props) {
     ],
   })
 
-  const collapsedQueryKey = ['collapsed', id] as const
+  const storeId = `collapsed-${id}`
+
+  const queryKey = ['collapsed', id] as const
 
   const collapsed = useQuery({
     initialData: [],
@@ -115,7 +115,7 @@ export function usePost({ commentId, id, sort }: Props) {
 
       return []
     },
-    queryKey: collapsedQueryKey,
+    queryKey,
   })
 
   const collapse = useMutation<
@@ -123,38 +123,23 @@ export function usePost({ commentId, id, sort }: Props) {
     Error,
     {
       commentId: string
-      hide: boolean
     }
   >({
     // eslint-disable-next-line @typescript-eslint/require-await -- go away
     async mutationFn(variables) {
-      const comments =
-        queryClient.getQueryData<PostQueryData>([
-          'post',
-          {
-            id,
-            sort,
-          },
-        ])?.comments ?? []
-
-      const ids = getCollapsible(comments, variables.commentId)
-
-      const previous =
-        queryClient.getQueryData<Array<string>>(collapsedQueryKey) ?? []
+      const previous = queryClient.getQueryData<Array<string>>(queryKey) ?? []
 
       const next = create(previous, (draft) => {
-        for (const itemId of ids) {
-          const index = draft.indexOf(itemId)
+        const index = draft.indexOf(variables.commentId)
 
-          if (variables.hide) {
-            draft.push(itemId)
-          } else {
-            draft.splice(index, 1)
-          }
+        if (index >= 0) {
+          draft.splice(index, 1)
+        } else {
+          draft.push(variables.commentId)
         }
       })
 
-      queryClient.setQueryData<Array<string>>(collapsedQueryKey, next)
+      queryClient.setQueryData<Array<string>>(queryKey, next)
 
       const store = new Store(storeId)
 
@@ -165,10 +150,8 @@ export function usePost({ commentId, id, sort }: Props) {
   const comments = useMemo(() => {
     const items = query.data?.comments ?? []
 
-    return items.filter((comment) =>
-      comment.data.parentId
-        ? !collapsed.data.includes(comment.data.parentId ?? comment.data.id)
-        : true,
+    return items.filter(
+      (item) => !isHidden(items, collapsed.data, item.data.id),
     )
   }, [collapsed.data, query.data?.comments])
 
@@ -209,24 +192,6 @@ function getPost(id: string) {
   }
 }
 
-function getCollapsible(comments: Array<Comment>, id: string): Array<string> {
-  const ids: Array<string> = [id]
-
-  function findChildren(parentId: string) {
-    const children = comments.filter((item) => item.data.parentId === parentId)
-
-    for (const child of children) {
-      ids.push(child.data.id)
-
-      findChildren(child.data.id)
-    }
-  }
-
-  findChildren(id)
-
-  return ids
-}
-
 export function updatePost(
   id: string,
   updater: (draft: PostQueryData) => void,
@@ -253,4 +218,22 @@ export function updatePost(
       })
     })
   }
+}
+
+function isHidden(
+  comments: Array<Comment>,
+  collapsed: Array<string>,
+  commentId: string,
+) {
+  const comment = comments.find((item) => item.data.id === commentId)
+
+  if (!comment?.data.parentId) {
+    return false
+  }
+
+  if (collapsed.includes(comment.data.parentId)) {
+    return true
+  }
+
+  return isHidden(comments, collapsed, comment.data.parentId)
 }
