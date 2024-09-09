@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { CommentDataSchema } from './comments'
 import {
   PostGalleryDataSchema,
   PostMediaMetadataSchema,
@@ -55,3 +56,23 @@ export const PostsSchema = z.object({
 })
 
 export type PostsSchema = z.infer<typeof PostsSchema>
+
+export const SavedPostsSchema = z.object({
+  data: z.object({
+    after: z.string().nullish(),
+    children: z.array(
+      z.union([
+        z.object({
+          data: PostDataSchema,
+          kind: z.literal('t3'),
+        }),
+        z.object({
+          data: CommentDataSchema,
+          kind: z.literal('t1'),
+        }),
+      ]),
+    ),
+  }),
+})
+
+export type SavedPostsSchema = z.infer<typeof SavedPostsSchema>

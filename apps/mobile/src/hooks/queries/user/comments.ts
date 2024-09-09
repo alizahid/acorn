@@ -107,7 +107,7 @@ export function useUserComments({
   }
 }
 
-export function updateComments(
+export function updateUserComment(
   id: string,
   updater: (draft: CommentReply) => void,
 ) {

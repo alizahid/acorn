@@ -1,9 +1,13 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import { compact } from 'lodash'
+import { create } from 'mutative'
 
+import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
-import { PostsSchema } from '~/schemas/posts'
+import { SavedPostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
+import { transformComment } from '~/transformers/comment'
 import { transformPost } from '~/transformers/post'
 import { type CommentReply } from '~/types/comment'
 import { type Post } from '~/types/post'
@@ -91,11 +95,31 @@ export function useUserPosts({
         url,
       })
 
-      const response = PostsSchema.parse(payload)
+      const response = SavedPostsSchema.parse(payload)
 
       return {
         cursor: response.data.after,
-        posts: response.data.children.map((item) => transformPost(item.data)),
+        posts: compact(
+          response.data.children.map((item) => {
+            if (item.kind === 't1') {
+              const comment = transformComment(item)
+
+              if (comment.type === 'reply') {
+                return {
+                  data: comment.data,
+                  type: 'comment',
+                }
+              }
+
+              return null
+            }
+
+            return {
+              data: transformPost(item.data),
+              type: 'post',
+            }
+          }),
+        ),
       }
     },
     queryKey: [
@@ -115,7 +139,50 @@ export function useUserPosts({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    posts: data.pages.flatMap((page) => page.posts) ?? [],
+    posts: data?.pages.flatMap((page) => page.posts) ?? [],
     refetch,
+  }
+}
+
+export function updateUserPost(
+  id: string,
+  updater: (draft: CommentReply | Post) => void,
+) {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: ['posts'],
+  })
+
+  for (const query of queries) {
+    if (typeof query.queryKey[1] !== 'string') {
+      continue
+    }
+
+    queryClient.setQueryData<UserPostsQueryData>(query.queryKey, (previous) => {
+      if (!previous) {
+        return previous
+      }
+
+      return create(previous, (draft) => {
+        let found = false
+
+        for (const page of draft.pages) {
+          if (found) {
+            break
+          }
+
+          for (const post of page.posts) {
+            if (post.data.id === id) {
+              updater(post.data)
+
+              found = true
+
+              break
+            }
+          }
+        }
+      })
+    })
   }
 }

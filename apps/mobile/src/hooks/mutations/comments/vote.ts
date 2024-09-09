@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
-import { updateComments } from '~/hooks/queries/user/comments'
+import { updateUserComment } from '~/hooks/queries/user/comments'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { type CommentReply } from '~/types/comment'
@@ -27,7 +27,7 @@ export function useCommentVote() {
       })
     },
     onMutate(variables) {
-      updateComments(variables.commentId, (draft) => {
+      updateUserComment(variables.commentId, (draft) => {
         update(variables, draft)
       })
 

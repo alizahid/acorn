@@ -1,5 +1,6 @@
 import { useIsFocused } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
+import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -9,6 +10,7 @@ import { PostCard } from '~/components/posts/card'
 import { type UserPostsProps, useUserPosts } from '~/hooks/queries/user/posts'
 import { listProps } from '~/lib/common'
 
+import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
@@ -29,6 +31,8 @@ export function UserPostsList({
   type,
   username,
 }: Props) {
+  const router = useRouter()
+
   const { styles } = useStyles(stylesheet)
 
   const focused = useIsFocused()
@@ -65,7 +69,7 @@ export function UserPostsList({
       extraData={{
         viewing,
       }}
-      keyExtractor={(item) => item.id}
+      keyExtractor={(item) => item.data.id}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()
@@ -83,13 +87,32 @@ export function UserPostsList({
           }}
         />
       }
-      renderItem={({ item }) => (
-        <PostCard
-          label={label}
-          post={item}
-          viewing={focused ? viewing.includes(item.id) : false}
-        />
-      )}
+      renderItem={({ item }) => {
+        if (item.type === 'comment') {
+          return (
+            <CommentCard
+              comment={item.data}
+              onPress={() => {
+                router.navigate({
+                  params: {
+                    commentId: item.data.id,
+                    id: item.data.postId,
+                  },
+                  pathname: '/posts/[id]',
+                })
+              }}
+            />
+          )
+        }
+
+        return (
+          <PostCard
+            label={label}
+            post={item.data}
+            viewing={focused ? viewing.includes(item.data.id) : false}
+          />
+        )
+      }}
       viewabilityConfig={{
         itemVisiblePercentThreshold: 100,
         waitForInteraction: false,
