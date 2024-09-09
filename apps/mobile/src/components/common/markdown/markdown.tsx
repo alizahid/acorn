@@ -20,6 +20,7 @@ import { type PostMediaMeta } from '~/types/post'
 
 import { Text } from '../text'
 import { View } from '../view'
+import { Code } from './code'
 import { findMedia, Media } from './media'
 import { Spoiler } from './spoiler'
 
@@ -74,11 +75,9 @@ export function Node({ node, ...props }: Props) {
 
   if (node.type === 'code') {
     return (
-      <View style={styles.codeBlock}>
-        <Text size={props.size} variant="mono">
-          {node.value}
-        </Text>
-      </View>
+      <Code language={node.lang ?? 'text'} size={props.size}>
+        {node.value}
+      </Code>
     )
   }
 
@@ -385,13 +384,6 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   blockQuoteContent: {
     gap: theme.space[3],
-  },
-  codeBlock: {
-    backgroundColor: theme.colors.accent.a3,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
-    paddingHorizontal: theme.space[3],
-    paddingVertical: theme.space[2],
   },
   delete: {
     textDecorationLine: 'line-through',
