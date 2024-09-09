@@ -7,12 +7,15 @@ import { type PostMediaMeta } from '~/types/post'
 import { View } from '../view'
 import { Node } from './markdown'
 
+export type MarkdownVariant = 'comment' | 'post'
+
 type Props = {
   children: string
   meta?: PostMediaMeta
   recyclingKey: string
   size?: TypographyToken
   style?: StyleProp<ViewStyle>
+  variant: MarkdownVariant
 }
 
 export function Markdown({
@@ -21,6 +24,7 @@ export function Markdown({
   recyclingKey,
   size = '3',
   style,
+  variant,
 }: Props) {
   const markdown = parse(children)
 
@@ -34,6 +38,7 @@ export function Markdown({
           node={node}
           recyclingKey={recyclingKey}
           size={size}
+          variant={variant}
         />
       ))}
     </View>

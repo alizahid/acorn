@@ -3,12 +3,7 @@
 import { Image } from 'expo-image'
 import { type Nodes } from 'mdast-util-from-markdown/lib'
 import { type Table } from 'mdast-util-gfm-table/lib'
-import {
-  ScrollView,
-  type StyleProp,
-  type TextStyle,
-  type ViewStyle,
-} from 'react-native'
+import { ScrollView, type TextStyle, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useLink } from '~/hooks/link'
@@ -20,13 +15,14 @@ import { type PostMediaMeta } from '~/types/post'
 
 import { Text } from '../text'
 import { View } from '../view'
+import { type MarkdownVariant } from '.'
 import { Code } from './code'
 import { findMedia, Media } from './media'
 import { Spoiler } from './spoiler'
 
 type TextProps = Pick<TextStyleProps, 'align' | 'color' | 'weight'> & {
   onPress?: () => void
-  style?: StyleProp<TextStyle>
+  style?: TextStyle
 }
 
 type ListProps = {
@@ -45,9 +41,10 @@ type Props = {
   node: Nodes
   recyclingKey?: string
   size?: TypographyToken
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
   table?: TableProps
   text?: TextProps
+  variant: MarkdownVariant
 }
 
 export function Node({ node, ...props }: Props) {
@@ -70,7 +67,8 @@ export function Node({ node, ...props }: Props) {
   }
 
   if (node.type === 'break') {
-    return '\n'
+    // return '\n'
+    return <Text size={props.size}>{'\n'}</Text>
   }
 
   if (node.type === 'code') {
@@ -147,6 +145,7 @@ export function Node({ node, ...props }: Props) {
           caption={node.title}
           media={media}
           recyclingKey={props.recyclingKey}
+          variant={props.variant}
         />
       )
     }
@@ -179,6 +178,7 @@ export function Node({ node, ...props }: Props) {
           caption={caption === node.url ? undefined : caption}
           media={media}
           recyclingKey={props.recyclingKey}
+          variant={props.variant}
         />
       )
     }
@@ -252,6 +252,12 @@ export function Node({ node, ...props }: Props) {
         (child) => child.type === 'textDirective' && child.name === 'spoiler',
       ),
     )
+
+    if (node.children.length === 1) {
+      return node.children.map((child, index) => (
+        <Node {...props} key={index} node={child} />
+      ))
+    }
 
     return (
       <Text size={props.size} slow={spoiler} {...props.text}>
@@ -345,7 +351,7 @@ export function Node({ node, ...props }: Props) {
       return <Spoiler size={props.size}>{spoiler}</Spoiler>
     }
 
-    return `:${node.name}`
+    return <Text size={props.size}>:{node.name}</Text>
   }
 
   if (node.type === 'thematicBreak') {
@@ -406,6 +412,7 @@ const stylesheet = createStyleSheet((theme) => ({
   listText: {
     flexShrink: 1,
   },
+
   table: {
     borderColor: theme.colors.gray.a6,
     borderCurve: 'continuous',

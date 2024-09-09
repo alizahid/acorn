@@ -53,6 +53,7 @@ export function CommentCard({
           recyclingKey={comment.id}
           size="2"
           style={styles.body}
+          variant="comment"
         >
           {comment.body}
         </Markdown>

@@ -101,6 +101,7 @@ export function PostCard({
           recyclingKey={post.id}
           size="2"
           style={styles.body}
+          variant="post"
         >
           {post.body}
         </Markdown>
