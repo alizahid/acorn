@@ -150,13 +150,7 @@ export function Node({ node, ...props }: Props) {
       )
     }
 
-    return (
-      <Image
-        recyclingKey={props.recyclingKey}
-        source={node.url}
-        style={styles.image}
-      />
-    )
+    return <Image recyclingKey={props.recyclingKey} source={node.url} />
   }
 
   if (node.type === 'inlineCode') {
@@ -351,6 +345,22 @@ export function Node({ node, ...props }: Props) {
       return <Spoiler size={props.size}>{spoiler}</Spoiler>
     }
 
+    if (node.name === 'super_script') {
+      const superScript = getText(node.children)
+
+      if (!superScript) {
+        return null
+      }
+
+      return (
+        <View>
+          <Text size={props.size} style={styles.super}>
+            {superScript}
+          </Text>
+        </View>
+      )
+    }
+
     return <Text size={props.size}>:{node.name}</Text>
   }
 
@@ -398,7 +408,6 @@ const stylesheet = createStyleSheet((theme) => ({
   emphasis: {
     fontStyle: 'italic',
   },
-  image: {},
   list: {
     gap: theme.space[2],
   },
@@ -412,7 +421,9 @@ const stylesheet = createStyleSheet((theme) => ({
   listText: {
     flexShrink: 1,
   },
-
+  super: {
+    fontSize: 12,
+  },
   table: {
     borderColor: theme.colors.gray.a6,
     borderCurve: 'continuous',

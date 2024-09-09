@@ -3,7 +3,12 @@ import { type ConfigContext, type ExpoConfig } from 'expo/config'
 export default function getConfig({ config }: ConfigContext): ExpoConfig {
   const plugins: ExpoConfig['plugins'] = [
     'expo-router',
-    'expo-font',
+    [
+      'expo-font',
+      {
+        fonts: ['./assets/fonts/sans.woff2', './assets/fonts/mono.woff2'],
+      },
+    ],
     'expo-localization',
     'expo-secure-store',
     'expo-video',
