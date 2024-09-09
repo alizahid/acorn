@@ -1,8 +1,8 @@
 diff --git a/dist/reactnative/platform/reactnative/scrollcomponent/ScrollComponent.js b/dist/reactnative/platform/reactnative/scrollcomponent/ScrollComponent.js
-index 2f7033cdaa1a5c688323b2ce63ab9fd296d4bf36..3811662c96310937a423f95a76e01fbaefd6ef60 100644
+index 18c5ae2277b3dda55cda1aa65ae7f4110736cc59..e15d430e9b0d536af00ac5618e282eafbc283e68 100644
 --- a/dist/reactnative/platform/reactnative/scrollcomponent/ScrollComponent.js
 +++ b/dist/reactnative/platform/reactnative/scrollcomponent/ScrollComponent.js
-@@ -102,7 +102,7 @@ var ScrollComponent = /** @class */ (function (_super) {
+@@ -107,7 +107,7 @@ var ScrollComponent = /** @class */ (function (_super) {
          //     ...props,
          // } = this.props;
          return (React.createElement(Scroller, __assign({ ref: this._getScrollViewRef, removeClippedSubviews: false, scrollEventThrottle: this.props.scrollThrottle }, this.props, { horizontal: this.props.isHorizontal, onScroll: this._onScroll, onLayout: (!this._isSizeChangedCalledOnce || this.props.canChangeSize) ? this._onLayout : this.props.onLayout }),
