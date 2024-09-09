@@ -5,8 +5,8 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import {
-  useComments,
   type UserCommentsProps,
+  useUserComments,
 } from '~/hooks/queries/user/comments'
 import { listProps } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
@@ -39,7 +39,7 @@ export function UserCommentsList({
     isFetchingNextPage,
     isLoading,
     refetch,
-  } = useComments({
+  } = useUserComments({
     interval,
     sort,
     username,

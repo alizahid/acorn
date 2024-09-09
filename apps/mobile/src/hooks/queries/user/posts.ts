@@ -5,6 +5,7 @@ import { REDDIT_URI } from '~/reddit/config'
 import { PostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
 import { transformPost } from '~/transformers/post'
+import { type CommentReply } from '~/types/comment'
 import { type Post } from '~/types/post'
 import { type TopInterval, type UserFeedSort } from '~/types/sort'
 import { type UserFeedType } from '~/types/user'
@@ -13,7 +14,16 @@ type Param = string | undefined | null
 
 type Page = {
   cursor: Param
-  posts: Array<Post>
+  posts: Array<
+    | {
+        data: CommentReply
+        type: 'comment'
+      }
+    | {
+        data: Post
+        type: 'post'
+      }
+  >
 }
 
 export type UserPostsQueryKey = [
@@ -67,7 +77,6 @@ export function useUserPosts({
       const url = new URL(`/user/${username}/${type}`, REDDIT_URI)
 
       url.searchParams.set('limit', '25')
-      url.searchParams.set('type', 'links')
       url.searchParams.set('sort', sort)
 
       if (sort === 'top' && interval) {
@@ -106,7 +115,7 @@ export function useUserPosts({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    posts: data?.pages.flatMap((page) => page.posts) ?? [],
+    posts: data.pages.flatMap((page) => page.posts) ?? [],
     refetch,
   }
 }

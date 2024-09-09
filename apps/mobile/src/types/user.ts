@@ -17,6 +17,7 @@ export const UserFeedType = [
   'submitted',
   'comments',
   'saved',
+  'hidden',
   'upvoted',
   'downvoted',
 ] as const

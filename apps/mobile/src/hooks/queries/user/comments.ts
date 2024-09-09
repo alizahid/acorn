@@ -35,7 +35,11 @@ export type UserCommentsProps = {
   username: string
 }
 
-export function useComments({ interval, sort, username }: UserCommentsProps) {
+export function useUserComments({
+  interval,
+  sort,
+  username,
+}: UserCommentsProps) {
   const { accountId } = useAuth()
 
   const {

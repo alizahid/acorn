@@ -174,6 +174,7 @@
       "menu": {
         "comments": "Comments",
         "downvoted": "Downvoted",
+        "hidden": "Hidden",
         "saved": "Saved",
         "submitted": "Posts",
         "upvoted": "Upvoted"

@@ -64,6 +64,7 @@ export default function Screen() {
 const icons: Record<UserFeedType, IconName> = {
   comments: 'ChatCircle',
   downvoted: 'ArrowFatDown',
+  hidden: 'EyeClosed',
   saved: 'BookmarkSimple',
   submitted: 'PaperPlaneTilt',
   upvoted: 'ArrowFatUp',
@@ -72,6 +73,7 @@ const icons: Record<UserFeedType, IconName> = {
 const colors: Record<UserFeedType, ColorToken> = {
   comments: 'plum',
   downvoted: 'red',
+  hidden: 'gray',
   saved: 'indigo',
   submitted: 'accent',
   upvoted: 'green',
