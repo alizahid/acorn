@@ -65,6 +65,9 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
       config: {
         usesNonExemptEncryption: false,
       },
+      entitlements: {
+        'aps-environment': 'development',
+      },
       icon: './assets/artwork/icon.png',
       splash: {
         dark: {
