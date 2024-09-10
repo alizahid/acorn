@@ -63,15 +63,20 @@ export function CommentMoreCard({ comment, onThread, post, style }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   main: (depth: number) => {
     const color = getDepthColor(depth)
 
+    const margin = theme.space[3] * depth
+
     return {
+      alignSelf: 'center',
       backgroundColor: theme.colors[color].a2,
       borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
-      marginLeft: theme.space[3] * depth,
+      marginLeft: margin,
+      maxWidth: runtime.screen.width > 800 ? 600 - margin : undefined,
+      width: '100%',
     }
   },
 }))

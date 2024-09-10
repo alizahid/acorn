@@ -56,9 +56,7 @@ export function UserPostsList({
   return (
     <FlashList
       {...listProps}
-      ItemSeparatorComponent={() => (
-        <View height={1} style={styles.separator} />
-      )}
+      ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
@@ -125,7 +123,4 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   content: (inset?: boolean) => ({
     paddingBottom: inset ? runtime.insets.bottom : undefined,
   }),
-  separator: {
-    backgroundColor: theme.colors.gray.a6,
-  },
 }))

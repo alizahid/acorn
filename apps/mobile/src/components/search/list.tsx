@@ -100,8 +100,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     }
 
     return {
-      backgroundColor: theme.colors.gray.a6,
-      height: 1,
+      height: theme.space[2],
     }
   },
 }))

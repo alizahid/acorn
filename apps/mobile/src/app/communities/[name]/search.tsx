@@ -57,7 +57,7 @@ export default function Screen() {
       focused={focused}
       header={
         <>
-          <View style={styles.main}>
+          <View>
             <View m="4">
               <Icon
                 color={theme.colors.gray.a9}
@@ -117,9 +117,6 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius[4],
     borderWidth: 0,
     paddingLeft: theme.space[2] * 2 + theme.space[5],
-  },
-  main: {
-    backgroundColor: theme.colors.gray.a2,
   },
   search: {
     left: theme.space[2],

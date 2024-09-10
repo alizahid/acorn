@@ -127,7 +127,7 @@ export function CommentCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   body: {
     marginRight: theme.space[3],
     marginVertical: theme.space[3],
@@ -135,11 +135,16 @@ const stylesheet = createStyleSheet((theme) => ({
   main: (depth: number) => {
     const color = getDepthColor(depth)
 
+    const margin = theme.space[3] * depth
+
     return {
+      alignSelf: 'center',
       backgroundColor: theme.colors[color].a2,
       borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
-      marginLeft: theme.space[3] * depth,
+      marginLeft: margin,
+      maxWidth: runtime.screen.width > 800 ? 600 - margin : undefined,
+      width: '100%',
     }
   },
   sticky: {

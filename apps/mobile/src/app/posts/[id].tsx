@@ -129,6 +129,7 @@ export default function Screen() {
       <FlashList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
+        contentContainerStyle={styles.content}
         data={data}
         estimatedItemSize={72}
         extraData={{
@@ -163,11 +164,15 @@ export default function Screen() {
         }}
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
-        renderItem={({ item }) => {
+        renderItem={({ item, target }) => {
           if (typeof item === 'string') {
             if (item === 'header') {
               return (
-                <View align="center" direction="row" style={styles.header}>
+                <View
+                  align="center"
+                  direction="row"
+                  style={styles.header(target === 'StickyHeader')}
+                >
                   {params.commentId ? (
                     <HeaderButton
                       icon="ArrowLeft"
@@ -284,9 +289,23 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  header: {
-    backgroundColor: theme.colors.gray[2],
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  content: {
+    paddingBottom: theme.space[2],
+  },
+  header: (sticky: boolean) => {
+    if (sticky) {
+      return {
+        backgroundColor: theme.colors.gray[2],
+      }
+    }
+
+    return {
+      alignSelf: 'center',
+      backgroundColor: theme.colors.gray[2],
+      maxWidth: runtime.screen.width > 800 ? 600 : undefined,
+      width: '100%',
+    }
   },
   menu: {
     marginLeft: 'auto',

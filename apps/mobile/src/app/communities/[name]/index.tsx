@@ -4,7 +4,6 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { View } from '~/components/common/view'
@@ -31,8 +30,6 @@ export default function Screen() {
 
   const { community, refetch } = useCommunity(params.name)
   const { isPending, join } = useJoin()
-
-  const { styles } = useStyles(stylesheet)
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -72,7 +69,7 @@ export default function Screen() {
 
   return (
     <>
-      <View direction="row" justify="between" style={styles.header}>
+      <View direction="row" justify="between">
         <FeedSortMenu
           onChange={(next) => {
             update({
@@ -106,9 +103,3 @@ export default function Screen() {
     </>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  header: {
-    backgroundColor: theme.colors.gray[2],
-  },
-}))

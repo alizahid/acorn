@@ -28,12 +28,7 @@ export function SearchPostFilters({ filters, onChange, style }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View
-      direction="row"
-      gap="4"
-      justify="between"
-      style={[styles.main, style]}
-    >
+    <View direction="row" gap="4" justify="between" style={style}>
       <DropDown
         items={SearchSort.map((item) => ({
           icon: {
@@ -79,8 +74,5 @@ const stylesheet = createStyleSheet((theme) => ({
   item: {
     height: theme.space[8],
     paddingHorizontal: theme.space[2],
-  },
-  main: {
-    backgroundColor: theme.colors.gray.a2,
   },
 }))

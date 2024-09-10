@@ -37,7 +37,7 @@ export function PostCard({
   const body = expanded && post.body
 
   return (
-    <View style={style}>
+    <View style={[styles.main, style]}>
       <Pressable
         disabled={expanded}
         onPress={() => {
@@ -112,11 +112,17 @@ export function PostCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   body: {
     marginHorizontal: theme.space[3],
   },
   expanded: {
     marginBottom: theme.space[3],
+  },
+  main: {
+    alignSelf: 'center',
+    backgroundColor: theme.colors.gray.a2,
+    maxWidth: runtime.screen.width > 800 ? 600 : undefined,
+    width: '100%',
   },
 }))
