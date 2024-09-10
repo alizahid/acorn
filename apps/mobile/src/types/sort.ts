@@ -1,3 +1,9 @@
+// feed
+
+export const FeedType = ['home', 'popular', 'all'] as const
+
+export type FeedType = (typeof FeedType)[number]
+
 // home
 
 export const FeedSort = ['new', 'best', 'top', 'rising', 'hot'] as const

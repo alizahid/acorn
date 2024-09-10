@@ -6,6 +6,7 @@ import {
   type CommentSort,
   type CommunityFeedSort,
   type FeedSort,
+  type FeedType,
   type TopInterval,
   type UserFeedSort,
 } from '~/types/sort'
@@ -15,6 +16,7 @@ export const PREFERENCES_KEY = 'preferences-storage'
 export type PreferencesPayload = {
   blurNsfw: boolean
   feedMuted: boolean
+  feedType: FeedType
   intervalCommunityPosts: TopInterval
   intervalFeedPosts: TopInterval
   intervalUserComments: TopInterval
@@ -36,6 +38,7 @@ export const usePreferences = create<State>()(
     (set) => ({
       blurNsfw: true,
       feedMuted: true,
+      feedType: 'home',
       intervalCommunityPosts: 'hour',
       intervalFeedPosts: 'hour',
       intervalUserComments: 'all',

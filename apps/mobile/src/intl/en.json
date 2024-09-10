@@ -30,6 +30,12 @@
         "relevance": "Relevance",
         "rising": "Rising",
         "top": "Top"
+      },
+      "type": {
+        "all": "All",
+        "home": "Home",
+        "placeholder": "Feed",
+        "popular": "Popular"
       }
     },
     "communities": {
