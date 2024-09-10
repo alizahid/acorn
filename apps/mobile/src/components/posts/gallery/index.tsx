@@ -7,7 +7,8 @@ import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { useImagePlaceholder } from '~/hooks/image'
+import { HeaderButton } from '~/components/navigation/header-button'
+import { useDownloadImage, useImagePlaceholder } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -39,11 +40,14 @@ export function PostGalleryCard({
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const placeholder = useImagePlaceholder()
   const { blurNsfw } = usePreferences()
+
+  const placeholder = useImagePlaceholder()
+  const download = useDownloadImage()
 
   const [visible, setVisible] = useState(false)
   const [initial, setInitial] = useState(0)
+  const [viewing, setViewing] = useState<Array<PostMedia>>([])
 
   const first = images[0]
 
@@ -102,6 +106,30 @@ export function PostGalleryCard({
 
       <FakeModal
         close
+        footer={
+          <HeaderButton
+            color={
+              download.isError ? 'red' : download.isSuccess ? 'green' : 'accent'
+            }
+            icon={
+              download.isError
+                ? 'XCircle'
+                : download.isSuccess
+                  ? 'CheckCircle'
+                  : 'Download'
+            }
+            loading={download.isPending}
+            onPress={() => {
+              if (!viewing[0]) {
+                return
+              }
+
+              download.download({
+                url: viewing[0].url,
+              })
+            }}
+          />
+        }
         onClose={() => {
           setVisible(false)
 
@@ -116,12 +144,19 @@ export function PostGalleryCard({
           initialNumToRender={3}
           initialScrollIndex={initial}
           keyExtractor={(item, index) => String(index)}
+          onViewableItemsChanged={({ viewableItems }) => {
+            setViewing(() => viewableItems.map(({ item }) => item))
+          }}
           renderItem={({ item }) => (
             <GalleryImage image={item} recyclingKey={recyclingKey} />
           )}
           scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={images.map((item, index) => frame.width * index)}
+          viewabilityConfig={{
+            itemVisiblePercentThreshold: 100,
+            waitForInteraction: false,
+          }}
         />
       </FakeModal>
     </>

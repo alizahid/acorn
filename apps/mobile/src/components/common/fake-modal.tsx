@@ -16,12 +16,20 @@ import { HeaderButton } from '../navigation/header-button'
 type Props = {
   children: ReactNode
   close?: boolean
+  footer?: ReactNode
   onClose: () => void
   style?: StyleProp<ViewStyle>
   visible: boolean
 }
 
-export function FakeModal({ children, close, onClose, style, visible }: Props) {
+export function FakeModal({
+  children,
+  close,
+  footer,
+  onClose,
+  style,
+  visible,
+}: Props) {
   const frame = useSafeAreaFrame()
 
   const { styles } = useStyles(stylesheet)
@@ -99,6 +107,10 @@ export function FakeModal({ children, close, onClose, style, visible }: Props) {
           />
         </Animated.View>
       ) : null}
+
+      {footer ? (
+        <Animated.View style={[styles.footer, overlay]}>{footer}</Animated.View>
+      ) : null}
     </Modal>
   )
 }
@@ -108,6 +120,13 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     position: 'absolute',
     right: theme.space[4],
     top: theme.space[4] + runtime.insets.top,
+  },
+  footer: {
+    alignItems: 'center',
+    bottom: theme.space[4] + runtime.insets.bottom,
+    left: theme.space[4],
+    position: 'absolute',
+    right: theme.space[4],
   },
   main: {
     ...StyleSheet.absoluteFillObject,
