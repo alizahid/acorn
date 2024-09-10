@@ -16,7 +16,6 @@ import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
 import { CommentsSortMenu } from '~/components/comments/sort'
 import { Empty } from '~/components/common/empty'
-import { Loading } from '~/components/common/loading'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -204,11 +203,7 @@ export default function Screen() {
 
             if (item === 'empty') {
               return isFetching ? (
-                post ? (
-                  <Spinner m="4" />
-                ) : (
-                  <Loading />
-                )
+                <Spinner m="4" size={post ? 'small' : 'large'} />
               ) : (
                 <Empty />
               )
