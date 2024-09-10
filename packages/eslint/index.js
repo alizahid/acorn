@@ -4,6 +4,7 @@ const { resolve } = require('node:path')
  * @param {{
  *   root?: boolean
  *   next?: boolean
+ *   extends?: string[]
  *   plugins?: string[]
  *   rules?: Partial<import('eslint').Linter.RulesRecord>
  *   ignorePatterns?: string | string[]
@@ -13,6 +14,7 @@ const { resolve } = require('node:path')
  * @returns {import('eslint').Linter.Config}
  */
 exports.create = ({
+  extends: extend = [],
   ignorePatterns = [],
   next = false,
   overrides = [],
@@ -32,6 +34,7 @@ exports.create = ({
       require.resolve('@vercel/style-guide/eslint/react'),
       next && require.resolve('@vercel/style-guide/eslint/next'),
       'turbo',
+      ...extend,
       'plugin:prettier/recommended',
     ].filter(Boolean),
     globals: {
