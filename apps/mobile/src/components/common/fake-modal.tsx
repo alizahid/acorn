@@ -122,8 +122,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     top: theme.space[4] + runtime.insets.top,
   },
   footer: {
-    alignItems: 'center',
     bottom: theme.space[4] + runtime.insets.bottom,
+    flexDirection: 'row',
+    justifyContent: 'center',
     left: theme.space[4],
     position: 'absolute',
     right: theme.space[4],
