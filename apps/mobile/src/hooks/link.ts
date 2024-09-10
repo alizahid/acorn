@@ -1,7 +1,7 @@
 import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { useStyles } from 'react-native-unistyles'
 
 import { Sentry } from '~/lib/sentry'
@@ -14,13 +14,22 @@ export function useLink() {
 
   const { theme } = useStyles()
 
+  const [loading, setLoading] = useState(false)
+  const [visible, setVisible] = useState(false)
+
   const open = useCallback(
-    (url: string) => {
-      void WebBrowser.openBrowserAsync(url, {
-        controlsColor: theme.colors.accent[9],
-        presentationStyle: WebBrowser.WebBrowserPresentationStyle.AUTOMATIC,
-        toolbarColor: theme.colors.gray[3],
-      })
+    async (url: string) => {
+      try {
+        setVisible(true)
+
+        await WebBrowser.openBrowserAsync(url, {
+          controlsColor: theme.colors.accent[9],
+          presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
+          toolbarColor: theme.colors.gray[1],
+        })
+      } finally {
+        setVisible(false)
+      }
     },
     [theme.colors.accent, theme.colors.gray],
   )
@@ -32,13 +41,17 @@ export function useLink() {
 
         if (url.hostname.endsWith('reddit.com')) {
           if (url.pathname.includes('/wiki/')) {
-            open(href)
+            void open(href)
           } else if (url.pathname.includes('/s/')) {
+            setLoading(true)
+
             const response = await fetch(url, {
               method: 'trace',
             })
 
             void handleLink(response.url)
+
+            setLoading(false)
           } else if (url.pathname.startsWith('/r/')) {
             const [, , name, , id, , commentId] = url.pathname.split('/')
 
@@ -89,7 +102,7 @@ export function useLink() {
         } else if (linkBrowser) {
           void Linking.openURL(href)
         } else {
-          open(href)
+          void open(href)
         }
       } catch (error) {
         Sentry.captureException(error)
@@ -97,12 +110,18 @@ export function useLink() {
         if (linkBrowser) {
           void Linking.openURL(href)
         } else {
-          open(href)
+          void open(href)
         }
+      } finally {
+        setLoading(false)
       }
     },
     [linkBrowser, open, router],
   )
 
-  return handleLink
+  return {
+    handleLink,
+    loading,
+    visible,
+  }
 }

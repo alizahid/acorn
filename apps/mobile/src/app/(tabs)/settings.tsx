@@ -34,7 +34,7 @@ export default function Screen() {
   const { blurNsfw, feedMuted, linkBrowser, update, ...preferences } =
     usePreferences()
 
-  const handleLink = useLink()
+  const { handleLink } = useLink()
 
   const { theme } = useStyles()
 

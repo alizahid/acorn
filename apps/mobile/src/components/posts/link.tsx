@@ -21,7 +21,7 @@ type Props = {
 export function PostLinkCard({ media, recyclingKey, style, url }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
-  const handleLink = useLink()
+  const { handleLink } = useLink()
   const placeholder = useImagePlaceholder()
 
   return (

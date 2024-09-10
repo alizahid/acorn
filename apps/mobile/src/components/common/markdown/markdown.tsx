@@ -50,7 +50,7 @@ type Props = {
 export function Node({ node, ...props }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
-  const handleLink = useLink()
+  const { handleLink } = useLink()
 
   if (node.type === 'blockquote') {
     return (
