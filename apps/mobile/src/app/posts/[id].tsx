@@ -296,13 +296,15 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   header: (sticky: boolean) => {
     if (sticky) {
       return {
-        backgroundColor: theme.colors.gray[2],
+        backgroundColor: theme.colors.gray[1],
+        marginLeft: runtime.screen.width > 800 ? theme.space[1] : undefined,
       }
     }
 
     return {
       alignSelf: 'center',
-      backgroundColor: theme.colors.gray[2],
+      borderCurve: 'continuous',
+      borderRadius: runtime.screen.width > 800 ? theme.radius[3] : undefined,
       maxWidth: runtime.screen.width > 800 ? 600 : undefined,
       width: '100%',
     }

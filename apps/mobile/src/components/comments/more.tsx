@@ -72,8 +72,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     return {
       alignSelf: 'center',
       backgroundColor: theme.colors[color].a2,
+      borderCurve: 'continuous',
       borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
+      borderRadius: runtime.screen.width > 800 ? theme.radius[3] : undefined,
       marginLeft: margin,
       maxWidth: runtime.screen.width > 800 ? 600 - margin : undefined,
       width: '100%',

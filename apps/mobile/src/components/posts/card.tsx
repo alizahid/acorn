@@ -122,6 +122,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   main: {
     alignSelf: 'center',
     backgroundColor: theme.colors.gray.a2,
+    borderCurve: 'continuous',
+    borderRadius: runtime.screen.width > 800 ? theme.radius[3] : undefined,
     maxWidth: runtime.screen.width > 800 ? 600 : undefined,
     width: '100%',
   },
