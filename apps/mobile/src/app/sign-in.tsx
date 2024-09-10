@@ -6,7 +6,9 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
 import { Controller, useForm } from 'react-hook-form'
+import { Platform } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -78,6 +80,10 @@ export default function Screen() {
       keyboardShouldPersistTaps="handled"
       style={[styles.main, keyboard.styles]}
     >
+      {Platform.OS === 'ios' && !Platform.isPad ? (
+        <StatusBar style="light" />
+      ) : null}
+
       <View align="center">
         <Logo style={styles.logo} />
 

@@ -44,7 +44,6 @@ export function AccountSwitchCard() {
 
               setVisible(false)
             }}
-            weight="bold"
           />
         }
         style={styles.modal(accounts.length)}
