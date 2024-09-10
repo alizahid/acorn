@@ -24,7 +24,7 @@ type Props = {
 export function FakeModal({ children, close, onClose, style, visible }: Props) {
   const frame = useSafeAreaFrame()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const translate = useSharedValue(frame.height)
 
@@ -95,7 +95,6 @@ export function FakeModal({ children, close, onClose, style, visible }: Props) {
                 runOnJS(onClose)()
               })
             }}
-            size={theme.space[6]}
             weight="bold"
           />
         </Animated.View>
