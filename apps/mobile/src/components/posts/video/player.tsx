@@ -148,6 +148,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     top: 0,
   },
   full: (aspectRatio: number) => ({
+    alignSelf: 'center',
     aspectRatio,
     maxHeight: runtime.screen.height,
     width: runtime.screen.width,
