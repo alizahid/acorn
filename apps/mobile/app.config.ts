@@ -12,6 +12,13 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
     'expo-localization',
     'expo-secure-store',
     'expo-video',
+    [
+      'expo-media-library',
+      {
+        photosPermission: 'Allow $(PRODUCT_NAME) to access your photos.',
+        savePhotosPermission: 'Allow $(PRODUCT_NAME) to save photos.',
+      },
+    ],
   ]
 
   if (process.env.SENTRY_AUTH_TOKEN) {
