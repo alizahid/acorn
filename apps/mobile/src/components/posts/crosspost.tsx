@@ -86,7 +86,7 @@ export function CrossPostCard({ post, style, viewing }: Props) {
       ) : null}
 
       <View gap="3" p="3">
-        <Text lines={2} weight="medium">
+        <Text lines={2} size="2" weight="medium">
           {post.title}
         </Text>
 
@@ -103,11 +103,11 @@ export function CrossPostCard({ post, style, viewing }: Props) {
             <Icon
               color={theme.colors.accent.a9}
               name="ArrowsSplit"
-              size={theme.typography[2].lineHeight}
+              size={theme.typography[1].lineHeight}
               style={styles.crossPost}
             />
 
-            <Text size="2" weight="medium">
+            <Text size="1" weight="medium">
               {post.subreddit}
             </Text>
           </Pressable>
@@ -117,10 +117,10 @@ export function CrossPostCard({ post, style, viewing }: Props) {
               <Icon
                 color={theme.colors.gray.a11}
                 name={item.icon}
-                size={theme.typography[2].lineHeight}
+                size={theme.typography[1].lineHeight}
               />
 
-              <Text highContrast={false} size="2" tabular>
+              <Text highContrast={false} size="1" tabular>
                 {item.label}
               </Text>
             </View>
