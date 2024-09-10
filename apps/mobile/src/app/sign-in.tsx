@@ -75,6 +75,7 @@ export default function Screen() {
     <Animated.ScrollView
       contentContainerStyle={styles.content}
       keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps="handled"
       style={[styles.main, keyboard.styles]}
     >
       <View align="center">

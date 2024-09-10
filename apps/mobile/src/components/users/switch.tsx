@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import Swipeable from 'react-native-gesture-handler/Swipeable'
+import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -41,6 +41,8 @@ export function AccountSwitchCard() {
             icon="PlusCircle"
             onPress={() => {
               router.push('/sign-in?mode=dismissible')
+
+              setVisible(false)
             }}
             weight="bold"
           />
