@@ -133,7 +133,7 @@ export function Node({ node, ...props }: Props) {
   }
 
   if (node.type === 'html') {
-    return node.value
+    return <Text size={props.size}>{node.value}</Text>
   }
 
   if (node.type === 'image') {
