@@ -7,7 +7,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { useMemo, useRef, useState } from 'react'
-import { Share, type TextInput } from 'react-native'
+import { Platform, Share, type TextInput } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -26,6 +26,7 @@ import { PostCard } from '~/components/posts/card'
 import { PostReplyCard } from '~/components/posts/reply'
 import { usePost } from '~/hooks/queries/posts/post'
 import { listProps } from '~/lib/common'
+import { cardMaxWidth } from '~/lib/const'
 import { isUser, removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -289,23 +290,25 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   content: {
     paddingBottom: theme.space[2],
   },
   header: (sticky: boolean) => {
+    const iPad = Platform.OS === 'ios' && Platform.isPad
+
     if (sticky) {
       return {
         backgroundColor: theme.colors.gray[1],
-        marginLeft: runtime.screen.width > 800 ? theme.space[1] : undefined,
+        marginLeft: iPad ? theme.space[1] : undefined,
       }
     }
 
     return {
       alignSelf: 'center',
       borderCurve: 'continuous',
-      borderRadius: runtime.screen.width > 800 ? theme.radius[3] : undefined,
-      maxWidth: runtime.screen.width > 800 ? 600 : undefined,
+      borderRadius: iPad ? theme.radius[3] : undefined,
+      maxWidth: iPad ? cardMaxWidth : undefined,
       width: '100%',
     }
   },

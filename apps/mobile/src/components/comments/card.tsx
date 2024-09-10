@@ -1,9 +1,10 @@
 import { useRouter } from 'expo-router'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { Platform, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { getDepthColor } from '~/lib/colors'
+import { cardMaxWidth } from '~/lib/const'
 import { withoutAgo } from '~/lib/intl'
 import { removePrefix } from '~/lib/reddit'
 import { type CommentReply } from '~/types/comment'
@@ -127,7 +128,7 @@ export function CommentCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   body: {
     marginRight: theme.space[3],
     marginVertical: theme.space[3],
@@ -137,17 +138,27 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
 
     const margin = theme.space[3] * depth
 
-    return {
-      alignSelf: 'center',
+    const iPad = Platform.OS === 'ios' && Platform.isPad
+
+    const base = {
       backgroundColor: theme.colors[color].a2,
-      borderCurve: 'continuous',
       borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
-      borderRadius: runtime.screen.width > 800 ? theme.radius[3] : undefined,
       marginLeft: margin,
-      maxWidth: runtime.screen.width > 800 ? 600 - margin : undefined,
-      width: '100%',
     }
+
+    if (iPad) {
+      return {
+        ...base,
+        alignSelf: 'center',
+        borderCurve: 'continuous',
+        borderRadius: theme.radius[3],
+        maxWidth: cardMaxWidth - margin,
+        width: '100%',
+      }
+    }
+
+    return base
   },
   sticky: {
     marginRight: -theme.space[2],

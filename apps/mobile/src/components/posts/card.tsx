@@ -1,7 +1,8 @@
 import { useRouter } from 'expo-router'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { Platform, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { cardMaxWidth } from '~/lib/const'
 import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
@@ -37,7 +38,7 @@ export function PostCard({
   const body = expanded && post.body
 
   return (
-    <View style={[styles.main, style]}>
+    <View style={[styles.main(), style]}>
       <Pressable
         disabled={expanded}
         onPress={() => {
@@ -112,19 +113,23 @@ export function PostCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   body: {
     marginHorizontal: theme.space[3],
   },
   expanded: {
     marginBottom: theme.space[3],
   },
-  main: {
-    alignSelf: 'center',
-    backgroundColor: theme.colors.gray.a2,
-    borderCurve: 'continuous',
-    borderRadius: runtime.screen.width > 800 ? theme.radius[3] : undefined,
-    maxWidth: runtime.screen.width > 800 ? 600 : undefined,
-    width: '100%',
+  main: () => {
+    const iPad = Platform.OS === 'ios' && Platform.isPad
+
+    return {
+      alignSelf: 'center',
+      backgroundColor: theme.colors.gray.a2,
+      borderCurve: 'continuous',
+      borderRadius: iPad ? theme.radius[3] : undefined,
+      maxWidth: iPad ? cardMaxWidth : undefined,
+      width: '100%',
+    }
   },
 }))
