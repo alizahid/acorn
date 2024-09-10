@@ -61,7 +61,7 @@ export function FakeModal({ children, close, onClose, style, visible }: Props) {
     () => ({
       opacity: interpolate(
         translate.value,
-        [-frame.height, 0, frame.height],
+        [-(frame.height * 0.5), 0, frame.height * 0.5],
         [0, 1, 0],
       ),
     }),
