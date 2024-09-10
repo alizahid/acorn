@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import * as FileSystem from 'expo-file-system'
 import { type ImageProps } from 'expo-image'
 import * as MediaLibrary from 'expo-media-library'
+import { useRef } from 'react'
 import { useColorScheme } from 'react-native'
 
 import placeholderDark from '~/images/placeholder-dark.png'
@@ -17,7 +18,9 @@ export function useImagePlaceholder() {
 }
 
 export function useDownloadImage() {
-  const { isError, isPending, isSuccess, mutate } = useMutation<
+  const timer = useRef<NodeJS.Timeout>()
+
+  const { isError, isPending, isSuccess, mutate, reset } = useMutation<
     unknown,
     Error,
     {
@@ -45,6 +48,15 @@ export function useDownloadImage() {
       }
 
       await MediaLibrary.saveToLibraryAsync(result.uri)
+    },
+    onSettled() {
+      if (timer.current) {
+        clearTimeout(timer.current)
+      }
+
+      timer.current = setTimeout(() => {
+        reset()
+      }, 5_000)
     },
   })
 
