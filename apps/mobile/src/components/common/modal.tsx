@@ -85,11 +85,14 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     top: 0,
   },
   content: {
+    alignSelf: 'center',
     backgroundColor: theme.colors.gray[1],
     borderCurve: 'continuous',
     borderRadius: theme.radius[6],
     maxHeight: runtime.screen.height * 0.6,
+    maxWidth: 400,
     overflow: 'hidden',
+    width: '100%',
   },
   header: {
     backgroundColor: theme.colors.gray.a2,
