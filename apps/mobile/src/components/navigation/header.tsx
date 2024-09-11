@@ -42,7 +42,9 @@ export function Header({ navigation, options, ...props }: Props) {
             })}
           </View>
         ) : (
-          <Text weight="bold">{options.title}</Text>
+          <Text lines={1} style={styles.title} weight="bold">
+            {options.title}
+          </Text>
         )}
 
         {options.headerRight ? (
@@ -72,5 +74,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   right: {
     right: 0,
+  },
+  title: {
+    maxWidth: '50%',
   },
 }))

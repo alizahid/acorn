@@ -11,6 +11,7 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { PostSaveCard } from './save'
+import { PostShareCard } from './share'
 import { PostVoteCard } from './vote'
 
 export type PostLabel = 'user' | 'subreddit'
@@ -59,6 +60,7 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
       direction="row"
       disabled={expanded}
       gap="4"
+      justify="between"
       onPress={() => {
         router.navigate({
           params: {
@@ -69,7 +71,7 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
       }}
       p="3"
     >
-      <View align="start" flexGrow={1} gap="2">
+      <View align="start" flexShrink={1} gap="2">
         <Pressable
           hitSlop={theme.space[4]}
           onPress={() => {
@@ -125,6 +127,8 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
         <PostVoteCard post={post} />
 
         <PostSaveCard post={post} />
+
+        {!expanded ? <PostShareCard post={post} /> : null}
       </View>
     </Pressable>
   )

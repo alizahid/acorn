@@ -60,7 +60,7 @@ export function CommentCard({
         </Markdown>
       ) : null}
 
-      <View align="center" direction="row" gap="4" mb="3">
+      <View align="center" direction="row" gap="4" mb="3" pr="3">
         {comment.sticky ? (
           <Icon
             color={theme.colors.accent.a9}
@@ -72,6 +72,7 @@ export function CommentCard({
         ) : null}
 
         <Pressable
+          flexShrink={1}
           hitSlop={theme.space[3]}
           onPress={() => {
             router.navigate({
@@ -85,6 +86,7 @@ export function CommentCard({
           <Text
             color={comment.op ? 'accent' : 'gray'}
             highContrast={!comment.op}
+            lines={1}
             size="1"
             weight="medium"
           >
