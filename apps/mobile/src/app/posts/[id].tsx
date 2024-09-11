@@ -9,7 +9,6 @@ import {
 import { useMemo, useRef, useState } from 'react'
 import { Platform, Share, type TextInput } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
@@ -44,8 +43,6 @@ export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
   const focused = useIsFocused()
-
-  const t = useTranslations('screen.posts.post')
 
   const { sortPostComments, update } = usePreferences()
 
@@ -190,17 +187,13 @@ export default function Screen() {
                     />
                   ) : null}
 
-                  <Text ml={params.commentId ? undefined : '3'} weight="bold">
-                    {t('comments')}
-                  </Text>
-
                   <CommentsSortMenu
                     onChange={(next) => {
                       update({
                         sortPostComments: next,
                       })
                     }}
-                    style={styles.menu}
+                    style={styles.sort}
                     value={sortPostComments}
                   />
                 </View>
@@ -306,13 +299,14 @@ const stylesheet = createStyleSheet((theme) => ({
 
     return {
       alignSelf: 'center',
+      backgroundColor: theme.colors.gray[2],
       borderCurve: 'continuous',
       borderRadius: iPad ? theme.radius[3] : undefined,
       maxWidth: iPad ? cardMaxWidth : undefined,
       width: '100%',
     }
   },
-  menu: {
+  sort: {
     marginLeft: 'auto',
   },
 }))

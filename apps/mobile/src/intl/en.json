@@ -125,11 +125,6 @@
         "title": "Search in r/{community}"
       }
     },
-    "posts": {
-      "post": {
-        "comments": "Comments"
-      }
-    },
     "users": {
       "user": {
         "comments": "Comments",
