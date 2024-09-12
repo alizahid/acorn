@@ -1,7 +1,7 @@
 import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { Image } from 'expo-image'
 import * as StatusBar from 'expo-status-bar'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   runOnJS,
   useAnimatedReaction,
@@ -33,6 +33,7 @@ export function GalleryImage({ image, recyclingKey }: Props) {
 
   const zoom = useSharedValue(1)
 
+  const [loaded, setLoaded] = useState(!image.thumbnail)
   const [playing, setPlaying] = useState(true)
   const [zoomed, setZoomed] = useState(true)
   const [hidden, setHidden] = useState(false)
@@ -43,6 +44,14 @@ export function GalleryImage({ image, recyclingKey }: Props) {
       runOnJS(setZoomed)(next > 1)
     },
   )
+
+  useEffect(() => {
+    if (image.thumbnail) {
+      void Image.prefetch(image.url).then(() => {
+        setLoaded(true)
+      })
+    }
+  }, [image.thumbnail, image.url])
 
   return (
     <View style={styles.main(image.width / image.height)}>
@@ -66,7 +75,7 @@ export function GalleryImage({ image, recyclingKey }: Props) {
           contentFit="contain"
           recyclingKey={recyclingKey}
           ref={ref}
-          source={image.url}
+          source={loaded ? image.url : image.thumbnail}
           style={styles.image}
         />
       </Zoomable>
