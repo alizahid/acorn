@@ -1,6 +1,7 @@
 import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
+import { Tabs } from 'react-native-collapsible-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Empty } from '~/components/common/empty'
@@ -24,6 +25,7 @@ type Props = {
   header?: ReactElement
   inset?: boolean
   query: string
+  tabs?: boolean
   type: SearchTab
 }
 
@@ -34,6 +36,7 @@ export function SearchList({
   header,
   inset,
   query,
+  tabs,
   type,
 }: Props) {
   const list = useRef<FlashList<Community | Post>>(null)
@@ -53,8 +56,10 @@ export function SearchList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
+  const List = tabs ? Tabs.FlashList : FlashList
+
   return (
-    <FlashList
+    <List
       {...listProps}
       ItemSeparatorComponent={() => <View style={styles.separator(type)} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
@@ -62,7 +67,11 @@ export function SearchList({
       contentContainerStyle={styles.content(inset)}
       data={results}
       estimatedItemSize={type === 'community' ? 56 : 120}
+      extraData={{
+        viewing,
+      }}
       getItemType={() => type}
+      keyExtractor={(item) => item.id}
       keyboardDismissMode="on-drag"
       onViewableItemsChanged={({ viewableItems }) => {
         setViewing(() => viewableItems.map((item) => item.key))

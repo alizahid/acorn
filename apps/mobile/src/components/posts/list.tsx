@@ -1,6 +1,7 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
+import { Tabs } from 'react-native-collapsible-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -20,6 +21,7 @@ type Props = PostsProps & {
   inset?: boolean
   label?: PostLabel
   onRefresh?: () => void
+  tabs?: boolean
 }
 
 export function PostList({
@@ -30,6 +32,7 @@ export function PostList({
   label,
   onRefresh,
   sort,
+  tabs,
 }: Props) {
   const { styles } = useStyles(stylesheet)
 
@@ -55,8 +58,10 @@ export function PostList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
+  const List = tabs ? Tabs.FlashList : FlashList
+
   return (
-    <FlashList
+    <List
       {...listProps}
       ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}

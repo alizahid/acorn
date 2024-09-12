@@ -77,13 +77,11 @@
         }
       },
       "header": {
-        "query": {
-          "placeholder": "Search"
-        },
-        "tab": {
-          "community": "Communities",
-          "post": "Posts"
-        }
+        "placeholder": "Search"
+      },
+      "tabBar": {
+        "community": "Communities",
+        "post": "Posts"
       }
     },
     "users": {
@@ -133,6 +131,9 @@
     }
   },
   "tab": {
+    "communities": {
+      "title": "Communities"
+    },
     "search": {
       "title": "Search"
     },

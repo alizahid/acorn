@@ -1,5 +1,6 @@
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
+import { Tabs } from 'react-native-collapsible-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -19,6 +20,7 @@ import { View } from '../common/view'
 type Props = UserCommentsProps & {
   inset?: boolean
   onRefresh?: () => void
+  tabs?: boolean
 }
 
 export function UserCommentsList({
@@ -26,6 +28,7 @@ export function UserCommentsList({
   interval,
   onRefresh,
   sort,
+  tabs,
   username,
 }: Props) {
   const router = useRouter()
@@ -45,8 +48,10 @@ export function UserCommentsList({
     username,
   })
 
+  const List = tabs ? Tabs.FlashList : FlashList
+
   return (
-    <FlashList
+    <List
       {...listProps}
       ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}

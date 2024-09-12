@@ -75,6 +75,7 @@ export default function Layout() {
           tabBarIcon: (props) => (
             <Icon {...props} name="MagnifyingGlass" weight="duotone" />
           ),
+          title: t('search.title'),
         }}
       />
 
@@ -94,6 +95,7 @@ export default function Layout() {
           tabBarIcon: (props) => (
             <Icon {...props} name="UsersFour" weight="duotone" />
           ),
+          title: t('communities.title'),
         }}
       />
 

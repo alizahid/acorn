@@ -3,14 +3,13 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { useRef } from 'react'
-import Pager from 'react-native-pager-view'
-import { useSharedValue } from 'react-native-reanimated'
+import { Tabs } from 'react-native-collapsible-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { SegmentedControl } from '~/components/common/segmented-control'
+import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { UserCommentsList } from '~/components/users/comments'
 import { UserPostsList } from '~/components/users/posts'
@@ -32,16 +31,11 @@ export default function Screen() {
   const { profile, refetch } = useProfile(params.name)
   const { follow, isPending } = useFollow()
 
-  const pager = useRef<Pager>(null)
-
   const { styles } = useStyles(stylesheet)
 
-  const offset = useSharedValue(0)
-
   useFocusEffect(() => {
-    navigation.setOptions({
-      headerRight: () =>
-        profile ? (
+    const headerRight = profile
+      ? () => (
           <HeaderButton
             color={profile.subscribed ? 'red' : 'accent'}
             icon={profile.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
@@ -54,52 +48,67 @@ export default function Screen() {
               })
             }}
           />
-        ) : null,
+        )
+      : undefined
+
+    navigation.setOptions({
+      headerRight,
       title: params.name,
     })
   })
 
   return (
-    <>
-      <SegmentedControl
-        items={UserTab.map((tab) => t(tab))}
-        offset={offset}
-        onChange={(next) => {
-          pager.current?.setPage(next)
-        }}
-      />
+    <Tabs.Container
+      lazy
+      renderTabBar={({ indexDecimal, onTabPress }) => (
+        <View style={styles.tabBar}>
+          <SegmentedControl
+            items={UserTab.map((tab) => t(tab))}
+            offset={indexDecimal}
+            onChange={(index) => {
+              const next = UserTab[index]
 
-      <Pager
-        onPageScroll={(event) => {
-          offset.value = event.nativeEvent.offset + event.nativeEvent.position
-        }}
-        ref={pager}
-        style={styles.main}
-      >
+              if (next) {
+                onTabPress(next)
+              }
+            }}
+          />
+        </View>
+      )}
+    >
+      <Tabs.Tab name="posts">
         <UserPostsList
           inset
-          key="posts"
           label="subreddit"
           onRefresh={refetch}
           sort="new"
+          tabs
           type="submitted"
           username={params.name}
         />
+      </Tabs.Tab>
 
+      <Tabs.Tab name="comments">
         <UserCommentsList
           inset
-          key="comments"
           onRefresh={refetch}
           sort="new"
+          tabs
           username={params.name}
         />
-      </Pager>
-    </>
+      </Tabs.Tab>
+    </Tabs.Container>
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const stylesheet = createStyleSheet((theme) => ({
+  header: {
+    shadowColor: 'transparent',
+  },
   main: {
     flex: 1,
+  },
+  tabBar: {
+    backgroundColor: theme.colors.gray[1],
   },
 }))

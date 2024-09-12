@@ -1,7 +1,5 @@
-import { useFocusEffect, useNavigation } from 'expo-router'
-import React, { useRef } from 'react'
-import Pager from 'react-native-pager-view'
-import { useSharedValue } from 'react-native-reanimated'
+import React from 'react'
+import { Tabs } from 'react-native-collapsible-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { CommunitiesHeader } from '~/components/communities/header'
@@ -9,13 +7,7 @@ import { CommunitiesList } from '~/components/communities/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 
 export default function Screen() {
-  const navigation = useNavigation()
-
-  const pager = useRef<Pager>(null)
-
   const { styles } = useStyles(stylesheet)
-
-  const offset = useSharedValue(0)
 
   const {
     communities,
@@ -27,19 +19,6 @@ export default function Screen() {
     users,
   } = useCommunities()
 
-  useFocusEffect(() => {
-    navigation.setOptions({
-      header: () => (
-        <CommunitiesHeader
-          offset={offset}
-          onChange={(next) => {
-            pager.current?.setPage(next)
-          }}
-        />
-      ),
-    })
-  })
-
   const props = {
     fetchNextPage,
     hasNextPage,
@@ -49,22 +28,33 @@ export default function Screen() {
   } as const
 
   return (
-    <Pager
-      onPageScroll={(event) => {
-        offset.value = event.nativeEvent.offset + event.nativeEvent.position
-      }}
-      ref={pager}
-      style={styles.main}
+    <Tabs.Container
+      headerContainerStyle={styles.header}
+      lazy
+      renderTabBar={({ indexDecimal, onTabPress }) => (
+        <CommunitiesHeader offset={indexDecimal} onChange={onTabPress} />
+      )}
+      revealHeaderOnScroll
     >
-      <CommunitiesList {...props} communities={communities} key="posts" />
+      <Tabs.Tab name="communities">
+        <CommunitiesList {...props} communities={communities} tabs />
+      </Tabs.Tab>
 
-      <CommunitiesList {...props} communities={users} key="communities" />
-    </Pager>
+      <Tabs.Tab name="users">
+        <CommunitiesList {...props} communities={users} key="users" tabs />
+      </Tabs.Tab>
+    </Tabs.Container>
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const stylesheet = createStyleSheet((theme) => ({
+  header: {
+    shadowColor: 'transparent',
+  },
   main: {
     flex: 1,
+  },
+  tabBar: {
+    backgroundColor: theme.colors.gray[1],
   },
 }))

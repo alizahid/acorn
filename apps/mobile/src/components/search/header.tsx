@@ -1,35 +1,24 @@
-import { type SharedValue } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { SearchTab } from '~/types/search'
-
 import { Icon } from '../common/icon'
-import { SegmentedControl } from '../common/segmented-control'
 import { TextBox } from '../common/text-box'
 import { View } from '../common/view'
 import { HeaderButton } from '../navigation/header-button'
 
 type Props = {
-  offset: SharedValue<number>
-  onChange: (index: number) => void
-  onQueryChange: (query: string) => void
+  onChange: (query: string) => void
   query: string
 }
 
-export function SearchHeader({
-  offset,
-  onChange,
-  onQueryChange,
-  query,
-}: Props) {
+export function SearchHeader({ onChange, query }: Props) {
   const t = useTranslations('component.search.header')
 
   const { styles, theme } = useStyles(stylesheet)
 
   return (
     <View style={styles.main}>
-      <View m="4" mb="0">
+      <View mx="4">
         <Icon
           color={theme.colors.gray.a9}
           name="MagnifyingGlass"
@@ -37,8 +26,8 @@ export function SearchHeader({
         />
 
         <TextBox
-          onChangeText={onQueryChange}
-          placeholder={t('query.placeholder')}
+          onChangeText={onChange}
+          placeholder={t('placeholder')}
           styleInput={styles.input}
           value={query}
         />
@@ -48,26 +37,18 @@ export function SearchHeader({
             color="gray"
             icon="XCircle"
             onPress={() => {
-              onQueryChange('')
+              onChange('')
             }}
             style={styles.clear}
             weight="fill"
           />
         ) : null}
       </View>
-
-      <SegmentedControl
-        items={SearchTab.map((item) => t(`tab.${item}`))}
-        offset={offset}
-        onChange={(index) => {
-          onChange(index)
-        }}
-      />
     </View>
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   clear: {
     height: theme.space[7],
     position: 'absolute',
@@ -84,7 +65,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: {
     backgroundColor: theme.colors.gray[1],
-    paddingTop: runtime.insets.top,
   },
   search: {
     left: theme.space[2],

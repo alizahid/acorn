@@ -1,8 +1,6 @@
 import { useIsFocused } from '@react-navigation/native'
-import { useFocusEffect, useNavigation } from 'expo-router'
-import { useRef, useState } from 'react'
-import Pager from 'react-native-pager-view'
-import { useSharedValue } from 'react-native-reanimated'
+import { useState } from 'react'
+import { Tabs } from 'react-native-collapsible-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 
@@ -12,34 +10,14 @@ import {
 } from '~/components/search/filters'
 import { SearchHeader } from '~/components/search/header'
 import { SearchList } from '~/components/search/list'
+import { SearchTabBar } from '~/components/search/tab-bar'
 
 export default function Screen() {
-  const navigation = useNavigation()
-
   const focused = useIsFocused()
-
-  const pager = useRef<Pager>(null)
 
   const { styles } = useStyles(stylesheet)
 
-  const offset = useSharedValue(0)
-
-  useFocusEffect(() => {
-    navigation.setOptions({
-      header: () => (
-        <SearchHeader
-          offset={offset}
-          onChange={(next) => {
-            pager.current?.setPage(next)
-          }}
-          onQueryChange={setQuery}
-          query={query}
-        />
-      ),
-    })
-  })
-
-  const [page, setPage] = useState(0)
+  const [tab, setTab] = useState(0)
   const [query, setQuery] = useState('')
   const [filters, setFilters] = useState<SearchFilters>({
     interval: 'all',
@@ -49,38 +27,46 @@ export default function Screen() {
   const [debounced] = useDebounce(query, 500)
 
   return (
-    <Pager
-      onPageScroll={(event) => {
-        offset.value = event.nativeEvent.offset + event.nativeEvent.position
-      }}
-      onPageSelected={(event) => {
-        setPage(event.nativeEvent.position)
-      }}
-      ref={pager}
-      style={styles.main}
+    <Tabs.Container
+      headerContainerStyle={styles.header}
+      lazy
+      onIndexChange={setTab}
+      renderHeader={() => <SearchHeader onChange={setQuery} query={query} />}
+      renderTabBar={({ indexDecimal, onTabPress }) => (
+        <SearchTabBar offset={indexDecimal} onPress={onTabPress} />
+      )}
+      revealHeaderOnScroll
     >
-      <SearchList
-        focused={focused ? page === 0 : false}
-        header={
-          <SearchPostFilters
-            filters={filters}
-            onChange={setFilters}
-            style={styles.filters}
-          />
-        }
-        key="posts"
-        query={debounced}
-        type="post"
-      />
+      <Tabs.Tab name="posts">
+        <SearchList
+          filters={filters}
+          focused={focused ? tab === 0 : false}
+          header={
+            <SearchPostFilters
+              filters={filters}
+              onChange={setFilters}
+              style={styles.filters}
+            />
+          }
+          query={debounced}
+          tabs
+          type="post"
+        />
+      </Tabs.Tab>
 
-      <SearchList key="communities" query={debounced} type="community" />
-    </Pager>
+      <Tabs.Tab name="communities">
+        <SearchList query={debounced} tabs type="community" />
+      </Tabs.Tab>
+    </Tabs.Container>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
   filters: {
     paddingHorizontal: theme.space[2],
+  },
+  header: {
+    shadowColor: 'transparent',
   },
   main: {
     flex: 1,
