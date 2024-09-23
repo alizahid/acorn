@@ -10,6 +10,7 @@ import { z } from 'zod'
 import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
+import { View } from '~/components/common/view'
 import { useKeyboard } from '~/hooks/keyboard'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
 
@@ -36,7 +37,7 @@ export function PostReplyScreen() {
 
   return (
     <Animated.ScrollView
-      contentContainerStyle={styles.main}
+      contentContainerStyle={styles.content}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
       style={keyboard.styles}
@@ -44,11 +45,13 @@ export function PostReplyScreen() {
       <StatusBar style="light" />
 
       {params.user ? (
-        <Text m="3">
-          {t('user', {
-            user: params.user,
-          })}
-        </Text>
+        <View p="4" style={styles.user}>
+          <Text weight="medium">
+            {t('user', {
+              user: params.user,
+            })}
+          </Text>
+        </View>
       ) : null}
 
       <TextInput
@@ -95,15 +98,15 @@ export function PostReplyScreen() {
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
+  content: {
+    flexGrow: 1,
+  },
   input: {
     color: theme.colors.gray.a12,
     flexGrow: 1,
     fontFamily: 'sans-regular',
     fontSize: theme.typography[3].fontSize,
     padding: theme.space[3],
-  },
-  main: {
-    flexGrow: 1,
   },
   spinner: {
     height: theme.typography[3].lineHeight,
@@ -112,4 +115,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: theme.colors.accent.a9,
     paddingBottom: theme.space[3] + (visible ? 0 : runtime.insets.bottom),
   }),
+  user: {
+    backgroundColor: theme.colors.gray.a2,
+  },
 }))
