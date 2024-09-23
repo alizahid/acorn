@@ -42,7 +42,7 @@ export function Button({
       px="4"
       style={[styles.main(color), style]}
     >
-      <Text color={color} contrast size="3" weight="medium">
+      <Text color={color} contrast weight="medium">
         {label}
       </Text>
 

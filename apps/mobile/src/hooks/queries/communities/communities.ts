@@ -45,9 +45,6 @@ export function useCommunities() {
     Param
   >({
     enabled: Boolean(accountId),
-    getNextPageParam(page) {
-      return page.cursor
-    },
     initialPageParam: null,
     async queryFn({ pageParam }) {
       const url = new URL('/subreddits/mine', REDDIT_URI)
@@ -70,6 +67,10 @@ export function useCommunities() {
         ),
         cursor: response.data.after,
       }
+    },
+    // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
+    getNextPageParam(page) {
+      return page.cursor
     },
     queryKey: [
       'communities',

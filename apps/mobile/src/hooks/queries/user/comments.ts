@@ -52,9 +52,6 @@ export function useUserComments({
   } = useInfiniteQuery<Page, Error, CommentsQueryData, CommentsQueryKey, Param>(
     {
       enabled: Boolean(accountId) && Boolean(username),
-      getNextPageParam(page) {
-        return page.cursor
-      },
       initialPageParam: null,
       async queryFn({ pageParam }) {
         const url = new URL(`/user/${username}/comments`, REDDIT_URI)
@@ -84,6 +81,10 @@ export function useUserComments({
           comments: comments.map((item) => transformComment(item)),
           cursor: response.data.after,
         }
+      },
+      // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
+      getNextPageParam(page) {
+        return page.cursor
       },
       queryKey: [
         'comments',

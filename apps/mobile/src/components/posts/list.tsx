@@ -2,7 +2,6 @@ import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
 import { Tabs } from 'react-native-collapsible-tab-view'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -18,7 +17,6 @@ import { type PostLabel } from './footer'
 
 type Props = PostsProps & {
   header?: ReactElement
-  inset?: boolean
   label?: PostLabel
   onRefresh?: () => void
   tabs?: boolean
@@ -27,15 +25,12 @@ type Props = PostsProps & {
 export function PostList({
   community,
   header,
-  inset,
   interval,
   label,
   onRefresh,
   sort,
   tabs,
 }: Props) {
-  const { styles } = useStyles(stylesheet)
-
   const list = useRef<FlashList<Post>>(null)
 
   const focused = useIsFocused()
@@ -69,7 +64,6 @@ export function PostList({
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
       ListHeaderComponent={header}
-      contentContainerStyle={styles.content(inset)}
       data={posts}
       estimatedItemSize={120}
       extraData={{
@@ -108,9 +102,3 @@ export function PostList({
     />
   )
 }
-
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  content: (inset?: boolean) => ({
-    paddingBottom: inset ? runtime.insets.bottom : undefined,
-  }),
-}))

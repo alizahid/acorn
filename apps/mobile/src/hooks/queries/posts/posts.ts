@@ -55,9 +55,6 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     refetch,
   } = useInfiniteQuery<Page, Error, PostsQueryData, PostsQueryKey, Param>({
     enabled: Boolean(accountId),
-    getNextPageParam(page) {
-      return page.cursor
-    },
     initialPageParam: null,
     async queryFn({ pageParam }) {
       const path = community ? `/r/${community}/${sort}` : `/${sort}`
@@ -84,6 +81,10 @@ export function usePosts({ community, interval, sort }: PostsProps) {
         cursor: response.data.after,
         posts: response.data.children.map((item) => transformPost(item.data)),
       }
+    },
+    // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
+    getNextPageParam(page) {
+      return page.cursor
     },
     queryKey: [
       'posts',

@@ -23,7 +23,6 @@ type Props = {
   filters?: SearchFilters
   focused?: boolean
   header?: ReactElement
-  inset?: boolean
   query: string
   tabs?: boolean
   type: SearchTab
@@ -34,7 +33,6 @@ export function SearchList({
   filters,
   focused,
   header,
-  inset,
   query,
   tabs,
   type,
@@ -64,7 +62,6 @@ export function SearchList({
       ItemSeparatorComponent={() => <View style={styles.separator(type)} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListHeaderComponent={header}
-      contentContainerStyle={styles.content(inset)}
       data={results}
       estimatedItemSize={type === 'community' ? 56 : 120}
       extraData={{
@@ -73,6 +70,7 @@ export function SearchList({
       getItemType={() => type}
       keyExtractor={(item) => item.id}
       keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps="handled"
       onViewableItemsChanged={({ viewableItems }) => {
         setViewing(() => viewableItems.map((item) => item.key))
       }}
@@ -99,10 +97,7 @@ export function SearchList({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  content: (inset?: boolean) => ({
-    paddingBottom: inset ? runtime.insets.bottom : undefined,
-  }),
+const stylesheet = createStyleSheet((theme) => ({
   separator: (type: SearchTab) => {
     if (type === 'community') {
       return {}

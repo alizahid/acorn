@@ -73,6 +73,6 @@ export function SearchPostFilters({ filters, onChange, style }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   item: {
     height: theme.space[8],
-    paddingHorizontal: theme.space[2],
+    paddingHorizontal: theme.space[3],
   },
 }))

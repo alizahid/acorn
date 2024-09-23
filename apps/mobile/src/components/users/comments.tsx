@@ -1,7 +1,6 @@
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { Tabs } from 'react-native-collapsible-tab-view'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -18,13 +17,11 @@ import { Loading } from '../common/loading'
 import { View } from '../common/view'
 
 type Props = UserCommentsProps & {
-  inset?: boolean
   onRefresh?: () => void
   tabs?: boolean
 }
 
 export function UserCommentsList({
-  inset,
   interval,
   onRefresh,
   sort,
@@ -32,8 +29,6 @@ export function UserCommentsList({
   username,
 }: Props) {
   const router = useRouter()
-
-  const { styles } = useStyles(stylesheet)
 
   const {
     comments,
@@ -58,7 +53,6 @@ export function UserCommentsList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
-      contentContainerStyle={styles.content(inset)}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}
@@ -100,9 +94,3 @@ export function UserCommentsList({
     />
   )
 }
-
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  content: (inset?: boolean) => ({
-    paddingBottom: inset ? runtime.insets.bottom : undefined,
-  }),
-}))

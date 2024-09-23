@@ -1,0 +1,3 @@
+{
+  "tailwindCSS.files.exclude": ["apps/mobile/**"]
+}

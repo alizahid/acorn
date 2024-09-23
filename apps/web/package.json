@@ -10,21 +10,21 @@
     "start": "next start"
   },
   "dependencies": {
-    "next": "14.2.9",
-    "next-intl": "^3.19.1",
+    "next": "14.2.13",
+    "next-intl": "^3.19.4",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "tailwind-merge": "^2.5.2"
   },
   "devDependencies": {
     "@radix-ui/colors": "^3.0.0",
-    "@types/node": "^22.5.4",
+    "@types/node": "^22.5.5",
     "@types/react": "18.2",
     "@types/react-dom": "18.2",
     "eslint-config-custom": "workspace:*",
-    "eslint-config-next": "14.2.9",
-    "postcss": "^8.4.45",
-    "tailwindcss": "^3.4.11",
+    "eslint-config-next": "14.2.13",
+    "postcss": "^8.4.47",
+    "tailwindcss": "^3.4.12",
     "typescript": "^5.6.2"
   }
 }

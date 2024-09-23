@@ -6,16 +6,16 @@ import { getCalendars } from 'expo-localization'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { IntlProvider } from 'use-intl'
 
-import { Root } from '~/components/navigation/root'
+import { RootLayout } from '~/components/navigation/layout'
 import { useTheme } from '~/hooks/theme'
 import en from '~/intl/en.json'
 import { persister, queryClient } from '~/lib/query'
 import { Sentry } from '~/lib/sentry'
 
-const [calendar] = getCalendars()
-
 function Acorn() {
   const theme = useTheme()
+
+  const [calendar] = getCalendars()
 
   return (
     <GestureHandlerRootView>
@@ -32,7 +32,7 @@ function Acorn() {
             now={new Date()}
             timeZone={calendar?.timeZone ?? undefined}
           >
-            <Root />
+            <RootLayout />
           </IntlProvider>
         </PersistQueryClientProvider>
       </ThemeProvider>

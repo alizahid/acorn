@@ -73,9 +73,6 @@ export function useUserPosts({
     Param
   >({
     enabled: Boolean(accountId),
-    getNextPageParam(page) {
-      return page.cursor
-    },
     initialPageParam: null,
     async queryFn({ pageParam }) {
       const url = new URL(`/user/${username}/${type}`, REDDIT_URI)
@@ -121,6 +118,10 @@ export function useUserPosts({
           }),
         ),
       }
+    },
+    // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
+    getNextPageParam(page) {
+      return page.cursor
     },
     queryKey: [
       'posts',

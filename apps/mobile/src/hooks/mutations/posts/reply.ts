@@ -15,7 +15,7 @@ type Variables = {
 }
 
 export function usePostReply() {
-  const { isPending, mutate } = useMutation<
+  const { isPending, mutateAsync } = useMutation<
     CreateCommentSchema,
     Error,
     Variables
@@ -87,6 +87,6 @@ export function usePostReply() {
 
   return {
     isPending,
-    reply: mutate,
+    reply: mutateAsync,
   }
 }

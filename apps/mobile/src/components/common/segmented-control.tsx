@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Animated, {
   type SharedValue,
   useAnimatedStyle,
@@ -17,7 +18,7 @@ type Props = {
 export function SegmentedControl({ items, offset, onChange }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
-  const width = styles.item(items.length).width
+  const [width, setWidth] = useState(0)
 
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [
@@ -28,7 +29,16 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
   }))
 
   return (
-    <View direction="row" m="4" style={styles.main}>
+    <View
+      direction="row"
+      key={String(items.length)}
+      onLayout={(event) => {
+        setWidth(
+          (event.nativeEvent.layout.width - theme.space[1]) / items.length,
+        )
+      }}
+      style={styles.main}
+    >
       <Animated.View style={[styles.selected(width), animatedStyle]} />
 
       {items.map((item, index) => (
@@ -51,10 +61,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  item: (items: number) => ({
-    width: (runtime.screen.width - theme.space[6] - theme.space[1]) / items,
-  }),
+const stylesheet = createStyleSheet((theme) => ({
   main: {
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',

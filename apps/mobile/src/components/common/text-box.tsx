@@ -1,4 +1,4 @@
-import { forwardRef, useState } from 'react'
+import { forwardRef, type ReactNode, useState } from 'react'
 import {
   type StyleProp,
   TextInput,
@@ -32,7 +32,10 @@ type Props = Pick<
   error?: string
   hint?: string
   label?: string
+  left?: ReactNode
+  right?: ReactNode
   style?: StyleProp<ViewStyle>
+  styleContent?: StyleProp<ViewStyle>
   styleInput?: StyleProp<TextStyle>
 }
 
@@ -47,6 +50,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
     hint,
     keyboardType,
     label,
+    left,
     multiline,
     onBlur,
     onChangeText,
@@ -54,8 +58,10 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
     onSubmitEditing,
     placeholder,
     returnKeyType,
+    right,
     secureTextEntry,
     style,
+    styleContent,
     styleInput,
     value,
   },
@@ -73,43 +79,45 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
         </Text>
       ) : null}
 
-      <TextInput
-        autoCapitalize={autoCapitalize}
-        autoComplete={autoComplete}
-        autoCorrect={autoCorrect}
-        editable={editable}
-        keyboardType={keyboardType}
-        multiline={multiline}
-        onBlur={(event) => {
-          setFocused(false)
+      <View
+        align="center"
+        direction="row"
+        style={[styles.content(focused, Boolean(error)), styleContent]}
+      >
+        {left}
 
-          onBlur?.(event)
-        }}
-        onChangeText={onChangeText}
-        onFocus={(event) => {
-          setFocused(true)
+        <TextInput
+          autoCapitalize={autoCapitalize}
+          autoComplete={autoComplete}
+          autoCorrect={autoCorrect}
+          editable={editable}
+          keyboardType={keyboardType}
+          multiline={multiline}
+          onBlur={(event) => {
+            setFocused(false)
 
-          onFocus?.(event)
-        }}
-        onSubmitEditing={onSubmitEditing}
-        placeholder={placeholder}
-        placeholderTextColor={theme.colors.gray.a9}
-        ref={ref}
-        returnKeyType={returnKeyType}
-        secureTextEntry={secureTextEntry}
-        selectionColor={theme.colors.accent.a9}
-        style={[
-          styles.input(
-            focused,
-            Boolean(error),
-            Boolean(multiline),
-            Boolean(code),
-          ),
-          styleInput,
-        ]}
-        textAlignVertical={multiline ? 'top' : 'center'}
-        value={value}
-      />
+            onBlur?.(event)
+          }}
+          onChangeText={onChangeText}
+          onFocus={(event) => {
+            setFocused(true)
+
+            onFocus?.(event)
+          }}
+          onSubmitEditing={onSubmitEditing}
+          placeholder={placeholder}
+          placeholderTextColor={theme.colors.gray.a9}
+          ref={ref}
+          returnKeyType={returnKeyType}
+          secureTextEntry={secureTextEntry}
+          selectionColor={theme.colors.accent.a9}
+          style={[styles.input(Boolean(multiline), Boolean(code)), styleInput]}
+          textAlignVertical={multiline ? 'top' : 'center'}
+          value={value}
+        />
+
+        {right}
+      </View>
 
       {hint ? (
         <Text color="gray" size="2">
@@ -127,12 +135,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
 })
 
 const stylesheet = createStyleSheet((theme) => ({
-  input: (
-    focused: boolean,
-    error: boolean,
-    multiline: boolean,
-    code: boolean,
-  ) => ({
+  content: (focused: boolean, error: boolean) => ({
     backgroundColor: theme.colors.gray.a2,
     borderColor: focused
       ? error
@@ -144,7 +147,11 @@ const stylesheet = createStyleSheet((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     borderWidth: 1,
+    flexGrow: 1,
+  }),
+  input: (multiline: boolean, code: boolean) => ({
     color: theme.colors.gray.a12,
+    flexGrow: 1,
     fontFamily: code ? 'mono-regular' : 'sans-regular',
     fontSize: theme.typography[3].fontSize,
     height: multiline ? theme.space[9] : theme.space[7],

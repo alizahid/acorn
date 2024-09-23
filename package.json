@@ -11,21 +11,21 @@
     "dev": "bun clean; turbo dev --parallel",
     "lint": "turbo lint",
     "lint:types": "turbo lint:types",
-    "nuke": "bun clean '**/node_modules'; rm bun.lockb",
+    "nuke": "bun clean '**/node_modules' bun.lockb",
     "prepare": "husky"
   },
   "lint-staged": {
     "*.json": "prettier --write"
   },
   "devDependencies": {
-    "husky": "^9.1.5",
+    "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.6",
     "rimraf": "^6.0.1",
-    "turbo": "^2.1.1"
+    "turbo": "^2.1.2"
   },
-  "packageManager": "bun@1.1.27",
+  "packageManager": "bun@1.1.29",
   "patchedDependencies": {
     "@shopify/flash-list@1.7.1": "patches/@shopify%2Fflash-list@1.7.1.patch",
     "devlop@1.1.0": "patches/devlop@1.1.0.patch",

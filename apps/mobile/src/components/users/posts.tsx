@@ -3,7 +3,6 @@ import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Tabs } from 'react-native-collapsible-tab-view'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -18,14 +17,12 @@ import { View } from '../common/view'
 import { type PostLabel } from '../posts/footer'
 
 type Props = UserPostsProps & {
-  inset?: boolean
   label?: PostLabel
   onRefresh?: () => void
   tabs?: boolean
 }
 
 export function UserPostsList({
-  inset,
   interval,
   label,
   onRefresh,
@@ -35,8 +32,6 @@ export function UserPostsList({
   username,
 }: Props) {
   const router = useRouter()
-
-  const { styles } = useStyles(stylesheet)
 
   const focused = useIsFocused()
 
@@ -66,7 +61,6 @@ export function UserPostsList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="4" /> : null
       }
-      contentContainerStyle={styles.content(inset)}
       data={posts}
       estimatedItemSize={120}
       extraData={{
@@ -123,9 +117,3 @@ export function UserPostsList({
     />
   )
 }
-
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  content: (inset?: boolean) => ({
-    paddingBottom: inset ? runtime.insets.bottom : undefined,
-  }),
-}))

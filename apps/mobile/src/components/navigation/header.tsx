@@ -13,15 +13,16 @@ export function Header({ navigation, options, ...props }: Props) {
 
   const back = 'back' in props ? Boolean(props.back) : false
   const left = back || options.headerLeft
+  const modal = 'presentation' in options && options.presentation === 'modal'
 
   return (
-    <View style={styles.main}>
+    <View style={styles.main(modal)}>
       <View align="center" height="8" justify="center">
         {left ? (
           <View style={[styles.actions, styles.left]}>
             {back ? (
               <HeaderButton
-                icon="ArrowLeft"
+                icon={modal ? 'X' : 'ArrowLeft'}
                 onPress={() => {
                   navigation.goBack()
                 }}
@@ -68,10 +69,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   left: {
     left: 0,
   },
-  main: {
+  main: (modal: boolean) => ({
     backgroundColor: theme.colors.gray[1],
-    paddingTop: runtime.insets.top,
-  },
+    paddingTop: modal ? 0 : runtime.insets.top,
+  }),
   right: {
     right: 0,
   },

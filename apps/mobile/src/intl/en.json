@@ -45,10 +45,6 @@
         "leave": "Leave",
         "loading": "Loading",
         "subscribers": "Subscribers"
-      },
-      "header": {
-        "communities": "Communities",
-        "users": "Users"
       }
     },
     "posts": {
@@ -57,11 +53,6 @@
         "item": "{current, number} of {count, number}",
         "items": "{count, number} images",
         "nsfw": "Sensitive content - tap to view"
-      },
-      "reply": {
-        "comment": "Replying to {user}",
-        "placeholder": "Say something nice",
-        "submit": "Reply"
       },
       "video": {
         "nsfw": "Sensitive content - tap to watch"
@@ -75,13 +66,6 @@
         "sort": {
           "placeholder": "Sort"
         }
-      },
-      "header": {
-        "placeholder": "Search"
-      },
-      "tabBar": {
-        "community": "Communities",
-        "post": "Posts"
       }
     },
     "users": {
@@ -118,23 +102,40 @@
       }
     },
     "communities": {
-      "search": {
-        "placeholder": "Search",
-        "title": "Search in r/{community}"
-      }
-    },
-    "users": {
-      "user": {
-        "comments": "Comments",
-        "posts": "Posts"
-      }
-    }
-  },
-  "tab": {
-    "communities": {
+      "tabs": {
+        "communities": "Communities",
+        "users": "Users"
+      },
       "title": "Communities"
     },
+    "community": {
+      "search": {
+        "placeholder": "Search"
+      }
+    },
+    "posts": {
+      "reply": {
+        "placeholder": "Say something nice",
+        "submit": "Reply",
+        "title": "Reply",
+        "user": "Replying to {user}"
+      }
+    },
+    "profile": {
+      "menu": {
+        "comments": "Comments",
+        "downvoted": "Downvoted",
+        "hidden": "Hidden",
+        "saved": "Saved",
+        "submitted": "Posts",
+        "upvoted": "Upvoted"
+      }
+    },
     "search": {
+      "tabs": {
+        "community": "Communities",
+        "post": "Posts"
+      },
       "title": "Search"
     },
     "settings": {
@@ -172,14 +173,10 @@
       },
       "title": "Settings"
     },
-    "user": {
-      "menu": {
+    "users": {
+      "user": {
         "comments": "Comments",
-        "downvoted": "Downvoted",
-        "hidden": "Hidden",
-        "saved": "Saved",
-        "submitted": "Posts",
-        "upvoted": "Upvoted"
+        "posts": "Posts"
       }
     }
   }

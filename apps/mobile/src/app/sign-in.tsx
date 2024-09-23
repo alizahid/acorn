@@ -36,6 +36,12 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
+  useFocusEffect(() => {
+    navigation.setOptions({
+      gestureEnabled: params.mode === 'dismissible',
+    })
+  })
+
   const t = useTranslations('screen.auth.signIn')
 
   const keyboard = useKeyboard()
@@ -44,12 +50,6 @@ export default function Screen() {
 
   const { clientId, setClientId } = useAuth()
   const { isPending, signIn } = useSignIn()
-
-  useFocusEffect(() => {
-    navigation.setOptions({
-      gestureEnabled: params.mode === 'dismissible',
-    })
-  })
 
   const { control, handleSubmit } = useForm<AuthCodeForm>({
     defaultValues: {
