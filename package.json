@@ -8,7 +8,7 @@
   "scripts": {
     "build": "turbo build",
     "clean": "rimraf --glob '**/.next' '**/.expo' '**/.turbo'",
-    "dev": "bun clean; turbo dev --parallel",
+    "dev": "bun clean; watchman shutdown-server; turbo dev --parallel",
     "lint": "turbo lint",
     "lint:types": "turbo lint:types",
     "nuke": "bun clean '**/node_modules' bun.lockb",
@@ -21,7 +21,7 @@
     "husky": "^9.1.6",
     "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
-    "prettier-plugin-tailwindcss": "^0.6.6",
+    "prettier-plugin-tailwindcss": "^0.6.8",
     "rimraf": "^6.0.1",
     "turbo": "^2.1.2"
   },

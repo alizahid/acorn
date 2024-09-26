@@ -1,17 +1,27 @@
 import { type ConfigContext, type ExpoConfig } from 'expo/config'
 
 export default function getConfig({ config }: ConfigContext): ExpoConfig {
+  const projectId = '8d7d5acc-3688-4cd2-b93f-52391f665348'
+
+  let name = 'Acorn'
+  let bundleIdentifier = 'blue.acorn'
+
+  if (process.env.CHANNEL === 'development') {
+    name = 'Devcorn'
+    bundleIdentifier += '.dev'
+  }
+
   const plugins: ExpoConfig['plugins'] = [
     'expo-router',
+    'expo-localization',
+    'expo-secure-store',
+    'expo-video',
     [
       'expo-font',
       {
         fonts: ['./assets/fonts/sans.woff2', './assets/fonts/mono.woff2'],
       },
     ],
-    'expo-localization',
-    'expo-secure-store',
-    'expo-video',
     [
       'expo-media-library',
       {
@@ -22,23 +32,7 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
   ]
 
   if (process.env.SENTRY_AUTH_TOKEN) {
-    plugins.push([
-      '@sentry/react-native/expo',
-      {
-        organization: process.env.SENTRY_ORG,
-        project: process.env.SENTRY_PROJECT,
-      },
-    ])
-  }
-
-  const projectId = '8d7d5acc-3688-4cd2-b93f-52391f665348'
-
-  let name = 'Acorn'
-  let bundleIdentifier = 'blue.acorn'
-
-  if (process.env.CHANNEL === 'development') {
-    name = 'Devcorn'
-    bundleIdentifier += '.dev'
+    plugins.push('@sentry/react-native/expo')
   }
 
   return {
