@@ -58,7 +58,7 @@ export function UserScreen() {
     <Tabs.Container
       lazy
       renderTabBar={({ indexDecimal, onTabPress }) => (
-        <View style={styles.tabBar}>
+        <View style={styles.tabs}>
           <SegmentedControl
             items={UserTab.map((tab) => t(tab))}
             offset={indexDecimal}
@@ -103,7 +103,9 @@ const stylesheet = createStyleSheet((theme) => ({
   main: {
     flex: 1,
   },
-  tabBar: {
+  tabs: {
     backgroundColor: theme.colors.gray[1],
+    paddingBottom: theme.space[4],
+    paddingHorizontal: theme.space[3],
   },
 }))
