@@ -56,6 +56,7 @@ export function UserScreen() {
 
   return (
     <Tabs.Container
+      headerContainerStyle={styles.header}
       lazy
       renderTabBar={({ indexDecimal, onTabPress }) => (
         <View style={styles.tabs}>
