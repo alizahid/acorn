@@ -72,7 +72,6 @@ export function CommunitiesList({
         if (typeof item === 'string') {
           return (
             <View
-              // my="2"
               pr="4"
               py="2"
               style={[
