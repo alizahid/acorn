@@ -209,9 +209,7 @@ export function SettingsScreen() {
           type: 'switch',
           value: linkBrowser,
         },
-
         ...sort,
-
         null,
         t('menu.cache.title'),
         {
