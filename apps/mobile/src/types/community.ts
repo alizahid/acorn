@@ -5,6 +5,7 @@ export type Community = {
   name: string
   subscribed: boolean
   subscribers: number
+  user: boolean
 }
 
 export const CommunityTab = ['communities', 'users'] as const

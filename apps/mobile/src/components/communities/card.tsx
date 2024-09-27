@@ -3,7 +3,7 @@ import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { isUser, removePrefix } from '~/lib/reddit'
+import { removePrefix } from '~/lib/reddit'
 import { type Community } from '~/types/community'
 
 import { Icon } from '../common/icon'
@@ -26,7 +26,7 @@ export function CommunityCard({ community, style }: Props) {
       direction="row"
       gap="4"
       onPress={() => {
-        if (isUser(community.name)) {
+        if (community.user) {
           router.navigate({
             params: {
               name: removePrefix(community.name),

@@ -25,7 +25,7 @@ import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { usePost } from '~/hooks/queries/posts/post'
 import { listProps } from '~/lib/common'
-import { isUser, removePrefix } from '~/lib/reddit'
+import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 
@@ -97,7 +97,7 @@ export function PostScreen() {
             height="8"
             justify="center"
             onPress={() => {
-              if (isUser(post.subreddit)) {
+              if (post.subreddit.startsWith('u/')) {
                 router.navigate({
                   params: {
                     name: removePrefix(post.subreddit),

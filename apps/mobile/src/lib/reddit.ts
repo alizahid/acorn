@@ -30,7 +30,3 @@ export function removePrefix(id: string) {
 
   return id
 }
-
-export function isUser(name: string) {
-  return name.startsWith('u/') || name.startsWith('u_')
-}

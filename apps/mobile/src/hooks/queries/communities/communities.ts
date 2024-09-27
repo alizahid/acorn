@@ -2,7 +2,6 @@ import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import { sortBy, uniq } from 'lodash'
 import { useMemo } from 'react'
 
-import { isUser } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { CommunitiesSchema } from '~/schemas/communities'
@@ -110,10 +109,10 @@ export function useCommunities() {
   }
 }
 
-function getCommunities(communities: Array<Community>, filter: boolean) {
+function getCommunities(communities: Array<Community>, user: boolean) {
   return uniq(
     sortBy(communities, (community) => community.name.toLowerCase())
-      .filter((community) => isUser(community.name) === filter)
+      .filter((community) => community.user === user)
       .flatMap((community) => [
         community.name.slice(0, 1).toLowerCase(),
         community,
