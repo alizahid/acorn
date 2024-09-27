@@ -15,6 +15,8 @@ import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 import { type CommentSort } from '~/types/sort'
 
+import { getPostFromSearch } from '../search/search'
+import { type UserPostsQueryData } from '../user/posts'
 import { type PostsQueryData } from './posts'
 
 const COLLAPSED_KEY = 'collapsed'
@@ -165,7 +167,7 @@ export function usePost({ commentId, id, sort }: Props) {
   }
 }
 
-function getPost(id: string) {
+function getPost(id: string): PostQueryData | undefined {
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
@@ -173,7 +175,10 @@ function getPost(id: string) {
   })
 
   for (const query of queries) {
-    const data = query.state.data as PostsQueryData | undefined
+    const data = query.state.data as
+      | PostsQueryData
+      | UserPostsQueryData
+      | undefined
 
     if (!data) {
       continue
@@ -181,15 +186,42 @@ function getPost(id: string) {
 
     for (const page of data.pages) {
       for (const post of page.posts) {
-        if (post.id === id) {
-          return {
-            comments: [],
-            post,
+        if ('id' in post) {
+          if (post.id === id) {
+            return {
+              comments: [],
+              post,
+            }
+          }
+
+          if (post.crossPost?.id === id) {
+            return {
+              comments: [],
+              post: post.crossPost,
+            }
+          }
+        }
+
+        if (post.type === 'post') {
+          if (post.data.id === id) {
+            return {
+              comments: [],
+              post: post.data,
+            }
+          }
+
+          if (post.data.crossPost?.id === id) {
+            return {
+              comments: [],
+              post: post.data.crossPost,
+            }
           }
         }
       }
     }
   }
+
+  return getPostFromSearch(id)
 }
 
 export function updatePost(

@@ -14,6 +14,8 @@ import { type Post } from '~/types/post'
 import { type SearchTab } from '~/types/search'
 import { type SearchSort, type TopInterval } from '~/types/sort'
 
+import { type PostQueryData } from '../posts/post'
+
 export type SearchQueryKey = [
   'search',
   {
@@ -113,6 +115,43 @@ export function useSearch<Type extends SearchTab>({
     isLoading,
     refetch,
     results: data ?? [],
+  }
+}
+
+export function getPostFromSearch(id: string): PostQueryData | undefined {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: [
+      'search',
+      {
+        type: 'post',
+      },
+    ],
+  })
+
+  for (const query of queries) {
+    const data = query.state.data as SearchQueryData<'post'> | undefined
+
+    if (!data) {
+      continue
+    }
+
+    for (const post of data) {
+      if (post.id === id) {
+        return {
+          comments: [],
+          post,
+        }
+      }
+
+      if (post.crossPost?.id === id) {
+        return {
+          comments: [],
+          post: post.crossPost,
+        }
+      }
+    }
   }
 }
 
