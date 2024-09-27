@@ -7,13 +7,13 @@ import {
   useRouter,
 } from 'expo-router'
 import { useMemo, useRef, useState } from 'react'
-import { Platform, Share } from 'react-native'
+import { Share } from 'react-native'
+import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
-import { CommentsSortMenu } from '~/components/comments/sort'
 import { Empty } from '~/components/common/empty'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -22,18 +22,21 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { PostCard } from '~/components/posts/card'
+import { PostHeader } from '~/components/posts/header'
 import { usePost } from '~/hooks/queries/posts/post'
 import { listProps } from '~/lib/common'
-import { cardMaxWidth } from '~/lib/const'
 import { isUser, removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
-import { type Post } from '~/types/post'
+
+type ListItem = 'post' | 'header' | Comment | 'empty'
 
 const schema = z.object({
   commentId: z.string().min(0).optional().catch(undefined),
   id: z.string().catch('17jkixh'),
 })
+
+const List = Animated.createAnimatedComponent(FlashList<ListItem>)
 
 export function PostScreen() {
   const router = useRouter()
@@ -43,11 +46,11 @@ export function PostScreen() {
 
   const focused = useIsFocused()
 
-  const { sortPostComments, update } = usePreferences()
+  const { sortPostComments } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
-  const list = useRef<FlashList<Post | Comment | string>>(null)
+  const list = useRef<FlashList<ListItem>>(null)
 
   const { collapse, collapsed, comments, isFetching, post, refetch } = usePost({
     commentId: params.commentId,
@@ -55,7 +58,7 @@ export function PostScreen() {
     sort: sortPostComments,
   })
 
-  const [viewing, setViewing] = useState<Array<string>>([])
+  const [viewing, setViewing] = useState<Array<number>>([])
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -118,134 +121,116 @@ export function PostScreen() {
     })
   })
 
-  const data = useMemo(() => {
-    const items: Array<Post | Comment | string> = [post ?? 'post', 'header']
-
-    if (comments.length > 0) {
-      items.push(...comments)
-    } else {
-      items.push('empty')
-    }
-
-    return items
-  }, [comments, post])
+  const data = useMemo(
+    () => [
+      'post' as const,
+      'header' as const,
+      ...(comments.length > 0 ? comments : ['empty' as const]),
+    ],
+    [comments],
+  )
 
   return (
-    <FlashList
-      {...listProps}
-      ItemSeparatorComponent={() => <View height="2" />}
-      data={data}
-      estimatedItemSize={72}
-      extraData={{
-        commentId: params.commentId,
-        viewing,
-      }}
-      getItemType={(item) => {
-        if (typeof item === 'string') {
-          return item
-        }
+    <>
+      <List
+        {...listProps}
+        ItemSeparatorComponent={() => <View height="2" />}
+        data={data}
+        estimatedItemSize={72}
+        extraData={{
+          commentId: params.commentId,
+          post,
+          viewing,
+        }}
+        getItemType={(item) => {
+          if (typeof item === 'string') {
+            return item
+          }
 
-        if (item.type === 'more' || item.type === 'reply') {
-          return 'comment'
-        }
+          if (item.type === 'more') {
+            return 'more'
+          }
 
-        return 'post'
-      }}
-      keyExtractor={(item) => {
-        if (typeof item === 'string') {
-          return item
-        }
+          return 'reply'
+        }}
+        keyExtractor={(item) => {
+          if (typeof item === 'string') {
+            return item
+          }
 
-        if (item.type === 'more') {
-          return `more-${item.data.parentId}`
-        }
+          if (item.type === 'more') {
+            return `more-${item.data.parentId}`
+          }
 
-        if (item.type === 'reply') {
-          return item.data.id
-        }
+          return `reply-${item.data.id}`
+        }}
+        keyboardDismissMode="on-drag"
+        onViewableItemsChanged={({ viewableItems }) => {
+          setViewing(() => viewableItems.map((item) => item.index ?? 0))
+        }}
+        ref={list}
+        refreshControl={<RefreshControl onRefresh={refetch} />}
+        renderItem={({ item, target }) => {
+          if (typeof item === 'string') {
+            if (item === 'post') {
+              return post ? (
+                <PostCard
+                  expanded
+                  label="user"
+                  post={post}
+                  viewing={focused ? viewing.includes(0) : false}
+                />
+              ) : (
+                <Spinner m="4" size="large" />
+              )
+            }
 
-        return 'post'
-      }}
-      keyboardDismissMode="on-drag"
-      onViewableItemsChanged={({ viewableItems }) => {
-        setViewing(() => viewableItems.map((item) => item.key))
-      }}
-      ref={list}
-      refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ item, target }) => {
-        if (typeof item === 'string') {
-          if (item === 'header') {
-            return (
-              <View
-                align="center"
-                direction="row"
-                style={styles.header(target === 'StickyHeader')}
-              >
-                {params.commentId ? (
-                  <HeaderButton
-                    icon="ArrowLeft"
-                    onPress={() => {
-                      list.current?.scrollToIndex({
-                        animated: true,
-                        index: 1,
-                      })
+            if (item === 'header') {
+              return (
+                <PostHeader
+                  commentId={params.commentId}
+                  onPress={() => {
+                    list.current?.scrollToIndex({
+                      animated: true,
+                      index: 1,
+                    })
 
-                      router.setParams({
-                        commentId: '',
-                      })
-                    }}
-                  />
-                ) : null}
-
-                <CommentsSortMenu
-                  onChange={(next) => {
-                    update({
-                      sortPostComments: next,
+                    router.setParams({
+                      commentId: '',
                     })
                   }}
-                  style={styles.sort}
-                  value={sortPostComments}
+                  sticky={target === 'StickyHeader'}
                 />
-              </View>
-            )
+              )
+            }
+
+            return isFetching ? <Spinner m="4" /> : <Empty />
           }
 
-          if (item === 'empty') {
-            return isFetching ? (
-              <Spinner m="4" size={post ? 'small' : 'large'} />
-            ) : (
-              <Empty />
-            )
-          }
-
-          return null
-        }
-
-        if (item.type === 'reply') {
-          return (
-            <CommentCard
-              collapsed={collapsed.includes(item.data.id)}
-              comment={item.data}
-              onPress={() => {
-                collapse({
-                  commentId: item.data.id,
-                })
-              }}
-              onReply={() => {
-                router.navigate({
-                  params: {
+          if (item.type === 'reply') {
+            return (
+              <CommentCard
+                collapsed={collapsed.includes(item.data.id)}
+                comment={item.data}
+                onPress={() => {
+                  collapse({
                     commentId: item.data.id,
-                    id: params.id,
-                    user: item.data.user.name,
-                  },
-                  pathname: '/posts/[id]/reply',
-                })
-              }}
-            />
-          )
-        }
+                  })
+                }}
+                onReply={() => {
+                  router.navigate({
+                    params: {
+                      commentId: item.data.id,
+                      id: params.id,
+                      user: item.data.user.name,
+                    },
+                    pathname: '/posts/[id]/reply',
+                  })
+                }}
+              />
+            )
+          }
 
-        if (item.type === 'more') {
           return (
             <CommentMoreCard
               comment={item.data}
@@ -262,46 +247,52 @@ export function PostScreen() {
               post={post}
             />
           )
-        }
+        }}
+        stickyHeaderIndices={[1]}
+      />
 
-        return (
-          <PostCard
-            expanded
-            label="user"
-            post={item}
-            viewing={focused ? viewing.includes('post') : false}
-          />
-        )
-      }}
-      stickyHeaderIndices={[1]}
-      viewabilityConfig={{
-        waitForInteraction: false,
-      }}
-    />
+      {comments.length > 0 ? (
+        <HeaderButton
+          contrast
+          icon="ArrowDown"
+          onPress={() => {
+            if (viewing.includes(0)) {
+              list.current?.scrollToIndex({
+                animated: true,
+                index: 2,
+                viewOffset: 48,
+              })
+
+              return
+            }
+
+            const previous = viewing[0] ?? 0
+
+            const next = comments.findIndex(
+              (item, index) => index > previous && item.data.depth === 0,
+            )
+
+            list.current?.scrollToIndex({
+              animated: true,
+              index: next,
+              viewOffset: -40,
+            })
+          }}
+          style={styles.skip}
+          weight="bold"
+        />
+      ) : null}
+    </>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  header: (sticky: boolean) => {
-    const iPad = Platform.OS === 'ios' && Platform.isPad
-
-    if (sticky) {
-      return {
-        backgroundColor: theme.colors.gray[1],
-        marginLeft: iPad ? theme.space[1] : undefined,
-      }
-    }
-
-    return {
-      alignSelf: 'center',
-      backgroundColor: theme.colors.gray[3],
-      borderCurve: 'continuous',
-      borderRadius: iPad ? theme.radius[3] : undefined,
-      maxWidth: iPad ? cardMaxWidth : undefined,
-      width: '100%',
-    }
-  },
-  sort: {
-    marginLeft: 'auto',
+  skip: {
+    backgroundColor: theme.colors.accent.a9,
+    borderCurve: 'continuous',
+    borderRadius: theme.space[8],
+    bottom: theme.space[4],
+    position: 'absolute',
+    right: theme.space[4],
   },
 }))
