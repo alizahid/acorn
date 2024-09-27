@@ -8,7 +8,6 @@ import {
 } from 'expo-router'
 import { useMemo, useRef, useState } from 'react'
 import { Share } from 'react-native'
-import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
@@ -35,8 +34,6 @@ const schema = z.object({
   commentId: z.string().min(0).optional().catch(undefined),
   id: z.string().catch('17jkixh'),
 })
-
-const List = Animated.createAnimatedComponent(FlashList<ListItem>)
 
 export function PostScreen() {
   const router = useRouter()
@@ -132,7 +129,7 @@ export function PostScreen() {
 
   return (
     <>
-      <List
+      <FlashList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
         data={data}
