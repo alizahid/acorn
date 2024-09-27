@@ -265,14 +265,18 @@ export function PostScreen() {
 
             const previous = viewing[0] ?? 0
 
-            const next = comments.findIndex(
-              (item, index) => index > previous && item.data.depth === 0,
-            )
+            const next = data.findIndex((item, index) => {
+              if (typeof item === 'string') {
+                return false
+              }
+
+              return index > previous && item.data.depth === 0
+            })
 
             list.current?.scrollToIndex({
               animated: true,
               index: next,
-              viewOffset: -40,
+              viewOffset: 48,
             })
           }}
           style={styles.skip}
