@@ -91,7 +91,6 @@ export function SearchList({
       }}
       viewabilityConfig={{
         itemVisiblePercentThreshold: 100,
-        waitForInteraction: false,
       }}
     />
   )

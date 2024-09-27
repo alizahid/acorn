@@ -97,7 +97,6 @@ export function PostList({
       )}
       viewabilityConfig={{
         itemVisiblePercentThreshold: 100,
-        waitForInteraction: false,
       }}
     />
   )

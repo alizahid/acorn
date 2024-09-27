@@ -112,7 +112,6 @@ export function UserPostsList({
       }}
       viewabilityConfig={{
         itemVisiblePercentThreshold: 100,
-        waitForInteraction: false,
       }}
     />
   )

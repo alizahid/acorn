@@ -155,7 +155,6 @@ export function PostGalleryCard({
           snapToOffsets={images.map((item, index) => frame.width * index)}
           viewabilityConfig={{
             itemVisiblePercentThreshold: 100,
-            waitForInteraction: false,
           }}
         />
       </FakeModal>
