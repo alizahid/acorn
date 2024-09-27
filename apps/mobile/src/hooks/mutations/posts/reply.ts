@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { updateSearch } from '~/hooks/queries/search/search'
+import { updateUserPost } from '~/hooks/queries/user/posts'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { CreateCommentSchema } from '~/schemas/comments'
@@ -52,6 +53,12 @@ export function usePostReply() {
 
       updateSearch(variables.postId, (draft) => {
         draft.comments++
+      })
+
+      updateUserPost(variables.postId, (draft) => {
+        if ('comments' in draft) {
+          draft.comments++
+        }
       })
     },
     onSuccess(data, variables) {
