@@ -9,7 +9,7 @@ import {
 import { StatusBar } from 'expo-status-bar'
 import { Controller, useForm } from 'react-hook-form'
 import { Platform } from 'react-native'
-import Animated from 'react-native-reanimated'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -20,7 +20,6 @@ import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
-import { useKeyboard } from '~/hooks/keyboard'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
 import { type AuthCodeForm, AuthCodeSchema } from '~/reddit/auth'
 import { REDIRECT_URI } from '~/reddit/config'
@@ -43,8 +42,6 @@ export default function Screen() {
   })
 
   const t = useTranslations('screen.auth.signIn')
-
-  const keyboard = useKeyboard()
 
   const { styles } = useStyles(stylesheet)
 
@@ -74,11 +71,11 @@ export default function Screen() {
   })
 
   return (
-    <Animated.ScrollView
+    <KeyboardAwareScrollView
       contentContainerStyle={styles.content}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
-      style={[styles.main, keyboard.styles]}
+      style={styles.main}
     >
       {Platform.OS === 'ios' && !Platform.isPad ? (
         <StatusBar style="light" />
@@ -96,7 +93,26 @@ export default function Screen() {
         </Text>
       </View>
 
-      <View direction="row" gap="4">
+      <View gap="4" mt="9">
+        <Text>
+          {t.rich('instructions', {
+            link: (text) => (
+              <Text
+                color="accent"
+                onPress={() => {
+                  void Linking.openURL('https://www.reddit.com/prefs/apps')
+                }}
+              >
+                {text}
+              </Text>
+            ),
+          })}
+        </Text>
+
+        <Copy value={REDIRECT_URI} />
+      </View>
+
+      <View direction="row" gap="4" mt="9">
         <Controller
           control={control}
           name="clientId"
@@ -128,26 +144,7 @@ export default function Screen() {
           }}
         />
       </View>
-
-      <View gap="4">
-        <Text>
-          {t.rich('instructions', {
-            link: (text) => (
-              <Text
-                color="accent"
-                onPress={() => {
-                  void Linking.openURL('https://www.reddit.com/prefs/apps')
-                }}
-              >
-                {text}
-              </Text>
-            ),
-          })}
-        </Text>
-
-        <Copy value={REDIRECT_URI} />
-      </View>
-    </Animated.ScrollView>
+    </KeyboardAwareScrollView>
   )
 }
 
@@ -157,10 +154,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   content: {
     flexGrow: 1,
-    gap: theme.space[9],
     justifyContent: 'center',
-    padding: theme.space[4],
-    paddingBottom: theme.space[4] + runtime.insets.bottom,
+    paddingHorizontal: theme.space[4],
+    paddingVertical: theme.space[4] + runtime.insets.bottom,
   },
   logo: {
     marginBottom: theme.space[4],

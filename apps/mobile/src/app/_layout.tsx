@@ -4,6 +4,7 @@ import { ThemeProvider } from '@react-navigation/native'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { getCalendars } from 'expo-localization'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
+import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { IntlProvider } from 'use-intl'
 
 import { RootLayout } from '~/components/navigation/layout'
@@ -19,23 +20,25 @@ function Acorn() {
 
   return (
     <GestureHandlerRootView>
-      <ThemeProvider value={theme}>
-        <PersistQueryClientProvider
-          client={queryClient}
-          persistOptions={{
-            persister,
-          }}
-        >
-          <IntlProvider
-            locale="en"
-            messages={en}
-            now={new Date()}
-            timeZone={calendar?.timeZone ?? undefined}
+      <KeyboardProvider>
+        <ThemeProvider value={theme}>
+          <PersistQueryClientProvider
+            client={queryClient}
+            persistOptions={{
+              persister,
+            }}
           >
-            <RootLayout />
-          </IntlProvider>
-        </PersistQueryClientProvider>
-      </ThemeProvider>
+            <IntlProvider
+              locale="en"
+              messages={en}
+              now={new Date()}
+              timeZone={calendar?.timeZone ?? undefined}
+            >
+              <RootLayout />
+            </IntlProvider>
+          </PersistQueryClientProvider>
+        </ThemeProvider>
+      </KeyboardProvider>
     </GestureHandlerRootView>
   )
 }

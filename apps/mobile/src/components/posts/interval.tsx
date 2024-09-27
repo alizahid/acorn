@@ -72,9 +72,10 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   label: (size: number) => ({
     color: theme.colors.gold.contrast,
-    fontFamily: 'sans-medium',
+    fontFamily: 'sans',
     fontSize: size / 2,
     fontVariant: ['tabular-nums'],
+    fontWeight: '500',
     textAlign: 'center',
   }),
   main: {
