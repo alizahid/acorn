@@ -49,16 +49,16 @@ export default function Page() {
       <section className="flex flex-col gap-6 lg:flex-row">
         <Image
           alt={t('screenshot.dark')}
-          height={1920 / 2}
+          height={1972 / 2}
           src="/images/screenshot-dark.png"
-          width={939 / 2}
+          width={960 / 2}
         />
 
         <Image
           alt={t('screenshot.light')}
-          height={1920 / 2}
+          height={1972 / 2}
           src="/images/screenshot-light.png"
-          width={939 / 2}
+          width={960 / 2}
         />
       </section>
 
