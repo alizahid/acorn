@@ -28,7 +28,7 @@ import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 
-type ListItem = 'post' | 'header' | Comment | 'empty'
+type ListItem = 'post' | Comment | 'empty'
 
 const schema = z.object({
   commentId: z.string().min(0).optional().catch(undefined),
@@ -45,7 +45,7 @@ export function PostScreen() {
 
   const { sortPostComments } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const list = useRef<FlashList<ListItem>>(null)
 
@@ -121,7 +121,6 @@ export function PostScreen() {
   const data = useMemo(
     () => [
       'post' as const,
-      'header' as const,
       ...(comments.length > 0 ? comments : ['empty' as const]),
     ],
     [comments],
@@ -129,9 +128,24 @@ export function PostScreen() {
 
   return (
     <>
+      <PostHeader
+        commentId={params.commentId}
+        onPress={() => {
+          list.current?.scrollToIndex({
+            animated: true,
+            index: 1,
+          })
+
+          router.setParams({
+            commentId: '',
+          })
+        }}
+      />
+
       <FlashList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
+        contentContainerStyle={styles.content}
         data={data}
         estimatedItemSize={72}
         extraData={{
@@ -166,7 +180,7 @@ export function PostScreen() {
         }}
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
-        renderItem={({ item, target }) => {
+        renderItem={({ item }) => {
           if (typeof item === 'string') {
             if (item === 'post') {
               return post ? (
@@ -178,25 +192,6 @@ export function PostScreen() {
                 />
               ) : (
                 <Spinner m="4" size="large" />
-              )
-            }
-
-            if (item === 'header') {
-              return (
-                <PostHeader
-                  commentId={params.commentId}
-                  onPress={() => {
-                    list.current?.scrollToIndex({
-                      animated: true,
-                      index: 1,
-                    })
-
-                    router.setParams({
-                      commentId: '',
-                    })
-                  }}
-                  sticky={target === 'StickyHeader'}
-                />
               )
             }
 
@@ -244,25 +239,24 @@ export function PostScreen() {
             />
           )
         }}
-        stickyHeaderIndices={[1]}
       />
 
       {comments.length > 0 ? (
         <HeaderButton
           contrast
+          hitSlop={theme.space[4]}
           icon="ArrowDown"
           onPress={() => {
             if (viewing.includes(0)) {
               list.current?.scrollToIndex({
                 animated: true,
-                index: 2,
-                viewOffset: 48,
+                index: 1,
               })
 
               return
             }
 
-            const previous = (viewing[0] ?? 0) + 1
+            const previous = viewing[0] ?? 0
 
             const next = data.findIndex((item, index) => {
               if (typeof item === 'string') {
@@ -275,7 +269,6 @@ export function PostScreen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
-              viewOffset: 48,
             })
           }}
           style={styles.skip}
@@ -287,6 +280,9 @@ export function PostScreen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  content: {
+    paddingBottom: theme.space[6] + theme.space[8],
+  },
   skip: {
     backgroundColor: theme.colors.accent.a9,
     borderCurve: 'continuous',

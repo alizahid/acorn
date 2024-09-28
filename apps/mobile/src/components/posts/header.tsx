@@ -11,16 +11,15 @@ import { HeaderButton } from '../navigation/header-button'
 type Props = {
   commentId?: string
   onPress?: () => void
-  sticky?: boolean
 }
 
-export function PostHeader({ commentId, onPress, sticky }: Props) {
+export function PostHeader({ commentId, onPress }: Props) {
   const { sortPostComments, update } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
   return (
-    <View align="center" direction="row" style={styles.header(Boolean(sticky))}>
+    <View align="center" direction="row" style={styles.header()}>
       {commentId ? <HeaderButton icon="ArrowLeft" onPress={onPress} /> : null}
 
       <CommentsSortMenu
@@ -37,19 +36,11 @@ export function PostHeader({ commentId, onPress, sticky }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  header: (sticky: boolean) => {
+  header: () => {
     const iPad = Platform.OS === 'ios' && Platform.isPad
-
-    if (sticky) {
-      return {
-        backgroundColor: theme.colors.gray[1],
-        marginLeft: iPad ? theme.space[1] : undefined,
-      }
-    }
 
     return {
       alignSelf: 'center',
-      backgroundColor: theme.colors.gray[3],
       borderCurve: 'continuous',
       borderRadius: iPad ? theme.radius[3] : undefined,
       maxWidth: iPad ? cardMaxWidth : undefined,

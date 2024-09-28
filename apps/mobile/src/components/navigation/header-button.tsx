@@ -1,4 +1,4 @@
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type Insets, type StyleProp, type ViewStyle } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 
 import { type ColorToken } from '~/styles/colors'
@@ -10,6 +10,7 @@ import { Spinner } from '../common/spinner'
 type Props = {
   color?: ColorToken
   contrast?: boolean
+  hitSlop?: number | Insets
   icon: IconName
   loading?: boolean
   onPress?: () => void
@@ -21,6 +22,7 @@ type Props = {
 export function HeaderButton({
   color = 'accent',
   contrast,
+  hitSlop,
   icon,
   loading,
   onPress,
@@ -35,6 +37,7 @@ export function HeaderButton({
       align="center"
       disabled={loading}
       height="8"
+      hitSlop={hitSlop}
       justify="center"
       onPress={onPress}
       style={style}
