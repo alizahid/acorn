@@ -136,7 +136,6 @@ export function PostScreen() {
         estimatedItemSize={72}
         extraData={{
           commentId: params.commentId,
-          post,
           viewing,
         }}
         getItemType={(item) => {
@@ -263,7 +262,7 @@ export function PostScreen() {
               return
             }
 
-            const previous = viewing[0] ?? 0
+            const previous = (viewing[0] ?? 0) + 1
 
             const next = data.findIndex((item, index) => {
               if (typeof item === 'string') {
