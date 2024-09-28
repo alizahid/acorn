@@ -1,3 +1,4 @@
+import MaskedView from '@react-native-masked-view/masked-view'
 import { useState } from 'react'
 import Animated, {
   type SharedValue,
@@ -52,11 +53,33 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
           }}
           p="2"
         >
-          <Text size="2" weight="medium">
+          <Text highContrast={false} size="2" weight="medium">
             {item}
           </Text>
         </Pressable>
       ))}
+
+      <MaskedView
+        maskElement={
+          <View direction="row">
+            {items.map((item) => (
+              <View align="center" flexBasis={1} flexGrow={1} key={item} p="2">
+                <Text color="blue" size="2" weight="medium">
+                  {item}
+                </Text>
+              </View>
+            ))}
+          </View>
+        }
+        pointerEvents="none"
+        style={{
+          height: '100%',
+          position: 'absolute',
+          width: '100%',
+        }}
+      >
+        <Animated.View style={[styles.mask(width), animatedStyle]} />
+      </MaskedView>
     </View>
   )
 }
@@ -67,6 +90,15 @@ const stylesheet = createStyleSheet((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
   },
+  mask: (width: number) => ({
+    backgroundColor: theme.colors.accent.contrast,
+    bottom: theme.space[1] / 2,
+    left: 0,
+    position: 'absolute',
+    right: 0,
+    top: theme.space[1] / 2,
+    width,
+  }),
   selected: (width: number) => ({
     backgroundColor: theme.colors.accent.a9,
     borderCurve: 'continuous',

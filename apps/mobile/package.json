@@ -23,6 +23,7 @@
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/colors": "^3.0.0",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-masked-view/masked-view": "^0.3.1",
     "@react-navigation/native": "~6.1.6",
     "@sentry/react-native": "^5.33.1",
     "@shopify/flash-list": "^1.7.1",
