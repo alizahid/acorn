@@ -51,7 +51,7 @@ export function UserCommentsList({
       ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner m="4" /> : null
+        isFetchingNextPage ? <Spinner m="6" /> : null
       }
       data={comments}
       estimatedItemSize={72}

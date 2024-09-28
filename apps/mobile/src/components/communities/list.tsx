@@ -52,7 +52,7 @@ export function CommunitiesList({
       {...listProps}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner m="4" /> : null
+        isFetchingNextPage ? <Spinner m="6" /> : null
       }
       contentContainerStyle={styles.content}
       data={communities}

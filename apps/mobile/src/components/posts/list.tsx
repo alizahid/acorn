@@ -61,7 +61,7 @@ export function PostList({
       ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner m="4" /> : null
+        isFetchingNextPage ? <Spinner m="6" /> : null
       }
       ListHeaderComponent={header}
       data={posts}

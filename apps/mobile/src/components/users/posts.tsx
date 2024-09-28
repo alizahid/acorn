@@ -59,7 +59,7 @@ export function UserPostsList({
       ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner m="4" /> : null
+        isFetchingNextPage ? <Spinner m="6" /> : null
       }
       data={posts}
       estimatedItemSize={120}
