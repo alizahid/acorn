@@ -29,6 +29,8 @@ const schema = z.object({
   mode: z.enum(['dismissible', 'fixed']).catch('fixed'),
 })
 
+const iPhone = Platform.OS === 'ios' && !Platform.isPad
+
 export default function Screen() {
   const router = useRouter()
   const navigation = useNavigation()
@@ -73,13 +75,12 @@ export default function Screen() {
   return (
     <KeyboardAwareScrollView
       contentContainerStyle={styles.content}
+      enabled={iPhone}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
       style={styles.main}
     >
-      {Platform.OS === 'ios' && !Platform.isPad ? (
-        <StatusBar style="light" />
-      ) : null}
+      {iPhone ? <StatusBar style="light" /> : null}
 
       <View align="center">
         <Logo style={styles.logo} />
