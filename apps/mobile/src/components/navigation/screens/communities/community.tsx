@@ -19,7 +19,7 @@ const schema = z.object({
   name: z.string().catch('acornblue'),
 })
 
-export function CommunitiesScreen() {
+export function CommunityScreen() {
   const router = useRouter()
   const navigation = useNavigation()
 
@@ -69,7 +69,7 @@ export function CommunitiesScreen() {
 
   return (
     <>
-      <View direction="row" justify="between">
+      <View direction="row" justify="end">
         <FeedSortMenu
           onChange={(next) => {
             update({
