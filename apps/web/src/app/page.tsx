@@ -76,7 +76,7 @@ export default function Page() {
       <footer className="flex gap-4">
         {links.map((link) => (
           <Link
-            className="flex items-center gap-2 rounded-md px-4 py-2 font-medium text-accent-a11 outline-none transition-colors hover:text-accent-a12 focus-visible:bg-accent-4"
+            className="flex items-center gap-2 rounded-full px-4 py-2 font-medium text-accent-a11 outline-none transition-colors hover:text-accent-a12 focus-visible:bg-accent-4"
             href={link.href}
             key={link.key}
           >
