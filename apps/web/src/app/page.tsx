@@ -44,7 +44,7 @@ export default function Page() {
 
       <section className="flex">
         <Link
-          className="rounded-[7px] outline-none focus-visible:ring focus-visible:ring-accent-9"
+          className="rounded-[8px] outline-none focus-visible:ring focus-visible:ring-accent-9"
           href="https://testflight.apple.com/join/uKWP3MFB"
         >
           <Image
