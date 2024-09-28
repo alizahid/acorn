@@ -32,7 +32,13 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
   ]
 
   if (process.env.SENTRY_AUTH_TOKEN) {
-    plugins.push('@sentry/react-native/expo')
+    plugins.push([
+      '@sentry/react-native/expo',
+      {
+        organization: process.env.SENTRY_ORG,
+        project: process.env.SENTRY_PROJECT,
+      },
+    ])
   }
 
   return {
