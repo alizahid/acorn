@@ -70,6 +70,7 @@ export function PostReplyScreen() {
         ) : null}
 
         <TextInput
+          allowFontScaling={false}
           multiline
           onChangeText={setText}
           placeholder={t('placeholder')}
