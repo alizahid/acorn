@@ -37,30 +37,29 @@ export function SearchScreen() {
       headerContainerStyle={styles.header}
       lazy
       onIndexChange={setTab}
-      renderHeader={() => (
-        <TextBox
-          onChangeText={setQuery}
-          placeholder={t('title')}
-          returnKeyType="search"
-          right={
-            query.length > 0 ? (
-              <HeaderButton
-                color="gray"
-                icon="XCircle"
-                onPress={() => {
-                  setQuery('')
-                }}
-                style={styles.clear}
-                weight="fill"
-              />
-            ) : null
-          }
-          styleContent={styles.query}
-          value={query}
-        />
-      )}
       renderTabBar={({ indexDecimal, onTabPress }) => (
         <View style={styles.tabs}>
+          <TextBox
+            onChangeText={setQuery}
+            placeholder={t('title')}
+            returnKeyType="search"
+            right={
+              query.length > 0 ? (
+                <HeaderButton
+                  color="gray"
+                  icon="XCircle"
+                  onPress={() => {
+                    setQuery('')
+                  }}
+                  style={styles.clear}
+                  weight="fill"
+                />
+              ) : null
+            }
+            styleContent={styles.query}
+            value={query}
+          />
+
           <SegmentedControl
             items={SearchTab.map((item) => t(`tabs.${item}`))}
             offset={indexDecimal}
@@ -108,11 +107,10 @@ const stylesheet = createStyleSheet((theme) => ({
   query: {
     backgroundColor: theme.colors.gray.a3,
     borderWidth: 0,
-    marginBottom: theme.space[4],
-    marginHorizontal: theme.space[3],
   },
   tabs: {
     backgroundColor: theme.colors.gray[1],
+    gap: theme.space[4],
     paddingBottom: theme.space[4],
     paddingHorizontal: theme.space[3],
   },

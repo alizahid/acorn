@@ -48,38 +48,36 @@ export function CommunitiesSearchScreen() {
   const [debounced] = useDebounce(query, 500)
 
   return (
-    <SearchList
-      community={params.name}
-      focused={focused}
-      header={
-        <>
-          <TextBox
-            onChangeText={setQuery}
-            placeholder={t('placeholder')}
-            returnKeyType="search"
-            right={
-              query.length > 0 ? (
-                <HeaderButton
-                  color="gray"
-                  icon="XCircle"
-                  onPress={() => {
-                    setQuery('')
-                  }}
-                  style={styles.clear}
-                  weight="fill"
-                />
-              ) : null
-            }
-            styleContent={styles.query}
-            value={query}
-          />
+    <>
+      <TextBox
+        onChangeText={setQuery}
+        placeholder={t('placeholder')}
+        returnKeyType="search"
+        right={
+          query.length > 0 ? (
+            <HeaderButton
+              color="gray"
+              icon="XCircle"
+              onPress={() => {
+                setQuery('')
+              }}
+              style={styles.clear}
+              weight="fill"
+            />
+          ) : null
+        }
+        styleContent={styles.query}
+        value={query}
+      />
 
-          <SearchPostFilters filters={filters} onChange={setFilters} />
-        </>
-      }
-      query={debounced}
-      type="post"
-    />
+      <SearchList
+        community={params.name}
+        focused={focused}
+        header={<SearchPostFilters filters={filters} onChange={setFilters} />}
+        query={debounced}
+        type="post"
+      />
+    </>
   )
 }
 
@@ -91,6 +89,7 @@ const stylesheet = createStyleSheet((theme) => ({
   query: {
     backgroundColor: theme.colors.gray.a3,
     borderWidth: 0,
+    marginBottom: theme.space[4],
     marginHorizontal: theme.space[3],
   },
 }))
