@@ -3,9 +3,6 @@
     "comments": {
       "more": {
         "label": "{count, plural, =0 {More replies} =1 {1 more reply} other {# more replies}}"
-      },
-      "thread": {
-        "back": "See full discussion"
       }
     },
     "common": {
@@ -53,6 +50,9 @@
         "item": "{current, number} of {count, number}",
         "items": "{count, number} images",
         "nsfw": "Sensitive content - tap to view"
+      },
+      "header": {
+        "back": "See full discussion"
       },
       "video": {
         "nsfw": "Sensitive content - tap to watch"

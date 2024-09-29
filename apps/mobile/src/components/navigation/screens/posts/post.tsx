@@ -6,6 +6,7 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
+import { compact } from 'lodash'
 import { useMemo, useRef, useState } from 'react'
 import { Share } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -28,7 +29,7 @@ import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 
-type ListItem = 'post' | Comment | 'empty'
+type ListItem = 'post' | 'header' | Comment | 'empty'
 
 const schema = z.object({
   commentId: z.string().min(0).optional().catch(undefined),
@@ -119,29 +120,17 @@ export function PostScreen() {
   })
 
   const data = useMemo(
-    () => [
-      'post' as const,
-      ...(comments.length > 0 ? comments : ['empty' as const]),
-    ],
+    () =>
+      compact([
+        'post' as const,
+        'header' as const,
+        ...(comments.length > 0 ? comments : ['empty' as const]),
+      ]),
     [comments],
   )
 
   return (
     <>
-      <PostHeader
-        commentId={params.commentId}
-        onPress={() => {
-          list.current?.scrollToIndex({
-            animated: true,
-            index: 1,
-          })
-
-          router.setParams({
-            commentId: '',
-          })
-        }}
-      />
-
       <FlashList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
@@ -157,30 +146,36 @@ export function PostScreen() {
             return item
           }
 
-          if (item.type === 'more') {
-            return 'more'
+          if (item.type === 'reply') {
+            return 'reply'
           }
 
-          return 'reply'
+          return 'more'
         }}
         keyExtractor={(item) => {
           if (typeof item === 'string') {
             return item
           }
 
-          if (item.type === 'more') {
-            return `more-${item.data.parentId}`
+          if (item.type === 'reply') {
+            return `reply-${item.data.id}`
           }
 
-          return `reply-${item.data.id}`
+          return `more-${item.data.parentId}`
         }}
         keyboardDismissMode="on-drag"
         onViewableItemsChanged={({ viewableItems }) => {
-          setViewing(() => viewableItems.map((item) => item.index ?? 0))
+          setViewing(() =>
+            viewableItems
+              .filter(
+                (item) => item.key === 'post' || item.key.startsWith('reply'),
+              )
+              .map((item) => item.index ?? 0),
+          )
         }}
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
-        renderItem={({ item }) => {
+        renderItem={({ item, target }) => {
           if (typeof item === 'string') {
             if (item === 'post') {
               return post ? (
@@ -192,6 +187,25 @@ export function PostScreen() {
                 />
               ) : (
                 <Spinner m="4" size="large" />
+              )
+            }
+
+            if (item === 'header') {
+              return (
+                <PostHeader
+                  commentId={params.commentId}
+                  onPress={() => {
+                    list.current?.scrollToIndex({
+                      animated: true,
+                      index: 1,
+                    })
+
+                    router.setParams({
+                      commentId: '',
+                    })
+                  }}
+                  sticky={target === 'StickyHeader'}
+                />
               )
             }
 
@@ -239,6 +253,10 @@ export function PostScreen() {
             />
           )
         }}
+        stickyHeaderIndices={[1]}
+        viewabilityConfig={{
+          itemVisiblePercentThreshold: 100,
+        }}
       />
 
       {comments.length > 0 ? (
@@ -250,7 +268,8 @@ export function PostScreen() {
             if (viewing.includes(0)) {
               list.current?.scrollToIndex({
                 animated: true,
-                index: 1,
+                index: 2,
+                viewOffset: 48,
               })
 
               return
@@ -269,9 +288,10 @@ export function PostScreen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
+              viewOffset: 48,
             })
           }}
-          style={styles.skip}
+          style={[styles.action, styles.skip]}
           weight="bold"
         />
       ) : null}
@@ -280,15 +300,21 @@ export function PostScreen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  action: {
+    borderCurve: 'continuous',
+    borderRadius: theme.space[8],
+    bottom: theme.space[4],
+    position: 'absolute',
+  },
+  back: {
+    backgroundColor: theme.colors.gray.a9,
+    left: theme.space[4],
+  },
   content: {
     paddingBottom: theme.space[6] + theme.space[8],
   },
   skip: {
     backgroundColor: theme.colors.accent.a9,
-    borderCurve: 'continuous',
-    borderRadius: theme.space[8],
-    bottom: theme.space[4],
-    position: 'absolute',
     right: theme.space[4],
   },
 }))
