@@ -23,6 +23,7 @@ export const queryClient = new QueryClient({
     },
     queries: {
       gcTime: Infinity,
+      retry: false,
       staleTime: Infinity,
       throwOnError(error) {
         if (__DEV__) {
