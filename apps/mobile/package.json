@@ -33,7 +33,6 @@
     "date-fns": "^4.1.0",
     "entities": "^5.0.0",
     "expo": "~51.0.34",
-    "expo-application": "~5.9.1",
     "expo-blur": "~13.0.2",
     "expo-clipboard": "~6.0.3",
     "expo-dev-client": "~4.0.27",

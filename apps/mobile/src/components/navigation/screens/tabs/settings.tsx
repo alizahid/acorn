@@ -1,4 +1,4 @@
-import * as Application from 'expo-application'
+import * as Updates from 'expo-updates'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -130,38 +130,51 @@ export function SettingsScreen() {
     } satisfies SettingsItem
   })
 
+  const links = [
+    {
+      href: 'https://acorn.blue',
+      icon: 'Compass',
+    },
+    {
+      href: 'https://reddit.com/r/acornblue',
+      icon: 'RedditLogo',
+    },
+    {
+      href: 'https://discord.gg/sWzw5GU5RV',
+      icon: 'DiscordLogo',
+    },
+    {
+      href: 'https://github.com/alizahid/acorn',
+      icon: 'GitHubLogo',
+    },
+  ] as const
+
   return (
     <SettingsMenu
       footer={
-        <View align="center" gap="4" mt="4" p="4">
-          <Logo size={theme.space[8]} />
+        <View align="center" gap="6" p="6">
+          <View align="center" gap="4">
+            <Logo size={theme.space[8]} />
 
-          <View direction="row" gap="4" justify="center">
             <Text highContrast={false} size="2" variant="mono">
               {t('footer.version', {
-                version: Application.nativeApplicationVersion,
+                version: Updates.runtimeVersion,
               })}
             </Text>
+          </View>
 
-            <Pressable
-              onPress={() => {
-                void handleLink('https://acorn.blue')
-              }}
-            >
-              <Text color="accent" size="2">
-                {t('footer.web')}
-              </Text>
-            </Pressable>
-
-            <Pressable
-              onPress={() => {
-                void handleLink('https://reddit.com/r/acornblue')
-              }}
-            >
-              <Text color="accent" size="2">
-                {t('footer.reddit')}
-              </Text>
-            </Pressable>
+          <View direction="row" gap="4" justify="center">
+            {links.map((link) => (
+              <Pressable
+                hitSlop={theme.space[4]}
+                key={link.icon}
+                onPress={() => {
+                  void handleLink(link.href)
+                }}
+              >
+                <Icon color={theme.colors.accent.a9} name={link.icon} />
+              </Pressable>
+            ))}
           </View>
         </View>
       }

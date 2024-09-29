@@ -100,6 +100,6 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
       url: `https://u.expo.dev/${projectId}`,
     },
     userInterfaceStyle: 'automatic',
-    version: '1.0.0',
+    version: '1.0.1',
   }
 }

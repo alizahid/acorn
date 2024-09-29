@@ -140,9 +140,7 @@
     },
     "settings": {
       "footer": {
-        "reddit": "r/acornblue",
-        "version": "v{version}",
-        "web": "acorn.blue"
+        "version": "v{version}"
       },
       "menu": {
         "cache": {

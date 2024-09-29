@@ -19,7 +19,7 @@ export default function Page() {
       key: 'reddit',
     },
     {
-      href: 'https://discord.gg/uUjHsb7C',
+      href: 'https://discord.gg/sWzw5GU5RV',
       icon: <DiscordLogo className="size-6" weight="duotone" />,
       key: 'discord',
     },

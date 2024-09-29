@@ -19,10 +19,12 @@ import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
+import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
+import GitHubLogoBold from 'react-native-phosphor/src/bold/GithubLogo'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
@@ -34,6 +36,7 @@ import PlayBold from 'react-native-phosphor/src/bold/Play'
 import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
 import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
+import RedditLogoBold from 'react-native-phosphor/src/bold/RedditLogo'
 import ShareBold from 'react-native-phosphor/src/bold/Share'
 import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
@@ -68,10 +71,12 @@ import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
+import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
+import GitHubLogoDuotone from 'react-native-phosphor/src/duotone/GithubLogo'
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
@@ -83,6 +88,7 @@ import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
 import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
 import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
+import RedditLogoDuotone from 'react-native-phosphor/src/duotone/RedditLogo'
 import ShareDuotone from 'react-native-phosphor/src/duotone/Share'
 import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
@@ -117,10 +123,12 @@ import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
+import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
+import GitHubLogoFill from 'react-native-phosphor/src/fill/GithubLogo'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
@@ -132,6 +140,7 @@ import PlayFill from 'react-native-phosphor/src/fill/Play'
 import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
 import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
+import RedditLogoFill from 'react-native-phosphor/src/fill/RedditLogo'
 import ShareFill from 'react-native-phosphor/src/fill/Share'
 import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
@@ -166,10 +175,12 @@ import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
+import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
+import GitHubLogoRegular from 'react-native-phosphor/src/regular/GithubLogo'
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
@@ -181,6 +192,7 @@ import PlayRegular from 'react-native-phosphor/src/regular/Play'
 import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
 import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
+import RedditLogoRegular from 'react-native-phosphor/src/regular/RedditLogo'
 import ShareRegular from 'react-native-phosphor/src/regular/Share'
 import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
@@ -336,6 +348,12 @@ const icons = {
     fill: CopyFill,
     regular: CopyRegular,
   },
+  DiscordLogo: {
+    bold: DiscordLogoBold,
+    duotone: DiscordLogoDuotone,
+    fill: DiscordLogoFill,
+    regular: DiscordLogoRegular,
+  },
   Download: {
     bold: DownloadBold,
     duotone: DownloadDuotone,
@@ -359,6 +377,12 @@ const icons = {
     duotone: GearSixDuotone,
     fill: GearSixFill,
     regular: GearSixRegular,
+  },
+  GitHubLogo: {
+    bold: GitHubLogoBold,
+    duotone: GitHubLogoDuotone,
+    fill: GitHubLogoFill,
+    regular: GitHubLogoRegular,
   },
   HardDrives: {
     bold: HardDrivesBold,
@@ -425,6 +449,12 @@ const icons = {
     duotone: RankingDuotone,
     fill: RankingFill,
     regular: RankingRegular,
+  },
+  RedditLogo: {
+    bold: RedditLogoBold,
+    duotone: RedditLogoDuotone,
+    fill: RedditLogoFill,
+    regular: RedditLogoRegular,
   },
   Share: {
     bold: ShareBold,
