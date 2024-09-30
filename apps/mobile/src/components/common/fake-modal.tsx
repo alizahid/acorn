@@ -69,7 +69,7 @@ export function FakeModal({
     () => ({
       opacity: interpolate(
         translate.value,
-        [-(frame.height * 0.5), 0, frame.height * 0.5],
+        [-(frame.height * 0.25), 0, frame.height * 0.25],
         [0, 1, 0],
       ),
     }),
@@ -124,7 +124,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   footer: {
     bottom: theme.space[4] + runtime.insets.bottom,
     flexDirection: 'row',
-    justifyContent: 'center',
     left: theme.space[4],
     position: 'absolute',
     right: theme.space[4],

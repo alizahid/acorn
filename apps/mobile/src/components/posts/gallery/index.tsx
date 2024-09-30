@@ -47,7 +47,7 @@ export function PostGalleryCard({
 
   const [visible, setVisible] = useState(false)
   const [initial, setInitial] = useState(0)
-  const [viewing, setViewing] = useState<Array<PostMedia>>([])
+  const [viewing, setViewing] = useState<PostMedia>()
 
   const first = images[0]
 
@@ -107,28 +107,43 @@ export function PostGalleryCard({
       <FakeModal
         close
         footer={
-          <HeaderButton
-            color={
-              download.isError ? 'red' : download.isSuccess ? 'green' : 'accent'
-            }
-            icon={
-              download.isError
-                ? 'XCircle'
-                : download.isSuccess
-                  ? 'CheckCircle'
-                  : 'Download'
-            }
-            loading={download.isPending}
-            onPress={() => {
-              if (!viewing[0]) {
-                return
-              }
+          <View align="center" direction="row" flexGrow={1} justify="between">
+            <View style={styles.current}>
+              <Text contrast size="1" tabular>
+                {t('item', {
+                  count: images.length,
+                  current: (viewing ? images.indexOf(viewing) : 0) + 1,
+                })}
+              </Text>
+            </View>
 
-              download.download({
-                url: viewing[0].url,
-              })
-            }}
-          />
+            <HeaderButton
+              color={
+                download.isError
+                  ? 'red'
+                  : download.isSuccess
+                    ? 'green'
+                    : 'accent'
+              }
+              icon={
+                download.isError
+                  ? 'XCircle'
+                  : download.isSuccess
+                    ? 'CheckCircle'
+                    : 'Download'
+              }
+              loading={download.isPending}
+              onPress={() => {
+                if (!viewing) {
+                  return
+                }
+
+                download.download({
+                  url: viewing.url,
+                })
+              }}
+            />
+          </View>
         }
         onClose={() => {
           setVisible(false)
@@ -145,7 +160,7 @@ export function PostGalleryCard({
           initialScrollIndex={initial}
           keyExtractor={(item, index) => String(index)}
           onViewableItemsChanged={({ viewableItems }) => {
-            setViewing(() => viewableItems.map(({ item }) => item))
+            setViewing(() => viewableItems[0]?.item)
           }}
           renderItem={({ item }) => (
             <GalleryImage image={item} recyclingKey={recyclingKey} />
@@ -154,7 +169,7 @@ export function PostGalleryCard({
           showsHorizontalScrollIndicator={false}
           snapToOffsets={images.map((item, index) => frame.width * index)}
           viewabilityConfig={{
-            itemVisiblePercentThreshold: 100,
+            itemVisiblePercentThreshold: 50,
           }}
         />
       </FakeModal>
@@ -175,6 +190,13 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   count: {
     right: theme.space[2],
+  },
+  current: {
+    backgroundColor: theme.colors.black.a9,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[2],
+    paddingHorizontal: theme.space[1],
+    paddingVertical: theme.space[1] / 2,
   },
   gif: {
     left: theme.space[2],

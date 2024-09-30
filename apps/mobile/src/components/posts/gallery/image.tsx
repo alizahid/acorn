@@ -7,6 +7,10 @@ import {
   useAnimatedReaction,
   useSharedValue,
 } from 'react-native-reanimated'
+import {
+  useSafeAreaFrame,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -23,6 +27,9 @@ type Props = {
 }
 
 export function GalleryImage({ image, recyclingKey }: Props) {
+  const frame = useSafeAreaFrame()
+  const insets = useSafeAreaInsets()
+
   const t = useTranslations('component.posts.gallery')
 
   const { styles, theme } = useStyles(stylesheet)
@@ -37,6 +44,7 @@ export function GalleryImage({ image, recyclingKey }: Props) {
   const [playing, setPlaying] = useState(true)
   const [zoomed, setZoomed] = useState(true)
   const [hidden, setHidden] = useState(false)
+  const [margin, setMargin] = useState(0)
 
   useAnimatedReaction(
     () => zoom.value,
@@ -54,7 +62,21 @@ export function GalleryImage({ image, recyclingKey }: Props) {
   }, [image.thumbnail, image.url])
 
   return (
-    <View style={styles.main(image.width / image.height)}>
+    <View
+      onLayout={(event) => {
+        const bottom =
+          frame.height -
+          event.nativeEvent.layout.y -
+          event.nativeEvent.layout.height
+
+        const min = theme.space[4] + insets.bottom
+
+        if (bottom < min) {
+          setMargin(Math.round(min - bottom))
+        }
+      }}
+      style={styles.main(image.width / image.height)}
+    >
       <Zoomable
         isDoubleTapEnabled
         isPanEnabled={zoomed}
@@ -80,8 +102,14 @@ export function GalleryImage({ image, recyclingKey }: Props) {
         />
       </Zoomable>
 
-      {image.type === 'gif' ? (
-        <>
+      {!hidden && image.type === 'gif' ? (
+        <View
+          align="center"
+          direction="row"
+          gap="4"
+          justify="center"
+          style={styles.footer(margin)}
+        >
           <View style={styles.label}>
             <Text contrast size="1">
               {t('gif')}
@@ -111,13 +139,19 @@ export function GalleryImage({ image, recyclingKey }: Props) {
               weight="fill"
             />
           </Pressable>
-        </>
+        </View>
       ) : null}
     </View>
   )
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
+  footer: (margin: number) => ({
+    bottom: theme.space[2] + margin,
+    left: theme.space[2],
+    position: 'absolute',
+    right: theme.space[2],
+  }),
   image: {
     flex: 1,
   },
@@ -125,11 +159,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: theme.colors.black.a9,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
-    bottom: theme.space[2],
-    left: theme.space[2],
     paddingHorizontal: theme.space[1],
     paddingVertical: theme.space[1] / 2,
-    position: 'absolute',
   },
   main: (aspectRatio: number) => ({
     alignSelf: 'center',
@@ -141,8 +172,5 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: theme.colors.black.a9,
     borderCurve: 'continuous',
     borderRadius: theme.space[4],
-    bottom: theme.space[2],
-    position: 'absolute',
-    right: theme.space[2],
   },
 }))
