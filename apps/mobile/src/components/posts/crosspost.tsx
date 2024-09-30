@@ -29,7 +29,7 @@ export function CrossPostCard({ post, style, viewing }: Props) {
 
   const footer = [
     {
-      icon: 'ThumbsUp',
+      icon: 'ArrowFatUp',
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
@@ -113,7 +113,7 @@ export function CrossPostCard({ post, style, viewing }: Props) {
           </Pressable>
 
           {footer.map((item) => (
-            <View align="center" direction="row" gap="2" key={item.key}>
+            <View align="center" direction="row" gap="1" key={item.key}>
               <Icon
                 color={theme.colors.gray.a11}
                 name={item.icon}
