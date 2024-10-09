@@ -30,7 +30,7 @@ export function SearchScreen() {
     sort: 'relevance',
   })
 
-  const [debounced] = useDebounce(query, 500)
+  const [debounced] = useDebounce(query, 1_000)
 
   return (
     <Tabs.Container
