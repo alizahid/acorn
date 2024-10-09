@@ -32,6 +32,13 @@ export function ProfileLayout() {
           title: t('posts.reply.title'),
         }}
       />
+
+      <Stack.Screen
+        name="settings"
+        options={{
+          title: t('settings.title'),
+        }}
+      />
     </Stack>
   )
 }

@@ -44,6 +44,12 @@
         "subscribers": "Subscribers"
       }
     },
+    "notifications": {
+      "card": {
+        "comment_reply": "{user} replied to your post",
+        "post_reply": "{user} replied to your comment"
+      }
+    },
     "posts": {
       "gallery": {
         "gif": "GIF",
@@ -113,6 +119,9 @@
         "placeholder": "Search"
       }
     },
+    "notifications": {
+      "title": "Notifications"
+    },
     "posts": {
       "reply": {
         "placeholder": "Say something nice",
@@ -122,13 +131,18 @@
       }
     },
     "profile": {
-      "menu": {
+      "data": {
         "comments": "Comments",
         "downvoted": "Downvoted",
         "hidden": "Hidden",
+        "label": "Your data",
         "saved": "Saved",
         "submitted": "Posts",
         "upvoted": "Upvoted"
+      },
+      "settings": {
+        "label": "App settings",
+        "settings": "Settings"
       }
     },
     "search": {

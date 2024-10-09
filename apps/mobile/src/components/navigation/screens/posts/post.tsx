@@ -152,6 +152,7 @@ export function PostScreen() {
 
           return 'more'
         }}
+        initialScrollIndex={params.commentId ? 1 : undefined}
         keyExtractor={(item) => {
           if (typeof item === 'string') {
             return item

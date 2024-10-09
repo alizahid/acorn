@@ -25,7 +25,8 @@ export function useFollow() {
         method: 'post',
         url: '/api/subscribe',
       })
-
+    },
+    async onSuccess(data, variables) {
       await queryClient.invalidateQueries({
         queryKey: [
           'users',

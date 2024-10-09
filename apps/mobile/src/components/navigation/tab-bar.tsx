@@ -2,6 +2,7 @@ import { type BottomTabBarProps } from '@react-navigation/bottom-tabs'
 import { Pressable } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { Text } from '../common/text'
 import { View } from '../common/view'
 
 type Props = BottomTabBarProps
@@ -45,6 +46,14 @@ export function TabBar({ descriptors, navigation, state }: Props) {
                 focused,
                 size: theme.space[5],
               })}
+
+              {options?.tabBarBadge ? (
+                <View style={styles.badge}>
+                  <Text contrast size="1" tabular weight="medium">
+                    {options.tabBarBadge}
+                  </Text>
+                </View>
+              ) : null}
             </Pressable>
           )
         })}
@@ -53,6 +62,22 @@ export function TabBar({ descriptors, navigation, state }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
+  badge: {
+    backgroundColor: theme.colors.accent.a9,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[3],
+    paddingHorizontal: theme.space[1],
+    paddingVertical: theme.space[1] / 2,
+    position: 'absolute',
+    transform: [
+      {
+        translateX: theme.space[3],
+      },
+      {
+        translateY: theme.space[2],
+      },
+    ],
+  },
   main: {
     backgroundColor: theme.colors.gray[1],
   },

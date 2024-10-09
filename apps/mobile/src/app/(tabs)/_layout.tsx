@@ -2,8 +2,11 @@ import { Tabs } from 'expo-router'
 
 import { Icon } from '~/components/common/icon'
 import { TabBar } from '~/components/navigation/tab-bar'
+import { useNotifications } from '~/hooks/queries/user/notifications'
 
 export default function Layout() {
+  const { unread } = useNotifications()
+
   return (
     <Tabs
       screenOptions={{
@@ -39,19 +42,20 @@ export default function Layout() {
       />
 
       <Tabs.Screen
-        name="(communities)"
+        name="(notifications)"
         options={{
+          tabBarBadge: Math.min(unread, 99),
           tabBarIcon: (props) => (
-            <Icon {...props} name="UsersFour" weight="duotone" />
+            <Icon {...props} name="Bell" weight="duotone" />
           ),
         }}
       />
 
       <Tabs.Screen
-        name="(settings)"
+        name="(communities)"
         options={{
           tabBarIcon: (props) => (
-            <Icon {...props} name="GearSix" weight="duotone" />
+            <Icon {...props} name="UsersFour" weight="duotone" />
           ),
         }}
       />

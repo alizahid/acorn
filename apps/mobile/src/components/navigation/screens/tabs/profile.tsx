@@ -24,27 +24,45 @@ export function ProfileScreen() {
   return (
     <SettingsMenu
       header={<ProfileCard profile={profile} />}
-      items={UserFeedType.map((type) => ({
-        arrow: true,
-        icon: {
-          color: theme.colors[colors[type]].a9,
-          name: icons[type],
-        },
-        label: t(`menu.${type}`),
-        onPress() {
-          if (!profile) {
-            return
-          }
+      items={[
+        t('data.label'),
+        ...UserFeedType.map((type) => ({
+          arrow: true,
+          icon: {
+            color: theme.colors[colors[type]].a9,
+            name: icons[type],
+          },
+          label: t(`data.${type}`),
+          onPress() {
+            if (!profile) {
+              return
+            }
 
-          router.navigate({
-            params: {
-              name: removePrefix(profile.name),
-              type,
-            },
-            pathname: '/users/[name]/[type]',
-          })
+            router.navigate({
+              params: {
+                name: removePrefix(profile.name),
+                type,
+              },
+              pathname: '/users/[name]/[type]',
+            })
+          },
+        })),
+        null,
+        t('settings.label'),
+        {
+          arrow: true,
+          icon: {
+            name: 'GearSix',
+            weight: 'duotone',
+          },
+          label: t('settings.settings'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings',
+            })
+          },
         },
-      }))}
+      ]}
       onRefresh={refetch}
     />
   )

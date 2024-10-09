@@ -20,7 +20,7 @@ export default function UserCommentsScreen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const t = useTranslations('screen.profile.menu')
+  const t = useTranslations('screen.profile.data')
 
   const { intervalUserComments, sortUserComments, update } = usePreferences()
 

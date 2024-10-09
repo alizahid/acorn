@@ -25,7 +25,8 @@ export function useJoin() {
         method: 'post',
         url: '/api/subscribe',
       })
-
+    },
+    async onSuccess(data, variables) {
       await queryClient.invalidateQueries({
         queryKey: [
           'community',

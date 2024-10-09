@@ -2,9 +2,14 @@ import { Stack } from 'expo-router'
 import { useTranslations } from 'use-intl'
 
 import { Header } from '~/components/navigation/header'
+import { useMarkAllAsRead } from '~/hooks/mutations/users/notifications'
 
-export function SettingsLayout() {
+import { HeaderButton } from '../header-button'
+
+export function NotificationsLayout() {
   const t = useTranslations('screen')
+
+  const { isPending, markAll } = useMarkAllAsRead()
 
   return (
     <Stack
@@ -14,9 +19,18 @@ export function SettingsLayout() {
       }}
     >
       <Stack.Screen
-        name="settings"
+        name="notifications"
         options={{
-          title: t('settings.title'),
+          headerRight: () => (
+            <HeaderButton
+              icon="CheckCircle"
+              loading={isPending}
+              onPress={() => {
+                markAll()
+              }}
+            />
+          ),
+          title: t('notifications.title'),
         }}
       />
 

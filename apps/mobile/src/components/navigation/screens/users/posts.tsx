@@ -22,7 +22,7 @@ export function UserPostsScreen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const t = useTranslations('screen.profile.menu')
+  const t = useTranslations('screen.profile.data')
 
   const { intervalUserPosts, sortUserPosts, update } = usePreferences()
 
