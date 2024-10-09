@@ -1,4 +1,5 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type PostMedia } from '~/types/post'
 
@@ -23,6 +24,8 @@ export function PostVideoCard({
   video,
   viewing,
 }: Props) {
+  const { styles } = useStyles(stylesheet)
+
   if (video.provider === 'redgifs') {
     return (
       <RedGifsVideo
@@ -56,6 +59,17 @@ export function PostVideoCard({
     : undefined
 
   return (
-    <PostLinkCard media={media} recyclingKey={recyclingKey} url={video.url} />
+    <PostLinkCard
+      media={media}
+      recyclingKey={recyclingKey}
+      style={styles.link}
+      url={video.url}
+    />
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  link: {
+    marginTop: theme.space[3],
+  },
+}))
