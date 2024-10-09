@@ -35,9 +35,11 @@ export function NotificationCard({ notification }: Props) {
       onPress={() => {
         void handleLink(`https://www.reddit.com${notification.context}`)
 
-        mark({
-          id: notification.id,
-        })
+        if (notification.new) {
+          mark({
+            id: notification.id,
+          })
+        }
       }}
       p="4"
       style={styles.main(color, notification.new)}
