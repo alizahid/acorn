@@ -51,6 +51,7 @@ export function CommunitiesScreen() {
           />
         </View>
       )}
+      tabBarHeight={52}
     >
       <Tabs.Tab name="communities">
         <CommunitiesList {...props} communities={communities} tabs />

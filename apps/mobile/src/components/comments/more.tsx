@@ -1,10 +1,10 @@
-import { Platform, type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { getDepthColor } from '~/lib/colors'
-import { cardMaxWidth } from '~/lib/const'
+import { cardMaxWidth, iPad } from '~/lib/const'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
 
@@ -69,8 +69,6 @@ const stylesheet = createStyleSheet((theme) => ({
     const color = getDepthColor(depth)
 
     const margin = theme.space[3] * depth
-
-    const iPad = Platform.OS === 'ios' && Platform.isPad
 
     const base = {
       backgroundColor: theme.colors[color].a2,

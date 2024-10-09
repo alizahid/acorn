@@ -39,8 +39,16 @@ export function SearchList({
 }: Props) {
   const list = useRef<FlashList<Community | Post>>(null)
 
-  // @ts-expect-error -- go away
-  useScrollToTop(list)
+  useScrollToTop(
+    useRef({
+      scrollToTop() {
+        list.current?.scrollToOffset({
+          animated: true,
+          offset: tabs ? -100 : 0,
+        })
+      },
+    }),
+  )
 
   const { styles } = useStyles(stylesheet)
 

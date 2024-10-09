@@ -1,8 +1,7 @@
-import { Platform } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { cardMaxWidth } from '~/lib/const'
+import { cardMaxWidth, iPad } from '~/lib/const'
 import { usePreferences } from '~/stores/preferences'
 
 import { CommentsSortMenu } from '../comments/sort'
@@ -56,8 +55,6 @@ export function PostHeader({ commentId, onPress, sticky }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: (sticky: boolean) => {
-    const iPad = Platform.OS === 'ios' && Platform.isPad
-
     const base = {
       backgroundColor: theme.colors.gray[sticky ? 1 : 'a3'],
     }

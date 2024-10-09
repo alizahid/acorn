@@ -38,8 +38,16 @@ export function CommunitiesList({
 
   const list = useRef<FlashList<Community | string>>(null)
 
-  // @ts-expect-error -- go away
-  useScrollToTop(list)
+  useScrollToTop(
+    useRef({
+      scrollToTop() {
+        list.current?.scrollToOffset({
+          animated: true,
+          offset: tabs ? -100 : 0,
+        })
+      },
+    }),
+  )
 
   const sticky = communities
     .map((item, index) => (typeof item === 'string' ? index : null))

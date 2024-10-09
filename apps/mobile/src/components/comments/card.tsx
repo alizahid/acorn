@@ -1,10 +1,10 @@
 import { useRouter } from 'expo-router'
-import { Platform, type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { getDepthColor } from '~/lib/colors'
-import { cardMaxWidth } from '~/lib/const'
+import { cardMaxWidth, iPad } from '~/lib/const'
 import { withoutAgo } from '~/lib/intl'
 import { removePrefix } from '~/lib/reddit'
 import { type CommentReply } from '~/types/comment'
@@ -139,8 +139,6 @@ const stylesheet = createStyleSheet((theme) => ({
     const color = getDepthColor(depth)
 
     const margin = theme.space[3] * depth
-
-    const iPad = Platform.OS === 'ios' && Platform.isPad
 
     const base = {
       backgroundColor: theme.colors[color].a2,

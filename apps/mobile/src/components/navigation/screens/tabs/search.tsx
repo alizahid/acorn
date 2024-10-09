@@ -35,6 +35,7 @@ export function SearchScreen() {
   return (
     <Tabs.Container
       headerContainerStyle={styles.header}
+      headerHeight={52}
       lazy
       onIndexChange={setTab}
       renderHeader={({ indexDecimal, onTabPress }) => (
@@ -77,6 +78,7 @@ export function SearchScreen() {
         </View>
       )}
       revealHeaderOnScroll
+      tabBarHeight={56}
     >
       <Tabs.Tab name="post">
         <SearchList

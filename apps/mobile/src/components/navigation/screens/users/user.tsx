@@ -73,6 +73,7 @@ export function UserScreen() {
           />
         </View>
       )}
+      tabBarHeight={52}
     >
       <Tabs.Tab name="posts">
         <UserPostsList
