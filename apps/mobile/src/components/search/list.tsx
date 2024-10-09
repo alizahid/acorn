@@ -44,7 +44,7 @@ export function SearchList({
       scrollToTop() {
         list.current?.scrollToOffset({
           animated: true,
-          offset: tabs ? -100 : 0,
+          offset: tabs ? -60 : 0,
         })
       },
     }),
