@@ -27,7 +27,7 @@ export function useMarkAsRead() {
     },
     onMutate(variables) {
       updateNotification(variables.id, (draft) => {
-        draft.new = true
+        draft.new = false
       })
     },
   })

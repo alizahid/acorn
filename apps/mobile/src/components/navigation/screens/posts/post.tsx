@@ -7,7 +7,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { compact } from 'lodash'
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Share } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
@@ -119,6 +119,19 @@ export function PostScreen() {
     })
   })
 
+  useEffect(() => {
+    if (!post || !params.commentId) {
+      return
+    }
+
+    setTimeout(() => {
+      list.current?.scrollToIndex({
+        animated: true,
+        index: 1,
+      })
+    }, 300)
+  }, [params.commentId, post])
+
   const data = useMemo(
     () =>
       compact([
@@ -152,7 +165,6 @@ export function PostScreen() {
 
           return 'more'
         }}
-        initialScrollIndex={params.commentId ? 1 : undefined}
         keyExtractor={(item) => {
           if (typeof item === 'string') {
             return item
