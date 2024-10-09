@@ -82,7 +82,6 @@ export function GalleryImage({ image, recyclingKey }: Props) {
         isPanEnabled={zoomed}
         isSingleTapEnabled
         maxScale={6}
-        minPanPointers={1}
         minScale={0.5}
         onSingleTap={() => {
           StatusBar.setStatusBarHidden(!hidden, 'fade')
