@@ -69,6 +69,17 @@ export function FakeModal({
     () => ({
       opacity: interpolate(
         translate.value,
+        [-frame.height, 0, frame.height],
+        [0, 1, 0],
+      ),
+    }),
+    [translate.value],
+  )
+
+  const controls = useAnimatedStyle(
+    () => ({
+      opacity: interpolate(
+        translate.value,
         [-(frame.height * 0.25), 0, frame.height * 0.25],
         [0, 1, 0],
       ),
@@ -95,7 +106,7 @@ export function FakeModal({
       </GestureDetector>
 
       {close ? (
-        <Animated.View style={[styles.close, overlay]}>
+        <Animated.View style={[styles.close, controls]}>
           <HeaderButton
             icon="X"
             onPress={() => {
@@ -109,7 +120,9 @@ export function FakeModal({
       ) : null}
 
       {footer ? (
-        <Animated.View style={[styles.footer, overlay]}>{footer}</Animated.View>
+        <Animated.View style={[styles.footer, controls]}>
+          {footer}
+        </Animated.View>
       ) : null}
     </Modal>
   )

@@ -2,10 +2,12 @@ import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { Image } from 'expo-image'
 import * as StatusBar from 'expo-status-bar'
 import { useEffect, useRef, useState } from 'react'
-import {
+import Animated, {
   runOnJS,
   useAnimatedReaction,
+  useAnimatedStyle,
   useSharedValue,
+  withTiming,
 } from 'react-native-reanimated'
 import {
   useSafeAreaFrame,
@@ -38,6 +40,7 @@ export function GalleryImage({ image, recyclingKey }: Props) {
 
   const ref = useRef<Image>(null)
 
+  const opacity = useSharedValue(1)
   const zoom = useSharedValue(1)
 
   const [loaded, setLoaded] = useState(!image.thumbnail)
@@ -60,6 +63,10 @@ export function GalleryImage({ image, recyclingKey }: Props) {
       })
     }
   }, [image.thumbnail, image.url])
+
+  const style = useAnimatedStyle(() => ({
+    opacity: opacity.value,
+  }))
 
   return (
     <View
@@ -84,9 +91,13 @@ export function GalleryImage({ image, recyclingKey }: Props) {
         maxScale={6}
         minScale={0.5}
         onSingleTap={() => {
-          StatusBar.setStatusBarHidden(!hidden, 'fade')
+          const next = !hidden
 
-          setHidden(!hidden)
+          StatusBar.setStatusBarHidden(next, 'fade')
+
+          opacity.value = withTiming(next ? 0 : 1)
+
+          setHidden(next)
         }}
         scale={zoom}
       >
@@ -101,14 +112,8 @@ export function GalleryImage({ image, recyclingKey }: Props) {
         />
       </Zoomable>
 
-      {!hidden && image.type === 'gif' ? (
-        <View
-          align="center"
-          direction="row"
-          gap="4"
-          justify="center"
-          style={styles.footer(margin)}
-        >
+      {image.type === 'gif' ? (
+        <Animated.View style={[styles.footer(margin), style]}>
           <View style={styles.label}>
             <Text contrast size="1">
               {t('gif')}
@@ -138,7 +143,7 @@ export function GalleryImage({ image, recyclingKey }: Props) {
               weight="fill"
             />
           </Pressable>
-        </View>
+        </Animated.View>
       ) : null}
     </View>
   )
@@ -146,7 +151,11 @@ export function GalleryImage({ image, recyclingKey }: Props) {
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   footer: (margin: number) => ({
+    alignItems: 'center',
     bottom: theme.space[2] + margin,
+    flexDirection: 'row',
+    gap: theme.space[4],
+    justifyContent: 'space-between',
     left: theme.space[2],
     position: 'absolute',
     right: theme.space[2],

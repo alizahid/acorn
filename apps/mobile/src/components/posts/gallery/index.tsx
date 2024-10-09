@@ -2,7 +2,8 @@ import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import * as StatusBar from 'expo-status-bar'
 import { useState } from 'react'
-import { FlatList, type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -107,15 +108,23 @@ export function PostGalleryCard({
       <FakeModal
         close
         footer={
-          <View align="center" direction="row" flexGrow={1} justify="between">
-            <View style={styles.current}>
-              <Text contrast size="1" tabular>
-                {t('item', {
-                  count: images.length,
-                  current: (viewing ? images.indexOf(viewing) : 0) + 1,
-                })}
-              </Text>
-            </View>
+          <View
+            align="center"
+            direction="row"
+            flexGrow={1}
+            gap="4"
+            justify="center"
+          >
+            {images.length > 1 ? (
+              <View style={styles.current}>
+                <Text contrast tabular>
+                  {t('item', {
+                    count: images.length,
+                    current: (viewing ? images.indexOf(viewing) : 0) + 1,
+                  })}
+                </Text>
+              </View>
+            ) : null}
 
             <HeaderButton
               color={
