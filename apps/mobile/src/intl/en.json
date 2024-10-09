@@ -46,8 +46,8 @@
     },
     "notifications": {
       "card": {
-        "comment_reply": "{user} replied to your post",
-        "post_reply": "{user} replied to your comment"
+        "comment_reply": "{user} replied to your comment",
+        "post_reply": "{user} replied to your post"
       }
     },
     "posts": {
