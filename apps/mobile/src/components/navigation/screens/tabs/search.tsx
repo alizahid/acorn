@@ -37,7 +37,22 @@ export function SearchScreen() {
       headerContainerStyle={styles.header}
       lazy
       onIndexChange={setTab}
-      renderTabBar={({ indexDecimal, onTabPress }) => (
+      renderHeader={({ indexDecimal, onTabPress }) => (
+        <View style={styles.tabs}>
+          <SegmentedControl
+            items={SearchTab.map((item) => t(`tabs.${item}`))}
+            offset={indexDecimal}
+            onChange={(index) => {
+              const next = SearchTab[index]
+
+              if (next) {
+                onTabPress(next)
+              }
+            }}
+          />
+        </View>
+      )}
+      renderTabBar={() => (
         <View style={styles.tabs}>
           <TextBox
             onChangeText={setQuery}
@@ -59,22 +74,11 @@ export function SearchScreen() {
             styleContent={styles.query}
             value={query}
           />
-
-          <SegmentedControl
-            items={SearchTab.map((item) => t(`tabs.${item}`))}
-            offset={indexDecimal}
-            onChange={(index) => {
-              const next = SearchTab[index]
-
-              if (next) {
-                onTabPress(next)
-              }
-            }}
-          />
         </View>
       )}
+      revealHeaderOnScroll
     >
-      <Tabs.Tab name="posts">
+      <Tabs.Tab name="post">
         <SearchList
           filters={filters}
           focused={focused ? tab === 0 : false}
@@ -85,7 +89,7 @@ export function SearchScreen() {
         />
       </Tabs.Tab>
 
-      <Tabs.Tab name="communities">
+      <Tabs.Tab name="community">
         <SearchList query={debounced} tabs type="community" />
       </Tabs.Tab>
     </Tabs.Container>
@@ -110,7 +114,6 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   tabs: {
     backgroundColor: theme.colors.gray[1],
-    gap: theme.space[4],
     paddingBottom: theme.space[4],
     paddingHorizontal: theme.space[3],
   },

@@ -51,7 +51,6 @@ export function CommunitiesScreen() {
           />
         </View>
       )}
-      revealHeaderOnScroll
     >
       <Tabs.Tab name="communities">
         <CommunitiesList {...props} communities={communities} tabs />
