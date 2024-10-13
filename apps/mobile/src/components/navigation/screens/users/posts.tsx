@@ -3,7 +3,6 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { TopIntervalMenu } from '~/components/posts/interval'
@@ -17,12 +16,12 @@ const schema = z.object({
   type: z.enum(UserFeedType).catch('submitted'),
 })
 
+export type UserPostsParams = z.infer<typeof schema>
+
 export function UserPostsScreen() {
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
-
-  const t = useTranslations('screen.profile.data')
 
   const { intervalUserPosts, sortUserPosts, update } = usePreferences()
 
@@ -54,7 +53,6 @@ export function UserPostsScreen() {
           ) : null}
         </>
       ),
-      title: t(params.type),
     })
   })
 

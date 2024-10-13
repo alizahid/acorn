@@ -1,9 +1,5 @@
 import { useIsFocused } from '@react-navigation/native'
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-} from 'expo-router'
+import { useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
@@ -22,20 +18,14 @@ const schema = z.object({
   name: z.string().catch('acornblue'),
 })
 
-export function CommunitiesSearchScreen() {
-  const navigation = useNavigation()
+export type CommunitiesSearchParams = z.infer<typeof schema>
 
+export function CommunitiesSearchScreen() {
   const params = schema.parse(useLocalSearchParams())
 
   const focused = useIsFocused()
 
   const t = useTranslations('screen.community.search')
-
-  useFocusEffect(() => {
-    navigation.setOptions({
-      title: params.name,
-    })
-  })
 
   const { styles } = useStyles(stylesheet)
 

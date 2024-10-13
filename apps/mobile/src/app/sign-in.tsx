@@ -1,14 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Linking from 'expo-linking'
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from 'expo-router'
+import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Controller, useForm } from 'react-hook-form'
-import { Platform } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -21,6 +15,7 @@ import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
+import { iPhone } from '~/lib/const'
 import { type AuthCodeForm, AuthCodeSchema } from '~/reddit/auth'
 import { REDIRECT_URI } from '~/reddit/config'
 import { useAuth } from '~/stores/auth'
@@ -29,19 +24,10 @@ const schema = z.object({
   mode: z.enum(['dismissible', 'fixed']).catch('fixed'),
 })
 
-const iPhone = Platform.OS === 'ios' && !Platform.isPad
+export type SignInParams = z.infer<typeof schema>
 
 export default function Screen() {
   const router = useRouter()
-  const navigation = useNavigation()
-
-  const params = schema.parse(useLocalSearchParams())
-
-  useFocusEffect(() => {
-    navigation.setOptions({
-      gestureEnabled: params.mode === 'dismissible',
-    })
-  })
 
   const t = useTranslations('screen.auth.signIn')
 

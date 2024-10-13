@@ -5,6 +5,9 @@ import { Header } from '~/components/navigation/header'
 import { useMarkAllAsRead } from '~/hooks/mutations/users/notifications'
 
 import { HeaderButton } from '../header-button'
+import { type CommunityParams } from '../screens/communities/community'
+import { type CommunitiesSearchParams } from '../screens/communities/search'
+import { type UserParams } from '../screens/users/user'
 
 export function NotificationsLayout() {
   const t = useTranslations('screen')
@@ -32,6 +35,27 @@ export function NotificationsLayout() {
           ),
           title: t('notifications.title'),
         }}
+      />
+
+      <Stack.Screen
+        name="communities/[name]/index"
+        options={(props) => ({
+          title: (props.route.params as CommunityParams).name,
+        })}
+      />
+
+      <Stack.Screen
+        name="communities/[name]/search"
+        options={(props) => ({
+          title: (props.route.params as CommunitiesSearchParams).name,
+        })}
+      />
+
+      <Stack.Screen
+        name="users/[name]/index"
+        options={(props) => ({
+          title: (props.route.params as UserParams).name,
+        })}
       />
 
       <Stack.Screen

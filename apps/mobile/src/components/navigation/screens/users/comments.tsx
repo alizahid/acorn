@@ -3,7 +3,6 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { CommentsSortMenu } from '~/components/comments/sort'
@@ -19,8 +18,6 @@ export default function UserCommentsScreen() {
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
-
-  const t = useTranslations('screen.profile.data')
 
   const { intervalUserComments, sortUserComments, update } = usePreferences()
 
@@ -51,7 +48,7 @@ export default function UserCommentsScreen() {
           ) : null}
         </>
       ),
-      title: t('comments'),
+      // title: t('comments'),
     })
   })
 

@@ -5,6 +5,11 @@ import { Header } from '~/components/navigation/header'
 import { AccountSwitchCard } from '~/components/users/switch'
 import { useAuth } from '~/stores/auth'
 
+import { type CommunityParams } from '../screens/communities/community'
+import { type CommunitiesSearchParams } from '../screens/communities/search'
+import { type UserPostsParams } from '../screens/users/posts'
+import { type UserParams } from '../screens/users/user'
+
 export function ProfileLayout() {
   const t = useTranslations('screen')
 
@@ -23,6 +28,43 @@ export function ProfileLayout() {
           headerRight: () => <AccountSwitchCard />,
           title: accountId,
         }}
+      />
+
+      <Stack.Screen
+        name="users/[name]/[type]"
+        options={(props) => ({
+          title: t(
+            `profile.data.${(props.route.params as UserPostsParams).type}`,
+          ),
+        })}
+      />
+
+      <Stack.Screen
+        name="users/[name]/comments"
+        options={{
+          title: t('profile.data.comments'),
+        }}
+      />
+
+      <Stack.Screen
+        name="communities/[name]/index"
+        options={(props) => ({
+          title: (props.route.params as CommunityParams).name,
+        })}
+      />
+
+      <Stack.Screen
+        name="communities/[name]/search"
+        options={(props) => ({
+          title: (props.route.params as CommunitiesSearchParams).name,
+        })}
+      />
+
+      <Stack.Screen
+        name="users/[name]/index"
+        options={(props) => ({
+          title: (props.route.params as UserParams).name,
+        })}
       />
 
       <Stack.Screen

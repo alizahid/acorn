@@ -1,8 +1,9 @@
 import { focusManager } from '@tanstack/react-query'
-import { Stack, useFocusEffect, useRouter } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { AppState } from 'react-native'
 
+import { type SignInParams } from '~/app/sign-in'
 import { useAuth } from '~/stores/auth'
 
 import { Header } from './header'
@@ -12,11 +13,11 @@ export function RootLayout() {
 
   const { accountId } = useAuth()
 
-  useFocusEffect(() => {
+  useEffect(() => {
     if (!accountId) {
       router.navigate('/sign-in')
     }
-  })
+  }, [accountId, router])
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (status) => {
@@ -44,11 +45,12 @@ export function RootLayout() {
 
       <Stack.Screen
         name="sign-in"
-        options={{
-          gestureEnabled: false,
+        options={(props) => ({
+          gestureEnabled:
+            (props.route.params as SignInParams).mode === 'dismissible',
           headerShown: false,
           presentation: 'modal',
-        }}
+        })}
       />
     </Stack>
   )

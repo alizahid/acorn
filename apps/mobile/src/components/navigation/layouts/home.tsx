@@ -7,6 +7,10 @@ import { FeedSortMenu } from '~/components/posts/sort'
 import { FeedTypeMenu } from '~/components/posts/type'
 import { usePreferences } from '~/stores/preferences'
 
+import { type CommunityParams } from '../screens/communities/community'
+import { type CommunitiesSearchParams } from '../screens/communities/search'
+import { type UserParams } from '../screens/users/user'
+
 export function HomeLayout() {
   const t = useTranslations('screen')
 
@@ -60,6 +64,27 @@ export function HomeLayout() {
             </>
           ),
         }}
+      />
+
+      <Stack.Screen
+        name="communities/[name]/index"
+        options={(props) => ({
+          title: (props.route.params as CommunityParams).name,
+        })}
+      />
+
+      <Stack.Screen
+        name="communities/[name]/search"
+        options={(props) => ({
+          title: (props.route.params as CommunitiesSearchParams).name,
+        })}
+      />
+
+      <Stack.Screen
+        name="users/[name]/index"
+        options={(props) => ({
+          title: (props.route.params as UserParams).name,
+        })}
       />
 
       <Stack.Screen

@@ -19,6 +19,8 @@ const schema = z.object({
   name: z.string().catch('acornblue'),
 })
 
+export type CommunityParams = z.infer<typeof schema>
+
 export function CommunityScreen() {
   const router = useRouter()
   const navigation = useNavigation()
@@ -63,7 +65,6 @@ export function CommunityScreen() {
             }}
           />
         ) : null,
-      title: params.name,
     })
   })
 

@@ -21,6 +21,8 @@ const schema = z.object({
   name: z.string().catch('mildpanda'),
 })
 
+export type UserParams = z.infer<typeof schema>
+
 export function UserScreen() {
   const navigation = useNavigation()
 
@@ -50,7 +52,6 @@ export function UserScreen() {
             }}
           />
         ) : undefined,
-      title: params.name,
     })
   })
 
