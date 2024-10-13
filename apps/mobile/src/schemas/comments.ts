@@ -5,7 +5,7 @@ import { PostMediaMetadataSchema } from './media'
 export const CommentDataSchema = z.object({
   author: z.string(),
   body: z.string(),
-  created: z.number(),
+  created_utc: z.number(),
   depth: z.number().nullish(),
   id: z.string(),
   is_submitter: z.boolean(),

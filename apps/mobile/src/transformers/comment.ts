@@ -29,7 +29,7 @@ export function transformComment(
   return {
     data: {
       body: decode(data.data.body.trim()),
-      createdAt: fromUnixTime(data.data.created),
+      createdAt: fromUnixTime(data.data.created_utc),
       depth: data.data.depth ?? 0,
       id: data.data.id,
       liked: data.data.likes,

@@ -11,7 +11,7 @@ export function transformPost(data: PostDataSchema): Post {
   return {
     body: decode(data.selftext.trim()) || undefined,
     comments: data.num_comments,
-    createdAt: fromUnixTime(data.created),
+    createdAt: fromUnixTime(data.created_utc),
     crossPost: crossPost ? transformPost(crossPost) : undefined,
     id: data.id,
     liked: data.likes,

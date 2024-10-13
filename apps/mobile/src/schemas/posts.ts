@@ -11,7 +11,7 @@ import {
 const PostBaseSchema = z.object({
   author: z.string(),
   author_fullname: z.string().catch('[deleted]'),
-  created: z.number(),
+  created_utc: z.number(),
   gallery_data: PostGalleryDataSchema,
   id: z.string(),
   is_gallery: z.boolean().nullish(),

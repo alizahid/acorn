@@ -9,7 +9,7 @@ export const NotificationsSchema = z.object({
           data: z.object({
             author: z.string(),
             context: z.string(),
-            created: z.number(),
+            created_utc: z.number(),
             id: z.string(),
             new: z.boolean(),
             subreddit: z.string(),

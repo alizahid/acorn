@@ -7,7 +7,7 @@ import { type Profile } from '~/types/user'
 
 export function transformProfile({ data }: ProfileSchema): Profile {
   return {
-    createdAt: fromUnixTime(data.created),
+    createdAt: fromUnixTime(data.created_utc),
     id: data.id,
     image: decode(data.icon_img) || undefined,
     karma: {

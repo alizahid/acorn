@@ -8,7 +8,7 @@ export function transformCommunity(data: CommunityDataSchema): Community {
   const user = data.display_name.startsWith('u_')
 
   return {
-    createdAt: fromUnixTime(data.created),
+    createdAt: fromUnixTime(data.created_utc),
     id: data.id,
     image: data.icon_img
       ? decode(data.icon_img) || undefined

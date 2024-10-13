@@ -13,7 +13,7 @@ export function transformNotification(
   return {
     author: data.data.author,
     context: data.data.context,
-    createdAt: fromUnixTime(data.data.created),
+    createdAt: fromUnixTime(data.data.created_utc),
     id: data.data.id,
     new: data.data.new,
     subreddit: data.data.subreddit,
