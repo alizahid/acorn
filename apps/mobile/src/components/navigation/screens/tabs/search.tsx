@@ -35,25 +35,10 @@ export function SearchScreen() {
   return (
     <Tabs.Container
       headerContainerStyle={styles.header}
-      headerHeight={52}
+      headerHeight={56}
       lazy
       onIndexChange={setTab}
-      renderHeader={({ indexDecimal, onTabPress }) => (
-        <View style={styles.tabs}>
-          <SegmentedControl
-            items={SearchTab.map((item) => t(`tabs.${item}`))}
-            offset={indexDecimal}
-            onChange={(index) => {
-              const next = SearchTab[index]
-
-              if (next) {
-                onTabPress(next)
-              }
-            }}
-          />
-        </View>
-      )}
-      renderTabBar={() => (
+      renderHeader={() => (
         <View style={styles.tabs}>
           <TextBox
             onChangeText={setQuery}
@@ -77,8 +62,23 @@ export function SearchScreen() {
           />
         </View>
       )}
+      renderTabBar={({ indexDecimal, onTabPress }) => (
+        <View style={styles.tabs}>
+          <SegmentedControl
+            items={SearchTab.map((item) => t(`tabs.${item}`))}
+            offset={indexDecimal}
+            onChange={(index) => {
+              const next = SearchTab[index]
+
+              if (next) {
+                onTabPress(next)
+              }
+            }}
+          />
+        </View>
+      )}
       revealHeaderOnScroll
-      tabBarHeight={56}
+      tabBarHeight={52}
     >
       <Tabs.Tab name="post">
         <SearchList
