@@ -71,6 +71,8 @@ export function PostReplyScreen() {
 
         <TextInput
           allowFontScaling={false}
+          // eslint-disable-next-line jsx-a11y/no-autofocus -- go away
+          autoFocus
           multiline
           onChangeText={setText}
           placeholder={t('placeholder')}
