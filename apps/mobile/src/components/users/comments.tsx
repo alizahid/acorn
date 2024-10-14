@@ -62,7 +62,6 @@ export function UserCommentsList({
           void fetchNextPage()
         }
       }}
-      onEndReachedThreshold={1}
       refreshControl={
         <RefreshControl
           onRefresh={() => {

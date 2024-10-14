@@ -74,7 +74,6 @@ export function CommunitiesList({
           fetchNextPage()
         }
       }}
-      onEndReachedThreshold={1}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ index, item, target }) => {

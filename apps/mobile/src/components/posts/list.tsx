@@ -75,7 +75,6 @@ export function PostList({
           void fetchNextPage()
         }
       }}
-      onEndReachedThreshold={1}
       onViewableItemsChanged={({ viewableItems }) => {
         setViewing(() => viewableItems.map((item) => item.key))
       }}

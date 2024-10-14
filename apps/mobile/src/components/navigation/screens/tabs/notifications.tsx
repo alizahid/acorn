@@ -41,7 +41,6 @@ export function NotificationsScreen() {
           void fetchNextPage()
         }
       }}
-      onEndReachedThreshold={1}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => <NotificationCard notification={item} />}
