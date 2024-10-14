@@ -29,6 +29,7 @@ export function Text({
   if (onPress ?? slow) {
     return (
       <ReactNativeText
+        allowFontScaling={false}
         ellipsizeMode={lines ? 'tail' : undefined}
         numberOfLines={lines}
         onPress={onPress}
@@ -41,7 +42,7 @@ export function Text({
 
   // eslint-disable-next-line react/no-children-prop -- go away
   return createElement('RCTText', {
-    allowFontScaling: true,
+    allowFontScaling: false,
     children,
     ellipsizeMode: lines ? 'tail' : undefined,
     numberOfLines: lines,
