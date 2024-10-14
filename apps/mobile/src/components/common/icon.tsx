@@ -22,6 +22,7 @@ import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
+import EmptyBold from 'react-native-phosphor/src/bold/Empty'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
@@ -74,6 +75,7 @@ import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
+import EmptyDuotone from 'react-native-phosphor/src/duotone/Empty'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
@@ -126,6 +128,7 @@ import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
+import EmptyFill from 'react-native-phosphor/src/fill/Empty'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
@@ -178,6 +181,7 @@ import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
+import EmptyRegular from 'react-native-phosphor/src/regular/Empty'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
@@ -365,6 +369,12 @@ const icons = {
     duotone: DownloadDuotone,
     fill: DownloadFill,
     regular: DownloadRegular,
+  },
+  Empty: {
+    bold: EmptyBold,
+    duotone: EmptyDuotone,
+    fill: EmptyFill,
+    regular: EmptyRegular,
   },
   EyeClosed: {
     bold: EyeClosedBold,

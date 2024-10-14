@@ -6,6 +6,9 @@
       }
     },
     "common": {
+      "empty": {
+        "message": "Nothing here"
+      },
       "interval": {
         "all": "All time",
         "day": "Today",
