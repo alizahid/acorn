@@ -1,6 +1,6 @@
-import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
+import { dateFromUnix } from '~/lib/intl'
 import { getImages, getMeta, getVideo } from '~/lib/media'
 import { type PostDataSchema } from '~/schemas/posts'
 import { type Post, type PostType } from '~/types/post'
@@ -11,7 +11,7 @@ export function transformPost(data: PostDataSchema): Post {
   return {
     body: decode(data.selftext.trim()) || undefined,
     comments: data.num_comments,
-    createdAt: fromUnixTime(data.created_utc),
+    createdAt: dateFromUnix(data.created_utc),
     crossPost: crossPost ? transformPost(crossPost) : undefined,
     id: data.id,
     liked: data.likes,

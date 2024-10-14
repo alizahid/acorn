@@ -1,13 +1,13 @@
-import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
+import { dateFromUnix } from '~/lib/intl'
 import { removePrefix } from '~/lib/reddit'
 import { type ProfileSchema } from '~/schemas/profile'
 import { type Profile } from '~/types/user'
 
 export function transformProfile({ data }: ProfileSchema): Profile {
   return {
-    createdAt: fromUnixTime(data.created_utc),
+    createdAt: dateFromUnix(data.created_utc),
     id: data.id,
     image: decode(data.icon_img) || undefined,
     karma: {

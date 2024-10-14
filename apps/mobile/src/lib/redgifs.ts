@@ -1,9 +1,11 @@
-import { addHours, fromUnixTime } from 'date-fns'
+import { addHours } from 'date-fns'
 import * as SecureStore from 'expo-secure-store'
 import { type VideoSource } from 'expo-video'
 import { z } from 'zod'
 
 import { USER_AGENT } from '~/reddit/config'
+
+import { dateFromUnix } from './intl'
 
 const GifSchema = z.object({
   gif: z.object({
@@ -42,7 +44,7 @@ export async function getGif(id: string): Promise<Gif> {
   const expires = Number(uri.searchParams.get('expires')) || 0
 
   return {
-    expiresAt: fromUnixTime(expires - 60),
+    expiresAt: dateFromUnix(expires - 60),
     source: {
       headers: {
         authorization: `Bearer ${token}`,

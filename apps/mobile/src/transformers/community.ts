@@ -1,6 +1,6 @@
-import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
+import { dateFromUnix } from '~/lib/intl'
 import { type CommunityDataSchema } from '~/schemas/communities'
 import { type Community } from '~/types/community'
 
@@ -8,7 +8,7 @@ export function transformCommunity(data: CommunityDataSchema): Community {
   const user = data.display_name.startsWith('u_')
 
   return {
-    createdAt: fromUnixTime(data.created_utc),
+    createdAt: dateFromUnix(data.created_utc),
     id: data.id,
     image: data.icon_img
       ? decode(data.icon_img) || undefined

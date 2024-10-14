@@ -1,6 +1,6 @@
-import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
+import { dateFromUnix } from '~/lib/intl'
 import { type UserSchema } from '~/schemas/users'
 import { type SearchUser } from '~/types/user'
 
@@ -10,7 +10,7 @@ export function transformSearchUser(data: UserSchema): SearchUser | null {
   }
 
   return {
-    createdAt: fromUnixTime(data.created_utc),
+    createdAt: dateFromUnix(data.created_utc),
     id: data.id,
     image: data.icon_img ? decode(data.icon_img) || undefined : undefined,
     name: data.name,

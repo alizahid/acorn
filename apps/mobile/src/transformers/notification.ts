@@ -1,5 +1,4 @@
-import { fromUnixTime } from 'date-fns'
-
+import { dateFromUnix } from '~/lib/intl'
 import { type NotificationsSchema } from '~/schemas/notifications'
 import { type Notification } from '~/types/notification'
 
@@ -13,7 +12,7 @@ export function transformNotification(
   return {
     author: data.data.author,
     context: data.data.context,
-    createdAt: fromUnixTime(data.data.created_utc),
+    createdAt: dateFromUnix(data.data.created_utc),
     id: data.data.id,
     new: data.data.new,
     subreddit: data.data.subreddit,
