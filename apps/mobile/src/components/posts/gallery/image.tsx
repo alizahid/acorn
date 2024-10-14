@@ -151,7 +151,7 @@ export function GalleryImage({ image, recyclingKey }: Props) {
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   footer: (margin: number) => ({
-    alignItems: 'center',
+    alignItems: 'flex-end',
     bottom: theme.space[2] + margin,
     flexDirection: 'row',
     gap: theme.space[4],

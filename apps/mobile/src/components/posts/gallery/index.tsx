@@ -117,7 +117,7 @@ export function PostGalleryCard({
           >
             {images.length > 1 ? (
               <View style={styles.current}>
-                <Text contrast tabular>
+                <Text contrast size="2" tabular>
                   {t('item', {
                     count: images.length,
                     current: (viewing ? images.indexOf(viewing) : 0) + 1,

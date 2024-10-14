@@ -1,6 +1,6 @@
 import { BlurView } from 'expo-blur'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -9,7 +9,6 @@ import { Text } from '~/components/common/text'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
-import { FakeModal } from '../../common/fake-modal'
 import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
 
@@ -35,6 +34,8 @@ export function VideoPlayer({
   const preferences = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
+
+  const ref = useRef<VideoView>(null)
 
   const [visible, setVisible] = useState(false)
 
@@ -65,74 +66,61 @@ export function VideoPlayer({
   ])
 
   return (
-    <>
-      <Pressable
-        onPress={() => {
+    <Pressable
+      onPress={() => {
+        ref.current?.enterFullscreen()
+      }}
+      style={[styles.main(crossPost), style]}
+    >
+      <VideoView
+        allowsFullscreen={false}
+        allowsPictureInPicture={false}
+        allowsVideoFrameAnalysis={false}
+        contentFit="cover"
+        nativeControls={visible}
+        onFullscreenEnter={() => {
           setVisible(true)
         }}
-        style={[styles.main(crossPost), style]}
-      >
-        <VideoView
-          allowsFullscreen={false}
-          allowsPictureInPicture={false}
-          allowsVideoFrameAnalysis={false}
-          contentFit="cover"
-          nativeControls={false}
-          player={player}
-          style={styles.video(video.width / video.height)}
-        />
-
-        {nsfw && preferences.blurNsfw ? (
-          <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
-            <Icon
-              color={theme.colors.gray.a12}
-              name="Warning"
-              size={theme.space[6]}
-              weight="fill"
-            />
-
-            <Text weight="medium">{t('nsfw')}</Text>
-          </BlurView>
-        ) : (
-          <Pressable
-            hitSlop={theme.space[3]}
-            onPress={() => {
-              preferences.update({
-                feedMuted: !preferences.feedMuted,
-              })
-            }}
-            p="2"
-            style={styles.volume}
-          >
-            <Icon
-              color={theme.colors.white.a11}
-              name={
-                preferences.feedMuted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'
-              }
-              size={theme.space[4]}
-            />
-          </Pressable>
-        )}
-      </Pressable>
-
-      <FakeModal
-        onClose={() => {
+        onFullscreenExit={() => {
           setVisible(false)
         }}
-        style={styles.modal}
-        visible={visible}
-      >
-        <VideoView
-          allowsFullscreen={false}
-          allowsPictureInPicture={false}
-          allowsVideoFrameAnalysis={false}
-          contentFit="contain"
-          nativeControls
-          player={player}
-          style={styles.full(video.width / video.height)}
-        />
-      </FakeModal>
-    </>
+        player={player}
+        ref={ref}
+        style={styles.video(video.width / video.height)}
+      />
+
+      {nsfw && preferences.blurNsfw ? (
+        <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
+          <Icon
+            color={theme.colors.gray.a12}
+            name="Warning"
+            size={theme.space[6]}
+            weight="fill"
+          />
+
+          <Text weight="medium">{t('nsfw')}</Text>
+        </BlurView>
+      ) : (
+        <Pressable
+          hitSlop={theme.space[3]}
+          onPress={() => {
+            preferences.update({
+              feedMuted: !preferences.feedMuted,
+            })
+          }}
+          p="2"
+          style={styles.volume}
+        >
+          <Icon
+            color={theme.colors.white.a11}
+            name={
+              preferences.feedMuted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'
+            }
+            size={theme.space[4]}
+          />
+        </Pressable>
+      )}
+    </Pressable>
   )
 }
 
@@ -147,20 +135,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     right: 0,
     top: 0,
   },
-  full: (aspectRatio: number) => ({
-    alignSelf: 'center',
-    aspectRatio,
-    maxHeight: runtime.screen.height,
-    width: runtime.screen.width,
-  }),
   main: (crossPost?: boolean) => ({
     justifyContent: 'center',
     maxHeight: runtime.screen.height * (crossPost ? 0.3 : 0.5),
     overflow: 'hidden',
   }),
-  modal: {
-    justifyContent: 'center',
-  },
   video: (aspectRatio: number) => ({
     aspectRatio,
   }),
