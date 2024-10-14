@@ -47,7 +47,6 @@ export function CommunityScreen() {
               pathname: '/communities/[name]/search',
             })
           }}
-          weight="bold"
         />
       ),
       headerRight: () =>
