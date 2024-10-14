@@ -87,7 +87,6 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
         {left}
 
         <TextInput
-          allowFontScaling={false}
           autoCapitalize={autoCapitalize}
           autoComplete={autoComplete}
           autoCorrect={autoCorrect}
