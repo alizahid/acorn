@@ -62,6 +62,7 @@ export function CommunitiesSearchScreen() {
 
       <SearchList
         community={params.name}
+        filters={filters}
         focused={focused}
         header={<SearchPostFilters filters={filters} onChange={setFilters} />}
         query={debounced}
