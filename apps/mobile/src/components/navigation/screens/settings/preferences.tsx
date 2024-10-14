@@ -7,56 +7,49 @@ import { usePreferences } from '~/stores/preferences'
 export function SettingsPreferencesScreen() {
   const t = useTranslations('screen.settings.preferences')
 
-  const { blurNsfw, feedMuted, linkBrowser, update } = usePreferences()
+  const { update, ...preferences } = usePreferences()
 
   const { theme } = useStyles()
 
   return (
     <SettingsMenu
-      items={[
-        {
-          icon: {
+      items={(
+        [
+          {
             color: theme.colors.plum.a9,
-            name: 'SpeakerSimpleX',
+            icon: 'SpeakerSimpleX',
+            key: 'feedMuted',
           },
-          label: t('menu.muted'),
-          onSelect(value) {
-            update({
-              feedMuted: value,
-            })
-          },
-          type: 'switch',
-          value: feedMuted,
-        },
-        {
-          icon: {
+          {
             color: theme.colors.red.a9,
-            name: 'EyeClosed',
+            icon: 'EyeClosed',
+            key: 'blurNsfw',
           },
-          label: t('menu.nsfw'),
-          onSelect(value) {
-            update({
-              blurNsfw: value,
-            })
-          },
-          type: 'switch',
-          value: blurNsfw,
-        },
-        {
-          icon: {
+          {
             color: theme.colors.indigo.a9,
-            name: 'Browser',
+            icon: 'Browser',
+            key: 'linkBrowser',
           },
-          label: t('menu.browser'),
-          onSelect(value) {
-            update({
-              linkBrowser: value,
-            })
+          {
+            color: theme.colors.jade.a9,
+            icon: 'TextAa',
+            key: 'fontScaling',
           },
-          type: 'switch',
-          value: linkBrowser,
+        ] as const
+      ).map((item) => ({
+        icon: {
+          color: item.color,
+          name: item.icon,
         },
-      ]}
+        label: t(`menu.${item.key}`),
+        onSelect(value) {
+          update({
+            [item.key]: value,
+          })
+        },
+        type: 'switch',
+        value: preferences[item.key],
+      }))}
     />
   )
 }

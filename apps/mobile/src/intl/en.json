@@ -180,9 +180,10 @@
       },
       "preferences": {
         "menu": {
-          "browser": "Open links in browser",
-          "muted": "Mute feed",
-          "nsfw": "Blur nsfw"
+          "blurNsfw": "Blur nsfw media",
+          "feedMuted": "Mute feed while scrolling",
+          "fontScaling": "Use system font scaling",
+          "linkBrowser": "Open links in browser"
         },
         "title": "Preferences"
       },

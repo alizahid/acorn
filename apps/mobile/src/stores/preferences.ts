@@ -17,6 +17,7 @@ export type PreferencesPayload = {
   blurNsfw: boolean
   feedMuted: boolean
   feedType: FeedType
+  fontScaling: boolean
   intervalCommunityPosts: TopInterval
   intervalFeedPosts: TopInterval
   intervalUserComments: TopInterval
@@ -39,6 +40,7 @@ export const usePreferences = create<State>()(
       blurNsfw: true,
       feedMuted: true,
       feedType: 'home',
+      fontScaling: false,
       intervalCommunityPosts: 'hour',
       intervalFeedPosts: 'hour',
       intervalUserComments: 'all',

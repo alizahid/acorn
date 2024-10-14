@@ -6,6 +6,7 @@ import {
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { usePreferences } from '~/stores/preferences'
 import { getTextStyles, type TextStyleProps } from '~/styles/text'
 
 type Props = TextStyleProps & {
@@ -24,12 +25,14 @@ export function Text({
   style,
   ...props
 }: Props) {
+  const { fontScaling } = usePreferences()
+
   const { styles } = useStyles(stylesheet)
 
   if (onPress ?? slow) {
     return (
       <ReactNativeText
-        allowFontScaling={false}
+        allowFontScaling={fontScaling}
         ellipsizeMode={lines ? 'tail' : undefined}
         numberOfLines={lines}
         onPress={onPress}
@@ -42,7 +45,7 @@ export function Text({
 
   // eslint-disable-next-line react/no-children-prop -- go away
   return createElement('RCTText', {
-    allowFontScaling: false,
+    allowFontScaling: fontScaling,
     children,
     ellipsizeMode: lines ? 'tail' : undefined,
     numberOfLines: lines,

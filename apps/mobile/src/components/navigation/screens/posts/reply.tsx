@@ -18,6 +18,7 @@ import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
+import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
   commentId: z.string().optional(),
@@ -33,6 +34,8 @@ export function PostReplyScreen() {
   const params = schema.parse(useLocalSearchParams())
 
   const t = useTranslations('screen.posts.reply')
+
+  const { fontScaling } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -70,7 +73,7 @@ export function PostReplyScreen() {
         ) : null}
 
         <TextInput
-          allowFontScaling={false}
+          allowFontScaling={fontScaling}
           // eslint-disable-next-line jsx-a11y/no-autofocus -- go away
           autoFocus
           multiline

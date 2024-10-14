@@ -8,6 +8,8 @@ import {
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { usePreferences } from '~/stores/preferences'
+
 import { Text } from './text'
 import { View } from './view'
 
@@ -67,6 +69,8 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
   },
   ref,
 ) {
+  const { fontScaling } = usePreferences()
+
   const { styles, theme } = useStyles(stylesheet)
 
   const [focused, setFocused] = useState(false)
@@ -87,7 +91,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
         {left}
 
         <TextInput
-          allowFontScaling={false}
+          allowFontScaling={fontScaling}
           autoCapitalize={autoCapitalize}
           autoComplete={autoComplete}
           autoCorrect={autoCorrect}
