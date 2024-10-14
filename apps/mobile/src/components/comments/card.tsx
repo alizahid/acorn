@@ -4,7 +4,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { getDepthColor } from '~/lib/colors'
-import { cardMaxWidth, iPad } from '~/lib/const'
+import { cardMaxWidth, iPad } from '~/lib/common'
 import { withoutAgo } from '~/lib/intl'
 import { removePrefix } from '~/lib/reddit'
 import { type CommentReply } from '~/types/comment'

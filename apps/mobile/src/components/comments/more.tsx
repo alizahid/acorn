@@ -4,7 +4,7 @@ import { useTranslations } from 'use-intl'
 
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { getDepthColor } from '~/lib/colors'
-import { cardMaxWidth, iPad } from '~/lib/const'
+import { cardMaxWidth, iPad } from '~/lib/common'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
 

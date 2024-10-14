@@ -1,7 +1,7 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { cardMaxWidth, iPad } from '~/lib/const'
+import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 
 import { CommentsSortMenu } from '../comments/sort'

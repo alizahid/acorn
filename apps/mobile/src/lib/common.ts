@@ -1,8 +1,12 @@
-import { Dimensions } from 'react-native'
-
-import { iPad } from './const'
+import { Dimensions, Platform } from 'react-native'
 
 const height = Dimensions.get('window').height
+
+export const cardMaxWidth = 600
+
+export const iPhone = Platform.OS === 'ios' && !Platform.isPad
+
+export const iPad = Platform.OS === 'ios' && Platform.isPad
 
 export const listProps = {
   drawDistance: height * (iPad ? 3 : 2),
