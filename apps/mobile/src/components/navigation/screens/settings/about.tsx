@@ -40,7 +40,7 @@ export function SettingsAboutScreen() {
   ] as const
 
   return (
-    <View align="center" flexGrow={1} gap="6" justify="center" p="6">
+    <View align="center" flexGrow={1} gap="6" justify="center" p="4">
       <View align="center">
         <Logo />
 
@@ -48,7 +48,7 @@ export function SettingsAboutScreen() {
           {t('header.title')}
         </Text>
 
-        <Text highContrast={false} mt="2" size="2" weight="medium">
+        <Text highContrast={false} mt="2" size="4" weight="medium">
           {t('header.description')}
         </Text>
       </View>
@@ -59,6 +59,7 @@ export function SettingsAboutScreen() {
             direction="row"
             gap="2"
             hitSlop={theme.space[4]}
+            justify="center"
             key={link.key}
             onPress={() => {
               void handleLink(link.href)
@@ -80,12 +81,12 @@ export function SettingsAboutScreen() {
         ))}
       </View>
 
-      <Text highContrast={false} variant="mono">
+      <Text highContrast={false} variant="mono" weight="medium">
         {Updates.runtimeVersion}
       </Text>
 
       {Updates.updateId ? (
-        <Text highContrast={false} variant="mono">
+        <Text highContrast={false} size="1" variant="mono">
           {Updates.updateId}
         </Text>
       ) : null}
