@@ -1,4 +1,8 @@
-import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import {
+  type InfiniteData,
+  useInfiniteQuery,
+  useIsRestoring,
+} from '@tanstack/react-query'
 import { compact } from 'lodash'
 import { create } from 'mutative'
 
@@ -28,6 +32,8 @@ export type NotificationsQueryData = InfiniteData<Page, Param>
 
 export function useNotifications() {
   const { accountId } = useAuth()
+
+  const isRestoring = useIsRestoring()
 
   const {
     data,
@@ -89,7 +95,7 @@ export function useNotifications() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading,
+    isLoading: isRestoring || isLoading,
     notifications,
     refetch,
     unread,

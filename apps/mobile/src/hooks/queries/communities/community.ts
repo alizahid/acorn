@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query'
+import { useIsRestoring, useQuery } from '@tanstack/react-query'
 
 import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
@@ -21,6 +21,8 @@ export type CommunityQueryData = Community
 
 export function useCommunity(name: string) {
   const { accountId } = useAuth()
+
+  const isRestoring = useIsRestoring()
 
   const { data, isLoading, refetch } = useQuery<
     CommunityQueryData | undefined,
@@ -56,7 +58,7 @@ export function useCommunity(name: string) {
 
   return {
     community: data,
-    isLoading,
+    isLoading: isRestoring || isLoading,
     refetch,
   }
 }

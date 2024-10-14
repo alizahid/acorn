@@ -1,4 +1,8 @@
-import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import {
+  type InfiniteData,
+  useInfiniteQuery,
+  useIsRestoring,
+} from '@tanstack/react-query'
 import { sortBy, uniq } from 'lodash'
 import { useMemo } from 'react'
 
@@ -28,11 +32,12 @@ export type CommunitiesQueryData = InfiniteData<Page, Param>
 export function useCommunities() {
   const { accountId } = useAuth()
 
+  const isRestoring = useIsRestoring()
+
   const {
     data,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     isLoading,
     refetch,
@@ -101,9 +106,8 @@ export function useCommunities() {
     communities,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
-    isLoading,
+    isLoading: isRestoring || isLoading,
     refetch,
     users,
   }

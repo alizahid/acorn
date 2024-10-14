@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useIsRestoring, useMutation, useQuery } from '@tanstack/react-query'
 import { create } from 'mutative'
 import { useMemo } from 'react'
 
@@ -43,6 +43,8 @@ type Props = {
 
 export function usePost({ commentId, id, sort }: Props) {
   const { accountId } = useAuth()
+
+  const isRestoring = useIsRestoring()
 
   const query = useQuery<
     PostQueryData | undefined,
@@ -161,7 +163,7 @@ export function usePost({ commentId, id, sort }: Props) {
     collapse: collapse.mutate,
     collapsed: collapsed.data,
     comments,
-    isFetching: query.isFetching,
+    isFetching: isRestoring || query.isFetching,
     post: query.data?.post,
     refetch: query.refetch,
   }

@@ -1,4 +1,8 @@
-import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import {
+  type InfiniteData,
+  useInfiniteQuery,
+  useIsRestoring,
+} from '@tanstack/react-query'
 import { compact } from 'lodash'
 import { create } from 'mutative'
 
@@ -57,6 +61,8 @@ export function useUserPosts({
   username,
 }: UserPostsProps) {
   const { accountId } = useAuth()
+
+  const isRestoring = useIsRestoring()
 
   const {
     data,
@@ -139,7 +145,7 @@ export function useUserPosts({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading,
+    isLoading: isRestoring || isLoading,
     posts: data?.pages.flatMap((page) => page.posts) ?? [],
     refetch,
   }

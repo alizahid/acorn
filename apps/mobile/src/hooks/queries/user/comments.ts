@@ -1,4 +1,8 @@
-import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import {
+  type InfiniteData,
+  useInfiniteQuery,
+  useIsRestoring,
+} from '@tanstack/react-query'
 import { create } from 'mutative'
 
 import { queryClient } from '~/lib/query'
@@ -41,6 +45,8 @@ export function useUserComments({
   username,
 }: UserCommentsProps) {
   const { accountId } = useAuth()
+
+  const isRestoring = useIsRestoring()
 
   const {
     data,
@@ -103,7 +109,7 @@ export function useUserComments({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading,
+    isLoading: isRestoring || isLoading,
     refetch,
   }
 }
