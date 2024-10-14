@@ -148,7 +148,8 @@
     "search": {
       "tabs": {
         "community": "Communities",
-        "post": "Posts"
+        "post": "Posts",
+        "user": "Users"
       },
       "title": "Search"
     },

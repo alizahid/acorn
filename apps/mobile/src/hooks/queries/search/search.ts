@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { compact } from 'lodash'
 import { create } from 'mutative'
 
 import { queryClient } from '~/lib/query'
@@ -6,13 +7,16 @@ import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { CommunitiesSchema } from '~/schemas/communities'
 import { PostsSchema } from '~/schemas/posts'
+import { UsersSchema } from '~/schemas/users'
 import { useAuth } from '~/stores/auth'
 import { transformCommunity } from '~/transformers/community'
 import { transformPost } from '~/transformers/post'
+import { transformSearchUser } from '~/transformers/user'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
 import { type SearchTab } from '~/types/search'
 import { type SearchSort, type TopInterval } from '~/types/sort'
+import { type SearchUser } from '~/types/user'
 
 import { type PostQueryData } from '../posts/post'
 
@@ -28,7 +32,7 @@ export type SearchQueryKey = [
 ]
 
 export type SearchQueryData<Type extends SearchTab> = Array<
-  Type extends 'community' ? Community : Post
+  Type extends 'community' ? Community : Type extends 'user' ? SearchUser : Post
 >
 
 export type SearchProps<Type extends SearchTab> = {
@@ -61,7 +65,10 @@ export function useSearch<Type extends SearchTab>({
       const url = new URL(path, REDDIT_URI)
 
       url.searchParams.set('q', query)
-      url.searchParams.set('type', type === 'community' ? 'sr' : 'link')
+      url.searchParams.set(
+        'type',
+        type === 'community' ? 'sr' : type === 'user' ? 'user' : 'link',
+      )
 
       if (community) {
         url.searchParams.set('restrict_sr', 'true')
@@ -87,6 +94,14 @@ export function useSearch<Type extends SearchTab>({
         return response.data.children
           .filter((item) => item.data.subreddit_type === 'public')
           .map((item) => transformCommunity(item.data)) as SearchQueryData<Type>
+      }
+
+      if (type === 'user') {
+        const response = UsersSchema.parse(payload)
+
+        return compact(
+          response.data.children.map((item) => transformSearchUser(item.data)),
+        ) as SearchQueryData<Type>
       }
 
       if (type === 'post') {

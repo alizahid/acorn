@@ -14,8 +14,10 @@ import { listProps } from '~/lib/common'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
 import { type SearchTab } from '~/types/search'
+import { type SearchUser } from '~/types/user'
 
 import { View } from '../common/view'
+import { SearchUserCard } from '../users/search'
 import { type SearchFilters } from './filters'
 
 type Props = {
@@ -37,7 +39,7 @@ export function SearchList({
   tabs,
   type,
 }: Props) {
-  const list = useRef<FlashList<Community | Post>>(null)
+  const list = useRef<FlashList<Community | SearchUser | Post>>(null)
 
   useScrollToTop(
     useRef({
@@ -87,6 +89,10 @@ export function SearchList({
       renderItem={({ item }) => {
         if (type === 'community') {
           return <CommunityCard community={item as Community} />
+        }
+
+        if (type === 'user') {
+          return <SearchUserCard user={item as SearchUser} />
         }
 
         return (

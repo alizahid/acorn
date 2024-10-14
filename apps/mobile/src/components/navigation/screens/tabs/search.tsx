@@ -94,6 +94,10 @@ export function SearchScreen() {
       <Tabs.Tab name="community">
         <SearchList query={debounced} tabs type="community" />
       </Tabs.Tab>
+
+      <Tabs.Tab name="user">
+        <SearchList query={debounced} tabs type="user" />
+      </Tabs.Tab>
     </Tabs.Container>
   )
 }

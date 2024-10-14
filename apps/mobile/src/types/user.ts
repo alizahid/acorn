@@ -13,6 +13,13 @@ export type Profile = {
   subscribed: boolean
 }
 
+export type SearchUser = {
+  createdAt: Date
+  id: string
+  image?: string
+  name: string
+}
+
 export const UserFeedType = [
   'submitted',
   'comments',
