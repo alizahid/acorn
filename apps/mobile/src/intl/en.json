@@ -138,14 +138,16 @@
         "comments": "Comments",
         "downvoted": "Downvoted",
         "hidden": "Hidden",
-        "label": "Your data",
         "saved": "Saved",
         "submitted": "Posts",
         "upvoted": "Upvoted"
       },
       "settings": {
-        "label": "App settings",
-        "settings": "Settings"
+        "about": "About",
+        "cache": "Cache",
+        "label": "Settings",
+        "preferences": "Preferences",
+        "sort": "Sort"
       }
     },
     "search": {
@@ -157,21 +159,35 @@
       "title": "Search"
     },
     "settings": {
-      "footer": {
-        "version": "v{version}"
-      },
-      "menu": {
-        "cache": {
-          "query": "Clear data",
-          "title": "Cache"
+      "about": {
+        "header": {
+          "description": "Reddit for mobile",
+          "title": "Acorn"
         },
-        "general": {
+        "links": {
+          "discord": "Discord",
+          "github": "GitHub",
+          "reddit": "Reddit",
+          "web": "Website"
+        },
+        "title": "About"
+      },
+      "cache": {
+        "menu": {
+          "query": "Clear data"
+        },
+        "title": "Cache"
+      },
+      "preferences": {
+        "menu": {
           "browser": "Open links in browser",
           "muted": "Mute feed",
-          "nsfw": "Blur nsfw",
-          "title": "General"
+          "nsfw": "Blur nsfw"
         },
-        "sort": {
+        "title": "Preferences"
+      },
+      "sort": {
+        "menu": {
           "community": "Community sort",
           "feed": "Feed sort",
           "intervalCommunityPosts": "Community posts interval",
@@ -185,9 +201,9 @@
           "sortUserComments": "User comments sort",
           "sortUserPosts": "User posts sort",
           "user": "User sort"
-        }
-      },
-      "title": "Settings"
+        },
+        "title": "Sort"
+      }
     },
     "users": {
       "user": {

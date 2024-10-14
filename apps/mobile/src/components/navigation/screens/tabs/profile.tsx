@@ -25,7 +25,6 @@ export function ProfileScreen() {
     <SettingsMenu
       header={<ProfileCard profile={profile} />}
       items={[
-        t('data.label'),
         ...UserFeedType.map((type) => ({
           arrow: true,
           icon: {
@@ -55,10 +54,49 @@ export function ProfileScreen() {
             name: 'GearSix',
             weight: 'duotone',
           },
-          label: t('settings.settings'),
+          label: t('settings.preferences'),
           onPress() {
             router.navigate({
-              pathname: '/settings',
+              pathname: '/settings/preferences',
+            })
+          },
+        },
+        {
+          arrow: true,
+          icon: {
+            name: 'SortAscending',
+            weight: 'duotone',
+          },
+          label: t('settings.sort'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings/sort',
+            })
+          },
+        },
+        {
+          arrow: true,
+          icon: {
+            name: 'HardDrives',
+            weight: 'duotone',
+          },
+          label: t('settings.cache'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings/cache',
+            })
+          },
+        },
+        {
+          arrow: true,
+          icon: {
+            name: 'Info',
+            weight: 'duotone',
+          },
+          label: t('settings.about'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings/about',
             })
           },
         },

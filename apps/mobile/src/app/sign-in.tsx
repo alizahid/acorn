@@ -69,9 +69,9 @@ export default function Screen() {
       {iPhone ? <StatusBar style="light" /> : null}
 
       <View align="center">
-        <Logo style={styles.logo} />
+        <Logo />
 
-        <Text size="8" weight="bold">
+        <Text mt="4" size="8" weight="bold">
           {t('title')}
         </Text>
 
@@ -144,9 +144,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     justifyContent: 'center',
     paddingHorizontal: theme.space[4],
     paddingVertical: theme.space[4] + runtime.insets.bottom,
-  },
-  logo: {
-    marginBottom: theme.space[4],
   },
   main: {
     flex: 1,

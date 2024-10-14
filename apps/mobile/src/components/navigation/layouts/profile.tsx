@@ -76,9 +76,30 @@ export function ProfileLayout() {
       />
 
       <Stack.Screen
-        name="settings"
+        name="settings/about"
         options={{
-          title: t('settings.title'),
+          title: t('settings.about.title'),
+        }}
+      />
+
+      <Stack.Screen
+        name="settings/cache"
+        options={{
+          title: t('settings.cache.title'),
+        }}
+      />
+
+      <Stack.Screen
+        name="settings/preferences"
+        options={{
+          title: t('settings.preferences.title'),
+        }}
+      />
+
+      <Stack.Screen
+        name="settings/sort"
+        options={{
+          title: t('settings.sort.title'),
         }}
       />
     </Stack>

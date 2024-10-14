@@ -29,6 +29,7 @@ import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import GitHubLogoBold from 'react-native-phosphor/src/bold/GithubLogo'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
+import InfoBold from 'react-native-phosphor/src/bold/Info'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import PackageBold from 'react-native-phosphor/src/bold/Package'
@@ -82,6 +83,7 @@ import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import GitHubLogoDuotone from 'react-native-phosphor/src/duotone/GithubLogo'
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
+import InfoDuotone from 'react-native-phosphor/src/duotone/Info'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import PackageDuotone from 'react-native-phosphor/src/duotone/Package'
@@ -135,6 +137,7 @@ import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import GitHubLogoFill from 'react-native-phosphor/src/fill/GithubLogo'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
+import InfoFill from 'react-native-phosphor/src/fill/Info'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import PackageFill from 'react-native-phosphor/src/fill/Package'
@@ -188,6 +191,7 @@ import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import GitHubLogoRegular from 'react-native-phosphor/src/regular/GithubLogo'
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
+import InfoRegular from 'react-native-phosphor/src/regular/Info'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import PackageRegular from 'react-native-phosphor/src/regular/Package'
@@ -411,6 +415,12 @@ const icons = {
     duotone: HouseDuotone,
     fill: HouseFill,
     regular: HouseRegular,
+  },
+  Info: {
+    bold: InfoBold,
+    duotone: InfoDuotone,
+    fill: InfoFill,
+    regular: InfoRegular,
   },
   MagnifyingGlass: {
     bold: MagnifyingGlassBold,
