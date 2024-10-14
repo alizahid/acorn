@@ -7,10 +7,11 @@ import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 
 type Props = {
+  expanded: boolean
   post: Post
 }
 
-export function PostVoteCard({ post }: Props) {
+export function PostVoteCard({ expanded, post }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { vote } = usePostVote()
@@ -38,30 +39,32 @@ export function PostVoteCard({ post }: Props) {
         />
       </Pressable>
 
-      <Pressable
-        align="center"
-        height="6"
-        justify="center"
-        onPress={() => {
-          vote({
-            direction: post.liked === false ? 0 : -1,
-            postId: post.id,
-          })
-        }}
-        style={[styles.main, post.liked === false && styles.unliked]}
-        width="6"
-      >
-        <Icon
-          color={
-            post.liked === false
-              ? theme.colors.white.a12
-              : theme.colors.gray.a12
-          }
-          name="ArrowDown"
-          size={theme.space[5]}
-          weight="bold"
-        />
-      </Pressable>
+      {expanded ? (
+        <Pressable
+          align="center"
+          height="6"
+          justify="center"
+          onPress={() => {
+            vote({
+              direction: post.liked === false ? 0 : -1,
+              postId: post.id,
+            })
+          }}
+          style={[styles.main, post.liked === false && styles.unliked]}
+          width="6"
+        >
+          <Icon
+            color={
+              post.liked === false
+                ? theme.colors.white.a12
+                : theme.colors.gray.a12
+            }
+            name="ArrowDown"
+            size={theme.space[5]}
+            weight="bold"
+          />
+        </Pressable>
+      ) : null}
     </>
   )
 }

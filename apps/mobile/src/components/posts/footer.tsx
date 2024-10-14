@@ -124,7 +124,7 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
       </View>
 
       <View align="center" direction="row" gap="2">
-        <PostVoteCard post={post} />
+        <PostVoteCard expanded={expanded} post={post} />
 
         <PostSaveCard post={post} />
 

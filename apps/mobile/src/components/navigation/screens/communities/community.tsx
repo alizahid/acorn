@@ -69,37 +69,36 @@ export function CommunityScreen() {
   })
 
   return (
-    <>
-      <View direction="row" justify="end">
-        <FeedSortMenu
-          onChange={(next) => {
-            update({
-              sortCommunityPosts: next,
-            })
-          }}
-          type="community"
-          value={sortCommunityPosts}
-        />
-
-        {sortCommunityPosts === 'top' ? (
-          <TopIntervalMenu
+    <PostList
+      community={params.name}
+      header={
+        <View direction="row" justify="end">
+          <FeedSortMenu
             onChange={(next) => {
               update({
-                intervalCommunityPosts: next,
+                sortCommunityPosts: next,
               })
             }}
-            value={intervalCommunityPosts}
+            type="community"
+            value={sortCommunityPosts}
           />
-        ) : null}
-      </View>
 
-      <PostList
-        community={params.name}
-        interval={intervalCommunityPosts}
-        label="user"
-        onRefresh={refetch}
-        sort={sortCommunityPosts}
-      />
-    </>
+          {sortCommunityPosts === 'top' ? (
+            <TopIntervalMenu
+              onChange={(next) => {
+                update({
+                  intervalCommunityPosts: next,
+                })
+              }}
+              value={intervalCommunityPosts}
+            />
+          ) : null}
+        </View>
+      }
+      interval={intervalCommunityPosts}
+      label="user"
+      onRefresh={refetch}
+      sort={sortCommunityPosts}
+    />
   )
 }
