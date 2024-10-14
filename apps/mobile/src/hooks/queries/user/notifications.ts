@@ -79,6 +79,7 @@ export function useNotifications() {
         accountId,
       },
     ],
+    refetchInterval: 60 * 10 * 1_000,
   })
 
   const notifications = data?.pages.flatMap((page) => page.notifications) ?? []
