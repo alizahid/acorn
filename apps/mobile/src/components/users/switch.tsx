@@ -16,7 +16,7 @@ export function AccountSwitchCard() {
 
   const t = useTranslations('component.users.switch')
 
-  const { accountId, accounts, removeAccount, setAccount } = useAuth()
+  const { accountId, accounts, order, removeAccount, setAccount } = useAuth()
 
   const { styles } = useStyles(stylesheet)
 
@@ -50,18 +50,39 @@ export function AccountSwitchCard() {
         title={t('title')}
         visible={visible}
       >
-        {accounts.map((account) => (
+        {accounts.map((account, index) => (
           <Swipeable
             containerStyle={styles.swipeable}
             key={account.id}
+            renderLeftActions={() =>
+              index > 0 ? (
+                <HeaderButton
+                  contrast
+                  icon="ArrowUp"
+                  onPress={() => {
+                    order(account.id, 'up')
+                  }}
+                  weight="bold"
+                />
+              ) : index < accounts.length - 1 ? (
+                <HeaderButton
+                  contrast
+                  icon="ArrowDown"
+                  onPress={() => {
+                    order(account.id, 'down')
+                  }}
+                  weight="bold"
+                />
+              ) : null
+            }
             renderRightActions={() => (
               <HeaderButton
-                color="red"
                 contrast
                 icon="Trash"
                 onPress={() => {
                   removeAccount(account.id)
                 }}
+                style={styles.delete}
               />
             )}
           >
@@ -86,16 +107,19 @@ export function AccountSwitchCard() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  delete: {
+    backgroundColor: theme.colors.red.a9,
+  },
   item: {
     backgroundColor: theme.colors.gray[1],
   },
   modal: (count: number) => ({
-    minHeight: 44 * (count + 3),
+    minHeight: 44 * (count + 2),
   }),
   selected: {
     backgroundColor: theme.colors.accent[5],
   },
   swipeable: {
-    backgroundColor: theme.colors.red.a9,
+    backgroundColor: theme.colors.accent.a9,
   },
 }))
