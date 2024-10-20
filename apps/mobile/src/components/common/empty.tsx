@@ -11,7 +11,7 @@ type Props = {
   message?: string
 }
 
-export function Empty({ color, icon = 'Empty', message }: Props) {
+export function Empty({ color, icon = 'SmileySad', message }: Props) {
   const t = useTranslations('component.common.empty')
 
   const { theme } = useStyles()
@@ -22,6 +22,7 @@ export function Empty({ color, icon = 'Empty', message }: Props) {
         color={color ?? theme.colors.accent.a9}
         name={icon}
         size={theme.space[9]}
+        weight="fill"
       />
 
       <Text weight="medium">{message ?? t('message')}</Text>

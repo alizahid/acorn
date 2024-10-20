@@ -22,7 +22,6 @@ import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
-import EmptyBold from 'react-native-phosphor/src/bold/Empty'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
@@ -42,6 +41,7 @@ import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import RedditLogoBold from 'react-native-phosphor/src/bold/RedditLogo'
 import ShareBold from 'react-native-phosphor/src/bold/Share'
+import SmileySadBold from 'react-native-phosphor/src/bold/SmileySad'
 import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
@@ -78,7 +78,6 @@ import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
-import EmptyDuotone from 'react-native-phosphor/src/duotone/Empty'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
@@ -98,6 +97,7 @@ import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import RedditLogoDuotone from 'react-native-phosphor/src/duotone/RedditLogo'
 import ShareDuotone from 'react-native-phosphor/src/duotone/Share'
+import SmileySadDuotone from 'react-native-phosphor/src/duotone/SmileySad'
 import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
@@ -134,7 +134,6 @@ import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
-import EmptyFill from 'react-native-phosphor/src/fill/Empty'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
@@ -154,6 +153,7 @@ import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import RedditLogoFill from 'react-native-phosphor/src/fill/RedditLogo'
 import ShareFill from 'react-native-phosphor/src/fill/Share'
+import SmileySadFill from 'react-native-phosphor/src/fill/SmileySad'
 import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
@@ -190,7 +190,6 @@ import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
-import EmptyRegular from 'react-native-phosphor/src/regular/Empty'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
@@ -210,6 +209,7 @@ import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import RedditLogoRegular from 'react-native-phosphor/src/regular/RedditLogo'
 import ShareRegular from 'react-native-phosphor/src/regular/Share'
+import SmileySadRegular from 'react-native-phosphor/src/regular/SmileySad'
 import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
@@ -382,12 +382,6 @@ const icons = {
     fill: DownloadFill,
     regular: DownloadRegular,
   },
-  Empty: {
-    bold: EmptyBold,
-    duotone: EmptyDuotone,
-    fill: EmptyFill,
-    regular: EmptyRegular,
-  },
   EyeClosed: {
     bold: EyeClosedBold,
     duotone: EyeClosedDuotone,
@@ -501,6 +495,12 @@ const icons = {
     duotone: ShareDuotone,
     fill: ShareFill,
     regular: ShareRegular,
+  },
+  SmileySad: {
+    bold: SmileySadBold,
+    duotone: SmileySadDuotone,
+    fill: SmileySadFill,
+    regular: SmileySadRegular,
   },
   SortAscending: {
     bold: SortAscendingBold,
