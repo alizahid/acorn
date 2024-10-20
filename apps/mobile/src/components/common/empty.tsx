@@ -1,4 +1,4 @@
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon, type IconName } from './icon'
@@ -14,10 +14,10 @@ type Props = {
 export function Empty({ color, icon = 'Empty', message }: Props) {
   const t = useTranslations('component.common.empty')
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useStyles()
 
   return (
-    <View align="center" gap="4" justify="center" px="6" style={styles.main}>
+    <View align="center" gap="4" justify="center" px="6" py="9">
       <Icon
         color={color ?? theme.colors.accent.a9}
         name={icon}
@@ -28,9 +28,3 @@ export function Empty({ color, icon = 'Empty', message }: Props) {
     </View>
   )
 }
-
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  main: {
-    paddingVertical: runtime.screen.height * 0.2,
-  },
-}))
