@@ -44,7 +44,7 @@ export function PostGalleryModal({
   const [viewing, setViewing] = useState<PostMedia>()
 
   const style = useAnimatedStyle(() => ({
-    opacity: opacity.value,
+    opacity: opacity.get(),
   }))
 
   const close = useCallback(() => {
@@ -52,7 +52,7 @@ export function PostGalleryModal({
 
     StatusBar.setStatusBarHidden(false, 'fade')
 
-    opacity.value = withTiming(1)
+    opacity.set(() => withTiming(1))
 
     setHidden(false)
   }, [onClose, opacity])
@@ -81,7 +81,7 @@ export function PostGalleryModal({
 
           StatusBar.setStatusBarHidden(next, 'fade')
 
-          opacity.value = withTiming(next ? 0 : 1)
+          opacity.set(() => withTiming(next ? 0 : 1))
 
           setHidden(next)
         }}

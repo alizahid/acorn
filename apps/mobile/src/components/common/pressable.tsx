@@ -43,7 +43,7 @@ export function Pressable({
   const opacity = useSharedValue(1)
 
   const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
+    opacity: opacity.get(),
   }))
 
   return (
@@ -55,16 +55,20 @@ export function Pressable({
       onPress={(event) => {
         onPress?.(event)
 
-        opacity.value = withTiming(
-          0.5,
-          {
-            duration: 100,
-          },
-          () => {
-            opacity.value = withTiming(1, {
-              duration: 200,
-            })
-          },
+        opacity.set(() =>
+          withTiming(
+            0.5,
+            {
+              duration: 100,
+            },
+            () => {
+              opacity.set(() =>
+                withTiming(1, {
+                  duration: 200,
+                }),
+              )
+            },
+          ),
         )
       }}
       style={[animatedStyle, styles.main(props), style]}

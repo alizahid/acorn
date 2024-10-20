@@ -19,13 +19,13 @@
   },
   "devDependencies": {
     "@radix-ui/colors": "^3.0.0",
-    "@types/node": "^22.7.5",
+    "@types/node": "^22.7.7",
     "@types/react": "18.2",
     "@types/react-dom": "18.2",
     "eslint-config-custom": "workspace:*",
     "eslint-config-next": "14.2.15",
     "postcss": "^8.4.47",
-    "tailwindcss": "^3.4.13",
+    "tailwindcss": "^3.4.14",
     "typescript": "^5.6.3"
   }
 }
