@@ -29,7 +29,7 @@ export type SettingsItem = {
   arrow?: boolean
   icon?: Icon
   label: string
-  onPress?: () => void
+  onPress?: () => void | Promise<void>
 } & (
   | {
       type?: undefined

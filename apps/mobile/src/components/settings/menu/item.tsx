@@ -5,6 +5,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { Icon } from '~/components/common/icon'
 import { Modal } from '~/components/common/modal'
 import { Pressable } from '~/components/common/pressable'
+import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 
@@ -19,6 +20,7 @@ export function SettingsItem({ item, style }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const [visible, setVisible] = useState(false)
+  const [loading, setLoading] = useState(false)
 
   const Component = item.type === 'switch' ? View : Pressable
 
@@ -33,18 +35,30 @@ export function SettingsItem({ item, style }: Props) {
       <Component
         align="center"
         direction="row"
+        disabled={loading}
         gap="3"
-        onPress={() => {
+        onPress={async () => {
           if (item.type === 'options') {
             setVisible(true)
           } else if (item.onPress) {
-            item.onPress()
+            try {
+              setLoading(true)
+
+              await item.onPress()
+            } finally {
+              setLoading(false)
+            }
           }
         }}
         px="3"
         style={style}
       >
-        {item.icon ? (
+        {loading ? (
+          <Spinner
+            color={item.icon?.color ?? theme.colors.accent.a9}
+            size={theme.space[5]}
+          />
+        ) : item.icon ? (
           <Icon
             color={item.icon.color ?? theme.colors.accent.a9}
             name={item.icon.name}

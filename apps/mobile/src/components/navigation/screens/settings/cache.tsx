@@ -1,3 +1,4 @@
+import { Image } from 'expo-image'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -20,6 +21,16 @@ export function SettingsCacheScreen() {
           label: t('menu.query'),
           onPress() {
             queryClient.clear()
+          },
+        },
+        {
+          icon: {
+            color: theme.colors.red.a9,
+            name: 'Image',
+          },
+          label: t('menu.image'),
+          async onPress() {
+            await Image.clearDiskCache()
           },
         },
       ]}

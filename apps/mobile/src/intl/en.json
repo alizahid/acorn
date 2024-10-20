@@ -174,7 +174,8 @@
       },
       "cache": {
         "menu": {
-          "query": "Clear data"
+          "image": "Clear image cache",
+          "query": "Clear data cache"
         },
         "title": "Cache"
       },

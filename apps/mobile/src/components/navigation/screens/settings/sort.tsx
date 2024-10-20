@@ -5,7 +5,6 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { TopIntervalItem } from '~/components/posts/interval'
 import {
-  type SettingsItem,
   type SettingsItemOption,
   SettingsMenu,
 } from '~/components/settings/menu'
@@ -131,7 +130,7 @@ export function SettingsSortScreen() {
           options,
           type: 'options',
           value: preferences[key],
-        } satisfies SettingsItem
+        }
       })}
     />
   )

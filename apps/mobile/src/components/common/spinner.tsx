@@ -1,13 +1,14 @@
 import { ActivityIndicator, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type ColorToken } from '~/styles/colors'
+import { type ColorToken, ColorTokens } from '~/styles/colors'
 import { getMargin, type MarginProps } from '~/styles/space'
 
 type Props = {
-  color?: ColorToken
+  // eslint-disable-next-line @typescript-eslint/ban-types -- go away
+  color?: ColorToken | (string & {})
   contrast?: boolean
-  size?: 'small' | 'large'
+  size?: 'small' | 'large' | number
   style?: StyleProp<ViewStyle>
 } & MarginProps
 
@@ -22,7 +23,11 @@ export function Spinner({
 
   return (
     <ActivityIndicator
-      color={theme.colors[color][contrast ? 'contrast' : 'a9']}
+      color={
+        ColorTokens.includes(color as ColorToken)
+          ? theme.colors[color as ColorToken][contrast ? 'contrast' : 'a9']
+          : color
+      }
       size={size}
       style={[styles.main(props) as ViewStyle, style]}
     />
