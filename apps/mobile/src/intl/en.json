@@ -56,7 +56,7 @@
     "posts": {
       "gallery": {
         "gif": "GIF",
-        "item": "{current, number} of {count, number}",
+        "item": "{current, number} / {count, number}",
         "items": "{count, number} images",
         "nsfw": "Sensitive content - tap to view"
       },

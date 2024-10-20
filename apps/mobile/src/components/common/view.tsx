@@ -3,6 +3,7 @@ import {
   type LayoutChangeEvent,
   type StyleProp,
   type TextStyle,
+  type ViewProps,
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -11,6 +12,7 @@ import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 type Props = ViewStyleProps & {
   children?: ReactNode
   onLayout?: (event: LayoutChangeEvent) => void
+  pointerEvents?: ViewProps['pointerEvents']
   responder?: boolean
   style?: StyleProp<TextStyle>
 }
@@ -18,6 +20,7 @@ type Props = ViewStyleProps & {
 export function View({
   children,
   onLayout,
+  pointerEvents,
   responder,
   style,
   ...props
@@ -29,6 +32,7 @@ export function View({
     children,
     onLayout,
     onStartShouldSetResponder: responder ? () => true : undefined,
+    pointerEvents,
     style: [styles.main(props), style],
   })
 }

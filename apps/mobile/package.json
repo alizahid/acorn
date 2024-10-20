@@ -68,6 +68,7 @@
     "react": "18.2.0",
     "react-hook-form": "^7.53.0",
     "react-native": "0.75.4",
+    "react-native-awesome-gallery": "^0.4.3",
     "react-native-collapsible-tab-view": "^8.0.0",
     "react-native-gesture-handler": "^2.20.0",
     "react-native-keyboard-controller": "^1.14.1",

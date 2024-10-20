@@ -1,24 +1,19 @@
 import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
-import * as StatusBar from 'expo-status-bar'
 import { useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { HeaderButton } from '~/components/navigation/header-button'
-import { useDownloadImage, useImagePlaceholder } from '~/hooks/image'
+import { useImagePlaceholder } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
-import { FakeModal } from '../../common/fake-modal'
 import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
 import { Text } from '../../common/text'
 import { View } from '../../common/view'
-import { GalleryImage } from './image'
+import { PostGalleryModal } from './modal'
 
 type Props = {
   crossPost?: boolean
@@ -35,20 +30,15 @@ export function PostGalleryCard({
   recyclingKey,
   style,
 }: Props) {
-  const frame = useSafeAreaFrame()
-
   const t = useTranslations('component.posts.gallery')
-
-  const { styles, theme } = useStyles(stylesheet)
 
   const { blurNsfw } = usePreferences()
 
+  const { styles, theme } = useStyles(stylesheet)
+
   const placeholder = useImagePlaceholder()
-  const download = useDownloadImage()
 
   const [visible, setVisible] = useState(false)
-  const [initial, setInitial] = useState(0)
-  const [viewing, setViewing] = useState<PostMedia>()
 
   const first = images[0]
 
@@ -60,8 +50,6 @@ export function PostGalleryCard({
     <>
       <Pressable
         onPress={() => {
-          setInitial(0)
-
           setVisible(true)
         }}
         style={[styles.main(crossPost), style]}
@@ -105,83 +93,14 @@ export function PostGalleryCard({
         ) : null}
       </Pressable>
 
-      <FakeModal
-        close
-        footer={
-          <View
-            align="center"
-            direction="row"
-            flexGrow={1}
-            gap="4"
-            justify="center"
-          >
-            {images.length > 1 ? (
-              <View style={styles.current}>
-                <Text contrast size="2" tabular>
-                  {t('item', {
-                    count: images.length,
-                    current: (viewing ? images.indexOf(viewing) : 0) + 1,
-                  })}
-                </Text>
-              </View>
-            ) : null}
-
-            <HeaderButton
-              color={
-                download.isError
-                  ? 'red'
-                  : download.isSuccess
-                    ? 'green'
-                    : 'accent'
-              }
-              icon={
-                download.isError
-                  ? 'XCircle'
-                  : download.isSuccess
-                    ? 'CheckCircle'
-                    : 'Download'
-              }
-              loading={download.isPending}
-              onPress={() => {
-                if (!viewing) {
-                  return
-                }
-
-                download.download({
-                  url: viewing.url,
-                })
-              }}
-            />
-          </View>
-        }
+      <PostGalleryModal
+        images={images}
         onClose={() => {
           setVisible(false)
-
-          StatusBar.setStatusBarHidden(false, 'fade')
         }}
+        recyclingKey={recyclingKey}
         visible={visible}
-      >
-        <FlatList
-          data={images}
-          decelerationRate="fast"
-          horizontal
-          initialNumToRender={3}
-          initialScrollIndex={initial}
-          keyExtractor={(item, index) => String(index)}
-          onViewableItemsChanged={({ viewableItems }) => {
-            setViewing(() => viewableItems[0]?.item)
-          }}
-          renderItem={({ item }) => (
-            <GalleryImage image={item} recyclingKey={recyclingKey} />
-          )}
-          scrollEnabled={images.length > 1}
-          showsHorizontalScrollIndicator={false}
-          snapToOffsets={images.map((item, index) => frame.width * index)}
-          viewabilityConfig={{
-            itemVisiblePercentThreshold: 50,
-          }}
-        />
-      </FakeModal>
+      />
     </>
   )
 }
@@ -199,13 +118,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   count: {
     right: theme.space[2],
-  },
-  current: {
-    backgroundColor: theme.colors.black.a9,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[2],
-    paddingHorizontal: theme.space[1],
-    paddingVertical: theme.space[1] / 2,
   },
   gif: {
     left: theme.space[2],

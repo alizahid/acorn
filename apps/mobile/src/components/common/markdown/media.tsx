@@ -1,12 +1,10 @@
 import { Image } from 'expo-image'
-import * as StatusBar from 'expo-status-bar'
 import { useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { GalleryImage } from '~/components/posts/gallery/image'
+import { PostGalleryModal } from '~/components/posts/gallery/modal'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
-import { FakeModal } from '../fake-modal'
 import { Pressable } from '../pressable'
 import { Text } from '../text'
 import { type MarkdownVariant } from '.'
@@ -32,11 +30,12 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
         onPress={() => {
           setVisible(true)
         }}
+        style={styles.main(media.height, media.width)}
       >
         <Image
           recyclingKey={recyclingKey}
           source={media.url}
-          style={styles.image(media.height, media.width)}
+          style={styles.image}
         />
 
         {caption?.length ? (
@@ -47,25 +46,23 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
       </Pressable>
 
       {media.width > 100 ? (
-        <FakeModal
-          close
+        <PostGalleryModal
+          images={[media]}
           onClose={() => {
             setVisible(false)
-
-            StatusBar.setStatusBarHidden(false, 'fade')
           }}
-          style={styles.modal}
           visible={visible}
-        >
-          <GalleryImage image={media} recyclingKey={recyclingKey} />
-        </FakeModal>
+        />
       ) : null}
     </>
   )
 }
 
 const stylesheet = createStyleSheet(() => ({
-  image: (height: number, width: number) => ({
+  image: {
+    flex: 1,
+  },
+  main: (height: number, width: number) => ({
     aspectRatio: width / height,
     maxHeight: width,
     width: '100%',

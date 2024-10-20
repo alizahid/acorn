@@ -1,25 +1,11 @@
-import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { Image } from 'expo-image'
-import * as StatusBar from 'expo-status-bar'
 import { useEffect, useRef, useState } from 'react'
-import Animated, {
-  runOnJS,
-  useAnimatedReaction,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
-import {
-  useSafeAreaFrame,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Icon } from '~/components/common/icon'
-import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { HeaderButton } from '~/components/navigation/header-button'
 import { useImagePlaceholder } from '~/hooks/image'
 import { type PostMedia } from '~/types/post'
 
@@ -29,32 +15,16 @@ type Props = {
 }
 
 export function GalleryImage({ image, recyclingKey }: Props) {
-  const frame = useSafeAreaFrame()
-  const insets = useSafeAreaInsets()
-
   const t = useTranslations('component.posts.gallery')
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const placeholder = useImagePlaceholder()
 
   const ref = useRef<Image>(null)
 
-  const opacity = useSharedValue(1)
-  const zoom = useSharedValue(1)
-
   const [loaded, setLoaded] = useState(!image.thumbnail)
   const [playing, setPlaying] = useState(true)
-  const [zoomed, setZoomed] = useState(true)
-  const [hidden, setHidden] = useState(false)
-  const [margin, setMargin] = useState(0)
-
-  useAnimatedReaction(
-    () => zoom.value,
-    (next) => {
-      runOnJS(setZoomed)(next > 1)
-    },
-  )
 
   useEffect(() => {
     if (image.thumbnail) {
@@ -64,121 +34,68 @@ export function GalleryImage({ image, recyclingKey }: Props) {
     }
   }, [image.thumbnail, image.url])
 
-  const style = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-  }))
-
   return (
-    <View
-      onLayout={(event) => {
-        const bottom =
-          frame.height -
-          event.nativeEvent.layout.y -
-          event.nativeEvent.layout.height
-
-        const min = theme.space[4] + insets.bottom
-
-        if (bottom < min) {
-          setMargin(Math.round(min - bottom))
-        }
-      }}
-      style={styles.main(image.width / image.height)}
+    <Image
+      {...placeholder}
+      contentFit="contain"
+      pointerEvents="box-none"
+      recyclingKey={recyclingKey}
+      ref={ref}
+      source={loaded ? image.url : image.thumbnail}
+      style={styles.main}
     >
-      <Zoomable
-        isDoubleTapEnabled
-        isPanEnabled={zoomed}
-        isSingleTapEnabled
-        maxScale={6}
-        minScale={0.5}
-        onSingleTap={() => {
-          const next = !hidden
-
-          StatusBar.setStatusBarHidden(next, 'fade')
-
-          opacity.value = withTiming(next ? 0 : 1)
-
-          setHidden(next)
-        }}
-        scale={zoom}
-      >
-        <Image
-          {...placeholder}
-          allowDownscaling={false}
-          contentFit="contain"
-          recyclingKey={recyclingKey}
-          ref={ref}
-          source={loaded ? image.url : image.thumbnail}
-          style={styles.image}
-        />
-      </Zoomable>
-
       {image.type === 'gif' ? (
-        <Animated.View style={[styles.footer(margin), style]}>
-          <View style={styles.label}>
+        <View style={styles.controls(image.width / image.height)}>
+          <View pointerEvents="none" style={styles.gif}>
             <Text contrast size="1">
               {t('gif')}
             </Text>
           </View>
 
-          <Pressable
-            hitSlop={theme.space[3]}
+          <HeaderButton
+            icon={playing ? 'Pause' : 'Play'}
             onPress={() => {
               if (playing) {
                 void ref.current?.stopAnimating()
-
-                setPlaying(false)
               } else {
                 void ref.current?.startAnimating()
-
-                setPlaying(true)
               }
+
+              setPlaying(!playing)
             }}
-            p="2"
             style={styles.play}
-          >
-            <Icon
-              color={theme.colors.white.a11}
-              name={playing ? 'Pause' : 'Play'}
-              size={theme.space[4]}
-              weight="fill"
-            />
-          </Pressable>
-        </Animated.View>
+            weight="fill"
+          />
+        </View>
       ) : null}
-    </View>
+    </Image>
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  footer: (margin: number) => ({
-    alignItems: 'flex-end',
-    bottom: theme.space[2] + margin,
-    flexDirection: 'row',
-    gap: theme.space[4],
-    justifyContent: 'space-between',
-    left: theme.space[2],
-    position: 'absolute',
-    right: theme.space[2],
+const stylesheet = createStyleSheet((theme) => ({
+  controls: (aspectRatio: number) => ({
+    aspectRatio,
+    marginVertical: 'auto',
   }),
-  image: {
-    flex: 1,
-  },
-  label: {
+  gif: {
     backgroundColor: theme.colors.black.a9,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
+    bottom: theme.space[2],
+    left: theme.space[2],
     paddingHorizontal: theme.space[1],
     paddingVertical: theme.space[1] / 2,
+    position: 'absolute',
   },
-  main: (aspectRatio: number) => ({
-    alignSelf: 'center',
-    aspectRatio,
-    maxHeight: runtime.screen.height,
-    width: runtime.screen.width,
-  }),
+  image: {
+    flex: 1,
+  },
+  main: {
+    flex: 1,
+  },
   play: {
-    backgroundColor: theme.colors.black.a9,
-    borderCurve: 'continuous',
-    borderRadius: theme.space[4],
+    bottom: 0,
+    position: 'absolute',
+    right: 0,
   },
 }))
