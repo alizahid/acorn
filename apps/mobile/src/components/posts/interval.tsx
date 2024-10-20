@@ -48,7 +48,7 @@ export function TopIntervalItem({ item, size }: ItemProps) {
       <Text
         style={[
           styles.label(size ?? theme.space[4]),
-          item === 'all' && styles.infinity,
+          item === 'all' && styles.infinity(size ?? theme.space[4]),
         ]}
       >
         {intervals[item]}
@@ -58,9 +58,9 @@ export function TopIntervalItem({ item, size }: ItemProps) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  infinity: {
-    fontSize: theme.space[3],
-  },
+  infinity: (size: number) => ({
+    fontSize: size * 0.8,
+  }),
   interval: (size: number) => ({
     alignItems: 'center',
     backgroundColor: theme.colors.gold[9],
