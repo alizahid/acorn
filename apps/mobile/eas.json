@@ -31,5 +31,8 @@
   },
   "cli": {
     "appVersionSource": "local"
+  },
+  "submit": {
+    "production": {}
   }
 }
