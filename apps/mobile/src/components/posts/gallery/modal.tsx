@@ -93,8 +93,8 @@ export function PostGalleryModal({
         style={styles.main}
       />
 
-      {images.length > 1 ? (
-        <Animated.View pointerEvents="box-none" style={[styles.header, style]}>
+      <Animated.View pointerEvents="box-none" style={[styles.header, style]}>
+        {images.length > 1 ? (
           <View style={styles.label}>
             <Text contrast size="1" tabular>
               {t('item', {
@@ -103,16 +103,17 @@ export function PostGalleryModal({
               })}
             </Text>
           </View>
+        ) : null}
 
-          <HeaderButton
-            icon="X"
-            onPress={() => {
-              close()
-            }}
-            weight="bold"
-          />
-        </Animated.View>
-      ) : null}
+        <HeaderButton
+          icon="X"
+          onPress={() => {
+            close()
+          }}
+          style={styles.close}
+          weight="bold"
+        />
+      </Animated.View>
 
       <Animated.View pointerEvents="box-none" style={[styles.footer, style]}>
         <HeaderButton
@@ -160,6 +161,9 @@ export function PostGalleryModal({
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
+  close: {
+    marginLeft: 'auto',
+  },
   controls: (aspectRatio: number) => ({
     aspectRatio,
     marginVertical: 'auto',
