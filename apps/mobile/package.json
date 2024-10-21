@@ -10,7 +10,8 @@
     "build:sim": "env-cmd -f .env.local eas build --profile simulator --platform ios --local",
     "dev": "expo start --ios",
     "lint": "eslint . --fix",
-    "lint:types": "tsc --noEmit"
+    "lint:types": "tsc --noEmit",
+    "publish": "eas build --profile production --platform ios --auto-submit"
   },
   "dependencies": {
     "@date-fns/tz": "^1.1.2",
