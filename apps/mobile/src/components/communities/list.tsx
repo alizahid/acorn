@@ -88,6 +88,7 @@ export function CommunitiesList({
           <CommunityCard community={item} style={styles.card(previous, next)} />
         )
       }}
+      scrollEnabled={communities.length > 0}
       stickyHeaderIndices={sticky}
     />
   )

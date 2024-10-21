@@ -106,6 +106,7 @@ export function UserPostsList({
           />
         )
       }}
+      scrollEnabled={posts.length > 0}
       viewabilityConfig={{
         itemVisiblePercentThreshold: 100,
       }}

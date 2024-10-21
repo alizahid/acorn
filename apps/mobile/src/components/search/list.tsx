@@ -90,6 +90,7 @@ export function SearchList({
           />
         )
       }}
+      scrollEnabled={results.length > 0}
       viewabilityConfig={{
         itemVisiblePercentThreshold: 100,
       }}
