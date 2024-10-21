@@ -170,7 +170,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   }),
   footer: {
     alignItems: 'center',
-    bottom: theme.space[4] + runtime.insets.top,
+    bottom: theme.space[4] + runtime.insets.bottom,
     flexDirection: 'row',
     gap: theme.space[2],
     justifyContent: 'center',

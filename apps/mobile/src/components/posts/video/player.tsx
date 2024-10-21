@@ -1,6 +1,6 @@
 import { BlurView } from 'expo-blur'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -11,6 +11,7 @@ import { type PostMedia } from '~/types/post'
 
 import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
+import { VideoModal } from './modal'
 
 type Props = {
   crossPost?: boolean
@@ -34,8 +35,6 @@ export function VideoPlayer({
   const preferences = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
-
-  const ref = useRef<VideoView>(null)
 
   const [visible, setVisible] = useState(false)
 
@@ -66,61 +65,65 @@ export function VideoPlayer({
   ])
 
   return (
-    <Pressable
-      onPress={() => {
-        ref.current?.enterFullscreen()
-      }}
-      style={[styles.main(crossPost), style]}
-    >
-      <VideoView
-        allowsFullscreen={false}
-        allowsPictureInPicture={false}
-        allowsVideoFrameAnalysis={false}
-        contentFit="cover"
-        nativeControls={visible}
-        onFullscreenEnter={() => {
+    <>
+      <Pressable
+        onPress={() => {
           setVisible(true)
         }}
-        onFullscreenExit={() => {
+        style={[styles.main(crossPost), style]}
+      >
+        <VideoView
+          allowsFullscreen={false}
+          allowsPictureInPicture={false}
+          allowsVideoFrameAnalysis={false}
+          contentFit="cover"
+          nativeControls={false}
+          player={player}
+          style={styles.video(video.width / video.height)}
+        />
+
+        {nsfw && preferences.blurNsfw ? (
+          <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
+            <Icon
+              color={theme.colors.gray.a12}
+              name="Warning"
+              size={theme.space[6]}
+              weight="fill"
+            />
+
+            <Text weight="medium">{t('nsfw')}</Text>
+          </BlurView>
+        ) : (
+          <Pressable
+            hitSlop={theme.space[3]}
+            onPress={() => {
+              preferences.update({
+                feedMuted: !preferences.feedMuted,
+              })
+            }}
+            p="2"
+            style={styles.volume}
+          >
+            <Icon
+              color={theme.colors.white.a11}
+              name={
+                preferences.feedMuted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'
+              }
+              size={theme.space[4]}
+            />
+          </Pressable>
+        )}
+      </Pressable>
+
+      <VideoModal
+        onClose={() => {
           setVisible(false)
         }}
         player={player}
-        ref={ref}
-        style={styles.video(video.width / video.height)}
+        video={video}
+        visible={visible}
       />
-
-      {nsfw && preferences.blurNsfw ? (
-        <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
-          <Icon
-            color={theme.colors.gray.a12}
-            name="Warning"
-            size={theme.space[6]}
-            weight="fill"
-          />
-
-          <Text weight="medium">{t('nsfw')}</Text>
-        </BlurView>
-      ) : (
-        <Pressable
-          hitSlop={theme.space[3]}
-          onPress={() => {
-            preferences.update({
-              feedMuted: !preferences.feedMuted,
-            })
-          }}
-          p="2"
-          style={styles.volume}
-        >
-          <Icon
-            color={theme.colors.white.a11}
-            name={
-              preferences.feedMuted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'
-            }
-            size={theme.space[4]}
-          />
-        </Pressable>
-      )}
-    </Pressable>
+    </>
   )
 }
 

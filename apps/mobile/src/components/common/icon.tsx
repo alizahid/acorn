@@ -41,6 +41,8 @@ import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import RedditLogoBold from 'react-native-phosphor/src/bold/RedditLogo'
 import ShareBold from 'react-native-phosphor/src/bold/Share'
+import SkipBackBold from 'react-native-phosphor/src/bold/SkipBack'
+import SkipForwardBold from 'react-native-phosphor/src/bold/SkipForward'
 import SmileySadBold from 'react-native-phosphor/src/bold/SmileySad'
 import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
@@ -97,6 +99,8 @@ import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import RedditLogoDuotone from 'react-native-phosphor/src/duotone/RedditLogo'
 import ShareDuotone from 'react-native-phosphor/src/duotone/Share'
+import SkipBackDuotone from 'react-native-phosphor/src/duotone/SkipBack'
+import SkipForwardDuotone from 'react-native-phosphor/src/duotone/SkipForward'
 import SmileySadDuotone from 'react-native-phosphor/src/duotone/SmileySad'
 import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
@@ -153,6 +157,8 @@ import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import RedditLogoFill from 'react-native-phosphor/src/fill/RedditLogo'
 import ShareFill from 'react-native-phosphor/src/fill/Share'
+import SkipBackFill from 'react-native-phosphor/src/fill/SkipBack'
+import SkipForwardFill from 'react-native-phosphor/src/fill/SkipForward'
 import SmileySadFill from 'react-native-phosphor/src/fill/SmileySad'
 import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
@@ -209,6 +215,8 @@ import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import RedditLogoRegular from 'react-native-phosphor/src/regular/RedditLogo'
 import ShareRegular from 'react-native-phosphor/src/regular/Share'
+import SkipBackRegular from 'react-native-phosphor/src/regular/SkipBack'
+import SkipForwardRegular from 'react-native-phosphor/src/regular/SkipForward'
 import SmileySadRegular from 'react-native-phosphor/src/regular/SmileySad'
 import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
@@ -495,6 +503,18 @@ const icons = {
     duotone: ShareDuotone,
     fill: ShareFill,
     regular: ShareRegular,
+  },
+  SkipBack: {
+    bold: SkipBackBold,
+    duotone: SkipBackDuotone,
+    fill: SkipBackFill,
+    regular: SkipBackRegular,
+  },
+  SkipForward: {
+    bold: SkipForwardBold,
+    duotone: SkipForwardDuotone,
+    fill: SkipForwardFill,
+    regular: SkipForwardRegular,
   },
   SmileySad: {
     bold: SmileySadBold,
