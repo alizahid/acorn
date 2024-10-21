@@ -35,6 +35,8 @@ export function VideoControls({ opacity, player }: Props) {
 
   useEffect(() => {
     function go() {
+      width.set((player.currentTime / player.duration) * maxWidth)
+
       width.set(() =>
         withTiming(maxWidth, {
           duration: (player.duration - player.currentTime) * 1_000,
@@ -49,7 +51,6 @@ export function VideoControls({ opacity, player }: Props) {
       width.set((player.currentTime / player.duration) * maxWidth)
     }
 
-    stop()
     go()
 
     const playingChange = player.addListener('playingChange', (next) => {
@@ -63,18 +64,12 @@ export function VideoControls({ opacity, player }: Props) {
     })
 
     const playToEnd = player.addListener('playToEnd', () => {
-      stop()
       go()
-    })
-
-    const sourceChange = player.addListener('sourceChange', () => {
-      stop()
     })
 
     return () => {
       playingChange.remove()
       playToEnd.remove()
-      sourceChange.remove()
     }
   }, [maxWidth, player, width])
 

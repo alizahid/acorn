@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import { type ReactNode, useEffect } from 'react'
 import {
   Modal as ReactNativeModal,
   ScrollView,
@@ -6,6 +6,12 @@ import {
   StyleSheet,
   type ViewStyle,
 } from 'react-native'
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Pressable } from './pressable'
@@ -33,18 +39,27 @@ export function Modal({
 }: Props) {
   const { styles } = useStyles(stylesheet)
 
+  const opacity = useSharedValue(0)
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.get(),
+  }))
+
+  useEffect(() => {
+    opacity.set(() => withTiming(visible ? 1 : 0))
+  }, [opacity, visible])
+
   return (
-    <ReactNativeModal
-      animationType="fade"
-      style={styles.modal}
-      transparent
-      visible={visible}
-    >
-      <View flexGrow={1} justify="center" p="6">
+    <ReactNativeModal transparent visible={visible}>
+      <Animated.View style={[styles.main, animatedStyle]}>
         <Pressable
           flexGrow={1}
           onPress={() => {
-            onClose()
+            opacity.set(() =>
+              withTiming(0, undefined, () => {
+                runOnJS(onClose)()
+              }),
+            )
           }}
           style={styles.overlay}
         />
@@ -74,7 +89,7 @@ export function Modal({
 
           <ScrollView contentContainerStyle={style}>{children}</ScrollView>
         </View>
-      </View>
+      </Animated.View>
     </ReactNativeModal>
   )
 }
@@ -100,8 +115,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   left: {
     left: 0,
   },
-  modal: {
+  main: {
     flex: 1,
+    justifyContent: 'center',
+    padding: theme.space[6],
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

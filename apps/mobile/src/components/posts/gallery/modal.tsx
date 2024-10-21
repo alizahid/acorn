@@ -1,8 +1,9 @@
 import * as StatusBar from 'expo-status-bar'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Modal } from 'react-native'
 import Gallery from 'react-native-awesome-gallery'
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -35,6 +36,7 @@ export function PostGalleryModal({
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const modal = useSharedValue(0)
   const opacity = useSharedValue(1)
 
   const download = useDownloadImage()
@@ -43,19 +45,31 @@ export function PostGalleryModal({
   const [hidden, setHidden] = useState(false)
   const [viewing, setViewing] = useState<PostMedia>()
 
-  const style = useAnimatedStyle(() => ({
+  const modalStyle = useAnimatedStyle(() => ({
+    opacity: modal.get(),
+  }))
+
+  useEffect(() => {
+    modal.set(() => withTiming(visible ? 1 : 0))
+  }, [modal, visible])
+
+  const controlStyle = useAnimatedStyle(() => ({
     opacity: opacity.get(),
   }))
 
   const close = useCallback(() => {
-    onClose()
+    modal.set(() =>
+      withTiming(0, undefined, () => {
+        runOnJS(onClose)()
+      }),
+    )
 
     StatusBar.setStatusBarHidden(false, 'fade')
 
     opacity.set(() => withTiming(1))
 
     setHidden(false)
-  }, [onClose, opacity])
+  }, [modal, onClose, opacity])
 
   const first = images[0]
 
@@ -64,97 +78,105 @@ export function PostGalleryModal({
   }
 
   return (
-    <Modal animationType="fade" transparent visible={visible}>
-      <Gallery
-        data={images}
-        emptySpaceWidth={theme.space[6]}
-        keyExtractor={(item) => item.url}
-        loop
-        onIndexChange={(index) => {
-          setViewing(images[index])
-        }}
-        onSwipeToClose={() => {
-          close()
-        }}
-        onTap={() => {
-          const next = !hidden
-
-          StatusBar.setStatusBarHidden(next, 'fade')
-
-          opacity.set(() => withTiming(next ? 0 : 1))
-
-          setHidden(next)
-        }}
-        renderItem={({ item, setImageDimensions }) => {
-          setImageDimensions(item)
-
-          return <GalleryImage image={item} recyclingKey={recyclingKey} />
-        }}
-        style={styles.main}
-      />
-
-      <Animated.View pointerEvents="box-none" style={[styles.header, style]}>
-        {images.length > 1 ? (
-          <View style={styles.label}>
-            <Text contrast size="1" tabular>
-              {t('item', {
-                count: images.length,
-                current: (viewing ? images.indexOf(viewing) : 0) + 1,
-              })}
-            </Text>
-          </View>
-        ) : null}
-
-        <HeaderButton
-          icon="X"
-          onPress={() => {
+    <Modal transparent visible={visible}>
+      <Animated.View style={[styles.modal, modalStyle]}>
+        <Gallery
+          data={images}
+          emptySpaceWidth={theme.space[6]}
+          keyExtractor={(item) => item.url}
+          loop
+          onIndexChange={(index) => {
+            setViewing(images[index])
+          }}
+          onSwipeToClose={() => {
             close()
           }}
-          style={styles.close}
-          weight="bold"
-        />
-      </Animated.View>
+          onTap={() => {
+            const next = !hidden
 
-      <Animated.View pointerEvents="box-none" style={[styles.footer, style]}>
-        <HeaderButton
-          color={
-            download.isError ? 'red' : download.isSuccess ? 'green' : 'accent'
-          }
-          icon={
-            download.isError
-              ? 'XCircle'
-              : download.isSuccess
-                ? 'CheckCircle'
-                : 'Download'
-          }
-          loading={download.isPending}
-          onPress={() => {
-            if (!viewing) {
-              return
-            }
+            StatusBar.setStatusBarHidden(next, 'fade')
 
-            download.download({
-              url: viewing.url,
-            })
+            opacity.set(() => withTiming(next ? 0 : 1))
+
+            setHidden(next)
           }}
-        />
+          renderItem={({ item, setImageDimensions }) => {
+            setImageDimensions(item)
 
-        <HeaderButton
-          color={copy.isError ? 'red' : copy.isSuccess ? 'green' : 'accent'}
-          icon={
-            copy.isError ? 'XCircle' : copy.isSuccess ? 'CheckCircle' : 'Copy'
-          }
-          loading={copy.isPending}
-          onPress={() => {
-            if (!viewing) {
-              return
-            }
-
-            copy.copy({
-              url: viewing.url,
-            })
+            return <GalleryImage image={item} recyclingKey={recyclingKey} />
           }}
+          style={styles.main}
         />
+
+        <Animated.View
+          pointerEvents="box-none"
+          style={[styles.header, controlStyle]}
+        >
+          {images.length > 1 ? (
+            <View style={styles.label}>
+              <Text contrast size="1" tabular>
+                {t('item', {
+                  count: images.length,
+                  current: (viewing ? images.indexOf(viewing) : 0) + 1,
+                })}
+              </Text>
+            </View>
+          ) : null}
+
+          <HeaderButton
+            icon="X"
+            onPress={() => {
+              close()
+            }}
+            style={styles.close}
+            weight="bold"
+          />
+        </Animated.View>
+
+        <Animated.View
+          pointerEvents="box-none"
+          style={[styles.footer, controlStyle]}
+        >
+          <HeaderButton
+            color={
+              download.isError ? 'red' : download.isSuccess ? 'green' : 'accent'
+            }
+            icon={
+              download.isError
+                ? 'XCircle'
+                : download.isSuccess
+                  ? 'CheckCircle'
+                  : 'Download'
+            }
+            loading={download.isPending}
+            onPress={() => {
+              if (!viewing) {
+                return
+              }
+
+              download.download({
+                url: viewing.url,
+              })
+            }}
+          />
+
+          <HeaderButton
+            color={copy.isError ? 'red' : copy.isSuccess ? 'green' : 'accent'}
+            icon={
+              copy.isError ? 'XCircle' : copy.isSuccess ? 'CheckCircle' : 'Copy'
+            }
+            loading={copy.isPending}
+            onPress={() => {
+              if (!viewing) {
+                return
+              }
+
+              copy.copy({
+                url: viewing.url,
+              })
+            }}
+          />
+        </Animated.View>
       </Animated.View>
     </Modal>
   )
@@ -204,5 +226,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: {
     backgroundColor: theme.colors.gray[1],
+  },
+  modal: {
+    flex: 1,
   },
 }))

@@ -1,9 +1,10 @@
 import * as StatusBar from 'expo-status-bar'
 import { type VideoPlayer, VideoView } from 'expo-video'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Modal } from 'react-native'
 import Gallery from 'react-native-awesome-gallery'
 import Animated, {
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -25,71 +26,89 @@ type Props = {
 export function VideoModal({ onClose, player, video, visible }: Props) {
   const { styles } = useStyles(stylesheet)
 
+  const modal = useSharedValue(0)
   const opacity = useSharedValue(1)
 
   const [hidden, setHidden] = useState(false)
 
-  const style = useAnimatedStyle(() => ({
+  const modalStyle = useAnimatedStyle(() => ({
+    opacity: modal.get(),
+  }))
+
+  useEffect(() => {
+    modal.set(() => withTiming(visible ? 1 : 0))
+  }, [modal, visible])
+
+  const controlStyle = useAnimatedStyle(() => ({
     opacity: opacity.get(),
   }))
 
   const close = useCallback(() => {
-    onClose()
+    modal.set(() =>
+      withTiming(0, undefined, () => {
+        runOnJS(onClose)()
+      }),
+    )
 
     StatusBar.setStatusBarHidden(false, 'fade')
 
     opacity.set(() => withTiming(1))
 
     setHidden(false)
-  }, [onClose, opacity])
+  }, [modal, onClose, opacity])
 
   return (
     <Modal animationType="fade" transparent visible={visible}>
-      <Gallery
-        data={['video']}
-        onSwipeToClose={() => {
-          close()
-        }}
-        onTap={() => {
-          const next = !hidden
-
-          StatusBar.setStatusBarHidden(next, 'fade')
-
-          opacity.set(() => withTiming(next ? 0 : 1))
-
-          setHidden(next)
-        }}
-        renderItem={({ setImageDimensions }) => {
-          setImageDimensions(video)
-
-          return (
-            <VideoView
-              allowsFullscreen={false}
-              allowsPictureInPicture={false}
-              allowsVideoFrameAnalysis={false}
-              contentFit="contain"
-              nativeControls={false}
-              player={player}
-              pointerEvents="none"
-              style={styles.video}
-            />
-          )
-        }}
-        style={styles.main}
-      />
-
-      <Animated.View pointerEvents="box-none" style={[styles.header, style]}>
-        <HeaderButton
-          icon="X"
-          onPress={() => {
+      <Animated.View style={[styles.modal, modalStyle]}>
+        <Gallery
+          data={['video']}
+          onSwipeToClose={() => {
             close()
           }}
-          style={styles.close}
-          weight="bold"
-        />
-      </Animated.View>
+          onTap={() => {
+            const next = !hidden
 
-      <VideoControls opacity={opacity} player={player} />
+            StatusBar.setStatusBarHidden(next, 'fade')
+
+            opacity.set(() => withTiming(next ? 0 : 1))
+
+            setHidden(next)
+          }}
+          renderItem={({ setImageDimensions }) => {
+            setImageDimensions(video)
+
+            return (
+              <VideoView
+                allowsFullscreen={false}
+                allowsPictureInPicture={false}
+                allowsVideoFrameAnalysis={false}
+                contentFit="contain"
+                nativeControls={false}
+                player={player}
+                pointerEvents="none"
+                style={styles.video}
+              />
+            )
+          }}
+          style={styles.main}
+        />
+
+        <Animated.View
+          pointerEvents="box-none"
+          style={[styles.header, controlStyle]}
+        >
+          <HeaderButton
+            icon="X"
+            onPress={() => {
+              close()
+            }}
+            style={styles.close}
+            weight="bold"
+          />
+        </Animated.View>
+
+        <VideoControls opacity={opacity} player={player} />
+      </Animated.View>
     </Modal>
   )
 }
@@ -109,6 +128,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: {
     backgroundColor: theme.colors.gray[1],
+  },
+  modal: {
+    flex: 1,
   },
   video: {
     flex: 1,
