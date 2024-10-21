@@ -23,6 +23,7 @@ import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
+import FastForwardBold from 'react-native-phosphor/src/bold/FastForward'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import GitHubLogoBold from 'react-native-phosphor/src/bold/GithubLogo'
@@ -40,9 +41,8 @@ import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
 import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import RedditLogoBold from 'react-native-phosphor/src/bold/RedditLogo'
+import RewindBold from 'react-native-phosphor/src/bold/Rewind'
 import ShareBold from 'react-native-phosphor/src/bold/Share'
-import SkipBackBold from 'react-native-phosphor/src/bold/SkipBack'
-import SkipForwardBold from 'react-native-phosphor/src/bold/SkipForward'
 import SmileySadBold from 'react-native-phosphor/src/bold/SmileySad'
 import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
@@ -81,6 +81,7 @@ import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
+import FastForwardDuotone from 'react-native-phosphor/src/duotone/FastForward'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import GitHubLogoDuotone from 'react-native-phosphor/src/duotone/GithubLogo'
@@ -98,9 +99,8 @@ import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
 import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import RedditLogoDuotone from 'react-native-phosphor/src/duotone/RedditLogo'
+import RewindDuotone from 'react-native-phosphor/src/duotone/Rewind'
 import ShareDuotone from 'react-native-phosphor/src/duotone/Share'
-import SkipBackDuotone from 'react-native-phosphor/src/duotone/SkipBack'
-import SkipForwardDuotone from 'react-native-phosphor/src/duotone/SkipForward'
 import SmileySadDuotone from 'react-native-phosphor/src/duotone/SmileySad'
 import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
@@ -139,6 +139,7 @@ import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
+import FastForwardFill from 'react-native-phosphor/src/fill/FastForward'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import GitHubLogoFill from 'react-native-phosphor/src/fill/GithubLogo'
@@ -156,9 +157,8 @@ import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
 import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import RedditLogoFill from 'react-native-phosphor/src/fill/RedditLogo'
+import RewindFill from 'react-native-phosphor/src/fill/Rewind'
 import ShareFill from 'react-native-phosphor/src/fill/Share'
-import SkipBackFill from 'react-native-phosphor/src/fill/SkipBack'
-import SkipForwardFill from 'react-native-phosphor/src/fill/SkipForward'
 import SmileySadFill from 'react-native-phosphor/src/fill/SmileySad'
 import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
@@ -197,6 +197,7 @@ import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
+import FastForwardRegular from 'react-native-phosphor/src/regular/FastForward'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import GitHubLogoRegular from 'react-native-phosphor/src/regular/GithubLogo'
@@ -214,9 +215,8 @@ import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
 import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import RedditLogoRegular from 'react-native-phosphor/src/regular/RedditLogo'
+import RewindRegular from 'react-native-phosphor/src/regular/Rewind'
 import ShareRegular from 'react-native-phosphor/src/regular/Share'
-import SkipBackRegular from 'react-native-phosphor/src/regular/SkipBack'
-import SkipForwardRegular from 'react-native-phosphor/src/regular/SkipForward'
 import SmileySadRegular from 'react-native-phosphor/src/regular/SmileySad'
 import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
@@ -396,6 +396,12 @@ const icons = {
     fill: EyeClosedFill,
     regular: EyeClosedRegular,
   },
+  FastForward: {
+    bold: FastForwardBold,
+    duotone: FastForwardDuotone,
+    fill: FastForwardFill,
+    regular: FastForwardRegular,
+  },
   Flame: {
     bold: FlameBold,
     duotone: FlameDuotone,
@@ -498,23 +504,17 @@ const icons = {
     fill: RedditLogoFill,
     regular: RedditLogoRegular,
   },
+  Rewind: {
+    bold: RewindBold,
+    duotone: RewindDuotone,
+    fill: RewindFill,
+    regular: RewindRegular,
+  },
   Share: {
     bold: ShareBold,
     duotone: ShareDuotone,
     fill: ShareFill,
     regular: ShareRegular,
-  },
-  SkipBack: {
-    bold: SkipBackBold,
-    duotone: SkipBackDuotone,
-    fill: SkipBackFill,
-    regular: SkipBackRegular,
-  },
-  SkipForward: {
-    bold: SkipForwardBold,
-    duotone: SkipForwardDuotone,
-    fill: SkipForwardFill,
-    regular: SkipForwardRegular,
   },
   SmileySad: {
     bold: SmileySadBold,
