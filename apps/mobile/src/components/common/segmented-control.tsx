@@ -1,9 +1,6 @@
 import MaskedView from '@react-native-masked-view/masked-view'
 import { useState } from 'react'
-import Animated, {
-  type SharedValue,
-  useAnimatedStyle,
-} from 'react-native-reanimated'
+import { Animated, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Pressable } from './pressable'
@@ -12,7 +9,7 @@ import { View } from './view'
 
 type Props = {
   items: Array<string>
-  offset: SharedValue<number>
+  offset: Animated.AnimatedInterpolation<number>
   onChange: (index: number) => void
 }
 
@@ -21,13 +18,18 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
 
   const [width, setWidth] = useState(0)
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  const style: ViewStyle = {
     transform: [
       {
-        translateX: offset.value * width + theme.space[1] / 2,
+        translateX: offset.interpolate({
+          inputRange: items.map((item, index) => index),
+          outputRange: items.map(
+            (item, index) => index * width + theme.space[1] / 2,
+          ),
+        }),
       },
     ],
-  }))
+  }
 
   return (
     <View
@@ -40,7 +42,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
       }}
       style={styles.main}
     >
-      <Animated.View style={[styles.selected(width), animatedStyle]} />
+      <Animated.View style={[styles.selected(width), style]} />
 
       {items.map((item, index) => (
         <Pressable
@@ -78,7 +80,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
           width: '100%',
         }}
       >
-        <Animated.View style={[styles.mask(width), animatedStyle]} />
+        <Animated.View style={[styles.mask(width), style]} />
       </MaskedView>
     </View>
   )

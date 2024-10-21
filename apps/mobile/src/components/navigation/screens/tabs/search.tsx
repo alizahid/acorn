@@ -1,10 +1,11 @@
 import { useIsFocused } from '@react-navigation/native'
-import { useState } from 'react'
-import { Tabs } from 'react-native-collapsible-tab-view'
+import { useRef, useState } from 'react'
+import { TabView } from 'react-native-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 
+import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
@@ -23,7 +24,14 @@ export function SearchScreen() {
 
   const { styles } = useStyles(stylesheet)
 
-  const [tab, setTab] = useState(0)
+  const routes = useRef(
+    SearchTab.map((key) => ({
+      key,
+      title: t(`tabs.${key}`),
+    })),
+  )
+
+  const [index, setIndex] = useState(0)
   const [query, setQuery] = useState('')
   const [filters, setFilters] = useState<SearchFilters>({
     interval: 'all',
@@ -33,72 +41,70 @@ export function SearchScreen() {
   const [debounced] = useDebounce(query, 500)
 
   return (
-    <Tabs.Container
-      headerContainerStyle={styles.header}
-      headerHeight={56}
+    <TabView
       lazy
-      onIndexChange={setTab}
-      renderHeader={() => (
-        <View style={styles.tabs}>
-          <TextBox
-            onChangeText={setQuery}
-            placeholder={t('title')}
-            returnKeyType="search"
-            right={
-              query.length > 0 ? (
-                <HeaderButton
-                  color="gray"
-                  icon="XCircle"
-                  onPress={() => {
-                    setQuery('')
-                  }}
-                  style={styles.clear}
-                  weight="fill"
-                />
-              ) : null
-            }
-            styleContent={styles.query}
-            value={query}
-          />
-        </View>
-      )}
-      renderTabBar={({ indexDecimal, onTabPress }) => (
-        <View style={styles.tabs}>
-          <SegmentedControl
-            items={SearchTab.map((item) => t(`tabs.${item}`))}
-            offset={indexDecimal}
-            onChange={(index) => {
-              const next = SearchTab[index]
-
-              if (next) {
-                onTabPress(next)
+      navigationState={{
+        index,
+        routes: routes.current,
+      }}
+      onIndexChange={setIndex}
+      renderLazyPlaceholder={Loading}
+      renderScene={({ route }) => {
+        if (route.key === 'post') {
+          return (
+            <SearchList
+              filters={filters}
+              focused={focused ? index === 0 : false}
+              header={
+                <SearchPostFilters filters={filters} onChange={setFilters} />
               }
-            }}
-          />
-        </View>
-      )}
-      revealHeaderOnScroll
-      tabBarHeight={52}
-    >
-      <Tabs.Tab name="post">
-        <SearchList
-          filters={filters}
-          focused={focused ? tab === 0 : false}
-          header={<SearchPostFilters filters={filters} onChange={setFilters} />}
-          query={debounced}
-          tabs
-          type="post"
-        />
-      </Tabs.Tab>
+              query={debounced}
+              type="post"
+            />
+          )
+        }
 
-      <Tabs.Tab name="community">
-        <SearchList query={debounced} tabs type="community" />
-      </Tabs.Tab>
+        if (route.key === 'community') {
+          return <SearchList query={debounced} type="community" />
+        }
 
-      <Tabs.Tab name="user">
-        <SearchList query={debounced} tabs type="user" />
-      </Tabs.Tab>
-    </Tabs.Container>
+        return <SearchList query={debounced} type="user" />
+      }}
+      renderTabBar={({ position }) => {
+        return (
+          <View style={styles.tabs}>
+            <TextBox
+              onChangeText={setQuery}
+              placeholder={t('title')}
+              returnKeyType="search"
+              right={
+                query.length > 0 ? (
+                  <HeaderButton
+                    color="gray"
+                    icon="XCircle"
+                    onPress={() => {
+                      setQuery('')
+                    }}
+                    style={styles.clear}
+                    weight="fill"
+                  />
+                ) : null
+              }
+              styleContent={styles.query}
+              value={query}
+            />
+
+            <SegmentedControl
+              items={routes.current.map(({ title }) => title)}
+              offset={position}
+              onChange={(next) => {
+                setIndex(next)
+              }}
+            />
+          </View>
+        )
+      }}
+    />
   )
 }
 
@@ -107,19 +113,13 @@ const stylesheet = createStyleSheet((theme) => ({
     height: theme.space[7],
     width: theme.space[7],
   },
-  header: {
-    backgroundColor: theme.colors.gray[1],
-    shadowColor: 'transparent',
-  },
-  main: {
-    flex: 1,
-  },
   query: {
     backgroundColor: theme.colors.gray.a3,
     borderWidth: 0,
   },
   tabs: {
     backgroundColor: theme.colors.gray[1],
+    gap: theme.space[4],
     paddingBottom: theme.space[4],
     paddingHorizontal: theme.space[3],
   },

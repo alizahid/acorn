@@ -1,7 +1,6 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
-import { Tabs } from 'react-native-collapsible-tab-view'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -19,7 +18,6 @@ type Props = PostsProps & {
   header?: ReactElement
   label?: PostLabel
   onRefresh?: () => void
-  tabs?: boolean
 }
 
 export function PostList({
@@ -29,7 +27,6 @@ export function PostList({
   label,
   onRefresh,
   sort,
-  tabs,
 }: Props) {
   const list = useRef<FlashList<Post>>(null)
 
@@ -53,10 +50,8 @@ export function PostList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const List = tabs ? Tabs.FlashList : FlashList
-
   return (
-    <List
+    <FlashList
       {...listProps}
       ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}

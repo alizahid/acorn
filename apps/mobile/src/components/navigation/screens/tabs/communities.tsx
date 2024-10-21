@@ -1,8 +1,9 @@
-import React from 'react'
-import { Tabs } from 'react-native-collapsible-tab-view'
+import React, { useRef, useState } from 'react'
+import { TabView } from 'react-native-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { CommunitiesList } from '~/components/communities/list'
@@ -24,6 +25,15 @@ export function CommunitiesScreen() {
     users,
   } = useCommunities()
 
+  const routes = useRef(
+    CommunityTab.map((key) => ({
+      key,
+      title: t(`tabs.${key}`),
+    })),
+  )
+
+  const [index, setIndex] = useState(0)
+
   const props = {
     fetchNextPage,
     hasNextPage,
@@ -33,44 +43,39 @@ export function CommunitiesScreen() {
   } as const
 
   return (
-    <Tabs.Container
-      headerContainerStyle={styles.header}
+    <TabView
       lazy
-      renderTabBar={({ indexDecimal, onTabPress }) => (
-        <View style={styles.tabs}>
-          <SegmentedControl
-            items={CommunityTab.map((item) => t(`tabs.${item}`))}
-            offset={indexDecimal}
-            onChange={(index) => {
-              const next = CommunityTab[index]
+      navigationState={{
+        index,
+        routes: routes.current,
+      }}
+      onIndexChange={setIndex}
+      renderLazyPlaceholder={Loading}
+      renderScene={({ route }) => {
+        if (route.key === 'communities') {
+          return <CommunitiesList {...props} communities={communities} />
+        }
 
-              if (next) {
-                onTabPress(next)
-              }
-            }}
-          />
-        </View>
-      )}
-      tabBarHeight={52}
-    >
-      <Tabs.Tab name="communities">
-        <CommunitiesList {...props} communities={communities} tabs />
-      </Tabs.Tab>
-
-      <Tabs.Tab name="users">
-        <CommunitiesList {...props} communities={users} key="users" tabs />
-      </Tabs.Tab>
-    </Tabs.Container>
+        return <CommunitiesList {...props} communities={users} key="users" />
+      }}
+      renderTabBar={({ position }) => {
+        return (
+          <View style={styles.tabs}>
+            <SegmentedControl
+              items={routes.current.map(({ title }) => title)}
+              offset={position}
+              onChange={(next) => {
+                setIndex(next)
+              }}
+            />
+          </View>
+        )
+      }}
+    />
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  header: {
-    shadowColor: 'transparent',
-  },
-  main: {
-    flex: 1,
-  },
   tabs: {
     backgroundColor: theme.colors.gray[1],
     paddingBottom: theme.space[4],

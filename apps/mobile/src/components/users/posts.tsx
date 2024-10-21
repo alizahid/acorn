@@ -2,7 +2,6 @@ import { useIsFocused } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { useState } from 'react'
-import { Tabs } from 'react-native-collapsible-tab-view'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -19,7 +18,6 @@ import { type PostLabel } from '../posts/footer'
 type Props = UserPostsProps & {
   label?: PostLabel
   onRefresh?: () => void
-  tabs?: boolean
 }
 
 export function UserPostsList({
@@ -27,7 +25,7 @@ export function UserPostsList({
   label,
   onRefresh,
   sort,
-  tabs,
+
   type,
   username,
 }: Props) {
@@ -51,10 +49,8 @@ export function UserPostsList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const List = tabs ? Tabs.FlashList : FlashList
-
   return (
-    <List
+    <FlashList
       {...listProps}
       ItemSeparatorComponent={() => <View height="2" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}

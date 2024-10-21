@@ -1,7 +1,6 @@
 import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
-import { Tabs } from 'react-native-collapsible-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Empty } from '~/components/common/empty'
@@ -26,7 +25,6 @@ type Props = {
   focused?: boolean
   header?: ReactElement
   query: string
-  tabs?: boolean
   type: SearchTab
 }
 
@@ -36,21 +34,12 @@ export function SearchList({
   focused,
   header,
   query,
-  tabs,
   type,
 }: Props) {
   const list = useRef<FlashList<Community | SearchUser | Post>>(null)
 
-  useScrollToTop(
-    useRef({
-      scrollToTop() {
-        list.current?.scrollToOffset({
-          animated: true,
-          offset: tabs ? -60 : 0,
-        })
-      },
-    }),
-  )
+  // @ts-expect-error -- go away
+  useScrollToTop(list)
 
   const { styles } = useStyles(stylesheet)
 
@@ -64,10 +53,8 @@ export function SearchList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const List = tabs ? Tabs.FlashList : FlashList
-
   return (
-    <List
+    <FlashList
       {...listProps}
       ItemSeparatorComponent={() => <View style={styles.separator(type)} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}

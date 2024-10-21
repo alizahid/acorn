@@ -209,8 +209,10 @@
     },
     "users": {
       "user": {
-        "comments": "Comments",
-        "posts": "Posts"
+        "tabs": {
+          "comments": "Comments",
+          "posts": "Posts"
+        }
       }
     }
   }

@@ -3,11 +3,13 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { Tabs } from 'react-native-collapsible-tab-view'
+import { useRef, useState } from 'react'
+import { TabView } from 'react-native-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
@@ -35,6 +37,15 @@ export function UserScreen() {
 
   const { styles } = useStyles(stylesheet)
 
+  const routes = useRef(
+    UserTab.map((key) => ({
+      key,
+      title: t(`tabs.${key}`),
+    })),
+  )
+
+  const [index, setIndex] = useState(0)
+
   useFocusEffect(() => {
     navigation.setOptions({
       headerRight: () =>
@@ -56,56 +67,53 @@ export function UserScreen() {
   })
 
   return (
-    <Tabs.Container
-      headerContainerStyle={styles.header}
+    <TabView
       lazy
-      renderTabBar={({ indexDecimal, onTabPress }) => (
-        <View style={styles.tabs}>
-          <SegmentedControl
-            items={UserTab.map((tab) => t(tab))}
-            offset={indexDecimal}
-            onChange={(index) => {
-              const next = UserTab[index]
+      navigationState={{
+        index,
+        routes: routes.current,
+      }}
+      onIndexChange={setIndex}
+      renderLazyPlaceholder={Loading}
+      renderScene={({ route }) => {
+        if (route.key === 'posts') {
+          return (
+            <UserPostsList
+              label="subreddit"
+              onRefresh={refetch}
+              sort="new"
+              type="submitted"
+              username={params.name}
+            />
+          )
+        }
 
-              if (next) {
-                onTabPress(next)
-              }
-            }}
+        return (
+          <UserCommentsList
+            onRefresh={refetch}
+            sort="new"
+            username={params.name}
           />
-        </View>
-      )}
-      tabBarHeight={52}
-    >
-      <Tabs.Tab name="posts">
-        <UserPostsList
-          label="subreddit"
-          onRefresh={refetch}
-          sort="new"
-          tabs
-          type="submitted"
-          username={params.name}
-        />
-      </Tabs.Tab>
-
-      <Tabs.Tab name="comments">
-        <UserCommentsList
-          onRefresh={refetch}
-          sort="new"
-          tabs
-          username={params.name}
-        />
-      </Tabs.Tab>
-    </Tabs.Container>
+        )
+      }}
+      renderTabBar={({ position }) => {
+        return (
+          <View style={styles.tabs}>
+            <SegmentedControl
+              items={routes.current.map(({ title }) => title)}
+              offset={position}
+              onChange={(next) => {
+                setIndex(next)
+              }}
+            />
+          </View>
+        )
+      }}
+    />
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  header: {
-    shadowColor: 'transparent',
-  },
-  main: {
-    flex: 1,
-  },
   tabs: {
     backgroundColor: theme.colors.gray[1],
     paddingBottom: theme.space[4],

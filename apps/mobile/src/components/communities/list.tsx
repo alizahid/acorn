@@ -1,7 +1,6 @@
 import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRef } from 'react'
-import { Tabs } from 'react-native-collapsible-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Empty } from '~/components/common/empty'
@@ -22,7 +21,6 @@ type Props = {
   isFetchingNextPage: boolean
   isLoading: boolean
   refetch: () => Promise<unknown>
-  tabs?: boolean
 }
 
 export function CommunitiesList({
@@ -32,31 +30,20 @@ export function CommunitiesList({
   isFetchingNextPage,
   isLoading,
   refetch,
-  tabs,
 }: Props) {
   const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlashList<Community | string>>(null)
 
-  useScrollToTop(
-    useRef({
-      scrollToTop() {
-        list.current?.scrollToOffset({
-          animated: true,
-          offset: tabs ? -100 : 0,
-        })
-      },
-    }),
-  )
+  // @ts-expect-error -- go away
+  useScrollToTop(list)
 
   const sticky = communities
     .map((item, index) => (typeof item === 'string' ? index : null))
     .filter((item) => item !== null) as unknown as Array<number>
 
-  const List = tabs ? Tabs.FlashList : FlashList
-
   return (
-    <List
+    <FlashList
       {...listProps}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
