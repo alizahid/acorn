@@ -158,6 +158,13 @@ export function PostGalleryModal({
                 url: viewing.url,
               })
             }}
+            weight={
+              download.isError
+                ? 'fill'
+                : download.isSuccess
+                  ? 'fill'
+                  : 'duotone'
+            }
           />
 
           <HeaderButton
@@ -175,6 +182,7 @@ export function PostGalleryModal({
                 url: viewing.url,
               })
             }}
+            weight={copy.isError ? 'fill' : copy.isSuccess ? 'fill' : 'duotone'}
           />
         </Animated.View>
       </Animated.View>
@@ -192,13 +200,16 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   }),
   footer: {
     alignItems: 'center',
-    bottom: theme.space[4] + runtime.insets.bottom,
+    alignSelf: 'center',
+    backgroundColor: theme.colors.black.a9,
+    borderCurve: 'continuous',
+    borderRadius: theme.space[9],
+    bottom: theme.space[9] + runtime.insets.bottom,
     flexDirection: 'row',
-    gap: theme.space[2],
     justifyContent: 'center',
-    left: theme.space[4],
+    overflow: 'hidden',
+    paddingHorizontal: theme.space[2],
     position: 'absolute',
-    right: theme.space[4],
   },
   gif: {
     bottom: theme.space[2],
