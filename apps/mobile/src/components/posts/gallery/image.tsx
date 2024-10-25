@@ -1,5 +1,6 @@
 import { Image } from 'expo-image'
 import { useEffect, useRef, useState } from 'react'
+import { StyleSheet } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -35,40 +36,44 @@ export function GalleryImage({ image, recyclingKey }: Props) {
   }, [image.thumbnail, image.url])
 
   return (
-    <Image
-      {...placeholder}
-      contentFit="contain"
-      pointerEvents="box-none"
-      recyclingKey={recyclingKey}
-      ref={ref}
-      source={loaded ? image.url : image.thumbnail}
-      style={styles.main}
-    >
+    <>
+      <Image
+        {...placeholder}
+        contentFit="contain"
+        pointerEvents="box-none"
+        recyclingKey={recyclingKey}
+        ref={ref}
+        source={loaded ? image.url : image.thumbnail}
+        style={styles.main}
+      />
+
       {image.type === 'gif' ? (
-        <View style={styles.controls(image.width / image.height)}>
-          <View pointerEvents="none" style={styles.gif}>
-            <Text contrast size="1">
-              {t('gif')}
-            </Text>
+        <View pointerEvents="box-none" style={styles.overlay}>
+          <View style={styles.controls(image.width / image.height)}>
+            <View style={styles.gif}>
+              <Text contrast size="1">
+                {t('gif')}
+              </Text>
+            </View>
+
+            <HeaderButton
+              icon={playing ? 'Pause' : 'Play'}
+              onPress={() => {
+                if (playing) {
+                  void ref.current?.stopAnimating()
+                } else {
+                  void ref.current?.startAnimating()
+                }
+
+                setPlaying(!playing)
+              }}
+              style={styles.play}
+              weight="fill"
+            />
           </View>
-
-          <HeaderButton
-            icon={playing ? 'Pause' : 'Play'}
-            onPress={() => {
-              if (playing) {
-                void ref.current?.stopAnimating()
-              } else {
-                void ref.current?.startAnimating()
-              }
-
-              setPlaying(!playing)
-            }}
-            style={styles.play}
-            weight="fill"
-          />
         </View>
       ) : null}
-    </Image>
+    </>
   )
 }
 
@@ -87,11 +92,11 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
   },
-  image: {
-    flex: 1,
-  },
   main: {
     flex: 1,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
   },
   play: {
     bottom: 0,

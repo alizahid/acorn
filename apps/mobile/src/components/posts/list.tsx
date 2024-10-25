@@ -32,7 +32,6 @@ export function PostList({
 
   const focused = useIsFocused()
 
-  // @ts-expect-error -- go away
   useScrollToTop(list)
 
   const {

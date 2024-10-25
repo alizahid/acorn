@@ -54,9 +54,9 @@ export function VideoControls({ opacity, player }: Props) {
     go()
 
     const playingChange = player.addListener('playingChange', (next) => {
-      setPlaying(next)
+      setPlaying(next.isPlaying)
 
-      if (next) {
+      if (next.isPlaying) {
         go()
       } else {
         stop()

@@ -17,5 +17,23 @@ export function useTheme() {
       text: theme.colors.gray[11],
     },
     dark: scheme === 'dark',
+    fonts: {
+      bold: {
+        fontFamily: 'sans',
+        fontWeight: '700',
+      },
+      heavy: {
+        fontFamily: 'sans',
+        fontWeight: '800',
+      },
+      medium: {
+        fontFamily: 'sans',
+        fontWeight: '500',
+      },
+      regular: {
+        fontFamily: 'sans',
+        fontWeight: '400',
+      },
+    },
   } satisfies Theme
 }

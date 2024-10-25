@@ -11,7 +11,7 @@ type Props = NativeStackHeaderProps | BottomTabHeaderProps
 export function Header({ navigation, options, ...props }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  const back = 'back' in props ? Boolean(props.back) : false
+  const back = 'back' in props ? Boolean(props.back?.title) : false
   const left = back || options.headerLeft
   const modal = 'presentation' in options && options.presentation === 'modal'
 

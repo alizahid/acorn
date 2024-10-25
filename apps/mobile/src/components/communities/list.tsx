@@ -35,7 +35,6 @@ export function CommunitiesList({
 
   const list = useRef<FlashList<Community | string>>(null)
 
-  // @ts-expect-error -- go away
   useScrollToTop(list)
 
   const sticky = communities

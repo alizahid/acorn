@@ -40,7 +40,9 @@ export function SettingsItem({ item, style }: Props) {
         onPress={async () => {
           if (item.type === 'options') {
             setVisible(true)
-          } else if (item.onPress) {
+          }
+
+          if (item.onPress) {
             try {
               setLoading(true)
 

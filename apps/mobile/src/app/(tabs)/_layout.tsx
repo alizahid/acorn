@@ -10,6 +10,7 @@ export default function Layout() {
   return (
     <Tabs
       screenOptions={{
+        animation: 'shift',
         headerShown: false,
       }}
       tabBar={(props) => <TabBar {...props} />}

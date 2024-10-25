@@ -2,8 +2,8 @@ import { createElement, type ReactNode } from 'react'
 import {
   type LayoutChangeEvent,
   type StyleProp,
-  type TextStyle,
   type ViewProps,
+  type ViewStyle,
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -14,7 +14,7 @@ type Props = ViewStyleProps & {
   onLayout?: (event: LayoutChangeEvent) => void
   pointerEvents?: ViewProps['pointerEvents']
   responder?: boolean
-  style?: StyleProp<TextStyle>
+  style?: StyleProp<ViewStyle>
 }
 
 export function View({

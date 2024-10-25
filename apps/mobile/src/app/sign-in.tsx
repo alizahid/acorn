@@ -81,7 +81,7 @@ export default function Screen() {
       </View>
 
       <View gap="4" mt="9">
-        <Text>
+        <Text slow>
           {t.rich('instructions', {
             link: (text) => (
               <Text

@@ -14,7 +14,6 @@ import { type Notification } from '~/types/notification'
 export function NotificationsScreen() {
   const list = useRef<FlashList<Notification>>(null)
 
-  // @ts-expect-error -- go away
   useScrollToTop(list)
 
   const {

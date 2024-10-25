@@ -35,8 +35,8 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
     plugins.push([
       '@sentry/react-native/expo',
       {
-        organization: process.env.SENTRY_ORG,
-        project: process.env.SENTRY_PROJECT,
+        organization: String(process.env.SENTRY_ORG),
+        project: String(process.env.SENTRY_PROJECT),
       },
     ])
   }
@@ -84,6 +84,7 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
       supportsTablet: true,
     },
     name,
+    newArchEnabled: true,
     orientation: 'portrait',
     plugins,
     runtimeVersion: {

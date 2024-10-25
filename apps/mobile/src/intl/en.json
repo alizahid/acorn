@@ -106,7 +106,7 @@
             }
           }
         },
-        "instructions": "Head over to <link>Reddit</link> to create an app and grab the client id. Use the following redirect uri.",
+        "instructions": "Head over to <link>Reddit</link> to create an app and grab the client id. Select installed app as the type and use the following redirect uri.",
         "title": "Acorn"
       }
     },
