@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key -- go away */
 
 import { Image } from 'expo-image'
-import { type Nodes } from 'mdast-util-from-markdown/lib'
+import { type Nodes } from 'mdast'
 import { type Table } from 'mdast-util-gfm-table/lib'
 import { ScrollView, type TextStyle, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'

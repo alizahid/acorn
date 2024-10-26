@@ -1,6 +1,6 @@
+import { type PhrasingContent, type Text } from 'mdast'
 import { directiveFromMarkdown } from 'mdast-util-directive'
 import { fromMarkdown } from 'mdast-util-from-markdown'
-import { type PhrasingContent, type Text } from 'mdast-util-from-markdown/lib'
 import { gfmFromMarkdown } from 'mdast-util-gfm'
 import { gfmAutolinkLiteralFromMarkdown } from 'mdast-util-gfm-autolink-literal'
 import { gfmStrikethroughFromMarkdown } from 'mdast-util-gfm-strikethrough'
