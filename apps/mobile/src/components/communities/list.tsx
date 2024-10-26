@@ -2,7 +2,6 @@ import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRef } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
 
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
@@ -13,6 +12,7 @@ import { CommunityCard } from '~/components/communities/card'
 import { listProps } from '~/lib/common'
 import { type Community } from '~/types/community'
 
+import { Icon } from '../common/icon'
 import { View } from '../common/view'
 
 type Props = {
@@ -32,9 +32,7 @@ export function CommunitiesList({
   isLoading,
   refetch,
 }: Props) {
-  const t = useTranslations('component.communities.card')
-
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const list = useRef<FlashList<Community | string>>(null)
 
@@ -76,9 +74,18 @@ export function CommunitiesList({
                 target === 'StickyHeader' && styles.sticky,
               ]}
             >
-              <Text color="accent" weight="bold">
-                {item === 'favorites' ? t('favorites') : item.toUpperCase()}
-              </Text>
+              {item === 'favorites' ? (
+                <Icon
+                  color={theme.colors.accent.a11}
+                  name="Star"
+                  size={theme.typography[3].lineHeight}
+                  weight="duotone"
+                />
+              ) : (
+                <Text color="accent" weight="bold">
+                  {item.toUpperCase()}
+                </Text>
+              )}
             </View>
           )
         }
