@@ -9,7 +9,7 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { listProps } from '~/lib/common'
 
-import { SettingsItem } from './item'
+import { MenuItem } from './item'
 
 type Icon = {
   color?: string
@@ -17,7 +17,7 @@ type Icon = {
   weight?: IconWeight
 }
 
-export type SettingsItemOption = {
+export type MenuItemOption = {
   icon?: Icon
   label: string
   left?: ReactElement
@@ -25,7 +25,7 @@ export type SettingsItemOption = {
   value: string
 }
 
-export type SettingsItem = {
+export type MenuItem = {
   arrow?: boolean
   icon?: Icon
   label: string
@@ -36,7 +36,7 @@ export type SettingsItem = {
     }
   | {
       onSelect: (value: string) => void
-      options: Array<SettingsItemOption>
+      options: Array<MenuItemOption>
       type: 'options'
       value?: string
     }
@@ -50,14 +50,14 @@ export type SettingsItem = {
 type Props = {
   footer?: ReactElement
   header?: ReactElement
-  items: Array<SettingsItem | string | null>
+  items: Array<MenuItem | string | null>
   onRefresh?: () => Promise<unknown>
 }
 
-export function SettingsMenu({ footer, header, items, onRefresh }: Props) {
+export function Menu({ footer, header, items, onRefresh }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  const list = useRef<FlatList<SettingsItem | string | null>>(null)
+  const list = useRef<FlatList<MenuItem | string | null>>(null)
 
   useScrollToTop(list)
 
@@ -94,7 +94,7 @@ export function SettingsMenu({ footer, header, items, onRefresh }: Props) {
         }
 
         return (
-          <SettingsItem
+          <MenuItem
             item={item}
             style={[
               index === 0 && styles.first,

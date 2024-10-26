@@ -9,14 +9,14 @@ import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 
-import { type SettingsItem } from '.'
+import { type MenuItem } from '.'
 
 type Props = {
-  item: SettingsItem
+  item: MenuItem
   style?: StyleProp<ViewStyle>
 }
 
-export function SettingsItem({ item, style }: Props) {
+export function MenuItem({ item, style }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const [visible, setVisible] = useState(false)

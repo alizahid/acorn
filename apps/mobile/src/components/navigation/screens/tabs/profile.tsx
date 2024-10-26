@@ -3,7 +3,7 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type IconName } from '~/components/common/icon'
-import { SettingsMenu } from '~/components/settings/menu'
+import { Menu } from '~/components/common/menu'
 import { ProfileCard } from '~/components/users/profile'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { removePrefix } from '~/lib/reddit'
@@ -22,7 +22,7 @@ export function ProfileScreen() {
   const { theme } = useStyles()
 
   return (
-    <SettingsMenu
+    <Menu
       header={<ProfileCard profile={profile} />}
       items={[
         ...UserFeedType.map((type) => ({

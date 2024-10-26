@@ -2,7 +2,7 @@ import { Image } from 'expo-image'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { SettingsMenu } from '~/components/settings/menu'
+import { Menu } from '~/components/common/menu'
 import { queryClient } from '~/lib/query'
 
 export function SettingsCacheScreen() {
@@ -11,7 +11,7 @@ export function SettingsCacheScreen() {
   const { theme } = useStyles()
 
   return (
-    <SettingsMenu
+    <Menu
       items={[
         {
           icon: {

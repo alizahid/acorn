@@ -1,6 +1,6 @@
 import { useTranslations } from 'use-intl'
 
-import { SettingsMenu } from '~/components/settings/menu'
+import { Menu } from '~/components/common/menu'
 import { usePreferences } from '~/stores/preferences'
 
 export function SettingsPreferencesScreen() {
@@ -9,7 +9,7 @@ export function SettingsPreferencesScreen() {
   const { update, ...preferences } = usePreferences()
 
   return (
-    <SettingsMenu
+    <Menu
       items={(
         [
           t('menu.browsing'),

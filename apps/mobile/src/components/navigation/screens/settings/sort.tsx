@@ -3,11 +3,8 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
+import { Menu, type MenuItemOption } from '~/components/common/menu'
 import { TopIntervalItem } from '~/components/posts/interval'
-import {
-  type SettingsItemOption,
-  SettingsMenu,
-} from '~/components/settings/menu'
 import { getTranslator } from '~/intl'
 import { SortColors, SortIcons } from '~/lib/sort'
 import { usePreferences } from '~/stores/preferences'
@@ -29,7 +26,7 @@ export function SettingsSortScreen() {
   const { theme } = useStyles()
 
   const enhanceSort = useCallback(
-    (sort: FeedSort | CommentSort): SettingsItemOption => {
+    (sort: FeedSort | CommentSort): MenuItemOption => {
       const icon = SortIcons[sort]
       const color = theme.colors[SortColors[sort]].a9
 
@@ -55,7 +52,7 @@ export function SettingsSortScreen() {
   )
 
   const enhanceInterval = useCallback(
-    (interval: TopInterval): SettingsItemOption => {
+    (interval: TopInterval): MenuItemOption => {
       return {
         label: tInterval(interval),
         left: (
@@ -72,7 +69,7 @@ export function SettingsSortScreen() {
   )
 
   return (
-    <SettingsMenu
+    <Menu
       items={(
         [
           t('menu.feed'),
