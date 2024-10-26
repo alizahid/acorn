@@ -34,7 +34,12 @@ export function Modal({
   const { styles } = useStyles(stylesheet)
 
   return (
-    <ReactNativeModal animationType="fade" transparent visible={visible}>
+    <ReactNativeModal
+      animationType="fade"
+      pointerEvents={visible ? 'auto' : 'none'}
+      transparent
+      visible={visible}
+    >
       <View flex={1} justify="center" p="6">
         <Pressable
           flexGrow={1}
