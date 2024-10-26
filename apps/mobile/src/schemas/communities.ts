@@ -8,6 +8,7 @@ export const CommunityDataSchema = z.object({
   id: z.string(),
   subreddit_type: z.string().nullish(),
   subscribers: z.number().nullish(),
+  user_has_favorited: z.boolean().nullish(),
   user_is_subscriber: z.boolean().nullish(),
 })
 

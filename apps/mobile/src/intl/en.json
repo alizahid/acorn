@@ -45,6 +45,9 @@
         "leave": "Leave",
         "loading": "Loading",
         "subscribers": "Subscribers"
+      },
+      "card": {
+        "favorites": "Favorites"
       }
     },
     "notifications": {

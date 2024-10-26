@@ -1,5 +1,6 @@
 export type Community = {
   createdAt: Date
+  favorite: boolean
   id: string
   image?: string
   name: string

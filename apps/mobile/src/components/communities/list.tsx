@@ -2,6 +2,7 @@ import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRef } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
@@ -31,6 +32,8 @@ export function CommunitiesList({
   isLoading,
   refetch,
 }: Props) {
+  const t = useTranslations('component.communities.card')
+
   const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlashList<Community | string>>(null)
@@ -74,7 +77,7 @@ export function CommunitiesList({
               ]}
             >
               <Text color="accent" weight="bold">
-                {item.toUpperCase()}
+                {item === 'favorites' ? t('favorites') : item.toUpperCase()}
               </Text>
             </View>
           )

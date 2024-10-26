@@ -47,6 +47,7 @@ import SmileySadBold from 'react-native-phosphor/src/bold/SmileySad'
 import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
+import StarBold from 'react-native-phosphor/src/bold/Star'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
 import TextAaBold from 'react-native-phosphor/src/bold/TextAa'
 import TrashBold from 'react-native-phosphor/src/bold/Trash'
@@ -105,6 +106,7 @@ import SmileySadDuotone from 'react-native-phosphor/src/duotone/SmileySad'
 import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
+import StarDuotone from 'react-native-phosphor/src/duotone/Star'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
 import TextAaDuotone from 'react-native-phosphor/src/duotone/TextAa'
 import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
@@ -163,6 +165,7 @@ import SmileySadFill from 'react-native-phosphor/src/fill/SmileySad'
 import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
+import StarFill from 'react-native-phosphor/src/fill/Star'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
 import TextAaFill from 'react-native-phosphor/src/fill/TextAa'
 import TrashFill from 'react-native-phosphor/src/fill/Trash'
@@ -221,6 +224,7 @@ import SmileySadRegular from 'react-native-phosphor/src/regular/SmileySad'
 import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
+import StarRegular from 'react-native-phosphor/src/regular/Star'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
 import TextAaRegular from 'react-native-phosphor/src/regular/TextAa'
 import TrashRegular from 'react-native-phosphor/src/regular/Trash'
@@ -539,6 +543,12 @@ const icons = {
     duotone: SpeakerSimpleXDuotone,
     fill: SpeakerSimpleXFill,
     regular: SpeakerSimpleXRegular,
+  },
+  Star: {
+    bold: StarBold,
+    duotone: StarDuotone,
+    fill: StarFill,
+    regular: StarRegular,
   },
   Target: {
     bold: TargetBold,

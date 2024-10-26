@@ -9,6 +9,7 @@ export function transformCommunity(data: CommunityDataSchema): Community {
 
   return {
     createdAt: dateFromUnix(data.created_utc),
+    favorite: Boolean(data.user_has_favorited),
     id: data.id,
     image: data.icon_img
       ? decode(data.icon_img) || undefined

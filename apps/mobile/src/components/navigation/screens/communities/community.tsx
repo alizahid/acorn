@@ -2,7 +2,6 @@ import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
-  useRouter,
 } from 'expo-router'
 import { z } from 'zod'
 
@@ -11,6 +10,7 @@ import { HeaderButton } from '~/components/navigation/header-button'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
 import { FeedSortMenu } from '~/components/posts/sort'
+import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
 import { usePreferences } from '~/stores/preferences'
@@ -22,7 +22,6 @@ const schema = z.object({
 export type CommunityParams = z.infer<typeof schema>
 
 export function CommunityScreen() {
-  const router = useRouter()
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
@@ -31,38 +30,40 @@ export function CommunityScreen() {
     usePreferences()
 
   const { community, refetch } = useCommunity(params.name)
-  const { isPending, join } = useJoin()
+  const join = useJoin()
+  const favorite = useFavorite()
 
   useFocusEffect(() => {
     navigation.setOptions({
-      headerLeft: () => (
-        <HeaderButton
-          color="gray"
-          icon="MagnifyingGlass"
-          onPress={() => {
-            router.navigate({
-              params: {
-                name: params.name,
-              },
-              pathname: '/communities/[name]/search',
-            })
-          }}
-        />
-      ),
       headerRight: () =>
         community ? (
-          <HeaderButton
-            color={community.subscribed ? 'red' : 'accent'}
-            icon={community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
-            loading={isPending}
-            onPress={() => {
-              join({
-                action: community.subscribed ? 'leave' : 'join',
-                id: community.id,
-                name: community.name,
-              })
-            }}
-          />
+          <>
+            <HeaderButton
+              color={community.favorite ? 'amber' : 'gray'}
+              icon="Star"
+              loading={favorite.isPending}
+              onPress={() => {
+                favorite.favorite({
+                  favorite: !community.favorite,
+                  name: community.name,
+                })
+              }}
+              weight={community.favorite ? 'fill' : 'regular'}
+            />
+
+            <HeaderButton
+              color={community.subscribed ? 'red' : 'accent'}
+              icon={community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
+              loading={join.isPending}
+              onPress={() => {
+                join.join({
+                  action: community.subscribed ? 'leave' : 'join',
+                  id: community.id,
+                  name: community.name,
+                })
+              }}
+            />
+          </>
         ) : null,
     })
   })

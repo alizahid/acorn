@@ -114,12 +114,28 @@ export function useCommunities() {
 }
 
 function getCommunities(communities: Array<Community>, user: boolean) {
+  const list = sortBy(communities, (community) =>
+    community.name.toLowerCase(),
+  ).filter((community) => community.user === user)
+
+  const favorites = list.filter((community) => community.favorite)
+
+  if (favorites.length > 0) {
+    return [
+      'favorites',
+      ...favorites,
+      ...transform(list.filter((community) => !community.favorite)),
+    ]
+  }
+
+  return transform(list)
+}
+
+function transform(communities: Array<Community>) {
   return uniq(
-    sortBy(communities, (community) => community.name.toLowerCase())
-      .filter((community) => community.user === user)
-      .flatMap((community) => [
-        community.name.slice(0, 1).toLowerCase(),
-        community,
-      ]),
+    communities.flatMap((community) => [
+      community.name.slice(0, 1).toLowerCase(),
+      community,
+    ]),
   )
 }
