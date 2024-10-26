@@ -62,7 +62,7 @@ export function SearchList({
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListHeaderComponent={header}
       data={results}
-      estimatedItemSize={type === 'community' ? 56 : 120}
+      estimatedItemSize={type === 'post' ? 120 : 56}
       extraData={{
         viewing,
       }}
@@ -119,12 +119,12 @@ export function SearchList({
 
 const stylesheet = createStyleSheet((theme) => ({
   separator: (type: SearchTab) => {
-    if (type === 'community') {
-      return {}
+    if (type === 'post') {
+      return {
+        height: theme.space[4],
+      }
     }
 
-    return {
-      height: theme.space[4],
-    }
+    return {}
   },
 }))
