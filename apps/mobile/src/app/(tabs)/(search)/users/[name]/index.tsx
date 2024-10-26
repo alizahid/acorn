@@ -1,3 +1,3 @@
-import { UserScreen } from '~/components/navigation/screens/users/user'
+import { UserScreen } from '~/screens/users/user'
 
 export default UserScreen

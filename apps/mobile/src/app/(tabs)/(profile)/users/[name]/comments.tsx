@@ -1,3 +1,3 @@
-import UserCommentsScreen from '~/components/navigation/screens/users/comments'
+import UserCommentsScreen from '~/screens/users/comments'
 
 export default UserCommentsScreen

@@ -2,10 +2,9 @@ import { Stack } from 'expo-router'
 import { useTranslations } from 'use-intl'
 
 import { Header } from '~/components/navigation/header'
-
-import { type CommunityParams } from '../screens/communities/community'
-import { type CommunitiesSearchParams } from '../screens/communities/search'
-import { type UserParams } from '../screens/users/user'
+import { type CommunityParams } from '~/screens/communities/community'
+import { type CommunitiesSearchParams } from '~/screens/communities/search'
+import { type UserParams } from '~/screens/users/user'
 
 export function SearchLayout() {
   const t = useTranslations('screen')

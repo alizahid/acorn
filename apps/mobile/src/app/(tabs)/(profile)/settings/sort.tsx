@@ -1,3 +1,3 @@
-import { SettingsSortScreen } from '~/components/navigation/screens/settings/sort'
+import { SettingsSortScreen } from '~/screens/settings/sort'
 
 export default SettingsSortScreen

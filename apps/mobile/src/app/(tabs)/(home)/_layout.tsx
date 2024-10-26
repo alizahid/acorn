@@ -1,3 +1,3 @@
-import { HomeLayout } from '~/components/navigation/layouts/home'
+import { HomeLayout } from '~/layouts/home'
 
 export default HomeLayout

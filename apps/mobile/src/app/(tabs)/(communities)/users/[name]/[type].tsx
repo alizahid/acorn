@@ -1,3 +1,3 @@
-import { UserPostsScreen } from '~/components/navigation/screens/users/posts'
+import { UserPostsScreen } from '~/screens/users/posts'
 
 export default UserPostsScreen

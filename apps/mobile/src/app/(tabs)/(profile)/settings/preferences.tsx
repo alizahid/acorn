@@ -1,3 +1,3 @@
-import { SettingsPreferencesScreen } from '~/components/navigation/screens/settings/preferences'
+import { SettingsPreferencesScreen } from '~/screens/settings/preferences'
 
 export default SettingsPreferencesScreen

@@ -1,3 +1,3 @@
-import { ProfileLayout } from '~/components/navigation/layouts/profile'
+import { ProfileLayout } from '~/layouts/profile'
 
 export default ProfileLayout

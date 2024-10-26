@@ -1,3 +1,3 @@
-import { SettingsAboutScreen } from '~/components/navigation/screens/settings/about'
+import { SettingsAboutScreen } from '~/screens/settings/about'
 
 export default SettingsAboutScreen

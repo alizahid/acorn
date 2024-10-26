@@ -1,3 +1,3 @@
-import { HomeScreen } from '~/components/navigation/screens/tabs/home'
+import { HomeScreen } from '~/screens/tabs/home'
 
 export default HomeScreen

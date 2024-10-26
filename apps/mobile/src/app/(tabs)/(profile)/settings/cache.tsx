@@ -1,3 +1,3 @@
-import { SettingsCacheScreen } from '~/components/navigation/screens/settings/cache'
+import { SettingsCacheScreen } from '~/screens/settings/cache'
 
 export default SettingsCacheScreen

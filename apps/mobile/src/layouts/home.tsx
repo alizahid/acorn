@@ -5,11 +5,10 @@ import { Header } from '~/components/navigation/header'
 import { TopIntervalMenu } from '~/components/posts/interval'
 import { FeedSortMenu } from '~/components/posts/sort'
 import { FeedTypeMenu } from '~/components/posts/type'
+import { type CommunityParams } from '~/screens/communities/community'
+import { type CommunitiesSearchParams } from '~/screens/communities/search'
+import { type UserParams } from '~/screens/users/user'
 import { usePreferences } from '~/stores/preferences'
-
-import { type CommunityParams } from '../screens/communities/community'
-import { type CommunitiesSearchParams } from '../screens/communities/search'
-import { type UserParams } from '../screens/users/user'
 
 export function HomeLayout() {
   const t = useTranslations('screen')

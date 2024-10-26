@@ -1,3 +1,3 @@
-import { CommunitiesSearchScreen } from '~/components/navigation/screens/communities/search'
+import { CommunitiesSearchScreen } from '~/screens/communities/search'
 
 export default CommunitiesSearchScreen

@@ -1,3 +1,3 @@
-import { SearchLayout } from '~/components/navigation/layouts/search'
+import { SearchLayout } from '~/layouts/search'
 
 export default SearchLayout

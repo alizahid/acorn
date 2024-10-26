@@ -1,3 +1,3 @@
-import { CommunitiesScreen } from '~/components/navigation/screens/tabs/communities'
+import { CommunitiesScreen } from '~/screens/tabs/communities'
 
 export default CommunitiesScreen

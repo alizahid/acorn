@@ -1,3 +1,3 @@
-import { ProfileScreen } from '~/components/navigation/screens/tabs/profile'
+import { ProfileScreen } from '~/screens/tabs/profile'
 
 export default ProfileScreen

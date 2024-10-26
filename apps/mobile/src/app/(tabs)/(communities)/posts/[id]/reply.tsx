@@ -1,3 +1,3 @@
-import { PostReplyScreen } from '~/components/navigation/screens/posts/reply'
+import { PostReplyScreen } from '~/screens/posts/reply'
 
 export default PostReplyScreen

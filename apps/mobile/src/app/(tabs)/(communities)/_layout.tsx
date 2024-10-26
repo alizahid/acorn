@@ -1,3 +1,3 @@
-import { CommunitiesLayout } from '~/components/navigation/layouts/communities'
+import { CommunitiesLayout } from '~/layouts/communities'
 
 export default CommunitiesLayout

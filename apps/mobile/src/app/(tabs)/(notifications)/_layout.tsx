@@ -1,3 +1,3 @@
-import { NotificationsLayout } from '~/components/navigation/layouts/notifications'
+import { NotificationsLayout } from '~/layouts/notifications'
 
 export default NotificationsLayout

@@ -1,3 +1,3 @@
-import { PostScreen } from '~/components/navigation/screens/posts/post'
+import { PostScreen } from '~/screens/posts/post'
 
 export default PostScreen
