@@ -16,6 +16,7 @@ import {
 export type ViewStyleProps = {
   align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch'
   direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse'
+  flex?: number
   flexBasis?: number
   flexGrow?: number
   flexShrink?: number
@@ -33,6 +34,7 @@ export function getViewStyles(theme: UnistylesTheme) {
   return function styles({
     align,
     direction,
+    flex,
     flexBasis,
     flexGrow,
     flexShrink,
@@ -74,6 +76,7 @@ export function getViewStyles(theme: UnistylesTheme) {
       ...getPadding(theme)(props),
       alignItems,
       columnGap: getSpace(theme, gapY),
+      flex,
       flexBasis,
       flexDirection: direction,
       flexGrow,

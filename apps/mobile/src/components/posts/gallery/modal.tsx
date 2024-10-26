@@ -204,9 +204,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     right: theme.space[4],
     top: theme.space[4] + runtime.insets.top,
   },
-  image: {
-    flex: 1,
-  },
   label: {
     backgroundColor: theme.colors.black.a9,
     borderCurve: 'continuous',
