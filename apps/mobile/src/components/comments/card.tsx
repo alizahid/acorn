@@ -141,7 +141,7 @@ const stylesheet = createStyleSheet((theme) => ({
     const margin = theme.space[3] * depth
 
     const base = {
-      backgroundColor: theme.colors[color].a2,
+      backgroundColor: theme.colors[color].a3,
       borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       marginLeft: margin,

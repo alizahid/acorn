@@ -59,7 +59,7 @@ export function UserPostsList({
   return (
     <FlashList
       {...listProps}
-      ItemSeparatorComponent={() => <View height="2" />}
+      ItemSeparatorComponent={() => <View height="4" />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null

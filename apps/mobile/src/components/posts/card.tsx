@@ -139,7 +139,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   main: {
     alignSelf: 'center',
-    backgroundColor: theme.colors.gray.a2,
+    backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[3] : undefined,
     maxWidth: iPad ? cardMaxWidth : undefined,

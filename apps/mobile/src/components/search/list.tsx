@@ -124,7 +124,7 @@ const stylesheet = createStyleSheet((theme) => ({
     }
 
     return {
-      height: theme.space[2],
+      height: theme.space[4],
     }
   },
 }))
