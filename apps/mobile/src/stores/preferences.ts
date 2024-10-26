@@ -16,6 +16,7 @@ export const PREFERENCES_KEY = 'preferences-storage'
 export type PreferencesPayload = {
   blurNsfw: boolean
   dimSeen: boolean
+  feedCompact: boolean
   feedMuted: boolean
   feedType: FeedType
   fontScaling: boolean
@@ -41,6 +42,7 @@ export const usePreferences = create<State>()(
     (set) => ({
       blurNsfw: true,
       dimSeen: false,
+      feedCompact: false,
       feedMuted: true,
       feedType: 'home',
       fontScaling: false,

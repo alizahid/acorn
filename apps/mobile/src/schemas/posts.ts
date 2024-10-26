@@ -31,6 +31,7 @@ const PostBaseSchema = z.object({
   spoiler: z.boolean(),
   stickied: z.boolean().nullish(),
   subreddit: z.string(),
+  thumbnail: z.string().nullish(),
   title: z.string(),
   ups: z.number(),
   url: z.string().nullish(),

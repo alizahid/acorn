@@ -11,6 +11,7 @@ import { PostCard } from '~/components/posts/card'
 import { useSearch } from '~/hooks/queries/search/search'
 import { listProps } from '~/lib/common'
 import { useHistory } from '~/stores/history'
+import { usePreferences } from '~/stores/preferences'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
 import { type SearchTab } from '~/types/search'
@@ -43,6 +44,7 @@ export function SearchList({
 
   const { styles } = useStyles(stylesheet)
 
+  const { feedCompact } = usePreferences()
   const { addPost } = useHistory()
 
   const { isLoading, refetch, results } = useSearch({
@@ -62,7 +64,7 @@ export function SearchList({
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListHeaderComponent={header}
       data={results}
-      estimatedItemSize={type === 'post' ? 120 : 56}
+      estimatedItemSize={type === 'post' ? (feedCompact ? 112 : 120) : 56}
       extraData={{
         viewing,
       }}
@@ -83,6 +85,7 @@ export function SearchList({
 
         return (
           <PostCard
+            compact={feedCompact}
             label="subreddit"
             post={item as Post}
             viewing={focused ? viewing.includes(item.id) : false}

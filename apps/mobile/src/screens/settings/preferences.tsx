@@ -14,6 +14,10 @@ export function SettingsPreferencesScreen() {
         [
           t('menu.browsing'),
           {
+            icon: 'Rows',
+            key: 'feedCompact',
+          },
+          {
             icon: 'SpeakerSimpleX',
             key: 'feedMuted',
           },

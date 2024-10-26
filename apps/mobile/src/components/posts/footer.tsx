@@ -25,6 +25,40 @@ type Props = {
 export function PostFooterCard({ expanded = false, label, post }: Props) {
   const router = useRouter()
 
+  return (
+    <Pressable
+      direction="row"
+      disabled={expanded}
+      gap="4"
+      justify="between"
+      onPress={() => {
+        router.navigate({
+          params: {
+            id: removePrefix(post.id),
+          },
+          pathname: '/posts/[id]',
+        })
+      }}
+      p="3"
+    >
+      <View align="start" flexShrink={1} gap="2">
+        <PostCommunity label={label} post={post} />
+
+        <PostMeta post={post} />
+      </View>
+
+      <View align="center" direction="row" gap="2">
+        <PostVoteCard expanded={expanded} post={post} />
+
+        <PostSaveCard post={post} />
+
+        {!expanded ? <PostShareCard post={post} /> : null}
+      </View>
+    </Pressable>
+  )
+}
+
+export function PostMeta({ post }: Props) {
   const f = useFormatter()
 
   const { theme } = useStyles()
@@ -56,80 +90,62 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
   ] as const
 
   return (
-    <Pressable
-      direction="row"
-      disabled={expanded}
-      gap="4"
-      justify="between"
-      onPress={() => {
-        router.navigate({
-          params: {
-            id: removePrefix(post.id),
-          },
-          pathname: '/posts/[id]',
-        })
-      }}
-      p="3"
-    >
-      <View align="start" flexShrink={1} gap="2">
-        <Pressable
-          hitSlop={theme.space[4]}
-          onPress={() => {
-            if (label === 'subreddit') {
-              router.navigate({
-                params: {
-                  name: removePrefix(post.subreddit),
-                },
-                pathname: '/communities/[name]',
-              })
-            } else {
-              router.navigate({
-                params: {
-                  name: removePrefix(post.user.name),
-                },
-                pathname: '/users/[name]',
-              })
-            }
-          }}
-        >
-          <Text lines={1} size="2" weight="medium">
-            {label === 'subreddit' ? post.subreddit : post.user.name}
+    <View align="center" direction="row" gap="2">
+      {post.sticky ? (
+        <Icon
+          color={theme.colors.accent.a9}
+          name="PushPin"
+          size={theme.typography[2].fontSize}
+          weight="fill"
+        />
+      ) : null}
+
+      {items.map((item) => (
+        <View align="center" direction="row" gap="1" key={item.key}>
+          <Icon
+            color={theme.colors.gray.a12}
+            name={item.icon}
+            size={theme.typography[2].fontSize}
+          />
+
+          <Text size="2" tabular>
+            {item.label}
           </Text>
-        </Pressable>
-
-        <View align="center" direction="row" gap="2">
-          {post.sticky ? (
-            <Icon
-              color={theme.colors.accent.a9}
-              name="PushPin"
-              size={theme.typography[2].fontSize}
-              weight="fill"
-            />
-          ) : null}
-
-          {items.map((item) => (
-            <View align="center" direction="row" gap="1" key={item.key}>
-              <Icon
-                color={theme.colors.gray.a12}
-                name={item.icon}
-                size={theme.typography[2].fontSize}
-              />
-
-              <Text size="2" tabular>
-                {item.label}
-              </Text>
-            </View>
-          ))}
         </View>
-      </View>
+      ))}
+    </View>
+  )
+}
 
-      <View align="center" direction="row" gap="2">
-        <PostVoteCard expanded={expanded} post={post} />
+export function PostCommunity({ label, post }: Props) {
+  const router = useRouter()
 
-        <PostSaveCard post={post} />
+  const { theme } = useStyles()
 
-        {!expanded ? <PostShareCard post={post} /> : null}
-      </View>
+  return (
+    <Pressable
+      hitSlop={theme.space[3]}
+      onPress={() => {
+        if (label === 'subreddit') {
+          router.navigate({
+            params: {
+              name: removePrefix(post.subreddit),
+            },
+            pathname: '/communities/[name]',
+          })
+        } else {
+          router.navigate({
+            params: {
+              name: removePrefix(post.user.name),
+            },
+            pathname: '/users/[name]',
+          })
+        }
+      }}
+    >
+      <Text lines={1} size="2" weight="medium">
+        {label === 'subreddit' ? post.subreddit : post.user.name}
+      </Text>
     </Pressable>
   )
 }

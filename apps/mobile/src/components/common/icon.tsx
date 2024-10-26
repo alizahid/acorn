@@ -43,6 +43,7 @@ import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import RedditLogoBold from 'react-native-phosphor/src/bold/RedditLogo'
 import RewindBold from 'react-native-phosphor/src/bold/Rewind'
+import RowsBold from 'react-native-phosphor/src/bold/Rows'
 import ShareBold from 'react-native-phosphor/src/bold/Share'
 import SmileySadBold from 'react-native-phosphor/src/bold/SmileySad'
 import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
@@ -104,6 +105,7 @@ import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import RedditLogoDuotone from 'react-native-phosphor/src/duotone/RedditLogo'
 import RewindDuotone from 'react-native-phosphor/src/duotone/Rewind'
+import RowsDuotone from 'react-native-phosphor/src/duotone/Rows'
 import ShareDuotone from 'react-native-phosphor/src/duotone/Share'
 import SmileySadDuotone from 'react-native-phosphor/src/duotone/SmileySad'
 import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
@@ -165,6 +167,7 @@ import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import RedditLogoFill from 'react-native-phosphor/src/fill/RedditLogo'
 import RewindFill from 'react-native-phosphor/src/fill/Rewind'
+import RowsFill from 'react-native-phosphor/src/fill/Rows'
 import ShareFill from 'react-native-phosphor/src/fill/Share'
 import SmileySadFill from 'react-native-phosphor/src/fill/SmileySad'
 import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
@@ -226,6 +229,7 @@ import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import RedditLogoRegular from 'react-native-phosphor/src/regular/RedditLogo'
 import RewindRegular from 'react-native-phosphor/src/regular/Rewind'
+import RowsRegular from 'react-native-phosphor/src/regular/Rows'
 import ShareRegular from 'react-native-phosphor/src/regular/Share'
 import SmileySadRegular from 'react-native-phosphor/src/regular/SmileySad'
 import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
@@ -527,6 +531,12 @@ const icons = {
     duotone: RewindDuotone,
     fill: RewindFill,
     regular: RewindRegular,
+  },
+  Rows: {
+    bold: RowsBold,
+    duotone: RowsDuotone,
+    fill: RowsFill,
+    regular: RowsRegular,
   },
   Share: {
     bold: ShareBold,

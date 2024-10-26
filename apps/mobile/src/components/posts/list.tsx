@@ -36,7 +36,7 @@ export function PostList({
 
   useScrollToTop(list)
 
-  const { dimSeen } = usePreferences()
+  const { dimSeen, feedCompact } = usePreferences()
   const { addPost, posts: seen } = useHistory()
 
   const {
@@ -64,7 +64,7 @@ export function PostList({
       }
       ListHeaderComponent={header}
       data={posts}
-      estimatedItemSize={120}
+      estimatedItemSize={feedCompact ? 112 : 120}
       extraData={{
         viewing,
       }}
@@ -86,6 +86,7 @@ export function PostList({
       }
       renderItem={({ item }) => (
         <PostCard
+          compact={feedCompact}
           label={label}
           post={item}
           seen={dimSeen ? seen.includes(item.id) : false}
