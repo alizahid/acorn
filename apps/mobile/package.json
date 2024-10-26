@@ -21,7 +21,6 @@
     "@formatjs/intl-pluralrules": "^5.3.1",
     "@formatjs/intl-relativetimeformat": "^11.4.1",
     "@hookform/resolvers": "^3.9.0",
-    "@likashefqet/react-native-image-zoom": "^4.2.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/colors": "^3.0.0",
     "@react-native-async-storage/async-storage": "1.23.1",
