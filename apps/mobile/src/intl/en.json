@@ -187,7 +187,7 @@
           "feedCompact": "Compact feed",
           "feedMuted": "Mute feed while scrolling",
           "fontScaling": "Use system font scaling",
-          "hideSeen": "Hide seen posts from feed",
+          "hideSeen": "Hide seen posts",
           "linkBrowser": "Open links in browser",
           "system": "System"
         },

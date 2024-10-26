@@ -9,8 +9,6 @@ import { CommunitiesSchema } from '~/schemas/communities'
 import { PostsSchema } from '~/schemas/posts'
 import { UsersSchema } from '~/schemas/users'
 import { useAuth } from '~/stores/auth'
-import { useHistory } from '~/stores/history'
-import { usePreferences } from '~/stores/preferences'
 import { transformCommunity } from '~/transformers/community'
 import { transformPost } from '~/transformers/post'
 import { transformSearchUser } from '~/transformers/user'
@@ -55,9 +53,6 @@ export function useSearch<Type extends SearchTab>({
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
-
-  const { hideSeen } = usePreferences()
-  const seen = useHistory((state) => state.posts)
 
   const { data, isLoading, refetch } = useQuery<
     SearchQueryData<Type> | undefined,
@@ -114,14 +109,8 @@ export function useSearch<Type extends SearchTab>({
       if (type === 'post') {
         const response = PostsSchema.parse(payload)
 
-        return compact(
-          response.data.children.map((item) => {
-            if (hideSeen && seen.includes(item.data.id)) {
-              return null
-            }
-
-            return transformPost(item.data)
-          }),
+        return response.data.children.map((item) =>
+          transformPost(item.data),
         ) as SearchQueryData<Type>
       }
 

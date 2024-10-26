@@ -11,8 +11,6 @@ import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { SavedPostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
-import { useHistory } from '~/stores/history'
-import { usePreferences } from '~/stores/preferences'
 import { transformComment } from '~/transformers/comment'
 import { transformPost } from '~/transformers/post'
 import { type CommentReply } from '~/types/comment'
@@ -65,9 +63,6 @@ export function useUserPosts({
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
-
-  const { hideSeen } = usePreferences()
-  const seen = useHistory((state) => state.posts)
 
   const queryKey: UserPostsQueryKey = [
     'posts',
@@ -130,10 +125,6 @@ export function useUserPosts({
                 }
               }
 
-              return null
-            }
-
-            if (hideSeen && seen.includes(item.data.id)) {
               return null
             }
 

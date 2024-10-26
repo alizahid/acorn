@@ -3,7 +3,6 @@ import {
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
-import { compact, uniqBy } from 'lodash'
 import { create } from 'mutative'
 import { useMemo } from 'react'
 
@@ -47,9 +46,8 @@ export function usePosts({ community, interval, sort }: PostsProps) {
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
-
   const { hideSeen } = usePreferences()
-  const seen = useHistory((state) => state.posts)
+  const { posts: seen } = useHistory()
 
   const queryKey: PostsQueryKey = [
     'posts',
@@ -94,15 +92,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
 
       return {
         cursor: response.data.after,
-        posts: compact(
-          response.data.children.map((item) => {
-            if (hideSeen && seen.includes(item.data.id)) {
-              return null
-            }
-
-            return transformPost(item.data)
-          }),
-        ),
+        posts: response.data.children.map((item) => transformPost(item.data)),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
@@ -112,10 +102,15 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     queryKey,
   })
 
-  const posts = useMemo(
-    () => uniqBy(data?.pages.flatMap((page) => page.posts) ?? [], 'id'),
-    [data?.pages],
-  )
+  const posts = useMemo(() => {
+    const items = data?.pages.flatMap((page) => page.posts) ?? []
+
+    if (hideSeen) {
+      return items.filter((post) => !seen.includes(post.id))
+    }
+
+    return items
+  }, [data?.pages, hideSeen, seen])
 
   return {
     fetchNextPage,
