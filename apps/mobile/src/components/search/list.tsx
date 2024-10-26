@@ -11,7 +11,6 @@ import { PostCard } from '~/components/posts/card'
 import { useSearch } from '~/hooks/queries/search/search'
 import { listProps } from '~/lib/common'
 import { useHistory } from '~/stores/history'
-import { usePreferences } from '~/stores/preferences'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
 import { type SearchTab } from '~/types/search'
@@ -44,7 +43,6 @@ export function SearchList({
 
   const { styles } = useStyles(stylesheet)
 
-  const { seenInterval } = usePreferences()
   const { addPost } = useHistory()
 
   const { isLoading, refetch, results } = useSearch({
@@ -111,7 +109,7 @@ export function SearchList({
           },
           viewabilityConfig: {
             itemVisiblePercentThreshold: 100,
-            minimumViewTime: seenInterval,
+            minimumViewTime: 1_500,
           },
         },
       ]}

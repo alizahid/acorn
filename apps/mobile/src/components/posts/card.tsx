@@ -1,5 +1,11 @@
 import { useRouter } from 'expo-router'
+import { useEffect } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
@@ -9,7 +15,6 @@ import { type Post } from '~/types/post'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 import { CrossPostCard } from './crosspost'
 import { PostFooterCard, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
@@ -20,6 +25,7 @@ type Props = {
   expanded?: boolean
   label?: PostLabel
   post: Post
+  seen?: boolean
   style?: StyleProp<ViewStyle>
   viewing: boolean
 }
@@ -28,17 +34,34 @@ export function PostCard({
   expanded = false,
   label,
   post,
+  seen = false,
   style,
   viewing,
 }: Props) {
   const router = useRouter()
 
+  const opacity = useSharedValue(seen ? 0.5 : 1)
+
   const { styles } = useStyles(stylesheet)
 
   const body = expanded && post.body
 
+  const animatedStyle = useAnimatedStyle(() => ({
+    opacity: opacity.get(),
+  }))
+
+  useEffect(() => {
+    const next = seen ? 0.5 : 1
+
+    if (opacity.get() === next) {
+      return
+    }
+
+    opacity.set(() => withTiming(next))
+  }, [opacity, seen])
+
   return (
-    <View style={[styles.main, style]}>
+    <Animated.View style={[styles.main, style, animatedStyle]}>
       <Pressable
         disabled={expanded}
         onPress={() => {
@@ -103,7 +126,7 @@ export function PostCard({
       ) : null}
 
       <PostFooterCard expanded={expanded} label={label} post={post} />
-    </View>
+    </Animated.View>
   )
 }
 

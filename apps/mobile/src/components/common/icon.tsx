@@ -49,6 +49,7 @@ import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
 import StarBold from 'react-native-phosphor/src/bold/Star'
+import SunDimBold from 'react-native-phosphor/src/bold/SunDim'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
 import TextAaBold from 'react-native-phosphor/src/bold/TextAa'
 import TrashBold from 'react-native-phosphor/src/bold/Trash'
@@ -109,6 +110,7 @@ import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscendin
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
 import StarDuotone from 'react-native-phosphor/src/duotone/Star'
+import SunDimDuotone from 'react-native-phosphor/src/duotone/SunDim'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
 import TextAaDuotone from 'react-native-phosphor/src/duotone/TextAa'
 import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
@@ -169,6 +171,7 @@ import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
 import StarFill from 'react-native-phosphor/src/fill/Star'
+import SunDimFill from 'react-native-phosphor/src/fill/SunDim'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
 import TextAaFill from 'react-native-phosphor/src/fill/TextAa'
 import TrashFill from 'react-native-phosphor/src/fill/Trash'
@@ -229,6 +232,7 @@ import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscendin
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
 import StarRegular from 'react-native-phosphor/src/regular/Star'
+import SunDimRegular from 'react-native-phosphor/src/regular/SunDim'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
 import TextAaRegular from 'react-native-phosphor/src/regular/TextAa'
 import TrashRegular from 'react-native-phosphor/src/regular/Trash'
@@ -559,6 +563,12 @@ const icons = {
     duotone: StarDuotone,
     fill: StarFill,
     regular: StarRegular,
+  },
+  SunDim: {
+    bold: SunDimBold,
+    duotone: SunDimDuotone,
+    fill: SunDimFill,
+    regular: SunDimRegular,
   },
   Target: {
     bold: TargetBold,

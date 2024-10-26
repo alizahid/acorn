@@ -186,11 +186,11 @@
         "menu": {
           "blurNsfw": "Blur NSFW media",
           "browsing": "Browsing",
+          "dimSeen": "Dim seen posts",
           "feedMuted": "Mute feed while scrolling",
           "fontScaling": "Use system font scaling",
           "hideSeen": "Hide seen posts from feed",
           "linkBrowser": "Open links in browser",
-          "seenInterval": "Seen interval",
           "system": "System"
         },
         "title": "Preferences"

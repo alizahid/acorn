@@ -15,6 +15,7 @@ export const PREFERENCES_KEY = 'preferences-storage'
 
 export type PreferencesPayload = {
   blurNsfw: boolean
+  dimSeen: boolean
   feedMuted: boolean
   feedType: FeedType
   fontScaling: boolean
@@ -24,7 +25,6 @@ export type PreferencesPayload = {
   intervalUserComments: TopInterval
   intervalUserPosts: TopInterval
   linkBrowser: boolean
-  seenInterval: number
   sortCommunityPosts: CommunityFeedSort
   sortFeedPosts: FeedSort
   sortPostComments: CommentSort
@@ -40,6 +40,7 @@ export const usePreferences = create<State>()(
   persist(
     (set) => ({
       blurNsfw: true,
+      dimSeen: false,
       feedMuted: true,
       feedType: 'home',
       fontScaling: false,
@@ -49,7 +50,6 @@ export const usePreferences = create<State>()(
       intervalUserComments: 'all',
       intervalUserPosts: 'all',
       linkBrowser: true,
-      seenInterval: 3_000,
       sortCommunityPosts: 'hot',
       sortFeedPosts: 'hot',
       sortPostComments: 'confidence',

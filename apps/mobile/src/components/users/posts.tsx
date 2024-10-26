@@ -37,8 +37,8 @@ export function UserPostsList({
 
   const focused = useIsFocused()
 
-  const { seenInterval } = usePreferences()
-  const { addPost } = useHistory()
+  const { dimSeen } = usePreferences()
+  const { addPost, posts: seen } = useHistory()
 
   const {
     fetchNextPage,
@@ -106,6 +106,7 @@ export function UserPostsList({
           <PostCard
             label={label}
             post={item.data}
+            seen={dimSeen ? seen.includes(item.data.id) : false}
             viewing={focused ? viewing.includes(item.data.id) : false}
           />
         )
@@ -140,7 +141,7 @@ export function UserPostsList({
           },
           viewabilityConfig: {
             itemVisiblePercentThreshold: 100,
-            minimumViewTime: seenInterval,
+            minimumViewTime: 1_500,
           },
         },
       ]}

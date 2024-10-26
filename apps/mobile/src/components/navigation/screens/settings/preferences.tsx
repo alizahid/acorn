@@ -1,12 +1,10 @@
-import { useFormatter, useTranslations } from 'use-intl'
+import { useTranslations } from 'use-intl'
 
-import { Text } from '~/components/common/text'
 import { SettingsMenu } from '~/components/settings/menu'
 import { usePreferences } from '~/stores/preferences'
 
 export function SettingsPreferencesScreen() {
   const t = useTranslations('screen.settings.preferences')
-  const f = useFormatter()
 
   const { update, ...preferences } = usePreferences()
 
@@ -27,7 +25,10 @@ export function SettingsPreferencesScreen() {
             icon: 'Eye',
             key: 'hideSeen',
           },
-          'seenInterval',
+          {
+            icon: 'SunDim',
+            key: 'dimSeen',
+          },
           null,
           t('menu.system'),
           {
@@ -40,38 +41,6 @@ export function SettingsPreferencesScreen() {
           },
         ] as const
       ).map((item) => {
-        if (item === 'seenInterval') {
-          return {
-            icon: {
-              name: 'Clock',
-            },
-            label: t('menu.seenInterval'),
-            onSelect(value) {
-              update({
-                seenInterval: Number(value),
-              })
-            },
-            options: [1_000, 3_000, 5_000, 10_000].map((duration) => {
-              const label = f.number(duration / 1_000, {
-                style: 'unit',
-                unit: 'second',
-              })
-
-              return {
-                label,
-                right: (
-                  <Text highContrast weight="bold">
-                    {label}
-                  </Text>
-                ),
-                value: String(duration),
-              }
-            }),
-            type: 'options',
-            value: String(preferences.seenInterval),
-          }
-        }
-
         if (item === null || typeof item === 'string') {
           return item
         }

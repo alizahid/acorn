@@ -36,8 +36,8 @@ export function PostList({
 
   useScrollToTop(list)
 
-  const { seenInterval } = usePreferences()
-  const { addPost } = useHistory()
+  const { dimSeen } = usePreferences()
+  const { addPost, posts: seen } = useHistory()
 
   const {
     fetchNextPage,
@@ -88,6 +88,7 @@ export function PostList({
         <PostCard
           label={label}
           post={item}
+          seen={dimSeen ? seen.includes(item.id) : false}
           viewing={focused ? viewing.includes(item.id) : false}
         />
       )}
@@ -108,7 +109,7 @@ export function PostList({
           },
           viewabilityConfig: {
             itemVisiblePercentThreshold: 100,
-            minimumViewTime: seenInterval,
+            minimumViewTime: 1_500,
           },
         },
       ]}
