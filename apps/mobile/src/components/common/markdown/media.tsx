@@ -33,6 +33,7 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
         style={styles.main(media.height, media.width)}
       >
         <Image
+          contentFit="contain"
           recyclingKey={recyclingKey}
           source={media.url}
           style={styles.image}
@@ -58,11 +59,13 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   image: {
     flex: 1,
+    width: '100%',
   },
   main: (height: number, width: number) => ({
+    alignSelf: width > runtime.screen.width ? 'center' : undefined,
     aspectRatio: width / height,
     maxHeight: width,
     width: '100%',
