@@ -4,9 +4,10 @@ import { StyleSheet } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '~/components/common/icon'
+import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { HeaderButton } from '~/components/navigation/header-button'
 import { useImagePlaceholder } from '~/hooks/image'
 import { type PostMedia } from '~/types/post'
 
@@ -18,7 +19,7 @@ type Props = {
 export function GalleryImage({ image, recyclingKey }: Props) {
   const t = useTranslations('component.posts.gallery')
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const placeholder = useImagePlaceholder()
 
@@ -51,13 +52,13 @@ export function GalleryImage({ image, recyclingKey }: Props) {
         <View pointerEvents="box-none" style={styles.overlay}>
           <View style={styles.controls(image.width / image.height)}>
             <View style={styles.gif}>
-              <Text contrast size="1">
+              <Text contrast size="1" weight="medium">
                 {t('gif')}
               </Text>
             </View>
 
-            <HeaderButton
-              icon={playing ? 'Pause' : 'Play'}
+            <Pressable
+              hitSlop={theme.space[2]}
               onPress={() => {
                 if (playing) {
                   void ref.current?.stopAnimating()
@@ -67,9 +68,16 @@ export function GalleryImage({ image, recyclingKey }: Props) {
 
                 setPlaying(!playing)
               }}
+              p="2"
               style={styles.play}
-              weight="fill"
-            />
+            >
+              <Icon
+                color={theme.colors.gray.contrast}
+                name={playing ? 'Pause' : 'Play'}
+                size={theme.space[4]}
+                weight="fill"
+              />
+            </Pressable>
           </View>
         </View>
       ) : null}
@@ -99,8 +107,11 @@ const stylesheet = createStyleSheet((theme) => ({
     ...StyleSheet.absoluteFillObject,
   },
   play: {
-    bottom: 0,
+    backgroundColor: theme.colors.black.a9,
+    borderCurve: 'continuous',
+    borderRadius: theme.space[4],
+    bottom: theme.space[2],
     position: 'absolute',
-    right: 0,
+    right: theme.space[2],
   },
 }))

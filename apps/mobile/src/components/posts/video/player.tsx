@@ -95,7 +95,7 @@ export function VideoPlayer({
           </BlurView>
         ) : (
           <Pressable
-            hitSlop={theme.space[3]}
+            hitSlop={theme.space[2]}
             onPress={() => {
               preferences.update({
                 feedMuted: !preferences.feedMuted,
@@ -105,7 +105,7 @@ export function VideoPlayer({
             style={styles.volume}
           >
             <Icon
-              color={theme.colors.white.a11}
+              color={theme.colors.gray.contrast}
               name={
                 preferences.feedMuted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'
               }
@@ -150,8 +150,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: theme.colors.black.a9,
     borderCurve: 'continuous',
     borderRadius: theme.space[4],
-    bottom: theme.space[3],
+    bottom: theme.space[2],
     position: 'absolute',
-    right: theme.space[3],
+    right: theme.space[2],
   },
 }))

@@ -2,17 +2,14 @@ import { type VideoPlayer } from 'expo-video'
 import { useEffect, useMemo, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import Animated, {
-  cancelAnimation,
-  Easing,
   type SharedValue,
   useAnimatedStyle,
-  useSharedValue,
-  withTiming,
 } from 'react-native-reanimated'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HeaderButton } from '~/components/navigation/header-button'
+import { useMediaControls } from '~/hooks/media'
 
 type Props = {
   opacity: SharedValue<number>
@@ -24,8 +21,6 @@ export function VideoControls({ opacity, player }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const width = useSharedValue(0)
-
   const [playing, setPlaying] = useState(player.playing)
 
   const maxWidth = useMemo(
@@ -33,57 +28,55 @@ export function VideoControls({ opacity, player }: Props) {
     [frame.width, theme.space],
   )
 
+  const controls = useMediaControls({
+    maxWidth,
+  })
+
   useEffect(() => {
-    function go() {
-      width.set((player.currentTime / player.duration) * maxWidth)
-
-      width.set(() =>
-        withTiming(maxWidth, {
-          duration: (player.duration - player.currentTime) * 1_000,
-          easing: Easing.linear,
-        }),
-      )
-    }
-
-    function stop() {
-      cancelAnimation(width)
-
-      width.set((player.currentTime / player.duration) * maxWidth)
-    }
-
-    go()
+    controls.play({
+      current: player.currentTime,
+      duration: player.duration,
+    })
 
     const playingChange = player.addListener('playingChange', (next) => {
       setPlaying(next.isPlaying)
 
       if (next.isPlaying) {
-        go()
+        controls.play({
+          current: player.currentTime,
+          duration: player.duration,
+        })
       } else {
-        stop()
+        controls.pause({
+          current: player.currentTime,
+          duration: player.duration,
+        })
       }
     })
 
     const playToEnd = player.addListener('playToEnd', () => {
-      go()
+      controls.play({
+        current: player.currentTime,
+        duration: player.duration,
+      })
     })
 
     return () => {
       playingChange.remove()
       playToEnd.remove()
     }
-  }, [maxWidth, player, width])
+  }, [controls, player])
 
-  const mainStyle = useAnimatedStyle(() => ({
+  const style = useAnimatedStyle(() => ({
     opacity: opacity.get(),
   }))
 
-  const seekStyle = useAnimatedStyle(() => ({
-    width: width.get(),
-  }))
-
   return (
-    <Animated.View pointerEvents="box-none" style={[styles.main, mainStyle]}>
-      <Animated.View pointerEvents="none" style={[styles.seek, seekStyle]} />
+    <Animated.View pointerEvents="box-none" style={[styles.main, style]}>
+      <Animated.View
+        pointerEvents="none"
+        style={[styles.seek, controls.style]}
+      />
 
       <HeaderButton
         contrast

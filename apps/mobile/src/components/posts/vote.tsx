@@ -32,7 +32,7 @@ export function PostVoteCard({ expanded, post }: Props) {
         width="6"
       >
         <Icon
-          color={post.liked ? theme.colors.white.a12 : theme.colors.gray.a12}
+          color={theme.colors[post.liked ? 'white' : 'gray'].a12}
           name="ArrowUp"
           size={theme.space[5]}
           weight="bold"
@@ -54,11 +54,7 @@ export function PostVoteCard({ expanded, post }: Props) {
           width="6"
         >
           <Icon
-            color={
-              post.liked === false
-                ? theme.colors.white.a12
-                : theme.colors.gray.a12
-            }
+            color={theme.colors[post.liked === false ? 'white' : 'gray'].a12}
             name="ArrowDown"
             size={theme.space[5]}
             weight="bold"

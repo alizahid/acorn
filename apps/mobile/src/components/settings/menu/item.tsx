@@ -87,7 +87,7 @@ export function SettingsItem({ item, style }: Props) {
             onValueChange={(value) => {
               item.onSelect(value)
             }}
-            thumbColor={theme.colors.white.a12}
+            thumbColor={theme.colors.gray.contrast}
             trackColor={{
               false: theme.colors.gray.a5,
               true: theme.colors.accent.a9,

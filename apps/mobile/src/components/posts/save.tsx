@@ -30,7 +30,7 @@ export function PostSaveCard({ post }: Props) {
       width="6"
     >
       <Icon
-        color={post.saved ? theme.colors.white.a12 : theme.colors.gray.a12}
+        color={theme.colors[post.saved ? 'white' : 'gray'].a12}
         name="BookmarkSimple"
         size={theme.space[5]}
         weight={post.saved ? 'fill' : 'bold'}

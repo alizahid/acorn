@@ -63,7 +63,7 @@ export function PostGalleryCard({
 
         {first.type === 'gif' ? (
           <View style={[styles.label, styles.gif]}>
-            <Text contrast size="1">
+            <Text contrast size="1" weight="medium">
               {t('gif')}
             </Text>
           </View>
