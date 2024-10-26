@@ -184,28 +184,32 @@
       },
       "preferences": {
         "menu": {
-          "blurNsfw": "Blur nsfw media",
+          "blurNsfw": "Blur NSFW media",
+          "browsing": "Browsing",
           "feedMuted": "Mute feed while scrolling",
           "fontScaling": "Use system font scaling",
-          "linkBrowser": "Open links in browser"
+          "hideSeen": "Hide seen posts from feed",
+          "linkBrowser": "Open links in browser",
+          "seenInterval": "Seen interval",
+          "system": "System"
         },
         "title": "Preferences"
       },
       "sort": {
         "menu": {
-          "community": "Community sort",
-          "feed": "Feed sort",
+          "community": "Community",
+          "feed": "Feed",
           "intervalCommunityPosts": "Community posts interval",
           "intervalFeedPosts": "Feed posts interval",
-          "intervalUserComments": "User comments intervals",
+          "intervalUserComments": "User comments interval",
           "intervalUserPosts": "User posts interval",
-          "post": "Post sort",
+          "post": "Post",
           "sortCommunityPosts": "Community posts sort",
           "sortFeedPosts": "Feed posts sort",
           "sortPostComments": "Post comments sort",
           "sortUserComments": "User comments sort",
           "sortUserPosts": "User posts sort",
-          "user": "User sort"
+          "user": "User"
         },
         "title": "Sort"
       }

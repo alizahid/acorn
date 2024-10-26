@@ -26,6 +26,7 @@ import { PostHeader } from '~/components/posts/header'
 import { usePost } from '~/hooks/queries/posts/post'
 import { listProps } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
+import { useHistory } from '~/stores/history'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 
@@ -45,6 +46,7 @@ export function PostScreen() {
   const focused = useIsFocused()
 
   const { sortPostComments } = usePreferences()
+  const { addPost } = useHistory()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -178,6 +180,10 @@ export function PostScreen() {
         }}
         keyboardDismissMode="on-drag"
         onViewableItemsChanged={({ viewableItems }) => {
+          if (viewableItems.find((item) => item.key === 'post')) {
+            addPost(params.id)
+          }
+
           setViewing(() =>
             viewableItems
               .filter(

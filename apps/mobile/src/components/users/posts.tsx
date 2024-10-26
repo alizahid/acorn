@@ -8,6 +8,10 @@ import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { type UserPostsProps, useUserPosts } from '~/hooks/queries/user/posts'
 import { listProps } from '~/lib/common'
+import { useHistory } from '~/stores/history'
+import { usePreferences } from '~/stores/preferences'
+import { type CommentReply } from '~/types/comment'
+import { type Post } from '~/types/post'
 
 import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
@@ -32,6 +36,9 @@ export function UserPostsList({
   const router = useRouter()
 
   const focused = useIsFocused()
+
+  const { seenInterval } = usePreferences()
+  const { addPost } = useHistory()
 
   const {
     fetchNextPage,
@@ -67,9 +74,6 @@ export function UserPostsList({
         if (hasNextPage) {
           void fetchNextPage()
         }
-      }}
-      onViewableItemsChanged={({ viewableItems }) => {
-        setViewing(() => viewableItems.map((item) => item.key))
       }}
       refreshControl={
         <RefreshControl
@@ -107,9 +111,39 @@ export function UserPostsList({
         )
       }}
       scrollEnabled={posts.length > 0}
-      viewabilityConfig={{
-        itemVisiblePercentThreshold: 100,
-      }}
+      viewabilityConfigCallbackPairs={[
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            setViewing(() => viewableItems.map((item) => item.key))
+          },
+          viewabilityConfig: {
+            itemVisiblePercentThreshold: 100,
+          },
+        },
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            viewableItems.forEach((item) => {
+              const viewableItem = item.item as
+                | {
+                    data: CommentReply
+                    type: 'comment'
+                  }
+                | {
+                    data: Post
+                    type: 'post'
+                  }
+
+              if (viewableItem.type === 'post') {
+                addPost(viewableItem.data.id)
+              }
+            })
+          },
+          viewabilityConfig: {
+            itemVisiblePercentThreshold: 100,
+            minimumViewTime: seenInterval,
+          },
+        },
+      ]}
     />
   )
 }

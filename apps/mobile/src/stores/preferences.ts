@@ -18,11 +18,13 @@ export type PreferencesPayload = {
   feedMuted: boolean
   feedType: FeedType
   fontScaling: boolean
+  hideSeen: boolean
   intervalCommunityPosts: TopInterval
   intervalFeedPosts: TopInterval
   intervalUserComments: TopInterval
   intervalUserPosts: TopInterval
   linkBrowser: boolean
+  seenInterval: number
   sortCommunityPosts: CommunityFeedSort
   sortFeedPosts: FeedSort
   sortPostComments: CommentSort
@@ -41,11 +43,13 @@ export const usePreferences = create<State>()(
       feedMuted: true,
       feedType: 'home',
       fontScaling: false,
+      hideSeen: false,
       intervalCommunityPosts: 'hour',
       intervalFeedPosts: 'hour',
       intervalUserComments: 'all',
       intervalUserPosts: 'all',
       linkBrowser: true,
+      seenInterval: 3_000,
       sortCommunityPosts: 'hot',
       sortFeedPosts: 'hot',
       sortPostComments: 'confidence',

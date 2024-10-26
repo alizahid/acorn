@@ -22,6 +22,7 @@ import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
+import EyeBold from 'react-native-phosphor/src/bold/Eye'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
 import FastForwardBold from 'react-native-phosphor/src/bold/FastForward'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
@@ -81,6 +82,7 @@ import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
+import EyeDuotone from 'react-native-phosphor/src/duotone/Eye'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
 import FastForwardDuotone from 'react-native-phosphor/src/duotone/FastForward'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
@@ -140,6 +142,7 @@ import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
+import EyeFill from 'react-native-phosphor/src/fill/Eye'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
 import FastForwardFill from 'react-native-phosphor/src/fill/FastForward'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
@@ -199,6 +202,7 @@ import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
+import EyeRegular from 'react-native-phosphor/src/regular/Eye'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
 import FastForwardRegular from 'react-native-phosphor/src/regular/FastForward'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
@@ -393,6 +397,12 @@ const icons = {
     duotone: DownloadDuotone,
     fill: DownloadFill,
     regular: DownloadRegular,
+  },
+  Eye: {
+    bold: EyeBold,
+    duotone: EyeDuotone,
+    fill: EyeFill,
+    regular: EyeRegular,
   },
   EyeClosed: {
     bold: EyeClosedBold,

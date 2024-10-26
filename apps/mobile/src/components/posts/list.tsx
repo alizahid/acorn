@@ -7,6 +7,8 @@ import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { listProps } from '~/lib/common'
+import { useHistory } from '~/stores/history'
+import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { Empty } from '../common/empty'
@@ -33,6 +35,9 @@ export function PostList({
   const focused = useIsFocused()
 
   useScrollToTop(list)
+
+  const { seenInterval } = usePreferences()
+  const { addPost } = useHistory()
 
   const {
     fetchNextPage,
@@ -69,9 +74,6 @@ export function PostList({
           void fetchNextPage()
         }
       }}
-      onViewableItemsChanged={({ viewableItems }) => {
-        setViewing(() => viewableItems.map((item) => item.key))
-      }}
       ref={list}
       refreshControl={
         <RefreshControl
@@ -89,9 +91,27 @@ export function PostList({
           viewing={focused ? viewing.includes(item.id) : false}
         />
       )}
-      viewabilityConfig={{
-        itemVisiblePercentThreshold: 100,
-      }}
+      viewabilityConfigCallbackPairs={[
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            setViewing(() => viewableItems.map((item) => item.key))
+          },
+          viewabilityConfig: {
+            itemVisiblePercentThreshold: 100,
+          },
+        },
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            viewableItems.forEach((item) => {
+              addPost((item.item as Post).id)
+            })
+          },
+          viewabilityConfig: {
+            itemVisiblePercentThreshold: 100,
+            minimumViewTime: seenInterval,
+          },
+        },
+      ]}
     />
   )
 }

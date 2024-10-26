@@ -3,7 +3,7 @@ import {
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
-import { uniqBy } from 'lodash'
+import { compact, uniqBy } from 'lodash'
 import { create } from 'mutative'
 import { useMemo } from 'react'
 
@@ -12,6 +12,8 @@ import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { PostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
+import { useHistory } from '~/stores/history'
+import { usePreferences } from '~/stores/preferences'
 import { transformPost } from '~/transformers/post'
 import { type Post } from '~/types/post'
 import { type FeedSort, type TopInterval } from '~/types/sort'
@@ -43,6 +45,9 @@ export type PostsProps = {
 
 export function usePosts({ community, interval, sort }: PostsProps) {
   const { accountId } = useAuth()
+
+  const { hideSeen } = usePreferences()
+  const seen = useHistory((state) => state.posts)
 
   const isRestoring = useIsRestoring()
 
@@ -79,7 +84,15 @@ export function usePosts({ community, interval, sort }: PostsProps) {
 
       return {
         cursor: response.data.after,
-        posts: response.data.children.map((item) => transformPost(item.data)),
+        posts: compact(
+          response.data.children.map((item) => {
+            if (hideSeen && seen.includes(item.data.id)) {
+              return null
+            }
+
+            return transformPost(item.data)
+          }),
+        ),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away

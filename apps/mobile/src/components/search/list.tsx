@@ -10,6 +10,8 @@ import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
 import { useSearch } from '~/hooks/queries/search/search'
 import { listProps } from '~/lib/common'
+import { useHistory } from '~/stores/history'
+import { usePreferences } from '~/stores/preferences'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
 import { type SearchTab } from '~/types/search'
@@ -42,6 +44,9 @@ export function SearchList({
 
   const { styles } = useStyles(stylesheet)
 
+  const { seenInterval } = usePreferences()
+  const { addPost } = useHistory()
+
   const { isLoading, refetch, results } = useSearch({
     community,
     interval: filters?.interval,
@@ -67,9 +72,6 @@ export function SearchList({
       keyExtractor={(item) => item.id}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
-      onViewableItemsChanged={({ viewableItems }) => {
-        setViewing(() => viewableItems.map((item) => item.key))
-      }}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => {
@@ -90,9 +92,29 @@ export function SearchList({
         )
       }}
       scrollEnabled={results.length > 0}
-      viewabilityConfig={{
-        itemVisiblePercentThreshold: 100,
-      }}
+      viewabilityConfigCallbackPairs={[
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            setViewing(() => viewableItems.map((item) => item.key))
+          },
+          viewabilityConfig: {
+            itemVisiblePercentThreshold: 100,
+          },
+        },
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            if (type === 'post') {
+              viewableItems.forEach((item) => {
+                addPost((item.item as Post).id)
+              })
+            }
+          },
+          viewabilityConfig: {
+            itemVisiblePercentThreshold: 100,
+            minimumViewTime: seenInterval,
+          },
+        },
+      ]}
     />
   )
 }
