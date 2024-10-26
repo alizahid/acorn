@@ -3,6 +3,7 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
+import { useState } from 'react'
 import { z } from 'zod'
 
 import { CommentsSortMenu } from '~/components/comments/sort'
@@ -19,7 +20,10 @@ export default function UserCommentsScreen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { intervalUserComments, sortUserComments, update } = usePreferences()
+  const { intervalUserComments, sortUserComments } = usePreferences()
+
+  const [sort, setSort] = useState(sortUserComments)
+  const [interval, setInterval] = useState(intervalUserComments)
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -28,35 +32,26 @@ export default function UserCommentsScreen() {
           <CommentsSortMenu
             hideLabel
             onChange={(next) => {
-              update({
-                sortUserComments: next,
-              })
+              setSort(next)
             }}
-            value={sortUserComments}
+            value={sort}
           />
 
-          {sortUserComments === 'top' ? (
+          {sort === 'top' ? (
             <TopIntervalMenu
               hideLabel
               onChange={(next) => {
-                update({
-                  intervalUserComments: next,
-                })
+                setInterval(next)
               }}
-              value={intervalUserComments}
+              value={interval}
             />
           ) : null}
         </>
       ),
-      // title: t('comments'),
     })
   })
 
   return (
-    <UserCommentsList
-      interval={intervalUserComments}
-      sort={sortUserComments}
-      username={params.name}
-    />
+    <UserCommentsList interval={interval} sort={sort} username={params.name} />
   )
 }

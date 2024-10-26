@@ -3,6 +3,7 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
+import { useState } from 'react'
 import { z } from 'zod'
 
 import { View } from '~/components/common/view'
@@ -26,12 +27,15 @@ export function CommunityScreen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { intervalCommunityPosts, sortCommunityPosts, update } =
-    usePreferences()
+  const { intervalCommunityPosts, sortCommunityPosts } = usePreferences()
 
   const { community, refetch } = useCommunity(params.name)
+
   const join = useJoin()
   const favorite = useFavorite()
+
+  const [sort, setSort] = useState(sortCommunityPosts)
+  const [interval, setInterval] = useState(intervalCommunityPosts)
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -75,30 +79,26 @@ export function CommunityScreen() {
         <View direction="row" justify="end">
           <FeedSortMenu
             onChange={(next) => {
-              update({
-                sortCommunityPosts: next,
-              })
+              setSort(next)
             }}
             type="community"
-            value={sortCommunityPosts}
+            value={sort}
           />
 
-          {sortCommunityPosts === 'top' ? (
+          {sort === 'top' ? (
             <TopIntervalMenu
               onChange={(next) => {
-                update({
-                  intervalCommunityPosts: next,
-                })
+                setInterval(next)
               }}
-              value={intervalCommunityPosts}
+              value={interval}
             />
           ) : null}
         </View>
       }
-      interval={intervalCommunityPosts}
+      interval={interval}
       label="user"
       onRefresh={refetch}
-      sort={sortCommunityPosts}
+      sort={sort}
     />
   )
 }

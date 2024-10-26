@@ -3,6 +3,7 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
+import { useState } from 'react'
 import { z } from 'zod'
 
 import { TopIntervalMenu } from '~/components/posts/interval'
@@ -23,7 +24,10 @@ export function UserPostsScreen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { intervalUserPosts, sortUserPosts, update } = usePreferences()
+  const { intervalUserPosts, sortUserPosts } = usePreferences()
+
+  const [sort, setSort] = useState(sortUserPosts)
+  const [interval, setInterval] = useState(intervalUserPosts)
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -32,23 +36,19 @@ export function UserPostsScreen() {
           <FeedSortMenu
             hideLabel
             onChange={(next) => {
-              update({
-                sortUserPosts: next,
-              })
+              setSort(next)
             }}
             type="user"
-            value={sortUserPosts}
+            value={sort}
           />
 
-          {sortUserPosts === 'top' ? (
+          {sort === 'top' ? (
             <TopIntervalMenu
               hideLabel
               onChange={(next) => {
-                update({
-                  intervalUserPosts: next,
-                })
+                setInterval(next)
               }}
-              value={intervalUserPosts}
+              value={interval}
             />
           ) : null}
         </>
@@ -58,9 +58,9 @@ export function UserPostsScreen() {
 
   return (
     <UserPostsList
-      interval={intervalUserPosts}
+      interval={interval}
       label="subreddit"
-      sort={sortUserPosts}
+      sort={sort}
       type={params.type}
       username={params.name}
     />
