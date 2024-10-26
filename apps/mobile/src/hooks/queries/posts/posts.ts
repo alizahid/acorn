@@ -7,7 +7,7 @@ import { compact, uniqBy } from 'lodash'
 import { create } from 'mutative'
 import { useMemo } from 'react'
 
-import { queryClient } from '~/lib/query'
+import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { PostsSchema } from '~/schemas/posts'
@@ -44,12 +44,22 @@ export type PostsProps = {
 }
 
 export function usePosts({ community, interval, sort }: PostsProps) {
+  const isRestoring = useIsRestoring()
+
   const { accountId } = useAuth()
 
   const { hideSeen } = usePreferences()
   const seen = useHistory((state) => state.posts)
 
-  const isRestoring = useIsRestoring()
+  const queryKey: PostsQueryKey = [
+    'posts',
+    {
+      accountId,
+      community,
+      interval,
+      sort,
+    },
+  ]
 
   const {
     data,
@@ -57,7 +67,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    refetch,
+    refetch: refresh,
   } = useInfiniteQuery<Page, Error, PostsQueryData, PostsQueryKey, Param>({
     enabled: Boolean(accountId),
     initialPageParam: null,
@@ -99,15 +109,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     getNextPageParam(page) {
       return page.cursor
     },
-    queryKey: [
-      'posts',
-      {
-        accountId,
-        community,
-        interval,
-        sort,
-      },
-    ],
+    queryKey,
   })
 
   const posts = useMemo(
@@ -121,7 +123,11 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
     posts,
-    refetch,
+    refetch: async () => {
+      resetInfiniteQuery(queryKey)
+
+      await refresh()
+    },
   }
 }
 

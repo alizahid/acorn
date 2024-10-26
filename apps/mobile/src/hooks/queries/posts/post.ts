@@ -42,9 +42,9 @@ type Props = {
 }
 
 export function usePost({ commentId, id, sort }: Props) {
-  const { accountId } = useAuth()
-
   const isRestoring = useIsRestoring()
+
+  const { accountId } = useAuth()
 
   const query = useQuery<
     PostQueryData | undefined,

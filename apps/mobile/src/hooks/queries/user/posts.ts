@@ -6,7 +6,7 @@ import {
 import { compact } from 'lodash'
 import { create } from 'mutative'
 
-import { queryClient } from '~/lib/query'
+import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { SavedPostsSchema } from '~/schemas/posts'
@@ -62,12 +62,23 @@ export function useUserPosts({
   type,
   username,
 }: UserPostsProps) {
+  const isRestoring = useIsRestoring()
+
   const { accountId } = useAuth()
 
   const { hideSeen } = usePreferences()
   const seen = useHistory((state) => state.posts)
 
-  const isRestoring = useIsRestoring()
+  const queryKey: UserPostsQueryKey = [
+    'posts',
+    username,
+    {
+      accountId,
+      interval,
+      sort,
+      type,
+    },
+  ]
 
   const {
     data,
@@ -75,7 +86,7 @@ export function useUserPosts({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    refetch,
+    refetch: refresh,
   } = useInfiniteQuery<
     Page,
     Error,
@@ -138,16 +149,7 @@ export function useUserPosts({
     getNextPageParam(page) {
       return page.cursor
     },
-    queryKey: [
-      'posts',
-      username,
-      {
-        accountId,
-        interval,
-        sort,
-        type,
-      },
-    ],
+    queryKey,
   })
 
   return {
@@ -156,7 +158,11 @@ export function useUserPosts({
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
     posts: data?.pages.flatMap((page) => page.posts) ?? [],
-    refetch,
+    refetch: async () => {
+      resetInfiniteQuery(queryKey)
+
+      await refresh()
+    },
   }
 }
 

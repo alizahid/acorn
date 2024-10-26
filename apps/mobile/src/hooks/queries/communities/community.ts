@@ -20,9 +20,9 @@ export type CommunityQueryKey = [
 export type CommunityQueryData = Community
 
 export function useCommunity(name: string) {
-  const { accountId } = useAuth()
-
   const isRestoring = useIsRestoring()
+
+  const { accountId } = useAuth()
 
   const { data, isLoading, refetch } = useQuery<
     CommunityQueryData | undefined,

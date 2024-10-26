@@ -6,6 +6,7 @@ import {
 import { sortBy, uniq } from 'lodash'
 import { useMemo } from 'react'
 
+import { resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { CommunitiesSchema } from '~/schemas/communities'
@@ -30,9 +31,16 @@ export type CommunitiesQueryKey = [
 export type CommunitiesQueryData = InfiniteData<Page, Param>
 
 export function useCommunities() {
+  const isRestoring = useIsRestoring()
+
   const { accountId } = useAuth()
 
-  const isRestoring = useIsRestoring()
+  const queryKey: CommunitiesQueryKey = [
+    'communities',
+    {
+      accountId,
+    },
+  ]
 
   const {
     data,
@@ -40,7 +48,7 @@ export function useCommunities() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    refetch,
+    refetch: refresh,
   } = useInfiniteQuery<
     Page,
     Error,
@@ -76,29 +84,18 @@ export function useCommunities() {
     getNextPageParam(page) {
       return page.cursor
     },
-    queryKey: [
-      'communities',
-      {
-        accountId,
-      },
-    ],
+    queryKey,
   })
 
   const communities = useMemo(
     () =>
-      getCommunities(
-        data?.pages.flatMap((page) => page.communities) ?? [],
-        false,
-      ),
+      transform(data?.pages.flatMap((page) => page.communities) ?? [], false),
     [data?.pages],
   )
 
   const users = useMemo(
     () =>
-      getCommunities(
-        data?.pages.flatMap((page) => page.communities) ?? [],
-        true,
-      ),
+      transform(data?.pages.flatMap((page) => page.communities) ?? [], true),
     [data?.pages],
   )
 
@@ -108,12 +105,16 @@ export function useCommunities() {
     hasNextPage,
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
-    refetch,
+    refetch: async () => {
+      resetInfiniteQuery(queryKey)
+
+      await refresh()
+    },
     users,
   }
 }
 
-function getCommunities(communities: Array<Community>, user: boolean) {
+function transform(communities: Array<Community>, user: boolean) {
   const list = sortBy(communities, (community) =>
     community.name.toLowerCase(),
   ).filter((community) => community.user === user)
@@ -124,14 +125,14 @@ function getCommunities(communities: Array<Community>, user: boolean) {
     return [
       'favorites',
       ...favorites,
-      ...transform(list.filter((community) => !community.favorite)),
+      ...filter(list.filter((community) => !community.favorite)),
     ]
   }
 
-  return transform(list)
+  return filter(list)
 }
 
-function transform(communities: Array<Community>) {
+function filter(communities: Array<Community>) {
   return uniq(
     communities.flatMap((community) => [
       community.name.slice(0, 1).toLowerCase(),

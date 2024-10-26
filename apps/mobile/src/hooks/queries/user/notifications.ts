@@ -6,7 +6,7 @@ import {
 import { compact } from 'lodash'
 import { create } from 'mutative'
 
-import { queryClient } from '~/lib/query'
+import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { NotificationsSchema } from '~/schemas/notifications'
@@ -31,9 +31,16 @@ export type NotificationsQueryKey = [
 export type NotificationsQueryData = InfiniteData<Page, Param>
 
 export function useNotifications() {
+  const isRestoring = useIsRestoring()
+
   const { accountId } = useAuth()
 
-  const isRestoring = useIsRestoring()
+  const queryKey: NotificationsQueryKey = [
+    'notifications',
+    {
+      accountId,
+    },
+  ]
 
   const {
     data,
@@ -41,7 +48,7 @@ export function useNotifications() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    refetch,
+    refetch: refresh,
   } = useInfiniteQuery<
     Page,
     Error,
@@ -79,12 +86,7 @@ export function useNotifications() {
     getNextPageParam(page) {
       return page.cursor
     },
-    queryKey: [
-      'notifications',
-      {
-        accountId,
-      },
-    ],
+    queryKey,
   })
 
   const notifications = data?.pages.flatMap((page) => page.notifications) ?? []
@@ -97,7 +99,11 @@ export function useNotifications() {
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
     notifications,
-    refetch,
+    refetch: async () => {
+      resetInfiniteQuery(queryKey)
+
+      await refresh()
+    },
     unread,
   }
 }

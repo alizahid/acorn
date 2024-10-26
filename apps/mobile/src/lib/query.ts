@@ -1,6 +1,10 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
-import { QueryClient } from '@tanstack/react-query'
+import {
+  type InfiniteData,
+  QueryClient,
+  type QueryKey,
+} from '@tanstack/react-query'
 import { parse, stringify } from 'superjson'
 
 import { Sentry } from './sentry'
@@ -49,3 +53,16 @@ export const persister = createAsyncStoragePersister({
   },
   storage: AsyncStorage,
 })
+
+export function resetInfiniteQuery<Key extends QueryKey, Data>(queryKey: Key) {
+  queryClient.setQueryData<InfiniteData<Data>>(queryKey, (previous) => {
+    if (!previous) {
+      return undefined
+    }
+
+    return {
+      pageParams: previous.pageParams.slice(0, 1),
+      pages: previous.pages.slice(0, 1),
+    }
+  })
+}

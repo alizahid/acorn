@@ -52,12 +52,12 @@ export function useSearch<Type extends SearchTab>({
   sort,
   type,
 }: SearchProps<Type>) {
+  const isRestoring = useIsRestoring()
+
   const { accountId } = useAuth()
 
   const { hideSeen } = usePreferences()
   const seen = useHistory((state) => state.posts)
-
-  const isRestoring = useIsRestoring()
 
   const { data, isLoading, refetch } = useQuery<
     SearchQueryData<Type> | undefined,
