@@ -1,6 +1,7 @@
 import { z } from 'zod'
 
 import { CommentDataSchema } from './comments'
+import { CommunityDataSchema } from './communities'
 import {
   PostGalleryDataSchema,
   PostMediaMetadataSchema,
@@ -29,8 +30,8 @@ const PostBaseSchema = z.object({
   saved: z.boolean(),
   selftext: z.string(),
   spoiler: z.boolean(),
+  sr_detail: CommunityDataSchema,
   stickied: z.boolean().nullish(),
-  subreddit: z.string(),
   thumbnail: z.string().nullish(),
   title: z.string(),
   ups: z.number(),

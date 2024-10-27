@@ -97,17 +97,17 @@ export function PostScreen() {
             height="8"
             justify="center"
             onPress={() => {
-              if (post.subreddit.startsWith('u/')) {
+              if (post.community.name.startsWith('u/')) {
                 router.navigate({
                   params: {
-                    name: removePrefix(post.subreddit),
+                    name: removePrefix(post.community.name),
                   },
                   pathname: '/users/[name]',
                 })
               } else {
                 router.navigate({
                   params: {
-                    name: removePrefix(post.subreddit),
+                    name: removePrefix(post.community.name),
                   },
                   pathname: '/communities/[name]',
                 })
@@ -115,7 +115,7 @@ export function PostScreen() {
             }}
             px="3"
           >
-            <Text weight="bold">{post.subreddit}</Text>
+            <Text weight="bold">{post.community.name}</Text>
           </Pressable>
         ) : undefined,
     })

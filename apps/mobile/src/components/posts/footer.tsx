@@ -1,5 +1,6 @@
+import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
-import { useStyles } from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { withoutAgo } from '~/lib/intl'
@@ -41,13 +42,13 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
       }}
       p="3"
     >
-      <View align="start" flexShrink={1} gap="2">
+      <View align="start" flexShrink={1} gap="3">
         <PostCommunity label={label} post={post} />
 
         <PostMeta post={post} />
       </View>
 
-      <View align="center" direction="row" gap="2">
+      <View align="center" direction="row" gap="3">
         <PostVoteCard expanded={expanded} post={post} />
 
         <PostSaveCard post={post} />
@@ -120,19 +121,30 @@ export function PostMeta({ post }: Props) {
 export function PostCommunity({ label, post }: Props) {
   const router = useRouter()
 
-  const { theme } = useStyles()
+  const { styles, theme } = useStyles(stylesheet)
 
   return (
     <Pressable
+      direction="row"
+      gap="2"
       hitSlop={theme.space[3]}
       onPress={() => {
         if (label === 'subreddit') {
-          router.navigate({
-            params: {
-              name: removePrefix(post.subreddit),
-            },
-            pathname: '/communities/[name]',
-          })
+          if (post.community.name.startsWith('u/')) {
+            router.navigate({
+              params: {
+                name: removePrefix(post.community.name),
+              },
+              pathname: '/users/[name]',
+            })
+          } else {
+            router.navigate({
+              params: {
+                name: removePrefix(post.community.name),
+              },
+              pathname: '/communities/[name]',
+            })
+          }
         } else {
           router.navigate({
             params: {
@@ -143,9 +155,23 @@ export function PostCommunity({ label, post }: Props) {
         }
       }}
     >
+      {label === 'subreddit' ? (
+        <Image source={post.community.image} style={styles.image} />
+      ) : null}
+
       <Text lines={1} size="2" weight="medium">
-        {label === 'subreddit' ? post.subreddit : post.user.name}
+        {label === 'subreddit' ? post.community.name : post.user.name}
       </Text>
     </Pressable>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  image: {
+    backgroundColor: theme.colors.gray.a3,
+    borderCurve: 'continuous',
+    borderRadius: theme.typography[2].lineHeight,
+    height: theme.typography[2].lineHeight,
+    width: theme.typography[2].lineHeight,
+  },
+}))

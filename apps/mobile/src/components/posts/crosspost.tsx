@@ -97,7 +97,7 @@ export function CrossPostCard({ post, style, viewing }: Props) {
             gap="2"
             hitSlop={theme.space[4]}
             onPress={() => {
-              router.push(`/communities/${post.subreddit}`)
+              router.push(`/communities/${post.community.name}`)
             }}
           >
             <Icon
@@ -108,7 +108,7 @@ export function CrossPostCard({ post, style, viewing }: Props) {
             />
 
             <Text size="1" weight="medium">
-              {post.subreddit}
+              {post.community.name}
             </Text>
           </Pressable>
 

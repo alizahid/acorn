@@ -1,3 +1,5 @@
+import { type Community } from './community'
+
 export type PostType =
   | 'link'
   | 'text'
@@ -9,6 +11,7 @@ export type PostType =
 export type Post = {
   body?: string
   comments: number
+  community: Community
   createdAt: Date
   crossPost?: Post
   id: string
@@ -23,7 +26,6 @@ export type Post = {
   saved: boolean
   spoiler: boolean
   sticky: boolean
-  subreddit: string
   title: string
   type: PostType
   url?: string

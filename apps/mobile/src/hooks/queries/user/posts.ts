@@ -94,8 +94,9 @@ export function useUserPosts({
     async queryFn({ pageParam }) {
       const url = new URL(`/user/${username}/${type}`, REDDIT_URI)
 
-      url.searchParams.set('limit', '25')
+      url.searchParams.set('limit', '100')
       url.searchParams.set('sort', sort)
+      url.searchParams.set('sr_detail', 'true')
 
       if (sort === 'top' && interval) {
         url.searchParams.set('t', interval)

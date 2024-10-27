@@ -65,6 +65,7 @@ export function usePost({ commentId, id, sort }: Props) {
 
       url.searchParams.set('limit', '100')
       url.searchParams.set('threaded', 'false')
+      url.searchParams.set('sr_detail', 'true')
 
       if (commentId) {
         url.searchParams.set('comment', removePrefix(commentId))

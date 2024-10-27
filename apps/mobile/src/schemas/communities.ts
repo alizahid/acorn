@@ -2,10 +2,10 @@ import { z } from 'zod'
 
 export const CommunityDataSchema = z.object({
   community_icon: z.string().nullish(),
-  created_utc: z.number(),
+  created_utc: z.number().optional(),
   display_name: z.string(),
   icon_img: z.string().nullish(),
-  id: z.string(),
+  name: z.string(),
   subreddit_type: z.string().nullish(),
   subscribers: z.number().nullish(),
   user_has_favorited: z.boolean().nullish(),

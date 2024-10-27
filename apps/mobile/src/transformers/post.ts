@@ -5,12 +5,15 @@ import { getImages, getMeta, getVideo } from '~/lib/media'
 import { type PostDataSchema } from '~/schemas/posts'
 import { type Post, type PostType } from '~/types/post'
 
+import { transformCommunity } from './community'
+
 export function transformPost(data: PostDataSchema): Post {
   const crossPost = data.crosspost_parent_list?.[0]
 
   return {
     body: decode(data.selftext.trim()) || undefined,
     comments: data.num_comments,
+    community: transformCommunity(data.sr_detail),
     createdAt: dateFromUnix(data.created_utc),
     crossPost: crossPost ? transformPost(crossPost) : undefined,
     id: data.id,
@@ -25,9 +28,6 @@ export function transformPost(data: PostDataSchema): Post {
     saved: data.saved,
     spoiler: data.spoiler,
     sticky: Boolean(data.stickied),
-    subreddit: data.subreddit.startsWith('u_')
-      ? `u/${data.subreddit.slice(2)}`
-      : data.subreddit,
     title: decode(data.title.trim()),
     type: getType(data),
     url: data.url ?? undefined,
