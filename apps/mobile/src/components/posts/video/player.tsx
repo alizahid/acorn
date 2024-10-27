@@ -32,11 +32,12 @@ export function VideoPlayer({
 }: Props) {
   const t = useTranslations('component.posts.video')
 
-  const preferences = usePreferences()
+  const { blurNsfw, feedMuted, unmuteFullscreen } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
   const [visible, setVisible] = useState(false)
+  const [muted, setMuted] = useState(feedMuted)
 
   const player = useVideoPlayer(source, (instance) => {
     instance.muted = true
@@ -48,26 +49,20 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    player.muted = visible ? false : !viewing || preferences.feedMuted
+    player.muted = !visible || muted
 
-    if (visible || (viewing && (preferences.blurNsfw ? !nsfw : true))) {
+    if (visible || viewing) {
       player.play()
     } else {
       player.pause()
     }
-  }, [
-    nsfw,
-    player,
-    preferences.blurNsfw,
-    preferences.feedMuted,
-    viewing,
-    visible,
-  ])
+  }, [blurNsfw, muted, nsfw, player, viewing, visible])
 
   return (
     <>
       <Pressable
         onPress={() => {
+          setMuted(!unmuteFullscreen)
           setVisible(true)
         }}
         style={[styles.main(crossPost), style]}
@@ -82,7 +77,7 @@ export function VideoPlayer({
           style={styles.video(video.width / video.height)}
         />
 
-        {nsfw && preferences.blurNsfw ? (
+        {nsfw && blurNsfw ? (
           <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
             <Icon
               color={theme.colors.gray.a12}
@@ -97,18 +92,14 @@ export function VideoPlayer({
           <Pressable
             hitSlop={theme.space[2]}
             onPress={() => {
-              preferences.update({
-                feedMuted: !preferences.feedMuted,
-              })
+              setMuted(() => !muted)
             }}
             p="2"
             style={styles.volume}
           >
             <Icon
               color={theme.colors.gray.contrast}
-              name={
-                preferences.feedMuted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'
-              }
+              name={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
               size={theme.space[4]}
             />
           </Pressable>
@@ -116,9 +107,12 @@ export function VideoPlayer({
       </Pressable>
 
       <VideoModal
+        muted={muted}
         onClose={() => {
+          setMuted(feedMuted)
           setVisible(false)
         }}
+        onMutedChange={setMuted}
         player={player}
         video={video}
         visible={visible}

@@ -31,6 +31,7 @@ export type PreferencesPayload = {
   sortPostComments: CommentSort
   sortUserComments: CommentSort
   sortUserPosts: UserFeedSort
+  unmuteFullscreen: boolean
 }
 
 type State = PreferencesPayload & {
@@ -57,6 +58,7 @@ export const usePreferences = create<State>()(
       sortPostComments: 'confidence',
       sortUserComments: 'new',
       sortUserPosts: 'new',
+      unmuteFullscreen: true,
       update(payload) {
         set(payload)
       },

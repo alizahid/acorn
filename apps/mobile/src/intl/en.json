@@ -185,11 +185,12 @@
           "browsing": "Browsing",
           "dimSeen": "Dim seen posts",
           "feedCompact": "Compact feed",
-          "feedMuted": "Mute feed while scrolling",
+          "feedMuted": "Mute feed",
           "fontScaling": "Use system font scaling",
           "hideSeen": "Hide seen posts",
           "linkBrowser": "Open links in browser",
-          "system": "System"
+          "system": "System",
+          "unmuteFullscreen": "Unmute on full screen"
         },
         "title": "Preferences"
       },

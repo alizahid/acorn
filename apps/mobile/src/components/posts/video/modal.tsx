@@ -16,13 +16,22 @@ import { type PostMedia } from '~/types/post'
 import { VideoControls } from './controls'
 
 type Props = {
+  muted: boolean
   onClose: () => void
+  onMutedChange: (muted: boolean) => void
   player: VideoPlayer
   video: PostMedia
   visible: boolean
 }
 
-export function VideoModal({ onClose, player, video, visible }: Props) {
+export function VideoModal({
+  muted,
+  onClose,
+  onMutedChange,
+  player,
+  video,
+  visible,
+}: Props) {
   const { styles } = useStyles(stylesheet)
 
   const opacity = useSharedValue(1)
@@ -94,7 +103,12 @@ export function VideoModal({ onClose, player, video, visible }: Props) {
         />
       </Animated.View>
 
-      <VideoControls opacity={opacity} player={player} />
+      <VideoControls
+        muted={muted}
+        onMutedChange={onMutedChange}
+        opacity={opacity}
+        player={player}
+      />
     </Modal>
   )
 }

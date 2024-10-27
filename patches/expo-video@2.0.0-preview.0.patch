@@ -7,7 +7,7 @@ index 094a8b03c4730882360d7f3aa0950a50c8b1516d..d3c5dc6cef28e7002b8a50119661d06d
      if isOutputtingAudio || needsPiPSupport || shouldUpdateToAllowMixing || anyPlayerShowsNotification {
        do {
 -        try audioSession.setCategory(.playback, mode: .moviePlayback)
-+        try audioSession.setCategory(.playback, mode: .moviePlayback, options: .duckOthers)
++        try audioSession.setCategory(.playback, mode: .moviePlayback, options: .mixWithOthers)
        } catch {
          log.warn("Failed to set audio session category. This might cause issues with audio playback and Picture in Picture. \(error.localizedDescription)")
        }

@@ -22,6 +22,10 @@ export function SettingsPreferencesScreen() {
             key: 'feedMuted',
           },
           {
+            icon: 'SpeakerSimpleHigh',
+            key: 'unmuteFullscreen',
+          },
+          {
             icon: 'EyeClosed',
             key: 'blurNsfw',
           },
