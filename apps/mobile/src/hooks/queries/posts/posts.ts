@@ -3,8 +3,8 @@ import {
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
+import { compact } from 'lodash'
 import { create } from 'mutative'
-import { useMemo } from 'react'
 
 import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
@@ -93,7 +93,15 @@ export function usePosts({ community, interval, sort }: PostsProps) {
 
       return {
         cursor: response.data.after,
-        posts: response.data.children.map((item) => transformPost(item.data)),
+        posts: compact(
+          response.data.children.map((item) => {
+            if (hideSeen && seen.includes(item.data.id)) {
+              return null
+            }
+
+            return transformPost(item.data)
+          }),
+        ),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
@@ -103,22 +111,12 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     queryKey,
   })
 
-  const posts = useMemo(() => {
-    const items = data?.pages.flatMap((page) => page.posts) ?? []
-
-    if (hideSeen) {
-      return items.filter((post) => !seen.includes(post.id))
-    }
-
-    return items
-  }, [data?.pages, hideSeen, seen])
-
   return {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
-    posts,
+    posts: data?.pages.flatMap((page) => page.posts) ?? [],
     refetch: async () => {
       resetInfiniteQuery(queryKey)
 
