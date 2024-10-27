@@ -73,7 +73,7 @@ export function MenuItem({ item, style }: Props) {
           <Text weight="medium">{item.label}</Text>
 
           {item.description ? (
-            <Text color="gray" highContrast={false} size="1">
+            <Text color="gray" highContrast={false} size="2">
               {item.description}
             </Text>
           ) : null}

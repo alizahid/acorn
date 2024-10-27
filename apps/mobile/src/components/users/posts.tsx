@@ -37,7 +37,7 @@ export function UserPostsList({
 
   const focused = useIsFocused()
 
-  const { dimSeen, feedCompact, seenOnScroll } = usePreferences()
+  const { dimSeen, feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
   const { addPost, posts: seen } = useHistory()
 
   const {
@@ -59,7 +59,7 @@ export function UserPostsList({
   return (
     <FlashList
       {...listProps}
-      ItemSeparatorComponent={() => <View height="4" />}
+      ItemSeparatorComponent={() => <View height={feedCompact ? '2' : '4'} />}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null
@@ -107,6 +107,7 @@ export function UserPostsList({
             compact={feedCompact}
             label={label}
             post={item.data}
+            reverse={mediaOnRight}
             seen={dimSeen ? seen.includes(item.data.id) : false}
             viewing={focused ? viewing.includes(item.data.id) : false}
           />

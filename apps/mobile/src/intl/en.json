@@ -180,20 +180,33 @@
         "title": "Cache"
       },
       "preferences": {
-        "menu": {
-          "blurNsfw": "Blur NSFW media",
-          "browsing": "Browsing",
+        "browsing": {
           "dimSeen": "Dim seen posts",
           "feedCompact": "Compact feed",
+          "hideSeen": {
+            "description": "Posts will disappear after you refresh",
+            "label": "Hide seen posts"
+          },
+          "label": "Browsing",
+          "mediaOnRight": {
+            "description": "Only affects compact mode",
+            "label": "Show media on right"
+          },
+          "seenOnScroll": {
+            "description": "If off, will only mark a post as read after opening it\nRequires app restart to take effect",
+            "label": "Mark as seen while scrolling"
+          }
+        },
+        "media": {
+          "blurNsfw": "Blur NSFW media",
           "feedMuted": "Mute feed",
-          "fontScaling": "Use system font scaling",
-          "hideSeen": "Hide seen posts",
-          "hideSeenDescription": "Posts will disappear after you refresh.",
-          "linkBrowser": "Open links in browser",
-          "seenOnScroll": "Mark as seen while scrolling",
-          "seenOnScrollDescription": "If off, will only mark a post as read after opening it. Requires app restart to take effect.",
-          "system": "System",
+          "label": "Media",
           "unmuteFullscreen": "Unmute on full screen"
+        },
+        "system": {
+          "fontScaling": "Use system font scaling",
+          "label": "System",
+          "linkBrowser": "Open links in browser"
         },
         "title": "Preferences"
       },

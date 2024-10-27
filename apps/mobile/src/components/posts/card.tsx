@@ -34,6 +34,7 @@ type Props = {
   expanded?: boolean
   label?: PostLabel
   post: Post
+  reverse?: boolean
   seen?: boolean
   style?: StyleProp<ViewStyle>
   viewing: boolean
@@ -44,6 +45,7 @@ export function PostCard({
   expanded = false,
   label,
   post,
+  reverse = false,
   seen = false,
   style,
   viewing,
@@ -74,7 +76,7 @@ export function PostCard({
     return (
       <Animated.View style={[styles.main, style, animatedStyle]}>
         <Pressable
-          direction="row"
+          direction={reverse ? 'row-reverse' : 'row'}
           disabled={expanded}
           gap="3"
           onPress={() => {

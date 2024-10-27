@@ -44,7 +44,7 @@ export function SearchList({
 
   const { styles } = useStyles(stylesheet)
 
-  const { feedCompact, seenOnScroll } = usePreferences()
+  const { feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
   const { addPost } = useHistory()
 
   const { isLoading, refetch, results } = useSearch({
@@ -60,7 +60,9 @@ export function SearchList({
   return (
     <FlashList
       {...listProps}
-      ItemSeparatorComponent={() => <View style={styles.separator(type)} />}
+      ItemSeparatorComponent={() => (
+        <View style={styles.separator(type, feedCompact)} />
+      )}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListHeaderComponent={header}
       data={results}
@@ -88,6 +90,7 @@ export function SearchList({
             compact={feedCompact}
             label="subreddit"
             post={item as Post}
+            reverse={mediaOnRight}
             viewing={focused ? viewing.includes(item.id) : false}
           />
         )
@@ -125,10 +128,10 @@ export function SearchList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  separator: (type: SearchTab) => {
+  separator: (type: SearchTab, compact: boolean) => {
     if (type === 'post') {
       return {
-        height: theme.space[4],
+        height: theme.space[compact ? 2 : 4],
       }
     }
 

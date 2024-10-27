@@ -12,46 +12,62 @@ export function SettingsPreferencesScreen() {
     <Menu
       items={(
         [
-          t('menu.browsing'),
+          t('browsing.label'),
           {
             icon: 'Rows',
             key: 'feedCompact',
+            label: 'browsing.feedCompact',
           },
           {
-            icon: 'SpeakerSimpleX',
-            key: 'feedMuted',
+            description: 'browsing.mediaOnRight.description',
+            icon: 'Image',
+            key: 'mediaOnRight',
+            label: 'browsing.mediaOnRight.label',
           },
           {
-            icon: 'SpeakerSimpleHigh',
-            key: 'unmuteFullscreen',
-          },
-          {
-            icon: 'EyeClosed',
-            key: 'blurNsfw',
-          },
-          {
-            description: 'seenOnScrollDescription',
+            description: 'browsing.seenOnScroll.description',
             icon: 'MouseScroll',
             key: 'seenOnScroll',
+            label: 'browsing.seenOnScroll.label',
           },
           {
-            description: 'hideSeenDescription',
+            description: 'browsing.hideSeen.description',
             icon: 'Eye',
             key: 'hideSeen',
+            label: 'browsing.hideSeen.label',
           },
           {
             icon: 'SunDim',
             key: 'dimSeen',
+            label: 'browsing.dimSeen',
+          },
+          t('media.label'),
+          {
+            icon: 'SpeakerSimpleX',
+            key: 'feedMuted',
+            label: 'media.feedMuted',
+          },
+          {
+            icon: 'SpeakerSimpleHigh',
+            key: 'unmuteFullscreen',
+            label: 'media.unmuteFullscreen',
+          },
+          {
+            icon: 'EyeClosed',
+            key: 'blurNsfw',
+            label: 'media.blurNsfw',
           },
           null,
-          t('menu.system'),
+          t('system.label'),
           {
             icon: 'Browser',
             key: 'linkBrowser',
+            label: 'system.linkBrowser',
           },
           {
             icon: 'TextAa',
             key: 'fontScaling',
+            label: 'system.fontScaling',
           },
         ] as const
       ).map((item) => {
@@ -60,12 +76,11 @@ export function SettingsPreferencesScreen() {
         }
 
         return {
-          description:
-            'description' in item ? t(`menu.${item.description}`) : undefined,
+          description: 'description' in item ? t(item.description) : undefined,
           icon: {
             name: item.icon,
           },
-          label: t(`menu.${item.key}`),
+          label: t(item.label),
           onSelect(value) {
             update({
               [item.key]: value,
