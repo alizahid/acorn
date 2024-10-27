@@ -76,13 +76,13 @@ export function CommunitiesList({
             >
               {item === 'favorites' ? (
                 <Icon
-                  color={theme.colors.accent.a11}
+                  color={theme.colors.accent.a9}
                   name="Star"
                   size={theme.typography[3].lineHeight}
                   weight="duotone"
                 />
               ) : (
-                <Text color="accent" weight="bold">
+                <Text color="accent" style={styles.favorite} weight="bold">
                   {item.toUpperCase()}
                 </Text>
               )}
@@ -110,6 +110,9 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   content: {
     paddingBottom: theme.space[2],
+  },
+  favorite: {
+    color: theme.colors.accent.a9,
   },
   header: {
     backgroundColor: theme.colors.gray.a2,
