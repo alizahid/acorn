@@ -8,6 +8,7 @@ import { VideoPlayer } from './player'
 import { RedGifsVideo } from './red-gifs'
 
 type Props = {
+  compact?: boolean
   crossPost?: boolean
   nsfw?: boolean
   recyclingKey?: string
@@ -17,6 +18,7 @@ type Props = {
 }
 
 export function PostVideoCard({
+  compact,
   crossPost,
   nsfw,
   recyclingKey,
@@ -29,6 +31,7 @@ export function PostVideoCard({
   if (video.provider === 'redgifs') {
     return (
       <RedGifsVideo
+        compact={compact}
         crossPost={crossPost}
         nsfw={nsfw}
         style={style}
@@ -41,6 +44,7 @@ export function PostVideoCard({
   if (video.provider === 'reddit') {
     return (
       <VideoPlayer
+        compact={compact}
         crossPost={crossPost}
         nsfw={nsfw}
         source={video.url}
@@ -60,6 +64,7 @@ export function PostVideoCard({
 
   return (
     <PostLinkCard
+      compact={compact}
       media={media}
       recyclingKey={recyclingKey}
       style={styles.link}

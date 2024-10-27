@@ -55,7 +55,7 @@ export const usePreferences = create<State>()(
       intervalUserComments: 'all',
       intervalUserPosts: 'all',
       linkBrowser: true,
-      mediaOnRight: false,
+      mediaOnRight: true,
       seenOnScroll: true,
       sortCommunityPosts: 'hot',
       sortFeedPosts: 'hot',

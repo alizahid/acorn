@@ -9,6 +9,7 @@ import { type PostMedia } from '~/types/post'
 import { VideoPlayer } from './player'
 
 type Props = {
+  compact?: boolean
   crossPost?: boolean
   nsfw?: boolean
   style?: StyleProp<ViewStyle>
@@ -17,6 +18,7 @@ type Props = {
 }
 
 export function RedGifsVideo({
+  compact,
   crossPost,
   nsfw,
   style,
@@ -30,6 +32,7 @@ export function RedGifsVideo({
   if (gif) {
     return (
       <VideoPlayer
+        compact={compact}
         crossPost={crossPost}
         nsfw={nsfw}
         source={gif.source}
@@ -41,7 +44,7 @@ export function RedGifsVideo({
   }
 
   return (
-    <View style={styles.main(crossPost)}>
+    <View style={styles.main(crossPost, compact)}>
       <View
         align="center"
         justify="center"
@@ -54,11 +57,20 @@ export function RedGifsVideo({
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  main: (crossPost?: boolean) => ({
-    justifyContent: 'center',
-    maxHeight: runtime.screen.height * (crossPost ? 0.3 : 0.5),
-    overflow: 'hidden',
-  }),
+  main: (crossPost?: boolean, compact?: boolean) => {
+    if (compact) {
+      return {
+        height: theme.space[8],
+        width: theme.space[8],
+      }
+    }
+
+    return {
+      justifyContent: 'center',
+      maxHeight: runtime.screen.height * (crossPost ? 0.3 : 0.5),
+      overflow: 'hidden',
+    }
+  },
   video: (aspectRatio: number) => ({
     aspectRatio,
   }),

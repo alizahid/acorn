@@ -12,17 +12,39 @@ import { Text } from '../common/text'
 import { View } from '../common/view'
 
 type Props = {
+  compact?: boolean
   media?: PostMedia
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
   url: string
 }
 
-export function PostLinkCard({ media, recyclingKey, style, url }: Props) {
+export function PostLinkCard({
+  compact,
+  media,
+  recyclingKey,
+  style,
+  url,
+}: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { handleLink } = useLink()
   const placeholder = useImagePlaceholder()
+
+  if (compact) {
+    return (
+      <Pressable
+        align="center"
+        justify="center"
+        onPress={() => {
+          void handleLink(url)
+        }}
+        style={styles.compact}
+      >
+        <Icon color={theme.colors.accent.a9} name="Compass" />
+      </Pressable>
+    )
+  }
 
   return (
     <Pressable
@@ -57,6 +79,13 @@ export function PostLinkCard({ media, recyclingKey, style, url }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  compact: {
+    backgroundColor: theme.colors.gray.a3,
+    borderCurve: 'continuous',
+    borderRadius: theme.space[2],
+    height: theme.space[8],
+    width: theme.space[8],
+  },
   image: {
     aspectRatio: 2,
   },

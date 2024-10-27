@@ -1,11 +1,13 @@
 import { BlurView } from 'expo-blur'
+import { Image } from 'expo-image'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
 import { useEffect, useState } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Text } from '~/components/common/text'
+import { View } from '~/components/common/view'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -14,6 +16,7 @@ import { Pressable } from '../../common/pressable'
 import { VideoModal } from './modal'
 
 type Props = {
+  compact?: boolean
   crossPost?: boolean
   nsfw?: boolean
   source: VideoSource
@@ -23,6 +26,7 @@ type Props = {
 }
 
 export function VideoPlayer({
+  compact,
   crossPost,
   nsfw,
   source,
@@ -60,51 +64,75 @@ export function VideoPlayer({
 
   return (
     <>
-      <Pressable
-        onPress={() => {
-          setMuted(!unmuteFullscreen)
-          setVisible(true)
-        }}
-        style={[styles.main(crossPost), style]}
-      >
-        <VideoView
-          allowsFullscreen={false}
-          allowsPictureInPicture={false}
-          allowsVideoFrameAnalysis={false}
-          contentFit="cover"
-          nativeControls={false}
-          player={player}
-          style={styles.video(video.width / video.height)}
-        />
+      {compact ? (
+        <Pressable
+          onPress={() => {
+            setMuted(!unmuteFullscreen)
+            setVisible(true)
+          }}
+          style={styles.compact}
+        >
+          <Image source={video.thumbnail} style={styles.compactImage} />
 
-        {nsfw && blurNsfw ? (
-          <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
-            <Icon
-              color={theme.colors.gray.a12}
-              name="Warning"
-              size={theme.space[6]}
-              weight="fill"
-            />
+          <View align="center" justify="center" style={styles.play}>
+            <Icon color={theme.colors.accent.a9} name="Play" weight="fill" />
+          </View>
 
-            <Text weight="medium">{t('nsfw')}</Text>
-          </BlurView>
-        ) : (
-          <Pressable
-            hitSlop={theme.space[2]}
-            onPress={() => {
-              setMuted(() => !muted)
-            }}
-            p="2"
-            style={styles.volume}
-          >
-            <Icon
-              color={theme.colors.gray.contrast}
-              name={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
-              size={theme.space[4]}
+          {nsfw && blurNsfw ? (
+            <BlurView
+              intensity={100}
+              pointerEvents="none"
+              style={styles.blur}
             />
-          </Pressable>
-        )}
-      </Pressable>
+          ) : null}
+        </Pressable>
+      ) : (
+        <Pressable
+          onPress={() => {
+            setMuted(!unmuteFullscreen)
+            setVisible(true)
+          }}
+          style={[styles.main(crossPost), style]}
+        >
+          <VideoView
+            allowsFullscreen={false}
+            allowsPictureInPicture={false}
+            allowsVideoFrameAnalysis={false}
+            contentFit="cover"
+            nativeControls={false}
+            player={player}
+            style={styles.video(video.width / video.height)}
+          />
+
+          {nsfw && blurNsfw ? (
+            <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
+              <Icon
+                color={theme.colors.gray.a12}
+                name="Warning"
+                size={theme.space[6]}
+                weight="fill"
+              />
+
+              <Text weight="medium">{t('nsfw')}</Text>
+            </BlurView>
+          ) : (
+            <Pressable
+              hitSlop={theme.space[2]}
+              onPress={() => {
+                setMuted(() => !muted)
+              }}
+              p="2"
+              style={styles.volume}
+            >
+              <Icon
+                color={theme.colors.gray.contrast}
+                name={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
+                size={theme.space[4]}
+              />
+            </Pressable>
+          )}
+        </Pressable>
+      )}
 
       <VideoModal
         muted={muted}
@@ -123,20 +151,33 @@ export function VideoPlayer({
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   blur: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
-    bottom: 0,
     gap: theme.space[4],
     justifyContent: 'center',
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
+  },
+  compact: {
+    backgroundColor: theme.colors.gray.a3,
+    borderCurve: 'continuous',
+    borderRadius: theme.space[1],
+    height: theme.space[8],
+    overflow: 'hidden',
+    width: theme.space[8],
+  },
+  compactImage: {
+    flex: 1,
   },
   main: (crossPost?: boolean) => ({
     justifyContent: 'center',
     maxHeight: runtime.screen.height * (crossPost ? 0.3 : 0.5),
     overflow: 'hidden',
   }),
+  play: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: theme.colors.black.a6,
+    height: theme.space[8],
+    width: theme.space[8],
+  },
   video: (aspectRatio: number) => ({
     aspectRatio,
   }),

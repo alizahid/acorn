@@ -1,7 +1,7 @@
 import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import { useState } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -16,6 +16,7 @@ import { View } from '../../common/view'
 import { PostGalleryModal } from './modal'
 
 type Props = {
+  compact?: boolean
   crossPost?: boolean
   images: Array<PostMedia>
   nsfw?: boolean
@@ -24,6 +25,7 @@ type Props = {
 }
 
 export function PostGalleryCard({
+  compact,
   crossPost,
   images,
   nsfw,
@@ -48,50 +50,74 @@ export function PostGalleryCard({
 
   return (
     <>
-      <Pressable
-        onPress={() => {
-          setVisible(true)
-        }}
-        style={[styles.main(crossPost), style]}
-      >
-        <Image
-          {...placeholder}
-          recyclingKey={recyclingKey}
-          source={first.thumbnail ?? first.url}
-          style={styles.image(first.width / first.height)}
-        />
+      {compact ? (
+        <Pressable
+          onPress={() => {
+            setVisible(true)
+          }}
+          style={[styles.compact, style]}
+        >
+          <Image
+            {...placeholder}
+            recyclingKey={recyclingKey}
+            source={first.thumbnail ?? first.url}
+            style={styles.compactImage}
+          />
 
-        {first.type === 'gif' ? (
-          <View style={[styles.label, styles.gif]}>
-            <Text contrast size="1" weight="medium">
-              {t('gif')}
-            </Text>
-          </View>
-        ) : null}
-
-        {nsfw && blurNsfw ? (
-          <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
-            <Icon
-              color={theme.colors.gray.a12}
-              name="Warning"
-              size={theme.space[6]}
-              weight="fill"
+          {nsfw && blurNsfw ? (
+            <BlurView
+              intensity={100}
+              pointerEvents="none"
+              style={styles.blur}
             />
+          ) : null}
+        </Pressable>
+      ) : (
+        <Pressable
+          onPress={() => {
+            setVisible(true)
+          }}
+          style={[styles.main(crossPost), style]}
+        >
+          <Image
+            {...placeholder}
+            recyclingKey={recyclingKey}
+            source={first.thumbnail ?? first.url}
+            style={styles.image(first.width / first.height)}
+          />
 
-            <Text weight="medium">{t('nsfw')}</Text>
-          </BlurView>
-        ) : null}
+          {first.type === 'gif' ? (
+            <View style={[styles.label, styles.gif]}>
+              <Text contrast size="1" weight="medium">
+                {t('gif')}
+              </Text>
+            </View>
+          ) : null}
 
-        {images.length > 1 ? (
-          <View style={[styles.label, styles.count]}>
-            <Text contrast size="1" tabular>
-              {t('items', {
-                count: images.length,
-              })}
-            </Text>
-          </View>
-        ) : null}
-      </Pressable>
+          {nsfw && blurNsfw ? (
+            <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
+              <Icon
+                color={theme.colors.gray.a12}
+                name="Warning"
+                size={theme.space[6]}
+                weight="fill"
+              />
+
+              <Text weight="medium">{t('nsfw')}</Text>
+            </BlurView>
+          ) : null}
+
+          {images.length > 1 ? (
+            <View style={[styles.label, styles.count]}>
+              <Text contrast size="1" tabular>
+                {t('items', {
+                  count: images.length,
+                })}
+              </Text>
+            </View>
+          ) : null}
+        </Pressable>
+      )}
 
       <PostGalleryModal
         images={images}
@@ -107,14 +133,21 @@ export function PostGalleryCard({
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   blur: {
+    ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
-    bottom: 0,
     gap: theme.space[4],
     justifyContent: 'center',
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: 0,
+  },
+  compact: {
+    backgroundColor: theme.colors.gray.a3,
+    borderCurve: 'continuous',
+    borderRadius: theme.space[1],
+    height: theme.space[8],
+    overflow: 'hidden',
+    width: theme.space[8],
+  },
+  compactImage: {
+    flex: 1,
   },
   count: {
     right: theme.space[2],
