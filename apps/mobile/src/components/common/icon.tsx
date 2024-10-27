@@ -34,6 +34,7 @@ import ImageBold from 'react-native-phosphor/src/bold/Image'
 import InfoBold from 'react-native-phosphor/src/bold/Info'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
+import MouseScrollBold from 'react-native-phosphor/src/bold/MouseScroll'
 import PackageBold from 'react-native-phosphor/src/bold/Package'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
 import PauseBold from 'react-native-phosphor/src/bold/Pause'
@@ -96,6 +97,7 @@ import ImageDuotone from 'react-native-phosphor/src/duotone/Image'
 import InfoDuotone from 'react-native-phosphor/src/duotone/Info'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
+import MouseScrollDuotone from 'react-native-phosphor/src/duotone/MouseScroll'
 import PackageDuotone from 'react-native-phosphor/src/duotone/Package'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
 import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
@@ -158,6 +160,7 @@ import ImageFill from 'react-native-phosphor/src/fill/Image'
 import InfoFill from 'react-native-phosphor/src/fill/Info'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
+import MouseScrollFill from 'react-native-phosphor/src/fill/MouseScroll'
 import PackageFill from 'react-native-phosphor/src/fill/Package'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
 import PauseFill from 'react-native-phosphor/src/fill/Pause'
@@ -220,6 +223,7 @@ import ImageRegular from 'react-native-phosphor/src/regular/Image'
 import InfoRegular from 'react-native-phosphor/src/regular/Info'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
+import MouseScrollRegular from 'react-native-phosphor/src/regular/MouseScroll'
 import PackageRegular from 'react-native-phosphor/src/regular/Package'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
 import PauseRegular from 'react-native-phosphor/src/regular/Pause'
@@ -477,6 +481,12 @@ const icons = {
     duotone: MedalDuotone,
     fill: MedalFill,
     regular: MedalRegular,
+  },
+  MouseScroll: {
+    bold: MouseScrollBold,
+    duotone: MouseScrollDuotone,
+    fill: MouseScrollFill,
+    regular: MouseScrollRegular,
   },
   Package: {
     bold: PackageBold,

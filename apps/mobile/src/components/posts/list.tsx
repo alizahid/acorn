@@ -36,7 +36,7 @@ export function PostList({
 
   useScrollToTop(list)
 
-  const { dimSeen, feedCompact } = usePreferences()
+  const { dimSeen, feedCompact, seenOnScroll } = usePreferences()
   const { addPost, posts: seen } = useHistory()
 
   const {
@@ -104,13 +104,17 @@ export function PostList({
         },
         {
           onViewableItemsChanged({ viewableItems }) {
+            if (!seenOnScroll) {
+              return
+            }
+
             viewableItems.forEach((item) => {
               addPost((item.item as Post).id)
             })
           },
           viewabilityConfig: {
             itemVisiblePercentThreshold: 100,
-            minimumViewTime: 1_500,
+            minimumViewTime: 3_000,
           },
         },
       ]}

@@ -27,6 +27,7 @@ export type MenuItemOption = {
 
 export type MenuItem = {
   arrow?: boolean
+  description?: string
   icon?: Icon
   label: string
   onPress?: () => void | Promise<void>

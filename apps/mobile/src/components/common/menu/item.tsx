@@ -69,9 +69,15 @@ export function MenuItem({ item, style }: Props) {
           />
         ) : null}
 
-        <Text my="3" style={styles.label} weight="medium">
-          {item.label}
-        </Text>
+        <View flex={1} gap="1" my="3">
+          <Text weight="medium">{item.label}</Text>
+
+          {item.description ? (
+            <Text color="gray" highContrast={false} size="1">
+              {item.description}
+            </Text>
+          ) : null}
+        </View>
 
         {typeof selected === 'string' ? (
           <Text color="accent" weight="bold">

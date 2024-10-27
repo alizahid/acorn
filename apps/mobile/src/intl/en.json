@@ -188,7 +188,10 @@
           "feedMuted": "Mute feed",
           "fontScaling": "Use system font scaling",
           "hideSeen": "Hide seen posts",
+          "hideSeenDescription": "Posts will disappear after you refresh.",
           "linkBrowser": "Open links in browser",
+          "seenOnScroll": "Mark as seen while scrolling",
+          "seenOnScrollDescription": "If off, will only mark a post as read after opening it. Requires app restart to take effect.",
           "system": "System",
           "unmuteFullscreen": "Unmute on full screen"
         },

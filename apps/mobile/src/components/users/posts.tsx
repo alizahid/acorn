@@ -37,7 +37,7 @@ export function UserPostsList({
 
   const focused = useIsFocused()
 
-  const { dimSeen, feedCompact } = usePreferences()
+  const { dimSeen, feedCompact, seenOnScroll } = usePreferences()
   const { addPost, posts: seen } = useHistory()
 
   const {
@@ -124,6 +124,10 @@ export function UserPostsList({
         },
         {
           onViewableItemsChanged({ viewableItems }) {
+            if (!seenOnScroll) {
+              return
+            }
+
             viewableItems.forEach((item) => {
               const viewableItem = item.item as
                 | {
@@ -142,7 +146,7 @@ export function UserPostsList({
           },
           viewabilityConfig: {
             itemVisiblePercentThreshold: 100,
-            minimumViewTime: 1_500,
+            minimumViewTime: 3_000,
           },
         },
       ]}

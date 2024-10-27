@@ -44,7 +44,7 @@ export function SearchList({
 
   const { styles } = useStyles(stylesheet)
 
-  const { feedCompact } = usePreferences()
+  const { feedCompact, seenOnScroll } = usePreferences()
   const { addPost } = useHistory()
 
   const { isLoading, refetch, results } = useSearch({
@@ -104,6 +104,10 @@ export function SearchList({
         },
         {
           onViewableItemsChanged({ viewableItems }) {
+            if (!seenOnScroll) {
+              return
+            }
+
             if (type === 'post') {
               viewableItems.forEach((item) => {
                 addPost((item.item as Post).id)
@@ -112,7 +116,7 @@ export function SearchList({
           },
           viewabilityConfig: {
             itemVisiblePercentThreshold: 100,
-            minimumViewTime: 1_500,
+            minimumViewTime: 3_000,
           },
         },
       ]}

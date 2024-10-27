@@ -30,6 +30,12 @@ export function SettingsPreferencesScreen() {
             key: 'blurNsfw',
           },
           {
+            description: 'seenOnScrollDescription',
+            icon: 'MouseScroll',
+            key: 'seenOnScroll',
+          },
+          {
+            description: 'hideSeenDescription',
             icon: 'Eye',
             key: 'hideSeen',
           },
@@ -54,7 +60,8 @@ export function SettingsPreferencesScreen() {
         }
 
         return {
-          description: 'description' in item ? item.description : undefined,
+          description:
+            'description' in item ? t(`menu.${item.description}`) : undefined,
           icon: {
             name: item.icon,
           },
