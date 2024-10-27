@@ -125,6 +125,7 @@ export function PostCommunity({ label, post }: Props) {
 
   return (
     <Pressable
+      align="center"
       direction="row"
       gap="2"
       hitSlop={theme.space[3]}
