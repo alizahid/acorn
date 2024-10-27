@@ -67,7 +67,6 @@ export function Node({ node, ...props }: Props) {
   }
 
   if (node.type === 'break') {
-    // return '\n'
     return <Text size={props.size}>{'\n'}</Text>
   }
 
@@ -425,6 +424,7 @@ const stylesheet = createStyleSheet((theme) => ({
     fontSize: 12,
   },
   table: {
+    backgroundColor: theme.colors.gray[2],
     borderColor: theme.colors.gray.a6,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
