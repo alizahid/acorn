@@ -57,7 +57,6 @@ export function SettingsPreferencesScreen() {
             key: 'blurNsfw',
             label: 'media.blurNsfw',
           },
-          null,
           t('system.label'),
           {
             icon: 'Browser',
@@ -71,7 +70,7 @@ export function SettingsPreferencesScreen() {
           },
         ] as const
       ).map((item) => {
-        if (item === null || typeof item === 'string') {
+        if (typeof item === 'string') {
           return item
         }
 
