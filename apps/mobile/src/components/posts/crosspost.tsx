@@ -15,17 +15,42 @@ import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
 type Props = {
+  compact?: boolean
   post: Post
   style?: StyleProp<ViewStyle>
   viewing: boolean
 }
 
-export function CrossPostCard({ post, style, viewing }: Props) {
+export function CrossPostCard({ compact, post, style, viewing }: Props) {
   const router = useRouter()
 
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
+
+  if (compact) {
+    return (
+      <Pressable
+        align="center"
+        justify="center"
+        onPress={() => {
+          router.navigate({
+            params: {
+              id: removePrefix(post.id),
+            },
+            pathname: '/posts/[id]',
+          })
+        }}
+        style={styles.compact}
+      >
+        <Icon
+          color={theme.colors.accent.a9}
+          name="ArrowsSplit"
+          style={styles.crossPost}
+        />
+      </Pressable>
+    )
+  }
 
   const footer = [
     {
@@ -132,6 +157,13 @@ export function CrossPostCard({ post, style, viewing }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  compact: {
+    backgroundColor: theme.colors.gray.a3,
+    borderCurve: 'continuous',
+    borderRadius: theme.space[2],
+    height: theme.space[8],
+    width: theme.space[8],
+  },
   crossPost: {
     transform: [
       {

@@ -8,6 +8,7 @@ import { type Post } from '~/types/post'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
+import { CrossPostCard } from './crosspost'
 import { PostCommunity, type PostLabel, PostMeta } from './footer'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
@@ -46,6 +47,10 @@ export function PostCompactCard({
         }}
         p="3"
       >
+        {post.type === 'crosspost' && post.crossPost ? (
+          <CrossPostCard compact post={post.crossPost} viewing={false} />
+        ) : null}
+
         {post.type === 'video' && post.media.video ? (
           <PostVideoCard
             compact
