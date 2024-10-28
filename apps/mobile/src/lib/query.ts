@@ -9,7 +9,7 @@ import { parse, stringify } from 'superjson'
 
 import { Sentry } from './sentry'
 
-export const CACHE_KEY = 'cache-storage'
+export const CACHE_KEY = 'cache-storage-v2'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
