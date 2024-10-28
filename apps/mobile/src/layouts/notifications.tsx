@@ -1,4 +1,4 @@
-import { Stack } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import { useTranslations } from 'use-intl'
 
 import { Header } from '~/components/navigation/header'
@@ -9,6 +9,8 @@ import { type CommunitiesSearchParams } from '~/screens/communities/search'
 import { type UserParams } from '~/screens/users/user'
 
 export function NotificationsLayout() {
+  const router = useRouter()
+
   const t = useTranslations('screen')
 
   const { isPending, markAll } = useMarkAllAsRead()
@@ -38,9 +40,27 @@ export function NotificationsLayout() {
 
       <Stack.Screen
         name="communities/[name]/index"
-        options={(props) => ({
-          title: (props.route.params as CommunityParams).name,
-        })}
+        options={(props) => {
+          const { name } = props.route.params as CommunityParams
+
+          return {
+            headerLeft: () => (
+              <HeaderButton
+                color="gray"
+                icon="MagnifyingGlass"
+                onPress={() => {
+                  router.navigate({
+                    params: {
+                      name,
+                    },
+                    pathname: '/communities/[name]/search',
+                  })
+                }}
+              />
+            ),
+            title: name,
+          }
+        }}
       />
 
       <Stack.Screen
