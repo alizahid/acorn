@@ -381,7 +381,7 @@ export function Node({ node, ...props }: Props) {
   return null
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   blockQuote: {
     flexDirection: 'row',
     paddingHorizontal: theme.space[3],
@@ -428,7 +428,7 @@ const stylesheet = createStyleSheet((theme) => ({
     borderColor: theme.colors.gray.a6,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    borderWidth: 1,
+    borderWidth: runtime.hairlineWidth,
     overflow: 'hidden',
   },
   tableCell: {
@@ -437,7 +437,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   tableRow: (divider: boolean) => ({
     borderTopColor: divider ? theme.colors.gray.a6 : undefined,
-    borderTopWidth: divider ? 1 : undefined,
+    borderTopWidth: divider ? runtime.hairlineWidth : undefined,
     flexDirection: 'row',
   }),
   thematicBreak: {

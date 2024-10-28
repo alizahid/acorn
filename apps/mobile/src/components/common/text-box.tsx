@@ -139,7 +139,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
   )
 })
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   content: (focused: boolean, error: boolean) => ({
     backgroundColor: theme.colors.gray.a2,
     borderColor: focused
@@ -151,7 +151,7 @@ const stylesheet = createStyleSheet((theme) => ({
         : theme.colors.gray.a7,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    borderWidth: 1,
+    borderWidth: runtime.hairlineWidth,
     flexGrow: 1,
   }),
   input: (multiline: boolean, code: boolean) => ({
