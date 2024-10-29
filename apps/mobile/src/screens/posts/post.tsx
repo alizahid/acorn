@@ -23,10 +23,10 @@ import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
+import { useHistory } from '~/hooks/history'
 import { usePost } from '~/hooks/queries/posts/post'
 import { listProps } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
-import { useHistory } from '~/stores/history'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 
@@ -181,7 +181,7 @@ export function PostScreen() {
         keyboardDismissMode="on-drag"
         onViewableItemsChanged={({ viewableItems }) => {
           if (viewableItems.find((item) => item.key === 'post')) {
-            addPost(params.id)
+            void addPost(params.id)
           }
 
           setViewing(() =>

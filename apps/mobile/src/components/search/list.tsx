@@ -8,9 +8,9 @@ import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
+import { useHistory } from '~/hooks/history'
 import { useSearch } from '~/hooks/queries/search/search'
 import { listProps } from '~/lib/common'
-import { useHistory } from '~/stores/history'
 import { usePreferences } from '~/stores/preferences'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
@@ -113,7 +113,7 @@ export function SearchList({
 
             if (type === 'post') {
               viewableItems.forEach((item) => {
-                addPost((item.item as Post).id)
+                void addPost((item.item as Post).id)
               })
             }
           },

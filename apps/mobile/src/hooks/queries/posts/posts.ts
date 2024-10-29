@@ -6,12 +6,12 @@ import {
 import { compact } from 'lodash'
 import { create } from 'mutative'
 
+import { getHistory } from '~/hooks/history'
 import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { PostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
-import { useHistory } from '~/stores/history'
 import { usePreferences } from '~/stores/preferences'
 import { transformPost } from '~/transformers/post'
 import { type Post } from '~/types/post'
@@ -47,7 +47,6 @@ export function usePosts({ community, interval, sort }: PostsProps) {
 
   const { accountId } = useAuth()
   const { hideSeen } = usePreferences()
-  const { posts: seen } = useHistory()
 
   const queryKey: PostsQueryKey = [
     'posts',
@@ -90,6 +89,10 @@ export function usePosts({ community, interval, sort }: PostsProps) {
       })
 
       const response = PostsSchema.parse(payload)
+
+      const seen = await getHistory(
+        response.data.children.map((item) => item.data.id),
+      )
 
       return {
         cursor: response.data.after,

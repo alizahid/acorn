@@ -6,9 +6,9 @@ import { useState } from 'react'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
+import { useHistory } from '~/hooks/history'
 import { type UserPostsProps, useUserPosts } from '~/hooks/queries/user/posts'
 import { listProps } from '~/lib/common'
-import { useHistory } from '~/stores/history'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
 import { type Post } from '~/types/post'
@@ -38,7 +38,6 @@ export function UserPostsList({
   const focused = useIsFocused()
 
   const { dimSeen, feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
-  const { addPost, posts: seen } = useHistory()
 
   const {
     fetchNextPage,
@@ -53,6 +52,10 @@ export function UserPostsList({
     type,
     username,
   })
+
+  const { addPost, seen } = useHistory(
+    posts.filter((item) => item.type === 'post').map((item) => item.data.id),
+  )
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
@@ -141,7 +144,7 @@ export function UserPostsList({
                   }
 
               if (viewableItem.type === 'post') {
-                addPost(viewableItem.data.id)
+                void addPost(viewableItem.data.id)
               }
             })
           },

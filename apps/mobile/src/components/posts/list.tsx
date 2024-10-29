@@ -5,9 +5,9 @@ import { type ReactElement, useRef, useState } from 'react'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
+import { useHistory } from '~/hooks/history'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { listProps } from '~/lib/common'
-import { useHistory } from '~/stores/history'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -37,7 +37,6 @@ export function PostList({
   useScrollToTop(list)
 
   const { dimSeen, feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
-  const { addPost, posts: seen } = useHistory()
 
   const {
     fetchNextPage,
@@ -51,6 +50,8 @@ export function PostList({
     interval,
     sort,
   })
+
+  const { addPost, seen } = useHistory(posts.map((post) => post.id))
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
@@ -110,7 +111,7 @@ export function PostList({
             }
 
             viewableItems.forEach((item) => {
-              addPost((item.item as Post).id)
+              void addPost((item.item as Post).id)
             })
           },
           viewabilityConfig: {
