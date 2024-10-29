@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 import { CommentDataSchema } from './comments'
 import { CommunityDataSchema } from './communities'
+import { FlairSchema } from './flair'
 import {
   PostGalleryDataSchema,
   PostMediaMetadataSchema,
@@ -19,6 +20,7 @@ const PostBaseSchema = z.object({
   is_self: z.boolean().nullish(),
   is_video: z.boolean().nullish(),
   likes: z.boolean().nullable(),
+  link_flair_richtext: FlairSchema,
   media: PostMediaSchema,
   media_metadata: PostMediaMetadataSchema,
   num_comments: z.number(),

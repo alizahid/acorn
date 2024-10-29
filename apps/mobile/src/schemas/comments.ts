@@ -1,9 +1,11 @@
 import { z } from 'zod'
 
+import { FlairSchema } from './flair'
 import { PostMediaMetadataSchema } from './media'
 
 export const CommentDataSchema = z.object({
   author: z.string(),
+  author_flair_richtext: FlairSchema,
   body: z.string(),
   created_utc: z.number(),
   depth: z.number().nullish(),

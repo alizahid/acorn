@@ -14,6 +14,7 @@ import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
+import { FlairCard } from '../posts/flair'
 import { CommentSaveCard } from './save'
 import { CommentVoteCard } from './vote'
 
@@ -72,7 +73,10 @@ export function CommentCard({
         ) : null}
 
         <Pressable
+          align="center"
+          direction="row"
           flexShrink={1}
+          gap="2"
           hitSlop={theme.space[3]}
           onPress={() => {
             router.navigate({
@@ -92,6 +96,10 @@ export function CommentCard({
           >
             {comment.user.name}
           </Text>
+
+          {!collapsed ? (
+            <FlairCard flair={comment.flair} show={['emoji']} />
+          ) : null}
         </Pressable>
 
         <Text highContrast={false} size="1">

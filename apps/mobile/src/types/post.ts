@@ -1,4 +1,5 @@
 import { type Community } from './community'
+import { type Flair } from './flair'
 
 export type PostType =
   | 'link'
@@ -14,6 +15,7 @@ export type Post = {
   community: Community
   createdAt: Date
   crossPost?: Post
+  flair: Array<Flair>
   id: string
   liked: boolean | null
   media: {

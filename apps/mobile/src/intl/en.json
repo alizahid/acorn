@@ -195,7 +195,8 @@
           "seenOnScroll": {
             "description": "If off, will only mark a post as read after opening it\nRequires app restart to take effect",
             "label": "Mark as seen while scrolling"
-          }
+          },
+          "showFlair": "Show flair on posts and comments"
         },
         "media": {
           "blurNsfw": "Blur NSFW media",

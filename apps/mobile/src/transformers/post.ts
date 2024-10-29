@@ -6,6 +6,7 @@ import { type PostDataSchema } from '~/schemas/posts'
 import { type Post, type PostType } from '~/types/post'
 
 import { transformCommunity } from './community'
+import { transformFlair } from './flair'
 
 export function transformPost(data: PostDataSchema): Post {
   const crossPost = data.crosspost_parent_list?.[0]
@@ -16,6 +17,7 @@ export function transformPost(data: PostDataSchema): Post {
     community: transformCommunity(data.sr_detail),
     createdAt: dateFromUnix(data.created_utc),
     crossPost: crossPost ? transformPost(crossPost) : undefined,
+    flair: transformFlair(data.link_flair_richtext),
     id: data.id,
     liked: data.likes,
     media: {

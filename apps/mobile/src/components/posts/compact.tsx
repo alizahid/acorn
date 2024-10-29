@@ -9,6 +9,7 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { CrossPostCard } from './crosspost'
+import { FlairCard } from './flair'
 import { PostCommunity, type PostLabel, PostMeta } from './footer'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
@@ -84,7 +85,11 @@ export function PostCompactCard({
 
           <Text weight="bold">{post.title}</Text>
 
-          <PostMeta post={post} />
+          <View align="center" direction="row" gap="4">
+            <PostMeta post={post} />
+
+            <FlairCard flair={post.flair} />
+          </View>
         </View>
       </Pressable>
     </Animated.View>

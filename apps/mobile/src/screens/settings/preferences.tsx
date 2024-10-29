@@ -25,6 +25,11 @@ export function SettingsPreferencesScreen() {
             label: 'browsing.mediaOnRight.label',
           },
           {
+            icon: 'Medal',
+            key: 'showFlair',
+            label: 'browsing.showFlair',
+          },
+          {
             description: 'browsing.seenOnScroll.description',
             icon: 'MouseScroll',
             key: 'seenOnScroll',

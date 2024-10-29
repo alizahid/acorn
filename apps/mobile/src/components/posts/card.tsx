@@ -17,6 +17,7 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
+import { FlairCard } from './flair'
 import { PostFooterCard, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
@@ -80,7 +81,9 @@ export function PostCard({
   return (
     <Animated.View style={[styles.main, style, animatedStyle]}>
       <Pressable
+        align="start"
         disabled={expanded}
+        gap="2"
         onPress={() => {
           router.navigate({
             params: {
@@ -92,6 +95,8 @@ export function PostCard({
         p="3"
       >
         <Text weight="bold">{post.title}</Text>
+
+        <FlairCard flair={post.flair} />
       </Pressable>
 
       {post.type === 'crosspost' && post.crossPost ? (

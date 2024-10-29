@@ -9,7 +9,7 @@ import { parse, stringify } from 'superjson'
 
 import { Sentry } from './sentry'
 
-export const CACHE_KEY = 'cache-storage-v2'
+export const CACHE_KEY = 'cache-storage-v3'
 
 const cacheTime = 60 * 1_000 * 10
 

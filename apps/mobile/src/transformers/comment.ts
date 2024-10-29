@@ -6,6 +6,8 @@ import { removePrefix } from '~/lib/reddit'
 import { type CommentsSchema } from '~/schemas/comments'
 import { type Comment } from '~/types/comment'
 
+import { transformFlair } from './flair'
+
 export function transformComment(
   data: CommentsSchema['data']['children'][number],
 ): Comment {
@@ -31,6 +33,7 @@ export function transformComment(
       body: decode(data.data.body.trim()),
       createdAt: dateFromUnix(data.data.created_utc),
       depth: data.data.depth ?? 0,
+      flair: transformFlair(data.data.author_flair_richtext),
       id: data.data.id,
       liked: data.data.likes,
       media: {
