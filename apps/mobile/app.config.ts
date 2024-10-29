@@ -25,8 +25,8 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
     [
       'expo-media-library',
       {
-        photosPermission: 'Allow $(PRODUCT_NAME) to access your photos.',
-        savePhotosPermission: 'Allow $(PRODUCT_NAME) to save photos.',
+        photosPermission: `Allow ${name} to access your photo library.`,
+        savePhotosPermission: `Allow ${name} to save photos to your library.`,
       },
     ],
   ]
