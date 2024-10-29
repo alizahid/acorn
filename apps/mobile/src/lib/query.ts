@@ -11,6 +11,8 @@ import { Sentry } from './sentry'
 
 export const CACHE_KEY = 'cache-storage-v2'
 
+const cacheTime = 60 * 1_000 * 10
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
@@ -26,9 +28,9 @@ export const queryClient = new QueryClient({
       },
     },
     queries: {
-      gcTime: Infinity,
+      gcTime: cacheTime,
       retry: false,
-      staleTime: Infinity,
+      staleTime: cacheTime,
       throwOnError(error) {
         if (__DEV__) {
           // eslint-disable-next-line no-console -- dev

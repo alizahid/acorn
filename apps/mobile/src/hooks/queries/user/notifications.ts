@@ -82,6 +82,7 @@ export function useNotifications() {
         ),
       }
     },
+    staleTime: 60 * 1_000,
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
     getNextPageParam(page) {
       return page.cursor
