@@ -8,7 +8,7 @@ import { type Post, type PostType } from '~/types/post'
 import { transformCommunity } from './community'
 import { transformFlair } from './flair'
 
-export function transformPost(data: PostDataSchema): Post {
+export function transformPost(data: PostDataSchema, seen: Array<string>): Post {
   const crossPost = data.crosspost_parent_list?.[0]
 
   return {
@@ -16,7 +16,7 @@ export function transformPost(data: PostDataSchema): Post {
     comments: data.num_comments,
     community: transformCommunity(data.sr_detail),
     createdAt: dateFromUnix(data.created_utc),
-    crossPost: crossPost ? transformPost(crossPost) : undefined,
+    crossPost: crossPost ? transformPost(crossPost, seen) : undefined,
     flair: transformFlair(data.link_flair_richtext),
     id: data.id,
     liked: data.likes,
@@ -28,6 +28,7 @@ export function transformPost(data: PostDataSchema): Post {
     nsfw: data.over_18,
     permalink: data.permalink,
     saved: data.saved,
+    seen: seen.includes(data.id),
     spoiler: data.spoiler,
     sticky: Boolean(data.stickied),
     title: decode(data.title.trim()),

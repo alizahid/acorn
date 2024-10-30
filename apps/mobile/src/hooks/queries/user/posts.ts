@@ -6,6 +6,7 @@ import {
 import { compact } from 'lodash'
 import { create } from 'mutative'
 
+import { getHistory } from '~/lib/history'
 import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
@@ -112,6 +113,14 @@ export function useUserPosts({
 
       const response = SavedPostsSchema.parse(payload)
 
+      const seen = await getHistory(
+        compact(
+          response.data.children.map((item) =>
+            item.kind === 't3' ? item.data.id : null,
+          ),
+        ),
+      )
+
       return {
         cursor: response.data.after,
         posts: compact(
@@ -130,7 +139,7 @@ export function useUserPosts({
             }
 
             return {
-              data: transformPost(item.data),
+              data: transformPost(item.data, seen),
               type: 'post',
             }
           }),

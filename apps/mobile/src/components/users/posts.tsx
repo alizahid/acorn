@@ -38,6 +38,7 @@ export function UserPostsList({
   const focused = useIsFocused()
 
   const { dimSeen, feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
+  const { addPost } = useHistory()
 
   const {
     fetchNextPage,
@@ -52,10 +53,6 @@ export function UserPostsList({
     type,
     username,
   })
-
-  const { addPost, seen } = useHistory(
-    posts.filter((item) => item.type === 'post').map((item) => item.data.id),
-  )
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
@@ -111,7 +108,7 @@ export function UserPostsList({
             label={label}
             post={item.data}
             reverse={mediaOnRight}
-            seen={dimSeen ? seen.includes(item.data.id) : false}
+            seen={dimSeen ? item.data.seen : false}
             viewing={focused ? viewing.includes(item.data.id) : false}
           />
         )
@@ -144,7 +141,9 @@ export function UserPostsList({
                   }
 
               if (viewableItem.type === 'post') {
-                void addPost(viewableItem.data.id)
+                addPost({
+                  id: viewableItem.data.id,
+                })
               }
             })
           },

@@ -90,7 +90,7 @@ export function usePost({ commentId, id, sort }: Props) {
 
       return {
         comments: comments.map((item) => transformComment(item)),
-        post: transformPost(post.data),
+        post: transformPost(post.data, []),
       }
     },
     queryKey: [

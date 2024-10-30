@@ -2,6 +2,7 @@ import { useIsRestoring, useQuery } from '@tanstack/react-query'
 import { compact } from 'lodash'
 import { create } from 'mutative'
 
+import { getHistory } from '~/lib/history'
 import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
@@ -112,8 +113,12 @@ export function useSearch<Type extends SearchTab>({
       if (type === 'post') {
         const response = PostsSchema.parse(payload)
 
+        const seen = await getHistory(
+          response.data.children.map((item) => item.data.id),
+        )
+
         return response.data.children.map((item) =>
-          transformPost(item.data),
+          transformPost(item.data, seen),
         ) as SearchQueryData<Type>
       }
 

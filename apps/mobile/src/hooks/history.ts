@@ -1,62 +1,54 @@
+import { useMutation } from '@tanstack/react-query'
 import { formatISO } from 'date-fns'
-import { without } from 'lodash'
-import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { getDatabase } from '~/lib/db'
-import { type HistoryRow } from '~/types/db'
 
-export function useHistory(ids: Array<string> = []) {
-  const checked = useRef<Array<string>>([])
+import { updatePost } from './queries/posts/post'
+import { updatePosts } from './queries/posts/posts'
+import { updateSearch } from './queries/search/search'
+import { updateUserPost } from './queries/user/posts'
 
-  const [seen, setSeen] = useState<Array<string>>([])
-
-  useEffect(() => {
-    if (ids.length === 0) {
-      return
+export function useHistory() {
+  const { mutate: addPost } = useMutation<
+    unknown,
+    Error,
+    {
+      id: string
     }
+  >({
+    async mutationFn(variables) {
+      const db = await getDatabase()
 
-    const left = without(ids, ...checked.current)
-
-    if (left.length === 0) {
-      return
-    }
-
-    checked.current = ids
-
-    void getHistory(ids)
-      .then((next) => {
-        setSeen(next)
+      await db.runAsync(
+        'INSERT INTO history (post_id, seen_at) VALUES ($post, $time) ON CONFLICT (post_id) DO NOTHING',
+        {
+          $post: variables.id,
+          $time: formatISO(new Date()),
+        },
+      )
+    },
+    onMutate(variables) {
+      updatePost(variables.id, (draft) => {
+        draft.post.seen = true
       })
-      .catch(() => {
-        setSeen([])
+
+      updatePosts(variables.id, (draft) => {
+        draft.seen = true
       })
-  }, [ids])
 
-  const addPost = useCallback(async (id: string) => {
-    const db = await getDatabase()
+      updateSearch(variables.id, (draft) => {
+        draft.seen = true
+      })
 
-    await db.runAsync(
-      'INSERT INTO history (post_id, seen_at) VALUES ($post, $time) ON CONFLICT (post_id) DO NOTHING',
-      {
-        $post: id,
-        $time: formatISO(new Date()),
-      },
-    )
-  }, [])
+      updateUserPost(variables.id, (draft) => {
+        if ('seen' in draft) {
+          draft.seen = true
+        }
+      })
+    },
+  })
 
   return {
     addPost,
-    seen,
   }
-}
-
-export async function getHistory(ids: Array<string>) {
-  const db = await getDatabase()
-
-  const rows = await db.getAllAsync<Pick<HistoryRow, 'post_id'>>(
-    `SELECT post_id FROM history WHERE post_id IN (${ids.map(() => '?').join(',')})`,
-    ids,
-  )
-
-  return rows.map((row) => row.post_id)
 }

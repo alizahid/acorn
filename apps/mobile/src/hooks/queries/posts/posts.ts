@@ -3,10 +3,9 @@ import {
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
-import { compact } from 'lodash'
 import { create } from 'mutative'
 
-import { getHistory } from '~/hooks/history'
+import { getHistory } from '~/lib/history'
 import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
@@ -96,15 +95,9 @@ export function usePosts({ community, interval, sort }: PostsProps) {
 
       return {
         cursor: response.data.after,
-        posts: compact(
-          response.data.children.map((item) => {
-            if (hideSeen && seen.includes(item.data.id)) {
-              return null
-            }
-
-            return transformPost(item.data)
-          }),
-        ),
+        posts: response.data.children
+          .map((item) => transformPost(item.data, seen))
+          .filter((post) => (hideSeen ? !seen.includes(post.id) : true)),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away

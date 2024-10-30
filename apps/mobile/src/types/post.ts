@@ -26,6 +26,7 @@ export type Post = {
   nsfw: boolean
   permalink: string
   saved: boolean
+  seen: boolean
   spoiler: boolean
   sticky: boolean
   title: string

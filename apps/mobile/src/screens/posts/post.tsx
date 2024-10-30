@@ -181,7 +181,9 @@ export function PostScreen() {
         keyboardDismissMode="on-drag"
         onViewableItemsChanged={({ viewableItems }) => {
           if (viewableItems.find((item) => item.key === 'post')) {
-            void addPost(params.id)
+            addPost({
+              id: params.id,
+            })
           }
 
           setViewing(() =>

@@ -113,7 +113,9 @@ export function SearchList({
 
             if (type === 'post') {
               viewableItems.forEach((item) => {
-                void addPost((item.item as Post).id)
+                addPost({
+                  id: (item.item as Post).id,
+                })
               })
             }
           },

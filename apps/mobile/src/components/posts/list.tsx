@@ -37,6 +37,7 @@ export function PostList({
   useScrollToTop(list)
 
   const { dimSeen, feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
+  const { addPost } = useHistory()
 
   const {
     fetchNextPage,
@@ -50,8 +51,6 @@ export function PostList({
     interval,
     sort,
   })
-
-  const { addPost, seen } = useHistory(posts.map((post) => post.id))
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
@@ -91,7 +90,7 @@ export function PostList({
           label={label}
           post={item}
           reverse={mediaOnRight}
-          seen={dimSeen ? seen.includes(item.id) : false}
+          seen={dimSeen ? item.seen : false}
           viewing={focused ? viewing.includes(item.id) : false}
         />
       )}
@@ -111,7 +110,9 @@ export function PostList({
             }
 
             viewableItems.forEach((item) => {
-              void addPost((item.item as Post).id)
+              addPost({
+                id: (item.item as Post).id,
+              })
             })
           },
           viewabilityConfig: {
