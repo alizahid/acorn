@@ -3,6 +3,7 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Menu } from '~/components/common/menu'
+import { clearHistory } from '~/lib/history'
 import { queryClient } from '~/lib/query'
 
 export function SettingsCacheScreen() {
@@ -31,6 +32,16 @@ export function SettingsCacheScreen() {
           label: t('menu.image'),
           async onPress() {
             await Image.clearDiskCache()
+          },
+        },
+        {
+          icon: {
+            color: theme.colors.red.a9,
+            name: 'Eye',
+          },
+          label: t('menu.history'),
+          async onPress() {
+            await clearHistory()
           },
         },
       ]}

@@ -12,3 +12,9 @@ export async function getHistory(ids: Array<string>) {
 
   return rows.map((row) => row.post_id)
 }
+
+export async function clearHistory() {
+  const db = await getDatabase()
+
+  await db.runAsync('DELETE FROM history')
+}
