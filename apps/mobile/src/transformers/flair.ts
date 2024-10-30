@@ -3,7 +3,11 @@ import { createId } from '@paralleldrive/cuid2'
 import { type FlairSchema } from '~/schemas/flair'
 import { type Flair } from '~/types/flair'
 
-export function transformFlair(data: FlairSchema): Array<Flair> {
+export function transformFlair(data?: FlairSchema | null): Array<Flair> {
+  if (!data) {
+    return []
+  }
+
   return data
     .map((flair) => ({
       id: createId(),

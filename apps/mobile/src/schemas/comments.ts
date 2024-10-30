@@ -5,7 +5,7 @@ import { PostMediaMetadataSchema } from './media'
 
 export const CommentDataSchema = z.object({
   author: z.string(),
-  author_flair_richtext: FlairSchema,
+  author_flair_richtext: FlairSchema.nullish(),
   body: z.string(),
   created_utc: z.number(),
   depth: z.number().nullish(),
