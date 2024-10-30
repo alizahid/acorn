@@ -45,6 +45,6 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.radius[3],
   },
   saved: {
-    backgroundColor: theme.colors.accent.a9,
+    backgroundColor: theme.colors.green.a9,
   },
 }))

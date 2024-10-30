@@ -20,6 +20,7 @@ import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
 import { PostFooterCard, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
+import { PostGestures } from './gestures'
 import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
@@ -68,90 +69,94 @@ export function PostCard({
 
   if (compact) {
     return (
-      <PostCompactCard
-        expanded={expanded}
-        label={label}
-        post={post}
-        reverse={reverse}
-        style={[styles.main, style, animatedStyle]}
-      />
+      <PostGestures post={post}>
+        <PostCompactCard
+          expanded={expanded}
+          label={label}
+          post={post}
+          reverse={reverse}
+          style={[styles.main, style, animatedStyle]}
+        />
+      </PostGestures>
     )
   }
 
   return (
-    <Animated.View style={[styles.main, style, animatedStyle]}>
-      <Pressable
-        align="start"
-        disabled={expanded}
-        gap="2"
-        onPress={() => {
-          router.navigate({
-            params: {
-              id: removePrefix(post.id),
-            },
-            pathname: '/posts/[id]',
-          })
-        }}
-        p="3"
-      >
-        <Text weight="bold">{post.title}</Text>
-
-        <FlairCard flair={post.flair} />
-      </Pressable>
-
-      {post.type === 'crosspost' && post.crossPost ? (
-        <CrossPostCard
-          post={post.crossPost}
-          style={body ? styles.expanded : null}
-          viewing={viewing}
-        />
-      ) : null}
-
-      {post.type === 'video' && post.media.video ? (
-        <PostVideoCard
-          compact={compact}
-          nsfw={post.nsfw}
-          recyclingKey={post.id}
-          style={body ? styles.expanded : null}
-          video={post.media.video}
-          viewing={viewing}
-        />
-      ) : null}
-
-      {post.type === 'image' && post.media.images ? (
-        <PostGalleryCard
-          compact={compact}
-          images={post.media.images}
-          nsfw={post.nsfw}
-          recyclingKey={post.id}
-          style={body ? styles.expanded : null}
-        />
-      ) : null}
-
-      {post.type === 'link' && post.url ? (
-        <PostLinkCard
-          compact={compact}
-          media={post.media.images?.[0]}
-          recyclingKey={post.id}
-          style={body ? styles.expanded : null}
-          url={post.url}
-        />
-      ) : null}
-
-      {expanded && post.body ? (
-        <Markdown
-          meta={post.media.meta}
-          recyclingKey={post.id}
-          size="2"
-          style={styles.body}
-          variant="post"
+    <PostGestures disabled={expanded} post={post}>
+      <Animated.View style={[styles.main, style, animatedStyle]}>
+        <Pressable
+          align="start"
+          disabled={expanded}
+          gap="2"
+          onPress={() => {
+            router.navigate({
+              params: {
+                id: removePrefix(post.id),
+              },
+              pathname: '/posts/[id]',
+            })
+          }}
+          p="3"
         >
-          {post.body}
-        </Markdown>
-      ) : null}
+          <Text weight="bold">{post.title}</Text>
 
-      <PostFooterCard expanded={expanded} label={label} post={post} />
-    </Animated.View>
+          <FlairCard flair={post.flair} />
+        </Pressable>
+
+        {post.type === 'crosspost' && post.crossPost ? (
+          <CrossPostCard
+            post={post.crossPost}
+            style={body ? styles.expanded : null}
+            viewing={viewing}
+          />
+        ) : null}
+
+        {post.type === 'video' && post.media.video ? (
+          <PostVideoCard
+            compact={compact}
+            nsfw={post.nsfw}
+            recyclingKey={post.id}
+            style={body ? styles.expanded : null}
+            video={post.media.video}
+            viewing={viewing}
+          />
+        ) : null}
+
+        {post.type === 'image' && post.media.images ? (
+          <PostGalleryCard
+            compact={compact}
+            images={post.media.images}
+            nsfw={post.nsfw}
+            recyclingKey={post.id}
+            style={body ? styles.expanded : null}
+          />
+        ) : null}
+
+        {post.type === 'link' && post.url ? (
+          <PostLinkCard
+            compact={compact}
+            media={post.media.images?.[0]}
+            recyclingKey={post.id}
+            style={body ? styles.expanded : null}
+            url={post.url}
+          />
+        ) : null}
+
+        {expanded && post.body ? (
+          <Markdown
+            meta={post.media.meta}
+            recyclingKey={post.id}
+            size="2"
+            style={styles.body}
+            variant="post"
+          >
+            {post.body}
+          </Markdown>
+        ) : null}
+
+        <PostFooterCard expanded={expanded} label={label} post={post} />
+      </Animated.View>
+    </PostGestures>
   )
 }
 
@@ -164,7 +169,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   main: {
     alignSelf: 'center',
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray[3],
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[3] : undefined,
     maxWidth: iPad ? cardMaxWidth : undefined,
