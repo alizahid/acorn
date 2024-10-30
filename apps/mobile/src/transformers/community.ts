@@ -12,10 +12,10 @@ export function transformCommunity(data: CommunityDataSchema): Community {
     createdAt: dateFromUnix(data.created_utc ?? 0),
     favorite: Boolean(data.user_has_favorited),
     id: removePrefix(data.name),
-    image: data.icon_img
-      ? decode(data.icon_img) || undefined
-      : data.community_icon
-        ? decode(data.community_icon) || undefined
+    image: data.community_icon
+      ? decode(data.community_icon) || undefined
+      : data.icon_img
+        ? decode(data.icon_img) || undefined
         : undefined,
     name: user ? `u/${data.display_name.slice(2)}` : data.display_name,
     subscribed: Boolean(data.user_is_subscriber),

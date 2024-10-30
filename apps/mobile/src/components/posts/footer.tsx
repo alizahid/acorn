@@ -156,7 +156,7 @@ export function PostCommunity({ label, post }: Props) {
         }
       }}
     >
-      {label === 'subreddit' ? (
+      {label === 'subreddit' && post.community.image ? (
         <Image source={post.community.image} style={styles.image} />
       ) : null}
 
