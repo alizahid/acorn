@@ -47,7 +47,7 @@ export function Right({ action, post, progress }: Props) {
 
       runOnJS(setIcon)(value.width > 144 ? 'BookmarkSimple' : 'ArrowBendUpLeft')
       runOnJS(setWeight)(
-        value.width > 144 ? (value.saved ? 'duotone' : 'fill') : 'fill',
+        value.width > 144 ? (value.saved ? 'regular' : 'fill') : 'fill',
       )
     },
     [width, post.saved],

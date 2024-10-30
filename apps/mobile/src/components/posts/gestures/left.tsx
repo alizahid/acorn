@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import Animated, {
+  interpolate,
   runOnJS,
   type SharedValue,
   useAnimatedReaction,
@@ -32,7 +33,7 @@ export function Left({ action, post, progress }: Props) {
   }))
 
   const foreground = useAnimatedStyle(() => ({
-    opacity: width.get() > 72 ? 1 : 0.25,
+    opacity: interpolate(width.get(), [0, 36, 72], [0, 0, 1]),
   }))
 
   useAnimatedReaction(
@@ -53,10 +54,10 @@ export function Left({ action, post, progress }: Props) {
       runOnJS(setWeight)(
         value.width > 144
           ? value.liked === false
-            ? 'duotone'
+            ? 'regular'
             : 'fill'
           : value.liked
-            ? 'duotone'
+            ? 'regular'
             : 'fill',
       )
     },
@@ -79,6 +80,7 @@ export function Left({ action, post, progress }: Props) {
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   slot: {
+    alignItems: 'flex-start',
     justifyContent: 'center',
     padding: theme.space[4],
     width: runtime.screen.width - theme.space[4],
