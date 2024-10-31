@@ -1,5 +1,5 @@
 import { type VideoPlayer } from 'expo-video'
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Animated, {
   cancelAnimation,
   Easing,
@@ -11,6 +11,7 @@ import Animated, {
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 
 type Props = {
@@ -28,21 +29,11 @@ export function VideoControls({
 }: Props) {
   const frame = useSafeAreaFrame()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const width = useSharedValue(0)
 
   const [playing, setPlaying] = useState(player.playing)
-
-  const maxWidth = useMemo(
-    () =>
-      frame.width -
-      theme.space[4] -
-      theme.space[8] -
-      theme.space[8] -
-      theme.space[4],
-    [frame.width, theme.space],
-  )
 
   const style = useAnimatedStyle(() => ({
     opacity: opacity.get(),
@@ -54,10 +45,10 @@ export function VideoControls({
 
   useEffect(() => {
     function play() {
-      width.set((player.currentTime / player.duration) * maxWidth)
+      width.set((player.currentTime / player.duration) * frame.width)
 
       width.set(() =>
-        withTiming(maxWidth, {
+        withTiming(frame.width, {
           duration: (player.duration - player.currentTime) * 1_000,
           easing: Easing.linear,
         }),
@@ -67,7 +58,7 @@ export function VideoControls({
     function pause() {
       cancelAnimation(width)
 
-      width.set((player.currentTime / player.duration) * maxWidth)
+      width.set((player.currentTime / player.duration) * frame.width)
     }
 
     if (player.playing) {
@@ -92,59 +83,84 @@ export function VideoControls({
       playingChange.remove()
       playToEnd.remove()
     }
-  }, [maxWidth, player, width])
+  }, [frame.width, player, width])
 
   return (
     <Animated.View pointerEvents="box-none" style={[styles.main, style]}>
-      <HeaderButton
-        contrast
-        icon={playing ? 'Pause' : 'Play'}
-        onPress={() => {
-          if (playing) {
-            player.pause()
-          } else {
-            player.play()
-          }
-        }}
-        weight="fill"
-      />
+      <View
+        align="center"
+        direction="row"
+        justify="center"
+        px="2"
+        style={styles.controls}
+      >
+        <HeaderButton
+          contrast
+          icon="Rewind"
+          onPress={() => {
+            player.seekBy(-10)
+          }}
+          weight="duotone"
+        />
+
+        <HeaderButton
+          icon={playing ? 'Pause' : 'Play'}
+          onPress={() => {
+            if (playing) {
+              player.pause()
+            } else {
+              player.play()
+            }
+          }}
+          weight="fill"
+        />
+
+        <HeaderButton
+          contrast
+          icon="FastForward"
+          onPress={() => {
+            player.seekBy(10)
+          }}
+          weight="duotone"
+        />
+
+        <HeaderButton
+          icon={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
+          onPress={() => {
+            onMutedChange(!muted)
+          }}
+          weight="duotone"
+        />
+      </View>
 
       <Animated.View style={styles.seek}>
         <Animated.View style={[styles.progress, progress]} />
       </Animated.View>
-
-      <HeaderButton
-        contrast
-        icon={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
-        onPress={() => {
-          onMutedChange(!muted)
-        }}
-        weight="duotone"
-      />
     </Animated.View>
   )
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  main: {
-    alignItems: 'center',
+  controls: {
+    alignSelf: 'center',
     backgroundColor: theme.colors.black.a9,
     borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
+    borderRadius: theme.space[9],
     bottom: theme.space[9] + runtime.insets.bottom,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    left: theme.space[4],
-    overflow: 'hidden',
     position: 'absolute',
-    right: theme.space[4],
+  },
+  main: {
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+    right: 0,
   },
   progress: {
     backgroundColor: theme.colors.accent.a5,
-    height: theme.space[8],
+    height: theme.space[2] + runtime.insets.bottom,
   },
   seek: {
-    backgroundColor: theme.colors.black.a3,
+    backgroundColor: theme.colors.black.a5,
     flex: 1,
   },
 }))
