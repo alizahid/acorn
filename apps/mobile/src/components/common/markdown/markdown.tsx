@@ -2,8 +2,12 @@
 
 import { Image } from 'expo-image'
 import { type Nodes } from 'mdast'
-import { type Table } from 'mdast-util-gfm-table/lib'
-import { ScrollView, type TextStyle, type ViewStyle } from 'react-native'
+import {
+  ScrollView,
+  type TextStyle,
+  useColorScheme,
+  type ViewStyle,
+} from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useLink } from '~/hooks/link'
@@ -30,11 +34,6 @@ type ListProps = {
   ordered?: boolean
 }
 
-type TableProps = {
-  align?: Table['align']
-  index: number
-}
-
 type Props = {
   list?: ListProps
   meta?: PostMediaMeta
@@ -42,12 +41,13 @@ type Props = {
   recyclingKey?: string
   size?: TypographyToken
   style?: ViewStyle
-  table?: TableProps
   text?: TextProps
   variant: MarkdownVariant
 }
 
 export function Node({ node, ...props }: Props) {
+  const scheme = useColorScheme()
+
   const { styles, theme } = useStyles(stylesheet)
 
   const { handleLink } = useLink()
@@ -67,7 +67,11 @@ export function Node({ node, ...props }: Props) {
   }
 
   if (node.type === 'break') {
-    return <Text size={props.size}>{'\n'}</Text>
+    return (
+      <Text size={props.size} slow>
+        {'\n'}
+      </Text>
+    )
   }
 
   if (node.type === 'code') {
@@ -154,7 +158,7 @@ export function Node({ node, ...props }: Props) {
 
   if (node.type === 'inlineCode') {
     return (
-      <Text size={props.size} variant="mono">
+      <Text size={props.size} slow style={styles.inlineCode} variant="mono">
         {node.value}
       </Text>
     )
@@ -240,12 +244,6 @@ export function Node({ node, ...props }: Props) {
   }
 
   if (node.type === 'paragraph') {
-    const spoiler = Boolean(
-      node.children.find(
-        (child) => child.type === 'textDirective' && child.name === 'spoiler',
-      ),
-    )
-
     if (node.children.length === 1) {
       return node.children.map((child, index) => (
         <Node {...props} key={index} node={child} />
@@ -253,7 +251,7 @@ export function Node({ node, ...props }: Props) {
     }
 
     return (
-      <Text size={props.size} slow={spoiler} {...props.text}>
+      <Text size={props.size} slow {...props.text}>
         {node.children.map((child, index) => (
           <Node {...props} key={index} node={child} />
         ))}
@@ -276,58 +274,40 @@ export function Node({ node, ...props }: Props) {
 
   if (node.type === 'table') {
     return (
-      <ScrollView contentContainerStyle={styles.table} horizontal>
+      <ScrollView horizontal style={styles.table(scheme === 'dark')}>
         <View responder>
-          {node.children.map((child, index) => (
-            <Node
-              {...props}
-              key={index}
-              node={child}
-              table={{
-                align: node.align,
-                index,
-              }}
-            />
+          {node.children.map((row, rowIndex) => (
+            <View
+              direction="row"
+              key={rowIndex}
+              style={styles.tableRow(rowIndex > 0)}
+            >
+              {row.children.map((cell, cellIndex) => (
+                <View key={cellIndex} style={styles.tableCell}>
+                  {cell.children.map((item, index) => (
+                    <Node
+                      key={index}
+                      node={item}
+                      size={props.size}
+                      variant="comment"
+                    />
+                  ))}
+                </View>
+              ))}
+
+              {row.children.length === 1 ? (
+                <View style={styles.tableCell} />
+              ) : null}
+            </View>
           ))}
         </View>
       </ScrollView>
     )
   }
 
-  if (node.type === 'tableCell') {
-    return node.children.map((child, index) => (
-      <View
-        flexBasis={1}
-        flexGrow={1}
-        key={index}
-        style={styles.tableCell}
-        width={200}
-      >
-        <Node
-          {...props}
-          key={index}
-          node={child}
-          text={{
-            align: props.table?.align?.[props.table.index] ?? 'left',
-          }}
-        />
-      </View>
-    ))
-  }
-
-  if (node.type === 'tableRow') {
-    return (
-      <View style={styles.tableRow(Boolean(props.table?.index))}>
-        {node.children.map((child, index) => (
-          <Node {...props} key={index} node={child} table={props.table} />
-        ))}
-      </View>
-    )
-  }
-
   if (node.type === 'text') {
     return (
-      <Text size={props.size} {...props.text}>
+      <Text size={props.size} slow {...props.text}>
         {node.value}
       </Text>
     )
@@ -335,28 +315,26 @@ export function Node({ node, ...props }: Props) {
 
   if (node.type === 'textDirective') {
     if (node.name === 'spoiler') {
-      const spoiler = getText(node.children)
+      const text = getText(node.children)
 
-      if (!spoiler) {
+      if (!text) {
         return null
       }
 
-      return <Spoiler size={props.size}>{spoiler}</Spoiler>
+      return <Spoiler size={props.size}>{text}</Spoiler>
     }
 
     if (node.name === 'super_script') {
-      const superScript = getText(node.children)
+      const text = getText(node.children)
 
-      if (!superScript) {
+      if (!text) {
         return null
       }
 
       return (
-        <View>
-          <Text size={props.size} style={styles.super}>
-            {superScript}
-          </Text>
-        </View>
+        <Text size={props.size} style={styles.super}>
+          {text}
+        </Text>
       )
     }
 
@@ -391,10 +369,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: theme.colors.accent.a6,
     borderCurve: 'continuous',
     borderRadius: theme.radius[1],
-    bottom: theme.space[1],
+    bottom: 0,
     left: 0,
     position: 'absolute',
-    top: theme.space[1],
+    top: 0,
     width: theme.space[1],
   },
   blockQuoteContent: {
@@ -406,6 +384,12 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   emphasis: {
     fontStyle: 'italic',
+  },
+  inlineCode: {
+    alignSelf: 'flex-start',
+    backgroundColor: theme.colors.gray.a2,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[2],
   },
   list: {
     gap: theme.space[2],
@@ -422,23 +406,24 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   super: {
     fontSize: 12,
+    lineHeight: 14,
   },
-  table: {
-    backgroundColor: theme.colors.gray[2],
+  table: (dark: boolean) => ({
+    backgroundColor: dark ? '#0d1117' : '#fff',
     borderColor: theme.colors.gray.a6,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     borderWidth: runtime.hairlineWidth,
-    overflow: 'hidden',
-  },
+  }),
   tableCell: {
-    paddingHorizontal: theme.space[2],
-    paddingVertical: theme.space[1],
+    flexDirection: 'row',
+    paddingHorizontal: theme.space[3],
+    paddingVertical: theme.space[2],
+    width: (runtime.screen.width - theme.space[5]) / 2,
   },
   tableRow: (divider: boolean) => ({
     borderTopColor: divider ? theme.colors.gray.a6 : undefined,
     borderTopWidth: divider ? runtime.hairlineWidth : undefined,
-    flexDirection: 'row',
   }),
   thematicBreak: {
     backgroundColor: theme.colors.gray.a6,

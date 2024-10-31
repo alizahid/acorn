@@ -33,8 +33,12 @@ export function Code({ children, language, size }: Props) {
   const dark = scheme === 'dark'
 
   return (
-    <ScrollView horizontal style={styles.main(dark)}>
-      <View responder style={styles.code}>
+    <ScrollView
+      contentContainerStyle={styles.content}
+      horizontal
+      style={styles.main(dark)}
+    >
+      <View responder>
         <Text size={size} slow variant="mono">
           {root.children.map((node, index) => (
             <Node dark={dark} key={index} node={node} size={size} />
@@ -46,9 +50,9 @@ export function Code({ children, language, size }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  code: {
-    marginHorizontal: theme.space[3],
-    marginVertical: theme.space[2],
+  content: {
+    paddingHorizontal: theme.space[3],
+    paddingVertical: theme.space[2],
   },
   main: (dark: boolean) => ({
     backgroundColor: dark ? '#0d1117' : '#fff',
