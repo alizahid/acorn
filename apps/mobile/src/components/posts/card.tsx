@@ -1,11 +1,5 @@
 import { useRouter } from 'expo-router'
-import { useEffect } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
@@ -15,6 +9,7 @@ import { type Post } from '~/types/post'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
@@ -36,54 +31,40 @@ type Props = {
 }
 
 export function PostCard({
-  compact = false,
-  expanded = false,
+  compact,
+  expanded,
   label,
   post,
-  reverse = false,
-  seen = false,
+  reverse,
+  seen,
   style,
   viewing,
 }: Props) {
   const router = useRouter()
 
-  const opacity = useSharedValue(seen ? 0.5 : 1)
-
   const { styles } = useStyles(stylesheet)
 
   const body = expanded && post.body
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: opacity.get(),
-  }))
-
-  useEffect(() => {
-    const next = seen ? 0.5 : 1
-
-    if (opacity.get() === next) {
-      return
-    }
-
-    opacity.set(() => withTiming(next))
-  }, [opacity, seen])
-
   if (compact) {
     return (
       <PostGestures post={post}>
-        <PostCompactCard
-          expanded={expanded}
-          label={label}
-          post={post}
-          reverse={reverse}
-          style={[styles.main, style, animatedStyle]}
-        />
+        <View style={[styles.main(seen), style]}>
+          <PostCompactCard
+            expanded={expanded}
+            label={label}
+            post={post}
+            reverse={reverse}
+            seen={seen}
+          />
+        </View>
       </PostGestures>
     )
   }
 
   return (
     <PostGestures disabled={expanded} post={post}>
-      <Animated.View style={[styles.main, style, animatedStyle]}>
+      <View style={[styles.main(seen), style]}>
         <Pressable
           align="start"
           disabled={expanded}
@@ -98,9 +79,11 @@ export function PostCard({
           }}
           p="3"
         >
-          <Text weight="bold">{post.title}</Text>
+          <Text highContrast={!seen} weight="bold">
+            {post.title}
+          </Text>
 
-          <FlairCard flair={post.flair} />
+          <FlairCard flair={post.flair} seen={seen} />
         </Pressable>
 
         {post.type === 'crosspost' && post.crossPost ? (
@@ -154,8 +137,13 @@ export function PostCard({
           </Markdown>
         ) : null}
 
-        <PostFooterCard expanded={expanded} label={label} post={post} />
-      </Animated.View>
+        <PostFooterCard
+          expanded={expanded}
+          label={label}
+          post={post}
+          seen={seen}
+        />
+      </View>
     </PostGestures>
   )
 }
@@ -167,12 +155,12 @@ const stylesheet = createStyleSheet((theme) => ({
   expanded: {
     marginBottom: theme.space[3],
   },
-  main: {
+  main: (seen?: boolean) => ({
     alignSelf: 'center',
-    backgroundColor: theme.colors.gray[3],
+    backgroundColor: theme.colors.gray[seen ? 2 : 3],
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[3] : undefined,
     maxWidth: iPad ? cardMaxWidth : undefined,
     width: '100%',
-  },
+  }),
 }))

@@ -8,9 +8,10 @@ import { Pressable } from '../common/pressable'
 
 type Props = {
   post: Post
+  seen?: boolean
 }
 
-export function PostSaveCard({ post }: Props) {
+export function PostSaveCard({ post, seen }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { save } = usePostSave()
@@ -30,7 +31,9 @@ export function PostSaveCard({ post }: Props) {
       width="6"
     >
       <Icon
-        color={theme.colors[post.saved ? 'white' : 'gray'].a12}
+        color={
+          theme.colors[post.saved ? 'white' : 'gray'][seen ? 'a11' : 'a12']
+        }
         name="BookmarkSimple"
         size={theme.space[5]}
         weight={post.saved ? 'fill' : 'bold'}

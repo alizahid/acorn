@@ -1,5 +1,5 @@
 import { Image } from 'expo-image'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useImagePlaceholder } from '~/hooks/image'
@@ -34,14 +34,18 @@ export function PostLinkCard({
   if (compact) {
     return (
       <Pressable
-        align="center"
-        justify="center"
         onPress={() => {
           void handleLink(url)
         }}
         style={styles.compact}
       >
-        <Icon color={theme.colors.accent.a9} name="Compass" />
+        {media?.thumbnail ? (
+          <Image source={media.thumbnail} style={styles.compactImage} />
+        ) : null}
+
+        <View align="center" justify="center" style={styles.compactIcon}>
+          <Icon color={theme.colors.accent.a9} name="Compass" />
+        </View>
       </Pressable>
     )
   }
@@ -82,9 +86,17 @@ const stylesheet = createStyleSheet((theme) => ({
   compact: {
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
-    borderRadius: theme.space[2],
+    borderRadius: theme.space[1],
     height: theme.space[8],
+    overflow: 'hidden',
     width: theme.space[8],
+  },
+  compactIcon: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: theme.colors.black.a9,
+  },
+  compactImage: {
+    flex: 1,
   },
   image: {
     aspectRatio: 2,

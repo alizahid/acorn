@@ -74,7 +74,7 @@ export function VideoPlayer({
         >
           <Image source={video.thumbnail} style={styles.compactImage} />
 
-          <View align="center" justify="center" style={styles.play}>
+          <View align="center" justify="center" style={styles.compactIcon}>
             <Icon color={theme.colors.accent.a9} name="Play" weight="fill" />
           </View>
 
@@ -164,6 +164,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     overflow: 'hidden',
     width: theme.space[8],
   },
+  compactIcon: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: theme.colors.black.a9,
+  },
   compactImage: {
     flex: 1,
   },
@@ -172,12 +176,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     maxHeight: runtime.screen.height * (crossPost ? 0.3 : 0.5),
     overflow: 'hidden',
   }),
-  play: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.black.a6,
-    height: theme.space[8],
-    width: theme.space[8],
-  },
   video: (aspectRatio: number) => ({
     aspectRatio,
   }),

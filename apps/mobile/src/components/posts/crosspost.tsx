@@ -1,5 +1,6 @@
+import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
@@ -31,8 +32,6 @@ export function CrossPostCard({ compact, post, style, viewing }: Props) {
   if (compact) {
     return (
       <Pressable
-        align="center"
-        justify="center"
         onPress={() => {
           router.navigate({
             params: {
@@ -43,11 +42,20 @@ export function CrossPostCard({ compact, post, style, viewing }: Props) {
         }}
         style={styles.compact}
       >
-        <Icon
-          color={theme.colors.accent.a9}
-          name="ArrowsSplit"
-          style={styles.crossPost}
-        />
+        {post.media.images?.[0] ? (
+          <Image
+            source={post.media.images[0].thumbnail}
+            style={styles.compactImage}
+          />
+        ) : null}
+
+        <View align="center" justify="center" style={styles.compactIcon}>
+          <Icon
+            color={theme.colors.accent.a9}
+            name="ArrowsSplit"
+            style={styles.crossPost}
+          />
+        </View>
       </Pressable>
     )
   }
@@ -160,9 +168,17 @@ const stylesheet = createStyleSheet((theme) => ({
   compact: {
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
-    borderRadius: theme.space[2],
+    borderRadius: theme.space[1],
     height: theme.space[8],
+    overflow: 'hidden',
     width: theme.space[8],
+  },
+  compactIcon: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: theme.colors.black.a9,
+  },
+  compactImage: {
+    flex: 1,
   },
   crossPost: {
     transform: [

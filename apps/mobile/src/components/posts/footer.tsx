@@ -21,9 +21,10 @@ type Props = {
   expanded?: boolean
   label?: PostLabel
   post: Post
+  seen?: boolean
 }
 
-export function PostFooterCard({ expanded = false, label, post }: Props) {
+export function PostFooterCard({ expanded, label, post, seen }: Props) {
   const router = useRouter()
 
   return (
@@ -43,23 +44,23 @@ export function PostFooterCard({ expanded = false, label, post }: Props) {
       p="3"
     >
       <View align="start" flexShrink={1} gap="3">
-        <PostCommunity label={label} post={post} />
+        <PostCommunity label={label} post={post} seen={seen} />
 
-        <PostMeta post={post} />
+        <PostMeta post={post} seen={seen} />
       </View>
 
       <View align="center" direction="row" gap="3">
-        <PostVoteCard expanded={expanded} post={post} />
+        <PostVoteCard expanded={expanded} post={post} seen={seen} />
 
-        <PostSaveCard post={post} />
+        <PostSaveCard post={post} seen={seen} />
 
-        {!expanded ? <PostShareCard post={post} /> : null}
+        {!expanded ? <PostShareCard post={post} seen={seen} /> : null}
       </View>
     </Pressable>
   )
 }
 
-export function PostMeta({ post }: Props) {
+export function PostMeta({ post, seen }: Props) {
   const f = useFormatter()
 
   const { theme } = useStyles()
@@ -109,7 +110,7 @@ export function PostMeta({ post }: Props) {
             size={theme.typography[2].fontSize}
           />
 
-          <Text size="2" tabular>
+          <Text highContrast={!seen} size="2" tabular>
             {item.label}
           </Text>
         </View>
@@ -118,7 +119,7 @@ export function PostMeta({ post }: Props) {
   )
 }
 
-export function PostCommunity({ label, post }: Props) {
+export function PostCommunity({ label, post, seen }: Props) {
   const router = useRouter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -160,7 +161,7 @@ export function PostCommunity({ label, post }: Props) {
         <Image source={post.community.image} style={styles.image} />
       ) : null}
 
-      <Text lines={1} size="2" weight="medium">
+      <Text highContrast={!seen} lines={1} size="2" weight="medium">
         {label === 'subreddit' ? post.community.name : post.user.name}
       </Text>
     </Pressable>

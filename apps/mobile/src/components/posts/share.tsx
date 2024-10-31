@@ -8,9 +8,10 @@ import { Pressable } from '../common/pressable'
 
 type Props = {
   post: Post
+  seen?: boolean
 }
 
-export function PostShareCard({ post }: Props) {
+export function PostShareCard({ post, seen }: Props) {
   const { theme } = useStyles()
 
   return (
@@ -28,7 +29,7 @@ export function PostShareCard({ post }: Props) {
       width="6"
     >
       <Icon
-        color={theme.colors.gray.a12}
+        color={theme.colors.gray[seen ? 'a11' : 'a12']}
         name="Share"
         size={theme.space[5]}
         weight="bold"

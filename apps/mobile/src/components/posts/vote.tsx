@@ -7,11 +7,12 @@ import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 
 type Props = {
-  expanded: boolean
+  expanded?: boolean
   post: Post
+  seen?: boolean
 }
 
-export function PostVoteCard({ expanded, post }: Props) {
+export function PostVoteCard({ expanded = false, post, seen }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { vote } = usePostVote()
@@ -33,7 +34,9 @@ export function PostVoteCard({ expanded, post }: Props) {
           width="6"
         >
           <Icon
-            color={theme.colors[post.liked ? 'white' : 'gray'].a12}
+            color={
+              theme.colors[post.liked ? 'white' : 'gray'][seen ? 'a11' : 'a12']
+            }
             name="ArrowUp"
             size={theme.space[5]}
             weight="bold"
@@ -56,7 +59,11 @@ export function PostVoteCard({ expanded, post }: Props) {
           width="6"
         >
           <Icon
-            color={theme.colors[post.liked === false ? 'white' : 'gray'].a12}
+            color={
+              theme.colors[post.liked === false ? 'white' : 'gray'][
+                seen ? 'a11' : 'a12'
+              ]
+            }
             name="ArrowDown"
             size={theme.space[5]}
             weight="bold"
