@@ -68,8 +68,15 @@ export function PostGalleryCard({
             <BlurView
               intensity={100}
               pointerEvents="none"
-              style={styles.blur}
-            />
+              style={[styles.blur, styles.compactIcon]}
+            >
+              <Icon
+                color={theme.colors.accent.a9}
+                name="Warning"
+                size={theme.space[5]}
+                weight="fill"
+              />
+            </BlurView>
           ) : null}
         </Pressable>
       ) : (
@@ -145,6 +152,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     height: theme.space[8],
     overflow: 'hidden',
     width: theme.space[8],
+  },
+  compactIcon: {
+    backgroundColor: theme.colors.black.a9,
   },
   compactImage: {
     flex: 1,
