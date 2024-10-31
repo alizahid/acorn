@@ -95,7 +95,10 @@ export function AccountSwitchCard() {
                 setVisible(false)
               }}
               p="3"
-              style={[styles.item, account.id === accountId && styles.selected]}
+              style={[
+                styles.item,
+                account.id === accountId && styles.swipeable,
+              ]}
             >
               <Text weight="medium">{account.id}</Text>
             </Pressable>
@@ -116,10 +119,7 @@ const stylesheet = createStyleSheet((theme) => ({
   modal: (count: number) => ({
     minHeight: 44 * (count + 2),
   }),
-  selected: {
-    backgroundColor: theme.colors.accent[5],
-  },
   swipeable: {
-    backgroundColor: theme.colors.accent.a9,
+    backgroundColor: theme.colors.accent[5],
   },
 }))
