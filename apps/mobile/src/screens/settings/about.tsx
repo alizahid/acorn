@@ -2,15 +2,17 @@ import * as Updates from 'expo-updates'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Icon } from '~/components/common/icon'
+import { Button } from '~/components/common/button'
 import { Logo } from '~/components/common/logo'
-import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { HeaderButton } from '~/components/navigation/header-button'
 import { useLink } from '~/hooks/link'
 
 export function SettingsAboutScreen() {
   const t = useTranslations('screen.settings.about')
+
+  const updates = Updates.useUpdates()
 
   const { handleLink } = useLink()
 
@@ -40,66 +42,77 @@ export function SettingsAboutScreen() {
   ] as const
 
   return (
-    <View align="center" flexGrow={1} gap="6" justify="center" p="4">
-      <View align="center">
-        <Logo />
+    <View align="center" flexGrow={1} gap="9" justify="center" p="4">
+      <View gap="6">
+        <View align="center">
+          <Logo />
 
-        <Text mt="4" size="8" style={styles.title} weight="bold">
-          {t('header.title')}
-        </Text>
+          <Text mt="4" size="8" style={styles.title} weight="bold">
+            {t('header.title')}
+          </Text>
 
-        <Text highContrast={false} mt="2" size="4" weight="medium">
-          {t('header.description')}
-        </Text>
-      </View>
+          <Text highContrast={false} mt="2" size="2" weight="medium">
+            {t('header.description')}
+          </Text>
+        </View>
 
-      <View align="center" direction="row" gap="4" justify="center" wrap="wrap">
-        {links.map((link) => (
-          <Pressable
-            direction="row"
-            gap="2"
-            hitSlop={theme.space[4]}
-            justify="center"
-            key={link.key}
-            onPress={() => {
-              void handleLink(link.href)
-            }}
-            px="3"
-            py="2"
-            style={styles.link}
-          >
-            <Icon
-              color={theme.colors.accent.a9}
-              name={link.icon}
-              weight="duotone"
+        <View
+          align="center"
+          direction="row"
+          gap="4"
+          justify="center"
+          wrap="wrap"
+        >
+          {links.map((link) => (
+            <HeaderButton
+              contrast
+              hitSlop={theme.space[2]}
+              icon={link.icon}
+              key={link.key}
+              onPress={() => {
+                void handleLink(link.href)
+              }}
+              style={styles.link}
+              weight="fill"
             />
-
-            <Text color="accent" highContrast weight="medium">
-              {t(`links.${link.key}`)}
-            </Text>
-          </Pressable>
-        ))}
+          ))}
+        </View>
       </View>
 
-      <Text highContrast={false} variant="mono" weight="medium">
-        {Updates.runtimeVersion}
-      </Text>
-
-      {Updates.updateId ? (
-        <Text highContrast={false} size="1" variant="mono">
-          {Updates.updateId}
+      <View align="center" gap="4">
+        <Text highContrast={false} variant="mono" weight="medium">
+          {Updates.runtimeVersion}
         </Text>
-      ) : null}
+
+        {Updates.updateId ? (
+          <Text highContrast={false} size="1" variant="mono">
+            {Updates.updateId.split('-').pop()}
+          </Text>
+        ) : null}
+      </View>
+
+      <Button
+        label={t(
+          `updates.${updates.isUpdatePending ? 'apply' : updates.isUpdateAvailable ? 'download' : 'check'}`,
+        )}
+        loading={updates.isChecking || updates.isDownloading}
+        onPress={() => {
+          if (updates.isUpdatePending) {
+            void Updates.reloadAsync()
+          } else {
+            void Updates.checkForUpdateAsync()
+          }
+        }}
+      />
     </View>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
   link: {
-    backgroundColor: theme.colors.accent.a3,
+    backgroundColor: theme.colors.accent.a9,
     borderCurve: 'continuous',
-    borderRadius: 100,
-    width: '40%',
+    borderRadius: theme.space[8],
   },
   title: {
     color: theme.colors.accent.a9,

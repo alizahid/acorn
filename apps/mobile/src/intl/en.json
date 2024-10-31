@@ -170,7 +170,12 @@
           "reddit": "Reddit",
           "web": "Website"
         },
-        "title": "About"
+        "title": "About",
+        "updates": {
+          "apply": "Restart app",
+          "check": "Check for updates",
+          "download": "Download update"
+        }
       },
       "cache": {
         "menu": {

@@ -71,7 +71,7 @@ export default function Screen() {
       <View align="center">
         <Logo />
 
-        <Text mt="4" size="8" weight="bold">
+        <Text mt="4" size="8" style={styles.title} weight="bold">
           {t('title')}
         </Text>
 
@@ -147,5 +147,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: {
     flex: 1,
+  },
+  title: {
+    color: theme.colors.accent.a9,
   },
 }))
