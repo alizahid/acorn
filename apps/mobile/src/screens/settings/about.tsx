@@ -1,4 +1,5 @@
 import * as Updates from 'expo-updates'
+import { useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -17,6 +18,10 @@ export function SettingsAboutScreen() {
   const { handleLink } = useLink()
 
   const { styles, theme } = useStyles(stylesheet)
+
+  const timer = useRef<NodeJS.Timeout>()
+
+  const [nothing, setNothing] = useState<boolean>()
 
   const links = [
     {
@@ -79,13 +84,13 @@ export function SettingsAboutScreen() {
         </View>
       </View>
 
-      <View align="center" gap="4">
+      <View direction="row" gap="4">
         <Text highContrast={false} variant="mono" weight="medium">
           {Updates.runtimeVersion}
         </Text>
 
         {Updates.updateId ? (
-          <Text highContrast={false} size="1" variant="mono">
+          <Text highContrast={false} variant="mono">
             {Updates.updateId.split('-').pop()}
           </Text>
         ) : null}
@@ -93,14 +98,28 @@ export function SettingsAboutScreen() {
 
       <Button
         label={t(
-          `updates.${updates.isUpdatePending ? 'apply' : updates.isUpdateAvailable ? 'download' : 'check'}`,
+          `updates.${nothing ? 'nothing' : updates.isUpdatePending ? 'apply' : updates.isUpdateAvailable ? 'download' : 'check'}`,
         )}
         loading={updates.isChecking || updates.isDownloading}
-        onPress={() => {
+        onPress={async () => {
+          setNothing(false)
+
           if (updates.isUpdatePending) {
             void Updates.reloadAsync()
+          } else if (updates.isUpdateAvailable) {
+            void Updates.fetchUpdateAsync()
           } else {
-            void Updates.checkForUpdateAsync()
+            if (timer.current) {
+              clearTimeout(timer.current)
+            }
+
+            const update = await Updates.checkForUpdateAsync()
+
+            setNothing(!update.isAvailable || !update.isRollBackToEmbedded)
+
+            timer.current = setTimeout(() => {
+              setNothing(undefined)
+            }, 3_000)
           }
         }}
       />

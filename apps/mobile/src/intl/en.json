@@ -174,7 +174,8 @@
         "updates": {
           "apply": "Restart app",
           "check": "Check for updates",
-          "download": "Download update"
+          "download": "Download update",
+          "nothing": "No update available"
         }
       },
       "cache": {
