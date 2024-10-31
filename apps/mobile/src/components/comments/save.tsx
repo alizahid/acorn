@@ -29,7 +29,7 @@ export function CommentSaveCard({ comment }: Props) {
       }}
     >
       <Icon
-        color={comment.saved ? theme.colors.accent.a9 : color}
+        color={comment.saved ? theme.colors.green.a9 : color}
         name="BookmarkSimple"
         size={theme.space[4]}
         weight={comment.saved ? 'fill' : 'bold'}

@@ -35,7 +35,7 @@ export function CommentVoteCard({ comment }: Props) {
         }}
       >
         <Icon
-          color={comment.liked ? theme.colors.green.a9 : color}
+          color={comment.liked ? theme.colors.orange.a9 : color}
           name="ArrowFatUp"
           size={theme.space[4]}
           weight={comment.liked ? 'fill' : 'bold'}
@@ -59,7 +59,7 @@ export function CommentVoteCard({ comment }: Props) {
         }}
       >
         <Icon
-          color={comment.liked === false ? theme.colors.red.a9 : color}
+          color={comment.liked === false ? theme.colors.violet.a9 : color}
           name="ArrowFatDown"
           size={theme.space[4]}
           weight={comment.liked === false ? 'fill' : 'bold'}
