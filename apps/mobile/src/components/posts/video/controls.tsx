@@ -34,17 +34,24 @@ export function VideoControls({
   const width = useSharedValue(0)
 
   const [playing, setPlaying] = useState(player.playing)
+  const [loading, setLoading] = useState(player.status === 'loading')
 
   const style = useAnimatedStyle(() => ({
     opacity: opacity.get(),
   }))
 
-  const progress = useAnimatedStyle(() => ({
-    width: width.get(),
-  }))
+  const progress = useAnimatedStyle(() => {
+    const value = width.get()
+
+    return {
+      width: value <= 0 ? 0 : value >= frame.width ? frame.width : value,
+    }
+  })
 
   useEffect(() => {
     function play() {
+      cancelAnimation(width)
+
       width.set((player.currentTime / player.duration) * frame.width)
 
       width.set(() =>
@@ -75,13 +82,13 @@ export function VideoControls({
       }
     })
 
-    const playToEnd = player.addListener('playToEnd', () => {
-      play()
+    const statusChange = player.addListener('statusChange', (next) => {
+      setLoading(next.status === 'loading')
     })
 
     return () => {
       playingChange.remove()
-      playToEnd.remove()
+      statusChange.remove()
     }
   }, [frame.width, player, width])
 
@@ -99,12 +106,21 @@ export function VideoControls({
           icon="Rewind"
           onPress={() => {
             player.seekBy(-10)
+
+            if (!player.playing) {
+              width.set(() =>
+                withTiming(
+                  (player.currentTime / player.duration) * frame.width,
+                ),
+              )
+            }
           }}
           weight="duotone"
         />
 
         <HeaderButton
           icon={playing ? 'Pause' : 'Play'}
+          loading={loading}
           onPress={() => {
             if (playing) {
               player.pause()
@@ -120,6 +136,14 @@ export function VideoControls({
           icon="FastForward"
           onPress={() => {
             player.seekBy(10)
+
+            if (!player.playing) {
+              width.set(() =>
+                withTiming(
+                  (player.currentTime / player.duration) * frame.width,
+                ),
+              )
+            }
           }}
           weight="duotone"
         />
