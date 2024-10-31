@@ -1,10 +1,16 @@
-import { useIsRestoring, useMutation, useQuery } from '@tanstack/react-query'
+import {
+  type QueryKey,
+  useIsRestoring,
+  useMutation,
+  useQuery,
+} from '@tanstack/react-query'
+import { formatISO } from 'date-fns'
 import { create } from 'mutative'
 import { useMemo } from 'react'
 
+import { getDatabase } from '~/lib/db'
 import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
-import { Store } from '~/lib/store'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { PostSchema } from '~/schemas/post'
@@ -12,14 +18,13 @@ import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
 import { transformPost } from '~/transformers/post'
 import { type Comment } from '~/types/comment'
+import { type CollapsedRow } from '~/types/db'
 import { type Post } from '~/types/post'
 import { type CommentSort } from '~/types/sort'
 
 import { getPostFromSearch } from '../search/search'
 import { type UserPostsQueryData } from '../user/posts'
 import { type PostsQueryData } from './posts'
-
-const COLLAPSED_KEY = 'collapsed'
 
 export type PostQueryKey = [
   'post',
@@ -33,6 +38,12 @@ export type PostQueryKey = [
 export type PostQueryData = {
   comments: Array<Comment>
   post: Post
+}
+
+type CollapsedData = Array<string>
+
+type CollapseVariables = {
+  commentId: string
 }
 
 type Props = {
@@ -103,36 +114,59 @@ export function usePost({ commentId, id, sort }: Props) {
     ],
   })
 
-  const storeId = `collapsed-${id}`
+  const queryKey: QueryKey = [
+    'collapsed',
+    {
+      id,
+    },
+  ]
 
-  const queryKey = ['collapsed', id] as const
+  const collapsed = useQuery<CollapsedData>({
+    placeholderData: [],
+    async queryFn() {
+      const db = await getDatabase()
 
-  const collapsed = useQuery({
-    initialData: [],
-    queryFn() {
-      const store = new Store(storeId)
+      const rows = await db.getAllAsync<Pick<CollapsedRow, 'comment_id'>>(
+        `SELECT comment_id FROM collapsed WHERE post_id = $post`,
+        {
+          $post: id,
+        },
+      )
 
-      const data = store.getItem<string>(COLLAPSED_KEY)
-
-      if (data) {
-        return data.split(',')
-      }
-
-      return []
+      return rows.map((row) => row.comment_id)
     },
     queryKey,
   })
 
-  const collapse = useMutation<
-    unknown,
-    Error,
-    {
-      commentId: string
-    }
-  >({
-    // eslint-disable-next-line @typescript-eslint/require-await -- go away
+  const collapse = useMutation<unknown, Error, CollapseVariables>({
     async mutationFn(variables) {
-      const previous = queryClient.getQueryData<Array<string>>(queryKey) ?? []
+      const db = await getDatabase()
+
+      const exists = await db.getFirstAsync<Pick<CollapsedRow, 'comment_id'>>(
+        'SELECT comment_id FROM collapsed WHERE comment_id = $comment AND post_id = $post LIMIT 1',
+      )
+
+      if (exists) {
+        await db.runAsync(
+          'DELETE FROM collapsed WHERE comment_id = $comment AND post_id = $post LIMIT 1',
+          {
+            $comment: variables.commentId,
+            $post: id,
+          },
+        )
+      } else {
+        await db.runAsync(
+          'INSERT INTO collapsed (comment_id, post_id, collapsed_at) VALUES ($comment, $post, $time) ON CONFLICT (comment_id) DO NOTHING',
+          {
+            $comment: variables.commentId,
+            $post: id,
+            $time: formatISO(new Date()),
+          },
+        )
+      }
+    },
+    onMutate(variables) {
+      const previous = queryClient.getQueryData<CollapsedData>(queryKey) ?? []
 
       const next = create(previous, (draft) => {
         const index = draft.indexOf(variables.commentId)
@@ -144,11 +178,7 @@ export function usePost({ commentId, id, sort }: Props) {
         }
       })
 
-      queryClient.setQueryData<Array<string>>(queryKey, next)
-
-      const store = new Store(storeId)
-
-      store.setItem(COLLAPSED_KEY, next.join(','))
+      queryClient.setQueryData<CollapsedData>(queryKey, next)
     },
   })
 
@@ -156,7 +186,7 @@ export function usePost({ commentId, id, sort }: Props) {
     const items = query.data?.comments ?? []
 
     return items.filter(
-      (item) => !isHidden(items, collapsed.data, item.data.id),
+      (item) => !isHidden(items, collapsed.data ?? [], item.data.id),
     )
   }, [collapsed.data, query.data?.comments])
 
@@ -164,7 +194,7 @@ export function usePost({ commentId, id, sort }: Props) {
     collapse: collapse.mutate,
     collapsed: collapsed.data,
     comments,
-    isFetching: isRestoring || query.isFetching,
+    isFetching: isRestoring || query.isFetching || collapsed.isFetching,
     post: query.data?.post,
     refetch: query.refetch,
   }
@@ -257,7 +287,7 @@ export function updatePost(
 
 function isHidden(
   comments: Array<Comment>,
-  collapsed: Array<string>,
+  collapsed: CollapsedData,
   commentId: string,
 ) {
   const comment = comments.find((item) => item.data.id === commentId)
