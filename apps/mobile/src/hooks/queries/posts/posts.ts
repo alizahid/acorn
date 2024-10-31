@@ -1,5 +1,6 @@
 import {
   type InfiniteData,
+  type QueryKey,
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
@@ -124,7 +125,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
 export function updatePosts(id: string, updater: (draft: Post) => void) {
   const cache = queryClient.getQueryCache()
 
-  const queryKey = ['posts']
+  const queryKey: QueryKey = ['posts']
 
   const queries = cache.findAll({
     queryKey,

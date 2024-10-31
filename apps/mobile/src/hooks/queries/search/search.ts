@@ -1,4 +1,4 @@
-import { useIsRestoring, useQuery } from '@tanstack/react-query'
+import { type QueryKey, useIsRestoring, useQuery } from '@tanstack/react-query'
 import { compact } from 'lodash'
 import { create } from 'mutative'
 
@@ -183,7 +183,7 @@ export function getPostFromSearch(id: string): PostQueryData | undefined {
 export function updateSearch(id: string, updater: (draft: Post) => void) {
   const cache = queryClient.getQueryCache()
 
-  const queryKey = [
+  const queryKey: QueryKey = [
     'search',
     {
       type: 'post',
