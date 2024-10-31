@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { PostGalleryModal } from '~/components/posts/gallery/modal'
+import { useImagePlaceholder } from '~/hooks/image'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
 import { Pressable } from '../pressable'
@@ -19,6 +20,8 @@ type Props = {
 export function Media({ caption, media, recyclingKey, variant }: Props) {
   const { styles } = useStyles(stylesheet)
 
+  const placeholder = useImagePlaceholder()
+
   const [visible, setVisible] = useState(false)
 
   return (
@@ -33,6 +36,7 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
         style={styles.main(media.height, media.width)}
       >
         <Image
+          {...placeholder}
           contentFit="contain"
           recyclingKey={recyclingKey}
           source={media.url}
