@@ -64,7 +64,7 @@ export function CommentCard({
       <View align="center" direction="row" gap="4" mb="3" pr="3">
         {comment.sticky ? (
           <Icon
-            color={theme.colors.accent.a9}
+            color={theme.colors.red.a9}
             name="PushPin"
             size={theme.space[4]}
             style={styles.sticky}
