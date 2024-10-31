@@ -4,7 +4,6 @@ import Animated, {
   type SharedValue,
   useAnimatedReaction,
   useAnimatedStyle,
-  useDerivedValue,
 } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -25,32 +24,34 @@ export function Right({ action, post, progress }: Props) {
   const [icon, setIcon] = useState<IconName>('ArrowUp')
   const [weight, setWeight] = useState<IconWeight>('fill')
 
-  const width = useDerivedValue(() => styles.slot.width * progress.get())
-
   const background = useAnimatedStyle(() => ({
-    backgroundColor: theme.colors[width.get() > 144 ? 'green' : 'blue'].a9,
+    backgroundColor: theme.colors[progress.get() > 0.4 ? 'green' : 'blue'].a9,
   }))
 
   const foreground = useAnimatedStyle(() => ({
-    opacity: width.get() > 72 ? 1 : 0.5,
+    opacity: progress.get() > 0.2 ? 1 : 0.25,
   }))
 
   useAnimatedReaction(
-    () => ({
-      saved: post.saved,
-      width: width.get(),
-    }),
+    () => progress.get(),
     (value) => {
-      action.set(
-        value.width > 144 ? 'save' : value.width > 72 ? 'reply' : undefined,
+      action.set(() =>
+        value > 0.4 ? 'save' : value > 0.2 ? 'reply' : undefined,
       )
 
-      runOnJS(setIcon)(value.width > 144 ? 'BookmarkSimple' : 'ArrowBendUpLeft')
-      runOnJS(setWeight)(
-        value.width > 144 ? (value.saved ? 'regular' : 'fill') : 'fill',
-      )
+      const nextIcon = value > 0.4 ? 'BookmarkSimple' : 'ArrowBendUpLeft'
+
+      if (icon !== nextIcon) {
+        runOnJS(setIcon)(nextIcon)
+      }
+
+      const nextWeight =
+        value > 0.4 ? (post.saved ? 'regular' : 'fill') : 'fill'
+
+      if (weight !== nextWeight) {
+        runOnJS(setWeight)(nextWeight)
+      }
     },
-    [width, post.saved],
   )
 
   return (

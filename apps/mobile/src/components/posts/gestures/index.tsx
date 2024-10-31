@@ -36,6 +36,7 @@ export function PostGestures({ children, disabled, post }: Props) {
 
   return (
     <Swipeable
+      leftThreshold={Infinity}
       onSwipeableWillClose={() => {
         const next = action.get()
 
@@ -79,6 +80,7 @@ export function PostGestures({ children, disabled, post }: Props) {
       renderRightActions={(progress) => (
         <Right action={action} post={post} progress={progress} />
       )}
+      rightThreshold={Infinity}
     >
       {children}
     </Swipeable>

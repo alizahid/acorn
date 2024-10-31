@@ -1,11 +1,9 @@
 import { useState } from 'react'
 import Animated, {
-  interpolate,
   runOnJS,
   type SharedValue,
   useAnimatedReaction,
   useAnimatedStyle,
-  useDerivedValue,
 } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -26,42 +24,41 @@ export function Left({ action, post, progress }: Props) {
   const [icon, setIcon] = useState<IconName>('ArrowUp')
   const [weight, setWeight] = useState<IconWeight>('duotone')
 
-  const width = useDerivedValue(() => styles.slot.width * progress.get())
-
   const background = useAnimatedStyle(() => ({
-    backgroundColor: theme.colors[width.get() > 144 ? 'violet' : 'orange'].a9,
+    backgroundColor:
+      theme.colors[progress.get() > 0.4 ? 'violet' : 'orange'].a9,
   }))
 
   const foreground = useAnimatedStyle(() => ({
-    opacity: interpolate(width.get(), [0, 36, 72], [0, 0, 1]),
+    opacity: progress.get() > 0.2 ? 1 : 0.25,
   }))
 
   useAnimatedReaction(
-    () => ({
-      liked: post.liked,
-      width: width.get(),
-    }),
+    () => progress.get(),
     (value) => {
-      action.set(
-        value.width > 144
-          ? 'downvote'
-          : value.width > 72
-            ? 'upvote'
-            : undefined,
+      action.set(() =>
+        value > 0.4 ? 'downvote' : value > 0.2 ? 'upvote' : undefined,
       )
 
-      runOnJS(setIcon)(value.width > 144 ? 'ArrowFatDown' : 'ArrowFatUp')
-      runOnJS(setWeight)(
-        value.width > 144
-          ? value.liked === false
+      const nextIcon = value > 0.4 ? 'ArrowFatDown' : 'ArrowFatUp'
+
+      if (icon !== nextIcon) {
+        runOnJS(setIcon)(nextIcon)
+      }
+
+      const nextWeight =
+        value > 0.4
+          ? post.liked === false
             ? 'regular'
             : 'fill'
-          : value.liked
+          : post.liked
             ? 'regular'
-            : 'fill',
-      )
+            : 'fill'
+
+      if (weight !== nextWeight) {
+        runOnJS(setWeight)(nextWeight)
+      }
     },
-    [width, post.liked],
   )
 
   return (
