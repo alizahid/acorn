@@ -54,7 +54,7 @@ export async function reddit<Response>({
 
   if (__DEV__) {
     // eslint-disable-next-line no-console -- dev
-    console.log('reddit', input.toString())
+    console.log('reddit', input.toString(), request)
   }
 
   const response = await fetch(input, request)
