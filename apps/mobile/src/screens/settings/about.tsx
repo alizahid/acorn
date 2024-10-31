@@ -1,27 +1,20 @@
 import * as Updates from 'expo-updates'
-import { useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Button } from '~/components/common/button'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
+import { Updater } from '~/components/settings/updater'
 import { useLink } from '~/hooks/link'
 
 export function SettingsAboutScreen() {
   const t = useTranslations('screen.settings.about')
 
-  const updates = Updates.useUpdates()
-
   const { handleLink } = useLink()
 
   const { styles, theme } = useStyles(stylesheet)
-
-  const timer = useRef<NodeJS.Timeout>()
-
-  const [nothing, setNothing] = useState<boolean>()
 
   const links = [
     {
@@ -96,33 +89,7 @@ export function SettingsAboutScreen() {
         ) : null}
       </View>
 
-      <Button
-        label={t(
-          `updates.${nothing ? 'nothing' : updates.isUpdatePending ? 'apply' : updates.isUpdateAvailable ? 'download' : 'check'}`,
-        )}
-        loading={updates.isChecking || updates.isDownloading}
-        onPress={async () => {
-          setNothing(false)
-
-          if (updates.isUpdatePending) {
-            void Updates.reloadAsync()
-          } else if (updates.isUpdateAvailable) {
-            void Updates.fetchUpdateAsync()
-          } else {
-            if (timer.current) {
-              clearTimeout(timer.current)
-            }
-
-            const update = await Updates.checkForUpdateAsync()
-
-            setNothing(!update.isAvailable || !update.isRollBackToEmbedded)
-
-            timer.current = setTimeout(() => {
-              setNothing(undefined)
-            }, 3_000)
-          }
-        }}
-      />
+      <Updater />
     </View>
   )
 }

@@ -77,6 +77,16 @@
         }
       }
     },
+    "settings": {
+      "updater": {
+        "apply": "Restart app",
+        "check": "Check for updates",
+        "checking": "Checking for updates",
+        "download": "Download update",
+        "downloading": "Downloading update",
+        "nothing": "No update available"
+      }
+    },
     "users": {
       "profile": {
         "age": "Age",
@@ -170,13 +180,7 @@
           "reddit": "Reddit",
           "web": "Website"
         },
-        "title": "About",
-        "updates": {
-          "apply": "Restart app",
-          "check": "Check for updates",
-          "download": "Download update",
-          "nothing": "No update available"
-        }
+        "title": "About"
       },
       "cache": {
         "menu": {
