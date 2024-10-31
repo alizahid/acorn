@@ -149,7 +149,7 @@ export function PostScreen() {
       <FlashList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={styles.content(comments.length)}
         data={data}
         estimatedItemSize={72}
         extraData={{
@@ -331,9 +331,9 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.gray.a9,
     left: theme.space[4],
   },
-  content: {
-    paddingBottom: theme.space[6] + theme.space[8],
-  },
+  content: (comments: number) => ({
+    paddingBottom: comments > 0 ? theme.space[6] + theme.space[8] : undefined,
+  }),
   skip: {
     backgroundColor: theme.colors.accent.a9,
     right: theme.space[4],
