@@ -96,8 +96,8 @@ export function usePosts({ community, interval, sort }: PostsProps) {
       return {
         cursor: response.data.after,
         posts: response.data.children
-          .map((item) => transformPost(item.data, seen))
-          .filter((post) => (hideSeen ? !seen.includes(post.id) : true)),
+          .filter((item) => (hideSeen ? !seen.includes(item.data.id) : true))
+          .map((item) => transformPost(item.data, seen)),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
