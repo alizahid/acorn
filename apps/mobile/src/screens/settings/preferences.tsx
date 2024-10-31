@@ -30,6 +30,11 @@ export function SettingsPreferencesScreen() {
             label: 'browsing.showFlair',
           },
           {
+            icon: 'ArrowFatUp',
+            key: 'seenOnVote',
+            label: 'browsing.seenOnVote',
+          },
+          {
             description: 'browsing.seenOnScroll.description',
             icon: 'MouseScroll',
             key: 'seenOnScroll',

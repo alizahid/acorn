@@ -1,11 +1,13 @@
 import { useMutation } from '@tanstack/react-query'
 
+import { useHistory } from '~/hooks/history'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { updateSearch } from '~/hooks/queries/search/search'
 import { updateUserPost } from '~/hooks/queries/user/posts'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
+import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
 import { type Post } from '~/types/post'
 
@@ -15,6 +17,9 @@ type Variables = {
 }
 
 export function usePostVote() {
+  const { seenOnVote } = usePreferences()
+  const { addPost } = useHistory()
+
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       const body = new FormData()
@@ -29,6 +34,12 @@ export function usePostVote() {
       })
     },
     onMutate(variables) {
+      if (seenOnVote) {
+        addPost({
+          id: variables.postId,
+        })
+      }
+
       updatePost(variables.postId, (draft) => {
         update(variables, draft.post)
       })

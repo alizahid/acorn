@@ -28,6 +28,7 @@ export type PreferencesPayload = {
   linkBrowser: boolean
   mediaOnRight: boolean
   seenOnScroll: boolean
+  seenOnVote: boolean
   showFlair: boolean
   sortCommunityPosts: CommunityFeedSort
   sortFeedPosts: FeedSort
@@ -58,6 +59,7 @@ export const usePreferences = create<State>()(
       linkBrowser: true,
       mediaOnRight: true,
       seenOnScroll: true,
+      seenOnVote: false,
       showFlair: true,
       sortCommunityPosts: 'hot',
       sortFeedPosts: 'hot',
