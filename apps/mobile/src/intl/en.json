@@ -183,7 +183,7 @@
       "preferences": {
         "browsing": {
           "dimSeen": "Dim seen posts",
-          "feedCompact": "Compact feed",
+          "feedCompact": "Compact mode",
           "hideSeen": {
             "description": "Posts will disappear after you refresh",
             "label": "Hide seen posts"
