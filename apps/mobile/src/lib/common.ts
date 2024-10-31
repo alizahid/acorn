@@ -17,3 +17,8 @@ export const listProps = {
     top: 1,
   },
 } as const
+
+export const swipeActionThreshold = {
+  first: iPad ? 0.1 : 0.2,
+  second: iPad ? 0.2 : 0.4,
+} as const

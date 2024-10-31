@@ -8,6 +8,7 @@ import Animated, {
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
+import { swipeActionThreshold } from '~/lib/common'
 import { type Post } from '~/types/post'
 
 export type Action = 'upvote' | 'downvote' | 'save' | 'reply' | undefined
@@ -26,28 +27,35 @@ export function Left({ action, post, progress }: Props) {
 
   const background = useAnimatedStyle(() => ({
     backgroundColor:
-      theme.colors[progress.get() > 0.4 ? 'violet' : 'orange'].a9,
+      theme.colors[
+        progress.get() > swipeActionThreshold.second ? 'violet' : 'orange'
+      ].a9,
   }))
 
   const foreground = useAnimatedStyle(() => ({
-    opacity: progress.get() > 0.2 ? 1 : 0.25,
+    opacity: progress.get() > swipeActionThreshold.first ? 1 : 0.25,
   }))
 
   useAnimatedReaction(
     () => progress.get(),
     (value) => {
       action.set(() =>
-        value > 0.4 ? 'downvote' : value > 0.2 ? 'upvote' : undefined,
+        value > swipeActionThreshold.second
+          ? 'downvote'
+          : value > swipeActionThreshold.first
+            ? 'upvote'
+            : undefined,
       )
 
-      const nextIcon = value > 0.4 ? 'ArrowFatDown' : 'ArrowFatUp'
+      const nextIcon =
+        value > swipeActionThreshold.second ? 'ArrowFatDown' : 'ArrowFatUp'
 
       if (icon !== nextIcon) {
         runOnJS(setIcon)(nextIcon)
       }
 
       const nextWeight =
-        value > 0.4
+        value > swipeActionThreshold.second
           ? post.liked === false
             ? 'regular'
             : 'fill'

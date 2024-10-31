@@ -8,6 +8,7 @@ import Animated, {
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
+import { swipeActionThreshold } from '~/lib/common'
 import { type Post } from '~/types/post'
 
 export type Action = 'upvote' | 'downvote' | 'save' | 'reply' | undefined
@@ -25,28 +26,42 @@ export function Right({ action, post, progress }: Props) {
   const [weight, setWeight] = useState<IconWeight>('fill')
 
   const background = useAnimatedStyle(() => ({
-    backgroundColor: theme.colors[progress.get() > 0.4 ? 'green' : 'blue'].a9,
+    backgroundColor:
+      theme.colors[
+        progress.get() > swipeActionThreshold.second ? 'green' : 'blue'
+      ].a9,
   }))
 
   const foreground = useAnimatedStyle(() => ({
-    opacity: progress.get() > 0.2 ? 1 : 0.25,
+    opacity: progress.get() > swipeActionThreshold.first ? 1 : 0.25,
   }))
 
   useAnimatedReaction(
     () => progress.get(),
     (value) => {
       action.set(() =>
-        value > 0.4 ? 'save' : value > 0.2 ? 'reply' : undefined,
+        value > swipeActionThreshold.second
+          ? 'save'
+          : value > swipeActionThreshold.first
+            ? 'reply'
+            : undefined,
       )
 
-      const nextIcon = value > 0.4 ? 'BookmarkSimple' : 'ArrowBendUpLeft'
+      const nextIcon =
+        value > swipeActionThreshold.second
+          ? 'BookmarkSimple'
+          : 'ArrowBendUpLeft'
 
       if (icon !== nextIcon) {
         runOnJS(setIcon)(nextIcon)
       }
 
       const nextWeight =
-        value > 0.4 ? (post.saved ? 'regular' : 'fill') : 'fill'
+        value > swipeActionThreshold.second
+          ? post.saved
+            ? 'regular'
+            : 'fill'
+          : 'fill'
 
       if (weight !== nextWeight) {
         runOnJS(setWeight)(nextWeight)

@@ -9,7 +9,6 @@ import { type Post } from '~/types/post'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
@@ -48,102 +47,102 @@ export function PostCard({
 
   if (compact) {
     return (
-      <PostGestures post={post}>
-        <View style={[styles.main(seen), style]}>
-          <PostCompactCard
-            expanded={expanded}
-            label={label}
-            post={post}
-            reverse={reverse}
-            seen={seen}
-          />
-        </View>
+      <PostGestures post={post} style={[styles.main(seen), style]}>
+        <PostCompactCard
+          expanded={expanded}
+          label={label}
+          post={post}
+          reverse={reverse}
+          seen={seen}
+        />
       </PostGestures>
     )
   }
 
   return (
-    <PostGestures disabled={expanded} post={post}>
-      <View style={[styles.main(seen), style]}>
-        <Pressable
-          align="start"
-          disabled={expanded}
-          gap="2"
-          onPress={() => {
-            router.navigate({
-              params: {
-                id: removePrefix(post.id),
-              },
-              pathname: '/posts/[id]',
-            })
-          }}
-          p="3"
-        >
-          <Text highContrast={!seen} weight="bold">
-            {post.title}
-          </Text>
+    <PostGestures
+      disabled={expanded}
+      post={post}
+      style={[styles.main(seen), style]}
+    >
+      <Pressable
+        align="start"
+        disabled={expanded}
+        gap="2"
+        onPress={() => {
+          router.navigate({
+            params: {
+              id: removePrefix(post.id),
+            },
+            pathname: '/posts/[id]',
+          })
+        }}
+        p="3"
+      >
+        <Text highContrast={!seen} weight="bold">
+          {post.title}
+        </Text>
 
-          <FlairCard flair={post.flair} seen={seen} />
-        </Pressable>
+        <FlairCard flair={post.flair} seen={seen} />
+      </Pressable>
 
-        {post.type === 'crosspost' && post.crossPost ? (
-          <CrossPostCard
-            post={post.crossPost}
-            style={body ? styles.expanded : null}
-            viewing={viewing}
-          />
-        ) : null}
-
-        {post.type === 'video' && post.media.video ? (
-          <PostVideoCard
-            compact={compact}
-            nsfw={post.nsfw}
-            recyclingKey={post.id}
-            style={body ? styles.expanded : null}
-            video={post.media.video}
-            viewing={viewing}
-          />
-        ) : null}
-
-        {post.type === 'image' && post.media.images ? (
-          <PostGalleryCard
-            compact={compact}
-            images={post.media.images}
-            nsfw={post.nsfw}
-            recyclingKey={post.id}
-            style={body ? styles.expanded : null}
-          />
-        ) : null}
-
-        {post.type === 'link' && post.url ? (
-          <PostLinkCard
-            compact={compact}
-            media={post.media.images?.[0]}
-            recyclingKey={post.id}
-            style={body ? styles.expanded : null}
-            url={post.url}
-          />
-        ) : null}
-
-        {expanded && post.body ? (
-          <Markdown
-            meta={post.media.meta}
-            recyclingKey={post.id}
-            size="2"
-            style={styles.body}
-            variant="post"
-          >
-            {post.body}
-          </Markdown>
-        ) : null}
-
-        <PostFooterCard
-          expanded={expanded}
-          label={label}
-          post={post}
-          seen={seen}
+      {post.type === 'crosspost' && post.crossPost ? (
+        <CrossPostCard
+          post={post.crossPost}
+          style={body ? styles.expanded : null}
+          viewing={viewing}
         />
-      </View>
+      ) : null}
+
+      {post.type === 'video' && post.media.video ? (
+        <PostVideoCard
+          compact={compact}
+          nsfw={post.nsfw}
+          recyclingKey={post.id}
+          style={body ? styles.expanded : null}
+          video={post.media.video}
+          viewing={viewing}
+        />
+      ) : null}
+
+      {post.type === 'image' && post.media.images ? (
+        <PostGalleryCard
+          compact={compact}
+          images={post.media.images}
+          nsfw={post.nsfw}
+          recyclingKey={post.id}
+          style={body ? styles.expanded : null}
+        />
+      ) : null}
+
+      {post.type === 'link' && post.url ? (
+        <PostLinkCard
+          compact={compact}
+          media={post.media.images?.[0]}
+          recyclingKey={post.id}
+          style={body ? styles.expanded : null}
+          url={post.url}
+        />
+      ) : null}
+
+      {expanded && post.body ? (
+        <Markdown
+          meta={post.media.meta}
+          recyclingKey={post.id}
+          size="2"
+          style={styles.body}
+          variant="post"
+        >
+          {post.body}
+        </Markdown>
+      ) : null}
+
+      <PostFooterCard
+        expanded={expanded}
+        label={label}
+        post={post}
+        seen={seen}
+      />
     </PostGestures>
   )
 }
@@ -159,7 +158,7 @@ const stylesheet = createStyleSheet((theme) => ({
     alignSelf: 'center',
     backgroundColor: theme.colors.gray[seen ? 2 : 3],
     borderCurve: 'continuous',
-    borderRadius: iPad ? theme.radius[3] : undefined,
+    borderRadius: iPad ? theme.radius[4] : undefined,
     maxWidth: iPad ? cardMaxWidth : undefined,
     width: '100%',
   }),

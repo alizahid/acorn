@@ -1,12 +1,16 @@
 import { useRouter } from 'expo-router'
 import { type ReactNode, useRef } from 'react'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import Swipeable, {
   type SwipeableMethods,
 } from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { useSharedValue } from 'react-native-reanimated'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { View } from '~/components/common/view'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
+import { cardMaxWidth, iPad } from '~/lib/common'
 import { type Post } from '~/types/post'
 
 import { Left } from './left'
@@ -18,10 +22,13 @@ type Props = {
   children: ReactNode
   disabled?: boolean
   post: Post
+  style?: StyleProp<ViewStyle>
 }
 
-export function PostGestures({ children, disabled, post }: Props) {
+export function PostGestures({ children, disabled, post, style }: Props) {
   const router = useRouter()
+
+  const { styles } = useStyles(stylesheet)
 
   const swipeable = useRef<SwipeableMethods>(null)
 
@@ -31,11 +38,13 @@ export function PostGestures({ children, disabled, post }: Props) {
   const action = useSharedValue<Action>(undefined)
 
   if (disabled) {
-    return children
+    return <View style={style}>{children}</View>
   }
 
   return (
     <Swipeable
+      childrenContainerStyle={style}
+      containerStyle={styles.main}
       leftThreshold={Infinity}
       onSwipeableWillClose={() => {
         const next = action.get()
@@ -86,3 +95,13 @@ export function PostGestures({ children, disabled, post }: Props) {
     </Swipeable>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  main: {
+    alignSelf: 'center',
+    borderCurve: 'continuous',
+    borderRadius: iPad ? theme.radius[5] : undefined,
+    maxWidth: iPad ? cardMaxWidth : undefined,
+    width: '100%',
+  },
+}))
