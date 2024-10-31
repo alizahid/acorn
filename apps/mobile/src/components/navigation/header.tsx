@@ -70,7 +70,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     left: 0,
   },
   main: (modal: boolean) => ({
-    backgroundColor: theme.colors.gray[1],
+    backgroundColor: theme.colors.gray[modal ? 2 : 1],
     paddingTop: modal ? 0 : runtime.insets.top,
   }),
   right: {

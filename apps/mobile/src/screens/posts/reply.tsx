@@ -1,23 +1,22 @@
-import { useLocalSearchParams, useRouter } from 'expo-router'
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
 import { TextInput } from 'react-native'
-import {
-  KeyboardAwareScrollView,
-  KeyboardStickyView,
-  useReanimatedKeyboardAnimation,
-} from 'react-native-keyboard-controller'
-import { interpolate, useAnimatedStyle } from 'react-native-reanimated'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { Pressable } from '~/components/common/pressable'
-import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { HeaderButton } from '~/components/navigation/header-button'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
+import { iPhone } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
@@ -27,9 +26,8 @@ const schema = z.object({
 })
 
 export function PostReplyScreen() {
-  const insets = useSafeAreaInsets()
-
   const router = useRouter()
+  const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
 
@@ -41,57 +39,14 @@ export function PostReplyScreen() {
 
   const { isPending, reply } = usePostReply()
 
-  const { progress } = useReanimatedKeyboardAnimation()
-
   const [text, setText] = useState('')
 
-  const style = useAnimatedStyle(() => ({
-    paddingBottom: interpolate(
-      progress.value,
-      [0, 1],
-      [theme.space[3] + insets.bottom, theme.space[3]],
-    ),
-  }))
-
-  return (
-    <>
-      <KeyboardAwareScrollView
-        contentContainerStyle={styles.content}
-        keyboardDismissMode="on-drag"
-        keyboardShouldPersistTaps="handled"
-      >
-        <StatusBar style="light" />
-
-        {params.user ? (
-          <View p="4" style={styles.user}>
-            <Text weight="medium">
-              {t('user', {
-                user: params.user,
-              })}
-            </Text>
-          </View>
-        ) : null}
-
-        <TextInput
-          allowFontScaling={fontScaling}
-          // eslint-disable-next-line jsx-a11y/no-autofocus -- go away
-          autoFocus
-          multiline
-          onChangeText={setText}
-          placeholder={t('placeholder')}
-          placeholderTextColor={theme.colors.gray.a9}
-          selectionColor={theme.colors.accent.a9}
-          style={styles.input}
-          value={text}
-        />
-      </KeyboardAwareScrollView>
-
-      <KeyboardStickyView>
-        <Pressable
-          align="center"
-          direction="row"
-          disabled={isPending}
-          justify="center"
+  useFocusEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <HeaderButton
+          icon="PaperPlaneTilt"
+          loading={isPending}
           onPress={async () => {
             if (text.length === 0) {
               return
@@ -105,18 +60,44 @@ export function PostReplyScreen() {
 
             router.back()
           }}
-          style={[styles.submit, style]}
-        >
-          {isPending ? (
-            <Spinner contrast style={styles.spinner} />
-          ) : (
-            <Text contrast weight="medium">
-              {t('submit')}
-            </Text>
-          )}
-        </Pressable>
-      </KeyboardStickyView>
-    </>
+          weight="fill"
+        />
+      ),
+    })
+  })
+
+  return (
+    <KeyboardAwareScrollView
+      contentContainerStyle={styles.content}
+      enabled={iPhone}
+      keyboardShouldPersistTaps="handled"
+      style={styles.main}
+    >
+      {iPhone ? <StatusBar style="light" /> : null}
+
+      {params.user ? (
+        <View p="4" style={styles.user}>
+          <Text weight="medium">
+            {t('user', {
+              user: params.user,
+            })}
+          </Text>
+        </View>
+      ) : null}
+
+      <TextInput
+        allowFontScaling={fontScaling}
+        // eslint-disable-next-line jsx-a11y/no-autofocus -- go away
+        autoFocus
+        multiline
+        onChangeText={setText}
+        placeholder={t('placeholder')}
+        placeholderTextColor={theme.colors.gray.a9}
+        selectionColor={theme.colors.accent.a9}
+        style={styles.input}
+        value={text}
+      />
+    </KeyboardAwareScrollView>
   )
 }
 
@@ -129,7 +110,11 @@ const stylesheet = createStyleSheet((theme) => ({
     flexGrow: 1,
     fontFamily: 'sans',
     fontSize: theme.typography[3].fontSize,
+    lineHeight: theme.typography[3].lineHeight,
     padding: theme.space[3],
+  },
+  main: {
+    flex: 1,
   },
   spinner: {
     height: theme.typography[3].lineHeight,
@@ -140,6 +125,6 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingTop: theme.space[3],
   },
   user: {
-    backgroundColor: theme.colors.gray.a2,
+    backgroundColor: theme.colors.gray.a3,
   },
 }))
