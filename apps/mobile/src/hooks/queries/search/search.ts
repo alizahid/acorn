@@ -2,7 +2,7 @@ import { type QueryKey, useIsRestoring, useQuery } from '@tanstack/react-query'
 import { compact } from 'lodash'
 import { create } from 'mutative'
 
-import { getHistory } from '~/lib/history'
+import { getHistory } from '~/lib/db/history'
 import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'

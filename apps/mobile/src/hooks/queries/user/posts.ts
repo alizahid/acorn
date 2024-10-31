@@ -6,7 +6,7 @@ import {
 import { compact } from 'lodash'
 import { create } from 'mutative'
 
-import { getHistory } from '~/lib/history'
+import { getHistory } from '~/lib/db/history'
 import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'

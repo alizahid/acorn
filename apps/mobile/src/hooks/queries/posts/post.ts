@@ -4,11 +4,10 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query'
-import { formatISO } from 'date-fns'
 import { create } from 'mutative'
 import { useMemo } from 'react'
 
-import { getDatabase } from '~/lib/db'
+import { collapseComment, getCollapsedForPost } from '~/lib/db/collapsed'
 import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
@@ -18,7 +17,6 @@ import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
 import { transformPost } from '~/transformers/post'
 import { type Comment } from '~/types/comment'
-import { type CollapsedRow } from '~/types/db'
 import { type Post } from '~/types/post'
 import { type CommentSort } from '~/types/sort'
 
@@ -123,62 +121,32 @@ export function usePost({ commentId, id, sort }: Props) {
 
   const collapsed = useQuery<CollapsedData>({
     placeholderData: [],
-    async queryFn() {
-      const db = await getDatabase()
-
-      const rows = await db.getAllAsync<Pick<CollapsedRow, 'comment_id'>>(
-        `SELECT comment_id FROM collapsed WHERE post_id = $post`,
-        {
-          $post: id,
-        },
-      )
-
-      return rows.map((row) => row.comment_id)
+    queryFn() {
+      return getCollapsedForPost(id)
     },
     queryKey,
   })
 
   const collapse = useMutation<unknown, Error, CollapseVariables>({
     async mutationFn(variables) {
-      const db = await getDatabase()
-
-      const exists = await db.getFirstAsync<Pick<CollapsedRow, 'comment_id'>>(
-        'SELECT comment_id FROM collapsed WHERE comment_id = $comment AND post_id = $post LIMIT 1',
-      )
-
-      if (exists) {
-        await db.runAsync(
-          'DELETE FROM collapsed WHERE comment_id = $comment AND post_id = $post LIMIT 1',
-          {
-            $comment: variables.commentId,
-            $post: id,
-          },
-        )
-      } else {
-        await db.runAsync(
-          'INSERT INTO collapsed (comment_id, post_id, collapsed_at) VALUES ($comment, $post, $time) ON CONFLICT (comment_id) DO NOTHING',
-          {
-            $comment: variables.commentId,
-            $post: id,
-            $time: formatISO(new Date()),
-          },
-        )
-      }
+      await collapseComment(variables.commentId, id)
     },
     onMutate(variables) {
-      const previous = queryClient.getQueryData<CollapsedData>(queryKey) ?? []
-
-      const next = create(previous, (draft) => {
-        const index = draft.indexOf(variables.commentId)
-
-        if (index >= 0) {
-          draft.splice(index, 1)
-        } else {
-          draft.push(variables.commentId)
+      queryClient.setQueryData<CollapsedData>(queryKey, (previous) => {
+        if (!previous) {
+          return previous
         }
-      })
 
-      queryClient.setQueryData<CollapsedData>(queryKey, next)
+        return create(previous, (draft) => {
+          const index = draft.indexOf(variables.commentId)
+
+          if (index >= 0) {
+            draft.splice(index, 1)
+          } else {
+            draft.push(variables.commentId)
+          }
+        })
+      })
     },
   })
 
@@ -192,7 +160,7 @@ export function usePost({ commentId, id, sort }: Props) {
 
   return {
     collapse: collapse.mutate,
-    collapsed: collapsed.data,
+    collapsed: collapsed.data ?? [],
     comments,
     isFetching: isRestoring || query.isFetching || collapsed.isFetching,
     post: query.data?.post,

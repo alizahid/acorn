@@ -1,6 +1,6 @@
 import { type HistoryRow } from '~/types/db'
 
-import { getDatabase } from './db'
+import { getDatabase } from '.'
 
 export async function getHistory(ids: Array<string>) {
   const db = await getDatabase()
