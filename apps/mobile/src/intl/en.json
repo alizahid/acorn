@@ -179,9 +179,9 @@
       },
       "cache": {
         "menu": {
-          "history": "Clear seen history",
-          "image": "Clear image cache",
-          "query": "Clear data cache"
+          "history": "Clear history",
+          "image": "Clear image",
+          "query": "Clear data"
         },
         "title": "Cache"
       },

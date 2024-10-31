@@ -3,6 +3,7 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Menu } from '~/components/common/menu'
+import { clearCollapsed } from '~/lib/db/collapsed'
 import { clearHistory } from '~/lib/db/history'
 import { queryClient } from '~/lib/query'
 
@@ -41,7 +42,7 @@ export function SettingsCacheScreen() {
           },
           label: t('menu.history'),
           async onPress() {
-            await clearHistory()
+            await Promise.all([clearHistory(), clearCollapsed()])
           },
         },
       ]}
