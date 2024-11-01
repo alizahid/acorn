@@ -1,5 +1,7 @@
 import { useRouter } from 'expo-router'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
@@ -32,6 +34,8 @@ export function PostCompactCard({
 }: Props) {
   const router = useRouter()
 
+  const { styles } = useStyles(stylesheet)
+
   return (
     <Pressable
       direction={reverse ? 'row-reverse' : 'row'}
@@ -46,6 +50,7 @@ export function PostCompactCard({
         })
       }}
       p="3"
+      style={styles.main}
     >
       {post.type === 'crosspost' && post.crossPost ? (
         <CrossPostCard compact post={post.crossPost} viewing={false} />
@@ -92,6 +97,27 @@ export function PostCompactCard({
           <FlairCard flair={post.flair} seen={seen} />
         </View>
       </View>
+
+      {post.saved ? <View style={styles.saved} /> : null}
     </Pressable>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  main: {
+    overflow: 'hidden',
+  },
+  saved: {
+    backgroundColor: theme.colors.green[9],
+    bottom: -theme.space[iPad ? 5 : 4],
+    height: theme.space[iPad ? 8 : 6],
+    position: 'absolute',
+    right: -theme.space[iPad ? 5 : 4],
+    transform: [
+      {
+        rotate: '45deg',
+      },
+    ],
+    width: theme.space[iPad ? 8 : 6],
+  },
+}))
