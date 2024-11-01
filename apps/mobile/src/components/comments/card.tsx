@@ -1,22 +1,17 @@
-import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useFormatter } from 'use-intl'
 
+import { useCommentSave } from '~/hooks/mutations/comments/save'
+import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
-import { withoutAgo } from '~/lib/intl'
-import { removePrefix } from '~/lib/reddit'
 import { type CommentReply } from '~/types/comment'
 
-import { Icon } from '../common/icon'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
-import { Text } from '../common/text'
 import { View } from '../common/view'
-import { FlairCard } from '../posts/flair'
-import { CommentSaveCard } from './save'
-import { CommentVoteCard } from './vote'
+import { PostGestures } from '../posts/gestures'
+import { CommentMeta } from './meta'
 
 type Props = {
   collapsed?: boolean
@@ -35,106 +30,71 @@ export function CommentCard({
   onReply,
   style,
 }: Props) {
-  const router = useRouter()
+  const { styles } = useStyles(stylesheet)
 
-  const f = useFormatter()
-
-  const { styles, theme } = useStyles(stylesheet)
+  const { vote } = useCommentVote()
+  const { save } = useCommentSave()
 
   return (
-    <Pressable
-      disabled={disabled}
-      onPress={onPress}
-      pl="3"
-      pt={collapsed ? '3' : undefined}
+    <PostGestures
+      containerStyle={styles.container(comment.depth)}
+      disabled={collapsed}
+      liked={comment.liked}
+      onAction={(action) => {
+        if (action === 'upvote') {
+          vote({
+            commentId: comment.id,
+            direction: comment.liked ? 0 : 1,
+            postId: comment.postId,
+          })
+        }
+
+        if (action === 'downvote') {
+          vote({
+            commentId: comment.id,
+            direction: comment.liked === false ? 0 : -1,
+            postId: comment.postId,
+          })
+        }
+
+        if (action === 'save') {
+          save({
+            action: comment.saved ? 'unsave' : 'save',
+            commentId: comment.id,
+            postId: comment.postId,
+          })
+        }
+
+        if (action === 'reply') {
+          onReply?.()
+        }
+      }}
+      saved={comment.saved}
       style={[styles.main(comment.depth), style]}
     >
-      {!collapsed ? (
-        <Markdown
-          meta={comment.media.meta}
-          recyclingKey={comment.id}
-          size="2"
-          style={styles.body}
-          variant="comment"
-        >
-          {comment.body}
-        </Markdown>
-      ) : null}
-
-      <View align="center" direction="row" gap="4" mb="3" pr="3">
-        {comment.sticky ? (
-          <Icon
-            color={theme.colors.red.a9}
-            name="PushPin"
-            size={theme.space[4]}
-            style={styles.sticky}
-            weight="fill"
-          />
-        ) : null}
-
-        <Pressable
-          align="center"
-          direction="row"
-          flexShrink={1}
-          gap="2"
-          hitSlop={theme.space[3]}
-          onPress={() => {
-            router.navigate({
-              params: {
-                name: removePrefix(comment.user.name),
-              },
-              pathname: '/users/[name]',
-            })
-          }}
-        >
-          <Text
-            color={comment.op ? 'accent' : 'gray'}
-            highContrast={!comment.op}
-            lines={1}
-            size="1"
-            weight="medium"
-          >
-            {comment.user.name}
-          </Text>
-
-          {!collapsed ? (
-            <FlairCard flair={comment.flair} show={['emoji']} />
-          ) : null}
-        </Pressable>
-
-        <Text highContrast={false} size="1">
-          {withoutAgo(
-            f.relativeTime(comment.createdAt, {
-              style: 'narrow',
-            }),
-          )}
-        </Text>
-
+      <Pressable
+        disabled={disabled}
+        onPress={onPress}
+        pl="3"
+        pt={collapsed ? '3' : undefined}
+      >
         {!collapsed ? (
-          <>
-            <CommentVoteCard comment={comment} />
-
-            {onReply ? (
-              <Pressable
-                hitSlop={theme.space[4]}
-                onPress={() => {
-                  onReply()
-                }}
-              >
-                <Icon
-                  color={theme.colors.gray.a11}
-                  name="ArrowBendUpLeft"
-                  size={theme.space[4]}
-                  weight="bold"
-                />
-              </Pressable>
-            ) : null}
-
-            <CommentSaveCard comment={comment} />
-          </>
+          <Markdown
+            meta={comment.media.meta}
+            recyclingKey={comment.id}
+            size="2"
+            style={styles.body}
+            variant="comment"
+          >
+            {comment.body}
+          </Markdown>
         ) : null}
-      </View>
-    </Pressable>
+
+        <CommentMeta collapsed={collapsed} comment={comment} />
+
+        {comment.saved ? <View style={styles.saved} /> : null}
+      </Pressable>
+    </PostGestures>
   )
 }
 
@@ -143,16 +103,11 @@ const stylesheet = createStyleSheet((theme) => ({
     marginRight: theme.space[3],
     marginVertical: theme.space[3],
   },
-  main: (depth: number) => {
-    const color = getDepthColor(depth)
-
+  container: (depth: number) => {
     const margin = theme.space[3] * depth
 
     const base = {
-      backgroundColor: theme.colors[color].a3,
-      borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
-      borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
-      marginLeft: margin,
+      marginLeft: margin + (depth > 0 ? theme.space[1] : 0),
     }
 
     if (iPad) {
@@ -168,7 +123,37 @@ const stylesheet = createStyleSheet((theme) => ({
 
     return base
   },
-  sticky: {
-    marginRight: -theme.space[2],
+  main: (depth: number) => {
+    const color = getDepthColor(depth)
+
+    const base = {
+      backgroundColor: theme.colors[color][3],
+      borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
+      borderLeftWidth: depth > 0 ? theme.space[1] : 0,
+      overflow: 'hidden' as const,
+    }
+
+    if (iPad) {
+      return {
+        ...base,
+        borderCurve: 'continuous',
+        borderRadius: theme.radius[2],
+      }
+    }
+
+    return base
+  },
+  saved: {
+    backgroundColor: theme.colors.green[9],
+    bottom: -theme.space[iPad ? 5 : 4],
+    height: theme.space[iPad ? 8 : 6],
+    position: 'absolute',
+    right: -theme.space[iPad ? 5 : 4],
+    transform: [
+      {
+        rotate: '45deg',
+      },
+    ],
+    width: theme.space[iPad ? 8 : 6],
   },
 }))

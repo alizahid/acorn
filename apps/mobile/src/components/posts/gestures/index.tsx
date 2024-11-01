@@ -1,93 +1,64 @@
-import { useRouter } from 'expo-router'
 import { type ReactNode, useRef } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import Swipeable, {
   type SwipeableMethods,
 } from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { useSharedValue } from 'react-native-reanimated'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { View } from '~/components/common/view'
-import { usePostSave } from '~/hooks/mutations/posts/save'
-import { usePostVote } from '~/hooks/mutations/posts/vote'
-import { cardMaxWidth, iPad } from '~/lib/common'
-import { type Post } from '~/types/post'
 
 import { Left } from './left'
 import { Right } from './right'
 
-export type Action = 'upvote' | 'downvote' | 'save' | 'reply' | undefined
+export type GestureAction = 'upvote' | 'downvote' | 'save' | 'reply' | undefined
 
 type Props = {
   children: ReactNode
+  containerStyle?: StyleProp<ViewStyle>
   disabled?: boolean
-  post: Post
+  liked: boolean | null
+  onAction: (action: GestureAction) => void
+  radius?: 'small' | 'large'
+  saved: boolean
   style?: StyleProp<ViewStyle>
 }
 
-export function PostGestures({ children, disabled, post, style }: Props) {
-  const router = useRouter()
-
-  const { styles } = useStyles(stylesheet)
-
+export function PostGestures({
+  children,
+  containerStyle,
+  disabled,
+  liked,
+  onAction,
+  saved,
+  style,
+}: Props) {
   const swipeable = useRef<SwipeableMethods>(null)
 
-  const { vote } = usePostVote()
-  const { save } = usePostSave()
-
-  const action = useSharedValue<Action>(undefined)
+  const action = useSharedValue<GestureAction>(undefined)
 
   if (disabled) {
-    return <View style={style}>{children}</View>
+    return <View style={[containerStyle, style]}>{children}</View>
   }
 
   return (
     <Swipeable
       childrenContainerStyle={style}
-      containerStyle={styles.main}
+      containerStyle={containerStyle}
       leftThreshold={Infinity}
       onSwipeableWillClose={() => {
         const next = action.get()
 
-        if (next === 'upvote') {
-          vote({
-            direction: post.liked ? 0 : 1,
-            postId: post.id,
-          })
-        }
-
-        if (next === 'downvote') {
-          vote({
-            direction: post.liked === false ? 0 : -1,
-            postId: post.id,
-          })
-        }
-
-        if (next === 'save') {
-          save({
-            action: post.saved ? 'unsave' : 'save',
-            postId: post.id,
-          })
-        }
-
-        if (next === 'reply') {
-          router.navigate({
-            params: {
-              id: post.id,
-            },
-            pathname: '/posts/[id]/reply',
-          })
-        }
+        onAction(next)
       }}
       onSwipeableWillOpen={() => {
         swipeable.current?.close()
       }}
       ref={swipeable}
       renderLeftActions={(progress) => (
-        <Left action={action} post={post} progress={progress} />
+        <Left action={action} liked={liked} progress={progress} />
       )}
       renderRightActions={(progress) => (
-        <Right action={action} post={post} progress={progress} />
+        <Right action={action} progress={progress} saved={saved} />
       )}
       rightThreshold={Infinity}
     >
@@ -95,13 +66,3 @@ export function PostGestures({ children, disabled, post, style }: Props) {
     </Swipeable>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  main: {
-    alignSelf: 'center',
-    borderCurve: 'continuous',
-    borderRadius: iPad ? theme.radius[5] : undefined,
-    maxWidth: iPad ? cardMaxWidth : undefined,
-    width: '100%',
-  },
-}))

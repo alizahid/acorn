@@ -1,7 +1,10 @@
 import { useRouter } from 'expo-router'
+import { useCallback } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { usePostSave } from '~/hooks/mutations/posts/save'
+import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
@@ -14,7 +17,7 @@ import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
 import { PostFooterCard, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
-import { PostGestures } from './gestures'
+import { type GestureAction, PostGestures } from './gestures'
 import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
@@ -45,9 +48,53 @@ export function PostCard({
 
   const body = expanded && post.body
 
+  const { vote } = usePostVote()
+  const { save } = usePostSave()
+
+  const onAction = useCallback(
+    (action: GestureAction) => {
+      if (action === 'upvote') {
+        vote({
+          direction: post.liked ? 0 : 1,
+          postId: post.id,
+        })
+      }
+
+      if (action === 'downvote') {
+        vote({
+          direction: post.liked === false ? 0 : -1,
+          postId: post.id,
+        })
+      }
+
+      if (action === 'save') {
+        save({
+          action: post.saved ? 'unsave' : 'save',
+          postId: post.id,
+        })
+      }
+
+      if (action === 'reply') {
+        router.navigate({
+          params: {
+            id: post.id,
+          },
+          pathname: '/posts/[id]/reply',
+        })
+      }
+    },
+    [post.id, post.liked, post.saved, router, save, vote],
+  )
+
   if (compact) {
     return (
-      <PostGestures post={post} style={[styles.main(seen), style]}>
+      <PostGestures
+        containerStyle={styles.container}
+        liked={post.liked}
+        onAction={onAction}
+        saved={post.saved}
+        style={[styles.main(seen), style]}
+      >
         <PostCompactCard
           expanded={expanded}
           label={label}
@@ -61,8 +108,11 @@ export function PostCard({
 
   return (
     <PostGestures
+      containerStyle={styles.container}
       disabled={expanded}
-      post={post}
+      liked={post.liked}
+      onAction={onAction}
+      saved={post.saved}
       style={[styles.main(seen), style]}
     >
       <Pressable
@@ -151,15 +201,19 @@ const stylesheet = createStyleSheet((theme) => ({
   body: {
     marginHorizontal: theme.space[3],
   },
-  expanded: {
-    marginBottom: theme.space[3],
-  },
-  main: (seen?: boolean) => ({
+  container: {
     alignSelf: 'center',
-    backgroundColor: theme.colors.gray[seen ? 2 : 3],
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[4] : undefined,
     maxWidth: iPad ? cardMaxWidth : undefined,
     width: '100%',
+  },
+  expanded: {
+    marginBottom: theme.space[3],
+  },
+  main: (seen?: boolean) => ({
+    backgroundColor: theme.colors.gray[seen ? 2 : 3],
+    borderCurve: 'continuous',
+    borderRadius: iPad ? theme.radius[3] : undefined,
   }),
 }))

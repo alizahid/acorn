@@ -9,17 +9,16 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
 import { swipeActionThreshold } from '~/lib/common'
-import { type Post } from '~/types/post'
 
-export type Action = 'upvote' | 'downvote' | 'save' | 'reply' | undefined
+import { type GestureAction } from '.'
 
 type Props = {
-  action: SharedValue<Action>
-  post: Post
+  action: SharedValue<GestureAction>
+  liked: boolean | null
   progress: SharedValue<number>
 }
 
-export function Left({ action, post, progress }: Props) {
+export function Left({ action, liked, progress }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const [icon, setIcon] = useState<IconName>('ArrowUp')
@@ -56,10 +55,10 @@ export function Left({ action, post, progress }: Props) {
 
       const nextWeight =
         value > swipeActionThreshold.second
-          ? post.liked === false
+          ? liked === false
             ? 'regular'
             : 'fill'
-          : post.liked
+          : liked
             ? 'regular'
             : 'fill'
 
@@ -70,12 +69,12 @@ export function Left({ action, post, progress }: Props) {
   )
 
   return (
-    <Animated.View style={[styles.slot, background]}>
+    <Animated.View style={[styles.main, background]}>
       <Animated.View style={foreground}>
         <Icon
           color={theme.colors.accent.contrast}
           name={icon}
-          size={theme.space[8]}
+          size={theme.space[6]}
           weight={weight}
         />
       </Animated.View>
@@ -83,11 +82,11 @@ export function Left({ action, post, progress }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  slot: {
+const stylesheet = createStyleSheet((theme) => ({
+  main: {
     alignItems: 'flex-start',
     justifyContent: 'center',
     padding: theme.space[4],
-    width: runtime.screen.width - theme.space[4],
+    width: '98%',
   },
 }))
