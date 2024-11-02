@@ -39,7 +39,7 @@ export function HomeScreen() {
 
   return (
     <PostList
-      community={type === 'home' ? undefined : feedType}
+      community={type === 'home' ? undefined : type}
       interval={interval}
       label="subreddit"
       sort={sort}
