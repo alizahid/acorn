@@ -87,6 +87,6 @@ const stylesheet = createStyleSheet((theme) => ({
     alignItems: 'flex-end',
     justifyContent: 'center',
     padding: theme.space[4],
-    width: '98%',
+    width: '90%',
   },
 }))

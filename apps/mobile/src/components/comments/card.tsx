@@ -128,7 +128,7 @@ const stylesheet = createStyleSheet((theme) => ({
 
     const base = {
       backgroundColor: theme.colors[color][3],
-      borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
+      borderLeftColor: depth > 0 ? theme.colors[color][6] : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : 0,
       overflow: 'hidden' as const,
     }
