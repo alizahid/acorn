@@ -5,6 +5,7 @@ import { useRef } from 'react'
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
+import { Refreshing } from '~/components/common/refreshing'
 import { Spinner } from '~/components/common/spinner'
 import { NotificationCard } from '~/components/notifications/card'
 import { useNotifications } from '~/hooks/queries/user/notifications'
@@ -21,28 +22,33 @@ export function NotificationsScreen() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    isRefreshing,
     notifications,
     refetch,
   } = useNotifications()
 
   return (
-    <FlashList
-      {...listProps}
-      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-      ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner m="6" /> : null
-      }
-      data={notifications}
-      estimatedItemSize={68}
-      keyExtractor={(item) => item.id}
-      onEndReached={() => {
-        if (hasNextPage) {
-          void fetchNextPage()
+    <>
+      <FlashList
+        {...listProps}
+        ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+        ListFooterComponent={() =>
+          isFetchingNextPage ? <Spinner m="6" /> : null
         }
-      }}
-      ref={list}
-      refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ item }) => <NotificationCard notification={item} />}
-    />
+        data={notifications}
+        estimatedItemSize={68}
+        keyExtractor={(item) => item.id}
+        onEndReached={() => {
+          if (hasNextPage) {
+            void fetchNextPage()
+          }
+        }}
+        ref={list}
+        refreshControl={<RefreshControl onRefresh={refetch} />}
+        renderItem={({ item }) => <NotificationCard notification={item} />}
+      />
+
+      {isRefreshing ? <Refreshing /> : null}
+    </>
   )
 }

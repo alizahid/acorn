@@ -46,8 +46,10 @@ export function useCommunities() {
     data,
     fetchNextPage,
     hasNextPage,
+    isFetching,
     isFetchingNextPage,
     isLoading,
+    isStale,
     refetch: refresh,
   } = useInfiniteQuery<
     Page,
@@ -105,6 +107,7 @@ export function useCommunities() {
     hasNextPage,
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
+    isRefreshing: isStale && isFetching && !isLoading,
     refetch: async () => {
       resetInfiniteQuery(queryKey)
 

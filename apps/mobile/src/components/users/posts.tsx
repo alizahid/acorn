@@ -16,6 +16,7 @@ import { type Post } from '~/types/post'
 import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
+import { Refreshing } from '../common/refreshing'
 import { View } from '../common/view'
 import { type PostLabel } from '../posts/footer'
 
@@ -45,6 +46,7 @@ export function UserPostsList({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    isRefreshing,
     posts,
     refetch,
   } = useUserPosts({
@@ -57,102 +59,106 @@ export function UserPostsList({
   const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
-    <FlashList
-      {...listProps}
-      ItemSeparatorComponent={() => <View height={feedCompact ? '2' : '4'} />}
-      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-      ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner m="6" /> : null
-      }
-      data={posts}
-      estimatedItemSize={feedCompact ? 112 : 120}
-      extraData={{
-        viewing,
-      }}
-      keyExtractor={(item) => item.data.id}
-      onEndReached={() => {
-        if (hasNextPage) {
-          void fetchNextPage()
+    <>
+      <FlashList
+        {...listProps}
+        ItemSeparatorComponent={() => <View height={feedCompact ? '2' : '4'} />}
+        ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+        ListFooterComponent={() =>
+          isFetchingNextPage ? <Spinner m="6" /> : null
         }
-      }}
-      refreshControl={
-        <RefreshControl
-          onRefresh={() => {
-            onRefresh?.()
+        data={posts}
+        estimatedItemSize={feedCompact ? 112 : 120}
+        extraData={{
+          viewing,
+        }}
+        keyExtractor={(item) => item.data.id}
+        onEndReached={() => {
+          if (hasNextPage) {
+            void fetchNextPage()
+          }
+        }}
+        refreshControl={
+          <RefreshControl
+            onRefresh={() => {
+              onRefresh?.()
 
-            return refetch()
-          }}
-        />
-      }
-      renderItem={({ item }) => {
-        if (item.type === 'comment') {
+              return refetch()
+            }}
+          />
+        }
+        renderItem={({ item }) => {
+          if (item.type === 'comment') {
+            return (
+              <CommentCard
+                comment={item.data}
+                onPress={() => {
+                  router.navigate({
+                    params: {
+                      commentId: item.data.id,
+                      id: item.data.postId,
+                    },
+                    pathname: '/posts/[id]',
+                  })
+                }}
+              />
+            )
+          }
+
           return (
-            <CommentCard
-              comment={item.data}
-              onPress={() => {
-                router.navigate({
-                  params: {
-                    commentId: item.data.id,
-                    id: item.data.postId,
-                  },
-                  pathname: '/posts/[id]',
-                })
-              }}
+            <PostCard
+              compact={feedCompact}
+              label={label}
+              post={item.data}
+              reverse={mediaOnRight}
+              seen={dimSeen ? item.data.seen : false}
+              viewing={focused ? viewing.includes(item.data.id) : false}
             />
           )
-        }
-
-        return (
-          <PostCard
-            compact={feedCompact}
-            label={label}
-            post={item.data}
-            reverse={mediaOnRight}
-            seen={dimSeen ? item.data.seen : false}
-            viewing={focused ? viewing.includes(item.data.id) : false}
-          />
-        )
-      }}
-      scrollEnabled={posts.length > 0}
-      viewabilityConfigCallbackPairs={[
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            setViewing(() => viewableItems.map((item) => item.key))
+        }}
+        scrollEnabled={posts.length > 0}
+        viewabilityConfigCallbackPairs={[
+          {
+            onViewableItemsChanged({ viewableItems }) {
+              setViewing(() => viewableItems.map((item) => item.key))
+            },
+            viewabilityConfig: {
+              itemVisiblePercentThreshold: 100,
+            },
           },
-          viewabilityConfig: {
-            itemVisiblePercentThreshold: 100,
-          },
-        },
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            if (!seenOnScroll) {
-              return
-            }
-
-            viewableItems.forEach((item) => {
-              const viewableItem = item.item as
-                | {
-                    data: CommentReply
-                    type: 'comment'
-                  }
-                | {
-                    data: Post
-                    type: 'post'
-                  }
-
-              if (viewableItem.type === 'post') {
-                addPost({
-                  id: viewableItem.data.id,
-                })
+          {
+            onViewableItemsChanged({ viewableItems }) {
+              if (!seenOnScroll) {
+                return
               }
-            })
+
+              viewableItems.forEach((item) => {
+                const viewableItem = item.item as
+                  | {
+                      data: CommentReply
+                      type: 'comment'
+                    }
+                  | {
+                      data: Post
+                      type: 'post'
+                    }
+
+                if (viewableItem.type === 'post') {
+                  addPost({
+                    id: viewableItem.data.id,
+                  })
+                }
+              })
+            },
+            viewabilityConfig: {
+              itemVisiblePercentThreshold: 100,
+              minimumViewTime: 3_000,
+            },
           },
-          viewabilityConfig: {
-            itemVisiblePercentThreshold: 100,
-            minimumViewTime: 3_000,
-          },
-        },
-      ]}
-    />
+        ]}
+      />
+
+      {isRefreshing ? <Refreshing /> : null}
+    </>
   )
 }

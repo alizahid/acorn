@@ -163,6 +163,7 @@ export function usePost({ commentId, id, sort }: Props) {
     collapsed: collapsed.data ?? [],
     comments,
     isFetching: isRestoring || query.isFetching || collapsed.isFetching,
+    isRefreshing: query.isStale && query.isFetching && !query.isLoading,
     post: query.data?.post,
     refetch: query.refetch,
   }

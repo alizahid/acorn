@@ -13,6 +13,7 @@ import { type Post } from '~/types/post'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
+import { Refreshing } from '../common/refreshing'
 import { View } from '../common/view'
 import { type PostLabel } from './footer'
 
@@ -44,6 +45,7 @@ export function PostList({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    isRefreshing,
     posts,
     refetch,
   } = usePosts({
@@ -55,72 +57,76 @@ export function PostList({
   const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
-    <FlashList
-      {...listProps}
-      ItemSeparatorComponent={() => <View height={feedCompact ? '2' : '4'} />}
-      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-      ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner m="6" /> : null
-      }
-      ListHeaderComponent={header}
-      data={posts}
-      estimatedItemSize={feedCompact ? 112 : 120}
-      extraData={{
-        viewing,
-      }}
-      keyExtractor={(item) => item.id}
-      onEndReached={() => {
-        if (hasNextPage) {
-          void fetchNextPage()
+    <>
+      <FlashList
+        {...listProps}
+        ItemSeparatorComponent={() => <View height={feedCompact ? '2' : '4'} />}
+        ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+        ListFooterComponent={() =>
+          isFetchingNextPage ? <Spinner m="6" /> : null
         }
-      }}
-      ref={list}
-      refreshControl={
-        <RefreshControl
-          onRefresh={() => {
-            onRefresh?.()
+        ListHeaderComponent={header}
+        data={posts}
+        estimatedItemSize={feedCompact ? 112 : 120}
+        extraData={{
+          viewing,
+        }}
+        keyExtractor={(item) => item.id}
+        onEndReached={() => {
+          if (hasNextPage) {
+            void fetchNextPage()
+          }
+        }}
+        ref={list}
+        refreshControl={
+          <RefreshControl
+            onRefresh={() => {
+              onRefresh?.()
 
-            return refetch()
-          }}
-        />
-      }
-      renderItem={({ item }) => (
-        <PostCard
-          compact={feedCompact}
-          label={label}
-          post={item}
-          reverse={mediaOnRight}
-          seen={dimSeen ? item.seen : false}
-          viewing={focused ? viewing.includes(item.id) : false}
-        />
-      )}
-      viewabilityConfigCallbackPairs={[
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            setViewing(() => viewableItems.map((item) => item.key))
+              return refetch()
+            }}
+          />
+        }
+        renderItem={({ item }) => (
+          <PostCard
+            compact={feedCompact}
+            label={label}
+            post={item}
+            reverse={mediaOnRight}
+            seen={dimSeen ? item.seen : false}
+            viewing={focused ? viewing.includes(item.id) : false}
+          />
+        )}
+        viewabilityConfigCallbackPairs={[
+          {
+            onViewableItemsChanged({ viewableItems }) {
+              setViewing(() => viewableItems.map((item) => item.key))
+            },
+            viewabilityConfig: {
+              itemVisiblePercentThreshold: 100,
+            },
           },
-          viewabilityConfig: {
-            itemVisiblePercentThreshold: 100,
-          },
-        },
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            if (!seenOnScroll) {
-              return
-            }
+          {
+            onViewableItemsChanged({ viewableItems }) {
+              if (!seenOnScroll) {
+                return
+              }
 
-            viewableItems.forEach((item) => {
-              addPost({
-                id: (item.item as Post).id,
+              viewableItems.forEach((item) => {
+                addPost({
+                  id: (item.item as Post).id,
+                })
               })
-            })
+            },
+            viewabilityConfig: {
+              itemVisiblePercentThreshold: 100,
+              minimumViewTime: 3_000,
+            },
           },
-          viewabilityConfig: {
-            itemVisiblePercentThreshold: 100,
-            minimumViewTime: 3_000,
-          },
-        },
-      ]}
-    />
+        ]}
+      />
+
+      {isRefreshing ? <Refreshing /> : null}
+    </>
   )
 }

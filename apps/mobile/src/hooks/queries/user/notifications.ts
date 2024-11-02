@@ -46,8 +46,10 @@ export function useNotifications() {
     data,
     fetchNextPage,
     hasNextPage,
+    isFetching,
     isFetchingNextPage,
     isLoading,
+    isStale,
     refetch: refresh,
   } = useInfiniteQuery<
     Page,
@@ -99,6 +101,7 @@ export function useNotifications() {
     hasNextPage,
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
+    isRefreshing: isStale && isFetching && !isLoading,
     notifications,
     refetch: async () => {
       resetInfiniteQuery(queryKey)

@@ -62,8 +62,10 @@ export function useUserComments({
     data,
     fetchNextPage,
     hasNextPage,
+    isFetching,
     isFetchingNextPage,
     isLoading,
+    isStale,
     refetch: refresh,
   } = useInfiniteQuery<Page, Error, CommentsQueryData, CommentsQueryKey, Param>(
     {
@@ -112,6 +114,7 @@ export function useUserComments({
     hasNextPage,
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
+    isRefreshing: isStale && isFetching && !isLoading,
     refetch: async () => {
       resetInfiniteQuery(queryKey)
 

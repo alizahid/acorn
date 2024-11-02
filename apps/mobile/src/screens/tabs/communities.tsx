@@ -21,6 +21,7 @@ export function CommunitiesScreen() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    isRefreshing,
     refetch,
     users,
   } = useCommunities()
@@ -39,6 +40,7 @@ export function CommunitiesScreen() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
+    isRefreshing,
     refetch,
   } as const
 

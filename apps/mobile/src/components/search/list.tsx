@@ -17,6 +17,7 @@ import { type Post } from '~/types/post'
 import { type SearchTab } from '~/types/search'
 import { type SearchUser } from '~/types/user'
 
+import { Refreshing } from '../common/refreshing'
 import { View } from '../common/view'
 import { SearchUserCard } from '../users/search'
 import { type SearchFilters } from './filters'
@@ -47,7 +48,7 @@ export function SearchList({
   const { feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
   const { addPost } = useHistory()
 
-  const { isLoading, refetch, results } = useSearch({
+  const { isLoading, isRefreshing, refetch, results } = useSearch({
     community,
     interval: filters?.interval,
     query,
@@ -58,74 +59,78 @@ export function SearchList({
   const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
-    <FlashList
-      {...listProps}
-      ItemSeparatorComponent={() => (
-        <View style={styles.separator(type, feedCompact)} />
-      )}
-      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-      ListHeaderComponent={header}
-      data={results}
-      estimatedItemSize={type === 'post' ? (feedCompact ? 112 : 120) : 56}
-      extraData={{
-        viewing,
-      }}
-      getItemType={() => type}
-      keyExtractor={(item) => item.id}
-      keyboardDismissMode="on-drag"
-      keyboardShouldPersistTaps="handled"
-      ref={list}
-      refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ item }) => {
-        if (type === 'community') {
-          return <CommunityCard community={item as Community} />
-        }
+    <>
+      <FlashList
+        {...listProps}
+        ItemSeparatorComponent={() => (
+          <View style={styles.separator(type, feedCompact)} />
+        )}
+        ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+        ListHeaderComponent={header}
+        data={results}
+        estimatedItemSize={type === 'post' ? (feedCompact ? 112 : 120) : 56}
+        extraData={{
+          viewing,
+        }}
+        getItemType={() => type}
+        keyExtractor={(item) => item.id}
+        keyboardDismissMode="on-drag"
+        keyboardShouldPersistTaps="handled"
+        ref={list}
+        refreshControl={<RefreshControl onRefresh={refetch} />}
+        renderItem={({ item }) => {
+          if (type === 'community') {
+            return <CommunityCard community={item as Community} />
+          }
 
-        if (type === 'user') {
-          return <SearchUserCard user={item as SearchUser} />
-        }
+          if (type === 'user') {
+            return <SearchUserCard user={item as SearchUser} />
+          }
 
-        return (
-          <PostCard
-            compact={feedCompact}
-            label="subreddit"
-            post={item as Post}
-            reverse={mediaOnRight}
-            viewing={focused ? viewing.includes(item.id) : false}
-          />
-        )
-      }}
-      scrollEnabled={results.length > 0}
-      viewabilityConfigCallbackPairs={[
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            setViewing(() => viewableItems.map((item) => item.key))
+          return (
+            <PostCard
+              compact={feedCompact}
+              label="subreddit"
+              post={item as Post}
+              reverse={mediaOnRight}
+              viewing={focused ? viewing.includes(item.id) : false}
+            />
+          )
+        }}
+        scrollEnabled={results.length > 0}
+        viewabilityConfigCallbackPairs={[
+          {
+            onViewableItemsChanged({ viewableItems }) {
+              setViewing(() => viewableItems.map((item) => item.key))
+            },
+            viewabilityConfig: {
+              itemVisiblePercentThreshold: 100,
+            },
           },
-          viewabilityConfig: {
-            itemVisiblePercentThreshold: 100,
-          },
-        },
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            if (!seenOnScroll) {
-              return
-            }
+          {
+            onViewableItemsChanged({ viewableItems }) {
+              if (!seenOnScroll) {
+                return
+              }
 
-            if (type === 'post') {
-              viewableItems.forEach((item) => {
-                addPost({
-                  id: (item.item as Post).id,
+              if (type === 'post') {
+                viewableItems.forEach((item) => {
+                  addPost({
+                    id: (item.item as Post).id,
+                  })
                 })
-              })
-            }
+              }
+            },
+            viewabilityConfig: {
+              itemVisiblePercentThreshold: 100,
+              minimumViewTime: 3_000,
+            },
           },
-          viewabilityConfig: {
-            itemVisiblePercentThreshold: 100,
-            minimumViewTime: 3_000,
-          },
-        },
-      ]}
-    />
+        ]}
+      />
+
+      {isRefreshing ? <Refreshing /> : null}
+    </>
   )
 }
 
