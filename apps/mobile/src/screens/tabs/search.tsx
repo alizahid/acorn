@@ -15,12 +15,15 @@ import {
   SearchPostFilters,
 } from '~/components/search/filters'
 import { SearchList } from '~/components/search/list'
+import { usePreferences } from '~/stores/preferences'
 import { SearchTab } from '~/types/search'
 
 export function SearchScreen() {
   const focused = useIsFocused()
 
   const t = useTranslations('screen.search')
+
+  const { intervalSearchPosts, sortSearchPosts } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -34,8 +37,8 @@ export function SearchScreen() {
   const [index, setIndex] = useState(0)
   const [query, setQuery] = useState('')
   const [filters, setFilters] = useState<SearchFilters>({
-    interval: 'all',
-    sort: 'relevance',
+    interval: intervalSearchPosts,
+    sort: sortSearchPosts,
   })
 
   const [debounced] = useDebounce(query, 500)

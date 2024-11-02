@@ -13,6 +13,7 @@ import {
   SearchPostFilters,
 } from '~/components/search/filters'
 import { SearchList } from '~/components/search/list'
+import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -27,12 +28,14 @@ export function CommunitiesSearchScreen() {
 
   const t = useTranslations('screen.community.search')
 
+  const { intervalSearchPosts, sortSearchPosts } = usePreferences()
+
   const { styles } = useStyles(stylesheet)
 
   const [query, setQuery] = useState('')
   const [filters, setFilters] = useState<SearchFilters>({
-    interval: 'all',
-    sort: 'relevance',
+    interval: intervalSearchPosts,
+    sort: sortSearchPosts,
   })
 
   const [debounced] = useDebounce(query, 500)

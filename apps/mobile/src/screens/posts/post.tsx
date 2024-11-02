@@ -53,6 +53,8 @@ export function PostScreen() {
 
   const list = useRef<FlashList<ListItem>>(null)
 
+  const [sort, setSort] = useState(sortPostComments)
+
   const {
     collapse,
     collapsed,
@@ -64,7 +66,7 @@ export function PostScreen() {
   } = usePost({
     commentId: params.commentId,
     id: params.id,
-    sort: sortPostComments,
+    sort,
   })
 
   const [viewing, setViewing] = useState<Array<number>>([])
@@ -224,6 +226,7 @@ export function PostScreen() {
               return (
                 <PostHeader
                   commentId={params.commentId}
+                  onChangeSort={setSort}
                   onPress={() => {
                     list.current?.scrollToIndex({
                       animated: true,
@@ -234,6 +237,7 @@ export function PostScreen() {
                       commentId: '',
                     })
                   }}
+                  sort={sort}
                   sticky={target === 'StickyHeader'}
                 />
               )

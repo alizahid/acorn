@@ -7,6 +7,7 @@ import {
   type CommunityFeedSort,
   type FeedSort,
   type FeedType,
+  type SearchSort,
   type TopInterval,
   type UserFeedSort,
 } from '~/types/sort'
@@ -23,6 +24,7 @@ export type PreferencesPayload = {
   hideSeen: boolean
   intervalCommunityPosts: TopInterval
   intervalFeedPosts: TopInterval
+  intervalSearchPosts: TopInterval
   intervalUserComments: TopInterval
   intervalUserPosts: TopInterval
   linkBrowser: boolean
@@ -33,6 +35,7 @@ export type PreferencesPayload = {
   sortCommunityPosts: CommunityFeedSort
   sortFeedPosts: FeedSort
   sortPostComments: CommentSort
+  sortSearchPosts: SearchSort
   sortUserComments: CommentSort
   sortUserPosts: UserFeedSort
   unmuteFullscreen: boolean
@@ -54,6 +57,7 @@ export const usePreferences = create<State>()(
       hideSeen: false,
       intervalCommunityPosts: 'hour',
       intervalFeedPosts: 'hour',
+      intervalSearchPosts: 'all',
       intervalUserComments: 'all',
       intervalUserPosts: 'all',
       linkBrowser: true,
@@ -64,6 +68,7 @@ export const usePreferences = create<State>()(
       sortCommunityPosts: 'hot',
       sortFeedPosts: 'hot',
       sortPostComments: 'confidence',
+      sortSearchPosts: 'relevance',
       sortUserComments: 'new',
       sortUserPosts: 'new',
       unmuteFullscreen: true,

@@ -224,22 +224,37 @@
         "title": "Preferences"
       },
       "sort": {
-        "menu": {
-          "community": "Community",
-          "feed": "Feed",
-          "intervalCommunityPosts": "Community posts interval",
-          "intervalFeedPosts": "Feed posts interval",
-          "intervalUserComments": "User comments interval",
-          "intervalUserPosts": "User posts interval",
-          "post": "Post",
-          "sortCommunityPosts": "Community posts sort",
-          "sortFeedPosts": "Feed posts sort",
-          "sortPostComments": "Post comments sort",
-          "sortUserComments": "User comments sort",
-          "sortUserPosts": "User posts sort",
-          "user": "User"
+        "community": {
+          "interval": "Posts interval",
+          "sort": "Posts sort",
+          "title": "Community"
         },
-        "title": "Sort"
+        "feed": {
+          "interval": "Posts interval",
+          "sort": "Posts sort",
+          "title": "Feed"
+        },
+        "post": {
+          "sort": "Comments sort",
+          "title": "Post"
+        },
+        "search": {
+          "interval": "Posts interval",
+          "sort": "Posts sort",
+          "title": "Search"
+        },
+        "title": "Sort",
+        "user": {
+          "comments": {
+            "interval": "Comments interval",
+            "sort": "Comments sort"
+          },
+          "posts": {
+            "interval": "Posts interval",
+            "sort": "Posts sort"
+          },
+          "title": "User"
+        }
       }
     },
     "users": {

@@ -12,6 +12,7 @@ import {
   CommentSort,
   CommunityFeedSort,
   FeedSort,
+  SearchSort,
   TopInterval,
   UserFeedSort,
 } from '~/types/sort'
@@ -26,7 +27,7 @@ export function SettingsSortScreen() {
   const { theme } = useStyles()
 
   const enhanceSort = useCallback(
-    (sort: FeedSort | CommentSort): MenuItemOption => {
+    (sort: FeedSort | CommentSort | SearchSort): MenuItemOption => {
       const icon = SortIcons[sort]
       const color = theme.colors[SortColors[sort]].a9
 
@@ -72,38 +73,71 @@ export function SettingsSortScreen() {
     <Menu
       items={(
         [
-          t('menu.feed'),
-          ['sortFeedPosts', FeedSort.map((item) => enhanceSort(item))],
+          t('feed.title'),
+          [
+            'sortFeedPosts',
+            'feed.sort',
+            FeedSort.map((item) => enhanceSort(item)),
+          ],
           [
             'intervalFeedPosts',
+            'feed.interval',
+            TopInterval.map((item) => enhanceInterval(item)),
+          ],
+
+          t('search.title'),
+          [
+            'sortSearchPosts',
+            'search.sort',
+            SearchSort.map((item) => enhanceSort(item)),
+          ],
+          [
+            'intervalSearchPosts',
+            'search.interval',
             TopInterval.map((item) => enhanceInterval(item)),
           ],
 
           null,
-          t('menu.community'),
+          t('community.title'),
           [
             'sortCommunityPosts',
+            'community.sort',
             CommunityFeedSort.map((item) => enhanceSort(item)),
           ],
           [
             'intervalCommunityPosts',
+            'community.interval',
             TopInterval.map((item) => enhanceInterval(item)),
           ],
 
           null,
-          t('menu.post'),
-          ['sortPostComments', CommentSort.map((item) => enhanceSort(item))],
+          t('post.title'),
+          [
+            'sortPostComments',
+            'post.sort',
+            CommentSort.map((item) => enhanceSort(item)),
+          ],
 
           null,
-          t('menu.user'),
-          ['sortUserPosts', UserFeedSort.map((item) => enhanceSort(item))],
+          t('user.title'),
+          [
+            'sortUserPosts',
+            'user.posts.sort',
+            UserFeedSort.map((item) => enhanceSort(item)),
+          ],
           [
             'intervalUserPosts',
+            'user.posts.interval',
             TopInterval.map((item) => enhanceInterval(item)),
           ],
-          ['sortUserComments', CommentSort.map((item) => enhanceSort(item))],
+          [
+            'sortUserComments',
+            'user.comments.sort',
+            CommentSort.map((item) => enhanceSort(item)),
+          ],
           [
             'intervalUserComments',
+            'user.comments.interval',
             TopInterval.map((item) => enhanceInterval(item)),
           ],
         ] as const
@@ -112,13 +146,13 @@ export function SettingsSortScreen() {
           return item
         }
 
-        const [key, options] = item
+        const [key, label, options] = item
 
         return {
           icon: {
             name: key.startsWith('sort') ? 'SortAscending' : 'Clock',
           },
-          label: t(`menu.${key}`),
+          label: t(label),
           onSelect: (next) => {
             update({
               [key]: next,

@@ -2,7 +2,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
-import { usePreferences } from '~/stores/preferences'
+import { type CommentSort } from '~/types/sort'
 
 import { CommentsSortMenu } from '../comments/sort'
 import { Icon } from '../common/icon'
@@ -12,14 +12,20 @@ import { View } from '../common/view'
 
 type Props = {
   commentId?: string
+  onChangeSort: (sort: CommentSort) => void
   onPress?: () => void
+  sort: CommentSort
   sticky?: boolean
 }
 
-export function PostHeader({ commentId, onPress, sticky }: Props) {
+export function PostHeader({
+  commentId,
+  onChangeSort,
+  onPress,
+  sort,
+  sticky,
+}: Props) {
   const t = useTranslations('component.posts.header')
-
-  const { sortPostComments, update } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -42,12 +48,10 @@ export function PostHeader({ commentId, onPress, sticky }: Props) {
 
       <CommentsSortMenu
         onChange={(next) => {
-          update({
-            sortPostComments: next,
-          })
+          onChangeSort(next)
         }}
         style={styles.sort}
-        value={sortPostComments}
+        value={sort}
       />
     </View>
   )
