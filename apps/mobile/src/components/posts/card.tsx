@@ -139,6 +139,7 @@ export function PostCard({
       {post.type === 'crosspost' && post.crossPost ? (
         <CrossPostCard
           post={post.crossPost}
+          recyclingKey={post.id}
           style={body ? styles.expanded : null}
           viewing={viewing}
         />

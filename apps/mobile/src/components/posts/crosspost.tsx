@@ -18,11 +18,18 @@ import { PostVideoCard } from './video'
 type Props = {
   compact?: boolean
   post: Post
+  recyclingKey?: string
   style?: StyleProp<ViewStyle>
   viewing: boolean
 }
 
-export function CrossPostCard({ compact, post, style, viewing }: Props) {
+export function CrossPostCard({
+  compact,
+  post,
+  recyclingKey,
+  style,
+  viewing,
+}: Props) {
   const router = useRouter()
 
   const f = useFormatter()
@@ -94,7 +101,7 @@ export function CrossPostCard({ compact, post, style, viewing }: Props) {
         <PostVideoCard
           crossPost
           nsfw={post.nsfw}
-          recyclingKey={post.id}
+          recyclingKey={recyclingKey}
           video={post.media.video}
           viewing={viewing}
         />
@@ -105,14 +112,14 @@ export function CrossPostCard({ compact, post, style, viewing }: Props) {
           crossPost
           images={post.media.images}
           nsfw={post.nsfw}
-          recyclingKey={post.id}
+          recyclingKey={recyclingKey}
         />
       ) : null}
 
       {post.type === 'link' && post.url ? (
         <PostLinkCard
           media={post.media.images?.[0]}
-          recyclingKey={post.id}
+          recyclingKey={recyclingKey}
           style={styles.header}
           url={post.url}
         />

@@ -53,7 +53,12 @@ export function PostCompactCard({
       style={styles.main}
     >
       {post.type === 'crosspost' && post.crossPost ? (
-        <CrossPostCard compact post={post.crossPost} viewing={false} />
+        <CrossPostCard
+          compact
+          post={post.crossPost}
+          recyclingKey={post.id}
+          viewing={false}
+        />
       ) : null}
 
       {post.type === 'video' && post.media.video ? (
