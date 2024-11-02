@@ -5,6 +5,7 @@ import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
@@ -34,7 +35,8 @@ export function PostGalleryCard({
 }: Props) {
   const t = useTranslations('component.posts.gallery')
 
-  const { blurNsfw } = usePreferences()
+  const { blurNsfw, seenOnMedia } = usePreferences()
+  const { addPost } = useHistory()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -54,6 +56,12 @@ export function PostGalleryCard({
         <Pressable
           onPress={() => {
             setVisible(true)
+
+            if (recyclingKey && seenOnMedia) {
+              addPost({
+                id: recyclingKey,
+              })
+            }
           }}
           style={[styles.compact, style]}
         >
@@ -83,6 +91,12 @@ export function PostGalleryCard({
         <Pressable
           onPress={() => {
             setVisible(true)
+
+            if (recyclingKey && seenOnMedia) {
+              addPost({
+                id: recyclingKey,
+              })
+            }
           }}
           style={[styles.main(crossPost), style]}
         >

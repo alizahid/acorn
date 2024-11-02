@@ -8,6 +8,7 @@ import { useTranslations } from 'use-intl'
 
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -19,6 +20,7 @@ type Props = {
   compact?: boolean
   crossPost?: boolean
   nsfw?: boolean
+  recyclingKey?: string
   source: VideoSource
   style?: StyleProp<ViewStyle>
   video: PostMedia
@@ -29,6 +31,7 @@ export function VideoPlayer({
   compact,
   crossPost,
   nsfw,
+  recyclingKey,
   source,
   style,
   video,
@@ -36,7 +39,9 @@ export function VideoPlayer({
 }: Props) {
   const t = useTranslations('component.posts.video')
 
-  const { blurNsfw, feedMuted, unmuteFullscreen } = usePreferences()
+  const { blurNsfw, feedMuted, seenOnMedia, unmuteFullscreen } =
+    usePreferences()
+  const { addPost } = useHistory()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -69,6 +74,12 @@ export function VideoPlayer({
           onPress={() => {
             setMuted(!unmuteFullscreen)
             setVisible(true)
+
+            if (recyclingKey && seenOnMedia) {
+              addPost({
+                id: recyclingKey,
+              })
+            }
           }}
           style={styles.compact}
         >
@@ -91,6 +102,12 @@ export function VideoPlayer({
           onPress={() => {
             setMuted(!unmuteFullscreen)
             setVisible(true)
+
+            if (recyclingKey && seenOnMedia) {
+              addPost({
+                id: recyclingKey,
+              })
+            }
           }}
           style={[styles.main(crossPost), style]}
         >

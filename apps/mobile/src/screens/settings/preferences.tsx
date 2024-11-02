@@ -35,6 +35,11 @@ export function SettingsPreferencesScreen() {
             label: 'browsing.seenOnVote',
           },
           {
+            icon: 'Image',
+            key: 'seenOnMedia',
+            label: 'browsing.seenOnMedia',
+          },
+          {
             description: 'browsing.seenOnScroll.description',
             icon: 'MouseScroll',
             key: 'seenOnScroll',

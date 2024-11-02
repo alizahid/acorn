@@ -34,6 +34,7 @@ export function PostVideoCard({
         compact={compact}
         crossPost={crossPost}
         nsfw={nsfw}
+        recyclingKey={recyclingKey}
         style={style}
         video={video}
         viewing={viewing}
@@ -47,6 +48,7 @@ export function PostVideoCard({
         compact={compact}
         crossPost={crossPost}
         nsfw={nsfw}
+        recyclingKey={recyclingKey}
         source={video.url}
         style={style}
         video={video}

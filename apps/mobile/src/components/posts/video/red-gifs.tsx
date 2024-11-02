@@ -12,6 +12,7 @@ type Props = {
   compact?: boolean
   crossPost?: boolean
   nsfw?: boolean
+  recyclingKey?: string
   style?: StyleProp<ViewStyle>
   video: PostMedia
   viewing: boolean
@@ -21,6 +22,7 @@ export function RedGifsVideo({
   compact,
   crossPost,
   nsfw,
+  recyclingKey,
   style,
   video,
   viewing,
@@ -35,6 +37,7 @@ export function RedGifsVideo({
         compact={compact}
         crossPost={crossPost}
         nsfw={nsfw}
+        recyclingKey={recyclingKey}
         source={gif.source}
         style={style}
         video={video}
