@@ -6,6 +6,7 @@ import Swipeable, {
 import { useSharedValue } from 'react-native-reanimated'
 
 import { View } from '~/components/common/view'
+import { iPhone } from '~/lib/common'
 
 import { Left } from './left'
 import { Right } from './right'
@@ -44,6 +45,14 @@ export function PostGestures({
     <Swipeable
       childrenContainerStyle={style}
       containerStyle={containerStyle}
+      hitSlop={
+        iPhone
+          ? {
+              left: -64,
+              right: -64,
+            }
+          : undefined
+      }
       leftThreshold={Infinity}
       onSwipeableWillClose={() => {
         const next = action.get()
