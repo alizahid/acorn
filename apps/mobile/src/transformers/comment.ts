@@ -30,7 +30,7 @@ export function transformComment(
 
   return {
     data: {
-      body: decode(data.data.body.trim()),
+      body: decode(data.data.body).trim(),
       createdAt: dateFromUnix(data.data.created_utc),
       depth: data.data.depth ?? 0,
       flair: transformFlair(data.data.author_flair_richtext),

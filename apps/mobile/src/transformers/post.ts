@@ -12,7 +12,7 @@ export function transformPost(data: PostDataSchema, seen: Array<string>): Post {
   const crossPost = data.crosspost_parent_list?.[0]
 
   return {
-    body: decode(data.selftext.trim()) || undefined,
+    body: decode(data.selftext).trim() || undefined,
     comments: data.num_comments,
     community: transformCommunity(data.sr_detail),
     createdAt: dateFromUnix(data.created_utc),
@@ -31,7 +31,7 @@ export function transformPost(data: PostDataSchema, seen: Array<string>): Post {
     seen: seen.includes(data.id),
     spoiler: data.spoiler,
     sticky: Boolean(data.stickied),
-    title: decode(data.title.trim()),
+    title: decode(data.title).trim(),
     type: getType(data),
     url: data.url ?? undefined,
     user: {
