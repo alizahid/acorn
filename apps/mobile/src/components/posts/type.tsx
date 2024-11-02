@@ -23,7 +23,7 @@ export function FeedTypeMenu({ hideLabel, onChange, value }: Props) {
       hideLabel={hideLabel}
       items={FeedType.map((item) => ({
         icon: {
-          color: theme.colors[FeedTypeColors[item]][9],
+          color: theme.colors[FeedTypeColors[item]].a9,
           name: FeedTypeIcons[item],
           weight: 'duotone',
         },

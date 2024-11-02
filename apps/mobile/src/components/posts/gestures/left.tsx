@@ -24,12 +24,14 @@ export function Left({ action, liked, progress }: Props) {
   const [icon, setIcon] = useState<IconName>('ArrowUp')
   const [weight, setWeight] = useState<IconWeight>('duotone')
 
-  const background = useAnimatedStyle(() => ({
-    backgroundColor:
-      theme.colors[
-        progress.get() > swipeActionThreshold.second ? 'violet' : 'orange'
-      ].a9,
-  }))
+  const background = useAnimatedStyle(() => {
+    const color =
+      progress.get() > swipeActionThreshold.second ? 'violet' : 'orange'
+
+    return {
+      backgroundColor: theme.colors[color].a9,
+    }
+  })
 
   const foreground = useAnimatedStyle(() => ({
     opacity: progress.get() > swipeActionThreshold.first ? 1 : 0.25,

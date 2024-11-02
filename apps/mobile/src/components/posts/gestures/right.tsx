@@ -24,12 +24,14 @@ export function Right({ action, progress, saved }: Props) {
   const [icon, setIcon] = useState<IconName>('ArrowUp')
   const [weight, setWeight] = useState<IconWeight>('fill')
 
-  const background = useAnimatedStyle(() => ({
-    backgroundColor:
-      theme.colors[
-        progress.get() > swipeActionThreshold.second ? 'green' : 'blue'
-      ].a9,
-  }))
+  const background = useAnimatedStyle(() => {
+    const color =
+      progress.get() > swipeActionThreshold.second ? 'green' : 'blue'
+
+    return {
+      backgroundColor: theme.colors[color].a9,
+    }
+  })
 
   const foreground = useAnimatedStyle(() => ({
     opacity: progress.get() > swipeActionThreshold.first ? 1 : 0.25,

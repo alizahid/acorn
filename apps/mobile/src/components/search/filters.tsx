@@ -32,7 +32,7 @@ export function SearchPostFilters({ filters, onChange, style }: Props) {
       <DropDown
         items={SearchSort.map((item) => ({
           icon: {
-            color: theme.colors[SortColors[item]][9],
+            color: theme.colors[SortColors[item]].a9,
             name: SortIcons[item],
             weight: 'duotone',
           },

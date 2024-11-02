@@ -159,7 +159,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     flexGrow: 1,
     fontFamily: code ? 'mono' : 'sans',
     fontSize: theme.typography[3].fontSize,
-    height: multiline ? theme.space[9] : theme.space[7],
+    height: theme.space[multiline ? 9 : 7],
     paddingHorizontal: theme.space[3],
     paddingVertical: multiline ? theme.space[3] : 0,
   }),
