@@ -103,7 +103,7 @@ export function PostCompactCard({
         </View>
       </View>
 
-      {post.saved ? <View style={styles.saved} /> : null}
+      {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
     </Pressable>
   )
 }

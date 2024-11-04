@@ -17,6 +17,7 @@ export function FooterButton({ color, icon, onPress, weight }: Props) {
     <Pressable
       align="center"
       height="6"
+      hitSlop={theme.space[4]}
       justify="center"
       onPress={onPress}
       width="6"

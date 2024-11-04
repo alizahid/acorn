@@ -92,7 +92,9 @@ export function CommentCard({
 
         <CommentMeta collapsed={collapsed} comment={comment} />
 
-        {comment.saved ? <View style={styles.saved} /> : null}
+        {comment.saved ? (
+          <View pointerEvents="none" style={styles.saved} />
+        ) : null}
       </Pressable>
     </PostGestures>
   )

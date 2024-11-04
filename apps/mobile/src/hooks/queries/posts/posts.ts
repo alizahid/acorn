@@ -114,7 +114,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
     isRefreshing: isStale && isFetching && !isLoading,
-    posts: data?.pages.flatMap((page) => page.posts),
+    posts: data?.pages.flatMap((page) => page.posts) ?? [],
     refetch: async () => {
       resetInfiniteQuery(queryKey)
 
