@@ -9,7 +9,7 @@ export function transformCommunity(data: CommunityDataSchema): Community {
   const user = data.display_name.startsWith('u_')
 
   return {
-    createdAt: dateFromUnix(data.created_utc),
+    createdAt: dateFromUnix(data.created_utc ?? 0),
     favorite: Boolean(data.user_has_favorited),
     id: removePrefix(data.name),
     image: data.community_icon

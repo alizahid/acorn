@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 export const CommunityDataSchema = z.object({
   community_icon: z.string().nullish(),
-  created_utc: z.number(),
+  created_utc: z.number().nullish(),
   display_name: z.string(),
   icon_img: z.string().nullish(),
   name: z.string(),
