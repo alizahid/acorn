@@ -29,6 +29,7 @@ export function TopIntervalItem({ interval, size }: ItemProps) {
 const stylesheet = createStyleSheet((theme) => ({
   infinity: (size: number) => ({
     fontSize: size * 0.8,
+    lineHeight: size * 0.9,
   }),
   label: (size: number) => ({
     color: theme.colors.gold.contrast,
