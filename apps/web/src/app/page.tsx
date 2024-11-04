@@ -1,13 +1,8 @@
-import {
-  DiscordLogo,
-  Fan,
-  GithubLogo,
-  RedditLogo,
-} from '@phosphor-icons/react/dist/ssr'
+import { DiscordLogo, Fan, GithubLogo } from '@phosphor-icons/react/dist/ssr'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
+import { Button } from '~/components/button'
 import { Logo } from '~/components/logo'
 
 export default function Page() {
@@ -22,19 +17,6 @@ export default function Page() {
     {
       href: 'https://discord.gg/sWzw5GU5RV',
       icon: <DiscordLogo className="size-6" weight="fill" />,
-      key: 'discord',
-    },
-  ] as const
-
-  const links = [
-    {
-      href: 'https://www.reddit.com/r/acornblue/',
-      icon: <RedditLogo className="size-6" />,
-      key: 'reddit',
-    },
-    {
-      href: 'https://discord.gg/sWzw5GU5RV',
-      icon: <DiscordLogo className="size-6" />,
       key: 'discord',
     },
     {
@@ -56,17 +38,13 @@ export default function Page() {
         <p className="font-medium text-gray-a11">{t('header.description')}</p>
       </header>
 
-      <section className="flex gap-6">
+      <section className="flex flex-col gap-6 lg:flex-row">
         {actions.map((action) => (
-          <Link
-            className="flex items-center gap-2 rounded-lg bg-accent-a9 px-3 py-2 font-medium text-accent-contrast outline-none hover:bg-accent-a10 focus-visible:ring focus-visible:ring-accent-a7"
-            href="https://testflight.apple.com/join/uKWP3MFB"
-            key={action.key}
-          >
+          <Button href={action.href} key={action.key}>
             {action.icon}
 
             {t(`action.${action.key}`)}
-          </Link>
+          </Button>
         ))}
       </section>
 
@@ -85,20 +63,6 @@ export default function Page() {
           width={960 / 2}
         />
       </section>
-
-      <footer className="flex flex-col items-center gap-4 lg:flex-row">
-        {links.map((link) => (
-          <Link
-            className="flex items-center gap-3 rounded-full px-4 py-2 text-accent-a11 outline-none transition-colors hover:text-accent-a12 focus-visible:bg-accent-a4"
-            href={link.href}
-            key={link.key}
-          >
-            {link.icon}
-
-            {t(`footer.${link.key}`)}
-          </Link>
-        ))}
-      </footer>
     </main>
   )
 }

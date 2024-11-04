@@ -3,12 +3,8 @@
     "landing": {
       "action": {
         "discord": "Discord",
-        "testFlight": "TestFlight"
-      },
-      "footer": {
-        "discord": "Discord",
         "github": "GitHub",
-        "reddit": "Reddit"
+        "testFlight": "TestFlight"
       },
       "header": {
         "description": "Reddit for mobile",
