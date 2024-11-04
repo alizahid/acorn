@@ -4,7 +4,7 @@ import {
   useIsRestoring,
 } from '@tanstack/react-query'
 import { compact } from 'lodash'
-import { create } from 'mutative'
+import { create, type Draft } from 'mutative'
 
 import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
@@ -114,7 +114,7 @@ export function useNotifications() {
 
 export function updateNotification(
   id: string,
-  updater: (draft: Notification) => void,
+  updater: (draft: Draft<Notification>) => void,
 ) {
   const cache = queryClient.getQueryCache()
 

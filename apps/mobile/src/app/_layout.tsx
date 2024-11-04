@@ -1,9 +1,11 @@
 import '~/styles/uni'
+import '~/sheets'
 
 import { ThemeProvider } from '@react-navigation/native'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { getCalendars } from 'expo-localization'
 import { SQLiteProvider } from 'expo-sqlite'
+import { SheetProvider } from 'react-native-actions-sheet'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { IntlProvider } from 'use-intl'
@@ -37,7 +39,9 @@ function Acorn() {
                 now={new Date()}
                 timeZone={calendar?.timeZone ?? undefined}
               >
-                <RootLayout />
+                <SheetProvider>
+                  <RootLayout />
+                </SheetProvider>
               </IntlProvider>
             </PersistQueryClientProvider>
           </ThemeProvider>

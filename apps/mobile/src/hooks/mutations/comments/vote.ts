@@ -1,4 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
+import { type Draft } from 'mutative'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updateUserComment } from '~/hooks/queries/user/comments'
@@ -54,7 +55,7 @@ export function useCommentVote() {
   }
 }
 
-function update(variables: Variables, draft: CommentReply) {
+function update(variables: Variables, draft: Draft<CommentReply>) {
   draft.votes =
     draft.votes -
     (draft.liked ? 1 : draft.liked === null ? 0 : -1) +

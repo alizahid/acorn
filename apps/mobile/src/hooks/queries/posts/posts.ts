@@ -1,21 +1,24 @@
 import {
   type InfiniteData,
-  type QueryKey,
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
-import { create } from 'mutative'
+import { create, type Draft } from 'mutative'
 
+import { getHidden } from '~/lib/db/hidden'
 import { getHistory } from '~/lib/db/history'
 import { queryClient, resetInfiniteQuery } from '~/lib/query'
+import { removePrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
-import { PostsSchema } from '~/schemas/posts'
+import { type PostDataSchema, PostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { transformPost } from '~/transformers/post'
 import { type Post } from '~/types/post'
 import { type FeedSort, type TopInterval } from '~/types/sort'
+
+import { type UserPostsQueryData } from '../user/posts'
 
 type Param = string | undefined | null
 
@@ -46,7 +49,6 @@ export function usePosts({ community, interval, sort }: PostsProps) {
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
-  const { hideSeen } = usePreferences()
 
   const queryKey: PostsQueryKey = [
     'posts',
@@ -92,15 +94,11 @@ export function usePosts({ community, interval, sort }: PostsProps) {
 
       const response = PostsSchema.parse(payload)
 
-      const seen = await getHistory(
-        response.data.children.map((item) => item.data.id),
-      )
-
       return {
         cursor: response.data.after,
-        posts: response.data.children
-          .filter((item) => (hideSeen ? !seen.includes(item.data.id) : true))
-          .map((item) => transformPost(item.data, seen)),
+        posts: await filterPosts(
+          response.data.children.map((post) => post.data),
+        ),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
@@ -116,7 +114,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
     isRefreshing: isStale && isFetching && !isLoading,
-    posts: data?.pages.flatMap((page) => page.posts) ?? [],
+    posts: data?.pages.flatMap((page) => page.posts),
     refetch: async () => {
       resetInfiniteQuery(queryKey)
 
@@ -125,40 +123,85 @@ export function usePosts({ community, interval, sort }: PostsProps) {
   }
 }
 
-export function updatePosts(id: string, updater: (draft: Post) => void) {
+export async function filterPosts(
+  posts: Array<PostDataSchema>,
+): Promise<Array<Post>> {
+  const { hideSeen } = usePreferences.getState()
+
+  const seen = await getHistory(posts.map((item) => item.id))
+  const hidden = await getHidden()
+
+  return posts
+    .filter((post) => {
+      if (hideSeen && seen.includes(post.id)) {
+        return false
+      }
+
+      if (
+        post.subreddit_id &&
+        hidden.communities.includes(removePrefix(post.subreddit_id))
+      ) {
+        return false
+      }
+
+      if (hidden.users.includes(removePrefix(post.author_fullname))) {
+        return false
+      }
+
+      return true
+    })
+    .map((post) => transformPost(post, seen))
+}
+
+export function updatePosts(
+  id: string,
+  updater?: (draft: Draft<Post>) => void,
+  remove?: boolean,
+) {
   const cache = queryClient.getQueryCache()
 
-  const queryKey: QueryKey = ['posts']
-
   const queries = cache.findAll({
-    queryKey,
+    queryKey: ['posts'],
   })
 
   for (const query of queries) {
-    queryClient.setQueryData<PostsQueryData>(query.queryKey, (previous) => {
-      if (!previous) {
-        return previous
-      }
+    queryClient.setQueryData<PostsQueryData | UserPostsQueryData>(
+      query.queryKey,
+      (previous) => {
+        if (!previous) {
+          return previous
+        }
 
-      return create(previous, (draft) => {
-        let found = false
+        return create(previous, (draft) => {
+          let found = false
 
-        for (const page of draft.pages) {
-          if (found) {
-            break
-          }
-
-          for (const post of page.posts) {
-            if (post.id === id) {
-              updater(post)
-
-              found = true
-
+          for (const page of draft.pages) {
+            if (found) {
               break
             }
+
+            for (const item of page.posts) {
+              if ('id' in item ? item.id === id : item.data.id === id) {
+                if ('id' in item || item.type === 'post') {
+                  updater?.('id' in item ? item : item.data)
+                }
+
+                if (remove) {
+                  const index = page.posts.findIndex(
+                    (post) => ('id' in post ? post.id : post.data.id) === id,
+                  )
+
+                  page.posts.splice(index, 1)
+                }
+
+                found = true
+
+                break
+              }
+            }
           }
-        }
-      })
-    })
+        })
+      },
+    )
   }
 }

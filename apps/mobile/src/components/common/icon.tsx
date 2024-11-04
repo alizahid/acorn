@@ -21,10 +21,12 @@ import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
+import DotsThreeBold from 'react-native-phosphor/src/bold/DotsThree'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
 import EyeBold from 'react-native-phosphor/src/bold/Eye'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
 import FastForwardBold from 'react-native-phosphor/src/bold/FastForward'
+import FlagBold from 'react-native-phosphor/src/bold/Flag'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import GitHubLogoBold from 'react-native-phosphor/src/bold/GithubLogo'
@@ -55,6 +57,8 @@ import SunDimBold from 'react-native-phosphor/src/bold/SunDim'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
 import TextAaBold from 'react-native-phosphor/src/bold/TextAa'
 import TrashBold from 'react-native-phosphor/src/bold/Trash'
+import TreeViewBold from 'react-native-phosphor/src/bold/TreeView'
+import UserBold from 'react-native-phosphor/src/bold/User'
 import UserCircleBold from 'react-native-phosphor/src/bold/UserCircle'
 import UserCircleMinusBold from 'react-native-phosphor/src/bold/UserCircleMinus'
 import UserCirclePlusBold from 'react-native-phosphor/src/bold/UserCirclePlus'
@@ -84,10 +88,12 @@ import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
+import DotsThreeDuotone from 'react-native-phosphor/src/duotone/DotsThree'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
 import EyeDuotone from 'react-native-phosphor/src/duotone/Eye'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
 import FastForwardDuotone from 'react-native-phosphor/src/duotone/FastForward'
+import FlagDuotone from 'react-native-phosphor/src/duotone/Flag'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import GitHubLogoDuotone from 'react-native-phosphor/src/duotone/GithubLogo'
@@ -118,6 +124,8 @@ import SunDimDuotone from 'react-native-phosphor/src/duotone/SunDim'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
 import TextAaDuotone from 'react-native-phosphor/src/duotone/TextAa'
 import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
+import TreeViewDuotone from 'react-native-phosphor/src/duotone/TreeView'
+import UserDuotone from 'react-native-phosphor/src/duotone/User'
 import UserCircleDuotone from 'react-native-phosphor/src/duotone/UserCircle'
 import UserCircleMinusDuotone from 'react-native-phosphor/src/duotone/UserCircleMinus'
 import UserCirclePlusDuotone from 'react-native-phosphor/src/duotone/UserCirclePlus'
@@ -147,10 +155,12 @@ import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
+import DotsThreeFill from 'react-native-phosphor/src/fill/DotsThree'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
 import EyeFill from 'react-native-phosphor/src/fill/Eye'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
 import FastForwardFill from 'react-native-phosphor/src/fill/FastForward'
+import FlagFill from 'react-native-phosphor/src/fill/Flag'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import GitHubLogoFill from 'react-native-phosphor/src/fill/GithubLogo'
@@ -181,6 +191,8 @@ import SunDimFill from 'react-native-phosphor/src/fill/SunDim'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
 import TextAaFill from 'react-native-phosphor/src/fill/TextAa'
 import TrashFill from 'react-native-phosphor/src/fill/Trash'
+import TreeViewFill from 'react-native-phosphor/src/fill/TreeView'
+import UserFill from 'react-native-phosphor/src/fill/User'
 import UserCircleFill from 'react-native-phosphor/src/fill/UserCircle'
 import UserCircleMinusFill from 'react-native-phosphor/src/fill/UserCircleMinus'
 import UserCirclePlusFill from 'react-native-phosphor/src/fill/UserCirclePlus'
@@ -210,10 +222,12 @@ import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
+import DotsThreeRegular from 'react-native-phosphor/src/regular/DotsThree'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
 import EyeRegular from 'react-native-phosphor/src/regular/Eye'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
 import FastForwardRegular from 'react-native-phosphor/src/regular/FastForward'
+import FlagRegular from 'react-native-phosphor/src/regular/Flag'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import GitHubLogoRegular from 'react-native-phosphor/src/regular/GithubLogo'
@@ -244,6 +258,8 @@ import SunDimRegular from 'react-native-phosphor/src/regular/SunDim'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
 import TextAaRegular from 'react-native-phosphor/src/regular/TextAa'
 import TrashRegular from 'react-native-phosphor/src/regular/Trash'
+import TreeViewRegular from 'react-native-phosphor/src/regular/TreeView'
+import UserRegular from 'react-native-phosphor/src/regular/User'
 import UserCircleRegular from 'react-native-phosphor/src/regular/UserCircle'
 import UserCircleMinusRegular from 'react-native-phosphor/src/regular/UserCircleMinus'
 import UserCirclePlusRegular from 'react-native-phosphor/src/regular/UserCirclePlus'
@@ -404,6 +420,12 @@ const icons = {
     fill: DiscordLogoFill,
     regular: DiscordLogoRegular,
   },
+  DotsThree: {
+    bold: DotsThreeBold,
+    duotone: DotsThreeDuotone,
+    fill: DotsThreeFill,
+    regular: DotsThreeRegular,
+  },
   Download: {
     bold: DownloadBold,
     duotone: DownloadDuotone,
@@ -427,6 +449,12 @@ const icons = {
     duotone: FastForwardDuotone,
     fill: FastForwardFill,
     regular: FastForwardRegular,
+  },
+  Flag: {
+    bold: FlagBold,
+    duotone: FlagDuotone,
+    fill: FlagFill,
+    regular: FlagRegular,
   },
   Flame: {
     bold: FlameBold,
@@ -607,6 +635,18 @@ const icons = {
     duotone: TrashDuotone,
     fill: TrashFill,
     regular: TrashRegular,
+  },
+  TreeView: {
+    bold: TreeViewBold,
+    duotone: TreeViewDuotone,
+    fill: TreeViewFill,
+    regular: TreeViewRegular,
+  },
+  User: {
+    bold: UserBold,
+    duotone: UserDuotone,
+    fill: UserFill,
+    regular: UserRegular,
   },
   UserCircle: {
     bold: UserCircleBold,

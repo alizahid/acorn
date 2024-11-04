@@ -1,7 +1,7 @@
-import * as Clipboard from 'expo-clipboard'
-import { useRef, useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+
+import { useCopy } from '~/hooks/copy'
 
 import { HeaderButton } from '../navigation/header-button'
 import { Text } from './text'
@@ -16,9 +16,7 @@ type Props = {
 export function Copy({ code = true, style, value }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  const timer = useRef<NodeJS.Timeout>()
-
-  const [copied, setCopied] = useState(false)
+  const { copied, copy } = useCopy()
 
   return (
     <View align="center" direction="row" style={[styles.main, style]}>
@@ -34,18 +32,8 @@ export function Copy({ code = true, style, value }: Props) {
       <HeaderButton
         color={copied ? 'green' : 'accent'}
         icon={copied ? 'CheckCircle' : 'Copy'}
-        onPress={async () => {
-          if (timer.current) {
-            clearTimeout(timer.current)
-          }
-
-          await Clipboard.setStringAsync(value)
-
-          setCopied(true)
-
-          timer.current = setTimeout(() => {
-            setCopied(false)
-          }, 3_000)
+        onPress={() => {
+          void copy(value)
         }}
       />
     </View>

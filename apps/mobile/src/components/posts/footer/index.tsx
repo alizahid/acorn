@@ -1,13 +1,14 @@
 import { useRouter } from 'expo-router'
+import { Share } from 'react-native'
+import { SheetManager } from 'react-native-actions-sheet'
+import { useStyles } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
 import { View } from '~/components/common/view'
 import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
-import { PostSaveCard } from '../save'
-import { PostShareCard } from '../share'
-import { PostVoteCard } from '../vote'
+import { FooterButton } from './button'
 import { PostCommunity } from './community'
 import { PostMeta } from './meta'
 
@@ -20,11 +21,14 @@ type Props = {
   seen?: boolean
 }
 
-export function PostFooterCard({ expanded, label, post, seen }: Props) {
+export function PostFooter({ expanded, label, post, seen }: Props) {
   const router = useRouter()
+
+  const { theme } = useStyles()
 
   return (
     <Pressable
+      align="center"
       direction="row"
       disabled={expanded}
       gap="4"
@@ -45,12 +49,31 @@ export function PostFooterCard({ expanded, label, post, seen }: Props) {
         <PostMeta post={post} seen={seen} />
       </View>
 
-      <View align="center" direction="row" gap="3">
-        <PostVoteCard expanded={expanded} post={post} seen={seen} />
+      <View align="center" direction="row" gap="4">
+        <FooterButton
+          color={theme.colors.gray[seen ? 'a11' : 'a12']}
+          icon="DotsThree"
+          onPress={() => {
+            void SheetManager.show('post-menu', {
+              payload: {
+                post,
+              },
+            })
+          }}
+          weight="bold"
+        />
 
-        <PostSaveCard post={post} seen={seen} />
+        <FooterButton
+          color={theme.colors.gray[seen ? 'a11' : 'a12']}
+          icon="Share"
+          onPress={() => {
+            const url = new URL(post.permalink, 'https://reddit.com')
 
-        {!expanded ? <PostShareCard post={post} seen={seen} /> : null}
+            void Share.share({
+              message: `${post.title} ${url.toString()}`,
+            })
+          }}
+        />
       </View>
     </Pressable>
   )

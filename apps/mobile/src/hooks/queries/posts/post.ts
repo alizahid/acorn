@@ -4,7 +4,7 @@ import {
   useMutation,
   useQuery,
 } from '@tanstack/react-query'
-import { create } from 'mutative'
+import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 
 import { collapseComment, getCollapsedForPost } from '~/lib/db/collapsed'
@@ -232,7 +232,7 @@ function getPost(id: string): PostQueryData | undefined {
 
 export function updatePost(
   id: string,
-  updater: (draft: PostQueryData) => void,
+  updater: (draft: Draft<PostQueryData>) => void,
 ) {
   const cache = queryClient.getQueryCache()
 

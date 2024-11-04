@@ -2,7 +2,6 @@ import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updateUserComment } from '~/hooks/queries/user/comments'
-import { updateUserPost } from '~/hooks/queries/user/posts'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 
@@ -27,10 +26,6 @@ export function useCommentSave() {
     },
     onMutate(variables) {
       updateUserComment(variables.commentId, (draft) => {
-        draft.saved = variables.action === 'save'
-      })
-
-      updateUserPost(variables.commentId, (draft) => {
         draft.saved = variables.action === 'save'
       })
 

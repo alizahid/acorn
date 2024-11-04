@@ -1,6 +1,7 @@
 import { decode } from 'entities'
 
 import { dateFromUnix } from '~/lib/intl'
+import { removePrefix } from '~/lib/reddit'
 import { type UserSchema } from '~/schemas/users'
 import { type SearchUser } from '~/types/user'
 
@@ -11,7 +12,7 @@ export function transformSearchUser(data: UserSchema): SearchUser | null {
 
   return {
     createdAt: dateFromUnix(data.created_utc),
-    id: data.id,
+    id: removePrefix(data.id),
     image: data.icon_img ? decode(data.icon_img) || undefined : undefined,
     name: data.name,
   }

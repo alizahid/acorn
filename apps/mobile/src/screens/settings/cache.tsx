@@ -4,6 +4,7 @@ import { useTranslations } from 'use-intl'
 
 import { Menu } from '~/components/common/menu'
 import { clearCollapsed } from '~/lib/db/collapsed'
+import { clearHidden } from '~/lib/db/hidden'
 import { clearHistory } from '~/lib/db/history'
 import { queryClient } from '~/lib/query'
 
@@ -16,11 +17,12 @@ export function SettingsCacheScreen() {
     <Menu
       items={[
         {
+          description: t('menu.query.description'),
           icon: {
             color: theme.colors.red.a9,
             name: 'HardDrives',
           },
-          label: t('menu.query'),
+          label: t('menu.query.label'),
           onPress() {
             queryClient.clear()
           },
@@ -32,17 +34,42 @@ export function SettingsCacheScreen() {
           },
           label: t('menu.image'),
           async onPress() {
-            await Image.clearDiskCache()
+            await Promise.all([
+              Image.clearDiskCache(),
+              Image.clearMemoryCache(),
+            ])
+          },
+        },
+        {
+          description: t('menu.history.description'),
+          icon: {
+            color: theme.colors.red.a9,
+            name: 'Eye',
+          },
+          label: t('menu.history.label'),
+          async onPress() {
+            await clearHistory()
           },
         },
         {
           icon: {
             color: theme.colors.red.a9,
-            name: 'Eye',
+            name: 'TreeView',
           },
-          label: t('menu.history'),
+          label: t('menu.collapsed'),
           async onPress() {
-            await Promise.all([clearHistory(), clearCollapsed()])
+            await clearCollapsed()
+          },
+        },
+        {
+          description: t('menu.hidden.description'),
+          icon: {
+            color: theme.colors.red.a9,
+            name: 'EyeClosed',
+          },
+          label: t('menu.hidden.label'),
+          async onPress() {
+            await clearHidden()
           },
         },
       ]}

@@ -8,7 +8,7 @@ import { type Profile } from '~/types/user'
 export function transformProfile({ data }: ProfileSchema): Profile {
   return {
     createdAt: dateFromUnix(data.created_utc),
-    id: data.id,
+    id: removePrefix(data.id),
     image: decode(data.icon_img) || undefined,
     karma: {
       comment: data.comment_karma,

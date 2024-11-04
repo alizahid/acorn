@@ -16,6 +16,7 @@ export type Post = {
   createdAt: Date
   crossPost?: Post
   flair: Array<Flair>
+  hidden: boolean
   id: string
   liked: boolean | null
   media: {

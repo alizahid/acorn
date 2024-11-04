@@ -1,9 +1,9 @@
 import { z } from 'zod'
 
 export const UserSchema = z.object({
-  created_utc: z.number().optional(),
-  icon_img: z.string().optional(),
-  id: z.string().optional(),
+  created_utc: z.number().nullish(),
+  icon_img: z.string().nullish(),
+  id: z.string().nullish(),
   name: z.string(),
 })
 

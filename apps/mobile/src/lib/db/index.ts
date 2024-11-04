@@ -4,7 +4,7 @@ import { type SQLiteDatabase } from 'expo-sqlite'
 export const databaseName = 'acorn.sql'
 
 export async function onInit(db: SQLiteDatabase) {
-  const latest = 2
+  const latest = 3
 
   const pragma = await db.getFirstAsync<{
     user_version: number
@@ -32,6 +32,14 @@ CREATE TABLE collapsed (comment_id TEXT NOT NULL PRIMARY KEY, post_id TEXT NOT N
 `)
 
     current = 2
+  }
+
+  if (current === 2) {
+    await db.execAsync(`
+CREATE TABLE hidden (id TEXT NOT NULL PRIMARY KEY, type TEXT NOT NULL, hidden_at TEXT NOT NULL);
+`)
+
+    current = 3
   }
 
   await db.execAsync(`PRAGMA user_version = ${latest}`)

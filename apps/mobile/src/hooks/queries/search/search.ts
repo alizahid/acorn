@@ -1,6 +1,6 @@
 import { type QueryKey, useIsRestoring, useQuery } from '@tanstack/react-query'
 import { compact } from 'lodash'
-import { create } from 'mutative'
+import { create, type Draft } from 'mutative'
 
 import { getHistory } from '~/lib/db/history'
 import { queryClient } from '~/lib/query'
@@ -181,7 +181,10 @@ export function getPostFromSearch(id: string): PostQueryData | undefined {
   }
 }
 
-export function updateSearch(id: string, updater: (draft: Post) => void) {
+export function updateSearch(
+  id: string,
+  updater: (draft: Draft<Post>) => void,
+) {
   const cache = queryClient.getQueryCache()
 
   const queryKey: QueryKey = [

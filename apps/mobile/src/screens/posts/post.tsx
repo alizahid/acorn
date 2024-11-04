@@ -8,7 +8,6 @@ import {
 } from 'expo-router'
 import { compact } from 'lodash'
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { Share } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
@@ -73,35 +72,6 @@ export function PostScreen() {
 
   useFocusEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
-        <>
-          <HeaderButton
-            icon="ArrowBendUpLeft"
-            onPress={() => {
-              router.navigate({
-                params: {
-                  id: params.id,
-                },
-                pathname: '/posts/[id]/reply',
-              })
-            }}
-          />
-
-          {post ? (
-            <HeaderButton
-              icon="Share"
-              onPress={() => {
-                const url = new URL(post.permalink, 'https://reddit.com')
-
-                void Share.share({
-                  message: post.title,
-                  url: url.toString(),
-                })
-              }}
-            />
-          ) : null}
-        </>
-      ),
       headerTitle: () =>
         post ? (
           <Pressable
@@ -160,7 +130,7 @@ export function PostScreen() {
       <FlashList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
-        contentContainerStyle={styles.content(comments.length)}
+        contentContainerStyle={styles.content}
         data={data}
         estimatedItemSize={72}
         extraData={{
@@ -293,6 +263,23 @@ export function PostScreen() {
         }}
       />
 
+      {post ? (
+        <HeaderButton
+          contrast
+          icon="ArrowBendUpLeft"
+          onPress={() => {
+            router.navigate({
+              params: {
+                id: params.id,
+              },
+              pathname: '/posts/[id]/reply',
+            })
+          }}
+          style={[styles.action, styles.reply]}
+          weight="bold"
+        />
+      ) : null}
+
       {comments.length > 0 ? (
         <HeaderButton
           contrast
@@ -346,9 +333,13 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.gray.a9,
     left: theme.space[4],
   },
-  content: (comments: number) => ({
-    paddingBottom: comments > 0 ? theme.space[6] + theme.space[8] : undefined,
-  }),
+  content: {
+    paddingBottom: theme.space[6] + theme.space[8],
+  },
+  reply: {
+    backgroundColor: theme.colors.blue.a9,
+    left: theme.space[4],
+  },
   skip: {
     backgroundColor: theme.colors.accent.a9,
     right: theme.space[4],

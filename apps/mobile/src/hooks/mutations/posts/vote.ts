@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
+import { type Draft } from 'mutative'
 
 import { useHistory } from '~/hooks/history'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { updateSearch } from '~/hooks/queries/search/search'
-import { updateUserPost } from '~/hooks/queries/user/posts'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
@@ -51,10 +51,6 @@ export function usePostVote() {
       updateSearch(variables.postId, (draft) => {
         update(variables, draft)
       })
-
-      updateUserPost(variables.postId, (draft) => {
-        update(variables, draft)
-      })
     },
   })
 
@@ -64,7 +60,7 @@ export function usePostVote() {
   }
 }
 
-function update(variables: Variables, draft: Post | CommentReply) {
+function update(variables: Variables, draft: Draft<Post | CommentReply>) {
   draft.votes =
     draft.votes -
     (draft.liked ? 1 : draft.liked === null ? 0 : -1) +

@@ -34,7 +34,7 @@ export function transformComment(
       createdAt: dateFromUnix(data.data.created_utc),
       depth: data.data.depth ?? 0,
       flair: transformFlair(data.data.author_flair_richtext),
-      id: data.data.id,
+      id: removePrefix(data.data.id),
       liked: data.data.likes,
       media: {
         meta: getMeta(data.data),

@@ -15,7 +15,7 @@ import { Text } from '../common/text'
 import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
-import { PostFooterCard, type PostLabel } from './footer'
+import { PostFooter, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
 import { type GestureAction, PostGestures } from './gestures'
 import { PostLinkCard } from './link'
@@ -109,7 +109,6 @@ export function PostCard({
   return (
     <PostGestures
       containerStyle={styles.container}
-      disabled={expanded}
       liked={post.liked}
       onAction={onAction}
       saved={post.saved}
@@ -188,12 +187,7 @@ export function PostCard({
         </Markdown>
       ) : null}
 
-      <PostFooterCard
-        expanded={expanded}
-        label={label}
-        post={post}
-        seen={seen}
-      />
+      <PostFooter expanded={expanded} label={label} post={post} seen={seen} />
     </PostGestures>
   )
 }

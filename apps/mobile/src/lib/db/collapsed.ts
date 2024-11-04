@@ -21,11 +21,15 @@ export async function collapseComment(id: string, postId: string) {
 
   const exists = await db.getFirstAsync<Pick<CollapsedRow, 'comment_id'>>(
     'SELECT comment_id FROM collapsed WHERE comment_id = $comment AND post_id = $post LIMIT 1',
+    {
+      $comment: id,
+      $post: postId,
+    },
   )
 
   if (exists) {
     await db.runAsync(
-      'DELETE FROM collapsed WHERE comment_id = $comment AND post_id = $post LIMIT 1',
+      'DELETE FROM collapsed WHERE comment_id = $comment AND post_id = $post',
       {
         $comment: id,
         $post: postId,

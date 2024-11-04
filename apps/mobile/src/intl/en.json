@@ -184,9 +184,20 @@
       },
       "cache": {
         "menu": {
-          "history": "Clear history",
-          "image": "Clear image",
-          "query": "Clear data"
+          "collapsed": "Clear collapsed comments",
+          "hidden": {
+            "description": "Communities, users, posts, comments",
+            "label": "Clear hidden"
+          },
+          "history": {
+            "description": "Refresh posts to restore them or remove dimming",
+            "label": "Clear seen history"
+          },
+          "image": "Clear image cache",
+          "query": {
+            "description": "Will refetch all data",
+            "label": "Clear data"
+          }
         },
         "title": "Cache"
       },
@@ -264,6 +275,36 @@
           "comments": "Comments",
           "posts": "Posts"
         }
+      }
+    }
+  },
+  "sheet": {
+    "postMenu": {
+      "menu": {
+        "copyLink": "Copy link",
+        "hide": "Hide",
+        "hideCommunity": "Hide r/{community}",
+        "hideUser": "Hide u/{user}",
+        "report": "Report",
+        "title": "Options",
+        "unhide": "Unhide"
+      },
+      "report": {
+        "CONTRIBUTOR_PROGRAM": "Contributor Program violation",
+        "COPYRIGHT": "Copyright violation",
+        "HARASSMENT": "Harassment",
+        "HATE_CONTENT": "Hate",
+        "IMPERSONATION": "Impersonation",
+        "INVOLUNTARY_PORN": "Non-consensual intimate media",
+        "MINOR_ABUSE_OR_SEXUALIZATION": "Minor abuse or sexualization",
+        "PII": "Sharing personal information",
+        "PROHIBITED_SALES": "Prohibited transaction",
+        "SELF_HARM": "Self-harm or suicide",
+        "SPAM": "Spam",
+        "TRADEMARK": "Trademark violation",
+        "VIOLENCE": "Threatening violence",
+        "community": "Breaks r/{community} rules",
+        "title": "Report"
       }
     }
   }

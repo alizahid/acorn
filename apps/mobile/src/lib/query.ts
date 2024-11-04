@@ -9,8 +9,7 @@ import { parse, stringify } from 'superjson'
 
 import { Sentry } from './sentry'
 
-export const CACHE_KEY = 'cache-storage-v3'
-
+const cacheVersion = 4
 const cacheTime = 1_000 * 60 * 10
 
 export const queryClient = new QueryClient({
@@ -49,7 +48,7 @@ export const persister = createAsyncStoragePersister({
   deserialize(cache) {
     return parse(cache)
   },
-  key: CACHE_KEY,
+  key: `cache-storage-${cacheVersion}`,
   serialize(client) {
     return stringify(client)
   },

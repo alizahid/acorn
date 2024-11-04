@@ -6,16 +6,13 @@ import { getDatabase } from '~/lib/db'
 import { updatePost } from './queries/posts/post'
 import { updatePosts } from './queries/posts/posts'
 import { updateSearch } from './queries/search/search'
-import { updateUserPost } from './queries/user/posts'
+
+type Variables = {
+  id: string
+}
 
 export function useHistory() {
-  const { mutate: addPost } = useMutation<
-    unknown,
-    Error,
-    {
-      id: string
-    }
-  >({
+  const { mutate: addPost } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       const db = await getDatabase()
 
@@ -38,12 +35,6 @@ export function useHistory() {
 
       updateSearch(variables.id, (draft) => {
         draft.seen = true
-      })
-
-      updateUserPost(variables.id, (draft) => {
-        if ('seen' in draft) {
-          draft.seen = true
-        }
       })
     },
   })

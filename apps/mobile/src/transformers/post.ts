@@ -2,6 +2,7 @@ import { decode } from 'entities'
 
 import { dateFromUnix } from '~/lib/intl'
 import { getImages, getMeta, getVideo } from '~/lib/media'
+import { removePrefix } from '~/lib/reddit'
 import { type PostDataSchema } from '~/schemas/posts'
 import { type Post, type PostType } from '~/types/post'
 
@@ -11,6 +12,8 @@ import { transformFlair } from './flair'
 export function transformPost(data: PostDataSchema, seen: Array<string>): Post {
   const crossPost = data.crosspost_parent_list?.[0]
 
+  const id = removePrefix(data.id)
+
   return {
     body: decode(data.selftext).trim() || undefined,
     comments: data.num_comments,
@@ -18,7 +21,8 @@ export function transformPost(data: PostDataSchema, seen: Array<string>): Post {
     createdAt: dateFromUnix(data.created_utc),
     crossPost: crossPost ? transformPost(crossPost, seen) : undefined,
     flair: transformFlair(data.link_flair_richtext),
-    id: data.id,
+    hidden: Boolean(data.hidden),
+    id,
     liked: data.likes,
     media: {
       images: getImages(data),
@@ -28,7 +32,7 @@ export function transformPost(data: PostDataSchema, seen: Array<string>): Post {
     nsfw: data.over_18,
     permalink: data.permalink,
     saved: data.saved,
-    seen: seen.includes(data.id),
+    seen: seen.includes(id),
     spoiler: data.spoiler,
     sticky: Boolean(data.stickied),
     title: decode(data.title).trim(),

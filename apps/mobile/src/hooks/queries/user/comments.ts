@@ -3,7 +3,7 @@ import {
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
-import { create } from 'mutative'
+import { create, type Draft } from 'mutative'
 
 import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
@@ -125,7 +125,7 @@ export function useUserComments({
 
 export function updateUserComment(
   id: string,
-  updater: (draft: CommentReply) => void,
+  updater: (draft: Draft<CommentReply>) => void,
 ) {
   const cache = queryClient.getQueryCache()
 
