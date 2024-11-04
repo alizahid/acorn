@@ -47,13 +47,14 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
       {items.map((item, index) => (
         <Pressable
           align="center"
-          flexBasis={1}
-          flexGrow={1}
+          flex={1}
+          height="7"
+          justify="center"
           key={item}
           onPress={() => {
             onChange(index)
           }}
-          p="2"
+          px="2"
         >
           <Text highContrast={false} size="2" weight="medium">
             {item}
@@ -65,7 +66,14 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
         maskElement={
           <View direction="row">
             {items.map((item) => (
-              <View align="center" flexBasis={1} flexGrow={1} key={item} p="2">
+              <View
+                align="center"
+                flex={1}
+                height="7"
+                justify="center"
+                key={item}
+                px="2"
+              >
                 <Text color="blue" size="2" weight="medium">
                   {item}
                 </Text>

@@ -28,7 +28,7 @@ export function CommunitiesSearchScreen() {
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const [sort, setSort] = useState(sortSearchPosts)
   const [interval, setInterval] = useState(intervalSearchPosts)
@@ -79,6 +79,9 @@ export function CommunitiesSearchScreen() {
         }
         interval={interval}
         query={debounced}
+        refreshing={{
+          offset: theme.space[7] + theme.space[4],
+        }}
         sort={sort}
         type="post"
       />

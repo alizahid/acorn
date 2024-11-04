@@ -70,6 +70,10 @@ export function SearchScreen() {
               }
               interval={interval}
               query={debounced}
+              refreshing={{
+                header: false,
+                inset: false,
+              }}
               sort={sort}
               type="post"
             />
@@ -77,45 +81,61 @@ export function SearchScreen() {
         }
 
         if (route.key === 'community') {
-          return <SearchList query={debounced} type="community" />
+          return (
+            <SearchList
+              query={debounced}
+              refreshing={{
+                header: false,
+                inset: false,
+              }}
+              type="community"
+            />
+          )
         }
 
-        return <SearchList query={debounced} type="user" />
-      }}
-      renderTabBar={({ position }) => {
         return (
-          <View style={styles.tabs}>
-            <TextBox
-              onChangeText={setQuery}
-              placeholder={t('title')}
-              returnKeyType="search"
-              right={
-                query.length > 0 ? (
-                  <HeaderButton
-                    color="gray"
-                    icon="XCircle"
-                    onPress={() => {
-                      setQuery('')
-                    }}
-                    style={styles.clear}
-                    weight="fill"
-                  />
-                ) : null
-              }
-              styleContent={styles.query}
-              value={query}
-            />
-
-            <SegmentedControl
-              items={routes.current.map(({ title }) => title)}
-              offset={position}
-              onChange={(next) => {
-                setIndex(next)
-              }}
-            />
-          </View>
+          <SearchList
+            query={debounced}
+            refreshing={{
+              header: false,
+              inset: false,
+            }}
+            type="user"
+          />
         )
       }}
+      renderTabBar={({ position }) => (
+        <View gap="4" pb="4" px="3" style={styles.tabs}>
+          <TextBox
+            onChangeText={setQuery}
+            placeholder={t('title')}
+            returnKeyType="search"
+            right={
+              query.length > 0 ? (
+                <HeaderButton
+                  color="gray"
+                  icon="XCircle"
+                  onPress={() => {
+                    setQuery('')
+                  }}
+                  style={styles.clear}
+                  weight="fill"
+                />
+              ) : null
+            }
+            styleContent={styles.query}
+            value={query}
+          />
+
+          <SegmentedControl
+            items={routes.current.map(({ title }) => title)}
+            offset={position}
+            onChange={(next) => {
+              setIndex(next)
+            }}
+          />
+        </View>
+      )}
     />
   )
 }
@@ -131,8 +151,5 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   tabs: {
     backgroundColor: theme.colors.gray[1],
-    gap: theme.space[4],
-    paddingBottom: theme.space[4],
-    paddingHorizontal: theme.space[3],
   },
 }))

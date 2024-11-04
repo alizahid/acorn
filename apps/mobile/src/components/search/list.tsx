@@ -18,7 +18,7 @@ import { type SearchTab } from '~/types/search'
 import { type SearchSort, type TopInterval } from '~/types/sort'
 import { type SearchUser } from '~/types/user'
 
-import { Refreshing } from '../common/refreshing'
+import { Refreshing, type RefreshingProps } from '../common/refreshing'
 import { View } from '../common/view'
 import { SearchUserCard } from '../users/search'
 
@@ -28,6 +28,7 @@ type Props = {
   header?: ReactElement
   interval?: TopInterval
   query: string
+  refreshing?: RefreshingProps
   sort?: SearchSort
   type: SearchTab
 }
@@ -38,6 +39,7 @@ export function SearchList({
   header,
   interval,
   query,
+  refreshing,
   sort,
   type,
 }: Props) {
@@ -131,7 +133,7 @@ export function SearchList({
         ]}
       />
 
-      {isRefreshing ? <Refreshing /> : null}
+      {isRefreshing ? <Refreshing {...refreshing} /> : null}
     </>
   )
 }

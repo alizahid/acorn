@@ -96,19 +96,17 @@ export function UserScreen() {
           />
         )
       }}
-      renderTabBar={({ position }) => {
-        return (
-          <View style={styles.tabs}>
-            <SegmentedControl
-              items={routes.current.map(({ title }) => title)}
-              offset={position}
-              onChange={(next) => {
-                setIndex(next)
-              }}
-            />
-          </View>
-        )
-      }}
+      renderTabBar={({ position }) => (
+        <View style={styles.tabs}>
+          <SegmentedControl
+            items={routes.current.map(({ title }) => title)}
+            offset={position}
+            onChange={(next) => {
+              setIndex(next)
+            }}
+          />
+        </View>
+      )}
     />
   )
 }

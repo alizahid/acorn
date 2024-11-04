@@ -3,7 +3,13 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Spinner } from './spinner'
 
-export function Refreshing() {
+export type RefreshingProps = {
+  header?: boolean
+  inset?: boolean
+  offset?: number
+}
+
+export function Refreshing(props: RefreshingProps) {
   const { styles } = useStyles(stylesheet)
 
   return (
@@ -11,7 +17,7 @@ export function Refreshing() {
       entering={SlideInUp}
       exiting={SlideOutUp}
       pointerEvents="none"
-      style={styles.main}
+      style={styles.main(props)}
     >
       <Spinner contrast />
     </Animated.View>
@@ -19,13 +25,17 @@ export function Refreshing() {
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  main: {
+  main: ({ header = true, inset = true, offset = 0 }: RefreshingProps) => ({
     alignSelf: 'center',
     backgroundColor: theme.colors.accent.a9,
     borderCurve: 'continuous',
-    borderRadius: theme.space[5],
-    padding: theme.space[2],
+    borderRadius: theme.space[6],
+    padding: theme.space[3],
     position: 'absolute',
-    top: runtime.insets.top + theme.space[9],
-  },
+    top:
+      (inset ? runtime.insets.top : 0) +
+      (header ? theme.space[8] : 0) +
+      theme.space[9] +
+      offset,
+  }),
 }))

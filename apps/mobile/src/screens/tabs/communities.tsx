@@ -4,6 +4,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Loading } from '~/components/common/loading'
+import { Refreshing } from '~/components/common/refreshing'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { CommunitiesList } from '~/components/communities/list'
@@ -13,7 +14,7 @@ import { CommunityTab } from '~/types/community'
 export function CommunitiesScreen() {
   const t = useTranslations('screen.communities')
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const {
     communities,
@@ -40,29 +41,28 @@ export function CommunitiesScreen() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefreshing,
     refetch,
   } as const
 
   return (
-    <TabView
-      lazy
-      navigationState={{
-        index,
-        routes: routes.current,
-      }}
-      onIndexChange={setIndex}
-      renderLazyPlaceholder={Loading}
-      renderScene={({ route }) => {
-        if (route.key === 'communities') {
-          return <CommunitiesList {...props} communities={communities} />
-        }
+    <>
+      <TabView
+        lazy
+        navigationState={{
+          index,
+          routes: routes.current,
+        }}
+        onIndexChange={setIndex}
+        renderLazyPlaceholder={Loading}
+        renderScene={({ route }) => {
+          if (route.key === 'communities') {
+            return <CommunitiesList {...props} communities={communities} />
+          }
 
-        return <CommunitiesList {...props} communities={users} key="users" />
-      }}
-      renderTabBar={({ position }) => {
-        return (
-          <View style={styles.tabs}>
+          return <CommunitiesList {...props} communities={users} key="users" />
+        }}
+        renderTabBar={({ position }) => (
+          <View pb="4" px="3" style={styles.tabs}>
             <SegmentedControl
               items={routes.current.map(({ title }) => title)}
               offset={position}
@@ -71,16 +71,18 @@ export function CommunitiesScreen() {
               }}
             />
           </View>
-        )
-      }}
-    />
+        )}
+      />
+
+      {isRefreshing ? (
+        <Refreshing offset={theme.space[7] + theme.space[4]} />
+      ) : null}
+    </>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
   tabs: {
     backgroundColor: theme.colors.gray[1],
-    paddingBottom: theme.space[4],
-    paddingHorizontal: theme.space[3],
   },
 }))

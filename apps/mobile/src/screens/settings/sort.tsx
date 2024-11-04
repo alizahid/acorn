@@ -53,19 +53,17 @@ export function SettingsSortScreen() {
   )
 
   const enhanceInterval = useCallback(
-    (interval: TopInterval): MenuItemOption => {
-      return {
-        label: tInterval(interval),
-        left: (
-          <TopIntervalItem
-            interval={interval}
-            size={theme.typography[2].lineHeight}
-          />
-        ),
-        right: <TopIntervalItem interval={interval} size={theme.space[5]} />,
-        value: interval,
-      }
-    },
+    (interval: TopInterval): MenuItemOption => ({
+      label: tInterval(interval),
+      left: (
+        <TopIntervalItem
+          interval={interval}
+          size={theme.typography[2].lineHeight}
+        />
+      ),
+      right: <TopIntervalItem interval={interval} size={theme.space[5]} />,
+      value: interval,
+    }),
     [tInterval, theme.space, theme.typography],
   )
 
