@@ -6,10 +6,10 @@ import {
 import { useState } from 'react'
 import { z } from 'zod'
 
-import { TopIntervalMenu } from '~/components/posts/interval'
-import { FeedSortMenu } from '~/components/posts/sort'
+import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { UserPostsList } from '~/components/users/posts'
 import { usePreferences } from '~/stores/preferences'
+import { type UserFeedSort } from '~/types/sort'
 import { UserFeedType } from '~/types/user'
 
 const schema = z.object({
@@ -32,26 +32,18 @@ export function UserPostsScreen() {
   useFocusEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <>
-          <FeedSortMenu
-            hideLabel
-            onChange={(next) => {
-              setSort(next)
-            }}
-            type="user"
-            value={sort}
-          />
+        <SortIntervalMenu
+          interval={interval}
+          onChange={(next) => {
+            setSort(next.sort as UserFeedSort)
 
-          {sort === 'top' ? (
-            <TopIntervalMenu
-              hideLabel
-              onChange={(next) => {
-                setInterval(next)
-              }}
-              value={interval}
-            />
-          ) : null}
-        </>
+            if (next.interval) {
+              setInterval(next.interval)
+            }
+          }}
+          sort={sort}
+          type="community"
+        />
       ),
     })
   })

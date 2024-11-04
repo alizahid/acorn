@@ -39,7 +39,6 @@ const stylesheet = createStyleSheet((theme) => ({
     position: 'absolute',
   },
   main: {
-    backgroundColor: theme.colors.gray[2],
     borderCurve: 'continuous',
     borderTopLeftRadius: theme.radius[4],
     borderTopRightRadius: theme.radius[4],

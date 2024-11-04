@@ -6,10 +6,10 @@ import {
 import { useState } from 'react'
 import { z } from 'zod'
 
-import { CommentsSortMenu } from '~/components/comments/sort'
-import { TopIntervalMenu } from '~/components/posts/interval'
+import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { UserCommentsList } from '~/components/users/comments'
 import { usePreferences } from '~/stores/preferences'
+import { type CommentSort } from '~/types/sort'
 
 const schema = z.object({
   name: z.string().catch('mildpanda'),
@@ -28,25 +28,18 @@ export default function UserCommentsScreen() {
   useFocusEffect(() => {
     navigation.setOptions({
       headerRight: () => (
-        <>
-          <CommentsSortMenu
-            hideLabel
-            onChange={(next) => {
-              setSort(next)
-            }}
-            value={sort}
-          />
+        <SortIntervalMenu
+          interval={interval}
+          onChange={(next) => {
+            setSort(next.sort as CommentSort)
 
-          {sort === 'top' ? (
-            <TopIntervalMenu
-              hideLabel
-              onChange={(next) => {
-                setInterval(next)
-              }}
-              value={interval}
-            />
-          ) : null}
-        </>
+            if (next.interval) {
+              setInterval(next.interval)
+            }
+          }}
+          sort={sort}
+          type="comment"
+        />
       ),
     })
   })

@@ -4,7 +4,9 @@ import {
   type CommentSort,
   type CommunityFeedSort,
   type FeedSort,
+  type FeedType,
   type SearchSort,
+  type TopInterval,
   type UserFeedSort,
 } from '~/types/sort'
 
@@ -39,4 +41,25 @@ export const SortColors: Record<Sort, ColorToken> = {
   relevance: 'green',
   rising: 'orange',
   top: 'gold',
+}
+
+export const IntervalIcons: Record<TopInterval, string> = {
+  all: '∞',
+  day: '24',
+  hour: '60',
+  month: '31',
+  week: '7',
+  year: '12',
+}
+
+export const FeedTypeIcons: Record<FeedType, IconName> = {
+  all: 'Balloon',
+  home: 'House',
+  popular: 'ChartLineUp',
+}
+
+export const FeedTypeColors: Record<FeedType, ColorToken> = {
+  all: 'green',
+  home: 'accent',
+  popular: 'red',
 }

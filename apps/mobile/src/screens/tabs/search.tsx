@@ -10,13 +10,11 @@ import { SegmentedControl } from '~/components/common/segmented-control'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
-import {
-  type SearchFilters,
-  SearchPostFilters,
-} from '~/components/search/filters'
+import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { usePreferences } from '~/stores/preferences'
 import { SearchTab } from '~/types/search'
+import { type SearchSort } from '~/types/sort'
 
 export function SearchScreen() {
   const focused = useIsFocused()
@@ -34,12 +32,11 @@ export function SearchScreen() {
     })),
   )
 
+  const [sort, setSort] = useState(sortSearchPosts)
+  const [interval, setInterval] = useState(intervalSearchPosts)
+
   const [index, setIndex] = useState(0)
   const [query, setQuery] = useState('')
-  const [filters, setFilters] = useState<SearchFilters>({
-    interval: intervalSearchPosts,
-    sort: sortSearchPosts,
-  })
 
   const [debounced] = useDebounce(query, 500)
 
@@ -56,12 +53,24 @@ export function SearchScreen() {
         if (route.key === 'post') {
           return (
             <SearchList
-              filters={filters}
               focused={focused ? index === 0 : false}
               header={
-                <SearchPostFilters filters={filters} onChange={setFilters} />
+                <SortIntervalMenu
+                  interval={interval}
+                  onChange={(next) => {
+                    setSort(next.sort as SearchSort)
+
+                    if (next.interval) {
+                      setInterval(next.interval)
+                    }
+                  }}
+                  sort={sort}
+                  type="search"
+                />
               }
+              interval={interval}
               query={debounced}
+              sort={sort}
               type="post"
             />
           )

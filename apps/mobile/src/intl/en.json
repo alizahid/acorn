@@ -14,7 +14,7 @@
         "day": "Today",
         "hour": "Now",
         "month": "This month",
-        "placeholder": "Interval",
+        "title": "Interval",
         "week": "This week",
         "year": "This year"
       },
@@ -26,16 +26,16 @@
         "hot": "Hot",
         "new": "New",
         "old": "Old",
-        "placeholder": "Sort",
         "relevance": "Relevance",
         "rising": "Rising",
+        "title": "Sort",
         "top": "Top"
       },
       "type": {
         "all": "All",
         "home": "Home",
-        "placeholder": "Feed",
-        "popular": "Popular"
+        "popular": "Popular",
+        "title": "Feed"
       }
     },
     "communities": {

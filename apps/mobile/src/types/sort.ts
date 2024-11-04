@@ -1,3 +1,14 @@
+//
+
+export type SortType = 'feed' | 'community' | 'user' | 'comment' | 'search'
+
+export type PostSort =
+  | FeedSort
+  | CommunityFeedSort
+  | UserFeedSort
+  | CommentSort
+  | SearchSort
+
 // feed
 
 export const FeedType = ['home', 'popular', 'all'] as const

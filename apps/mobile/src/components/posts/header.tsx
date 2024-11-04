@@ -4,11 +4,11 @@ import { useTranslations } from 'use-intl'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { type CommentSort } from '~/types/sort'
 
-import { CommentsSortMenu } from '../comments/sort'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
+import { SortIntervalMenu } from './sort-interval'
 
 type Props = {
   commentId?: string
@@ -46,12 +46,13 @@ export function PostHeader({
         </Pressable>
       ) : null}
 
-      <CommentsSortMenu
+      <SortIntervalMenu
         onChange={(next) => {
-          onChangeSort(next)
+          onChangeSort(next.sort as CommentSort)
         }}
+        sort={sort}
         style={styles.sort}
-        value={sort}
+        type="comment"
       />
     </View>
   )

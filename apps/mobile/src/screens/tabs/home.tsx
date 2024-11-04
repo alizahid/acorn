@@ -1,11 +1,11 @@
 import { useFocusEffect, useNavigation } from 'expo-router'
 import { useState } from 'react'
 
-import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
-import { FeedSortMenu } from '~/components/posts/sort'
+import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { FeedTypeMenu } from '~/components/posts/type'
 import { usePreferences } from '~/stores/preferences'
+import { type FeedSort } from '~/types/sort'
 
 export function HomeScreen() {
   const navigation = useNavigation()
@@ -19,20 +19,26 @@ export function HomeScreen() {
   useFocusEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
-        <FeedTypeMenu hideLabel onChange={setType} value={type} />
+        <FeedTypeMenu
+          onChange={(next) => {
+            setType(next.type)
+          }}
+          type={type}
+        />
       ),
       headerRight: () => (
-        <>
-          <FeedSortMenu hideLabel onChange={setSort} value={sort} />
+        <SortIntervalMenu
+          interval={interval}
+          onChange={(next) => {
+            setSort(next.sort as FeedSort)
 
-          {sort === 'top' ? (
-            <TopIntervalMenu
-              hideLabel
-              onChange={setInterval}
-              value={interval}
-            />
-          ) : null}
-        </>
+            if (next.interval) {
+              setInterval(next.interval)
+            }
+          }}
+          sort={sort}
+          type="feed"
+        />
       ),
     })
   })

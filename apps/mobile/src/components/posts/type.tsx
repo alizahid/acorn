@@ -1,60 +1,54 @@
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
+import { SheetManager } from 'react-native-actions-sheet'
+import { useStyles } from 'react-native-unistyles'
 
-import { type ColorToken } from '~/styles/colors'
-import { FeedType } from '~/types/sort'
+import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
+import { type FeedTypeSheetReturnValue } from '~/sheets/feed-type'
+import { type FeedType } from '~/types/sort'
 
-import { DropDown } from '../common/drop-down'
-import { type IconName } from '../common/icon'
+import { Icon } from '../common/icon'
+import { Pressable } from '../common/pressable'
 
 type Props = {
-  hideLabel?: boolean
-  onChange: (value: FeedType) => void
-  value: FeedType
+  onChange: (data: FeedTypeSheetReturnValue) => void
+  type: FeedType
 }
 
-export function FeedTypeMenu({ hideLabel, onChange, value }: Props) {
-  const t = useTranslations('component.common.type')
-
-  const { styles, theme } = useStyles(stylesheet)
+export function FeedTypeMenu({ onChange, type }: Props) {
+  const { theme } = useStyles()
 
   return (
-    <DropDown
-      hideLabel={hideLabel}
-      items={FeedType.map((item) => ({
-        icon: {
-          color: theme.colors[FeedTypeColors[item]].a9,
-          name: FeedTypeIcons[item],
-          weight: 'duotone',
-        },
-        label: t(item),
-        value: item,
-      }))}
-      onChange={(next) => {
-        onChange(next as FeedType)
+    <Pressable
+      align="center"
+      direction="row"
+      gap="2"
+      height="8"
+      onPress={() => {
+        void SheetManager.show('feed-type', {
+          onClose(data) {
+            if (data) {
+              onChange(data)
+            }
+          },
+          payload: {
+            type,
+          },
+        })
       }}
-      placeholder={t('placeholder')}
-      style={styles.main}
-      value={value}
-    />
+      px="3"
+    >
+      <Icon
+        color={theme.colors[FeedTypeColors[type]].a9}
+        name={FeedTypeIcons[type]}
+        size={theme.space[5]}
+        weight="duotone"
+      />
+
+      <Icon
+        color={theme.colors.gray.a11}
+        name="CaretDown"
+        size={theme.space[4]}
+        weight="bold"
+      />
+    </Pressable>
   )
-}
-
-const stylesheet = createStyleSheet((theme) => ({
-  main: {
-    height: theme.space[8],
-    paddingHorizontal: theme.space[3],
-  },
-}))
-
-export const FeedTypeIcons: Record<FeedType, IconName> = {
-  all: 'Balloon',
-  home: 'House',
-  popular: 'ChartLineUp',
-}
-
-export const FeedTypeColors: Record<FeedType, ColorToken> = {
-  all: 'green',
-  home: 'accent',
-  popular: 'red',
 }

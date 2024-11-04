@@ -1,57 +1,26 @@
 import { Text, View } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
 
-import { TopInterval } from '~/types/sort'
-
-import { DropDown } from '../common/drop-down'
-
-type Props = {
-  hideLabel?: boolean
-  onChange: (value: TopInterval) => void
-  value?: TopInterval
-}
-
-export function TopIntervalMenu({ hideLabel, onChange, value }: Props) {
-  const t = useTranslations('component.common.interval')
-
-  const { styles } = useStyles(stylesheet)
-
-  return (
-    <DropDown
-      hideLabel={hideLabel}
-      items={TopInterval.map((item) => ({
-        label: t(item),
-        left: <TopIntervalItem item={item} />,
-        value: item,
-      }))}
-      onChange={(next) => {
-        onChange(next as TopInterval)
-      }}
-      placeholder={t('placeholder')}
-      style={styles.main}
-      value={value}
-    />
-  )
-}
+import { IntervalIcons } from '~/lib/sort'
+import { type TopInterval } from '~/types/sort'
 
 type ItemProps = {
-  item: TopInterval
+  interval: TopInterval
   size?: number
 }
 
-export function TopIntervalItem({ item, size }: ItemProps) {
+export function TopIntervalItem({ interval, size }: ItemProps) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View style={styles.interval(size ?? theme.space[4])}>
+    <View style={styles.main(size ?? theme.space[4])}>
       <Text
         style={[
           styles.label(size ?? theme.space[4]),
-          item === 'all' && styles.infinity(size ?? theme.space[4]),
+          interval === 'all' && styles.infinity(size ?? theme.space[4]),
         ]}
       >
-        {intervals[item]}
+        {IntervalIcons[interval]}
       </Text>
     </View>
   )
@@ -61,15 +30,6 @@ const stylesheet = createStyleSheet((theme) => ({
   infinity: (size: number) => ({
     fontSize: size * 0.8,
   }),
-  interval: (size: number) => ({
-    alignItems: 'center',
-    backgroundColor: theme.colors.gold.a9,
-    borderCurve: 'continuous',
-    borderRadius: size,
-    height: size,
-    justifyContent: 'center',
-    width: size,
-  }),
   label: (size: number) => ({
     color: theme.colors.gold.contrast,
     fontFamily: 'sans',
@@ -78,17 +38,13 @@ const stylesheet = createStyleSheet((theme) => ({
     fontWeight: '500',
     textAlign: 'center',
   }),
-  main: {
-    height: theme.space[8],
-    paddingHorizontal: theme.space[3],
-  },
+  main: (size: number) => ({
+    alignItems: 'center',
+    backgroundColor: theme.colors.gold.a9,
+    borderCurve: 'continuous',
+    borderRadius: size,
+    height: size,
+    justifyContent: 'center',
+    width: size,
+  }),
 }))
-
-const intervals: Record<TopInterval, string> = {
-  all: '∞',
-  day: '24',
-  hour: '60',
-  month: '31',
-  week: '7',
-  year: '12',
-}

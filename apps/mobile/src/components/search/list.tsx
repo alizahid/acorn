@@ -15,28 +15,30 @@ import { usePreferences } from '~/stores/preferences'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
 import { type SearchTab } from '~/types/search'
+import { type SearchSort, type TopInterval } from '~/types/sort'
 import { type SearchUser } from '~/types/user'
 
 import { Refreshing } from '../common/refreshing'
 import { View } from '../common/view'
 import { SearchUserCard } from '../users/search'
-import { type SearchFilters } from './filters'
 
 type Props = {
   community?: string
-  filters?: SearchFilters
   focused?: boolean
   header?: ReactElement
+  interval?: TopInterval
   query: string
+  sort?: SearchSort
   type: SearchTab
 }
 
 export function SearchList({
   community,
-  filters,
   focused,
   header,
+  interval,
   query,
+  sort,
   type,
 }: Props) {
   const list = useRef<FlashList<Community | SearchUser | Post>>(null)
@@ -50,9 +52,9 @@ export function SearchList({
 
   const { isLoading, isRefreshing, refetch, results } = useSearch({
     community,
-    interval: filters?.interval,
+    interval,
     query,
-    sort: filters?.sort,
+    sort,
     type,
   })
 

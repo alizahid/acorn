@@ -10,7 +10,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Button } from '~/components/common/button'
-import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
@@ -20,6 +19,7 @@ import { type ReportReason, useReport } from '~/hooks/moderation/report'
 import { type Post } from '~/types/post'
 
 import { SheetHeader } from './header'
+import { SheetItem } from './item'
 
 export type PostMenuSheetPayload = {
   post: Post
@@ -65,8 +65,6 @@ function Menu({ router }: RouteScreenProps<'post-menu', 'menu'>) {
   const t = useTranslations('sheet.postMenu.menu')
 
   const { post } = useSheetPayload<'post-menu'>()
-
-  const { styles, theme } = useStyles(stylesheet)
 
   const { copy } = useCopy()
   const { hide } = useHide()
@@ -133,7 +131,7 @@ function Menu({ router }: RouteScreenProps<'post-menu', 'menu'>) {
   ] as const
 
   return (
-    <View>
+    <>
       <SheetHeader title={t('title')} />
 
       {items.map((item) => {
@@ -142,30 +140,20 @@ function Menu({ router }: RouteScreenProps<'post-menu', 'menu'>) {
         }
 
         return (
-          <Pressable
-            align="center"
-            direction="row"
-            gap="2"
+          <SheetItem
+            icon={{
+              name: item.icon,
+            }}
             key={item.key}
+            label={t(item.key, {
+              community: post.community.name,
+              user: post.user.name,
+            })}
             onPress={item.onPress}
-            p="3"
-          >
-            <Icon
-              color={theme.colors.accent.a9}
-              name={item.icon}
-              size={theme.typography[2].lineHeight}
-            />
-
-            <Text size="2" style={styles.label} weight="medium">
-              {t(item.key, {
-                community: post.community.name,
-                user: post.user.name,
-              })}
-            </Text>
-          </Pressable>
+          />
         )
       })}
-    </View>
+    </>
   )
 }
 
@@ -181,7 +169,7 @@ function Report({ router }: RouteScreenProps<'post-menu', 'menu'>) {
   const { isPending, report } = useReport()
 
   return (
-    <View>
+    <>
       <SheetHeader title={t('title')} />
 
       <View direction="row" gap="3" p="3" wrap="wrap">
@@ -220,7 +208,7 @@ function Report({ router }: RouteScreenProps<'post-menu', 'menu'>) {
             py="1"
             style={[styles.reason(item === reason)]}
           >
-            <Text contrast={item === reason} size="2" weight="medium">
+            <Text contrast={item === reason} size="2">
               {t(item, {
                 community: post.community.name,
               })}
@@ -245,16 +233,13 @@ function Report({ router }: RouteScreenProps<'post-menu', 'menu'>) {
           style={styles.submit}
         />
       ) : null}
-    </View>
+    </>
   )
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   indicator: {
     display: 'none',
-  },
-  label: {
-    flex: 1,
   },
   main: {
     backgroundColor: theme.colors.gray[1],

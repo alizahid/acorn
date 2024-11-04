@@ -58,11 +58,11 @@ export function SettingsSortScreen() {
         label: tInterval(interval),
         left: (
           <TopIntervalItem
-            item={interval}
+            interval={interval}
             size={theme.typography[2].lineHeight}
           />
         ),
-        right: <TopIntervalItem item={interval} size={theme.space[5]} />,
+        right: <TopIntervalItem interval={interval} size={theme.space[5]} />,
         value: interval,
       }
     },

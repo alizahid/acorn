@@ -6,15 +6,14 @@ import {
 import { useState } from 'react'
 import { z } from 'zod'
 
-import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
-import { TopIntervalMenu } from '~/components/posts/interval'
 import { PostList } from '~/components/posts/list'
-import { FeedSortMenu } from '~/components/posts/sort'
+import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
 import { usePreferences } from '~/stores/preferences'
+import { type CommunityFeedSort } from '~/types/sort'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -76,24 +75,18 @@ export function CommunityScreen() {
     <PostList
       community={params.name}
       header={
-        <View direction="row" justify="end">
-          <FeedSortMenu
-            onChange={(next) => {
-              setSort(next)
-            }}
-            type="community"
-            value={sort}
-          />
+        <SortIntervalMenu
+          interval={interval}
+          onChange={(next) => {
+            setSort(next.sort as CommunityFeedSort)
 
-          {sort === 'top' ? (
-            <TopIntervalMenu
-              onChange={(next) => {
-                setInterval(next)
-              }}
-              value={interval}
-            />
-          ) : null}
-        </View>
+            if (next.interval) {
+              setInterval(next.interval)
+            }
+          }}
+          sort={sort}
+          type="community"
+        />
       }
       interval={interval}
       label="user"

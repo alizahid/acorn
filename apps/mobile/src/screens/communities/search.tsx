@@ -8,12 +8,10 @@ import { z } from 'zod'
 
 import { TextBox } from '~/components/common/text-box'
 import { HeaderButton } from '~/components/navigation/header-button'
-import {
-  type SearchFilters,
-  SearchPostFilters,
-} from '~/components/search/filters'
+import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { usePreferences } from '~/stores/preferences'
+import { type SearchSort } from '~/types/sort'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -32,11 +30,10 @@ export function CommunitiesSearchScreen() {
 
   const { styles } = useStyles(stylesheet)
 
+  const [sort, setSort] = useState(sortSearchPosts)
+  const [interval, setInterval] = useState(intervalSearchPosts)
+
   const [query, setQuery] = useState('')
-  const [filters, setFilters] = useState<SearchFilters>({
-    interval: intervalSearchPosts,
-    sort: sortSearchPosts,
-  })
 
   const [debounced] = useDebounce(query, 500)
 
@@ -65,10 +62,24 @@ export function CommunitiesSearchScreen() {
 
       <SearchList
         community={params.name}
-        filters={filters}
         focused={focused}
-        header={<SearchPostFilters filters={filters} onChange={setFilters} />}
+        header={
+          <SortIntervalMenu
+            interval={interval}
+            onChange={(next) => {
+              setSort(next.sort as SearchSort)
+
+              if (next.interval) {
+                setInterval(next.interval)
+              }
+            }}
+            sort={sort}
+            type="search"
+          />
+        }
+        interval={interval}
         query={debounced}
+        sort={sort}
         type="post"
       />
     </>
