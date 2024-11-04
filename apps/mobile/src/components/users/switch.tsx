@@ -1,12 +1,13 @@
 import { useRouter } from 'expo-router'
-import { useState } from 'react'
+import { useRef } from 'react'
+import ActionSheet, { type ActionSheetRef } from 'react-native-actions-sheet'
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { SheetHeader } from '~/sheets/header'
 import { useAuth } from '~/stores/auth'
 
-import { Modal } from '../common/modal'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { HeaderButton } from '../navigation/header-button'
@@ -18,38 +19,41 @@ export function AccountSwitchCard() {
 
   const { accountId, accounts, order, removeAccount, setAccount } = useAuth()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
-  const [visible, setVisible] = useState(false)
+  const sheet = useRef<ActionSheetRef>(null)
 
   return (
     <>
       <HeaderButton
         icon="UserSwitch"
         onPress={() => {
-          setVisible((previous) => !previous)
+          sheet.current?.show()
         }}
       />
 
-      <Modal
-        onClose={() => {
-          setVisible(false)
-        }}
-        right={
-          <HeaderButton
-            color="green"
-            icon="PlusCircle"
-            onPress={() => {
-              router.push('/sign-in?mode=dismissible')
-
-              setVisible(false)
-            }}
-          />
-        }
-        style={styles.modal(accounts.length)}
-        title={t('title')}
-        visible={visible}
+      <ActionSheet
+        containerStyle={styles.sheet}
+        gestureEnabled
+        indicatorStyle={styles.indicator}
+        overlayColor={theme.colors.gray.a9}
+        ref={sheet}
       >
+        <SheetHeader
+          right={
+            <HeaderButton
+              color="green"
+              icon="PlusCircle"
+              onPress={() => {
+                router.push('/sign-in?mode=dismissible')
+
+                sheet.current?.hide()
+              }}
+            />
+          }
+          title={t('title')}
+        />
+
         {accounts.map((account, index) => (
           <Swipeable
             containerStyle={styles.swipeable}
@@ -62,6 +66,7 @@ export function AccountSwitchCard() {
                   onPress={() => {
                     order(account.id, 'up')
                   }}
+                  style={styles.move}
                   weight="bold"
                 />
               ) : index < accounts.length - 1 ? (
@@ -71,6 +76,7 @@ export function AccountSwitchCard() {
                   onPress={() => {
                     order(account.id, 'down')
                   }}
+                  style={styles.move}
                   weight="bold"
                 />
               ) : null
@@ -92,7 +98,7 @@ export function AccountSwitchCard() {
                   setAccount(account.id)
                 }
 
-                setVisible(false)
+                sheet.current?.hide()
               }}
               p="3"
               style={[
@@ -104,21 +110,28 @@ export function AccountSwitchCard() {
             </Pressable>
           </Swipeable>
         ))}
-      </Modal>
+      </ActionSheet>
     </>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   delete: {
     backgroundColor: theme.colors.red.a9,
+  },
+  indicator: {
+    display: 'none',
   },
   item: {
     backgroundColor: theme.colors.gray[1],
   },
-  modal: (count: number) => ({
-    minHeight: 44 * (count + 2),
-  }),
+  move: {
+    backgroundColor: theme.colors.accent.a9,
+  },
+  sheet: {
+    backgroundColor: theme.colors.gray[1],
+    paddingBottom: theme.space[3] + runtime.insets.bottom,
+  },
   swipeable: {
     backgroundColor: theme.colors.accent[5],
   },

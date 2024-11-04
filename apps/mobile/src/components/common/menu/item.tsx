@@ -1,13 +1,15 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { type StyleProp, Switch, type ViewStyle } from 'react-native'
+import ActionSheet, { type ActionSheetRef } from 'react-native-actions-sheet'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Icon } from '~/components/common/icon'
-import { Modal } from '~/components/common/modal'
 import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { SheetHeader } from '~/sheets/header'
+import { SheetItem } from '~/sheets/item'
 
 import { type MenuItem } from '.'
 
@@ -19,7 +21,8 @@ type Props = {
 export function MenuItem({ item, style }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
-  const [visible, setVisible] = useState(false)
+  const sheet = useRef<ActionSheetRef>(null)
+
   const [loading, setLoading] = useState(false)
 
   const Component = item.type === 'switch' ? View : Pressable
@@ -39,7 +42,7 @@ export function MenuItem({ item, style }: Props) {
         gap="3"
         onPress={async () => {
           if (item.type === 'options') {
-            setVisible(true)
+            sheet.current?.show()
           }
 
           if (item.onPress) {
@@ -112,54 +115,41 @@ export function MenuItem({ item, style }: Props) {
       </Component>
 
       {item.type === 'options' ? (
-        <Modal
-          onClose={() => {
-            setVisible(false)
-          }}
-          title={item.label}
-          visible={visible}
+        <ActionSheet
+          containerStyle={styles.sheet}
+          gestureEnabled
+          indicatorStyle={styles.indicator}
+          overlayColor={theme.colors.gray.a9}
+          ref={sheet}
         >
+          <SheetHeader title={item.label} />
+
           {item.options.map((option) => (
-            <Pressable
-              align="center"
-              direction="row"
-              gap="3"
+            <SheetItem
+              icon={option.icon}
               key={option.value}
+              label={option.label}
+              left={option.left}
               onPress={() => {
                 item.onSelect(option.value)
 
-                setVisible(false)
+                sheet.current?.hide()
               }}
-              px="3"
-              style={option.value === item.value && styles.selected}
-            >
-              {option.icon ? (
-                <Icon
-                  color={option.icon.color ?? theme.colors.accent.a9}
-                  name={option.icon.name}
-                  size={theme.typography[2].lineHeight}
-                  weight={option.icon.weight}
-                />
-              ) : null}
-
-              {option.left}
-
-              <Text my="3" size="2" style={styles.label} weight="medium">
-                {option.label}
-              </Text>
-            </Pressable>
+              selected={option.value === item.value}
+            />
           ))}
-        </Modal>
+        </ActionSheet>
       ) : null}
     </>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  label: {
-    flex: 1,
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  indicator: {
+    display: 'none',
   },
-  selected: {
-    backgroundColor: theme.colors.accent.a5,
+  sheet: {
+    backgroundColor: theme.colors.gray[1],
+    paddingBottom: theme.space[3] + runtime.insets.bottom,
   },
 }))

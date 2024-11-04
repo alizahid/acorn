@@ -1,3 +1,4 @@
+import { type ReactNode } from 'react'
 import { useSheetRouter } from 'react-native-actions-sheet'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -6,10 +7,11 @@ import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 
 type Props = {
+  right?: ReactNode
   title: string
 }
 
-export function SheetHeader({ title }: Props) {
+export function SheetHeader({ right, title }: Props) {
   const { styles } = useStyles(stylesheet)
 
   const router = useSheetRouter()
@@ -24,23 +26,32 @@ export function SheetHeader({ title }: Props) {
           onPress={() => {
             router.goBack()
           }}
-          style={styles.back}
+          style={[styles.action, styles.left]}
           weight="bold"
         />
+      ) : null}
+
+      {right ? (
+        <View style={[styles.action, styles.right]}>{right}</View>
       ) : null}
     </View>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  back: {
+  action: {
     bottom: 0,
-    left: 0,
     position: 'absolute',
+  },
+  left: {
+    left: 0,
   },
   main: {
     borderCurve: 'continuous',
     borderTopLeftRadius: theme.radius[4],
     borderTopRightRadius: theme.radius[4],
+  },
+  right: {
+    right: 0,
   },
 }))
