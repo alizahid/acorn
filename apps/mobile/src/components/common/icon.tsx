@@ -44,7 +44,6 @@ import PlayBold from 'react-native-phosphor/src/bold/Play'
 import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
 import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
-import RedditLogoBold from 'react-native-phosphor/src/bold/RedditLogo'
 import RewindBold from 'react-native-phosphor/src/bold/Rewind'
 import RowsBold from 'react-native-phosphor/src/bold/Rows'
 import ShareBold from 'react-native-phosphor/src/bold/Share'
@@ -111,7 +110,6 @@ import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
 import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
 import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
-import RedditLogoDuotone from 'react-native-phosphor/src/duotone/RedditLogo'
 import RewindDuotone from 'react-native-phosphor/src/duotone/Rewind'
 import RowsDuotone from 'react-native-phosphor/src/duotone/Rows'
 import ShareDuotone from 'react-native-phosphor/src/duotone/Share'
@@ -178,7 +176,6 @@ import PlayFill from 'react-native-phosphor/src/fill/Play'
 import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
 import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
-import RedditLogoFill from 'react-native-phosphor/src/fill/RedditLogo'
 import RewindFill from 'react-native-phosphor/src/fill/Rewind'
 import RowsFill from 'react-native-phosphor/src/fill/Rows'
 import ShareFill from 'react-native-phosphor/src/fill/Share'
@@ -245,7 +242,6 @@ import PlayRegular from 'react-native-phosphor/src/regular/Play'
 import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
 import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
-import RedditLogoRegular from 'react-native-phosphor/src/regular/RedditLogo'
 import RewindRegular from 'react-native-phosphor/src/regular/Rewind'
 import RowsRegular from 'react-native-phosphor/src/regular/Rows'
 import ShareRegular from 'react-native-phosphor/src/regular/Share'
@@ -557,12 +553,6 @@ const icons = {
     duotone: RankingDuotone,
     fill: RankingFill,
     regular: RankingRegular,
-  },
-  RedditLogo: {
-    bold: RedditLogoBold,
-    duotone: RedditLogoDuotone,
-    fill: RedditLogoFill,
-    regular: RedditLogoRegular,
   },
   Rewind: {
     bold: RewindBold,

@@ -23,11 +23,6 @@ export function SettingsAboutScreen() {
       key: 'web',
     },
     {
-      href: 'https://reddit.com/r/acornblue',
-      icon: 'RedditLogo',
-      key: 'reddit',
-    },
-    {
       href: 'https://discord.gg/sWzw5GU5RV',
       icon: 'DiscordLogo',
       key: 'discord',
