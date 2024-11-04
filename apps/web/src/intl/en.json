@@ -1,8 +1,9 @@
 {
   "page": {
     "landing": {
-      "download": {
-        "apple": "App Store"
+      "action": {
+        "discord": "Discord",
+        "testFlight": "TestFlight"
       },
       "footer": {
         "discord": "Discord",

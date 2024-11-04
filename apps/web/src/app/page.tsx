@@ -1,5 +1,6 @@
 import {
   DiscordLogo,
+  Fan,
   GithubLogo,
   RedditLogo,
 } from '@phosphor-icons/react/dist/ssr'
@@ -12,20 +13,33 @@ import { Logo } from '~/components/logo'
 export default function Page() {
   const t = useTranslations('page.landing')
 
+  const actions = [
+    {
+      href: 'https://testflight.apple.com/join/uKWP3MFB',
+      icon: <Fan className="size-6" weight="fill" />,
+      key: 'testFlight',
+    },
+    {
+      href: 'https://discord.gg/sWzw5GU5RV',
+      icon: <DiscordLogo className="size-6" weight="fill" />,
+      key: 'discord',
+    },
+  ] as const
+
   const links = [
     {
       href: 'https://www.reddit.com/r/acornblue/',
-      icon: <RedditLogo className="size-6" weight="duotone" />,
+      icon: <RedditLogo className="size-6" />,
       key: 'reddit',
     },
     {
       href: 'https://discord.gg/sWzw5GU5RV',
-      icon: <DiscordLogo className="size-6" weight="duotone" />,
+      icon: <DiscordLogo className="size-6" />,
       key: 'discord',
     },
     {
       href: 'https://github.com/alizahid/acorn',
-      icon: <GithubLogo className="size-6" weight="duotone" />,
+      icon: <GithubLogo className="size-6" />,
       key: 'github',
     },
   ] as const
@@ -39,22 +53,21 @@ export default function Page() {
           {t('header.title')}
         </h1>
 
-        <p className="font-medium text-gray-11">{t('header.description')}</p>
+        <p className="font-medium text-gray-a11">{t('header.description')}</p>
       </header>
 
-      <section className="flex">
-        <Link
-          className="rounded-[8px] outline-none focus-visible:ring focus-visible:ring-accent-9"
-          href="https://testflight.apple.com/join/uKWP3MFB"
-        >
-          <Image
-            alt={t('download.apple')}
-            height={40 * 1.25}
-            src="/images/app-store.svg"
-            unoptimized
-            width={120 * 1.25}
-          />
-        </Link>
+      <section className="flex gap-6">
+        {actions.map((action) => (
+          <Link
+            className="flex items-center gap-2 rounded-lg bg-accent-a9 px-3 py-2 font-medium text-accent-contrast outline-none hover:bg-accent-a10 focus-visible:ring focus-visible:ring-accent-a7"
+            href="https://testflight.apple.com/join/uKWP3MFB"
+            key={action.key}
+          >
+            {action.icon}
+
+            {t(`action.${action.key}`)}
+          </Link>
+        ))}
       </section>
 
       <section className="flex flex-col gap-6 lg:flex-row">
@@ -73,10 +86,10 @@ export default function Page() {
         />
       </section>
 
-      <footer className="flex gap-4">
+      <footer className="flex flex-col items-center gap-4 lg:flex-row">
         {links.map((link) => (
           <Link
-            className="flex items-center gap-2 rounded-full px-4 py-2 font-medium text-accent-a11 outline-none transition-colors hover:text-accent-a12 focus-visible:bg-accent-4"
+            className="flex items-center gap-3 rounded-full px-4 py-2 text-accent-a11 outline-none transition-colors hover:text-accent-a12 focus-visible:bg-accent-a4"
             href={link.href}
             key={link.key}
           >

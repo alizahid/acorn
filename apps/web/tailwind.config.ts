@@ -1,10 +1,13 @@
 import { type Config } from 'tailwindcss'
 
 function createPalette(name: string) {
+  const dark = ['sky', 'mint', 'lime', 'yellow', 'amber']
+
   return Object.fromEntries(
     [...new Array<number>(12)].flatMap((item, index) => [
       [index + 1, `var(--${name}-${index + 1})`],
       [`a${index + 1}`, `var(--${name}-a${index + 1})`],
+      ['contrast', dark.includes(name) ? '#000' : '#fff'],
     ]),
   )
 }
