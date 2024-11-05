@@ -9,11 +9,11 @@ import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
 import { withoutAgo } from '~/lib/intl'
 
-import { Button } from '../common/button'
-import { Loading } from '../common/loading'
-import { RefreshControl } from '../common/refresh-control'
-import { Text } from '../common/text'
-import { View } from '../common/view'
+import { Loading } from '../../common/loading'
+import { RefreshControl } from '../../common/refresh-control'
+import { Text } from '../../common/text'
+import { View } from '../../common/view'
+import { Button } from './button'
 
 type Props = {
   name: string
@@ -108,10 +108,8 @@ export function CommunityAbout({ name }: Props) {
 
       <View direction="row" gap="4" p="4">
         <Button
-          icon={{
-            color: community.subscribed ? 'red' : 'accent',
-            name: community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus',
-          }}
+          color={community.subscribed ? 'red' : 'accent'}
+          icon={community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
           label={t(community.subscribed ? 'leave' : 'join')}
           loading={join.isPending}
           onPress={() => {
@@ -121,15 +119,11 @@ export function CommunityAbout({ name }: Props) {
               name: community.name,
             })
           }}
-          style={styles.button}
         />
 
         <Button
-          icon={{
-            color: community.favorite ? 'amber' : 'gray',
-            name: 'Star',
-            weight: community.favorite ? 'fill' : 'regular',
-          }}
+          color={community.favorite ? 'amber' : 'gray'}
+          icon="Star"
           label={t(community.favorite ? 'unfavorite' : 'favorite')}
           loading={favorite.isPending}
           onPress={() => {
@@ -138,7 +132,7 @@ export function CommunityAbout({ name }: Props) {
               name: community.name,
             })
           }}
-          style={styles.button}
+          weight={community.favorite ? 'fill' : 'regular'}
         />
       </View>
     </ScrollView>
@@ -149,13 +143,6 @@ const stylesheet = createStyleSheet((theme) => ({
   banner: {
     aspectRatio: 4 / 1,
     backgroundColor: theme.colors.gray.a3,
-  },
-  button: {
-    backgroundColor: theme.colors.accent.a2,
-    flex: 1,
-    gap: theme.space[3],
-    justifyContent: 'flex-start',
-    paddingHorizontal: theme.space[3],
   },
   image: {
     backgroundColor: theme.colors.gray.a3,
