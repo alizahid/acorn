@@ -3,7 +3,6 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { useState } from 'react'
 import { z } from 'zod'
 
 import { HeaderButton } from '~/components/navigation/header-button'
@@ -12,7 +11,7 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
-import { usePreferences } from '~/stores/preferences'
+import { useSorting } from '~/hooks/sorting'
 import { type CommunityFeedSort } from '~/types/sort'
 
 const schema = z.object({
@@ -26,15 +25,12 @@ export function CommunityScreen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { intervalCommunityPosts, sortCommunityPosts } = usePreferences()
-
   const { community, refetch } = useCommunity(params.name)
 
   const join = useJoin()
   const favorite = useFavorite()
 
-  const [sort, setSort] = useState(sortCommunityPosts)
-  const [interval, setInterval] = useState(intervalCommunityPosts)
+  const { sorting, update } = useSorting(params.name)
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -76,22 +72,21 @@ export function CommunityScreen() {
       community={params.name}
       header={
         <SortIntervalMenu
-          interval={interval}
+          interval={sorting.interval}
           onChange={(next) => {
-            setSort(next.sort as CommunityFeedSort)
-
-            if (next.interval) {
-              setInterval(next.interval)
-            }
+            update({
+              interval: next.interval,
+              sort: next.sort as CommunityFeedSort,
+            })
           }}
-          sort={sort}
+          sort={sorting.sort}
           type="community"
         />
       }
-      interval={interval}
+      interval={sorting.interval}
       label="user"
       onRefresh={refetch}
-      sort={sort}
+      sort={sorting.sort}
     />
   )
 }

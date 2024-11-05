@@ -6,6 +6,7 @@ import { Menu } from '~/components/common/menu'
 import { clearCollapsed } from '~/lib/db/collapsed'
 import { clearHidden } from '~/lib/db/hidden'
 import { clearHistory } from '~/lib/db/history'
+import { clearSorting } from '~/lib/db/sorting'
 import { queryClient } from '~/lib/query'
 
 export function SettingsCacheScreen() {
@@ -70,6 +71,16 @@ export function SettingsCacheScreen() {
           label: t('menu.hidden.label'),
           async onPress() {
             await clearHidden()
+          },
+        },
+        {
+          icon: {
+            color: theme.colors.red.a9,
+            name: 'SortAscending',
+          },
+          label: t('menu.sorting'),
+          async onPress() {
+            await clearSorting()
           },
         },
       ]}

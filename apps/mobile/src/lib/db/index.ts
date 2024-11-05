@@ -4,7 +4,7 @@ import { type SQLiteDatabase } from 'expo-sqlite'
 export const databaseName = 'acorn.sql'
 
 export async function onInit(db: SQLiteDatabase) {
-  const latest = 3
+  const latest = 4
 
   const pragma = await db.getFirstAsync<{
     user_version: number
@@ -17,29 +17,37 @@ export async function onInit(db: SQLiteDatabase) {
   }
 
   if (current === 0) {
-    await db.execAsync(`
-PRAGMA journal_mode = 'wal';
+    await db.execAsync(`PRAGMA journal_mode = 'wal'`)
 
-CREATE TABLE history (post_id TEXT NOT NULL PRIMARY KEY, seen_at TEXT NOT NULL);
-`)
+    await db.execAsync(
+      `CREATE TABLE history (post_id TEXT NOT NULL PRIMARY KEY, seen_at TEXT NOT NULL)`,
+    )
 
     current = 1
   }
 
   if (current === 1) {
-    await db.execAsync(`
-CREATE TABLE collapsed (comment_id TEXT NOT NULL PRIMARY KEY, post_id TEXT NOT NULL, collapsed_at TEXT NOT NULL);
-`)
+    await db.execAsync(
+      `CREATE TABLE collapsed (comment_id TEXT NOT NULL PRIMARY KEY, post_id TEXT NOT NULL, collapsed_at TEXT NOT NULL)`,
+    )
 
     current = 2
   }
 
   if (current === 2) {
-    await db.execAsync(`
-CREATE TABLE hidden (id TEXT NOT NULL PRIMARY KEY, type TEXT NOT NULL, hidden_at TEXT NOT NULL);
-`)
+    await db.execAsync(
+      `CREATE TABLE hidden (id TEXT NOT NULL PRIMARY KEY, type TEXT NOT NULL, hidden_at TEXT NOT NULL)`,
+    )
 
     current = 3
+  }
+
+  if (current === 3) {
+    await db.execAsync(
+      `CREATE TABLE sorting (community_id TEXT NOT NULL PRIMARY KEY, sort TEXT NOT NULL, interval TEXT, created_at TEXT NOT NULL)`,
+    )
+
+    current = 4
   }
 
   await db.execAsync(`PRAGMA user_version = ${latest}`)

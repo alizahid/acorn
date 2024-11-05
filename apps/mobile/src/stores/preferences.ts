@@ -29,6 +29,7 @@ export type PreferencesPayload = {
   intervalUserPosts: TopInterval
   linkBrowser: boolean
   mediaOnRight: boolean
+  rememberCommunitySort: boolean
   seenOnMedia: boolean
   seenOnScroll: boolean
   seenOnVote: boolean
@@ -63,6 +64,7 @@ export const usePreferences = create<State>()(
       intervalUserPosts: 'all',
       linkBrowser: true,
       mediaOnRight: true,
+      rememberCommunitySort: false,
       seenOnMedia: false,
       seenOnScroll: false,
       seenOnVote: false,

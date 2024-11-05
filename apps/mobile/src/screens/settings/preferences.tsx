@@ -56,6 +56,11 @@ export function SettingsPreferencesScreen() {
             key: 'dimSeen',
             label: 'browsing.dimSeen',
           },
+          {
+            icon: 'SortAscending',
+            key: 'rememberCommunitySort',
+            label: 'browsing.rememberCommunitySort',
+          },
           t('media.label'),
           {
             icon: 'SpeakerSimpleX',

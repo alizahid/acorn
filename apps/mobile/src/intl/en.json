@@ -197,7 +197,8 @@
           "query": {
             "description": "Will refetch all data",
             "label": "Clear data"
-          }
+          },
+          "sorting": "Clear community sorting"
         },
         "title": "Cache"
       },
@@ -214,6 +215,7 @@
             "description": "Only affects compact mode",
             "label": "Show media on right"
           },
+          "rememberCommunitySort": "Remember community sorting",
           "seenOnMedia": "Mark as seen when opening media",
           "seenOnScroll": {
             "description": "If off, will only mark a post as read after opening it\nRequires app restart to take effect",
