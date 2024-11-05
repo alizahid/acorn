@@ -41,10 +41,11 @@
     "communities": {
       "about": {
         "age": "Age",
+        "favorite": "Favorite",
         "join": "Join",
         "leave": "Leave",
-        "loading": "Loading",
-        "subscribers": "Subscribers"
+        "subscribers": "Subscribers",
+        "unfavorite": "Unfavorite"
       }
     },
     "notifications": {
@@ -130,6 +131,10 @@
     "community": {
       "search": {
         "placeholder": "Search"
+      },
+      "tabs": {
+        "about": "About",
+        "posts": "Posts"
       }
     },
     "notifications": {

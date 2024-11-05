@@ -32,7 +32,7 @@ export function CommunitiesLayout() {
           const { name } = props.route.params as CommunityParams
 
           return {
-            headerLeft: () => (
+            headerRight: () => (
               <HeaderButton
                 color="gray"
                 icon="MagnifyingGlass"

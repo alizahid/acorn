@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { TabView } from 'react-native-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -9,7 +9,7 @@ import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { CommunitiesList } from '~/components/communities/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
-import { CommunityTab } from '~/types/community'
+import { CommunitiesTab } from '~/types/community'
 
 export function CommunitiesScreen() {
   const t = useTranslations('screen.communities')
@@ -28,7 +28,7 @@ export function CommunitiesScreen() {
   } = useCommunities()
 
   const routes = useRef(
-    CommunityTab.map((key) => ({
+    CommunitiesTab.map((key) => ({
       key,
       title: t(`tabs.${key}`),
     })),

@@ -7,6 +7,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type ColorToken } from '~/styles/colors'
 
+import { Icon, type IconName, type IconWeight } from './icon'
 import { Pressable } from './pressable'
 import { Spinner } from './spinner'
 import { Text } from './text'
@@ -14,6 +15,11 @@ import { Text } from './text'
 type Props = {
   color?: ColorToken
   disabled?: boolean
+  icon?: {
+    color?: ColorToken
+    name: IconName
+    weight?: IconWeight
+  }
   label: string
   loading?: boolean
   onPress?: (event: GestureResponderEvent) => void
@@ -23,12 +29,13 @@ type Props = {
 export function Button({
   color = 'accent',
   disabled,
+  icon,
   label,
   loading,
   onPress,
   style,
 }: Props) {
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   return (
     <Pressable
@@ -42,11 +49,28 @@ export function Button({
       px="4"
       style={[styles.main(color), style]}
     >
+      {icon && loading ? (
+        <Spinner
+          color={icon.color ? theme.colors[icon.color ?? 'accent'].a9 : color}
+          contrast={!icon.color}
+          size={theme.space[5]}
+        />
+      ) : icon ? (
+        <Icon
+          color={theme.colors[icon.color ?? 'accent'].a9}
+          name={icon.name}
+          size={theme.space[5]}
+          weight={icon.weight}
+        />
+      ) : null}
+
       <Text color={color} contrast weight="medium">
         {label}
       </Text>
 
-      {loading ? <Spinner color={color} contrast /> : null}
+      {!icon && loading ? (
+        <Spinner color={color} contrast size={theme.space[5]} />
+      ) : null}
     </Pressable>
   )
 }

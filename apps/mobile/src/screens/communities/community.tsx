@@ -1,17 +1,18 @@
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-} from 'expo-router'
+import { useLocalSearchParams } from 'expo-router'
+import { useRef, useState } from 'react'
+import { TabView } from 'react-native-tab-view'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { HeaderButton } from '~/components/navigation/header-button'
+import { Loading } from '~/components/common/loading'
+import { SegmentedControl } from '~/components/common/segmented-control'
+import { View } from '~/components/common/view'
+import { CommunityAbout } from '~/components/communities/about'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useFavorite } from '~/hooks/mutations/communities/favorite'
-import { useJoin } from '~/hooks/mutations/communities/join'
-import { useCommunity } from '~/hooks/queries/communities/community'
 import { useSorting } from '~/hooks/sorting'
+import { CommunityTab } from '~/types/community'
 import { type CommunityFeedSort } from '~/types/sort'
 
 const schema = z.object({
@@ -21,72 +22,80 @@ const schema = z.object({
 export type CommunityParams = z.infer<typeof schema>
 
 export function CommunityScreen() {
-  const navigation = useNavigation()
-
   const params = schema.parse(useLocalSearchParams())
 
-  const { community, refetch } = useCommunity(params.name)
+  const t = useTranslations('screen.community')
 
-  const join = useJoin()
-  const favorite = useFavorite()
+  const { styles } = useStyles(stylesheet)
 
   const { sorting, update } = useSorting(params.name)
 
-  useFocusEffect(() => {
-    navigation.setOptions({
-      headerRight: () =>
-        community ? (
-          <>
-            <HeaderButton
-              color={community.favorite ? 'amber' : 'gray'}
-              icon="Star"
-              loading={favorite.isPending}
-              onPress={() => {
-                favorite.favorite({
-                  favorite: !community.favorite,
-                  name: community.name,
-                })
-              }}
-              weight={community.favorite ? 'fill' : 'regular'}
-            />
+  const routes = useRef(
+    CommunityTab.map((key) => ({
+      key,
+      title: t(`tabs.${key}`),
+    })),
+  )
 
-            <HeaderButton
-              color={community.subscribed ? 'red' : 'accent'}
-              icon={community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
-              loading={join.isPending}
-              onPress={() => {
-                join.join({
-                  action: community.subscribed ? 'leave' : 'join',
-                  id: community.id,
-                  name: community.name,
-                })
-              }}
-            />
-          </>
-        ) : null,
-    })
-  })
+  const [index, setIndex] = useState(0)
 
   return (
-    <PostList
-      community={params.name}
-      header={
-        <SortIntervalMenu
-          interval={sorting.interval}
-          onChange={(next) => {
-            update({
-              interval: next.interval,
-              sort: next.sort as CommunityFeedSort,
-            })
-          }}
-          sort={sorting.sort}
-          type="community"
-        />
-      }
-      interval={sorting.interval}
-      label="user"
-      onRefresh={refetch}
-      sort={sorting.sort}
+    <TabView
+      lazy
+      navigationState={{
+        index,
+        routes: routes.current,
+      }}
+      onIndexChange={setIndex}
+      renderLazyPlaceholder={Loading}
+      renderScene={({ route }) => {
+        if (route.key === 'posts') {
+          return (
+            <PostList
+              community={params.name}
+              header={
+                <SortIntervalMenu
+                  interval={sorting.interval}
+                  onChange={(next) => {
+                    update({
+                      interval: next.interval,
+                      sort: next.sort as CommunityFeedSort,
+                    })
+                  }}
+                  sort={sorting.sort}
+                  type="community"
+                />
+              }
+              interval={sorting.interval}
+              label="user"
+              refreshing={{
+                header: false,
+                inset: false,
+              }}
+              sort={sorting.sort}
+            />
+          )
+        }
+
+        return <CommunityAbout name={params.name} />
+      }}
+      renderTabBar={({ position }) => (
+        <View pb="4" px="3" style={styles.tabs}>
+          <SegmentedControl
+            items={routes.current.map(({ title }) => title)}
+            offset={position}
+            onChange={(next) => {
+              setIndex(next)
+            }}
+          />
+        </View>
+      )}
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  tabs: {
+    backgroundColor: theme.colors.gray[1],
+  },
+}))

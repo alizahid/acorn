@@ -13,7 +13,7 @@ import { type Post } from '~/types/post'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
-import { Refreshing } from '../common/refreshing'
+import { Refreshing, type RefreshingProps } from '../common/refreshing'
 import { View } from '../common/view'
 import { type PostLabel } from './footer'
 
@@ -21,6 +21,7 @@ type Props = PostsProps & {
   header?: ReactElement
   label?: PostLabel
   onRefresh?: () => void
+  refreshing?: RefreshingProps
 }
 
 export function PostList({
@@ -29,6 +30,7 @@ export function PostList({
   interval,
   label,
   onRefresh,
+  refreshing,
   sort,
 }: Props) {
   const list = useRef<FlashList<Post>>(null)
@@ -126,7 +128,7 @@ export function PostList({
         ]}
       />
 
-      {isRefreshing ? <Refreshing /> : null}
+      {isRefreshing ? <Refreshing {...refreshing} /> : null}
     </>
   )
 }
