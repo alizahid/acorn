@@ -19,7 +19,7 @@ export async function getSorting(communityId: string) {
   const db = await getDatabase()
 
   const row = await db.getFirstAsync<Pick<SortingRow, 'sort' | 'interval'>>(
-    'SELECT sort, interval FROM hidden WHERE id = $community',
+    'SELECT sort, interval FROM sorting WHERE id = $community',
     {
       $community: communityId,
     },
