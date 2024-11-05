@@ -42,6 +42,8 @@ export function SortIntervalMenu({
             }
           },
           payload: {
+            interval,
+            sort,
             type,
           },
         })
