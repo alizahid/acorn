@@ -10,6 +10,7 @@ import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
 import { useSearch } from '~/hooks/queries/search/search'
+import { useSearchHistory } from '~/hooks/search'
 import { listProps } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Community } from '~/types/community'
@@ -21,12 +22,14 @@ import { type SearchUser } from '~/types/user'
 import { Refreshing, type RefreshingProps } from '../common/refreshing'
 import { View } from '../common/view'
 import { SearchUserCard } from '../users/search'
+import { SearchHistory } from './history'
 
 type Props = {
   community?: string
   focused?: boolean
   header?: ReactElement
   interval?: TopInterval
+  onChangeQuery: (query: string) => void
   query: string
   refreshing?: RefreshingProps
   sort?: SearchSort
@@ -38,6 +41,7 @@ export function SearchList({
   focused,
   header,
   interval,
+  onChangeQuery,
   query,
   refreshing,
   sort,
@@ -51,6 +55,8 @@ export function SearchList({
 
   const { feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
   const { addPost } = useHistory()
+
+  const history = useSearchHistory()
 
   const { isLoading, isRefreshing, refetch, results } = useSearch({
     community,
@@ -69,7 +75,19 @@ export function SearchList({
         ItemSeparatorComponent={() => (
           <View style={styles.separator(type, feedCompact)} />
         )}
-        ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+        ListEmptyComponent={
+          isLoading ? (
+            <Loading />
+          ) : history.history.length > 0 ? (
+            <SearchHistory
+              history={history.history}
+              onClear={history.clear}
+              onPress={onChangeQuery}
+            />
+          ) : (
+            <Empty />
+          )
+        }
         ListHeaderComponent={header}
         data={results}
         estimatedItemSize={type === 'post' ? (feedCompact ? 112 : 120) : 56}
@@ -80,6 +98,9 @@ export function SearchList({
         keyExtractor={(item) => item.id}
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
+        onScrollBeginDrag={() => {
+          history.save(query)
+        }}
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={({ item }) => {

@@ -69,13 +69,8 @@
       }
     },
     "search": {
-      "filters": {
-        "interval": {
-          "placeholder": "Interval"
-        },
-        "sort": {
-          "placeholder": "Sort"
-        }
+      "history": {
+        "clear": "Clear"
       }
     },
     "settings": {

@@ -1,5 +1,5 @@
 import { useIsFocused } from '@react-navigation/native'
-import { useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { TabView } from 'react-native-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
@@ -40,6 +40,10 @@ export function SearchScreen() {
 
   const [debounced] = useDebounce(query, 500)
 
+  const onChangeQuery = useCallback((next: string) => {
+    setQuery(next)
+  }, [])
+
   return (
     <TabView
       lazy
@@ -69,6 +73,7 @@ export function SearchScreen() {
                 />
               }
               interval={interval}
+              onChangeQuery={onChangeQuery}
               query={debounced}
               refreshing={{
                 header: false,
@@ -83,6 +88,7 @@ export function SearchScreen() {
         if (route.key === 'community') {
           return (
             <SearchList
+              onChangeQuery={onChangeQuery}
               query={debounced}
               refreshing={{
                 header: false,
@@ -95,6 +101,7 @@ export function SearchScreen() {
 
         return (
           <SearchList
+            onChangeQuery={onChangeQuery}
             query={debounced}
             refreshing={{
               header: false,

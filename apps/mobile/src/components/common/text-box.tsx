@@ -156,7 +156,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   }),
   input: (multiline: boolean, code: boolean) => ({
     color: theme.colors.gray.a12,
-    flexGrow: 1,
+    flex: 1,
     fontFamily: code ? 'mono' : 'sans',
     fontSize: theme.typography[3].fontSize,
     height: theme.space[multiline ? 9 : 7],

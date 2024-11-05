@@ -78,6 +78,7 @@ export function CommunitiesSearchScreen() {
           />
         }
         interval={interval}
+        onChangeQuery={setQuery}
         query={debounced}
         refreshing={{
           offset: theme.space[7] + theme.space[4],

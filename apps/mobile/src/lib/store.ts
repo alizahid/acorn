@@ -47,10 +47,6 @@ export class Store implements StateStorage {
 
     const key = createId()
 
-    if (!key) {
-      throw new Error('Application id not found')
-    }
-
     SecureStore.setItem(ENCRYPTION_KEY, key)
 
     return key
