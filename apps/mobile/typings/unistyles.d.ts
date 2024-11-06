@@ -1,4 +1,5 @@
-import type { breakpoints, darkTheme, lightTheme } from '~/styles/tokens'
+import { type darkTheme, type lightTheme } from '~/styles/themes'
+import { type breakpoints } from '~/styles/tokens'
 
 type AppBreakpoints = typeof breakpoints
 

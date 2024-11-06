@@ -1,5 +1,5 @@
 import { type IconName } from '~/components/common/icon'
-import { type ColorToken } from '~/styles/colors'
+import { type ColorToken } from '~/styles/tokens'
 import {
   type CommentSort,
   type CommunityFeedSort,

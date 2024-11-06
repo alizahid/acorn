@@ -1,8 +1,8 @@
 import { ActivityIndicator, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type ColorToken, ColorTokens } from '~/styles/colors'
 import { getMargin, type MarginProps } from '~/styles/space'
+import { type ColorToken, ColorTokens } from '~/styles/tokens'
 
 type Props = {
   // eslint-disable-next-line @typescript-eslint/ban-types -- go away

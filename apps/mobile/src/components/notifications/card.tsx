@@ -3,7 +3,7 @@ import { useFormatter, useTranslations } from 'use-intl'
 
 import { useLink } from '~/hooks/link'
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
-import { type ColorToken } from '~/styles/colors'
+import { type ColorToken } from '~/styles/tokens'
 import { type Notification, type NotificationType } from '~/types/notification'
 
 import { Icon } from '../common/icon'

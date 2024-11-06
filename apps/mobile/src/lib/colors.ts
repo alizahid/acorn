@@ -1,4 +1,4 @@
-import { type ColorToken } from '~/styles/colors'
+import { type ColorToken } from '~/styles/tokens'
 
 const colors = [
   'accent',

@@ -2,7 +2,7 @@ import { useCallback, useState } from 'react'
 import { RefreshControl as ReactNativeRefreshControl } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 
-import { type ColorToken } from '~/styles/colors'
+import { type ColorToken } from '~/styles/tokens'
 
 type Props = {
   color?: ColorToken

@@ -5,7 +5,7 @@ import {
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type ColorToken } from '~/styles/colors'
+import { type ColorToken } from '~/styles/tokens'
 
 import { Icon, type IconName, type IconWeight } from './icon'
 import { Pressable } from './pressable'

@@ -5,8 +5,7 @@ import {
   type UnistylesValues,
 } from 'react-native-unistyles/lib/typescript/src/types'
 
-import { type ColorToken } from '~/styles/colors'
-import { type TypographyToken } from '~/styles/tokens'
+import { type ColorToken, type TypographyToken } from '~/styles/tokens'
 
 import { getMargin, type MarginProps } from './space'
 

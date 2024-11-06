@@ -8,7 +8,7 @@ import { ProfileCard } from '~/components/users/profile'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
-import { type ColorToken } from '~/styles/colors'
+import { type ColorToken } from '~/styles/tokens'
 import { UserFeedType } from '~/types/user'
 
 export function ProfileScreen() {

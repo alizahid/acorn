@@ -1,5 +1,3 @@
-import { type BlackAndWhite, type Colors, createPalette } from './colors'
-
 export const breakpoints = {
   initial: 0,
   lg: 1280,
@@ -75,96 +73,39 @@ export const radius = {
 
 export type RadiusToken = keyof typeof radius
 
-/* eslint-disable sort-keys-fix/sort-keys-fix -- preserve order */
+export const ColorTokens = [
+  'accent',
+  'amber',
+  'blue',
+  'bronze',
+  'brown',
+  'crimson',
+  'cyan',
+  'gold',
+  'grass',
+  'gray',
+  'green',
+  'indigo',
+  'iris',
+  'jade',
+  'lime',
+  'mauve',
+  'mint',
+  'olive',
+  'orange',
+  'pink',
+  'plum',
+  'purple',
+  'red',
+  'ruby',
+  'sage',
+  'sand',
+  'sky',
+  'slate',
+  'teal',
+  'tomato',
+  'violet',
+  'yellow',
+] as const
 
-export const lightTheme = {
-  colors: {
-    // theme
-    accent: createPalette<Colors>('orange', 'orangeA'),
-    black: createPalette<BlackAndWhite>('blackA'),
-    white: createPalette<BlackAndWhite>('whiteA'),
-    gray: createPalette<Colors>('sand', 'sandA'),
-
-    // radix
-    amber: createPalette<Colors>('amber', 'amberA'),
-    blue: createPalette<Colors>('blue', 'blueA'),
-    bronze: createPalette<Colors>('bronze', 'bronzeA'),
-    brown: createPalette<Colors>('brown', 'brownA'),
-    crimson: createPalette<Colors>('crimson', 'crimsonA'),
-    cyan: createPalette<Colors>('cyan', 'cyanA'),
-    gold: createPalette<Colors>('gold', 'goldA'),
-    grass: createPalette<Colors>('grass', 'grassA'),
-    green: createPalette<Colors>('green', 'greenA'),
-    indigo: createPalette<Colors>('indigo', 'indigoA'),
-    iris: createPalette<Colors>('iris', 'irisA'),
-    jade: createPalette<Colors>('jade', 'jadeA'),
-    lime: createPalette<Colors>('lime', 'limeA'),
-    mauve: createPalette<Colors>('mauve', 'mauveA'),
-    mint: createPalette<Colors>('mint', 'mintA'),
-    olive: createPalette<Colors>('olive', 'oliveA'),
-    orange: createPalette<Colors>('orange', 'orangeA'),
-    pink: createPalette<Colors>('pink', 'pinkA'),
-    plum: createPalette<Colors>('plum', 'plumA'),
-    purple: createPalette<Colors>('purple', 'purpleA'),
-    red: createPalette<Colors>('red', 'redA'),
-    ruby: createPalette<Colors>('ruby', 'rubyA'),
-    sage: createPalette<Colors>('sage', 'sageA'),
-    sand: createPalette<Colors>('sand', 'sandA'),
-    sky: createPalette<Colors>('sky', 'skyA'),
-    slate: createPalette<Colors>('slate', 'slateA'),
-    teal: createPalette<Colors>('teal', 'tealA'),
-    tomato: createPalette<Colors>('tomato', 'tomatoA'),
-    violet: createPalette<Colors>('violet', 'violetA'),
-    yellow: createPalette<Colors>('yellow', 'yellowA'),
-  },
-  space,
-  radius,
-  typography,
-} as const
-
-export const darkTheme = {
-  colors: {
-    // theme
-    accent: createPalette<Colors>('orangeDark', 'orangeDarkA'),
-    black: createPalette<BlackAndWhite>('blackA'),
-    white: createPalette<BlackAndWhite>('whiteA'),
-    gray: createPalette<Colors>('sandDark', 'sandDarkA'),
-
-    // radix
-    amber: createPalette<Colors>('amberDark', 'amberDarkA'),
-    blue: createPalette<Colors>('blueDark', 'blueDarkA'),
-    bronze: createPalette<Colors>('bronzeDark', 'bronzeDarkA'),
-    brown: createPalette<Colors>('brownDark', 'brownDarkA'),
-    crimson: createPalette<Colors>('crimsonDark', 'crimsonDarkA'),
-    cyan: createPalette<Colors>('cyanDark', 'cyanDarkA'),
-    gold: createPalette<Colors>('goldDark', 'goldDarkA'),
-    grass: createPalette<Colors>('grassDark', 'grassDarkA'),
-    green: createPalette<Colors>('greenDark', 'greenDarkA'),
-    indigo: createPalette<Colors>('indigoDark', 'indigoDarkA'),
-    iris: createPalette<Colors>('irisDark', 'irisDarkA'),
-    jade: createPalette<Colors>('jadeDark', 'jadeDarkA'),
-    lime: createPalette<Colors>('limeDark', 'limeDarkA'),
-    mauve: createPalette<Colors>('mauveDark', 'mauveDarkA'),
-    mint: createPalette<Colors>('mintDark', 'mintDarkA'),
-    olive: createPalette<Colors>('oliveDark', 'oliveDarkA'),
-    orange: createPalette<Colors>('orangeDark', 'orangeDarkA'),
-    pink: createPalette<Colors>('pinkDark', 'pinkDarkA'),
-    plum: createPalette<Colors>('plumDark', 'plumDarkA'),
-    purple: createPalette<Colors>('purpleDark', 'purpleDarkA'),
-    red: createPalette<Colors>('redDark', 'redDarkA'),
-    ruby: createPalette<Colors>('rubyDark', 'rubyDarkA'),
-    sage: createPalette<Colors>('sageDark', 'sageDarkA'),
-    sand: createPalette<Colors>('sandDark', 'sandDarkA'),
-    sky: createPalette<Colors>('skyDark', 'skyDarkA'),
-    slate: createPalette<Colors>('slateDark', 'slateDarkA'),
-    teal: createPalette<Colors>('tealDark', 'tealDarkA'),
-    tomato: createPalette<Colors>('tomatoDark', 'tomatoDarkA'),
-    violet: createPalette<Colors>('violetDark', 'violetDarkA'),
-    yellow: createPalette<Colors>('yellowDark', 'yellowDarkA'),
-  },
-  space,
-  radius,
-  typography,
-} as const
-
-/* eslint-enable sort-keys-fix/sort-keys-fix -- preserve order */
+export type ColorToken = (typeof ColorTokens)[number]
