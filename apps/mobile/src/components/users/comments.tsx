@@ -8,7 +8,6 @@ import {
   useUserComments,
 } from '~/hooks/queries/user/comments'
 import { listProps } from '~/lib/common'
-import { removePrefix } from '~/lib/reddit'
 
 import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
@@ -78,7 +77,7 @@ export function UserCommentsList({
                   router.navigate({
                     params: {
                       commentId: item.data.id,
-                      id: removePrefix(item.data.postId),
+                      id: item.data.postId,
                     },
                     pathname: '/posts/[id]',
                   })

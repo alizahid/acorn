@@ -226,16 +226,6 @@ export function PostScreen() {
                     commentId: item.data.id,
                   })
                 }}
-                onReply={() => {
-                  router.navigate({
-                    params: {
-                      commentId: item.data.id,
-                      id: params.id,
-                      user: item.data.user.name,
-                    },
-                    pathname: '/posts/[id]/reply',
-                  })
-                }}
               />
             )
           }

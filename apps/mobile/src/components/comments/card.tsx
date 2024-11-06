@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -5,6 +6,7 @@ import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
+import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
 
 import { Markdown } from '../common/markdown'
@@ -18,7 +20,6 @@ type Props = {
   comment: CommentReply
   disabled?: boolean
   onPress: () => void
-  onReply?: () => void
   style?: StyleProp<ViewStyle>
 }
 
@@ -27,9 +28,12 @@ export function CommentCard({
   comment,
   disabled,
   onPress,
-  onReply,
   style,
 }: Props) {
+  const router = useRouter()
+
+  const { gestures } = usePreferences()
+
   const { styles } = useStyles(stylesheet)
 
   const { vote } = useCommentVote()
@@ -38,7 +42,7 @@ export function CommentCard({
   return (
     <PostGestures
       containerStyle={styles.container(comment.depth)}
-      disabled={collapsed}
+      disabled={!gestures || collapsed}
       liked={comment.liked}
       onAction={(action) => {
         if (action === 'upvote') {
@@ -66,7 +70,14 @@ export function CommentCard({
         }
 
         if (action === 'reply') {
-          onReply?.()
+          router.navigate({
+            params: {
+              commentId: comment.id,
+              id: comment.postId,
+              user: comment.user.name,
+            },
+            pathname: '/posts/[id]/reply',
+          })
         }
       }}
       saved={comment.saved}

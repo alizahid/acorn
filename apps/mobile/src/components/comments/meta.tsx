@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router'
+import { SheetManager } from 'react-native-actions-sheet'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
@@ -11,6 +12,7 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { FlairCard } from '../posts/flair'
+import { FooterButton } from '../posts/footer/button'
 
 type Props = {
   collapsed?: boolean
@@ -94,6 +96,20 @@ export function CommentMeta({ collapsed, comment }: Props) {
           })}
         </Text>
       </View>
+
+      <FooterButton
+        color={theme.colors.gray.a11}
+        compact
+        icon="DotsThree"
+        onPress={() => {
+          void SheetManager.show('comment-menu', {
+            payload: {
+              comment,
+            },
+          })
+        }}
+        weight="bold"
+      />
     </View>
   )
 }

@@ -18,28 +18,28 @@ import { View } from '~/components/common/view'
 import { useCopy } from '~/hooks/copy'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
-import { usePostSave } from '~/hooks/mutations/posts/save'
-import { usePostVote } from '~/hooks/mutations/posts/vote'
-import { type Post } from '~/types/post'
+import { useCommentSave } from '~/hooks/mutations/comments/save'
+import { useCommentVote } from '~/hooks/mutations/comments/vote'
+import { type CommentReply } from '~/types/comment'
 
 import { SheetHeader } from './header'
 import { SheetItem } from './item'
 
-export type PostMenuSheetPayload = {
-  post: Post
+export type CommentMenuSheetPayload = {
+  comment: CommentReply
 }
 
-export type PostMenuSheetRoutes = {
+export type CommentMenuSheetRoutes = {
   menu: RouteDefinition
   report: RouteDefinition
 }
 
-export type PostMenuSheetDefinition = SheetDefinition<{
-  payload: PostMenuSheetPayload
-  routes: PostMenuSheetRoutes
+export type CommentMenuSheetDefinition = SheetDefinition<{
+  payload: CommentMenuSheetPayload
+  routes: CommentMenuSheetRoutes
 }>
 
-export function PostMenuSheet({ sheetId }: SheetProps<'post-menu'>) {
+export function CommentMenuSheet({ sheetId }: SheetProps<'comment-menu'>) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
@@ -65,17 +65,17 @@ export function PostMenuSheet({ sheetId }: SheetProps<'post-menu'>) {
   )
 }
 
-function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
+function Menu(props: RouteScreenProps<'comment-menu', 'menu'>) {
   const router = useRouter()
 
   const t = useTranslations('sheet.postMenu.menu')
 
   const { theme } = useStyles()
 
-  const { post } = useSheetPayload<'post-menu'>()
+  const { comment } = useSheetPayload<'comment-menu'>()
 
-  const { vote } = usePostVote()
-  const { save } = usePostSave()
+  const { vote } = useCommentVote()
+  const { save } = useCommentSave()
 
   const { copy } = useCopy()
   const { hide } = useHide()
@@ -84,44 +84,47 @@ function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
     {
       color: theme.colors.orange.a9,
       icon: 'ArrowFatUp',
-      key: post.liked ? 'removeUpvote' : 'upvote',
+      key: comment.liked ? 'removeUpvote' : 'upvote',
       onPress() {
         vote({
-          direction: post.liked ? 0 : 1,
-          postId: post.id,
+          commentId: comment.id,
+          direction: comment.liked ? 0 : 1,
+          postId: comment.postId,
         })
 
         props.router.close()
       },
-      weight: post.liked ? 'regular' : undefined,
+      weight: comment.liked ? 'regular' : undefined,
     },
     {
       color: theme.colors.violet.a9,
       icon: 'ArrowFatDown',
-      key: post.liked === false ? 'removeDownvote' : 'downvote',
+      key: comment.liked === false ? 'removeDownvote' : 'downvote',
       onPress() {
         vote({
-          direction: post.liked === false ? 0 : -1,
-          postId: post.id,
+          commentId: comment.id,
+          direction: comment.liked === false ? 0 : -1,
+          postId: comment.postId,
         })
 
         props.router.close()
       },
-      weight: post.liked === false ? 'regular' : undefined,
+      weight: comment.liked === false ? 'regular' : undefined,
     },
     {
       color: theme.colors.green.a9,
       icon: 'BookmarkSimple',
-      key: post.saved ? 'unsave' : 'save',
+      key: comment.saved ? 'unsave' : 'save',
       onPress() {
         save({
-          action: post.saved ? 'unsave' : 'save',
-          postId: post.id,
+          action: comment.saved ? 'unsave' : 'save',
+          commentId: comment.id,
+          postId: comment.postId,
         })
 
         props.router.close()
       },
-      weight: post.saved ? 'regular' : undefined,
+      weight: comment.saved ? 'regular' : undefined,
     },
     {
       color: theme.colors.blue.a9,
@@ -130,7 +133,9 @@ function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
       onPress() {
         router.navigate({
           params: {
-            id: post.id,
+            commentId: comment.id,
+            id: comment.postId,
+            user: comment.user.name,
           },
           pathname: '/posts/[id]/reply',
         })
@@ -144,10 +149,9 @@ function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
       icon: 'Share',
       key: 'share',
       onPress() {
-        const url = new URL(post.permalink, 'https://reddit.com')
+        const url = new URL(comment.permalink, 'https://reddit.com')
 
         void Share.share({
-          message: post.title,
           url: url.toString(),
         })
 
@@ -158,7 +162,7 @@ function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
       icon: 'Copy',
       key: 'copyLink',
       onPress() {
-        const url = new URL(post.permalink, 'https://reddit.com')
+        const url = new URL(comment.permalink, 'https://reddit.com')
 
         void copy(url.toString())
 
@@ -167,19 +171,6 @@ function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
     },
 
     null,
-    {
-      icon: post.hidden ? 'Eye' : 'EyeClosed',
-      key: post.hidden ? 'unhide' : 'hide',
-      onPress() {
-        hide({
-          action: post.hidden ? 'unhide' : 'hide',
-          id: post.id,
-          type: 'post',
-        })
-
-        props.router.close()
-      },
-    },
     {
       icon: 'Flag',
       key: 'report',
@@ -193,24 +184,13 @@ function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
       icon: 'User',
       key: 'hideUser',
       onPress() {
-        hide({
-          action: 'hide',
-          id: post.user.id,
-          type: 'user',
-        })
-
-        props.router.close()
-      },
-    },
-    {
-      icon: 'UsersFour',
-      key: 'hideCommunity',
-      onPress() {
-        hide({
-          action: 'hide',
-          id: post.community.id,
-          type: 'community',
-        })
+        if (comment.user.id) {
+          hide({
+            action: 'hide',
+            id: comment.user.id,
+            type: 'user',
+          })
+        }
 
         props.router.close()
       },
@@ -219,7 +199,7 @@ function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
 
   return (
     <>
-      <SheetHeader title={t('title.post')} />
+      <SheetHeader title={t('title.comment')} />
 
       {items.map((item) => {
         if (item === null) {
@@ -235,8 +215,7 @@ function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
             }}
             key={item.key}
             label={t(item.key, {
-              community: post.community.name,
-              user: post.user.name,
+              user: comment.user.name,
             })}
             onPress={item.onPress}
           />
@@ -246,10 +225,10 @@ function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
   )
 }
 
-function Report({ router }: RouteScreenProps<'post-menu', 'menu'>) {
+function Report({ router }: RouteScreenProps<'comment-menu', 'menu'>) {
   const t = useTranslations('sheet.postMenu.report')
 
-  const { post } = useSheetPayload<'post-menu'>()
+  const { comment } = useSheetPayload<'comment-menu'>()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -264,7 +243,6 @@ function Report({ router }: RouteScreenProps<'post-menu', 'menu'>) {
       <View direction="row" gap="3" p="3" wrap="wrap">
         {(
           [
-            'community',
             'HARASSMENT',
             'VIOLENCE',
             'HATE_CONTENT',
@@ -298,9 +276,7 @@ function Report({ router }: RouteScreenProps<'post-menu', 'menu'>) {
             style={[styles.reason(item === reason)]}
           >
             <Text contrast={item === reason} size="2">
-              {t(item, {
-                community: post.community.name,
-              })}
+              {t(item)}
             </Text>
           </Pressable>
         ))}
@@ -312,7 +288,7 @@ function Report({ router }: RouteScreenProps<'post-menu', 'menu'>) {
           loading={isPending}
           onPress={() => {
             report({
-              id: post.id,
+              id: comment.id,
               reason,
               type: 'post',
             })

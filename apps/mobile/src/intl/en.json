@@ -298,7 +298,10 @@
         "report": "Report",
         "save": "Save",
         "share": "Share",
-        "title": "Post",
+        "title": {
+          "comment": "Comment",
+          "post": "Post"
+        },
         "unhide": "Unhide",
         "unsave": "Unsave",
         "upvote": "Upvote"

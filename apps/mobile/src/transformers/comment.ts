@@ -41,10 +41,14 @@ export function transformComment(
       },
       op: data.data.is_submitter,
       parentId: parentId === postId ? undefined : parentId,
+      permalink: data.data.permalink,
       postId,
       saved: data.data.saved,
       sticky: Boolean(data.data.stickied),
       user: {
+        id: data.data.author_fullname
+          ? removePrefix(data.data.author_fullname)
+          : undefined,
         name: data.data.author,
       },
       votes: data.data.ups,

@@ -23,10 +23,12 @@ export type CommentReply = {
   }
   op: boolean
   parentId?: string
+  permalink: string
   postId: string
   saved: boolean
   sticky: boolean
   user: {
+    id?: string
     name: string
   }
   votes: number
