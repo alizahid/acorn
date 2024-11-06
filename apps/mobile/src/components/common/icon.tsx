@@ -30,6 +30,7 @@ import FlagBold from 'react-native-phosphor/src/bold/Flag'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import GitHubLogoBold from 'react-native-phosphor/src/bold/GithubLogo'
+import HandSwipeLeftBold from 'react-native-phosphor/src/bold/HandSwipeLeft'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
 import ImageBold from 'react-native-phosphor/src/bold/Image'
@@ -96,6 +97,7 @@ import FlagDuotone from 'react-native-phosphor/src/duotone/Flag'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import GitHubLogoDuotone from 'react-native-phosphor/src/duotone/GithubLogo'
+import HandSwipeLeftDuotone from 'react-native-phosphor/src/duotone/HandSwipeLeft'
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import ImageDuotone from 'react-native-phosphor/src/duotone/Image'
@@ -162,6 +164,7 @@ import FlagFill from 'react-native-phosphor/src/fill/Flag'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import GitHubLogoFill from 'react-native-phosphor/src/fill/GithubLogo'
+import HandSwipeLeftFill from 'react-native-phosphor/src/fill/HandSwipeLeft'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
 import ImageFill from 'react-native-phosphor/src/fill/Image'
@@ -228,6 +231,7 @@ import FlagRegular from 'react-native-phosphor/src/regular/Flag'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import GitHubLogoRegular from 'react-native-phosphor/src/regular/GithubLogo'
+import HandSwipeLeftRegular from 'react-native-phosphor/src/regular/HandSwipeLeft'
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
 import ImageRegular from 'react-native-phosphor/src/regular/Image'
@@ -469,6 +473,12 @@ const icons = {
     duotone: GitHubLogoDuotone,
     fill: GitHubLogoFill,
     regular: GitHubLogoRegular,
+  },
+  HandSwipeLeft: {
+    bold: HandSwipeLeftBold,
+    duotone: HandSwipeLeftDuotone,
+    fill: HandSwipeLeftFill,
+    regular: HandSwipeLeftRegular,
   },
   HardDrives: {
     bold: HardDrivesBold,

@@ -47,7 +47,7 @@ export function ProfileScreen() {
           },
         })),
         null,
-        t('settings.label'),
+        t('settings.title'),
         {
           arrow: true,
           icon: {

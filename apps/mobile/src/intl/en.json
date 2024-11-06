@@ -155,9 +155,9 @@
       "settings": {
         "about": "About",
         "cache": "Cache",
-        "label": "Settings",
         "preferences": "Preferences",
-        "sort": "Sort"
+        "sort": "Sort",
+        "title": "Settings"
       }
     },
     "search": {
@@ -204,36 +204,40 @@
       },
       "preferences": {
         "browsing": {
-          "dimSeen": "Dim seen posts",
           "feedCompact": "Compact mode",
-          "hideSeen": {
-            "description": "Posts will disappear after you refresh",
-            "label": "Hide seen posts"
-          },
-          "label": "Browsing",
+          "gestures": "Use swipe gestures",
           "mediaOnRight": {
             "description": "Only affects compact mode",
             "label": "Show media on right"
           },
           "rememberCommunitySort": "Remember community sorting",
+          "showFlair": "Show flair on posts and comments",
+          "title": "Browsing"
+        },
+        "history": {
+          "dimSeen": "Dim seen posts",
+          "hideSeen": {
+            "description": "Posts will disappear after you refresh",
+            "label": "Hide seen posts"
+          },
           "seenOnMedia": "Mark as seen when opening media",
           "seenOnScroll": {
             "description": "If off, will only mark a post as read after opening it\nRequires app restart to take effect",
             "label": "Mark as seen while scrolling"
           },
           "seenOnVote": "Mark as seen when voting",
-          "showFlair": "Show flair on posts and comments"
+          "title": "History"
         },
         "media": {
           "blurNsfw": "Blur NSFW media",
           "feedMuted": "Mute feed",
-          "label": "Media",
+          "title": "Media",
           "unmuteFullscreen": "Unmute on full screen"
         },
         "system": {
           "fontScaling": "Use system font scaling",
-          "label": "System",
-          "linkBrowser": "Open links in browser"
+          "linkBrowser": "Open links in browser",
+          "title": "System"
         },
         "title": "Preferences"
       },

@@ -12,7 +12,7 @@ export function SettingsPreferencesScreen() {
     <Menu
       items={(
         [
-          t('browsing.label'),
+          t('browsing.title'),
           {
             icon: 'Rows',
             key: 'feedCompact',
@@ -30,38 +30,48 @@ export function SettingsPreferencesScreen() {
             label: 'browsing.showFlair',
           },
           {
-            icon: 'ArrowFatUp',
-            key: 'seenOnVote',
-            label: 'browsing.seenOnVote',
-          },
-          {
-            icon: 'Image',
-            key: 'seenOnMedia',
-            label: 'browsing.seenOnMedia',
-          },
-          {
-            description: 'browsing.seenOnScroll.description',
-            icon: 'MouseScroll',
-            key: 'seenOnScroll',
-            label: 'browsing.seenOnScroll.label',
-          },
-          {
-            description: 'browsing.hideSeen.description',
-            icon: 'Eye',
-            key: 'hideSeen',
-            label: 'browsing.hideSeen.label',
-          },
-          {
-            icon: 'SunDim',
-            key: 'dimSeen',
-            label: 'browsing.dimSeen',
-          },
-          {
             icon: 'SortAscending',
             key: 'rememberCommunitySort',
             label: 'browsing.rememberCommunitySort',
           },
-          t('media.label'),
+          {
+            icon: 'HandSwipeLeft',
+            key: 'gestures',
+            label: 'browsing.gestures',
+          },
+
+          null,
+          t('history.title'),
+          {
+            icon: 'SunDim',
+            key: 'dimSeen',
+            label: 'history.dimSeen',
+          },
+          {
+            icon: 'ArrowFatUp',
+            key: 'seenOnVote',
+            label: 'history.seenOnVote',
+          },
+          {
+            icon: 'Image',
+            key: 'seenOnMedia',
+            label: 'history.seenOnMedia',
+          },
+          {
+            description: 'history.seenOnScroll.description',
+            icon: 'MouseScroll',
+            key: 'seenOnScroll',
+            label: 'history.seenOnScroll.label',
+          },
+          {
+            description: 'history.hideSeen.description',
+            icon: 'Eye',
+            key: 'hideSeen',
+            label: 'history.hideSeen.label',
+          },
+
+          null,
+          t('media.title'),
           {
             icon: 'SpeakerSimpleX',
             key: 'feedMuted',
@@ -77,7 +87,9 @@ export function SettingsPreferencesScreen() {
             key: 'blurNsfw',
             label: 'media.blurNsfw',
           },
-          t('system.label'),
+
+          null,
+          t('system.title'),
           {
             icon: 'Browser',
             key: 'linkBrowser',
@@ -90,7 +102,7 @@ export function SettingsPreferencesScreen() {
           },
         ] as const
       ).map((item) => {
-        if (typeof item === 'string') {
+        if (!item || typeof item === 'string') {
           return item
         }
 
