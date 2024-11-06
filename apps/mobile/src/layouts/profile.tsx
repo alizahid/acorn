@@ -122,6 +122,13 @@ export function ProfileLayout() {
           title: t('settings.sort.title'),
         }}
       />
+
+      <Stack.Screen
+        name="settings/themes"
+        options={{
+          title: t('settings.themes.title'),
+        }}
+      />
     </Stack>
   )
 }

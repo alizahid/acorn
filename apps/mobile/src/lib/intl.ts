@@ -1,6 +1,7 @@
 import { tz } from '@date-fns/tz'
 import { fromUnixTime } from 'date-fns'
-import { getCalendars } from 'expo-localization'
+
+import { calendar } from '~/intl'
 
 export function withoutAgo(time: string) {
   if (time.endsWith(' ago')) {
@@ -9,8 +10,6 @@ export function withoutAgo(time: string) {
 
   return time
 }
-
-const [calendar] = getCalendars()
 
 export function dateFromUnix(timestamp: number) {
   return fromUnixTime(timestamp, {

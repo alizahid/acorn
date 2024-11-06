@@ -16,6 +16,7 @@ import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
 import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
 import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
 import ChatCircleBold from 'react-native-phosphor/src/bold/ChatCircle'
+import CheckBold from 'react-native-phosphor/src/bold/Check'
 import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CompassBold from 'react-native-phosphor/src/bold/Compass'
@@ -40,6 +41,7 @@ import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import MouseScrollBold from 'react-native-phosphor/src/bold/MouseScroll'
 import PackageBold from 'react-native-phosphor/src/bold/Package'
+import PaletteBold from 'react-native-phosphor/src/bold/Palette'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
 import PauseBold from 'react-native-phosphor/src/bold/Pause'
 import PlayBold from 'react-native-phosphor/src/bold/Play'
@@ -84,6 +86,7 @@ import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
 import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
 import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
 import ChatCircleDuotone from 'react-native-phosphor/src/duotone/ChatCircle'
+import CheckDuotone from 'react-native-phosphor/src/duotone/Check'
 import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
@@ -108,6 +111,7 @@ import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/Magnifying
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import MouseScrollDuotone from 'react-native-phosphor/src/duotone/MouseScroll'
 import PackageDuotone from 'react-native-phosphor/src/duotone/Package'
+import PaletteDuotone from 'react-native-phosphor/src/duotone/Palette'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
 import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
 import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
@@ -152,6 +156,7 @@ import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
 import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
 import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
 import ChatCircleFill from 'react-native-phosphor/src/fill/ChatCircle'
+import CheckFill from 'react-native-phosphor/src/fill/Check'
 import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CompassFill from 'react-native-phosphor/src/fill/Compass'
@@ -176,6 +181,7 @@ import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import MouseScrollFill from 'react-native-phosphor/src/fill/MouseScroll'
 import PackageFill from 'react-native-phosphor/src/fill/Package'
+import PaletteFill from 'react-native-phosphor/src/fill/Palette'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
 import PauseFill from 'react-native-phosphor/src/fill/Pause'
 import PlayFill from 'react-native-phosphor/src/fill/Play'
@@ -220,6 +226,7 @@ import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
 import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
 import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
 import ChatCircleRegular from 'react-native-phosphor/src/regular/ChatCircle'
+import CheckRegular from 'react-native-phosphor/src/regular/Check'
 import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CompassRegular from 'react-native-phosphor/src/regular/Compass'
@@ -244,6 +251,7 @@ import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/Magnifying
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import MouseScrollRegular from 'react-native-phosphor/src/regular/MouseScroll'
 import PackageRegular from 'react-native-phosphor/src/regular/Package'
+import PaletteRegular from 'react-native-phosphor/src/regular/Palette'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
 import PauseRegular from 'react-native-phosphor/src/regular/Pause'
 import PlayRegular from 'react-native-phosphor/src/regular/Play'
@@ -394,6 +402,12 @@ const icons = {
     fill: ChatCircleFill,
     regular: ChatCircleRegular,
   },
+  Check: {
+    bold: CheckBold,
+    duotone: CheckDuotone,
+    fill: CheckFill,
+    regular: CheckRegular,
+  },
   CheckCircle: {
     bold: CheckCircleBold,
     duotone: CheckCircleDuotone,
@@ -537,6 +551,12 @@ const icons = {
     duotone: PackageDuotone,
     fill: PackageFill,
     regular: PackageRegular,
+  },
+  Palette: {
+    bold: PaletteBold,
+    duotone: PaletteDuotone,
+    fill: PaletteFill,
+    regular: PaletteRegular,
   },
   PaperPlaneTilt: {
     bold: PaperPlaneTiltBold,

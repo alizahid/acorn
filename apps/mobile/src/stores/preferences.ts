@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { Store } from '~/lib/store'
+import { type Theme } from '~/styles/themes'
 import {
   type CommentSort,
   type CommunityFeedSort,
@@ -41,6 +42,7 @@ export type PreferencesPayload = {
   sortSearchPosts: SearchSort
   sortUserComments: CommentSort
   sortUserPosts: UserFeedSort
+  theme: Theme
   unmuteFullscreen: boolean
 }
 
@@ -77,6 +79,7 @@ export const usePreferences = create<State>()(
       sortSearchPosts: 'relevance',
       sortUserComments: 'new',
       sortUserPosts: 'new',
+      theme: 'acorn',
       unmuteFullscreen: true,
       update(payload) {
         set(payload)

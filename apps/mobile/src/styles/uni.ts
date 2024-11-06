@@ -1,12 +1,31 @@
 import { UnistylesRegistry } from 'react-native-unistyles'
 
-import { darkTheme, lightTheme } from './themes'
+import {
+  darkTheme,
+  indigoDark,
+  indigoLight,
+  jadeDark,
+  jadeLight,
+  lightTheme,
+  plumDark,
+  plumLight,
+  rubyDark,
+  rubyLight,
+} from './themes'
 import { breakpoints } from './tokens'
 
 UnistylesRegistry.addBreakpoints(breakpoints)
   .addThemes({
     dark: darkTheme,
+    indigoDark,
+    indigoLight,
+    jadeDark,
+    jadeLight,
     light: lightTheme,
+    plumDark,
+    plumLight,
+    rubyDark,
+    rubyLight,
   })
   .addConfig({
     adaptiveThemes: true,

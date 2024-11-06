@@ -157,6 +157,7 @@
         "cache": "Cache",
         "preferences": "Preferences",
         "sort": "Sort",
+        "themes": "Themes",
         "title": "Settings"
       }
     },
@@ -273,6 +274,17 @@
           },
           "title": "User"
         }
+      },
+      "themes": {
+        "acorn": "Acorn",
+        "auto": "Auto",
+        "dark": "Dark",
+        "indigo": "Indigo",
+        "jade": "Jade",
+        "light": "Light",
+        "plum": "Plum",
+        "ruby": "Ruby",
+        "title": "Themes"
       }
     },
     "users": {

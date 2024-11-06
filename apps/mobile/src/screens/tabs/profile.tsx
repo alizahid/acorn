@@ -64,6 +64,19 @@ export function ProfileScreen() {
         {
           arrow: true,
           icon: {
+            name: 'Palette',
+            weight: 'duotone',
+          },
+          label: t('settings.themes'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings/themes',
+            })
+          },
+        },
+        {
+          arrow: true,
+          icon: {
             name: 'SortAscending',
             weight: 'duotone',
           },

@@ -8,7 +8,7 @@ import {
 
 import messages from './en.json'
 
-const [calendar] = getCalendars()
+export const [calendar] = getCalendars()
 
 export function getTranslator(
   namespace?: NamespaceKeys<IntlMessages, NestedKeyOf<IntlMessages>>,
