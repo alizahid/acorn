@@ -7,6 +7,7 @@ import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
+import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { Markdown } from '../common/markdown'
@@ -27,7 +28,6 @@ type Props = {
   label?: PostLabel
   post: Post
   reverse?: boolean
-  seen?: boolean
   style?: StyleProp<ViewStyle>
   viewing: boolean
 }
@@ -38,60 +38,64 @@ export function PostCard({
   label,
   post,
   reverse,
-  seen,
   style,
   viewing,
 }: Props) {
   const router = useRouter()
 
-  const { styles } = useStyles(stylesheet)
+  const { dimSeen } = usePreferences()
 
-  const body = expanded && post.body
+  const { styles } = useStyles(stylesheet)
 
   const { vote } = usePostVote()
   const { save } = usePostSave()
 
   const onAction = useCallback(
-    (action: GestureAction) => {
+    (item: Post, action: GestureAction) => {
       if (action === 'upvote') {
         vote({
-          direction: post.liked ? 0 : 1,
-          postId: post.id,
+          direction: item.liked ? 0 : 1,
+          postId: item.id,
         })
       }
 
       if (action === 'downvote') {
         vote({
-          direction: post.liked === false ? 0 : -1,
-          postId: post.id,
+          direction: item.liked === false ? 0 : -1,
+          postId: item.id,
         })
       }
 
       if (action === 'save') {
         save({
-          action: post.saved ? 'unsave' : 'save',
-          postId: post.id,
+          action: item.saved ? 'unsave' : 'save',
+          postId: item.id,
         })
       }
 
       if (action === 'reply') {
         router.navigate({
           params: {
-            id: post.id,
+            id: item.id,
           },
           pathname: '/posts/[id]/reply',
         })
       }
     },
-    [post.id, post.liked, post.saved, router, save, vote],
+    [router, save, vote],
   )
+
+  const body = Boolean(expanded) && Boolean(post.body)
+  const seen = dimSeen && post.seen && !expanded
 
   if (compact) {
     return (
       <PostGestures
         containerStyle={styles.container}
         liked={post.liked}
-        onAction={onAction}
+        onAction={(action) => {
+          onAction(post, action)
+        }}
         saved={post.saved}
         style={[styles.main(seen), style]}
       >
@@ -110,7 +114,9 @@ export function PostCard({
     <PostGestures
       containerStyle={styles.container}
       liked={post.liked}
-      onAction={onAction}
+      onAction={(action) => {
+        onAction(post, action)
+      }}
       saved={post.saved}
       style={[styles.main(seen), style]}
     >
@@ -206,7 +212,7 @@ const stylesheet = createStyleSheet((theme) => ({
   expanded: {
     marginBottom: theme.space[3],
   },
-  main: (seen?: boolean) => ({
+  main: (seen: boolean) => ({
     backgroundColor: theme.colors.gray[seen ? 2 : 3],
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[3] : undefined,

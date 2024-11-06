@@ -44,7 +44,7 @@ export function PostFooter({ expanded, label, post, seen }: Props) {
       }}
       p="3"
     >
-      <View align="start" flexShrink={1} gap="3">
+      <View align="start" flexShrink={1} gap="1">
         <PostCommunity label={label} post={post} seen={seen} />
 
         <PostMeta post={post} seen={seen} />

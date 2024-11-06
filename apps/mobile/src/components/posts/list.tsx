@@ -39,7 +39,7 @@ export function PostList({
 
   useScrollToTop(list)
 
-  const { dimSeen, feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
+  const { feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
   const { addPost } = useHistory()
 
   const {
@@ -95,7 +95,6 @@ export function PostList({
             label={label}
             post={item}
             reverse={mediaOnRight}
-            seen={dimSeen ? item.seen : false}
             viewing={focused ? viewing.includes(item.id) : false}
           />
         )}

@@ -38,7 +38,7 @@ export function UserPostsList({
 
   const focused = useIsFocused()
 
-  const { dimSeen, feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
+  const { feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
   const { addPost } = useHistory()
 
   const {
@@ -111,7 +111,6 @@ export function UserPostsList({
               label={label}
               post={item.data}
               reverse={mediaOnRight}
-              seen={dimSeen ? item.data.seen : false}
               viewing={focused ? viewing.includes(item.data.id) : false}
             />
           )
