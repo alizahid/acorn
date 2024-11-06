@@ -223,7 +223,7 @@
           },
           "seenOnMedia": "Mark as seen when opening media",
           "seenOnScroll": {
-            "description": "If off, will only mark a post as read after opening it\nRequires app restart to take effect",
+            "description": "Requires app restart to take effect",
             "label": "Mark as seen while scrolling"
           },
           "seenOnVote": "Mark as seen when voting",
