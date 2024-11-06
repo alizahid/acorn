@@ -201,9 +201,10 @@ function Menu(props: RouteScreenProps<'comment-menu', 'menu'>) {
     <>
       <SheetHeader title={t('title.comment')} />
 
-      {items.map((item) => {
+      {items.map((item, index) => {
         if (item === null) {
-          return <View height="4" key={item} />
+          // eslint-disable-next-line react/no-array-index-key -- go away
+          return <View height="4" key={index} />
         }
 
         return (
