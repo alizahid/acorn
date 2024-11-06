@@ -39,7 +39,7 @@ export function PostList({
 
   useScrollToTop(list)
 
-  const { feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
+  const { feedCompact, seenOnScroll } = usePreferences()
   const { addPost } = useHistory()
 
   const {
@@ -91,10 +91,8 @@ export function PostList({
         }
         renderItem={({ item }) => (
           <PostCard
-            compact={feedCompact}
             label={label}
             post={item}
-            reverse={mediaOnRight}
             viewing={focused ? viewing.includes(item.id) : false}
           />
         )}

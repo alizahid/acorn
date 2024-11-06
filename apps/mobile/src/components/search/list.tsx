@@ -53,7 +53,7 @@ export function SearchList({
 
   const { styles } = useStyles(stylesheet)
 
-  const { feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
+  const { feedCompact, seenOnScroll } = usePreferences()
   const { addPost } = useHistory()
 
   const history = useSearchHistory()
@@ -114,10 +114,8 @@ export function SearchList({
 
           return (
             <PostCard
-              compact={feedCompact}
               label="subreddit"
               post={item as Post}
-              reverse={mediaOnRight}
               viewing={focused ? viewing.includes(item.id) : false}
             />
           )

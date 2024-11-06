@@ -38,7 +38,7 @@ export function UserPostsList({
 
   const focused = useIsFocused()
 
-  const { feedCompact, mediaOnRight, seenOnScroll } = usePreferences()
+  const { feedCompact, seenOnScroll } = usePreferences()
   const { addPost } = useHistory()
 
   const {
@@ -107,10 +107,8 @@ export function UserPostsList({
 
           return (
             <PostCard
-              compact={feedCompact}
               label={label}
               post={item.data}
-              reverse={mediaOnRight}
               viewing={focused ? viewing.includes(item.data.id) : false}
             />
           )

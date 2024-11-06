@@ -288,12 +288,20 @@
     "postMenu": {
       "menu": {
         "copyLink": "Copy link",
+        "downvote": "Downvote",
         "hide": "Hide",
         "hideCommunity": "Hide r/{community}",
         "hideUser": "Hide u/{user}",
+        "removeDownvote": "Remove downvote",
+        "removeUpvote": "Remove upvote",
+        "reply": "Reply",
         "report": "Report",
-        "title": "Options",
-        "unhide": "Unhide"
+        "save": "Save",
+        "share": "Share",
+        "title": "Post",
+        "unhide": "Unhide",
+        "unsave": "Unsave",
+        "upvote": "Upvote"
       },
       "report": {
         "CONTRIBUTOR_PROGRAM": "Contributor Program violation",

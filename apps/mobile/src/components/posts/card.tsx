@@ -23,27 +23,17 @@ import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
 type Props = {
-  compact?: boolean
   expanded?: boolean
   label?: PostLabel
   post: Post
-  reverse?: boolean
   style?: StyleProp<ViewStyle>
   viewing: boolean
 }
 
-export function PostCard({
-  compact,
-  expanded,
-  label,
-  post,
-  reverse,
-  style,
-  viewing,
-}: Props) {
+export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const router = useRouter()
 
-  const { dimSeen } = usePreferences()
+  const { dimSeen, feedCompact, gestures, mediaOnRight } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -86,12 +76,14 @@ export function PostCard({
   )
 
   const body = Boolean(expanded) && Boolean(post.body)
+  const compact = feedCompact && !expanded
   const seen = dimSeen && post.seen && !expanded
 
   if (compact) {
     return (
       <PostGestures
         containerStyle={styles.container}
+        disabled={!gestures}
         liked={post.liked}
         onAction={(action) => {
           onAction(post, action)
@@ -103,8 +95,8 @@ export function PostCard({
           expanded={expanded}
           label={label}
           post={post}
-          reverse={reverse}
           seen={seen}
+          side={mediaOnRight ? 'right' : 'left'}
         />
       </PostGestures>
     )
@@ -113,6 +105,7 @@ export function PostCard({
   return (
     <PostGestures
       containerStyle={styles.container}
+      disabled={!gestures}
       liked={post.liked}
       onAction={(action) => {
         onAction(post, action)
@@ -152,7 +145,6 @@ export function PostCard({
 
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
-          compact={compact}
           nsfw={post.nsfw}
           recyclingKey={post.id}
           style={body ? styles.expanded : null}
@@ -163,7 +155,6 @@ export function PostCard({
 
       {post.type === 'image' && post.media.images ? (
         <PostGalleryCard
-          compact={compact}
           images={post.media.images}
           nsfw={post.nsfw}
           recyclingKey={post.id}
@@ -173,7 +164,6 @@ export function PostCard({
 
       {post.type === 'link' && post.url ? (
         <PostLinkCard
-          compact={compact}
           media={post.media.images?.[0]}
           recyclingKey={post.id}
           style={body ? styles.expanded : null}
@@ -193,7 +183,13 @@ export function PostCard({
         </Markdown>
       ) : null}
 
-      <PostFooter expanded={expanded} label={label} post={post} seen={seen} />
+      <PostFooter
+        expanded={expanded}
+        gestures={gestures}
+        label={label}
+        post={post}
+        seen={seen}
+      />
     </PostGestures>
   )
 }
@@ -216,5 +212,6 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.gray[seen ? 2 : 3],
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[3] : undefined,
+    overflow: 'hidden',
   }),
 }))

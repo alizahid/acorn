@@ -1,7 +1,7 @@
 import { type ReactNode } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { Icon, type IconName } from '~/components/common/icon'
+import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 
@@ -9,6 +9,7 @@ type Props = {
   icon?: {
     color?: string
     name: IconName
+    weight?: IconWeight
   }
   label: string
   left?: ReactNode
@@ -31,7 +32,7 @@ export function SheetItem({
     <Pressable
       align="center"
       direction="row"
-      gap="2"
+      gap="3"
       onPress={onPress}
       p="3"
       style={selected ? styles.selected : undefined}
@@ -41,6 +42,7 @@ export function SheetItem({
           color={icon.color ?? theme.colors.accent.a9}
           name={icon.name}
           size={theme.typography[2].lineHeight}
+          weight={icon.weight ?? 'duotone'}
         />
       ) : (
         left

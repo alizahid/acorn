@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router'
+import { SheetManager } from 'react-native-actions-sheet'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { iPad } from '~/lib/common'
@@ -11,6 +12,7 @@ import { View } from '../common/view'
 import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
 import { type PostLabel } from './footer'
+import { FooterButton } from './footer/button'
 import { PostCommunity } from './footer/community'
 import { PostMeta } from './footer/meta'
 import { PostGalleryCard } from './gallery'
@@ -21,24 +23,24 @@ type Props = {
   expanded?: boolean
   label?: PostLabel
   post: Post
-  reverse?: boolean
   seen?: boolean
+  side?: 'left' | 'right'
 }
 
 export function PostCompactCard({
   expanded,
   label,
   post,
-  reverse,
   seen,
+  side = 'left',
 }: Props) {
   const router = useRouter()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   return (
     <Pressable
-      direction={reverse ? 'row-reverse' : 'row'}
+      direction={side === 'right' ? 'row-reverse' : 'row'}
       disabled={expanded}
       gap="3"
       onPress={() => {
@@ -92,6 +94,8 @@ export function PostCompactCard({
       <View align="start" flex={1} gap="3">
         <PostCommunity label={label} post={post} seen={seen} />
 
+        <FlairCard flair={post.flair} seen={seen} />
+
         <Text highContrast={!seen} weight="bold">
           {post.title}
         </Text>
@@ -99,7 +103,19 @@ export function PostCompactCard({
         <View align="center" direction="row" gap="4">
           <PostMeta post={post} seen={seen} />
 
-          <FlairCard flair={post.flair} seen={seen} />
+          <FooterButton
+            color={theme.colors.gray[seen ? 'a11' : 'a12']}
+            compact
+            icon="DotsThree"
+            onPress={() => {
+              void SheetManager.show('post-menu', {
+                payload: {
+                  post,
+                },
+              })
+            }}
+            weight="bold"
+          />
         </View>
       </View>
 

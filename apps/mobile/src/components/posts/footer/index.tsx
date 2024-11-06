@@ -5,6 +5,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
 import { View } from '~/components/common/view'
+import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
@@ -17,15 +18,18 @@ export type PostLabel = 'user' | 'subreddit'
 
 type Props = {
   expanded?: boolean
+  gestures?: boolean
   label?: PostLabel
   post: Post
   seen?: boolean
 }
 
-export function PostFooter({ expanded, label, post, seen }: Props) {
+export function PostFooter({ expanded, gestures, label, post, seen }: Props) {
   const router = useRouter()
 
   const { styles, theme } = useStyles(stylesheet)
+
+  const { vote } = usePostVote()
 
   return (
     <Pressable
@@ -44,16 +48,16 @@ export function PostFooter({ expanded, label, post, seen }: Props) {
       }}
       p="3"
     >
-      <View align="start" flexShrink={1} gap="1">
+      <View align="start" flexShrink={1} gap="2">
         <PostCommunity label={label} post={post} seen={seen} />
 
         <PostMeta post={post} seen={seen} />
       </View>
 
-      <View align="center" direction="row" gap="4">
+      <View align="center" direction={gestures ? 'row' : 'row-reverse'} gap="4">
         <FooterButton
           color={theme.colors.gray[seen ? 'a11' : 'a12']}
-          icon="DotsThree"
+          icon="DotsThreeVertical"
           onPress={() => {
             void SheetManager.show('post-menu', {
               payload: {
@@ -64,17 +68,37 @@ export function PostFooter({ expanded, label, post, seen }: Props) {
           weight="bold"
         />
 
-        <FooterButton
-          color={theme.colors.gray[seen ? 'a11' : 'a12']}
-          icon="Share"
-          onPress={() => {
-            const url = new URL(post.permalink, 'https://reddit.com')
+        {gestures ? (
+          <FooterButton
+            color={theme.colors.gray[seen ? 'a11' : 'a12']}
+            icon="Share"
+            onPress={() => {
+              const url = new URL(post.permalink, 'https://reddit.com')
 
-            void Share.share({
-              message: `${post.title} ${url.toString()}`,
-            })
-          }}
-        />
+              void Share.share({
+                message: post.title,
+                url: url.toString(),
+              })
+            }}
+          />
+        ) : (
+          <FooterButton
+            color={
+              post.liked
+                ? theme.colors.orange.a9
+                : theme.colors.gray[seen ? 'a11' : 'a12']
+            }
+            fill={Boolean(post.liked)}
+            icon="ArrowUp"
+            onPress={() => {
+              vote({
+                direction: post.liked ? 0 : 1,
+                postId: post.id,
+              })
+            }}
+            weight="bold"
+          />
+        )}
       </View>
 
       {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}

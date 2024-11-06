@@ -1,4 +1,6 @@
+import { useRouter } from 'expo-router'
 import { useState } from 'react'
+import { Share } from 'react-native'
 import ActionSheet, {
   type RouteDefinition,
   type RouteScreenProps,
@@ -16,6 +18,8 @@ import { View } from '~/components/common/view'
 import { useCopy } from '~/hooks/copy'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
+import { usePostSave } from '~/hooks/mutations/posts/save'
+import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { type Post } from '~/types/post'
 
 import { SheetHeader } from './header'
@@ -61,15 +65,96 @@ export function PostMenuSheet({ sheetId }: SheetProps<'post-menu'>) {
   )
 }
 
-function Menu({ router }: RouteScreenProps<'post-menu', 'menu'>) {
+function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
+  const router = useRouter()
+
   const t = useTranslations('sheet.postMenu.menu')
 
+  const { theme } = useStyles()
+
   const { post } = useSheetPayload<'post-menu'>()
+
+  const { vote } = usePostVote()
+  const { save } = usePostSave()
 
   const { copy } = useCopy()
   const { hide } = useHide()
 
   const items = [
+    {
+      color: theme.colors.orange.a9,
+      icon: 'ArrowFatUp',
+      key: post.liked ? 'removeUpvote' : 'upvote',
+      onPress() {
+        vote({
+          direction: post.liked ? 0 : 1,
+          postId: post.id,
+        })
+
+        props.router.close()
+      },
+      weight: post.liked ? 'regular' : undefined,
+    },
+    {
+      color: theme.colors.violet.a9,
+      icon: 'ArrowFatDown',
+      key: post.liked === false ? 'removeDownvote' : 'downvote',
+      onPress() {
+        vote({
+          direction: post.liked === false ? 0 : -1,
+          postId: post.id,
+        })
+
+        props.router.close()
+      },
+      weight: post.liked === false ? 'regular' : undefined,
+    },
+    {
+      color: theme.colors.green.a9,
+      icon: 'BookmarkSimple',
+      key: post.saved ? 'unsave' : 'save',
+      onPress() {
+        save({
+          action: post.saved ? 'unsave' : 'save',
+          postId: post.id,
+        })
+
+        props.router.close()
+      },
+      weight: post.saved ? 'regular' : undefined,
+    },
+    {
+      color: theme.colors.blue.a9,
+      icon: 'ArrowBendUpLeft',
+      key: 'reply',
+      onPress() {
+        router.navigate({
+          params: {
+            id: post.id,
+          },
+          pathname: '/posts/[id]/reply',
+        })
+
+        props.router.close()
+      },
+      weight: post.saved ? 'regular' : undefined,
+    },
+
+    null,
+    {
+      icon: 'Share',
+      key: 'share',
+      onPress() {
+        const url = new URL(post.permalink, 'https://reddit.com')
+
+        void Share.share({
+          message: post.title,
+          url: url.toString(),
+        })
+
+        props.router.close()
+      },
+    },
     {
       icon: 'Copy',
       key: 'copyLink',
@@ -78,9 +163,11 @@ function Menu({ router }: RouteScreenProps<'post-menu', 'menu'>) {
 
         void copy(url.toString())
 
-        router.close()
+        props.router.close()
       },
     },
+
+    null,
     {
       icon: post.hidden ? 'Eye' : 'EyeClosed',
       key: post.hidden ? 'unhide' : 'hide',
@@ -91,16 +178,17 @@ function Menu({ router }: RouteScreenProps<'post-menu', 'menu'>) {
           type: 'post',
         })
 
-        router.close()
+        props.router.close()
       },
     },
     {
       icon: 'Flag',
       key: 'report',
       onPress() {
-        router.navigate('report')
+        props.router.navigate('report')
       },
     },
+
     null,
     {
       icon: 'User',
@@ -112,7 +200,7 @@ function Menu({ router }: RouteScreenProps<'post-menu', 'menu'>) {
           type: 'user',
         })
 
-        router.close()
+        props.router.close()
       },
     },
     {
@@ -125,7 +213,7 @@ function Menu({ router }: RouteScreenProps<'post-menu', 'menu'>) {
           type: 'community',
         })
 
-        router.close()
+        props.router.close()
       },
     },
   ] as const
@@ -142,7 +230,9 @@ function Menu({ router }: RouteScreenProps<'post-menu', 'menu'>) {
         return (
           <SheetItem
             icon={{
+              color: 'color' in item ? item.color : undefined,
               name: item.icon,
+              weight: 'weight' in item ? item.weight : undefined,
             }}
             key={item.key}
             label={t(item.key, {

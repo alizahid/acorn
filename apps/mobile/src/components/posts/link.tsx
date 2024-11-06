@@ -29,6 +29,7 @@ export function PostLinkCard({
   const { styles, theme } = useStyles(stylesheet)
 
   const { handleLink } = useLink()
+
   const placeholder = useImagePlaceholder()
 
   if (compact) {
