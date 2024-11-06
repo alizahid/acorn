@@ -23,7 +23,6 @@ import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
 import DotsThreeBold from 'react-native-phosphor/src/bold/DotsThree'
-import DotsThreeVerticalBold from 'react-native-phosphor/src/bold/DotsThreeVertical'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
 import EyeBold from 'react-native-phosphor/src/bold/Eye'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
@@ -93,7 +92,6 @@ import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
 import DotsThreeDuotone from 'react-native-phosphor/src/duotone/DotsThree'
-import DotsThreeVerticalDuotone from 'react-native-phosphor/src/duotone/DotsThreeVertical'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
 import EyeDuotone from 'react-native-phosphor/src/duotone/Eye'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
@@ -163,7 +161,6 @@ import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
 import DotsThreeFill from 'react-native-phosphor/src/fill/DotsThree'
-import DotsThreeVerticalFill from 'react-native-phosphor/src/fill/DotsThreeVertical'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
 import EyeFill from 'react-native-phosphor/src/fill/Eye'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
@@ -233,7 +230,6 @@ import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
 import DotsThreeRegular from 'react-native-phosphor/src/regular/DotsThree'
-import DotsThreeVerticalRegular from 'react-native-phosphor/src/regular/DotsThreeVertical'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
 import EyeRegular from 'react-native-phosphor/src/regular/Eye'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
@@ -443,12 +439,6 @@ const icons = {
     duotone: DotsThreeDuotone,
     fill: DotsThreeFill,
     regular: DotsThreeRegular,
-  },
-  DotsThreeVertical: {
-    bold: DotsThreeVerticalBold,
-    duotone: DotsThreeVerticalDuotone,
-    fill: DotsThreeVerticalFill,
-    regular: DotsThreeVerticalRegular,
   },
   Download: {
     bold: DownloadBold,

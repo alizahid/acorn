@@ -57,7 +57,7 @@ export function PostFooter({ expanded, gestures, label, post, seen }: Props) {
       <View align="center" direction={gestures ? 'row' : 'row-reverse'} gap="4">
         <FooterButton
           color={theme.colors.gray[seen ? 'a11' : 'a12']}
-          icon="DotsThreeVertical"
+          icon="DotsThree"
           onPress={() => {
             void SheetManager.show('post-menu', {
               payload: {
