@@ -82,7 +82,7 @@ export function NotificationCard({ notification }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   main: (color: ColorToken, unread: boolean) => ({
     backgroundColor:
-      theme.colors[unread ? color : 'gray'][unread ? 'a2' : 'a1'],
+      theme.colors[unread ? color : 'gray'][unread ? 'a3' : 'a1'],
   }),
 }))
 
