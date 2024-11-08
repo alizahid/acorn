@@ -13,6 +13,7 @@ export function HomeScreen() {
   const { feedType, intervalFeedPosts, sortFeedPosts } = usePreferences()
 
   const [type, setType] = useState(feedType)
+  const [feed, setFeed] = useState<string>()
   const [sort, setSort] = useState(sortFeedPosts)
   const [interval, setInterval] = useState(intervalFeedPosts)
 
@@ -20,8 +21,16 @@ export function HomeScreen() {
     navigation.setOptions({
       headerLeft: () => (
         <FeedTypeMenu
+          feed={feed}
           onChange={(next) => {
-            setType(next.type)
+            if (next.type) {
+              setType(next.type)
+              setFeed(undefined)
+            }
+
+            if (next.feed) {
+              setFeed(next.feed)
+            }
           }}
           type={type}
         />
@@ -46,6 +55,7 @@ export function HomeScreen() {
   return (
     <PostList
       community={type === 'home' ? undefined : type}
+      feed={feed}
       interval={interval}
       label="subreddit"
       sort={sort}

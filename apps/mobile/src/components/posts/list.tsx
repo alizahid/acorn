@@ -26,6 +26,7 @@ type Props = PostsProps & {
 
 export function PostList({
   community,
+  feed,
   header,
   interval,
   label,
@@ -52,6 +53,7 @@ export function PostList({
     refetch,
   } = usePosts({
     community,
+    feed,
     interval,
     sort,
   })

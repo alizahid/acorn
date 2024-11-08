@@ -130,7 +130,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   sheet: {
     backgroundColor: theme.colors.gray[1],
-    paddingBottom: theme.space[3] + runtime.insets.bottom,
+    paddingBottom: runtime.insets.bottom,
   },
   swipeable: {
     backgroundColor: theme.colors.accent[5],

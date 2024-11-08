@@ -333,7 +333,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: {
     backgroundColor: theme.colors.gray[1],
-    paddingBottom: theme.space[3] + runtime.insets.bottom,
+    paddingBottom: runtime.insets.bottom,
   },
   reason: (selected: boolean) => ({
     backgroundColor: selected ? theme.colors.accent.a9 : theme.colors.gray.a3,

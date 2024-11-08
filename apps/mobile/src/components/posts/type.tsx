@@ -1,6 +1,8 @@
+import { Image } from 'expo-image'
 import { SheetManager } from 'react-native-actions-sheet'
-import { useStyles } from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { useFeeds } from '~/hooks/queries/feeds/feeds'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { type FeedTypeSheetReturnValue } from '~/sheets/feed-type'
 import { type FeedType } from '~/types/sort'
@@ -9,12 +11,17 @@ import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 
 type Props = {
+  feed?: string
   onChange: (data: FeedTypeSheetReturnValue) => void
   type: FeedType
 }
 
-export function FeedTypeMenu({ onChange, type }: Props) {
-  const { theme } = useStyles()
+export function FeedTypeMenu({ feed, onChange, type }: Props) {
+  const { styles, theme } = useStyles(stylesheet)
+
+  const { feeds } = useFeeds()
+
+  const image = feeds.find((item) => item.id === feed)?.image
 
   return (
     <Pressable
@@ -30,18 +37,23 @@ export function FeedTypeMenu({ onChange, type }: Props) {
             }
           },
           payload: {
+            feed,
             type,
           },
         })
       }}
       px="3"
     >
-      <Icon
-        color={theme.colors[FeedTypeColors[type]].a9}
-        name={FeedTypeIcons[type]}
-        size={theme.space[5]}
-        weight="duotone"
-      />
+      {image ? (
+        <Image source={image} style={styles.image} />
+      ) : (
+        <Icon
+          color={theme.colors[FeedTypeColors[type]].a9}
+          name={FeedTypeIcons[type]}
+          size={theme.space[5]}
+          weight="duotone"
+        />
+      )}
 
       <Icon
         color={theme.colors.gray.a11}
@@ -52,3 +64,10 @@ export function FeedTypeMenu({ onChange, type }: Props) {
     </Pressable>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  image: {
+    height: theme.space[5],
+    width: theme.space[5],
+  },
+}))

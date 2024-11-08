@@ -32,6 +32,7 @@ export type PostsQueryKey = [
   {
     accountId?: string
     community?: string
+    feed?: string
     interval?: TopInterval
     sort?: FeedSort
   },
@@ -41,11 +42,12 @@ export type PostsQueryData = InfiniteData<Page, Param>
 
 export type PostsProps = {
   community?: string
+  feed?: string
   interval?: TopInterval
   sort: FeedSort
 }
 
-export function usePosts({ community, interval, sort }: PostsProps) {
+export function usePosts({ community, feed, interval, sort }: PostsProps) {
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
@@ -55,6 +57,7 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     {
       accountId,
       community,
+      feed,
       interval,
       sort,
     },
@@ -73,7 +76,11 @@ export function usePosts({ community, interval, sort }: PostsProps) {
     enabled: Boolean(accountId),
     initialPageParam: null,
     async queryFn({ pageParam }) {
-      const path = community ? `/r/${community}/${sort}` : `/${sort}`
+      const path = feed
+        ? `/user/${accountId!}/m/${feed}`
+        : community
+          ? `/r/${community}/${sort}`
+          : `/${sort}`
 
       const url = new URL(path, REDDIT_URI)
 
