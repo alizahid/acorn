@@ -39,8 +39,13 @@ export function VideoPlayer({
 }: Props) {
   const t = useTranslations('component.posts.video')
 
-  const { blurNsfw, feedMuted, seenOnMedia, unmuteFullscreen } =
-    usePreferences()
+  const {
+    blurNsfw,
+    feedMuted,
+    largeThumbnails,
+    seenOnMedia,
+    unmuteFullscreen,
+  } = usePreferences()
   const { addPost } = useHistory()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -81,7 +86,7 @@ export function VideoPlayer({
               })
             }
           }}
-          style={styles.compact}
+          style={styles.compact(largeThumbnails)}
         >
           <Image source={video.thumbnail} style={styles.compactImage} />
 
@@ -173,14 +178,14 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     gap: theme.space[4],
     justifyContent: 'center',
   },
-  compact: {
+  compact: (large: boolean) => ({
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
-    borderRadius: theme.space[1],
-    height: theme.space[8],
+    borderRadius: theme.space[large ? 2 : 1],
+    height: theme.space[8] * (large ? 2 : 1),
     overflow: 'hidden',
-    width: theme.space[8],
-  },
+    width: theme.space[8] * (large ? 2 : 1),
+  }),
   compactIcon: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.black.a9,

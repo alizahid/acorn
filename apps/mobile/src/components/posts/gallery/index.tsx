@@ -35,7 +35,7 @@ export function PostGalleryCard({
 }: Props) {
   const t = useTranslations('component.posts.gallery')
 
-  const { blurNsfw, seenOnMedia } = usePreferences()
+  const { blurNsfw, largeThumbnails, seenOnMedia } = usePreferences()
   const { addPost } = useHistory()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -63,7 +63,7 @@ export function PostGalleryCard({
               })
             }
           }}
-          style={[styles.compact, style]}
+          style={[styles.compact(largeThumbnails), style]}
         >
           <Image
             {...placeholder}
@@ -159,14 +159,14 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     gap: theme.space[4],
     justifyContent: 'center',
   },
-  compact: {
+  compact: (large: boolean) => ({
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
-    borderRadius: theme.space[1],
-    height: theme.space[8],
+    borderRadius: theme.space[large ? 2 : 1],
+    height: theme.space[8] * (large ? 2 : 1),
     overflow: 'hidden',
-    width: theme.space[8],
-  },
+    width: theme.space[8] * (large ? 2 : 1),
+  }),
   compactIcon: {
     backgroundColor: theme.colors.black.a9,
   },

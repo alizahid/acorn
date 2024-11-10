@@ -29,6 +29,7 @@ export type PreferencesPayload = {
   intervalSearchPosts: TopInterval
   intervalUserComments: TopInterval
   intervalUserPosts: TopInterval
+  largeThumbnails: boolean
   linkBrowser: boolean
   mediaOnRight: boolean
   rememberCommunitySort: boolean
@@ -67,6 +68,7 @@ export const usePreferences = create<State>()(
       intervalSearchPosts: 'all',
       intervalUserComments: 'all',
       intervalUserPosts: 'all',
+      largeThumbnails: false,
       linkBrowser: true,
       mediaOnRight: true,
       rememberCommunitySort: false,

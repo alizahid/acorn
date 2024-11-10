@@ -30,7 +30,7 @@ export function PostLinkCard({
 }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
-  const { seenOnMedia } = usePreferences()
+  const { largeThumbnails, seenOnMedia } = usePreferences()
   const { handleLink } = useLink()
   const { addPost } = useHistory()
 
@@ -48,7 +48,7 @@ export function PostLinkCard({
             })
           }
         }}
-        style={styles.compact}
+        style={styles.compact(largeThumbnails)}
       >
         {media?.thumbnail ? (
           <Image source={media.thumbnail} style={styles.compactImage} />
@@ -100,14 +100,14 @@ export function PostLinkCard({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  compact: {
+  compact: (large: boolean) => ({
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
-    borderRadius: theme.space[1],
-    height: theme.space[8],
+    borderRadius: theme.space[large ? 2 : 1],
+    height: theme.space[8] * (large ? 2 : 1),
     overflow: 'hidden',
-    width: theme.space[8],
-  },
+    width: theme.space[8] * (large ? 2 : 1),
+  }),
   compactIcon: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.black.a9,

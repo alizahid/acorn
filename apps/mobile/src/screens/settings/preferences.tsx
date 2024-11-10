@@ -14,17 +14,6 @@ export function SettingsPreferencesScreen() {
         [
           t('browsing.title'),
           {
-            icon: 'Rows',
-            key: 'feedCompact',
-            label: 'browsing.feedCompact',
-          },
-          {
-            description: 'browsing.mediaOnRight.description',
-            icon: 'Image',
-            key: 'mediaOnRight',
-            label: 'browsing.mediaOnRight.label',
-          },
-          {
             icon: 'Medal',
             key: 'showFlair',
             label: 'browsing.showFlair',
@@ -43,6 +32,24 @@ export function SettingsPreferencesScreen() {
             icon: 'ArrowDown',
             key: 'skipCommentOnLeft',
             label: 'browsing.skipCommentOnLeft',
+          },
+          null,
+
+          t('compact.title'),
+          {
+            icon: 'Rows',
+            key: 'feedCompact',
+            label: 'compact.feedCompact',
+          },
+          {
+            icon: 'ArrowsOut',
+            key: 'largeThumbnails',
+            label: 'compact.largeThumbnails',
+          },
+          {
+            icon: 'Image',
+            key: 'mediaOnRight',
+            label: 'compact.mediaOnRight',
           },
 
           null,

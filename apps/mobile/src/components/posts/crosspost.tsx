@@ -5,6 +5,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
+import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -34,6 +35,8 @@ export function CrossPostCard({
 
   const f = useFormatter()
 
+  const { largeThumbnails } = usePreferences()
+
   const { styles, theme } = useStyles(stylesheet)
 
   if (compact) {
@@ -47,7 +50,7 @@ export function CrossPostCard({
             pathname: '/posts/[id]',
           })
         }}
-        style={styles.compact}
+        style={styles.compact(largeThumbnails)}
       >
         {post.media.images?.[0] ? (
           <Image
@@ -172,14 +175,14 @@ export function CrossPostCard({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  compact: {
+  compact: (large: boolean) => ({
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
-    borderRadius: theme.space[1],
-    height: theme.space[8],
+    borderRadius: theme.space[large ? 2 : 1],
+    height: theme.space[8] * (large ? 2 : 1),
     overflow: 'hidden',
-    width: theme.space[8],
-  },
+    width: theme.space[8] * (large ? 2 : 1),
+  }),
   compactIcon: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.black.a9,

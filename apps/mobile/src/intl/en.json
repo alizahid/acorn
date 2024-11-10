@@ -205,16 +205,17 @@
       },
       "preferences": {
         "browsing": {
-          "feedCompact": "Compact mode",
           "gestures": "Use swipe gestures",
-          "mediaOnRight": {
-            "description": "Only affects compact mode",
-            "label": "Show media on right"
-          },
           "rememberCommunitySort": "Remember community sorting",
           "showFlair": "Show flair on posts and comments",
           "skipCommentOnLeft": "Show skip comment on left",
           "title": "Browsing"
+        },
+        "compact": {
+          "feedCompact": "Compact mode",
+          "largeThumbnails": "Large thumbnails",
+          "mediaOnRight": "Show media on right",
+          "title": "Compact mode"
         },
         "history": {
           "dimSeen": "Dim seen posts",
