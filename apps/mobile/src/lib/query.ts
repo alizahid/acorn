@@ -1,15 +1,15 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
 import {
   type InfiniteData,
   QueryClient,
   type QueryKey,
 } from '@tanstack/react-query'
+import { AsyncStorage } from 'expo-sqlite/kv-store'
 import { parse, stringify } from 'superjson'
 
 import { Sentry } from './sentry'
 
-const cacheVersion = 5
+const cacheVersion = 1
 const cacheTime = 1_000 * 60 * 10
 
 export const queryClient = new QueryClient({
