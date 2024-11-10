@@ -1,10 +1,7 @@
 import { type Theme } from '@react-navigation/native'
-import { useColorScheme } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 
 export function useTheme() {
-  const scheme = useColorScheme()
-
   const { theme } = useStyles()
 
   return {
@@ -16,7 +13,7 @@ export function useTheme() {
       primary: theme.colors.accent.a9,
       text: theme.colors.gray[11],
     },
-    dark: scheme === 'dark',
+    dark: theme.name === 'dark',
     fonts: {
       bold: {
         fontFamily: 'sans',

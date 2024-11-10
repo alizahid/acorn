@@ -2,12 +2,7 @@
 
 import { Image } from 'expo-image'
 import { type Nodes } from 'mdast'
-import {
-  ScrollView,
-  type TextStyle,
-  useColorScheme,
-  type ViewStyle,
-} from 'react-native'
+import { ScrollView, type TextStyle, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useLink } from '~/hooks/link'
@@ -46,8 +41,6 @@ type Props = {
 }
 
 export function Node({ node, ...props }: Props) {
-  const scheme = useColorScheme()
-
   const { styles, theme } = useStyles(stylesheet)
 
   const { handleLink } = useLink()
@@ -274,7 +267,7 @@ export function Node({ node, ...props }: Props) {
 
   if (node.type === 'table') {
     return (
-      <ScrollView horizontal style={styles.table(scheme === 'dark')}>
+      <ScrollView horizontal style={styles.table}>
         <View responder>
           {node.children.map((row, rowIndex) => (
             <View
@@ -408,13 +401,13 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     fontSize: 12,
     lineHeight: 14,
   },
-  table: (dark: boolean) => ({
-    backgroundColor: dark ? '#0d1117' : '#fff',
+  table: {
+    backgroundColor: theme.name === 'dark' ? '#0d1117' : '#fff',
     borderColor: theme.colors.gray.a6,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     borderWidth: runtime.hairlineWidth,
-  }),
+  },
   tableCell: {
     flexDirection: 'row',
     paddingHorizontal: theme.space[3],

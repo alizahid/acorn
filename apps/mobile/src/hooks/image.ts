@@ -5,16 +5,16 @@ import { Directory, File, Paths } from 'expo-file-system/next'
 import { type ImageProps } from 'expo-image'
 import * as MediaLibrary from 'expo-media-library'
 import { useRef } from 'react'
-import { useColorScheme } from 'react-native'
+import { useStyles } from 'react-native-unistyles'
 
 import placeholderDark from '~/images/placeholder-dark.png'
 import placeholderLight from '~/images/placeholder-light.png'
 
 export function useImagePlaceholder() {
-  const scheme = useColorScheme()
+  const { theme } = useStyles()
 
   return {
-    placeholder: scheme === 'dark' ? placeholderDark : placeholderLight,
+    placeholder: theme.name === 'dark' ? placeholderDark : placeholderLight,
     placeholderContentFit: 'contain',
   } satisfies ImageProps
 }

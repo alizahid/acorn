@@ -4,7 +4,7 @@ import { type RootContent } from 'hast'
 import { common, createLowlight } from 'lowlight'
 import { type ElementContent } from 'lowlight/lib'
 import { useMemo } from 'react'
-import { ScrollView, type TextStyle, useColorScheme } from 'react-native'
+import { ScrollView, type TextStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type TypographyToken } from '~/styles/tokens'
@@ -21,27 +21,28 @@ type Props = {
 const lowlight = createLowlight(common)
 
 export function Code({ children, language, size }: Props) {
-  const scheme = useColorScheme()
-
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const root = useMemo(
     () => lowlight.highlight(language, children.trim()),
     [children, language],
   )
 
-  const dark = scheme === 'dark'
-
   return (
     <ScrollView
       contentContainerStyle={styles.content}
       horizontal
-      style={styles.main(dark)}
+      style={styles.main}
     >
       <View responder>
         <Text size={size} slow variant="mono">
           {root.children.map((node, index) => (
-            <Node dark={dark} key={index} node={node} size={size} />
+            <Node
+              dark={theme.name === 'dark'}
+              key={index}
+              node={node}
+              size={size}
+            />
           ))}
         </Text>
       </View>
@@ -54,11 +55,11 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingHorizontal: theme.space[3],
     paddingVertical: theme.space[2],
   },
-  main: (dark: boolean) => ({
-    backgroundColor: dark ? '#0d1117' : '#fff',
+  main: {
+    backgroundColor: theme.name === 'dark' ? '#0d1117' : '#fff',
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-  }),
+  },
 }))
 
 type NodeProps = {
