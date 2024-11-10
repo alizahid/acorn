@@ -331,7 +331,11 @@ export function Node({ node, ...props }: Props) {
       )
     }
 
-    return <Text size={props.size}>:{node.name}</Text>
+    return (
+      <Text size={props.size} slow>
+        :{node.name}
+      </Text>
+    )
   }
 
   if (node.type === 'thematicBreak') {
