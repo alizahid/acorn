@@ -74,7 +74,7 @@ const stylesheet = createStyleSheet((theme) => ({
       backgroundColor: theme.colors[color].a2,
       borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
-      marginLeft: margin,
+      marginLeft: margin + (depth > 0 ? theme.space[1] : 0),
     }
 
     if (iPad) {
