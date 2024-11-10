@@ -1,4 +1,4 @@
-import { type PhrasingContent, type Text } from 'mdast'
+import { type PhrasingContent } from 'mdast'
 import { directiveFromMarkdown } from 'mdast-util-directive'
 import { fromMarkdown } from 'mdast-util-from-markdown'
 import { gfmFromMarkdown } from 'mdast-util-gfm'
@@ -43,11 +43,8 @@ export function parse(markdown: string) {
   })
 }
 
-// FIXME
 export function getText(children: Array<PhrasingContent>) {
-  const node = children.find((item) => item.type === 'text') as unknown as
-    | Text
-    | undefined
+  const node = children.find((item) => item.type === 'text')
 
   if (node) {
     return node.value
