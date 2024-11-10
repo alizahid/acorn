@@ -53,12 +53,7 @@ export function VideoModal({
   }, [onClose, opacity])
 
   return (
-    <Modal
-      animationType="fade"
-      pointerEvents={visible ? 'auto' : 'none'}
-      transparent
-      visible={visible}
-    >
+    <Modal animationType="slide" transparent visible={visible}>
       <Gallery
         data={['video']}
         onSwipeToClose={() => {

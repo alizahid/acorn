@@ -50,8 +50,6 @@ export function VideoControls({
 
   useEffect(() => {
     function play() {
-      cancelAnimation(width)
-
       width.set((player.currentTime / player.duration) * frame.width)
 
       width.set(() =>
@@ -83,7 +81,7 @@ export function VideoControls({
     })
 
     const statusChange = player.addListener('statusChange', (next) => {
-      setLoading(next.status === 'loading')
+      setLoading(() => next.status === 'loading')
     })
 
     return () => {

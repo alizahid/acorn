@@ -64,12 +64,7 @@ export function PostGalleryModal({
   }
 
   return (
-    <Modal
-      animationType="fade"
-      pointerEvents={visible ? 'auto' : 'none'}
-      transparent
-      visible={visible}
-    >
+    <Modal animationType="slide" transparent visible={visible}>
       <Gallery
         data={images}
         emptySpaceWidth={theme.space[6]}
