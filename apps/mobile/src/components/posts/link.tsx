@@ -2,8 +2,10 @@ import { Image } from 'expo-image'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
+import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -28,7 +30,9 @@ export function PostLinkCard({
 }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
+  const { seenOnMedia } = usePreferences()
   const { handleLink } = useLink()
+  const { addPost } = useHistory()
 
   const placeholder = useImagePlaceholder()
 
@@ -37,6 +41,12 @@ export function PostLinkCard({
       <Pressable
         onPress={() => {
           void handleLink(url)
+
+          if (recyclingKey && seenOnMedia) {
+            addPost({
+              id: recyclingKey,
+            })
+          }
         }}
         style={styles.compact}
       >
@@ -56,6 +66,12 @@ export function PostLinkCard({
       mx="3"
       onPress={() => {
         void handleLink(url)
+
+        if (recyclingKey && seenOnMedia) {
+          addPost({
+            id: recyclingKey,
+          })
+        }
       }}
       style={[styles.main, style]}
     >
