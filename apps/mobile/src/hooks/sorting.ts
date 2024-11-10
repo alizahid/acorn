@@ -1,4 +1,5 @@
 import { type QueryKey, useMutation, useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 
 import { getSorting, setSorting } from '~/lib/db/sorting'
 import { queryClient } from '~/lib/query'
@@ -14,6 +15,11 @@ export function useSorting(id: string) {
   const { intervalCommunityPosts, rememberCommunitySort, sortCommunityPosts } =
     usePreferences()
 
+  const [initial, setInitial] = useState<Data>({
+    interval: intervalCommunityPosts,
+    sort: sortCommunityPosts,
+  })
+
   const queryKey: QueryKey = [
     'sorting',
     {
@@ -22,10 +28,7 @@ export function useSorting(id: string) {
   ]
 
   const { data } = useQuery<Data>({
-    initialData: {
-      interval: intervalCommunityPosts,
-      sort: sortCommunityPosts,
-    },
+    initialData: initial,
     async queryFn() {
       return getSorting(id)
     },
@@ -40,19 +43,16 @@ export function useSorting(id: string) {
       })
     },
     onMutate(variables) {
-      if (!rememberCommunitySort) {
-        return
-      }
+      setInitial(variables)
 
-      queryClient.setQueryData<Data>(queryKey, {
-        interval: variables.interval,
-        sort: variables.sort,
-      })
+      queryClient.setQueryData<Data>(queryKey, variables)
     },
   })
 
+  const sorting = rememberCommunitySort ? data : initial
+
   return {
-    sorting: data,
+    sorting,
     update: mutate,
   }
 }
