@@ -2,7 +2,7 @@
 module.exports = {
   overrides: [
     {
-      files: 'apps/web/src/**/*.tsx',
+      files: 'apps/web/src/**/*.{tsx,css}',
       options: {
         plugins: ['prettier-plugin-tailwindcss'],
         tailwindConfig: 'apps/web/tailwind.config.ts',
