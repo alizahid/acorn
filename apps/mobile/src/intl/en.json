@@ -213,6 +213,7 @@
           },
           "rememberCommunitySort": "Remember community sorting",
           "showFlair": "Show flair on posts and comments",
+          "skipCommentOnLeft": "Show skip comment on left",
           "title": "Browsing"
         },
         "history": {

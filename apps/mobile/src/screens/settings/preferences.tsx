@@ -39,14 +39,14 @@ export function SettingsPreferencesScreen() {
             key: 'gestures',
             label: 'browsing.gestures',
           },
+          {
+            icon: 'ArrowDown',
+            key: 'skipCommentOnLeft',
+            label: 'browsing.skipCommentOnLeft',
+          },
 
           null,
           t('history.title'),
-          {
-            icon: 'SunDim',
-            key: 'dimSeen',
-            label: 'history.dimSeen',
-          },
           {
             icon: 'ArrowFatUp',
             key: 'seenOnVote',
@@ -62,6 +62,11 @@ export function SettingsPreferencesScreen() {
             icon: 'MouseScroll',
             key: 'seenOnScroll',
             label: 'history.seenOnScroll.label',
+          },
+          {
+            icon: 'SunDim',
+            key: 'dimSeen',
+            label: 'history.dimSeen',
           },
           {
             description: 'history.hideSeen.description',

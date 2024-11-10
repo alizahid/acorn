@@ -45,7 +45,7 @@ export function PostScreen() {
 
   const focused = useIsFocused()
 
-  const { sortPostComments } = usePreferences()
+  const { skipCommentOnLeft, sortPostComments } = usePreferences()
   const { addPost } = useHistory()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -265,7 +265,7 @@ export function PostScreen() {
               pathname: '/posts/[id]/reply',
             })
           }}
-          style={[styles.action, styles.reply]}
+          style={[styles.action, styles.reply(skipCommentOnLeft)]}
           weight="bold"
         />
       ) : null}
@@ -302,7 +302,7 @@ export function PostScreen() {
               viewOffset: 48,
             })
           }}
-          style={[styles.action, styles.skip]}
+          style={[styles.action, styles.skip(skipCommentOnLeft)]}
           weight="bold"
         />
       ) : null}
@@ -326,12 +326,14 @@ const stylesheet = createStyleSheet((theme) => ({
   content: {
     paddingBottom: theme.space[6] + theme.space[8],
   },
-  reply: {
+  reply: (swap: boolean) => ({
     backgroundColor: theme.colors.blue.a9,
-    left: theme.space[4],
-  },
-  skip: {
+    left: swap ? undefined : theme.space[4],
+    right: swap ? theme.space[4] : undefined,
+  }),
+  skip: (swap: boolean) => ({
     backgroundColor: theme.colors.accent.a9,
-    right: theme.space[4],
-  },
+    left: swap ? theme.space[4] : undefined,
+    right: swap ? undefined : theme.space[4],
+  }),
 }))

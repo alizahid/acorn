@@ -36,6 +36,7 @@ export type PreferencesPayload = {
   seenOnScroll: boolean
   seenOnVote: boolean
   showFlair: boolean
+  skipCommentOnLeft: boolean
   sortCommunityPosts: CommunityFeedSort
   sortFeedPosts: FeedSort
   sortPostComments: CommentSort
@@ -73,6 +74,7 @@ export const usePreferences = create<State>()(
       seenOnScroll: false,
       seenOnVote: false,
       showFlair: true,
+      skipCommentOnLeft: false,
       sortCommunityPosts: 'hot',
       sortFeedPosts: 'hot',
       sortPostComments: 'confidence',
