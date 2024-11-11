@@ -117,10 +117,10 @@ const stylesheet = createStyleSheet((theme) => ({
     marginVertical: theme.space[3],
   },
   container: (depth: number) => {
-    const margin = theme.space[3] * depth
+    const marginLeft = theme.space[2] * depth
 
     const base = {
-      marginLeft: margin + (depth > 0 ? theme.space[1] : 0),
+      marginLeft,
     }
 
     if (iPad) {
@@ -129,7 +129,7 @@ const stylesheet = createStyleSheet((theme) => ({
         alignSelf: 'center',
         borderCurve: 'continuous',
         borderRadius: theme.radius[3],
-        maxWidth: cardMaxWidth - margin,
+        maxWidth: cardMaxWidth - marginLeft,
         width: '100%',
       }
     }

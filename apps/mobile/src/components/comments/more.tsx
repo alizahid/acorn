@@ -68,13 +68,13 @@ const stylesheet = createStyleSheet((theme) => ({
   main: (depth: number) => {
     const color = getDepthColor(depth)
 
-    const margin = theme.space[3] * depth
+    const marginLeft = theme.space[2] * depth
 
     const base = {
       backgroundColor: theme.colors[color].a2,
       borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
-      marginLeft: margin + (depth > 0 ? theme.space[1] : 0),
+      marginLeft,
     }
 
     if (iPad) {
@@ -83,7 +83,7 @@ const stylesheet = createStyleSheet((theme) => ({
         alignSelf: 'center',
         borderCurve: 'continuous',
         borderRadius: theme.radius[3],
-        maxWidth: cardMaxWidth - margin,
+        maxWidth: cardMaxWidth - marginLeft,
         width: '100%',
       }
     }
