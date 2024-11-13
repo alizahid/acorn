@@ -33,7 +33,7 @@ export function Markdown({
       {markdown.children.map((node, index) => (
         <Node
           // eslint-disable-next-line react/no-array-index-key -- go away
-          key={`${recyclingKey}-${index}`}
+          key={index}
           meta={meta}
           node={node}
           recyclingKey={recyclingKey}
