@@ -2,6 +2,7 @@ import { useCallback, useState } from 'react'
 import { RefreshControl as ReactNativeRefreshControl } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 
+import { triggerFeedback } from '~/lib/feedback'
 import { type ColorToken } from '~/styles/tokens'
 
 type Props = {
@@ -16,6 +17,8 @@ export function RefreshControl({ color = 'accent', offset, onRefresh }: Props) {
   const [refreshing, setRefreshing] = useState(false)
 
   const refresh = useCallback(async () => {
+    triggerFeedback('refresh')
+
     setRefreshing(true)
 
     await onRefresh()

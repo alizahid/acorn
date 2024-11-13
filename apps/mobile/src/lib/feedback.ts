@@ -2,6 +2,7 @@ import mitt from 'mitt'
 
 export type Feedback = {
   down: undefined
+  refresh: undefined
   save: undefined
   undo: undefined
   up: undefined
