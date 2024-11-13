@@ -25,6 +25,7 @@ import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
 import DotsThreeBold from 'react-native-phosphor/src/bold/DotsThree'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
+import ExportBold from 'react-native-phosphor/src/bold/Export'
 import EyeBold from 'react-native-phosphor/src/bold/Eye'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
 import FastForwardBold from 'react-native-phosphor/src/bold/FastForward'
@@ -47,10 +48,10 @@ import PauseBold from 'react-native-phosphor/src/bold/Pause'
 import PlayBold from 'react-native-phosphor/src/bold/Play'
 import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
 import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
+import QuestionBold from 'react-native-phosphor/src/bold/Question'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import RewindBold from 'react-native-phosphor/src/bold/Rewind'
 import RowsBold from 'react-native-phosphor/src/bold/Rows'
-import ShareBold from 'react-native-phosphor/src/bold/Share'
 import SmileySadBold from 'react-native-phosphor/src/bold/SmileySad'
 import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
@@ -95,6 +96,7 @@ import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
 import DotsThreeDuotone from 'react-native-phosphor/src/duotone/DotsThree'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
+import ExportDuotone from 'react-native-phosphor/src/duotone/Export'
 import EyeDuotone from 'react-native-phosphor/src/duotone/Eye'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
 import FastForwardDuotone from 'react-native-phosphor/src/duotone/FastForward'
@@ -117,10 +119,10 @@ import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
 import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
 import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
 import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
+import QuestionDuotone from 'react-native-phosphor/src/duotone/Question'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import RewindDuotone from 'react-native-phosphor/src/duotone/Rewind'
 import RowsDuotone from 'react-native-phosphor/src/duotone/Rows'
-import ShareDuotone from 'react-native-phosphor/src/duotone/Share'
 import SmileySadDuotone from 'react-native-phosphor/src/duotone/SmileySad'
 import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
@@ -165,6 +167,7 @@ import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
 import DotsThreeFill from 'react-native-phosphor/src/fill/DotsThree'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
+import ExportFill from 'react-native-phosphor/src/fill/Export'
 import EyeFill from 'react-native-phosphor/src/fill/Eye'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
 import FastForwardFill from 'react-native-phosphor/src/fill/FastForward'
@@ -187,10 +190,10 @@ import PauseFill from 'react-native-phosphor/src/fill/Pause'
 import PlayFill from 'react-native-phosphor/src/fill/Play'
 import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
 import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
+import QuestionFill from 'react-native-phosphor/src/fill/Question'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import RewindFill from 'react-native-phosphor/src/fill/Rewind'
 import RowsFill from 'react-native-phosphor/src/fill/Rows'
-import ShareFill from 'react-native-phosphor/src/fill/Share'
 import SmileySadFill from 'react-native-phosphor/src/fill/SmileySad'
 import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
@@ -235,6 +238,7 @@ import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
 import DotsThreeRegular from 'react-native-phosphor/src/regular/DotsThree'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
+import ExportRegular from 'react-native-phosphor/src/regular/Export'
 import EyeRegular from 'react-native-phosphor/src/regular/Eye'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
 import FastForwardRegular from 'react-native-phosphor/src/regular/FastForward'
@@ -257,10 +261,10 @@ import PauseRegular from 'react-native-phosphor/src/regular/Pause'
 import PlayRegular from 'react-native-phosphor/src/regular/Play'
 import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
 import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
+import QuestionRegular from 'react-native-phosphor/src/regular/Question'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import RewindRegular from 'react-native-phosphor/src/regular/Rewind'
 import RowsRegular from 'react-native-phosphor/src/regular/Rows'
-import ShareRegular from 'react-native-phosphor/src/regular/Share'
 import SmileySadRegular from 'react-native-phosphor/src/regular/SmileySad'
 import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
@@ -456,6 +460,12 @@ const icons = {
     fill: DownloadFill,
     regular: DownloadRegular,
   },
+  Export: {
+    bold: ExportBold,
+    duotone: ExportDuotone,
+    fill: ExportFill,
+    regular: ExportRegular,
+  },
   Eye: {
     bold: EyeBold,
     duotone: EyeDuotone,
@@ -588,6 +598,12 @@ const icons = {
     fill: PushPinFill,
     regular: PushPinRegular,
   },
+  Question: {
+    bold: QuestionBold,
+    duotone: QuestionDuotone,
+    fill: QuestionFill,
+    regular: QuestionRegular,
+  },
   Ranking: {
     bold: RankingBold,
     duotone: RankingDuotone,
@@ -605,12 +621,6 @@ const icons = {
     duotone: RowsDuotone,
     fill: RowsFill,
     regular: RowsRegular,
-  },
-  Share: {
-    bold: ShareBold,
-    duotone: ShareDuotone,
-    fill: ShareFill,
-    regular: ShareRegular,
   },
   SmileySad: {
     bold: SmileySadBold,

@@ -1,5 +1,5 @@
-import { Image } from 'expo-image'
-import { useEffect, useRef, useState } from 'react'
+import { Image, useImage } from 'expo-image'
+import { useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -25,16 +25,11 @@ export function GalleryImage({ image, recyclingKey }: Props) {
 
   const ref = useRef<Image>(null)
 
-  const [loaded, setLoaded] = useState(!image.thumbnail)
   const [playing, setPlaying] = useState(true)
 
-  useEffect(() => {
-    if (image.thumbnail) {
-      void Image.prefetch(image.url).then(() => {
-        setLoaded(true)
-      })
-    }
-  }, [image.thumbnail, image.url])
+  const source = useImage(image.url, {
+    maxWidth: styles.maxWidth.width,
+  })
 
   return (
     <>
@@ -44,7 +39,7 @@ export function GalleryImage({ image, recyclingKey }: Props) {
         pointerEvents="box-none"
         recyclingKey={recyclingKey}
         ref={ref}
-        source={loaded ? image.url : image.thumbnail}
+        source={source ?? image.thumbnail}
         style={styles.main}
       />
 
@@ -85,7 +80,7 @@ export function GalleryImage({ image, recyclingKey }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   controls: (aspectRatio: number) => ({
     aspectRatio,
     marginVertical: 'auto',
@@ -102,6 +97,9 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   main: {
     flex: 1,
+  },
+  maxWidth: {
+    width: runtime.screen.width * 2,
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,

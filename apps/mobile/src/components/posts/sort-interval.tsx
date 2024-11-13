@@ -1,9 +1,8 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { SheetManager } from 'react-native-actions-sheet'
 import { useStyles } from 'react-native-unistyles'
 
 import { SortColors, SortIcons } from '~/lib/sort'
-import { type PostSortSheetReturnValue } from '~/sheets/post-sort'
+import { PostSortSheet, type PostSortSheetReturn } from '~/sheets/post-sort'
 import { type PostSort, type SortType, type TopInterval } from '~/types/sort'
 
 import { Icon } from '../common/icon'
@@ -12,7 +11,7 @@ import { TopIntervalItem } from './interval'
 
 type Props = {
   interval?: TopInterval
-  onChange: (data: PostSortSheetReturnValue) => void
+  onChange: (data: PostSortSheetReturn) => void
   sort: PostSort
   style?: StyleProp<ViewStyle>
   type: SortType
@@ -34,19 +33,14 @@ export function SortIntervalMenu({
       gap="2"
       height="8"
       justify="end"
-      onPress={() => {
-        void SheetManager.show('post-sort', {
-          onClose(data) {
-            if (data) {
-              onChange(data)
-            }
-          },
-          payload: {
-            interval,
-            sort,
-            type,
-          },
+      onPress={async () => {
+        const data = await PostSortSheet.call({
+          interval,
+          sort,
+          type,
         })
+
+        onChange(data)
       }}
       px="3"
       style={style}

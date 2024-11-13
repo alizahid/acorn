@@ -33,6 +33,7 @@ export function PostList({
   onRefresh,
   refreshing,
   sort,
+  user,
 }: Props) {
   const list = useRef<FlashList<Post>>(null)
 
@@ -56,6 +57,7 @@ export function PostList({
     feed,
     interval,
     sort,
+    user,
   })
 
   const [viewing, setViewing] = useState<Array<string>>([])

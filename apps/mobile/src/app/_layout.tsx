@@ -1,4 +1,3 @@
-import '~/sheets'
 import '~/styles/uni'
 
 import { ThemeProvider } from '@react-navigation/native'
@@ -6,13 +5,13 @@ import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client
 import { SQLiteProvider } from 'expo-sqlite'
 import { StatusBar } from 'expo-status-bar'
 import { useEffect } from 'react'
-import { SheetProvider } from 'react-native-actions-sheet'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { UnistylesRuntime } from 'react-native-unistyles'
 import { IntlProvider } from 'use-intl'
 
 import { RootLayout } from '~/components/navigation/layout'
+import { Sheets } from '~/components/sheets'
 import { useTheme } from '~/hooks/theme'
 import { calendar } from '~/intl'
 import en from '~/intl/en.json'
@@ -59,9 +58,9 @@ function Acorn() {
                 now={new Date()}
                 timeZone={calendar?.timeZone ?? undefined}
               >
-                <SheetProvider>
-                  <RootLayout />
-                </SheetProvider>
+                <RootLayout />
+
+                <Sheets />
               </IntlProvider>
             </PersistQueryClientProvider>
           </ThemeProvider>

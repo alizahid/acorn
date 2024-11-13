@@ -32,10 +32,21 @@
         "top": "Top"
       },
       "type": {
-        "all": "All",
-        "home": "Home",
-        "popular": "Popular",
-        "title": "Feed"
+        "communities": {
+          "title": "Communities"
+        },
+        "feeds": {
+          "title": "Custom feeds"
+        },
+        "type": {
+          "all": "All",
+          "home": "Home",
+          "popular": "Popular",
+          "title": "Feed"
+        },
+        "users": {
+          "title": "Users"
+        }
       }
     },
     "communities": {
@@ -89,11 +100,6 @@
         "comment": "Comment",
         "karma": "Karma",
         "post": "Post"
-      },
-      "switch": {
-        "add": "Add account",
-        "signOut": "Sign out of {id}",
-        "title": "Switch accounts"
       }
     }
   },
@@ -278,14 +284,26 @@
         }
       },
       "themes": {
-        "acorn": "Acorn",
-        "auto": "Auto",
-        "dark": "Dark",
-        "indigo": "Indigo",
-        "jade": "Jade",
-        "light": "Light",
-        "plum": "Plum",
-        "ruby": "Ruby",
+        "auto": {
+          "acorn": "Acorn",
+          "title": "Auto"
+        },
+        "dark": {
+          "acorn": "Acorn",
+          "indigo": "Indigo",
+          "jade": "Jade",
+          "plum": "Plum",
+          "ruby": "Ruby",
+          "title": "Dark"
+        },
+        "light": {
+          "acorn": "Acorn",
+          "indigo": "Indigo",
+          "jade": "Jade",
+          "plum": "Plum",
+          "ruby": "Ruby",
+          "title": "Light"
+        },
         "title": "Themes"
       }
     },
@@ -299,6 +317,9 @@
     }
   },
   "sheet": {
+    "accounts": {
+      "title": "Switch account"
+    },
     "postMenu": {
       "menu": {
         "copyLink": "Copy link",

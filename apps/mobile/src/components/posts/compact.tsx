@@ -1,9 +1,9 @@
 import { useRouter } from 'expo-router'
-import { SheetManager } from 'react-native-actions-sheet'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
+import { PostMenuSheet } from '~/sheets/post-menu'
 import { type Post } from '~/types/post'
 
 import { Pressable } from '../common/pressable'
@@ -108,10 +108,8 @@ export function PostCompactCard({
             compact
             icon="DotsThree"
             onPress={() => {
-              void SheetManager.show('post-menu', {
-                payload: {
-                  post,
-                },
+              void PostMenuSheet.call({
+                post,
               })
             }}
             weight="bold"

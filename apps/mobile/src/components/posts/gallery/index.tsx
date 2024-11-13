@@ -68,7 +68,7 @@ export function PostGalleryCard({
           <Image
             {...placeholder}
             recyclingKey={recyclingKey}
-            source={first.thumbnail ?? first.url}
+            source={first.thumbnail}
             style={styles.compactImage}
           />
 
@@ -103,7 +103,7 @@ export function PostGalleryCard({
           <Image
             {...placeholder}
             recyclingKey={recyclingKey}
-            source={first.thumbnail ?? first.url}
+            source={first.thumbnail}
             style={styles.image(first.width / first.height)}
           />
 

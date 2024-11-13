@@ -1,10 +1,10 @@
 import { useRouter } from 'expo-router'
-import { SheetManager } from 'react-native-actions-sheet'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { withoutAgo } from '~/lib/intl'
 import { removePrefix } from '~/lib/reddit'
+import { CommentMenuSheet } from '~/sheets/comment-menu'
 import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
@@ -102,10 +102,8 @@ export function CommentMeta({ collapsed, comment }: Props) {
         compact
         icon="DotsThree"
         onPress={() => {
-          void SheetManager.show('comment-menu', {
-            payload: {
-              comment,
-            },
+          void CommentMenuSheet.call({
+            comment,
           })
         }}
         weight="bold"

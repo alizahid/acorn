@@ -1,15 +1,15 @@
-import ActionSheet, {
-  type RouteDefinition,
-  type RouteScreenProps,
-  type SheetDefinition,
-  SheetManager,
-  type SheetProps,
-  useSheetPayload,
-} from 'react-native-actions-sheet'
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+  BottomSheetView,
+} from '@gorhom/bottom-sheet'
+import { useEffect, useRef } from 'react'
+import { createCallable } from 'react-call'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { TopIntervalItem } from '~/components/posts/interval'
+import { SheetBackDrop } from '~/components/sheets/back-drop'
 import { SortColors, SortIcons } from '~/lib/sort'
 import {
   CommentSort,
@@ -22,66 +22,34 @@ import {
   UserFeedSort,
 } from '~/types/sort'
 
-import { SheetHeader } from './header'
-import { SheetItem } from './item'
+import { SheetHeader } from '../components/sheets/header'
+import { SheetItem } from '../components/sheets/item'
 
-export type PostSortSheetPayload = {
+export type PostSortSheetProps = {
   interval?: TopInterval
   sort?: PostSort
   type: SortType
 }
 
-export type PostSortSheetRoutes = {
-  interval: RouteDefinition<{
-    interval?: TopInterval
-    sort: PostSort
-  }>
-  sort: RouteDefinition
-}
-
-export type PostSortSheetReturnValue = {
+export type PostSortSheetReturn = {
   interval?: TopInterval
   sort: PostSort
 }
 
-export type PostSortSheetDefinition = SheetDefinition<{
-  payload: PostSortSheetPayload
-  returnValue: PostSortSheetReturnValue
-  routes: PostSortSheetRoutes
-}>
+export const PostSortSheet = createCallable<
+  PostSortSheetProps,
+  PostSortSheetReturn
+>(function Component({ call, interval, sort, type }) {
+  const t = useTranslations('component.common')
 
-export function PostSortSheet({ sheetId }: SheetProps<'post-sort'>) {
   const { styles, theme } = useStyles(stylesheet)
 
-  return (
-    <ActionSheet
-      containerStyle={styles.main}
-      enableRouterBackNavigation
-      gestureEnabled
-      id={sheetId}
-      indicatorStyle={styles.indicator}
-      initialRoute="sort"
-      overlayColor={theme.colors.gray.a9}
-      routes={[
-        {
-          component: Sort,
-          name: 'sort',
-        },
-        {
-          component: Interval,
-          name: 'interval',
-        },
-      ]}
-    />
-  )
-}
+  const modalSort = useRef<BottomSheetModal>(null)
+  const modalInterval = useRef<BottomSheetModal>(null)
 
-function Sort({ router }: RouteScreenProps<'post-sort', 'sort'>) {
-  const t = useTranslations('component.common.sort')
-
-  const { interval, sort, type } = useSheetPayload<'post-sort'>()
-
-  const { theme } = useStyles(stylesheet)
+  useEffect(() => {
+    modalSort.current?.present()
+  }, [])
 
   const items =
     type === 'comment'
@@ -95,75 +63,99 @@ function Sort({ router }: RouteScreenProps<'post-sort', 'sort'>) {
             : FeedSort
 
   return (
-    <>
-      <SheetHeader title={t('title')} />
+    <BottomSheetModalProvider>
+      <BottomSheetModal
+        backdropComponent={SheetBackDrop}
+        backgroundStyle={styles.background}
+        enablePanDownToClose
+        handleComponent={null}
+        maxDynamicContentSize={styles.maxHeight.height}
+        ref={modalSort}
+        stackBehavior="push"
+        style={styles.main}
+      >
+        <BottomSheetView style={styles.content}>
+          <SheetHeader title={t('sort.title')} />
 
-      {items.map((item) => (
-        <SheetItem
-          icon={{
-            color: theme.colors[SortColors[item]].a9,
+          {items.map((item) => (
+            <SheetItem
+              icon={{
+                color: theme.colors[SortColors[item]].a9,
+                name: SortIcons[item],
+              }}
+              key={item}
+              label={t(`sort.${item}`)}
+              navigate={item === 'top'}
+              onPress={() => {
+                if (item === 'top') {
+                  modalInterval.current?.present()
 
-            name: SortIcons[item],
-          }}
-          key={item}
-          label={t(item)}
-          navigate={item === 'top'}
-          onPress={() => {
-            if (item === 'top') {
-              router.navigate('interval', {
-                interval,
-                sort: item,
-              })
+                  return
+                }
 
-              return
-            }
+                modalSort.current?.close()
 
-            void SheetManager.hide('post-sort', {
-              payload: {
-                sort: item,
-              },
-            })
-          }}
-          selected={item === sort}
-        />
-      ))}
-    </>
+                call.end({
+                  sort: item,
+                })
+              }}
+              selected={item === sort}
+            />
+          ))}
+        </BottomSheetView>
+      </BottomSheetModal>
+
+      <BottomSheetModal
+        backdropComponent={SheetBackDrop}
+        backgroundStyle={styles.background}
+        enablePanDownToClose
+        handleComponent={null}
+        maxDynamicContentSize={styles.maxHeight.height}
+        ref={modalInterval}
+        stackBehavior="push"
+        style={styles.main}
+      >
+        <BottomSheetView style={styles.content}>
+          <SheetHeader title={t('interval.title')} />
+
+          {TopInterval.map((item) => (
+            <SheetItem
+              key={item}
+              label={t(`interval.${item}`)}
+              left={<TopIntervalItem interval={item} />}
+              onPress={() => {
+                modalInterval.current?.close()
+                modalSort.current?.close()
+
+                call.end({
+                  interval: item,
+                  sort: 'top',
+                })
+              }}
+              selected={item === interval}
+            />
+          ))}
+        </BottomSheetView>
+      </BottomSheetModal>
+    </BottomSheetModalProvider>
   )
-}
-
-function Interval({ params }: RouteScreenProps<'post-sort', 'interval'>) {
-  const t = useTranslations('component.common.interval')
-
-  return (
-    <>
-      <SheetHeader title={t('title')} />
-
-      {TopInterval.map((item) => (
-        <SheetItem
-          key={item}
-          label={t(item)}
-          left={<TopIntervalItem interval={item} />}
-          onPress={() => {
-            void SheetManager.hide('post-sort', {
-              payload: {
-                interval: item,
-                sort: params.sort,
-              },
-            })
-          }}
-          selected={item === params.interval}
-        />
-      ))}
-    </>
-  )
-}
+}, 250)
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  indicator: {
-    display: 'none',
+  background: {
+    backgroundColor: theme.colors.gray[1],
+    borderRadius: 0,
+  },
+  content: {
+    paddingBottom: runtime.insets.bottom,
   },
   main: {
-    backgroundColor: theme.colors.gray[1],
-    paddingBottom: runtime.insets.bottom,
+    borderCurve: 'continuous',
+    borderTopLeftRadius: theme.radius[5],
+    borderTopRightRadius: theme.radius[5],
+    overflow: 'hidden',
+  },
+  maxHeight: {
+    height: runtime.screen.height * 0.8,
   },
 }))

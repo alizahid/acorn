@@ -65,7 +65,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
     paddingHorizontal: theme.space[1],
-    paddingVertical: theme.space[1] / 2,
+    paddingVertical: theme.space[1] * 0.4,
     position: 'absolute',
     transform: [
       {

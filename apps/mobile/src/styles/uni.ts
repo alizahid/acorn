@@ -16,6 +16,8 @@ import { breakpoints } from './tokens'
 
 UnistylesRegistry.addBreakpoints(breakpoints)
   .addThemes({
+    acornDark: darkTheme,
+    acornLight: lightTheme,
     dark: darkTheme,
     indigoDark,
     indigoLight,

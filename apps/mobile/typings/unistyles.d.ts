@@ -15,6 +15,8 @@ import { type breakpoints } from '~/styles/tokens'
 type AppBreakpoints = typeof breakpoints
 
 type AppThemes = {
+  acornDark: typeof darkTheme
+  acornLight: typeof lightTheme
   dark: typeof darkTheme
   indigoDark: typeof indigoDark
   indigoLight: typeof indigoLight

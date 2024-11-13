@@ -35,6 +35,7 @@ export type PostsQueryKey = [
     feed?: string
     interval?: TopInterval
     sort?: FeedSort
+    user?: string
   },
 ]
 
@@ -45,9 +46,16 @@ export type PostsProps = {
   feed?: string
   interval?: TopInterval
   sort: FeedSort
+  user?: string
 }
 
-export function usePosts({ community, feed, interval, sort }: PostsProps) {
+export function usePosts({
+  community,
+  feed,
+  interval,
+  sort,
+  user,
+}: PostsProps) {
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
@@ -60,6 +68,7 @@ export function usePosts({ community, feed, interval, sort }: PostsProps) {
       feed,
       interval,
       sort,
+      user,
     },
   ]
 
@@ -76,16 +85,19 @@ export function usePosts({ community, feed, interval, sort }: PostsProps) {
     enabled: Boolean(accountId),
     initialPageParam: null,
     async queryFn({ pageParam }) {
-      const path = feed
-        ? `/user/${accountId!}/m/${feed}`
-        : community
-          ? `/r/${community}/${sort}`
-          : `/${sort}`
+      const path = user
+        ? `/user/${user}/submitted`
+        : feed
+          ? `/user/${accountId!}/m/${feed}/${sort}`
+          : community
+            ? `/r/${community}/${sort}`
+            : `/${sort}`
 
       const url = new URL(path, REDDIT_URI)
 
       url.searchParams.set('limit', '100')
       url.searchParams.set('sr_detail', 'true')
+      url.searchParams.set('type', 'links')
 
       if (sort === 'top' && interval) {
         url.searchParams.set('t', interval)

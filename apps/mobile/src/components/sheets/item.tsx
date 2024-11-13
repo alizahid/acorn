@@ -15,6 +15,7 @@ type Props = {
   left?: ReactNode
   navigate?: boolean
   onPress: () => void
+  right?: ReactNode
   selected?: boolean
 }
 
@@ -24,6 +25,7 @@ export function SheetItem({
   left,
   navigate,
   onPress,
+  right,
   selected,
 }: Props) {
   const { styles, theme } = useStyles(stylesheet)
@@ -41,14 +43,14 @@ export function SheetItem({
         <Icon
           color={icon.color ?? theme.colors.accent.a9}
           name={icon.name}
-          size={theme.typography[2].lineHeight}
+          size={theme.typography[3].lineHeight}
           weight={icon.weight ?? 'duotone'}
         />
       ) : (
         left
       )}
 
-      <Text size="2" style={styles.label} weight="medium">
+      <Text size="3" style={styles.label} weight="medium">
         {label}
       </Text>
 
@@ -58,7 +60,9 @@ export function SheetItem({
           name="CaretRight"
           size={theme.typography[2].lineHeight}
         />
-      ) : null}
+      ) : (
+        right
+      )}
     </Pressable>
   )
 }

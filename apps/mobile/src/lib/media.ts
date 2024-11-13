@@ -24,7 +24,7 @@ export function getMeta(
                 type: 'video',
                 url: decode(item.hlsUrl),
                 width: item.x,
-              } satisfies PostMedia,
+              },
             ]
           }
 
@@ -35,7 +35,7 @@ export function getMeta(
               type: 'gif' in item.s ? 'gif' : 'image',
               url: decode('gif' in item.s ? item.s.gif : item.s.u),
               width: item.s.x,
-            } satisfies PostMedia,
+            },
           ]
         }),
       ),
@@ -68,7 +68,7 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
             video ? media.hlsUrl : 'gif' in media.s ? media.s.gif : media.s.u,
           ),
           width: video ? media.x : media.s.x,
-        } satisfies PostMedia
+        }
       }),
     )
   }

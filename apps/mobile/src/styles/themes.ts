@@ -3,6 +3,8 @@ import { radius, space, typography } from './tokens'
 
 export type Theme =
   | 'acorn'
+  | 'acornLight'
+  | 'acornDark'
   | 'rubyLight'
   | 'rubyDark'
   | 'plumLight'

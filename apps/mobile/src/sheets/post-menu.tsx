@@ -1,20 +1,17 @@
-import { useRouter } from 'expo-router'
-import { useState } from 'react'
-import { Share } from 'react-native'
-import ActionSheet, {
-  type RouteDefinition,
-  type RouteScreenProps,
-  type SheetDefinition,
-  type SheetProps,
-  useSheetPayload,
-} from 'react-native-actions-sheet'
+import {
+  BottomSheetFlatList,
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from '@gorhom/bottom-sheet'
+import * as Sharing from 'expo-sharing'
+import { useEffect, useRef, useState } from 'react'
+import { createCallable } from 'react-call'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Button } from '~/components/common/button'
-import { Pressable } from '~/components/common/pressable'
-import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { HeaderButton } from '~/components/navigation/header-button'
+import { SheetBackDrop } from '~/components/sheets/back-drop'
 import { useCopy } from '~/hooks/copy'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
@@ -22,325 +19,296 @@ import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { type Post } from '~/types/post'
 
-import { SheetHeader } from './header'
-import { SheetItem } from './item'
+import { SheetHeader } from '../components/sheets/header'
+import { SheetItem } from '../components/sheets/item'
 
-export type PostMenuSheetPayload = {
+export type PostMenuSheetProps = {
   post: Post
 }
 
-export type PostMenuSheetRoutes = {
-  menu: RouteDefinition
-  report: RouteDefinition
-}
+export const PostMenuSheet = createCallable<PostMenuSheetProps>(
+  function Component({ post }) {
+    const t = useTranslations('sheet.postMenu')
 
-export type PostMenuSheetDefinition = SheetDefinition<{
-  payload: PostMenuSheetPayload
-  routes: PostMenuSheetRoutes
-}>
+    const { styles, theme } = useStyles(stylesheet)
 
-export function PostMenuSheet({ sheetId }: SheetProps<'post-menu'>) {
-  const { styles, theme } = useStyles(stylesheet)
+    const modalMenu = useRef<BottomSheetModal>(null)
+    const modalReport = useRef<BottomSheetModal>(null)
 
-  return (
-    <ActionSheet
-      containerStyle={styles.main}
-      enableRouterBackNavigation
-      gestureEnabled
-      id={sheetId}
-      indicatorStyle={styles.indicator}
-      initialRoute="menu"
-      overlayColor={theme.colors.gray.a9}
-      routes={[
-        {
-          component: Menu,
-          name: 'menu',
+    const [reason, setReason] = useState<ReportReason>()
+
+    const { vote } = usePostVote()
+    const { save } = usePostSave()
+
+    const { copy } = useCopy()
+    const { hide } = useHide()
+
+    const { isPending, report } = useReport()
+
+    useEffect(() => {
+      modalMenu.current?.present()
+    }, [])
+
+    const items = [
+      {
+        color: theme.colors.orange.a9,
+        icon: 'ArrowFatUp',
+        key: post.liked ? 'removeUpvote' : 'upvote',
+        onPress() {
+          vote({
+            direction: post.liked ? 0 : 1,
+            postId: post.id,
+          })
+
+          modalMenu.current?.close()
         },
-        {
-          component: Report,
-          name: 'report',
+        weight: post.liked ? 'regular' : undefined,
+      },
+      {
+        color: theme.colors.violet.a9,
+        icon: 'ArrowFatDown',
+        key: post.liked === false ? 'removeDownvote' : 'downvote',
+        onPress() {
+          vote({
+            direction: post.liked === false ? 0 : -1,
+            postId: post.id,
+          })
+
+          modalMenu.current?.close()
         },
-      ]}
-    />
-  )
-}
-
-function Menu(props: RouteScreenProps<'post-menu', 'menu'>) {
-  const router = useRouter()
-
-  const t = useTranslations('sheet.postMenu.menu')
-
-  const { theme } = useStyles()
-
-  const { post } = useSheetPayload<'post-menu'>()
-
-  const { vote } = usePostVote()
-  const { save } = usePostSave()
-
-  const { copy } = useCopy()
-  const { hide } = useHide()
-
-  const items = [
-    {
-      color: theme.colors.orange.a9,
-      icon: 'ArrowFatUp',
-      key: post.liked ? 'removeUpvote' : 'upvote',
-      onPress() {
-        vote({
-          direction: post.liked ? 0 : 1,
-          postId: post.id,
-        })
-
-        props.router.close()
+        weight: post.liked === false ? 'regular' : undefined,
       },
-      weight: post.liked ? 'regular' : undefined,
-    },
-    {
-      color: theme.colors.violet.a9,
-      icon: 'ArrowFatDown',
-      key: post.liked === false ? 'removeDownvote' : 'downvote',
-      onPress() {
-        vote({
-          direction: post.liked === false ? 0 : -1,
-          postId: post.id,
-        })
+      {
+        color: theme.colors.green.a9,
+        icon: 'BookmarkSimple',
+        key: post.saved ? 'unsave' : 'save',
+        onPress() {
+          save({
+            action: post.saved ? 'unsave' : 'save',
+            postId: post.id,
+          })
 
-        props.router.close()
+          modalMenu.current?.close()
+        },
+        weight: post.saved ? 'regular' : undefined,
       },
-      weight: post.liked === false ? 'regular' : undefined,
-    },
-    {
-      color: theme.colors.green.a9,
-      icon: 'BookmarkSimple',
-      key: post.saved ? 'unsave' : 'save',
-      onPress() {
-        save({
-          action: post.saved ? 'unsave' : 'save',
-          postId: post.id,
-        })
+      {
+        color: theme.colors.blue.a9,
+        icon: 'ArrowBendUpLeft',
+        key: 'reply',
+        onPress() {
+          modalReport.current?.present()
+        },
+      },
 
-        props.router.close()
+      'one',
+      {
+        icon: 'Export',
+        key: 'share',
+        onPress() {
+          const url = new URL(post.permalink, 'https://reddit.com')
+
+          void Sharing.shareAsync(url.toString())
+
+          modalMenu.current?.close()
+        },
       },
-      weight: post.saved ? 'regular' : undefined,
-    },
-    {
-      color: theme.colors.blue.a9,
-      icon: 'ArrowBendUpLeft',
-      key: 'reply',
-      onPress() {
-        router.navigate({
-          params: {
+      {
+        icon: 'Copy',
+        key: 'copyLink',
+        onPress() {
+          const url = new URL(post.permalink, 'https://reddit.com')
+
+          void copy(url.toString())
+
+          modalMenu.current?.close()
+        },
+      },
+
+      'two',
+      {
+        icon: post.hidden ? 'Eye' : 'EyeClosed',
+        key: post.hidden ? 'unhide' : 'hide',
+        onPress() {
+          hide({
+            action: post.hidden ? 'unhide' : 'hide',
             id: post.id,
-          },
-          pathname: '/posts/[id]/reply',
-        })
+            type: 'post',
+          })
 
-        props.router.close()
+          modalMenu.current?.close()
+        },
       },
-    },
-
-    null,
-    {
-      icon: 'Share',
-      key: 'share',
-      onPress() {
-        const url = new URL(post.permalink, 'https://reddit.com')
-
-        void Share.share({
-          message: post.title,
-          url: url.toString(),
-        })
-
-        props.router.close()
+      {
+        icon: 'Flag',
+        key: 'report',
+        onPress() {
+          modalReport.current?.present()
+        },
       },
-    },
-    {
-      icon: 'Copy',
-      key: 'copyLink',
-      onPress() {
-        const url = new URL(post.permalink, 'https://reddit.com')
 
-        void copy(url.toString())
+      'three',
+      {
+        icon: 'User',
+        key: 'hideUser',
+        onPress() {
+          hide({
+            action: 'hide',
+            id: post.user.id,
+            type: 'user',
+          })
 
-        props.router.close()
+          modalMenu.current?.close()
+        },
       },
-    },
+      {
+        icon: 'UsersFour',
+        key: 'hideCommunity',
+        onPress() {
+          hide({
+            action: 'hide',
+            id: post.community.id,
+            type: 'community',
+          })
 
-    null,
-    {
-      icon: post.hidden ? 'Eye' : 'EyeClosed',
-      key: post.hidden ? 'unhide' : 'hide',
-      onPress() {
-        hide({
-          action: post.hidden ? 'unhide' : 'hide',
-          id: post.id,
-          type: 'post',
-        })
-
-        props.router.close()
+          modalMenu.current?.close()
+        },
       },
-    },
-    {
-      icon: 'Flag',
-      key: 'report',
-      onPress() {
-        props.router.navigate('report')
-      },
-    },
+    ] as const
 
-    null,
-    {
-      icon: 'User',
-      key: 'hideUser',
-      onPress() {
-        hide({
-          action: 'hide',
-          id: post.user.id,
-          type: 'user',
-        })
+    const reasons = [
+      'community',
+      'HARASSMENT',
+      'VIOLENCE',
+      'HATE_CONTENT',
+      'MINOR_ABUSE_OR_SEXUALIZATION',
+      'PII',
+      'INVOLUNTARY_PORN',
+      'PROHIBITED_SALES',
+      'IMPERSONATION',
+      'COPYRIGHT',
+      'TRADEMARK',
+      'SELF_HARM',
+      'SPAM',
+      'CONTRIBUTOR_PROGRAM',
+    ] as const
 
-        props.router.close()
-      },
-    },
-    {
-      icon: 'UsersFour',
-      key: 'hideCommunity',
-      onPress() {
-        hide({
-          action: 'hide',
-          id: post.community.id,
-          type: 'community',
-        })
-
-        props.router.close()
-      },
-    },
-  ] as const
-
-  return (
-    <>
-      <SheetHeader title={t('title.post')} />
-
-      {items.map((item, index) => {
-        if (item === null) {
-          // eslint-disable-next-line react/no-array-index-key -- go away
-          return <View height="4" key={index} />
-        }
-
-        return (
-          <SheetItem
-            icon={{
-              color: 'color' in item ? item.color : undefined,
-              name: item.icon,
-              weight: 'weight' in item ? item.weight : undefined,
-            }}
-            key={item.key}
-            label={t(item.key, {
-              community: post.community.name,
-              user: post.user.name,
-            })}
-            onPress={item.onPress}
-          />
-        )
-      })}
-    </>
-  )
-}
-
-function Report({ router }: RouteScreenProps<'post-menu', 'menu'>) {
-  const t = useTranslations('sheet.postMenu.report')
-
-  const { post } = useSheetPayload<'post-menu'>()
-
-  const { styles, theme } = useStyles(stylesheet)
-
-  const [reason, setReason] = useState<ReportReason>()
-
-  const { isPending, report } = useReport()
-
-  return (
-    <>
-      <SheetHeader title={t('title')} />
-
-      <View direction="row" gap="3" p="3" wrap="wrap">
-        {(
-          [
-            'community',
-            'HARASSMENT',
-            'VIOLENCE',
-            'HATE_CONTENT',
-            'MINOR_ABUSE_OR_SEXUALIZATION',
-            'PII',
-            'INVOLUNTARY_PORN',
-            'PROHIBITED_SALES',
-            'IMPERSONATION',
-            'COPYRIGHT',
-            'TRADEMARK',
-            'SELF_HARM',
-            'SPAM',
-            'CONTRIBUTOR_PROGRAM',
-          ] as const
-        ).map((item) => (
-          <Pressable
-            align="center"
-            direction="row"
-            gap="2"
-            hitSlop={theme.space[3]}
-            key={item}
-            onPress={() => {
-              if (reason === item) {
-                setReason(undefined)
-              } else {
-                setReason(item)
+    return (
+      <BottomSheetModalProvider>
+        <BottomSheetModal
+          backdropComponent={SheetBackDrop}
+          backgroundStyle={styles.background}
+          enablePanDownToClose
+          handleComponent={null}
+          maxDynamicContentSize={styles.maxHeight.height}
+          ref={modalMenu}
+          stackBehavior="push"
+          style={styles.main}
+        >
+          <BottomSheetFlatList
+            ListHeaderComponent={<SheetHeader title={t('menu.title.post')} />}
+            contentContainerStyle={styles.content}
+            data={items}
+            renderItem={({ item }) => {
+              if (typeof item === 'string') {
+                return <View height="4" key={item} />
               }
+
+              return (
+                <SheetItem
+                  icon={{
+                    color: 'color' in item ? item.color : undefined,
+                    name: item.icon,
+                    weight: 'weight' in item ? item.weight : undefined,
+                  }}
+                  key={item.key}
+                  label={t(`menu.${item.key}`, {
+                    community: post.community.name,
+                    user: post.user.name,
+                  })}
+                  onPress={item.onPress}
+                />
+              )
             }}
-            px="2"
-            py="1"
-            style={[styles.reason(item === reason)]}
-          >
-            <Text contrast={item === reason} size="2">
-              {t(item, {
-                community: post.community.name,
-              })}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
+            stickyHeaderIndices={[0]}
+            style={styles.content}
+          />
+        </BottomSheetModal>
 
-      {reason ? (
-        <Button
-          label={t('title')}
-          loading={isPending}
-          onPress={() => {
-            report({
-              id: post.id,
-              reason,
-              type: 'post',
-            })
+        <BottomSheetModal
+          backdropComponent={SheetBackDrop}
+          backgroundStyle={styles.background}
+          enablePanDownToClose
+          handleComponent={null}
+          maxDynamicContentSize={styles.maxHeight.height}
+          ref={modalReport}
+          stackBehavior="push"
+          style={styles.main}
+        >
+          <BottomSheetFlatList
+            ListHeaderComponent={
+              <SheetHeader
+                right={
+                  reason ? (
+                    <HeaderButton
+                      icon="PaperPlaneTilt"
+                      loading={isPending}
+                      onPress={() => {
+                        report({
+                          id: post.id,
+                          reason,
+                          type: 'post',
+                        })
 
-            router.close()
-          }}
-          style={styles.submit}
-        />
-      ) : null}
-    </>
-  )
-}
+                        modalReport.current?.close()
+                      }}
+                      weight="fill"
+                    />
+                  ) : null
+                }
+                title={t('report.title')}
+              />
+            }
+            contentContainerStyle={styles.content}
+            data={reasons}
+            renderItem={({ item }) => (
+              <SheetItem
+                key={item}
+                label={t(`report.${item}`, {
+                  community: post.community.name,
+                  user: post.user.name,
+                })}
+                onPress={() => {
+                  setReason(item)
+                }}
+                selected={item === reason}
+              />
+            )}
+            stickyHeaderIndices={[0]}
+            style={styles.content}
+          />
+        </BottomSheetModal>
+      </BottomSheetModalProvider>
+    )
+  },
+  250,
+)
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  indicator: {
-    display: 'none',
-  },
-  main: {
+  background: {
     backgroundColor: theme.colors.gray[1],
+    borderRadius: 0,
+  },
+  content: {
     paddingBottom: runtime.insets.bottom,
   },
-  reason: (selected: boolean) => ({
-    backgroundColor: selected ? theme.colors.accent.a9 : theme.colors.gray.a3,
+  main: {
     borderCurve: 'continuous',
-    borderRadius: theme.radius[3],
-  }),
-  submit: {
-    marginHorizontal: theme.space[3],
+    borderTopLeftRadius: theme.radius[5],
+    borderTopRightRadius: theme.radius[5],
+    overflow: 'hidden',
+  },
+  maxHeight: {
+    height: runtime.screen.height * 0.8,
   },
 }))

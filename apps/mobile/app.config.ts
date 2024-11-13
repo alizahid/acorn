@@ -1,6 +1,7 @@
 import { type ConfigContext, type ExpoConfig } from 'expo/config'
+import { withBuildProperties } from 'expo-build-properties'
 
-export default function getConfig({ config }: ConfigContext): ExpoConfig {
+export default function getConfig(context: ConfigContext): ExpoConfig {
   const projectId = '8d7d5acc-3688-4cd2-b93f-52391f665348'
 
   let name = 'Acorn'
@@ -16,6 +17,18 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
     'expo-localization',
     'expo-secure-store',
     'expo-video',
+    'react-native-bottom-tabs',
+    [
+      'expo-splash-screen',
+      {
+        backgroundColor: '#fbfdfc',
+        dark: {
+          backgroundColor: '#101211',
+        },
+        image: './assets/artwork/splash-icon.png',
+        imageWidth: 200,
+      },
+    ],
     [
       'expo-font',
       {
@@ -41,17 +54,12 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
     ])
   }
 
-  return {
-    ...config,
+  const config: ExpoConfig = {
+    ...context.config,
     android: {
       adaptiveIcon: {
-        backgroundColor: '#101211',
+        backgroundColor: '#fbfdfc',
         foregroundImage: './assets/artwork/adaptive-icon.png',
-      },
-      splash: {
-        dark: {
-          backgroundColor: '#101211',
-        },
       },
     },
     experiments: {
@@ -75,11 +83,9 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
       entitlements: {
         'aps-environment': 'development',
       },
-      icon: './assets/artwork/icon.png',
-      splash: {
-        dark: {
-          backgroundColor: '#101211',
-        },
+      icon: {
+        dark: './assets/artwork/icon-dark.png',
+        light: './assets/artwork/icon.png',
       },
       supportsTablet: true,
     },
@@ -92,15 +98,16 @@ export default function getConfig({ config }: ConfigContext): ExpoConfig {
     },
     scheme: 'acorn',
     slug: 'acorn',
-    splash: {
-      backgroundColor: '#fbfdfc',
-      image: './assets/artwork/splash.png',
-      resizeMode: 'contain',
-    },
     updates: {
       url: `https://u.expo.dev/${projectId}`,
     },
     userInterfaceStyle: 'automatic',
     version: '1.0.0',
   }
+
+  return withBuildProperties(config, {
+    ios: {
+      useFrameworks: 'static',
+    },
+  })
 }

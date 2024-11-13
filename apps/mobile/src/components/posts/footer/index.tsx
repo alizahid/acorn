@@ -1,6 +1,5 @@
 import { useRouter } from 'expo-router'
-import { Share } from 'react-native'
-import { SheetManager } from 'react-native-actions-sheet'
+import * as Sharing from 'expo-sharing'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
@@ -8,6 +7,7 @@ import { View } from '~/components/common/view'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
+import { PostMenuSheet } from '~/sheets/post-menu'
 import { type Post } from '~/types/post'
 
 import { FooterButton } from './button'
@@ -59,10 +59,8 @@ export function PostFooter({ expanded, gestures, label, post, seen }: Props) {
           color={theme.colors.gray[seen ? 'a11' : 'a12']}
           icon="DotsThree"
           onPress={() => {
-            void SheetManager.show('post-menu', {
-              payload: {
-                post,
-              },
+            void PostMenuSheet.call({
+              post,
             })
           }}
           weight="bold"
@@ -71,14 +69,11 @@ export function PostFooter({ expanded, gestures, label, post, seen }: Props) {
         {gestures ? (
           <FooterButton
             color={theme.colors.gray[seen ? 'a11' : 'a12']}
-            icon="Share"
+            icon="Export"
             onPress={() => {
               const url = new URL(post.permalink, 'https://reddit.com')
 
-              void Share.share({
-                message: post.title,
-                url: url.toString(),
-              })
+              void Sharing.shareAsync(url.toString())
             }}
           />
         ) : (
