@@ -10,6 +10,7 @@ import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { UnistylesRuntime } from 'react-native-unistyles'
 import { IntlProvider } from 'use-intl'
 
+import { Feedback } from '~/components/common/feedback'
 import { RootLayout } from '~/components/navigation/layout'
 import { Sheets } from '~/components/sheets'
 import { useTheme } from '~/hooks/theme'
@@ -61,6 +62,7 @@ function Acorn() {
                 <RootLayout />
 
                 <Sheets />
+                <Feedback />
               </IntlProvider>
             </PersistQueryClientProvider>
           </ThemeProvider>

@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { updateSearch } from '~/hooks/queries/search/search'
+import { triggerFeedback } from '~/lib/feedback'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 
@@ -25,6 +26,8 @@ export function usePostSave() {
       })
     },
     onMutate(variables) {
+      triggerFeedback(variables.action === 'save' ? 'save' : 'undo')
+
       updatePost(variables.postId, (draft) => {
         draft.post.saved = variables.action === 'save'
       })

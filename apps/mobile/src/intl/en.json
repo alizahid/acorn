@@ -223,6 +223,11 @@
           "mediaOnRight": "Show media on right",
           "title": "Compact mode"
         },
+        "feedback": {
+          "feedbackHaptics": "Haptics",
+          "feedbackSounds": "Sounds",
+          "title": "Feedback"
+        },
         "history": {
           "dimSeen": "Dim seen posts",
           "hideSeen": {

@@ -21,6 +21,8 @@ export type PreferencesPayload = {
   feedCompact: boolean
   feedMuted: boolean
   feedType: FeedType
+  feedbackHaptics: boolean
+  feedbackSounds: boolean
   fontScaling: boolean
   gestures: boolean
   hideSeen: boolean
@@ -60,6 +62,8 @@ export const usePreferences = create<State>()(
       feedCompact: false,
       feedMuted: true,
       feedType: 'home',
+      feedbackHaptics: false,
+      feedbackSounds: false,
       fontScaling: false,
       gestures: true,
       hideSeen: false,

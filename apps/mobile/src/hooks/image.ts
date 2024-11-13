@@ -7,8 +7,8 @@ import * as MediaLibrary from 'expo-media-library'
 import { useRef } from 'react'
 import { useStyles } from 'react-native-unistyles'
 
-import placeholderDark from '~/images/placeholder-dark.png'
-import placeholderLight from '~/images/placeholder-light.png'
+import placeholderDark from '~/assets/images/placeholder-dark.png'
+import placeholderLight from '~/assets/images/placeholder-light.png'
 
 export function useImagePlaceholder() {
   const { theme } = useStyles()

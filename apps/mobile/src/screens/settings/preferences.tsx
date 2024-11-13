@@ -112,6 +112,19 @@ export function SettingsPreferencesScreen() {
             key: 'fontScaling',
             label: 'system.fontScaling',
           },
+
+          null,
+          t('feedback.title'),
+          {
+            icon: 'Browser',
+            key: 'feedbackHaptics',
+            label: 'feedback.feedbackHaptics',
+          },
+          {
+            icon: 'TextAa',
+            key: 'feedbackSounds',
+            label: 'feedback.feedbackSounds',
+          },
         ] as const
       ).map((item) => {
         if (!item || typeof item === 'string') {

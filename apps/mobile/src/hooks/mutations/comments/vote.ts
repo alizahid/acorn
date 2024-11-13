@@ -3,6 +3,7 @@ import { type Draft } from 'mutative'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updateUserComment } from '~/hooks/queries/user/comments'
+import { triggerFeedback } from '~/lib/feedback'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { type CommentReply } from '~/types/comment'
@@ -28,6 +29,14 @@ export function useCommentVote() {
       })
     },
     onMutate(variables) {
+      triggerFeedback(
+        variables.direction === 1
+          ? 'up'
+          : variables.direction === -1
+            ? 'down'
+            : 'undo',
+      )
+
       updateUserComment(variables.commentId, (draft) => {
         update(variables, draft)
       })

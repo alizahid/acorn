@@ -18,6 +18,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     'expo-secure-store',
     'expo-video',
     'react-native-bottom-tabs',
+    'expo-audio',
     [
       'expo-splash-screen',
       {
