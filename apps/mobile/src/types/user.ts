@@ -24,9 +24,9 @@ export const UserFeedType = [
   'submitted',
   'comments',
   'saved',
-  'hidden',
   'upvoted',
   'downvoted',
+  'hidden',
 ] as const
 
 export type UserFeedType = (typeof UserFeedType)[number]

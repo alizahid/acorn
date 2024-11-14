@@ -129,10 +129,10 @@ const icons: Record<UserFeedType, IconName> = {
 }
 
 const colors: Record<UserFeedType, ColorToken> = {
-  comments: 'plum',
-  downvoted: 'red',
+  comments: 'accent',
+  downvoted: 'violet',
   hidden: 'gray',
-  saved: 'indigo',
+  saved: 'green',
   submitted: 'accent',
-  upvoted: 'green',
+  upvoted: 'orange',
 }
