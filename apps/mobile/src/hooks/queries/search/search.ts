@@ -61,7 +61,7 @@ export function useSearch<Type extends SearchTab>({
     SearchQueryData<Type>,
     SearchQueryKey
   >({
-    enabled: Boolean(accountId) && query.length > 0,
+    enabled: Boolean(accountId) && query.length > 2,
     async queryFn() {
       const path = community ? `/r/${community}/search` : '/search'
 
