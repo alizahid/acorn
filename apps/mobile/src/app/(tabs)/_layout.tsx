@@ -2,10 +2,10 @@ import { Tabs } from 'expo-router'
 
 import { Icon } from '~/components/common/icon'
 import { TabBar } from '~/components/navigation/tab-bar'
-import { useNotifications } from '~/hooks/queries/user/notifications'
+import { useInbox } from '~/hooks/queries/user/inbox'
 
 export default function Layout() {
-  const { unread } = useNotifications()
+  const { unread } = useInbox()
 
   return (
     <Tabs

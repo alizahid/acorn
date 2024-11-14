@@ -59,8 +59,8 @@
         "unfavorite": "Unfavorite"
       }
     },
-    "notifications": {
-      "card": {
+    "inbox": {
+      "notification": {
         "comment_reply": "{user} replied to your comment",
         "post_reply": "{user} replied to your post",
         "username_mention": "{user} mentioned you"
@@ -140,6 +140,10 @@
       }
     },
     "notifications": {
+      "tabs": {
+        "messages": "Messages",
+        "notifications": "Notifications"
+      },
       "title": "Notifications"
     },
     "posts": {

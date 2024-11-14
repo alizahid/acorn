@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const NotificationsSchema = z.object({
+export const InboxSchema = z.object({
   data: z.object({
     after: z.string().nullish(),
     children: z.array(
@@ -18,11 +18,19 @@ export const NotificationsSchema = z.object({
           kind: z.literal('t1'),
         }),
         z.object({
-          kind: z.enum(['t2', 't3', 't4', 't5', 't6']),
+          data: z.object({
+            author: z.string(),
+            body: z.string(),
+            created_utc: z.number(),
+            id: z.string(),
+            new: z.boolean(),
+            subject: z.string(),
+          }),
+          kind: z.literal('t4'),
         }),
       ]),
     ),
   }),
 })
 
-export type NotificationsSchema = z.infer<typeof NotificationsSchema>
+export type InboxSchema = z.infer<typeof InboxSchema>

@@ -3,40 +3,39 @@ import {
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
-import { compact } from 'lodash'
 import { create, type Draft } from 'mutative'
 
 import { queryClient, resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
-import { NotificationsSchema } from '~/schemas/notifications'
+import { InboxSchema } from '~/schemas/inbox'
 import { useAuth } from '~/stores/auth'
-import { transformNotification } from '~/transformers/notification'
-import { type Notification } from '~/types/notification'
+import { transformInboxItem } from '~/transformers/inbox'
+import { type InboxItem } from '~/types/inbox'
 
 type Param = string | undefined | null
 
 type Page = {
   cursor: Param
-  notifications: Array<Notification>
+  items: Array<InboxItem>
 }
 
-export type NotificationsQueryKey = [
-  'notifications',
+export type InboxQueryKey = [
+  'inbox',
   {
     accountId?: string
   },
 ]
 
-export type NotificationsQueryData = InfiniteData<Page, Param>
+export type InboxQueryData = InfiniteData<Page, Param>
 
-export function useNotifications() {
+export function useInbox() {
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
 
-  const queryKey: NotificationsQueryKey = [
-    'notifications',
+  const queryKey: InboxQueryKey = [
+    'inbox',
     {
       accountId,
     },
@@ -51,13 +50,7 @@ export function useNotifications() {
     isLoading,
     isStale,
     refetch: refresh,
-  } = useInfiniteQuery<
-    Page,
-    Error,
-    NotificationsQueryData,
-    NotificationsQueryKey,
-    Param
-  >({
+  } = useInfiniteQuery<Page, Error, InboxQueryData, InboxQueryKey, Param>({
     enabled: Boolean(accountId),
     initialPageParam: null,
     async queryFn({ pageParam }) {
@@ -71,17 +64,11 @@ export function useNotifications() {
         url,
       })
 
-      const response = NotificationsSchema.parse(payload)
-
-      const notifications = response.data.children.filter(
-        (item) => item.kind === 't1',
-      )
+      const response = InboxSchema.parse(payload)
 
       return {
         cursor: response.data.after,
-        notifications: compact(
-          notifications.map((item) => transformNotification(item)),
-        ),
+        items: response.data.children.map((item) => transformInboxItem(item)),
       }
     },
     staleTime: 60 * 1_000,
@@ -92,9 +79,17 @@ export function useNotifications() {
     queryKey,
   })
 
-  const notifications = data?.pages.flatMap((page) => page.notifications) ?? []
+  const items = data?.pages.flatMap((page) => page.items) ?? []
 
-  const unread = notifications.filter((notification) => notification.new).length
+  const unread = items.filter((item) => item.data.new).length
+
+  const notifications = items
+    .filter((item) => item.type === 'notification')
+    .map((item) => item.data)
+
+  const messages = items
+    .filter((item) => item.type === 'message')
+    .map((item) => item.data)
 
   return {
     fetchNextPage,
@@ -102,6 +97,7 @@ export function useNotifications() {
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
     isRefreshing: isStale && isFetching && !isLoading,
+    messages,
     notifications,
     refetch: async () => {
       resetInfiniteQuery(queryKey)
@@ -114,50 +110,50 @@ export function useNotifications() {
 
 export function updateNotification(
   id: string,
-  updater: (draft: Draft<Notification>) => void,
+  updater: (draft: Draft<InboxItem>) => void,
 ) {
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
-    queryKey: ['notifications'],
+    queryKey: ['inbox'],
   })
 
   for (const query of queries) {
-    queryClient.setQueryData<NotificationsQueryData>(
-      query.queryKey,
-      (previous) => {
-        if (!previous) {
-          return previous
-        }
+    queryClient.setQueryData<InboxQueryData>(query.queryKey, (previous) => {
+      if (!previous) {
+        return previous
+      }
 
-        return create(previous, (draft) => {
-          let found = false
+      return create(previous, (draft) => {
+        let found = false
 
-          for (const page of draft.pages) {
-            if (found) {
+        for (const page of draft.pages) {
+          if (found) {
+            break
+          }
+
+          for (const item of page.items) {
+            if (item.data.id === id) {
+              updater(item)
+
+              found = true
+
               break
             }
-
-            for (const notification of page.notifications) {
-              if (notification.id === id) {
-                updater(notification)
-
-                found = true
-
-                break
-              }
-            }
           }
-        })
-      },
-    )
+        }
+      })
+    })
   }
 }
 
-export function updateNotifications(accountId?: string) {
-  queryClient.setQueryData<NotificationsQueryData, NotificationsQueryKey>(
+export function updateInbox(
+  updater: (draft: Draft<InboxItem>) => void,
+  accountId?: string,
+) {
+  queryClient.setQueryData<InboxQueryData, InboxQueryKey>(
     [
-      'notifications',
+      'inbox',
       {
         accountId,
       },
@@ -169,8 +165,8 @@ export function updateNotifications(accountId?: string) {
 
       return create(previous, (draft) => {
         for (const page of draft.pages) {
-          for (const notification of page.notifications) {
-            notification.new = false
+          for (const item of page.items) {
+            updater(item)
           }
         }
       })

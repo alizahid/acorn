@@ -4,7 +4,7 @@ import { useFormatter, useTranslations } from 'use-intl'
 import { useLink } from '~/hooks/link'
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
 import { type ColorToken } from '~/styles/tokens'
-import { type Notification, type NotificationType } from '~/types/notification'
+import { type InboxNotification, type NotificationType } from '~/types/inbox'
 
 import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
@@ -12,11 +12,11 @@ import { Text } from '../common/text'
 import { View } from '../common/view'
 
 type Props = {
-  notification: Notification
+  notification: InboxNotification
 }
 
 export function NotificationCard({ notification }: Props) {
-  const t = useTranslations('component.notifications.card')
+  const t = useTranslations('component.inbox.notification')
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -24,8 +24,6 @@ export function NotificationCard({ notification }: Props) {
   const { mark } = useMarkAsRead()
 
   const { handleLink } = useLink()
-
-  const color = colors[notification.type]
 
   return (
     <Pressable
@@ -42,10 +40,12 @@ export function NotificationCard({ notification }: Props) {
         }
       }}
       p="4"
-      style={styles.main(color, notification.new)}
+      style={styles.main(colors[notification.type], notification.new)}
     >
       <Icon
-        color={theme.colors[notification.new ? color : 'gray'].a9}
+        color={
+          theme.colors[notification.new ? colors[notification.type] : 'gray'].a9
+        }
         name={icons[notification.type]}
         weight={notification.new ? 'fill' : 'bold'}
       />
@@ -77,8 +77,7 @@ export function NotificationCard({ notification }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: (color: ColorToken, unread: boolean) => ({
-    backgroundColor:
-      theme.colors[unread ? color : 'gray'][unread ? 'a3' : 'a1'],
+    backgroundColor: unread ? theme.colors[color].a3 : theme.colors.gray.a2,
   }),
 }))
 

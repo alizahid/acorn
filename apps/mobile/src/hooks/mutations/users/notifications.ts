@@ -1,9 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 
-import {
-  updateNotification,
-  updateNotifications,
-} from '~/hooks/queries/user/notifications'
+import { updateInbox, updateNotification } from '~/hooks/queries/user/inbox'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
@@ -27,7 +24,7 @@ export function useMarkAsRead() {
     },
     onMutate(variables) {
       updateNotification(variables.id, (draft) => {
-        draft.new = false
+        draft.data.new = false
       })
     },
   })
@@ -49,7 +46,9 @@ export function useMarkAllAsRead() {
       })
     },
     onMutate() {
-      updateNotifications(accountId)
+      updateInbox((item) => {
+        item.data.new = false
+      }, accountId)
     },
   })
 
