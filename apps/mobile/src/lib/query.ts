@@ -9,7 +9,7 @@ import { parse, stringify } from 'superjson'
 
 import { Sentry } from './sentry'
 
-const cacheVersion = 1
+const cacheVersion = 2
 const cacheTime = 1_000 * 60 * 10
 
 export const queryClient = new QueryClient({
