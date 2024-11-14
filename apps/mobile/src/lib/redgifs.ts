@@ -35,6 +35,14 @@ export async function getGif(id: string): Promise<Gif> {
     },
   })
 
+  if (response.status !== 200) {
+    const json = (await response.json()) as {
+      reason: string
+    }
+
+    throw new Error(json.reason)
+  }
+
   const json = (await response.json()) as GifPayload
 
   const { gif } = GifSchema.parse(json)
