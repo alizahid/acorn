@@ -62,7 +62,8 @@
     "notifications": {
       "card": {
         "comment_reply": "{user} replied to your comment",
-        "post_reply": "{user} replied to your post"
+        "post_reply": "{user} replied to your post",
+        "username_mention": "{user} mentioned you"
       }
     },
     "posts": {

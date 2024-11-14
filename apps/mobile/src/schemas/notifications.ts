@@ -13,7 +13,7 @@ export const NotificationsSchema = z.object({
             id: z.string(),
             new: z.boolean(),
             subreddit: z.string(),
-            type: z.enum(['comment_reply', 'post_reply']),
+            type: z.enum(['comment_reply', 'post_reply', 'username_mention']),
           }),
           kind: z.literal('t1'),
         }),
