@@ -8,19 +8,21 @@ import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { type FeedType } from '~/types/sort'
 
-import { FeedTypeSheet, type FeedTypeSheetReturn } from '../../sheets/feed-type'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 
-type Props = {
+export type FeedTypeOptions = {
   community?: string
   feed?: string
-  onChange: (data: FeedTypeSheetReturn) => void
   type?: FeedType
   user?: string
 }
 
-export function FeedTypeMenu({ community, feed, onChange, type, user }: Props) {
+type Props = FeedTypeOptions & {
+  onPress: () => void
+}
+
+export function FeedTypeMenu({ community, feed, onPress, type, user }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { feeds } = useFeeds()
@@ -48,16 +50,7 @@ export function FeedTypeMenu({ community, feed, onChange, type, user }: Props) {
       direction="row"
       gap="2"
       height="8"
-      onPress={async () => {
-        const data = await FeedTypeSheet.call({
-          community,
-          feed,
-          type,
-          user,
-        })
-
-        onChange(data)
-      }}
+      onPress={onPress}
       px="3"
     >
       {image ? (

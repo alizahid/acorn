@@ -1,10 +1,12 @@
 import { useFocusEffect, useNavigation } from 'expo-router'
 import { useState } from 'react'
+import { Drawer } from 'react-native-drawer-layout'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { HomeDrawer } from '~/components/home/drawer'
+import { FeedTypeMenu, type FeedTypeOptions } from '~/components/home/type-menu'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { FeedTypeMenu } from '~/components/posts/type'
-import { type FeedTypeSheetProps } from '~/sheets/feed-type'
 import { usePreferences } from '~/stores/preferences'
 import { type FeedSort } from '~/types/sort'
 
@@ -13,7 +15,10 @@ export function HomeScreen() {
 
   const { feedType, intervalFeedPosts, sortFeedPosts } = usePreferences()
 
-  const [data, setData] = useState<FeedTypeSheetProps>({
+  const { styles, theme } = useStyles(stylesheet)
+
+  const [open, setOpen] = useState(false)
+  const [data, setData] = useState<FeedTypeOptions>({
     type: feedType,
   })
   const [sort, setSort] = useState(sortFeedPosts)
@@ -25,8 +30,8 @@ export function HomeScreen() {
         <FeedTypeMenu
           community={data.community}
           feed={data.feed}
-          onChange={(next) => {
-            setData(next)
+          onPress={() => {
+            setOpen(true)
           }}
           type={data.type}
           user={data.user}
@@ -51,19 +56,51 @@ export function HomeScreen() {
   })
 
   return (
-    <PostList
-      community={
-        data.community
-          ? data.community
-          : data.type === 'home'
-            ? undefined
-            : data.type
-      }
-      feed={data.feed}
-      interval={interval}
-      label="subreddit"
-      sort={sort}
-      user={data.user}
-    />
+    <Drawer
+      drawerStyle={styles.drawer}
+      onClose={() => {
+        setOpen(false)
+      }}
+      onOpen={() => {
+        setOpen(true)
+      }}
+      open={open}
+      renderDrawerContent={() => (
+        <HomeDrawer
+          community={data.community}
+          feed={data.feed}
+          onChange={(next) => {
+            setData(next)
+          }}
+          onClose={() => {
+            setOpen(false)
+          }}
+          type={data.type}
+          user={data.user}
+        />
+      )}
+      swipeEdgeWidth={theme.space[3]}
+    >
+      <PostList
+        community={
+          data.community
+            ? data.community
+            : data.type === 'home'
+              ? undefined
+              : data.type
+        }
+        feed={data.feed}
+        interval={interval}
+        label="subreddit"
+        sort={sort}
+        user={data.user}
+      />
+    </Drawer>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  drawer: {
+    backgroundColor: theme.colors.gray[1],
+  },
+}))

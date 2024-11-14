@@ -79,6 +79,7 @@
     "react-native": "0.76.1",
     "react-native-awesome-gallery": "^0.4.3",
     "react-native-bottom-tabs": "^0.5.2",
+    "react-native-drawer-layout": "^4.0.1",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-keyboard-controller": "^1.14.4",
     "react-native-mmkv": "^3.1.0",

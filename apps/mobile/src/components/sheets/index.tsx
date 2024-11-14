@@ -4,13 +4,9 @@ import { MenuSheet } from '~/sheets/menu'
 import { PostMenuSheet } from '~/sheets/post-menu'
 import { PostSortSheet } from '~/sheets/post-sort'
 
-import { FeedTypeSheet } from '../../sheets/feed-type'
-
 export function Sheets() {
   return (
     <>
-      <FeedTypeSheet.Root />
-
       <PostSortSheet.Root />
 
       <PostMenuSheet.Root />
