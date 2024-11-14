@@ -6,7 +6,7 @@ import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
 import { type ColorToken } from '~/styles/tokens'
 import { type Notification, type NotificationType } from '~/types/notification'
 
-import { Icon } from '../common/icon'
+import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -25,7 +25,7 @@ export function NotificationCard({ notification }: Props) {
 
   const { handleLink } = useLink()
 
-  const color = getNotificationColor(notification.type)
+  const color = colors[notification.type]
 
   return (
     <Pressable
@@ -46,11 +46,7 @@ export function NotificationCard({ notification }: Props) {
     >
       <Icon
         color={theme.colors[notification.new ? color : 'gray'].a9}
-        name={
-          notification.type === 'comment_reply'
-            ? 'ChatCircle'
-            : 'ArrowBendUpLeft'
-        }
+        name={icons[notification.type]}
         weight={notification.new ? 'fill' : 'bold'}
       />
 
@@ -86,10 +82,14 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
 }))
 
-function getNotificationColor(type: NotificationType) {
-  if (type === 'comment_reply') {
-    return 'plum'
-  }
+const icons: Record<NotificationType, IconName> = {
+  comment_reply: 'ChatCircle',
+  post_reply: 'ArrowBendUpLeft',
+  username_mention: 'User',
+}
 
-  return 'jade'
+const colors: Record<NotificationType, ColorToken> = {
+  comment_reply: 'plum',
+  post_reply: 'jade',
+  username_mention: 'ruby',
 }
