@@ -37,7 +37,10 @@ export function useLink() {
   const handleLink = useCallback(
     async (href: string) => {
       try {
-        const url = new URL(href)
+        const url = new URL(
+          href,
+          href.startsWith('http') ? undefined : 'https://reddit.com',
+        )
 
         if (url.hostname.endsWith('reddit.com')) {
           if (url.pathname.includes('/wiki/')) {
