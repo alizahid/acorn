@@ -25,9 +25,9 @@ function Acorn() {
   const { theme } = usePreferences()
 
   useEffect(() => {
-    if (theme === 'acorn') {
-      UnistylesRuntime.setAdaptiveThemes(true)
-    } else {
+    UnistylesRuntime.setAdaptiveThemes(theme === 'acorn')
+
+    if (theme !== 'acorn') {
       UnistylesRuntime.setTheme(theme)
     }
   }, [theme])
