@@ -60,7 +60,11 @@ export async function reddit<Response>({
   const response = await fetch(input, request)
 
   if (response.status !== 200) {
-    throw new Error(response.statusText)
+    const json = (await response.json()) as {
+      message?: string
+    }
+
+    throw new Error(json.message ?? response.statusText)
   }
 
   return (await response.json()) as Response
