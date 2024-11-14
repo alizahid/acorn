@@ -88,7 +88,6 @@ export function UserCommentsList({
 
           return null
         }}
-        scrollEnabled={comments.length > 0}
       />
 
       {isRefreshing ? <Refreshing /> : null}

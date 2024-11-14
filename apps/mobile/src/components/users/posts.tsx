@@ -113,7 +113,6 @@ export function UserPostsList({
             />
           )
         }}
-        scrollEnabled={posts.length > 0}
         viewabilityConfigCallbackPairs={[
           {
             onViewableItemsChanged({ viewableItems }) {

@@ -120,7 +120,6 @@ export function SearchList({
             />
           )
         }}
-        scrollEnabled={results.length > 0}
         viewabilityConfigCallbackPairs={[
           {
             onViewableItemsChanged({ viewableItems }) {
