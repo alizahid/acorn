@@ -51,6 +51,8 @@ export function VideoPlayer({
 
   const ref = useRef<VideoView>(null)
 
+  const previousMuted = useRef(feedMuted)
+
   const [visible, setVisible] = useState(false)
   const [muted, setMuted] = useState(feedMuted)
 
@@ -104,8 +106,6 @@ export function VideoPlayer({
   return (
     <Pressable
       onPress={() => {
-        setMuted(!unmuteFullscreen)
-
         void ref.current?.enterFullscreen()
 
         if (recyclingKey && seenOnMedia) {
@@ -122,9 +122,17 @@ export function VideoPlayer({
         allowsVideoFrameAnalysis={false}
         contentFit="cover"
         onFullscreenEnter={() => {
+          previousMuted.current = muted
+
+          if (unmuteFullscreen && muted) {
+            setMuted(false)
+          }
+
           setVisible(visible)
         }}
         onFullscreenExit={() => {
+          setMuted(previousMuted.current)
+
           setVisible(false)
         }}
         player={player}
