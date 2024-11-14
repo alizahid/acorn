@@ -14,7 +14,7 @@ import { Feedback } from '~/components/common/feedback'
 import { RootLayout } from '~/components/navigation/layout'
 import { Sheets } from '~/components/sheets'
 import { useTheme } from '~/hooks/theme'
-import { calendar } from '~/intl'
+import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
 import { databaseName, onInit } from '~/lib/db'
 import { persister, queryClient } from '~/lib/query'
@@ -57,7 +57,7 @@ function Acorn() {
                 locale="en"
                 messages={en}
                 now={new Date()}
-                timeZone={calendar?.timeZone ?? undefined}
+                timeZone={timeZone}
               >
                 <RootLayout />
 

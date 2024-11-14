@@ -8,7 +8,12 @@ import {
 
 import messages from './en.json'
 
-export const [calendar] = getCalendars()
+const [calendar] = getCalendars()
+
+export const timeZone =
+  (calendar?.timeZone === 'Asia/Kolkata'
+    ? 'Asia/Calcutta'
+    : calendar?.timeZone) ?? undefined
 
 export function getTranslator(
   namespace?: NamespaceKeys<IntlMessages, NestedKeyOf<IntlMessages>>,
@@ -18,7 +23,7 @@ export function getTranslator(
     messages,
     namespace,
     now: new Date(),
-    timeZone: calendar?.timeZone ?? undefined,
+    timeZone,
   })
 }
 
@@ -26,6 +31,6 @@ export function getFormatter() {
   return createFormatter({
     locale: 'en',
     now: new Date(),
-    timeZone: calendar?.timeZone ?? undefined,
+    timeZone,
   })
 }
