@@ -1,5 +1,4 @@
 import { type ConfigContext, type ExpoConfig } from 'expo/config'
-import { withBuildProperties } from 'expo-build-properties'
 
 export default function getConfig(context: ConfigContext): ExpoConfig {
   const projectId = '8d7d5acc-3688-4cd2-b93f-52391f665348'
@@ -17,7 +16,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     'expo-localization',
     'expo-secure-store',
     'expo-video',
-    'react-native-bottom-tabs',
     'expo-audio',
     [
       'expo-splash-screen',
@@ -106,9 +104,5 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     version: '1.0.0',
   }
 
-  return withBuildProperties(config, {
-    ios: {
-      useFrameworks: 'static',
-    },
-  })
+  return config
 }
