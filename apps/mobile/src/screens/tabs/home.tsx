@@ -31,7 +31,7 @@ export function HomeScreen() {
           community={data.community}
           feed={data.feed}
           onPress={() => {
-            setOpen(true)
+            setOpen((previous) => !previous)
           }}
           type={data.type}
           user={data.user}
@@ -65,6 +65,7 @@ export function HomeScreen() {
         setOpen(true)
       }}
       open={open}
+      overlayStyle={styles.overlay}
       renderDrawerContent={() => (
         <HomeDrawer
           community={data.community}
@@ -102,5 +103,8 @@ export function HomeScreen() {
 const stylesheet = createStyleSheet((theme) => ({
   drawer: {
     backgroundColor: theme.colors.gray[1],
+  },
+  overlay: {
+    backgroundColor: theme.colors.gray.a6,
   },
 }))
