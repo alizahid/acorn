@@ -1,7 +1,7 @@
 import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -14,7 +14,6 @@ import { type PostMedia } from '~/types/post'
 
 import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
-import { VideoModal } from './modal'
 
 type Props = {
   compact?: boolean
@@ -50,6 +49,8 @@ export function VideoPlayer({
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const ref = useRef<VideoView>(null)
+
   const [visible, setVisible] = useState(false)
   const [muted, setMuted] = useState(feedMuted)
 
@@ -72,102 +73,93 @@ export function VideoPlayer({
     }
   }, [blurNsfw, muted, nsfw, player, viewing, visible])
 
+  if (compact) {
+    return (
+      <Pressable
+        onPress={() => {
+          setMuted(!unmuteFullscreen)
+          setVisible(true)
+
+          if (recyclingKey && seenOnMedia) {
+            addPost({
+              id: recyclingKey,
+            })
+          }
+        }}
+        style={styles.compact(largeThumbnails)}
+      >
+        <Image source={video.thumbnail} style={styles.compactImage} />
+
+        <View align="center" justify="center" style={styles.compactIcon}>
+          <Icon color={theme.colors.accent.a9} name="Play" weight="fill" />
+        </View>
+
+        {nsfw && blurNsfw ? (
+          <BlurView intensity={100} pointerEvents="none" style={styles.blur} />
+        ) : null}
+      </Pressable>
+    )
+  }
+
   return (
-    <>
-      {compact ? (
-        <Pressable
-          onPress={() => {
-            setMuted(!unmuteFullscreen)
-            setVisible(true)
+    <Pressable
+      onPress={() => {
+        setMuted(!unmuteFullscreen)
 
-            if (recyclingKey && seenOnMedia) {
-              addPost({
-                id: recyclingKey,
-              })
-            }
-          }}
-          style={styles.compact(largeThumbnails)}
-        >
-          <Image source={video.thumbnail} style={styles.compactImage} />
+        void ref.current?.enterFullscreen()
 
-          <View align="center" justify="center" style={styles.compactIcon}>
-            <Icon color={theme.colors.accent.a9} name="Play" weight="fill" />
-          </View>
-
-          {nsfw && blurNsfw ? (
-            <BlurView
-              intensity={100}
-              pointerEvents="none"
-              style={styles.blur}
-            />
-          ) : null}
-        </Pressable>
-      ) : (
-        <Pressable
-          onPress={() => {
-            setMuted(!unmuteFullscreen)
-            setVisible(true)
-
-            if (recyclingKey && seenOnMedia) {
-              addPost({
-                id: recyclingKey,
-              })
-            }
-          }}
-          style={[styles.main(crossPost), style]}
-        >
-          <VideoView
-            allowsFullscreen={false}
-            allowsPictureInPicture={false}
-            allowsVideoFrameAnalysis={false}
-            contentFit="cover"
-            nativeControls={false}
-            player={player}
-            style={styles.video(video.width / video.height)}
-          />
-
-          {nsfw && blurNsfw ? (
-            <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
-              <Icon
-                color={theme.colors.gray.a12}
-                name="Warning"
-                size={theme.space[6]}
-                weight="fill"
-              />
-
-              <Text weight="medium">{t('nsfw')}</Text>
-            </BlurView>
-          ) : (
-            <Pressable
-              hitSlop={theme.space[2]}
-              onPress={() => {
-                setMuted(() => !muted)
-              }}
-              p="2"
-              style={styles.volume}
-            >
-              <Icon
-                color={theme.colors.gray.contrast}
-                name={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
-                size={theme.space[4]}
-              />
-            </Pressable>
-          )}
-        </Pressable>
-      )}
-
-      <VideoModal
-        muted={muted}
-        onClose={() => {
-          setMuted(feedMuted)
+        if (recyclingKey && seenOnMedia) {
+          addPost({
+            id: recyclingKey,
+          })
+        }
+      }}
+      style={[styles.main(crossPost), style]}
+    >
+      <VideoView
+        allowsFullscreen={false}
+        allowsPictureInPicture={false}
+        allowsVideoFrameAnalysis={false}
+        contentFit="cover"
+        onFullscreenEnter={() => {
+          setVisible(visible)
+        }}
+        onFullscreenExit={() => {
           setVisible(false)
         }}
-        onMutedChange={setMuted}
         player={player}
-        video={video}
-        visible={visible}
+        ref={ref}
+        style={styles.video(video.width / video.height)}
       />
-    </>
+
+      {nsfw && blurNsfw ? (
+        <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
+          <Icon
+            color={theme.colors.gray.a12}
+            name="Warning"
+            size={theme.space[6]}
+            weight="fill"
+          />
+
+          <Text weight="medium">{t('nsfw')}</Text>
+        </BlurView>
+      ) : (
+        <Pressable
+          hitSlop={theme.space[2]}
+          onPress={() => {
+            setMuted(() => !muted)
+          }}
+          p="2"
+          style={styles.volume}
+        >
+          <Icon
+            color={theme.colors.gray.contrast}
+            name={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
+            size={theme.space[4]}
+          />
+        </Pressable>
+      )}
+    </Pressable>
   )
 }
 
