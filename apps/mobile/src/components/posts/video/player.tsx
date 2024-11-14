@@ -79,8 +79,7 @@ export function VideoPlayer({
     return (
       <Pressable
         onPress={() => {
-          setMuted(!unmuteFullscreen)
-          setVisible(true)
+          void ref.current?.enterFullscreen()
 
           if (recyclingKey && seenOnMedia) {
             addPost({
@@ -95,6 +94,28 @@ export function VideoPlayer({
         <View align="center" justify="center" style={styles.compactIcon}>
           <Icon color={theme.colors.accent.a9} name="Play" weight="fill" />
         </View>
+
+        <VideoView
+          contentFit="cover"
+          onFullscreenEnter={() => {
+            previousMuted.current = muted
+
+            if (unmuteFullscreen && muted) {
+              setMuted(false)
+            }
+
+            setVisible(true)
+          }}
+          onFullscreenExit={() => {
+            setMuted(previousMuted.current)
+
+            setVisible(false)
+          }}
+          player={player}
+          pointerEvents="none"
+          ref={ref}
+          style={styles.compactVideo}
+        />
 
         {nsfw && blurNsfw ? (
           <BlurView intensity={100} pointerEvents="none" style={styles.blur} />
@@ -128,7 +149,7 @@ export function VideoPlayer({
             setMuted(false)
           }
 
-          setVisible(visible)
+          setVisible(true)
         }}
         onFullscreenExit={() => {
           setMuted(previousMuted.current)
@@ -192,6 +213,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   compactImage: {
     flex: 1,
+  },
+  compactVideo: {
+    ...StyleSheet.absoluteFillObject,
+    opacity: 0,
   },
   main: (crossPost?: boolean) => ({
     justifyContent: 'center',
