@@ -93,6 +93,10 @@ export function HomeScreen() {
         feed={data.feed}
         interval={interval}
         label="subreddit"
+        refreshing={{
+          header: false,
+          inset: false,
+        }}
         sort={sort}
         user={data.user}
       />
