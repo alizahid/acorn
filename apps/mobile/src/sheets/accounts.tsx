@@ -45,7 +45,12 @@ export const AccountsSheet = createCallable(function Component() {
                 color="green"
                 icon="PlusCircle"
                 onPress={() => {
-                  router.push('/sign-in?mode=dismissible')
+                  router.navigate({
+                    params: {
+                      mode: 'dismissible',
+                    },
+                    pathname: '/sign-in',
+                  })
 
                   sheet.current?.close()
                 }}

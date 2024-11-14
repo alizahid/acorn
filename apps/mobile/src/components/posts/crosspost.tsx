@@ -140,7 +140,12 @@ export function CrossPostCard({
             gap="2"
             hitSlop={theme.space[4]}
             onPress={() => {
-              router.push(`/communities/${post.community.name}`)
+              router.navigate({
+                params: {
+                  name: post.community.name,
+                },
+                pathname: '/communities/[name]',
+              })
             }}
           >
             <Icon
