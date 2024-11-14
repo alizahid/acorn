@@ -33,7 +33,7 @@ import { type Comment } from '~/types/comment'
 type ListItem = 'post' | 'header' | Comment | 'empty'
 
 const schema = z.object({
-  commentId: z.string().min(0).optional().catch(undefined),
+  commentId: z.string().min(1).optional().catch(undefined),
   id: z.string().catch('17jkixh'),
 })
 
