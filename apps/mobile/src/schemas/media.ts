@@ -90,7 +90,7 @@ export const PostMediaSchema = z
       oembed: z.object({
         height: z.number(),
         html: z.string(),
-        thumbnail_url: z.string(),
+        thumbnail_url: z.string().nullish(),
         type: z.literal('video'),
         width: z.number(),
       }),

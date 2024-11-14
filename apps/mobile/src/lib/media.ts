@@ -112,7 +112,7 @@ export function getVideo(data: PostDataSchema): PostMedia | undefined {
       if (data.url) {
         return {
           height: data.media.oembed.height,
-          thumbnail: data.media.oembed.thumbnail_url,
+          thumbnail: data.media.oembed.thumbnail_url ?? undefined,
           type: 'image',
           url: data.url,
           width: data.media.oembed.width,
