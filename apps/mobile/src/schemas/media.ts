@@ -59,6 +59,9 @@ export const PostMediaMetadataSchema = z
       z.object({
         status: z.literal('failed'),
       }),
+      z.object({
+        status: z.literal('unprocessed'),
+      }),
     ]),
   )
   .nullish()

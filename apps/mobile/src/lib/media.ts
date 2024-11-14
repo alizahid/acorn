@@ -12,7 +12,7 @@ export function getMeta(
     return Object.fromEntries(
       compact<[string, PostMedia]>(
         Object.values(data.media_metadata).map((item) => {
-          if (item.status === 'failed') {
+          if (item.status !== 'valid') {
             return null
           }
 
@@ -51,7 +51,7 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
       data.gallery_data.items.map((item) => {
         const media = data.media_metadata?.[item.media_id]
 
-        if (!media || media.status === 'failed') {
+        if (!media || media.status !== 'valid') {
           return
         }
 
