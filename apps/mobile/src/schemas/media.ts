@@ -106,6 +106,10 @@ export const PostMediaSchema = z
       }),
       type: z.string(),
     }),
+    z.object({
+      oembed: z.object({}),
+      type: z.string(),
+    }),
   ])
   .nullish()
 

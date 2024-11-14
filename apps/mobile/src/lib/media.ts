@@ -91,7 +91,7 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
 }
 
 export function getVideo(data: PostDataSchema): PostMedia | undefined {
-  if (data.media && 'oembed' in data.media) {
+  if (data.media && 'oembed' in data.media && 'type' in data.media.oembed) {
     if (data.media.oembed.type === 'video') {
       if (data.media.type.endsWith('redgifs.com')) {
         const parts = /https:\/\/www\.redgifs\.com\/ifr\/(\w+)/.exec(
