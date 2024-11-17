@@ -32,7 +32,7 @@ export function CommentCard({
 }: Props) {
   const router = useRouter()
 
-  const { gestures } = usePreferences()
+  const { coloredComments, gestures } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -81,7 +81,7 @@ export function CommentCard({
         }
       }}
       saved={comment.saved}
-      style={[styles.main(comment.depth), style]}
+      style={[styles.main(comment.depth, coloredComments), style]}
     >
       <Pressable
         disabled={disabled}
@@ -136,13 +136,13 @@ const stylesheet = createStyleSheet((theme) => ({
 
     return base
   },
-  main: (depth: number) => {
+  main: (depth: number, colored: boolean) => {
     const color = getDepthColor(depth)
 
     const base = {
-      backgroundColor: theme.colors[color][3],
+      backgroundColor: colored ? theme.colors[color][2] : theme.colors.gray[2],
       borderLeftColor: depth > 0 ? theme.colors[color][6] : undefined,
-      borderLeftWidth: depth > 0 ? theme.space[1] : 0,
+      borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       overflow: 'hidden' as const,
     }
 

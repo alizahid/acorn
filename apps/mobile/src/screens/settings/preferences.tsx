@@ -33,6 +33,11 @@ export function SettingsPreferencesScreen() {
             key: 'skipCommentOnLeft',
             label: 'browsing.skipCommentOnLeft',
           },
+          {
+            icon: 'PaintBrush',
+            key: 'coloredComments',
+            label: 'browsing.coloredComments',
+          },
           null,
 
           t('compact.title'),

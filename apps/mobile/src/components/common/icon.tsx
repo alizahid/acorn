@@ -42,6 +42,7 @@ import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import MouseScrollBold from 'react-native-phosphor/src/bold/MouseScroll'
 import PackageBold from 'react-native-phosphor/src/bold/Package'
+import PaintBrushBold from 'react-native-phosphor/src/bold/PaintBrush'
 import PaletteBold from 'react-native-phosphor/src/bold/Palette'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
 import PauseBold from 'react-native-phosphor/src/bold/Pause'
@@ -113,6 +114,7 @@ import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/Magnifying
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import MouseScrollDuotone from 'react-native-phosphor/src/duotone/MouseScroll'
 import PackageDuotone from 'react-native-phosphor/src/duotone/Package'
+import PaintBrushDuotone from 'react-native-phosphor/src/duotone/PaintBrush'
 import PaletteDuotone from 'react-native-phosphor/src/duotone/Palette'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
 import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
@@ -184,6 +186,7 @@ import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import MouseScrollFill from 'react-native-phosphor/src/fill/MouseScroll'
 import PackageFill from 'react-native-phosphor/src/fill/Package'
+import PaintBrushFill from 'react-native-phosphor/src/fill/PaintBrush'
 import PaletteFill from 'react-native-phosphor/src/fill/Palette'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
 import PauseFill from 'react-native-phosphor/src/fill/Pause'
@@ -255,6 +258,7 @@ import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/Magnifying
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import MouseScrollRegular from 'react-native-phosphor/src/regular/MouseScroll'
 import PackageRegular from 'react-native-phosphor/src/regular/Package'
+import PaintBrushRegular from 'react-native-phosphor/src/regular/PaintBrush'
 import PaletteRegular from 'react-native-phosphor/src/regular/Palette'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
 import PauseRegular from 'react-native-phosphor/src/regular/Pause'
@@ -561,6 +565,12 @@ const icons = {
     duotone: PackageDuotone,
     fill: PackageFill,
     regular: PackageRegular,
+  },
+  PaintBrush: {
+    bold: PaintBrushBold,
+    duotone: PaintBrushDuotone,
+    fill: PaintBrushFill,
+    regular: PaintBrushRegular,
   },
   Palette: {
     bold: PaletteBold,

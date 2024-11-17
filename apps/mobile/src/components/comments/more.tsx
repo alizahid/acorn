@@ -5,6 +5,7 @@ import { useTranslations } from 'use-intl'
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
+import { usePreferences } from '~/stores/preferences'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
 
@@ -21,6 +22,8 @@ type Props = {
 
 export function CommentMoreCard({ comment, onThread, post, style }: Props) {
   const t = useTranslations('component.comments.more')
+
+  const { coloredComments } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -49,7 +52,7 @@ export function CommentMoreCard({ comment, onThread, post, style }: Props) {
         }
       }}
       py="2"
-      style={[styles.main(comment.depth), style]}
+      style={[styles.main(comment.depth, coloredComments), style]}
     >
       {isPending ? (
         <Spinner />
@@ -65,14 +68,14 @@ export function CommentMoreCard({ comment, onThread, post, style }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (depth: number) => {
+  main: (depth: number, colored: boolean) => {
     const color = getDepthColor(depth)
 
     const marginLeft = theme.space[2] * depth
 
     const base = {
-      backgroundColor: theme.colors[color].a2,
-      borderLeftColor: depth > 0 ? theme.colors[color].a6 : undefined,
+      backgroundColor: colored ? theme.colors[color][2] : theme.colors.gray[2],
+      borderLeftColor: depth > 0 ? theme.colors[color][6] : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       marginLeft,
     }

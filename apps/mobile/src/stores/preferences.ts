@@ -17,6 +17,7 @@ export const PREFERENCES_KEY = 'preferences-storage'
 
 export type PreferencesPayload = {
   blurNsfw: boolean
+  coloredComments: boolean
   dimSeen: boolean
   feedCompact: boolean
   feedMuted: boolean
@@ -58,6 +59,7 @@ export const usePreferences = create<State>()(
   persist(
     (set) => ({
       blurNsfw: true,
+      coloredComments: true,
       dimSeen: false,
       feedCompact: false,
       feedMuted: true,
