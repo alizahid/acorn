@@ -59,6 +59,7 @@ export function VideoPlayer({
   const player = useVideoPlayer(source, (instance) => {
     instance.muted = true
     instance.loop = true
+    instance.audioMixingMode = 'mixWithOthers'
 
     if (viewing) {
       instance.play()
