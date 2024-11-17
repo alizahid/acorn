@@ -193,7 +193,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: (crossPost?: boolean) => ({
     justifyContent: 'center',
-    maxHeight: runtime.screen.height * (crossPost ? 0.3 : 0.5),
+    maxHeight: runtime.screen.height * (crossPost ? 0.4 : 0.8),
     overflow: 'hidden',
   }),
 }))
