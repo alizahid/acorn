@@ -50,6 +50,8 @@ tsconfig.tsbuildinfo
 
 # expo
 #
+apps/mobile/ios
+apps/mobile/android
 .expo/
 *.jks
 *.p8

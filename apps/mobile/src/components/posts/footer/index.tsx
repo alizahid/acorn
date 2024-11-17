@@ -7,9 +7,9 @@ import { View } from '~/components/common/view'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
-import { PostMenuSheet } from '~/sheets/post-menu'
 import { type Post } from '~/types/post'
 
+import { PostMenu } from '../menu'
 import { FooterButton } from './button'
 import { PostCommunity } from './community'
 import { PostMeta } from './meta'
@@ -38,7 +38,13 @@ export function PostFooter({ expanded, gestures, label, post, seen }: Props) {
       disabled={expanded}
       gap="4"
       justify="between"
-      onPress={() => {
+      onPress={(event) => {
+        if (event.target !== event.currentTarget) {
+          event.preventDefault()
+
+          return
+        }
+
         router.navigate({
           params: {
             id: removePrefix(post.id),
@@ -55,16 +61,16 @@ export function PostFooter({ expanded, gestures, label, post, seen }: Props) {
       </View>
 
       <View align="center" direction={gestures ? 'row' : 'row-reverse'} gap="4">
-        <FooterButton
-          color={theme.colors.gray[seen ? 'a11' : 'a12']}
-          icon="DotsThree"
-          onPress={() => {
-            void PostMenuSheet.call({
-              post,
-            })
-          }}
-          weight="bold"
-        />
+        <PostMenu post={post}>
+          <FooterButton
+            color={theme.colors.gray[seen ? 'a11' : 'a12']}
+            icon="DotsThree"
+            onPress={(event) => {
+              event.stopPropagation()
+            }}
+            weight="bold"
+          />
+        </PostMenu>
 
         {gestures ? (
           <FooterButton

@@ -16,7 +16,7 @@ import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { transformPost } from '~/transformers/post'
 import { type Post } from '~/types/post'
-import { type FeedSort, type TopInterval } from '~/types/sort'
+import { type PostSort, type TopInterval } from '~/types/sort'
 
 import { type UserPostsQueryData } from '../user/posts'
 
@@ -34,7 +34,7 @@ export type PostsQueryKey = [
     community?: string
     feed?: string
     interval?: TopInterval
-    sort?: FeedSort
+    sort?: PostSort
     user?: string
   },
 ]
@@ -45,7 +45,7 @@ export type PostsProps = {
   community?: string
   feed?: string
   interval?: TopInterval
-  sort: FeedSort
+  sort: PostSort
   user?: string
 }
 

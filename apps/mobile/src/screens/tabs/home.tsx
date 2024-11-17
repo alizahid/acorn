@@ -8,7 +8,6 @@ import { FeedTypeMenu, type FeedTypeOptions } from '~/components/home/type-menu'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { usePreferences } from '~/stores/preferences'
-import { type FeedSort } from '~/types/sort'
 
 export function HomeScreen() {
   const navigation = useNavigation()
@@ -42,14 +41,22 @@ export function HomeScreen() {
           <SortIntervalMenu
             interval={interval}
             onChange={(next) => {
-              setSort(next.sort as FeedSort)
+              setSort(next.sort)
 
               if (next.interval) {
                 setInterval(next.interval)
               }
             }}
             sort={sort}
-            type="feed"
+            type={
+              data.community
+                ? 'community'
+                : data.user
+                  ? 'user'
+                  : data.type === 'all' || data.type === 'popular'
+                    ? 'community'
+                    : 'feed'
+            }
           />
         ) : null,
     })
@@ -72,6 +79,10 @@ export function HomeScreen() {
           feed={data.feed}
           onChange={(next) => {
             setData(next)
+
+            if (sort === 'best' && !next.feed && next.type !== 'home') {
+              setSort('hot')
+            }
           }}
           onClose={() => {
             setOpen(false)

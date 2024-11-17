@@ -1,4 +1,5 @@
 import { type ConfigContext, type ExpoConfig } from 'expo/config'
+import { withBuildProperties } from 'expo-build-properties'
 
 export default function getConfig(context: ConfigContext): ExpoConfig {
   const projectId = '8d7d5acc-3688-4cd2-b93f-52391f665348'
@@ -16,7 +17,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     'expo-localization',
     'expo-secure-store',
     'expo-video',
-    'expo-audio',
     [
       'expo-splash-screen',
       {
@@ -39,6 +39,12 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
       {
         photosPermission: `Allow ${name} to access your photo library.`,
         savePhotosPermission: `Allow ${name} to save photos to your library.`,
+      },
+    ],
+    [
+      'expo-custom-assets',
+      {
+        assetsPaths: ['./assets/custom/icons', './assets/custom/sounds'],
       },
     ],
   ]
@@ -104,5 +110,15 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     version: '1.0.0',
   }
 
-  return config
+  return withBuildProperties(config, {
+    ios: {
+      extraPods: [
+        {
+          git: 'https://github.com/alizahid/SVGKit.git',
+          name: 'SVGKit',
+        },
+      ],
+      useFrameworks: 'static',
+    },
+  })
 }

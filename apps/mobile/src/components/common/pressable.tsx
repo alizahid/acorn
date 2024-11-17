@@ -1,10 +1,11 @@
-import { type ReactNode } from 'react'
+import { forwardRef, type ReactNode } from 'react'
 import {
   type GestureResponderEvent,
   type Insets,
   type LayoutChangeEvent,
   Pressable as ReactNativePressable,
   type StyleProp,
+  type View,
   type ViewStyle,
 } from 'react-native'
 import Animated, {
@@ -16,7 +17,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
-const Component = Animated.createAnimatedComponent(ReactNativePressable)
+const AnimatedPressable = Animated.createAnimatedComponent(ReactNativePressable)
 
 type Props = {
   children?: ReactNode
@@ -28,32 +29,39 @@ type Props = {
   style?: StyleProp<ViewStyle>
 } & ViewStyleProps
 
-export function Pressable({
-  children,
-  disabled,
-  hitSlop,
-  onLayout,
-  onLongPress,
-  onPress,
-  style,
-  ...props
-}: Props) {
+export const Pressable = forwardRef<View, Props>(function Pressable(
+  {
+    children,
+    disabled,
+    hitSlop,
+    onLayout,
+    onLongPress,
+    onPress,
+    style,
+    ...props
+  },
+  ref,
+) {
   const { styles } = useStyles(stylesheet)
 
   const opacity = useSharedValue(1)
 
-  const animatedStyle = useAnimatedStyle(() => ({
+  const main = useAnimatedStyle(() => ({
     opacity: opacity.get(),
   }))
 
   return (
-    <Component
+    <AnimatedPressable
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}
       onLongPress={onLongPress}
       onPress={(event) => {
         onPress?.(event)
+
+        if (event.defaultPrevented) {
+          return
+        }
 
         opacity.set(() =>
           withTiming(
@@ -71,12 +79,13 @@ export function Pressable({
           ),
         )
       }}
-      style={[animatedStyle, styles.main(props), style]}
+      ref={ref}
+      style={[main, styles.main(props), style]}
     >
       {children}
-    </Component>
+    </AnimatedPressable>
   )
-}
+})
 
 const stylesheet = createStyleSheet((theme) => ({
   main: getViewStyles(theme),

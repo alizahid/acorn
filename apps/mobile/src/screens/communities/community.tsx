@@ -13,7 +13,6 @@ import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useSorting } from '~/hooks/sorting'
 import { CommunityTab } from '~/types/community'
-import { type CommunityFeedSort } from '~/types/sort'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -59,7 +58,7 @@ export function CommunityScreen() {
                   onChange={(next) => {
                     update({
                       interval: next.interval,
-                      sort: next.sort as CommunityFeedSort,
+                      sort: next.sort,
                     })
                   }}
                   sort={sorting.sort}

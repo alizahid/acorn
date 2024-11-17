@@ -4,7 +4,6 @@ import { useFormatter } from 'use-intl'
 
 import { withoutAgo } from '~/lib/intl'
 import { removePrefix } from '~/lib/reddit'
-import { CommentMenuSheet } from '~/sheets/comment-menu'
 import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
@@ -13,6 +12,7 @@ import { Text } from '../common/text'
 import { View } from '../common/view'
 import { FlairCard } from '../posts/flair'
 import { FooterButton } from '../posts/footer/button'
+import { CommentMenu } from './menu'
 
 type Props = {
   collapsed?: boolean
@@ -76,7 +76,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
         )}
       </Text>
 
-      <View align="center" direction="row" gap="1">
+      <View align="center" direction="row" gap="1" pointerEvents="none">
         <Icon
           color={
             comment.liked
@@ -97,17 +97,14 @@ export function CommentMeta({ collapsed, comment }: Props) {
         </Text>
       </View>
 
-      <FooterButton
-        color={theme.colors.gray.a11}
-        compact
-        icon="DotsThree"
-        onPress={() => {
-          void CommentMenuSheet.call({
-            comment,
-          })
-        }}
-        weight="bold"
-      />
+      <CommentMenu comment={comment}>
+        <FooterButton
+          color={theme.colors.gray.a11}
+          compact
+          icon="DotsThree"
+          weight="bold"
+        />
+      </CommentMenu>
     </View>
   )
 }

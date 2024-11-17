@@ -14,7 +14,6 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { usePreferences } from '~/stores/preferences'
 import { SearchTab } from '~/types/search'
-import { type SearchSort } from '~/types/sort'
 
 export function SearchScreen() {
   const focused = useIsFocused()
@@ -62,7 +61,7 @@ export function SearchScreen() {
                 <SortIntervalMenu
                   interval={interval}
                   onChange={(next) => {
-                    setSort(next.sort as SearchSort)
+                    setSort(next.sort)
 
                     if (next.interval) {
                       setInterval(next.interval)

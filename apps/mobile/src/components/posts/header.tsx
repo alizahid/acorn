@@ -30,7 +30,12 @@ export function PostHeader({
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View align="center" direction="row" style={styles.main(Boolean(sticky))}>
+    <View
+      align="center"
+      direction="row"
+      justify={commentId ? 'between' : 'end'}
+      style={styles.main(Boolean(sticky))}
+    >
       {commentId ? (
         <Pressable
           align="center"
@@ -48,10 +53,9 @@ export function PostHeader({
 
       <SortIntervalMenu
         onChange={(next) => {
-          onChangeSort(next.sort as CommentSort)
+          onChangeSort(next.sort)
         }}
         sort={sort}
-        style={styles.sort}
         type="comment"
       />
     </View>
@@ -76,8 +80,5 @@ const stylesheet = createStyleSheet((theme) => ({
     }
 
     return base
-  },
-  sort: {
-    marginLeft: 'auto',
   },
 }))

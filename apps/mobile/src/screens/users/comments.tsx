@@ -9,7 +9,6 @@ import { z } from 'zod'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { UserCommentsList } from '~/components/users/comments'
 import { usePreferences } from '~/stores/preferences'
-import { type CommentSort } from '~/types/sort'
 
 const schema = z.object({
   name: z.string().catch('mildpanda'),
@@ -31,7 +30,7 @@ export default function UserCommentsScreen() {
         <SortIntervalMenu
           interval={interval}
           onChange={(next) => {
-            setSort(next.sort as CommentSort)
+            setSort(next.sort)
 
             if (next.interval) {
               setInterval(next.interval)

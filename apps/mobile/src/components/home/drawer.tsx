@@ -36,7 +36,14 @@ export function HomeDrawer({
   const { styles, theme } = useStyles(stylesheet)
 
   const { feeds, isLoading: loadingFeeds } = useFeeds()
-  const { communities, isLoading: loadingCommunities, users } = useCommunities()
+  const {
+    communities,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading: loadingCommunities,
+    users,
+  } = useCommunities()
 
   const data = compact([
     {
@@ -131,10 +138,18 @@ export function HomeDrawer({
   return (
     <FlashList
       {...listProps}
+      ListFooterComponent={() =>
+        isFetchingNextPage ? <Spinner m="6" /> : null
+      }
       data={data}
       estimatedItemSize={48}
       getItemType={(item) => item.type}
       keyExtractor={(item) => item.key}
+      onEndReached={() => {
+        if (hasNextPage) {
+          void fetchNextPage()
+        }
+      }}
       renderItem={({ item }) => {
         if (item.type === 'separator') {
           return <View height="8" />

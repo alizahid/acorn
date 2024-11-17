@@ -1,3 +1,5 @@
+import { type SFSymbol } from 'expo-symbols'
+
 import { type IconName } from '~/components/common/icon'
 import { type ColorToken } from '~/styles/tokens'
 import {
@@ -43,13 +45,13 @@ export const SortColors: Record<Sort, ColorToken> = {
   top: 'gold',
 }
 
-export const IntervalIcons: Record<TopInterval, string> = {
-  all: '∞',
-  day: '24',
-  hour: '60',
-  month: '31',
-  week: '7',
-  year: '12',
+export const IntervalIcons: Record<TopInterval, SFSymbol> = {
+  all: 'infinity.circle',
+  day: '24.circle',
+  hour: '1.circle',
+  month: '31.circle',
+  week: '7.circle',
+  year: '12.circle',
 }
 
 export const FeedTypeIcons: Record<FeedType, IconName> = {

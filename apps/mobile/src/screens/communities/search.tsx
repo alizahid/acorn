@@ -11,7 +11,6 @@ import { HeaderButton } from '~/components/navigation/header-button'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { usePreferences } from '~/stores/preferences'
-import { type SearchSort } from '~/types/sort'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -67,7 +66,7 @@ export function CommunitiesSearchScreen() {
           <SortIntervalMenu
             interval={interval}
             onChange={(next) => {
-              setSort(next.sort as SearchSort)
+              setSort(next.sort)
 
               if (next.interval) {
                 setInterval(next.interval)

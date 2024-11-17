@@ -1,12 +1,11 @@
+import { SymbolView } from 'expo-symbols'
 import { useCallback } from 'react'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Menu, type MenuItemOption } from '~/components/common/menu'
-import { TopIntervalItem } from '~/components/posts/interval'
-import { getTranslator } from '~/intl'
-import { SortColors, SortIcons } from '~/lib/sort'
+import { IntervalIcons, SortColors, SortIcons } from '~/lib/sort'
 import { usePreferences } from '~/stores/preferences'
 import {
   CommentSort,
@@ -19,8 +18,7 @@ import {
 
 export function SettingsSortScreen() {
   const t = useTranslations('screen.settings.sort')
-  const tSort = getTranslator('component.common.sort')
-  const tInterval = getTranslator('component.common.interval')
+  const tCommon = useTranslations('component.common')
 
   const { update, ...preferences } = usePreferences()
 
@@ -37,7 +35,7 @@ export function SettingsSortScreen() {
           name: icon,
           weight: 'duotone',
         },
-        label: tSort(sort),
+        label: tCommon(`sort.${sort}`),
         right: (
           <Icon
             color={color}
@@ -49,22 +47,30 @@ export function SettingsSortScreen() {
         value: sort,
       }
     },
-    [tSort, theme.colors, theme.space],
+    [tCommon, theme.colors, theme.space],
   )
 
   const enhanceInterval = useCallback(
     (interval: TopInterval): MenuItemOption => ({
-      label: tInterval(interval),
+      label: tCommon(`interval.${interval}`),
       left: (
-        <TopIntervalItem
-          interval={interval}
+        <SymbolView
+          name={IntervalIcons[interval]}
           size={theme.typography[2].lineHeight}
+          tintColor={theme.colors.gold.a9}
         />
       ),
-      right: <TopIntervalItem interval={interval} size={theme.space[5]} />,
+      right: (
+        <SymbolView
+          name={IntervalIcons[interval]}
+          size={theme.space[5]}
+          tintColor={theme.colors.gold.a9}
+        />
+      ),
+
       value: interval,
     }),
-    [tInterval, theme.space, theme.typography],
+    [tCommon, theme.colors.gold.a9, theme.space, theme.typography],
   )
 
   return (

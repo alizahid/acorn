@@ -85,7 +85,15 @@ export function CommentCard({
     >
       <Pressable
         disabled={disabled}
-        onPress={onPress}
+        onPress={(event) => {
+          if (event.target !== event.currentTarget) {
+            event.preventDefault()
+
+            return
+          }
+
+          onPress()
+        }}
         pl="3"
         pt={collapsed ? '3' : undefined}
       >

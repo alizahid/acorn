@@ -3,7 +3,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
-import { PostMenuSheet } from '~/sheets/post-menu'
 import { type Post } from '~/types/post'
 
 import { Pressable } from '../common/pressable'
@@ -17,6 +16,7 @@ import { PostCommunity } from './footer/community'
 import { PostMeta } from './footer/meta'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
+import { PostMenu } from './menu'
 import { PostVideoCard } from './video'
 
 type Props = {
@@ -103,17 +103,14 @@ export function PostCompactCard({
         <View align="center" direction="row" gap="4">
           <PostMeta post={post} seen={seen} />
 
-          <FooterButton
-            color={theme.colors.gray[seen ? 'a11' : 'a12']}
-            compact
-            icon="DotsThree"
-            onPress={() => {
-              void PostMenuSheet.call({
-                post,
-              })
-            }}
-            weight="bold"
-          />
+          <PostMenu post={post}>
+            <FooterButton
+              color={theme.colors.gray[seen ? 'a11' : 'a12']}
+              compact
+              icon="DotsThree"
+              weight="bold"
+            />
+          </PostMenu>
         </View>
       </View>
 
