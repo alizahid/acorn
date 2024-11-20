@@ -1,9 +1,4 @@
-import {
-  type QueryKey,
-  useIsRestoring,
-  useMutation,
-  useQuery,
-} from '@tanstack/react-query'
+import { useIsRestoring, useMutation, useQuery } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 
@@ -37,6 +32,13 @@ export type PostQueryData = {
   comments: Array<Comment>
   post: Post
 }
+
+type CollapsedQueryKey = [
+  'collapsed',
+  {
+    id: string
+  },
+]
 
 type CollapsedData = Array<string>
 
@@ -112,19 +114,24 @@ export function usePost({ commentId, id, sort }: Props) {
     ],
   })
 
-  const queryKey: QueryKey = [
+  const collapsedQueryKey: CollapsedQueryKey = [
     'collapsed',
     {
       id,
     },
   ]
 
-  const collapsed = useQuery<CollapsedData>({
+  const collapsed = useQuery<
+    CollapsedData,
+    Error,
+    CollapsedData,
+    CollapsedQueryKey
+  >({
     placeholderData: [],
     queryFn() {
       return getCollapsedForPost(id)
     },
-    queryKey,
+    queryKey: collapsedQueryKey,
   })
 
   const collapse = useMutation<unknown, Error, CollapseVariables>({
@@ -132,7 +139,7 @@ export function usePost({ commentId, id, sort }: Props) {
       await collapseComment(variables.commentId, id)
     },
     onMutate(variables) {
-      queryClient.setQueryData<CollapsedData>(queryKey, (previous) => {
+      queryClient.setQueryData<CollapsedData>(collapsedQueryKey, (previous) => {
         if (!previous) {
           return previous
         }

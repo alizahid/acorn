@@ -13,6 +13,7 @@ export async function getCollapsedForPost(id: string) {
       $post: id,
     },
   )
+
   return rows.map((row) => row.comment_id)
 }
 
@@ -35,16 +36,18 @@ export async function collapseComment(id: string, postId: string) {
         $post: postId,
       },
     )
-  } else {
-    await db.runAsync(
-      'INSERT INTO collapsed (comment_id, post_id, collapsed_at) VALUES ($comment, $post, $time) ON CONFLICT (comment_id) DO NOTHING',
-      {
-        $comment: id,
-        $post: postId,
-        $time: formatISO(new Date()),
-      },
-    )
+
+    return
   }
+
+  await db.runAsync(
+    'INSERT INTO collapsed (comment_id, post_id, collapsed_at) VALUES ($comment, $post, $time) ON CONFLICT (comment_id) DO NOTHING',
+    {
+      $comment: id,
+      $post: postId,
+      $time: formatISO(new Date()),
+    },
+  )
 }
 
 export async function clearCollapsed() {
