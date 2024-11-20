@@ -27,7 +27,14 @@ export function CommentMeta({ collapsed, comment }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View align="center" direction="row" gap="2" mb="3" pr="3">
+    <View
+      align="center"
+      direction="row"
+      gap="2"
+      p="3"
+      pointerEvents="box-none"
+      style={styles.main}
+    >
       {comment.sticky ? (
         <Icon
           color={theme.colors.red.a9}
@@ -110,6 +117,9 @@ export function CommentMeta({ collapsed, comment }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  main: {
+    backgroundColor: theme.colors.gray.a2,
+  },
   sticky: {
     marginRight: -theme.space[2],
   },

@@ -93,8 +93,6 @@ export function CommentCard({
 
           onPress()
         }}
-        pl="3"
-        pt={collapsed ? '3' : undefined}
       >
         {!collapsed ? (
           <Markdown
@@ -120,8 +118,7 @@ export function CommentCard({
 
 const stylesheet = createStyleSheet((theme) => ({
   body: {
-    marginRight: theme.space[3],
-    marginVertical: theme.space[3],
+    margin: theme.space[3],
   },
   container: (depth: number) => {
     const marginLeft = theme.space[2] * depth
