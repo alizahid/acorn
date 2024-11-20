@@ -19,6 +19,7 @@ export type NotificationType =
 
 export type InboxNotification = {
   author: string
+  body: string
   context: string
   createdAt: Date
   id: string
