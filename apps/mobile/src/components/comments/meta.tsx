@@ -30,7 +30,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
     <View
       align="center"
       direction="row"
-      gap="2"
+      gap="3"
       p="3"
       pointerEvents="box-none"
       style={styles.main}
@@ -121,6 +121,6 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.gray.a2,
   },
   sticky: {
-    marginRight: -theme.space[2],
+    marginRight: -theme.space[1],
   },
 }))
