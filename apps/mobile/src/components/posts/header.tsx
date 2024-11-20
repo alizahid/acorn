@@ -1,19 +1,17 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { type CommentSort } from '~/types/sort'
 
-import { Icon } from '../common/icon'
-import { Pressable } from '../common/pressable'
-import { Text } from '../common/text'
 import { View } from '../common/view'
+import { HeaderButton } from '../navigation/header-button'
 import { SortIntervalMenu } from './sort-interval'
 
 type Props = {
   commentId?: string
   onChangeSort: (sort: CommentSort) => void
-  onPress?: () => void
+  onPress?: (commentId?: string) => void
+  parentId?: string
   sort: CommentSort
   sticky?: boolean
 }
@@ -22,12 +20,11 @@ export function PostHeader({
   commentId,
   onChangeSort,
   onPress,
+  parentId,
   sort,
   sticky,
 }: Props) {
-  const t = useTranslations('component.posts.header')
-
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   return (
     <View
@@ -37,18 +34,25 @@ export function PostHeader({
       style={styles.main(Boolean(sticky))}
     >
       {commentId ? (
-        <Pressable
-          align="center"
-          direction="row"
-          gap="2"
-          height="8"
-          onPress={onPress}
-          px="3"
-        >
-          <Icon color={theme.colors.accent.a9} name="ArrowArcLeft" />
+        <View direction="row">
+          <HeaderButton
+            color="accent"
+            icon="ArrowArcLeft"
+            onPress={() => {
+              onPress?.()
+            }}
+            style={styles.button}
+          />
 
-          <Text weight="medium">{t('back')}</Text>
-        </Pressable>
+          <HeaderButton
+            color="accent"
+            icon="ArrowElbowLeft"
+            onPress={() => {
+              onPress?.(parentId)
+            }}
+            style={styles.button}
+          />
+        </View>
       ) : null}
 
       <SortIntervalMenu
@@ -63,6 +67,10 @@ export function PostHeader({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  button: {
+    height: theme.space[8],
+    width: theme.space[8],
+  },
   main: (sticky: boolean) => {
     const base = {
       backgroundColor: theme.colors.gray[sticky ? 1 : 'a3'],

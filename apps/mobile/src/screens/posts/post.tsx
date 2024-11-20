@@ -197,16 +197,19 @@ export function PostScreen() {
                 <PostHeader
                   commentId={params.commentId}
                   onChangeSort={setSort}
-                  onPress={() => {
+                  onPress={(next) => {
                     list.current?.scrollToIndex({
                       animated: true,
                       index: 1,
                     })
 
                     router.setParams({
-                      commentId: '',
+                      commentId: next ?? '',
                     })
                   }}
+                  parentId={
+                    params.commentId ? comments[0]?.data.parentId : undefined
+                  }
                   sort={sort}
                   sticky={target === 'StickyHeader'}
                 />

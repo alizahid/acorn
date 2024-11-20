@@ -73,9 +73,6 @@
         "items": "{count, number} images",
         "nsfw": "Sensitive content - tap to view"
       },
-      "header": {
-        "back": "See full discussion"
-      },
       "menu": {
         "copyLink": "Copy link",
         "downvote": "Downvote",
