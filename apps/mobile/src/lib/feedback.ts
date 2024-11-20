@@ -4,6 +4,7 @@ export type Feedback = {
   down: undefined
   refresh: undefined
   save: undefined
+  soft: undefined
   undo: undefined
   up: undefined
 }

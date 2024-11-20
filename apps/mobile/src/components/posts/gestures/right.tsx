@@ -21,7 +21,7 @@ type Props = {
 export function Right({ action, progress, saved }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
-  const [icon, setIcon] = useState<IconName>('ArrowUp')
+  const [icon, setIcon] = useState<IconName>('ArrowBendUpLeft')
   const [weight, setWeight] = useState<IconWeight>('fill')
 
   const background = useAnimatedStyle(() => {
@@ -53,7 +53,7 @@ export function Right({ action, progress, saved }: Props) {
           ? 'BookmarkSimple'
           : 'ArrowBendUpLeft'
 
-      if (icon !== nextIcon) {
+      if (nextIcon !== icon) {
         runOnJS(setIcon)(nextIcon)
       }
 
@@ -64,7 +64,7 @@ export function Right({ action, progress, saved }: Props) {
             : 'fill'
           : 'fill'
 
-      if (weight !== nextWeight) {
+      if (nextWeight !== weight) {
         runOnJS(setWeight)(nextWeight)
       }
     },

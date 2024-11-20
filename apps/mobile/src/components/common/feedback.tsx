@@ -29,10 +29,11 @@ export function Feedback() {
   return null
 }
 
-const sounds = {
+const sounds: Record<keyof Feedback, string> = {
   down: 'error_06',
   refresh: 'woosh_09',
   save: 'woosh_04',
+  soft: 'pop_10',
   undo: 'click_01',
   up: 'pop_06',
 } as const

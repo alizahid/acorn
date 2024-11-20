@@ -6,9 +6,11 @@ import Animated, {
   useAnimatedStyle,
 } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useDebouncedCallback } from 'use-debounce'
 
 import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
 import { swipeActionThreshold } from '~/lib/common'
+import { triggerFeedback } from '~/lib/feedback'
 
 import { type GestureAction } from '.'
 
@@ -23,6 +25,10 @@ export function Left({ action, liked, progress }: Props) {
 
   const [icon, setIcon] = useState<IconName>('ArrowUp')
   const [weight, setWeight] = useState<IconWeight>('duotone')
+
+  const feedback = useDebouncedCallback(() => {
+    triggerFeedback('soft')
+  }, 100)
 
   const background = useAnimatedStyle(() => {
     const color =
@@ -51,8 +57,9 @@ export function Left({ action, liked, progress }: Props) {
       const nextIcon =
         value > swipeActionThreshold.second ? 'ArrowFatDown' : 'ArrowFatUp'
 
-      if (icon !== nextIcon) {
+      if (nextIcon !== icon) {
         runOnJS(setIcon)(nextIcon)
+        runOnJS(feedback)()
       }
 
       const nextWeight =
@@ -64,7 +71,7 @@ export function Left({ action, liked, progress }: Props) {
             ? 'regular'
             : 'fill'
 
-      if (weight !== nextWeight) {
+      if (nextWeight !== weight) {
         runOnJS(setWeight)(nextWeight)
       }
     },
