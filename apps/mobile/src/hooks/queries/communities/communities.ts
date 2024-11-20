@@ -3,7 +3,7 @@ import { sortBy, uniq } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 
-import { queryClient, resetInfiniteQuery } from '~/lib/query'
+import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { CommunitiesSchema } from '~/schemas/communities'
@@ -58,11 +58,7 @@ export function useCommunities() {
     communities,
     isLoading: isRestoring || isLoading,
     isRefreshing: isStale && isFetching && !isLoading,
-    refetch: async () => {
-      resetInfiniteQuery(queryKey)
-
-      await refresh()
-    },
+    refetch: refresh,
     users,
   }
 }
