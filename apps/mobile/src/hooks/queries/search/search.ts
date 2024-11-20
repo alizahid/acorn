@@ -1,4 +1,4 @@
-import { type QueryKey, useIsRestoring, useQuery } from '@tanstack/react-query'
+import { useIsRestoring, useQuery } from '@tanstack/react-query'
 import { compact } from 'lodash'
 import { create, type Draft } from 'mutative'
 
@@ -187,15 +187,13 @@ export function updateSearch(
 ) {
   const cache = queryClient.getQueryCache()
 
-  const queryKey: QueryKey = [
-    'search',
-    {
-      type: 'post',
-    },
-  ]
-
   const queries = cache.findAll({
-    queryKey,
+    queryKey: [
+      'search',
+      {
+        type: 'post',
+      },
+    ],
   })
 
   for (const query of queries) {

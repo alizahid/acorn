@@ -1,8 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 
-import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
-import { type CommunityQueryKey } from '~/hooks/queries/communities/community'
-import { queryClient } from '~/lib/query'
+import { updateCommunities } from '~/hooks/queries/communities/communities'
+import { updateCommunity } from '~/hooks/queries/communities/community'
 import { reddit } from '~/reddit/api'
 
 type Variables = {
@@ -24,18 +23,13 @@ export function useFavorite() {
         url: '/api/favorite',
       })
     },
-    async onSuccess(data, variables) {
-      await queryClient.invalidateQueries({
-        queryKey: [
-          'community',
-          {
-            name: variables.name,
-          },
-        ] satisfies CommunityQueryKey,
+    onMutate(variables) {
+      updateCommunity(variables.name, (draft) => {
+        draft.favorite = variables.favorite
       })
 
-      void queryClient.invalidateQueries({
-        queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
+      updateCommunities(variables.name, (draft) => {
+        draft.favorite = variables.favorite
       })
     },
   })

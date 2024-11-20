@@ -27,8 +27,8 @@ export function CommunityAbout({ name }: Props) {
 
   const { community, refetch } = useCommunity(name)
 
-  const join = useJoin()
-  const favorite = useFavorite()
+  const { join } = useJoin()
+  const { favorite } = useFavorite()
 
   const placeholder = useImagePlaceholder()
 
@@ -111,9 +111,8 @@ export function CommunityAbout({ name }: Props) {
           color={community.subscribed ? 'red' : 'accent'}
           icon={community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
           label={t(community.subscribed ? 'leave' : 'join')}
-          loading={join.isPending}
           onPress={() => {
-            join.join({
+            join({
               action: community.subscribed ? 'leave' : 'join',
               id: community.id,
               name: community.name,
@@ -125,9 +124,8 @@ export function CommunityAbout({ name }: Props) {
           color={community.favorite ? 'amber' : 'gray'}
           icon="Star"
           label={t(community.favorite ? 'unfavorite' : 'favorite')}
-          loading={favorite.isPending}
           onPress={() => {
-            favorite.favorite({
+            favorite({
               favorite: !community.favorite,
               name: community.name,
             })

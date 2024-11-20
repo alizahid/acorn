@@ -180,7 +180,7 @@ export function updatePosts(
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
-    queryKey: ['posts'],
+    queryKey: ['posts', {}] satisfies PostsQueryKey,
   })
 
   for (const query of queries) {

@@ -6,7 +6,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
-import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { CommunityCard } from '~/components/communities/card'
 import { listProps } from '~/lib/common'
@@ -17,21 +16,11 @@ import { View } from '../common/view'
 
 type Props = {
   communities: Array<string | Community>
-  fetchNextPage: () => void
-  hasNextPage: boolean
-  isFetchingNextPage: boolean
   isLoading: boolean
   refetch: () => Promise<unknown>
 }
 
-export function CommunitiesList({
-  communities,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  isLoading,
-  refetch,
-}: Props) {
+export function CommunitiesList({ communities, isLoading, refetch }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const list = useRef<FlashList<Community | string>>(null)
@@ -46,9 +35,6 @@ export function CommunitiesList({
     <FlashList
       {...listProps}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-      ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner m="6" /> : null
-      }
       contentContainerStyle={styles.content}
       data={communities}
       estimatedItemSize={56}
@@ -56,11 +42,6 @@ export function CommunitiesList({
         typeof item === 'string' ? 'header' : 'community'
       }
       keyExtractor={(item) => (typeof item === 'string' ? item : item.id)}
-      onEndReached={() => {
-        if (hasNextPage) {
-          fetchNextPage()
-        }
-      }}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ index, item, target }) => {

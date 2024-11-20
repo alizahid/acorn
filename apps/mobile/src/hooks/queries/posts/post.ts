@@ -22,7 +22,7 @@ import { type CommentSort } from '~/types/sort'
 
 import { getPostFromSearch } from '../search/search'
 import { type UserPostsQueryData } from '../user/posts'
-import { type PostsQueryData } from './posts'
+import { type PostsQueryData, type PostsQueryKey } from './posts'
 
 export type PostQueryKey = [
   'post',
@@ -177,7 +177,7 @@ function getPost(id: string): PostQueryData | undefined {
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
-    queryKey: ['posts'],
+    queryKey: ['posts', {}] satisfies PostsQueryKey,
   })
 
   for (const query of queries) {
@@ -242,7 +242,7 @@ export function updatePost(
       {
         id,
       },
-    ],
+    ] satisfies PostQueryKey,
   })
 
   for (const query of queries) {

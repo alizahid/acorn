@@ -16,16 +16,8 @@ export function CommunitiesScreen() {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const {
-    communities,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isRefreshing,
-    refetch,
-    users,
-  } = useCommunities()
+  const { communities, isLoading, isRefreshing, refetch, users } =
+    useCommunities()
 
   const routes = useRef(
     CommunitiesTab.map((key) => ({
@@ -37,9 +29,6 @@ export function CommunitiesScreen() {
   const [index, setIndex] = useState(0)
 
   const props = {
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
     isLoading,
     refetch,
   } as const

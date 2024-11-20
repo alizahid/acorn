@@ -115,7 +115,7 @@ export function updateNotification(
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
-    queryKey: ['inbox'],
+    queryKey: ['inbox', {}] satisfies InboxQueryKey,
   })
 
   for (const query of queries) {

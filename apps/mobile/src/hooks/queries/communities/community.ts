@@ -1,4 +1,5 @@
 import { useIsRestoring, useQuery } from '@tanstack/react-query'
+import { create, type Draft } from 'mutative'
 
 import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
@@ -7,7 +8,10 @@ import { useAuth } from '~/stores/auth'
 import { transformCommunity } from '~/transformers/community'
 import { type Community } from '~/types/community'
 
-import { type CommunitiesQueryData } from './communities'
+import {
+  type CommunitiesQueryData,
+  type CommunitiesQueryKey,
+} from './communities'
 
 export type CommunityQueryKey = [
   'community',
@@ -67,7 +71,7 @@ function getCommunity(name: string) {
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
-    queryKey: ['communities'],
+    queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
   })
 
   for (const query of queries) {
@@ -77,12 +81,38 @@ function getCommunity(name: string) {
       continue
     }
 
-    for (const page of data.pages) {
-      for (const community of page.communities) {
-        if (community.name === name) {
-          return community
-        }
+    for (const community of data) {
+      if (community.name === name) {
+        return community
       }
     }
+  }
+}
+
+export function updateCommunity(
+  name: string,
+  updater: (draft: Draft<CommunityQueryData>) => void,
+) {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: [
+      'community',
+      {
+        name,
+      },
+    ] satisfies CommunityQueryKey,
+  })
+
+  for (const query of queries) {
+    queryClient.setQueryData<CommunityQueryData>(query.queryKey, (previous) => {
+      if (!previous) {
+        return previous
+      }
+
+      return create(previous, (draft) => {
+        updater(draft)
+      })
+    })
   }
 }

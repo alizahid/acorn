@@ -11,7 +11,7 @@ type Props = {
   color: ColorToken
   icon: IconName
   label: string
-  loading: boolean
+  loading?: boolean
   onPress: () => void
   weight?: IconWeight
 }
