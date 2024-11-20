@@ -19,6 +19,6 @@ export const listProps = {
 } as const
 
 export const swipeActionThreshold = {
-  first: iPad ? 0.1 : 0.2,
-  second: iPad ? 0.2 : 0.4,
+  long: iPad ? 0.2 : 0.4,
+  short: iPad ? 0.1 : 0.2,
 } as const

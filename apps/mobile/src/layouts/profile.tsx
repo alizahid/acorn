@@ -117,6 +117,13 @@ export function ProfileLayout() {
       />
 
       <Stack.Screen
+        name="settings/gestures"
+        options={{
+          title: t('settings.gestures.title'),
+        }}
+      />
+
+      <Stack.Screen
         name="settings/preferences"
         options={{
           title: t('settings.preferences.title'),

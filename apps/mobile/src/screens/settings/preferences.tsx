@@ -24,11 +24,6 @@ export function SettingsPreferencesScreen() {
             label: 'browsing.rememberCommunitySort',
           },
           {
-            icon: 'HandSwipeLeft',
-            key: 'gestures',
-            label: 'browsing.gestures',
-          },
-          {
             icon: 'ArrowDown',
             key: 'skipCommentOnLeft',
             label: 'browsing.skipCommentOnLeft',

@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+import { type GestureAction } from '~/components/posts/gestures'
 import { Store } from '~/lib/store'
 import { type Theme } from '~/styles/themes'
 import {
@@ -25,7 +26,6 @@ export type PreferencesPayload = {
   feedbackHaptics: boolean
   feedbackSounds: boolean
   fontScaling: boolean
-  gestures: boolean
   hideSeen: boolean
   intervalCommunityPosts: TopInterval
   intervalFeedPosts: TopInterval
@@ -47,6 +47,11 @@ export type PreferencesPayload = {
   sortSearchPosts: SearchSort
   sortUserComments: CommentSort
   sortUserPosts: UserFeedSort
+  swipeGestures: boolean
+  swipeLeftLong: NonNullable<GestureAction>
+  swipeLeftShort: NonNullable<GestureAction>
+  swipeRightLong: NonNullable<GestureAction>
+  swipeRightShort: NonNullable<GestureAction>
   theme: Theme
   unmuteFullscreen: boolean
 }
@@ -67,7 +72,6 @@ export const usePreferences = create<State>()(
       feedbackHaptics: false,
       feedbackSounds: false,
       fontScaling: false,
-      gestures: true,
       hideSeen: false,
       intervalCommunityPosts: 'hour',
       intervalFeedPosts: 'hour',
@@ -89,6 +93,11 @@ export const usePreferences = create<State>()(
       sortSearchPosts: 'relevance',
       sortUserComments: 'new',
       sortUserPosts: 'new',
+      swipeGestures: true,
+      swipeLeftLong: 'downvote',
+      swipeLeftShort: 'upvote',
+      swipeRightLong: 'save',
+      swipeRightShort: 'reply',
       theme: 'acorn',
       unmuteFullscreen: true,
       update(payload) {

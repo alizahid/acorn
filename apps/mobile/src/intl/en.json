@@ -203,6 +203,7 @@
       "settings": {
         "about": "About",
         "cache": "Cache",
+        "gestures": "Gestures",
         "preferences": "Preferences",
         "sort": "Sort",
         "themes": "Themes",
@@ -251,10 +252,27 @@
         },
         "title": "Cache"
       },
+      "gestures": {
+        "menu": {
+          "left": "Left",
+          "right": "Right",
+          "swipeGestures": "Use swipe gestures",
+          "swipeLeftLong": "Long",
+          "swipeLeftShort": "Short",
+          "swipeRightLong": "Long",
+          "swipeRightShort": "Short"
+        },
+        "options": {
+          "downvote": "Downvote",
+          "reply": "Reply",
+          "save": "Save",
+          "upvote": "Upvote"
+        },
+        "title": "Gestures"
+      },
       "preferences": {
         "browsing": {
           "coloredComments": "Colored comments",
-          "gestures": "Use swipe gestures",
           "rememberCommunitySort": "Remember community sorting",
           "showFlair": "Show flair on posts and comments",
           "skipCommentOnLeft": "Show skip comment on left",

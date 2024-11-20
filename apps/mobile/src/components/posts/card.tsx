@@ -33,7 +33,7 @@ type Props = {
 export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const router = useRouter()
 
-  const { dimSeen, feedCompact, gestures, mediaOnRight } = usePreferences()
+  const { dimSeen, feedCompact, mediaOnRight, swipeGestures } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -83,12 +83,11 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
     return (
       <PostGestures
         containerStyle={styles.container}
-        disabled={!gestures}
-        liked={post.liked}
+        data={post}
+        disabled={!swipeGestures}
         onAction={(action) => {
           onAction(post, action)
         }}
-        saved={post.saved}
         style={[styles.main(seen), style]}
       >
         <PostCompactCard
@@ -105,12 +104,11 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   return (
     <PostGestures
       containerStyle={styles.container}
-      disabled={!gestures}
-      liked={post.liked}
+      data={post}
+      disabled={!swipeGestures}
       onAction={(action) => {
         onAction(post, action)
       }}
-      saved={post.saved}
       style={[styles.main(seen), style]}
     >
       <Pressable
@@ -185,7 +183,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
       <PostFooter
         expanded={expanded}
-        gestures={gestures}
+        gestures={swipeGestures}
         label={label}
         post={post}
         seen={seen}

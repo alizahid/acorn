@@ -32,7 +32,7 @@ export function CommentCard({
 }: Props) {
   const router = useRouter()
 
-  const { coloredComments, gestures } = usePreferences()
+  const { coloredComments, swipeGestures } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -42,8 +42,8 @@ export function CommentCard({
   return (
     <PostGestures
       containerStyle={styles.container(comment.depth)}
-      disabled={!gestures || collapsed}
-      liked={comment.liked}
+      data={comment}
+      disabled={!swipeGestures || collapsed}
       onAction={(action) => {
         if (action === 'upvote') {
           vote({
@@ -80,7 +80,6 @@ export function CommentCard({
           })
         }
       }}
-      saved={comment.saved}
       style={[styles.main(comment.depth, coloredComments), style]}
     >
       <Pressable

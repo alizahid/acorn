@@ -4,35 +4,44 @@ import Swipeable, {
   type SwipeableMethods,
 } from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { useSharedValue } from 'react-native-reanimated'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { View } from '~/components/common/view'
 import { iPhone } from '~/lib/common'
+import { usePreferences } from '~/stores/preferences'
 
-import { Left } from './left'
-import { Right } from './right'
+import { Actions } from './actions'
 
 export type GestureAction = 'upvote' | 'downvote' | 'save' | 'reply' | undefined
+
+export type GestureData = {
+  liked: boolean | null
+  saved: boolean
+}
 
 type Props = {
   children: ReactNode
   containerStyle?: StyleProp<ViewStyle>
+  data: GestureData
   disabled?: boolean
-  liked: boolean | null
   onAction: (action: GestureAction) => void
   radius?: 'small' | 'large'
-  saved: boolean
   style?: StyleProp<ViewStyle>
 }
 
 export function PostGestures({
   children,
   containerStyle,
+  data,
   disabled,
-  liked,
   onAction,
-  saved,
   style,
 }: Props) {
+  const { swipeLeftLong, swipeLeftShort, swipeRightLong, swipeRightShort } =
+    usePreferences()
+
+  const { styles } = useStyles(stylesheet)
+
   const swipeable = useRef<SwipeableMethods>(null)
 
   const action = useSharedValue<GestureAction>(undefined)
@@ -64,10 +73,24 @@ export function PostGestures({
       }}
       ref={swipeable}
       renderLeftActions={(progress) => (
-        <Left action={action} liked={liked} progress={progress} />
+        <Actions
+          action={action}
+          data={data}
+          long={swipeLeftLong}
+          progress={progress}
+          short={swipeLeftShort}
+          style={styles.left}
+        />
       )}
       renderRightActions={(progress) => (
-        <Right action={action} progress={progress} saved={saved} />
+        <Actions
+          action={action}
+          data={data}
+          long={swipeRightLong}
+          progress={progress}
+          short={swipeRightShort}
+          style={styles.right}
+        />
       )}
       rightThreshold={Infinity}
     >
@@ -75,3 +98,18 @@ export function PostGestures({
     </Swipeable>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  left: {
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    padding: theme.space[4],
+    width: '90%',
+  },
+  right: {
+    alignItems: 'flex-end',
+    justifyContent: 'center',
+    padding: theme.space[4],
+    width: '90%',
+  },
+}))

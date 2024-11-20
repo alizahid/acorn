@@ -46,6 +46,7 @@ export function ProfileScreen() {
             })
           },
         })),
+
         null,
         t('settings.title'),
         {
@@ -58,6 +59,19 @@ export function ProfileScreen() {
           onPress() {
             router.navigate({
               pathname: '/settings/preferences',
+            })
+          },
+        },
+        {
+          arrow: true,
+          icon: {
+            name: 'HandSwipeLeft',
+            weight: 'duotone',
+          },
+          label: t('settings.gestures'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings/gestures',
             })
           },
         },
