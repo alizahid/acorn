@@ -106,7 +106,7 @@ export function PostList({
               setViewing(() => viewableItems.map((item) => item.key))
             },
             viewabilityConfig: {
-              viewAreaCoveragePercentThreshold: 100,
+              viewAreaCoveragePercentThreshold: 60,
             },
           },
           {
@@ -123,7 +123,7 @@ export function PostList({
             },
             viewabilityConfig: {
               minimumViewTime: 3_000,
-              viewAreaCoveragePercentThreshold: 100,
+              viewAreaCoveragePercentThreshold: 60,
             },
           },
         ]}

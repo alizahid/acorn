@@ -249,7 +249,7 @@ export function PostScreen() {
         }}
         stickyHeaderIndices={[1]}
         viewabilityConfig={{
-          viewAreaCoveragePercentThreshold: 100,
+          viewAreaCoveragePercentThreshold: 60,
         }}
       />
 
