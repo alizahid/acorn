@@ -8,6 +8,7 @@ import {
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 import { Text } from './text'
@@ -69,7 +70,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
   },
   ref,
 ) {
-  const { fontScaling } = usePreferences()
+  const { fontScaling, fontSystem } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -116,7 +117,10 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
           returnKeyType={returnKeyType}
           secureTextEntry={secureTextEntry}
           selectionColor={theme.colors.accent.a9}
-          style={[styles.input(Boolean(multiline), Boolean(code)), styleInput]}
+          style={[
+            styles.input(Boolean(multiline), Boolean(code), fontSystem),
+            styleInput,
+          ]}
           textAlignVertical={multiline ? 'top' : 'center'}
           value={value}
         />
@@ -154,10 +158,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     borderWidth: runtime.hairlineWidth,
     flexGrow: 1,
   }),
-  input: (multiline: boolean, code: boolean) => ({
+  input: (multiline: boolean, code: boolean, systemFont: boolean) => ({
     color: theme.colors.gray.a12,
     flex: 1,
-    fontFamily: code ? 'mono' : 'sans',
+    fontFamily: code ? fonts.mono : systemFont ? fonts.system : fonts.sans,
     fontSize: theme.typography[3].fontSize,
     height: theme.space[multiline ? 9 : 7],
     paddingHorizontal: theme.space[3],

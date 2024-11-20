@@ -1,8 +1,15 @@
 import { type Theme } from '@react-navigation/native'
 import { useStyles } from 'react-native-unistyles'
 
+import { fonts } from '~/lib/fonts'
+import { usePreferences } from '~/stores/preferences'
+
 export function useTheme() {
+  const { fontSystem } = usePreferences()
+
   const { theme } = useStyles()
+
+  const fontFamily = fontSystem ? fonts.system : fonts.sans
 
   return {
     colors: {
@@ -16,19 +23,19 @@ export function useTheme() {
     dark: theme.name === 'dark',
     fonts: {
       bold: {
-        fontFamily: 'sans',
+        fontFamily,
         fontWeight: '700',
       },
       heavy: {
-        fontFamily: 'sans',
+        fontFamily,
         fontWeight: '800',
       },
       medium: {
-        fontFamily: 'sans',
+        fontFamily,
         fontWeight: '500',
       },
       regular: {
-        fontFamily: 'sans',
+        fontFamily,
         fontWeight: '400',
       },
     },

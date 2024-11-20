@@ -22,7 +22,7 @@ export const Text = forwardRef<ReactNativeText, Props>(function Text(
   { children, lines, onPress, selectable, slow, style, ...props },
   ref,
 ) {
-  const { fontScaling } = usePreferences()
+  const { fontScaling, fontSystem } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -35,7 +35,7 @@ export const Text = forwardRef<ReactNativeText, Props>(function Text(
         onPress={onPress}
         ref={ref}
         selectable={selectable}
-        style={[styles.main(props) as TextStyle, style]}
+        style={[styles.main(props, fontSystem) as TextStyle, style]}
       >
         {children}
       </ReactNativeText>
@@ -50,7 +50,7 @@ export const Text = forwardRef<ReactNativeText, Props>(function Text(
     numberOfLines: lines,
     ref,
     selectable,
-    style: [styles.main(props), style],
+    style: [styles.main(props, fontSystem), style],
   })
 })
 

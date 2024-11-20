@@ -112,6 +112,11 @@ export function SettingsPreferencesScreen() {
             key: 'fontScaling',
             label: 'system.fontScaling',
           },
+          {
+            icon: 'TextT',
+            key: 'fontSystem',
+            label: 'system.fontSystem',
+          },
 
           null,
           t('feedback.title'),

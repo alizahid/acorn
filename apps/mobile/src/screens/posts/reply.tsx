@@ -17,6 +17,7 @@ import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
 import { iPhone } from '~/lib/common'
+import { fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
@@ -30,6 +31,8 @@ export function PostReplyScreen() {
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
+
+  const { fontSystem } = usePreferences()
 
   const t = useTranslations('screen.posts.reply')
 
@@ -94,7 +97,7 @@ export function PostReplyScreen() {
         placeholder={t('placeholder')}
         placeholderTextColor={theme.colors.gray.a9}
         selectionColor={theme.colors.accent.a9}
-        style={styles.input}
+        style={styles.input(fontSystem)}
         value={text}
       />
     </KeyboardAwareScrollView>
@@ -105,14 +108,14 @@ const stylesheet = createStyleSheet((theme) => ({
   content: {
     flexGrow: 1,
   },
-  input: {
+  input: (systemFont: boolean) => ({
     color: theme.colors.gray.a12,
     flexGrow: 1,
-    fontFamily: 'sans',
+    fontFamily: systemFont ? fonts.system : fonts.sans,
     fontSize: theme.typography[3].fontSize,
     lineHeight: theme.typography[3].lineHeight,
     padding: theme.space[3],
-  },
+  }),
   main: {
     flex: 1,
   },

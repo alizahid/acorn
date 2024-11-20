@@ -63,6 +63,7 @@ import StarBold from 'react-native-phosphor/src/bold/Star'
 import SunDimBold from 'react-native-phosphor/src/bold/SunDim'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
 import TextAaBold from 'react-native-phosphor/src/bold/TextAa'
+import TextTBold from 'react-native-phosphor/src/bold/TextT'
 import TrashBold from 'react-native-phosphor/src/bold/Trash'
 import TreeViewBold from 'react-native-phosphor/src/bold/TreeView'
 import UserBold from 'react-native-phosphor/src/bold/User'
@@ -137,6 +138,7 @@ import StarDuotone from 'react-native-phosphor/src/duotone/Star'
 import SunDimDuotone from 'react-native-phosphor/src/duotone/SunDim'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
 import TextAaDuotone from 'react-native-phosphor/src/duotone/TextAa'
+import TextTDuotone from 'react-native-phosphor/src/duotone/TextT'
 import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
 import TreeViewDuotone from 'react-native-phosphor/src/duotone/TreeView'
 import UserDuotone from 'react-native-phosphor/src/duotone/User'
@@ -211,6 +213,7 @@ import StarFill from 'react-native-phosphor/src/fill/Star'
 import SunDimFill from 'react-native-phosphor/src/fill/SunDim'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
 import TextAaFill from 'react-native-phosphor/src/fill/TextAa'
+import TextTFill from 'react-native-phosphor/src/fill/TextT'
 import TrashFill from 'react-native-phosphor/src/fill/Trash'
 import TreeViewFill from 'react-native-phosphor/src/fill/TreeView'
 import UserFill from 'react-native-phosphor/src/fill/User'
@@ -285,6 +288,7 @@ import StarRegular from 'react-native-phosphor/src/regular/Star'
 import SunDimRegular from 'react-native-phosphor/src/regular/SunDim'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
 import TextAaRegular from 'react-native-phosphor/src/regular/TextAa'
+import TextTRegular from 'react-native-phosphor/src/regular/TextT'
 import TrashRegular from 'react-native-phosphor/src/regular/Trash'
 import TreeViewRegular from 'react-native-phosphor/src/regular/TreeView'
 import UserRegular from 'react-native-phosphor/src/regular/User'
@@ -699,6 +703,12 @@ const icons = {
     duotone: TextAaDuotone,
     fill: TextAaFill,
     regular: TextAaRegular,
+  },
+  TextT: {
+    bold: TextTBold,
+    duotone: TextTDuotone,
+    fill: TextTFill,
+    regular: TextTRegular,
   },
   Trash: {
     bold: TrashBold,

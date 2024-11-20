@@ -26,6 +26,7 @@ export type PreferencesPayload = {
   feedbackHaptics: boolean
   feedbackSounds: boolean
   fontScaling: boolean
+  fontSystem: boolean
   hideSeen: boolean
   intervalCommunityPosts: TopInterval
   intervalFeedPosts: TopInterval
@@ -72,6 +73,7 @@ export const usePreferences = create<State>()(
       feedbackHaptics: false,
       feedbackSounds: false,
       fontScaling: false,
+      fontSystem: false,
       hideSeen: false,
       intervalCommunityPosts: 'hour',
       intervalFeedPosts: 'hour',
