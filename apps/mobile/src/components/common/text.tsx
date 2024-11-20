@@ -3,7 +3,6 @@ import {
   type StyleProp,
   Text as ReactNativeText,
   type TextStyle,
-  type ViewProps,
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -14,13 +13,13 @@ type Props = TextStyleProps & {
   children: ReactNode
   lines?: number
   onPress?: () => void
-  pointerEvents?: ViewProps['pointerEvents']
+  selectable?: boolean
   slow?: boolean
   style?: StyleProp<TextStyle>
 }
 
 export const Text = forwardRef<ReactNativeText, Props>(function Text(
-  { children, lines, onPress, slow, style, ...props },
+  { children, lines, onPress, selectable, slow, style, ...props },
   ref,
 ) {
   const { fontScaling } = usePreferences()
@@ -35,6 +34,7 @@ export const Text = forwardRef<ReactNativeText, Props>(function Text(
         numberOfLines={lines}
         onPress={onPress}
         ref={ref}
+        selectable={selectable}
         style={[styles.main(props) as TextStyle, style]}
       >
         {children}
@@ -49,6 +49,7 @@ export const Text = forwardRef<ReactNativeText, Props>(function Text(
     ellipsizeMode: lines ? 'tail' : undefined,
     numberOfLines: lines,
     ref,
+    selectable,
     style: [styles.main(props), style],
   })
 })
