@@ -9,9 +9,11 @@ export function transformCommunity(data: CommunityDataSchema): Community {
   const user = data.display_name.startsWith('u_')
 
   return {
-    banner: data.banner_background_image
-      ? decode(data.banner_background_image) || undefined
-      : undefined,
+    banner: data.mobile_banner_image
+      ? decode(data.mobile_banner_image) || undefined
+      : data.banner_background_image
+        ? decode(data.banner_background_image) || undefined
+        : undefined,
     createdAt: dateFromUnix(data.created_utc ?? 0),
     description: data.public_description
       ? data.public_description.trim()

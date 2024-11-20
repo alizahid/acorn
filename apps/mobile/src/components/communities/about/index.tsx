@@ -139,7 +139,7 @@ export function CommunityAbout({ name }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   banner: {
-    aspectRatio: 4 / 1,
+    aspectRatio: 1280 / 384,
     backgroundColor: theme.colors.gray.a3,
   },
   image: {

@@ -6,6 +6,7 @@ export const CommunityDataSchema = z.object({
   created_utc: z.number().nullish(),
   display_name: z.string(),
   icon_img: z.string().nullish(),
+  mobile_banner_image: z.string().nullish(),
   name: z.string(),
   public_description: z.string().nullish(),
   subreddit_type: z.string(),
