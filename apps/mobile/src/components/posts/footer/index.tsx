@@ -4,7 +4,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
 import { View } from '~/components/common/view'
-import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
@@ -29,7 +28,6 @@ export function PostFooter({ expanded, label, post, seen }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { vote } = usePostVote()
-  const { save } = usePostSave()
 
   return (
     <Pressable
@@ -83,23 +81,6 @@ export function PostFooter({ expanded, label, post, seen }: Props) {
           onPress={() => {
             vote({
               direction: post.liked === false ? 0 : -1,
-              postId: post.id,
-            })
-          }}
-          weight="bold"
-        />
-
-        <FooterButton
-          color={
-            post.saved
-              ? theme.colors.green.a9
-              : theme.colors.gray[seen ? 'a11' : 'a12']
-          }
-          fill={post.saved}
-          icon="BookmarkSimple"
-          onPress={() => {
-            save({
-              action: post.saved ? 'unsave' : 'save',
               postId: post.id,
             })
           }}

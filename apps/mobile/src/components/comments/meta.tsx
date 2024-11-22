@@ -3,7 +3,6 @@ import { Share } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
-import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { withoutAgo } from '~/lib/intl'
 import { removePrefix } from '~/lib/reddit'
@@ -29,7 +28,6 @@ export function CommentMeta({ collapsed, comment }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { vote } = useCommentVote()
-  const { save } = useCommentSave()
 
   return (
     <View
@@ -129,21 +127,6 @@ export function CommentMeta({ collapsed, comment }: Props) {
           weight="bold"
         />
       </View>
-
-      <FooterButton
-        color={comment.saved ? theme.colors.green.a9 : theme.colors.gray.a12}
-        compact
-        fill={comment.saved}
-        icon="BookmarkSimple"
-        onPress={() => {
-          save({
-            action: comment.saved ? 'unsave' : 'save',
-            commentId: comment.id,
-            postId: comment.postId,
-          })
-        }}
-        weight="bold"
-      />
 
       <FooterButton
         color={theme.colors.gray.a12}
