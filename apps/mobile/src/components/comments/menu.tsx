@@ -1,10 +1,11 @@
-import { MenuView } from '@react-native-menu/menu'
 import { useRouter } from 'expo-router'
 import { type ReactNode } from 'react'
 import { Share } from 'react-native'
+import { ContextMenuView } from 'react-native-ios-context-menu'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { menu } from '~/assets/menu'
 import { useCopy } from '~/hooks/copy'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
@@ -15,9 +16,10 @@ import { type CommentReply } from '~/types/comment'
 type Props = {
   children: ReactNode
   comment: CommentReply
+  onPress: () => void
 }
 
-export function CommentMenu({ children, comment }: Props) {
+export function CommentMenu({ children, comment, onPress }: Props) {
   const router = useRouter()
 
   const t = useTranslations('component.posts.menu')
@@ -48,82 +50,129 @@ export function CommentMenu({ children, comment }: Props) {
   ]
 
   return (
-    <MenuView
-      actions={[
-        {
-          id: 'upvote',
-          image: 'arrow-fat-up-duotone',
-          imageColor: theme.colors.orange.a9,
-          title: t(comment.liked ? 'removeUpvote' : 'upvote'),
-        },
-        {
-          id: 'downvote',
-          image: 'arrow-fat-down-duotone',
-          imageColor: theme.colors.violet.a9,
-          title: t(comment.liked === false ? 'removeDownvote' : 'downvote'),
-        },
-        {
-          id: 'save',
-          image: 'bookmark-simple-duotone',
-          imageColor: theme.colors.green.a9,
-          title: t(comment.saved ? 'unsave' : 'save'),
-        },
-        {
-          id: 'reply',
-          image: 'arrow-bend-up-left-duotone',
-          imageColor: theme.colors.blue.a9,
-          title: t('reply'),
-        },
-        {
-          displayInline: true,
-          subactions: [
-            {
-              id: 'share',
-              image: 'export-duotone',
-              imageColor: theme.colors.accent.a9,
-              title: t('share'),
+    <ContextMenuView
+      menuConfig={{
+        menuItems: [
+          {
+            actionKey: 'upvote',
+            actionTitle: t(comment.liked ? 'removeUpvote' : 'upvote'),
+            icon: {
+              imageOptions: {
+                tint: theme.colors.orange[9],
+              },
+              imageValue: menu.arrowFatUp,
+              type: 'IMAGE_REQUIRE',
             },
-            {
-              id: 'copyLink',
-              image: 'copy-duotone',
-              imageColor: theme.colors.accent.a9,
-              title: t('copyLink'),
+          },
+          {
+            actionKey: 'downvote',
+            actionTitle: t(
+              comment.liked === false ? 'removeDownvote' : 'downvote',
+            ),
+            icon: {
+              imageOptions: {
+                tint: theme.colors.violet[9],
+              },
+              imageValue: menu.arrowFatDown,
+              type: 'IMAGE_REQUIRE',
             },
-          ],
-          title: '',
-        },
-        {
-          image: 'flag-duotone',
-          imageColor: theme.colors.accent.a9,
-          subactions: reasons.map((reason) => ({
-            id: reason,
-            title: t(`report.${reason}`),
-          })),
-          title: t('report.title'),
-        },
-        {
-          displayInline: true,
-          subactions: [
-            {
-              id: 'hideComment',
-              image: 'eye-closed-duotone',
-              imageColor: theme.colors.accent.a9,
-              title: t('hideComment'),
+          },
+          {
+            actionKey: 'save',
+            actionTitle: t(comment.saved ? 'unsave' : 'save'),
+            icon: {
+              imageOptions: {
+                tint: theme.colors.green[9],
+              },
+              imageValue: menu.bookmarkSimple,
+              type: 'IMAGE_REQUIRE',
             },
-            {
-              id: 'hideUser',
-              image: 'user-duotone',
-              imageColor: theme.colors.accent.a9,
-              title: t('hideUser', {
-                user: comment.user.name,
-              }),
+          },
+          {
+            actionKey: 'reply',
+            actionTitle: t('reply'),
+            icon: {
+              imageOptions: {
+                tint: theme.colors.blue[9],
+              },
+              imageValue: menu.arrowBendUpLeft,
+              type: 'IMAGE_REQUIRE',
             },
-          ],
-          title: '',
-        },
-      ]}
-      onPressAction={({ nativeEvent }) => {
-        if (nativeEvent.event === 'update') {
+          },
+          {
+            menuItems: [
+              {
+                actionKey: 'share',
+                actionTitle: t('share'),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.export,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
+              {
+                actionKey: 'copyLink',
+                actionTitle: t('copyLink'),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.copy,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
+            ],
+            menuOptions: ['displayInline'],
+            menuTitle: '',
+            type: 'menu',
+          },
+          {
+            menuItems: [
+              {
+                actionKey: 'hideComment',
+                actionTitle: t('hideComment'),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.eyeClosed,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
+              {
+                actionKey: 'hideUser',
+                actionTitle: t('hideUser', {
+                  user: comment.user.name,
+                }),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.user,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
+            ],
+            menuOptions: ['displayInline'],
+            menuTitle: '',
+            type: 'menu',
+          },
+          {
+            menuItems: reasons.map((reason) => ({
+              actionKey: reason,
+              actionTitle: t(`report.${reason}`),
+            })),
+            menuOptions: ['destructive'],
+            menuTitle: t('report.title'),
+            type: 'menu',
+          },
+        ],
+        menuTitle: t('title.comment'),
+      }}
+      onPressMenuItem={(event) => {
+        if (event.nativeEvent.actionKey === 'upvote') {
           vote({
             commentId: comment.id,
             direction: comment.liked ? 0 : 1,
@@ -131,7 +180,7 @@ export function CommentMenu({ children, comment }: Props) {
           })
         }
 
-        if (nativeEvent.event === 'downvote') {
+        if (event.nativeEvent.actionKey === 'downvote') {
           vote({
             commentId: comment.id,
             direction: comment.liked === false ? 0 : -1,
@@ -139,7 +188,7 @@ export function CommentMenu({ children, comment }: Props) {
           })
         }
 
-        if (nativeEvent.event === 'reply') {
+        if (event.nativeEvent.actionKey === 'reply') {
           router.navigate({
             params: {
               commentId: comment.id,
@@ -150,7 +199,7 @@ export function CommentMenu({ children, comment }: Props) {
           })
         }
 
-        if (nativeEvent.event === 'save') {
+        if (event.nativeEvent.actionKey === 'save') {
           save({
             action: comment.saved ? 'unsave' : 'save',
             commentId: comment.id,
@@ -158,7 +207,7 @@ export function CommentMenu({ children, comment }: Props) {
           })
         }
 
-        if (nativeEvent.event === 'share') {
+        if (event.nativeEvent.actionKey === 'share') {
           const url = new URL(comment.permalink, 'https://reddit.com')
 
           void Share.share({
@@ -166,13 +215,13 @@ export function CommentMenu({ children, comment }: Props) {
           })
         }
 
-        if (nativeEvent.event === 'copyLink') {
+        if (event.nativeEvent.actionKey === 'copyLink') {
           const url = new URL(comment.permalink, 'https://reddit.com')
 
           void copy(url.toString())
         }
 
-        if (nativeEvent.event === 'hideComment') {
+        if (event.nativeEvent.actionKey === 'hideComment') {
           hide({
             action: 'hide',
             id: comment.id,
@@ -181,7 +230,7 @@ export function CommentMenu({ children, comment }: Props) {
           })
         }
 
-        if (nativeEvent.event === 'hideUser' && comment.user.id) {
+        if (event.nativeEvent.actionKey === 'hideUser' && comment.user.id) {
           hide({
             action: 'hide',
             id: comment.user.id,
@@ -189,18 +238,20 @@ export function CommentMenu({ children, comment }: Props) {
           })
         }
 
-        if (reasons.includes(nativeEvent.event as ReportReason)) {
+        if (reasons.includes(event.nativeEvent.actionKey as ReportReason)) {
           report({
             id: comment.id,
             postId: comment.postId,
-            reason: nativeEvent.event as ReportReason,
+            reason: event.nativeEvent.actionKey as ReportReason,
             type: 'comment',
           })
         }
       }}
-      title={t('title.comment')}
+      onPressMenuPreview={() => {
+        onPress()
+      }}
     >
       {children}
-    </MenuView>
+    </ContextMenuView>
   )
 }

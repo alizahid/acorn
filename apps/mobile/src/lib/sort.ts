@@ -2,24 +2,9 @@ import { type SFSymbol } from 'expo-symbols'
 
 import { type IconName } from '~/components/common/icon'
 import { type ColorToken } from '~/styles/tokens'
-import {
-  type CommentSort,
-  type CommunityFeedSort,
-  type FeedSort,
-  type FeedType,
-  type SearchSort,
-  type TopInterval,
-  type UserFeedSort,
-} from '~/types/sort'
+import { type FeedType, type PostSort, type TopInterval } from '~/types/sort'
 
-type Sort =
-  | FeedSort
-  | CommunityFeedSort
-  | UserFeedSort
-  | CommentSort
-  | SearchSort
-
-export const SortIcons: Record<Sort, IconName> = {
+export const SortIcons: Record<PostSort, IconName> = {
   best: 'Medal',
   comments: 'ChatCircle',
   confidence: 'Medal',
@@ -32,7 +17,7 @@ export const SortIcons: Record<Sort, IconName> = {
   top: 'Ranking',
 }
 
-export const SortColors: Record<Sort, ColorToken> = {
+export const SortColors: Record<PostSort, ColorToken> = {
   best: 'green',
   comments: 'plum',
   confidence: 'green',

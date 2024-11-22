@@ -1,7 +1,10 @@
 import { useRouter } from 'expo-router'
+import { Share } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
+import { useCommentSave } from '~/hooks/mutations/comments/save'
+import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { withoutAgo } from '~/lib/intl'
 import { removePrefix } from '~/lib/reddit'
 import { type CommentReply } from '~/types/comment'
@@ -12,7 +15,6 @@ import { Text } from '../common/text'
 import { View } from '../common/view'
 import { FlairCard } from '../posts/flair'
 import { FooterButton } from '../posts/footer/button'
-import { CommentMenu } from './menu'
 
 type Props = {
   collapsed?: boolean
@@ -26,14 +28,17 @@ export function CommentMeta({ collapsed, comment }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const { vote } = useCommentVote()
+  const { save } = useCommentSave()
+
   return (
     <View
       align="center"
       direction="row"
       gap="3"
-      p="3"
-      pointerEvents="box-none"
-      style={styles.main}
+      mb="3"
+      mt={collapsed ? '3' : undefined}
+      mx="3"
     >
       {comment.sticky ? (
         <Icon
@@ -83,18 +88,20 @@ export function CommentMeta({ collapsed, comment }: Props) {
         )}
       </Text>
 
-      <View align="center" direction="row" gap="1" pointerEvents="none">
-        <Icon
-          color={
-            comment.liked
-              ? theme.colors.orange.a9
-              : comment.liked === false
-                ? theme.colors.violet.a9
-                : theme.colors.gray.a11
-          }
-          name={comment.liked === false ? 'ArrowFatDown' : 'ArrowFatUp'}
-          size={theme.space[4]}
-          weight={comment.liked !== null ? 'fill' : 'regular'}
+      <View align="center" direction="row" gap="1">
+        <FooterButton
+          color={comment.liked ? theme.colors.orange.a9 : theme.colors.gray.a12}
+          compact
+          fill={comment.liked === true}
+          icon="ArrowUp"
+          onPress={() => {
+            vote({
+              commentId: comment.id,
+              direction: comment.liked ? 0 : 1,
+              postId: comment.postId,
+            })
+          }}
+          weight="bold"
         />
 
         <Text size="1" tabular>
@@ -102,24 +109,60 @@ export function CommentMeta({ collapsed, comment }: Props) {
             notation: 'compact',
           })}
         </Text>
-      </View>
 
-      <CommentMenu comment={comment}>
         <FooterButton
-          color={theme.colors.gray.a11}
+          color={
+            comment.liked === false
+              ? theme.colors.violet.a9
+              : theme.colors.gray.a12
+          }
           compact
-          icon="DotsThree"
+          fill={comment.liked === false}
+          icon="ArrowDown"
+          onPress={() => {
+            vote({
+              commentId: comment.id,
+              direction: comment.liked === false ? 0 : -1,
+              postId: comment.postId,
+            })
+          }}
           weight="bold"
         />
-      </CommentMenu>
+      </View>
+
+      <FooterButton
+        color={comment.saved ? theme.colors.green.a9 : theme.colors.gray.a12}
+        compact
+        fill={comment.saved}
+        icon="BookmarkSimple"
+        onPress={() => {
+          save({
+            action: comment.saved ? 'unsave' : 'save',
+            commentId: comment.id,
+            postId: comment.postId,
+          })
+        }}
+        weight="bold"
+      />
+
+      <FooterButton
+        color={theme.colors.gray.a12}
+        compact
+        icon="Share"
+        onPress={() => {
+          const url = new URL(comment.permalink, 'https://reddit.com')
+
+          void Share.share({
+            url: url.toString(),
+          })
+        }}
+        weight="bold"
+      />
     </View>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: {
-    backgroundColor: theme.colors.gray.a2,
-  },
   sticky: {
     marginRight: -theme.space[1],
   },

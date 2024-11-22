@@ -2,6 +2,7 @@ import * as Haptics from 'expo-haptics'
 import { useEffect } from 'react'
 import SoundPlayer from 'react-native-sound-player'
 
+import { sounds } from '~/assets/sounds'
 import { type Feedback, feedback } from '~/lib/feedback'
 import { usePreferences } from '~/stores/preferences'
 
@@ -11,7 +12,7 @@ export function Feedback() {
   useEffect(() => {
     function handler(type: keyof Feedback) {
       if (feedbackSounds) {
-        SoundPlayer.playSoundFile(sounds[type], 'caf')
+        SoundPlayer.playAsset(sounds[assets[type]])
       }
 
       if (feedbackHaptics) {
@@ -29,7 +30,7 @@ export function Feedback() {
   return null
 }
 
-const sounds: Record<keyof Feedback, string> = {
+const assets: Record<keyof Feedback, keyof typeof sounds> = {
   down: 'error_06',
   refresh: 'woosh_09',
   save: 'woosh_04',

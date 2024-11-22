@@ -1,8 +1,6 @@
-import { useRouter } from 'expo-router'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { iPad } from '~/lib/common'
-import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
 import { Pressable } from '../common/pressable'
@@ -10,17 +8,16 @@ import { Text } from '../common/text'
 import { View } from '../common/view'
 import { CrossPostCard } from './crosspost'
 import { type PostLabel } from './footer'
-import { FooterButton } from './footer/button'
 import { PostCommunity } from './footer/community'
 import { PostMeta } from './footer/meta'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
-import { PostMenu } from './menu'
 import { PostVideoCard } from './video'
 
 type Props = {
   expanded?: boolean
   label?: PostLabel
+  onPress: () => void
   post: Post
   seen?: boolean
   side?: 'left' | 'right'
@@ -29,27 +26,19 @@ type Props = {
 export function PostCompactCard({
   expanded,
   label,
+  onPress,
   post,
   seen,
   side = 'left',
 }: Props) {
-  const router = useRouter()
-
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   return (
     <Pressable
       direction={side === 'right' ? 'row-reverse' : 'row'}
       disabled={expanded}
       gap="3"
-      onPress={() => {
-        router.navigate({
-          params: {
-            id: removePrefix(post.id),
-          },
-          pathname: '/posts/[id]',
-        })
-      }}
+      onPress={onPress}
       p="3"
       style={styles.main}
     >
@@ -99,15 +88,6 @@ export function PostCompactCard({
           <PostCommunity image={false} label={label} post={post} seen={seen} />
 
           <PostMeta post={post} seen={seen} />
-
-          <PostMenu post={post}>
-            <FooterButton
-              color={theme.colors.gray[seen ? 'a11' : 'a12']}
-              compact
-              icon="DotsThree"
-              weight="bold"
-            />
-          </PostMenu>
         </View>
       </View>
 

@@ -41,12 +41,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         savePhotosPermission: `Allow ${name} to save photos to your library.`,
       },
     ],
-    [
-      'expo-custom-assets',
-      {
-        assetsPaths: ['./assets/custom/icons', './assets/custom/sounds'],
-      },
-    ],
   ]
 
   if (process.env.SENTRY_AUTH_TOKEN) {
@@ -112,12 +106,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
 
   return withBuildProperties(config, {
     ios: {
-      extraPods: [
-        {
-          git: 'https://github.com/alizahid/SVGKit.git',
-          name: 'SVGKit',
-        },
-      ],
       useFrameworks: 'static',
     },
   })

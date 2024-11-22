@@ -13,6 +13,7 @@ import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { View } from '../common/view'
 import { PostGestures } from '../posts/gestures'
+import { CommentMenu } from './menu'
 import { CommentMeta } from './meta'
 
 type Props = {
@@ -40,79 +41,75 @@ export function CommentCard({
   const { save } = useCommentSave()
 
   return (
-    <PostGestures
-      containerStyle={styles.container(comment.depth)}
-      data={comment}
-      disabled={!swipeGestures || collapsed}
-      onAction={(action) => {
-        if (action === 'upvote') {
-          vote({
-            commentId: comment.id,
-            direction: comment.liked ? 0 : 1,
-            postId: comment.postId,
-          })
-        }
-
-        if (action === 'downvote') {
-          vote({
-            commentId: comment.id,
-            direction: comment.liked === false ? 0 : -1,
-            postId: comment.postId,
-          })
-        }
-
-        if (action === 'save') {
-          save({
-            action: comment.saved ? 'unsave' : 'save',
-            commentId: comment.id,
-            postId: comment.postId,
-          })
-        }
-
-        if (action === 'reply') {
-          router.navigate({
-            params: {
+    <CommentMenu comment={comment} onPress={onPress}>
+      <PostGestures
+        containerStyle={styles.container(comment.depth)}
+        data={comment}
+        disabled={!swipeGestures || collapsed}
+        onAction={(action) => {
+          if (action === 'upvote') {
+            vote({
               commentId: comment.id,
-              id: comment.postId,
-              user: comment.user.name,
-            },
-            pathname: '/posts/[id]/reply',
-          })
-        }
-      }}
-      style={[styles.main(comment.depth, coloredComments), style]}
-    >
-      <Pressable
-        disabled={disabled}
-        onPress={(event) => {
-          if (event.target !== event.currentTarget) {
-            event.preventDefault()
-
-            return
+              direction: comment.liked ? 0 : 1,
+              postId: comment.postId,
+            })
           }
 
-          onPress()
+          if (action === 'downvote') {
+            vote({
+              commentId: comment.id,
+              direction: comment.liked === false ? 0 : -1,
+              postId: comment.postId,
+            })
+          }
+
+          if (action === 'save') {
+            save({
+              action: comment.saved ? 'unsave' : 'save',
+              commentId: comment.id,
+              postId: comment.postId,
+            })
+          }
+
+          if (action === 'reply') {
+            router.navigate({
+              params: {
+                commentId: comment.id,
+                id: comment.postId,
+                user: comment.user.name,
+              },
+              pathname: '/posts/[id]/reply',
+            })
+          }
         }}
+        style={[styles.main(comment.depth, coloredComments), style]}
       >
-        {!collapsed ? (
-          <Markdown
-            meta={comment.media.meta}
-            recyclingKey={comment.id}
-            size="2"
-            style={styles.body}
-            variant="comment"
-          >
-            {comment.body}
-          </Markdown>
-        ) : null}
+        <Pressable
+          disabled={disabled}
+          onPress={() => {
+            onPress()
+          }}
+        >
+          {!collapsed ? (
+            <Markdown
+              meta={comment.media.meta}
+              recyclingKey={comment.id}
+              size="2"
+              style={styles.body}
+              variant="comment"
+            >
+              {comment.body}
+            </Markdown>
+          ) : null}
 
-        <CommentMeta collapsed={collapsed} comment={comment} />
+          <CommentMeta collapsed={collapsed} comment={comment} />
 
-        {comment.saved ? (
-          <View pointerEvents="none" style={styles.saved} />
-        ) : null}
-      </Pressable>
-    </PostGestures>
+          {comment.saved ? (
+            <View pointerEvents="none" style={styles.saved} />
+          ) : null}
+        </Pressable>
+      </PostGestures>
+    </CommentMenu>
   )
 }
 

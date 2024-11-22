@@ -1,10 +1,11 @@
-import { MenuView } from '@react-native-menu/menu'
 import { useRouter } from 'expo-router'
 import { type ReactNode } from 'react'
 import { Share } from 'react-native'
+import { ContextMenuView } from 'react-native-ios-context-menu'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { menu } from '~/assets/menu'
 import { useCopy } from '~/hooks/copy'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
@@ -14,10 +15,11 @@ import { type Post } from '~/types/post'
 
 type Props = {
   children: ReactNode
+  onPress: () => void
   post: Post
 }
 
-export function PostMenu({ children, post }: Props) {
+export function PostMenu({ children, onPress, post }: Props) {
   const router = useRouter()
 
   const t = useTranslations('component.posts.menu')
@@ -49,106 +51,158 @@ export function PostMenu({ children, post }: Props) {
   ]
 
   return (
-    <MenuView
-      actions={[
-        {
-          id: 'upvote',
-          image: 'arrow-fat-up-duotone',
-          imageColor: theme.colors.orange.a9,
-          title: t(post.liked ? 'removeUpvote' : 'upvote'),
-        },
-        {
-          id: 'downvote',
-          image: 'arrow-fat-down-duotone',
-          imageColor: theme.colors.violet.a9,
-          title: t(post.liked === false ? 'removeDownvote' : 'downvote'),
-        },
-        {
-          id: 'save',
-          image: 'bookmark-simple-duotone',
-          imageColor: theme.colors.green.a9,
-          title: t(post.saved ? 'unsave' : 'save'),
-        },
-        {
-          id: 'reply',
-          image: 'arrow-bend-up-left-duotone',
-          imageColor: theme.colors.blue.a9,
-          title: t('reply'),
-        },
-        {
-          displayInline: true,
-          subactions: [
-            {
-              id: 'share',
-              image: 'export-duotone',
-              imageColor: theme.colors.accent.a9,
-              title: t('share'),
+    <ContextMenuView
+      menuConfig={{
+        menuItems: [
+          {
+            actionKey: 'upvote',
+            actionTitle: t(post.liked ? 'removeUpvote' : 'upvote'),
+            icon: {
+              imageOptions: {
+                tint: theme.colors.orange[9],
+              },
+              imageValue: menu.arrowFatUp,
+              type: 'IMAGE_REQUIRE',
             },
-            {
-              id: 'copyLink',
-              image: 'copy-duotone',
-              imageColor: theme.colors.accent.a9,
-              title: t('copyLink'),
+          },
+          {
+            actionKey: 'downvote',
+            actionTitle: t(
+              post.liked === false ? 'removeDownvote' : 'downvote',
+            ),
+            icon: {
+              imageOptions: {
+                tint: theme.colors.violet[9],
+              },
+              imageValue: menu.arrowFatDown,
+              type: 'IMAGE_REQUIRE',
             },
-          ],
-          title: '',
-        },
-        {
-          image: 'flag-duotone',
-          imageColor: theme.colors.accent.a9,
-          subactions: reasons.map((reason) => ({
-            id: reason,
-            title: t(`report.${reason}`, {
-              community: post.community.name,
-            }),
-          })),
-          title: t('report.title'),
-        },
-        {
-          displayInline: true,
-          subactions: [
-            {
-              id: 'hidePost',
-              image: post.hidden ? 'eye-duotone' : 'eye-closed-duotone',
-              imageColor: theme.colors.accent.a9,
-              title: t(post.hidden ? 'unhidePost' : 'hidePost'),
+          },
+          {
+            actionKey: 'save',
+            actionTitle: t(post.saved ? 'unsave' : 'save'),
+            icon: {
+              imageOptions: {
+                tint: theme.colors.green[9],
+              },
+              imageValue: menu.bookmarkSimple,
+              type: 'IMAGE_REQUIRE',
             },
-            {
-              id: 'hideUser',
-              image: 'user-duotone',
-              imageColor: theme.colors.accent.a9,
-              title: t('hideUser', {
-                user: post.user.name,
-              }),
+          },
+          {
+            actionKey: 'reply',
+            actionTitle: t('reply'),
+            icon: {
+              imageOptions: {
+                tint: theme.colors.blue[9],
+              },
+              imageValue: menu.arrowBendUpLeft,
+              type: 'IMAGE_REQUIRE',
             },
-            {
-              id: 'hideCommunity',
-              image: 'users-four-duotone',
-              imageColor: theme.colors.accent.a9,
-              title: t('hideCommunity', {
+          },
+          {
+            menuItems: [
+              {
+                actionKey: 'share',
+                actionTitle: t('share'),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.export,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
+              {
+                actionKey: 'copyLink',
+                actionTitle: t('copyLink'),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.copy,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
+            ],
+            menuOptions: ['displayInline'],
+            menuTitle: '',
+            type: 'menu',
+          },
+          {
+            menuItems: [
+              {
+                actionKey: 'hidePost',
+                actionTitle: t(post.hidden ? 'unhidePost' : 'hidePost'),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: post.hidden ? menu.eye : menu.eyeClosed,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
+              {
+                actionKey: 'hideUser',
+                actionTitle: t('hideUser', {
+                  user: post.user.name,
+                }),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.user,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
+              {
+                actionKey: 'hideCommunity',
+                actionTitle: t('hideCommunity', {
+                  community: post.community.name,
+                }),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.usersFour,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
+            ],
+            menuOptions: ['displayInline'],
+            menuTitle: '',
+            type: 'menu',
+          },
+          {
+            menuItems: reasons.map((reason) => ({
+              actionKey: reason,
+              actionTitle: t(`report.${reason}`, {
                 community: post.community.name,
               }),
-            },
-          ],
-          title: '',
-        },
-      ]}
-      onPressAction={({ nativeEvent }) => {
-        if (nativeEvent.event === 'update') {
+            })),
+            menuOptions: ['destructive'],
+            menuTitle: t('report.title'),
+            type: 'menu',
+          },
+        ],
+        menuTitle: t('title.post'),
+      }}
+      onPressMenuItem={(event) => {
+        if (event.nativeEvent.actionKey === 'upvote') {
           vote({
             direction: post.liked ? 0 : 1,
             postId: post.id,
           })
         }
 
-        if (nativeEvent.event === 'downvote') {
+        if (event.nativeEvent.actionKey === 'downvote') {
           vote({
             direction: post.liked === false ? 0 : -1,
             postId: post.id,
           })
         }
 
-        if (nativeEvent.event === 'reply') {
+        if (event.nativeEvent.actionKey === 'reply') {
           router.navigate({
             params: {
               id: post.id,
@@ -157,14 +211,14 @@ export function PostMenu({ children, post }: Props) {
           })
         }
 
-        if (nativeEvent.event === 'save') {
+        if (event.nativeEvent.actionKey === 'save') {
           save({
             action: post.saved ? 'unsave' : 'save',
             postId: post.id,
           })
         }
 
-        if (nativeEvent.event === 'share') {
+        if (event.nativeEvent.actionKey === 'share') {
           const url = new URL(post.permalink, 'https://reddit.com')
 
           void Share.share({
@@ -173,13 +227,13 @@ export function PostMenu({ children, post }: Props) {
           })
         }
 
-        if (nativeEvent.event === 'copyLink') {
+        if (event.nativeEvent.actionKey === 'copyLink') {
           const url = new URL(post.permalink, 'https://reddit.com')
 
           void copy(url.toString())
         }
 
-        if (nativeEvent.event === 'hidePost') {
+        if (event.nativeEvent.actionKey === 'hidePost') {
           hide({
             action: post.hidden ? 'unhide' : 'hide',
             id: post.id,
@@ -187,7 +241,7 @@ export function PostMenu({ children, post }: Props) {
           })
         }
 
-        if (nativeEvent.event === 'hideUser') {
+        if (event.nativeEvent.actionKey === 'hideUser') {
           hide({
             action: 'hide',
             id: post.user.id,
@@ -195,7 +249,7 @@ export function PostMenu({ children, post }: Props) {
           })
         }
 
-        if (nativeEvent.event === 'hideCommunity') {
+        if (event.nativeEvent.actionKey === 'hideCommunity') {
           hide({
             action: 'hide',
             id: post.community.id,
@@ -203,17 +257,19 @@ export function PostMenu({ children, post }: Props) {
           })
         }
 
-        if (reasons.includes(nativeEvent.event as ReportReason)) {
+        if (reasons.includes(event.nativeEvent.actionKey as ReportReason)) {
           report({
             id: post.id,
-            reason: nativeEvent.event as ReportReason,
+            reason: event.nativeEvent.actionKey as ReportReason,
             type: 'post',
           })
         }
       }}
-      title={t('title.post')}
+      onPressMenuPreview={() => {
+        onPress()
+      }}
     >
       {children}
-    </MenuView>
+    </ContextMenuView>
   )
 }

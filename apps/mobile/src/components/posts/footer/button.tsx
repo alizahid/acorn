@@ -27,7 +27,7 @@ export function FooterButton({
     <Pressable
       align="center"
       height={compact ? undefined : '6'}
-      hitSlop={theme.space[4]}
+      hitSlop={theme.space[2]}
       justify="center"
       onPress={onPress}
       style={styles.main(color, fill)}

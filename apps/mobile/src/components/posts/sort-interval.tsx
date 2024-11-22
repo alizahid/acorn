@@ -1,14 +1,15 @@
-import { MenuView } from '@react-native-menu/menu'
 import { SymbolView } from 'expo-symbols'
-import { kebabCase } from 'lodash'
+import { ContextMenuButton } from 'react-native-ios-context-menu'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { menu } from '~/assets/menu'
 import { IntervalIcons, SortColors, SortIcons } from '~/lib/sort'
 import {
   CommentSort,
   CommunityFeedSort,
   FeedSort,
+  type PostSort,
   SearchSort,
   type SortType,
   TopInterval,
@@ -16,7 +17,7 @@ import {
 } from '~/types/sort'
 
 import { Icon } from '../common/icon'
-import { Pressable } from '../common/pressable'
+import { View } from '../common/view'
 
 export type SortIntervalMenuData<Type extends SortType> = {
   interval?: TopInterval
@@ -58,23 +59,37 @@ export function SortIntervalMenu<Type extends SortType>({
             : FeedSort
 
   return (
-    <MenuView
-      actions={items.map((item) => ({
-        id: item,
-        image: `${kebabCase(SortIcons[item])}-duotone`,
-        imageColor: theme.colors[SortColors[item]].a9,
-        subactions:
-          item === 'top'
-            ? TopInterval.map((itemInterval) => ({
-                id: itemInterval,
-                image: IntervalIcons[itemInterval],
-                imageColor: theme.colors.gold.a9,
-                title: t(`interval.${itemInterval}`),
-              }))
-            : undefined,
-        title: t(`sort.${item}`),
-      }))}
-      onPressAction={({ nativeEvent }) => {
+    <ContextMenuButton
+      menuConfig={{
+        menuItems: items.map((item) => ({
+          actionKey: item,
+          actionTitle: t(`sort.${item}`),
+          icon: {
+            imageOptions: {
+              tint: theme.colors[SortColors[item]][9],
+            },
+            imageValue: menu[icons[item]],
+            type: 'IMAGE_REQUIRE',
+          },
+          menuItems:
+            item === 'top'
+              ? TopInterval.map((itemInterval) => ({
+                  actionKey: itemInterval,
+                  actionTitle: t(`interval.${itemInterval}`),
+                  icon: {
+                    iconTint: theme.colors.gold[9],
+                    iconType: 'SYSTEM',
+                    iconValue: IntervalIcons[itemInterval],
+                  },
+                }))
+              : undefined,
+          menuTitle: item === 'top' ? t('sort.top') : undefined,
+        })),
+        menuTitle: t('sort.title'),
+      }}
+      onPressMenuItem={(event) => {
+        const value = event.nativeEvent.actionKey
+
         type Sort = Type extends 'comment'
           ? CommentSort
           : Type extends 'community'
@@ -85,9 +100,9 @@ export function SortIntervalMenu<Type extends SortType>({
                 ? UserFeedSort
                 : FeedSort
 
-        if (TopInterval.includes(nativeEvent.event as TopInterval)) {
+        if (TopInterval.includes(value as TopInterval)) {
           onChange({
-            interval: nativeEvent.event as TopInterval,
+            interval: value as TopInterval,
             sort: 'top' as Sort,
           })
 
@@ -95,12 +110,11 @@ export function SortIntervalMenu<Type extends SortType>({
         }
 
         onChange({
-          sort: nativeEvent.event as Sort,
+          sort: value as Sort,
         })
       }}
-      title={t('sort.title')}
     >
-      <Pressable
+      <View
         align="center"
         direction="row"
         gap="2"
@@ -129,7 +143,20 @@ export function SortIntervalMenu<Type extends SortType>({
           size={theme.space[4]}
           weight="bold"
         />
-      </Pressable>
-    </MenuView>
+      </View>
+    </ContextMenuButton>
   )
+}
+
+const icons: Record<PostSort, keyof typeof menu> = {
+  best: 'medal',
+  comments: 'chatCircle',
+  confidence: 'medal',
+  controversial: 'flame',
+  hot: 'flame',
+  new: 'clock',
+  old: 'package',
+  relevance: 'target',
+  rising: 'chartLineUp',
+  top: 'ranking',
 }

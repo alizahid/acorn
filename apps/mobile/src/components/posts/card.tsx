@@ -20,6 +20,7 @@ import { PostFooter, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
 import { type GestureAction, PostGestures } from './gestures'
 import { PostLinkCard } from './link'
+import { PostMenu } from './menu'
 import { PostVideoCard } from './video'
 
 type Props = {
@@ -79,8 +80,42 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const compact = feedCompact && !expanded
   const seen = dimSeen && post.seen && !expanded
 
+  function onPress() {
+    router.navigate({
+      params: {
+        id: removePrefix(post.id),
+      },
+      pathname: '/posts/[id]',
+    })
+  }
+
   if (compact) {
     return (
+      <PostMenu onPress={onPress} post={post}>
+        <PostGestures
+          containerStyle={styles.container}
+          data={post}
+          disabled={!swipeGestures}
+          onAction={(action) => {
+            onAction(post, action)
+          }}
+          style={[styles.main(seen), style]}
+        >
+          <PostCompactCard
+            expanded={expanded}
+            label={label}
+            onPress={onPress}
+            post={post}
+            seen={seen}
+            side={mediaOnRight ? 'right' : 'left'}
+          />
+        </PostGestures>
+      </PostMenu>
+    )
+  }
+
+  return (
+    <PostMenu onPress={onPress} post={post}>
       <PostGestures
         containerStyle={styles.container}
         data={post}
@@ -90,105 +125,72 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         }}
         style={[styles.main(seen), style]}
       >
-        <PostCompactCard
-          expanded={expanded}
-          label={label}
-          post={post}
-          seen={seen}
-          side={mediaOnRight ? 'right' : 'left'}
-        />
-      </PostGestures>
-    )
-  }
-
-  return (
-    <PostGestures
-      containerStyle={styles.container}
-      data={post}
-      disabled={!swipeGestures}
-      onAction={(action) => {
-        onAction(post, action)
-      }}
-      style={[styles.main(seen), style]}
-    >
-      <Pressable
-        align="start"
-        disabled={expanded}
-        gap="2"
-        onPress={() => {
-          router.navigate({
-            params: {
-              id: removePrefix(post.id),
-            },
-            pathname: '/posts/[id]',
-          })
-        }}
-        p="3"
-      >
-        <Text highContrast={!seen} weight="bold">
-          {post.title}
-        </Text>
-
-        <FlairCard flair={post.flair} seen={seen} />
-      </Pressable>
-
-      {post.type === 'crosspost' && post.crossPost ? (
-        <CrossPostCard
-          post={post.crossPost}
-          recyclingKey={post.id}
-          style={body ? styles.expanded : null}
-          viewing={viewing}
-        />
-      ) : null}
-
-      {post.type === 'video' && post.media.video ? (
-        <PostVideoCard
-          nsfw={post.nsfw}
-          recyclingKey={post.id}
-          style={body ? styles.expanded : null}
-          video={post.media.video}
-          viewing={viewing}
-        />
-      ) : null}
-
-      {post.type === 'image' && post.media.images ? (
-        <PostGalleryCard
-          images={post.media.images}
-          nsfw={post.nsfw}
-          recyclingKey={post.id}
-          style={body ? styles.expanded : null}
-        />
-      ) : null}
-
-      {post.type === 'link' && post.url ? (
-        <PostLinkCard
-          media={post.media.images?.[0]}
-          recyclingKey={post.id}
-          style={body ? styles.expanded : null}
-          url={post.url}
-        />
-      ) : null}
-
-      {expanded && post.body ? (
-        <Markdown
-          meta={post.media.meta}
-          recyclingKey={post.id}
-          size="2"
-          style={styles.body}
-          variant="post"
+        <Pressable
+          align="start"
+          disabled={expanded}
+          gap="2"
+          onPress={onPress}
+          p="3"
         >
-          {post.body}
-        </Markdown>
-      ) : null}
+          <Text highContrast={!seen} weight="bold">
+            {post.title}
+          </Text>
 
-      <PostFooter
-        expanded={expanded}
-        gestures={swipeGestures}
-        label={label}
-        post={post}
-        seen={seen}
-      />
-    </PostGestures>
+          <FlairCard flair={post.flair} seen={seen} />
+        </Pressable>
+
+        {post.type === 'crosspost' && post.crossPost ? (
+          <CrossPostCard
+            post={post.crossPost}
+            recyclingKey={post.id}
+            style={body ? styles.expanded : null}
+            viewing={viewing}
+          />
+        ) : null}
+
+        {post.type === 'video' && post.media.video ? (
+          <PostVideoCard
+            nsfw={post.nsfw}
+            recyclingKey={post.id}
+            style={body ? styles.expanded : null}
+            video={post.media.video}
+            viewing={viewing}
+          />
+        ) : null}
+
+        {post.type === 'image' && post.media.images ? (
+          <PostGalleryCard
+            images={post.media.images}
+            nsfw={post.nsfw}
+            recyclingKey={post.id}
+            style={body ? styles.expanded : null}
+          />
+        ) : null}
+
+        {post.type === 'link' && post.url ? (
+          <PostLinkCard
+            media={post.media.images?.[0]}
+            recyclingKey={post.id}
+            style={body ? styles.expanded : null}
+            url={post.url}
+          />
+        ) : null}
+
+        {expanded && post.body ? (
+          <Markdown
+            meta={post.media.meta}
+            recyclingKey={post.id}
+            size="2"
+            style={styles.body}
+            variant="post"
+          >
+            {post.body}
+          </Markdown>
+        ) : null}
+
+        <PostFooter expanded={expanded} label={label} post={post} seen={seen} />
+      </PostGestures>
+    </PostMenu>
   )
 }
 
