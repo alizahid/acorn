@@ -46,12 +46,12 @@ export const SortColors: Record<Sort, ColorToken> = {
 }
 
 export const IntervalIcons: Record<TopInterval, SFSymbol> = {
-  all: 'infinity.circle',
-  day: '24.circle',
-  hour: '1.circle',
-  month: '31.circle',
-  week: '7.circle',
-  year: '12.circle',
+  all: 'infinity.circle.fill',
+  day: '24.circle.fill',
+  hour: '1.circle.fill',
+  month: '31.circle.fill',
+  week: '7.circle.fill',
+  year: '12.circle.fill',
 }
 
 export const FeedTypeIcons: Record<FeedType, IconName> = {
