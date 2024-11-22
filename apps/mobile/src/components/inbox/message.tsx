@@ -28,6 +28,7 @@ export function MessageCard({ message }: Props) {
       onPress={() => {
         mark({
           id: message.id,
+          type: 'message',
         })
       }}
       p="4"

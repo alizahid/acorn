@@ -7,6 +7,7 @@ import { useAuth } from '~/stores/auth'
 
 type MarkReadVariables = {
   id: string
+  type: 'notification' | 'message'
 }
 
 export function useMarkAsRead() {
@@ -14,7 +15,13 @@ export function useMarkAsRead() {
     async mutationFn(variables) {
       const body = new FormData()
 
-      body.append('id', addPrefix(variables.id, 'comment'))
+      body.append(
+        'id',
+        addPrefix(
+          variables.id,
+          variables.type === 'message' ? 'message' : 'comment',
+        ),
+      )
 
       await reddit({
         body,

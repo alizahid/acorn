@@ -37,6 +37,7 @@ export function NotificationCard({ notification }: Props) {
         if (notification.new) {
           mark({
             id: notification.id,
+            type: 'notification',
           })
         }
       }}
