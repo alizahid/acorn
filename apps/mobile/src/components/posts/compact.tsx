@@ -9,7 +9,6 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { CrossPostCard } from './crosspost'
-import { FlairCard } from './flair'
 import { type PostLabel } from './footer'
 import { FooterButton } from './footer/button'
 import { PostCommunity } from './footer/community'
@@ -91,16 +90,14 @@ export function PostCompactCard({
         />
       ) : null}
 
-      <View align="start" flex={1} gap="3">
-        <PostCommunity label={label} post={post} seen={seen} />
-
-        <FlairCard flair={post.flair} seen={seen} />
-
+      <View align="start" flex={1} gap="2">
         <Text highContrast={!seen} weight="bold">
           {post.title}
         </Text>
 
-        <View align="center" direction="row" gap="4">
+        <View align="center" direction="row" gap="3">
+          <PostCommunity image={false} label={label} post={post} seen={seen} />
+
           <PostMeta post={post} seen={seen} />
 
           <PostMenu post={post}>

@@ -10,12 +10,13 @@ import { type Post } from '~/types/post'
 export type PostLabel = 'user' | 'subreddit'
 
 type Props = {
+  image?: boolean
   label?: PostLabel
   post: Post
   seen?: boolean
 }
 
-export function PostCommunity({ label, post, seen }: Props) {
+export function PostCommunity({ image = true, label, post, seen }: Props) {
   const router = useRouter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -53,7 +54,7 @@ export function PostCommunity({ label, post, seen }: Props) {
         }
       }}
     >
-      {label === 'subreddit' && post.community.image ? (
+      {image && label === 'subreddit' && post.community.image ? (
         <Image source={post.community.image} style={styles.image} />
       ) : null}
 
