@@ -282,6 +282,7 @@
       },
       "preferences": {
         "browsing": {
+          "collapseAutoModerator": "Collapse AutoModerator comments",
           "coloredComments": "Colored comments",
           "rememberCommunitySort": "Remember community sorting",
           "showFlair": "Show flair on posts and comments",

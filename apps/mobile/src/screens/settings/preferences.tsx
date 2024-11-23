@@ -33,6 +33,11 @@ export function SettingsPreferencesScreen() {
             key: 'coloredComments',
             label: 'browsing.coloredComments',
           },
+          {
+            icon: 'PushPin',
+            key: 'collapseAutoModerator',
+            label: 'browsing.collapseAutoModerator',
+          },
           null,
 
           t('compact.title'),

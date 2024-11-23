@@ -9,6 +9,7 @@ import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { PostSchema } from '~/schemas/post'
 import { useAuth } from '~/stores/auth'
+import { usePreferences } from '~/stores/preferences'
 import { transformComment } from '~/transformers/comment'
 import { transformPost } from '~/transformers/post'
 import { type Comment } from '~/types/comment'
@@ -22,6 +23,7 @@ import { type PostsQueryData, type PostsQueryKey } from './posts'
 export type PostQueryKey = [
   'post',
   {
+    collapseAutoModerator?: boolean
     commentId?: string
     id: string
     sort?: CommentSort
@@ -56,6 +58,7 @@ export function usePost({ commentId, id, sort }: Props) {
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
+  const { collapseAutoModerator } = usePreferences()
 
   const query = useQuery<
     PostQueryData | undefined,
@@ -99,14 +102,33 @@ export function usePost({ commentId, id, sort }: Props) {
         throw new Error('Post not found')
       }
 
+      const items = comments.map((item) => transformComment(item))
+
+      if (collapseAutoModerator) {
+        await Promise.all(
+          items
+            .filter(
+              (item) =>
+                item.type === 'reply' &&
+                item.data.user.name === 'AutoModerator',
+            )
+            .map((item) =>
+              collapse.mutateAsync({
+                commentId: item.data.id,
+              }),
+            ),
+        )
+      }
+
       return {
-        comments: comments.map((item) => transformComment(item)),
+        comments: items,
         post: transformPost(post.data, []),
       }
     },
     queryKey: [
       'post',
       {
+        collapseAutoModerator,
         commentId,
         id,
         sort,
