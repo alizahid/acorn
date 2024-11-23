@@ -41,7 +41,11 @@ export function CommentCard({
   const { save } = useCommentSave()
 
   return (
-    <CommentMenu comment={comment} onPress={onPress}>
+    <CommentMenu
+      comment={comment}
+      onPress={onPress}
+      style={styles.container(comment.depth)}
+    >
       <PostGestures
         containerStyle={styles.container(comment.depth)}
         data={comment}

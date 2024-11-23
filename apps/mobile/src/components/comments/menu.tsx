@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router'
 import { type ReactNode } from 'react'
-import { Share } from 'react-native'
+import { Share, type StyleProp, type ViewStyle } from 'react-native'
 import { ContextMenuView } from 'react-native-ios-context-menu'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -17,9 +17,10 @@ type Props = {
   children: ReactNode
   comment: CommentReply
   onPress: () => void
+  style?: StyleProp<ViewStyle>
 }
 
-export function CommentMenu({ children, comment, onPress }: Props) {
+export function CommentMenu({ children, comment, onPress, style }: Props) {
   const router = useRouter()
 
   const t = useTranslations('component.posts.menu')
@@ -250,6 +251,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
       onPressMenuPreview={() => {
         onPress()
       }}
+      style={style}
     >
       {children}
     </ContextMenuView>

@@ -91,7 +91,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   if (compact) {
     return (
-      <PostMenu onPress={onPress} post={post}>
+      <PostMenu onPress={onPress} post={post} style={styles.container}>
         <PostGestures
           containerStyle={styles.container}
           data={post}
@@ -115,7 +115,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   }
 
   return (
-    <PostMenu onPress={onPress} post={post}>
+    <PostMenu onPress={onPress} post={post} style={styles.container}>
       <PostGestures
         containerStyle={styles.container}
         data={post}
