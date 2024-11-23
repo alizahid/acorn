@@ -16,7 +16,11 @@ export function Feedback() {
       }
 
       if (feedbackHaptics) {
-        void Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Soft)
+        void Haptics.impactAsync(
+          type === 'soft'
+            ? Haptics.ImpactFeedbackStyle.Soft
+            : Haptics.ImpactFeedbackStyle.Light,
+        )
       }
     }
 
