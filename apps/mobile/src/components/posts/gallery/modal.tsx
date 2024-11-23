@@ -1,21 +1,26 @@
 import * as StatusBar from 'expo-status-bar'
-import { useCallback, useState } from 'react'
-import { Modal } from 'react-native'
-import Gallery from 'react-native-awesome-gallery'
+import { useCallback, useEffect, useState } from 'react'
+import { Modal, StyleSheet } from 'react-native'
+import {
+  FlatList,
+  Gesture,
+  GestureDetector,
+} from 'react-native-gesture-handler'
 import Animated, {
+  interpolate,
+  runOnJS,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Text } from '~/components/common/text'
 import { HeaderButton } from '~/components/navigation/header-button'
-import { useCopyImage, useDownloadImage } from '~/hooks/image'
 import { type PostMedia } from '~/types/post'
 
-import { Text } from '../../common/text'
-import { View } from '../../common/view'
 import { GalleryImage } from './image'
 
 type Props = {
@@ -31,31 +36,65 @@ export function PostGalleryModal({
   recyclingKey,
   visible,
 }: Props) {
+  const frame = useSafeAreaFrame()
+
   const t = useTranslations('component.posts.gallery')
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
-  const opacity = useSharedValue(1)
-
-  const download = useDownloadImage()
-  const copy = useCopyImage()
+  const translate = useSharedValue(frame.height)
+  const opacity = useSharedValue(0)
 
   const [hidden, setHidden] = useState(false)
   const [viewing, setViewing] = useState<PostMedia>()
 
-  const style = useAnimatedStyle(() => ({
+  useEffect(() => {
+    if (visible) {
+      translate.set(() => withTiming(0))
+      opacity.set(() => withTiming(1))
+    }
+  }, [opacity, translate, visible])
+
+  const main = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: translate.get(),
+      },
+    ],
+  }))
+
+  const overlay = useAnimatedStyle(() => ({
+    opacity: interpolate(
+      translate.get(),
+      [-frame.height, 0, frame.height],
+      [0, 1, 0],
+    ),
+  }))
+
+  const controls = useAnimatedStyle(() => ({
     opacity: opacity.get(),
   }))
 
-  const close = useCallback(() => {
-    onClose()
+  const close = useCallback(
+    (direction: 'up' | 'down' = 'down') => {
+      opacity.set(() => withTiming(0))
 
-    StatusBar.setStatusBarHidden(false, 'fade')
+      translate.set(() =>
+        withTiming(
+          direction === 'up' ? -frame.height : frame.height,
+          undefined,
+          () => {
+            runOnJS(onClose)()
+            runOnJS(StatusBar.setStatusBarHidden)(false, 'fade')
+            runOnJS(setHidden)(false)
 
-    opacity.set(() => withTiming(1))
-
-    setHidden(false)
-  }, [onClose, opacity])
+            translate.set(frame.height)
+          },
+        ),
+      )
+    },
+    [frame.height, onClose, opacity, translate],
+  )
 
   const first = images[0]
 
@@ -63,101 +102,92 @@ export function PostGalleryModal({
     return null
   }
 
+  const gesture = Gesture.Pan()
+    .maxPointers(1)
+    .onUpdate((event) => {
+      translate.set(event.translationY)
+
+      opacity.set(() =>
+        interpolate(
+          event.translationY,
+          [-(frame.height * 0.5), 0, frame.height * 0.5],
+          [0, 1, 0],
+        ),
+      )
+    })
+    .onEnd((event) => {
+      if (
+        Math.abs(event.translationY) > 100 ||
+        Math.abs(event.velocityY) > 1_000
+      ) {
+        runOnJS(close)(event.translationY < 0 ? 'up' : 'down')
+      } else {
+        translate.set(() => withTiming(0))
+      }
+    })
+
   return (
-    <Modal animationType="slide" transparent visible={visible}>
-      <Gallery
-        data={images}
-        emptySpaceWidth={theme.space[6]}
-        keyExtractor={(item) => item.url}
-        loop
-        onIndexChange={(index) => {
-          setViewing(images[index])
-        }}
-        onSwipeToClose={() => {
-          close()
-        }}
-        onTap={() => {
-          const next = !hidden
+    <Modal transparent visible={visible}>
+      <Animated.View pointerEvents="none" style={[styles.overlay, overlay]} />
 
-          StatusBar.setStatusBarHidden(next, 'fade')
+      <GestureDetector gesture={gesture}>
+        <Animated.View style={[styles.main, main]}>
+          <FlatList
+            data={images}
+            decelerationRate="fast"
+            horizontal
+            initialNumToRender={3}
+            keyExtractor={(item, index) => String(index)}
+            onViewableItemsChanged={({ viewableItems }) => {
+              setViewing(() => viewableItems[0]?.item)
+            }}
+            renderItem={({ item }) => (
+              <GalleryImage
+                image={item}
+                onTap={() => {
+                  const next = !hidden
 
-          opacity.set(() => withTiming(next ? 0 : 1))
+                  StatusBar.setStatusBarHidden(next, 'fade')
 
-          setHidden(next)
-        }}
-        renderItem={({ item, setImageDimensions }) => {
-          setImageDimensions(item)
+                  setHidden(next)
 
-          return <GalleryImage image={item} recyclingKey={recyclingKey} />
-        }}
-        style={styles.main}
-      />
+                  opacity.set(() => withTiming(next ? 0 : 1))
+                }}
+                recyclingKey={recyclingKey}
+                styleControls={controls}
+              />
+            )}
+            scrollEnabled={images.length > 1}
+            showsHorizontalScrollIndicator={false}
+            snapToOffsets={images.map((item, index) => frame.width * index)}
+            viewabilityConfig={{
+              viewAreaCoveragePercentThreshold: 60,
+            }}
+          />
+        </Animated.View>
+      </GestureDetector>
 
-      <Animated.View pointerEvents="box-none" style={[styles.header, style]}>
-        {images.length > 1 ? (
-          <View style={styles.label}>
-            <Text contrast size="1" tabular>
-              {t('item', {
-                count: images.length,
-                current: (viewing ? images.indexOf(viewing) : 0) + 1,
-              })}
-            </Text>
-          </View>
-        ) : null}
+      {images.length > 1 ? (
+        <Animated.View
+          pointerEvents="none"
+          style={[styles.pagination, controls]}
+        >
+          <Text contrast size="1" tabular weight="medium">
+            {t('item', {
+              count: images.length,
+              current: (viewing ? images.indexOf(viewing) : 0) + 1,
+            })}
+          </Text>
+        </Animated.View>
+      ) : null}
 
+      <Animated.View pointerEvents="box-none" style={[styles.close, controls]}>
         <HeaderButton
           icon="X"
           onPress={() => {
             close()
           }}
-          style={styles.close}
           weight="bold"
-        />
-      </Animated.View>
-
-      <Animated.View pointerEvents="box-none" style={[styles.footer, style]}>
-        <HeaderButton
-          color={
-            download.isError ? 'red' : download.isSuccess ? 'green' : 'accent'
-          }
-          icon={
-            download.isError
-              ? 'XCircle'
-              : download.isSuccess
-                ? 'CheckCircle'
-                : 'Download'
-          }
-          loading={download.isPending}
-          onPress={() => {
-            if (!viewing) {
-              return
-            }
-
-            download.download({
-              url: viewing.url,
-            })
-          }}
-          weight={
-            download.isError ? 'fill' : download.isSuccess ? 'fill' : 'duotone'
-          }
-        />
-
-        <HeaderButton
-          color={copy.isError ? 'red' : copy.isSuccess ? 'green' : 'accent'}
-          icon={
-            copy.isError ? 'XCircle' : copy.isSuccess ? 'CheckCircle' : 'Copy'
-          }
-          loading={copy.isPending}
-          onPress={() => {
-            if (!viewing) {
-              return
-            }
-
-            copy.copy({
-              url: viewing.url,
-            })
-          }}
-          weight={copy.isError ? 'fill' : copy.isSuccess ? 'fill' : 'duotone'}
         />
       </Animated.View>
     </Modal>
@@ -166,47 +196,25 @@ export function PostGalleryModal({
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   close: {
-    marginLeft: 'auto',
-  },
-  controls: (aspectRatio: number) => ({
-    aspectRatio,
-    marginVertical: 'auto',
-  }),
-  footer: {
-    alignItems: 'center',
-    alignSelf: 'center',
-    backgroundColor: theme.colors.black.a9,
-    borderCurve: 'continuous',
-    borderRadius: theme.space[9],
-    bottom: theme.space[9] + runtime.insets.bottom,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    overflow: 'hidden',
-    paddingHorizontal: theme.space[2],
-    position: 'absolute',
-  },
-  gif: {
-    bottom: theme.space[2],
-    left: theme.space[2],
-    position: 'absolute',
-  },
-  header: {
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    left: theme.space[4],
     position: 'absolute',
     right: theme.space[4],
     top: theme.space[4] + runtime.insets.top,
   },
-  label: {
+  main: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: theme.colors.gray[1],
+  },
+  pagination: {
+    alignSelf: 'center',
     backgroundColor: theme.colors.black.a9,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
     paddingHorizontal: theme.space[1],
     paddingVertical: theme.space[1] / 2,
-  },
-  main: {
-    backgroundColor: theme.colors.gray[1],
+    position: 'absolute',
+    top: theme.space[4] + runtime.insets.top,
   },
 }))
