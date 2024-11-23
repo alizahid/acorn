@@ -1,6 +1,6 @@
 import { SymbolView } from 'expo-symbols'
 import { ContextMenuButton } from 'react-native-ios-context-menu'
-import { useStyles } from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { menu } from '~/assets/menu'
@@ -17,7 +17,6 @@ import {
 } from '~/types/sort'
 
 import { Icon } from '../common/icon'
-import { View } from '../common/view'
 
 export type SortIntervalMenuData<Type extends SortType> = {
   interval?: TopInterval
@@ -34,6 +33,7 @@ export type SortIntervalMenuData<Type extends SortType> = {
 
 type Props<Type extends SortType> = SortIntervalMenuData<Type> & {
   onChange: (data: SortIntervalMenuData<Type>) => void
+  top?: boolean
   type: Type
 }
 
@@ -41,11 +41,12 @@ export function SortIntervalMenu<Type extends SortType>({
   interval,
   onChange,
   sort,
+  top = true,
   type,
 }: Props<Type>) {
   const t = useTranslations('component.common')
 
-  const { theme } = useStyles()
+  const { styles, theme } = useStyles(stylesheet)
 
   const items =
     type === 'comment'
@@ -72,7 +73,7 @@ export function SortIntervalMenu<Type extends SortType>({
             type: 'IMAGE_REQUIRE',
           },
           menuItems:
-            item === 'top'
+            top && item === 'top'
               ? TopInterval.map((itemInterval) => ({
                   actionKey: itemInterval,
                   actionTitle: t(`interval.${itemInterval}`),
@@ -83,7 +84,7 @@ export function SortIntervalMenu<Type extends SortType>({
                   },
                 }))
               : undefined,
-          menuTitle: item === 'top' ? t('sort.top') : undefined,
+          menuTitle: top && item === 'top' ? t('sort.top') : undefined,
         })),
         menuTitle: t('sort.title'),
       }}
@@ -113,40 +114,44 @@ export function SortIntervalMenu<Type extends SortType>({
           sort: value as Sort,
         })
       }}
+      style={styles.main}
     >
-      <View
-        align="center"
-        direction="row"
-        gap="2"
-        height="8"
-        justify="end"
-        px="3"
-      >
-        <Icon
-          color={theme.colors[SortColors[sort]].a9}
-          name={SortIcons[sort]}
-          size={theme.space[5]}
-          weight="duotone"
-        />
+      <Icon
+        color={theme.colors[SortColors[sort]].a9}
+        name={SortIcons[sort]}
+        size={theme.space[5]}
+        weight="duotone"
+      />
 
-        {sort === 'top' && interval ? (
-          <SymbolView
-            name={IntervalIcons[interval]}
-            size={20}
-            tintColor={theme.colors.gold.a9}
-          />
-        ) : null}
-
-        <Icon
-          color={theme.colors.gray.a11}
-          name="CaretDown"
-          size={theme.space[4]}
-          weight="bold"
+      {sort === 'top' && interval ? (
+        <SymbolView
+          name={IntervalIcons[interval]}
+          size={20}
+          tintColor={theme.colors.gold.a9}
         />
-      </View>
+      ) : null}
+
+      <Icon
+        color={theme.colors.gray.a11}
+        name="CaretDown"
+        size={theme.space[4]}
+        weight="bold"
+      />
     </ContextMenuButton>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  main: {
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    flexDirection: 'row',
+    gap: theme.space[2],
+    height: theme.space[8],
+    justifyContent: 'flex-end',
+    paddingHorizontal: theme.space[3],
+  },
+}))
 
 const icons: Record<PostSort, keyof typeof menu> = {
   best: 'medal',

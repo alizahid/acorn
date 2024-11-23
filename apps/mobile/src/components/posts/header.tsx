@@ -60,6 +60,7 @@ export function PostHeader({
           onChangeSort(next.sort)
         }}
         sort={sort}
+        top={false}
         type="comment"
       />
     </View>
