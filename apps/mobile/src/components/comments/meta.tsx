@@ -90,8 +90,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
         <FooterButton
           color={comment.liked ? theme.colors.orange.a9 : theme.colors.gray.a12}
           compact
-          fill={comment.liked === true}
-          icon="ArrowUp"
+          icon="ArrowFatUp"
           onPress={() => {
             vote({
               commentId: comment.id,
@@ -99,7 +98,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
               postId: comment.postId,
             })
           }}
-          weight="bold"
+          weight={comment.liked === true ? 'fill' : 'bold'}
         />
 
         <Text size="1" tabular>
@@ -115,8 +114,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
               : theme.colors.gray.a12
           }
           compact
-          fill={comment.liked === false}
-          icon="ArrowDown"
+          icon="ArrowFatDown"
           onPress={() => {
             vote({
               commentId: comment.id,
@@ -124,7 +122,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
               postId: comment.postId,
             })
           }}
-          weight="bold"
+          weight={comment.liked === false ? 'fill' : 'bold'}
         />
       </View>
 
