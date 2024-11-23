@@ -1,3 +1,3 @@
-export const SearchTab = ['post', 'community', 'user'] as const
+export type SearchTab = 'post' | 'community' | 'user'
 
-export type SearchTab = (typeof SearchTab)[number]
+export type SearchTabs = Array<SearchTab>

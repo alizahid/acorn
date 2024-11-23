@@ -4,22 +4,21 @@ import { Drawer } from 'react-native-drawer-layout'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { HomeDrawer } from '~/components/home/drawer'
-import { FeedTypeMenu, type FeedTypeOptions } from '~/components/home/type-menu'
+import { FeedTypeMenu } from '~/components/home/type-menu'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
 export function HomeScreen() {
   const navigation = useNavigation()
 
-  const { feedType, intervalFeedPosts, sortFeedPosts } = usePreferences()
+  const { intervalFeedPosts, sortFeedPosts } = usePreferences()
+  const { homeFeed, update } = useDefaults()
 
   const { styles, theme } = useStyles(stylesheet)
 
   const [open, setOpen] = useState(false)
-  const [data, setData] = useState<FeedTypeOptions>({
-    type: feedType,
-  })
   const [sort, setSort] = useState(sortFeedPosts)
   const [interval, setInterval] = useState(intervalFeedPosts)
 
@@ -27,17 +26,17 @@ export function HomeScreen() {
     navigation.setOptions({
       headerLeft: () => (
         <FeedTypeMenu
-          community={data.community}
-          feed={data.feed}
+          community={homeFeed.community}
+          feed={homeFeed.feed}
           onPress={() => {
             setOpen((previous) => !previous)
           }}
-          type={data.type}
-          user={data.user}
+          type={homeFeed.type}
+          user={homeFeed.user}
         />
       ),
       headerRight: () =>
-        !data.user ? (
+        !homeFeed.user ? (
           <SortIntervalMenu
             interval={interval}
             onChange={(next) => {
@@ -49,11 +48,11 @@ export function HomeScreen() {
             }}
             sort={sort}
             type={
-              data.community
+              homeFeed.community
                 ? 'community'
-                : data.user
+                : homeFeed.user
                   ? 'user'
-                  : data.type === 'all' || data.type === 'popular'
+                  : homeFeed.type === 'all' || homeFeed.type === 'popular'
                     ? 'community'
                     : 'feed'
             }
@@ -75,10 +74,12 @@ export function HomeScreen() {
       overlayStyle={styles.overlay}
       renderDrawerContent={() => (
         <HomeDrawer
-          community={data.community}
-          feed={data.feed}
+          community={homeFeed.community}
+          feed={homeFeed.feed}
           onChange={(next) => {
-            setData(next)
+            update({
+              homeFeed: next,
+            })
 
             if (sort === 'best' && !next.feed && next.type !== 'home') {
               setSort('hot')
@@ -87,21 +88,21 @@ export function HomeScreen() {
           onClose={() => {
             setOpen(false)
           }}
-          type={data.type}
-          user={data.user}
+          type={homeFeed.type}
+          user={homeFeed.user}
         />
       )}
       swipeEdgeWidth={theme.space[3]}
     >
       <PostList
         community={
-          data.community
-            ? data.community
-            : data.type === 'home'
+          homeFeed.community
+            ? homeFeed.community
+            : homeFeed.type === 'home'
               ? undefined
-              : data.type
+              : homeFeed.type
         }
-        feed={data.feed}
+        feed={homeFeed.feed}
         interval={interval}
         label="subreddit"
         refreshing={{
@@ -109,7 +110,7 @@ export function HomeScreen() {
           inset: false,
         }}
         sort={sort}
-        user={data.user}
+        user={homeFeed.user}
       />
     </Drawer>
   )

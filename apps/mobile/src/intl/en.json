@@ -59,6 +59,15 @@
         "unfavorite": "Unfavorite"
       }
     },
+    "defaults": {
+      "searchTabs": {
+        "community": "Communities",
+        "hint": "Requires app restart",
+        "post": "Posts",
+        "title": "Search tabs",
+        "user": "Users"
+      }
+    },
     "inbox": {
       "notification": {
         "comment_reply": "{user} replied to your comment",
@@ -200,6 +209,7 @@
       "settings": {
         "about": "About",
         "cache": "Cache",
+        "defaults": "Defaults",
         "gestures": "Gestures",
         "preferences": "Preferences",
         "sort": "Sort",
@@ -248,6 +258,9 @@
           "sorting": "Clear community sorting"
         },
         "title": "Cache"
+      },
+      "defaults": {
+        "title": "Defaults"
       },
       "gestures": {
         "menu": {

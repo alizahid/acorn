@@ -42,6 +42,7 @@ import InfoBold from 'react-native-phosphor/src/bold/Info'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import MouseScrollBold from 'react-native-phosphor/src/bold/MouseScroll'
+import NoteBlankBold from 'react-native-phosphor/src/bold/NoteBlank'
 import PackageBold from 'react-native-phosphor/src/bold/Package'
 import PaintBrushBold from 'react-native-phosphor/src/bold/PaintBrush'
 import PaletteBold from 'react-native-phosphor/src/bold/Palette'
@@ -55,6 +56,7 @@ import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import RewindBold from 'react-native-phosphor/src/bold/Rewind'
 import RowsBold from 'react-native-phosphor/src/bold/Rows'
 import ShareFatBold from 'react-native-phosphor/src/bold/Share'
+import SlidersHorizontalBold from 'react-native-phosphor/src/bold/SlidersHorizontal'
 import SmileySadBold from 'react-native-phosphor/src/bold/SmileySad'
 import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
@@ -117,6 +119,7 @@ import InfoDuotone from 'react-native-phosphor/src/duotone/Info'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import MouseScrollDuotone from 'react-native-phosphor/src/duotone/MouseScroll'
+import NoteBlankDuotone from 'react-native-phosphor/src/duotone/NoteBlank'
 import PackageDuotone from 'react-native-phosphor/src/duotone/Package'
 import PaintBrushDuotone from 'react-native-phosphor/src/duotone/PaintBrush'
 import PaletteDuotone from 'react-native-phosphor/src/duotone/Palette'
@@ -130,6 +133,7 @@ import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import RewindDuotone from 'react-native-phosphor/src/duotone/Rewind'
 import RowsDuotone from 'react-native-phosphor/src/duotone/Rows'
 import ShareFatDuotone from 'react-native-phosphor/src/duotone/Share'
+import SlidersHorizontalDuotone from 'react-native-phosphor/src/duotone/SlidersHorizontal'
 import SmileySadDuotone from 'react-native-phosphor/src/duotone/SmileySad'
 import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
@@ -192,6 +196,7 @@ import InfoFill from 'react-native-phosphor/src/fill/Info'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import MouseScrollFill from 'react-native-phosphor/src/fill/MouseScroll'
+import NoteBlankFill from 'react-native-phosphor/src/fill/NoteBlank'
 import PackageFill from 'react-native-phosphor/src/fill/Package'
 import PaintBrushFill from 'react-native-phosphor/src/fill/PaintBrush'
 import PaletteFill from 'react-native-phosphor/src/fill/Palette'
@@ -205,6 +210,7 @@ import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import RewindFill from 'react-native-phosphor/src/fill/Rewind'
 import RowsFill from 'react-native-phosphor/src/fill/Rows'
 import ShareFatFill from 'react-native-phosphor/src/fill/Share'
+import SlidersHorizontalFill from 'react-native-phosphor/src/fill/SlidersHorizontal'
 import SmileySadFill from 'react-native-phosphor/src/fill/SmileySad'
 import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
@@ -267,6 +273,7 @@ import InfoRegular from 'react-native-phosphor/src/regular/Info'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import MouseScrollRegular from 'react-native-phosphor/src/regular/MouseScroll'
+import NoteBlankRegular from 'react-native-phosphor/src/regular/NoteBlank'
 import PackageRegular from 'react-native-phosphor/src/regular/Package'
 import PaintBrushRegular from 'react-native-phosphor/src/regular/PaintBrush'
 import PaletteRegular from 'react-native-phosphor/src/regular/Palette'
@@ -280,6 +287,7 @@ import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import RewindRegular from 'react-native-phosphor/src/regular/Rewind'
 import RowsRegular from 'react-native-phosphor/src/regular/Rows'
 import ShareFatRegular from 'react-native-phosphor/src/regular/Share'
+import SlidersHorizontalRegular from 'react-native-phosphor/src/regular/SlidersHorizontal'
 import SmileySadRegular from 'react-native-phosphor/src/regular/SmileySad'
 import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
@@ -578,6 +586,12 @@ const icons = {
     fill: MouseScrollFill,
     regular: MouseScrollRegular,
   },
+  NoteBlank: {
+    bold: NoteBlankBold,
+    duotone: NoteBlankDuotone,
+    fill: NoteBlankFill,
+    regular: NoteBlankRegular,
+  },
   Package: {
     bold: PackageBold,
     duotone: PackageDuotone,
@@ -655,6 +669,12 @@ const icons = {
     duotone: ShareFatDuotone,
     fill: ShareFatFill,
     regular: ShareFatRegular,
+  },
+  SlidersHorizontal: {
+    bold: SlidersHorizontalBold,
+    duotone: SlidersHorizontalDuotone,
+    fill: SlidersHorizontalFill,
+    regular: SlidersHorizontalRegular,
   },
   SmileySad: {
     bold: SmileySadBold,

@@ -65,6 +65,19 @@ export function ProfileScreen() {
         {
           arrow: true,
           icon: {
+            name: 'SlidersHorizontal',
+            weight: 'duotone',
+          },
+          label: t('settings.defaults'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings/defaults',
+            })
+          },
+        },
+        {
+          arrow: true,
+          icon: {
             name: 'HandSwipeLeft',
             weight: 'duotone',
           },

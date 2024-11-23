@@ -110,6 +110,13 @@ export function ProfileLayout() {
       />
 
       <Stack.Screen
+        name="settings/defaults"
+        options={{
+          title: t('settings.defaults.title'),
+        }}
+      />
+
+      <Stack.Screen
         name="settings/cache"
         options={{
           title: t('settings.cache.title'),

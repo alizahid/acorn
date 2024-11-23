@@ -12,8 +12,8 @@ import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
+import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
-import { SearchTab } from '~/types/search'
 
 export function SearchScreen() {
   const focused = useIsFocused()
@@ -21,11 +21,12 @@ export function SearchScreen() {
   const t = useTranslations('screen.search')
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences()
+  const { searchTabs } = useDefaults()
 
   const { styles } = useStyles(stylesheet)
 
   const routes = useRef(
-    SearchTab.map((key) => ({
+    searchTabs.map((key) => ({
       key,
       title: t(`tabs.${key}`),
     })),
