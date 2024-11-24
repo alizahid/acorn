@@ -94,7 +94,6 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
     return (
       <PostMenu onPress={onPress} post={post} style={styles.container}>
         <PostGestures
-          containerStyle={styles.container}
           data={post}
           disabled={!swipeGestures}
           gestures={postGestures}
@@ -119,7 +118,6 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   return (
     <PostMenu onPress={onPress} post={post} style={styles.container}>
       <PostGestures
-        containerStyle={styles.container}
         data={post}
         disabled={!swipeGestures}
         gestures={postGestures}

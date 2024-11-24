@@ -47,7 +47,6 @@ export function CommentCard({
       style={styles.container(comment.depth)}
     >
       <PostGestures
-        containerStyle={styles.container(comment.depth)}
         data={comment}
         disabled={!swipeGestures || collapsed}
         gestures={commentGestures}
