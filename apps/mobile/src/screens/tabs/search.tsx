@@ -1,5 +1,7 @@
 import { useIsFocused } from '@react-navigation/native'
-import { useCallback, useRef, useState } from 'react'
+import { useNavigation } from 'expo-router'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { type TextInput } from 'react-native'
 import { TabView } from 'react-native-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
@@ -16,6 +18,7 @@ import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
 export function SearchScreen() {
+  const navigation = useNavigation()
   const focused = useIsFocused()
 
   const t = useTranslations('screen.search')
@@ -32,6 +35,8 @@ export function SearchScreen() {
     })),
   )
 
+  const search = useRef<TextInput>(null)
+
   const [sort, setSort] = useState(sortSearchPosts)
   const [interval, setInterval] = useState(intervalSearchPosts)
 
@@ -39,6 +44,21 @@ export function SearchScreen() {
   const [query, setQuery] = useState('')
 
   const [debounced] = useDebounce(query, 500)
+
+  useEffect(() => {
+    const tabs = navigation.getParent()
+
+    const unsubscribe = tabs?.addListener(
+      'tabPress' as unknown as 'focus',
+      () => {
+        search.current?.focus()
+      },
+    )
+
+    return () => {
+      unsubscribe?.()
+    }
+  }, [navigation])
 
   const onChangeQuery = useCallback((next: string) => {
     setQuery(next)
@@ -116,6 +136,7 @@ export function SearchScreen() {
           <TextBox
             onChangeText={setQuery}
             placeholder={t('title')}
+            ref={search}
             returnKeyType="search"
             right={
               query.length > 0 ? (
