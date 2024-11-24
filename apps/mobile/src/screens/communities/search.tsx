@@ -14,6 +14,7 @@ import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
+  query: z.string().optional(),
 })
 
 export type CommunitiesSearchParams = z.infer<typeof schema>
@@ -32,7 +33,7 @@ export function CommunitiesSearchScreen() {
   const [sort, setSort] = useState(sortSearchPosts)
   const [interval, setInterval] = useState(intervalSearchPosts)
 
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(params.query ?? '')
 
   const [debounced] = useDebounce(query, 500)
 

@@ -1,4 +1,4 @@
-import { Stack, useRouter } from 'expo-router'
+import { Stack } from 'expo-router'
 import { useTranslations } from 'use-intl'
 
 import { Header } from '~/components/navigation/header'
@@ -11,8 +11,6 @@ import { AccountsSheet } from '~/sheets/accounts'
 import { useAuth } from '~/stores/auth'
 
 export function ProfileLayout() {
-  const router = useRouter()
-
   const t = useTranslations('screen')
 
   const { accountId } = useAuth()
@@ -57,27 +55,9 @@ export function ProfileLayout() {
 
       <Stack.Screen
         name="communities/[name]/index"
-        options={(props) => {
-          const { name } = props.route.params as CommunityParams
-
-          return {
-            headerRight: () => (
-              <HeaderButton
-                color="gray"
-                icon="MagnifyingGlass"
-                onPress={() => {
-                  router.navigate({
-                    params: {
-                      name,
-                    },
-                    pathname: '/communities/[name]/search',
-                  })
-                }}
-              />
-            ),
-            title: name,
-          }
-        }}
+        options={(props) => ({
+          title: (props.route.params as CommunityParams).name,
+        })}
       />
 
       <Stack.Screen

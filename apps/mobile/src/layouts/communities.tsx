@@ -44,6 +44,7 @@ export function CommunitiesLayout() {
                     pathname: '/communities/[name]/search',
                   })
                 }}
+                weight="bold"
               />
             ),
             title: name,

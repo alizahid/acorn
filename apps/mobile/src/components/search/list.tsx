@@ -56,7 +56,7 @@ export function SearchList({
   const { feedCompact, seenOnScroll } = usePreferences()
   const { addPost } = useHistory()
 
-  const history = useSearchHistory()
+  const history = useSearchHistory(community)
 
   const { isLoading, isRefreshing, refetch, results } = useSearch({
     community,

@@ -2,8 +2,10 @@ import { uniq } from 'lodash'
 import { useCallback, useMemo } from 'react'
 import { useMMKVString } from 'react-native-mmkv'
 
-export function useSearchHistory() {
-  const [data, setData] = useMMKVString('search_history')
+export function useSearchHistory(community?: string) {
+  const [data, setData] = useMMKVString(
+    community ? `search_history_${community}` : 'search_history',
+  )
 
   const history = useMemo(
     () => (JSON.parse(data ?? '[]') as Array<string>).slice(-5),
