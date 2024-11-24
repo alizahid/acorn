@@ -9,10 +9,10 @@ import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
 
+import { PostGestures } from '../common/gestures'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { View } from '../common/view'
-import { PostGestures } from '../posts/gestures'
 import { CommentMenu } from './menu'
 import { CommentMeta } from './meta'
 
@@ -33,7 +33,7 @@ export function CommentCard({
 }: Props) {
   const router = useRouter()
 
-  const { coloredComments, swipeGestures } = usePreferences()
+  const { coloredComments, commentGestures, swipeGestures } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -50,6 +50,7 @@ export function CommentCard({
         containerStyle={styles.container(comment.depth)}
         data={comment}
         disabled={!swipeGestures || collapsed}
+        gestures={commentGestures}
         onAction={(action) => {
           if (action === 'upvote') {
             vote({

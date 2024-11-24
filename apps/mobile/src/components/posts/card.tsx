@@ -10,6 +10,7 @@ import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
+import { type GestureAction, PostGestures } from '../common/gestures'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
@@ -18,7 +19,6 @@ import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
 import { PostFooter, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
-import { type GestureAction, PostGestures } from './gestures'
 import { PostLinkCard } from './link'
 import { PostMenu } from './menu'
 import { PostVideoCard } from './video'
@@ -34,7 +34,8 @@ type Props = {
 export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const router = useRouter()
 
-  const { dimSeen, feedCompact, mediaOnRight, swipeGestures } = usePreferences()
+  const { dimSeen, feedCompact, mediaOnRight, postGestures, swipeGestures } =
+    usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -96,6 +97,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           containerStyle={styles.container}
           data={post}
           disabled={!swipeGestures}
+          gestures={postGestures}
           onAction={(action) => {
             onAction(post, action)
           }}
@@ -120,6 +122,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         containerStyle={styles.container}
         data={post}
         disabled={!swipeGestures}
+        gestures={postGestures}
         onAction={(action) => {
           onAction(post, action)
         }}

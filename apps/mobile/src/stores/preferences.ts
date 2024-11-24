@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { type GestureAction } from '~/components/posts/gestures'
+import { type Gestures } from '~/components/common/gestures'
 import { Store } from '~/lib/store'
 import { type Theme } from '~/styles/themes'
 import {
@@ -20,6 +20,7 @@ export type PreferencesPayload = {
   blurNsfw: boolean
   collapseAutoModerator: boolean
   coloredComments: boolean
+  commentGestures: Gestures
   dimSeen: boolean
   feedCompact: boolean
   feedMuted: boolean
@@ -37,6 +38,7 @@ export type PreferencesPayload = {
   largeThumbnails: boolean
   linkBrowser: boolean
   mediaOnRight: boolean
+  postGestures: Gestures
   rememberCommunitySort: boolean
   seenOnMedia: boolean
   seenOnScroll: boolean
@@ -50,10 +52,6 @@ export type PreferencesPayload = {
   sortUserComments: CommentSort
   sortUserPosts: UserFeedSort
   swipeGestures: boolean
-  swipeLeftLong: NonNullable<GestureAction>
-  swipeLeftShort: NonNullable<GestureAction>
-  swipeRightLong: NonNullable<GestureAction>
-  swipeRightShort: NonNullable<GestureAction>
   theme: Theme
   unmuteFullscreen: boolean
 }
@@ -68,6 +66,12 @@ export const usePreferences = create<State>()(
       blurNsfw: true,
       collapseAutoModerator: false,
       coloredComments: true,
+      commentGestures: {
+        leftLong: 'downvote',
+        leftShort: 'upvote',
+        rightLong: 'save',
+        rightShort: 'reply',
+      },
       dimSeen: false,
       feedCompact: false,
       feedMuted: true,
@@ -85,6 +89,12 @@ export const usePreferences = create<State>()(
       largeThumbnails: false,
       linkBrowser: true,
       mediaOnRight: true,
+      postGestures: {
+        leftLong: 'downvote',
+        leftShort: 'upvote',
+        rightLong: 'save',
+        rightShort: 'reply',
+      },
       rememberCommunitySort: false,
       seenOnMedia: false,
       seenOnScroll: false,
@@ -98,10 +108,6 @@ export const usePreferences = create<State>()(
       sortUserComments: 'new',
       sortUserPosts: 'new',
       swipeGestures: true,
-      swipeLeftLong: 'downvote',
-      swipeLeftShort: 'upvote',
-      swipeRightLong: 'save',
-      swipeRightShort: 'reply',
       theme: 'acorn',
       unmuteFullscreen: true,
       update(payload) {

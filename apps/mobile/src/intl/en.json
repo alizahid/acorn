@@ -264,18 +264,19 @@
       },
       "gestures": {
         "menu": {
-          "left": "Left",
-          "right": "Right",
-          "swipeGestures": "Use swipe gestures",
-          "swipeLeftLong": "Long",
-          "swipeLeftShort": "Short",
-          "swipeRightLong": "Long",
-          "swipeRightShort": "Short"
+          "comments": "Comments",
+          "leftLong": "Left long",
+          "leftShort": "Left short",
+          "posts": "Posts",
+          "rightLong": "Right long",
+          "rightShort": "Right short",
+          "swipeGestures": "Use swipe gestures"
         },
         "options": {
           "downvote": "Downvote",
           "reply": "Reply",
           "save": "Save",
+          "share": "Share",
           "upvote": "Upvote"
         },
         "title": "Gestures"

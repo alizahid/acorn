@@ -8,15 +8,27 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { View } from '~/components/common/view'
 import { iPhone } from '~/lib/common'
-import { usePreferences } from '~/stores/preferences'
 
 import { Actions } from './actions'
 
-export type GestureAction = 'upvote' | 'downvote' | 'save' | 'reply' | undefined
+export type GestureAction =
+  | 'upvote'
+  | 'downvote'
+  | 'save'
+  | 'reply'
+  | 'share'
+  | undefined
 
 export type GestureData = {
   liked: boolean | null
   saved: boolean
+}
+
+export type Gestures = {
+  leftLong: NonNullable<GestureAction>
+  leftShort: NonNullable<GestureAction>
+  rightLong: NonNullable<GestureAction>
+  rightShort: NonNullable<GestureAction>
 }
 
 type Props = {
@@ -24,8 +36,8 @@ type Props = {
   containerStyle?: StyleProp<ViewStyle>
   data: GestureData
   disabled?: boolean
+  gestures: Gestures
   onAction: (action: GestureAction) => void
-  radius?: 'small' | 'large'
   style?: StyleProp<ViewStyle>
 }
 
@@ -34,12 +46,10 @@ export function PostGestures({
   containerStyle,
   data,
   disabled,
+  gestures,
   onAction,
   style,
 }: Props) {
-  const { swipeLeftLong, swipeLeftShort, swipeRightLong, swipeRightShort } =
-    usePreferences()
-
   const { styles } = useStyles(stylesheet)
 
   const swipeable = useRef<SwipeableMethods>(null)
@@ -76,9 +86,9 @@ export function PostGestures({
         <Actions
           action={action}
           data={data}
-          long={swipeLeftLong}
+          long={gestures.leftLong}
           progress={progress}
-          short={swipeLeftShort}
+          short={gestures.leftShort}
           style={styles.left}
         />
       )}
@@ -86,9 +96,9 @@ export function PostGestures({
         <Actions
           action={action}
           data={data}
-          long={swipeRightLong}
+          long={gestures.rightLong}
           progress={progress}
-          short={swipeRightShort}
+          short={gestures.rightShort}
           style={styles.right}
         />
       )}

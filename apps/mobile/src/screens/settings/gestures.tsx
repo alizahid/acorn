@@ -2,21 +2,18 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
-import { Menu, type MenuItemOption } from '~/components/common/menu'
-import { type GestureAction } from '~/components/posts/gestures'
+import {
+  Menu,
+  type MenuItem,
+  type MenuItemOption,
+} from '~/components/common/menu'
 import { usePreferences } from '~/stores/preferences'
 
 export function SettingsGesturesScreen() {
   const t = useTranslations('screen.settings.gestures')
 
-  const {
-    swipeGestures,
-    swipeLeftLong,
-    swipeLeftShort,
-    swipeRightLong,
-    swipeRightShort,
-    update,
-  } = usePreferences()
+  const { commentGestures, postGestures, swipeGestures, update } =
+    usePreferences()
 
   const { theme } = useStyles()
 
@@ -81,6 +78,17 @@ export function SettingsGesturesScreen() {
       ),
       value: 'save',
     },
+    {
+      icon: {
+        color: theme.colors.accent.a9,
+        name: 'Share',
+      },
+      label: t('options.share'),
+      right: (
+        <Icon color={theme.colors.accent.a9} name="Share" weight="duotone" />
+      ),
+      value: 'share',
+    },
   ]
 
   return (
@@ -97,55 +105,37 @@ export function SettingsGesturesScreen() {
           value: swipeGestures,
         },
 
-        null,
-        t('menu.left'),
-        {
-          label: t('menu.swipeLeftShort'),
-          onSelect(value) {
-            update({
-              swipeLeftShort: value as GestureAction,
-            })
-          },
-          options,
-          type: 'options',
-          value: swipeLeftShort,
-        },
-        {
-          label: t('menu.swipeLeftLong'),
-          onSelect(value) {
-            update({
-              swipeLeftLong: value as GestureAction,
-            })
-          },
-          options,
-          type: 'options',
-          value: swipeLeftLong,
-        },
-
-        null,
-        t('menu.right'),
-        {
-          label: t('menu.swipeRightShort'),
-          onSelect(value) {
-            update({
-              swipeRightShort: value as GestureAction,
-            })
-          },
-          options,
-          type: 'options',
-          value: swipeRightShort,
-        },
-        {
-          label: t('menu.swipeRightLong'),
-          onSelect(value) {
-            update({
-              swipeRightLong: value as GestureAction,
-            })
-          },
-          options,
-          type: 'options',
-          value: swipeRightLong,
-        },
+        ...(
+          [
+            {
+              key: 'posts',
+              value: postGestures,
+            },
+            {
+              key: 'comments',
+              value: commentGestures,
+            },
+          ] as const
+        ).flatMap((item) => [
+          null,
+          t(`menu.${item.key}`),
+          ...(
+            ['leftShort', 'leftLong', 'rightShort', 'rightLong'] as const
+          ).map<MenuItem>((gesture) => ({
+            label: t(`menu.${gesture}`),
+            onSelect(value) {
+              update({
+                [item.key === 'posts' ? 'postGestures' : 'commentGestures']: {
+                  ...item.value,
+                  [gesture]: value,
+                },
+              })
+            },
+            options,
+            type: 'options',
+            value: item.value[gesture],
+          })),
+        ]),
       ]}
     />
   )

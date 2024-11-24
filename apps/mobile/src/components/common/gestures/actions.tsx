@@ -91,6 +91,7 @@ export const colors: Record<NonNullable<GestureAction>, ColorToken> = {
   downvote: 'violet',
   reply: 'blue',
   save: 'green',
+  share: 'accent',
   upvote: 'orange',
 }
 
@@ -98,6 +99,7 @@ export const icons: Record<NonNullable<GestureAction>, IconName> = {
   downvote: 'ArrowFatDown',
   reply: 'ArrowBendUpLeft',
   save: 'BookmarkSimple',
+  share: 'Share',
   upvote: 'ArrowFatUp',
 }
 
