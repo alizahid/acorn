@@ -52,16 +52,13 @@ export const Pressable = forwardRef<View, Props>(function Pressable(
 
   return (
     <AnimatedPressable
+      delayLongPress={100}
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}
-      onLongPress={onLongPress}
+      onLongPress={onLongPress ?? (() => null)}
       onPress={(event) => {
         onPress?.(event)
-
-        if (event.defaultPrevented) {
-          return
-        }
 
         opacity.set(() =>
           withTiming(
