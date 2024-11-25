@@ -1,6 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
 
 import { updateInbox, updateNotification } from '~/hooks/queries/user/inbox'
+import { type UnreadQueryKey } from '~/hooks/queries/user/unread'
+import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
@@ -11,6 +13,8 @@ type MarkReadVariables = {
 }
 
 export function useMarkAsRead() {
+  const { accountId } = useAuth()
+
   const { isPending, mutate } = useMutation<unknown, Error, MarkReadVariables>({
     async mutationFn(variables) {
       const body = new FormData()
@@ -33,6 +37,16 @@ export function useMarkAsRead() {
       updateNotification(variables.id, (draft) => {
         draft.data.new = false
       })
+
+      queryClient.setQueryData<number, UnreadQueryKey>(
+        [
+          'unread',
+          {
+            accountId,
+          },
+        ],
+        (previous) => (previous ?? 0) - 1,
+      )
     },
   })
 
@@ -56,6 +70,16 @@ export function useMarkAllAsRead() {
       updateInbox((item) => {
         item.data.new = false
       }, accountId)
+
+      queryClient.setQueryData<number, UnreadQueryKey>(
+        [
+          'unread',
+          {
+            accountId,
+          },
+        ],
+        0,
+      )
     },
   })
 

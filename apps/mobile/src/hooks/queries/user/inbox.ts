@@ -71,7 +71,6 @@ export function useInbox() {
         items: response.data.children.map((item) => transformInboxItem(item)),
       }
     },
-    staleTime: 60 * 1_000,
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
     getNextPageParam(page) {
       return page.cursor
@@ -80,8 +79,6 @@ export function useInbox() {
   })
 
   const items = data?.pages.flatMap((page) => page.items) ?? []
-
-  const unread = items.filter((item) => item.data.new).length
 
   const notifications = items
     .filter((item) => item.type === 'notification')
@@ -104,7 +101,6 @@ export function useInbox() {
 
       await refresh()
     },
-    unread,
   }
 }
 

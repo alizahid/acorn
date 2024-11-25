@@ -2,10 +2,10 @@ import { Tabs } from 'expo-router'
 
 import { Icon } from '~/components/common/icon'
 import { TabBar } from '~/components/navigation/tab-bar'
-import { useInbox } from '~/hooks/queries/user/inbox'
+import { useUnread } from '~/hooks/queries/user/unread'
 
 export default function Layout() {
-  const { unread } = useInbox()
+  const { unread } = useUnread()
 
   return (
     <Tabs
@@ -46,7 +46,7 @@ export default function Layout() {
       <Tabs.Screen
         name="(notifications)"
         options={{
-          tabBarBadge: Math.min(unread, 99),
+          tabBarBadge: unread,
           tabBarIcon: (props) => (
             <Icon {...props} name="Bell" weight="duotone" />
           ),
