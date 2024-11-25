@@ -17,7 +17,11 @@ export async function getCollapsedForPost(id: string) {
   return rows.map((row) => row.comment_id)
 }
 
-export async function collapseComment(id: string, postId: string) {
+export async function collapseComment(
+  id: string,
+  postId: string,
+  force?: boolean,
+) {
   const db = await getDatabase()
 
   const exists = await db.getFirstAsync<Pick<CollapsedRow, 'comment_id'>>(
@@ -27,6 +31,10 @@ export async function collapseComment(id: string, postId: string) {
       $post: postId,
     },
   )
+
+  if (exists && force) {
+    return
+  }
 
   if (exists) {
     await db.runAsync(

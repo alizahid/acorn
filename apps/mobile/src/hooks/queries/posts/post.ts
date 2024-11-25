@@ -46,6 +46,7 @@ type CollapsedData = Array<string>
 
 type CollapseVariables = {
   commentId: string
+  force?: boolean
 }
 
 type Props = {
@@ -115,6 +116,7 @@ export function usePost({ commentId, id, sort }: Props) {
             .map((item) =>
               collapse.mutateAsync({
                 commentId: item.data.id,
+                force: true,
               }),
             ),
         )
@@ -158,7 +160,7 @@ export function usePost({ commentId, id, sort }: Props) {
 
   const collapse = useMutation<unknown, Error, CollapseVariables>({
     async mutationFn(variables) {
-      await collapseComment(variables.commentId, id)
+      await collapseComment(variables.commentId, id, variables.force)
     },
     onMutate(variables) {
       queryClient.setQueryData<CollapsedData>(collapsedQueryKey, (previous) => {
@@ -168,6 +170,10 @@ export function usePost({ commentId, id, sort }: Props) {
 
         return create(previous, (draft) => {
           const index = draft.indexOf(variables.commentId)
+
+          if (index >= 0 && variables.force) {
+            return
+          }
 
           if (index >= 0) {
             draft.splice(index, 1)
