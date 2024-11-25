@@ -12,6 +12,7 @@ import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
 type Props = ViewStyleProps & {
   children?: ReactNode
+  collapsable?: boolean
   onLayout?: (event: LayoutChangeEvent) => void
   pointerEvents?: ViewProps['pointerEvents']
   responder?: boolean
@@ -19,7 +20,15 @@ type Props = ViewStyleProps & {
 }
 
 export const View = forwardRef<ReactNativeView, Props>(function View(
-  { children, onLayout, pointerEvents, responder, style, ...props },
+  {
+    children,
+    collapsable,
+    onLayout,
+    pointerEvents,
+    responder,
+    style,
+    ...props
+  },
   ref,
 ) {
   const { styles } = useStyles(stylesheet)
@@ -27,6 +36,7 @@ export const View = forwardRef<ReactNativeView, Props>(function View(
   // eslint-disable-next-line react/no-children-prop -- go away
   return createElement('RCTView', {
     children,
+    collapsable,
     onLayout,
     onStartShouldSetResponder: responder ? () => true : undefined,
     pointerEvents,
