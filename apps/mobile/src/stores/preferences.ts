@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware'
 import { type Gestures } from '~/components/common/gestures'
 import { Store } from '~/lib/store'
 import { type Theme } from '~/styles/themes'
+import { type Side } from '~/types/preferences'
 import {
   type CommentSort,
   type CommunityFeedSort,
@@ -40,11 +41,12 @@ export type PreferencesPayload = {
   mediaOnRight: boolean
   postGestures: Gestures
   rememberCommunitySort: boolean
+  replyPost: Side
   seenOnMedia: boolean
   seenOnScroll: boolean
   seenOnVote: boolean
   showFlair: boolean
-  skipCommentOnLeft: boolean
+  skipComment: Side
   sortCommunityPosts: CommunityFeedSort
   sortFeedPosts: FeedSort
   sortPostComments: CommentSort
@@ -96,11 +98,12 @@ export const usePreferences = create<State>()(
         rightShort: 'reply',
       },
       rememberCommunitySort: false,
+      replyPost: 'left',
       seenOnMedia: false,
       seenOnScroll: false,
       seenOnVote: false,
       showFlair: true,
-      skipCommentOnLeft: false,
+      skipComment: 'right',
       sortCommunityPosts: 'hot',
       sortFeedPosts: 'hot',
       sortPostComments: 'confidence',

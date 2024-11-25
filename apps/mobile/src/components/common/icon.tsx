@@ -7,6 +7,7 @@ import ArrowElbowLeftBold from 'react-native-phosphor/src/bold/ArrowElbowLeft'
 import ArrowFatDownBold from 'react-native-phosphor/src/bold/ArrowFatDown'
 import ArrowFatUpBold from 'react-native-phosphor/src/bold/ArrowFatUp'
 import ArrowLeftBold from 'react-native-phosphor/src/bold/ArrowLeft'
+import ArrowRightBold from 'react-native-phosphor/src/bold/ArrowRight'
 import ArrowsOutBold from 'react-native-phosphor/src/bold/ArrowsOut'
 import ArrowsSplitBold from 'react-native-phosphor/src/bold/ArrowsSplit'
 import ArrowUpBold from 'react-native-phosphor/src/bold/ArrowUp'
@@ -84,6 +85,7 @@ import ArrowElbowLeftDuotone from 'react-native-phosphor/src/duotone/ArrowElbowL
 import ArrowFatDownDuotone from 'react-native-phosphor/src/duotone/ArrowFatDown'
 import ArrowFatUpDuotone from 'react-native-phosphor/src/duotone/ArrowFatUp'
 import ArrowLeftDuotone from 'react-native-phosphor/src/duotone/ArrowLeft'
+import ArrowRightDuotone from 'react-native-phosphor/src/duotone/ArrowRight'
 import ArrowsOutDuotone from 'react-native-phosphor/src/duotone/ArrowsOut'
 import ArrowsSplitDuotone from 'react-native-phosphor/src/duotone/ArrowsSplit'
 import ArrowUpDuotone from 'react-native-phosphor/src/duotone/ArrowUp'
@@ -161,6 +163,7 @@ import ArrowElbowLeftFill from 'react-native-phosphor/src/fill/ArrowElbowLeft'
 import ArrowFatDownFill from 'react-native-phosphor/src/fill/ArrowFatDown'
 import ArrowFatUpFill from 'react-native-phosphor/src/fill/ArrowFatUp'
 import ArrowLeftFill from 'react-native-phosphor/src/fill/ArrowLeft'
+import ArrowRightFill from 'react-native-phosphor/src/fill/ArrowRight'
 import ArrowsOutFill from 'react-native-phosphor/src/fill/ArrowsOut'
 import ArrowsSplitFill from 'react-native-phosphor/src/fill/ArrowsSplit'
 import ArrowUpFill from 'react-native-phosphor/src/fill/ArrowUp'
@@ -238,6 +241,7 @@ import ArrowElbowLeftRegular from 'react-native-phosphor/src/regular/ArrowElbowL
 import ArrowFatDownRegular from 'react-native-phosphor/src/regular/ArrowFatDown'
 import ArrowFatUpRegular from 'react-native-phosphor/src/regular/ArrowFatUp'
 import ArrowLeftRegular from 'react-native-phosphor/src/regular/ArrowLeft'
+import ArrowRightRegular from 'react-native-phosphor/src/regular/ArrowRight'
 import ArrowsOutRegular from 'react-native-phosphor/src/regular/ArrowsOut'
 import ArrowsSplitRegular from 'react-native-phosphor/src/regular/ArrowsSplit'
 import ArrowUpRegular from 'react-native-phosphor/src/regular/ArrowUp'
@@ -375,6 +379,12 @@ const icons = {
     duotone: ArrowLeftDuotone,
     fill: ArrowLeftFill,
     regular: ArrowLeftRegular,
+  },
+  ArrowRight: {
+    bold: ArrowRightBold,
+    duotone: ArrowRightDuotone,
+    fill: ArrowRightFill,
+    regular: ArrowRightRegular,
   },
   ArrowUp: {
     bold: ArrowUpBold,

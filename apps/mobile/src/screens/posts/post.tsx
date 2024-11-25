@@ -29,6 +29,7 @@ import { listProps } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
+import { type Side } from '~/types/preferences'
 
 type ListItem = 'post' | 'header' | Comment | 'empty'
 
@@ -45,7 +46,7 @@ export function PostScreen() {
 
   const focused = useIsFocused()
 
-  const { skipCommentOnLeft, sortPostComments } = usePreferences()
+  const { replyPost, skipComment, sortPostComments } = usePreferences()
   const { addPost } = useHistory()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -256,7 +257,7 @@ export function PostScreen() {
         }}
       />
 
-      {post ? (
+      {replyPost && post ? (
         <HeaderButton
           contrast
           icon="ArrowBendUpLeft"
@@ -268,12 +269,12 @@ export function PostScreen() {
               pathname: '/posts/[id]/reply',
             })
           }}
-          style={[styles.action, styles.reply(skipCommentOnLeft)]}
+          style={[styles.action, styles.reply(replyPost)]}
           weight="bold"
         />
       ) : null}
 
-      {comments.length > 0 ? (
+      {skipComment && comments.length > 0 ? (
         <HeaderButton
           contrast
           hitSlop={theme.space[4]}
@@ -305,7 +306,7 @@ export function PostScreen() {
               viewOffset: 48,
             })
           }}
-          style={[styles.action, styles.skip(skipCommentOnLeft)]}
+          style={[styles.action, styles.skip(skipComment)]}
           weight="bold"
         />
       ) : null}
@@ -329,14 +330,14 @@ const stylesheet = createStyleSheet((theme) => ({
   content: {
     paddingBottom: theme.space[6] + theme.space[8],
   },
-  reply: (swap: boolean) => ({
+  reply: (side: Side) => ({
     backgroundColor: theme.colors.blue.a9,
-    left: swap ? undefined : theme.space[4],
-    right: swap ? theme.space[4] : undefined,
+    left: side === 'left' ? theme.space[4] : undefined,
+    right: side === 'right' ? theme.space[4] : undefined,
   }),
-  skip: (swap: boolean) => ({
+  skip: (side: Side) => ({
     backgroundColor: theme.colors.accent.a9,
-    left: swap ? theme.space[4] : undefined,
-    right: swap ? undefined : theme.space[4],
+    left: side === 'left' ? theme.space[4] : undefined,
+    right: side === 'right' ? theme.space[4] : undefined,
   }),
 }))

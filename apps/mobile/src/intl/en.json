@@ -283,12 +283,16 @@
       },
       "preferences": {
         "browsing": {
-          "collapseAutoModerator": "Collapse AutoModerator comments",
-          "coloredComments": "Colored comments",
           "rememberCommunitySort": "Remember community sorting",
           "showFlair": "Show flair on posts and comments",
-          "skipCommentOnLeft": "Show skip comment on left",
           "title": "Browsing"
+        },
+        "comments": {
+          "collapseAutoModerator": "Collapse AutoModerator comments",
+          "coloredComments": "Colored comments",
+          "replyPost": "Post reply floating button",
+          "skipComment": "Skip comment floating button",
+          "title": "Comments"
         },
         "compact": {
           "feedCompact": "Compact mode",
@@ -320,6 +324,11 @@
           "feedMuted": "Mute feed",
           "title": "Media",
           "unmuteFullscreen": "Unmute on full screen"
+        },
+        "side": {
+          "left": "Left",
+          "null": "Hide",
+          "right": "Right"
         },
         "system": {
           "fontScaling": "Use system font scaling",

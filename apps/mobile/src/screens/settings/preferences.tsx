@@ -1,12 +1,17 @@
+import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Menu } from '~/components/common/menu'
-import { usePreferences } from '~/stores/preferences'
+import { Icon, type IconName } from '~/components/common/icon'
+import { Menu, type MenuItem } from '~/components/common/menu'
+import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
+import { sides } from '~/types/preferences'
 
 export function SettingsPreferencesScreen() {
   const t = useTranslations('screen.settings.preferences')
 
   const { update, ...preferences } = usePreferences()
+
+  const { theme } = useStyles()
 
   return (
     <Menu
@@ -23,23 +28,33 @@ export function SettingsPreferencesScreen() {
             key: 'rememberCommunitySort',
             label: 'browsing.rememberCommunitySort',
           },
+
+          null,
+          t('comments.title'),
           {
+            exclusive: 'replyPost',
             icon: 'ArrowDown',
-            key: 'skipCommentOnLeft',
-            label: 'browsing.skipCommentOnLeft',
+            key: 'skipComment',
+            label: 'comments.skipComment',
+          },
+          {
+            exclusive: 'skipComment',
+            icon: 'ArrowBendUpLeft',
+            key: 'replyPost',
+            label: 'comments.replyPost',
           },
           {
             icon: 'PaintBrush',
             key: 'coloredComments',
-            label: 'browsing.coloredComments',
+            label: 'comments.coloredComments',
           },
           {
             icon: 'PushPin',
             key: 'collapseAutoModerator',
-            label: 'browsing.collapseAutoModerator',
+            label: 'comments.collapseAutoModerator',
           },
-          null,
 
+          null,
           t('compact.title'),
           {
             icon: 'Rows',
@@ -141,6 +156,55 @@ export function SettingsPreferencesScreen() {
           return item
         }
 
+        if ('exclusive' in item) {
+          return {
+            icon: {
+              name: item.icon,
+            },
+            label: t(item.label),
+            onSelect(value) {
+              const exclusive = preferences[item.exclusive]
+
+              const payload: Partial<PreferencesPayload> = {
+                [item.key]: value === 'null' ? null : value,
+              }
+
+              if (value !== 'null' && value === exclusive) {
+                payload[item.exclusive] = value === 'left' ? 'right' : 'left'
+              }
+
+              update(payload)
+            },
+            options: sides.map((option) => {
+              const value = option ?? 'null'
+
+              const icon: IconName =
+                value === 'left'
+                  ? 'ArrowLeft'
+                  : value === 'right'
+                    ? 'ArrowRight'
+                    : 'EyeClosed'
+
+              return {
+                icon: {
+                  name: icon,
+                },
+                label: t(`side.${value}`),
+                right: (
+                  <Icon
+                    color={theme.colors.accent.a9}
+                    name={icon}
+                    weight="duotone"
+                  />
+                ),
+                value,
+              }
+            }),
+            type: 'options',
+            value: preferences[item.key] ?? 'null',
+          } satisfies MenuItem
+        }
+
         return {
           description: 'description' in item ? t(item.description) : undefined,
           icon: {
@@ -154,7 +218,7 @@ export function SettingsPreferencesScreen() {
           },
           type: 'switch',
           value: preferences[item.key],
-        }
+        } satisfies MenuItem
       })}
     />
   )
