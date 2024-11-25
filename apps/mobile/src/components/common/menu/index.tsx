@@ -1,21 +1,35 @@
 import { useScrollToTop } from '@react-navigation/native'
+import { type SFSymbol } from 'expo-symbols'
 import { type ReactElement, useRef } from 'react'
 import { FlatList } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type IconName, type IconWeight } from '~/components/common/icon'
+import { type menu } from '~/assets/menu'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { listProps } from '~/lib/common'
 
+import { type IconName, type IconWeight } from '../icon'
 import { MenuItem } from './item'
 
-type Icon = {
-  color?: string
-  name: IconName
-  weight?: IconWeight
-}
+type Icon =
+  | {
+      color?: string
+      name: keyof typeof menu
+      type: 'menu'
+    }
+  | {
+      color?: string
+      name: SFSymbol
+      type: 'symbol'
+    }
+  | {
+      color?: string
+      name: IconName
+      type: 'icon'
+      weight?: IconWeight
+    }
 
 export type MenuItemOption = {
   icon?: Icon

@@ -3,7 +3,7 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type IconName } from '~/components/common/icon'
-import { Menu } from '~/components/common/menu'
+import { Menu, type MenuItem } from '~/components/common/menu'
 import { ProfileCard } from '~/components/users/profile'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { removePrefix } from '~/lib/reddit'
@@ -25,11 +25,12 @@ export function ProfileScreen() {
     <Menu
       header={<ProfileCard profile={profile} />}
       items={[
-        ...UserFeedType.map((type) => ({
+        ...UserFeedType.map<MenuItem>((type) => ({
           arrow: true,
           icon: {
             color: theme.colors[colors[type]].a9,
             name: icons[type],
+            type: 'icon',
           },
           label: t(`data.${type}`),
           onPress() {
@@ -53,6 +54,7 @@ export function ProfileScreen() {
           arrow: true,
           icon: {
             name: 'GearSix',
+            type: 'icon',
             weight: 'duotone',
           },
           label: t('settings.preferences'),
@@ -66,6 +68,7 @@ export function ProfileScreen() {
           arrow: true,
           icon: {
             name: 'SlidersHorizontal',
+            type: 'icon',
             weight: 'duotone',
           },
           label: t('settings.defaults'),
@@ -79,6 +82,7 @@ export function ProfileScreen() {
           arrow: true,
           icon: {
             name: 'HandSwipeLeft',
+            type: 'icon',
             weight: 'duotone',
           },
           label: t('settings.gestures'),
@@ -92,6 +96,7 @@ export function ProfileScreen() {
           arrow: true,
           icon: {
             name: 'Palette',
+            type: 'icon',
             weight: 'duotone',
           },
           label: t('settings.themes'),
@@ -105,6 +110,7 @@ export function ProfileScreen() {
           arrow: true,
           icon: {
             name: 'SortAscending',
+            type: 'icon',
             weight: 'duotone',
           },
           label: t('settings.sort'),
@@ -118,6 +124,7 @@ export function ProfileScreen() {
           arrow: true,
           icon: {
             name: 'HardDrives',
+            type: 'icon',
             weight: 'duotone',
           },
           label: t('settings.cache'),
@@ -131,6 +138,7 @@ export function ProfileScreen() {
           arrow: true,
           icon: {
             name: 'Info',
+            type: 'icon',
             weight: 'duotone',
           },
           label: t('settings.about'),

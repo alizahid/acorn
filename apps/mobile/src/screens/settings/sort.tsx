@@ -4,7 +4,12 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
-import { Menu, type MenuItemOption } from '~/components/common/menu'
+import {
+  Menu,
+  type MenuItem,
+  type MenuItemOption,
+} from '~/components/common/menu'
+import { icons } from '~/components/posts/sort-interval'
 import { IntervalIcons, SortColors, SortIcons } from '~/lib/sort'
 import { usePreferences } from '~/stores/preferences'
 import {
@@ -27,13 +32,13 @@ export function SettingsSortScreen() {
   const enhanceSort = useCallback(
     (sort: FeedSort | CommentSort | SearchSort): MenuItemOption => {
       const icon = SortIcons[sort]
-      const color = theme.colors[SortColors[sort]].a9
+      const color = theme.colors[SortColors[sort]][9]
 
       return {
         icon: {
           color,
-          name: icon,
-          weight: 'duotone',
+          name: icons[sort],
+          type: 'menu',
         },
         label: tCommon(`sort.${sort}`),
         right: (
@@ -45,21 +50,19 @@ export function SettingsSortScreen() {
           />
         ),
         value: sort,
-      }
+      } satisfies MenuItemOption
     },
     [tCommon, theme.colors, theme.space],
   )
 
   const enhanceInterval = useCallback(
     (interval: TopInterval): MenuItemOption => ({
+      icon: {
+        color: theme.colors.gold[9],
+        name: IntervalIcons[interval],
+        type: 'symbol',
+      },
       label: tCommon(`interval.${interval}`),
-      left: (
-        <SymbolView
-          name={IntervalIcons[interval]}
-          size={theme.typography[2].lineHeight}
-          tintColor={theme.colors.gold.a9}
-        />
-      ),
       right: (
         <SymbolView
           name={IntervalIcons[interval]}
@@ -67,10 +70,9 @@ export function SettingsSortScreen() {
           tintColor={theme.colors.gold.a9}
         />
       ),
-
       value: interval,
     }),
-    [tCommon, theme.colors.gold.a9, theme.space, theme.typography],
+    [tCommon, theme.colors.gold, theme.space],
   )
 
   return (
@@ -155,6 +157,7 @@ export function SettingsSortScreen() {
         return {
           icon: {
             name: key.startsWith('sort') ? 'SortAscending' : 'Clock',
+            type: 'icon',
           },
           label: t(label),
           onSelect: (next) => {
@@ -165,7 +168,7 @@ export function SettingsSortScreen() {
           options,
           type: 'options',
           value: preferences[key],
-        }
+        } satisfies MenuItem
       })}
     />
   )

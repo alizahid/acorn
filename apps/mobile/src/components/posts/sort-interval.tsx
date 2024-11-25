@@ -155,7 +155,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
 }))
 
-const icons: Record<PostSort, keyof typeof menu> = {
+export const icons: Record<PostSort, keyof typeof menu> = {
   best: 'medal',
   comments: 'chatCircle',
   confidence: 'medal',

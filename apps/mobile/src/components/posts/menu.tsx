@@ -110,7 +110,7 @@ export function PostMenu({ children, onPress, post, style }: Props) {
                   imageOptions: {
                     tint: theme.colors.gray[12],
                   },
-                  imageValue: menu.export,
+                  imageValue: menu.share,
                   type: 'IMAGE_REQUIRE',
                 },
               },

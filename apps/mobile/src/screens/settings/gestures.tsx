@@ -20,8 +20,9 @@ export function SettingsGesturesScreen() {
   const options: Array<MenuItemOption> = [
     {
       icon: {
-        color: theme.colors.orange.a9,
-        name: 'ArrowFatUp',
+        color: theme.colors.orange[9],
+        name: 'arrowFatUp',
+        type: 'menu',
       },
       label: t('options.upvote'),
       right: (
@@ -35,8 +36,9 @@ export function SettingsGesturesScreen() {
     },
     {
       icon: {
-        color: theme.colors.violet.a9,
-        name: 'ArrowFatDown',
+        color: theme.colors.violet[9],
+        name: 'arrowFatDown',
+        type: 'menu',
       },
       label: t('options.downvote'),
       right: (
@@ -50,8 +52,9 @@ export function SettingsGesturesScreen() {
     },
     {
       icon: {
-        color: theme.colors.blue.a9,
-        name: 'ArrowBendUpLeft',
+        color: theme.colors.blue[9],
+        name: 'arrowBendUpLeft',
+        type: 'menu',
       },
       label: t('options.reply'),
       right: (
@@ -65,8 +68,9 @@ export function SettingsGesturesScreen() {
     },
     {
       icon: {
-        color: theme.colors.green.a9,
-        name: 'BookmarkSimple',
+        color: theme.colors.green[9],
+        name: 'bookmarkSimple',
+        type: 'menu',
       },
       label: t('options.save'),
       right: (
@@ -80,8 +84,9 @@ export function SettingsGesturesScreen() {
     },
     {
       icon: {
-        color: theme.colors.accent.a9,
-        name: 'Share',
+        color: theme.colors.accent[9],
+        name: 'share',
+        type: 'menu',
       },
       label: t('options.share'),
       right: (

@@ -12,7 +12,6 @@ import { IntlProvider } from 'use-intl'
 
 import { Feedback } from '~/components/common/feedback'
 import { RootLayout } from '~/components/navigation/layout'
-import { Sheets } from '~/components/sheets'
 import { useTheme } from '~/hooks/theme'
 import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
@@ -61,7 +60,6 @@ function Acorn() {
               >
                 <RootLayout />
 
-                <Sheets />
                 <Feedback />
               </IntlProvider>
             </PersistQueryClientProvider>

@@ -109,7 +109,7 @@ export function CommentMenu({ children, comment, onPress, style }: Props) {
                   imageOptions: {
                     tint: theme.colors.gray[12],
                   },
-                  imageValue: menu.export,
+                  imageValue: menu.share,
                   type: 'IMAGE_REQUIRE',
                 },
               },

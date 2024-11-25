@@ -22,6 +22,7 @@ export function SettingsCacheScreen() {
           icon: {
             color: theme.colors.red.a9,
             name: 'HardDrives',
+            type: 'icon',
           },
           label: t('menu.query.label'),
           onPress() {
@@ -32,6 +33,7 @@ export function SettingsCacheScreen() {
           icon: {
             color: theme.colors.red.a9,
             name: 'Image',
+            type: 'icon',
           },
           label: t('menu.image'),
           async onPress() {
@@ -46,6 +48,7 @@ export function SettingsCacheScreen() {
           icon: {
             color: theme.colors.red.a9,
             name: 'Eye',
+            type: 'icon',
           },
           label: t('menu.history.label'),
           async onPress() {
@@ -56,6 +59,7 @@ export function SettingsCacheScreen() {
           icon: {
             color: theme.colors.red.a9,
             name: 'TreeView',
+            type: 'icon',
           },
           label: t('menu.collapsed'),
           async onPress() {
@@ -67,6 +71,7 @@ export function SettingsCacheScreen() {
           icon: {
             color: theme.colors.red.a9,
             name: 'EyeClosed',
+            type: 'icon',
           },
           label: t('menu.hidden.label'),
           async onPress() {
@@ -77,6 +82,7 @@ export function SettingsCacheScreen() {
           icon: {
             color: theme.colors.red.a9,
             name: 'SortAscending',
+            type: 'icon',
           },
           label: t('menu.sorting'),
           async onPress() {

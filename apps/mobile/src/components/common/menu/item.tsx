@@ -1,13 +1,16 @@
+import { Image } from 'expo-image'
+import { SymbolView } from 'expo-symbols'
 import { useState } from 'react'
 import { type StyleProp, Switch, type ViewStyle } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
+import { ContextMenuButton } from 'react-native-ios-context-menu'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { menu } from '~/assets/menu'
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { MenuSheet } from '~/sheets/menu'
 
 import { type MenuItem } from '.'
 
@@ -17,11 +20,16 @@ type Props = {
 }
 
 export function MenuItem({ item, style }: Props) {
-  const { theme } = useStyles()
+  const { styles, theme } = useStyles(stylesheet)
 
   const [loading, setLoading] = useState(false)
 
-  const Component = item.type === 'switch' ? View : Pressable
+  const Component =
+    item.type === 'options'
+      ? ContextMenuButton
+      : item.type === 'switch'
+        ? View
+        : Pressable
 
   const selected =
     item.type === 'options'
@@ -31,21 +39,35 @@ export function MenuItem({ item, style }: Props) {
 
   return (
     <Component
-      align="center"
-      direction="row"
-      disabled={loading}
-      gap="3"
+      menuConfig={
+        item.type === 'options'
+          ? {
+              menuItems: item.options.map((option) => ({
+                actionKey: option.value,
+                actionTitle: option.label,
+                icon:
+                  option.icon?.type === 'menu'
+                    ? {
+                        imageOptions: {
+                          tint: option.icon.color ?? theme.colors.accent[9],
+                        },
+                        imageValue: menu[option.icon.name],
+                        type: 'IMAGE_REQUIRE',
+                      }
+                    : option.icon?.type === 'symbol'
+                      ? {
+                          iconTint: option.icon.color ?? theme.colors.accent[9],
+                          iconType: 'SYSTEM',
+                          iconValue: option.icon.name,
+                        }
+                      : undefined,
+                menuState: option.value === item.value ? 'on' : undefined,
+              })),
+              menuTitle: item.label,
+            }
+          : undefined
+      }
       onPress={async () => {
-        if (item.type === 'options') {
-          const data = await MenuSheet.call({
-            options: item.options,
-            title: item.label,
-            value: item.value,
-          })
-
-          item.onSelect(data.value)
-        }
-
         if (item.onPress) {
           try {
             setLoading(true)
@@ -56,8 +78,12 @@ export function MenuItem({ item, style }: Props) {
           }
         }
       }}
-      px="3"
-      style={style}
+      onPressMenuItem={(event) => {
+        if (item.type === 'options') {
+          item.onSelect(event.nativeEvent.actionKey)
+        }
+      }}
+      style={[styles.main, style]}
     >
       {loading ? (
         <Spinner
@@ -65,12 +91,26 @@ export function MenuItem({ item, style }: Props) {
           size={theme.space[5]}
         />
       ) : item.icon ? (
-        <Icon
-          color={item.icon.color ?? theme.colors.accent.a9}
-          name={item.icon.name}
-          size={theme.space[5]}
-          weight={item.icon.weight ?? 'duotone'}
-        />
+        item.icon.type === 'menu' ? (
+          <Image
+            source={menu[item.icon.name]}
+            style={styles.icon}
+            tintColor={item.icon.color ?? theme.colors.accent.a9}
+          />
+        ) : item.icon.type === 'symbol' ? (
+          <SymbolView
+            name={item.icon.name}
+            size={theme.space[5]}
+            tintColor={item.icon.color ?? theme.colors.accent.a9}
+          />
+        ) : (
+          <Icon
+            color={item.icon.color ?? theme.colors.accent.a9}
+            name={item.icon.name}
+            size={theme.space[5]}
+            weight={item.icon.weight ?? 'duotone'}
+          />
+        )
       ) : null}
 
       <View flex={1} gap="1" my="3">
@@ -116,3 +156,16 @@ export function MenuItem({ item, style }: Props) {
     </Component>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  icon: {
+    height: theme.space[5],
+    width: theme.space[5],
+  },
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[3],
+    paddingHorizontal: theme.space[3],
+  },
+}))

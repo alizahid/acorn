@@ -1,7 +1,7 @@
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Icon, type IconName } from '~/components/common/icon'
+import { Icon } from '~/components/common/icon'
 import { Menu, type MenuItem } from '~/components/common/menu'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 import { sides } from '~/types/preferences'
@@ -160,6 +160,7 @@ export function SettingsPreferencesScreen() {
           return {
             icon: {
               name: item.icon,
+              type: 'icon',
             },
             label: t(item.label),
             onSelect(value) {
@@ -178,22 +179,27 @@ export function SettingsPreferencesScreen() {
             options: sides.map((option) => {
               const value = option ?? 'null'
 
-              const icon: IconName =
-                value === 'left'
-                  ? 'ArrowLeft'
-                  : value === 'right'
-                    ? 'ArrowRight'
-                    : 'EyeClosed'
-
               return {
                 icon: {
-                  name: icon,
+                  name:
+                    value === 'left'
+                      ? 'arrowLeft'
+                      : value === 'right'
+                        ? 'arrowRight'
+                        : 'eyeClosed',
+                  type: 'menu',
                 },
                 label: t(`side.${value}`),
                 right: (
                   <Icon
                     color={theme.colors.accent.a9}
-                    name={icon}
+                    name={
+                      value === 'left'
+                        ? 'ArrowLeft'
+                        : value === 'right'
+                          ? 'ArrowRight'
+                          : 'EyeClosed'
+                    }
                     weight="duotone"
                   />
                 ),
@@ -209,6 +215,7 @@ export function SettingsPreferencesScreen() {
           description: 'description' in item ? t(item.description) : undefined,
           icon: {
             name: item.icon,
+            type: 'icon',
           },
           label: t(item.label),
           onSelect(value) {
