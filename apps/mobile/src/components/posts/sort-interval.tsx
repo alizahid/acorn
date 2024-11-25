@@ -82,8 +82,10 @@ export function SortIntervalMenu<Type extends SortType>({
                     iconType: 'SYSTEM',
                     iconValue: IntervalIcons[itemInterval],
                   },
+                  menuState: itemInterval === interval ? 'on' : undefined,
                 }))
               : undefined,
+          menuState: item === sort ? 'on' : undefined,
           menuTitle: top && item === 'top' ? t('sort.top') : undefined,
         })),
         menuTitle: t('sort.title'),
