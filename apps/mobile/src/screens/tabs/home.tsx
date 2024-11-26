@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { Drawer } from 'react-native-drawer-layout'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { CommunitySearchBar } from '~/components/communities/search-bar'
 import { HomeDrawer } from '~/components/home/drawer'
 import { FeedTypeMenu } from '~/components/home/type-menu'
 import { PostList } from '~/components/posts/list'
@@ -103,6 +104,11 @@ export function HomeScreen() {
               : homeFeed.type
         }
         feed={homeFeed.feed}
+        header={
+          homeFeed.community ? (
+            <CommunitySearchBar name={homeFeed.community} />
+          ) : undefined
+        }
         interval={interval}
         label="subreddit"
         refreshing={{

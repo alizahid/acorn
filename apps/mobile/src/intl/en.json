@@ -57,6 +57,9 @@
         "leave": "Leave",
         "subscribers": "Subscribers",
         "unfavorite": "Unfavorite"
+      },
+      "searchBar": {
+        "placeholder": "Search"
       }
     },
     "defaults": {
