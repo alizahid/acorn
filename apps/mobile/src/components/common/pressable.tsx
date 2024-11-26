@@ -52,11 +52,10 @@ export const Pressable = forwardRef<View, Props>(function Pressable(
 
   return (
     <AnimatedPressable
-      delayLongPress={100}
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}
-      onLongPress={onLongPress ?? (() => null)}
+      onLongPress={onLongPress}
       onPress={(event) => {
         onPress?.(event)
 
