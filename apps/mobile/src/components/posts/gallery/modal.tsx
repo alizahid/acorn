@@ -25,6 +25,7 @@ import { GalleryImage } from './image'
 
 type Props = {
   images: Array<PostMedia>
+  initialIndex?: number
   onClose: () => void
   recyclingKey?: string
   visible: boolean
@@ -32,6 +33,7 @@ type Props = {
 
 export function PostGalleryModal({
   images,
+  initialIndex,
   onClose,
   recyclingKey,
   visible,
@@ -135,8 +137,14 @@ export function PostGalleryModal({
           <FlatList
             data={images}
             decelerationRate="fast"
+            getItemLayout={(data, index) => ({
+              index,
+              length: frame.width,
+              offset: frame.width * index,
+            })}
             horizontal
             initialNumToRender={3}
+            initialScrollIndex={initialIndex}
             keyExtractor={(item, index) => String(index)}
             onViewableItemsChanged={({ viewableItems }) => {
               setViewing(() => viewableItems[0]?.item)

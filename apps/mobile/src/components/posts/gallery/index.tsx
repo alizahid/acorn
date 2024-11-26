@@ -5,6 +5,7 @@ import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
@@ -13,7 +14,7 @@ import { type PostMedia } from '~/types/post'
 import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
 import { Text } from '../../common/text'
-import { View } from '../../common/view'
+import { ImageGrid } from './grid'
 import { PostGalleryModal } from './modal'
 
 type Props = {
@@ -43,18 +44,60 @@ export function PostGalleryCard({
   const placeholder = useImagePlaceholder()
 
   const [visible, setVisible] = useState(false)
+  const [index, setIndex] = useState<number>()
 
-  const first = images[0]
+  if (compact) {
+    const first = images[0]
 
-  if (!first) {
-    return null
+    if (!first) {
+      return null
+    }
+
+    return (
+      <Pressable
+        onPress={() => {
+          setVisible(true)
+
+          if (recyclingKey && seenOnMedia) {
+            addPost({
+              id: recyclingKey,
+            })
+          }
+        }}
+        style={[styles.compact(largeThumbnails), style]}
+      >
+        <Image
+          {...placeholder}
+          recyclingKey={recyclingKey}
+          source={first.thumbnail}
+          style={styles.compactImage}
+        />
+
+        {nsfw && blurNsfw ? (
+          <BlurView
+            intensity={100}
+            pointerEvents="none"
+            style={[styles.blur, styles.compactIcon]}
+          >
+            <Icon
+              color={theme.colors.accent.a9}
+              name="Warning"
+              size={theme.space[5]}
+              weight="fill"
+            />
+          </BlurView>
+        ) : null}
+      </Pressable>
+    )
   }
 
   return (
     <>
-      {compact ? (
-        <Pressable
-          onPress={() => {
+      <View style={[styles.main(crossPost), style]}>
+        <ImageGrid
+          images={images}
+          onPress={(next) => {
+            setIndex(next)
             setVisible(true)
 
             if (recyclingKey && seenOnMedia) {
@@ -63,86 +106,28 @@ export function PostGalleryCard({
               })
             }
           }}
-          style={[styles.compact(largeThumbnails), style]}
-        >
-          <Image
-            {...placeholder}
-            recyclingKey={recyclingKey}
-            source={first.thumbnail}
-            style={styles.compactImage}
-          />
+          recyclingKey={recyclingKey}
+        />
 
-          {nsfw && blurNsfw ? (
-            <BlurView
-              intensity={100}
-              pointerEvents="none"
-              style={[styles.blur, styles.compactIcon]}
-            >
-              <Icon
-                color={theme.colors.accent.a9}
-                name="Warning"
-                size={theme.space[5]}
-                weight="fill"
-              />
-            </BlurView>
-          ) : null}
-        </Pressable>
-      ) : (
-        <Pressable
-          onPress={() => {
-            setVisible(true)
+        {nsfw && blurNsfw ? (
+          <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
+            <Icon
+              color={theme.colors.gray.a12}
+              name="Warning"
+              size={theme.space[6]}
+              weight="fill"
+            />
 
-            if (recyclingKey && seenOnMedia) {
-              addPost({
-                id: recyclingKey,
-              })
-            }
-          }}
-          style={[styles.main(crossPost), style]}
-        >
-          <Image
-            {...placeholder}
-            recyclingKey={recyclingKey}
-            source={first.thumbnail}
-            style={styles.image(first.width / first.height)}
-          />
-
-          {first.type === 'gif' ? (
-            <View style={[styles.label, styles.gif]}>
-              <Text contrast size="1" weight="medium">
-                {t('gif')}
-              </Text>
-            </View>
-          ) : null}
-
-          {nsfw && blurNsfw ? (
-            <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
-              <Icon
-                color={theme.colors.gray.a12}
-                name="Warning"
-                size={theme.space[6]}
-                weight="fill"
-              />
-
-              <Text weight="medium">{t('nsfw')}</Text>
-            </BlurView>
-          ) : null}
-
-          {images.length > 1 ? (
-            <View style={[styles.label, styles.count]}>
-              <Text contrast size="1" tabular>
-                {t('items', {
-                  count: images.length,
-                })}
-              </Text>
-            </View>
-          ) : null}
-        </Pressable>
-      )}
+            <Text weight="medium">{t('nsfw')}</Text>
+          </BlurView>
+        ) : null}
+      </View>
 
       <PostGalleryModal
         images={images}
+        initialIndex={index}
         onClose={() => {
+          setIndex(undefined)
           setVisible(false)
         }}
         recyclingKey={recyclingKey}
