@@ -1,6 +1,9 @@
 import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
+import { StatusBar } from 'expo-status-bar'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+
+import { iPhone } from '~/lib/common'
 
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -17,6 +20,8 @@ export function Header({ navigation, options, ...props }: Props) {
 
   return (
     <View style={styles.main(modal)}>
+      {modal && iPhone ? <StatusBar style="light" /> : null}
+
       <View align="center" height="8" justify="center">
         {left ? (
           <View style={[styles.actions, styles.left]}>

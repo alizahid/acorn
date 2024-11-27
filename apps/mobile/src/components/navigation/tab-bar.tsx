@@ -27,7 +27,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
 
   return (
     <GestureDetector gesture={gesture}>
-      <View collapsable={false} direction="row" style={styles.main}>
+      <View direction="row" style={styles.main}>
         {state.routes.map((route, index) => {
           const options = descriptors[route.key]?.options
 
