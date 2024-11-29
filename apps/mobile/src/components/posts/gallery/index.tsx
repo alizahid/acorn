@@ -46,58 +46,17 @@ export function PostGalleryCard({
   const [visible, setVisible] = useState(false)
   const [index, setIndex] = useState<number>()
 
-  if (compact) {
-    const first = images[0]
+  const first = images[0]
 
-    if (!first) {
-      return null
-    }
-
-    return (
-      <Pressable
-        onPress={() => {
-          setVisible(true)
-
-          if (recyclingKey && seenOnMedia) {
-            addPost({
-              id: recyclingKey,
-            })
-          }
-        }}
-        style={[styles.compact(largeThumbnails), style]}
-      >
-        <Image
-          {...placeholder}
-          recyclingKey={recyclingKey}
-          source={first.thumbnail}
-          style={styles.compactImage}
-        />
-
-        {nsfw && blurNsfw ? (
-          <BlurView
-            intensity={100}
-            pointerEvents="none"
-            style={[styles.blur, styles.compactIcon]}
-          >
-            <Icon
-              color={theme.colors.accent.a9}
-              name="Warning"
-              size={theme.space[5]}
-              weight="fill"
-            />
-          </BlurView>
-        ) : null}
-      </Pressable>
-    )
+  if (!first) {
+    return null
   }
 
   return (
     <>
-      <View style={[styles.main(crossPost), style]}>
-        <ImageGrid
-          images={images}
-          onPress={(next) => {
-            setIndex(next)
+      {compact ? (
+        <Pressable
+          onPress={() => {
             setVisible(true)
 
             if (recyclingKey && seenOnMedia) {
@@ -106,22 +65,61 @@ export function PostGalleryCard({
               })
             }
           }}
-          recyclingKey={recyclingKey}
-        />
+          style={[styles.compact(largeThumbnails), style]}
+        >
+          <Image
+            {...placeholder}
+            recyclingKey={recyclingKey}
+            source={first.thumbnail}
+            style={styles.compactImage}
+          />
 
-        {nsfw && blurNsfw ? (
-          <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
-            <Icon
-              color={theme.colors.gray.a12}
-              name="Warning"
-              size={theme.space[6]}
-              weight="fill"
-            />
+          {nsfw && blurNsfw ? (
+            <BlurView
+              intensity={100}
+              pointerEvents="none"
+              style={[styles.blur, styles.compactIcon]}
+            >
+              <Icon
+                color={theme.colors.accent.a9}
+                name="Warning"
+                size={theme.space[5]}
+                weight="fill"
+              />
+            </BlurView>
+          ) : null}
+        </Pressable>
+      ) : (
+        <View style={[styles.main(crossPost), style]}>
+          <ImageGrid
+            images={images}
+            onPress={(next) => {
+              setIndex(next)
+              setVisible(true)
 
-            <Text weight="medium">{t('nsfw')}</Text>
-          </BlurView>
-        ) : null}
-      </View>
+              if (recyclingKey && seenOnMedia) {
+                addPost({
+                  id: recyclingKey,
+                })
+              }
+            }}
+            recyclingKey={recyclingKey}
+          />
+
+          {nsfw && blurNsfw ? (
+            <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
+              <Icon
+                color={theme.colors.gray.a12}
+                name="Warning"
+                size={theme.space[6]}
+                weight="fill"
+              />
+
+              <Text weight="medium">{t('nsfw')}</Text>
+            </BlurView>
+          ) : null}
+        </View>
+      )}
 
       <PostGalleryModal
         images={images}
