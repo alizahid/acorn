@@ -27,23 +27,19 @@ export type CommentsQueryKey = [
     accountId?: string
     interval?: TopInterval
     sort: CommentSort
-    username: string
+    user: string
   },
 ]
 
 export type CommentsQueryData = InfiniteData<Page, Param>
 
-export type UserCommentsProps = {
+export type CommentsProps = {
   interval?: TopInterval
   sort: CommentSort
-  username: string
+  user: string
 }
 
-export function useUserComments({
-  interval,
-  sort,
-  username,
-}: UserCommentsProps) {
+export function useComments({ interval, sort, user }: CommentsProps) {
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
@@ -59,10 +55,10 @@ export function useUserComments({
     refetch,
   } = useInfiniteQuery<Page, Error, CommentsQueryData, CommentsQueryKey, Param>(
     {
-      enabled: Boolean(accountId) && Boolean(username),
+      enabled: Boolean(accountId),
       initialPageParam: null,
       async queryFn({ pageParam }) {
-        const url = new URL(`/user/${username}/comments`, REDDIT_URI)
+        const url = new URL(`/user/${user}/comments`, REDDIT_URI)
 
         url.searchParams.set('limit', '100')
         url.searchParams.set('sort', sort)
@@ -100,7 +96,7 @@ export function useUserComments({
           accountId,
           interval,
           sort,
-          username,
+          user,
         },
       ],
     },

@@ -3,27 +3,19 @@ import { useRouter } from 'expo-router'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
-import {
-  type UserCommentsProps,
-  useUserComments,
-} from '~/hooks/queries/user/comments'
+import { type CommentsProps, useComments } from '~/hooks/queries/user/comments'
 import { listProps } from '~/lib/common'
 
-import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
+import { CommentCard } from './card'
 
-type Props = UserCommentsProps & {
+type Props = CommentsProps & {
   onRefresh?: () => void
 }
 
-export function UserCommentsList({
-  interval,
-  onRefresh,
-  sort,
-  username,
-}: Props) {
+export function CommentList({ interval, onRefresh, sort, user }: Props) {
   const router = useRouter()
 
   const {
@@ -33,10 +25,10 @@ export function UserCommentsList({
     isFetchingNextPage,
     isLoading,
     refetch,
-  } = useUserComments({
+  } = useComments({
     interval,
     sort,
-    username,
+    user,
   })
 
   return (

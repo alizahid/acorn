@@ -9,14 +9,15 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { CommentList } from '~/components/comments/list'
 import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
-import { UserCommentsList } from '~/components/users/comments'
-import { UserPostsList } from '~/components/users/posts'
+import { PostList } from '~/components/posts/list'
 import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { usePreferences } from '~/stores/preferences'
 import { UserTab } from '~/types/user'
 
 const schema = z.object({
@@ -29,6 +30,13 @@ export function UserScreen() {
   const navigation = useNavigation()
 
   const params = schema.parse(useLocalSearchParams())
+
+  const {
+    intervalUserComments,
+    intervalUserPosts,
+    sortUserComments,
+    sortUserPosts,
+  } = usePreferences()
 
   const t = useTranslations('screen.users.user')
 
@@ -78,21 +86,23 @@ export function UserScreen() {
       renderScene={({ route }) => {
         if (route.key === 'posts') {
           return (
-            <UserPostsList
+            <PostList
+              interval={intervalUserPosts}
               label="subreddit"
               onRefresh={refetch}
-              sort="new"
-              type="submitted"
-              username={params.name}
+              sort={sortUserPosts}
+              user={params.name}
+              userType="submitted"
             />
           )
         }
 
         return (
-          <UserCommentsList
+          <CommentList
+            interval={intervalUserComments}
             onRefresh={refetch}
-            sort="new"
-            username={params.name}
+            sort={sortUserComments}
+            user={params.name}
           />
         )
       }}

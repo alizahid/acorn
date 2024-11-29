@@ -6,8 +6,8 @@ import {
 import { useState } from 'react'
 import { z } from 'zod'
 
+import { CommentList } from '~/components/comments/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { UserCommentsList } from '~/components/users/comments'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
@@ -43,7 +43,5 @@ export default function UserCommentsScreen() {
     })
   })
 
-  return (
-    <UserCommentsList interval={interval} sort={sort} username={params.name} />
-  )
+  return <CommentList interval={interval} sort={sort} user={params.name} />
 }

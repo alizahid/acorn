@@ -17,6 +17,7 @@ import { usePreferences } from '~/stores/preferences'
 import { transformPost } from '~/transformers/post'
 import { type Post } from '~/types/post'
 import { type PostSort, type TopInterval } from '~/types/sort'
+import { type UserFeedType } from '~/types/user'
 
 import { type UserPostsQueryData } from '../user/posts'
 
@@ -36,6 +37,7 @@ export type PostsQueryKey = [
     interval?: TopInterval
     sort?: PostSort
     user?: string
+    userType?: UserFeedType
   },
 ]
 
@@ -47,6 +49,7 @@ export type PostsProps = {
   interval?: TopInterval
   sort: PostSort
   user?: string
+  userType?: UserFeedType
 }
 
 export function usePosts({
@@ -55,6 +58,7 @@ export function usePosts({
   interval,
   sort,
   user,
+  userType,
 }: PostsProps) {
   const isRestoring = useIsRestoring()
 
@@ -76,7 +80,7 @@ export function usePosts({
       }
 
       const path = user
-        ? `/user/${user}/submitted`
+        ? `/user/${user}/${userType ?? 'submitted'}`
         : feed
           ? `/user/${accountId}/m/${feed}/${sort}`
           : community
@@ -123,6 +127,7 @@ export function usePosts({
         interval,
         sort,
         user,
+        userType,
       },
     ],
   })

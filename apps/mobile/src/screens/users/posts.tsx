@@ -6,8 +6,8 @@ import {
 import { useState } from 'react'
 import { z } from 'zod'
 
+import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { UserPostsList } from '~/components/users/posts'
 import { usePreferences } from '~/stores/preferences'
 import { UserFeedType } from '~/types/user'
 
@@ -48,12 +48,12 @@ export function UserPostsScreen() {
   })
 
   return (
-    <UserPostsList
+    <PostList
       interval={interval}
       label="subreddit"
       sort={sort}
-      type={params.type}
-      username={params.name}
+      user={params.name}
+      userType={params.type}
     />
   )
 }
