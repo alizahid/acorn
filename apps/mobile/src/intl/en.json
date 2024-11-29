@@ -289,6 +289,7 @@
       },
       "preferences": {
         "browsing": {
+          "refreshInterval": "Auto refresh interval",
           "rememberCommunitySort": "Remember community sorting",
           "showFlair": "Show flair on posts and comments",
           "title": "Browsing"
@@ -330,6 +331,9 @@
           "feedMuted": "Mute feed",
           "title": "Media",
           "unmuteFullscreen": "Unmute on full screen"
+        },
+        "refreshInterval": {
+          "Infinity": "Never"
         },
         "side": {
           "left": "Left",

@@ -1,5 +1,6 @@
+import { SymbolView } from 'expo-symbols'
 import { useStyles } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
+import { useFormatter, useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Menu, type MenuItem } from '~/components/common/menu'
@@ -8,6 +9,7 @@ import { sides } from '~/types/preferences'
 
 export function SettingsPreferencesScreen() {
   const t = useTranslations('screen.settings.preferences')
+  const f = useFormatter()
 
   const { update, ...preferences } = usePreferences()
 
@@ -27,6 +29,65 @@ export function SettingsPreferencesScreen() {
             icon: 'SortAscending',
             key: 'rememberCommunitySort',
             label: 'browsing.rememberCommunitySort',
+          },
+          {
+            icon: 'Clock',
+            key: 'refreshInterval',
+            label: 'browsing.refreshInterval',
+            options: [
+              {
+                icon: {
+                  name: 'infinity.circle.fill',
+                  type: 'symbol',
+                },
+                label: t('refreshInterval.Infinity'),
+                value: Infinity,
+              },
+              {
+                icon: {
+                  name: '5.circle.fill',
+                  type: 'symbol',
+                },
+                label: f.number(5, {
+                  style: 'unit',
+                  unit: 'minute',
+                }),
+                value: 5,
+              },
+              {
+                icon: {
+                  name: '10.circle.fill',
+                  type: 'symbol',
+                },
+                label: f.number(10, {
+                  style: 'unit',
+                  unit: 'minute',
+                }),
+                value: 10,
+              },
+              {
+                icon: {
+                  name: '15.circle.fill',
+                  type: 'symbol',
+                },
+                label: f.number(15, {
+                  style: 'unit',
+                  unit: 'minute',
+                }),
+                value: 15,
+              },
+              {
+                icon: {
+                  name: '30.circle.fill',
+                  type: 'symbol',
+                },
+                label: f.number(30, {
+                  style: 'unit',
+                  unit: 'minute',
+                }),
+                value: 30,
+              },
+            ],
           },
 
           null,
@@ -154,6 +215,34 @@ export function SettingsPreferencesScreen() {
       ).map((item) => {
         if (!item || typeof item === 'string') {
           return item
+        }
+
+        if ('options' in item) {
+          return {
+            icon: {
+              name: item.icon,
+              type: 'icon',
+            },
+            label: t(item.label),
+            onSelect(value) {
+              update({
+                [item.key]: Number(value),
+              })
+            },
+            options: item.options.map((option) => ({
+              icon: option.icon,
+              label: option.label,
+              right: (
+                <SymbolView
+                  name={option.icon.name}
+                  tintColor={theme.colors.accent.a9}
+                />
+              ),
+              value: String(option.value),
+            })),
+            type: 'options',
+            value: String(preferences[item.key]),
+          }
         }
 
         if ('exclusive' in item) {

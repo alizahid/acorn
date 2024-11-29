@@ -40,6 +40,7 @@ export type PreferencesPayload = {
   linkBrowser: boolean
   mediaOnRight: boolean
   postGestures: Gestures
+  refreshInterval: number
   rememberCommunitySort: boolean
   replyPost: Side
   seenOnMedia: boolean
@@ -97,6 +98,7 @@ export const usePreferences = create<State>()(
         rightLong: 'save',
         rightShort: 'reply',
       },
+      refreshInterval: 10,
       rememberCommunitySort: false,
       replyPost: 'left',
       seenOnMedia: false,
