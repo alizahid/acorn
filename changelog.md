@@ -1,5 +1,16 @@
 # Changelog
 
+## Build 32
+
+- added: separate gestures for posts and comments
+- added: search bar for communities
+- added: tap search tab to focus input
+- added: swipe on tab bar to go back
+- added: floating buttons can now be toggled off
+- added: gallery grid for posts with multiple images
+- added: customizable refresh interval
+- fixed: refreshing post expands AutoModerator comments
+
 ## Build 30
 
 - added: customizable gestures
