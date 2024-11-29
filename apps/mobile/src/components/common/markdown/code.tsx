@@ -1,8 +1,7 @@
 /* eslint-disable react/no-array-index-key -- go away */
 
-import { type RootContent } from 'hast'
+import { type ElementContent, type RootContent } from 'hast'
 import { common, createLowlight } from 'lowlight'
-import { type ElementContent } from 'lowlight/lib'
 import { useMemo } from 'react'
 import { ScrollView, type TextStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
