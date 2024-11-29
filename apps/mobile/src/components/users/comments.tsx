@@ -12,7 +12,6 @@ import { listProps } from '~/lib/common'
 import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
-import { Refreshing } from '../common/refreshing'
 import { View } from '../common/view'
 
 type Props = UserCommentsProps & {
@@ -33,7 +32,6 @@ export function UserCommentsList({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefreshing,
     refetch,
   } = useUserComments({
     interval,
@@ -42,55 +40,51 @@ export function UserCommentsList({
   })
 
   return (
-    <>
-      <FlashList
-        {...listProps}
-        ItemSeparatorComponent={() => <View height="4" />}
-        ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-        ListFooterComponent={() =>
-          isFetchingNextPage ? <Spinner m="6" /> : null
+    <FlashList
+      {...listProps}
+      ItemSeparatorComponent={() => <View height="4" />}
+      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+      ListFooterComponent={() =>
+        isFetchingNextPage ? <Spinner m="6" /> : null
+      }
+      data={comments}
+      estimatedItemSize={72}
+      getItemType={(item) => item.type}
+      keyExtractor={(item) => item.data.id}
+      onEndReached={() => {
+        if (hasNextPage) {
+          void fetchNextPage()
         }
-        data={comments}
-        estimatedItemSize={72}
-        getItemType={(item) => item.type}
-        keyExtractor={(item) => item.data.id}
-        onEndReached={() => {
-          if (hasNextPage) {
-            void fetchNextPage()
-          }
-        }}
-        refreshControl={
-          <RefreshControl
-            onRefresh={() => {
-              onRefresh?.()
+      }}
+      refreshControl={
+        <RefreshControl
+          onRefresh={() => {
+            onRefresh?.()
 
-              return refetch()
-            }}
-          />
+            return refetch()
+          }}
+        />
+      }
+      renderItem={({ item }) => {
+        if (item.type === 'reply') {
+          return (
+            <CommentCard
+              comment={item.data}
+              onPress={() => {
+                router.navigate({
+                  params: {
+                    commentId: item.data.id,
+                    id: item.data.postId,
+                  },
+                  pathname: '/posts/[id]',
+                })
+              }}
+            />
+          )
         }
-        renderItem={({ item }) => {
-          if (item.type === 'reply') {
-            return (
-              <CommentCard
-                comment={item.data}
-                onPress={() => {
-                  router.navigate({
-                    params: {
-                      commentId: item.data.id,
-                      id: item.data.postId,
-                    },
-                    pathname: '/posts/[id]',
-                  })
-                }}
-              />
-            )
-          }
 
-          return null
-        }}
-      />
-
-      {isRefreshing ? <Refreshing /> : null}
-    </>
+        return null
+      }}
+    />
   )
 }

@@ -34,9 +34,7 @@ export function useCommunities() {
 
   const {
     data,
-    isFetching,
     isLoading,
-    isStale,
     refetch: refresh,
   } = useQuery<
     CommunitiesQueryData,
@@ -57,7 +55,6 @@ export function useCommunities() {
   return {
     communities,
     isLoading: isRestoring || isLoading,
-    isRefreshing: isStale && isFetching && !isLoading,
     refetch: refresh,
     users,
   }

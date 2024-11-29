@@ -19,7 +19,6 @@ import { type SearchTab } from '~/types/search'
 import { type SearchSort, type TopInterval } from '~/types/sort'
 import { type SearchUser } from '~/types/user'
 
-import { Refreshing, type RefreshingProps } from '../common/refreshing'
 import { View } from '../common/view'
 import { SearchUserCard } from '../users/search'
 import { SearchHistory } from './history'
@@ -31,7 +30,6 @@ type Props = {
   interval?: TopInterval
   onChangeQuery: (query: string) => void
   query: string
-  refreshing?: RefreshingProps
   sort?: SearchSort
   type: SearchTab
 }
@@ -43,7 +41,6 @@ export function SearchList({
   interval,
   onChangeQuery,
   query,
-  refreshing,
   sort,
   type,
 }: Props) {
@@ -58,7 +55,7 @@ export function SearchList({
 
   const history = useSearchHistory(community)
 
-  const { isLoading, isRefreshing, refetch, results } = useSearch({
+  const { isLoading, refetch, results } = useSearch({
     community,
     interval,
     query,
@@ -69,90 +66,86 @@ export function SearchList({
   const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
-    <>
-      <FlashList
-        {...listProps}
-        ItemSeparatorComponent={() => (
-          <View style={styles.separator(type, feedCompact)} />
-        )}
-        ListEmptyComponent={
-          isLoading ? (
-            <Loading />
-          ) : history.history.length > 0 ? (
-            <SearchHistory
-              history={history.history}
-              onClear={history.clear}
-              onPress={onChangeQuery}
-            />
-          ) : (
-            <Empty />
-          )
+    <FlashList
+      {...listProps}
+      ItemSeparatorComponent={() => (
+        <View style={styles.separator(type, feedCompact)} />
+      )}
+      ListEmptyComponent={
+        isLoading ? (
+          <Loading />
+        ) : history.history.length > 0 ? (
+          <SearchHistory
+            history={history.history}
+            onClear={history.clear}
+            onPress={onChangeQuery}
+          />
+        ) : (
+          <Empty />
+        )
+      }
+      ListHeaderComponent={header}
+      data={results}
+      estimatedItemSize={type === 'post' ? (feedCompact ? 112 : 120) : 56}
+      extraData={{
+        viewing,
+      }}
+      getItemType={() => type}
+      keyExtractor={(item) => item.id}
+      keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps="handled"
+      onScrollBeginDrag={() => {
+        history.save(query)
+      }}
+      ref={list}
+      refreshControl={<RefreshControl onRefresh={refetch} />}
+      renderItem={({ item }) => {
+        if (type === 'community') {
+          return <CommunityCard community={item as Community} />
         }
-        ListHeaderComponent={header}
-        data={results}
-        estimatedItemSize={type === 'post' ? (feedCompact ? 112 : 120) : 56}
-        extraData={{
-          viewing,
-        }}
-        getItemType={() => type}
-        keyExtractor={(item) => item.id}
-        keyboardDismissMode="on-drag"
-        keyboardShouldPersistTaps="handled"
-        onScrollBeginDrag={() => {
-          history.save(query)
-        }}
-        ref={list}
-        refreshControl={<RefreshControl onRefresh={refetch} />}
-        renderItem={({ item }) => {
-          if (type === 'community') {
-            return <CommunityCard community={item as Community} />
-          }
 
-          if (type === 'user') {
-            return <SearchUserCard user={item as SearchUser} />
-          }
+        if (type === 'user') {
+          return <SearchUserCard user={item as SearchUser} />
+        }
 
-          return (
-            <PostCard
-              label="subreddit"
-              post={item as Post}
-              viewing={focused ? viewing.includes(item.id) : false}
-            />
-          )
-        }}
-        viewabilityConfigCallbackPairs={[
-          {
-            onViewableItemsChanged({ viewableItems }) {
-              setViewing(() => viewableItems.map((item) => item.key))
-            },
-            viewabilityConfig: {
-              viewAreaCoveragePercentThreshold: 60,
-            },
+        return (
+          <PostCard
+            label="subreddit"
+            post={item as Post}
+            viewing={focused ? viewing.includes(item.id) : false}
+          />
+        )
+      }}
+      viewabilityConfigCallbackPairs={[
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            setViewing(() => viewableItems.map((item) => item.key))
           },
-          {
-            onViewableItemsChanged({ viewableItems }) {
-              if (!seenOnScroll) {
-                return
-              }
+          viewabilityConfig: {
+            viewAreaCoveragePercentThreshold: 60,
+          },
+        },
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            if (!seenOnScroll) {
+              return
+            }
 
-              if (type === 'post') {
-                viewableItems.forEach((item) => {
-                  addPost({
-                    id: (item.item as Post).id,
-                  })
+            if (type === 'post') {
+              viewableItems.forEach((item) => {
+                addPost({
+                  id: (item.item as Post).id,
                 })
-              }
-            },
-            viewabilityConfig: {
-              minimumViewTime: 3_000,
-              viewAreaCoveragePercentThreshold: 60,
-            },
+              })
+            }
           },
-        ]}
-      />
-
-      {isRefreshing ? <Refreshing {...refreshing} /> : null}
-    </>
+          viewabilityConfig: {
+            minimumViewTime: 3_000,
+            viewAreaCoveragePercentThreshold: 60,
+          },
+        },
+      ]}
+    />
   )
 }
 

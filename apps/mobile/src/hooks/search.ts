@@ -9,13 +9,12 @@ export function useSearchHistory(community?: string) {
 
   const history = useMemo(
     () => (JSON.parse(data ?? '[]') as Array<string>).slice(-5),
-
     [data],
   )
 
   const save = useCallback(
     (query: string) => {
-      if (history.includes(query)) {
+      if (query.length < 2 || history.includes(query)) {
         return
       }
 

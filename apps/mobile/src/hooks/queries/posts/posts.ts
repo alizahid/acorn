@@ -7,7 +7,7 @@ import { create, type Draft } from 'mutative'
 
 import { getHidden } from '~/lib/db/hidden'
 import { getHistory } from '~/lib/db/history'
-import { queryClient, resetInfiniteQuery } from '~/lib/query'
+import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
@@ -60,35 +60,25 @@ export function usePosts({
 
   const { accountId } = useAuth()
 
-  const queryKey: PostsQueryKey = [
-    'posts',
-    {
-      accountId,
-      community,
-      feed,
-      interval,
-      sort,
-      user,
-    },
-  ]
-
   const {
     data,
     fetchNextPage,
     hasNextPage,
-    isFetching,
     isFetchingNextPage,
     isLoading,
-    isStale,
-    refetch: refresh,
+    refetch,
   } = useInfiniteQuery<Page, Error, PostsQueryData, PostsQueryKey, Param>({
     enabled: Boolean(accountId),
     initialPageParam: null,
     async queryFn({ pageParam }) {
+      if (!accountId) {
+        throw new Error('accountId not found')
+      }
+
       const path = user
         ? `/user/${user}/submitted`
         : feed
-          ? `/user/${accountId!}/m/${feed}/${sort}`
+          ? `/user/${accountId}/m/${feed}/${sort}`
           : community
             ? `/r/${community}/${sort}`
             : `/${sort}`
@@ -124,7 +114,17 @@ export function usePosts({
     getNextPageParam(page) {
       return page.cursor
     },
-    queryKey,
+    queryKey: [
+      'posts',
+      {
+        accountId,
+        community,
+        feed,
+        interval,
+        sort,
+        user,
+      },
+    ],
   })
 
   return {
@@ -132,13 +132,8 @@ export function usePosts({
     hasNextPage,
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
-    isRefreshing: isStale && isFetching && !isLoading,
     posts: data?.pages.flatMap((page) => page.posts) ?? [],
-    refetch: async () => {
-      resetInfiniteQuery(queryKey)
-
-      await refresh()
-    },
+    refetch,
   }
 }
 

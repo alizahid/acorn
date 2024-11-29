@@ -95,10 +95,6 @@ export function SearchScreen() {
               interval={interval}
               onChangeQuery={onChangeQuery}
               query={debounced}
-              refreshing={{
-                header: false,
-                inset: false,
-              }}
               sort={sort}
               type="post"
             />
@@ -110,10 +106,6 @@ export function SearchScreen() {
             <SearchList
               onChangeQuery={onChangeQuery}
               query={debounced}
-              refreshing={{
-                header: false,
-                inset: false,
-              }}
               type="community"
             />
           )
@@ -123,10 +115,6 @@ export function SearchScreen() {
           <SearchList
             onChangeQuery={onChangeQuery}
             query={debounced}
-            refreshing={{
-              header: false,
-              inset: false,
-            }}
             type="user"
           />
         )

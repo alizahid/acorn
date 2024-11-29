@@ -111,10 +111,6 @@ export function HomeScreen() {
         }
         interval={interval}
         label="subreddit"
-        refreshing={{
-          header: false,
-          inset: false,
-        }}
         sort={sort}
         user={homeFeed.user}
       />

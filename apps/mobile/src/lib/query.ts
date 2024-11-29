@@ -1,9 +1,5 @@
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
-import {
-  type InfiniteData,
-  QueryClient,
-  type QueryKey,
-} from '@tanstack/react-query'
+import { QueryClient } from '@tanstack/react-query'
 import { AsyncStorage } from 'expo-sqlite/kv-store'
 import { parse, stringify } from 'superjson'
 
@@ -54,16 +50,3 @@ export const persister = createAsyncStoragePersister({
   },
   storage: AsyncStorage,
 })
-
-export function resetInfiniteQuery<Key extends QueryKey, Data>(queryKey: Key) {
-  queryClient.setQueryData<InfiniteData<Data>>(queryKey, (previous) => {
-    if (!previous) {
-      return undefined
-    }
-
-    return {
-      pageParams: previous.pageParams.slice(0, 1),
-      pages: previous.pages.slice(0, 1),
-    }
-  })
-}

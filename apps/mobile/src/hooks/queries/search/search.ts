@@ -55,7 +55,7 @@ export function useSearch<Type extends SearchTab>({
 
   const { accountId } = useAuth()
 
-  const { data, isFetching, isLoading, isStale, refetch } = useQuery<
+  const { data, isLoading, refetch } = useQuery<
     SearchQueryData<Type> | undefined,
     Error,
     SearchQueryData<Type>,
@@ -138,7 +138,6 @@ export function useSearch<Type extends SearchTab>({
 
   return {
     isLoading: isRestoring || isLoading,
-    isRefreshing: isStale && isFetching && !isLoading,
     refetch,
     results: data ?? [],
   }

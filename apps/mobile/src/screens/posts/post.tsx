@@ -16,7 +16,6 @@ import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
-import { Refreshing } from '~/components/common/refreshing'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
@@ -55,15 +54,7 @@ export function PostScreen() {
 
   const [sort, setSort] = useState(sortPostComments)
 
-  const {
-    collapse,
-    collapsed,
-    comments,
-    isFetching,
-    isRefreshing,
-    post,
-    refetch,
-  } = usePost({
+  const { collapse, collapsed, comments, isFetching, post, refetch } = usePost({
     commentId: params.commentId,
     id: params.id,
     sort,
@@ -310,8 +301,6 @@ export function PostScreen() {
           weight="bold"
         />
       ) : null}
-
-      {isRefreshing ? <Refreshing /> : null}
     </>
   )
 }

@@ -13,7 +13,6 @@ import { type Post } from '~/types/post'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
-import { Refreshing, type RefreshingProps } from '../common/refreshing'
 import { View } from '../common/view'
 import { type PostLabel } from './footer'
 
@@ -21,7 +20,6 @@ type Props = PostsProps & {
   header?: ReactElement
   label?: PostLabel
   onRefresh?: () => void
-  refreshing?: RefreshingProps
 }
 
 export function PostList({
@@ -31,7 +29,6 @@ export function PostList({
   interval,
   label,
   onRefresh,
-  refreshing,
   sort,
   user,
 }: Props) {
@@ -49,7 +46,6 @@ export function PostList({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefreshing,
     posts,
     refetch,
   } = usePosts({
@@ -63,73 +59,69 @@ export function PostList({
   const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
-    <>
-      <FlashList
-        {...listProps}
-        ItemSeparatorComponent={() => <View height={feedCompact ? '2' : '4'} />}
-        ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-        ListFooterComponent={() =>
-          isFetchingNextPage ? <Spinner m="6" /> : null
+    <FlashList
+      {...listProps}
+      ItemSeparatorComponent={() => <View height={feedCompact ? '2' : '4'} />}
+      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+      ListFooterComponent={() =>
+        isFetchingNextPage ? <Spinner m="6" /> : null
+      }
+      ListHeaderComponent={header}
+      data={posts}
+      estimatedItemSize={feedCompact ? 112 : 120}
+      extraData={{
+        viewing,
+      }}
+      keyExtractor={(item) => item.id}
+      onEndReached={() => {
+        if (hasNextPage) {
+          void fetchNextPage()
         }
-        ListHeaderComponent={header}
-        data={posts}
-        estimatedItemSize={feedCompact ? 112 : 120}
-        extraData={{
-          viewing,
-        }}
-        keyExtractor={(item) => item.id}
-        onEndReached={() => {
-          if (hasNextPage) {
-            void fetchNextPage()
-          }
-        }}
-        ref={list}
-        refreshControl={
-          <RefreshControl
-            onRefresh={() => {
-              onRefresh?.()
+      }}
+      ref={list}
+      refreshControl={
+        <RefreshControl
+          onRefresh={() => {
+            onRefresh?.()
 
-              return refetch()
-            }}
-          />
-        }
-        renderItem={({ item }) => (
-          <PostCard
-            label={label}
-            post={item}
-            viewing={focused ? viewing.includes(item.id) : false}
-          />
-        )}
-        viewabilityConfigCallbackPairs={[
-          {
-            onViewableItemsChanged({ viewableItems }) {
-              setViewing(() => viewableItems.map((item) => item.key))
-            },
-            viewabilityConfig: {
-              viewAreaCoveragePercentThreshold: 60,
-            },
+            return refetch()
+          }}
+        />
+      }
+      renderItem={({ item }) => (
+        <PostCard
+          label={label}
+          post={item}
+          viewing={focused ? viewing.includes(item.id) : false}
+        />
+      )}
+      viewabilityConfigCallbackPairs={[
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            setViewing(() => viewableItems.map((item) => item.key))
           },
-          {
-            onViewableItemsChanged({ viewableItems }) {
-              if (!seenOnScroll) {
-                return
-              }
+          viewabilityConfig: {
+            viewAreaCoveragePercentThreshold: 60,
+          },
+        },
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            if (!seenOnScroll) {
+              return
+            }
 
-              viewableItems.forEach((item) => {
-                addPost({
-                  id: (item.item as Post).id,
-                })
+            viewableItems.forEach((item) => {
+              addPost({
+                id: (item.item as Post).id,
               })
-            },
-            viewabilityConfig: {
-              minimumViewTime: 3_000,
-              viewAreaCoveragePercentThreshold: 60,
-            },
+            })
           },
-        ]}
-      />
-
-      {isRefreshing ? <Refreshing {...refreshing} /> : null}
-    </>
+          viewabilityConfig: {
+            minimumViewTime: 3_000,
+            viewAreaCoveragePercentThreshold: 60,
+          },
+        },
+      ]}
+    />
   )
 }

@@ -6,7 +6,6 @@ import {
 import { compact } from 'lodash'
 
 import { getHistory } from '~/lib/db/history'
-import { resetInfiniteQuery } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { SavedPostsSchema } from '~/schemas/posts'
@@ -64,17 +63,6 @@ export function useUserPosts({
 
   const { accountId } = useAuth()
 
-  const queryKey: UserPostsQueryKey = [
-    'posts',
-    username,
-    {
-      accountId,
-      interval,
-      sort,
-      type,
-    },
-  ]
-
   const {
     data,
     fetchNextPage,
@@ -83,7 +71,7 @@ export function useUserPosts({
     isFetchingNextPage,
     isLoading,
     isStale,
-    refetch: refresh,
+    refetch,
   } = useInfiniteQuery<
     Page,
     Error,
@@ -151,7 +139,16 @@ export function useUserPosts({
     getNextPageParam(page) {
       return page.cursor
     },
-    queryKey,
+    queryKey: [
+      'posts',
+      username,
+      {
+        accountId,
+        interval,
+        sort,
+        type,
+      },
+    ],
   })
 
   return {
@@ -161,10 +158,6 @@ export function useUserPosts({
     isLoading: isRestoring || isLoading,
     isRefreshing: isStale && isFetching && !isLoading,
     posts: data?.pages.flatMap((page) => page.posts) ?? [],
-    refetch: async () => {
-      resetInfiniteQuery(queryKey)
-
-      await refresh()
-    },
+    refetch,
   }
 }

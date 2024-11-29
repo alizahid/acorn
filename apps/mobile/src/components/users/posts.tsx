@@ -16,7 +16,6 @@ import { type Post } from '~/types/post'
 import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
-import { Refreshing } from '../common/refreshing'
 import { View } from '../common/view'
 import { type PostLabel } from '../posts/footer'
 
@@ -30,7 +29,6 @@ export function UserPostsList({
   label,
   onRefresh,
   sort,
-
   type,
   username,
 }: Props) {
@@ -46,7 +44,6 @@ export function UserPostsList({
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    isRefreshing,
     posts,
     refetch,
   } = useUserPosts({
@@ -59,102 +56,98 @@ export function UserPostsList({
   const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
-    <>
-      <FlashList
-        {...listProps}
-        ItemSeparatorComponent={() => <View height={feedCompact ? '2' : '4'} />}
-        ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-        ListFooterComponent={() =>
-          isFetchingNextPage ? <Spinner m="6" /> : null
+    <FlashList
+      {...listProps}
+      ItemSeparatorComponent={() => <View height={feedCompact ? '2' : '4'} />}
+      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+      ListFooterComponent={() =>
+        isFetchingNextPage ? <Spinner m="6" /> : null
+      }
+      data={posts}
+      estimatedItemSize={feedCompact ? 112 : 120}
+      extraData={{
+        viewing,
+      }}
+      keyExtractor={(item) => item.data.id}
+      onEndReached={() => {
+        if (hasNextPage) {
+          void fetchNextPage()
         }
-        data={posts}
-        estimatedItemSize={feedCompact ? 112 : 120}
-        extraData={{
-          viewing,
-        }}
-        keyExtractor={(item) => item.data.id}
-        onEndReached={() => {
-          if (hasNextPage) {
-            void fetchNextPage()
-          }
-        }}
-        refreshControl={
-          <RefreshControl
-            onRefresh={() => {
-              onRefresh?.()
+      }}
+      refreshControl={
+        <RefreshControl
+          onRefresh={() => {
+            onRefresh?.()
 
-              return refetch()
-            }}
-          />
-        }
-        renderItem={({ item }) => {
-          if (item.type === 'comment') {
-            return (
-              <CommentCard
-                comment={item.data}
-                onPress={() => {
-                  router.navigate({
-                    params: {
-                      commentId: item.data.id,
-                      id: item.data.postId,
-                    },
-                    pathname: '/posts/[id]',
-                  })
-                }}
-              />
-            )
-          }
-
+            return refetch()
+          }}
+        />
+      }
+      renderItem={({ item }) => {
+        if (item.type === 'comment') {
           return (
-            <PostCard
-              label={label}
-              post={item.data}
-              viewing={focused ? viewing.includes(item.data.id) : false}
+            <CommentCard
+              comment={item.data}
+              onPress={() => {
+                router.navigate({
+                  params: {
+                    commentId: item.data.id,
+                    id: item.data.postId,
+                  },
+                  pathname: '/posts/[id]',
+                })
+              }}
             />
           )
-        }}
-        viewabilityConfigCallbackPairs={[
-          {
-            onViewableItemsChanged({ viewableItems }) {
-              setViewing(() => viewableItems.map((item) => item.key))
-            },
-            viewabilityConfig: {
-              viewAreaCoveragePercentThreshold: 60,
-            },
+        }
+
+        return (
+          <PostCard
+            label={label}
+            post={item.data}
+            viewing={focused ? viewing.includes(item.data.id) : false}
+          />
+        )
+      }}
+      viewabilityConfigCallbackPairs={[
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            setViewing(() => viewableItems.map((item) => item.key))
           },
-          {
-            onViewableItemsChanged({ viewableItems }) {
-              if (!seenOnScroll) {
-                return
+          viewabilityConfig: {
+            viewAreaCoveragePercentThreshold: 60,
+          },
+        },
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            if (!seenOnScroll) {
+              return
+            }
+
+            viewableItems.forEach((item) => {
+              const viewableItem = item.item as
+                | {
+                    data: CommentReply
+                    type: 'comment'
+                  }
+                | {
+                    data: Post
+                    type: 'post'
+                  }
+
+              if (viewableItem.type === 'post') {
+                addPost({
+                  id: viewableItem.data.id,
+                })
               }
-
-              viewableItems.forEach((item) => {
-                const viewableItem = item.item as
-                  | {
-                      data: CommentReply
-                      type: 'comment'
-                    }
-                  | {
-                      data: Post
-                      type: 'post'
-                    }
-
-                if (viewableItem.type === 'post') {
-                  addPost({
-                    id: viewableItem.data.id,
-                  })
-                }
-              })
-            },
-            viewabilityConfig: {
-              minimumViewTime: 3_000,
-              viewAreaCoveragePercentThreshold: 60,
-            },
+            })
           },
-        ]}
-      />
-
-      {isRefreshing ? <Refreshing /> : null}
-    </>
+          viewabilityConfig: {
+            minimumViewTime: 3_000,
+            viewAreaCoveragePercentThreshold: 60,
+          },
+        },
+      ]}
+    />
   )
 }

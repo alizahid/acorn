@@ -29,9 +29,7 @@ export function useFeeds() {
 
   const {
     data,
-    isFetching,
     isLoading,
-    isStale,
     refetch: refresh,
   } = useQuery<
     FeedsQueryData | undefined,
@@ -55,7 +53,6 @@ export function useFeeds() {
   return {
     feeds: data ?? [],
     isLoading: isRestoring || isLoading,
-    isRefreshing: isStale && isFetching && !isLoading,
     refetch: async () => {
       await refresh()
     },

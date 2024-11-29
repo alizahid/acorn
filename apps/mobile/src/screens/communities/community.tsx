@@ -72,10 +72,6 @@ export function CommunityScreen() {
               }
               interval={sorting.interval}
               label="user"
-              refreshing={{
-                header: false,
-                inset: false,
-              }}
               sort={sorting.sort}
             />
           )

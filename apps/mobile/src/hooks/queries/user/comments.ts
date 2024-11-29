@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
 
-import { queryClient, resetInfiniteQuery } from '~/lib/query'
+import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { CommentsSchema } from '~/schemas/comments'
@@ -48,16 +48,6 @@ export function useUserComments({
 
   const { accountId } = useAuth()
 
-  const queryKey: CommentsQueryKey = [
-    'comments',
-    {
-      accountId,
-      interval,
-      sort,
-      username,
-    },
-  ]
-
   const {
     data,
     fetchNextPage,
@@ -66,7 +56,7 @@ export function useUserComments({
     isFetchingNextPage,
     isLoading,
     isStale,
-    refetch: refresh,
+    refetch,
   } = useInfiniteQuery<Page, Error, CommentsQueryData, CommentsQueryKey, Param>(
     {
       enabled: Boolean(accountId) && Boolean(username),
@@ -104,7 +94,15 @@ export function useUserComments({
       getNextPageParam(page) {
         return page.cursor
       },
-      queryKey,
+      queryKey: [
+        'comments',
+        {
+          accountId,
+          interval,
+          sort,
+          username,
+        },
+      ],
     },
   )
 
@@ -115,11 +113,7 @@ export function useUserComments({
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
     isRefreshing: isStale && isFetching && !isLoading,
-    refetch: async () => {
-      resetInfiniteQuery(queryKey)
-
-      await refresh()
-    },
+    refetch,
   }
 }
 

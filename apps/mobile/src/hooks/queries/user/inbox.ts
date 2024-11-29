@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
 
-import { queryClient, resetInfiniteQuery } from '~/lib/query'
+import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { InboxSchema } from '~/schemas/inbox'
@@ -34,13 +34,6 @@ export function useInbox() {
 
   const { accountId } = useAuth()
 
-  const queryKey: InboxQueryKey = [
-    'inbox',
-    {
-      accountId,
-    },
-  ]
-
   const {
     data,
     fetchNextPage,
@@ -49,7 +42,7 @@ export function useInbox() {
     isFetchingNextPage,
     isLoading,
     isStale,
-    refetch: refresh,
+    refetch,
   } = useInfiniteQuery<Page, Error, InboxQueryData, InboxQueryKey, Param>({
     enabled: Boolean(accountId),
     initialPageParam: null,
@@ -75,7 +68,12 @@ export function useInbox() {
     getNextPageParam(page) {
       return page.cursor
     },
-    queryKey,
+    queryKey: [
+      'inbox',
+      {
+        accountId,
+      },
+    ],
   })
 
   const items = data?.pages.flatMap((page) => page.items) ?? []
@@ -96,11 +94,7 @@ export function useInbox() {
     isRefreshing: isStale && isFetching && !isLoading,
     messages,
     notifications,
-    refetch: async () => {
-      resetInfiniteQuery(queryKey)
-
-      await refresh()
-    },
+    refetch,
   }
 }
 

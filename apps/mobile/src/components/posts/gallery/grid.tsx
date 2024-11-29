@@ -256,7 +256,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     left: theme.space[2],
   },
   image: {
-    backgroundColor: 'brown',
     flex: 1,
   },
   items: {
