@@ -12,6 +12,7 @@ import { IntlProvider } from 'use-intl'
 
 import { Feedback } from '~/components/common/feedback'
 import { RootLayout } from '~/components/navigation/layout'
+import { useQueryDefaults } from '~/hooks/query-defaults'
 import { useTheme } from '~/hooks/theme'
 import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
@@ -21,6 +22,8 @@ import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
 
 function Acorn() {
+  useQueryDefaults()
+
   const { theme } = usePreferences()
 
   useEffect(() => {
