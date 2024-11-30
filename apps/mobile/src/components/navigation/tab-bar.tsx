@@ -16,9 +16,9 @@ type Props = BottomTabBarProps
 export function TabBar({ descriptors, navigation, state }: Props) {
   const router = useRouter()
 
-  const { blurNavigation } = usePreferences()
+  const { blurNavigation, theme } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   function goBack() {
     router.back()
@@ -34,7 +34,17 @@ export function TabBar({ descriptors, navigation, state }: Props) {
 
   return (
     <GestureDetector gesture={gesture}>
-      <Main intensity={75} style={styles.main(blurNavigation)}>
+      <Main
+        intensity={75}
+        style={styles.main(blurNavigation)}
+        tint={
+          theme.endsWith('Light')
+            ? 'light'
+            : theme.endsWith('Dark')
+              ? 'dark'
+              : 'default'
+        }
+      >
         {state.routes.map((route, index) => {
           const options = descriptors[route.key]?.options
 
@@ -63,9 +73,9 @@ export function TabBar({ descriptors, navigation, state }: Props) {
               style={styles.tab}
             >
               {options?.tabBarIcon?.({
-                color: theme.colors[focused ? 'accent' : 'gray'].a9,
+                color: '',
                 focused,
-                size: theme.space[5],
+                size: 0,
               })}
 
               {options?.tabBarBadge ? (

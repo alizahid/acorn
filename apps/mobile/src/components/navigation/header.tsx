@@ -33,7 +33,7 @@ export function Header({
 }: Props) {
   const router = useRouter()
 
-  const { blurNavigation } = usePreferences()
+  const { blurNavigation, theme } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -43,6 +43,13 @@ export function Header({
     <Main
       intensity={75}
       style={[modal ? styles.modal : styles.main(blurNavigation), style]}
+      tint={
+        theme.endsWith('Light')
+          ? 'light'
+          : theme.endsWith('Dark')
+            ? 'dark'
+            : 'default'
+      }
     >
       {modal && iPhone ? <StatusBar style="light" /> : null}
 
