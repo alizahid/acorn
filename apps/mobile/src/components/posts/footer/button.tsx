@@ -47,6 +47,6 @@ const stylesheet = createStyleSheet((theme) => ({
   main: (color?: string, fill?: boolean) => ({
     backgroundColor: fill ? color : undefined,
     borderCurve: 'continuous',
-    borderRadius: theme.radius[2],
+    borderRadius: theme.radius[3],
   }),
 }))
