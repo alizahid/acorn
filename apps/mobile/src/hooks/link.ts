@@ -59,7 +59,7 @@ export function useLink() {
             const [, , name, , id, , commentId] = url.pathname.split('/')
 
             if (commentId && id) {
-              router.navigate({
+              router.push({
                 params: {
                   commentId,
                   id,
@@ -67,14 +67,14 @@ export function useLink() {
                 pathname: '/posts/[id]',
               })
             } else if (id) {
-              router.navigate({
+              router.push({
                 params: {
                   id,
                 },
                 pathname: '/posts/[id]',
               })
             } else if (name) {
-              router.navigate({
+              router.push({
                 params: {
                   name,
                 },
@@ -87,14 +87,14 @@ export function useLink() {
             const [, , name, , id] = url.pathname.split('/')
 
             if (id) {
-              router.navigate({
+              router.push({
                 params: {
                   id,
                 },
                 pathname: '/posts/[id]',
               })
             } else if (name) {
-              router.navigate({
+              router.push({
                 params: {
                   name,
                 },

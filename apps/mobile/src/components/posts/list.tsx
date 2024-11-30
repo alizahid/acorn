@@ -6,8 +6,8 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
+import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
-import { listProps } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -19,6 +19,7 @@ import { type PostLabel } from './footer'
 type Props = PostsProps & {
   header?: ReactElement
   label?: PostLabel
+  listProps?: ListProps
   onRefresh?: () => void
 }
 
@@ -28,6 +29,7 @@ export function PostList({
   header,
   interval,
   label,
+  listProps,
   onRefresh,
   sort,
   user,
@@ -83,6 +85,7 @@ export function PostList({
       ref={list}
       refreshControl={
         <RefreshControl
+          offset={listProps?.progressViewOffset}
           onRefresh={() => {
             onRefresh?.()
 

@@ -1,3 +1,4 @@
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -11,15 +12,16 @@ import { HeaderButton } from '../navigation/header-button'
 type Props = {
   data: SearchTabs
   onChange: (data: SearchTabs) => void
+  style?: StyleProp<ViewStyle>
 }
 
-export function DefaultsSearchTabs({ data, onChange }: Props) {
+export function DefaultsSearchTabs({ data, onChange, style }: Props) {
   const t = useTranslations('component.defaults.searchTabs')
 
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View gap="3">
+    <View gap="3" style={style}>
       <Text weight="medium">{t('title')}</Text>
 
       <View style={styles.content}>

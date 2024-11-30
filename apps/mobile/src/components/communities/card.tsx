@@ -27,14 +27,14 @@ export function CommunityCard({ community, style }: Props) {
       gap="4"
       onPress={() => {
         if (community.user) {
-          router.navigate({
+          router.push({
             params: {
               name: removePrefix(community.name),
             },
             pathname: '/users/[name]',
           })
         } else {
-          router.navigate({
+          router.push({
             params: {
               name: removePrefix(community.name),
             },

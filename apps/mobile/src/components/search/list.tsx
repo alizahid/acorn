@@ -9,9 +9,9 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
+import { type ListProps } from '~/hooks/list'
 import { useSearch } from '~/hooks/queries/search/search'
 import { useSearchHistory } from '~/hooks/search'
-import { listProps } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
@@ -23,11 +23,14 @@ import { View } from '../common/view'
 import { SearchUserCard } from '../users/search'
 import { SearchHistory } from './history'
 
+type Item = Community | SearchUser | Post
+
 type Props = {
   community?: string
   focused?: boolean
   header?: ReactElement
   interval?: TopInterval
+  listProps?: ListProps
   onChangeQuery: (query: string) => void
   query: string
   sort?: SearchSort
@@ -39,12 +42,13 @@ export function SearchList({
   focused,
   header,
   interval,
+  listProps,
   onChangeQuery,
   query,
   sort,
   type,
 }: Props) {
-  const list = useRef<FlashList<Community | SearchUser | Post>>(null)
+  const list = useRef<FlashList<Item>>(null)
 
   useScrollToTop(list)
 
@@ -98,14 +102,24 @@ export function SearchList({
         history.save(query)
       }}
       ref={list}
-      refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ item }) => {
+      refreshControl={
+        <RefreshControl
+          offset={listProps?.progressViewOffset}
+          onRefresh={refetch}
+        />
+      }
+      renderItem={({ index, item }) => {
+        const style = [
+          index === 0 && styles.first,
+          index + 1 === results.length && styles.last,
+        ]
+
         if (type === 'community') {
-          return <CommunityCard community={item as Community} />
+          return <CommunityCard community={item as Community} style={style} />
         }
 
         if (type === 'user') {
-          return <SearchUserCard user={item as SearchUser} />
+          return <SearchUserCard style={style} user={item as SearchUser} />
         }
 
         return (
@@ -150,6 +164,12 @@ export function SearchList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  first: {
+    marginTop: theme.space[2],
+  },
+  last: {
+    marginBottom: theme.space[2],
+  },
   separator: (type: SearchTab, compact: boolean) => {
     if (type === 'post') {
       return {

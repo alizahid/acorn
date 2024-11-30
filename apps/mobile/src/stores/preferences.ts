@@ -18,6 +18,7 @@ import {
 export const PREFERENCES_KEY = 'preferences-storage'
 
 export type PreferencesPayload = {
+  blurNavigation: boolean
   blurNsfw: boolean
   collapseAutoModerator: boolean
   coloredComments: boolean
@@ -66,6 +67,7 @@ type State = PreferencesPayload & {
 export const usePreferences = create<State>()(
   persist(
     (set) => ({
+      blurNavigation: true,
       blurNsfw: true,
       collapseAutoModerator: false,
       coloredComments: true,

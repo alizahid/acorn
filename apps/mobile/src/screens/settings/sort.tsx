@@ -10,6 +10,7 @@ import {
   type MenuItemOption,
 } from '~/components/common/menu'
 import { icons } from '~/components/posts/sort-interval'
+import { useList } from '~/hooks/list'
 import { IntervalIcons, SortColors, SortIcons } from '~/lib/sort'
 import { usePreferences } from '~/stores/preferences'
 import {
@@ -28,6 +29,8 @@ export function SettingsSortScreen() {
   const { update, ...preferences } = usePreferences()
 
   const { theme } = useStyles()
+
+  const listProps = useList()
 
   const enhanceSort = useCallback(
     (sort: FeedSort | CommentSort | SearchSort): MenuItemOption => {
@@ -170,6 +173,7 @@ export function SettingsSortScreen() {
           value: preferences[key],
         } satisfies MenuItem
       })}
+      listProps={listProps}
     />
   )
 }

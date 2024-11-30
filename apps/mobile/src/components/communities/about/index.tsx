@@ -4,6 +4,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { useImagePlaceholder } from '~/hooks/image'
+import { type ListProps } from '~/hooks/list'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
@@ -16,10 +17,11 @@ import { View } from '../../common/view'
 import { Button } from './button'
 
 type Props = {
+  listProps?: ListProps
   name: string
 }
 
-export function CommunityAbout({ name }: Props) {
+export function CommunityAbout({ listProps, name }: Props) {
   const t = useTranslations('component.communities.about')
   const f = useFormatter()
 
@@ -54,16 +56,27 @@ export function CommunityAbout({ name }: Props) {
   ] as const
 
   return (
-    <ScrollView refreshControl={<RefreshControl onRefresh={refetch} />}>
-      {community.banner ? (
-        <Image
-          {...placeholder}
-          source={community.banner}
-          style={styles.banner}
+    <ScrollView
+      {...listProps}
+      contentContainerStyle={[listProps?.contentContainerStyle, styles.content]}
+      refreshControl={
+        <RefreshControl
+          offset={listProps?.progressViewOffset}
+          onRefresh={refetch}
         />
+      }
+    >
+      {community.banner ? (
+        <View mb="-4">
+          <Image
+            {...placeholder}
+            source={community.banner}
+            style={styles.banner}
+          />
+        </View>
       ) : null}
 
-      <View direction="row" gap="4" p="4">
+      <View direction="row" gap="4" mt="4" mx="4">
         {community.image ? (
           <Image source={community.image} style={styles.image} />
         ) : null}
@@ -77,10 +90,6 @@ export function CommunityAbout({ name }: Props) {
             <Text size="4" weight="medium">
               {community.title}
             </Text>
-          ) : null}
-
-          {community.description ? (
-            <Text size="2">{community.description}</Text>
           ) : null}
         </View>
       </View>
@@ -106,7 +115,13 @@ export function CommunityAbout({ name }: Props) {
         ))}
       </View>
 
-      <View direction="row" gap="4" p="4">
+      {community.description ? (
+        <Text mx="4" size="2">
+          {community.description}
+        </Text>
+      ) : null}
+
+      <View direction="row" gap="4" mx="4">
         <Button
           color={community.subscribed ? 'red' : 'accent'}
           icon={community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
@@ -141,6 +156,9 @@ const stylesheet = createStyleSheet((theme) => ({
   banner: {
     aspectRatio: 1280 / 384,
     backgroundColor: theme.colors.gray.a3,
+  },
+  content: {
+    gap: theme.space[4],
   },
   image: {
     backgroundColor: theme.colors.gray.a3,

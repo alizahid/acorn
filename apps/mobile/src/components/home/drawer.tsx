@@ -6,9 +6,9 @@ import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { View } from '~/components/common/view'
+import { type ListProps } from '~/hooks/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/feeds/feeds'
-import { listProps } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { FeedType } from '~/types/sort'
@@ -19,6 +19,7 @@ import { SheetItem } from '../sheets/item'
 import { type FeedTypeOptions } from './type-menu'
 
 type Props = FeedTypeOptions & {
+  listProps?: ListProps
   onChange: (data: FeedTypeOptions) => void
   onClose: () => void
 }
@@ -26,6 +27,7 @@ type Props = FeedTypeOptions & {
 export function HomeDrawer({
   community,
   feed,
+  listProps,
   onChange,
   onClose,
   type,
@@ -124,10 +126,6 @@ export function HomeDrawer({
     },
   ])
 
-  const sticky = data
-    .map((item, index) => (item.type === 'header' ? index : null))
-    .filter((item) => item !== null) as unknown as Array<number>
-
   return (
     <FlashList
       {...listProps}
@@ -216,7 +214,6 @@ export function HomeDrawer({
           />
         )
       }}
-      stickyHeaderIndices={sticky}
     />
   )
 }

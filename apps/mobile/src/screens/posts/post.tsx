@@ -23,8 +23,8 @@ import { HeaderButton } from '~/components/navigation/header-button'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { useHistory } from '~/hooks/history'
+import { useList } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
-import { listProps } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -54,6 +54,8 @@ export function PostScreen() {
 
   const [sort, setSort] = useState(sortPostComments)
 
+  const listProps = useList()
+
   const { collapse, collapsed, comments, isFetching, post, refetch } = usePost({
     commentId: params.commentId,
     id: params.id,
@@ -71,14 +73,14 @@ export function PostScreen() {
             justify="center"
             onPress={() => {
               if (post.community.name.startsWith('u/')) {
-                router.navigate({
+                router.push({
                   params: {
                     name: removePrefix(post.community.name),
                   },
                   pathname: '/users/[name]',
                 })
               } else {
-                router.navigate({
+                router.push({
                   params: {
                     name: removePrefix(post.community.name),
                   },
@@ -168,7 +170,12 @@ export function PostScreen() {
           )
         }}
         ref={list}
-        refreshControl={<RefreshControl onRefresh={refetch} />}
+        refreshControl={
+          <RefreshControl
+            offset={listProps.progressViewOffset}
+            onRefresh={refetch}
+          />
+        }
         renderItem={({ item, target }) => {
           if (typeof item === 'string') {
             if (item === 'post') {
@@ -305,11 +312,16 @@ export function PostScreen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   action: {
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
-    bottom: theme.space[4],
+    bottom:
+      runtime.insets.bottom +
+      theme.space[4] +
+      theme.space[5] +
+      theme.space[4] +
+      theme.space[4],
     position: 'absolute',
   },
   back: {
@@ -317,7 +329,14 @@ const stylesheet = createStyleSheet((theme) => ({
     left: theme.space[4],
   },
   content: {
-    paddingBottom: theme.space[6] + theme.space[8],
+    paddingBottom:
+      runtime.insets.bottom +
+      theme.space[4] +
+      theme.space[5] +
+      theme.space[4] +
+      theme.space[6] +
+      theme.space[8],
+    paddingTop: runtime.insets.top + theme.space[8],
   },
   reply: (side: Side) => ({
     backgroundColor: theme.colors.blue.a9,

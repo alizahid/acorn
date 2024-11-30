@@ -8,6 +8,7 @@ import { HomeDrawer } from '~/components/home/drawer'
 import { FeedTypeMenu } from '~/components/home/type-menu'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { useList } from '~/hooks/list'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
@@ -18,6 +19,8 @@ export function HomeScreen() {
   const { homeFeed, update } = useDefaults()
 
   const { styles, theme } = useStyles(stylesheet)
+
+  const listProps = useList()
 
   const [open, setOpen] = useState(false)
   const [sort, setSort] = useState(sortFeedPosts)
@@ -77,6 +80,7 @@ export function HomeScreen() {
         <HomeDrawer
           community={homeFeed.community}
           feed={homeFeed.feed}
+          listProps={listProps}
           onChange={(next) => {
             update({
               homeFeed: next,
@@ -111,6 +115,7 @@ export function HomeScreen() {
         }
         interval={interval}
         label="subreddit"
+        listProps={listProps}
         sort={sort}
         user={homeFeed.user}
       />

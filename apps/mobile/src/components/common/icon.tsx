@@ -27,6 +27,7 @@ import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
 import DotsThreeBold from 'react-native-phosphor/src/bold/DotsThree'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
+import DropBold from 'react-native-phosphor/src/bold/Drop'
 import EyeBold from 'react-native-phosphor/src/bold/Eye'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
 import FastForwardBold from 'react-native-phosphor/src/bold/FastForward'
@@ -105,6 +106,7 @@ import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
 import DotsThreeDuotone from 'react-native-phosphor/src/duotone/DotsThree'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
+import DropDuotone from 'react-native-phosphor/src/duotone/Drop'
 import EyeDuotone from 'react-native-phosphor/src/duotone/Eye'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
 import FastForwardDuotone from 'react-native-phosphor/src/duotone/FastForward'
@@ -183,6 +185,7 @@ import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
 import DotsThreeFill from 'react-native-phosphor/src/fill/DotsThree'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
+import DropFill from 'react-native-phosphor/src/fill/Drop'
 import EyeFill from 'react-native-phosphor/src/fill/Eye'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
 import FastForwardFill from 'react-native-phosphor/src/fill/FastForward'
@@ -261,6 +264,7 @@ import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
 import DotsThreeRegular from 'react-native-phosphor/src/regular/DotsThree'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
+import DropRegular from 'react-native-phosphor/src/regular/Drop'
 import EyeRegular from 'react-native-phosphor/src/regular/Eye'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
 import FastForwardRegular from 'react-native-phosphor/src/regular/FastForward'
@@ -499,6 +503,12 @@ const icons = {
     duotone: DownloadDuotone,
     fill: DownloadFill,
     regular: DownloadRegular,
+  },
+  Drop: {
+    bold: DropBold,
+    duotone: DropDuotone,
+    fill: DropFill,
+    regular: DropRegular,
   },
   Eye: {
     bold: EyeBold,

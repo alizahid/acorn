@@ -6,7 +6,7 @@ import { AppState } from 'react-native'
 import { type SignInParams } from '~/app/sign-in'
 import { useAuth } from '~/stores/auth'
 
-import { Header } from './header'
+import { StackHeader } from './stack-header'
 
 export function RootLayout() {
   const router = useRouter()
@@ -33,7 +33,7 @@ export function RootLayout() {
     <Stack
       screenOptions={{
         fullScreenGestureEnabled: true,
-        header: (props) => <Header {...props} />,
+        header: (props) => <StackHeader {...props} />,
       }}
     >
       <Stack.Screen

@@ -7,9 +7,11 @@ import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { TextBox } from '~/components/common/text-box'
+import { Header } from '~/components/navigation/header'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
+import { useList } from '~/hooks/list'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
@@ -28,7 +30,11 @@ export function CommunitiesSearchScreen() {
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
+
+  const listProps = useList({
+    top: theme.space[7] + theme.space[4],
+  })
 
   const [sort, setSort] = useState(sortSearchPosts)
   const [interval, setInterval] = useState(intervalSearchPosts)
@@ -39,26 +45,28 @@ export function CommunitiesSearchScreen() {
 
   return (
     <>
-      <TextBox
-        onChangeText={setQuery}
-        placeholder={t('placeholder')}
-        returnKeyType="search"
-        right={
-          query.length > 0 ? (
-            <HeaderButton
-              color="gray"
-              icon="XCircle"
-              onPress={() => {
-                setQuery('')
-              }}
-              style={styles.clear}
-              weight="fill"
-            />
-          ) : null
-        }
-        styleContent={styles.query}
-        value={query}
-      />
+      <Header back title={params.name}>
+        <TextBox
+          onChangeText={setQuery}
+          placeholder={t('placeholder')}
+          returnKeyType="search"
+          right={
+            query.length > 0 ? (
+              <HeaderButton
+                color="gray"
+                icon="XCircle"
+                onPress={() => {
+                  setQuery('')
+                }}
+                style={styles.clear}
+                weight="fill"
+              />
+            ) : null
+          }
+          styleContent={styles.query}
+          value={query}
+        />
+      </Header>
 
       <SearchList
         community={params.name}
@@ -78,6 +86,7 @@ export function CommunitiesSearchScreen() {
           />
         }
         interval={interval}
+        listProps={listProps}
         onChangeQuery={setQuery}
         query={debounced}
         sort={sort}

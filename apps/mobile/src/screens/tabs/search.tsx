@@ -11,9 +11,11 @@ import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
+import { Header } from '~/components/navigation/header'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
+import { useList } from '~/hooks/list'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
@@ -26,7 +28,7 @@ export function SearchScreen() {
   const { intervalSearchPosts, sortSearchPosts } = usePreferences()
   const { searchTabs } = useDefaults()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const routes = useRef(
     searchTabs.map((key) => ({
@@ -34,6 +36,10 @@ export function SearchScreen() {
       title: t(`tabs.${key}`),
     })),
   )
+
+  const listProps = useList({
+    top: theme.space[7] + theme.space[4] + theme.space[7] + theme.space[4],
+  })
 
   const search = useRef<TextInput>(null)
 
@@ -64,6 +70,12 @@ export function SearchScreen() {
     setQuery(next)
   }, [])
 
+  const props = {
+    listProps,
+    onChangeQuery,
+    query: debounced,
+  } as const
+
   return (
     <TabView
       lazy
@@ -77,6 +89,7 @@ export function SearchScreen() {
         if (route.key === 'post') {
           return (
             <SearchList
+              {...props}
               focused={focused ? index === 0 : false}
               header={
                 <SortIntervalMenu
@@ -93,8 +106,6 @@ export function SearchScreen() {
                 />
               }
               interval={interval}
-              onChangeQuery={onChangeQuery}
-              query={debounced}
               sort={sort}
               type="post"
             />
@@ -102,55 +113,45 @@ export function SearchScreen() {
         }
 
         if (route.key === 'community') {
-          return (
-            <SearchList
-              onChangeQuery={onChangeQuery}
-              query={debounced}
-              type="community"
-            />
-          )
+          return <SearchList {...props} type="community" />
         }
 
-        return (
-          <SearchList
-            onChangeQuery={onChangeQuery}
-            query={debounced}
-            type="user"
-          />
-        )
+        return <SearchList {...props} type="user" />
       }}
       renderTabBar={({ position }) => (
-        <View gap="4" pb="4" px="3" style={styles.tabs}>
-          <TextBox
-            onChangeText={setQuery}
-            placeholder={t('title')}
-            ref={search}
-            returnKeyType="search"
-            right={
-              query.length > 0 ? (
-                <HeaderButton
-                  color="gray"
-                  icon="XCircle"
-                  onPress={() => {
-                    setQuery('')
-                  }}
-                  style={styles.clear}
-                  weight="fill"
-                />
-              ) : null
-            }
-            styleContent={styles.query}
-            value={query}
-          />
+        <Header title={t('title')}>
+          <View gap="4" pb="4" px="3">
+            <TextBox
+              onChangeText={setQuery}
+              placeholder={t('title')}
+              ref={search}
+              returnKeyType="search"
+              right={
+                query.length > 0 ? (
+                  <HeaderButton
+                    color="gray"
+                    icon="XCircle"
+                    onPress={() => {
+                      setQuery('')
+                    }}
+                    style={styles.clear}
+                    weight="fill"
+                  />
+                ) : null
+              }
+              styleContent={styles.query}
+              value={query}
+            />
 
-          <SegmentedControl
-            items={routes.current.map(({ title }) => title)}
-            offset={position}
-            onChange={(next) => {
-              setIndex(next)
-            }}
-          />
-        </View>
+            <SegmentedControl
+              items={routes.current.map(({ title }) => title)}
+              offset={position}
+              onChange={(next) => {
+                setIndex(next)
+              }}
+            />
+          </View>
+        </Header>
       )}
     />
   )
@@ -164,8 +165,5 @@ const stylesheet = createStyleSheet((theme) => ({
   query: {
     backgroundColor: theme.colors.gray.a3,
     borderWidth: 0,
-  },
-  tabs: {
-    backgroundColor: theme.colors.gray[1],
   },
 }))

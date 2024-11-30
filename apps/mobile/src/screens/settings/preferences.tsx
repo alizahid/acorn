@@ -4,6 +4,7 @@ import { useFormatter, useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Menu, type MenuItem } from '~/components/common/menu'
+import { useList } from '~/hooks/list'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 import { sides } from '~/types/preferences'
 
@@ -14,6 +15,8 @@ export function SettingsPreferencesScreen() {
   const { update, ...preferences } = usePreferences()
 
   const { theme } = useStyles()
+
+  const listProps = useList()
 
   return (
     <Menu
@@ -198,6 +201,11 @@ export function SettingsPreferencesScreen() {
             key: 'fontSystem',
             label: 'system.fontSystem',
           },
+          {
+            icon: 'Drop',
+            key: 'blurNavigation',
+            label: 'system.blurNavigation',
+          },
 
           null,
           t('feedback.title'),
@@ -316,6 +324,7 @@ export function SettingsPreferencesScreen() {
           value: preferences[item.key],
         } satisfies MenuItem
       })}
+      listProps={listProps}
     />
   )
 }

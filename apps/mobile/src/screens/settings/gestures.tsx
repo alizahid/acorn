@@ -7,6 +7,7 @@ import {
   type MenuItem,
   type MenuItemOption,
 } from '~/components/common/menu'
+import { useList } from '~/hooks/list'
 import { usePreferences } from '~/stores/preferences'
 
 export function SettingsGesturesScreen() {
@@ -16,6 +17,8 @@ export function SettingsGesturesScreen() {
     usePreferences()
 
   const { theme } = useStyles()
+
+  const listProps = useList()
 
   const options: Array<MenuItemOption> = [
     {
@@ -142,6 +145,7 @@ export function SettingsGesturesScreen() {
           })),
         ]),
       ]}
+      listProps={listProps}
     />
   )
 }

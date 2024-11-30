@@ -5,6 +5,7 @@ import { useTranslations } from 'use-intl'
 import { type IconName } from '~/components/common/icon'
 import { Menu, type MenuItem } from '~/components/common/menu'
 import { ProfileCard } from '~/components/users/profile'
+import { useList } from '~/hooks/list'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
@@ -20,6 +21,8 @@ export function ProfileScreen() {
   const { profile, refetch } = useProfile(accountId)
 
   const { theme } = useStyles()
+
+  const listProps = useList()
 
   return (
     <Menu
@@ -149,6 +152,7 @@ export function ProfileScreen() {
           },
         },
       ]}
+      listProps={listProps}
       onRefresh={refetch}
     />
   )

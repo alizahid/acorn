@@ -26,7 +26,7 @@ export function SearchUserCard({ style, user }: Props) {
       direction="row"
       gap="4"
       onPress={() => {
-        router.navigate({
+        router.push({
           params: {
             name: removePrefix(user.name),
           },

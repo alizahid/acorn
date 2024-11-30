@@ -8,34 +8,37 @@ import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { CommunityCard } from '~/components/communities/card'
-import { listProps } from '~/lib/common'
+import { type ListProps } from '~/hooks/list'
 import { type Community } from '~/types/community'
 
 import { Icon } from '../common/icon'
 import { View } from '../common/view'
 
+type Item = string | Community
+
 type Props = {
-  communities: Array<string | Community>
+  communities: Array<Item>
   isLoading: boolean
+  listProps?: ListProps
   refetch: () => Promise<unknown>
 }
 
-export function CommunitiesList({ communities, isLoading, refetch }: Props) {
+export function CommunitiesList({
+  communities,
+  isLoading,
+  listProps,
+  refetch,
+}: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
-  const list = useRef<FlashList<Community | string>>(null)
+  const list = useRef<FlashList<Item>>(null)
 
   useScrollToTop(list)
-
-  const sticky = communities
-    .map((item, index) => (typeof item === 'string' ? index : null))
-    .filter((item) => item !== null) as unknown as Array<number>
 
   return (
     <FlashList
       {...listProps}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-      contentContainerStyle={styles.content}
       data={communities}
       estimatedItemSize={56}
       getItemType={(item) =>
@@ -43,18 +46,16 @@ export function CommunitiesList({ communities, isLoading, refetch }: Props) {
       }
       keyExtractor={(item) => (typeof item === 'string' ? item : item.id)}
       ref={list}
-      refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ index, item, target }) => {
+      refreshControl={
+        <RefreshControl
+          offset={listProps?.progressViewOffset}
+          onRefresh={refetch}
+        />
+      }
+      renderItem={({ index, item }) => {
         if (typeof item === 'string') {
           return (
-            <View
-              pr="4"
-              py="2"
-              style={[
-                styles.header,
-                target === 'StickyHeader' && styles.sticky,
-              ]}
-            >
+            <View pr="4" py="2" style={styles.header}>
               {item === 'favorites' ? (
                 <Icon
                   color={theme.colors.accent.a9}
@@ -63,7 +64,7 @@ export function CommunitiesList({ communities, isLoading, refetch }: Props) {
                   weight="duotone"
                 />
               ) : (
-                <Text color="accent" style={styles.favorite} weight="bold">
+                <Text style={styles.favorite} weight="bold">
                   {item.toUpperCase()}
                 </Text>
               )}
@@ -72,13 +73,14 @@ export function CommunitiesList({ communities, isLoading, refetch }: Props) {
         }
 
         const previous = typeof communities[index - 1] === 'string'
-        const next = typeof communities[index + 1] === 'string'
+        const next =
+          typeof communities[index + 1] === 'string' ||
+          index + 1 === communities.length
 
         return (
           <CommunityCard community={item} style={styles.card(previous, next)} />
         )
       }}
-      stickyHeaderIndices={sticky}
     />
   )
 }
@@ -88,17 +90,11 @@ const stylesheet = createStyleSheet((theme) => ({
     marginBottom: next ? theme.space[2] : undefined,
     marginTop: previous ? theme.space[2] : undefined,
   }),
-  content: {
-    paddingBottom: theme.space[2],
-  },
   favorite: {
     color: theme.colors.accent.a9,
   },
   header: {
-    backgroundColor: theme.colors.gray.a2,
-    paddingLeft: theme.space[4] * 2 + theme.space[7],
-  },
-  sticky: {
     backgroundColor: theme.colors.gray[2],
+    paddingLeft: theme.space[4] * 2 + theme.space[7],
   },
 }))

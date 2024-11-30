@@ -8,6 +8,7 @@ import { z } from 'zod'
 
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { useList } from '~/hooks/list'
 import { usePreferences } from '~/stores/preferences'
 import { UserFeedType } from '~/types/user'
 
@@ -24,6 +25,8 @@ export function UserPostsScreen() {
   const params = schema.parse(useLocalSearchParams())
 
   const { intervalUserPosts, sortUserPosts } = usePreferences()
+
+  const listProps = useList()
 
   const [sort, setSort] = useState(sortUserPosts)
   const [interval, setInterval] = useState(intervalUserPosts)
@@ -51,6 +54,7 @@ export function UserPostsScreen() {
     <PostList
       interval={interval}
       label="subreddit"
+      listProps={listProps}
       sort={sort}
       user={params.name}
       userType={params.type}

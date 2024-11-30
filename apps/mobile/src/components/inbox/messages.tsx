@@ -2,7 +2,7 @@ import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRef } from 'react'
 
-import { listProps } from '~/lib/common'
+import { type ListProps } from '~/hooks/list'
 import { type InboxMessage } from '~/types/inbox'
 
 import { Empty } from '../common/empty'
@@ -17,6 +17,7 @@ type Props = {
   hasNextPage: boolean
   isFetchingNextPage: boolean
   isLoading: boolean
+  listProps?: ListProps
   messages: Array<InboxMessage>
   refetch: () => Promise<unknown>
 }
@@ -26,6 +27,7 @@ export function MessagesList({
   hasNextPage,
   isFetchingNextPage,
   isLoading,
+  listProps,
   messages,
   refetch,
 }: Props) {
@@ -50,7 +52,12 @@ export function MessagesList({
         }
       }}
       ref={list}
-      refreshControl={<RefreshControl onRefresh={refetch} />}
+      refreshControl={
+        <RefreshControl
+          offset={listProps?.progressViewOffset}
+          onRefresh={refetch}
+        />
+      }
       renderItem={({ item }) => <MessageCard message={item} />}
     />
   )

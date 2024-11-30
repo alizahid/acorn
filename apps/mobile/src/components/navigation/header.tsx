@@ -1,83 +1,110 @@
-import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
-import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
+import { BlurView } from 'expo-blur'
+import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
+import { type ReactNode } from 'react'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { iPhone } from '~/lib/common'
+import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { HeaderButton } from './header-button'
 
-type Props = NativeStackHeaderProps | BottomTabHeaderProps
+type Props = {
+  back?: boolean
+  children?: ReactNode
+  left?: ReactNode
+  modal?: boolean
+  right?: ReactNode
+  style?: StyleProp<ViewStyle>
+  title?: ReactNode
+}
 
-export function Header({ navigation, options, ...props }: Props) {
+export function Header({
+  back,
+  children,
+  left,
+  modal,
+  right,
+  style,
+  title,
+}: Props) {
+  const router = useRouter()
+
+  const { blurNavigation } = usePreferences()
+
   const { styles } = useStyles(stylesheet)
 
-  const back = 'back' in props ? Boolean(props.back?.title) : false
-  const left = back || options.headerLeft
-  const modal = 'presentation' in options && options.presentation === 'modal'
+  const Main = modal ? View : blurNavigation ? BlurView : View
 
   return (
-    <View style={styles.main(modal)}>
+    <Main
+      intensity={75}
+      style={[modal ? styles.modal : styles.main(blurNavigation), style]}
+    >
       {modal && iPhone ? <StatusBar style="light" /> : null}
 
       <View align="center" height="8" justify="center">
-        {left ? (
-          <View style={[styles.actions, styles.left]}>
+        {(left ?? back) ? (
+          <View direction="row" style={[styles.actions, styles.left]}>
             {back ? (
               <HeaderButton
                 icon={modal ? 'X' : 'ArrowLeft'}
                 onPress={() => {
-                  navigation.goBack()
+                  router.back()
                 }}
                 weight="bold"
               />
             ) : null}
 
-            {options.headerLeft?.({
-              canGoBack: back,
-            })}
+            {left}
           </View>
         ) : null}
 
-        {typeof options.headerTitle === 'function' ? (
-          <View direction="row" gap="2">
-            {options.headerTitle({
-              children: options.title ?? '',
-            })}
-          </View>
-        ) : (
+        {typeof title === 'string' ? (
           <Text lines={1} style={styles.title} weight="bold">
-            {options.title}
+            {title}
           </Text>
+        ) : (
+          <View direction="row" gap="2">
+            {title}
+          </View>
         )}
 
-        {options.headerRight ? (
-          <View style={[styles.actions, styles.right]}>
-            {options.headerRight({
-              canGoBack: back,
-            })}
+        {right ? (
+          <View direction="row" style={[styles.actions, styles.right]}>
+            {right}
           </View>
         ) : null}
       </View>
-    </View>
+
+      {children}
+    </Main>
   )
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   actions: {
     bottom: 0,
-    flexDirection: 'row',
     position: 'absolute',
   },
   left: {
     left: 0,
   },
-  main: (modal: boolean) => ({
-    backgroundColor: theme.colors.gray[modal ? 2 : 1],
-    paddingTop: modal ? 0 : runtime.insets.top,
+  main: (blur: boolean) => ({
+    backgroundColor: theme.colors.gray[blur ? 'a1' : '1'],
+    left: 0,
+    paddingTop: runtime.insets.top,
+    position: 'absolute',
+    right: 0,
+    top: 0,
+    zIndex: 2,
   }),
+  modal: {
+    backgroundColor: theme.colors.gray.a2,
+  },
   right: {
     right: 0,
   },

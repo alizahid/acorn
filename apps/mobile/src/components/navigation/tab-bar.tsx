@@ -1,9 +1,12 @@
 import { type BottomTabBarProps } from '@react-navigation/bottom-tabs'
+import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
 import { Pressable } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { runOnJS } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+
+import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -12,6 +15,8 @@ type Props = BottomTabBarProps
 
 export function TabBar({ descriptors, navigation, state }: Props) {
   const router = useRouter()
+
+  const { blurNavigation } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -25,9 +30,11 @@ export function TabBar({ descriptors, navigation, state }: Props) {
     }
   })
 
+  const Main = blurNavigation ? BlurView : View
+
   return (
     <GestureDetector gesture={gesture}>
-      <View direction="row" style={styles.main}>
+      <Main intensity={75} style={styles.main(blurNavigation)}>
         {state.routes.map((route, index) => {
           const options = descriptors[route.key]?.options
 
@@ -71,7 +78,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
             </Pressable>
           )
         })}
-      </View>
+      </Main>
     </GestureDetector>
   )
 }
@@ -93,9 +100,14 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       },
     ],
   },
-  main: {
-    backgroundColor: theme.colors.gray[1],
-  },
+  main: (blur: boolean) => ({
+    backgroundColor: theme.colors.gray[blur ? 'a1' : '1'],
+    bottom: 0,
+    flexDirection: 'row',
+    left: 0,
+    position: 'absolute',
+    right: 0,
+  }),
   tab: {
     alignItems: 'center',
     flexGrow: 1,

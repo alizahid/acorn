@@ -5,7 +5,7 @@ import { useTranslations } from 'use-intl'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { listProps } from '~/lib/common'
+import { useList } from '~/hooks/list'
 import { usePreferences } from '~/stores/preferences'
 import { type Theme } from '~/styles/themes'
 import { type ColorToken } from '~/styles/tokens'
@@ -26,6 +26,8 @@ export function SettingsThemesScreen() {
   const { theme, update } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
+
+  const listProps = useList()
 
   const data = [
     {
@@ -103,33 +105,32 @@ export function SettingsThemesScreen() {
   return (
     <SectionList<Item, Section>
       {...listProps}
-      renderItem={({ item }) => {
-        return (
-          <Pressable
+      renderItem={({ item }) => (
+        <Pressable
+          align="center"
+          direction="row"
+          gap="4"
+          onPress={() => {
+            update({
+              theme: item.id,
+            })
+          }}
+          px="4"
+          py="3"
+          style={styles.item(item.id === theme)}
+        >
+          <View
             align="center"
-            direction="row"
-            gap="4"
-            onPress={() => {
-              update({
-                theme: item.id,
-              })
-            }}
-            px="4"
-            py="3"
-            style={styles.item(item.id === theme)}
-          >
-            <View
-              align="center"
-              height="6"
-              justify="center"
-              style={styles.icon(item.color)}
-              width="6"
-            />
+            height="6"
+            justify="center"
+            style={styles.icon(item.color)}
+            width="6"
+          />
 
-            <Text weight="medium">{item.label}</Text>
-          </Pressable>
-        )
-      }}
+          <Text weight="medium">{item.label}</Text>
+        </Pressable>
+      )}
+      renderSectionFooter={() => <View height="4" />}
       renderSectionHeader={({ section }) => (
         <View px="4" py="2" style={styles.header}>
           <Text weight="medium">{section.title}</Text>

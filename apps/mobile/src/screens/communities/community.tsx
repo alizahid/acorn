@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from 'expo-router'
 import { useRef, useState } from 'react'
 import { TabView } from 'react-native-tab-view'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -10,8 +10,10 @@ import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { CommunityAbout } from '~/components/communities/about'
 import { CommunitySearchBar } from '~/components/communities/search-bar'
+import { Header } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { CommunityTab } from '~/types/community'
 
@@ -26,7 +28,11 @@ export function CommunityScreen() {
 
   const t = useTranslations('screen.community')
 
-  const { styles } = useStyles(stylesheet)
+  const { theme } = useStyles()
+
+  const listProps = useList({
+    top: theme.space[7] + theme.space[4],
+  })
 
   const { sorting, update } = useSorting(params.name)
 
@@ -72,30 +78,27 @@ export function CommunityScreen() {
               }
               interval={sorting.interval}
               label="user"
+              listProps={listProps}
               sort={sorting.sort}
             />
           )
         }
 
-        return <CommunityAbout name={params.name} />
+        return <CommunityAbout listProps={listProps} name={params.name} />
       }}
       renderTabBar={({ position }) => (
-        <View pb="4" px="3" style={styles.tabs}>
-          <SegmentedControl
-            items={routes.current.map(({ title }) => title)}
-            offset={position}
-            onChange={(next) => {
-              setIndex(next)
-            }}
-          />
-        </View>
+        <Header back title={params.name}>
+          <View gap="4" pb="4" px="3">
+            <SegmentedControl
+              items={routes.current.map(({ title }) => title)}
+              offset={position}
+              onChange={(next) => {
+                setIndex(next)
+              }}
+            />
+          </View>
+        </Header>
       )}
     />
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  tabs: {
-    backgroundColor: theme.colors.gray[1],
-  },
-}))

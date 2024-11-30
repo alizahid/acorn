@@ -8,7 +8,7 @@ import { type menu } from '~/assets/menu'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { listProps } from '~/lib/common'
+import { type ListProps } from '~/hooks/list'
 
 import { type IconName, type IconWeight } from '../icon'
 import { MenuItem } from './item'
@@ -66,10 +66,11 @@ type Props = {
   footer?: ReactElement
   header?: ReactElement
   items: Array<MenuItem | string | null>
+  listProps?: ListProps
   onRefresh?: () => Promise<unknown>
 }
 
-export function Menu({ footer, header, items, onRefresh }: Props) {
+export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
   const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlatList<MenuItem | string | null>>(null)
@@ -86,7 +87,12 @@ export function Menu({ footer, header, items, onRefresh }: Props) {
       keyExtractor={(item, index) => String(index)}
       ref={list}
       refreshControl={
-        onRefresh ? <RefreshControl onRefresh={onRefresh} /> : undefined
+        onRefresh ? (
+          <RefreshControl
+            offset={listProps?.progressViewOffset}
+            onRefresh={onRefresh}
+          />
+        ) : undefined
       }
       renderItem={({ index, item }) => {
         if (item === null) {

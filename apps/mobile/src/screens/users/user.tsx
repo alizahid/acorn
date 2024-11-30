@@ -1,11 +1,7 @@
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-} from 'expo-router'
+import { useLocalSearchParams } from 'expo-router'
 import { useRef, useState } from 'react'
 import { TabView } from 'react-native-tab-view'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -13,8 +9,10 @@ import { CommentList } from '~/components/comments/list'
 import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
+import { Header } from '~/components/navigation/header'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { PostList } from '~/components/posts/list'
+import { useList } from '~/hooks/list'
 import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { usePreferences } from '~/stores/preferences'
@@ -27,8 +25,6 @@ const schema = z.object({
 export type UserParams = z.infer<typeof schema>
 
 export function UserScreen() {
-  const navigation = useNavigation()
-
   const params = schema.parse(useLocalSearchParams())
 
   const {
@@ -43,7 +39,11 @@ export function UserScreen() {
   const { profile, refetch } = useProfile(params.name)
   const { follow, isPending } = useFollow()
 
-  const { styles } = useStyles(stylesheet)
+  const { theme } = useStyles()
+
+  const listProps = useList({
+    top: theme.space[7] + theme.space[4],
+  })
 
   const routes = useRef(
     UserTab.map((key) => ({
@@ -53,26 +53,6 @@ export function UserScreen() {
   )
 
   const [index, setIndex] = useState(0)
-
-  useFocusEffect(() => {
-    navigation.setOptions({
-      headerRight: () =>
-        profile ? (
-          <HeaderButton
-            color={profile.subscribed ? 'red' : 'accent'}
-            icon={profile.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
-            loading={isPending}
-            onPress={() => {
-              follow({
-                action: profile.subscribed ? 'unfollow' : 'follow',
-                id: profile.subreddit,
-                name: profile.name,
-              })
-            }}
-          />
-        ) : undefined,
-    })
-  })
 
   return (
     <TabView
@@ -89,6 +69,7 @@ export function UserScreen() {
             <PostList
               interval={intervalUserPosts}
               label="subreddit"
+              listProps={listProps}
               onRefresh={refetch}
               sort={sortUserPosts}
               user={params.name}
@@ -100,6 +81,7 @@ export function UserScreen() {
         return (
           <CommentList
             interval={intervalUserComments}
+            listProps={listProps}
             onRefresh={refetch}
             sort={sortUserComments}
             user={params.name}
@@ -107,24 +89,37 @@ export function UserScreen() {
         )
       }}
       renderTabBar={({ position }) => (
-        <View style={styles.tabs}>
-          <SegmentedControl
-            items={routes.current.map(({ title }) => title)}
-            offset={position}
-            onChange={(next) => {
-              setIndex(next)
-            }}
-          />
-        </View>
+        <Header
+          back
+          right={
+            profile ? (
+              <HeaderButton
+                color={profile.subscribed ? 'red' : 'accent'}
+                icon={profile.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
+                loading={isPending}
+                onPress={() => {
+                  follow({
+                    action: profile.subscribed ? 'unfollow' : 'follow',
+                    id: profile.subreddit,
+                    name: profile.name,
+                  })
+                }}
+              />
+            ) : undefined
+          }
+          title={params.name}
+        >
+          <View gap="4" pb="4" px="3">
+            <SegmentedControl
+              items={routes.current.map(({ title }) => title)}
+              offset={position}
+              onChange={(next) => {
+                setIndex(next)
+              }}
+            />
+          </View>
+        </Header>
       )}
     />
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  tabs: {
-    backgroundColor: theme.colors.gray[1],
-    paddingBottom: theme.space[4],
-    paddingHorizontal: theme.space[3],
-  },
-}))

@@ -37,7 +37,7 @@ export function PostFooter({ expanded, label, post, seen }: Props) {
       gap="4"
       justify="between"
       onPress={() => {
-        router.navigate({
+        router.push({
           params: {
             id: removePrefix(post.id),
           },

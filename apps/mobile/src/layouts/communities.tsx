@@ -1,69 +1,44 @@
-import { Stack, useRouter } from 'expo-router'
+import { Stack } from 'expo-router'
 import { useTranslations } from 'use-intl'
 
-import { Header } from '~/components/navigation/header'
-import { HeaderButton } from '~/components/navigation/header-button'
-import { type CommunityParams } from '~/screens/communities/community'
-import { type CommunitiesSearchParams } from '~/screens/communities/search'
-import { type UserParams } from '~/screens/users/user'
+import { StackHeader } from '~/components/navigation/stack-header'
 
 export function CommunitiesLayout() {
-  const router = useRouter()
-
   const t = useTranslations('screen')
 
   return (
     <Stack
       screenOptions={{
         fullScreenGestureEnabled: true,
-        header: (props) => <Header {...props} />,
+        header: (props) => <StackHeader {...props} />,
       }}
     >
       <Stack.Screen
         name="communities"
         options={{
-          title: t('communities.title'),
+          headerShown: false,
         }}
       />
 
       <Stack.Screen
         name="communities/[name]/index"
-        options={(props) => {
-          const { name } = props.route.params as CommunityParams
-
-          return {
-            headerRight: () => (
-              <HeaderButton
-                color="gray"
-                icon="MagnifyingGlass"
-                onPress={() => {
-                  router.navigate({
-                    params: {
-                      name,
-                    },
-                    pathname: '/communities/[name]/search',
-                  })
-                }}
-                weight="bold"
-              />
-            ),
-            title: name,
-          }
+        options={{
+          headerShown: false,
         }}
       />
 
       <Stack.Screen
         name="communities/[name]/search"
-        options={(props) => ({
-          title: (props.route.params as CommunitiesSearchParams).name,
-        })}
+        options={{
+          headerShown: false,
+        }}
       />
 
       <Stack.Screen
         name="users/[name]/index"
-        options={(props) => ({
-          title: (props.route.params as UserParams).name,
-        })}
+        options={{
+          headerShown: false,
+        }}
       />
 
       <Stack.Screen

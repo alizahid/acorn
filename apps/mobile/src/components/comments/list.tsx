@@ -3,8 +3,8 @@ import { useRouter } from 'expo-router'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
+import { type ListProps } from '~/hooks/list'
 import { type CommentsProps, useComments } from '~/hooks/queries/user/comments'
-import { listProps } from '~/lib/common'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -12,10 +12,17 @@ import { View } from '../common/view'
 import { CommentCard } from './card'
 
 type Props = CommentsProps & {
+  listProps?: ListProps
   onRefresh?: () => void
 }
 
-export function CommentList({ interval, onRefresh, sort, user }: Props) {
+export function CommentList({
+  interval,
+  listProps,
+  onRefresh,
+  sort,
+  user,
+}: Props) {
   const router = useRouter()
 
   const {
@@ -50,6 +57,7 @@ export function CommentList({ interval, onRefresh, sort, user }: Props) {
       }}
       refreshControl={
         <RefreshControl
+          offset={listProps?.progressViewOffset}
           onRefresh={() => {
             onRefresh?.()
 
@@ -63,7 +71,7 @@ export function CommentList({ interval, onRefresh, sort, user }: Props) {
             <CommentCard
               comment={item.data}
               onPress={() => {
-                router.navigate({
+                router.push({
                   params: {
                     commentId: item.data.id,
                     id: item.data.postId,

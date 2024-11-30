@@ -1,4 +1,5 @@
 import * as Updates from 'expo-updates'
+import { ScrollView } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -8,6 +9,7 @@ import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { Updater } from '~/components/settings/updater'
 import { useLink } from '~/hooks/link'
+import { useList } from '~/hooks/list'
 
 export function SettingsAboutScreen() {
   const t = useTranslations('screen.settings.about')
@@ -15,6 +17,8 @@ export function SettingsAboutScreen() {
   const { handleLink } = useLink()
 
   const { styles, theme } = useStyles(stylesheet)
+
+  const listProps = useList()
 
   const links = [
     {
@@ -35,7 +39,10 @@ export function SettingsAboutScreen() {
   ] as const
 
   return (
-    <View align="center" flexGrow={1} gap="9" justify="center" p="4">
+    <ScrollView
+      {...listProps}
+      contentContainerStyle={[listProps.contentContainerStyle, styles.content]}
+    >
       <View gap="6">
         <View align="center">
           <Logo />
@@ -85,11 +92,18 @@ export function SettingsAboutScreen() {
       </View>
 
       <Updater />
-    </View>
+    </ScrollView>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  content: {
+    alignItems: 'center',
+    flexGrow: 1,
+    gap: theme.space[9],
+    justifyContent: 'center',
+    paddingHorizontal: theme.space[4],
+  },
   link: {
     backgroundColor: theme.colors.accent.a9,
     borderCurve: 'continuous',

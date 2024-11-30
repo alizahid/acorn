@@ -3,6 +3,7 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Menu } from '~/components/common/menu'
+import { useList } from '~/hooks/list'
 import { clearCollapsed } from '~/lib/db/collapsed'
 import { clearHidden } from '~/lib/db/hidden'
 import { clearHistory } from '~/lib/db/history'
@@ -13,6 +14,8 @@ export function SettingsCacheScreen() {
   const t = useTranslations('screen.settings.cache')
 
   const { theme } = useStyles()
+
+  const listProps = useList()
 
   return (
     <Menu
@@ -90,6 +93,7 @@ export function SettingsCacheScreen() {
           },
         },
       ]}
+      listProps={listProps}
     />
   )
 }
