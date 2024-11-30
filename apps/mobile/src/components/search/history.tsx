@@ -1,70 +1,74 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { type SearchHistoryData } from '~/hooks/search'
+
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 
 type Props = {
-  history: Array<string>
-  onClear: () => void
-  onPress: (query: string) => void
+  history: SearchHistoryData
+  onChange: (query: string) => void
 }
 
-export function SearchHistory({ history, onClear, onPress }: Props) {
+export function SearchHistory({ history, onChange }: Props) {
   const t = useTranslations('component.search.history')
 
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View align="center" flexGrow={1} gap="6" justify="center" p="6">
-      <Icon
-        color={theme.colors.gray.a9}
-        name="MagnifyingGlass"
-        size={theme.space[8]}
-        weight="duotone"
-      />
+    <View gap="4" pb="4" px="3">
+      <Text size="2" weight="medium">
+        {t('title')}
+      </Text>
 
-      <View direction="row" gap="4" justify="center" wrap="wrap">
-        {history.map((query) => (
+      {history.history.map((query) => (
+        <Pressable
+          align="center"
+          direction="row"
+          gap="3"
+          hitSlop={theme.space[4]}
+          key={query}
+          onPress={() => {
+            onChange(query)
+          }}
+        >
+          <Icon color={theme.colors.gray.a12} name="MagnifyingGlass" />
+
+          <Text style={styles.query}>{query}</Text>
+
           <Pressable
-            key={query}
+            hitSlop={theme.space[4]}
             onPress={() => {
-              onPress(query)
+              history.remove(query)
             }}
-            px="2"
-            py="1"
-            style={styles.query}
           >
-            <Text>{query}</Text>
+            <Icon color={theme.colors.red.a9} name="X" weight="bold" />
           </Pressable>
-        ))}
-      </View>
+        </Pressable>
+      ))}
 
       <Pressable
+        align="center"
+        direction="row"
+        gap="3"
+        hitSlop={theme.space[4]}
         onPress={() => {
-          onClear()
+          history.clear()
         }}
-        px="2"
-        py="1"
-        style={[styles.query, styles.clear]}
       >
-        <Text color="red" contrast size="2">
-          {t('clear')}
-        </Text>
+        <Icon color={theme.colors.red.a9} name="X" weight="bold" />
+
+        <Text>{t('clear')}</Text>
       </Pressable>
     </View>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  clear: {
-    backgroundColor: theme.colors.red.a9,
-  },
+const stylesheet = createStyleSheet(() => ({
   query: {
-    backgroundColor: theme.colors.accent.a4,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[3],
+    flex: 1,
   },
 }))

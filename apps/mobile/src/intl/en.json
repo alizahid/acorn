@@ -128,7 +128,8 @@
     },
     "search": {
       "history": {
-        "clear": "Clear"
+        "clear": "Clear",
+        "title": "Recent"
       }
     },
     "settings": {

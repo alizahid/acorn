@@ -79,11 +79,7 @@ export function SearchList({
         isLoading ? (
           <Loading />
         ) : history.history.length > 0 ? (
-          <SearchHistory
-            history={history.history}
-            onClear={history.clear}
-            onPress={onChangeQuery}
-          />
+          <SearchHistory history={history} onChange={onChangeQuery} />
         ) : (
           <Empty />
         )
