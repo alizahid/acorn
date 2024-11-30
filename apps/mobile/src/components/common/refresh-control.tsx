@@ -28,7 +28,6 @@ export function RefreshControl({ color = 'accent', offset, onRefresh }: Props) {
 
   return (
     <ReactNativeRefreshControl
-      colors={[theme.colors[color].a9, theme.colors[color].a10]}
       onRefresh={refresh}
       progressViewOffset={offset}
       refreshing={refreshing}

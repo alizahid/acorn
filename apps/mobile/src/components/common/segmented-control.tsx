@@ -34,7 +34,6 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
   return (
     <View
       direction="row"
-      key={String(items.length)}
       onLayout={(event) => {
         setWidth(
           (event.nativeEvent.layout.width - theme.space[1]) / items.length,
@@ -56,7 +55,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
           }}
           px="2"
         >
-          <Text highContrast={false} size="2" weight="medium">
+          <Text highContrast={false} size="2" weight="bold">
             {item}
           </Text>
         </Pressable>
@@ -74,7 +73,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
                 key={item}
                 px="2"
               >
-                <Text color="blue" size="2" weight="medium">
+                <Text color="blue" size="2" weight="bold">
                   {item}
                 </Text>
               </View>
