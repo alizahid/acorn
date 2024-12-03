@@ -16,9 +16,9 @@ type Props = BottomTabBarProps
 export function TabBar({ descriptors, navigation, state }: Props) {
   const router = useRouter()
 
-  const { blurNavigation, theme } = usePreferences()
+  const { blurNavigation, theme: appTheme } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   function goBack() {
     router.back()
@@ -38,9 +38,9 @@ export function TabBar({ descriptors, navigation, state }: Props) {
         intensity={75}
         style={styles.main(blurNavigation)}
         tint={
-          theme.endsWith('Light')
+          appTheme.endsWith('Light')
             ? 'light'
-            : theme.endsWith('Dark')
+            : appTheme.endsWith('Dark')
               ? 'dark'
               : 'default'
         }
@@ -73,9 +73,9 @@ export function TabBar({ descriptors, navigation, state }: Props) {
               style={styles.tab}
             >
               {options?.tabBarIcon?.({
-                color: '',
+                color: theme.colors[focused ? 'accent' : 'gray'].a9,
                 focused,
-                size: 0,
+                size: theme.space[5],
               })}
 
               {options?.tabBarBadge ? (

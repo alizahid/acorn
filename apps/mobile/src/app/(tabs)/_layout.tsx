@@ -1,13 +1,10 @@
 import { Tabs } from 'expo-router'
-import { useStyles } from 'react-native-unistyles'
 
 import { Icon } from '~/components/common/icon'
 import { TabBar } from '~/components/navigation/tab-bar'
 import { useUnread } from '~/hooks/queries/user/unread'
 
 export default function Layout() {
-  const { theme } = useStyles()
-
   const { unread } = useUnread()
 
   return (
@@ -22,13 +19,8 @@ export default function Layout() {
       <Tabs.Screen
         name="(home)"
         options={{
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              color={theme.colors[focused ? 'accent' : 'gray'].a9}
-              name="House"
-              size={theme.space[5]}
-              weight="duotone"
-            />
+          tabBarIcon: ({ color, size }) => (
+            <Icon color={color} name="House" size={size} weight="duotone" />
           ),
         }}
       />
@@ -36,11 +28,11 @@ export default function Layout() {
       <Tabs.Screen
         name="(search)"
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ color, size }) => (
             <Icon
-              color={theme.colors[focused ? 'accent' : 'gray'].a9}
+              color={color}
               name="MagnifyingGlass"
-              size={theme.space[5]}
+              size={size}
               weight="duotone"
             />
           ),
@@ -50,11 +42,11 @@ export default function Layout() {
       <Tabs.Screen
         name="(profile)"
         options={{
-          tabBarIcon: ({ focused }) => (
+          tabBarIcon: ({ color, size }) => (
             <Icon
-              color={theme.colors[focused ? 'accent' : 'gray'].a9}
+              color={color}
               name="UserCircle"
-              size={theme.space[5]}
+              size={size}
               weight="duotone"
             />
           ),
@@ -65,13 +57,8 @@ export default function Layout() {
         name="(notifications)"
         options={{
           tabBarBadge: unread,
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              color={theme.colors[focused ? 'accent' : 'gray'].a9}
-              name="Bell"
-              size={theme.space[5]}
-              weight="duotone"
-            />
+          tabBarIcon: ({ color, size }) => (
+            <Icon color={color} name="Bell" size={size} weight="duotone" />
           ),
         }}
       />
@@ -79,13 +66,8 @@ export default function Layout() {
       <Tabs.Screen
         name="(settings)"
         options={{
-          tabBarIcon: ({ focused }) => (
-            <Icon
-              color={theme.colors[focused ? 'accent' : 'gray'].a9}
-              name="GearSix"
-              size={theme.space[5]}
-              weight="duotone"
-            />
+          tabBarIcon: ({ color, size }) => (
+            <Icon color={color} name="GearSix" size={size} weight="duotone" />
           ),
         }}
       />
