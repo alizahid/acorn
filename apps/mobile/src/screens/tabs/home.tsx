@@ -84,7 +84,6 @@ export function HomeScreen() {
         <HomeDrawer
           community={homeFeed.community}
           feed={homeFeed.feed}
-          listProps={listProps}
           onChange={(next) => {
             updateDefaults({
               homeFeed: next,

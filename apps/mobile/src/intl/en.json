@@ -71,6 +71,13 @@
         "user": "Users"
       }
     },
+    "home": {
+      "drawer": {
+        "search": {
+          "placeholder": "Search"
+        }
+      }
+    },
     "inbox": {
       "notification": {
         "comment_reply": "{user} replied to your comment",
