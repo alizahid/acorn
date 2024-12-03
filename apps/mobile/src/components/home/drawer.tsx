@@ -1,8 +1,10 @@
+import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { Image } from 'expo-image'
+import { useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
 import { compact } from 'lodash'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -13,15 +15,57 @@ import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/feeds/feeds'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
+import { type Community } from '~/types/community'
+import { type Feed } from '~/types/feed'
 import { FeedType } from '~/types/sort'
 
 import { Empty } from '../common/empty'
+import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 import { TextBox } from '../common/text-box'
 import { HeaderButton } from '../navigation/header-button'
 import { SheetHeader } from '../sheets/header'
 import { SheetItem } from '../sheets/item'
 import { type FeedTypeOptions } from './type-menu'
+
+type Item =
+  | {
+      key: string
+      title: string
+      type: 'header'
+    }
+  | {
+      key: string
+      type: 'separator'
+    }
+  | {
+      key: string
+      type: 'empty'
+    }
+  | {
+      key: string
+      type: 'spinner'
+    }
+  | {
+      data: FeedType
+      key: string
+      type: 'type'
+    }
+  | {
+      data: Feed
+      key: string
+      type: 'feed'
+    }
+  | {
+      data: Community
+      key: string
+      type: 'community'
+    }
+  | {
+      data: Community
+      key: string
+      type: 'user'
+    }
 
 type Props = FeedTypeOptions & {
   onChange: (data: FeedTypeOptions) => void
@@ -36,8 +80,14 @@ export function HomeDrawer({
   type,
   user,
 }: Props) {
+  const router = useRouter()
+
   const t = useTranslations('component.common.type')
   const tDrawer = useTranslations('component.home.drawer')
+
+  const list = useRef<FlashList<Item>>(null)
+
+  useScrollToTop(list)
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -50,21 +100,21 @@ export function HomeDrawer({
 
   const [query, setQuery] = useState('')
 
-  const data = useMemo(() => {
-    const dataCommunities = communities
+  const data: Array<Item> = useMemo(() => {
+    const dataCommunities: Array<Item> = communities
       .filter((item) => typeof item !== 'string')
       .map((item) => ({
         data: item,
         key: item.id,
-        type: 'community' as const,
+        type: 'community',
       }))
 
-    const dataUsers = users
+    const dataUsers: Array<Item> = users
       .filter((item) => typeof item !== 'string')
       .map((item) => ({
         data: item,
         key: item.id,
-        type: 'user' as const,
+        type: 'user',
       }))
 
     if (query.length > 1) {
@@ -75,7 +125,7 @@ export function HomeDrawer({
       return results.map((result) => result.obj)
     }
 
-    return compact([
+    return compact<Item>([
       {
         key: 'type-title',
         title: t('type.title'),
@@ -187,6 +237,7 @@ export function HomeDrawer({
         estimatedItemSize={48}
         getItemType={(item) => item.type}
         keyExtractor={(item) => item.key}
+        ref={list}
         renderItem={({ item }) => {
           if (item.type === 'separator') {
             return <View height="8" />
@@ -249,14 +300,49 @@ export function HomeDrawer({
                 })
               }}
               right={
-                'favorite' in item.data && item.data.favorite ? (
-                  <Icon
-                    color={theme.colors.amber.a9}
-                    name="Star"
-                    size={theme.space[4]}
-                    weight="fill"
-                  />
-                ) : null
+                <>
+                  {'favorite' in item.data && item.data.favorite ? (
+                    <Icon
+                      color={theme.colors.amber.a9}
+                      name="Star"
+                      size={theme.space[4]}
+                      weight="fill"
+                    />
+                  ) : null}
+
+                  {item.type === 'community' || item.type === 'user' ? (
+                    <Pressable
+                      align="center"
+                      height="8"
+                      justify="center"
+                      m="-3"
+                      onPress={() => {
+                        if (item.data.user) {
+                          router.push({
+                            params: {
+                              name: removePrefix(item.data.name),
+                            },
+                            pathname: '/users/[name]',
+                          })
+                        } else {
+                          router.push({
+                            params: {
+                              name: removePrefix(item.data.name),
+                            },
+                            pathname: '/communities/[name]',
+                          })
+                        }
+                      }}
+                      width="8"
+                    >
+                      <Icon
+                        color={theme.colors.gray.a9}
+                        name="ArrowRight"
+                        size={theme.space[4]}
+                      />
+                    </Pressable>
+                  ) : null}
+                </>
               }
               selected={
                 item.type === 'feed'
