@@ -19,28 +19,22 @@ import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
 import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
 import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
 import ChatCircleBold from 'react-native-phosphor/src/bold/ChatCircle'
-import CheckBold from 'react-native-phosphor/src/bold/Check'
 import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
-import DotsThreeBold from 'react-native-phosphor/src/bold/DotsThree'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
 import DropBold from 'react-native-phosphor/src/bold/Drop'
 import EyeBold from 'react-native-phosphor/src/bold/Eye'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
-import FastForwardBold from 'react-native-phosphor/src/bold/FastForward'
-import FlagBold from 'react-native-phosphor/src/bold/Flag'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import GitHubLogoBold from 'react-native-phosphor/src/bold/GithubLogo'
 import HandSwipeLeftBold from 'react-native-phosphor/src/bold/HandSwipeLeft'
-import HandSwipeRightBold from 'react-native-phosphor/src/bold/HandSwipeRight'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
 import ImageBold from 'react-native-phosphor/src/bold/Image'
-import InfoBold from 'react-native-phosphor/src/bold/Info'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import MouseScrollBold from 'react-native-phosphor/src/bold/MouseScroll'
@@ -55,7 +49,6 @@ import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
 import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import QuestionBold from 'react-native-phosphor/src/bold/Question'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
-import RewindBold from 'react-native-phosphor/src/bold/Rewind'
 import RowsBold from 'react-native-phosphor/src/bold/Rows'
 import ShareFatBold from 'react-native-phosphor/src/bold/Share'
 import SlidersHorizontalBold from 'react-native-phosphor/src/bold/SlidersHorizontal'
@@ -98,28 +91,22 @@ import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
 import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
 import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
 import ChatCircleDuotone from 'react-native-phosphor/src/duotone/ChatCircle'
-import CheckDuotone from 'react-native-phosphor/src/duotone/Check'
 import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
-import DotsThreeDuotone from 'react-native-phosphor/src/duotone/DotsThree'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
 import DropDuotone from 'react-native-phosphor/src/duotone/Drop'
 import EyeDuotone from 'react-native-phosphor/src/duotone/Eye'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
-import FastForwardDuotone from 'react-native-phosphor/src/duotone/FastForward'
-import FlagDuotone from 'react-native-phosphor/src/duotone/Flag'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import GitHubLogoDuotone from 'react-native-phosphor/src/duotone/GithubLogo'
 import HandSwipeLeftDuotone from 'react-native-phosphor/src/duotone/HandSwipeLeft'
-import HandSwipeRightDuotone from 'react-native-phosphor/src/duotone/HandSwipeRight'
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import ImageDuotone from 'react-native-phosphor/src/duotone/Image'
-import InfoDuotone from 'react-native-phosphor/src/duotone/Info'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import MouseScrollDuotone from 'react-native-phosphor/src/duotone/MouseScroll'
@@ -134,7 +121,6 @@ import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
 import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import QuestionDuotone from 'react-native-phosphor/src/duotone/Question'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
-import RewindDuotone from 'react-native-phosphor/src/duotone/Rewind'
 import RowsDuotone from 'react-native-phosphor/src/duotone/Rows'
 import ShareFatDuotone from 'react-native-phosphor/src/duotone/Share'
 import SlidersHorizontalDuotone from 'react-native-phosphor/src/duotone/SlidersHorizontal'
@@ -177,28 +163,22 @@ import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
 import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
 import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
 import ChatCircleFill from 'react-native-phosphor/src/fill/ChatCircle'
-import CheckFill from 'react-native-phosphor/src/fill/Check'
 import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
-import DotsThreeFill from 'react-native-phosphor/src/fill/DotsThree'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
 import DropFill from 'react-native-phosphor/src/fill/Drop'
 import EyeFill from 'react-native-phosphor/src/fill/Eye'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
-import FastForwardFill from 'react-native-phosphor/src/fill/FastForward'
-import FlagFill from 'react-native-phosphor/src/fill/Flag'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import GitHubLogoFill from 'react-native-phosphor/src/fill/GithubLogo'
 import HandSwipeLeftFill from 'react-native-phosphor/src/fill/HandSwipeLeft'
-import HandSwipeRightFill from 'react-native-phosphor/src/fill/HandSwipeRight'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
 import ImageFill from 'react-native-phosphor/src/fill/Image'
-import InfoFill from 'react-native-phosphor/src/fill/Info'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import MouseScrollFill from 'react-native-phosphor/src/fill/MouseScroll'
@@ -213,7 +193,6 @@ import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
 import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import QuestionFill from 'react-native-phosphor/src/fill/Question'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
-import RewindFill from 'react-native-phosphor/src/fill/Rewind'
 import RowsFill from 'react-native-phosphor/src/fill/Rows'
 import ShareFatFill from 'react-native-phosphor/src/fill/Share'
 import SlidersHorizontalFill from 'react-native-phosphor/src/fill/SlidersHorizontal'
@@ -256,28 +235,22 @@ import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
 import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
 import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
 import ChatCircleRegular from 'react-native-phosphor/src/regular/ChatCircle'
-import CheckRegular from 'react-native-phosphor/src/regular/Check'
 import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
-import DotsThreeRegular from 'react-native-phosphor/src/regular/DotsThree'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
 import DropRegular from 'react-native-phosphor/src/regular/Drop'
 import EyeRegular from 'react-native-phosphor/src/regular/Eye'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
-import FastForwardRegular from 'react-native-phosphor/src/regular/FastForward'
-import FlagRegular from 'react-native-phosphor/src/regular/Flag'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import GitHubLogoRegular from 'react-native-phosphor/src/regular/GithubLogo'
 import HandSwipeLeftRegular from 'react-native-phosphor/src/regular/HandSwipeLeft'
-import HandSwipeRightRegular from 'react-native-phosphor/src/regular/HandSwipeRight'
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
 import ImageRegular from 'react-native-phosphor/src/regular/Image'
-import InfoRegular from 'react-native-phosphor/src/regular/Info'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import MouseScrollRegular from 'react-native-phosphor/src/regular/MouseScroll'
@@ -292,7 +265,6 @@ import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
 import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import QuestionRegular from 'react-native-phosphor/src/regular/Question'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
-import RewindRegular from 'react-native-phosphor/src/regular/Rewind'
 import RowsRegular from 'react-native-phosphor/src/regular/Rows'
 import ShareFatRegular from 'react-native-phosphor/src/regular/Share'
 import SlidersHorizontalRegular from 'react-native-phosphor/src/regular/SlidersHorizontal'
@@ -456,12 +428,6 @@ const icons = {
     fill: ChatCircleFill,
     regular: ChatCircleRegular,
   },
-  Check: {
-    bold: CheckBold,
-    duotone: CheckDuotone,
-    fill: CheckFill,
-    regular: CheckRegular,
-  },
   CheckCircle: {
     bold: CheckCircleBold,
     duotone: CheckCircleDuotone,
@@ -492,12 +458,6 @@ const icons = {
     fill: DiscordLogoFill,
     regular: DiscordLogoRegular,
   },
-  DotsThree: {
-    bold: DotsThreeBold,
-    duotone: DotsThreeDuotone,
-    fill: DotsThreeFill,
-    regular: DotsThreeRegular,
-  },
   Download: {
     bold: DownloadBold,
     duotone: DownloadDuotone,
@@ -521,18 +481,6 @@ const icons = {
     duotone: EyeClosedDuotone,
     fill: EyeClosedFill,
     regular: EyeClosedRegular,
-  },
-  FastForward: {
-    bold: FastForwardBold,
-    duotone: FastForwardDuotone,
-    fill: FastForwardFill,
-    regular: FastForwardRegular,
-  },
-  Flag: {
-    bold: FlagBold,
-    duotone: FlagDuotone,
-    fill: FlagFill,
-    regular: FlagRegular,
   },
   Flame: {
     bold: FlameBold,
@@ -558,12 +506,6 @@ const icons = {
     fill: HandSwipeLeftFill,
     regular: HandSwipeLeftRegular,
   },
-  HandSwipeRight: {
-    bold: HandSwipeRightBold,
-    duotone: HandSwipeRightDuotone,
-    fill: HandSwipeRightFill,
-    regular: HandSwipeRightRegular,
-  },
   HardDrives: {
     bold: HardDrivesBold,
     duotone: HardDrivesDuotone,
@@ -581,12 +523,6 @@ const icons = {
     duotone: ImageDuotone,
     fill: ImageFill,
     regular: ImageRegular,
-  },
-  Info: {
-    bold: InfoBold,
-    duotone: InfoDuotone,
-    fill: InfoFill,
-    regular: InfoRegular,
   },
   MagnifyingGlass: {
     bold: MagnifyingGlassBold,
@@ -671,12 +607,6 @@ const icons = {
     duotone: RankingDuotone,
     fill: RankingFill,
     regular: RankingRegular,
-  },
-  Rewind: {
-    bold: RewindBold,
-    duotone: RewindDuotone,
-    fill: RewindFill,
-    regular: RewindRegular,
   },
   Rows: {
     bold: RowsBold,
