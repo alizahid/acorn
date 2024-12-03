@@ -1,4 +1,4 @@
-import { type CommunityFeedSort, type TopInterval } from './sort'
+import { type FeedSort, type TopInterval } from './sort'
 
 export type HistoryRow = {
   post_id: string
@@ -26,5 +26,5 @@ export type SortingRow = {
   community_id: string
   created_at: string
   interval?: TopInterval
-  sort: CommunityFeedSort
+  sort: FeedSort
 }

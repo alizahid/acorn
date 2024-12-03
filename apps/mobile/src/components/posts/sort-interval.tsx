@@ -96,27 +96,17 @@ export function SortIntervalMenu<Type extends SortType>({
       onPressMenuItem={(event) => {
         const value = event.nativeEvent.actionKey
 
-        type Sort = Type extends 'comment'
-          ? CommentSort
-          : Type extends 'community'
-            ? CommunityFeedSort
-            : Type extends 'search'
-              ? SearchSort
-              : Type extends 'user'
-                ? UserFeedSort
-                : FeedSort
-
         if (TopInterval.includes(value as TopInterval)) {
           onChange({
             interval: value as TopInterval,
-            sort: 'top' as Sort,
+            sort: 'top' as SortIntervalMenuData<Type>['sort'],
           })
 
           return
         }
 
         onChange({
-          sort: value as Sort,
+          sort: value as SortIntervalMenuData<Type>['sort'],
         })
       }}
       style={styles.main}

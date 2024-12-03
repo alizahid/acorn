@@ -9,22 +9,27 @@ import { FeedTypeMenu } from '~/components/home/type-menu'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
+import { useSorting } from '~/hooks/sorting'
 import { useDefaults } from '~/stores/defaults'
-import { usePreferences } from '~/stores/preferences'
 
 export function HomeScreen() {
   const navigation = useNavigation()
 
-  const { intervalFeedPosts, sortFeedPosts } = usePreferences()
-  const { homeFeed, update } = useDefaults()
+  const { homeFeed, update: updateDefaults } = useDefaults()
 
   const { styles, theme } = useStyles(stylesheet)
 
   const listProps = useList()
 
   const [open, setOpen] = useState(false)
-  const [sort, setSort] = useState(sortFeedPosts)
-  const [interval, setInterval] = useState(intervalFeedPosts)
+
+  const { sorting, update: updateSorting } = useSorting(
+    homeFeed.feed ??
+      homeFeed.user ??
+      homeFeed.community ??
+      homeFeed.type ??
+      'home',
+  )
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -42,15 +47,14 @@ export function HomeScreen() {
       headerRight: () =>
         !homeFeed.user ? (
           <SortIntervalMenu
-            interval={interval}
+            interval={sorting.interval}
             onChange={(next) => {
-              setSort(next.sort)
-
-              if (next.interval) {
-                setInterval(next.interval)
-              }
+              updateSorting({
+                interval: next.interval,
+                sort: next.sort,
+              })
             }}
-            sort={sort}
+            sort={sorting.sort}
             type={
               homeFeed.community
                 ? 'community'
@@ -82,12 +86,14 @@ export function HomeScreen() {
           feed={homeFeed.feed}
           listProps={listProps}
           onChange={(next) => {
-            update({
+            updateDefaults({
               homeFeed: next,
             })
 
-            if (sort === 'best' && !next.feed && next.type !== 'home') {
-              setSort('hot')
+            if (sorting.sort === 'best' && !next.feed && next.type !== 'home') {
+              updateSorting({
+                sort: 'hot',
+              })
             }
           }}
           onClose={() => {
@@ -113,10 +119,10 @@ export function HomeScreen() {
             <CommunitySearchBar name={homeFeed.community} />
           ) : undefined
         }
-        interval={interval}
+        interval={sorting.interval}
         label="subreddit"
         listProps={listProps}
-        sort={sort}
+        sort={sorting.sort}
         user={homeFeed.user}
       />
     </Drawer>

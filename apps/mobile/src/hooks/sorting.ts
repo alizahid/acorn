@@ -1,51 +1,77 @@
-import { type QueryKey, useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 import { getSorting, setSorting } from '~/lib/db/sorting'
 import { queryClient } from '~/lib/query'
 import { usePreferences } from '~/stores/preferences'
-import { type CommunityFeedSort, type TopInterval } from '~/types/sort'
+import {
+  type CommunityFeedSort,
+  type FeedSort,
+  type SortType,
+  type TopInterval,
+  type UserFeedSort,
+} from '~/types/sort'
 
-type Data = {
+export type SortingType = 'feed' | 'community' | 'user'
+
+export type SortingQueryData<Type extends SortType> = {
   interval?: TopInterval
-  sort: CommunityFeedSort
+  sort: Type extends 'community'
+    ? CommunityFeedSort
+    : Type extends 'user'
+      ? UserFeedSort
+      : FeedSort
 }
 
-export function useSorting(id: string) {
+export type SortingQueryKey<Type extends SortingType> = [
+  'sorting',
+  {
+    defaults?: SortingQueryData<Type>
+    id: string
+  },
+]
+
+export function useSorting<Type extends SortingType>(
+  id: string,
+  defaults?: SortingQueryData<Type>,
+) {
   const { intervalCommunityPosts, rememberCommunitySort, sortCommunityPosts } =
     usePreferences()
 
-  const [initial, setInitial] = useState<Data>({
-    interval: intervalCommunityPosts,
-    sort: sortCommunityPosts,
+  const [initial, setInitial] = useState<SortingQueryData<Type>>({
+    interval: defaults?.interval ?? intervalCommunityPosts,
+    sort: (defaults?.sort ??
+      sortCommunityPosts) as SortingQueryData<Type>['sort'],
   })
 
-  const queryKey: QueryKey = [
+  const queryKey: SortingQueryKey<Type> = [
     'sorting',
     {
+      defaults,
       id,
     },
   ]
 
-  const { data } = useQuery<Data>({
+  const { data } = useQuery<
+    SortingQueryData<Type>,
+    Error,
+    SortingQueryData<Type>
+  >({
     initialData: initial,
     async queryFn() {
-      return getSorting(id)
+      return getSorting<Type>(id, defaults)
     },
     queryKey,
   })
 
-  const { mutate } = useMutation<unknown, Error, Data>({
+  const { mutate } = useMutation<unknown, Error, SortingQueryData<Type>>({
     async mutationFn(variables) {
-      await setSorting(id, {
-        interval: variables.interval,
-        sort: variables.sort,
-      })
+      await setSorting(id, variables)
     },
     onMutate(variables) {
       setInitial(variables)
 
-      queryClient.setQueryData<Data>(queryKey, variables)
+      queryClient.setQueryData<SortingQueryData<Type>>(queryKey, variables)
     },
   })
 
