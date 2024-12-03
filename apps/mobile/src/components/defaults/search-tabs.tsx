@@ -21,7 +21,7 @@ export function DefaultsSearchTabs({ data, onChange, style }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View gap="3" style={style}>
+    <View gap="2" style={style}>
       <Text weight="medium">{t('title')}</Text>
 
       <View style={styles.content}>

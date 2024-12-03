@@ -65,7 +65,7 @@
     "defaults": {
       "searchTabs": {
         "community": "Communities",
-        "hint": "Requires app restart",
+        "hint": "Requires app restart to take effect",
         "post": "Posts",
         "title": "Search tabs",
         "user": "Users"
