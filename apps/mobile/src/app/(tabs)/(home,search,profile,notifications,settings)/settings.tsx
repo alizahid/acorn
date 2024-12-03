@@ -3,6 +3,7 @@ import { useTranslations } from 'use-intl'
 
 import { Menu } from '~/components/common/menu'
 import { AboutCard } from '~/components/settings/about'
+import { Updater } from '~/components/settings/updater'
 import { useList } from '~/hooks/list'
 
 export default function Screen() {
@@ -14,7 +15,8 @@ export default function Screen() {
 
   return (
     <Menu
-      footer={<AboutCard />}
+      footer={<Updater />}
+      header={<AboutCard />}
       items={[
         {
           arrow: true,

@@ -1,4 +1,3 @@
-import * as Updates from 'expo-updates'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -7,8 +6,6 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { useLink } from '~/hooks/link'
-
-import { Updater } from './updater'
 
 export function AboutCard() {
   const t = useTranslations('screen.settings.about')
@@ -72,20 +69,6 @@ export function AboutCard() {
           ))}
         </View>
       </View>
-
-      <View direction="row" gap="4">
-        <Text highContrast={false} variant="mono" weight="medium">
-          {Updates.runtimeVersion}
-        </Text>
-
-        {Updates.updateId ? (
-          <Text highContrast={false} variant="mono">
-            {Updates.updateId.split('-').pop()}
-          </Text>
-        ) : null}
-      </View>
-
-      <Updater />
     </View>
   )
 }
