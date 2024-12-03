@@ -292,11 +292,11 @@
         "browsing": {
           "refreshInterval": "Auto refresh interval",
           "rememberCommunitySort": "Remember community sorting",
-          "showFlair": "Show flair on posts and comments",
+          "showFlair": "Show flair",
           "title": "Browsing"
         },
         "comments": {
-          "collapseAutoModerator": "Collapse AutoModerator comments",
+          "collapseAutoModerator": "Collapse AutoModerator",
           "coloredComments": "Colored comments",
           "replyPost": "Post reply floating button",
           "skipComment": "Skip comment floating button",
