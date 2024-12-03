@@ -1,5 +1,14 @@
 # Changelog
 
+## Build 33
+
+- added: blur effect for headers and tab bar
+- added: communities drawer search
+- changed: communities tab replaced with settings
+- changed: search history design
+- fixed: communities drawer now remembers sort/interval
+- fixed: compact mode image viewing
+
 ## Build 32
 
 - added: separate gestures for posts and comments
