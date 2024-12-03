@@ -77,12 +77,12 @@ export default function Layout() {
       />
 
       <Tabs.Screen
-        name="(communities)"
+        name="(settings)"
         options={{
           tabBarIcon: ({ focused }) => (
             <Icon
               color={theme.colors[focused ? 'accent' : 'gray'].a9}
-              name="UsersFour"
+              name="GearSix"
               size={theme.space[5]}
               weight="duotone"
             />

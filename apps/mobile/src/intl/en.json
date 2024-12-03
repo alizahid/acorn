@@ -212,24 +212,12 @@
       }
     },
     "profile": {
-      "data": {
-        "comments": "Comments",
-        "downvoted": "Downvoted",
-        "hidden": "Hidden",
-        "saved": "Saved",
-        "submitted": "Posts",
-        "upvoted": "Upvoted"
-      },
-      "settings": {
-        "about": "About",
-        "cache": "Cache",
-        "defaults": "Defaults",
-        "gestures": "Gestures",
-        "preferences": "Preferences",
-        "sort": "Sort",
-        "themes": "Themes",
-        "title": "Settings"
-      }
+      "comments": "Comments",
+      "downvoted": "Downvoted",
+      "hidden": "Hidden",
+      "saved": "Saved",
+      "submitted": "Posts",
+      "upvoted": "Upvoted"
     },
     "search": {
       "tabs": {
@@ -356,6 +344,16 @@
           "title": "System"
         },
         "title": "Preferences"
+      },
+      "settings": {
+        "about": "About",
+        "cache": "Cache",
+        "defaults": "Defaults",
+        "gestures": "Gestures",
+        "preferences": "Preferences",
+        "sort": "Sort",
+        "themes": "Themes",
+        "title": "Settings"
       },
       "sort": {
         "community": {
