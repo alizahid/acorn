@@ -1,5 +1,6 @@
 import { useIsFocused } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
+import { BlurView } from 'expo-blur'
 import {
   useFocusEffect,
   useLocalSearchParams,
@@ -256,57 +257,58 @@ export default function Screen() {
       />
 
       {replyPost && post ? (
-        <HeaderButton
-          contrast
-          icon="ArrowBendUpLeft"
-          onPress={() => {
-            router.navigate({
-              params: {
-                id: params.id,
-              },
-              pathname: '/posts/[id]/reply',
-            })
-          }}
-          style={[styles.action, styles.reply(replyPost)]}
-          weight="bold"
-        />
+        <BlurView style={[styles.action, styles.reply(replyPost)]}>
+          <HeaderButton
+            color="blue"
+            icon="ArrowBendUpLeft"
+            onPress={() => {
+              router.navigate({
+                params: {
+                  id: params.id,
+                },
+                pathname: '/posts/[id]/reply',
+              })
+            }}
+            weight="bold"
+          />
+        </BlurView>
       ) : null}
 
       {skipComment && comments.length > 0 ? (
-        <HeaderButton
-          contrast
-          hitSlop={theme.space[4]}
-          icon="ArrowDown"
-          onPress={() => {
-            if (viewing.includes(0)) {
-              list.current?.scrollToIndex({
-                animated: true,
-                index: 2,
-                viewOffset: 48,
-              })
+        <BlurView style={[styles.action, styles.skip(skipComment)]}>
+          <HeaderButton
+            hitSlop={theme.space[4]}
+            icon="ArrowDown"
+            onPress={() => {
+              if (viewing.includes(0)) {
+                list.current?.scrollToIndex({
+                  animated: true,
+                  index: 2,
+                  viewOffset: 48,
+                })
 
-              return
-            }
-
-            const previous = viewing[0] ?? 0
-
-            const next = data.findIndex((item, index) => {
-              if (typeof item === 'string') {
-                return false
+                return
               }
 
-              return index > previous && item.data.depth === 0
-            })
+              const previous = viewing[0] ?? 0
 
-            list.current?.scrollToIndex({
-              animated: true,
-              index: next,
-              viewOffset: 48,
-            })
-          }}
-          style={[styles.action, styles.skip(skipComment)]}
-          weight="bold"
-        />
+              const next = data.findIndex((item, index) => {
+                if (typeof item === 'string') {
+                  return false
+                }
+
+                return index > previous && item.data.depth === 0
+              })
+
+              list.current?.scrollToIndex({
+                animated: true,
+                index: next,
+                viewOffset: 48,
+              })
+            }}
+            weight="bold"
+          />
+        </BlurView>
       ) : null}
     </>
   )
@@ -322,6 +324,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       theme.space[5] +
       theme.space[4] +
       theme.space[4],
+    overflow: 'hidden',
     position: 'absolute',
   },
   back: {
@@ -339,12 +342,12 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     paddingTop: runtime.insets.top + theme.space[8],
   },
   reply: (side: Side) => ({
-    backgroundColor: theme.colors.blue.a9,
+    backgroundColor: theme.colors.blue.a4,
     left: side === 'left' ? theme.space[4] : undefined,
     right: side === 'right' ? theme.space[4] : undefined,
   }),
   skip: (side: Side) => ({
-    backgroundColor: theme.colors.accent.a9,
+    backgroundColor: theme.colors.accent.a4,
     left: side === 'left' ? theme.space[4] : undefined,
     right: side === 'right' ? theme.space[4] : undefined,
   }),
