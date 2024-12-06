@@ -34,7 +34,7 @@ export default function Screen() {
     top: theme.space[7] + theme.space[4],
   })
 
-  const { sorting, update } = useSorting<'community'>(params.name)
+  const { sorting, update } = useSorting('community', params.name)
 
   const routes = useRef(
     CommunityTab.map((key) => ({

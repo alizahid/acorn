@@ -65,7 +65,7 @@
     "defaults": {
       "searchTabs": {
         "community": "Communities",
-        "hint": "Requires app restart to take effect",
+        "hint": "Requires app restart",
         "post": "Posts",
         "title": "Search tabs",
         "user": "Users"
@@ -286,7 +286,10 @@
       "preferences": {
         "browsing": {
           "refreshInterval": "Auto refresh interval",
-          "rememberCommunitySort": "Remember community sorting",
+          "rememberCommunitySort": {
+            "description": "Requires app restart",
+            "label": "Remember community sorting"
+          },
           "showFlair": "Show flair",
           "title": "Browsing"
         },
@@ -316,7 +319,7 @@
           },
           "seenOnMedia": "Mark as seen when opening media",
           "seenOnScroll": {
-            "description": "Requires app restart to take effect",
+            "description": "Requires app restart",
             "label": "Mark as seen while scrolling"
           },
           "seenOnVote": "Mark as seen when voting",

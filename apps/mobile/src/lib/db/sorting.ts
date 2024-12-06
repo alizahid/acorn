@@ -7,18 +7,35 @@ import { type SortingRow } from '~/types/db'
 import { getDatabase } from '.'
 
 export async function getSorting<Type extends SortingType>(
-  communityId: string,
-  defaults?: SortingQueryData<Type>,
+  type: Type,
+  id: string,
 ): Promise<SortingQueryData<Type>> {
-  const { intervalCommunityPosts, rememberCommunitySort, sortCommunityPosts } =
-    usePreferences.getState()
+  const {
+    intervalCommunityPosts,
+    intervalFeedPosts,
+    intervalUserPosts,
+    rememberCommunitySort,
+    sortCommunityPosts,
+    sortFeedPosts,
+    sortUserPosts,
+  } = usePreferences.getState()
+
+  const initial: SortingQueryData<Type> = {
+    interval:
+      type === 'community'
+        ? intervalCommunityPosts
+        : type === 'user'
+          ? intervalUserPosts
+          : intervalFeedPosts,
+    sort: (type === 'community'
+      ? sortCommunityPosts
+      : type === 'user'
+        ? sortUserPosts
+        : sortFeedPosts) as SortingQueryData<Type>['sort'],
+  }
 
   if (!rememberCommunitySort) {
-    return {
-      interval: defaults?.interval ?? intervalCommunityPosts,
-      sort: (defaults?.sort ??
-        sortCommunityPosts) as SortingQueryData<Type>['sort'],
-    }
+    return initial
   }
 
   const db = await getDatabase()
@@ -26,20 +43,22 @@ export async function getSorting<Type extends SortingType>(
   const row = await db.getFirstAsync<Pick<SortingRow, 'sort' | 'interval'>>(
     'SELECT sort, interval FROM sorting WHERE id = $community',
     {
-      $community: communityId,
+      $community: id,
     },
   )
 
-  return {
-    interval: row?.interval ?? defaults?.interval ?? intervalCommunityPosts,
-    sort: (row?.sort ??
-      defaults?.sort ??
-      sortCommunityPosts) as SortingQueryData<Type>['sort'],
+  if (row) {
+    return {
+      interval: row.interval,
+      sort: row.sort as SortingQueryData<Type>['sort'],
+    }
   }
+
+  return initial
 }
 
 export async function setSorting<Type extends SortingType>(
-  communityId: string,
+  id: string,
   variables: SortingQueryData<Type>,
 ) {
   const db = await getDatabase()
@@ -47,7 +66,7 @@ export async function setSorting<Type extends SortingType>(
   await db.runAsync(
     'INSERT INTO sorting (community_id, sort, interval, created_at) VALUES ($community, $sort, $interval, $time) ON CONFLICT(community_id) DO UPDATE SET sort = $sort, interval = $interval',
     {
-      $community: communityId,
+      $community: id,
       $interval: variables.interval ?? null,
       $sort: variables.sort,
       $time: formatISO(new Date()),

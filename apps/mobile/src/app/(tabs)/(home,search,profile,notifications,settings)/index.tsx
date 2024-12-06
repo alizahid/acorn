@@ -11,10 +11,12 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { useDefaults } from '~/stores/defaults'
+import { usePreferences } from '~/stores/preferences'
 
 export default function Screen() {
   const navigation = useNavigation()
 
+  const { rememberCommunitySort } = usePreferences()
   const { homeFeed, update: updateDefaults } = useDefaults()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -23,10 +25,15 @@ export default function Screen() {
 
   const [open, setOpen] = useState(false)
 
-  const { sorting, update: updateSorting } = useSorting(
-    homeFeed.feed ??
+  const {
+    reset,
+    sorting,
+    update: updateSorting,
+  } = useSorting(
+    homeFeed.community ? 'community' : homeFeed.user ? 'user' : 'feed',
+    homeFeed.community ??
       homeFeed.user ??
-      homeFeed.community ??
+      homeFeed.feed ??
       homeFeed.type ??
       'home',
   )
@@ -49,10 +56,7 @@ export default function Screen() {
           <SortIntervalMenu
             interval={sorting.interval}
             onChange={(next) => {
-              updateSorting({
-                interval: next.interval,
-                sort: next.sort,
-              })
+              updateSorting(next)
             }}
             sort={sorting.sort}
             type={
@@ -82,24 +86,19 @@ export default function Screen() {
       overlayStyle={styles.overlay}
       renderDrawerContent={() => (
         <HomeDrawer
-          community={homeFeed.community}
-          feed={homeFeed.feed}
+          data={homeFeed}
           onChange={(next) => {
             updateDefaults({
               homeFeed: next,
             })
 
-            if (sorting.sort === 'best' && !next.feed && next.type !== 'home') {
-              updateSorting({
-                sort: 'hot',
-              })
+            if (!rememberCommunitySort) {
+              reset(next.community ? 'community' : next.user ? 'user' : 'feed')
             }
           }}
           onClose={() => {
             setOpen(false)
           }}
-          type={homeFeed.type}
-          user={homeFeed.user}
         />
       )}
       swipeEdgeWidth={theme.space[3]}

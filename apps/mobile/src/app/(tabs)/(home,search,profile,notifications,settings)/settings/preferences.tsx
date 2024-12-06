@@ -29,9 +29,10 @@ export default function Screen() {
             label: 'browsing.showFlair',
           },
           {
+            description: 'browsing.rememberCommunitySort.description',
             icon: 'SortAscending',
             key: 'rememberCommunitySort',
-            label: 'browsing.rememberCommunitySort',
+            label: 'browsing.rememberCommunitySort.label',
           },
           {
             icon: 'Clock',

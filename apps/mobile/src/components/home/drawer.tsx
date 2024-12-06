@@ -67,19 +67,13 @@ type Item =
       type: 'user'
     }
 
-type Props = FeedTypeOptions & {
+type Props = {
+  data: FeedTypeOptions
   onChange: (data: FeedTypeOptions) => void
   onClose: () => void
 }
 
-export function HomeDrawer({
-  community,
-  feed,
-  onChange,
-  onClose,
-  type,
-  user,
-}: Props) {
+export function HomeDrawer({ data, onChange, onClose }: Props) {
   const router = useRouter()
 
   const t = useTranslations('component.common.type')
@@ -100,7 +94,7 @@ export function HomeDrawer({
 
   const [query, setQuery] = useState('')
 
-  const data: Array<Item> = useMemo(() => {
+  const items: Array<Item> = useMemo(() => {
     const dataCommunities: Array<Item> = communities
       .filter((item) => typeof item !== 'string')
       .map((item) => ({
@@ -233,7 +227,7 @@ export function HomeDrawer({
       <FlashList
         {...listProps}
         ListEmptyComponent={<Empty />}
-        data={data}
+        data={items}
         estimatedItemSize={48}
         getItemType={(item) => item.type}
         keyExtractor={(item) => item.key}
@@ -278,7 +272,12 @@ export function HomeDrawer({
                     type: item.data,
                   })
                 }}
-                selected={!feed && !community && item.data === type}
+                selected={
+                  !data.feed &&
+                  !data.community &&
+                  !data.user &&
+                  item.data === data.type
+                }
               />
             )
           }
@@ -292,11 +291,11 @@ export function HomeDrawer({
 
                 onChange({
                   [item.type]:
-                    item.type === 'feed'
-                      ? item.data.id
+                    item.type === 'community'
+                      ? item.data.name
                       : item.type === 'user'
                         ? removePrefix(item.data.name)
-                        : item.data.name,
+                        : item.data.id,
                 })
               }}
               right={
@@ -345,11 +344,11 @@ export function HomeDrawer({
                 </>
               }
               selected={
-                item.type === 'feed'
-                  ? item.data.id === feed
-                  : item.type === 'community'
-                    ? item.data.name === community
-                    : item.data.name === user
+                item.type === 'community'
+                  ? item.data.name === data.community
+                  : item.type === 'user'
+                    ? item.data.name === data.user
+                    : item.data.id === data.feed
               }
             />
           )
