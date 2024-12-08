@@ -24,6 +24,7 @@ import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
+import DotsSixVerticalBold from 'react-native-phosphor/src/bold/DotsSixVertical'
 import DownloadBold from 'react-native-phosphor/src/bold/Download'
 import DropBold from 'react-native-phosphor/src/bold/Drop'
 import EyeBold from 'react-native-phosphor/src/bold/Eye'
@@ -96,6 +97,7 @@ import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
+import DotsSixVerticalDuotone from 'react-native-phosphor/src/duotone/DotsSixVertical'
 import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
 import DropDuotone from 'react-native-phosphor/src/duotone/Drop'
 import EyeDuotone from 'react-native-phosphor/src/duotone/Eye'
@@ -168,6 +170,7 @@ import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
+import DotsSixVerticalFill from 'react-native-phosphor/src/fill/DotsSixVertical'
 import DownloadFill from 'react-native-phosphor/src/fill/Download'
 import DropFill from 'react-native-phosphor/src/fill/Drop'
 import EyeFill from 'react-native-phosphor/src/fill/Eye'
@@ -240,6 +243,7 @@ import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
+import DotsSixVerticalRegular from 'react-native-phosphor/src/regular/DotsSixVertical'
 import DownloadRegular from 'react-native-phosphor/src/regular/Download'
 import DropRegular from 'react-native-phosphor/src/regular/Drop'
 import EyeRegular from 'react-native-phosphor/src/regular/Eye'
@@ -457,6 +461,12 @@ const icons = {
     duotone: DiscordLogoDuotone,
     fill: DiscordLogoFill,
     regular: DiscordLogoRegular,
+  },
+  DotsSixVertical: {
+    bold: DotsSixVerticalBold,
+    duotone: DotsSixVerticalDuotone,
+    fill: DotsSixVerticalFill,
+    regular: DotsSixVerticalRegular,
   },
   Download: {
     bold: DownloadBold,

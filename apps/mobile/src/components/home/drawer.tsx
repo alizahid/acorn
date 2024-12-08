@@ -36,10 +36,6 @@ type Item =
     }
   | {
       key: string
-      type: 'separator'
-    }
-  | {
-      key: string
       type: 'empty'
     }
   | {
@@ -123,10 +119,6 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 
     const feedItems: Array<Item> = [
       {
-        key: 'feed-separator',
-        type: 'separator',
-      },
-      {
         key: 'feed',
         title: t('feeds.title'),
         type: 'header',
@@ -134,10 +126,6 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
     ]
 
     const communityItems: Array<Item> = [
-      {
-        key: 'community-separator',
-        type: 'separator',
-      },
       {
         key: 'community',
         title: t('communities.title'),
@@ -147,10 +135,6 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 
     const userItems: Array<Item> = [
       {
-        key: 'user-separator',
-        type: 'separator',
-      },
-      {
         key: 'user',
         title: t('users.title'),
         type: 'header',
@@ -158,7 +142,22 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
     ]
 
     return drawerSections.flatMap<Item>((section) => {
-      if (section === 'feeds') {
+      if (section.key === 'feed' && !section.disabled) {
+        return [
+          {
+            key: 'type-title',
+            title: t('type.title'),
+            type: 'header' as const,
+          },
+          ...FeedType.map((item) => ({
+            data: item,
+            key: item,
+            type: 'type' as const,
+          })),
+        ]
+      }
+
+      if (section.key === 'feeds' && !section.disabled) {
         return loadingFeeds
           ? [
               ...feedItems,
@@ -179,7 +178,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
             : []
       }
 
-      if (section === 'communities') {
+      if (section.key === 'communities' && !section.disabled) {
         return loadingCommunities
           ? [
               ...communityItems,
@@ -193,7 +192,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
             : []
       }
 
-      if (section === 'users') {
+      if (section.key === 'users' && !section.disabled) {
         return loadingCommunities
           ? [
               ...userItems,
@@ -207,18 +206,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
             : []
       }
 
-      return [
-        {
-          key: 'type-title',
-          title: t('type.title'),
-          type: 'header' as const,
-        },
-        ...FeedType.map((item) => ({
-          data: item,
-          key: item,
-          type: 'type' as const,
-        })),
-      ]
+      return []
     })
   }, [
     communities,
@@ -277,10 +265,6 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
         keyExtractor={(item) => item.key}
         ref={list}
         renderItem={({ item }) => {
-          if (item.type === 'separator') {
-            return <View height="8" />
-          }
-
           if (item.type === 'empty') {
             return (
               <Icon

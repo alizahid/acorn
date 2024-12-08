@@ -1,7 +1,7 @@
 import { Image } from 'expo-image'
 import { SymbolView } from 'expo-symbols'
 import { useState } from 'react'
-import { type StyleProp, Switch, type ViewStyle } from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { ContextMenuButton } from 'react-native-ios-context-menu'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -12,6 +12,7 @@ import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 
+import { Switch } from '../switch'
 import { type MenuItem } from '.'
 
 type Props = {
@@ -133,14 +134,8 @@ export function MenuItem({ item, style }: Props) {
 
       {item.type === 'switch' ? (
         <Switch
-          ios_backgroundColor={theme.colors.gray.a5}
-          onValueChange={(value) => {
+          onChange={(value) => {
             item.onSelect(value)
-          }}
-          thumbColor={theme.colors.gray.contrast}
-          trackColor={{
-            false: theme.colors.gray.a5,
-            true: theme.colors.accent.a9,
           }}
           value={item.value}
         />

@@ -5,7 +5,7 @@ import { type FeedTypeOptions } from '~/components/home/type-menu'
 import { Store } from '~/lib/store'
 import { type DrawerSections, type SearchTabs } from '~/types/defaults'
 
-export const DEFAULTS_KEY = 'defaults-storage'
+export const DEFAULTS_KEY = 'defaults-storage-v2'
 
 export type DefaultsPayload = {
   drawerSections: DrawerSections
@@ -20,11 +20,41 @@ type State = DefaultsPayload & {
 export const useDefaults = create<State>()(
   persist(
     (set) => ({
-      drawerSections: ['feed', 'feeds', 'communities', 'users'],
+      drawerSections: [
+        {
+          disabled: false,
+          key: 'feed',
+        },
+        {
+          disabled: false,
+          key: 'feeds',
+        },
+        {
+          disabled: false,
+          key: 'communities',
+        },
+        {
+          disabled: false,
+          key: 'users',
+        },
+      ],
       homeFeed: {
         type: 'home',
       },
-      searchTabs: ['post', 'community', 'user'],
+      searchTabs: [
+        {
+          disabled: false,
+          key: 'post',
+        },
+        {
+          disabled: false,
+          key: 'community',
+        },
+        {
+          disabled: false,
+          key: 'user',
+        },
+      ],
       update(payload) {
         set(payload)
       },

@@ -138,13 +138,6 @@ function StackLayout({ children }: PropsWithChildren) {
       />
 
       <Stack.Screen
-        name="settings/defaults"
-        options={{
-          title: t('settings.defaults.title'),
-        }}
-      />
-
-      <Stack.Screen
         name="settings/cache"
         options={{
           title: t('settings.cache.title'),
@@ -176,6 +169,27 @@ function StackLayout({ children }: PropsWithChildren) {
         name="settings/themes"
         options={{
           title: t('settings.themes.title'),
+        }}
+      />
+
+      <Stack.Screen
+        name="settings/defaults"
+        options={{
+          title: t('settings.defaults.defaults.title'),
+        }}
+      />
+
+      <Stack.Screen
+        name="settings/defaults/drawer-sections"
+        options={{
+          title: t('settings.defaults.drawerSections.title'),
+        }}
+      />
+
+      <Stack.Screen
+        name="settings/defaults/search-tabs"
+        options={{
+          title: t('settings.defaults.searchTabs.title'),
         }}
       />
     </Stack>

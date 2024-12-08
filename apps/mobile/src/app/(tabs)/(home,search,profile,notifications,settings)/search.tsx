@@ -31,10 +31,12 @@ export default function Screen() {
   const { styles, theme } = useStyles(stylesheet)
 
   const routes = useRef(
-    searchTabs.map((key) => ({
-      key,
-      title: t(`tabs.${key}`),
-    })),
+    searchTabs
+      .filter(({ disabled }) => !disabled)
+      .map(({ key }) => ({
+        key,
+        title: t(`tabs.${key}`),
+      })),
   )
 
   const listProps = useList({

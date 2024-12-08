@@ -62,22 +62,6 @@
         "placeholder": "Search"
       }
     },
-    "defaults": {
-      "drawerSections": {
-        "communities": "Communities",
-        "feed": "Feeds",
-        "feeds": "Custom feeds",
-        "title": "Drawer sections",
-        "users": "Users"
-      },
-      "searchTabs": {
-        "community": "Communities",
-        "hint": "Requires app restart",
-        "post": "Posts",
-        "title": "Search tabs",
-        "user": "Users"
-      }
-    },
     "home": {
       "drawer": {
         "search": {
@@ -269,7 +253,23 @@
         "title": "Cache"
       },
       "defaults": {
-        "title": "Defaults"
+        "defaults": {
+          "title": "Defaults"
+        },
+        "drawerSections": {
+          "communities": "Communities",
+          "feed": "Feeds",
+          "feeds": "Custom feeds",
+          "title": "Drawer sections",
+          "users": "Users"
+        },
+        "searchTabs": {
+          "community": "Communities",
+          "hint": "Requires app restart",
+          "post": "Posts",
+          "title": "Search tabs",
+          "user": "Users"
+        }
       },
       "gestures": {
         "menu": {

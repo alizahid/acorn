@@ -1,55 +1,47 @@
-import { ScrollView } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useRouter } from 'expo-router'
+import { useTranslations } from 'use-intl'
 
-import { DefaultsDrawerSections } from '~/components/defaults/drawer-sections'
-import { DefaultsSearchTabs } from '~/components/defaults/search-tabs'
+import { Menu } from '~/components/common/menu'
 import { useList } from '~/hooks/list'
-import { useDefaults } from '~/stores/defaults'
 
 export default function Screen() {
-  const { drawerSections, searchTabs, update } = useDefaults()
+  const router = useRouter()
 
-  const { styles } = useStyles(stylesheet)
+  const t = useTranslations('screen.settings.defaults')
 
   const listProps = useList()
 
   return (
-    <ScrollView
-      {...listProps}
-      contentContainerStyle={[listProps.contentContainerStyle, styles.content]}
-    >
-      <DefaultsSearchTabs
-        data={searchTabs}
-        onChange={(next) => {
-          update({
-            searchTabs: next,
-          })
-        }}
-        style={styles.first}
-      />
-
-      <DefaultsDrawerSections
-        data={drawerSections}
-        onChange={(next) => {
-          update({
-            drawerSections: next,
-          })
-        }}
-        style={styles.last}
-      />
-    </ScrollView>
+    <Menu
+      items={[
+        {
+          arrow: true,
+          icon: {
+            name: 'MagnifyingGlass',
+            type: 'icon',
+          },
+          label: t('searchTabs.title'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings/defaults/search-tabs',
+            })
+          },
+        },
+        {
+          arrow: true,
+          icon: {
+            name: 'HandSwipeLeft',
+            type: 'icon',
+          },
+          label: t('drawerSections.title'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings/defaults/drawer-sections',
+            })
+          },
+        },
+      ]}
+      listProps={listProps}
+    />
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  content: {
-    gap: theme.space[6],
-    paddingHorizontal: theme.space[4],
-  },
-  first: {
-    marginTop: theme.space[4],
-  },
-  last: {
-    marginBottom: theme.space[4],
-  },
-}))
