@@ -4,6 +4,7 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
 import { TextInput } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
@@ -75,6 +76,8 @@ export default function Screen() {
       keyboardShouldPersistTaps="handled"
       style={styles.main}
     >
+      {iPhone ? <StatusBar style="light" /> : null}
+
       {params.user ? (
         <View p="4" style={styles.user}>
           <Text weight="medium">

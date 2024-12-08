@@ -1,6 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
+import { StatusBar } from 'expo-status-bar'
 import { Controller, useForm } from 'react-hook-form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -64,6 +65,8 @@ export default function Screen() {
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
     >
+      {iPhone ? <StatusBar style="light" /> : null}
+
       <View align="center">
         <Logo />
 

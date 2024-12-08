@@ -1,11 +1,9 @@
 import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
 import { type ReactNode } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { iPhone } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
@@ -51,8 +49,6 @@ export function Header({
             : 'default'
       }
     >
-      {modal && iPhone ? <StatusBar style="light" /> : null}
-
       <View align="center" height="8" justify="center">
         {(left ?? back) ? (
           <View direction="row" style={[styles.actions, styles.left]}>
