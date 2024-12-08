@@ -112,6 +112,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: (blur: boolean) => ({
     backgroundColor: theme.colors.gray[blur ? 'a1' : '1'],
+    borderTopColor: theme.colors.gray.a6,
+    borderTopWidth: runtime.hairlineWidth,
     bottom: 0,
     flexDirection: 'row',
     left: 0,

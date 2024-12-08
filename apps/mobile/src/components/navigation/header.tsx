@@ -102,6 +102,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: (blur: boolean) => ({
     backgroundColor: theme.colors.gray[blur ? 'a1' : '1'],
+    borderBottomColor: theme.colors.gray.a6,
+    borderBottomWidth: runtime.hairlineWidth,
     left: 0,
     paddingTop: runtime.insets.top,
     position: 'absolute',
@@ -111,6 +113,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   }),
   modal: {
     backgroundColor: theme.colors.gray.a2,
+    borderBottomColor: theme.colors.gray.a6,
+    borderBottomWidth: runtime.hairlineWidth,
   },
   right: {
     right: 0,
