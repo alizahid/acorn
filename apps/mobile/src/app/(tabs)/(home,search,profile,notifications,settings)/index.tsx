@@ -36,13 +36,10 @@ export default function Screen() {
     navigation.setOptions({
       headerLeft: () => (
         <FeedTypeMenu
-          community={homeFeed.community}
-          feed={homeFeed.feed}
+          data={homeFeed}
           onPress={() => {
             setOpen((previous) => !previous)
           }}
-          type={homeFeed.type}
-          user={homeFeed.user}
         />
       ),
       headerRight: () =>

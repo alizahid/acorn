@@ -211,6 +211,10 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
     ] satisfies Array<Item>
   }, [communities, feeds, loadingCommunities, loadingFeeds, query, t, users])
 
+  const sticky = items
+    .map((item, index) => (item.type === 'header' ? index : null))
+    .filter((item) => item !== null)
+
   return (
     <View style={styles.main}>
       <TextBox
@@ -373,6 +377,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
             />
           )
         }}
+        stickyHeaderIndices={sticky}
       />
     </View>
   )
