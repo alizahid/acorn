@@ -12,7 +12,11 @@ type Props = {
 
 export type ListProps<Type = unknown> = Pick<
   FlashListProps<Type>,
-  'contentContainerStyle' | 'progressViewOffset' | 'scrollIndicatorInsets'
+  | 'contentContainerStyle'
+  | 'keyboardDismissMode'
+  | 'keyboardShouldPersistTaps'
+  | 'progressViewOffset'
+  | 'scrollIndicatorInsets'
 >
 
 export function useList<Type>({
@@ -39,6 +43,8 @@ export function useList<Type>({
       paddingBottom: offsets.bottom,
       paddingTop: offsets.top,
     },
+    keyboardDismissMode: 'on-drag',
+    keyboardShouldPersistTaps: 'handled',
     progressViewOffset: offsets.top,
     scrollIndicatorInsets: {
       bottom: offsets.bottom - (scroll ? insets.bottom : 0),
