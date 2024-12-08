@@ -1,12 +1,13 @@
 import { ScrollView } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { DefaultsDrawerSections } from '~/components/defaults/drawer-sections'
 import { DefaultsSearchTabs } from '~/components/defaults/search-tabs'
 import { useList } from '~/hooks/list'
 import { useDefaults } from '~/stores/defaults'
 
 export default function Screen() {
-  const { searchTabs, update } = useDefaults()
+  const { drawerSections, searchTabs, update } = useDefaults()
 
   const { styles } = useStyles(stylesheet)
 
@@ -24,7 +25,17 @@ export default function Screen() {
             searchTabs: next,
           })
         }}
-        style={[styles.first, styles.last]}
+        style={styles.first}
+      />
+
+      <DefaultsDrawerSections
+        data={drawerSections}
+        onChange={(next) => {
+          update({
+            drawerSections: next,
+          })
+        }}
+        style={styles.last}
       />
     </ScrollView>
   )

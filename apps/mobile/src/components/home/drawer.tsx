@@ -14,6 +14,7 @@ import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/feeds/feeds'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
+import { useDefaults } from '~/stores/defaults'
 import { type Community } from '~/types/community'
 import { type Feed } from '~/types/feed'
 import { FeedType } from '~/types/sort'
@@ -77,6 +78,8 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 
   const t = useTranslations('component.common.type')
   const tDrawer = useTranslations('component.home.drawer')
+
+  const { drawerSections } = useDefaults()
 
   const list = useRef<FlashList<Item>>(null)
 
@@ -154,62 +157,79 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
       },
     ]
 
-    return [
-      {
-        key: 'type-title',
-        title: t('type.title'),
-        type: 'header' as const,
-      },
-      ...FeedType.map((item) => ({
-        data: item,
-        key: item,
-        type: 'type' as const,
-      })),
-
-      ...(loadingFeeds
-        ? [
-            ...feedItems,
-            {
-              key: 'feed-spinner',
-              type: 'spinner' as const,
-            },
-          ]
-        : feeds.length > 0
+    return drawerSections.flatMap<Item>((section) => {
+      if (section === 'feeds') {
+        return loadingFeeds
           ? [
               ...feedItems,
-              ...feeds.map((item) => ({
-                data: item,
-                key: item.id,
-                type: 'feed' as const,
-              })),
+              {
+                key: 'feed-spinner',
+                type: 'spinner' as const,
+              },
             ]
-          : []),
+          : feeds.length > 0
+            ? [
+                ...feedItems,
+                ...feeds.map((item) => ({
+                  data: item,
+                  key: item.id,
+                  type: 'feed' as const,
+                })),
+              ]
+            : []
+      }
 
-      ...(loadingCommunities
-        ? [
-            ...communityItems,
-            {
-              key: 'community-spinner',
-              type: 'spinner' as const,
-            },
-          ]
-        : dataCommunities.length > 0
-          ? [...communityItems, ...dataCommunities]
-          : []),
+      if (section === 'communities') {
+        return loadingCommunities
+          ? [
+              ...communityItems,
+              {
+                key: 'community-spinner',
+                type: 'spinner' as const,
+              },
+            ]
+          : dataCommunities.length > 0
+            ? [...communityItems, ...dataCommunities]
+            : []
+      }
 
-      ...(loadingCommunities
-        ? [
-            ...userItems,
-            {
-              key: 'user-spinner',
-              type: 'spinner' as const,
-            },
-          ]
-        : dataUsers.length > 0
-          ? [...userItems, ...dataUsers]
-          : []),
-    ] satisfies Array<Item>
-  }, [communities, feeds, loadingCommunities, loadingFeeds, query, t, users])
+      if (section === 'users') {
+        return loadingCommunities
+          ? [
+              ...userItems,
+              {
+                key: 'user-spinner',
+                type: 'spinner' as const,
+              },
+            ]
+          : dataUsers.length > 0
+            ? [...userItems, ...dataUsers]
+            : []
+      }
+
+      return [
+        {
+          key: 'type-title',
+          title: t('type.title'),
+          type: 'header' as const,
+        },
+        ...FeedType.map((item) => ({
+          data: item,
+          key: item,
+          type: 'type' as const,
+        })),
+      ]
+    })
+  }, [
+    communities,
+    drawerSections,
+    feeds,
+    loadingCommunities,
+    loadingFeeds,
+    query,
+    t,
+    users,
+  ])
 
   const sticky = items
     .map((item, index) => (item.type === 'header' ? index : null))

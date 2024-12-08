@@ -2,7 +2,7 @@ import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { type SearchTab, type SearchTabs } from '~/types/defaults'
+import { type DrawerSection, type DrawerSections } from '~/types/defaults'
 
 import { Icon, type IconName } from '../common/icon'
 import { Text } from '../common/text'
@@ -10,13 +10,13 @@ import { View } from '../common/view'
 import { HeaderButton } from '../navigation/header-button'
 
 type Props = {
-  data: SearchTabs
-  onChange: (data: SearchTabs) => void
+  data: DrawerSections
+  onChange: (data: DrawerSections) => void
   style?: StyleProp<ViewStyle>
 }
 
-export function DefaultsSearchTabs({ data, onChange, style }: Props) {
-  const t = useTranslations('component.defaults.searchTabs')
+export function DefaultsDrawerSections({ data, onChange, style }: Props) {
+  const t = useTranslations('component.defaults.drawerSections')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -79,10 +79,6 @@ export function DefaultsSearchTabs({ data, onChange, style }: Props) {
           </View>
         ))}
       </View>
-
-      <Text highContrast={false} size="2">
-        {t('hint')}
-      </Text>
     </View>
   )
 }
@@ -98,8 +94,9 @@ const stylesheet = createStyleSheet((theme) => ({
   },
 }))
 
-const icons: Record<SearchTab, IconName> = {
-  community: 'UsersFour',
-  post: 'NoteBlank',
-  user: 'User',
+const icons: Record<DrawerSection, IconName> = {
+  communities: 'UsersFour',
+  feed: 'House',
+  feeds: 'NoteBlank',
+  users: 'User',
 }

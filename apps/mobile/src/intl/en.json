@@ -63,6 +63,13 @@
       }
     },
     "defaults": {
+      "drawerSections": {
+        "communities": "Communities",
+        "feed": "Feeds",
+        "feeds": "Custom feeds",
+        "title": "Drawer sections",
+        "users": "Users"
+      },
       "searchTabs": {
         "community": "Communities",
         "hint": "Requires app restart",

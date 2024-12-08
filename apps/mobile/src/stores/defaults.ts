@@ -3,11 +3,12 @@ import { persist } from 'zustand/middleware'
 
 import { type FeedTypeOptions } from '~/components/home/type-menu'
 import { Store } from '~/lib/store'
-import { type SearchTabs } from '~/types/search'
+import { type DrawerSections, type SearchTabs } from '~/types/defaults'
 
 export const DEFAULTS_KEY = 'defaults-storage'
 
 export type DefaultsPayload = {
+  drawerSections: DrawerSections
   homeFeed: FeedTypeOptions
   searchTabs: SearchTabs
 }
@@ -19,6 +20,7 @@ type State = DefaultsPayload & {
 export const useDefaults = create<State>()(
   persist(
     (set) => ({
+      drawerSections: ['feed', 'feeds', 'communities', 'users'],
       homeFeed: {
         type: 'home',
       },
