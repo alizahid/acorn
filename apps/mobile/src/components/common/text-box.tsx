@@ -148,8 +148,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: theme.colors.gray.a2,
     borderColor: focused
       ? error
-        ? theme.colors.red.a8
-        : theme.colors.accent.a8
+        ? theme.colors.red.a9
+        : theme.colors.accent.a9
       : error
         ? theme.colors.red.a7
         : theme.colors.gray.a7,
