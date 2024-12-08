@@ -3,7 +3,6 @@ import { FlashList } from '@shopify/flash-list'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
-import { compact } from 'lodash'
 import { useMemo, useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -119,7 +118,43 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
       return results.map((result) => result.obj)
     }
 
-    return compact<Item>([
+    const feedItems: Array<Item> = [
+      {
+        key: 'feed-separator',
+        type: 'separator',
+      },
+      {
+        key: 'feed',
+        title: t('feeds.title'),
+        type: 'header',
+      },
+    ]
+
+    const communityItems: Array<Item> = [
+      {
+        key: 'community-separator',
+        type: 'separator',
+      },
+      {
+        key: 'community',
+        title: t('communities.title'),
+        type: 'header',
+      },
+    ]
+
+    const userItems: Array<Item> = [
+      {
+        key: 'user-separator',
+        type: 'separator',
+      },
+      {
+        key: 'user',
+        title: t('users.title'),
+        type: 'header',
+      },
+    ]
+
+    return [
       {
         key: 'type-title',
         title: t('type.title'),
@@ -131,67 +166,49 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
         type: 'type' as const,
       })),
 
-      {
-        key: 'feed-separator',
-        type: 'separator' as const,
-      },
-      {
-        key: 'feed',
-        title: t('feeds.title'),
-        type: 'header' as const,
-      },
-      loadingFeeds && {
-        key: 'feed-spinner',
-        type: 'spinner' as const,
-      },
-      ...feeds.map((item) => ({
-        data: item,
-        key: item.id,
-        type: 'feed' as const,
-      })),
-      feeds.length === 0 && {
-        key: 'feed-empty',
-        type: 'empty' as const,
-      },
+      ...(loadingFeeds
+        ? [
+            ...feedItems,
+            {
+              key: 'feed-spinner',
+              type: 'spinner' as const,
+            },
+          ]
+        : feeds.length > 0
+          ? [
+              ...feedItems,
+              ...feeds.map((item) => ({
+                data: item,
+                key: item.id,
+                type: 'feed' as const,
+              })),
+            ]
+          : []),
 
-      {
-        key: 'community-separator',
-        type: 'separator' as const,
-      },
-      {
-        key: 'community',
-        title: t('communities.title'),
-        type: 'header' as const,
-      },
-      loadingCommunities && {
-        key: 'community-spinner',
-        type: 'spinner' as const,
-      },
-      ...dataCommunities,
-      communities.length === 0 && {
-        key: 'community-empty',
-        type: 'empty' as const,
-      },
+      ...(loadingCommunities
+        ? [
+            ...communityItems,
+            {
+              key: 'community-spinner',
+              type: 'spinner' as const,
+            },
+          ]
+        : dataCommunities.length > 0
+          ? [...communityItems, ...dataCommunities]
+          : []),
 
-      {
-        key: 'user-separator',
-        type: 'separator' as const,
-      },
-      {
-        key: 'user',
-        title: t('users.title'),
-        type: 'header' as const,
-      },
-      loadingCommunities && {
-        key: 'user-spinner',
-        type: 'spinner' as const,
-      },
-      ...dataUsers,
-      users.length === 0 && {
-        key: 'user-empty',
-        type: 'empty' as const,
-      },
-    ])
+      ...(loadingCommunities
+        ? [
+            ...userItems,
+            {
+              key: 'user-spinner',
+              type: 'spinner' as const,
+            },
+          ]
+        : dataUsers.length > 0
+          ? [...userItems, ...dataUsers]
+          : []),
+    ] satisfies Array<Item>
   }, [communities, feeds, loadingCommunities, loadingFeeds, query, t, users])
 
   return (
