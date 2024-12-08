@@ -63,7 +63,6 @@ export default function Screen() {
       enabled={iPhone}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
-      style={styles.main}
     >
       <View align="center">
         <Logo />
@@ -77,26 +76,7 @@ export default function Screen() {
         </Text>
       </View>
 
-      <View gap="4" mt="9">
-        <Text slow>
-          {t.rich('instructions', {
-            link: (text) => (
-              <Text
-                color="accent"
-                onPress={() => {
-                  void Linking.openURL('https://www.reddit.com/prefs/apps')
-                }}
-              >
-                {text}
-              </Text>
-            ),
-          })}
-        </Text>
-
-        <Copy value={REDIRECT_URI} />
-      </View>
-
-      <View direction="row" gap="4" mt="9">
+      <View direction="row" gap="4">
         <Controller
           control={control}
           name="clientId"
@@ -128,22 +108,39 @@ export default function Screen() {
           }}
         />
       </View>
+
+      <View gap="4">
+        <Text slow>
+          {t.rich('instructions', {
+            link: (text) => (
+              <Text
+                color="accent"
+                onPress={() => {
+                  void Linking.openURL('https://www.reddit.com/prefs/apps')
+                }}
+              >
+                {text}
+              </Text>
+            ),
+          })}
+        </Text>
+
+        <Copy value={REDIRECT_URI} />
+      </View>
     </KeyboardAwareScrollView>
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   clientId: {
     flex: 1,
   },
   content: {
     flexGrow: 1,
+    gap: theme.space[9],
     justifyContent: 'center',
-    paddingHorizontal: theme.space[4],
-    paddingVertical: theme.space[4] + runtime.insets.bottom,
-  },
-  main: {
-    flex: 1,
+    marginHorizontal: theme.space[4],
+    marginVertical: theme.space[9],
   },
   title: {
     color: theme.colors.accent.a9,
