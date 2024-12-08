@@ -246,6 +246,9 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
         ListEmptyComponent={<Empty />}
         data={items}
         estimatedItemSize={48}
+        extraData={{
+          data,
+        }}
         getItemType={(item) => item.type}
         keyExtractor={(item) => item.key}
         ref={list}
