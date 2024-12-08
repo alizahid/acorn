@@ -1,5 +1,4 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
-import { useCallback, useState } from 'react'
 
 import { getSorting, setSorting } from '~/lib/db/sorting'
 import { queryClient } from '~/lib/query'
@@ -36,51 +35,10 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
     intervalCommunityPosts,
     intervalFeedPosts,
     intervalUserPosts,
-    rememberCommunitySort,
     sortCommunityPosts,
     sortFeedPosts,
     sortUserPosts,
   } = usePreferences()
-
-  const [initial, setInitial] = useState<SortingQueryData<Type>>({
-    interval:
-      type === 'community'
-        ? intervalCommunityPosts
-        : type === 'user'
-          ? intervalUserPosts
-          : intervalFeedPosts,
-    sort: (type === 'community'
-      ? sortCommunityPosts
-      : type === 'user'
-        ? sortUserPosts
-        : sortFeedPosts) as SortingQueryData<Type>['sort'],
-  })
-
-  const reset = useCallback(
-    ($type: Type) => {
-      setInitial({
-        interval:
-          $type === 'community'
-            ? intervalCommunityPosts
-            : $type === 'user'
-              ? intervalUserPosts
-              : intervalFeedPosts,
-        sort: ($type === 'community'
-          ? sortCommunityPosts
-          : $type === 'user'
-            ? sortUserPosts
-            : sortFeedPosts) as SortingQueryData<Type>['sort'],
-      })
-    },
-    [
-      intervalCommunityPosts,
-      intervalFeedPosts,
-      intervalUserPosts,
-      sortCommunityPosts,
-      sortFeedPosts,
-      sortUserPosts,
-    ],
-  )
 
   const queryKey: SortingQueryKey<Type> = [
     'sorting',
@@ -90,12 +48,20 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
     },
   ]
 
-  const { data } = useQuery<
-    SortingQueryData<Type> | undefined,
-    Error,
-    SortingQueryData<Type>
-  >({
-    initialData: initial,
+  const { data } = useQuery<SortingQueryData<Type>>({
+    placeholderData: {
+      interval:
+        type === 'community'
+          ? intervalCommunityPosts
+          : type === 'user'
+            ? intervalUserPosts
+            : intervalFeedPosts,
+      sort: (type === 'community'
+        ? sortCommunityPosts
+        : type === 'user'
+          ? sortUserPosts
+          : sortFeedPosts) as SortingQueryData<Type>['sort'],
+    },
     queryFn() {
       return getSorting(type, id)
     },
@@ -107,15 +73,12 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
       await setSorting(id, variables)
     },
     onMutate(variables) {
-      setInitial(variables)
-
       queryClient.setQueryData<SortingQueryData<Type>>(queryKey, variables)
     },
   })
 
   return {
-    reset,
-    sorting: rememberCommunitySort ? data : initial,
+    sorting: data!,
     update: mutate,
   }
 }

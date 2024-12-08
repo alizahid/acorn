@@ -11,12 +11,10 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { useDefaults } from '~/stores/defaults'
-import { usePreferences } from '~/stores/preferences'
 
 export default function Screen() {
   const navigation = useNavigation()
 
-  const { rememberCommunitySort } = usePreferences()
   const { homeFeed, update: updateDefaults } = useDefaults()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -25,11 +23,7 @@ export default function Screen() {
 
   const [open, setOpen] = useState(false)
 
-  const {
-    reset,
-    sorting,
-    update: updateSorting,
-  } = useSorting(
+  const { sorting, update: updateSorting } = useSorting(
     homeFeed.community ? 'community' : homeFeed.user ? 'user' : 'feed',
     homeFeed.community ??
       homeFeed.user ??
@@ -91,10 +85,6 @@ export default function Screen() {
             updateDefaults({
               homeFeed: next,
             })
-
-            if (!rememberCommunitySort) {
-              reset(next.community ? 'community' : next.user ? 'user' : 'feed')
-            }
           }}
           onClose={() => {
             setOpen(false)

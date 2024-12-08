@@ -14,7 +14,6 @@ export async function getSorting<Type extends SortingType>(
     intervalCommunityPosts,
     intervalFeedPosts,
     intervalUserPosts,
-    rememberCommunitySort,
     sortCommunityPosts,
     sortFeedPosts,
     sortUserPosts,
@@ -34,14 +33,10 @@ export async function getSorting<Type extends SortingType>(
         : sortFeedPosts) as SortingQueryData<Type>['sort'],
   }
 
-  if (!rememberCommunitySort) {
-    return initial
-  }
-
   const db = await getDatabase()
 
   const row = await db.getFirstAsync<Pick<SortingRow, 'sort' | 'interval'>>(
-    'SELECT sort, interval FROM sorting WHERE id = $community',
+    'SELECT sort, interval FROM sorting WHERE community_id = $community',
     {
       $community: id,
     },

@@ -286,10 +286,6 @@
       "preferences": {
         "browsing": {
           "refreshInterval": "Auto refresh interval",
-          "rememberCommunitySort": {
-            "description": "Requires app restart",
-            "label": "Remember community sorting"
-          },
           "showFlair": "Show flair",
           "title": "Browsing"
         },
