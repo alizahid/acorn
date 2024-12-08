@@ -108,6 +108,13 @@ export function CommentCard({
 
           <CommentMeta collapsed={collapsed} comment={comment} />
 
+          {comment.liked !== null ? (
+            <View
+              pointerEvents="none"
+              style={[styles.saved, styles.liked(comment.liked)]}
+            />
+          ) : null}
+
           {comment.saved ? (
             <View pointerEvents="none" style={styles.saved} />
           ) : null}
@@ -141,6 +148,10 @@ const stylesheet = createStyleSheet((theme) => ({
 
     return base
   },
+  liked: (liked: boolean) => ({
+    backgroundColor: liked ? theme.colors.orange[9] : theme.colors.violet[9],
+    top: -theme.space[iPad ? 5 : 4],
+  }),
   main: (depth: number, colored: boolean) => {
     const color = getDepthColor(depth)
 
