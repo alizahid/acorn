@@ -19,7 +19,7 @@ export function SearchHistory({ history, onChange }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View gap="4" pb="4" px="3">
+    <View gap="4" px="3" py="4">
       <Text size="2" weight="medium">
         {t('title')}
       </Text>
