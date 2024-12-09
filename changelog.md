@@ -1,5 +1,16 @@
 # Changelog
 
+## Build 34
+
+- added: you can now reorder and disable drawer sections (and search tabs)
+- added: comments now have a corner badge to show their upvoted/downvoted status, alongside saved
+- fixed: home screen sorting
+- changed: drawer now hides empty sections by default
+- changed: headers and tab bar now have a thin border
+- changed: account switcher now pulls up from the bottom
+- changed: remember community sorting option removed. Acorn now always remembers your sorting
+- changed: blur effect added to comment skip and reply floating buttons on the post screen
+
 ## Build 33
 
 - added: blur effect for headers and tab bar
