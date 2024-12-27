@@ -50,7 +50,7 @@ export function SheetItem({
         left
       )}
 
-      <Text size="3" style={styles.label} weight="medium">
+      <Text lines={1} size="3" style={styles.label} weight="medium">
         {label}
       </Text>
 

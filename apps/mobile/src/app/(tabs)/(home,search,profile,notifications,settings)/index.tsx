@@ -10,6 +10,7 @@ import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
+import { iPad } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 
 export default function Screen() {
@@ -66,14 +67,15 @@ export default function Screen() {
 
   return (
     <Drawer
-      drawerStyle={styles.drawer}
+      drawerStyle={styles.drawer()}
+      drawerType={iPad ? 'permanent' : 'front'}
       onClose={() => {
         setOpen(false)
       }}
       onOpen={() => {
         setOpen(true)
       }}
-      open={open}
+      open={iPad ? true : open}
       overlayStyle={styles.overlay}
       renderDrawerContent={() => (
         <HomeDrawer
@@ -115,8 +117,19 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  drawer: {
-    backgroundColor: theme.colors.gray[1],
+  drawer: () => {
+    const base = {
+      backgroundColor: theme.colors.gray[1],
+    }
+
+    if (iPad) {
+      return {
+        ...base,
+        maxWidth: 300,
+      }
+    }
+
+    return base
   },
   overlay: {
     backgroundColor: theme.colors.gray.a6,

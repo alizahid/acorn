@@ -12,6 +12,7 @@ import { View } from '~/components/common/view'
 import { useList } from '~/hooks/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/feeds/feeds'
+import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
@@ -224,7 +225,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
     .filter((item) => item !== null)
 
   return (
-    <View style={styles.main}>
+    <View style={styles.main()}>
       <TextBox
         left={
           <Icon
@@ -406,9 +407,21 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     height: theme.typography[3].lineHeight,
     width: theme.typography[3].lineHeight,
   },
-  main: {
-    flex: 1,
-    marginTop: runtime.insets.top + theme.space[8],
+  main: () => {
+    const base = {
+      flex: 1,
+      marginTop: runtime.insets.top + theme.space[8],
+    }
+
+    if (iPad) {
+      return {
+        ...base,
+        borderRightColor: theme.colors.gray.a6,
+        borderRightWidth: runtime.hairlineWidth,
+      }
+    }
+
+    return base
   },
   search: {
     height: theme.space[8],
