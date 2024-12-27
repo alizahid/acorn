@@ -10,6 +10,8 @@ export function Feedback() {
   const { feedbackHaptics, feedbackSounds } = usePreferences()
 
   useEffect(() => {
+    SoundPlayer.setMixAudio(true)
+
     function handler(type: keyof Feedback) {
       if (feedbackSounds) {
         SoundPlayer.playAsset(sounds[assets[type]])
