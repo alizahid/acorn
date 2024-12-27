@@ -119,6 +119,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     left: 0,
     position: 'absolute',
     right: 0,
+    zIndex: 100,
   }),
   tab: {
     alignItems: 'center',
