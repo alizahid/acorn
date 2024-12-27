@@ -82,7 +82,11 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
       entitlements: {
         'aps-environment': 'development',
       },
-      icon: './assets/artwork/icon.png',
+      icon: {
+        dark: './assets/artwork/icon-dark.png',
+        light: './assets/artwork/icon-light.png',
+        tinted: './assets/artwork/icon-tinted.png',
+      },
       supportsTablet: true,
     },
     name,
