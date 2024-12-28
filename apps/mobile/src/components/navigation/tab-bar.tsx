@@ -35,7 +35,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
   return (
     <GestureDetector gesture={gesture}>
       <Main
-        intensity={75}
+        intensity={100}
         style={styles.main(blurNavigation)}
         tint={
           appTheme.endsWith('Light')

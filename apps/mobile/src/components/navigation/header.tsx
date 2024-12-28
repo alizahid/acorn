@@ -39,7 +39,7 @@ export function Header({
 
   return (
     <Main
-      intensity={75}
+      intensity={100}
       style={[modal ? styles.modal : styles.main(blurNavigation), style]}
       tint={
         theme.endsWith('Light')
