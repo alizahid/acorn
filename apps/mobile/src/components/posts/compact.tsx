@@ -1,6 +1,7 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { iPad } from '~/lib/common'
+import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { Pressable } from '../common/pressable'
@@ -31,6 +32,8 @@ export function PostCompactCard({
   seen,
   side = 'left',
 }: Props) {
+  const { largeThumbnails } = usePreferences()
+
   const { styles } = useStyles(stylesheet)
 
   return (
@@ -45,6 +48,7 @@ export function PostCompactCard({
       {post.type === 'crosspost' && post.crossPost ? (
         <CrossPostCard
           compact
+          large={largeThumbnails}
           post={post.crossPost}
           recyclingKey={post.id}
           viewing={false}
@@ -54,6 +58,7 @@ export function PostCompactCard({
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
           compact
+          large={largeThumbnails}
           nsfw={post.nsfw}
           recyclingKey={post.id}
           video={post.media.video}
@@ -65,6 +70,7 @@ export function PostCompactCard({
         <PostGalleryCard
           compact
           images={post.media.images}
+          large={largeThumbnails}
           nsfw={post.nsfw}
           recyclingKey={post.id}
         />
@@ -73,6 +79,7 @@ export function PostCompactCard({
       {post.type === 'link' && post.url ? (
         <PostLinkCard
           compact
+          large={largeThumbnails}
           media={post.media.images?.[0]}
           recyclingKey={post.id}
           url={post.url}
@@ -87,7 +94,7 @@ export function PostCompactCard({
         <View align="center" direction="row" gap="3">
           <PostCommunity image={false} label={label} post={post} seen={seen} />
 
-          <PostMeta post={post} seen={seen} />
+          <PostMeta compact post={post} seen={seen} />
         </View>
       </View>
 

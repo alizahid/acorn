@@ -11,6 +11,7 @@ import { VideoPlayer } from './player'
 type Props = {
   compact?: boolean
   crossPost?: boolean
+  large?: boolean
   nsfw?: boolean
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
@@ -21,6 +22,7 @@ type Props = {
 export function RedGifsVideo({
   compact,
   crossPost,
+  large,
   nsfw,
   recyclingKey,
   style,
@@ -36,6 +38,7 @@ export function RedGifsVideo({
       <VideoPlayer
         compact={compact}
         crossPost={crossPost}
+        large={large}
         nsfw={nsfw}
         recyclingKey={recyclingKey}
         source={gif.source}
@@ -47,11 +50,11 @@ export function RedGifsVideo({
   }
 
   return (
-    <View style={styles.main(crossPost, compact)}>
+    <View style={styles.main(crossPost, compact, large)}>
       <View
         align="center"
         justify="center"
-        style={styles.video(video.width / video.height)}
+        style={styles.video(video.width / video.height, compact)}
       >
         <Spinner />
       </View>
@@ -60,11 +63,15 @@ export function RedGifsVideo({
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  main: (crossPost?: boolean, compact?: boolean) => {
+  main: (crossPost?: boolean, compact?: boolean, large?: boolean) => {
     if (compact) {
       return {
-        height: theme.space[8],
-        width: theme.space[8],
+        backgroundColor: theme.colors.gray.a3,
+        borderCurve: 'continuous',
+        borderRadius: theme.space[large ? 2 : 1],
+        height: theme.space[8] * (large ? 2 : 1),
+        overflow: 'hidden',
+        width: theme.space[8] * (large ? 2 : 1),
       }
     }
 
@@ -74,7 +81,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       overflow: 'hidden',
     }
   },
-  video: (aspectRatio: number) => ({
-    aspectRatio,
+  video: (aspectRatio: number, compact?: boolean) => ({
+    aspectRatio: compact ? 1 : aspectRatio,
   }),
 }))

@@ -18,6 +18,7 @@ import { Pressable } from '../../common/pressable'
 type Props = {
   compact?: boolean
   crossPost?: boolean
+  large?: boolean
   nsfw?: boolean
   recyclingKey?: string
   source: VideoSource
@@ -29,6 +30,7 @@ type Props = {
 export function VideoPlayer({
   compact,
   crossPost,
+  large,
   nsfw,
   recyclingKey,
   source,
@@ -38,13 +40,8 @@ export function VideoPlayer({
 }: Props) {
   const t = useTranslations('component.posts.video')
 
-  const {
-    blurNsfw,
-    feedMuted,
-    largeThumbnails,
-    seenOnMedia,
-    unmuteFullscreen,
-  } = usePreferences()
+  const { blurNsfw, feedMuted, seenOnMedia, unmuteFullscreen } =
+    usePreferences()
   const { addPost } = useHistory()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -88,7 +85,7 @@ export function VideoPlayer({
             })
           }
         }}
-        style={styles.compact(largeThumbnails)}
+        style={styles.compact(large)}
       >
         <Image source={video.thumbnail} style={styles.compactImage} />
 
@@ -119,7 +116,14 @@ export function VideoPlayer({
         />
 
         {nsfw && blurNsfw ? (
-          <BlurView intensity={100} pointerEvents="none" style={styles.blur} />
+          <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
+            <Icon
+              color={theme.colors.accent.a9}
+              name="Warning"
+              size={theme.space[5]}
+              weight="fill"
+            />
+          </BlurView>
         ) : null}
       </Pressable>
     )
@@ -200,7 +204,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     gap: theme.space[4],
     justifyContent: 'center',
   },
-  compact: (large: boolean) => ({
+  compact: (large?: boolean) => ({
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
     borderRadius: theme.space[large ? 2 : 1],

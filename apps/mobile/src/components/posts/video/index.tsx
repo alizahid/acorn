@@ -9,6 +9,7 @@ import { RedGifsVideo } from './red-gifs'
 type Props = {
   compact?: boolean
   crossPost?: boolean
+  large?: boolean
   nsfw?: boolean
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
@@ -19,6 +20,7 @@ type Props = {
 export function PostVideoCard({
   compact,
   crossPost,
+  large,
   nsfw,
   recyclingKey,
   style,
@@ -30,6 +32,7 @@ export function PostVideoCard({
       <RedGifsVideo
         compact={compact}
         crossPost={crossPost}
+        large={large}
         nsfw={nsfw}
         recyclingKey={recyclingKey}
         style={style}
@@ -44,6 +47,7 @@ export function PostVideoCard({
       <VideoPlayer
         compact={compact}
         crossPost={crossPost}
+        large={large}
         nsfw={nsfw}
         recyclingKey={recyclingKey}
         source={video.url}
@@ -64,6 +68,7 @@ export function PostVideoCard({
   return (
     <PostLinkCard
       compact={compact}
+      large={large}
       media={media}
       recyclingKey={recyclingKey}
       style={style}

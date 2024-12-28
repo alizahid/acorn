@@ -5,7 +5,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
-import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -18,6 +17,7 @@ import { PostVideoCard } from './video'
 
 type Props = {
   compact?: boolean
+  large?: boolean
   post: Post
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
@@ -26,6 +26,7 @@ type Props = {
 
 export function CrossPostCard({
   compact,
+  large,
   post,
   recyclingKey,
   style,
@@ -34,8 +35,6 @@ export function CrossPostCard({
   const router = useRouter()
 
   const f = useFormatter()
-
-  const { largeThumbnails } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -50,7 +49,7 @@ export function CrossPostCard({
             pathname: '/posts/[id]',
           })
         }}
-        style={styles.compact(largeThumbnails)}
+        style={styles.compact(large)}
       >
         {post.media.images?.[0] ? (
           <Image
@@ -180,7 +179,7 @@ export function CrossPostCard({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  compact: (large: boolean) => ({
+  compact: (large?: boolean) => ({
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
     borderRadius: theme.space[large ? 2 : 1],

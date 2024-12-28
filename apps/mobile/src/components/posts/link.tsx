@@ -15,6 +15,7 @@ import { View } from '../common/view'
 
 type Props = {
   compact?: boolean
+  large?: boolean
   media?: PostMedia
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
@@ -23,6 +24,7 @@ type Props = {
 
 export function PostLinkCard({
   compact,
+  large,
   media,
   recyclingKey,
   style,
@@ -30,7 +32,7 @@ export function PostLinkCard({
 }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
-  const { largeThumbnails, seenOnMedia } = usePreferences()
+  const { seenOnMedia } = usePreferences()
   const { handleLink } = useLink()
   const { addPost } = useHistory()
 
@@ -48,7 +50,7 @@ export function PostLinkCard({
             })
           }
         }}
-        style={styles.compact(largeThumbnails)}
+        style={styles.compact(large)}
       >
         {media?.thumbnail ? (
           <Image source={media.thumbnail} style={styles.compactImage} />
@@ -100,7 +102,7 @@ export function PostLinkCard({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  compact: (large: boolean) => ({
+  compact: (large?: boolean) => ({
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
     borderRadius: theme.space[large ? 2 : 1],

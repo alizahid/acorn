@@ -21,6 +21,7 @@ type Props = {
   compact?: boolean
   crossPost?: boolean
   images: Array<PostMedia>
+  large?: boolean
   nsfw?: boolean
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
@@ -30,13 +31,14 @@ export function PostGalleryCard({
   compact,
   crossPost,
   images,
+  large,
   nsfw,
   recyclingKey,
   style,
 }: Props) {
   const t = useTranslations('component.posts.gallery')
 
-  const { blurNsfw, largeThumbnails, seenOnMedia } = usePreferences()
+  const { blurNsfw, seenOnMedia } = usePreferences()
   const { addPost } = useHistory()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -65,7 +67,7 @@ export function PostGalleryCard({
               })
             }
           }}
-          style={[styles.compact(largeThumbnails), style]}
+          style={[styles.compact(large), style]}
         >
           <Image
             {...placeholder}
@@ -142,7 +144,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     gap: theme.space[4],
     justifyContent: 'center',
   },
-  compact: (large: boolean) => ({
+  compact: (large?: boolean) => ({
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
     borderRadius: theme.space[large ? 2 : 1],

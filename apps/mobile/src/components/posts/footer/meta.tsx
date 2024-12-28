@@ -10,11 +10,12 @@ import { type Post } from '~/types/post'
 export type PostLabel = 'user' | 'subreddit'
 
 type Props = {
+  compact?: boolean
   post: Post
   seen?: boolean
 }
 
-export function PostMeta({ post, seen }: Props) {
+export function PostMeta({ compact, post, seen }: Props) {
   const f = useFormatter()
 
   const { theme } = useStyles()
@@ -62,24 +63,26 @@ export function PostMeta({ post, seen }: Props) {
         />
       ) : null}
 
-      {items.map((item) => (
-        <View align="center" direction="row" gap="1" key={item.key}>
-          <Icon
-            color={
-              'color' in item && item.color
-                ? item.color
-                : theme.colors.gray[seen ? 'a11' : 'a12']
-            }
-            name={item.icon}
-            size={theme.typography[2].fontSize}
-            weight={'weight' in item ? item.weight : undefined}
-          />
+      {items
+        .filter((item) => (compact ? item.key === 'votes' : true))
+        .map((item) => (
+          <View align="center" direction="row" gap="1" key={item.key}>
+            <Icon
+              color={
+                'color' in item && item.color
+                  ? item.color
+                  : theme.colors.gray[seen ? 'a11' : 'a12']
+              }
+              name={item.icon}
+              size={theme.typography[2].fontSize}
+              weight={'weight' in item ? item.weight : undefined}
+            />
 
-          <Text highContrast={!seen} size="2" tabular>
-            {item.label}
-          </Text>
-        </View>
-      ))}
+            <Text highContrast={!seen} size="2" tabular>
+              {item.label}
+            </Text>
+          </View>
+        ))}
     </View>
   )
 }
