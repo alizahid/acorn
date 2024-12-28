@@ -98,7 +98,6 @@ export default function Screen() {
           }}
         />
       )}
-      swipeEdgeWidth={theme.space[3]}
     >
       <PostList
         community={
