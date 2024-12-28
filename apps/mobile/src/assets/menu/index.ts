@@ -9,7 +9,9 @@ import BookmarkSimple from './bookmark-simple-duotone.png'
 import ChartLineUp from './chart-line-up-duotone.png'
 import ChatCircle from './chat-circle-duotone.png'
 import Clock from './clock-duotone.png'
+import Compass from './compass-duotone.png'
 import Copy from './copy-duotone.png'
+import DeviceMobileCamera from './device-mobile-camera-duotone.png'
 import EyeClosed from './eye-closed-duotone.png'
 import Eye from './eye-duotone.png'
 import Flag from './flag-duotone.png'
@@ -32,7 +34,9 @@ export const menu = {
   chartLineUp: Image.resolveAssetSource(ChartLineUp),
   chatCircle: Image.resolveAssetSource(ChatCircle),
   clock: Image.resolveAssetSource(Clock),
+  compass: Image.resolveAssetSource(Compass),
   copy: Image.resolveAssetSource(Copy),
+  deviceMobileCamera: Image.resolveAssetSource(DeviceMobileCamera),
   eye: Image.resolveAssetSource(Eye),
   eyeClosed: Image.resolveAssetSource(EyeClosed),
   flag: Image.resolveAssetSource(Flag),

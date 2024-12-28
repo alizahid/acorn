@@ -90,6 +90,8 @@
         "hideCommunity": "Hide r/{community}",
         "hidePost": "Hide post",
         "hideUser": "Hide u/{user}",
+        "openApp": "Open in app",
+        "openBrowser": "Open in browser",
         "removeDownvote": "Remove downvote",
         "removeUpvote": "Remove upvote",
         "reply": "Reply",

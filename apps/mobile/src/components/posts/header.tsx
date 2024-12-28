@@ -13,10 +13,6 @@ type Props = {
 export function PostHeader({ onPress, parentId }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  if (!parentId) {
-    return null
-  }
-
   return (
     <View direction="row" style={styles.main()}>
       <HeaderButton

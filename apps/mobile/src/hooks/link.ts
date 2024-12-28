@@ -125,6 +125,7 @@ export function useLink() {
   return {
     handleLink,
     loading,
+    open,
     visible,
   }
 }

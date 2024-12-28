@@ -7,6 +7,7 @@ import { useTranslations } from 'use-intl'
 
 import { menu } from '~/assets/menu'
 import { useCopy } from '~/hooks/copy'
+import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
 import { usePostSave } from '~/hooks/mutations/posts/save'
@@ -33,6 +34,7 @@ export function PostMenu({ children, onPress, post, style }: Props) {
 
   const { copy } = useCopy()
   const { hide } = useHide()
+  const { handleLink, open } = useLink()
 
   const reasons: Array<ReportReason> = [
     'community',
@@ -103,6 +105,28 @@ export function PostMenu({ children, onPress, post, style }: Props) {
           },
           {
             menuItems: [
+              {
+                actionKey: 'openApp',
+                actionTitle: t('openApp'),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.deviceMobileCamera,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
+              {
+                actionKey: 'openBrowser',
+                actionTitle: t('openBrowser'),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.compass,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
               {
                 actionKey: 'share',
                 actionTitle: t('share'),
@@ -217,6 +241,18 @@ export function PostMenu({ children, onPress, post, style }: Props) {
             action: post.saved ? 'unsave' : 'save',
             postId: post.id,
           })
+        }
+
+        if (event.nativeEvent.actionKey === 'openApp') {
+          const url = new URL(post.permalink, 'https://reddit.com')
+
+          void handleLink(url.toString())
+        }
+
+        if (event.nativeEvent.actionKey === 'openBrowser') {
+          const url = new URL(post.permalink, 'https://reddit.com')
+
+          void open(url.toString())
         }
 
         if (event.nativeEvent.actionKey === 'share') {
