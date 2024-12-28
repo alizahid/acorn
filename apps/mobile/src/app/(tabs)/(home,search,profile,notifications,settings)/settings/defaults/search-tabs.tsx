@@ -39,8 +39,7 @@ export default function Screen() {
               onChange={(value) => {
                 if (
                   !value &&
-                  searchTabs.filter((tab) => tab.disabled).length ===
-                    searchTabs.length - 1
+                  searchTabs.filter((tab) => tab.disabled).length >= 1
                 ) {
                   return
                 }

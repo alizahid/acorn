@@ -267,7 +267,7 @@
         },
         "searchTabs": {
           "community": "Communities",
-          "hint": "Requires app restart",
+          "hint": "You can only disable one tab. Requires app restart",
           "post": "Posts",
           "title": "Search tabs",
           "user": "Users"
