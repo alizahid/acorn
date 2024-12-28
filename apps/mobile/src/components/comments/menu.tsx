@@ -1,3 +1,4 @@
+import * as Clipboard from 'expo-clipboard'
 import { useRouter } from 'expo-router'
 import { type ReactNode } from 'react'
 import { Share, type StyleProp, type ViewStyle } from 'react-native'
@@ -104,6 +105,17 @@ export function CommentMenu({ children, comment, onPress, style }: Props) {
           },
           {
             menuItems: [
+              {
+                actionKey: 'copyText',
+                actionTitle: t('copyText'),
+                icon: {
+                  imageOptions: {
+                    tint: theme.colors.gray[12],
+                  },
+                  imageValue: menu.copy,
+                  type: 'IMAGE_REQUIRE',
+                },
+              },
               {
                 actionKey: 'openApp',
                 actionTitle: t('openApp'),
@@ -230,6 +242,10 @@ export function CommentMenu({ children, comment, onPress, style }: Props) {
             commentId: comment.id,
             postId: comment.postId,
           })
+        }
+
+        if (event.nativeEvent.actionKey === 'copyText') {
+          void Clipboard.setStringAsync(comment.body)
         }
 
         if (event.nativeEvent.actionKey === 'openApp') {

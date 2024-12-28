@@ -85,6 +85,7 @@
       },
       "menu": {
         "copyLink": "Copy link",
+        "copyText": "Copy text",
         "downvote": "Downvote",
         "hideComment": "Hide comment",
         "hideCommunity": "Hide r/{community}",
