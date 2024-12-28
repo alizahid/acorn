@@ -6,6 +6,7 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { runOnJS } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
@@ -116,6 +117,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     borderTopWidth: runtime.hairlineWidth,
     bottom: 0,
     flexDirection: 'row',
+    justifyContent: 'center',
     left: 0,
     position: 'absolute',
     right: 0,
@@ -123,8 +125,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   }),
   tab: {
     alignItems: 'center',
-    flexGrow: 1,
+    flexGrow: iPad ? undefined : 1,
     paddingBottom: theme.space[4] + runtime.insets.bottom,
+    paddingHorizontal: iPad ? theme.space[6] : undefined,
     paddingTop: theme.space[4],
   },
 }))
