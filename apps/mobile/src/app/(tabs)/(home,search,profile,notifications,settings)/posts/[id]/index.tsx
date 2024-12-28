@@ -23,9 +23,11 @@ import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
+import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useHistory } from '~/hooks/history'
 import { useList } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
+import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -67,6 +69,16 @@ export default function Screen() {
 
   useFocusEffect(() => {
     navigation.setOptions({
+      headerRight: () => (
+        <SortIntervalMenu
+          onChange={(next) => {
+            setSort(next.sort)
+          }}
+          sort={sort}
+          top={false}
+          type="comment"
+        />
+      ),
       headerTitle: () =>
         post ? (
           <Pressable
@@ -116,10 +128,10 @@ export default function Screen() {
     () =>
       compact([
         'post' as const,
-        'header' as const,
+        params.commentId ? ('header' as const) : undefined,
         ...(comments.length > 0 ? comments : ['empty' as const]),
       ]),
-    [comments],
+    [comments, params.commentId],
   )
 
   return (
@@ -179,7 +191,7 @@ export default function Screen() {
             onRefresh={refetch}
           />
         }
-        renderItem={({ item, target }) => {
+        renderItem={({ item }) => {
           if (typeof item === 'string') {
             if (item === 'post') {
               return post ? (
@@ -197,8 +209,6 @@ export default function Screen() {
             if (item === 'header') {
               return (
                 <PostHeader
-                  commentId={params.commentId}
-                  onChangeSort={setSort}
                   onPress={(next) => {
                     list.current?.scrollToIndex({
                       animated: true,
@@ -212,8 +222,6 @@ export default function Screen() {
                   parentId={
                     params.commentId ? comments[0]?.data.parentId : undefined
                   }
-                  sort={sort}
-                  sticky={target === 'StickyHeader'}
                 />
               )
             }
@@ -252,7 +260,6 @@ export default function Screen() {
             />
           )
         }}
-        stickyHeaderIndices={[1]}
         viewabilityConfig={{
           viewAreaCoveragePercentThreshold: 60,
         }}
@@ -286,7 +293,7 @@ export default function Screen() {
                 list.current?.scrollToIndex({
                   animated: true,
                   index: 2,
-                  viewOffset: 48,
+                  viewOffset: 48 * 2,
                 })
 
                 return
@@ -305,7 +312,7 @@ export default function Screen() {
               list.current?.scrollToIndex({
                 animated: true,
                 index: next,
-                viewOffset: 48,
+                viewOffset: 48 * 2,
               })
             }}
             weight="bold"
@@ -340,8 +347,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       theme.space[5] +
       theme.space[4] +
       theme.space[6] +
-      theme.space[8],
-    paddingTop: runtime.insets.top + theme.space[8],
+      theme.space[8] +
+      (iPad ? theme.space[4] : 0),
+    paddingTop:
+      runtime.insets.top + theme.space[8] + (iPad ? theme.space[4] : 0),
   },
   reply: (side: Side) => ({
     backgroundColor: theme.colors.blue.a4,

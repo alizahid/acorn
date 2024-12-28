@@ -20,7 +20,15 @@ export default function Screen() {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const listProps = useList()
+  const listProps = useList({
+    padding: iPad
+      ? {
+          bottom: theme.space[4],
+          horizontal: theme.space[4],
+          top: homeFeed.community ? 0 : theme.space[4],
+        }
+      : undefined,
+  })
 
   const [open, setOpen] = useState(false)
 
@@ -103,7 +111,10 @@ export default function Screen() {
         feed={homeFeed.feed}
         header={
           homeFeed.community ? (
-            <CommunitySearchBar name={homeFeed.community} />
+            <CommunitySearchBar
+              name={homeFeed.community}
+              style={styles.search()}
+            />
           ) : undefined
         }
         interval={sorting.interval}
@@ -116,7 +127,7 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   drawer: () => {
     const base = {
       backgroundColor: theme.colors.gray[1],
@@ -133,5 +144,17 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   overlay: {
     backgroundColor: theme.colors.gray.a6,
+  },
+  search: () => {
+    if (iPad) {
+      return {
+        borderBottomColor: theme.colors.gray.a6,
+        borderBottomWidth: runtime.hairlineWidth,
+        marginBottom: theme.space[4],
+        marginHorizontal: -theme.space[4],
+      }
+    }
+
+    return {}
   },
 }))

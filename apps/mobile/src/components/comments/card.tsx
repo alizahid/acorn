@@ -161,7 +161,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   liked: (liked: boolean) => ({
     backgroundColor: liked ? theme.colors.orange[9] : theme.colors.violet[9],
-    top: -theme.space[iPad ? 5 : 4],
+    top: -theme.space[iPad ? 6 : 4],
   }),
   main: (depth: number, colored: boolean) => {
     const color = getDepthColor(depth)
@@ -185,10 +185,10 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   saved: {
     backgroundColor: theme.colors.green[9],
-    bottom: -theme.space[iPad ? 5 : 4],
+    bottom: -theme.space[iPad ? 6 : 4],
     height: theme.space[iPad ? 8 : 6],
     position: 'absolute',
-    right: -theme.space[iPad ? 5 : 4],
+    right: -theme.space[iPad ? 6 : 4],
     transform: [
       {
         rotate: '45deg',

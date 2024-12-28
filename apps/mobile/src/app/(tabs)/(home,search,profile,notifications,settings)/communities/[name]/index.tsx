@@ -1,7 +1,7 @@
 import { useLocalSearchParams } from 'expo-router'
 import { useRef, useState } from 'react'
 import { TabView } from 'react-native-tab-view'
-import { useStyles } from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -15,6 +15,7 @@ import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
+import { iPad } from '~/lib/common'
 import { CommunityTab } from '~/types/community'
 
 const schema = z.object({
@@ -28,9 +29,10 @@ export default function Screen() {
 
   const t = useTranslations('screen.community')
 
-  const { theme } = useStyles()
+  const { styles, theme } = useStyles(stylesheet)
 
   const listProps = useList({
+    padding: iPad ? theme.space[4] : 0,
     top: theme.space[7] + theme.space[4],
   })
 
@@ -60,7 +62,7 @@ export default function Screen() {
             <PostList
               community={params.name}
               header={
-                <View direction="row">
+                <View direction="row" style={styles.header()}>
                   <CommunitySearchBar name={params.name} />
 
                   <SortIntervalMenu
@@ -102,3 +104,19 @@ export default function Screen() {
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  header: () => {
+    if (iPad) {
+      return {
+        borderBottomColor: theme.colors.gray.a6,
+        borderBottomWidth: runtime.hairlineWidth,
+        marginBottom: theme.space[4],
+        marginHorizontal: -theme.space[4],
+        marginTop: -theme.space[4],
+      }
+    }
+
+    return {}
+  },
+}))

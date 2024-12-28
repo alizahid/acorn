@@ -2,9 +2,23 @@ import { type FlashListProps } from '@shopify/flash-list'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useStyles } from 'react-native-unistyles'
 
+type Padding =
+  | number
+  | {
+      bottom?: number
+      left?: number
+      right?: number
+      top?: number
+    }
+  | {
+      horizontal?: number
+      vertical?: number
+    }
+
 type Props = {
   bottom?: number
   header?: boolean
+  padding?: Padding
   scroll?: boolean
   tabBar?: boolean
   top?: number
@@ -22,6 +36,7 @@ export type ListProps<Type = unknown> = Pick<
 export function useList<Type>({
   bottom = 0,
   header = true,
+  padding,
   scroll = true,
   tabBar = true,
   top = 0,
@@ -38,10 +53,52 @@ export function useList<Type>({
     top: (header ? insets.top + theme.space[8] : 0) + top,
   }
 
+  const paddingTop =
+    padding &&
+    (typeof padding === 'number'
+      ? padding
+      : 'vertical' in padding
+        ? padding.vertical
+        : 'top' in padding
+          ? padding.top
+          : 0)
+
+  const paddingBottom =
+    padding &&
+    (typeof padding === 'number'
+      ? padding
+      : 'vertical' in padding
+        ? padding.vertical
+        : 'bottom' in padding
+          ? padding.bottom
+          : 0)
+
+  const paddingLeft =
+    padding &&
+    (typeof padding === 'number'
+      ? padding
+      : 'horizontal' in padding
+        ? padding.horizontal
+        : 'left' in padding
+          ? padding.left
+          : 0)
+
+  const paddingRight =
+    padding &&
+    (typeof padding === 'number'
+      ? padding
+      : 'horizontal' in padding
+        ? padding.horizontal
+        : 'right' in padding
+          ? padding.right
+          : 0)
+
   return {
     contentContainerStyle: {
-      paddingBottom: offsets.bottom,
-      paddingTop: offsets.top,
+      paddingBottom: offsets.bottom + (paddingBottom ?? 0),
+      paddingLeft,
+      paddingRight,
+      paddingTop: offsets.top + (paddingTop ?? 0),
     },
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',

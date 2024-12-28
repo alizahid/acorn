@@ -2,7 +2,7 @@ import { Dimensions, Platform } from 'react-native'
 
 const height = Dimensions.get('window').height
 
-export const cardMaxWidth = 600
+export const cardMaxWidth = 768
 
 export const iPhone = Platform.OS === 'ios' && !Platform.isPad
 

@@ -42,6 +42,7 @@ export default function Screen() {
 
           router.navigate({
             params: {
+              mode: 'headless',
               name: removePrefix(profile.name),
               type,
             },

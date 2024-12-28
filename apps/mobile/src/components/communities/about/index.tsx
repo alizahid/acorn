@@ -159,6 +159,9 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   content: {
     gap: theme.space[4],
+    marginTop: -theme.space[4],
+    paddingLeft: 0,
+    paddingRight: 0,
   },
   image: {
     backgroundColor: theme.colors.gray.a3,

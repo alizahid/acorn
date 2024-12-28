@@ -110,10 +110,10 @@ export function PostFooter({ expanded, label, post, seen }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   saved: {
     backgroundColor: theme.colors.green[9],
-    bottom: -theme.space[iPad ? 5 : 4],
+    bottom: -theme.space[iPad ? 6 : 4],
     height: theme.space[iPad ? 8 : 6],
     position: 'absolute',
-    right: -theme.space[iPad ? 5 : 4],
+    right: -theme.space[iPad ? 6 : 4],
     transform: [
       {
         rotate: '45deg',

@@ -15,10 +15,12 @@ import { PostList } from '~/components/posts/list'
 import { useList } from '~/hooks/list'
 import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { UserTab } from '~/types/user'
 
 const schema = z.object({
+  mode: z.literal('headless').optional(),
   name: z.string().catch('mildpanda'),
 })
 
@@ -42,7 +44,8 @@ export default function Screen() {
   const { theme } = useStyles()
 
   const listProps = useList({
-    top: theme.space[7] + theme.space[4],
+    padding: iPad ? theme.space[4] : 0,
+    top: params.mode === 'headless' ? 0 : theme.space[7] + theme.space[4],
   })
 
   const routes = useRef(

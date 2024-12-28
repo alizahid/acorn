@@ -4,15 +4,18 @@ import {
   useNavigation,
 } from 'expo-router'
 import { useState } from 'react'
+import { useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { UserFeedType } from '~/types/user'
 
 const schema = z.object({
+  mode: z.literal('headless').optional(),
   name: z.string().catch('mildpanda'),
   type: z.enum(UserFeedType).catch('submitted'),
 })
@@ -25,7 +28,12 @@ export default function Screen() {
 
   const { intervalUserPosts, sortUserPosts } = usePreferences()
 
-  const listProps = useList()
+  const { theme } = useStyles()
+
+  const listProps = useList({
+    padding: iPad ? theme.space[4] : 0,
+    top: params.mode === 'headless' ? 0 : theme.space[7] + theme.space[4],
+  })
 
   const [sort, setSort] = useState(sortUserPosts)
   const [interval, setInterval] = useState(intervalUserPosts)

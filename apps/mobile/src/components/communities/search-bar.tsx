@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -7,9 +8,10 @@ import { TextBox } from '../common/text-box'
 
 type Props = {
   name: string
+  style?: StyleProp<ViewStyle>
 }
 
-export function CommunitySearchBar({ name }: Props) {
+export function CommunitySearchBar({ name, style }: Props) {
   const router = useRouter()
 
   const t = useTranslations('component.communities.searchBar')
@@ -40,7 +42,7 @@ export function CommunitySearchBar({ name }: Props) {
       }}
       placeholder={t('placeholder')}
       returnKeyType="search"
-      style={styles.main}
+      style={[styles.main, style]}
       styleContent={styles.content}
     />
   )
