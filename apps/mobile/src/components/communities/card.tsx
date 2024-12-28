@@ -33,14 +33,16 @@ export function CommunityCard({ community, style }: Props) {
             },
             pathname: '/users/[name]',
           })
-        } else {
-          router.push({
-            params: {
-              name: removePrefix(community.name),
-            },
-            pathname: '/communities/[name]',
-          })
+
+          return
         }
+
+        router.push({
+          params: {
+            name: removePrefix(community.name),
+          },
+          pathname: '/communities/[name]',
+        })
       }}
       px="4"
       style={style}

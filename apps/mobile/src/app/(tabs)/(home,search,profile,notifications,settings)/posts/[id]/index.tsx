@@ -80,14 +80,16 @@ export default function Screen() {
                   },
                   pathname: '/users/[name]',
                 })
-              } else {
-                router.push({
-                  params: {
-                    name: removePrefix(post.community.name),
-                  },
-                  pathname: '/communities/[name]',
-                })
+
+                return
               }
+
+              router.push({
+                params: {
+                  name: removePrefix(post.community.name),
+                },
+                pathname: '/communities/[name]',
+              })
             }}
             px="3"
           >

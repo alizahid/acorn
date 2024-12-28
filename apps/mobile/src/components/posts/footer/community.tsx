@@ -36,22 +36,26 @@ export function PostCommunity({ image = true, label, post, seen }: Props) {
               },
               pathname: '/users/[name]',
             })
-          } else {
-            router.push({
-              params: {
-                name: removePrefix(post.community.name),
-              },
-              pathname: '/communities/[name]',
-            })
+
+            return
           }
-        } else {
+
           router.push({
             params: {
-              name: removePrefix(post.user.name),
+              name: removePrefix(post.community.name),
             },
-            pathname: '/users/[name]',
+            pathname: '/communities/[name]',
           })
+
+          return
         }
+
+        router.push({
+          params: {
+            name: removePrefix(post.user.name),
+          },
+          pathname: '/users/[name]',
+        })
       }}
     >
       {image && label === 'subreddit' && post.community.image ? (

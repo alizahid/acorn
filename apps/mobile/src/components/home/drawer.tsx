@@ -352,14 +352,16 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
                             },
                             pathname: '/users/[name]',
                           })
-                        } else {
-                          router.push({
-                            params: {
-                              name: removePrefix(item.data.name),
-                            },
-                            pathname: '/communities/[name]',
-                          })
+
+                          return
                         }
+
+                        router.push({
+                          params: {
+                            name: removePrefix(item.data.name),
+                          },
+                          pathname: '/communities/[name]',
+                        })
                       }}
                       width="8"
                     >
