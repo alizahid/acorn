@@ -1,9 +1,11 @@
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useRouter } from 'expo-router'
 import { useRef } from 'react'
+import { Share } from 'react-native'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { useHide } from '~/hooks/moderation/hide'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { getDepthColor } from '~/lib/colors'
@@ -43,6 +45,7 @@ export function CommentCard({
 
   const { vote } = useCommentVote()
   const { save } = useCommentSave()
+  const { hide } = useHide()
 
   return (
     <>
@@ -84,6 +87,23 @@ export function CommentCard({
                 user: comment.user.name,
               },
               pathname: '/posts/[id]/reply',
+            })
+          }
+
+          if (action === 'share') {
+            const url = new URL(comment.permalink, 'https://reddit.com')
+
+            void Share.share({
+              url: url.toString(),
+            })
+          }
+
+          if (action === 'hide') {
+            hide({
+              action: 'hide',
+              id: comment.id,
+              postId: comment.postId,
+              type: 'comment',
             })
           }
         }}

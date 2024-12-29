@@ -89,6 +89,7 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
 
 export const colors: Record<NonNullable<GestureAction>, ColorToken> = {
   downvote: 'violet',
+  hide: 'red',
   reply: 'blue',
   save: 'green',
   share: 'accent',
@@ -97,6 +98,7 @@ export const colors: Record<NonNullable<GestureAction>, ColorToken> = {
 
 export const icons: Record<NonNullable<GestureAction>, IconName> = {
   downvote: 'ArrowFatDown',
+  hide: 'EyeClosed',
   reply: 'ArrowBendUpLeft',
   save: 'BookmarkSimple',
   share: 'Share',
@@ -118,6 +120,10 @@ export function getWeight(
   }
 
   if (action === 'save' && data.saved) {
+    return 'regular'
+  }
+
+  if (action === 'hide' && data.hidden) {
     return 'regular'
   }
 

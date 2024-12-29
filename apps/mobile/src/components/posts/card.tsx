@@ -1,9 +1,11 @@
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useRouter } from 'expo-router'
 import { useCallback, useRef } from 'react'
+import { Share } from 'react-native'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { cardMaxWidth, iPad } from '~/lib/common'
@@ -44,6 +46,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   const { vote } = usePostVote()
   const { save } = usePostSave()
+  const { hide } = useHide()
 
   const onAction = useCallback(
     (item: Post, action: GestureAction) => {
@@ -76,8 +79,24 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           pathname: '/posts/[id]/reply',
         })
       }
+
+      if (action === 'share') {
+        const url = new URL(post.permalink, 'https://reddit.com')
+
+        void Share.share({
+          url: url.toString(),
+        })
+      }
+
+      if (action === 'hide') {
+        hide({
+          action: post.hidden ? 'unhide' : 'hide',
+          id: post.id,
+          type: 'post',
+        })
+      }
     },
-    [router, save, vote],
+    [hide, post.hidden, post.id, post.permalink, router, save, vote],
   )
 
   const body = Boolean(expanded) && Boolean(post.body)

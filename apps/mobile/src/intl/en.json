@@ -286,6 +286,7 @@
         },
         "options": {
           "downvote": "Downvote",
+          "hide": "Hide",
           "reply": "Reply",
           "save": "Save",
           "share": "Share",

@@ -17,9 +17,11 @@ export type GestureAction =
   | 'save'
   | 'reply'
   | 'share'
+  | 'hide'
   | undefined
 
 export type GestureData = {
+  hidden?: boolean
   liked: boolean | null
   saved: boolean
 }

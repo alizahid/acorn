@@ -87,6 +87,18 @@ export default function Screen() {
     },
     {
       icon: {
+        color: theme.colors.red[9],
+        name: 'EyeClosed',
+        type: 'icon',
+      },
+      label: t('options.hide'),
+      right: (
+        <Icon color={theme.colors.red.a9} name="EyeClosed" weight="duotone" />
+      ),
+      value: 'hide',
+    },
+    {
+      icon: {
         color: theme.colors.accent[9],
         name: 'Share',
         type: 'icon',
