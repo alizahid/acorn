@@ -1,6 +1,7 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
 import { View } from '~/components/common/view'
 import { useRedGifs } from '~/hooks/redgifs'
@@ -13,6 +14,7 @@ type Props = {
   crossPost?: boolean
   large?: boolean
   nsfw?: boolean
+  onLongPress?: () => void
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
   video: PostMedia
@@ -24,6 +26,7 @@ export function RedGifsVideo({
   crossPost,
   large,
   nsfw,
+  onLongPress,
   recyclingKey,
   style,
   video,
@@ -40,6 +43,7 @@ export function RedGifsVideo({
         crossPost={crossPost}
         large={large}
         nsfw={nsfw}
+        onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         source={gif.source}
         style={style}
@@ -50,7 +54,10 @@ export function RedGifsVideo({
   }
 
   return (
-    <View style={styles.main(crossPost, compact, large)}>
+    <Pressable
+      onLongPress={onLongPress}
+      style={styles.main(crossPost, compact, large)}
+    >
       <View
         align="center"
         justify="center"
@@ -58,7 +65,7 @@ export function RedGifsVideo({
       >
         <Spinner />
       </View>
-    </View>
+    </Pressable>
   )
 }
 

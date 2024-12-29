@@ -12,11 +12,17 @@ import { type PostMedia } from '~/types/post'
 
 type Props = {
   images: Array<PostMedia>
+  onLongPress?: () => void
   onPress: (index: number) => void
   recyclingKey?: string
 }
 
-export function ImageGrid({ images, onPress, recyclingKey }: Props) {
+export function ImageGrid({
+  images,
+  onLongPress,
+  onPress,
+  recyclingKey,
+}: Props) {
   const t = useTranslations('component.posts.gallery')
 
   const { styles } = useStyles(stylesheet)
@@ -33,6 +39,7 @@ export function ImageGrid({ images, onPress, recyclingKey }: Props) {
       <View direction="row" gap="2">
         <View gap="2">
           <Pressable
+            onLongPress={onLongPress}
             onPress={() => {
               onPress(0)
             }}
@@ -49,6 +56,7 @@ export function ImageGrid({ images, onPress, recyclingKey }: Props) {
           </Pressable>
 
           <Pressable
+            onLongPress={onLongPress}
             onPress={() => {
               onPress(1)
             }}
@@ -67,6 +75,7 @@ export function ImageGrid({ images, onPress, recyclingKey }: Props) {
 
         <View gap="2">
           <Pressable
+            onLongPress={onLongPress}
             onPress={() => {
               onPress(2)
             }}
@@ -83,6 +92,7 @@ export function ImageGrid({ images, onPress, recyclingKey }: Props) {
           </Pressable>
 
           <Pressable
+            onLongPress={onLongPress}
             onPress={() => {
               onPress(3)
             }}
@@ -116,6 +126,7 @@ export function ImageGrid({ images, onPress, recyclingKey }: Props) {
     return (
       <View direction="row" gap="2">
         <Pressable
+          onLongPress={onLongPress}
           onPress={() => {
             onPress(0)
           }}
@@ -133,6 +144,7 @@ export function ImageGrid({ images, onPress, recyclingKey }: Props) {
 
         <View gap="2">
           <Pressable
+            onLongPress={onLongPress}
             onPress={() => {
               onPress(1)
             }}
@@ -149,6 +161,7 @@ export function ImageGrid({ images, onPress, recyclingKey }: Props) {
           </Pressable>
 
           <Pressable
+            onLongPress={onLongPress}
             onPress={() => {
               onPress(2)
             }}
@@ -172,6 +185,7 @@ export function ImageGrid({ images, onPress, recyclingKey }: Props) {
     return (
       <View direction="row" gap="2">
         <Pressable
+          onLongPress={onLongPress}
           onPress={() => {
             onPress(0)
           }}
@@ -188,6 +202,7 @@ export function ImageGrid({ images, onPress, recyclingKey }: Props) {
         </Pressable>
 
         <Pressable
+          onLongPress={onLongPress}
           onPress={() => {
             onPress(1)
           }}
@@ -209,6 +224,7 @@ export function ImageGrid({ images, onPress, recyclingKey }: Props) {
   if (one) {
     return (
       <Pressable
+        onLongPress={onLongPress}
         onPress={() => {
           onPress(0)
         }}

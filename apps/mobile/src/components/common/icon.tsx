@@ -29,6 +29,7 @@ import DownloadBold from 'react-native-phosphor/src/bold/Download'
 import DropBold from 'react-native-phosphor/src/bold/Drop'
 import EyeBold from 'react-native-phosphor/src/bold/Eye'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
+import FlagBold from 'react-native-phosphor/src/bold/Flag'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import GitHubLogoBold from 'react-native-phosphor/src/bold/GithubLogo'
@@ -102,6 +103,7 @@ import DownloadDuotone from 'react-native-phosphor/src/duotone/Download'
 import DropDuotone from 'react-native-phosphor/src/duotone/Drop'
 import EyeDuotone from 'react-native-phosphor/src/duotone/Eye'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
+import FlagDuotone from 'react-native-phosphor/src/duotone/Flag'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import GitHubLogoDuotone from 'react-native-phosphor/src/duotone/GithubLogo'
@@ -175,6 +177,7 @@ import DownloadFill from 'react-native-phosphor/src/fill/Download'
 import DropFill from 'react-native-phosphor/src/fill/Drop'
 import EyeFill from 'react-native-phosphor/src/fill/Eye'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
+import FlagFill from 'react-native-phosphor/src/fill/Flag'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import GitHubLogoFill from 'react-native-phosphor/src/fill/GithubLogo'
@@ -248,6 +251,7 @@ import DownloadRegular from 'react-native-phosphor/src/regular/Download'
 import DropRegular from 'react-native-phosphor/src/regular/Drop'
 import EyeRegular from 'react-native-phosphor/src/regular/Eye'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
+import FlagRegular from 'react-native-phosphor/src/regular/Flag'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import GitHubLogoRegular from 'react-native-phosphor/src/regular/GithubLogo'
@@ -491,6 +495,12 @@ const icons = {
     duotone: EyeClosedDuotone,
     fill: EyeClosedFill,
     regular: EyeClosedRegular,
+  },
+  Flag: {
+    bold: FlagBold,
+    duotone: FlagDuotone,
+    fill: FlagFill,
+    regular: FlagRegular,
   },
   Flame: {
     bold: FlameBold,

@@ -24,8 +24,8 @@ export default function Screen() {
     {
       icon: {
         color: theme.colors.orange[9],
-        name: 'arrowFatUp',
-        type: 'menu',
+        name: 'ArrowFatUp',
+        type: 'icon',
       },
       label: t('options.upvote'),
       right: (
@@ -40,8 +40,8 @@ export default function Screen() {
     {
       icon: {
         color: theme.colors.violet[9],
-        name: 'arrowFatDown',
-        type: 'menu',
+        name: 'ArrowFatDown',
+        type: 'icon',
       },
       label: t('options.downvote'),
       right: (
@@ -56,8 +56,8 @@ export default function Screen() {
     {
       icon: {
         color: theme.colors.blue[9],
-        name: 'arrowBendUpLeft',
-        type: 'menu',
+        name: 'ArrowBendUpLeft',
+        type: 'icon',
       },
       label: t('options.reply'),
       right: (
@@ -72,8 +72,8 @@ export default function Screen() {
     {
       icon: {
         color: theme.colors.green[9],
-        name: 'bookmarkSimple',
-        type: 'menu',
+        name: 'BookmarkSimple',
+        type: 'icon',
       },
       label: t('options.save'),
       right: (
@@ -88,8 +88,8 @@ export default function Screen() {
     {
       icon: {
         color: theme.colors.accent[9],
-        name: 'share',
-        type: 'menu',
+        name: 'Share',
+        type: 'icon',
       },
       label: t('options.share'),
       right: (

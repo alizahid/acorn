@@ -17,6 +17,7 @@ type Props = {
   compact?: boolean
   large?: boolean
   media?: PostMedia
+  onLongPress?: () => void
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
   url: string
@@ -26,6 +27,7 @@ export function PostLinkCard({
   compact,
   large,
   media,
+  onLongPress,
   recyclingKey,
   style,
   url,
@@ -41,6 +43,7 @@ export function PostLinkCard({
   if (compact) {
     return (
       <Pressable
+        onLongPress={onLongPress}
         onPress={() => {
           void handleLink(url)
 
@@ -66,6 +69,7 @@ export function PostLinkCard({
   return (
     <Pressable
       mx="3"
+      onLongPress={onLongPress}
       onPress={() => {
         void handleLink(url)
 

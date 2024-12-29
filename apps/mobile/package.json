@@ -80,8 +80,6 @@
     "react-native": "0.76.5",
     "react-native-drawer-layout": "^4.1.1",
     "react-native-gesture-handler": "~2.20.2",
-    "react-native-ios-context-menu": "^2.5.3",
-    "react-native-ios-utilities": "^4.5.1",
     "react-native-keyboard-controller": "^1.15.2",
     "react-native-mmkv": "^3.2.0",
     "react-native-pager-view": "6.5.1",

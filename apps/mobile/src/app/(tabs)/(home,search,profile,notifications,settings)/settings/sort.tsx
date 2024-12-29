@@ -9,7 +9,7 @@ import {
   type MenuItem,
   type MenuItemOption,
 } from '~/components/common/menu'
-import { icons } from '~/components/posts/sort-interval'
+// import { icons } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
 import { IntervalIcons, SortColors, SortIcons } from '~/lib/sort'
 import { usePreferences } from '~/stores/preferences'
@@ -40,8 +40,8 @@ export default function Screen() {
       return {
         icon: {
           color,
-          name: icons[sort],
-          type: 'menu',
+          name: SortIcons[sort],
+          type: 'icon',
         },
         label: tCommon(`sort.${sort}`),
         right: (

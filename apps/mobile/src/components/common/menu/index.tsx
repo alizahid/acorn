@@ -4,7 +4,6 @@ import { type ReactElement, useRef } from 'react'
 import { FlatList } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type menu } from '~/assets/menu'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
@@ -14,11 +13,6 @@ import { type IconName, type IconWeight } from '../icon'
 import { MenuItem } from './item'
 
 type Icon =
-  | {
-      color?: string
-      name: keyof typeof menu
-      type: 'menu'
-    }
   | {
       color?: string
       name: SFSymbol

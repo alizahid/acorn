@@ -11,6 +11,7 @@ type Props = {
   crossPost?: boolean
   large?: boolean
   nsfw?: boolean
+  onLongPress?: () => void
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
   video: PostMedia
@@ -22,6 +23,7 @@ export function PostVideoCard({
   crossPost,
   large,
   nsfw,
+  onLongPress,
   recyclingKey,
   style,
   video,
@@ -34,6 +36,7 @@ export function PostVideoCard({
         crossPost={crossPost}
         large={large}
         nsfw={nsfw}
+        onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         style={style}
         video={video}
@@ -49,6 +52,7 @@ export function PostVideoCard({
         crossPost={crossPost}
         large={large}
         nsfw={nsfw}
+        onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         source={video.url}
         style={style}
@@ -70,6 +74,7 @@ export function PostVideoCard({
       compact={compact}
       large={large}
       media={media}
+      onLongPress={onLongPress}
       recyclingKey={recyclingKey}
       style={style}
       url={video.url}

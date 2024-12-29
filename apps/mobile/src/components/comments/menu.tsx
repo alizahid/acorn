@@ -1,12 +1,11 @@
+import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import * as Clipboard from 'expo-clipboard'
 import { useRouter } from 'expo-router'
-import { type ReactNode } from 'react'
-import { Share, type StyleProp, type ViewStyle } from 'react-native'
-import { ContextMenuView } from 'react-native-ios-context-menu'
+import { forwardRef, useRef } from 'react'
+import { Share } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { menu } from '~/assets/menu'
 import { useCopy } from '~/hooks/copy'
 import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
@@ -15,297 +14,286 @@ import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { type CommentReply } from '~/types/comment'
 
+import { Logo } from '../common/logo'
+import { View } from '../common/view'
+import { SheetItem } from '../sheets/item'
+import { SheetModal } from '../sheets/modal'
+
 type Props = {
-  children: ReactNode
   comment: CommentReply
-  onPress: () => void
-  style?: StyleProp<ViewStyle>
+  onClose: () => void
 }
 
-export function CommentMenu({ children, comment, onPress, style }: Props) {
-  const router = useRouter()
+export const CommentMenu = forwardRef<BottomSheetModal, Props>(
+  function Component({ comment, onClose }, ref) {
+    const router = useRouter()
 
-  const t = useTranslations('component.posts.menu')
+    const t = useTranslations('component.posts.menu')
 
-  const { theme } = useStyles()
+    const { theme } = useStyles()
 
-  const { vote } = useCommentVote()
-  const { save } = useCommentSave()
-  const { report } = useReport()
+    const sheet = useRef<BottomSheetModal>(null)
 
-  const { copy } = useCopy()
-  const { hide } = useHide()
-  const { handleLink, open } = useLink()
+    const { vote } = useCommentVote()
+    const { save } = useCommentSave()
+    const { report } = useReport()
 
-  const reasons: Array<ReportReason> = [
-    'HARASSMENT',
-    'VIOLENCE',
-    'HATE_CONTENT',
-    'MINOR_ABUSE_OR_SEXUALIZATION',
-    'PII',
-    'INVOLUNTARY_PORN',
-    'PROHIBITED_SALES',
-    'IMPERSONATION',
-    'COPYRIGHT',
-    'TRADEMARK',
-    'SELF_HARM',
-    'SPAM',
-    'CONTRIBUTOR_PROGRAM',
-  ]
+    const { copy } = useCopy()
+    const { hide } = useHide()
+    const { handleLink, open } = useLink()
 
-  return (
-    <ContextMenuView
-      menuConfig={{
-        menuItems: [
-          {
-            actionKey: 'upvote',
-            actionTitle: t(comment.liked ? 'removeUpvote' : 'upvote'),
-            icon: {
-              imageOptions: {
-                tint: theme.colors.orange[9],
-              },
-              imageValue: menu.arrowFatUp,
-              type: 'IMAGE_REQUIRE',
-            },
-          },
-          {
-            actionKey: 'downvote',
-            actionTitle: t(
-              comment.liked === false ? 'removeDownvote' : 'downvote',
-            ),
-            icon: {
-              imageOptions: {
-                tint: theme.colors.violet[9],
-              },
-              imageValue: menu.arrowFatDown,
-              type: 'IMAGE_REQUIRE',
-            },
-          },
-          {
-            actionKey: 'save',
-            actionTitle: t(comment.saved ? 'unsave' : 'save'),
-            icon: {
-              imageOptions: {
-                tint: theme.colors.green[9],
-              },
-              imageValue: menu.bookmarkSimple,
-              type: 'IMAGE_REQUIRE',
-            },
-          },
-          {
-            actionKey: 'reply',
-            actionTitle: t('reply'),
-            icon: {
-              imageOptions: {
-                tint: theme.colors.blue[9],
-              },
-              imageValue: menu.arrowBendUpLeft,
-              type: 'IMAGE_REQUIRE',
-            },
-          },
-          {
-            menuItems: [
-              {
-                actionKey: 'copyText',
-                actionTitle: t('copyText'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.copy,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'openApp',
-                actionTitle: t('openApp'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.deviceMobileCamera,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'openBrowser',
-                actionTitle: t('openBrowser'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.compass,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'share',
-                actionTitle: t('share'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.share,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'copyLink',
-                actionTitle: t('copyLink'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.copy,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-            ],
-            menuOptions: ['displayInline'],
-            menuTitle: '',
-            type: 'menu',
-          },
-          {
-            menuItems: [
-              {
-                actionKey: 'hideComment',
-                actionTitle: t('hideComment'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.eyeClosed,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'hideUser',
-                actionTitle: t('hideUser', {
+    const reasons: Array<ReportReason> = [
+      'HARASSMENT',
+      'VIOLENCE',
+      'HATE_CONTENT',
+      'MINOR_ABUSE_OR_SEXUALIZATION',
+      'PII',
+      'INVOLUNTARY_PORN',
+      'PROHIBITED_SALES',
+      'IMPERSONATION',
+      'COPYRIGHT',
+      'TRADEMARK',
+      'SELF_HARM',
+      'SPAM',
+      'CONTRIBUTOR_PROGRAM',
+    ]
+
+    return (
+      <>
+        <SheetModal container="scroll" ref={ref} title={t('title.comment')}>
+          <SheetItem
+            icon={{
+              color: theme.colors.orange.a9,
+              name: 'ArrowFatUp',
+              type: 'icon',
+            }}
+            label={t(comment.liked ? 'removeUpvote' : 'upvote')}
+            onPress={() => {
+              vote({
+                commentId: comment.id,
+                direction: comment.liked ? 0 : 1,
+                postId: comment.postId,
+              })
+
+              onClose()
+            }}
+          />
+
+          <SheetItem
+            icon={{
+              color: theme.colors.violet.a9,
+              name: 'ArrowFatDown',
+              type: 'icon',
+            }}
+            label={t(comment.liked === false ? 'removeDownvote' : 'downvote')}
+            onPress={() => {
+              vote({
+                commentId: comment.id,
+                direction: comment.liked === false ? 0 : -1,
+                postId: comment.postId,
+              })
+
+              onClose()
+            }}
+          />
+
+          <SheetItem
+            icon={{
+              color: theme.colors.green.a9,
+              name: 'BookmarkSimple',
+              type: 'icon',
+            }}
+            label={t(comment.saved ? 'unsave' : 'save')}
+            onPress={() => {
+              save({
+                action: comment.saved ? 'unsave' : 'save',
+                commentId: comment.id,
+                postId: comment.postId,
+              })
+
+              onClose()
+            }}
+          />
+
+          <SheetItem
+            icon={{
+              color: theme.colors.blue.a9,
+              name: 'ArrowBendUpLeft',
+              type: 'icon',
+            }}
+            label={t('reply')}
+            onPress={() => {
+              router.navigate({
+                params: {
+                  commentId: comment.id,
+                  id: comment.postId,
                   user: comment.user.name,
-                }),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.user,
-                  type: 'IMAGE_REQUIRE',
                 },
-              },
-            ],
-            menuOptions: ['displayInline'],
-            menuTitle: '',
-            type: 'menu',
-          },
-          {
-            menuItems: reasons.map((reason) => ({
-              actionKey: reason,
-              actionTitle: t(`report.${reason}`),
-            })),
-            menuOptions: ['destructive'],
-            menuTitle: t('report.title'),
-            type: 'menu',
-          },
-        ],
-        menuTitle: t('title.comment'),
-      }}
-      onPressMenuItem={(event) => {
-        if (event.nativeEvent.actionKey === 'upvote') {
-          vote({
-            commentId: comment.id,
-            direction: comment.liked ? 0 : 1,
-            postId: comment.postId,
-          })
-        }
+                pathname: '/posts/[id]/reply',
+              })
 
-        if (event.nativeEvent.actionKey === 'downvote') {
-          vote({
-            commentId: comment.id,
-            direction: comment.liked === false ? 0 : -1,
-            postId: comment.postId,
-          })
-        }
+              onClose()
+            }}
+          />
 
-        if (event.nativeEvent.actionKey === 'reply') {
-          router.navigate({
-            params: {
-              commentId: comment.id,
-              id: comment.postId,
+          <View height="4" />
+
+          <SheetItem
+            icon={{
+              color: theme.colors.gray.a11,
+              name: 'Copy',
+              type: 'icon',
+            }}
+            label={t('copyText')}
+            onPress={() => {
+              void Clipboard.setStringAsync(comment.body)
+
+              onClose()
+            }}
+          />
+
+          <SheetItem
+            icon={{
+              color: theme.colors.gray.a11,
+              name: 'Copy',
+              type: 'icon',
+            }}
+            label={t('copyLink')}
+            onPress={() => {
+              const url = new URL(comment.permalink, 'https://reddit.com')
+
+              void copy(url.toString())
+
+              onClose()
+            }}
+          />
+
+          <SheetItem
+            icon={{
+              color: theme.colors.gray.a11,
+              name: 'Share',
+              type: 'icon',
+            }}
+            label={t('share')}
+            onPress={() => {
+              const url = new URL(comment.permalink, 'https://reddit.com')
+
+              void Share.share({
+                url: url.toString(),
+              })
+
+              onClose()
+            }}
+          />
+
+          <View height="4" />
+
+          <SheetItem
+            label={t('openApp')}
+            left={<Logo size={theme.space[5]} />}
+            onPress={() => {
+              const url = new URL(comment.permalink, 'https://reddit.com')
+
+              void handleLink(url.toString())
+
+              onClose()
+            }}
+          />
+
+          <SheetItem
+            icon={{
+              color: theme.colors.gray.a11,
+              name: 'Compass',
+              type: 'icon',
+            }}
+            label={t('openBrowser')}
+            onPress={() => {
+              const url = new URL(comment.permalink, 'https://reddit.com')
+
+              void open(url.toString())
+
+              onClose()
+            }}
+          />
+
+          <View height="4" />
+
+          <SheetItem
+            icon={{
+              color: theme.colors.red.a9,
+              name: 'EyeClosed',
+              type: 'icon',
+            }}
+            label={t('hideComment')}
+            onPress={() => {
+              hide({
+                action: 'hide',
+                id: comment.id,
+                postId: comment.postId,
+                type: 'comment',
+              })
+
+              onClose()
+            }}
+          />
+
+          <SheetItem
+            icon={{
+              color: theme.colors.red.a9,
+              name: 'User',
+              type: 'icon',
+            }}
+            label={t('hideUser', {
               user: comment.user.name,
-            },
-            pathname: '/posts/[id]/reply',
-          })
-        }
+            })}
+            onPress={() => {
+              if (comment.user.id) {
+                hide({
+                  action: 'hide',
+                  id: comment.user.id,
+                  type: 'user',
+                })
+              }
 
-        if (event.nativeEvent.actionKey === 'save') {
-          save({
-            action: comment.saved ? 'unsave' : 'save',
-            commentId: comment.id,
-            postId: comment.postId,
-          })
-        }
+              onClose()
+            }}
+          />
 
-        if (event.nativeEvent.actionKey === 'copyText') {
-          void Clipboard.setStringAsync(comment.body)
-        }
+          <SheetItem
+            icon={{
+              color: theme.colors.red.a9,
+              name: 'Flag',
+              type: 'icon',
+            }}
+            label={t('report.title')}
+            navigate
+            onPress={() => {
+              sheet.current?.present()
+            }}
+          />
+        </SheetModal>
 
-        if (event.nativeEvent.actionKey === 'openApp') {
-          const url = new URL(comment.permalink, 'https://reddit.com')
+        <SheetModal container="scroll" ref={sheet} title={t('report.title')}>
+          {reasons.map((item) => (
+            <SheetItem
+              key={item}
+              label={t(`report.${item}`)}
+              onPress={() => {
+                report({
+                  id: comment.id,
+                  postId: comment.postId,
+                  reason: item,
+                  type: 'comment',
+                })
 
-          void handleLink(url.toString())
-        }
+                sheet.current?.close()
 
-        if (event.nativeEvent.actionKey === 'openBrowser') {
-          const url = new URL(comment.permalink, 'https://reddit.com')
-
-          void open(url.toString())
-        }
-
-        if (event.nativeEvent.actionKey === 'share') {
-          const url = new URL(comment.permalink, 'https://reddit.com')
-
-          void Share.share({
-            url: url.toString(),
-          })
-        }
-
-        if (event.nativeEvent.actionKey === 'copyLink') {
-          const url = new URL(comment.permalink, 'https://reddit.com')
-
-          void copy(url.toString())
-        }
-
-        if (event.nativeEvent.actionKey === 'hideComment') {
-          hide({
-            action: 'hide',
-            id: comment.id,
-            postId: comment.postId,
-            type: 'comment',
-          })
-        }
-
-        if (event.nativeEvent.actionKey === 'hideUser' && comment.user.id) {
-          hide({
-            action: 'hide',
-            id: comment.user.id,
-            type: 'user',
-          })
-        }
-
-        if (reasons.includes(event.nativeEvent.actionKey as ReportReason)) {
-          report({
-            id: comment.id,
-            postId: comment.postId,
-            reason: event.nativeEvent.actionKey as ReportReason,
-            type: 'comment',
-          })
-        }
-      }}
-      onPressMenuPreview={() => {
-        onPress()
-      }}
-      style={style}
-    >
-      {children}
-    </ContextMenuView>
-  )
-}
+                onClose()
+              }}
+            />
+          ))}
+        </SheetModal>
+      </>
+    )
+  },
+)

@@ -269,37 +269,33 @@ export default function Screen() {
               update(payload)
             },
             options: sides.map((option) => {
-              const value = option ?? 'null'
+              const value = option ?? 'hide'
+
+              const icon =
+                value === 'left'
+                  ? 'ArrowLeft'
+                  : value === 'right'
+                    ? 'ArrowRight'
+                    : 'EyeClosed'
 
               return {
                 icon: {
-                  name:
-                    value === 'left'
-                      ? 'arrowLeft'
-                      : value === 'right'
-                        ? 'arrowRight'
-                        : 'eyeClosed',
-                  type: 'menu',
+                  name: icon,
+                  type: 'icon',
                 },
                 label: t(`side.${value}`),
                 right: (
                   <Icon
                     color={theme.colors.accent.a9}
-                    name={
-                      value === 'left'
-                        ? 'ArrowLeft'
-                        : value === 'right'
-                          ? 'ArrowRight'
-                          : 'EyeClosed'
-                    }
-                    weight="duotone"
+                    name={icon}
+                    weight="bold"
                   />
                 ),
                 value,
               }
             }),
             type: 'options',
-            value: preferences[item.key] ?? 'null',
+            value: preferences[item.key] ?? 'hide',
           } satisfies MenuItem
         }
 

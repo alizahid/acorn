@@ -23,8 +23,8 @@ export type State = Partial<AuthPayload> & {
   accountId?: string
   accounts: Array<Account>
   addAccount: (account: Account) => void
-  order: (id: string, direction: 'up' | 'down') => void
   removeAccount: (id: string) => void
+  reorder: (accounts: Array<Account>) => void
   setAccount: (id: string) => void
   setClientId: (clientId: string) => void
 }
@@ -37,23 +37,6 @@ export const useAuth = create<State>()(
         set({
           ...getAccount(account),
           accounts: updateAccounts(get().accounts, account),
-        })
-      },
-      order(id, direction) {
-        const accounts = get().accounts
-
-        const index = accounts.findIndex((account) => account.id === id)
-
-        const next = mutative(accounts, (draft) => {
-          const [previous] = draft.splice(index, 1)
-
-          if (previous) {
-            draft.splice(index + (direction === 'up' ? -1 : 1), 0, previous)
-          }
-        })
-
-        set({
-          accounts: next,
         })
       },
       removeAccount(id) {
@@ -76,6 +59,11 @@ export const useAuth = create<State>()(
             accounts,
           })
         }
+      },
+      reorder(accounts) {
+        set({
+          accounts,
+        })
       },
       setAccount(id) {
         const account = get().accounts.find((item) => item.id === id)

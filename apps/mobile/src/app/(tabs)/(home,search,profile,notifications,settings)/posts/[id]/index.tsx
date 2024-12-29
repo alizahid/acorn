@@ -75,7 +75,6 @@ export default function Screen() {
             setSort(next.sort)
           }}
           sort={sort}
-          top={false}
           type="comment"
         />
       ),
@@ -266,7 +265,10 @@ export default function Screen() {
       />
 
       {replyPost && post ? (
-        <BlurView style={[styles.action, styles.reply(replyPost)]}>
+        <BlurView
+          intensity={100}
+          style={[styles.action, styles.reply(replyPost)]}
+        >
           <HeaderButton
             color="blue"
             icon="ArrowBendUpLeft"
@@ -284,7 +286,10 @@ export default function Screen() {
       ) : null}
 
       {skipComment && comments.length > 0 ? (
-        <BlurView style={[styles.action, styles.skip(skipComment)]}>
+        <BlurView
+          intensity={100}
+          style={[styles.action, styles.skip(skipComment)]}
+        >
           <HeaderButton
             hitSlop={theme.space[4]}
             icon="ArrowDown"

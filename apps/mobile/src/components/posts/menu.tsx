@@ -1,12 +1,11 @@
+import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import * as Clipboard from 'expo-clipboard'
 import { useRouter } from 'expo-router'
-import { type ReactNode } from 'react'
-import { Share, type StyleProp, type ViewStyle } from 'react-native'
-import { ContextMenuView } from 'react-native-ios-context-menu'
+import { forwardRef, useRef } from 'react'
+import { Share } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { menu } from '~/assets/menu'
 import { useCopy } from '~/hooks/copy'
 import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
@@ -15,19 +14,27 @@ import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { type Post } from '~/types/post'
 
+import { Logo } from '../common/logo'
+import { View } from '../common/view'
+import { SheetItem } from '../sheets/item'
+import { SheetModal } from '../sheets/modal'
+
 type Props = {
-  children: ReactNode
-  onPress: () => void
+  onClose: () => void
   post: Post
-  style?: StyleProp<ViewStyle>
 }
 
-export function PostMenu({ children, onPress, post, style }: Props) {
+export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
+  { onClose, post },
+  ref,
+) {
   const router = useRouter()
 
   const t = useTranslations('component.posts.menu')
 
   const { theme } = useStyles()
+
+  const sheet = useRef<BottomSheetModal>(null)
 
   const { vote } = usePostVote()
   const { save } = usePostSave()
@@ -55,275 +62,257 @@ export function PostMenu({ children, onPress, post, style }: Props) {
   ]
 
   return (
-    <ContextMenuView
-      menuConfig={{
-        menuItems: [
-          {
-            actionKey: 'upvote',
-            actionTitle: t(post.liked ? 'removeUpvote' : 'upvote'),
-            icon: {
-              imageOptions: {
-                tint: theme.colors.orange[9],
-              },
-              imageValue: menu.arrowFatUp,
-              type: 'IMAGE_REQUIRE',
-            },
-          },
-          {
-            actionKey: 'downvote',
-            actionTitle: t(
-              post.liked === false ? 'removeDownvote' : 'downvote',
-            ),
-            icon: {
-              imageOptions: {
-                tint: theme.colors.violet[9],
-              },
-              imageValue: menu.arrowFatDown,
-              type: 'IMAGE_REQUIRE',
-            },
-          },
-          {
-            actionKey: 'save',
-            actionTitle: t(post.saved ? 'unsave' : 'save'),
-            icon: {
-              imageOptions: {
-                tint: theme.colors.green[9],
-              },
-              imageValue: menu.bookmarkSimple,
-              type: 'IMAGE_REQUIRE',
-            },
-          },
-          {
-            actionKey: 'reply',
-            actionTitle: t('reply'),
-            icon: {
-              imageOptions: {
-                tint: theme.colors.blue[9],
-              },
-              imageValue: menu.arrowBendUpLeft,
-              type: 'IMAGE_REQUIRE',
-            },
-          },
-          {
-            menuItems: [
-              {
-                actionKey: 'copyText',
-                actionTitle: t('copyText'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.copy,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'openApp',
-                actionTitle: t('openApp'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.deviceMobileCamera,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'openBrowser',
-                actionTitle: t('openBrowser'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.compass,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'share',
-                actionTitle: t('share'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.share,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'copyLink',
-                actionTitle: t('copyLink'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.copy,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-            ],
-            menuOptions: ['displayInline'],
-            menuTitle: '',
-            type: 'menu',
-          },
-          {
-            menuItems: [
-              {
-                actionKey: 'hidePost',
-                actionTitle: t(post.hidden ? 'unhidePost' : 'hidePost'),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: post.hidden ? menu.eye : menu.eyeClosed,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'hideUser',
-                actionTitle: t('hideUser', {
-                  user: post.user.name,
-                }),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.user,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-              {
-                actionKey: 'hideCommunity',
-                actionTitle: t('hideCommunity', {
-                  community: post.community.name,
-                }),
-                icon: {
-                  imageOptions: {
-                    tint: theme.colors.gray[12],
-                  },
-                  imageValue: menu.usersFour,
-                  type: 'IMAGE_REQUIRE',
-                },
-              },
-            ],
-            menuOptions: ['displayInline'],
-            menuTitle: '',
-            type: 'menu',
-          },
-          {
-            menuItems: reasons.map((reason) => ({
-              actionKey: reason,
-              actionTitle: t(`report.${reason}`, {
-                community: post.community.name,
-              }),
-            })),
-            menuOptions: ['destructive'],
-            menuTitle: t('report.title'),
-            type: 'menu',
-          },
-        ],
-        menuTitle: t('title.post'),
-      }}
-      onPressMenuItem={(event) => {
-        if (event.nativeEvent.actionKey === 'upvote') {
-          vote({
-            direction: post.liked ? 0 : 1,
-            postId: post.id,
-          })
-        }
+    <>
+      <SheetModal container="scroll" ref={ref} title={t('title.post')}>
+        <SheetItem
+          icon={{
+            color: theme.colors.orange.a9,
+            name: 'ArrowFatUp',
+            type: 'icon',
+          }}
+          label={t(post.liked ? 'removeUpvote' : 'upvote')}
+          onPress={() => {
+            vote({
+              direction: post.liked ? 0 : 1,
+              postId: post.id,
+            })
 
-        if (event.nativeEvent.actionKey === 'downvote') {
-          vote({
-            direction: post.liked === false ? 0 : -1,
-            postId: post.id,
-          })
-        }
+            onClose()
+          }}
+        />
 
-        if (event.nativeEvent.actionKey === 'reply') {
-          router.navigate({
-            params: {
+        <SheetItem
+          icon={{
+            color: theme.colors.violet.a9,
+            name: 'ArrowFatDown',
+            type: 'icon',
+          }}
+          label={t(post.liked === false ? 'removeDownvote' : 'downvote')}
+          onPress={() => {
+            vote({
+              direction: post.liked === false ? 0 : -1,
+              postId: post.id,
+            })
+
+            onClose()
+          }}
+        />
+
+        <SheetItem
+          icon={{
+            color: theme.colors.green.a9,
+            name: 'BookmarkSimple',
+            type: 'icon',
+          }}
+          label={t(post.saved ? 'unsave' : 'save')}
+          onPress={() => {
+            save({
+              action: post.saved ? 'unsave' : 'save',
+              postId: post.id,
+            })
+
+            onClose()
+          }}
+        />
+
+        <SheetItem
+          icon={{
+            color: theme.colors.blue.a9,
+            name: 'ArrowBendUpLeft',
+            type: 'icon',
+          }}
+          label={t('reply')}
+          onPress={() => {
+            router.navigate({
+              params: {
+                id: post.id,
+              },
+              pathname: '/posts/[id]/reply',
+            })
+
+            onClose()
+          }}
+        />
+
+        <View height="4" />
+
+        <SheetItem
+          icon={{
+            color: theme.colors.gray.a11,
+            name: 'Copy',
+            type: 'icon',
+          }}
+          label={t('copyText')}
+          onPress={() => {
+            if (post.body) {
+              void Clipboard.setStringAsync(post.body)
+            }
+
+            onClose()
+          }}
+        />
+
+        <SheetItem
+          icon={{
+            color: theme.colors.gray.a11,
+            name: 'Copy',
+            type: 'icon',
+          }}
+          label={t('copyLink')}
+          onPress={() => {
+            const url = new URL(post.permalink, 'https://reddit.com')
+
+            void copy(url.toString())
+
+            onClose()
+          }}
+        />
+
+        <SheetItem
+          icon={{
+            color: theme.colors.gray.a11,
+            name: 'Share',
+            type: 'icon',
+          }}
+          label={t('share')}
+          onPress={() => {
+            const url = new URL(post.permalink, 'https://reddit.com')
+
+            void Share.share({
+              url: url.toString(),
+            })
+
+            onClose()
+          }}
+        />
+
+        <View height="4" />
+
+        <SheetItem
+          label={t('openApp')}
+          left={<Logo size={theme.space[5]} />}
+          onPress={() => {
+            const url = new URL(post.permalink, 'https://reddit.com')
+
+            void handleLink(url.toString())
+
+            onClose()
+          }}
+        />
+
+        <SheetItem
+          icon={{
+            color: theme.colors.gray.a11,
+            name: 'Compass',
+            type: 'icon',
+          }}
+          label={t('openBrowser')}
+          onPress={() => {
+            const url = new URL(post.permalink, 'https://reddit.com')
+
+            void open(url.toString())
+
+            onClose()
+          }}
+        />
+
+        <View height="4" />
+
+        <SheetItem
+          icon={{
+            color: theme.colors.red.a9,
+            name: 'EyeClosed',
+            type: 'icon',
+          }}
+          label={t('hidePost')}
+          onPress={() => {
+            hide({
+              action: post.hidden ? 'unhide' : 'hide',
               id: post.id,
-            },
-            pathname: '/posts/[id]/reply',
-          })
-        }
+              type: 'post',
+            })
 
-        if (event.nativeEvent.actionKey === 'save') {
-          save({
-            action: post.saved ? 'unsave' : 'save',
-            postId: post.id,
-          })
-        }
+            onClose()
+          }}
+        />
 
-        if (event.nativeEvent.actionKey === 'copyText' && post.body) {
-          void Clipboard.setStringAsync(post.body)
-        }
+        <SheetItem
+          icon={{
+            color: theme.colors.red.a9,
+            name: 'User',
+            type: 'icon',
+          }}
+          label={t('hideUser', {
+            user: post.user.name,
+          })}
+          onPress={() => {
+            if (post.user.id) {
+              hide({
+                action: 'hide',
+                id: post.user.id,
+                type: 'user',
+              })
+            }
 
-        if (event.nativeEvent.actionKey === 'openApp') {
-          const url = new URL(post.permalink, 'https://reddit.com')
+            onClose()
+          }}
+        />
 
-          void handleLink(url.toString())
-        }
+        <SheetItem
+          icon={{
+            color: theme.colors.red.a9,
+            name: 'UsersFour',
+            type: 'icon',
+          }}
+          label={t('hideCommunity', {
+            community: post.community.name,
+          })}
+          onPress={() => {
+            hide({
+              action: 'hide',
+              id: post.community.id,
+              type: 'community',
+            })
 
-        if (event.nativeEvent.actionKey === 'openBrowser') {
-          const url = new URL(post.permalink, 'https://reddit.com')
+            onClose()
+          }}
+        />
 
-          void open(url.toString())
-        }
+        <SheetItem
+          icon={{
+            color: theme.colors.red.a9,
+            name: 'Flag',
+            type: 'icon',
+          }}
+          label={t('report.title')}
+          navigate
+          onPress={() => {
+            sheet.current?.present()
+          }}
+        />
+      </SheetModal>
 
-        if (event.nativeEvent.actionKey === 'share') {
-          const url = new URL(post.permalink, 'https://reddit.com')
+      <SheetModal container="scroll" ref={sheet} title={t('report.title')}>
+        {reasons.map((item) => (
+          <SheetItem
+            key={item}
+            label={t(`report.${item}`, {
+              community: post.community.name,
+            })}
+            onPress={() => {
+              report({
+                id: post.id,
+                reason: item,
+                type: 'post',
+              })
 
-          void Share.share({
-            message: post.title,
-            url: url.toString(),
-          })
-        }
+              sheet.current?.close()
 
-        if (event.nativeEvent.actionKey === 'copyLink') {
-          const url = new URL(post.permalink, 'https://reddit.com')
-
-          void copy(url.toString())
-        }
-
-        if (event.nativeEvent.actionKey === 'hidePost') {
-          hide({
-            action: post.hidden ? 'unhide' : 'hide',
-            id: post.id,
-            type: 'post',
-          })
-        }
-
-        if (event.nativeEvent.actionKey === 'hideUser') {
-          hide({
-            action: 'hide',
-            id: post.user.id,
-            type: 'user',
-          })
-        }
-
-        if (event.nativeEvent.actionKey === 'hideCommunity') {
-          hide({
-            action: 'hide',
-            id: post.community.id,
-            type: 'community',
-          })
-        }
-
-        if (reasons.includes(event.nativeEvent.actionKey as ReportReason)) {
-          report({
-            id: post.id,
-            reason: event.nativeEvent.actionKey as ReportReason,
-            type: 'post',
-          })
-        }
-      }}
-      onPressMenuPreview={() => {
-        onPress()
-      }}
-      style={style}
-    >
-      {children}
-    </ContextMenuView>
+              onClose()
+            }}
+          />
+        ))}
+      </SheetModal>
+    </>
   )
-}
+})

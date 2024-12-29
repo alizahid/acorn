@@ -5,7 +5,6 @@ import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
@@ -23,6 +22,7 @@ type Props = {
   images: Array<PostMedia>
   large?: boolean
   nsfw?: boolean
+  onLongPress?: () => void
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
 }
@@ -33,6 +33,7 @@ export function PostGalleryCard({
   images,
   large,
   nsfw,
+  onLongPress,
   recyclingKey,
   style,
 }: Props) {
@@ -58,6 +59,7 @@ export function PostGalleryCard({
     <>
       {compact ? (
         <Pressable
+          onLongPress={onLongPress}
           onPress={() => {
             setVisible(true)
 
@@ -92,9 +94,13 @@ export function PostGalleryCard({
           ) : null}
         </Pressable>
       ) : (
-        <View style={[styles.main(crossPost), style]}>
+        <Pressable
+          onLongPress={onLongPress}
+          style={[styles.main(crossPost), style]}
+        >
           <ImageGrid
             images={images}
+            onLongPress={onLongPress}
             onPress={(next) => {
               setIndex(next)
               setVisible(true)
@@ -120,7 +126,7 @@ export function PostGalleryCard({
               <Text weight="medium">{t('nsfw')}</Text>
             </BlurView>
           ) : null}
-        </View>
+        </Pressable>
       )}
 
       <PostGalleryModal

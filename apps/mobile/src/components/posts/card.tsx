@@ -1,5 +1,6 @@
+import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useRouter } from 'expo-router'
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -38,6 +39,8 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
     usePreferences()
 
   const { styles } = useStyles(stylesheet)
+
+  const menu = useRef<BottomSheetModal>(null)
 
   const { vote } = usePostVote()
   const { save } = usePostSave()
@@ -92,7 +95,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   if (compact) {
     return (
-      <PostMenu onPress={onPress} post={post} style={styles.container}>
+      <>
         <PostGestures
           containerStyle={styles.container}
           data={post}
@@ -106,18 +109,29 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           <PostCompactCard
             expanded={expanded}
             label={label}
+            onLongPress={() => {
+              menu.current?.present()
+            }}
             onPress={onPress}
             post={post}
             seen={seen}
             side={mediaOnRight ? 'right' : 'left'}
           />
         </PostGestures>
-      </PostMenu>
+
+        <PostMenu
+          onClose={() => {
+            menu.current?.close()
+          }}
+          post={post}
+          ref={menu}
+        />
+      </>
     )
   }
 
   return (
-    <PostMenu onPress={onPress} post={post} style={styles.container}>
+    <>
       <PostGestures
         containerStyle={styles.container}
         data={post}
@@ -132,6 +146,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           align="start"
           disabled={expanded}
           gap="2"
+          onLongPress={() => {
+            menu.current?.present()
+          }}
           onPress={onPress}
           p="3"
         >
@@ -144,6 +161,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
         {post.type === 'crosspost' && post.crossPost ? (
           <CrossPostCard
+            onLongPress={() => {
+              menu.current?.present()
+            }}
             post={post.crossPost}
             recyclingKey={post.id}
             style={body ? styles.expanded : null}
@@ -154,6 +174,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         {post.type === 'video' && post.media.video ? (
           <PostVideoCard
             nsfw={post.nsfw}
+            onLongPress={() => {
+              menu.current?.present()
+            }}
             recyclingKey={post.id}
             style={body ? styles.expanded : null}
             video={post.media.video}
@@ -165,6 +188,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           <PostGalleryCard
             images={post.media.images}
             nsfw={post.nsfw}
+            onLongPress={() => {
+              menu.current?.present()
+            }}
             recyclingKey={post.id}
             style={body ? styles.expanded : null}
           />
@@ -173,6 +199,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         {post.type === 'link' && post.url ? (
           <PostLinkCard
             media={post.media.images?.[0]}
+            onLongPress={() => {
+              menu.current?.present()
+            }}
             recyclingKey={post.id}
             style={body ? styles.expanded : null}
             url={post.url}
@@ -191,9 +220,25 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           </Markdown>
         ) : null}
 
-        <PostFooter expanded={expanded} label={label} post={post} seen={seen} />
+        <PostFooter
+          expanded={expanded}
+          label={label}
+          onLongPress={() => {
+            menu.current?.present()
+          }}
+          post={post}
+          seen={seen}
+        />
       </PostGestures>
-    </PostMenu>
+
+      <PostMenu
+        onClose={() => {
+          menu.current?.close()
+        }}
+        post={post}
+        ref={menu}
+      />
+    </>
   )
 }
 

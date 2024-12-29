@@ -292,6 +292,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
                 icon={{
                   color: theme.colors[FeedTypeColors[item.data]].a9,
                   name: FeedTypeIcons[item.data],
+                  type: 'icon',
                 }}
                 label={t(`type.${item.data}`)}
                 onPress={() => {

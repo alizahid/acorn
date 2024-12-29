@@ -18,11 +18,18 @@ export type PostLabel = 'user' | 'subreddit'
 type Props = {
   expanded?: boolean
   label?: PostLabel
+  onLongPress?: () => void
   post: Post
   seen?: boolean
 }
 
-export function PostFooter({ expanded, label, post, seen }: Props) {
+export function PostFooter({
+  expanded,
+  label,
+  onLongPress,
+  post,
+  seen,
+}: Props) {
   const router = useRouter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -36,6 +43,7 @@ export function PostFooter({ expanded, label, post, seen }: Props) {
       disabled={expanded}
       gap="4"
       justify="between"
+      onLongPress={onLongPress}
       onPress={() => {
         router.push({
           params: {

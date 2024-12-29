@@ -1,3 +1,4 @@
+import { type SFSymbol, SymbolView } from 'expo-symbols'
 import { type ReactNode } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -5,12 +6,21 @@ import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 
+type Icon =
+  | {
+      color?: string
+      name: SFSymbol
+      type: 'symbol'
+    }
+  | {
+      color?: string
+      name: IconName
+      type: 'icon'
+      weight?: IconWeight
+    }
+
 type Props = {
-  icon?: {
-    color?: string
-    name: IconName
-    weight?: IconWeight
-  }
+  icon?: Icon
   label: string
   left?: ReactNode
   navigate?: boolean
@@ -40,12 +50,20 @@ export function SheetItem({
       style={selected ? styles.selected : undefined}
     >
       {icon ? (
-        <Icon
-          color={icon.color ?? theme.colors.accent.a9}
-          name={icon.name}
-          size={theme.typography[3].lineHeight}
-          weight={icon.weight ?? 'duotone'}
-        />
+        icon.type === 'symbol' ? (
+          <SymbolView
+            name={icon.name}
+            size={theme.space[5]}
+            tintColor={icon.color ?? theme.colors.accent.a9}
+          />
+        ) : (
+          <Icon
+            color={icon.color ?? theme.colors.accent.a9}
+            name={icon.name}
+            size={theme.space[5]}
+            weight={icon.weight ?? 'duotone'}
+          />
+        )
       ) : (
         left
       )}

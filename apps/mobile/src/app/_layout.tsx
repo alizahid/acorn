@@ -1,5 +1,6 @@
 import '~/styles/uni'
 
+import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { ThemeProvider } from '@react-navigation/native'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { SQLiteProvider } from 'expo-sqlite'
@@ -47,27 +48,29 @@ function Acorn() {
       />
 
       <GestureHandlerRootView>
-        <KeyboardProvider>
-          <ThemeProvider value={useTheme()}>
-            <PersistQueryClientProvider
-              client={queryClient}
-              persistOptions={{
-                persister,
-              }}
-            >
-              <IntlProvider
-                locale="en"
-                messages={en}
-                now={new Date()}
-                timeZone={timeZone}
+        <BottomSheetModalProvider>
+          <KeyboardProvider>
+            <ThemeProvider value={useTheme()}>
+              <PersistQueryClientProvider
+                client={queryClient}
+                persistOptions={{
+                  persister,
+                }}
               >
-                <RootLayout />
+                <IntlProvider
+                  locale="en"
+                  messages={en}
+                  now={new Date()}
+                  timeZone={timeZone}
+                >
+                  <RootLayout />
 
-                <Feedback />
-              </IntlProvider>
-            </PersistQueryClientProvider>
-          </ThemeProvider>
-        </KeyboardProvider>
+                  <Feedback />
+                </IntlProvider>
+              </PersistQueryClientProvider>
+            </ThemeProvider>
+          </KeyboardProvider>
+        </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </SQLiteProvider>
   )

@@ -1,16 +1,17 @@
-import { Image } from 'expo-image'
+import { type BottomSheetModal } from '@gorhom/bottom-sheet'
+import { useMutation } from '@tanstack/react-query'
 import { SymbolView } from 'expo-symbols'
-import { useState } from 'react'
+import { useRef } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { ContextMenuButton } from 'react-native-ios-context-menu'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useStyles } from 'react-native-unistyles'
 
-import { menu } from '~/assets/menu'
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { SheetItem } from '~/components/sheets/item'
+import { SheetModal } from '~/components/sheets/modal'
 
 import { Switch } from '../switch'
 import { type MenuItem } from '.'
@@ -21,16 +22,21 @@ type Props = {
 }
 
 export function MenuItem({ item, style }: Props) {
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useStyles()
 
-  const [loading, setLoading] = useState(false)
+  const sheet = useRef<BottomSheetModal>(null)
 
-  const Component =
-    item.type === 'options'
-      ? ContextMenuButton
-      : item.type === 'switch'
-        ? View
-        : Pressable
+  const { isPending, mutate } = useMutation<
+    unknown,
+    Error,
+    () => void | Promise<void>
+  >({
+    async mutationFn(action) {
+      await action()
+    },
+  })
+
+  const Component = item.type === 'switch' ? View : Pressable
 
   const selected =
     item.type === 'options'
@@ -39,128 +45,98 @@ export function MenuItem({ item, style }: Props) {
       : null
 
   return (
-    <Component
-      menuConfig={
-        item.type === 'options'
-          ? {
-              menuItems: item.options.map((option) => ({
-                actionKey: option.value,
-                actionTitle: option.label,
-                icon:
-                  option.icon?.type === 'menu'
-                    ? {
-                        imageOptions: {
-                          tint: option.icon.color ?? theme.colors.accent[9],
-                        },
-                        imageValue: menu[option.icon.name],
-                        type: 'IMAGE_REQUIRE',
-                      }
-                    : option.icon?.type === 'symbol'
-                      ? {
-                          iconTint: option.icon.color ?? theme.colors.accent[9],
-                          iconType: 'SYSTEM',
-                          iconValue: option.icon.name,
-                        }
-                      : undefined,
-                menuState: option.value === item.value ? 'on' : undefined,
-              })),
-              menuTitle: item.label,
-            }
-          : undefined
-      }
-      onPress={async () => {
-        if (item.onPress) {
-          try {
-            setLoading(true)
-
-            await item.onPress()
-          } finally {
-            setLoading(false)
+    <>
+      <Component
+        align="center"
+        direction="row"
+        gap="3"
+        onPress={() => {
+          if (item.onPress) {
+            mutate(item.onPress)
           }
-        }
-      }}
-      onPressMenuItem={(event) => {
-        if (item.type === 'options') {
-          item.onSelect(event.nativeEvent.actionKey)
-        }
-      }}
-      style={[styles.main, style]}
-    >
-      {loading ? (
-        <Spinner
-          color={item.icon?.color ?? theme.colors.accent.a9}
-          size={theme.space[5]}
-        />
-      ) : item.icon ? (
-        item.icon.type === 'menu' ? (
-          <Image
-            source={menu[item.icon.name]}
-            style={styles.icon}
-            tintColor={item.icon.color ?? theme.colors.accent.a9}
-          />
-        ) : item.icon.type === 'symbol' ? (
-          <SymbolView
-            name={item.icon.name}
-            size={theme.space[5]}
-            tintColor={item.icon.color ?? theme.colors.accent.a9}
-          />
-        ) : (
-          <Icon
-            color={item.icon.color ?? theme.colors.accent.a9}
-            name={item.icon.name}
-            size={theme.space[5]}
-            weight={item.icon.weight ?? 'duotone'}
-          />
-        )
-      ) : null}
 
-      <View flex={1} gap="1" my="3">
-        <Text weight="medium">{item.label}</Text>
-
-        {item.description ? (
-          <Text color="gray" highContrast={false} size="2">
-            {item.description}
-          </Text>
+          if (item.type === 'options') {
+            sheet.current?.present()
+          }
+        }}
+        px="3"
+        style={style}
+      >
+        {isPending ? (
+          <Spinner
+            color={item.icon?.color ?? theme.colors.accent.a9}
+            size={theme.space[5]}
+          />
+        ) : item.icon ? (
+          item.icon.type === 'symbol' ? (
+            <SymbolView
+              name={item.icon.name}
+              size={theme.space[5]}
+              tintColor={item.icon.color ?? theme.colors.accent.a9}
+            />
+          ) : (
+            <Icon
+              color={item.icon.color ?? theme.colors.accent.a9}
+              name={item.icon.name}
+              size={theme.space[5]}
+              weight={item.icon.weight ?? 'duotone'}
+            />
+          )
         ) : null}
-      </View>
 
-      {typeof selected === 'string' ? (
-        <Text color="accent" weight="bold">
-          {selected}
-        </Text>
-      ) : (
-        selected
-      )}
+        <View flex={1} gap="1" my="3">
+          <Text weight="medium">{item.label}</Text>
 
-      {item.type === 'switch' ? (
-        <Switch
-          onChange={(value) => {
-            item.onSelect(value)
-          }}
-          value={item.value}
-        />
+          {item.description ? (
+            <Text color="gray" highContrast={false} size="2">
+              {item.description}
+            </Text>
+          ) : null}
+        </View>
+
+        {typeof selected === 'string' ? (
+          <Text color="accent" weight="bold">
+            {selected}
+          </Text>
+        ) : (
+          selected
+        )}
+
+        {item.type === 'switch' ? (
+          <Switch
+            onChange={(value) => {
+              item.onSelect(value)
+            }}
+            value={item.value}
+          />
+        ) : null}
+
+        {item.arrow ? (
+          <Icon
+            color={theme.colors.gray.a9}
+            name="CaretRight"
+            size={theme.space[4]}
+          />
+        ) : null}
+      </Component>
+
+      {item.type === 'options' ? (
+        <SheetModal container="view" ref={sheet} title={item.label}>
+          {item.options.map((option) => (
+            <SheetItem
+              icon={option.icon}
+              key={option.value}
+              label={option.label}
+              onPress={() => {
+                item.onSelect(option.value)
+
+                sheet.current?.dismiss()
+              }}
+              selected={option.value === item.value}
+            />
+          ))}
+        </SheetModal>
       ) : null}
-
-      {item.arrow ? (
-        <Icon
-          color={theme.colors.gray.a9}
-          name="CaretRight"
-          size={theme.space[4]}
-        />
-      ) : null}
-    </Component>
+    </>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  icon: {
-    height: theme.space[5],
-    width: theme.space[5],
-  },
-  main: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[3],
-    paddingHorizontal: theme.space[3],
-  },
-}))

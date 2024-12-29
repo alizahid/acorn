@@ -1,4 +1,6 @@
+import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useRouter } from 'expo-router'
+import { useRef } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -37,15 +39,13 @@ export function CommentCard({
 
   const { styles } = useStyles(stylesheet)
 
+  const menu = useRef<BottomSheetModal>(null)
+
   const { vote } = useCommentVote()
   const { save } = useCommentSave()
 
   return (
-    <CommentMenu
-      comment={comment}
-      onPress={onPress}
-      style={styles.container(comment.depth)}
-    >
+    <>
       <PostGestures
         containerStyle={styles.gestures()}
         data={comment}
@@ -91,6 +91,9 @@ export function CommentCard({
       >
         <Pressable
           disabled={disabled}
+          onLongPress={() => {
+            menu.current?.present()
+          }}
           onPress={() => {
             onPress()
           }}
@@ -121,7 +124,15 @@ export function CommentCard({
           ) : null}
         </Pressable>
       </PostGestures>
-    </CommentMenu>
+
+      <CommentMenu
+        comment={comment}
+        onClose={() => {
+          menu.current?.dismiss()
+        }}
+        ref={menu}
+      />
+    </>
   )
 }
 

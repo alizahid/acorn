@@ -20,6 +20,7 @@ type Props = {
   crossPost?: boolean
   large?: boolean
   nsfw?: boolean
+  onLongPress?: () => void
   recyclingKey?: string
   source: VideoSource
   style?: StyleProp<ViewStyle>
@@ -32,6 +33,7 @@ export function VideoPlayer({
   crossPost,
   large,
   nsfw,
+  onLongPress,
   recyclingKey,
   source,
   style,
@@ -76,6 +78,7 @@ export function VideoPlayer({
   if (compact) {
     return (
       <Pressable
+        onLongPress={onLongPress}
         onPress={() => {
           void ref.current?.enterFullscreen()
 
@@ -131,6 +134,7 @@ export function VideoPlayer({
 
   return (
     <Pressable
+      onLongPress={onLongPress}
       onPress={() => {
         void ref.current?.enterFullscreen()
 

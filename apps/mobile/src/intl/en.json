@@ -114,7 +114,7 @@
           "title": "Report"
         },
         "save": "Save",
-        "share": "Share",
+        "share": "Share link",
         "title": {
           "comment": "Comment",
           "post": "Post"
@@ -341,8 +341,8 @@
           "Infinity": "Never"
         },
         "side": {
+          "hide": "Hide",
           "left": "Left",
-          "null": "Hide",
           "right": "Right"
         },
         "system": {
