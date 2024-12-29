@@ -47,7 +47,7 @@ export function CommentCard({
   return (
     <>
       <PostGestures
-        containerStyle={styles.gestures()}
+        containerStyle={styles.container(comment.depth)}
         data={comment}
         disabled={!swipeGestures || collapsed}
         gestures={commentGestures}
@@ -159,16 +159,6 @@ const stylesheet = createStyleSheet((theme) => ({
     }
 
     return base
-  },
-  gestures: () => {
-    if (iPad) {
-      return {
-        borderCurve: 'continuous',
-        borderRadius: theme.radius[3],
-      }
-    }
-
-    return {}
   },
   liked: (liked: boolean) => ({
     backgroundColor: liked ? theme.colors.orange[9] : theme.colors.violet[9],
