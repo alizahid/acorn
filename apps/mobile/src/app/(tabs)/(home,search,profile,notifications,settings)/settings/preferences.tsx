@@ -164,6 +164,11 @@ export default function Screen() {
           null,
           t('media.title'),
           {
+            icon: 'Play',
+            key: 'autoPlay',
+            label: 'media.autoPlay',
+          },
+          {
             icon: 'SpeakerSimpleX',
             key: 'feedMuted',
             label: 'media.feedMuted',

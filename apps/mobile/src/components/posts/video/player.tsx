@@ -42,7 +42,7 @@ export function VideoPlayer({
 }: Props) {
   const t = useTranslations('component.posts.video')
 
-  const { blurNsfw, feedMuted, seenOnMedia, unmuteFullscreen } =
+  const { autoPlay, blurNsfw, feedMuted, seenOnMedia, unmuteFullscreen } =
     usePreferences()
   const { addPost } = useHistory()
 
@@ -52,7 +52,7 @@ export function VideoPlayer({
 
   const previousMuted = useRef(feedMuted)
 
-  const [visible, setVisible] = useState(false)
+  const [fullscreen, setFullscreen] = useState(false)
   const [muted, setMuted] = useState(feedMuted)
 
   const player = useVideoPlayer(source, (instance) => {
@@ -68,12 +68,12 @@ export function VideoPlayer({
   useEffect(() => {
     player.muted = muted
 
-    if (visible || viewing) {
+    if (fullscreen || (viewing && autoPlay)) {
       player.play()
     } else {
       player.pause()
     }
-  }, [blurNsfw, muted, nsfw, player, viewing, visible])
+  }, [autoPlay, fullscreen, muted, player, viewing])
 
   if (compact) {
     return (
@@ -105,12 +105,12 @@ export function VideoPlayer({
               setMuted(false)
             }
 
-            setVisible(true)
+            setFullscreen(true)
           }}
           onFullscreenExit={() => {
             setMuted(previousMuted.current)
 
-            setVisible(false)
+            setFullscreen(false)
           }}
           player={player}
           pointerEvents="none"
@@ -158,12 +158,12 @@ export function VideoPlayer({
             setMuted(false)
           }
 
-          setVisible(true)
+          setFullscreen(true)
         }}
         onFullscreenExit={() => {
           setMuted(previousMuted.current)
 
-          setVisible(false)
+          setFullscreen(false)
         }}
         player={player}
         ref={ref}

@@ -333,6 +333,7 @@
           "title": "History"
         },
         "media": {
+          "autoPlay": "Auto play videos",
           "blurNsfw": "Blur NSFW media",
           "feedMuted": "Mute feed",
           "title": "Media",
