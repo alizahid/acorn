@@ -44,12 +44,7 @@ export const SheetModal = forwardRef<BottomSheetModal, Props>(
       >
         <Container {...props}>
           {(title ?? right) ? (
-            <View
-              align="center"
-              height="8"
-              justify="center"
-              style={styles.header}
-            >
+            <View align="center" height="8" justify="center">
               {title ? (
                 <Text align="center" weight="bold">
                   {title}
@@ -75,9 +70,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   content: {
     paddingBottom: runtime.insets.bottom,
-  },
-  header: {
-    backgroundColor: theme.colors.gray.a3,
   },
   main: {
     maxHeight: runtime.screen.height * 0.8,
