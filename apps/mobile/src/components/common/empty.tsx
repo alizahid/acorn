@@ -17,12 +17,12 @@ export function Empty({ color, icon = 'SmileySad', message }: Props) {
   const { theme } = useStyles()
 
   return (
-    <View align="center" flexGrow={1} gap="4" justify="center" px="6" py="9">
+    <View align="center" flexGrow={1} gap="4" justify="center" p="6">
       <Icon
         color={color ?? theme.colors.accent.a9}
         name={icon}
         size={theme.space[9]}
-        weight="fill"
+        weight={theme.name === 'dark' ? 'fill' : 'regular'}
       />
 
       <Text weight="medium">{message ?? t('message')}</Text>
