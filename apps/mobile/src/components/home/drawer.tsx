@@ -1,9 +1,9 @@
 import { useScrollToTop } from '@react-navigation/native'
-import { FlashList } from '@shopify/flash-list'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
 import { useMemo, useRef, useState } from 'react'
+import { FlatList } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -34,10 +34,6 @@ type Item =
       key: string
       title: string
       type: 'header'
-    }
-  | {
-      key: string
-      type: 'empty'
     }
   | {
       key: string
@@ -78,7 +74,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 
   const { drawerSections } = useDefaults()
 
-  const list = useRef<FlashList<Item>>(null)
+  const list = useRef<FlatList<Item>>(null)
 
   useScrollToTop(list)
 
@@ -254,32 +250,27 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
         value={query}
       />
 
-      <FlashList
+      <FlatList
         {...listProps}
         ListEmptyComponent={<Empty />}
         data={items}
-        estimatedItemSize={48}
         extraData={{
           data,
         }}
-        getItemType={(item) => item.type}
+        getItemLayout={(_, index) => ({
+          index,
+          length: 48,
+          offset: index * 48,
+        })}
         keyExtractor={(item) => item.key}
         ref={list}
         renderItem={({ item }) => {
-          if (item.type === 'empty') {
-            return (
-              <Icon
-                color={theme.colors.accent.a9}
-                name="SmileySad"
-                size={theme.space[8]}
-                style={styles.empty}
-                weight="fill"
-              />
-            )
-          }
-
           if (item.type === 'spinner') {
-            return <Spinner m="4" />
+            return (
+              <View align="center" height="8" justify="center">
+                <Spinner />
+              </View>
+            )
           }
 
           if (item.type === 'header') {
@@ -392,14 +383,6 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  content: {
-    paddingBottom:
-      runtime.insets.bottom + theme.space[4] + theme.space[5] + theme.space[4],
-  },
-  empty: {
-    marginHorizontal: 'auto',
-    marginVertical: theme.space[4],
-  },
   header: {
     backgroundColor: theme.colors.gray[2],
   },
