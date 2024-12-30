@@ -99,6 +99,7 @@ export function PostGalleryCard({
           style={[styles.main(crossPost), style]}
         >
           <ImageGrid
+            crossPost={crossPost}
             images={images}
             onLongPress={onLongPress}
             onPress={(next) => {

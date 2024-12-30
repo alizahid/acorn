@@ -11,6 +11,7 @@ import { cardMaxWidth, iPad } from '~/lib/common'
 import { type PostMedia } from '~/types/post'
 
 type Props = {
+  crossPost?: boolean
   images: Array<PostMedia>
   onLongPress?: () => void
   onPress: (index: number) => void
@@ -18,6 +19,7 @@ type Props = {
 }
 
 export function ImageGrid({
+  crossPost,
   images,
   onLongPress,
   onPress,
@@ -43,7 +45,7 @@ export function ImageGrid({
             onPress={() => {
               onPress(0)
             }}
-            style={styles.three()}
+            style={styles.three(crossPost)}
           >
             <Image
               {...placeholder}
@@ -60,7 +62,7 @@ export function ImageGrid({
             onPress={() => {
               onPress(1)
             }}
-            style={styles.three()}
+            style={styles.three(crossPost)}
           >
             <Image
               {...placeholder}
@@ -79,7 +81,7 @@ export function ImageGrid({
             onPress={() => {
               onPress(2)
             }}
-            style={styles.three()}
+            style={styles.three(crossPost)}
           >
             <Image
               {...placeholder}
@@ -96,7 +98,7 @@ export function ImageGrid({
             onPress={() => {
               onPress(3)
             }}
-            style={styles.three()}
+            style={styles.three(crossPost)}
           >
             <Image
               {...placeholder}
@@ -130,7 +132,7 @@ export function ImageGrid({
           onPress={() => {
             onPress(0)
           }}
-          style={styles.two()}
+          style={styles.two(crossPost)}
         >
           <Image
             {...placeholder}
@@ -148,7 +150,7 @@ export function ImageGrid({
             onPress={() => {
               onPress(1)
             }}
-            style={styles.three()}
+            style={styles.three(crossPost)}
           >
             <Image
               {...placeholder}
@@ -165,7 +167,7 @@ export function ImageGrid({
             onPress={() => {
               onPress(2)
             }}
-            style={styles.three()}
+            style={styles.three(crossPost)}
           >
             <Image
               {...placeholder}
@@ -189,7 +191,7 @@ export function ImageGrid({
           onPress={() => {
             onPress(0)
           }}
-          style={styles.two()}
+          style={styles.two(crossPost)}
         >
           <Image
             {...placeholder}
@@ -206,7 +208,7 @@ export function ImageGrid({
           onPress={() => {
             onPress(1)
           }}
-          style={styles.two()}
+          style={styles.two(crossPost)}
         >
           <Image
             {...placeholder}
@@ -293,16 +295,20 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   one: (aspectRatio: number) => ({
     aspectRatio,
   }),
-  three: () => {
-    const maxWidth = iPad ? cardMaxWidth : runtime.screen.width
+  three: (crossPost?: boolean) => {
+    const maxWidth =
+      (iPad ? cardMaxWidth : runtime.screen.width) -
+      (crossPost ? theme.space[3] * 2 : 0)
 
     return {
       height: 150 - theme.space[1],
       width: (maxWidth - theme.space[2]) / 2,
     }
   },
-  two: () => {
-    const maxWidth = iPad ? cardMaxWidth : runtime.screen.width
+  two: (crossPost?: boolean) => {
+    const maxWidth =
+      (iPad ? cardMaxWidth : runtime.screen.width) -
+      (crossPost ? theme.space[3] * 2 : 0)
 
     return {
       height: 300,
