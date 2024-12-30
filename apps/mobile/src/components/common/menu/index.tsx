@@ -77,6 +77,11 @@ export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
       ListFooterComponent={footer}
       ListHeaderComponent={header}
       data={items}
+      getItemLayout={(_, index) => ({
+        index,
+        length: 48,
+        offset: index * 48,
+      })}
       initialNumToRender={items.length}
       keyExtractor={(item, index) => String(index)}
       ref={list}
