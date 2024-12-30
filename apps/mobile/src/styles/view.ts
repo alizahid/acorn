@@ -14,7 +14,7 @@ import {
 } from './space'
 
 export type ViewStyleProps = {
-  align?: 'start' | 'center' | 'end' | 'baseline' | 'stretch'
+  align?: 'baseline' | 'center' | 'end' | 'start' | 'stretch'
   direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse'
   flex?: number
   flexBasis?: number
@@ -24,9 +24,10 @@ export type ViewStyleProps = {
   gapX?: SpaceToken | number
   gapY?: SpaceToken | number
   height?: SpaceToken | number
-  justify?: 'start' | 'center' | 'end' | 'between'
+  justify?: 'between' | 'center' | 'end' | 'start'
+  self?: 'center' | 'end' | 'start' | 'stretch'
   width?: SpaceToken | number
-  wrap?: 'nowrap' | 'wrap' | 'wrap-reverse'
+  wrap?: 'nowrap' | 'wrap-reverse' | 'wrap'
 } & MarginProps &
   PaddingProps
 
@@ -43,6 +44,7 @@ export function getViewStyles(theme: UnistylesTheme) {
     gapY,
     height,
     justify,
+    self,
     width,
     wrap,
     ...props
@@ -71,10 +73,22 @@ export function getViewStyles(theme: UnistylesTheme) {
               ? 'flex-start'
               : undefined
 
+    const alignSelf: FlexStyle['alignSelf'] =
+      self === 'center'
+        ? 'center'
+        : self === 'stretch'
+          ? 'stretch'
+          : self === 'end'
+            ? 'flex-end'
+            : self === 'start'
+              ? 'flex-start'
+              : undefined
+
     return {
       ...getMargin(theme)(props),
       ...getPadding(theme)(props),
       alignItems,
+      alignSelf,
       columnGap: getSpace(theme, gapY),
       flex,
       flexBasis,

@@ -73,6 +73,7 @@ export function SortIntervalMenu<Type extends SortType>({
           sheetSort.current?.present()
         }}
         px="3"
+        self="end"
       >
         <Icon
           color={theme.colors[SortColors[sort]].a9}
