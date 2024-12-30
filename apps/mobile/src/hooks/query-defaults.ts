@@ -22,9 +22,9 @@ export function useQueryDefaults() {
         },
       },
       queries: {
-        gcTime: refreshInterval,
+        gcTime: refreshInterval * 1_000 * 60,
         retry: false,
-        staleTime: refreshInterval,
+        staleTime: refreshInterval * 1_000 * 60,
         throwOnError(error) {
           if (__DEV__) {
             // eslint-disable-next-line no-console -- dev
