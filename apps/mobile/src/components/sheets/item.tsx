@@ -45,8 +45,9 @@ export function SheetItem({
       align="center"
       direction="row"
       gap="3"
+      height="8"
       onPress={onPress}
-      p="3"
+      px="3"
       style={selected ? styles.selected : undefined}
     >
       {icon ? (
@@ -68,7 +69,7 @@ export function SheetItem({
         left
       )}
 
-      <Text lines={1} size="3" style={styles.label} weight="medium">
+      <Text lines={1} style={styles.label} weight="medium">
         {label}
       </Text>
 

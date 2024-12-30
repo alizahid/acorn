@@ -50,6 +50,7 @@ export function MenuItem({ item, style }: Props) {
         align="center"
         direction="row"
         gap="3"
+        height="8"
         onPress={() => {
           if (item.onPress) {
             mutate(item.onPress)
@@ -84,7 +85,7 @@ export function MenuItem({ item, style }: Props) {
           )
         ) : null}
 
-        <View flex={1} gap="1" my="3">
+        <View flex={1} gap="1">
           <Text weight="medium">{item.label}</Text>
 
           {item.description ? (
