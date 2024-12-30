@@ -17,6 +17,7 @@ import BookmarkSimpleBold from 'react-native-phosphor/src/bold/BookmarkSimple'
 import BrowserBold from 'react-native-phosphor/src/bold/Browser'
 import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
 import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
+import CaretUpBold from 'react-native-phosphor/src/bold/CaretUp'
 import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
 import ChatCircleBold from 'react-native-phosphor/src/bold/ChatCircle'
 import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
@@ -91,6 +92,7 @@ import BookmarkSimpleDuotone from 'react-native-phosphor/src/duotone/BookmarkSim
 import BrowserDuotone from 'react-native-phosphor/src/duotone/Browser'
 import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
 import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
+import CaretUpDuotone from 'react-native-phosphor/src/duotone/CaretUp'
 import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
 import ChatCircleDuotone from 'react-native-phosphor/src/duotone/ChatCircle'
 import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
@@ -165,6 +167,7 @@ import BookmarkSimpleFill from 'react-native-phosphor/src/fill/BookmarkSimple'
 import BrowserFill from 'react-native-phosphor/src/fill/Browser'
 import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
 import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
+import CaretUpFill from 'react-native-phosphor/src/fill/CaretUp'
 import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
 import ChatCircleFill from 'react-native-phosphor/src/fill/ChatCircle'
 import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
@@ -239,6 +242,7 @@ import BookmarkSimpleRegular from 'react-native-phosphor/src/regular/BookmarkSim
 import BrowserRegular from 'react-native-phosphor/src/regular/Browser'
 import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
 import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
+import CaretUpRegular from 'react-native-phosphor/src/regular/CaretUp'
 import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
 import ChatCircleRegular from 'react-native-phosphor/src/regular/ChatCircle'
 import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
@@ -423,6 +427,12 @@ const icons = {
     duotone: CaretRightDuotone,
     fill: CaretRightFill,
     regular: CaretRightRegular,
+  },
+  CaretUp: {
+    bold: CaretUpBold,
+    duotone: CaretUpDuotone,
+    fill: CaretUpFill,
+    regular: CaretUpRegular,
   },
   ChartLineUp: {
     bold: ChartLineUpBold,

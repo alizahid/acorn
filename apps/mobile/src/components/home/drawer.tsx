@@ -92,6 +92,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
   })
 
   const [query, setQuery] = useState('')
+  const [collapsed, setCollapsed] = useState(new Map<string, boolean>())
 
   const items: Array<Item> = useMemo(() => {
     const dataCommunities: Array<Item> = communities
@@ -120,7 +121,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 
     const feedItems: Array<Item> = [
       {
-        key: 'feed',
+        key: 'feeds',
         title: t('feeds.title'),
         type: 'header',
       },
@@ -128,7 +129,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 
     const communityItems: Array<Item> = [
       {
-        key: 'community',
+        key: 'communities',
         title: t('communities.title'),
         type: 'header',
       },
@@ -146,15 +147,17 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
       if (section.key === 'feed' && !section.disabled) {
         return [
           {
-            key: 'type-title',
+            key: 'feed',
             title: t('type.title'),
             type: 'header' as const,
           },
-          ...FeedType.map((item) => ({
-            data: item,
-            key: item,
-            type: 'type' as const,
-          })),
+          ...(collapsed.get('feed')
+            ? []
+            : FeedType.map((item) => ({
+                data: item,
+                key: item,
+                type: 'type' as const,
+              }))),
         ]
       }
 
@@ -170,11 +173,13 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
           : feeds.length > 0
             ? [
                 ...feedItems,
-                ...feeds.map((item) => ({
-                  data: item,
-                  key: item.id,
-                  type: 'feed' as const,
-                })),
+                ...(collapsed.get('feeds')
+                  ? []
+                  : feeds.map((item) => ({
+                      data: item,
+                      key: item.id,
+                      type: 'feed' as const,
+                    }))),
               ]
             : []
       }
@@ -189,7 +194,10 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
               },
             ]
           : dataCommunities.length > 0
-            ? [...communityItems, ...dataCommunities]
+            ? [
+                ...communityItems,
+                ...(collapsed.get('communities') ? [] : dataCommunities),
+              ]
             : []
       }
 
@@ -203,13 +211,14 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
               },
             ]
           : dataUsers.length > 0
-            ? [...userItems, ...dataUsers]
+            ? [...userItems, ...(collapsed.get('users') ? [] : dataUsers)]
             : []
       }
 
       return []
     })
   }, [
+    collapsed,
     communities,
     drawerSections,
     feeds,
@@ -259,6 +268,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
         ListEmptyComponent={<Empty />}
         data={items}
         extraData={{
+          collapsed,
           data,
         }}
         getItemLayout={(_, index) => ({
@@ -278,7 +288,26 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
           }
 
           if (item.type === 'header') {
-            return <SheetHeader style={styles.header} title={item.title} />
+            return (
+              <SheetHeader
+                right={
+                  <HeaderButton
+                    icon={collapsed.get(item.key) ? 'CaretUp' : 'CaretDown'}
+                    onPress={() => {
+                      setCollapsed((previous) => {
+                        const next = new Map(previous)
+
+                        next.set(item.key, !next.get(item.key))
+
+                        return next
+                      })
+                    }}
+                  />
+                }
+                style={styles.header}
+                title={item.title}
+              />
+            )
           }
 
           if (item.type === 'type') {
