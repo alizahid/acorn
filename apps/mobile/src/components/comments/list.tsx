@@ -71,7 +71,7 @@ export function CommentList({
             <CommentCard
               comment={item.data}
               onPress={() => {
-                router.push({
+                router.navigate({
                   params: {
                     commentId: item.data.id,
                     id: item.data.postId,

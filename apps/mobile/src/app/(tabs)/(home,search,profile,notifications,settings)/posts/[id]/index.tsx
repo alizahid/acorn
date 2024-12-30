@@ -85,7 +85,7 @@ export default function Screen() {
             justify="center"
             onPress={() => {
               if (post.community.name.startsWith('u/')) {
-                router.push({
+                router.navigate({
                   params: {
                     name: removePrefix(post.community.name),
                   },
@@ -95,7 +95,7 @@ export default function Screen() {
                 return
               }
 
-              router.push({
+              router.navigate({
                 params: {
                   name: removePrefix(post.community.name),
                 },

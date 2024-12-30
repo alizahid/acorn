@@ -105,7 +105,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const seen = dimSeen && post.seen && !expanded
 
   function onPress() {
-    router.push({
+    router.navigate({
       params: {
         id: removePrefix(post.id),
       },

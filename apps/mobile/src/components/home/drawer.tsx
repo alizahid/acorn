@@ -342,7 +342,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
                       m="-3"
                       onPress={() => {
                         if (item.data.user) {
-                          router.push({
+                          router.navigate({
                             params: {
                               name: removePrefix(item.data.name),
                             },
@@ -352,7 +352,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
                           return
                         }
 
-                        router.push({
+                        router.navigate({
                           params: {
                             name: removePrefix(item.data.name),
                           },

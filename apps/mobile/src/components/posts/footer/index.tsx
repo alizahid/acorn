@@ -37,7 +37,7 @@ export function PostFooter({ expanded, onLongPress, post, seen }: Props) {
       justify="between"
       onLongPress={onLongPress}
       onPress={() => {
-        router.push({
+        router.navigate({
           params: {
             id: removePrefix(post.id),
           },

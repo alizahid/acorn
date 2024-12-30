@@ -30,7 +30,7 @@ export function PostCommunity({ image = true, label, post, seen }: Props) {
       onPress={() => {
         if (label === 'subreddit') {
           if (post.community.name.startsWith('u/')) {
-            router.push({
+            router.navigate({
               params: {
                 name: removePrefix(post.community.name),
               },
@@ -40,7 +40,7 @@ export function PostCommunity({ image = true, label, post, seen }: Props) {
             return
           }
 
-          router.push({
+          router.navigate({
             params: {
               name: removePrefix(post.community.name),
             },
@@ -50,7 +50,7 @@ export function PostCommunity({ image = true, label, post, seen }: Props) {
           return
         }
 
-        router.push({
+        router.navigate({
           params: {
             name: removePrefix(post.user.name),
           },

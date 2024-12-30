@@ -45,7 +45,7 @@ export function CrossPostCard({
       <Pressable
         onLongPress={onLongPress}
         onPress={() => {
-          router.push({
+          router.navigate({
             params: {
               id: removePrefix(post.id),
             },
@@ -94,7 +94,7 @@ export function CrossPostCard({
       mx="3"
       onLongPress={onLongPress}
       onPress={() => {
-        router.push({
+        router.navigate({
           params: {
             id: removePrefix(post.id),
           },
@@ -146,7 +146,7 @@ export function CrossPostCard({
             gap="2"
             hitSlop={theme.space[4]}
             onPress={() => {
-              router.push({
+              router.navigate({
                 params: {
                   name: post.community.name,
                 },

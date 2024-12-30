@@ -127,7 +127,7 @@ export function CommentCard({
           mt="3"
           mx="3"
           onPress={() => {
-            router.push({
+            router.navigate({
               params: {
                 name: removePrefix(comment.user.name),
               },
