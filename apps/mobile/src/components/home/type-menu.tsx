@@ -22,10 +22,11 @@ export type FeedTypeOptions = {
 
 type Props = {
   data: FeedTypeOptions
+  disabled?: boolean
   onPress: () => void
 }
 
-export function FeedTypeMenu({ data, onPress }: Props) {
+export function FeedTypeMenu({ data, disabled, onPress }: Props) {
   const t = useTranslations('component.common.type.type')
 
   const { styles, theme } = useStyles(stylesheet)
@@ -72,6 +73,7 @@ export function FeedTypeMenu({ data, onPress }: Props) {
     <Pressable
       align="center"
       direction="row"
+      disabled={disabled}
       gap="2"
       height="8"
       onPress={onPress}
@@ -94,12 +96,14 @@ export function FeedTypeMenu({ data, onPress }: Props) {
 
       {selected?.name ? <Text weight="medium">{selected.name}</Text> : null}
 
-      <Icon
-        color={theme.colors.gray.a11}
-        name="CaretDown"
-        size={theme.space[4]}
-        weight="bold"
-      />
+      {!disabled ? (
+        <Icon
+          color={theme.colors.gray.a11}
+          name="CaretDown"
+          size={theme.space[4]}
+          weight="bold"
+        />
+      ) : null}
     </Pressable>
   )
 }

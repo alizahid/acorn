@@ -46,6 +46,7 @@ export default function Screen() {
       headerLeft: () => (
         <FeedTypeMenu
           data={homeFeed}
+          disabled={iPad}
           onPress={() => {
             setOpen((previous) => !previous)
           }}
@@ -135,7 +136,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     if (iPad) {
       return {
         ...base,
-        maxWidth: 300,
+        maxWidth:
+          runtime.screen.width <= 744 ? runtime.screen.width * 0.35 : undefined,
       }
     }
 

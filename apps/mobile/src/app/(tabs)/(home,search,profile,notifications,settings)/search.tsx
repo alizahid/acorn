@@ -40,6 +40,9 @@ export default function Screen() {
   )
 
   const listProps = useList({
+    padding: {
+      bottom: theme.space[4],
+    },
     top: theme.space[7] + theme.space[4] + theme.space[7] + theme.space[4],
   })
 
