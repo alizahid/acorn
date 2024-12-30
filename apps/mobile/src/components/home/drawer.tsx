@@ -25,7 +25,6 @@ import { type Feed } from '~/types/feed'
 import { FeedType } from '~/types/sort'
 
 import { Empty } from '../common/empty'
-import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 import { TextBox } from '../common/text-box'
 import { HeaderButton } from '../navigation/header-button'
@@ -54,6 +53,11 @@ type Item =
       type: 'feed'
     }
   | {
+      data: string
+      key: string
+      type: 'feed-community'
+    }
+  | {
       data: Community
       key: string
       type: 'community'
@@ -62,6 +66,10 @@ type Item =
       data: Community
       key: string
       type: 'user'
+    }
+  | {
+      key: string
+      type: 'separator'
     }
 
 type Props = {
@@ -93,6 +101,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 
   const [query, setQuery] = useState('')
   const [collapsed, setCollapsed] = useState(new Map<string, boolean>())
+  const [expanded, setExpanded] = useState(new Map<string, boolean>())
 
   const items: Array<Item> = useMemo(() => {
     const dataCommunities: Array<Item> = communities
@@ -121,6 +130,10 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 
     const feedItems: Array<Item> = [
       {
+        key: 'feed-separator',
+        type: 'separator' as const,
+      },
+      {
         key: 'feeds',
         title: t('feeds.title'),
         type: 'header',
@@ -128,6 +141,10 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
     ]
 
     const communityItems: Array<Item> = [
+      {
+        key: 'communities-separator',
+        type: 'separator' as const,
+      },
       {
         key: 'communities',
         title: t('communities.title'),
@@ -175,11 +192,20 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
                 ...feedItems,
                 ...(collapsed.get('feeds')
                   ? []
-                  : feeds.map((item) => ({
-                      data: item,
-                      key: item.id,
-                      type: 'feed' as const,
-                    }))),
+                  : feeds.flatMap((item) => [
+                      {
+                        data: item,
+                        key: item.id,
+                        type: 'feed' as const,
+                      },
+                      ...(expanded.get(item.id)
+                        ? item.communities.map((community) => ({
+                            data: community,
+                            key: community,
+                            type: 'feed-community' as const,
+                          }))
+                        : []),
+                    ])),
               ]
             : []
       }
@@ -221,6 +247,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
     collapsed,
     communities,
     drawerSections,
+    expanded,
     feeds,
     loadingCommunities,
     loadingFeeds,
@@ -271,11 +298,6 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
           collapsed,
           data,
         }}
-        getItemLayout={(_, index) => ({
-          index,
-          length: 48,
-          offset: index * 48,
-        })}
         keyExtractor={(item) => item.key}
         ref={list}
         renderItem={({ item }) => {
@@ -285,6 +307,10 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
                 <Spinner />
               </View>
             )
+          }
+
+          if (item.type === 'separator') {
+            return <View height="6" />
           }
 
           if (item.type === 'header') {
@@ -336,6 +362,34 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
             )
           }
 
+          if (item.type === 'feed-community') {
+            const community = communities
+              .filter((subItem) => typeof subItem !== 'string')
+              .find((subItem) => subItem.name === item.data)
+
+            return (
+              <SheetItem
+                label={item.data}
+                left={
+                  <Image
+                    source={community?.image}
+                    style={[styles.image, styles.feedCommunityImage]}
+                  />
+                }
+                onPress={() => {
+                  onClose()
+
+                  onChange({
+                    community: item.data,
+                  })
+                }}
+                selected={item.data === data.community}
+                size="2"
+                style={styles.feedCommunity}
+              />
+            )
+          }
+
           return (
             <SheetItem
               label={item.data.name}
@@ -354,21 +408,37 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
               }}
               right={
                 <>
+                  {item.type === 'feed' ? (
+                    <HeaderButton
+                      icon={expanded.get(item.key) ? 'CaretDown' : 'CaretUp'}
+                      onPress={() => {
+                        setExpanded((previous) => {
+                          const next = new Map(previous)
+
+                          next.set(item.key, !next.get(item.key))
+
+                          return next
+                        })
+                      }}
+                      style={styles.right}
+                      weight="fill"
+                    />
+                  ) : null}
+
                   {'favorite' in item.data && item.data.favorite ? (
                     <Icon
                       color={theme.colors.amber.a9}
                       name="Star"
                       size={theme.space[4]}
+                      style={styles.right}
                       weight="fill"
                     />
                   ) : null}
 
                   {item.type === 'community' || item.type === 'user' ? (
-                    <Pressable
-                      align="center"
-                      height="8"
-                      justify="center"
-                      m="-3"
+                    <HeaderButton
+                      color="gray"
+                      icon="ArrowRight"
                       onPress={() => {
                         if (item.data.user) {
                           router.navigate({
@@ -388,14 +458,10 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
                           pathname: '/communities/[name]',
                         })
                       }}
-                      width="8"
-                    >
-                      <Icon
-                        color={theme.colors.gray.a9}
-                        name="ArrowRight"
-                        size={theme.space[4]}
-                      />
-                    </Pressable>
+                      size={theme.space[4]}
+                      style={styles.right}
+                      weight="bold"
+                    />
                   ) : null}
                 </>
               }
@@ -416,6 +482,14 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
+  feedCommunity: {
+    height: theme.space[7],
+    paddingLeft: theme.space[8],
+  },
+  feedCommunityImage: {
+    height: theme.typography[2].lineHeight,
+    width: theme.typography[2].lineHeight,
+  },
   header: {
     backgroundColor: theme.colors.gray[2],
   },
@@ -441,6 +515,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     }
 
     return base
+  },
+  right: {
+    marginRight: -theme.space[3],
   },
   search: {
     height: theme.space[8],

@@ -22,25 +22,3 @@ export const FeedsSchema = z.array(
 )
 
 export type FeedsSchema = z.infer<typeof FeedsSchema>
-
-// [
-//   {
-//     "kind": "LabeledMulti",
-//     "data": {
-//       "can_edit": true,
-//       "description_html": "",
-//       "num_subscribers": 0,
-//       "copied_from": null,
-//       "visibility": "public",
-//       "created": 1731077644.0,
-//       "over_18": false,
-//       "path": "/user/mildpanda/m/js/",
-//       "owner": "mildpanda",
-//       "key_color": null,
-//       "is_subscriber": false,
-//       "owner_id": "t2_okkk9",
-//       "description_md": "",
-//       "is_favorited": false
-//     }
-//   }
-// ]

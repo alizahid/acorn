@@ -1,10 +1,12 @@
 import { type SFSymbol, SymbolView } from 'expo-symbols'
 import { type ReactNode } from 'react'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
+import { type TypographyToken } from '~/styles/tokens'
 
 type Icon =
   | {
@@ -27,6 +29,8 @@ type Props = {
   onPress: () => void
   right?: ReactNode
   selected?: boolean
+  size?: TypographyToken
+  style?: StyleProp<ViewStyle>
 }
 
 export function SheetItem({
@@ -37,6 +41,8 @@ export function SheetItem({
   onPress,
   right,
   selected,
+  size,
+  style,
 }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
@@ -48,7 +54,7 @@ export function SheetItem({
       height="8"
       onPress={onPress}
       px="3"
-      style={selected ? styles.selected : undefined}
+      style={[selected ? styles.selected : undefined, style]}
     >
       {icon ? (
         icon.type === 'symbol' ? (
@@ -69,7 +75,7 @@ export function SheetItem({
         left
       )}
 
-      <Text lines={1} style={styles.label} weight="medium">
+      <Text lines={1} size={size} style={styles.label} weight="medium">
         {label}
       </Text>
 
