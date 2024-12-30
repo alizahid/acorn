@@ -3,7 +3,11 @@ import { useRouter } from 'expo-router'
 import { useRef } from 'react'
 import { Share } from 'react-native'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import {
+  createStyleSheet,
+  type UnistylesValues,
+  useStyles,
+} from 'react-native-unistyles'
 
 import { useHide } from '~/hooks/moderation/hide'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
@@ -50,7 +54,7 @@ export function CommentCard({
   return (
     <>
       <PostGestures
-        containerStyle={styles.container(comment.depth)}
+        containerStyle={styles.container(comment.depth) as ViewStyle}
         data={comment}
         disabled={!swipeGestures || collapsed}
         gestures={commentGestures}
@@ -107,7 +111,10 @@ export function CommentCard({
             })
           }
         }}
-        style={[styles.main(comment.depth, coloredComments), style]}
+        style={[
+          styles.main(comment.depth, coloredComments) as ViewStyle,
+          style,
+        ]}
       >
         <Pressable
           disabled={disabled}
@@ -163,16 +170,19 @@ const stylesheet = createStyleSheet((theme) => ({
   container: (depth: number) => {
     const marginLeft = theme.space[2] * depth
 
-    const base = {
+    const base: UnistylesValues = {
       marginLeft,
+    }
+
+    if (depth > 0) {
+      base.borderCurve = 'continuous'
+      base.borderRadius = theme.radius[3]
     }
 
     if (iPad) {
       return {
         ...base,
         alignSelf: 'center',
-        borderCurve: 'continuous',
-        borderRadius: theme.radius[3],
         maxWidth: cardMaxWidth - marginLeft,
         width: '100%',
       }
@@ -187,14 +197,14 @@ const stylesheet = createStyleSheet((theme) => ({
   main: (depth: number, colored: boolean) => {
     const color = getDepthColor(depth)
 
-    const base = {
+    const base: UnistylesValues = {
       backgroundColor: colored ? theme.colors[color][2] : theme.colors.gray[2],
       borderLeftColor: depth > 0 ? theme.colors[color][6] : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
-      overflow: 'hidden' as const,
+      overflow: 'hidden',
     }
 
-    if (iPad) {
+    if (depth > 0) {
       return {
         ...base,
         borderCurve: 'continuous',

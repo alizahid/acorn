@@ -3,8 +3,12 @@ import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
 import { useMemo, useRef, useState } from 'react'
-import { FlatList } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { FlatList, type ViewStyle } from 'react-native'
+import {
+  createStyleSheet,
+  type UnistylesValues,
+  useStyles,
+} from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -221,7 +225,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
     .filter((item) => item !== null)
 
   return (
-    <View style={styles.main()}>
+    <View style={styles.main() as ViewStyle}>
       <TextBox
         left={
           <Icon
@@ -394,7 +398,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     width: theme.typography[3].lineHeight,
   },
   main: () => {
-    const base = {
+    const base: UnistylesValues = {
       flex: 1,
       marginTop: runtime.insets.top + theme.space[8],
     }

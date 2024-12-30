@@ -1,4 +1,9 @@
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type ViewStyle } from 'react-native'
+import {
+  createStyleSheet,
+  type UnistylesValues,
+  useStyles,
+} from 'react-native-unistyles'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
 
@@ -14,7 +19,7 @@ export function PostHeader({ onPress, parentId }: Props) {
   const { styles } = useStyles(stylesheet)
 
   return (
-    <View direction="row" style={styles.main()}>
+    <View direction="row" style={styles.main() as ViewStyle}>
       <HeaderButton
         color="accent"
         icon="ArrowArcLeft"
@@ -38,7 +43,7 @@ export function PostHeader({ onPress, parentId }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: () => {
-    const base = {
+    const base: UnistylesValues = {
       backgroundColor: theme.colors.gray.a3,
     }
 

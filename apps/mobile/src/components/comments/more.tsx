@@ -1,5 +1,9 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import {
+  createStyleSheet,
+  type UnistylesValues,
+  useStyles,
+} from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
@@ -52,7 +56,7 @@ export function CommentMoreCard({ comment, onThread, post, style }: Props) {
         }
       }}
       py="2"
-      style={[styles.main(comment.depth, coloredComments), style]}
+      style={[styles.main(comment.depth, coloredComments) as ViewStyle, style]}
     >
       {isPending ? (
         <Spinner />
@@ -73,19 +77,22 @@ const stylesheet = createStyleSheet((theme) => ({
 
     const marginLeft = theme.space[2] * depth
 
-    const base = {
+    const base: UnistylesValues = {
       backgroundColor: colored ? theme.colors[color][2] : theme.colors.gray[2],
       borderLeftColor: depth > 0 ? theme.colors[color][6] : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       marginLeft,
     }
 
+    if (depth > 0) {
+      base.borderCurve = 'continuous'
+      base.borderRadius = theme.radius[3]
+    }
+
     if (iPad) {
       return {
         ...base,
         alignSelf: 'center',
-        borderCurve: 'continuous',
-        borderRadius: theme.radius[3],
         maxWidth: cardMaxWidth - marginLeft,
         width: '100%',
       }

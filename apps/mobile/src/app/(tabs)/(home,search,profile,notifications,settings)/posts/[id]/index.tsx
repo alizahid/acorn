@@ -8,7 +8,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { compact } from 'lodash'
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
@@ -110,19 +110,6 @@ export default function Screen() {
     })
   })
 
-  useEffect(() => {
-    if (!post || !params.commentId) {
-      return
-    }
-
-    setTimeout(() => {
-      list.current?.scrollToIndex({
-        animated: true,
-        index: 1,
-      })
-    }, 300)
-  }, [params.commentId, post])
-
   const data = useMemo(
     () =>
       compact([
@@ -156,6 +143,7 @@ export default function Screen() {
 
           return 'more'
         }}
+        initialScrollIndex={params.commentId ? 1 : undefined}
         keyExtractor={(item) => {
           if (typeof item === 'string') {
             return item
@@ -298,7 +286,7 @@ export default function Screen() {
                 list.current?.scrollToIndex({
                   animated: true,
                   index: 2,
-                  viewOffset: 48 * 2,
+                  viewOffset: styles.offset.margin,
                 })
 
                 return
@@ -317,7 +305,7 @@ export default function Screen() {
               list.current?.scrollToIndex({
                 animated: true,
                 index: next,
-                viewOffset: 48 * 2,
+                viewOffset: styles.offset.margin,
               })
             }}
             weight="bold"
@@ -356,6 +344,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       (iPad ? theme.space[4] : 0),
     paddingTop:
       runtime.insets.top + theme.space[8] + (iPad ? theme.space[4] : 0),
+  },
+  offset: {
+    margin: runtime.insets.top + theme.space[8],
   },
   reply: (side: Side) => ({
     backgroundColor: theme.colors.blue.a4,

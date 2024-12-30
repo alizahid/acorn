@@ -1,7 +1,12 @@
 import { useFocusEffect, useNavigation } from 'expo-router'
 import { useState } from 'react'
+import { type ViewStyle } from 'react-native'
 import { Drawer } from 'react-native-drawer-layout'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import {
+  createStyleSheet,
+  type UnistylesValues,
+  useStyles,
+} from 'react-native-unistyles'
 
 import { CommunitySearchBar } from '~/components/communities/search-bar'
 import { HomeDrawer } from '~/components/home/drawer'
@@ -76,7 +81,7 @@ export default function Screen() {
 
   return (
     <Drawer
-      drawerStyle={styles.drawer()}
+      drawerStyle={styles.drawer() as ViewStyle}
       drawerType={iPad ? 'permanent' : 'front'}
       onClose={() => {
         setOpen(false)
@@ -129,7 +134,7 @@ export default function Screen() {
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   drawer: () => {
-    const base = {
+    const base: UnistylesValues = {
       backgroundColor: theme.colors.gray[1],
     }
 
