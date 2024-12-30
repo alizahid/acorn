@@ -57,6 +57,7 @@ export function PostCommunity({ image = true, label, post, seen }: Props) {
           pathname: '/users/[name]',
         })
       }}
+      self="start"
     >
       {image && label === 'subreddit' && post.community.image ? (
         <Image source={post.community.image} style={styles.image} />

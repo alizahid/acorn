@@ -94,14 +94,14 @@ export function PostCompactCard({
       ) : null}
 
       <View align="start" flex={1} gap="2">
+        <PostCommunity label={label} post={post} seen={seen} />
+
         <Text highContrast={!seen} weight="bold">
           {post.title}
         </Text>
 
         <View align="center" direction="row" gap="3">
-          <PostCommunity image={false} label={label} post={post} seen={seen} />
-
-          <PostMeta compact post={post} seen={seen} />
+          <PostMeta post={post} seen={seen} />
         </View>
       </View>
 

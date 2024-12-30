@@ -10,26 +10,18 @@ import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
 import { FooterButton } from './button'
-import { PostCommunity } from './community'
 import { PostMeta } from './meta'
 
 export type PostLabel = 'user' | 'subreddit'
 
 type Props = {
   expanded?: boolean
-  label?: PostLabel
   onLongPress?: () => void
   post: Post
   seen?: boolean
 }
 
-export function PostFooter({
-  expanded,
-  label,
-  onLongPress,
-  post,
-  seen,
-}: Props) {
+export function PostFooter({ expanded, onLongPress, post, seen }: Props) {
   const router = useRouter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -54,11 +46,7 @@ export function PostFooter({
       }}
       p="3"
     >
-      <View align="start" flexShrink={1} gap="2">
-        <PostCommunity label={label} post={post} seen={seen} />
-
-        <PostMeta post={post} seen={seen} />
-      </View>
+      <PostMeta post={post} seen={seen} />
 
       <View align="center" direction="row" gap="2">
         <FooterButton
