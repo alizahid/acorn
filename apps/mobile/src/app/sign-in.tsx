@@ -3,13 +3,14 @@ import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Controller, useForm } from 'react-hook-form'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
+import { ScrollView } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { Button } from '~/components/common/button'
 import { Copy } from '~/components/common/copy'
+import { KeyboardHeight } from '~/components/common/keyboard-height'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
@@ -59,9 +60,8 @@ export default function Screen() {
   })
 
   return (
-    <KeyboardAwareScrollView
+    <ScrollView
       contentContainerStyle={styles.content}
-      enabled={iPhone}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
     >
@@ -130,7 +130,9 @@ export default function Screen() {
 
         <Copy value={REDIRECT_URI} />
       </View>
-    </KeyboardAwareScrollView>
+
+      <KeyboardHeight />
+    </ScrollView>
   )
 }
 
@@ -142,8 +144,8 @@ const stylesheet = createStyleSheet((theme) => ({
     flexGrow: 1,
     gap: theme.space[9],
     justifyContent: 'center',
-    marginHorizontal: theme.space[4],
-    marginVertical: theme.space[9],
+    paddingHorizontal: theme.space[4],
+    paddingVertical: theme.space[9],
   },
   title: {
     color: theme.colors.accent.a9,

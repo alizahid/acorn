@@ -7,16 +7,16 @@ import {
 import { StatusBar } from 'expo-status-bar'
 import { useState } from 'react'
 import { TextInput } from 'react-native'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { KeyboardHeight } from '~/components/common/keyboard-height'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
-import { iPhone } from '~/lib/common'
+import { iPad, iPhone } from '~/lib/common'
 import { fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
@@ -32,11 +32,9 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { fontSystem } = usePreferences()
+  const { fontScaling, fontSystem } = usePreferences()
 
   const t = useTranslations('screen.posts.reply')
-
-  const { fontScaling } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -63,19 +61,13 @@ export default function Screen() {
 
             router.back()
           }}
-          weight="fill"
         />
       ),
     })
   })
 
   return (
-    <KeyboardAwareScrollView
-      contentContainerStyle={styles.content}
-      enabled={iPhone}
-      keyboardShouldPersistTaps="handled"
-      style={styles.main}
-    >
+    <View style={styles.main}>
       {iPhone ? <StatusBar style="light" /> : null}
 
       {params.user ? (
@@ -100,17 +92,16 @@ export default function Screen() {
         style={styles.input(fontSystem)}
         value={text}
       />
-    </KeyboardAwareScrollView>
+
+      <KeyboardHeight enabled />
+    </View>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  content: {
-    flexGrow: 1,
-  },
+const stylesheet = createStyleSheet((theme, runtime) => ({
   input: (systemFont: boolean) => ({
     color: theme.colors.gray.a12,
-    flexGrow: 1,
+    flex: 1,
     fontFamily: systemFont ? fonts.system : fonts.sans,
     fontSize: theme.typography[3].fontSize,
     lineHeight: theme.typography[3].lineHeight,
@@ -118,6 +109,7 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   main: {
     flex: 1,
+    paddingTop: iPad ? theme.space[8] + runtime.insets.top : 0,
   },
   spinner: {
     height: theme.typography[3].lineHeight,

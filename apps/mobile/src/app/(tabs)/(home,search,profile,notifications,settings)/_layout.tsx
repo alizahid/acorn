@@ -4,6 +4,7 @@ import { useTranslations } from 'use-intl'
 
 import { StackHeader } from '~/components/navigation/stack-header'
 import { UserSwitcher } from '~/components/users/switcher'
+import { iPad } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 
 import { type UserPostsParams } from './users/[name]/[type]'
@@ -132,7 +133,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="posts/[id]/reply"
         options={{
-          presentation: 'modal',
+          presentation: iPad ? 'fullScreenModal' : 'modal',
           title: t('posts.reply.title'),
         }}
       />

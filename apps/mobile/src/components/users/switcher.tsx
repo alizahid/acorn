@@ -41,8 +41,6 @@ export function UserSwitcher() {
                 },
                 pathname: '/sign-in',
               })
-
-              sheet.current?.dismiss()
             }}
           />
         }

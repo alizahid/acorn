@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 import { AppState } from 'react-native'
 
 import { type SignInParams } from '~/app/sign-in'
+import { iPad } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 
 import { StackHeader } from './stack-header'
@@ -49,7 +50,7 @@ export function RootLayout() {
           gestureEnabled:
             (props.route.params as SignInParams).mode === 'dismissible',
           headerShown: false,
-          presentation: 'modal',
+          presentation: iPad ? 'formSheet' : 'modal',
         })}
       />
     </Stack>
