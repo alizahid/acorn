@@ -15,6 +15,7 @@ import { View } from '../common/view'
 
 type Props = {
   compact?: boolean
+  crossPost?: boolean
   large?: boolean
   media?: PostMedia
   onLongPress?: () => void
@@ -25,6 +26,7 @@ type Props = {
 
 export function PostLinkCard({
   compact,
+  crossPost,
   large,
   media,
   onLongPress,
@@ -79,7 +81,7 @@ export function PostLinkCard({
           })
         }
       }}
-      style={[styles.main, style]}
+      style={[styles.main(crossPost), style]}
     >
       {media ? (
         <Image
@@ -124,12 +126,13 @@ const stylesheet = createStyleSheet((theme) => ({
   image: {
     aspectRatio: 2,
   },
-  main: {
+  main: (crossPost?: boolean) => ({
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
+    marginTop: crossPost ? theme.space[3] : undefined,
     overflow: 'hidden',
-  },
+  }),
   url: {
     flex: 1,
   },

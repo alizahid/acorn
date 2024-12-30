@@ -126,10 +126,10 @@ export function CrossPostCard({
 
       {post.type === 'link' && post.url ? (
         <PostLinkCard
+          crossPost
           media={post.media.images?.[0]}
           onLongPress={onLongPress}
           recyclingKey={recyclingKey}
-          style={styles.header}
           url={post.url}
         />
       ) : null}
@@ -207,9 +207,6 @@ const stylesheet = createStyleSheet((theme) => ({
         rotate: '-90deg',
       },
     ],
-  },
-  header: {
-    marginTop: theme.space[3],
   },
   main: {
     backgroundColor: theme.colors.gray.a3,

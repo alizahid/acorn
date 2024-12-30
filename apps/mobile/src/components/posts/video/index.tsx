@@ -72,6 +72,7 @@ export function PostVideoCard({
   return (
     <PostLinkCard
       compact={compact}
+      crossPost={crossPost}
       large={large}
       media={media}
       onLongPress={onLongPress}
