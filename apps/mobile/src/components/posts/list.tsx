@@ -1,6 +1,7 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
+import { type ViewabilityConfigCallbackPairs } from 'react-native'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -60,6 +61,36 @@ export function PostList({
     userType,
   })
 
+  const viewabilityConfigCallbackPairs = useRef<ViewabilityConfigCallbackPairs>(
+    [
+      {
+        onViewableItemsChanged({ viewableItems }) {
+          setViewing(() => viewableItems.map((item) => item.key))
+        },
+        viewabilityConfig: {
+          viewAreaCoveragePercentThreshold: 60,
+        },
+      },
+      {
+        onViewableItemsChanged({ viewableItems }) {
+          if (!seenOnScroll) {
+            return
+          }
+
+          viewableItems.forEach((item) => {
+            addPost({
+              id: (item.item as Post).id,
+            })
+          })
+        },
+        viewabilityConfig: {
+          minimumViewTime: 3_000,
+          viewAreaCoveragePercentThreshold: 60,
+        },
+      },
+    ],
+  )
+
   const [viewing, setViewing] = useState<Array<string>>([])
 
   return (
@@ -100,33 +131,7 @@ export function PostList({
           viewing={focused ? viewing.includes(item.id) : false}
         />
       )}
-      viewabilityConfigCallbackPairs={[
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            setViewing(() => viewableItems.map((item) => item.key))
-          },
-          viewabilityConfig: {
-            viewAreaCoveragePercentThreshold: 60,
-          },
-        },
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            if (!seenOnScroll) {
-              return
-            }
-
-            viewableItems.forEach((item) => {
-              addPost({
-                id: (item.item as Post).id,
-              })
-            })
-          },
-          viewabilityConfig: {
-            minimumViewTime: 3_000,
-            viewAreaCoveragePercentThreshold: 60,
-          },
-        },
-      ]}
+      viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
     />
   )
 }
