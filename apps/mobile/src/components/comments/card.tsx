@@ -173,18 +173,18 @@ export function CommentCard({
           ) : null}
 
           <CommentMeta collapsed={collapsed} comment={comment} />
-
-          {comment.liked !== null ? (
-            <View
-              pointerEvents="none"
-              style={[styles.saved, styles.liked(comment.liked)]}
-            />
-          ) : null}
-
-          {comment.saved ? (
-            <View pointerEvents="none" style={styles.saved} />
-          ) : null}
         </Pressable>
+
+        {comment.liked !== null ? (
+          <View
+            pointerEvents="none"
+            style={[styles.saved, styles.liked(comment.liked)]}
+          />
+        ) : null}
+
+        {comment.saved ? (
+          <View pointerEvents="none" style={styles.saved} />
+        ) : null}
       </PostGestures>
 
       <CommentMenu
