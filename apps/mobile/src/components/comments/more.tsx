@@ -84,17 +84,22 @@ const stylesheet = createStyleSheet((theme) => ({
       marginLeft,
     }
 
-    if (depth > 0) {
-      base.borderCurve = 'continuous'
-      base.borderRadius = theme.radius[3]
-    }
-
     if (iPad) {
       return {
         ...base,
         alignSelf: 'center',
+        borderCurve: 'continuous',
         maxWidth: cardMaxWidth - marginLeft,
         width: '100%',
+      }
+    }
+
+    if (depth > 0) {
+      return {
+        ...base,
+        borderBottomLeftRadius: theme.radius[3],
+        borderCurve: 'continuous',
+        borderTopLeftRadius: theme.radius[3],
       }
     }
 
