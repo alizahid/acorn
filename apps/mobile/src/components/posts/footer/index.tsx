@@ -1,11 +1,10 @@
 import { useRouter } from 'expo-router'
 import { Share } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useStyles } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
 import { View } from '~/components/common/view'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
-import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
@@ -24,7 +23,7 @@ type Props = {
 export function PostFooter({ expanded, onLongPress, post, seen }: Props) {
   const router = useRouter()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useStyles()
 
   const { vote } = usePostVote()
 
@@ -97,24 +96,6 @@ export function PostFooter({ expanded, onLongPress, post, seen }: Props) {
           weight="bold"
         />
       </View>
-
-      {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
     </Pressable>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  saved: {
-    backgroundColor: theme.colors.green[9],
-    bottom: -theme.space[iPad ? 6 : 4],
-    height: theme.space[iPad ? 8 : 6],
-    position: 'absolute',
-    right: -theme.space[iPad ? 6 : 4],
-    transform: [
-      {
-        rotate: '45deg',
-      },
-    ],
-    width: theme.space[iPad ? 8 : 6],
-  },
-}))

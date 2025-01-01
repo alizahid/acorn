@@ -17,6 +17,7 @@ import { type GestureAction, PostGestures } from '../common/gestures'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
@@ -250,6 +251,8 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           post={post}
           seen={seen}
         />
+
+        {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
       </PostGestures>
 
       <PostMenu
@@ -283,4 +286,17 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: iPad ? theme.radius[3] : undefined,
     overflow: 'hidden',
   }),
+  saved: {
+    backgroundColor: theme.colors.green.a9,
+    height: theme.space[iPad ? 8 : 6],
+    position: 'absolute',
+    right: -theme.space[iPad ? 6 : 4],
+    top: -theme.space[iPad ? 6 : 4],
+    transform: [
+      {
+        rotate: '45deg',
+      },
+    ],
+    width: theme.space[iPad ? 8 : 6],
+  },
 }))
