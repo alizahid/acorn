@@ -146,9 +146,7 @@ export function CommentCard({
             {comment.user.name}
           </Text>
 
-          {!collapsed ? (
-            <FlairCard flair={comment.flair} show={['emoji']} />
-          ) : null}
+          {!collapsed ? <FlairCard flair={comment.flair} /> : null}
         </Pressable>
 
         <Pressable

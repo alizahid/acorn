@@ -11,16 +11,10 @@ import { View } from '../common/view'
 type Props = {
   flair: Array<Flair>
   seen?: boolean
-  show?: Array<'emoji' | 'text'>
   style?: StyleProp<ViewStyle>
 }
 
-export function FlairCard({
-  flair,
-  seen,
-  show = ['emoji', 'text'],
-  style,
-}: Props) {
+export function FlairCard({ flair, seen, style }: Props) {
   const { showFlair } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
@@ -31,23 +25,21 @@ export function FlairCard({
 
   return (
     <View align="center" direction="row" gap="2" style={style}>
-      {flair
-        .filter((item) => show.includes(item.type))
-        .map((item) => {
-          if (item.type === 'emoji') {
-            return (
-              <Image key={item.id} source={item.value} style={styles.emoji} />
-            )
-          }
-
+      {flair.map((item) => {
+        if (item.type === 'emoji') {
           return (
-            <View key={item.id} style={styles.text}>
-              <Text highContrast={!seen} size="1">
-                {item.value}
-              </Text>
-            </View>
+            <Image key={item.id} source={item.value} style={styles.emoji} />
           )
-        })}
+        }
+
+        return (
+          <View key={item.id} style={styles.text}>
+            <Text highContrast={!seen} size="1">
+              {item.value}
+            </Text>
+          </View>
+        )
+      })}
     </View>
   )
 }
