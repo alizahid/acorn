@@ -1,5 +1,25 @@
 # Changelog
 
+## Build 35
+
+- added: bunch of compact mode fixes and improvements
+- added: collapsible drawer sections
+- added: disable auto play preference
+- added: expandable custom feeds
+- added: hide post swipe gesture
+- added: iPad drawer always open
+- added: new menu options; copy post/comment text, open in app, open in browser
+- added: new menus without the long press crash
+- added: ton of iPad fixes and improvements
+- changed: community/user name moved to top of post/comment
+- fixed: blur tab bar + header accessibility
+- fixed: comment skip button (sometimes)
+- fixed: dark mode icon
+- fixed: iPad reply screen
+- fixed: keyboard handling on sign in/reply screen
+- fixed: music pausing when sound effects play
+- fixed: refresh interval
+
 ## Build 34
 
 - added: you can now reorder and disable drawer sections (and search tabs)
