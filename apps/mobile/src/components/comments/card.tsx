@@ -120,36 +120,6 @@ export function CommentCard({
         ]}
       >
         <Pressable
-          align="center"
-          direction="row"
-          gap="3"
-          hitSlop={theme.space[3]}
-          mt="3"
-          mx="3"
-          onPress={() => {
-            router.navigate({
-              params: {
-                name: removePrefix(comment.user.name),
-              },
-              pathname: '/users/[name]',
-            })
-          }}
-          self="start"
-        >
-          <Text
-            color={comment.op ? 'accent' : 'gray'}
-            highContrast={!comment.op}
-            lines={1}
-            size="1"
-            weight="medium"
-          >
-            {comment.user.name}
-          </Text>
-
-          {!collapsed ? <FlairCard flair={comment.flair} /> : null}
-        </Pressable>
-
-        <Pressable
           disabled={disabled}
           onLongPress={() => {
             menu.current?.present()
@@ -158,6 +128,36 @@ export function CommentCard({
             onPress()
           }}
         >
+          <Pressable
+            align="center"
+            direction="row"
+            gap="3"
+            hitSlop={theme.space[3]}
+            mt="3"
+            mx="3"
+            onPress={() => {
+              router.navigate({
+                params: {
+                  name: removePrefix(comment.user.name),
+                },
+                pathname: '/users/[name]',
+              })
+            }}
+            self="start"
+          >
+            <Text
+              color={comment.op ? 'accent' : 'gray'}
+              highContrast={!comment.op}
+              lines={1}
+              size="1"
+              weight="medium"
+            >
+              {comment.user.name}
+            </Text>
+
+            {!collapsed ? <FlairCard flair={comment.flair} /> : null}
+          </Pressable>
+
           {!collapsed ? (
             <Markdown
               meta={comment.media.meta}
