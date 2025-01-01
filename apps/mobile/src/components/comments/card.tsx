@@ -206,18 +206,20 @@ const stylesheet = createStyleSheet((theme) => ({
     const marginLeft = theme.space[2] * depth
 
     const base: UnistylesValues = {
+      borderCurve: 'continuous',
       marginLeft,
     }
 
     if (depth > 0) {
-      base.borderCurve = 'continuous'
-      base.borderRadius = theme.radius[3]
+      base.borderBottomLeftRadius = theme.radius[3]
+      base.borderTopLeftRadius = theme.radius[3]
     }
 
     if (iPad) {
       return {
         ...base,
         alignSelf: 'center',
+        borderRadius: theme.radius[3],
         maxWidth: cardMaxWidth - marginLeft,
         width: '100%',
       }
@@ -234,15 +236,20 @@ const stylesheet = createStyleSheet((theme) => ({
 
     const base: UnistylesValues = {
       backgroundColor: colored ? theme.colors[color][2] : theme.colors.gray[2],
+      borderCurve: 'continuous',
       borderLeftColor: depth > 0 ? theme.colors[color][6] : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       overflow: 'hidden',
     }
 
     if (depth > 0) {
+      base.borderBottomLeftRadius = theme.radius[2]
+      base.borderTopLeftRadius = theme.radius[2]
+    }
+
+    if (iPad) {
       return {
         ...base,
-        borderCurve: 'continuous',
         borderRadius: theme.radius[2],
       }
     }
