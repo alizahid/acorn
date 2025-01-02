@@ -1,9 +1,10 @@
 import { useScrollToTop } from '@react-navigation/native'
+import { FlashList } from '@shopify/flash-list'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
 import { useMemo, useRef, useState } from 'react'
-import { FlatList, type ViewStyle } from 'react-native'
+import { type ViewStyle } from 'react-native'
 import {
   createStyleSheet,
   type UnistylesValues,
@@ -86,7 +87,7 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 
   const { drawerSections } = useDefaults()
 
-  const list = useRef<FlatList<Item>>(null)
+  const list = useRef<FlashList<Item>>(null)
 
   useScrollToTop(list)
 
@@ -290,10 +291,11 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
         value={query}
       />
 
-      <FlatList
+      <FlashList
         {...listProps}
         ListEmptyComponent={<Empty />}
         data={items}
+        estimatedItemSize={48}
         extraData={{
           collapsed,
           data,

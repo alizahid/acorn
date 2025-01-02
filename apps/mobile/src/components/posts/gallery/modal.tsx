@@ -137,6 +137,11 @@ export function PostGalleryModal({
           <FlatList
             data={images}
             decelerationRate="fast"
+            getItemLayout={(data, index) => ({
+              index,
+              length: frame.width,
+              offset: frame.width * index,
+            })}
             horizontal
             initialNumToRender={3}
             initialScrollIndex={initialIndex}
