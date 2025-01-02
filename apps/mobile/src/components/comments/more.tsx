@@ -94,15 +94,6 @@ const stylesheet = createStyleSheet((theme) => ({
       }
     }
 
-    if (depth > 0) {
-      return {
-        ...base,
-        borderBottomLeftRadius: theme.radius[3],
-        borderCurve: 'continuous',
-        borderTopLeftRadius: theme.radius[3],
-      }
-    }
-
     return base
   },
 }))
