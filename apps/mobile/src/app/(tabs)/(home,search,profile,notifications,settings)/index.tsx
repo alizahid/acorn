@@ -89,7 +89,7 @@ export default function Screen() {
       onOpen={() => {
         setOpen(true)
       }}
-      open={iPad ? true : open}
+      open={open}
       overlayStyle={styles.overlay}
       renderDrawerContent={() => (
         <HomeDrawer
