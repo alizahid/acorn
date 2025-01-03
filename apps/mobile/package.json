@@ -16,12 +16,13 @@
     "publish": "eas build --profile production --platform ios --auto-submit"
   },
   "dependencies": {
+    "@bacons/apple-targets": "^0.1.15",
     "@date-fns/tz": "^1.2.0",
     "@formatjs/intl-getcanonicallocales": "^2.5.4",
-    "@formatjs/intl-locale": "^4.2.8",
-    "@formatjs/intl-numberformat": "^8.15.1",
-    "@formatjs/intl-pluralrules": "^5.4.1",
-    "@formatjs/intl-relativetimeformat": "^11.4.8",
+    "@formatjs/intl-locale": "^4.2.9",
+    "@formatjs/intl-numberformat": "^8.15.2",
+    "@formatjs/intl-pluralrules": "^5.4.2",
+    "@formatjs/intl-relativetimeformat": "^11.4.9",
     "@gorhom/bottom-sheet": "^5.0.6",
     "@hookform/resolvers": "^3.9.1",
     "@likashefqet/react-native-image-zoom": "^4.3.0",

@@ -3,6 +3,7 @@
   "globalDependencies": ["**/.env.*local"],
   "globalEnv": [
     "EXPO_PUBLIC_SENTRY_DSN",
+    "APPLE_TEAM_ID",
     "CHANNEL",
     "SENTRY_AUTH_TOKEN",
     "SENTRY_ORG",
