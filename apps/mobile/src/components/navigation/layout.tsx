@@ -7,8 +7,6 @@ import { type SignInParams } from '~/app/sign-in'
 import { iPad } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 
-import { StackHeader } from './stack-header'
-
 export function RootLayout() {
   const router = useRouter()
 
@@ -34,16 +32,9 @@ export function RootLayout() {
     <Stack
       screenOptions={{
         fullScreenGestureEnabled: true,
-        header: (props) => <StackHeader {...props} />,
+        headerShown: false,
       }}
     >
-      <Stack.Screen
-        name="(tabs)"
-        options={{
-          headerShown: false,
-        }}
-      />
-
       <Stack.Screen
         name="sign-in"
         options={(props) => ({

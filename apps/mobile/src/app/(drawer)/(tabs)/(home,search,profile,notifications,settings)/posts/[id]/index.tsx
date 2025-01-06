@@ -342,6 +342,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       theme.space[6] +
       theme.space[8] +
       (iPad ? theme.space[4] : 0),
+    paddingHorizontal: iPad ? theme.space[4] : 0,
     paddingTop:
       runtime.insets.top + theme.space[8] + (iPad ? theme.space[4] : 0),
   },

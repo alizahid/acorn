@@ -16,12 +16,12 @@ type Padding =
     }
 
 type Props = {
-  bottom?: number
+  bottom?: boolean | number
   header?: boolean
   padding?: Padding
   scroll?: boolean
   tabBar?: boolean
-  top?: number
+  top?: boolean | number
 }
 
 export type ListProps<Type = unknown> = Pick<
@@ -49,8 +49,10 @@ export function useList<Type>({
     bottom:
       (tabBar
         ? insets.bottom + theme.space[4] + theme.space[5] + theme.space[4]
-        : 0) + bottom,
-    top: (header ? insets.top + theme.space[8] : 0) + top,
+        : 0) + (typeof bottom === 'number' ? bottom : 0),
+    top:
+      (header ? insets.top + theme.space[8] : 0) +
+      (typeof top === 'number' ? top : 0),
   }
 
   const paddingTop =
@@ -95,10 +97,16 @@ export function useList<Type>({
 
   return {
     contentContainerStyle: {
-      paddingBottom: offsets.bottom + (paddingBottom ?? 0),
+      paddingBottom:
+        offsets.bottom +
+        (paddingBottom ?? 0) +
+        (typeof bottom === 'boolean' ? insets.bottom : 0),
       paddingLeft,
       paddingRight,
-      paddingTop: offsets.top + (paddingTop ?? 0),
+      paddingTop:
+        offsets.top +
+        (paddingTop ?? 0) +
+        (typeof top === 'boolean' ? insets.top : 0),
     },
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',

@@ -1,7 +1,6 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { type FeedTypeOptions } from '~/components/home/type-menu'
 import { Store } from '~/lib/store'
 import { type DrawerSections, type SearchTabs } from '~/types/defaults'
 
@@ -9,7 +8,6 @@ export const DEFAULTS_KEY = 'defaults-storage-v2'
 
 export type DefaultsPayload = {
   drawerSections: DrawerSections
-  homeFeed: FeedTypeOptions
   searchTabs: SearchTabs
 }
 
@@ -38,9 +36,6 @@ export const useDefaults = create<State>()(
           key: 'users',
         },
       ],
-      homeFeed: {
-        type: 'home',
-      },
       searchTabs: [
         {
           disabled: false,

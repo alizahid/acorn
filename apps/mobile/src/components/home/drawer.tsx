@@ -1,9 +1,8 @@
-import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { Image } from 'expo-image'
-import { useRouter } from 'expo-router'
+import { useGlobalSearchParams, useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
-import { useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { type ViewStyle } from 'react-native'
 import {
   createStyleSheet,
@@ -11,6 +10,7 @@ import {
   useStyles,
 } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { z } from 'zod'
 
 import { Icon } from '~/components/common/icon'
 import { View } from '~/components/common/view'
@@ -31,7 +31,6 @@ import { TextBox } from '../common/text-box'
 import { HeaderButton } from '../navigation/header-button'
 import { SheetHeader } from '../sheets/header'
 import { SheetItem } from '../sheets/item'
-import { type FeedTypeOptions } from './type-menu'
 
 type Item =
   | {
@@ -73,23 +72,20 @@ type Item =
       type: 'separator'
     }
 
-type Props = {
-  data: FeedTypeOptions
-  onChange: (data: FeedTypeOptions) => void
-  onClose: () => void
-}
+const schema = z.object({
+  feed: z.string().optional(),
+  name: z.string().optional(),
+  type: z.enum(FeedType).catch('home'),
+})
 
-export function HomeDrawer({ data, onChange, onClose }: Props) {
+export function HomeDrawer() {
   const router = useRouter()
+  const params = schema.parse(useGlobalSearchParams())
 
   const t = useTranslations('component.common.type')
   const tDrawer = useTranslations('component.home.drawer')
 
   const { drawerSections } = useDefaults()
-
-  const list = useRef<FlashList<Item>>(null)
-
-  useScrollToTop(list)
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -97,7 +93,9 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
   const { communities, isLoading: loadingCommunities, users } = useCommunities()
 
   const listProps = useList({
+    bottom: true,
     header: false,
+    tabBar: false,
   })
 
   const [query, setQuery] = useState('')
@@ -298,10 +296,10 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
         estimatedItemSize={48}
         extraData={{
           collapsed,
-          data,
+          expanded,
         }}
+        getItemType={(item) => item.type}
         keyExtractor={(item) => item.key}
-        ref={list}
         renderItem={({ item }) => {
           if (item.type === 'spinner') {
             return (
@@ -348,17 +346,15 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
                 }}
                 label={t(`type.${item.data}`)}
                 onPress={() => {
-                  onClose()
-
-                  onChange({
-                    type: item.data,
+                  router.navigate({
+                    params: {
+                      type: item.data,
+                    },
+                    pathname: '/',
                   })
                 }}
                 selected={
-                  !data.feed &&
-                  !data.community &&
-                  !data.user &&
-                  item.data === data.type
+                  !params.feed && !params.name && item.data === params.type
                 }
               />
             )
@@ -379,13 +375,14 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
                   />
                 }
                 onPress={() => {
-                  onClose()
-
-                  onChange({
-                    community: item.data,
+                  router.navigate({
+                    params: {
+                      name: item.data,
+                    },
+                    pathname: '/communities/[name]',
                   })
                 }}
-                selected={item.data === data.community}
+                selected={item.data === params.name}
                 size="2"
                 style={styles.feedCommunity}
               />
@@ -397,15 +394,33 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
               label={item.data.name}
               left={<Image source={item.data.image} style={styles.image} />}
               onPress={() => {
-                onClose()
+                if (item.type === 'community') {
+                  router.navigate({
+                    params: {
+                      name: item.data.name,
+                    },
+                    pathname: '/communities/[name]',
+                  })
 
-                onChange({
-                  [item.type]:
-                    item.type === 'community'
-                      ? item.data.name
-                      : item.type === 'user'
-                        ? removePrefix(item.data.name)
-                        : item.data.id,
+                  return
+                }
+
+                if (item.type === 'user') {
+                  router.navigate({
+                    params: {
+                      name: removePrefix(item.data.name),
+                    },
+                    pathname: '/users/[name]',
+                  })
+
+                  return
+                }
+
+                router.navigate({
+                  params: {
+                    feed: item.data.id,
+                  },
+                  pathname: '/',
                 })
               }}
               right={
@@ -431,48 +446,17 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
                     <Icon
                       color={theme.colors.amber.a9}
                       name="Star"
-                      size={theme.space[4]}
-                      style={styles.right}
                       weight="fill"
-                    />
-                  ) : null}
-
-                  {item.type === 'community' || item.type === 'user' ? (
-                    <HeaderButton
-                      color="gray"
-                      icon="ArrowRight"
-                      onPress={() => {
-                        if (item.data.user) {
-                          router.navigate({
-                            params: {
-                              name: removePrefix(item.data.name),
-                            },
-                            pathname: '/users/[name]',
-                          })
-
-                          return
-                        }
-
-                        router.navigate({
-                          params: {
-                            name: removePrefix(item.data.name),
-                          },
-                          pathname: '/communities/[name]',
-                        })
-                      }}
-                      size={theme.space[4]}
-                      style={styles.right}
-                      weight="bold"
                     />
                   ) : null}
                 </>
               }
               selected={
                 item.type === 'community'
-                  ? item.data.name === data.community
+                  ? item.data.name === params.name
                   : item.type === 'user'
-                    ? item.data.name === data.user
-                    : item.data.id === data.feed
+                    ? removePrefix(item.data.name) === params.name
+                    : item.data.id === params.feed
               }
             />
           )
@@ -484,6 +468,9 @@ export function HomeDrawer({ data, onChange, onClose }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
+  content: {
+    paddingBottom: runtime.insets.bottom,
+  },
   feedCommunity: {
     height: theme.space[7],
     paddingLeft: theme.space[8],
@@ -504,8 +491,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: () => {
     const base: UnistylesValues = {
+      backgroundColor: theme.colors.gray[1],
       flex: 1,
-      marginTop: runtime.insets.top + theme.space[8],
+      paddingTop: runtime.insets.top + runtime.hairlineWidth,
     }
 
     if (iPad) {
@@ -522,6 +510,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     marginRight: -theme.space[3],
   },
   search: {
+    borderBottomColor: theme.colors.gray.a6,
+    borderBottomWidth: runtime.hairlineWidth,
     height: theme.space[8],
   },
   searchContent: {

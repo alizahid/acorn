@@ -97,6 +97,6 @@ const stylesheet = createStyleSheet((theme) => ({
     flex: 1,
   },
   selected: {
-    backgroundColor: theme.colors.accent.a5,
+    backgroundColor: theme.colors.accent.a4,
   },
 }))
