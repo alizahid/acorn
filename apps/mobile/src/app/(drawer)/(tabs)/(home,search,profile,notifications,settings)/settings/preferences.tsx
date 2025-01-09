@@ -192,6 +192,11 @@ export default function Screen() {
             label: 'system.linkBrowser',
           },
           {
+            icon: 'Alien',
+            key: 'oldReddit',
+            label: 'system.oldReddit',
+          },
+          {
             icon: 'TextAa',
             key: 'fontScaling',
             label: 'system.fontScaling',

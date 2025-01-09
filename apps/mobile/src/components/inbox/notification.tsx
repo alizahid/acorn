@@ -32,7 +32,7 @@ export function NotificationCard({ notification }: Props) {
       direction="row"
       gap="4"
       onPress={() => {
-        void handleLink(`https://www.reddit.com${notification.context}`)
+        void handleLink(notification.context)
 
         if (notification.new) {
           mark({

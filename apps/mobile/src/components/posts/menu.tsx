@@ -12,6 +12,7 @@ import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
+import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { Logo } from '../common/logo'
@@ -29,6 +30,8 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
   ref,
 ) {
   const router = useRouter()
+
+  const { oldReddit } = usePreferences()
 
   const t = useTranslations('component.posts.menu')
 
@@ -160,7 +163,10 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           }}
           label={t('copyLink')}
           onPress={() => {
-            const url = new URL(post.permalink, 'https://reddit.com')
+            const url = new URL(
+              post.permalink,
+              oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
+            )
 
             void copy(url.toString())
 
@@ -176,7 +182,10 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           }}
           label={t('share')}
           onPress={() => {
-            const url = new URL(post.permalink, 'https://reddit.com')
+            const url = new URL(
+              post.permalink,
+              oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
+            )
 
             void Share.share({
               url: url.toString(),
@@ -192,9 +201,7 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           label={t('openApp')}
           left={<Logo size={theme.space[5]} />}
           onPress={() => {
-            const url = new URL(post.permalink, 'https://reddit.com')
-
-            void handleLink(url.toString())
+            void handleLink(post.permalink)
 
             onClose()
           }}
@@ -208,7 +215,10 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           }}
           label={t('openBrowser')}
           onPress={() => {
-            const url = new URL(post.permalink, 'https://reddit.com')
+            const url = new URL(
+              post.permalink,
+              oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
+            )
 
             void open(url.toString())
 

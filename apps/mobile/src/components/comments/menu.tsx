@@ -12,6 +12,7 @@ import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
+import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
 
 import { Logo } from '../common/logo'
@@ -27,6 +28,8 @@ type Props = {
 export const CommentMenu = forwardRef<BottomSheetModal, Props>(
   function Component({ comment, onClose }, ref) {
     const router = useRouter()
+
+    const { oldReddit } = usePreferences()
 
     const t = useTranslations('component.posts.menu')
 
@@ -160,7 +163,10 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
             }}
             label={t('copyLink')}
             onPress={() => {
-              const url = new URL(comment.permalink, 'https://reddit.com')
+              const url = new URL(
+                comment.permalink,
+                oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
+              )
 
               void copy(url.toString())
 
@@ -176,7 +182,10 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
             }}
             label={t('share')}
             onPress={() => {
-              const url = new URL(comment.permalink, 'https://reddit.com')
+              const url = new URL(
+                comment.permalink,
+                oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
+              )
 
               void Share.share({
                 url: url.toString(),
@@ -192,9 +201,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
             label={t('openApp')}
             left={<Logo size={theme.space[5]} />}
             onPress={() => {
-              const url = new URL(comment.permalink, 'https://reddit.com')
-
-              void handleLink(url.toString())
+              void handleLink(comment.permalink)
 
               onClose()
             }}
@@ -208,7 +215,10 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
             }}
             label={t('openBrowser')}
             onPress={() => {
-              const url = new URL(comment.permalink, 'https://reddit.com')
+              const url = new URL(
+                comment.permalink,
+                oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
+              )
 
               void open(url.toString())
 

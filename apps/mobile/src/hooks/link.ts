@@ -10,7 +10,7 @@ import { usePreferences } from '~/stores/preferences'
 export function useLink() {
   const router = useRouter()
 
-  const { linkBrowser } = usePreferences()
+  const { linkBrowser, oldReddit } = usePreferences()
 
   const { theme } = useStyles()
 
@@ -39,7 +39,11 @@ export function useLink() {
       try {
         const url = new URL(
           href,
-          href.startsWith('http') ? undefined : 'https://reddit.com',
+          href.startsWith('http')
+            ? undefined
+            : oldReddit
+              ? 'https://old.reddit.com'
+              : 'https://reddit.com',
         )
 
         if (url.hostname.endsWith('reddit.com')) {
@@ -119,7 +123,7 @@ export function useLink() {
         setLoading(false)
       }
     },
-    [linkBrowser, open, router],
+    [linkBrowser, oldReddit, open, router],
   )
 
   return {

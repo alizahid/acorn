@@ -352,6 +352,7 @@
           "fontScaling": "Use system font scaling",
           "fontSystem": "Use system font",
           "linkBrowser": "Open links in browser",
+          "oldReddit": "Use old Reddit",
           "title": "System"
         },
         "title": "Preferences"

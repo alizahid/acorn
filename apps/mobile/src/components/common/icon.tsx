@@ -1,5 +1,6 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { type Icon } from 'react-native-phosphor'
+import AlienBold from 'react-native-phosphor/src/bold/Alien'
 import ArrowArcLeftBold from 'react-native-phosphor/src/bold/ArrowArcLeft'
 import ArrowBendUpLeftBold from 'react-native-phosphor/src/bold/ArrowBendUpLeft'
 import ArrowDownBold from 'react-native-phosphor/src/bold/ArrowDown'
@@ -75,6 +76,7 @@ import UserSwitchBold from 'react-native-phosphor/src/bold/UserSwitch'
 import WarningBold from 'react-native-phosphor/src/bold/Warning'
 import XBold from 'react-native-phosphor/src/bold/X'
 import XCircleBold from 'react-native-phosphor/src/bold/XCircle'
+import AlienDuotone from 'react-native-phosphor/src/duotone/Alien'
 import ArrowArcLeftDuotone from 'react-native-phosphor/src/duotone/ArrowArcLeft'
 import ArrowBendUpLeftDuotone from 'react-native-phosphor/src/duotone/ArrowBendUpLeft'
 import ArrowDownDuotone from 'react-native-phosphor/src/duotone/ArrowDown'
@@ -150,6 +152,7 @@ import UserSwitchDuotone from 'react-native-phosphor/src/duotone/UserSwitch'
 import WarningDuotone from 'react-native-phosphor/src/duotone/Warning'
 import XDuotone from 'react-native-phosphor/src/duotone/X'
 import XCircleDuotone from 'react-native-phosphor/src/duotone/XCircle'
+import AlienFill from 'react-native-phosphor/src/fill/Alien'
 import ArrowArcLeftFill from 'react-native-phosphor/src/fill/ArrowArcLeft'
 import ArrowBendUpLeftFill from 'react-native-phosphor/src/fill/ArrowBendUpLeft'
 import ArrowDownFill from 'react-native-phosphor/src/fill/ArrowDown'
@@ -225,6 +228,7 @@ import UserSwitchFill from 'react-native-phosphor/src/fill/UserSwitch'
 import WarningFill from 'react-native-phosphor/src/fill/Warning'
 import XFill from 'react-native-phosphor/src/fill/X'
 import XCircleFill from 'react-native-phosphor/src/fill/XCircle'
+import AlienRegular from 'react-native-phosphor/src/regular/Alien'
 import ArrowArcLeftRegular from 'react-native-phosphor/src/regular/ArrowArcLeft'
 import ArrowBendUpLeftRegular from 'react-native-phosphor/src/regular/ArrowBendUpLeft'
 import ArrowDownRegular from 'react-native-phosphor/src/regular/ArrowDown'
@@ -326,6 +330,12 @@ export function Icon({
 }
 
 const icons = {
+  Alien: {
+    bold: AlienBold,
+    duotone: AlienDuotone,
+    fill: AlienFill,
+    regular: AlienRegular,
+  },
   ArrowArcLeft: {
     bold: ArrowArcLeftBold,
     duotone: ArrowArcLeftDuotone,

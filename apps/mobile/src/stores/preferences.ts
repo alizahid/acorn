@@ -41,6 +41,7 @@ export type PreferencesPayload = {
   largeThumbnails: boolean
   linkBrowser: boolean
   mediaOnRight: boolean
+  oldReddit: boolean
   postGestures: Gestures
   refreshInterval: number
   replyPost: Side
@@ -95,6 +96,7 @@ export const usePreferences = create<State>()(
       largeThumbnails: false,
       linkBrowser: true,
       mediaOnRight: true,
+      oldReddit: false,
       postGestures: {
         leftLong: 'downvote',
         leftShort: 'upvote',
