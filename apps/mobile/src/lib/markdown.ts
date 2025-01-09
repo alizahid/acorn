@@ -14,7 +14,7 @@ import { gfmTable } from 'micromark-extension-gfm-table'
 export function parse(markdown: string) {
   const value = markdown
     .replaceAll(/>!(.*?)!</g, ':spoiler[$1]')
-    .replaceAll(/\^\w+/g, ':super_script[$1]')
+    .replaceAll(/\^(\w+)/g, ':super_script[$1]')
     .replaceAll(/\^\((.*?)\)/g, ':super_script[$1]')
     .replaceAll(
       /(?<!\S)(?:\/?r\/(?!\/))([\w-]+)\b/g,
