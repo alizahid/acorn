@@ -296,6 +296,7 @@
       },
       "preferences": {
         "browsing": {
+          "oldReddit": "Use old Reddit",
           "refreshInterval": "Auto refresh interval",
           "showFlair": "Show flair",
           "title": "Browsing"
@@ -352,7 +353,6 @@
           "fontScaling": "Use system font scaling",
           "fontSystem": "Use system font",
           "linkBrowser": "Open links in browser",
-          "oldReddit": "Use old Reddit",
           "title": "System"
         },
         "title": "Preferences"

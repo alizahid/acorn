@@ -87,6 +87,11 @@ export default function Screen() {
               },
             ],
           },
+          {
+            icon: 'Alien',
+            key: 'oldReddit',
+            label: 'browsing.oldReddit',
+          },
 
           null,
           t('comments.title'),
@@ -190,11 +195,6 @@ export default function Screen() {
             icon: 'Browser',
             key: 'linkBrowser',
             label: 'system.linkBrowser',
-          },
-          {
-            icon: 'Alien',
-            key: 'oldReddit',
-            label: 'system.oldReddit',
           },
           {
             icon: 'TextAa',
