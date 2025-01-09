@@ -19,6 +19,14 @@ import { useList } from '~/hooks/list'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
+const routes = useDefaults
+  .getState()
+  .searchTabs.filter(({ disabled }) => !disabled)
+  .map(({ key }) => ({
+    key,
+    title: key,
+  }))
+
 export default function Screen() {
   const navigation = useNavigation()
   const focused = useIsFocused()
@@ -26,18 +34,8 @@ export default function Screen() {
   const t = useTranslations('screen.search')
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences()
-  const { searchTabs } = useDefaults()
 
   const { styles, theme } = useStyles(stylesheet)
-
-  const routes = useRef(
-    searchTabs
-      .filter(({ disabled }) => !disabled)
-      .map(({ key }) => ({
-        key,
-        title: t(`tabs.${key}`),
-      })),
-  )
 
   const listProps = useList({
     padding: {
@@ -86,10 +84,10 @@ export default function Screen() {
       lazy
       navigationState={{
         index,
-        routes: routes.current,
+        routes,
       }}
       onIndexChange={setIndex}
-      renderLazyPlaceholder={Loading}
+      renderLazyPlaceholder={() => <Loading />}
       renderScene={({ route }) => {
         if (route.key === 'post') {
           return (
@@ -149,7 +147,7 @@ export default function Screen() {
             />
 
             <SegmentedControl
-              items={routes.current.map(({ title }) => title)}
+              items={routes.map(({ key }) => t(`tabs.${key}`))}
               offset={position}
               onChange={(next) => {
                 setIndex(next)

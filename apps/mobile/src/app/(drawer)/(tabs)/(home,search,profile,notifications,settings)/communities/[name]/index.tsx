@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { TabView } from 'react-native-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -24,6 +24,11 @@ const schema = z.object({
 
 export type CommunityParams = z.infer<typeof schema>
 
+const routes = CommunityTab.map((key) => ({
+  key,
+  title: key,
+}))
+
 export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
@@ -38,13 +43,6 @@ export default function Screen() {
 
   const { sorting, update } = useSorting('community', params.name)
 
-  const routes = useRef(
-    CommunityTab.map((key) => ({
-      key,
-      title: t(`tabs.${key}`),
-    })),
-  )
-
   const [index, setIndex] = useState(0)
 
   return (
@@ -52,7 +50,7 @@ export default function Screen() {
       lazy
       navigationState={{
         index,
-        routes: routes.current,
+        routes,
       }}
       onIndexChange={setIndex}
       renderLazyPlaceholder={Loading}
@@ -92,7 +90,7 @@ export default function Screen() {
         <Header back title={params.name}>
           <View gap="4" pb="4" px="3">
             <SegmentedControl
-              items={routes.current.map(({ title }) => title)}
+              items={routes.map(({ key }) => t(`tabs.${key}`))}
               offset={position}
               onChange={(next) => {
                 setIndex(next)

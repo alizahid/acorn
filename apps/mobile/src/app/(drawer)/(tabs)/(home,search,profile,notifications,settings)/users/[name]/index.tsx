@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from 'expo-router'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { TabView } from 'react-native-tab-view'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -26,6 +26,11 @@ const schema = z.object({
 
 export type UserParams = z.infer<typeof schema>
 
+const routes = UserTab.map((key) => ({
+  key,
+  title: key,
+}))
+
 export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
@@ -48,13 +53,6 @@ export default function Screen() {
     top: params.mode === 'headless' ? 0 : theme.space[7] + theme.space[4],
   })
 
-  const routes = useRef(
-    UserTab.map((key) => ({
-      key,
-      title: t(`tabs.${key}`),
-    })),
-  )
-
   const [index, setIndex] = useState(0)
 
   return (
@@ -62,7 +60,7 @@ export default function Screen() {
       lazy
       navigationState={{
         index,
-        routes: routes.current,
+        routes,
       }}
       onIndexChange={setIndex}
       renderLazyPlaceholder={Loading}
@@ -114,7 +112,7 @@ export default function Screen() {
         >
           <View gap="4" pb="4" px="3">
             <SegmentedControl
-              items={routes.current.map(({ title }) => title)}
+              items={routes.map(({ key }) => t(`tabs.${key}`))}
               offset={position}
               onChange={(next) => {
                 setIndex(next)
