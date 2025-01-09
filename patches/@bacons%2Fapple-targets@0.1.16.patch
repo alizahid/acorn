@@ -1,0 +1,58 @@
+diff --git a/build/config-plugin.js b/build/config-plugin.js
+index 7a7c4f3e937891cd55e6489e37df932146b46ad0..b127c6f36addfd810034d2ba955e0ccb9f41cedc 100644
+--- a/build/config-plugin.js
++++ b/build/config-plugin.js
+@@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.withTargetsDir = void 0;
+ const glob_1 = require("glob");
+ const path_1 = __importDefault(require("path"));
+-const chalk_1 = __importDefault(require("chalk"));
+ const withPodTargetExtension_1 = require("./withPodTargetExtension");
+ const withWidget_1 = __importDefault(require("./withWidget"));
+ const withXcparse_1 = require("./withXcparse");
+@@ -18,7 +17,7 @@ const withTargetsDir = (config, _props) => {
+     const projectRoot = config._internal.projectRoot;
+     if (!appleTeamId && !hasWarned) {
+         hasWarned = true;
+-        console.warn((0, chalk_1.default) `{yellow [bacons/apple-targets]} Expo config is missing required {cyan ios.appleTeamId} property. Find this in Xcode and add to the Expo Config to correct. iOS builds may fail until this is corrected.`);
++        console.warn(`{yellow [bacons/apple-targets]} Expo config is missing required {cyan ios.appleTeamId} property. Find this in Xcode and add to the Expo Config to correct. iOS builds may fail until this is corrected.`);
+     }
+     const targets = (0, glob_1.sync)(`${root}/${match}/expo-target.config.@(json|js)`, {
+         // const targets = globSync(`./targets/action/expo-target.config.@(json|js)`, {
+diff --git a/build/withWidget.js b/build/withWidget.js
+index 23608e1897c6088c7142d178b0d214a2b5d0ec9e..13a402c8ce7b73210e11abf150061fc4ab79a746 100644
+--- a/build/withWidget.js
++++ b/build/withWidget.js
+@@ -8,7 +8,6 @@ const plist_1 = __importDefault(require("@expo/plist"));
+ const fs_1 = __importDefault(require("fs"));
+ const glob_1 = require("glob");
+ const path_1 = __importDefault(require("path"));
+-const chalk_1 = __importDefault(require("chalk"));
+ const withIosColorset_1 = require("./colorset/withIosColorset");
+ const withImageAsset_1 = require("./icon/withImageAsset");
+ const withIosIcon_1 = require("./icon/withIosIcon");
+@@ -52,7 +51,7 @@ function kebabToCamelCase(str) {
+ }
+ const withWidget = (config, props) => {
+     var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+-    prebuildLogQueue.add(() => warnOnce((0, chalk_1.default) `\nUsing experimental Config Plugin {bold @bacons/apple-targets} that is subject to breaking changes.`));
++    prebuildLogQueue.add(() => warnOnce(`\nUsing experimental Config Plugin {bold @bacons/apple-targets} that is subject to breaking changes.`));
+     // TODO: Magically based on the top-level folders in the `ios-widgets/` folder
+     if (props.icon && !/https?:\/\//.test(props.icon)) {
+         props.icon = path_1.default.join(props.directory, props.icon);
+@@ -94,13 +93,13 @@ const withWidget = (config, props) => {
+                     // Then set the target app groups to match the main app.
+                     entitlements[APP_GROUP_KEY] = mainAppGroups;
+                     prebuildLogQueue.add(() => {
+-                        logOnce((0, chalk_1.default) `[${widget}] Syncing app groups with main app. {dim Define entitlements[${JSON.stringify(APP_GROUP_KEY)}] in the {bold expo-target.config} file to override.}`);
++                        logOnce(`[${widget}] Syncing app groups with main app. {dim Define entitlements[${JSON.stringify(APP_GROUP_KEY)}] in the {bold expo-target.config} file to override.}`);
+                     });
+                 }
+                 else {
+                     prebuildLogQueue.add(() => {
+                         var _a, _b;
+-                        return warnOnce((0, chalk_1.default) `{yellow [${widget}]} Apple target may require the App Groups entitlement but none were found in the Expo config.\nExample:\n${JSON.stringify({
++                        return warnOnce(`{yellow [${widget}]} Apple target may require the App Groups entitlement but none were found in the Expo config.\nExample:\n${JSON.stringify({
+                             ios: {
+                                 entitlements: {
+                                     [APP_GROUP_KEY]: [

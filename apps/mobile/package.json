@@ -16,6 +16,7 @@
     "publish": "eas build --profile production --platform ios --auto-submit"
   },
   "dependencies": {
+    "@bacons/apple-targets": "^0.1.16",
     "@date-fns/tz": "^1.2.0",
     "@formatjs/intl-getcanonicallocales": "^2.5.4",
     "@formatjs/intl-locale": "^4.2.9",

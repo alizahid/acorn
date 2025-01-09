@@ -9,6 +9,26 @@ import { useAuth } from '~/stores/auth'
 
 import { type UserPostsParams } from './users/[name]/[type]'
 
+// eslint-disable-next-line camelcase -- go away
+export const unstable_settings = {
+  home: {
+    initialRouteName: 'index',
+  },
+  initialRouteName: 'index',
+  notifications: {
+    initialRouteName: 'notifications',
+  },
+  profile: {
+    initialRouteName: 'profile',
+  },
+  search: {
+    initialRouteName: 'search',
+  },
+  settings: {
+    initialRouteName: 'settings',
+  },
+}
+
 type Props = {
   segment:
     | '(home)'

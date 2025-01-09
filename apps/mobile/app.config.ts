@@ -17,6 +17,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     'expo-localization',
     'expo-secure-store',
     'expo-video',
+    '@bacons/apple-targets',
     [
       'expo-splash-screen',
       {
@@ -74,6 +75,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
       },
     },
     ios: {
+      appleTeamId: String(process.env.APPLE_TEAM_ID),
       buildNumber: '35',
       bundleIdentifier,
       config: {
