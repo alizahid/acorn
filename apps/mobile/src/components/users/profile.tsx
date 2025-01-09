@@ -2,9 +2,9 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { Text } from '~/components/common/text'
-import { withoutAgo } from '~/lib/intl'
 import { type Profile } from '~/types/user'
 
+import { TimeAgo } from '../common/time'
 import { View } from '../common/view'
 
 type Props = {
@@ -38,11 +38,7 @@ export function ProfileCard({ profile }: Props) {
     },
     {
       key: 'age',
-      value: withoutAgo(
-        f.relativeTime(profile?.createdAt ?? new Date(), {
-          style: 'narrow',
-        }),
-      ),
+      value: <TimeAgo>{profile?.createdAt ?? new Date()}</TimeAgo>,
     },
   ] as const
 

@@ -37,7 +37,7 @@ export function useUnread() {
         accountId,
       },
     ],
-    staleTime: 60 * 1_000,
+    staleTime: 1_000 * 60,
   })
 
   return {

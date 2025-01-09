@@ -3,8 +3,8 @@ import { useFormatter } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Text } from '~/components/common/text'
+import { TimeAgo } from '~/components/common/time'
 import { View } from '~/components/common/view'
-import { withoutAgo } from '~/lib/intl'
 import { type Post } from '~/types/post'
 
 export type PostLabel = 'user' | 'subreddit'
@@ -43,11 +43,7 @@ export function PostMeta({ post, seen }: Props) {
     {
       icon: 'Clock',
       key: 'created',
-      label: withoutAgo(
-        f.relativeTime(post.createdAt, {
-          style: 'narrow',
-        }),
-      ),
+      label: <TimeAgo>{post.createdAt}</TimeAgo>,
     },
   ] as const
 

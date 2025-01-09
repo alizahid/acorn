@@ -1,6 +1,6 @@
+import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
-import { dateFromUnix } from '~/lib/intl'
 import { removePrefix } from '~/lib/reddit'
 import { type CommunityDataSchema } from '~/schemas/communities'
 import { type Community } from '~/types/community'
@@ -14,7 +14,7 @@ export function transformCommunity(data: CommunityDataSchema): Community {
       : data.banner_background_image
         ? decode(data.banner_background_image) || undefined
         : undefined,
-    createdAt: dateFromUnix(data.created_utc ?? 0),
+    createdAt: fromUnixTime(data.created_utc ?? 0),
     description: data.public_description
       ? data.public_description.trim()
       : undefined,

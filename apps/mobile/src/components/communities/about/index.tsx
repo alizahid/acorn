@@ -3,12 +3,12 @@ import { ScrollView } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
+import { TimeAgo } from '~/components/common/time'
 import { useImagePlaceholder } from '~/hooks/image'
 import { type ListProps } from '~/hooks/list'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
-import { withoutAgo } from '~/lib/intl'
 
 import { Loading } from '../../common/loading'
 import { RefreshControl } from '../../common/refresh-control'
@@ -47,11 +47,7 @@ export function CommunityAbout({ listProps, name }: Props) {
     },
     {
       key: 'age',
-      value: withoutAgo(
-        f.relativeTime(community.createdAt, {
-          style: 'narrow',
-        }),
-      ),
+      value: <TimeAgo>{community.createdAt}</TimeAgo>,
     },
   ] as const
 

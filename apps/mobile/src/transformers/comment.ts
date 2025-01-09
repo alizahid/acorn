@@ -1,6 +1,6 @@
+import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
-import { dateFromUnix } from '~/lib/intl'
 import { getMeta } from '~/lib/media'
 import { removePrefix } from '~/lib/reddit'
 import { type CommentsSchema } from '~/schemas/comments'
@@ -31,7 +31,7 @@ export function transformComment(
   return {
     data: {
       body: decode(data.data.body).trim(),
-      createdAt: dateFromUnix(data.data.created_utc),
+      createdAt: fromUnixTime(data.data.created_utc),
       depth: data.data.depth ?? 0,
       flair: transformFlair(data.data.author_flair_richtext),
       id: removePrefix(data.data.id),

@@ -3,11 +3,11 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
-import { withoutAgo } from '~/lib/intl'
 import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
 import { Text } from '../common/text'
+import { TimeAgo } from '../common/time'
 import { View } from '../common/view'
 import { FooterButton } from '../posts/footer/button'
 
@@ -43,11 +43,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
       ) : null}
 
       <Text highContrast={false} size="1">
-        {withoutAgo(
-          f.relativeTime(comment.createdAt, {
-            style: 'narrow',
-          }),
-        )}
+        <TimeAgo>{comment.createdAt}</TimeAgo>
       </Text>
 
       <View align="center" direction="row" gap="1">

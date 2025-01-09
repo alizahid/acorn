@@ -1,6 +1,6 @@
+import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
-import { dateFromUnix } from '~/lib/intl'
 import { getImages, getMeta, getVideo } from '~/lib/media'
 import { removePrefix } from '~/lib/reddit'
 import { type PostDataSchema } from '~/schemas/posts'
@@ -18,7 +18,7 @@ export function transformPost(data: PostDataSchema, seen: Array<string>): Post {
     body: decode(data.selftext).trim() || undefined,
     comments: data.num_comments,
     community: transformCommunity(data.sr_detail),
-    createdAt: dateFromUnix(data.created_utc),
+    createdAt: fromUnixTime(data.created_utc),
     crossPost: crossPost ? transformPost(crossPost, seen) : undefined,
     flair: transformFlair(data.link_flair_richtext),
     hidden: Boolean(data.hidden),
