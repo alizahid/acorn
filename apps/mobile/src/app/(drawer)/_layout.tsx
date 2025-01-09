@@ -22,6 +22,6 @@ export default function Layout() {
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   main: {
-    width: runtime.screen.width,
+    width: runtime.screen.width * 0.3,
   },
 }))
