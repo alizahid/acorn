@@ -31,7 +31,7 @@ export function Header({
 }: Props) {
   const router = useRouter()
 
-  const { blurNavigation, theme } = usePreferences()
+  const { blurNavigation } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -41,13 +41,7 @@ export function Header({
     <Main
       intensity={100}
       style={[modal ? styles.modal : styles.main(blurNavigation), style]}
-      tint={
-        theme.endsWith('Light')
-          ? 'light'
-          : theme.endsWith('Dark')
-            ? 'dark'
-            : 'default'
-      }
+      tint="prominent"
     >
       <View align="center" height="8" justify="center">
         {(left ?? back) ? (

@@ -17,7 +17,7 @@ type Props = BottomTabBarProps
 export function TabBar({ descriptors, navigation, state }: Props) {
   const router = useRouter()
 
-  const { blurNavigation, theme: appTheme } = usePreferences()
+  const { blurNavigation } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -38,13 +38,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
       <Main
         intensity={100}
         style={styles.main(blurNavigation)}
-        tint={
-          appTheme.endsWith('Light')
-            ? 'light'
-            : appTheme.endsWith('Dark')
-              ? 'dark'
-              : 'default'
-        }
+        tint="prominent"
       >
         {state.routes.map((route, index) => {
           const options = descriptors[route.key]?.options
