@@ -85,11 +85,11 @@ export function MenuItem({ item, style }: Props) {
           )
         ) : null}
 
-        <View flex={1} gap="1">
+        <View flex={1}>
           <Text weight="medium">{item.label}</Text>
 
           {item.description ? (
-            <Text color="gray" highContrast={false} size="2">
+            <Text color="gray" highContrast={false} size="1">
               {item.description}
             </Text>
           ) : null}
