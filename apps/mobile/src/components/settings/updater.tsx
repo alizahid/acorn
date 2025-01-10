@@ -1,3 +1,4 @@
+import Constants from 'expo-constants'
 import * as Updates from 'expo-updates'
 import { useRef, useState } from 'react'
 import { useTranslations } from 'use-intl'
@@ -22,6 +23,12 @@ export function Updater() {
         <Text highContrast={false} variant="mono" weight="medium">
           {Updates.runtimeVersion}
         </Text>
+
+        {Constants.expoConfig?.ios?.buildNumber ? (
+          <Text highContrast={false} variant="mono">
+            {Constants.expoConfig.ios.buildNumber}
+          </Text>
+        ) : null}
 
         {Updates.updateId ? (
           <Text highContrast={false} variant="mono">
