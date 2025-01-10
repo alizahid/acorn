@@ -5,6 +5,7 @@ import { AppState } from 'react-native'
 
 import { type SignInParams } from '~/app/sign-in'
 import { iPad } from '~/lib/common'
+import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 
 export function RootLayout() {
@@ -13,9 +14,17 @@ export function RootLayout() {
   const { accountId } = useAuth()
 
   useEffect(() => {
-    if (!accountId) {
-      router.navigate('/sign-in')
+    if (accountId) {
+      Sentry.setUser({
+        id: accountId,
+      })
+
+      return
     }
+
+    Sentry.setUser(null)
+
+    router.navigate('/sign-in')
   }, [accountId, router])
 
   useEffect(() => {
