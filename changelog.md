@@ -1,5 +1,12 @@
 # Changelog
 
+## Build 36
+
+- added: safari extension
+- added: old reddit
+- changed: drawer
+- fixed: header/tab bar accessibility
+
 ## Build 35
 
 - added: bunch of compact mode fixes and improvements
