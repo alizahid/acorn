@@ -38,7 +38,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
       <Main
         intensity={100}
         style={styles.main(blurNavigation)}
-        tint="prominent"
+        tint={theme.name}
       >
         {state.routes.map((route, index) => {
           const options = descriptors[route.key]?.options

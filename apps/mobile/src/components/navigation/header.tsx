@@ -33,7 +33,7 @@ export function Header({
 
   const { blurNavigation } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const Main = modal ? View : blurNavigation ? BlurView : View
 
@@ -41,7 +41,7 @@ export function Header({
     <Main
       intensity={100}
       style={[modal ? styles.modal : styles.main(blurNavigation), style]}
-      tint="prominent"
+      tint={theme.name}
     >
       <View align="center" height="8" justify="center">
         {(left ?? back) ? (
