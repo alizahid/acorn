@@ -1,5 +1,5 @@
 diff --git a/build/config-plugin.js b/build/config-plugin.js
-index 7a7c4f3e937891cd55e6489e37df932146b46ad0..b127c6f36addfd810034d2ba955e0ccb9f41cedc 100644
+index 588870684b4151a62c443542d9077198225fa1b2..d4376806d8abca0321d77b4c8c6b017bf5bb4123 100644
 --- a/build/config-plugin.js
 +++ b/build/config-plugin.js
 @@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
@@ -17,10 +17,10 @@ index 7a7c4f3e937891cd55e6489e37df932146b46ad0..b127c6f36addfd810034d2ba955e0ccb
 -        console.warn((0, chalk_1.default) `{yellow [bacons/apple-targets]} Expo config is missing required {cyan ios.appleTeamId} property. Find this in Xcode and add to the Expo Config to correct. iOS builds may fail until this is corrected.`);
 +        console.warn(`{yellow [bacons/apple-targets]} Expo config is missing required {cyan ios.appleTeamId} property. Find this in Xcode and add to the Expo Config to correct. iOS builds may fail until this is corrected.`);
      }
-     const targets = (0, glob_1.sync)(`${root}/${match}/expo-target.config.@(json|js)`, {
+     const targets = (0, glob_1.globSync)(`${root}/${match}/expo-target.config.@(json|js)`, {
          // const targets = globSync(`./targets/action/expo-target.config.@(json|js)`, {
 diff --git a/build/withWidget.js b/build/withWidget.js
-index 23608e1897c6088c7142d178b0d214a2b5d0ec9e..13a402c8ce7b73210e11abf150061fc4ab79a746 100644
+index 7f7759060863b60c60f68d3abfcc92d03352d0e2..bc15a7ae1a9e5c888395f146a9d54cc8da92f872 100644
 --- a/build/withWidget.js
 +++ b/build/withWidget.js
 @@ -8,7 +8,6 @@ const plist_1 = __importDefault(require("@expo/plist"));
@@ -31,7 +31,7 @@ index 23608e1897c6088c7142d178b0d214a2b5d0ec9e..13a402c8ce7b73210e11abf150061fc4
  const withIosColorset_1 = require("./colorset/withIosColorset");
  const withImageAsset_1 = require("./icon/withImageAsset");
  const withIosIcon_1 = require("./icon/withIosIcon");
-@@ -52,7 +51,7 @@ function kebabToCamelCase(str) {
+@@ -53,7 +52,7 @@ function kebabToCamelCase(str) {
  }
  const withWidget = (config, props) => {
      var _a, _b, _c, _d, _e, _f, _g, _h, _j;
@@ -40,7 +40,7 @@ index 23608e1897c6088c7142d178b0d214a2b5d0ec9e..13a402c8ce7b73210e11abf150061fc4
      // TODO: Magically based on the top-level folders in the `ios-widgets/` folder
      if (props.icon && !/https?:\/\//.test(props.icon)) {
          props.icon = path_1.default.join(props.directory, props.icon);
-@@ -94,13 +93,13 @@ const withWidget = (config, props) => {
+@@ -95,13 +94,13 @@ const withWidget = (config, props) => {
                      // Then set the target app groups to match the main app.
                      entitlements[APP_GROUP_KEY] = mainAppGroups;
                      prebuildLogQueue.add(() => {
