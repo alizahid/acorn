@@ -78,7 +78,11 @@ const schema = z.object({
   type: z.enum(FeedType).catch('home'),
 })
 
-export function HomeDrawer() {
+type Props = {
+  onClose?: () => void
+}
+
+export function HomeDrawer({ onClose }: Props) {
   const router = useRouter()
   const params = schema.parse(useGlobalSearchParams())
 
@@ -344,6 +348,8 @@ export function HomeDrawer() {
                 }}
                 label={t(`type.${item.data}`)}
                 onPress={() => {
+                  onClose?.()
+
                   router.navigate({
                     params: {
                       type: item.data,
@@ -373,6 +379,8 @@ export function HomeDrawer() {
                   />
                 }
                 onPress={() => {
+                  onClose?.()
+
                   router.navigate({
                     params: {
                       name: item.data,
@@ -392,6 +400,8 @@ export function HomeDrawer() {
               label={item.data.name}
               left={<Image source={item.data.image} style={styles.image} />}
               onPress={() => {
+                onClose?.()
+
                 if (item.type === 'community') {
                   router.navigate({
                     params: {

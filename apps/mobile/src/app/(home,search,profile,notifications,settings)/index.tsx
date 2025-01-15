@@ -37,8 +37,14 @@ export default function Screen() {
     padding: iPad ? theme.space[4] : undefined,
   })
 
+  const type = params.feed
+    ? 'community'
+    : params.type === 'home'
+      ? 'feed'
+      : 'community'
+
   const { sorting, update: updateSorting } = useSorting(
-    'feed',
+    type,
     params.feed ?? params.type,
   )
 
@@ -62,7 +68,7 @@ export default function Screen() {
             updateSorting(next)
           }}
           sort={sorting.sort}
-          type={params.feed ? 'feed' : 'community'}
+          type={type}
         />
       ),
     })
@@ -80,7 +86,13 @@ export default function Screen() {
       }}
       open={open}
       overlayStyle={styles.overlay}
-      renderDrawerContent={() => <HomeDrawer />}
+      renderDrawerContent={() => (
+        <HomeDrawer
+          onClose={() => {
+            setOpen(false)
+          }}
+        />
+      )}
     >
       <PostList
         community={params.type === 'home' ? undefined : params.type}
