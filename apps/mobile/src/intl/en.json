@@ -144,6 +144,10 @@
       }
     },
     "users": {
+      "about": {
+        "follow": "Follow",
+        "unfollow": "Unfollow"
+      },
       "profile": {
         "age": "Age",
         "comment": "Comment",
@@ -427,6 +431,7 @@
     "users": {
       "user": {
         "tabs": {
+          "about": "About",
           "comments": "Comments",
           "posts": "Posts"
         }

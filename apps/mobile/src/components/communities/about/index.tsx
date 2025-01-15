@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
+import { Markdown } from '~/components/common/markdown'
 import { TimeAgo } from '~/components/common/time'
 import { useImagePlaceholder } from '~/hooks/image'
 import { type ListProps } from '~/hooks/list'
@@ -72,7 +73,7 @@ export function CommunityAbout({ listProps, name }: Props) {
         </View>
       ) : null}
 
-      <View direction="row" gap="4" mt="4" mx="4">
+      <View align="center" direction="row" gap="4" mt="4" mx="4">
         {community.image ? (
           <Image source={community.image} style={styles.image} />
         ) : null}
@@ -112,9 +113,14 @@ export function CommunityAbout({ listProps, name }: Props) {
       </View>
 
       {community.description ? (
-        <Text mx="4" size="2">
+        <Markdown
+          recyclingKey={community.id}
+          size="2"
+          style={styles.description}
+          variant="post"
+        >
           {community.description}
-        </Text>
+        </Markdown>
       ) : null}
 
       <View direction="row" gap="4" mx="4">
@@ -155,9 +161,11 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   content: {
     gap: theme.space[4],
-    marginTop: -theme.space[4],
     paddingLeft: 0,
     paddingRight: 0,
+  },
+  description: {
+    marginHorizontal: theme.space[4],
   },
   image: {
     backgroundColor: theme.colors.gray.a3,

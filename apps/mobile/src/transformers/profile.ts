@@ -7,9 +7,12 @@ import { type Profile } from '~/types/user'
 
 export function transformProfile({ data }: ProfileSchema): Profile {
   return {
+    banner: decode(data.subreddit.banner_img) || undefined,
     createdAt: fromUnixTime(data.created_utc),
+    description: decode(data.subreddit.public_description) || undefined,
     id: removePrefix(data.id),
-    image: decode(data.icon_img) || undefined,
+    image:
+      decode(data.subreddit.icon_img) || decode(data.icon_img) || undefined,
     karma: {
       comment: data.comment_karma,
       post: data.link_karma,

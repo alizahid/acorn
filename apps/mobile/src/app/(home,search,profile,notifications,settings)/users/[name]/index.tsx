@@ -10,11 +10,9 @@ import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
-import { HeaderButton } from '~/components/navigation/header-button'
 import { PostList } from '~/components/posts/list'
+import { UserAbout } from '~/components/users/about'
 import { useList } from '~/hooks/list'
-import { useFollow } from '~/hooks/mutations/users/follow'
-import { useProfile } from '~/hooks/queries/user/profile'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { UserTab } from '~/types/user'
@@ -43,9 +41,6 @@ export default function Screen() {
 
   const t = useTranslations('screen.users.user')
 
-  const { profile, refetch } = useProfile(params.name)
-  const { follow, isPending } = useFollow()
-
   const { theme } = useStyles()
 
   const listProps = useList({
@@ -71,7 +66,6 @@ export default function Screen() {
               interval={intervalUserPosts}
               label="subreddit"
               listProps={listProps}
-              onRefresh={refetch}
               sort={sortUserPosts}
               user={params.name}
               userType="submitted"
@@ -79,37 +73,21 @@ export default function Screen() {
           )
         }
 
-        return (
-          <CommentList
-            interval={intervalUserComments}
-            listProps={listProps}
-            onRefresh={refetch}
-            sort={sortUserComments}
-            user={params.name}
-          />
-        )
+        if (route.key === 'comments') {
+          return (
+            <CommentList
+              interval={intervalUserComments}
+              listProps={listProps}
+              sort={sortUserComments}
+              user={params.name}
+            />
+          )
+        }
+
+        return <UserAbout listProps={listProps} name={params.name} />
       }}
       renderTabBar={({ position }) => (
-        <Header
-          back
-          right={
-            profile ? (
-              <HeaderButton
-                color={profile.subscribed ? 'red' : 'accent'}
-                icon={profile.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
-                loading={isPending}
-                onPress={() => {
-                  follow({
-                    action: profile.subscribed ? 'unfollow' : 'follow',
-                    id: profile.subreddit,
-                    name: profile.name,
-                  })
-                }}
-              />
-            ) : undefined
-          }
-          title={params.name}
-        >
+        <Header back title={params.name}>
           <View gap="4" pb="4" px="3">
             <SegmentedControl
               items={routes.map(({ key }) => t(`tabs.${key}`))}
