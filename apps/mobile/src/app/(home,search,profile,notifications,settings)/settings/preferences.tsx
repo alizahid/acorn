@@ -215,12 +215,17 @@ export default function Screen() {
           null,
           t('feedback.title'),
           {
-            icon: 'Browser',
+            icon: 'Vibrate',
             key: 'feedbackHaptics',
             label: 'feedback.feedbackHaptics',
           },
           {
-            icon: 'TextAa',
+            icon: 'MegaphoneSimple',
+            key: 'hapticsLoud',
+            label: 'feedback.hapticsLoud',
+          },
+          {
+            icon: 'SpeakerSimpleHigh',
             key: 'feedbackSounds',
             label: 'feedback.feedbackSounds',
           },

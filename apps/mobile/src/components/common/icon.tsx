@@ -41,6 +41,7 @@ import HouseBold from 'react-native-phosphor/src/bold/House'
 import ImageBold from 'react-native-phosphor/src/bold/Image'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
+import MegaphoneSimpleBold from 'react-native-phosphor/src/bold/MegaphoneSimple'
 import MouseScrollBold from 'react-native-phosphor/src/bold/MouseScroll'
 import NoteBlankBold from 'react-native-phosphor/src/bold/NoteBlank'
 import PackageBold from 'react-native-phosphor/src/bold/Package'
@@ -74,6 +75,7 @@ import UserCircleMinusBold from 'react-native-phosphor/src/bold/UserCircleMinus'
 import UserCirclePlusBold from 'react-native-phosphor/src/bold/UserCirclePlus'
 import UsersFourBold from 'react-native-phosphor/src/bold/UsersFour'
 import UserSwitchBold from 'react-native-phosphor/src/bold/UserSwitch'
+import VibrateBold from 'react-native-phosphor/src/bold/Vibrate'
 import WarningBold from 'react-native-phosphor/src/bold/Warning'
 import XBold from 'react-native-phosphor/src/bold/X'
 import XCircleBold from 'react-native-phosphor/src/bold/XCircle'
@@ -118,6 +120,7 @@ import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import ImageDuotone from 'react-native-phosphor/src/duotone/Image'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
+import MegaphoneSimpleDuotone from 'react-native-phosphor/src/duotone/MegaphoneSimple'
 import MouseScrollDuotone from 'react-native-phosphor/src/duotone/MouseScroll'
 import NoteBlankDuotone from 'react-native-phosphor/src/duotone/NoteBlank'
 import PackageDuotone from 'react-native-phosphor/src/duotone/Package'
@@ -151,6 +154,7 @@ import UserCircleMinusDuotone from 'react-native-phosphor/src/duotone/UserCircle
 import UserCirclePlusDuotone from 'react-native-phosphor/src/duotone/UserCirclePlus'
 import UsersFourDuotone from 'react-native-phosphor/src/duotone/UsersFour'
 import UserSwitchDuotone from 'react-native-phosphor/src/duotone/UserSwitch'
+import VibrateDuotone from 'react-native-phosphor/src/duotone/Vibrate'
 import WarningDuotone from 'react-native-phosphor/src/duotone/Warning'
 import XDuotone from 'react-native-phosphor/src/duotone/X'
 import XCircleDuotone from 'react-native-phosphor/src/duotone/XCircle'
@@ -195,6 +199,7 @@ import HouseFill from 'react-native-phosphor/src/fill/House'
 import ImageFill from 'react-native-phosphor/src/fill/Image'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
+import MegaphoneSimpleFill from 'react-native-phosphor/src/fill/MegaphoneSimple'
 import MouseScrollFill from 'react-native-phosphor/src/fill/MouseScroll'
 import NoteBlankFill from 'react-native-phosphor/src/fill/NoteBlank'
 import PackageFill from 'react-native-phosphor/src/fill/Package'
@@ -228,6 +233,7 @@ import UserCircleMinusFill from 'react-native-phosphor/src/fill/UserCircleMinus'
 import UserCirclePlusFill from 'react-native-phosphor/src/fill/UserCirclePlus'
 import UsersFourFill from 'react-native-phosphor/src/fill/UsersFour'
 import UserSwitchFill from 'react-native-phosphor/src/fill/UserSwitch'
+import VibrateFill from 'react-native-phosphor/src/fill/Vibrate'
 import WarningFill from 'react-native-phosphor/src/fill/Warning'
 import XFill from 'react-native-phosphor/src/fill/X'
 import XCircleFill from 'react-native-phosphor/src/fill/XCircle'
@@ -272,6 +278,7 @@ import HouseRegular from 'react-native-phosphor/src/regular/House'
 import ImageRegular from 'react-native-phosphor/src/regular/Image'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
+import MegaphoneSimpleRegular from 'react-native-phosphor/src/regular/MegaphoneSimple'
 import MouseScrollRegular from 'react-native-phosphor/src/regular/MouseScroll'
 import NoteBlankRegular from 'react-native-phosphor/src/regular/NoteBlank'
 import PackageRegular from 'react-native-phosphor/src/regular/Package'
@@ -305,6 +312,7 @@ import UserCircleMinusRegular from 'react-native-phosphor/src/regular/UserCircle
 import UserCirclePlusRegular from 'react-native-phosphor/src/regular/UserCirclePlus'
 import UsersFourRegular from 'react-native-phosphor/src/regular/UsersFour'
 import UserSwitchRegular from 'react-native-phosphor/src/regular/UserSwitch'
+import VibrateRegular from 'react-native-phosphor/src/regular/Vibrate'
 import WarningRegular from 'react-native-phosphor/src/regular/Warning'
 import XRegular from 'react-native-phosphor/src/regular/X'
 import XCircleRegular from 'react-native-phosphor/src/regular/XCircle'
@@ -580,6 +588,12 @@ const icons = {
     fill: MedalFill,
     regular: MedalRegular,
   },
+  MegaphoneSimple: {
+    bold: MegaphoneSimpleBold,
+    duotone: MegaphoneSimpleDuotone,
+    fill: MegaphoneSimpleFill,
+    regular: MegaphoneSimpleRegular,
+  },
   MouseScroll: {
     bold: MouseScrollBold,
     duotone: MouseScrollDuotone,
@@ -777,6 +791,12 @@ const icons = {
     duotone: UsersFourDuotone,
     fill: UsersFourFill,
     regular: UsersFourRegular,
+  },
+  Vibrate: {
+    bold: VibrateBold,
+    duotone: VibrateDuotone,
+    fill: VibrateFill,
+    regular: VibrateRegular,
   },
   Warning: {
     bold: WarningBold,

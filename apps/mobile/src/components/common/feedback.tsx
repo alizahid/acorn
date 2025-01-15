@@ -14,7 +14,7 @@ import { type Feedback, feedback } from '~/lib/feedback'
 import { usePreferences } from '~/stores/preferences'
 
 export function Feedback() {
-  const { feedbackHaptics, feedbackSounds } = usePreferences()
+  const { feedbackHaptics, feedbackSounds, hapticsLoud } = usePreferences()
 
   useEffect(() => {
     SoundPlayer.setMixAudio(true)
@@ -27,8 +27,12 @@ export function Feedback() {
       if (feedbackHaptics) {
         void Haptics.impactAsync(
           type === 'soft'
-            ? Haptics.ImpactFeedbackStyle.Soft
-            : Haptics.ImpactFeedbackStyle.Light,
+            ? hapticsLoud
+              ? Haptics.ImpactFeedbackStyle.Rigid
+              : Haptics.ImpactFeedbackStyle.Soft
+            : hapticsLoud
+              ? Haptics.ImpactFeedbackStyle.Heavy
+              : Haptics.ImpactFeedbackStyle.Light,
         )
       }
     }
@@ -38,7 +42,7 @@ export function Feedback() {
     return () => {
       feedback.off('*', handler)
     }
-  }, [feedbackHaptics, feedbackSounds])
+  }, [feedbackHaptics, feedbackSounds, hapticsLoud])
 
   return null
 }

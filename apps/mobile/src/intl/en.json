@@ -321,6 +321,7 @@
         "feedback": {
           "feedbackHaptics": "Haptics",
           "feedbackSounds": "Sounds",
+          "hapticsLoud": "Loud haptics",
           "title": "Feedback"
         },
         "history": {
