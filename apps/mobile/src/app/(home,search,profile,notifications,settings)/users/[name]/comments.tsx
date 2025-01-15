@@ -5,10 +5,12 @@ import {
 } from 'expo-router'
 import { useState } from 'react'
 import { useStyles } from 'react-native-unistyles'
+import { useDebounce } from 'use-debounce'
 import { z } from 'zod'
 
 import { CommentList } from '~/components/comments/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { UserSearchBar } from '~/components/users/search'
 import { useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -33,6 +35,9 @@ export default function Screen() {
 
   const [sort, setSort] = useState(sortUserComments)
   const [interval, setInterval] = useState(intervalUserComments)
+  const [query, setQuery] = useState('')
+
+  const [debounced] = useDebounce(query, 500)
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -55,8 +60,10 @@ export default function Screen() {
 
   return (
     <CommentList
+      header={<UserSearchBar onChange={setQuery} value={query} />}
       interval={interval}
       listProps={listProps}
+      query={debounced}
       sort={sort}
       user={params.name}
     />

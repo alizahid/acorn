@@ -3,7 +3,9 @@ import {
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
+import fuzzysort from 'fuzzysort'
 import { create, type Draft } from 'mutative'
+import { useMemo } from 'react'
 
 import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
@@ -35,11 +37,12 @@ export type CommentsQueryData = InfiniteData<Page, Param>
 
 export type CommentsProps = {
   interval?: TopInterval
+  query?: string
   sort: CommentSort
   user: string
 }
 
-export function useComments({ interval, sort, user }: CommentsProps) {
+export function useComments({ interval, query, sort, user }: CommentsProps) {
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
@@ -102,8 +105,22 @@ export function useComments({ interval, sort, user }: CommentsProps) {
     },
   )
 
+  const comments = useMemo(() => {
+    const items = data?.pages.flatMap((page) => page.comments) ?? []
+
+    if (query?.length) {
+      const results = fuzzysort.go(query, items, {
+        key: 'data.body',
+      })
+
+      return results.map((result) => result.obj)
+    }
+
+    return items
+  }, [data?.pages, query])
+
   return {
-    comments: data?.pages.flatMap((page) => page.comments) ?? [],
+    comments,
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,

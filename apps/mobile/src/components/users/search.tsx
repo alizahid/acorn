@@ -1,65 +1,66 @@
-import { Image } from 'expo-image'
-import { useRouter } from 'expo-router'
-import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
-import { removePrefix } from '~/lib/reddit'
-import { type SearchUser } from '~/types/user'
-
-import { Icon } from '../common/icon'
-import { Pressable } from '../common/pressable'
-import { Text } from '../common/text'
+import { Icon } from '~/components/common/icon'
+import { TextBox } from '~/components/common/text-box'
+import { HeaderButton } from '~/components/navigation/header-button'
 
 type Props = {
-  style?: StyleProp<ViewStyle>
-  user: SearchUser
+  onChange: (value: string) => void
+  value: string
 }
 
-export function SearchUserCard({ style, user }: Props) {
-  const router = useRouter()
+export function UserSearchBar({ onChange, value }: Props) {
+  const t = useTranslations('component.users.search')
 
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <Pressable
-      align="center"
-      direction="row"
-      gap="4"
-      onPress={() => {
-        router.navigate({
-          params: {
-            name: removePrefix(user.name),
-          },
-          pathname: '/users/[name]',
-        })
-      }}
-      px="4"
-      style={style}
-    >
-      <Image recyclingKey={user.id} source={user.image} style={styles.image} />
-
-      <Text my="4" style={styles.name} weight="medium">
-        {user.name}
-      </Text>
-
-      <Icon
-        color={theme.colors.gray.a9}
-        name="CaretRight"
-        size={theme.space[4]}
-      />
-    </Pressable>
+    <TextBox
+      left={
+        <Icon
+          color={theme.colors.gray.a9}
+          name="MagnifyingGlass"
+          style={styles.icon}
+        />
+      }
+      onChangeText={onChange}
+      placeholder={t('placeholder')}
+      returnKeyType="search"
+      right={
+        value.length > 0 ? (
+          <HeaderButton
+            color="gray"
+            icon="XCircle"
+            onPress={() => {
+              onChange('')
+            }}
+            style={styles.clear}
+            weight="fill"
+          />
+        ) : null
+      }
+      style={styles.main}
+      styleContent={styles.content}
+      value={value}
+    />
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  image: {
-    backgroundColor: theme.colors.gray.a3,
-    borderCurve: 'continuous',
-    borderRadius: theme.space[7],
+  clear: {
     height: theme.space[7],
     width: theme.space[7],
   },
-  name: {
-    flex: 1,
+  content: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
+  },
+  icon: {
+    marginLeft: theme.space[3],
+  },
+  main: {
+    flexGrow: 1,
+    height: theme.space[8],
   },
 }))

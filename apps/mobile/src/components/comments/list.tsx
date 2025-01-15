@@ -1,5 +1,6 @@
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
+import { type ReactElement } from 'react'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -12,14 +13,17 @@ import { View } from '../common/view'
 import { CommentCard } from './card'
 
 type Props = CommentsProps & {
+  header?: ReactElement
   listProps?: ListProps
   onRefresh?: () => void
 }
 
 export function CommentList({
+  header,
   interval,
   listProps,
   onRefresh,
+  query,
   sort,
   user,
 }: Props) {
@@ -34,6 +38,7 @@ export function CommentList({
     refetch,
   } = useComments({
     interval,
+    query,
     sort,
     user,
   })
@@ -46,6 +51,7 @@ export function CommentList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
+      ListHeaderComponent={header}
       data={comments}
       estimatedItemSize={72}
       getItemType={(item) => item.type}

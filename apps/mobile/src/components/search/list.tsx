@@ -21,7 +21,7 @@ import { type SearchSort, type TopInterval } from '~/types/sort'
 import { type SearchUser } from '~/types/user'
 
 import { View } from '../common/view'
-import { SearchUserCard } from '../users/search'
+import { SearchUserCard } from '../users/card'
 import { SearchHistory } from './history'
 
 type Item = Community | SearchUser | Post

@@ -5,10 +5,12 @@ import {
 } from 'expo-router'
 import { useState } from 'react'
 import { useStyles } from 'react-native-unistyles'
+import { useDebounce } from 'use-debounce'
 import { z } from 'zod'
 
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { UserSearchBar } from '~/components/users/search'
 import { useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -37,6 +39,9 @@ export default function Screen() {
 
   const [sort, setSort] = useState(sortUserPosts)
   const [interval, setInterval] = useState(intervalUserPosts)
+  const [query, setQuery] = useState('')
+
+  const [debounced] = useDebounce(query, 500)
 
   useFocusEffect(() => {
     navigation.setOptions({
@@ -59,9 +64,11 @@ export default function Screen() {
 
   return (
     <PostList
+      header={<UserSearchBar onChange={setQuery} value={query} />}
       interval={interval}
       label="subreddit"
       listProps={listProps}
+      query={debounced}
       sort={sort}
       user={params.name}
       userType={params.type}

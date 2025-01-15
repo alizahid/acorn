@@ -3,6 +3,7 @@ import {
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
+import fuzzysort from 'fuzzysort'
 import { uniqBy } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
@@ -49,6 +50,7 @@ export type PostsProps = {
   community?: string
   feed?: string
   interval?: TopInterval
+  query?: string
   sort: PostSort
   user?: string
   userType?: UserFeedType
@@ -58,6 +60,7 @@ export function usePosts({
   community,
   feed,
   interval,
+  query,
   sort,
   user,
   userType,
@@ -134,10 +137,19 @@ export function usePosts({
     ],
   })
 
-  const posts = useMemo(
-    () => uniqBy(data?.pages.flatMap((page) => page.posts) ?? [], 'id'),
-    [data?.pages],
-  )
+  const posts = useMemo(() => {
+    const items = uniqBy(data?.pages.flatMap((page) => page.posts) ?? [], 'id')
+
+    if (query?.length) {
+      const results = fuzzysort.go(query, items, {
+        key: 'title',
+      })
+
+      return results.map((result) => result.obj)
+    }
+
+    return items
+  }, [data?.pages, query])
 
   return {
     fetchNextPage,
