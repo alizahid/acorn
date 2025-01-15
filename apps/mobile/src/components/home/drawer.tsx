@@ -332,7 +332,6 @@ export function HomeDrawer({ onClose }: Props) {
                     }}
                   />
                 }
-                style={styles.header}
                 title={item.title}
               />
             )
@@ -487,9 +486,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     height: theme.typography[2].lineHeight,
     width: theme.typography[2].lineHeight,
   },
-  header: {
-    backgroundColor: theme.colors.gray[2],
-  },
   image: {
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
@@ -499,7 +495,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: () => {
     const base: UnistylesValues = {
-      backgroundColor: theme.colors.gray[1],
+      backgroundColor: theme.colors.accent[1],
       flex: 1,
       paddingTop: theme.space[8] + runtime.insets.top + runtime.hairlineWidth,
     }

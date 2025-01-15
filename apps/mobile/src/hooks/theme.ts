@@ -13,7 +13,7 @@ export function useTheme() {
 
   return {
     colors: {
-      background: theme.colors.gray[1],
+      background: theme.colors.accent[1],
       border: theme.colors.gray[6],
       card: theme.colors.gray[2],
       notification: theme.colors.accent.a9,

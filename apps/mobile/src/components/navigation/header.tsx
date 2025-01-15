@@ -92,7 +92,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     left: 0,
   },
   main: (blur: boolean) => ({
-    backgroundColor: theme.colors.gray[blur ? 'a1' : '1'],
+    backgroundColor: theme.colors.accent[blur ? 'a1' : '1'],
     borderBottomColor: theme.colors.gray.a6,
     borderBottomWidth: runtime.hairlineWidth,
     left: 0,
