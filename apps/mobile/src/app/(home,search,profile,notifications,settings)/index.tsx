@@ -3,9 +3,17 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { useStyles } from 'react-native-unistyles'
+import { useState } from 'react'
+import { type ViewStyle } from 'react-native'
+import { Drawer } from 'react-native-drawer-layout'
+import {
+  createStyleSheet,
+  type UnistylesValues,
+  useStyles,
+} from 'react-native-unistyles'
 import { z } from 'zod'
 
+import { HomeDrawer } from '~/components/home/drawer'
 import { FeedTypeMenu } from '~/components/home/type-menu'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
@@ -23,7 +31,7 @@ export default function Screen() {
   const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
 
-  const { theme } = useStyles()
+  const { styles, theme } = useStyles(stylesheet)
 
   const listProps = useList({
     padding: iPad ? theme.space[4] : undefined,
@@ -34,6 +42,8 @@ export default function Screen() {
     params.feed ?? params.type,
   )
 
+  const [open, setOpen] = useState(false)
+
   useFocusEffect(() => {
     navigation.setOptions({
       headerLeft: () => (
@@ -41,9 +51,7 @@ export default function Screen() {
           data={params}
           disabled={iPad}
           onPress={() => {
-            // @ts-expect-error -- go away
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- go away
-            navigation.toggleDrawer()
+            setOpen((previous) => !previous)
           }}
         />
       ),
@@ -61,13 +69,48 @@ export default function Screen() {
   })
 
   return (
-    <PostList
-      community={params.type === 'home' ? undefined : params.type}
-      feed={params.feed}
-      interval={sorting.interval}
-      label="subreddit"
-      listProps={listProps}
-      sort={sorting.sort}
-    />
+    <Drawer
+      drawerStyle={styles.drawer() as ViewStyle}
+      drawerType={iPad ? 'permanent' : 'front'}
+      onClose={() => {
+        setOpen(false)
+      }}
+      onOpen={() => {
+        setOpen(true)
+      }}
+      open={open}
+      overlayStyle={styles.overlay}
+      renderDrawerContent={() => <HomeDrawer />}
+    >
+      <PostList
+        community={params.type === 'home' ? undefined : params.type}
+        feed={params.feed}
+        interval={sorting.interval}
+        label="subreddit"
+        listProps={listProps}
+        sort={sorting.sort}
+      />
+    </Drawer>
   )
 }
+
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  drawer: () => {
+    const base: UnistylesValues = {
+      backgroundColor: theme.colors.gray[1],
+    }
+
+    if (iPad) {
+      return {
+        ...base,
+        maxWidth: 300,
+        width: runtime.screen.width * 0.4,
+      }
+    }
+
+    return base
+  },
+  overlay: {
+    backgroundColor: theme.colors.gray.a6,
+  },
+}))

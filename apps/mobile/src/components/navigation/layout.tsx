@@ -1,10 +1,11 @@
 import { focusManager } from '@tanstack/react-query'
-import { Stack, useRouter } from 'expo-router'
+import { Tabs, useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { AppState } from 'react-native'
 
-import { type SignInParams } from '~/app/sign-in'
-import { iPad } from '~/lib/common'
+import { Icon } from '~/components/common/icon'
+import { TabBar } from '~/components/navigation/tab-bar'
+import { useUnread } from '~/hooks/queries/user/unread'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 
@@ -12,6 +13,7 @@ export function RootLayout() {
   const router = useRouter()
 
   const { accountId } = useAuth()
+  const { unread } = useUnread()
 
   useEffect(() => {
     if (accountId) {
@@ -38,21 +40,69 @@ export function RootLayout() {
   }, [])
 
   return (
-    <Stack
+    <Tabs
       screenOptions={{
-        fullScreenGestureEnabled: true,
+        animation: 'fade',
         headerShown: false,
+        lazy: true,
       }}
+      tabBar={(props) => <TabBar {...props} />}
     >
-      <Stack.Screen
-        name="sign-in"
-        options={(props) => ({
-          gestureEnabled:
-            (props.route.params as SignInParams).mode === 'dismissible',
-          headerShown: false,
-          presentation: iPad ? 'formSheet' : 'modal',
-        })}
+      <Tabs.Screen
+        name="(home)"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon color={color} name="House" size={size} weight="duotone" />
+          ),
+        }}
       />
-    </Stack>
+
+      <Tabs.Screen
+        name="(search)"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon
+              color={color}
+              name="MagnifyingGlass"
+              size={size}
+              weight="duotone"
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="(profile)"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon
+              color={color}
+              name="UserCircle"
+              size={size}
+              weight="duotone"
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="(notifications)"
+        options={{
+          tabBarBadge: unread,
+          tabBarIcon: ({ color, size }) => (
+            <Icon color={color} name="Bell" size={size} weight="duotone" />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="(settings)"
+        options={{
+          tabBarIcon: ({ color, size }) => (
+            <Icon color={color} name="GearSix" size={size} weight="duotone" />
+          ),
+        }}
+      />
+    </Tabs>
   )
 }

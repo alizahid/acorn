@@ -7,6 +7,7 @@ import { UserSwitcher } from '~/components/users/switcher'
 import { iPad } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 
+import { type SignInParams } from './sign-in'
 import { type UserPostsParams } from './users/[name]/[type]'
 
 // eslint-disable-next-line camelcase -- go away
@@ -212,6 +213,16 @@ function StackLayout({ children }: PropsWithChildren) {
         options={{
           title: t('settings.defaults.searchTabs.title'),
         }}
+      />
+
+      <Stack.Screen
+        name="sign-in"
+        options={(props) => ({
+          gestureEnabled:
+            (props.route.params as SignInParams).mode === 'dismissible',
+          headerShown: false,
+          presentation: iPad ? 'formSheet' : 'modal',
+        })}
       />
     </Stack>
   )

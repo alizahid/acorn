@@ -93,9 +93,7 @@ export function HomeDrawer() {
   const { communities, isLoading: loadingCommunities, users } = useCommunities()
 
   const listProps = useList({
-    bottom: true,
     header: false,
-    tabBar: false,
   })
 
   const [query, setQuery] = useState('')
@@ -493,7 +491,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     const base: UnistylesValues = {
       backgroundColor: theme.colors.gray[1],
       flex: 1,
-      paddingTop: runtime.insets.top + runtime.hairlineWidth,
+      paddingTop: theme.space[8] + runtime.insets.top + runtime.hairlineWidth,
     }
 
     if (iPad) {
@@ -510,8 +508,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     marginRight: -theme.space[3],
   },
   search: {
-    borderBottomColor: theme.colors.gray.a6,
-    borderBottomWidth: runtime.hairlineWidth,
     height: theme.space[8],
   },
   searchContent: {
