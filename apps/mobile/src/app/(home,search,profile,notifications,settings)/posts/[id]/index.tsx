@@ -281,6 +281,33 @@ export default function Screen() {
           <HeaderButton
             hitSlop={theme.space[4]}
             icon="ArrowDown"
+            onLongPress={() => {
+              if (viewing.includes(0)) {
+                list.current?.scrollToIndex({
+                  animated: true,
+                  index: 2,
+                  viewOffset: styles.offset.margin,
+                })
+
+                return
+              }
+
+              const previous = viewing[0] ?? 0
+
+              const next = data.findLastIndex((item, index) => {
+                if (typeof item === 'string') {
+                  return false
+                }
+
+                return index < previous && item.data.depth === 0
+              })
+
+              list.current?.scrollToIndex({
+                animated: true,
+                index: next,
+                viewOffset: styles.offset.margin,
+              })
+            }}
             onPress={() => {
               if (viewing.includes(0)) {
                 list.current?.scrollToIndex({

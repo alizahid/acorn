@@ -13,6 +13,7 @@ type Props = {
   hitSlop?: number | Insets
   icon: IconName
   loading?: boolean
+  onLongPress?: () => void
   onPress?: () => void
   size?: number
   style?: StyleProp<ViewStyle>
@@ -25,6 +26,7 @@ export function HeaderButton({
   hitSlop,
   icon,
   loading,
+  onLongPress,
   onPress,
   size,
   style,
@@ -39,6 +41,7 @@ export function HeaderButton({
       height="8"
       hitSlop={hitSlop}
       justify="center"
+      onLongPress={onLongPress}
       onPress={onPress}
       style={style}
       width="8"
