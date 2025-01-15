@@ -74,7 +74,7 @@ export function CommentList({
                 router.navigate({
                   params: {
                     commentId: item.data.id,
-                    id: item.data.postId,
+                    id: item.data.post.id,
                   },
                   pathname: '/posts/[id]',
                 })

@@ -31,6 +31,10 @@ export function transformComment(
   return {
     data: {
       body: decode(data.data.body).trim(),
+      community: {
+        id: removePrefix(data.data.subreddit_id),
+        name: data.data.subreddit,
+      },
       createdAt: fromUnixTime(data.data.created_utc),
       depth: data.data.depth ?? 0,
       flair: transformFlair(data.data.author_flair_richtext),
@@ -42,7 +46,12 @@ export function transformComment(
       op: data.data.is_submitter,
       parentId: parentId === postId ? undefined : parentId,
       permalink: data.data.permalink,
-      postId,
+      post: {
+        author: data.data.link_author,
+        id: postId,
+        permalink: data.data.link_permalink,
+        title: data.data.link_title,
+      },
       saved: data.data.saved,
       sticky: Boolean(data.data.stickied),
       user: {

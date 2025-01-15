@@ -75,7 +75,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
               vote({
                 commentId: comment.id,
                 direction: comment.liked ? 0 : 1,
-                postId: comment.postId,
+                postId: comment.post.id,
               })
 
               onClose()
@@ -93,7 +93,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
               vote({
                 commentId: comment.id,
                 direction: comment.liked === false ? 0 : -1,
-                postId: comment.postId,
+                postId: comment.post.id,
               })
 
               onClose()
@@ -111,7 +111,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
               save({
                 action: comment.saved ? 'unsave' : 'save',
                 commentId: comment.id,
-                postId: comment.postId,
+                postId: comment.post.id,
               })
 
               onClose()
@@ -129,7 +129,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
               router.navigate({
                 params: {
                   commentId: comment.id,
-                  id: comment.postId,
+                  id: comment.post.id,
                   user: comment.user.name,
                 },
                 pathname: '/posts/[id]/reply',
@@ -239,7 +239,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
               hide({
                 action: 'hide',
                 id: comment.id,
-                postId: comment.postId,
+                postId: comment.post.id,
                 type: 'comment',
               })
 
@@ -291,7 +291,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
               onPress={() => {
                 report({
                   id: comment.id,
-                  postId: comment.postId,
+                  postId: comment.post.id,
                   reason: item,
                   type: 'comment',
                 })

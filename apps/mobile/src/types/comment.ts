@@ -13,6 +13,10 @@ export type Comment =
 
 export type CommentReply = {
   body: string
+  community: {
+    id: string
+    name: string
+  }
   createdAt: Date
   depth: number
   flair: Array<Flair>
@@ -24,7 +28,12 @@ export type CommentReply = {
   op: boolean
   parentId?: string
   permalink: string
-  postId: string
+  post: {
+    author?: string
+    id: string
+    permalink?: string
+    title?: string
+  }
   saved: boolean
   sticky: boolean
   user: {

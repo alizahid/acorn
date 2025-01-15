@@ -17,8 +17,10 @@ import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
 
 import { PostGestures } from '../common/gestures'
+import { Icon } from '../common/icon'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
+import { Text } from '../common/text'
 import { View } from '../common/view'
 import { CommentMenu } from './menu'
 import { CommentMeta } from './meta'
@@ -42,7 +44,7 @@ export function CommentCard({
 
   const { coloredComments, commentGestures, swipeGestures } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const menu = useRef<BottomSheetModal>(null)
 
@@ -62,7 +64,7 @@ export function CommentCard({
             vote({
               commentId: comment.id,
               direction: comment.liked ? 0 : 1,
-              postId: comment.postId,
+              postId: comment.post.id,
             })
           }
 
@@ -70,7 +72,7 @@ export function CommentCard({
             vote({
               commentId: comment.id,
               direction: comment.liked === false ? 0 : -1,
-              postId: comment.postId,
+              postId: comment.post.id,
             })
           }
 
@@ -78,7 +80,7 @@ export function CommentCard({
             save({
               action: comment.saved ? 'unsave' : 'save',
               commentId: comment.id,
-              postId: comment.postId,
+              postId: comment.post.id,
             })
           }
 
@@ -86,7 +88,7 @@ export function CommentCard({
             router.navigate({
               params: {
                 commentId: comment.id,
-                id: comment.postId,
+                id: comment.post.id,
                 user: comment.user.name,
               },
               pathname: '/posts/[id]/reply',
@@ -105,7 +107,7 @@ export function CommentCard({
             hide({
               action: 'hide',
               id: comment.id,
-              postId: comment.postId,
+              postId: comment.post.id,
               type: 'comment',
             })
           }
@@ -134,6 +136,40 @@ export function CommentCard({
             >
               {comment.body}
             </Markdown>
+          ) : null}
+
+          {comment.post.title ? (
+            <Pressable
+              align="center"
+              direction="row"
+              gap="2"
+              mb="3"
+              mx="3"
+              onPress={() => {
+                router.navigate({
+                  params: {
+                    id: comment.post.id,
+                  },
+                  pathname: '/posts/[id]',
+                })
+              }}
+              p="2"
+              style={styles.post}
+            >
+              <Icon
+                color={theme.colors.gray.a9}
+                name="NoteBlank"
+                weight="duotone"
+              />
+
+              <View flex={1} gap="1">
+                <Text size="2">{comment.post.title}</Text>
+
+                <Text color="accent" size="1" weight="medium">
+                  r/{comment.community.name}
+                </Text>
+              </View>
+            </Pressable>
           ) : null}
 
           <CommentMeta collapsed={collapsed} comment={comment} />
@@ -209,6 +245,11 @@ const stylesheet = createStyleSheet((theme) => ({
     }
 
     return base
+  },
+  post: {
+    backgroundColor: theme.colors.gray.a3,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[3],
   },
   saved: {
     backgroundColor: theme.colors.green[9],

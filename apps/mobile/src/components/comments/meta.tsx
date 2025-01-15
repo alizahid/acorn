@@ -87,7 +87,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
             vote({
               commentId: comment.id,
               direction: comment.liked ? 0 : 1,
-              postId: comment.postId,
+              postId: comment.post.id,
             })
           }}
           weight={comment.liked === true ? 'fill' : 'bold'}
@@ -111,7 +111,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
             vote({
               commentId: comment.id,
               direction: comment.liked === false ? 0 : -1,
-              postId: comment.postId,
+              postId: comment.post.id,
             })
           }}
           weight={comment.liked === false ? 'fill' : 'bold'}

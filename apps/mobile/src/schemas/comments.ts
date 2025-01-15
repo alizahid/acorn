@@ -13,12 +13,17 @@ export const CommentDataSchema = z.object({
   id: z.string(),
   is_submitter: z.boolean(),
   likes: z.boolean().nullable(),
+  link_author: z.string().optional(),
   link_id: z.string(),
+  link_permalink: z.string().optional(),
+  link_title: z.string().optional(),
   media_metadata: PostMediaMetadataSchema,
   parent_id: z.string(),
   permalink: z.string(),
   saved: z.boolean(),
   stickied: z.boolean(),
+  subreddit: z.string(),
+  subreddit_id: z.string(),
   ups: z.number(),
 })
 
