@@ -110,6 +110,11 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const body = Boolean(expanded) && Boolean(post.body)
   const compact = feedCompact && !expanded
   const seen = dimSeen && post.seen && !expanded
+  const media =
+    (post.type === 'crosspost' && Boolean(post.crossPost)) ||
+    (post.type === 'video' && Boolean(post.media.video)) ||
+    (post.type === 'image' && Boolean(post.media.images?.length)) ||
+    (post.type === 'link' && Boolean(post.url))
 
   function onPress() {
     router.navigate({
@@ -177,7 +182,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
             menu.current?.present()
           }}
           onPress={onPress}
-          p="3"
+          pb={media ? '3' : undefined}
+          pt="3"
+          px="3"
         >
           <Text highContrast={!seen} weight="bold">
             {post.title}

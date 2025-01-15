@@ -52,7 +52,7 @@ export function PostFooter({
       }}
       p="3"
     >
-      <View gap="3">
+      <View gap="2">
         <PostCommunity label={label} post={post} seen={seen} />
 
         <PostMeta post={post} seen={seen} />
