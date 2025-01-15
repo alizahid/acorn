@@ -40,7 +40,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
         <Icon
           color={theme.colors.red.a9}
           name="PushPin"
-          size={theme.space[4]}
+          size={theme.typography[1].lineHeight}
           style={styles.sticky}
           weight="fill"
         />

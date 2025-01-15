@@ -60,7 +60,7 @@ export function PostMeta({ post, seen }: Props) {
         <Icon
           color={theme.colors.red.a9}
           name="PushPin"
-          size={theme.typography[2].fontSize}
+          size={theme.typography[1].fontSize}
           weight="fill"
         />
       ) : null}
@@ -74,11 +74,11 @@ export function PostMeta({ post, seen }: Props) {
                 : theme.colors.gray[seen ? 'a11' : 'a12']
             }
             name={item.icon}
-            size={theme.typography[2].fontSize}
+            size={theme.typography[1].fontSize}
             weight={'weight' in item ? item.weight : undefined}
           />
 
-          <Text highContrast={!seen} size="2" tabular>
+          <Text highContrast={!seen} size="1" tabular>
             {item.label}
           </Text>
         </View>

@@ -36,7 +36,7 @@ export function FooterButton({
       <Icon
         color={fill ? theme.colors.white.a12 : color}
         name={icon}
-        size={compact ? theme.typography[2].fontSize : theme.space[5]}
+        size={compact ? theme.typography[1].fontSize : theme.space[5]}
         weight={weight}
       />
     </Pressable>
