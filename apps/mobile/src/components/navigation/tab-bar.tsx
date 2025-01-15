@@ -121,8 +121,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   tab: {
     alignItems: 'center',
     flexGrow: iPad ? undefined : 1,
-    paddingBottom: theme.space[4] + runtime.insets.bottom,
+    paddingBottom: theme.space[3] + runtime.insets.bottom,
     paddingHorizontal: iPad ? theme.space[6] : undefined,
-    paddingTop: theme.space[4],
+    paddingTop: theme.space[3],
   },
 }))

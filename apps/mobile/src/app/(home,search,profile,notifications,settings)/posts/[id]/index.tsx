@@ -322,9 +322,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     borderRadius: theme.space[8],
     bottom:
       runtime.insets.bottom +
-      theme.space[4] +
+      theme.space[3] +
       theme.space[5] +
-      theme.space[4] +
+      theme.space[3] +
       theme.space[4],
     overflow: 'hidden',
     position: 'absolute',
@@ -336,9 +336,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   content: {
     paddingBottom:
       runtime.insets.bottom +
-      theme.space[4] +
+      theme.space[3] +
       theme.space[5] +
-      theme.space[4] +
+      theme.space[3] +
       theme.space[6] +
       theme.space[8] +
       (iPad ? theme.space[4] : 0),

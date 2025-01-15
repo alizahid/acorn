@@ -48,7 +48,7 @@ export function useList<Type>({
   const offsets = {
     bottom:
       (tabBar
-        ? insets.bottom + theme.space[4] + theme.space[5] + theme.space[4]
+        ? insets.bottom + theme.space[3] + theme.space[5] + theme.space[3]
         : 0) + (typeof bottom === 'number' ? bottom : 0),
     top:
       (header ? insets.top + theme.space[8] : 0) +
