@@ -4,6 +4,7 @@ import { type ReactNode } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { tintDark, tintLight } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
@@ -39,9 +40,9 @@ export function Header({
 
   return (
     <Main
-      intensity={100}
+      intensity={75}
       style={[modal ? styles.modal : styles.main(blurNavigation), style]}
-      tint={theme.name}
+      tint={theme.name === 'dark' ? tintDark : tintLight}
     >
       <View align="center" height="8" justify="center">
         {(left ?? back) ? (

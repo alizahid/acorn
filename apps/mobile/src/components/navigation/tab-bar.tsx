@@ -6,7 +6,7 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { runOnJS } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { iPad } from '~/lib/common'
+import { iPad, tintDark, tintLight } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
@@ -36,9 +36,9 @@ export function TabBar({ descriptors, navigation, state }: Props) {
   return (
     <GestureDetector gesture={gesture}>
       <Main
-        intensity={100}
+        intensity={75}
         style={styles.main(blurNavigation)}
-        tint={theme.name}
+        tint={theme.name === 'dark' ? tintDark : tintLight}
       >
         {state.routes
           .filter((route) => route.name.startsWith('('))
