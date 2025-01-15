@@ -26,6 +26,7 @@ export type Post = {
   }
   nsfw: boolean
   permalink: string
+  ratio: number
   saved: boolean
   seen: boolean
   spoiler: boolean

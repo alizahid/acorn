@@ -31,6 +31,7 @@ export function transformPost(data: PostDataSchema, seen: Array<string>): Post {
     },
     nsfw: data.over_18,
     permalink: data.permalink,
+    ratio: data.upvote_ratio,
     saved: data.saved,
     seen: seen.includes(id),
     spoiler: data.spoiler,

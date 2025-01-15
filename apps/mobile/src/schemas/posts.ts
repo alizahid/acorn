@@ -39,6 +39,7 @@ const PostBaseSchema = z.object({
   thumbnail: z.string().nullish(),
   title: z.string(),
   ups: z.number(),
+  upvote_ratio: z.number(),
   url: z.string().nullish(),
 })
 

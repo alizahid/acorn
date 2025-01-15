@@ -34,6 +34,13 @@ export function PostMeta({ post, seen }: Props) {
       weight: post.liked !== null ? 'fill' : undefined,
     },
     {
+      icon: 'Smiley',
+      key: 'ratio',
+      label: f.number(post.ratio, {
+        style: 'percent',
+      }),
+    },
+    {
       icon: 'ChatCircle',
       key: 'comments',
       label: f.number(post.comments, {

@@ -56,6 +56,7 @@ import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import RowsBold from 'react-native-phosphor/src/bold/Rows'
 import ShareFatBold from 'react-native-phosphor/src/bold/Share'
 import SlidersHorizontalBold from 'react-native-phosphor/src/bold/SlidersHorizontal'
+import SmileyBold from 'react-native-phosphor/src/bold/Smiley'
 import SmileySadBold from 'react-native-phosphor/src/bold/SmileySad'
 import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
@@ -132,6 +133,7 @@ import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import RowsDuotone from 'react-native-phosphor/src/duotone/Rows'
 import ShareFatDuotone from 'react-native-phosphor/src/duotone/Share'
 import SlidersHorizontalDuotone from 'react-native-phosphor/src/duotone/SlidersHorizontal'
+import SmileyDuotone from 'react-native-phosphor/src/duotone/Smiley'
 import SmileySadDuotone from 'react-native-phosphor/src/duotone/SmileySad'
 import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
@@ -208,6 +210,7 @@ import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import RowsFill from 'react-native-phosphor/src/fill/Rows'
 import ShareFatFill from 'react-native-phosphor/src/fill/Share'
 import SlidersHorizontalFill from 'react-native-phosphor/src/fill/SlidersHorizontal'
+import SmileyFill from 'react-native-phosphor/src/fill/Smiley'
 import SmileySadFill from 'react-native-phosphor/src/fill/SmileySad'
 import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
@@ -284,6 +287,7 @@ import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import RowsRegular from 'react-native-phosphor/src/regular/Rows'
 import ShareFatRegular from 'react-native-phosphor/src/regular/Share'
 import SlidersHorizontalRegular from 'react-native-phosphor/src/regular/SlidersHorizontal'
+import SmileyRegular from 'react-native-phosphor/src/regular/Smiley'
 import SmileySadRegular from 'react-native-phosphor/src/regular/SmileySad'
 import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
@@ -665,6 +669,12 @@ const icons = {
     duotone: SlidersHorizontalDuotone,
     fill: SlidersHorizontalFill,
     regular: SlidersHorizontalRegular,
+  },
+  Smiley: {
+    bold: SmileyBold,
+    duotone: SmileyDuotone,
+    fill: SmileyFill,
+    regular: SmileyRegular,
   },
   SmileySad: {
     bold: SmileySadBold,
