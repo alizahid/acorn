@@ -1,5 +1,4 @@
 import { useRouter } from 'expo-router'
-import { Share } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
@@ -9,18 +8,26 @@ import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
 import { FooterButton } from './button'
+import { PostCommunity } from './community'
 import { PostMeta } from './meta'
 
 export type PostLabel = 'user' | 'subreddit'
 
 type Props = {
   expanded?: boolean
+  label?: PostLabel
   onLongPress?: () => void
   post: Post
   seen?: boolean
 }
 
-export function PostFooter({ expanded, onLongPress, post, seen }: Props) {
+export function PostFooter({
+  expanded,
+  label,
+  onLongPress,
+  post,
+  seen,
+}: Props) {
   const router = useRouter()
 
   const { theme } = useStyles()
@@ -45,7 +52,11 @@ export function PostFooter({ expanded, onLongPress, post, seen }: Props) {
       }}
       p="3"
     >
-      <PostMeta post={post} seen={seen} />
+      <View gap="3">
+        <PostCommunity label={label} post={post} seen={seen} />
+
+        <PostMeta post={post} seen={seen} />
+      </View>
 
       <View align="center" direction="row" gap="2">
         <FooterButton
@@ -77,20 +88,6 @@ export function PostFooter({ expanded, onLongPress, post, seen }: Props) {
             vote({
               direction: post.liked === false ? 0 : -1,
               postId: post.id,
-            })
-          }}
-          weight="bold"
-        />
-
-        <FooterButton
-          color={theme.colors.gray[seen ? 'a11' : 'a12']}
-          icon="Share"
-          onPress={() => {
-            const url = new URL(post.permalink, 'https://reddit.com')
-
-            void Share.share({
-              message: post.title,
-              url: url.toString(),
             })
           }}
           weight="bold"

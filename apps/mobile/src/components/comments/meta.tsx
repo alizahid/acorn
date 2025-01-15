@@ -1,14 +1,17 @@
-import { Share } from 'react-native'
+import { useRouter } from 'expo-router'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
+import { removePrefix } from '~/lib/reddit'
 import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
+import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { TimeAgo } from '../common/time'
 import { View } from '../common/view'
+import { FlairCard } from '../posts/flair'
 import { FooterButton } from '../posts/footer/button'
 
 type Props = {
@@ -17,6 +20,7 @@ type Props = {
 }
 
 export function CommentMeta({ collapsed, comment }: Props) {
+  const router = useRouter()
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -41,6 +45,34 @@ export function CommentMeta({ collapsed, comment }: Props) {
           weight="fill"
         />
       ) : null}
+
+      <Pressable
+        align="center"
+        direction="row"
+        gap="2"
+        hitSlop={theme.space[3]}
+        onPress={() => {
+          router.navigate({
+            params: {
+              name: removePrefix(comment.user.name),
+            },
+            pathname: '/users/[name]',
+          })
+        }}
+        self="start"
+      >
+        <Text
+          color={comment.op ? 'accent' : 'gray'}
+          highContrast={!comment.op}
+          lines={1}
+          size="1"
+          weight="medium"
+        >
+          {comment.user.name}
+        </Text>
+
+        {!collapsed ? <FlairCard flair={comment.flair} /> : null}
+      </Pressable>
 
       <Text highContrast={false} size="1">
         <TimeAgo>{comment.createdAt}</TimeAgo>
@@ -85,20 +117,6 @@ export function CommentMeta({ collapsed, comment }: Props) {
           weight={comment.liked === false ? 'fill' : 'bold'}
         />
       </View>
-
-      <FooterButton
-        color={theme.colors.gray.a12}
-        compact
-        icon="Share"
-        onPress={() => {
-          const url = new URL(comment.permalink, 'https://reddit.com')
-
-          void Share.share({
-            url: url.toString(),
-          })
-        }}
-        weight="bold"
-      />
     </View>
   )
 }

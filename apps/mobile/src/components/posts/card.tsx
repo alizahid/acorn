@@ -1,8 +1,7 @@
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useRouter } from 'expo-router'
 import { useCallback, useRef } from 'react'
-import { Share } from 'react-native'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { Share, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useHide } from '~/hooks/moderation/hide'
@@ -20,9 +19,7 @@ import { Text } from '../common/text'
 import { View } from '../common/view'
 import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
-import { FlairCard } from './flair'
 import { PostFooter, type PostLabel } from './footer'
-import { PostCommunity } from './footer/community'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
 import { PostMenu } from './menu'
@@ -39,8 +36,14 @@ type Props = {
 export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const router = useRouter()
 
-  const { dimSeen, feedCompact, mediaOnRight, postGestures, swipeGestures } =
-    usePreferences()
+  const {
+    dimSeen,
+    feedCompact,
+    mediaOnRight,
+    oldReddit,
+    postGestures,
+    swipeGestures,
+  } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -83,7 +86,10 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
       }
 
       if (action === 'share') {
-        const url = new URL(post.permalink, 'https://reddit.com')
+        const url = new URL(
+          post.permalink,
+          oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
+        )
 
         void Share.share({
           url: url.toString(),
@@ -98,7 +104,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         })
       }
     },
-    [hide, post.hidden, post.id, post.permalink, router, save, vote],
+    [hide, oldReddit, post.hidden, post.id, post.permalink, router, save, vote],
   )
 
   const body = Boolean(expanded) && Boolean(post.body)
@@ -173,13 +179,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           onPress={onPress}
           p="3"
         >
-          <PostCommunity label={label} post={post} seen={seen} />
-
           <Text highContrast={!seen} weight="bold">
             {post.title}
           </Text>
-
-          <FlairCard flair={post.flair} seen={seen} />
         </Pressable>
 
         {post.type === 'crosspost' && post.crossPost ? (
@@ -245,6 +247,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
         <PostFooter
           expanded={expanded}
+          label={label}
           onLongPress={() => {
             menu.current?.present()
           }}

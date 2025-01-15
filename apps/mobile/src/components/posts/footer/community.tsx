@@ -7,6 +7,8 @@ import { Text } from '~/components/common/text'
 import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
+import { FlairCard } from '../flair'
+
 export type PostLabel = 'user' | 'subreddit'
 
 type Props = {
@@ -66,6 +68,8 @@ export function PostCommunity({ image = true, label, post, seen }: Props) {
       <Text highContrast={!seen} lines={1} size="2" weight="medium">
         {label === 'subreddit' ? post.community.name : post.user.name}
       </Text>
+
+      <FlairCard flair={post.flair} seen={seen} />
     </Pressable>
   )
 }

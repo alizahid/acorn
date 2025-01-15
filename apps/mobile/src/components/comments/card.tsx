@@ -1,8 +1,7 @@
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useRouter } from 'expo-router'
 import { useRef } from 'react'
-import { Share } from 'react-native'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { Share, type StyleProp, type ViewStyle } from 'react-native'
 import {
   createStyleSheet,
   type UnistylesValues,
@@ -14,16 +13,13 @@ import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
-import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
 
 import { PostGestures } from '../common/gestures'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
-import { Text } from '../common/text'
 import { View } from '../common/view'
-import { FlairCard } from '../posts/flair'
 import { CommentMenu } from './menu'
 import { CommentMeta } from './meta'
 
@@ -46,7 +42,7 @@ export function CommentCard({
 
   const { coloredComments, commentGestures, swipeGestures } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const menu = useRef<BottomSheetModal>(null)
 
@@ -128,36 +124,6 @@ export function CommentCard({
             onPress()
           }}
         >
-          <Pressable
-            align="center"
-            direction="row"
-            gap="3"
-            hitSlop={theme.space[3]}
-            mt="3"
-            mx="3"
-            onPress={() => {
-              router.navigate({
-                params: {
-                  name: removePrefix(comment.user.name),
-                },
-                pathname: '/users/[name]',
-              })
-            }}
-            self="start"
-          >
-            <Text
-              color={comment.op ? 'accent' : 'gray'}
-              highContrast={!comment.op}
-              lines={1}
-              size="1"
-              weight="medium"
-            >
-              {comment.user.name}
-            </Text>
-
-            {!collapsed ? <FlairCard flair={comment.flair} /> : null}
-          </Pressable>
-
           {!collapsed ? (
             <Markdown
               meta={comment.media.meta}
