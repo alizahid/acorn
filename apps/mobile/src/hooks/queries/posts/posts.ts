@@ -3,7 +3,9 @@ import {
   useInfiniteQuery,
   useIsRestoring,
 } from '@tanstack/react-query'
+import { uniqBy } from 'lodash'
 import { create, type Draft } from 'mutative'
+import { useMemo } from 'react'
 
 import { getHidden } from '~/lib/db/hidden'
 import { getHistory } from '~/lib/db/history'
@@ -132,12 +134,17 @@ export function usePosts({
     ],
   })
 
+  const posts = useMemo(
+    () => uniqBy(data?.pages.flatMap((page) => page.posts) ?? [], 'id'),
+    [data?.pages],
+  )
+
   return {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading: isRestoring || isLoading,
-    posts: data?.pages.flatMap((page) => page.posts) ?? [],
+    posts,
     refetch,
   }
 }
