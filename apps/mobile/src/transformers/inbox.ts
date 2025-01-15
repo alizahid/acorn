@@ -26,7 +26,7 @@ export function transformInboxItem(
 
   return {
     data: {
-      author: data.data.author,
+      author: data.data.author ?? 'Unknown',
       body: decode(data.data.body).trim(),
       createdAt: fromUnixTime(data.data.created_utc),
       id: removePrefix(data.data.id),

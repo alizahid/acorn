@@ -20,7 +20,7 @@ export const InboxSchema = z.object({
         }),
         z.object({
           data: z.object({
-            author: z.string(),
+            author: z.string().nullable(),
             body: z.string(),
             created_utc: z.number(),
             id: z.string(),
