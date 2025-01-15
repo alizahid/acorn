@@ -1,5 +1,5 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useFormatter, useTranslations } from 'use-intl'
+import { useFormatter, useNow, useTranslations } from 'use-intl'
 
 import { useLink } from '~/hooks/link'
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
@@ -19,6 +19,9 @@ type Props = {
 export function NotificationCard({ notification }: Props) {
   const t = useTranslations('component.inbox.notification')
   const f = useFormatter()
+  const now = useNow({
+    updateInterval: 1_000 * 60,
+  })
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -69,7 +72,7 @@ export function NotificationCard({ notification }: Props) {
 
         <View direction="row" gap="4">
           <Text highContrast={false} size="2">
-            {f.relativeTime(notification.createdAt)}
+            {f.relativeTime(notification.createdAt, now)}
           </Text>
 
           <Text highContrast={false} size="2">

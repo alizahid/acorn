@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useFormatter } from 'use-intl'
+import { useFormatter, useNow } from 'use-intl'
 
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
 import { type InboxMessage } from '~/types/inbox'
@@ -17,6 +17,9 @@ export function MessageCard({ message }: Props) {
   const router = useRouter()
 
   const f = useFormatter()
+  const now = useNow({
+    updateInterval: 1_000 * 60,
+  })
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -62,7 +65,7 @@ export function MessageCard({ message }: Props) {
       </Markdown>
 
       <Text highContrast={false} size="2">
-        {f.relativeTime(message.createdAt)}
+        {f.relativeTime(message.createdAt, now)}
       </Text>
     </Pressable>
   )
