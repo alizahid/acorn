@@ -21,7 +21,7 @@ import { type SearchSort, type TopInterval } from '~/types/sort'
 import { type SearchUser } from '~/types/user'
 
 import { View } from '../common/view'
-import { SearchUserCard } from '../users/card'
+import { UserCard } from '../users/card'
 import { SearchHistory } from './history'
 
 type Item = Community | SearchUser | Post
@@ -148,7 +148,7 @@ export function SearchList({
         }
 
         if (type === 'user') {
-          return <SearchUserCard style={style} user={item as SearchUser} />
+          return <UserCard style={style} user={item as SearchUser} />
         }
 
         return (

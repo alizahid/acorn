@@ -15,7 +15,7 @@ type Props = {
   user: SearchUser
 }
 
-export function SearchUserCard({ style, user }: Props) {
+export function UserCard({ style, user }: Props) {
   const router = useRouter()
 
   const { styles, theme } = useStyles(stylesheet)
