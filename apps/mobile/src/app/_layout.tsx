@@ -57,12 +57,7 @@ function Acorn() {
                   persister,
                 }}
               >
-                <IntlProvider
-                  locale="en"
-                  messages={en}
-                  now={new Date()}
-                  timeZone={timeZone}
-                >
+                <IntlProvider locale="en" messages={en} timeZone={timeZone}>
                   <RootLayout />
 
                   <Feedback />
