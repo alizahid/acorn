@@ -299,15 +299,15 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   saved: {
     backgroundColor: theme.colors.green.a9,
-    height: theme.space[iPad ? 8 : 6],
+    height: theme.space[8],
     position: 'absolute',
-    right: -theme.space[iPad ? 6 : 4],
-    top: -theme.space[iPad ? 6 : 4],
+    right: -theme.space[6],
+    top: -theme.space[6],
     transform: [
       {
         rotate: '45deg',
       },
     ],
-    width: theme.space[iPad ? 8 : 6],
+    width: theme.space[8],
   },
 }))

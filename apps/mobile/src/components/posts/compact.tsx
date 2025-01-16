@@ -1,6 +1,5 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -116,15 +115,15 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   saved: {
     backgroundColor: theme.colors.green[9],
-    bottom: -theme.space[iPad ? 6 : 4],
-    height: theme.space[iPad ? 8 : 6],
+    bottom: -theme.space[6],
+    height: theme.space[8],
     position: 'absolute',
-    right: -theme.space[iPad ? 6 : 4],
+    right: -theme.space[6],
     transform: [
       {
         rotate: '45deg',
       },
     ],
-    width: theme.space[iPad ? 8 : 6],
+    width: theme.space[8],
   },
 }))

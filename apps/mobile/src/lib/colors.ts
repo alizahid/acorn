@@ -1,7 +1,7 @@
 import { type ColorToken } from '~/styles/tokens'
 
 const colors = [
-  'accent',
+  'gray',
   'blue',
   'crimson',
   'grass',
