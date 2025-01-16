@@ -59,6 +59,17 @@ export function PostFooter({
       </View>
 
       <View align="center" direction="row" gap="2">
+        {expanded && onLongPress ? (
+          <FooterButton
+            color={theme.colors.gray[seen ? 'a11' : 'a12']}
+            icon="DotsThree"
+            onPress={() => {
+              onLongPress()
+            }}
+            weight="bold"
+          />
+        ) : null}
+
         <FooterButton
           color={
             post.liked
