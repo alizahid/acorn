@@ -1,5 +1,10 @@
 # Changelog
 
+## Upcoming
+
+- added: button to open post menu on post screen
+- added: user/community links added to post/comment menu
+
 ## Build 37
 
 - added: user about tab
