@@ -1,5 +1,21 @@
 # Changelog
 
+## Build 37
+
+- added: user about tab
+- added: post card for user comments
+- added: post upvote ratio
+- added: long press skip to go to previous comment
+- added: gradient to dark mode icon
+- added: filter between your posts/comments/saved/upvoted/downvoted/hidden
+- changed: slight accent tint to app background
+- changed: drawer reverted
+- changed: post/comment design
+- fixed: post/comment time
+- fixed: home/feeds sorting
+- fixed: duplicate posts when scrolling
+- fixed: blur view accessibility
+
 ## Build 36
 
 - added: safari extension
