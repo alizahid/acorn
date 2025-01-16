@@ -274,10 +274,10 @@ export default function Screen() {
               const exclusive = preferences[item.exclusive]
 
               const payload: Partial<PreferencesPayload> = {
-                [item.key]: value === 'null' ? null : value,
+                [item.key]: value === 'hide' ? null : value,
               }
 
-              if (value !== 'null' && value === exclusive) {
+              if (value !== 'hide' && value === exclusive) {
                 payload[item.exclusive] = value === 'left' ? 'right' : 'left'
               }
 
