@@ -114,7 +114,8 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
     (post.type === 'crosspost' && Boolean(post.crossPost)) ||
     (post.type === 'video' && Boolean(post.media.video)) ||
     (post.type === 'image' && Boolean(post.media.images?.length)) ||
-    (post.type === 'link' && Boolean(post.url))
+    (post.type === 'link' && Boolean(post.url)) ||
+    (expanded && post.body)
 
   function onPress() {
     router.navigate({
