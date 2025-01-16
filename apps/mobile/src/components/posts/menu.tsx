@@ -226,6 +226,48 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           }}
         />
 
+        <SheetItem
+          icon={{
+            color: theme.colors.gray.a11,
+            name: 'User',
+            type: 'icon',
+          }}
+          label={t('openUser', {
+            user: post.user.name,
+          })}
+          onPress={() => {
+            router.navigate({
+              params: {
+                name: post.user.name,
+              },
+              pathname: '/users/[name]',
+            })
+
+            onClose()
+          }}
+        />
+
+        <SheetItem
+          icon={{
+            color: theme.colors.gray.a11,
+            name: 'UsersFour',
+            type: 'icon',
+          }}
+          label={t('openCommunity', {
+            community: post.community.name,
+          })}
+          onPress={() => {
+            router.navigate({
+              params: {
+                name: post.community.name,
+              },
+              pathname: '/communities/[name]',
+            })
+
+            onClose()
+          }}
+        />
+
         <View height="4" />
 
         <SheetItem

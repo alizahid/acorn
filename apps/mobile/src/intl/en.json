@@ -93,6 +93,8 @@
         "hideUser": "Hide u/{user}",
         "openApp": "Open in app",
         "openBrowser": "Open in browser",
+        "openCommunity": "Go to r/{community}",
+        "openUser": "Go to u/{user}",
         "removeDownvote": "Remove downvote",
         "removeUpvote": "Remove upvote",
         "reply": "Reply",

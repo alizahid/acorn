@@ -226,6 +226,27 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
             }}
           />
 
+          <SheetItem
+            icon={{
+              color: theme.colors.gray.a11,
+              name: 'User',
+              type: 'icon',
+            }}
+            label={t('openUser', {
+              user: comment.user.name,
+            })}
+            onPress={() => {
+              router.navigate({
+                params: {
+                  name: comment.user.name,
+                },
+                pathname: '/users/[name]',
+              })
+
+              onClose()
+            }}
+          />
+
           <View height="4" />
 
           <SheetItem
