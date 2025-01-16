@@ -29,6 +29,7 @@ type Props = {
   collapsed?: boolean
   comment: CommentReply
   disabled?: boolean
+  dull?: boolean
   onPress: () => void
   style?: StyleProp<ViewStyle>
 }
@@ -37,6 +38,7 @@ export function CommentCard({
   collapsed,
   comment,
   disabled,
+  dull,
   onPress,
   style,
 }: Props) {
@@ -113,7 +115,7 @@ export function CommentCard({
           }
         }}
         style={[
-          styles.main(comment.depth, coloredComments) as ViewStyle,
+          styles.main(comment.depth, coloredComments, dull) as ViewStyle,
           style,
         ]}
       >
@@ -163,9 +165,11 @@ export function CommentCard({
               />
 
               <View flex={1} gap="1">
-                <Text size="2">{comment.post.title}</Text>
+                <Text size="1" weight="medium">
+                  {comment.post.title}
+                </Text>
 
-                <Text color="accent" size="1" weight="medium">
+                <Text highContrast={false} size="1">
                   r/{comment.community.name}
                 </Text>
               </View>
@@ -226,8 +230,8 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: liked ? theme.colors.orange[9] : theme.colors.violet[9],
     top: -theme.space[6],
   }),
-  main: (depth: number, colored: boolean) => {
-    const color = getDepthColor(depth)
+  main: (depth: number, colored: boolean, dull?: boolean) => {
+    const color = dull ? 'gray' : getDepthColor(depth)
 
     const base: UnistylesValues = {
       backgroundColor: colored ? theme.colors[color][2] : theme.colors.gray[2],
@@ -249,7 +253,7 @@ const stylesheet = createStyleSheet((theme) => ({
   post: {
     backgroundColor: theme.colors.gray.a3,
     borderCurve: 'continuous',
-    borderRadius: theme.radius[3],
+    borderRadius: theme.radius[4],
   },
   saved: {
     backgroundColor: theme.colors.green[9],

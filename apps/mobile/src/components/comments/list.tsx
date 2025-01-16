@@ -76,6 +76,7 @@ export function CommentList({
           return (
             <CommentCard
               comment={item.data}
+              dull
               onPress={() => {
                 router.navigate({
                   params: {
