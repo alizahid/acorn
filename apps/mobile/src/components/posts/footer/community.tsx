@@ -78,8 +78,8 @@ const stylesheet = createStyleSheet((theme) => ({
   image: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
-    borderRadius: theme.typography[2].lineHeight,
-    height: theme.typography[2].lineHeight,
-    width: theme.typography[2].lineHeight,
+    borderRadius: theme.space[4],
+    height: theme.space[4],
+    width: theme.space[4],
   },
 }))
