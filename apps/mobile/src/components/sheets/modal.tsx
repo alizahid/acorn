@@ -63,16 +63,12 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].bg
       : theme.colors[bg ? 'accent' : 'gray'].bg,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[5],
   }),
   content: {
     paddingBottom: runtime.insets.bottom,
   },
   header: {
-    borderCurve: 'continuous',
-    borderTopLeftRadius: theme.radius[5],
-    borderTopRightRadius: theme.radius[5],
+    backgroundColor: 'transparent',
   },
   main: {
     marginHorizontal: iPad
