@@ -4,6 +4,7 @@
 
 - added: button to open post menu on post screen
 - added: user/community links added to post/comment menu
+- added: controversial sorting for communities
 - fixed: hiding comment skip/post reply buttons
 
 ## Build 37

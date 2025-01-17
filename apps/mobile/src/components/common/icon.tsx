@@ -65,6 +65,7 @@ import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleH
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
 import StarBold from 'react-native-phosphor/src/bold/Star'
 import SunDimBold from 'react-native-phosphor/src/bold/SunDim'
+import SwordBold from 'react-native-phosphor/src/bold/Sword'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
 import TextAaBold from 'react-native-phosphor/src/bold/TextAa'
 import TextTBold from 'react-native-phosphor/src/bold/TextT'
@@ -145,6 +146,7 @@ import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerS
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
 import StarDuotone from 'react-native-phosphor/src/duotone/Star'
 import SunDimDuotone from 'react-native-phosphor/src/duotone/SunDim'
+import SwordDuotone from 'react-native-phosphor/src/duotone/Sword'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
 import TextAaDuotone from 'react-native-phosphor/src/duotone/TextAa'
 import TextTDuotone from 'react-native-phosphor/src/duotone/TextT'
@@ -225,6 +227,7 @@ import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleH
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
 import StarFill from 'react-native-phosphor/src/fill/Star'
 import SunDimFill from 'react-native-phosphor/src/fill/SunDim'
+import SwordFill from 'react-native-phosphor/src/fill/Sword'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
 import TextAaFill from 'react-native-phosphor/src/fill/TextAa'
 import TextTFill from 'react-native-phosphor/src/fill/TextT'
@@ -305,6 +308,7 @@ import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerS
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
 import StarRegular from 'react-native-phosphor/src/regular/Star'
 import SunDimRegular from 'react-native-phosphor/src/regular/SunDim'
+import SwordRegular from 'react-native-phosphor/src/regular/Sword'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
 import TextAaRegular from 'react-native-phosphor/src/regular/TextAa'
 import TextTRegular from 'react-native-phosphor/src/regular/TextT'
@@ -735,6 +739,12 @@ const icons = {
     duotone: SunDimDuotone,
     fill: SunDimFill,
     regular: SunDimRegular,
+  },
+  Sword: {
+    bold: SwordBold,
+    duotone: SwordDuotone,
+    fill: SwordFill,
+    regular: SwordRegular,
   },
   Target: {
     bold: TargetBold,

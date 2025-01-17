@@ -23,7 +23,13 @@ export type FeedSort = (typeof FeedSort)[number]
 
 // community
 
-export const CommunityFeedSort = ['new', 'top', 'rising', 'hot'] as const
+export const CommunityFeedSort = [
+  'new',
+  'top',
+  'rising',
+  'hot',
+  'controversial',
+] as const
 
 export type CommunityFeedSort = (typeof CommunityFeedSort)[number]
 
