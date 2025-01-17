@@ -10,6 +10,7 @@ import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 import { type Post } from '~/types/post'
 
 import { type GestureAction, PostGestures } from '../common/gestures'
@@ -296,7 +297,9 @@ const stylesheet = createStyleSheet((theme) => ({
     marginBottom: theme.space[3],
   },
   main: (seen: boolean, oled: boolean) => ({
-    backgroundColor: theme.colors.gray[oled ? 'bg' : seen ? 'bgAlt' : 'ui'],
+    backgroundColor: oled
+      ? oledTheme[theme.name].bg
+      : theme.colors.gray[seen ? 'bgAlt' : 'ui'],
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[3] : undefined,
     overflow: 'hidden',

@@ -10,6 +10,7 @@ import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
 
@@ -83,7 +84,9 @@ const stylesheet = createStyleSheet((theme) => ({
     const base: UnistylesValues = {
       backgroundColor: colored
         ? theme.colors[color][oled ? 'bg' : 'bgAlt']
-        : theme.colors.gray[oled ? 'bg' : 'bgAlt'],
+        : oled
+          ? oledTheme[theme.name].bg
+          : theme.colors.gray.bgAlt,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       marginLeft,

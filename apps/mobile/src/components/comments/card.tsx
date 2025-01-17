@@ -14,6 +14,7 @@ import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 import { type CommentReply } from '~/types/comment'
 
 import { PostGestures } from '../common/gestures'
@@ -242,9 +243,15 @@ const stylesheet = createStyleSheet((theme) => ({
     const color = dull ? 'gray' : getDepthColor(depth)
 
     const base: UnistylesValues = {
-      backgroundColor: colored
-        ? theme.colors[color][oled ? 'bg' : 'bgAlt']
-        : theme.colors.gray[oled ? 'bg' : 'bgAlt'],
+      backgroundColor: dull
+        ? oled
+          ? oledTheme[theme.name].bg
+          : theme.colors.gray.ui
+        : colored
+          ? theme.colors[color][oled ? 'bg' : 'bgAlt']
+          : oled
+            ? oledTheme[theme.name].bg
+            : theme.colors.gray.bgAlt,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       overflow: 'hidden',
@@ -261,7 +268,7 @@ const stylesheet = createStyleSheet((theme) => ({
     return base
   },
   post: {
-    backgroundColor: theme.colors.gray.ui,
+    backgroundColor: theme.colors.gray.uiAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
   },

@@ -2,6 +2,7 @@ import { FlashList } from '@shopify/flash-list'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '~/components/common/icon'
 import { Switch } from '~/components/common/switch'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
@@ -13,21 +14,29 @@ import { type ColorToken } from '~/styles/tokens'
 export default function Screen() {
   const t = useTranslations('screen.settings.appearance')
 
-  const { blurNavigation, theme, themeBackground, themeOled, update } =
-    usePreferences()
+  const {
+    blurNavigation,
+    coloredComments,
+    theme: selected,
+    themeBackground,
+    themeOled,
+    update,
+  } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const listProps = useList()
 
   const data = [
     t('preferences.title'),
     {
+      icon: 'TelevisionSimple',
       key: 'themeOled',
       label: t('preferences.themeOled'),
       value: themeOled,
     },
     {
+      icon: 'PaintRoller',
       key: 'themeBackground',
       label: t('preferences.themeBackground'),
       value: themeBackground,
@@ -37,6 +46,12 @@ export default function Screen() {
       key: 'blurNavigation',
       label: t('preferences.blurNavigation'),
       value: blurNavigation,
+    },
+    {
+      icon: 'PaintBrush',
+      key: 'coloredComments',
+      label: t('preferences.coloredComments'),
+      value: coloredComments,
     },
     null,
 
@@ -162,13 +177,19 @@ export default function Screen() {
                   width="6"
                 />
               }
-              selected={item.key === theme}
+              selected={item.key === selected}
             />
           )
         }
 
         return (
           <View align="center" direction="row" gap="3" height="8" px="3">
+            <Icon
+              color={theme.colors.accent.accent}
+              name={item.icon}
+              weight="duotone"
+            />
+
             <Text lines={1} style={styles.label} weight="medium">
               {item.label}
             </Text>

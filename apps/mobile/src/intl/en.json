@@ -267,6 +267,7 @@
         },
         "preferences": {
           "blurNavigation": "Use blur effect",
+          "coloredComments": "Colored comments",
           "themeBackground": "Background color",
           "themeOled": "OLED mode",
           "title": "Preferences"
@@ -341,7 +342,6 @@
         },
         "comments": {
           "collapseAutoModerator": "Collapse AutoModerator",
-          "coloredComments": "Colored comments",
           "replyPost": "Post reply floating button",
           "skipComment": "Skip comment floating button",
           "title": "Comments"

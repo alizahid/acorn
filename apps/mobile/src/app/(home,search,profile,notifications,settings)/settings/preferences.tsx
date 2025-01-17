@@ -108,11 +108,6 @@ export default function Screen() {
             label: 'comments.replyPost',
           },
           {
-            icon: 'PaintBrush',
-            key: 'coloredComments',
-            label: 'comments.coloredComments',
-          },
-          {
             icon: 'PushPin',
             key: 'collapseAutoModerator',
             label: 'comments.collapseAutoModerator',

@@ -47,6 +47,7 @@ import MouseScrollBold from 'react-native-phosphor/src/bold/MouseScroll'
 import NoteBlankBold from 'react-native-phosphor/src/bold/NoteBlank'
 import PackageBold from 'react-native-phosphor/src/bold/Package'
 import PaintBrushBold from 'react-native-phosphor/src/bold/PaintBrush'
+import PaintRollerBold from 'react-native-phosphor/src/bold/PaintRoller'
 import PaletteBold from 'react-native-phosphor/src/bold/Palette'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
 import PauseBold from 'react-native-phosphor/src/bold/Pause'
@@ -67,6 +68,7 @@ import StarBold from 'react-native-phosphor/src/bold/Star'
 import SunDimBold from 'react-native-phosphor/src/bold/SunDim'
 import SwordBold from 'react-native-phosphor/src/bold/Sword'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
+import TelevisionSimpleBold from 'react-native-phosphor/src/bold/TelevisionSimple'
 import TextAaBold from 'react-native-phosphor/src/bold/TextAa'
 import TextTBold from 'react-native-phosphor/src/bold/TextT'
 import TrashBold from 'react-native-phosphor/src/bold/Trash'
@@ -128,6 +130,7 @@ import MouseScrollDuotone from 'react-native-phosphor/src/duotone/MouseScroll'
 import NoteBlankDuotone from 'react-native-phosphor/src/duotone/NoteBlank'
 import PackageDuotone from 'react-native-phosphor/src/duotone/Package'
 import PaintBrushDuotone from 'react-native-phosphor/src/duotone/PaintBrush'
+import PaintRollerDuotone from 'react-native-phosphor/src/duotone/PaintRoller'
 import PaletteDuotone from 'react-native-phosphor/src/duotone/Palette'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
 import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
@@ -148,6 +151,7 @@ import StarDuotone from 'react-native-phosphor/src/duotone/Star'
 import SunDimDuotone from 'react-native-phosphor/src/duotone/SunDim'
 import SwordDuotone from 'react-native-phosphor/src/duotone/Sword'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
+import TelevisionSimpleDuotone from 'react-native-phosphor/src/duotone/TelevisionSimple'
 import TextAaDuotone from 'react-native-phosphor/src/duotone/TextAa'
 import TextTDuotone from 'react-native-phosphor/src/duotone/TextT'
 import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
@@ -209,6 +213,7 @@ import MouseScrollFill from 'react-native-phosphor/src/fill/MouseScroll'
 import NoteBlankFill from 'react-native-phosphor/src/fill/NoteBlank'
 import PackageFill from 'react-native-phosphor/src/fill/Package'
 import PaintBrushFill from 'react-native-phosphor/src/fill/PaintBrush'
+import PaintRollerFill from 'react-native-phosphor/src/fill/PaintRoller'
 import PaletteFill from 'react-native-phosphor/src/fill/Palette'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
 import PauseFill from 'react-native-phosphor/src/fill/Pause'
@@ -229,6 +234,7 @@ import StarFill from 'react-native-phosphor/src/fill/Star'
 import SunDimFill from 'react-native-phosphor/src/fill/SunDim'
 import SwordFill from 'react-native-phosphor/src/fill/Sword'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
+import TelevisionSimpleFill from 'react-native-phosphor/src/fill/TelevisionSimple'
 import TextAaFill from 'react-native-phosphor/src/fill/TextAa'
 import TextTFill from 'react-native-phosphor/src/fill/TextT'
 import TrashFill from 'react-native-phosphor/src/fill/Trash'
@@ -290,6 +296,7 @@ import MouseScrollRegular from 'react-native-phosphor/src/regular/MouseScroll'
 import NoteBlankRegular from 'react-native-phosphor/src/regular/NoteBlank'
 import PackageRegular from 'react-native-phosphor/src/regular/Package'
 import PaintBrushRegular from 'react-native-phosphor/src/regular/PaintBrush'
+import PaintRollerRegular from 'react-native-phosphor/src/regular/PaintRoller'
 import PaletteRegular from 'react-native-phosphor/src/regular/Palette'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
 import PauseRegular from 'react-native-phosphor/src/regular/Pause'
@@ -310,6 +317,7 @@ import StarRegular from 'react-native-phosphor/src/regular/Star'
 import SunDimRegular from 'react-native-phosphor/src/regular/SunDim'
 import SwordRegular from 'react-native-phosphor/src/regular/Sword'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
+import TelevisionSimpleRegular from 'react-native-phosphor/src/regular/TelevisionSimple'
 import TextAaRegular from 'react-native-phosphor/src/regular/TextAa'
 import TextTRegular from 'react-native-phosphor/src/regular/TextT'
 import TrashRegular from 'react-native-phosphor/src/regular/Trash'
@@ -632,6 +640,12 @@ const icons = {
     fill: PaintBrushFill,
     regular: PaintBrushRegular,
   },
+  PaintRoller: {
+    bold: PaintRollerBold,
+    duotone: PaintRollerDuotone,
+    fill: PaintRollerFill,
+    regular: PaintRollerRegular,
+  },
   Palette: {
     bold: PaletteBold,
     duotone: PaletteDuotone,
@@ -751,6 +765,12 @@ const icons = {
     duotone: TargetDuotone,
     fill: TargetFill,
     regular: TargetRegular,
+  },
+  TelevisionSimple: {
+    bold: TelevisionSimpleBold,
+    duotone: TelevisionSimpleDuotone,
+    fill: TelevisionSimpleFill,
+    regular: TelevisionSimpleRegular,
   },
   TextAa: {
     bold: TextAaBold,
