@@ -73,7 +73,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   main: (crossPost?: boolean, compact?: boolean, large?: boolean) => {
     if (compact) {
       return {
-        backgroundColor: theme.colors.gray.a3,
+        backgroundColor: theme.colors.gray.ui,
         borderCurve: 'continuous',
         borderRadius: theme.space[large ? 2 : 1],
         height: theme.space[8] * (large ? 2 : 1),

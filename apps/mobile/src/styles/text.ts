@@ -48,7 +48,7 @@ export function getTextStyles(theme: UnistylesTheme) {
       ...getMargin(theme)(props),
       color:
         theme.colors[color][
-          contrast ? 'contrast' : highContrast ? 'a12' : 'a11'
+          contrast ? 'contrast' : highContrast ? 'text' : 'textLow'
         ],
       fontFamily:
         variant === 'mono'

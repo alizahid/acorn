@@ -159,7 +159,7 @@ export function CommentCard({
               style={styles.post}
             >
               <Icon
-                color={theme.colors.gray.a9}
+                color={theme.colors.gray.accent}
                 name="NoteBlank"
                 weight="duotone"
               />
@@ -227,15 +227,19 @@ const stylesheet = createStyleSheet((theme) => ({
     return base
   },
   liked: (liked: boolean) => ({
-    backgroundColor: liked ? theme.colors.orange[9] : theme.colors.violet[9],
+    backgroundColor: liked
+      ? theme.colors.orange.accent
+      : theme.colors.violet.accent,
     top: -theme.space[6],
   }),
   main: (depth: number, colored: boolean, dull?: boolean) => {
     const color = dull ? 'gray' : getDepthColor(depth)
 
     const base: UnistylesValues = {
-      backgroundColor: colored ? theme.colors[color][2] : theme.colors.gray[2],
-      borderLeftColor: depth > 0 ? theme.colors[color][6] : undefined,
+      backgroundColor: colored
+        ? theme.colors[color].bgAlt
+        : theme.colors.gray.bgAlt,
+      borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       overflow: 'hidden',
     }
@@ -251,12 +255,12 @@ const stylesheet = createStyleSheet((theme) => ({
     return base
   },
   post: {
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
   },
   saved: {
-    backgroundColor: theme.colors.green[9],
+    backgroundColor: theme.colors.green.accent,
     bottom: -theme.space[6],
     height: theme.space[8],
     position: 'absolute',

@@ -1,21 +1,21 @@
-import { createDarkPalette, createLightPalette } from './colors'
+import { createPalette } from './colors'
 import { radius, space, typography } from './tokens'
 
 export type Theme =
   | 'acorn'
-  | 'acornLight'
-  | 'acornDark'
-  | 'rubyLight'
-  | 'rubyDark'
-  | 'plumLight'
-  | 'plumDark'
-  | 'indigoLight'
-  | 'indigoDark'
-  | 'jadeLight'
-  | 'jadeDark'
+  | 'acorn-light'
+  | 'acorn-dark'
+  | 'ruby-light'
+  | 'ruby-dark'
+  | 'plum-light'
+  | 'plum-dark'
+  | 'indigo-light'
+  | 'indigo-dark'
+  | 'jade-light'
+  | 'jade-dark'
 
 export const lightTheme = {
-  colors: createLightPalette('orange'),
+  colors: createPalette('orange'),
   name: 'light',
   radius,
   space,
@@ -23,7 +23,7 @@ export const lightTheme = {
 } as const
 
 export const darkTheme = {
-  colors: createDarkPalette('orange'),
+  colors: createPalette('orange', true),
   name: 'dark',
   radius,
   space,
@@ -31,7 +31,7 @@ export const darkTheme = {
 } as const
 
 export const rubyLight = {
-  colors: createLightPalette('ruby'),
+  colors: createPalette('ruby'),
   name: 'light',
   radius,
   space,
@@ -39,7 +39,7 @@ export const rubyLight = {
 } as const
 
 export const rubyDark = {
-  colors: createDarkPalette('ruby'),
+  colors: createPalette('ruby', true),
   name: 'dark',
   radius,
   space,
@@ -47,7 +47,7 @@ export const rubyDark = {
 } as const
 
 export const plumLight = {
-  colors: createLightPalette('plum'),
+  colors: createPalette('plum'),
   name: 'light',
   radius,
   space,
@@ -55,7 +55,7 @@ export const plumLight = {
 } as const
 
 export const plumDark = {
-  colors: createDarkPalette('plum'),
+  colors: createPalette('plum', true),
   name: 'dark',
   radius,
   space,
@@ -63,7 +63,7 @@ export const plumDark = {
 } as const
 
 export const indigoLight = {
-  colors: createLightPalette('indigo'),
+  colors: createPalette('indigo'),
   name: 'light',
   radius,
   space,
@@ -71,7 +71,7 @@ export const indigoLight = {
 } as const
 
 export const indigoDark = {
-  colors: createDarkPalette('indigo'),
+  colors: createPalette('indigo', true),
   name: 'dark',
   radius,
   space,
@@ -79,7 +79,7 @@ export const indigoDark = {
 } as const
 
 export const jadeLight = {
-  colors: createLightPalette('jade'),
+  colors: createPalette('jade'),
   name: 'light',
   radius,
   space,
@@ -87,7 +87,7 @@ export const jadeLight = {
 } as const
 
 export const jadeDark = {
-  colors: createDarkPalette('jade'),
+  colors: createPalette('jade', true),
   name: 'dark',
   radius,
   space,

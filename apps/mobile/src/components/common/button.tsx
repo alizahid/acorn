@@ -51,13 +51,15 @@ export function Button({
     >
       {icon && loading ? (
         <Spinner
-          color={icon.color ? theme.colors[icon.color ?? 'accent'].a9 : color}
+          color={
+            icon.color ? theme.colors[icon.color ?? 'accent'].accent : color
+          }
           contrast={!icon.color}
           size={theme.space[5]}
         />
       ) : icon ? (
         <Icon
-          color={theme.colors[icon.color ?? 'accent'].a9}
+          color={theme.colors[icon.color ?? 'accent'].accent}
           name={icon.name}
           size={theme.space[5]}
           weight={icon.weight}
@@ -77,7 +79,7 @@ export function Button({
 
 const stylesheet = createStyleSheet((theme) => ({
   main: (color?: ColorToken) => ({
-    backgroundColor: theme.colors[color ?? 'accent'].a9,
+    backgroundColor: theme.colors[color ?? 'accent'].accent,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
   }),

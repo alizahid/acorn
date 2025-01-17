@@ -363,7 +363,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     paddingVertical: theme.space[1],
   },
   blockQuoteBorder: {
-    backgroundColor: theme.colors.accent.a6,
+    backgroundColor: theme.colors.accent.border,
     borderCurve: 'continuous',
     borderRadius: theme.radius[1],
     bottom: 0,
@@ -384,7 +384,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   inlineCode: {
     alignSelf: 'flex-start',
-    backgroundColor: theme.colors.gray.a2,
+    backgroundColor: theme.colors.gray.bgAlt,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
   },
@@ -407,7 +407,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   table: {
     backgroundColor: theme.name === 'dark' ? '#0d1117' : '#fff',
-    borderColor: theme.colors.gray.a6,
+    borderColor: theme.colors.gray.border,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     borderWidth: runtime.hairlineWidth,
@@ -419,11 +419,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     width: (runtime.screen.width - theme.space[5]) / 2,
   },
   tableRow: (divider: boolean) => ({
-    borderTopColor: divider ? theme.colors.gray.a6 : undefined,
+    borderTopColor: divider ? theme.colors.gray.border : undefined,
     borderTopWidth: divider ? runtime.hairlineWidth : undefined,
   }),
   thematicBreak: {
-    backgroundColor: theme.colors.gray.a6,
+    backgroundColor: theme.colors.gray.border,
     height: 1,
   },
 }))

@@ -95,7 +95,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
   },
@@ -109,7 +109,7 @@ const stylesheet = createStyleSheet((theme) => ({
     width,
   }),
   selected: (width: number) => ({
-    backgroundColor: theme.colors.accent.a9,
+    backgroundColor: theme.colors.accent.accent,
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
     bottom: theme.space[1] / 2,

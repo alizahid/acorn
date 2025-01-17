@@ -49,7 +49,8 @@ export function NotificationCard({ notification }: Props) {
     >
       <Icon
         color={
-          theme.colors[notification.new ? colors[notification.type] : 'gray'].a9
+          theme.colors[notification.new ? colors[notification.type] : 'gray']
+            .accent
         }
         name={icons[notification.type]}
         weight={notification.new ? 'fill' : 'bold'}
@@ -86,7 +87,7 @@ export function NotificationCard({ notification }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: (color: ColorToken, unread: boolean) => ({
-    backgroundColor: unread ? theme.colors[color][3] : theme.colors.gray[2],
+    backgroundColor: unread ? theme.colors[color].ui : theme.colors.gray.bgAlt,
   }),
 }))
 

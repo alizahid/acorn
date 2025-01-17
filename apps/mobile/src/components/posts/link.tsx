@@ -62,7 +62,7 @@ export function PostLinkCard({
         ) : null}
 
         <View align="center" justify="center" style={styles.compactIcon}>
-          <Icon color={theme.colors.accent.a9} name="Compass" />
+          <Icon color={theme.colors.accent.accent} name="Compass" />
         </View>
       </Pressable>
     )
@@ -94,7 +94,7 @@ export function PostLinkCard({
 
       <View align="center" direction="row" gap="3" p="3">
         <Icon
-          color={theme.colors.gray.a11}
+          color={theme.colors.gray.textLow}
           name="Compass"
           size={theme.typography[2].lineHeight}
         />
@@ -109,7 +109,7 @@ export function PostLinkCard({
 
 const stylesheet = createStyleSheet((theme) => ({
   compact: (large?: boolean) => ({
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.space[large ? 2 : 1],
     height: theme.space[8] * (large ? 2 : 1),
@@ -118,7 +118,7 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   compactIcon: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.black.a9,
+    backgroundColor: theme.colors.black.accentAlpha,
   },
   compactImage: {
     flex: 1,
@@ -127,7 +127,7 @@ const stylesheet = createStyleSheet((theme) => ({
     aspectRatio: 2,
   },
   main: (crossPost?: boolean) => ({
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     marginTop: crossPost ? theme.space[3] : undefined,

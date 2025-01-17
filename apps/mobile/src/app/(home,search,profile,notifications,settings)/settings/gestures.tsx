@@ -23,14 +23,14 @@ export default function Screen() {
   const options: Array<MenuItemOption> = [
     {
       icon: {
-        color: theme.colors.orange[9],
+        color: theme.colors.orange.accent,
         name: 'ArrowFatUp',
         type: 'icon',
       },
       label: t('options.upvote'),
       right: (
         <Icon
-          color={theme.colors.orange.a9}
+          color={theme.colors.orange.accent}
           name="ArrowFatUp"
           weight="duotone"
         />
@@ -39,14 +39,14 @@ export default function Screen() {
     },
     {
       icon: {
-        color: theme.colors.violet[9],
+        color: theme.colors.violet.accent,
         name: 'ArrowFatDown',
         type: 'icon',
       },
       label: t('options.downvote'),
       right: (
         <Icon
-          color={theme.colors.violet.a9}
+          color={theme.colors.violet.accent}
           name="ArrowFatDown"
           weight="duotone"
         />
@@ -55,14 +55,14 @@ export default function Screen() {
     },
     {
       icon: {
-        color: theme.colors.blue[9],
+        color: theme.colors.blue.accent,
         name: 'ArrowBendUpLeft',
         type: 'icon',
       },
       label: t('options.reply'),
       right: (
         <Icon
-          color={theme.colors.blue.a9}
+          color={theme.colors.blue.accent}
           name="ArrowBendUpLeft"
           weight="duotone"
         />
@@ -71,14 +71,14 @@ export default function Screen() {
     },
     {
       icon: {
-        color: theme.colors.green[9],
+        color: theme.colors.green.accent,
         name: 'BookmarkSimple',
         type: 'icon',
       },
       label: t('options.save'),
       right: (
         <Icon
-          color={theme.colors.green.a9}
+          color={theme.colors.green.accent}
           name="BookmarkSimple"
           weight="duotone"
         />
@@ -87,25 +87,33 @@ export default function Screen() {
     },
     {
       icon: {
-        color: theme.colors.red[9],
+        color: theme.colors.red.accent,
         name: 'EyeClosed',
         type: 'icon',
       },
       label: t('options.hide'),
       right: (
-        <Icon color={theme.colors.red.a9} name="EyeClosed" weight="duotone" />
+        <Icon
+          color={theme.colors.red.accent}
+          name="EyeClosed"
+          weight="duotone"
+        />
       ),
       value: 'hide',
     },
     {
       icon: {
-        color: theme.colors.accent[9],
+        color: theme.colors.accent.accent,
         name: 'Share',
         type: 'icon',
       },
       label: t('options.share'),
       right: (
-        <Icon color={theme.colors.accent.a9} name="Share" weight="duotone" />
+        <Icon
+          color={theme.colors.accent.accent}
+          name="Share"
+          weight="duotone"
+        />
       ),
       value: 'share',
     },

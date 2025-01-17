@@ -85,7 +85,7 @@ export function PostGalleryCard({
               style={[styles.blur, styles.compactIcon]}
             >
               <Icon
-                color={theme.colors.accent.a9}
+                color={theme.colors.accent.accent}
                 name="Warning"
                 size={theme.space[5]}
                 weight="fill"
@@ -118,7 +118,7 @@ export function PostGalleryCard({
           {nsfw && blurNsfw ? (
             <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
               <Icon
-                color={theme.colors.gray.a12}
+                color={theme.colors.gray.text}
                 name="Warning"
                 size={theme.space[6]}
                 weight="fill"
@@ -152,7 +152,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     justifyContent: 'center',
   },
   compact: (large?: boolean) => ({
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.space[large ? 2 : 1],
     height: theme.space[8] * (large ? 2 : 1),
@@ -160,7 +160,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     width: theme.space[8] * (large ? 2 : 1),
   }),
   compactIcon: {
-    backgroundColor: theme.colors.black.a9,
+    backgroundColor: theme.colors.black.accentAlpha,
   },
   compactImage: {
     flex: 1,
@@ -175,7 +175,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     aspectRatio,
   }),
   label: {
-    backgroundColor: theme.colors.black.a9,
+    backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
     bottom: theme.space[2],

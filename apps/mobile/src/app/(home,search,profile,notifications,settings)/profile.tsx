@@ -30,7 +30,7 @@ export default function Screen() {
       items={UserFeedType.map<MenuItem>((type) => ({
         arrow: true,
         icon: {
-          color: theme.colors[colors[type]].a9,
+          color: theme.colors[colors[type]].accent,
           name: icons[type],
           type: 'icon',
         },

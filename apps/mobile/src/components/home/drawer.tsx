@@ -266,7 +266,7 @@ export function HomeDrawer({ onClose }: Props) {
       <TextBox
         left={
           <Icon
-            color={theme.colors.gray.a9}
+            color={theme.colors.gray.accent}
             name="MagnifyingGlass"
             style={styles.searchIcon}
           />
@@ -341,7 +341,7 @@ export function HomeDrawer({ onClose }: Props) {
             return (
               <SheetItem
                 icon={{
-                  color: theme.colors[FeedTypeColors[item.data]].a9,
+                  color: theme.colors[FeedTypeColors[item.data]].accent,
                   name: FeedTypeIcons[item.data],
                   type: 'icon',
                 }}
@@ -451,7 +451,7 @@ export function HomeDrawer({ onClose }: Props) {
 
                   {'favorite' in item.data && item.data.favorite ? (
                     <Icon
-                      color={theme.colors.amber.a9}
+                      color={theme.colors.amber.accent}
                       name="Star"
                       weight="fill"
                     />
@@ -487,7 +487,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     width: theme.typography[2].lineHeight,
   },
   image: {
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.typography[3].lineHeight,
     height: theme.typography[3].lineHeight,
@@ -495,7 +495,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: () => {
     const base: UnistylesValues = {
-      backgroundColor: theme.colors.accent[1],
+      backgroundColor: theme.colors.accent.bg,
       flex: 1,
       paddingTop: theme.space[8] + runtime.insets.top + runtime.hairlineWidth,
     }
@@ -503,7 +503,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     if (iPad) {
       return {
         ...base,
-        borderRightColor: theme.colors.gray.a6,
+        borderRightColor: theme.colors.gray.border,
         borderRightWidth: runtime.hairlineWidth,
       }
     }

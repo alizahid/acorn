@@ -75,37 +75,24 @@ export type RadiusToken = keyof typeof radius
 
 export const ColorTokens = [
   'accent',
+  'gray',
+
   'amber',
   'blue',
-  'bronze',
-  'brown',
+  'green',
+  'red',
+
   'crimson',
-  'cyan',
   'gold',
   'grass',
-  'gray',
-  'green',
   'indigo',
-  'iris',
   'jade',
-  'lime',
-  'mauve',
-  'mint',
-  'olive',
   'orange',
-  'pink',
   'plum',
-  'purple',
-  'red',
   'ruby',
-  'sage',
-  'sand',
-  'sky',
-  'slate',
   'teal',
   'tomato',
   'violet',
-  'yellow',
 ] as const
 
 export type ColorToken = (typeof ColorTokens)[number]

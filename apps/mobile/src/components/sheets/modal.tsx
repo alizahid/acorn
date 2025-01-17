@@ -64,7 +64,7 @@ export const SheetModal = forwardRef<BottomSheetModal, Props>(
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   background: {
-    backgroundColor: theme.colors.gray[1],
+    backgroundColor: theme.colors.gray.bg,
     borderCurve: 'continuous',
     borderRadius: theme.radius[5],
   },

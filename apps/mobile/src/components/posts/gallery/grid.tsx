@@ -280,7 +280,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     right: theme.space[2],
   },
   label: {
-    backgroundColor: theme.colors.black.a9,
+    backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
     bottom: theme.space[2],
@@ -290,7 +290,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   more: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.black.a9,
+    backgroundColor: theme.colors.black.accentAlpha,
   },
   one: (aspectRatio: number) => ({
     aspectRatio,

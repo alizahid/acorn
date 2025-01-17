@@ -19,7 +19,7 @@ export function UserSearchBar({ onChange, value }: Props) {
     <TextBox
       left={
         <Icon
-          color={theme.colors.gray.a9}
+          color={theme.colors.gray.accent}
           name="MagnifyingGlass"
           style={styles.icon}
         />

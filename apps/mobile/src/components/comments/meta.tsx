@@ -38,7 +38,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
     >
       {comment.sticky ? (
         <Icon
-          color={theme.colors.red.a9}
+          color={theme.colors.red.accent}
           name="PushPin"
           size={theme.typography[1].lineHeight}
           style={styles.sticky}
@@ -80,7 +80,9 @@ export function CommentMeta({ collapsed, comment }: Props) {
 
       <View align="center" direction="row" gap="1">
         <FooterButton
-          color={comment.liked ? theme.colors.orange.a9 : theme.colors.gray.a12}
+          color={
+            comment.liked ? theme.colors.orange.accent : theme.colors.gray.text
+          }
           compact
           icon="ArrowFatUp"
           onPress={() => {
@@ -102,8 +104,8 @@ export function CommentMeta({ collapsed, comment }: Props) {
         <FooterButton
           color={
             comment.liked === false
-              ? theme.colors.violet.a9
-              : theme.colors.gray.a12
+              ? theme.colors.violet.accent
+              : theme.colors.gray.text
           }
           compact
           icon="ArrowFatDown"

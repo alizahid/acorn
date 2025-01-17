@@ -23,9 +23,9 @@ export function useLink() {
         setVisible(true)
 
         await WebBrowser.openBrowserAsync(url, {
-          controlsColor: theme.colors.accent[9],
+          controlsColor: theme.colors.accent.accent,
           presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
-          toolbarColor: theme.colors.gray[1],
+          toolbarColor: theme.colors.gray.bg,
         })
       } finally {
         setVisible(false)

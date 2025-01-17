@@ -109,7 +109,7 @@ export default function Screen() {
 const stylesheet = createStyleSheet((theme, runtime) => ({
   drawer: () => {
     const base: UnistylesValues = {
-      backgroundColor: theme.colors.gray[1],
+      backgroundColor: theme.colors.gray.ui,
     }
 
     if (iPad) {
@@ -123,6 +123,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     return base
   },
   overlay: {
-    backgroundColor: theme.colors.gray.a6,
+    backgroundColor: theme.colors.gray.border,
   },
 }))

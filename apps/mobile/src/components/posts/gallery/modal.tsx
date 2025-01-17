@@ -213,11 +213,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.gray[1],
+    backgroundColor: theme.colors.gray.ui,
   },
   pagination: {
     alignSelf: 'center',
-    backgroundColor: theme.colors.black.a9,
+    backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
     paddingHorizontal: theme.space[1],

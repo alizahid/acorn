@@ -44,7 +44,7 @@ export function PostHeader({ onPress, parentId }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   main: () => {
     const base: UnistylesValues = {
-      backgroundColor: theme.colors.gray.a3,
+      backgroundColor: theme.colors.gray.ui,
     }
 
     if (iPad) {

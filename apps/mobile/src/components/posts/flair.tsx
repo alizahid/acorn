@@ -50,7 +50,7 @@ const stylesheet = createStyleSheet((theme) => ({
     width: theme.typography[1].lineHeight,
   },
   text: {
-    backgroundColor: theme.colors.accent.a3,
+    backgroundColor: theme.colors.accent.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
     paddingHorizontal: theme.space[1] * 1.25,

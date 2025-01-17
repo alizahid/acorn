@@ -105,7 +105,7 @@ export function UserAbout({ listProps, name }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   banner: {
     aspectRatio: 1280 / 384,
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
   },
   content: {
     gap: theme.space[4],
@@ -116,13 +116,13 @@ const stylesheet = createStyleSheet((theme) => ({
     marginHorizontal: theme.space[4],
   },
   image: {
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
     height: theme.space[8],
     width: theme.space[8],
   },
   info: {
-    backgroundColor: theme.colors.accent.a3,
+    backgroundColor: theme.colors.accent.ui,
   },
 }))

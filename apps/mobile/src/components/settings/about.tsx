@@ -75,11 +75,11 @@ export function AboutCard() {
 
 const stylesheet = createStyleSheet((theme) => ({
   link: {
-    backgroundColor: theme.colors.accent.a9,
+    backgroundColor: theme.colors.accent.accent,
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
   },
   title: {
-    color: theme.colors.accent.a9,
+    color: theme.colors.accent.accent,
   },
 }))

@@ -23,7 +23,7 @@ export default function Screen() {
         {
           description: t('menu.query.description'),
           icon: {
-            color: theme.colors.red.a9,
+            color: theme.colors.red.accent,
             name: 'HardDrives',
             type: 'icon',
           },
@@ -34,7 +34,7 @@ export default function Screen() {
         },
         {
           icon: {
-            color: theme.colors.red.a9,
+            color: theme.colors.red.accent,
             name: 'Image',
             type: 'icon',
           },
@@ -49,7 +49,7 @@ export default function Screen() {
         {
           description: t('menu.history.description'),
           icon: {
-            color: theme.colors.red.a9,
+            color: theme.colors.red.accent,
             name: 'Eye',
             type: 'icon',
           },
@@ -60,7 +60,7 @@ export default function Screen() {
         },
         {
           icon: {
-            color: theme.colors.red.a9,
+            color: theme.colors.red.accent,
             name: 'TreeView',
             type: 'icon',
           },
@@ -72,7 +72,7 @@ export default function Screen() {
         {
           description: t('menu.hidden.description'),
           icon: {
-            color: theme.colors.red.a9,
+            color: theme.colors.red.accent,
             name: 'EyeClosed',
             type: 'icon',
           },
@@ -83,7 +83,7 @@ export default function Screen() {
         },
         {
           icon: {
-            color: theme.colors.red.a9,
+            color: theme.colors.red.accent,
             name: 'SortAscending',
             type: 'icon',
           },

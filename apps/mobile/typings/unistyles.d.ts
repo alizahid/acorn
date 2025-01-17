@@ -15,18 +15,18 @@ import { type breakpoints } from '~/styles/tokens'
 type AppBreakpoints = typeof breakpoints
 
 type AppThemes = {
-  acornDark: typeof darkTheme
-  acornLight: typeof lightTheme
+  'acorn-dark': typeof darkTheme
+  'acorn-light': typeof lightTheme
   dark: typeof darkTheme
-  indigoDark: typeof indigoDark
-  indigoLight: typeof indigoLight
-  jadeDark: typeof jadeDark
-  jadeLight: typeof jadeLight
+  'indigo-dark': typeof indigoDark
+  'indigo-light': typeof indigoLight
+  'jade-dark': typeof jadeDark
+  'jade-light': typeof jadeLight
   light: typeof lightTheme
-  plumDark: typeof plumDark
-  plumLight: typeof plumLight
-  rubyDark: typeof rubyDark
-  rubyLight: typeof rubyLight
+  'plum-dark': typeof plumDark
+  'plum-light': typeof plumLight
+  'ruby-dark': typeof rubyDark
+  'ruby-light': typeof rubyLight
 }
 
 declare module 'react-native-unistyles' {

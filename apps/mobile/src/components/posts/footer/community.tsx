@@ -76,7 +76,7 @@ export function PostCommunity({ image = true, label, post, seen }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   image: {
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.typography[2].lineHeight,
     height: theme.typography[2].lineHeight,

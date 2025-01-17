@@ -61,7 +61,7 @@ export function PostFooter({
       <View align="center" direction="row" gap="2">
         {expanded && onLongPress ? (
           <FooterButton
-            color={theme.colors.gray[seen ? 'a11' : 'a12']}
+            color={theme.colors.gray[seen ? 'textLow' : 'text']}
             icon="DotsThree"
             onPress={() => {
               onLongPress()
@@ -73,8 +73,8 @@ export function PostFooter({
         <FooterButton
           color={
             post.liked
-              ? theme.colors.orange.a9
-              : theme.colors.gray[seen ? 'a11' : 'a12']
+              ? theme.colors.orange.accent
+              : theme.colors.gray[seen ? 'textLow' : 'text']
           }
           fill={post.liked === true}
           icon="ArrowUp"
@@ -90,8 +90,8 @@ export function PostFooter({
         <FooterButton
           color={
             post.liked === false
-              ? theme.colors.violet.a9
-              : theme.colors.gray[seen ? 'a11' : 'a12']
+              ? theme.colors.violet.accent
+              : theme.colors.gray[seen ? 'textLow' : 'text']
           }
           fill={post.liked === false}
           icon="ArrowDown"

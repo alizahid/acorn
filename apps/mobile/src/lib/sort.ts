@@ -21,7 +21,7 @@ export const SortColors: Record<PostSort, ColorToken> = {
   best: 'green',
   comments: 'plum',
   confidence: 'green',
-  controversial: 'tomato',
+  controversial: 'violet',
   hot: 'red',
   new: 'blue',
   old: 'gray',

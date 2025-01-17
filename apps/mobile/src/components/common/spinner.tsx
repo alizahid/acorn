@@ -25,7 +25,7 @@ export function Spinner({
     <ActivityIndicator
       color={
         ColorTokens.includes(color as ColorToken)
-          ? theme.colors[color as ColorToken][contrast ? 'contrast' : 'a9']
+          ? theme.colors[color as ColorToken][contrast ? 'contrast' : 'accent']
           : color
       }
       size={size}

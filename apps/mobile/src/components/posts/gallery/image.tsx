@@ -153,7 +153,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   footer: {
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: theme.colors.black.a9,
+    backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.space[9],
     bottom: theme.space[9] + runtime.insets.bottom,
@@ -164,7 +164,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     position: 'absolute',
   },
   gif: {
-    backgroundColor: theme.colors.black.a9,
+    backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
     bottom: theme.space[2],
@@ -183,7 +183,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     ...StyleSheet.absoluteFillObject,
   },
   play: {
-    backgroundColor: theme.colors.black.a9,
+    backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.space[4],
     bottom: theme.space[2],

@@ -85,8 +85,8 @@ export function FeedTypeMenu({ data, disabled, onPress }: Props) {
         <Icon
           color={
             data.type
-              ? theme.colors[FeedTypeColors[data.type]].a9
-              : theme.colors.gray.a9
+              ? theme.colors[FeedTypeColors[data.type]].accent
+              : theme.colors.gray.accent
           }
           name={data.type ? FeedTypeIcons[data.type] : 'Question'}
           size={theme.space[5]}
@@ -98,7 +98,7 @@ export function FeedTypeMenu({ data, disabled, onPress }: Props) {
 
       {!disabled ? (
         <Icon
-          color={theme.colors.gray.a11}
+          color={theme.colors.gray.textLow}
           name="CaretDown"
           size={theme.space[4]}
           weight="bold"

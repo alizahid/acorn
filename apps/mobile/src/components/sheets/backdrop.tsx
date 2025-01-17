@@ -26,6 +26,6 @@ export function SheetBackdrop({
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    backgroundColor: theme.colors.gray.a9,
+    backgroundColor: theme.colors.gray.accent,
   },
 }))

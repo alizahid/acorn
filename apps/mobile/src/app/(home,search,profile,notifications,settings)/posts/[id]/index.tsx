@@ -356,10 +356,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     overflow: 'hidden',
     position: 'absolute',
   },
-  back: {
-    backgroundColor: theme.colors.gray.a9,
-    left: theme.space[4],
-  },
   content: {
     paddingBottom:
       runtime.insets.bottom +
@@ -377,12 +373,12 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     margin: runtime.insets.top + theme.space[8],
   },
   reply: (side: Side) => ({
-    backgroundColor: theme.colors.blue.a4,
+    backgroundColor: theme.colors.blue.uiActiveAlpha,
     left: side === 'left' ? theme.space[4] : undefined,
     right: side === 'right' ? theme.space[4] : undefined,
   }),
   skip: (side: Side) => ({
-    backgroundColor: theme.colors.accent.a4,
+    backgroundColor: theme.colors.accent.uiActiveAlpha,
     left: side === 'left' ? theme.space[4] : undefined,
     right: side === 'right' ? theme.space[4] : undefined,
   }),

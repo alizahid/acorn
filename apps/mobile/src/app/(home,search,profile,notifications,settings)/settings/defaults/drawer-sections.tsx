@@ -58,7 +58,7 @@ export default function Screen() {
 
 const stylesheet = createStyleSheet((theme) => ({
   content: {
-    backgroundColor: theme.colors.gray.a2,
+    backgroundColor: theme.colors.gray.bgAlt,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     overflow: 'hidden',

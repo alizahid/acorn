@@ -22,9 +22,9 @@ export function PostMeta({ post, seen }: Props) {
   const items = [
     {
       color: post.liked
-        ? theme.colors.orange.a9
+        ? theme.colors.orange.accent
         : post.liked === false
-          ? theme.colors.violet.a9
+          ? theme.colors.violet.accent
           : undefined,
       icon: post.liked === false ? 'ArrowFatDown' : 'ArrowFatUp',
       key: 'votes',
@@ -58,7 +58,7 @@ export function PostMeta({ post, seen }: Props) {
     <View align="center" direction="row" gap="2" pointerEvents="none">
       {post.sticky ? (
         <Icon
-          color={theme.colors.red.a9}
+          color={theme.colors.red.accent}
           name="PushPin"
           size={theme.typography[1].fontSize}
           weight="fill"
@@ -71,7 +71,7 @@ export function PostMeta({ post, seen }: Props) {
             color={
               'color' in item && item.color
                 ? item.color
-                : theme.colors.gray[seen ? 'a11' : 'a12']
+                : theme.colors.gray[seen ? 'textLow' : 'text']
             }
             name={item.icon}
             size={theme.typography[1].fontSize}

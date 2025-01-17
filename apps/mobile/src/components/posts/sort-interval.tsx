@@ -76,7 +76,7 @@ export function SortIntervalMenu<Type extends SortType>({
         self="end"
       >
         <Icon
-          color={theme.colors[SortColors[sort]].a9}
+          color={theme.colors[SortColors[sort]].accent}
           name={SortIcons[sort]}
           size={theme.space[5]}
           weight="duotone"
@@ -86,12 +86,12 @@ export function SortIntervalMenu<Type extends SortType>({
           <SymbolView
             name={IntervalIcons[interval]}
             size={20}
-            tintColor={theme.colors.gold.a9}
+            tintColor={theme.colors.gold.accent}
           />
         ) : null}
 
         <Icon
-          color={theme.colors.gray.a11}
+          color={theme.colors.gray.textLow}
           name="CaretDown"
           size={theme.space[4]}
           weight="bold"
@@ -102,7 +102,7 @@ export function SortIntervalMenu<Type extends SortType>({
         {items.map((item) => (
           <SheetItem
             icon={{
-              color: theme.colors[SortColors[item]].a9,
+              color: theme.colors[SortColors[item]].accent,
               name: SortIcons[item],
               type: 'icon',
             }}
@@ -139,7 +139,7 @@ export function SortIntervalMenu<Type extends SortType>({
             left={
               <SymbolView
                 name={IntervalIcons[item]}
-                tintColor={theme.colors.gold.a9}
+                tintColor={theme.colors.gold.accent}
               />
             }
             onPress={() => {

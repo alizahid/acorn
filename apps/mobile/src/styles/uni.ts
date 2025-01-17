@@ -16,18 +16,18 @@ import { breakpoints } from './tokens'
 
 UnistylesRegistry.addBreakpoints(breakpoints)
   .addThemes({
-    acornDark: darkTheme,
-    acornLight: lightTheme,
+    'acorn-dark': darkTheme,
+    'acorn-light': lightTheme,
     dark: darkTheme,
-    indigoDark,
-    indigoLight,
-    jadeDark,
-    jadeLight,
+    'indigo-dark': indigoDark,
+    'indigo-light': indigoLight,
+    'jade-dark': jadeDark,
+    'jade-light': jadeLight,
     light: lightTheme,
-    plumDark,
-    plumLight,
-    rubyDark,
-    rubyLight,
+    'plum-dark': plumDark,
+    'plum-light': plumLight,
+    'ruby-dark': rubyDark,
+    'ruby-light': rubyLight,
   })
   .addConfig({
     adaptiveThemes: true,

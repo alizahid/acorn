@@ -76,6 +76,6 @@ const stylesheet = createStyleSheet((theme) => ({
     marginVertical: theme.space[4],
   },
   main: (unread: boolean) => ({
-    backgroundColor: unread ? theme.colors.accent[3] : theme.colors.gray[2],
+    backgroundColor: unread ? theme.colors.accent.ui : theme.colors.gray.bgAlt,
   }),
 }))

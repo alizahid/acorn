@@ -31,7 +31,7 @@ export function DraggableItem({ label, onChange, value }: Props) {
         px="3"
       >
         <Icon
-          color={theme.colors.gray.a9}
+          color={theme.colors.gray.accent}
           name="DotsSixVertical"
           size={theme.space[4]}
           weight="bold"

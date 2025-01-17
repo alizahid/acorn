@@ -30,7 +30,7 @@ export function SheetHeader({ right, style, title }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    backgroundColor: theme.colors.accent[2],
+    backgroundColor: theme.colors.accent.bgAlt,
   },
   right: {
     bottom: 0,

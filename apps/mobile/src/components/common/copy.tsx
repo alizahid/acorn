@@ -42,7 +42,7 @@ export function Copy({ code = true, style, value }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
   },

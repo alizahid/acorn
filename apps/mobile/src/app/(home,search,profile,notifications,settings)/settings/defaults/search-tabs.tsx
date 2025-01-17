@@ -73,7 +73,7 @@ const stylesheet = createStyleSheet((theme) => ({
     flex: 1,
   },
   list: {
-    backgroundColor: theme.colors.gray.a2,
+    backgroundColor: theme.colors.gray.bgAlt,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     overflow: 'hidden',

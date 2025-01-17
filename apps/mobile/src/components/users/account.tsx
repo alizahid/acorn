@@ -59,7 +59,7 @@ export function AccountCard({
           style={[styles.item, account.id === selected && styles.selected]}
         >
           <Icon
-            color={theme.colors.gray.a9}
+            color={theme.colors.gray.accent}
             name="DotsSixVertical"
             size={theme.space[4]}
             weight="bold"
@@ -74,16 +74,16 @@ export function AccountCard({
 
 const stylesheet = createStyleSheet((theme) => ({
   delete: {
-    backgroundColor: theme.colors.red.a9,
+    backgroundColor: theme.colors.red.accent,
   },
   item: {
     alignItems: 'center',
-    backgroundColor: theme.colors.gray[1],
+    backgroundColor: theme.colors.gray.bg,
     flexDirection: 'row',
     gap: theme.space[3],
     padding: theme.space[3],
   },
   selected: {
-    backgroundColor: theme.colors.accent[5],
+    backgroundColor: theme.colors.accent.uiActive,
   },
 }))

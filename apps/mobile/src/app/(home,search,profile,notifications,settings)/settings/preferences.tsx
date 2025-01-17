@@ -253,7 +253,7 @@ export default function Screen() {
               right: (
                 <SymbolView
                   name={option.icon.name}
-                  tintColor={theme.colors.accent.a9}
+                  tintColor={theme.colors.accent.accent}
                 />
               ),
               value: String(option.value),
@@ -301,7 +301,7 @@ export default function Screen() {
                 label: t(`side.${value}`),
                 right: (
                   <Icon
-                    color={theme.colors.accent.a9}
+                    color={theme.colors.accent.accent}
                     name={icon}
                     weight="bold"
                   />

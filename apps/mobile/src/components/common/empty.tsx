@@ -19,7 +19,7 @@ export function Empty({ color, icon = 'SmileySad', message }: Props) {
   return (
     <View align="center" flexGrow={1} gap="4" justify="center" p="6">
       <Icon
-        color={color ?? theme.colors.accent.a9}
+        color={color ?? theme.colors.accent.accent}
         name={icon}
         size={theme.space[9]}
         weight={theme.name === 'dark' ? 'fill' : 'regular'}

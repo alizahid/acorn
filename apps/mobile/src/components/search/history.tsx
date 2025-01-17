@@ -35,7 +35,7 @@ export function SearchHistory({ history, onChange }: Props) {
             onChange(query)
           }}
         >
-          <Icon color={theme.colors.gray.a12} name="MagnifyingGlass" />
+          <Icon color={theme.colors.gray.text} name="MagnifyingGlass" />
 
           <Text style={styles.query}>{query}</Text>
 
@@ -45,7 +45,7 @@ export function SearchHistory({ history, onChange }: Props) {
               history.remove(query)
             }}
           >
-            <Icon color={theme.colors.red.a9} name="X" weight="bold" />
+            <Icon color={theme.colors.red.accent} name="X" weight="bold" />
           </Pressable>
         </Pressable>
       ))}
@@ -59,7 +59,7 @@ export function SearchHistory({ history, onChange }: Props) {
           history.clear()
         }}
       >
-        <Icon color={theme.colors.red.a9} name="X" weight="bold" />
+        <Icon color={theme.colors.red.accent} name="X" weight="bold" />
 
         <Text>{t('clear')}</Text>
       </Pressable>

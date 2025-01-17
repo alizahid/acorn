@@ -58,7 +58,7 @@ export function CommunitiesList({
             <View pr="4" py="2" style={styles.header}>
               {item === 'favorites' ? (
                 <Icon
-                  color={theme.colors.accent.a9}
+                  color={theme.colors.accent.accent}
                   name="Star"
                   size={theme.typography[3].lineHeight}
                   weight="duotone"
@@ -91,10 +91,10 @@ const stylesheet = createStyleSheet((theme) => ({
     marginTop: previous ? theme.space[2] : undefined,
   }),
   favorite: {
-    color: theme.colors.accent.a9,
+    color: theme.colors.accent.accent,
   },
   header: {
-    backgroundColor: theme.colors.gray[2],
+    backgroundColor: theme.colors.gray.bgAlt,
     paddingLeft: theme.space[4] * 2 + theme.space[7],
   },
 }))

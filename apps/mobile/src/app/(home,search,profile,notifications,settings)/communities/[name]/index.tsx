@@ -107,7 +107,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   header: () => {
     if (iPad) {
       return {
-        borderBottomColor: theme.colors.gray.a6,
+        borderBottomColor: theme.colors.gray.border,
         borderBottomWidth: runtime.hairlineWidth,
         marginBottom: theme.space[4],
         marginHorizontal: -theme.space[4],

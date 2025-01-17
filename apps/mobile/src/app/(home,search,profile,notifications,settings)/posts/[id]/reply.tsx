@@ -87,8 +87,8 @@ export default function Screen() {
         multiline
         onChangeText={setText}
         placeholder={t('placeholder')}
-        placeholderTextColor={theme.colors.gray.a9}
-        selectionColor={theme.colors.accent.a9}
+        placeholderTextColor={theme.colors.gray.accent}
+        selectionColor={theme.colors.accent.accent}
         style={styles.input(fontSystem)}
         value={text}
       />
@@ -100,7 +100,7 @@ export default function Screen() {
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   input: (systemFont: boolean) => ({
-    color: theme.colors.gray.a12,
+    color: theme.colors.gray.text,
     flex: 1,
     fontFamily: systemFont ? fonts.system : fonts.sans,
     fontSize: theme.typography[3].fontSize,
@@ -115,11 +115,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     height: theme.typography[3].lineHeight,
   },
   submit: {
-    backgroundColor: theme.colors.accent.a9,
+    backgroundColor: theme.colors.accent.accent,
     borderRadius: 0,
     paddingTop: theme.space[3],
   },
   user: {
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
   },
 }))

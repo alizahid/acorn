@@ -31,7 +31,7 @@ export function RefreshControl({ color = 'accent', offset, onRefresh }: Props) {
       onRefresh={refresh}
       progressViewOffset={offset}
       refreshing={refreshing}
-      tintColor={theme.colors[color].a9}
+      tintColor={theme.colors[color].accent}
     />
   )
 }

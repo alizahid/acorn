@@ -114,7 +114,7 @@ const stylesheet = createStyleSheet((theme) => ({
     overflow: 'hidden',
   },
   saved: {
-    backgroundColor: theme.colors.green[9],
+    backgroundColor: theme.colors.green.accent,
     bottom: -theme.space[6],
     height: theme.space[8],
     position: 'absolute',

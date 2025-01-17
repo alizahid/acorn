@@ -13,12 +13,12 @@ export function useTheme() {
 
   return {
     colors: {
-      background: theme.colors.accent[1],
-      border: theme.colors.gray[6],
-      card: theme.colors.gray[2],
-      notification: theme.colors.accent.a9,
-      primary: theme.colors.accent.a9,
-      text: theme.colors.gray[11],
+      background: theme.colors.accent.bg,
+      border: theme.colors.gray.border,
+      card: theme.colors.gray.bgAlt,
+      notification: theme.colors.accent.accent,
+      primary: theme.colors.accent.accent,
+      text: theme.colors.gray.text,
     },
     dark: theme.name === 'dark',
     fonts: {

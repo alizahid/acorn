@@ -35,7 +35,7 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
       colors[progress.get() > swipeActionThreshold.long ? long : short]
 
     return {
-      backgroundColor: theme.colors[color].a9,
+      backgroundColor: theme.colors[color].accent,
     }
   })
 

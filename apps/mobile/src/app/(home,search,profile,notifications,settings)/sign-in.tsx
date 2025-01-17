@@ -148,6 +148,6 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[9],
   },
   title: {
-    color: theme.colors.accent.a9,
+    color: theme.colors.accent.accent,
   },
 }))

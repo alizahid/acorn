@@ -63,7 +63,7 @@ export function CrossPostCard({
 
         <View align="center" justify="center" style={styles.compactIcon}>
           <Icon
-            color={theme.colors.accent.a9}
+            color={theme.colors.accent.accent}
             name="ArrowsSplit"
             style={styles.crossPost}
           />
@@ -155,7 +155,7 @@ export function CrossPostCard({
             }}
           >
             <Icon
-              color={theme.colors.accent.a9}
+              color={theme.colors.accent.accent}
               name="ArrowsSplit"
               size={theme.typography[1].lineHeight}
               style={styles.crossPost}
@@ -169,7 +169,7 @@ export function CrossPostCard({
           {footer.map((item) => (
             <View align="center" direction="row" gap="1" key={item.key}>
               <Icon
-                color={theme.colors.gray.a11}
+                color={theme.colors.gray.textLow}
                 name={item.icon}
                 size={theme.typography[1].lineHeight}
               />
@@ -187,7 +187,7 @@ export function CrossPostCard({
 
 const stylesheet = createStyleSheet((theme) => ({
   compact: (large?: boolean) => ({
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.space[large ? 2 : 1],
     height: theme.space[8] * (large ? 2 : 1),
@@ -196,7 +196,7 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   compactIcon: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.black.a9,
+    backgroundColor: theme.colors.black.accentAlpha,
   },
   compactImage: {
     flex: 1,
@@ -209,7 +209,7 @@ const stylesheet = createStyleSheet((theme) => ({
     ],
   },
   main: {
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     overflow: 'hidden',

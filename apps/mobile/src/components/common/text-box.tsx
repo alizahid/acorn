@@ -112,11 +112,11 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
           }}
           onSubmitEditing={onSubmitEditing}
           placeholder={placeholder}
-          placeholderTextColor={theme.colors.gray.a9}
+          placeholderTextColor={theme.colors.gray.accent}
           ref={ref}
           returnKeyType={returnKeyType}
           secureTextEntry={secureTextEntry}
-          selectionColor={theme.colors.accent.a9}
+          selectionColor={theme.colors.accent.accent}
           style={[
             styles.input(Boolean(multiline), Boolean(code), fontSystem),
             styleInput,
@@ -145,21 +145,21 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   content: (focused: boolean, error: boolean) => ({
-    backgroundColor: theme.colors.gray.a2,
+    backgroundColor: theme.colors.gray.bgAlt,
     borderColor: focused
       ? error
-        ? theme.colors.red.a9
-        : theme.colors.accent.a9
+        ? theme.colors.red.accent
+        : theme.colors.accent.accent
       : error
-        ? theme.colors.red.a7
-        : theme.colors.gray.a7,
+        ? theme.colors.red.borderUi
+        : theme.colors.gray.borderUi,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     borderWidth: runtime.hairlineWidth,
     flexGrow: 1,
   }),
   input: (multiline: boolean, code: boolean, systemFont: boolean) => ({
-    color: theme.colors.gray.a12,
+    color: theme.colors.gray.text,
     flex: 1,
     fontFamily: code ? fonts.mono : systemFont ? fonts.system : fonts.sans,
     fontSize: theme.typography[3].fontSize,

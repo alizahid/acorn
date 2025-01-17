@@ -61,11 +61,11 @@ export function SheetItem({
           <SymbolView
             name={icon.name}
             size={theme.space[5]}
-            tintColor={icon.color ?? theme.colors.accent.a9}
+            tintColor={icon.color ?? theme.colors.accent.accent}
           />
         ) : (
           <Icon
-            color={icon.color ?? theme.colors.accent.a9}
+            color={icon.color ?? theme.colors.accent.accent}
             name={icon.name}
             size={theme.space[5]}
             weight={icon.weight ?? 'duotone'}
@@ -81,7 +81,7 @@ export function SheetItem({
 
       {navigate ? (
         <Icon
-          color={theme.colors.gray.a11}
+          color={theme.colors.gray.textLow}
           name="CaretRight"
           size={theme.typography[2].lineHeight}
         />
@@ -97,6 +97,6 @@ const stylesheet = createStyleSheet((theme) => ({
     flex: 1,
   },
   selected: {
-    backgroundColor: theme.colors.accent.a4,
+    backgroundColor: theme.colors.accent.uiActive,
   },
 }))

@@ -34,7 +34,7 @@ export function FooterButton({
       width={compact ? undefined : '6'}
     >
       <Icon
-        color={fill ? theme.colors.white.a12 : color}
+        color={fill ? theme.colors.white.textAlpha : color}
         name={icon}
         size={compact ? theme.typography[1].fontSize : theme.space[5]}
         weight={weight}

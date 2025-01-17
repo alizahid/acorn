@@ -66,7 +66,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
         <SheetModal container="scroll" ref={ref} title={t('title.comment')}>
           <SheetItem
             icon={{
-              color: theme.colors.orange.a9,
+              color: theme.colors.orange.accent,
               name: 'ArrowFatUp',
               type: 'icon',
             }}
@@ -84,7 +84,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.violet.a9,
+              color: theme.colors.violet.accent,
               name: 'ArrowFatDown',
               type: 'icon',
             }}
@@ -102,7 +102,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.green.a9,
+              color: theme.colors.green.accent,
               name: 'BookmarkSimple',
               type: 'icon',
             }}
@@ -120,7 +120,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.blue.a9,
+              color: theme.colors.blue.accent,
               name: 'ArrowBendUpLeft',
               type: 'icon',
             }}
@@ -143,7 +143,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.gray.a11,
+              color: theme.colors.gray.textLow,
               name: 'Copy',
               type: 'icon',
             }}
@@ -157,7 +157,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.gray.a11,
+              color: theme.colors.gray.textLow,
               name: 'Copy',
               type: 'icon',
             }}
@@ -176,7 +176,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.gray.a11,
+              color: theme.colors.gray.textLow,
               name: 'Share',
               type: 'icon',
             }}
@@ -209,7 +209,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.gray.a11,
+              color: theme.colors.gray.textLow,
               name: 'Compass',
               type: 'icon',
             }}
@@ -228,7 +228,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.gray.a11,
+              color: theme.colors.gray.textLow,
               name: 'User',
               type: 'icon',
             }}
@@ -251,7 +251,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.red.a9,
+              color: theme.colors.red.accent,
               name: 'EyeClosed',
               type: 'icon',
             }}
@@ -270,7 +270,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.red.a9,
+              color: theme.colors.red.accent,
               name: 'User',
               type: 'icon',
             }}
@@ -292,7 +292,7 @@ export const CommentMenu = forwardRef<BottomSheetModal, Props>(
 
           <SheetItem
             icon={{
-              color: theme.colors.red.a9,
+              color: theme.colors.red.accent,
               name: 'Flag',
               type: 'icon',
             }}

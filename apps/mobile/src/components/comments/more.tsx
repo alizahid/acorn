@@ -78,8 +78,10 @@ const stylesheet = createStyleSheet((theme) => ({
     const marginLeft = theme.space[2] * depth
 
     const base: UnistylesValues = {
-      backgroundColor: colored ? theme.colors[color][2] : theme.colors.gray[2],
-      borderLeftColor: depth > 0 ? theme.colors[color][6] : undefined,
+      backgroundColor: colored
+        ? theme.colors[color].bgAlt
+        : theme.colors.gray.bgAlt,
+      borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       marginLeft,
     }

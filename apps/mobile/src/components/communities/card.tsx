@@ -58,7 +58,7 @@ export function CommunityCard({ community, style }: Props) {
       </Text>
 
       <Icon
-        color={theme.colors.gray.a9}
+        color={theme.colors.gray.accent}
         name="CaretRight"
         size={theme.space[4]}
       />
@@ -68,7 +68,7 @@ export function CommunityCard({ community, style }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   image: {
-    backgroundColor: theme.colors.gray.a3,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.space[7],
     height: theme.space[7],

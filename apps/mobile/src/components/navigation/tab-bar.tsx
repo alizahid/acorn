@@ -69,7 +69,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
                 style={styles.tab}
               >
                 {options?.tabBarIcon?.({
-                  color: theme.colors[focused ? 'accent' : 'gray'].a9,
+                  color: theme.colors[focused ? 'accent' : 'gray'].accent,
                   focused,
                   size: theme.space[5],
                 })}
@@ -91,7 +91,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   badge: {
-    backgroundColor: theme.colors.accent.a9,
+    backgroundColor: theme.colors.accent.accent,
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
     paddingHorizontal: theme.space[1],
@@ -107,8 +107,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     ],
   },
   main: (blur: boolean) => ({
-    backgroundColor: theme.colors.accent[blur ? 'a1' : '1'],
-    borderTopColor: theme.colors.gray.a6,
+    backgroundColor: theme.colors.accent[blur ? 'bgAlpha' : 'bg'],
+    borderTopColor: theme.colors.gray.border,
     borderTopWidth: runtime.hairlineWidth,
     bottom: 0,
     flexDirection: 'row',

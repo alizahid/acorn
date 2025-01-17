@@ -292,13 +292,13 @@ const stylesheet = createStyleSheet((theme) => ({
     marginBottom: theme.space[3],
   },
   main: (seen: boolean) => ({
-    backgroundColor: theme.colors.gray[seen ? 2 : 3],
+    backgroundColor: theme.colors.gray[seen ? 'bgAlt' : 'ui'],
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[3] : undefined,
     overflow: 'hidden',
   }),
   saved: {
-    backgroundColor: theme.colors.green.a9,
+    backgroundColor: theme.colors.green.accent,
     height: theme.space[8],
     position: 'absolute',
     right: -theme.space[6],

@@ -65,7 +65,7 @@ export function MenuItem({ item, style }: Props) {
       >
         {isPending ? (
           <Spinner
-            color={item.icon?.color ?? theme.colors.accent.a9}
+            color={item.icon?.color ?? theme.colors.accent.accent}
             size={theme.space[5]}
           />
         ) : item.icon ? (
@@ -73,11 +73,11 @@ export function MenuItem({ item, style }: Props) {
             <SymbolView
               name={item.icon.name}
               size={theme.space[5]}
-              tintColor={item.icon.color ?? theme.colors.accent.a9}
+              tintColor={item.icon.color ?? theme.colors.accent.accent}
             />
           ) : (
             <Icon
-              color={item.icon.color ?? theme.colors.accent.a9}
+              color={item.icon.color ?? theme.colors.accent.accent}
               name={item.icon.name}
               size={theme.space[5]}
               weight={item.icon.weight ?? 'duotone'}
@@ -114,7 +114,7 @@ export function MenuItem({ item, style }: Props) {
 
         {item.arrow ? (
           <Icon
-            color={theme.colors.gray.a9}
+            color={theme.colors.gray.accent}
             name="CaretRight"
             size={theme.space[4]}
           />

@@ -44,27 +44,27 @@ export default function Screen() {
       data: [
         {
           color: 'orange',
-          id: 'acornLight',
+          id: 'acorn-light',
           label: t('light.acorn'),
         },
         {
           color: 'ruby',
-          id: 'rubyLight',
+          id: 'ruby-light',
           label: t('light.ruby'),
         },
         {
           color: 'plum',
-          id: 'plumLight',
+          id: 'plum-light',
           label: t('light.plum'),
         },
         {
           color: 'indigo',
-          id: 'indigoLight',
+          id: 'indigo-light',
           label: t('light.indigo'),
         },
         {
           color: 'jade',
-          id: 'jadeLight',
+          id: 'jade-light',
           label: t('light.jade'),
         },
       ],
@@ -74,27 +74,27 @@ export default function Screen() {
       data: [
         {
           color: 'orange',
-          id: 'acornDark',
+          id: 'acorn-dark',
           label: t('dark.acorn'),
         },
         {
           color: 'ruby',
-          id: 'rubyDark',
+          id: 'ruby-dark',
           label: t('dark.ruby'),
         },
         {
           color: 'plum',
-          id: 'plumDark',
+          id: 'plum-dark',
           label: t('dark.plum'),
         },
         {
           color: 'indigo',
-          id: 'indigoDark',
+          id: 'indigo-dark',
           label: t('dark.indigo'),
         },
         {
           color: 'jade',
-          id: 'jadeDark',
+          id: 'jade-dark',
           label: t('dark.jade'),
         },
       ],
@@ -144,14 +144,14 @@ export default function Screen() {
 
 const stylesheet = createStyleSheet((theme) => ({
   header: {
-    backgroundColor: theme.colors.gray.a2,
+    backgroundColor: theme.colors.gray.bgAlt,
   },
   icon: (color: ColorToken | 'acorn') => ({
-    backgroundColor: theme.colors[color === 'acorn' ? 'orange' : color].a9,
+    backgroundColor: theme.colors[color === 'acorn' ? 'orange' : color].accent,
     borderCurve: 'continuous',
     borderRadius: theme.space[5],
   }),
   item: (selected: boolean) => ({
-    backgroundColor: selected ? theme.colors.accent.a5 : undefined,
+    backgroundColor: selected ? theme.colors.accent.uiActive : undefined,
   }),
 }))

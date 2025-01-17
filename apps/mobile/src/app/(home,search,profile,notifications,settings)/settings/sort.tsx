@@ -35,7 +35,7 @@ export default function Screen() {
   const enhanceSort = useCallback(
     (sort: FeedSort | CommentSort | SearchSort): MenuItemOption => {
       const icon = SortIcons[sort]
-      const color = theme.colors[SortColors[sort]][9]
+      const color = theme.colors[SortColors[sort]].accent
 
       return {
         icon: {
@@ -61,7 +61,7 @@ export default function Screen() {
   const enhanceInterval = useCallback(
     (interval: TopInterval): MenuItemOption => ({
       icon: {
-        color: theme.colors.gold[9],
+        color: theme.colors.gold.accent,
         name: IntervalIcons[interval],
         type: 'symbol',
       },
@@ -70,7 +70,7 @@ export default function Screen() {
         <SymbolView
           name={IntervalIcons[interval]}
           size={theme.space[5]}
-          tintColor={theme.colors.gold.a9}
+          tintColor={theme.colors.gold.accent}
         />
       ),
       value: interval,
