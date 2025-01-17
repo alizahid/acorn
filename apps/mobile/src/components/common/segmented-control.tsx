@@ -95,7 +95,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   main: {
-    backgroundColor: theme.colors.gray.ui,
+    backgroundColor: theme.colors.gray.bg,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
   },

@@ -35,20 +35,6 @@ export default function Screen() {
         {
           arrow: true,
           icon: {
-            name: 'SlidersHorizontal',
-            type: 'icon',
-            weight: 'duotone',
-          },
-          label: t('defaults'),
-          onPress() {
-            router.navigate({
-              pathname: '/settings/defaults',
-            })
-          },
-        },
-        {
-          arrow: true,
-          icon: {
             name: 'HandSwipeLeft',
             type: 'icon',
             weight: 'duotone',
@@ -67,10 +53,24 @@ export default function Screen() {
             type: 'icon',
             weight: 'duotone',
           },
-          label: t('themes'),
+          label: t('appearance'),
           onPress() {
             router.navigate({
-              pathname: '/settings/themes',
+              pathname: '/settings/appearance',
+            })
+          },
+        },
+        {
+          arrow: true,
+          icon: {
+            name: 'SlidersHorizontal',
+            type: 'icon',
+            weight: 'duotone',
+          },
+          label: t('defaults'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings/defaults',
             })
           },
         },

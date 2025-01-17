@@ -7,13 +7,14 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { SheetItem } from '~/components/sheets/item'
 import { useList } from '~/hooks/list'
-import { usePreferences } from '~/stores/preferences'
+import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 import { type ColorToken } from '~/styles/tokens'
 
 export default function Screen() {
-  const t = useTranslations('screen.settings.themes')
+  const t = useTranslations('screen.settings.appearance')
 
-  const { theme, themeBackground, themeOled, update } = usePreferences()
+  const { blurNavigation, theme, themeBackground, themeOled, update } =
+    usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -30,6 +31,12 @@ export default function Screen() {
       key: 'themeBackground',
       label: t('preferences.themeBackground'),
       value: themeBackground,
+    },
+    {
+      icon: 'Drop',
+      key: 'blurNavigation',
+      label: t('preferences.blurNavigation'),
+      value: blurNavigation,
     },
     null,
 
@@ -102,6 +109,21 @@ export default function Screen() {
       {...listProps}
       data={data}
       estimatedItemSize={48}
+      getItemType={(item) => {
+        if (item === null) {
+          return 'separator'
+        }
+
+        if (typeof item === 'string') {
+          return 'header'
+        }
+
+        if ('color' in item) {
+          return 'theme'
+        }
+
+        return 'preference'
+      }}
       renderItem={({ item }) => {
         if (item === null) {
           return <View height="4" />
@@ -153,9 +175,19 @@ export default function Screen() {
 
             <Switch
               onChange={(next) => {
-                update({
+                const payload: Partial<PreferencesPayload> = {
                   [item.key]: next,
-                })
+                }
+
+                if (item.key === 'themeOled' && next && themeBackground) {
+                  payload.themeBackground = false
+                }
+
+                if (item.key === 'themeBackground' && next && themeOled) {
+                  payload.themeOled = false
+                }
+
+                update(payload)
               }}
               value={item.value}
             />

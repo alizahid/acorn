@@ -189,9 +189,9 @@ function StackLayout({ children }: PropsWithChildren) {
       />
 
       <Stack.Screen
-        name="settings/themes"
+        name="settings/appearance"
         options={{
-          title: t('settings.themes.title'),
+          title: t('settings.appearance.title'),
         }}
       />
 

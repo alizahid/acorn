@@ -206,11 +206,6 @@ export default function Screen() {
             key: 'fontSystem',
             label: 'system.fontSystem',
           },
-          {
-            icon: 'Drop',
-            key: 'blurNavigation',
-            label: 'system.blurNavigation',
-          },
 
           null,
           t('feedback.title'),

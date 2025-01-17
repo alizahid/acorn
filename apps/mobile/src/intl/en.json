@@ -244,6 +244,35 @@
         },
         "title": "About"
       },
+      "appearance": {
+        "auto": {
+          "acorn": "Acorn",
+          "title": "Auto"
+        },
+        "dark": {
+          "acorn": "Acorn",
+          "indigo": "Indigo",
+          "jade": "Jade",
+          "plum": "Plum",
+          "ruby": "Ruby",
+          "title": "Dark"
+        },
+        "light": {
+          "acorn": "Acorn",
+          "indigo": "Indigo",
+          "jade": "Jade",
+          "plum": "Plum",
+          "ruby": "Ruby",
+          "title": "Light"
+        },
+        "preferences": {
+          "blurNavigation": "Use blur effect",
+          "themeBackground": "Background color",
+          "themeOled": "OLED mode",
+          "title": "Preferences"
+        },
+        "title": "Appearance"
+      },
       "cache": {
         "menu": {
           "collapsed": "Clear collapsed comments",
@@ -359,7 +388,6 @@
           "right": "Right"
         },
         "system": {
-          "blurNavigation": "Use blur effect",
           "fontScaling": "Use system font scaling",
           "fontSystem": "Use system font",
           "linkBrowser": "Open links in browser",
@@ -369,12 +397,12 @@
       },
       "settings": {
         "about": "About",
+        "appearance": "Appearance",
         "cache": "Cache",
         "defaults": "Defaults",
         "gestures": "Gestures",
         "preferences": "Preferences",
         "sort": "Sort",
-        "themes": "Themes",
         "title": "Settings"
       },
       "sort": {
@@ -409,34 +437,6 @@
           },
           "title": "User"
         }
-      },
-      "themes": {
-        "auto": {
-          "acorn": "Acorn",
-          "title": "Auto"
-        },
-        "dark": {
-          "acorn": "Acorn",
-          "indigo": "Indigo",
-          "jade": "Jade",
-          "plum": "Plum",
-          "ruby": "Ruby",
-          "title": "Dark"
-        },
-        "light": {
-          "acorn": "Acorn",
-          "indigo": "Indigo",
-          "jade": "Jade",
-          "plum": "Plum",
-          "ruby": "Ruby",
-          "title": "Light"
-        },
-        "preferences": {
-          "themeBackground": "Background color",
-          "themeOled": "OLED mode",
-          "title": "Preferences"
-        },
-        "title": "Themes"
       }
     },
     "users": {
