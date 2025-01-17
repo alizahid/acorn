@@ -1,7 +1,4 @@
-import {
-  ReorderableListItem,
-  useReorderableDrag,
-} from 'react-native-reorderable-list'
+import { useReorderableDrag } from 'react-native-reorderable-list'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Icon } from '../common/icon'
@@ -21,36 +18,34 @@ export function DraggableItem({ label, onChange, value }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <ReorderableListItem>
-      <Pressable
-        align="center"
-        direction="row"
-        gap="3"
-        height="8"
-        onLongPress={drag}
-        px="3"
-      >
-        <Icon
-          color={theme.colors.gray.accent}
-          name="DotsSixVertical"
-          size={theme.space[4]}
-          weight="bold"
+    <Pressable
+      align="center"
+      direction="row"
+      gap="3"
+      height="8"
+      onLongPress={drag}
+      px="3"
+    >
+      <Icon
+        color={theme.colors.gray.accent}
+        name="DotsSixVertical"
+        size={theme.space[4]}
+        weight="bold"
+      />
+
+      <Text style={styles.label} weight="medium">
+        {label}
+      </Text>
+
+      {onChange ? (
+        <Switch
+          onChange={(next) => {
+            onChange(next)
+          }}
+          value={value}
         />
-
-        <Text style={styles.label} weight="medium">
-          {label}
-        </Text>
-
-        {onChange ? (
-          <Switch
-            onChange={(next) => {
-              onChange(next)
-            }}
-            value={value}
-          />
-        ) : null}
-      </Pressable>
-    </ReorderableListItem>
+      ) : null}
+    </Pressable>
   )
 }
 

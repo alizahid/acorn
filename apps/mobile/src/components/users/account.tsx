@@ -1,9 +1,6 @@
 import { Pressable } from 'react-native'
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
-import {
-  ReorderableListItem,
-  useReorderableDrag,
-} from 'react-native-reorderable-list'
+import { useReorderableDrag } from 'react-native-reorderable-list'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type Account } from '~/stores/auth'
@@ -32,43 +29,41 @@ export function AccountCard({
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <ReorderableListItem>
-      <Swipeable
-        containerStyle={styles.delete}
-        key={account.id}
-        renderLeftActions={() => (
-          <HeaderButton
-            contrast
-            icon="Trash"
-            onPress={() => {
-              onRemove(account.id)
-            }}
-          />
-        )}
-        renderRightActions={() => null}
-      >
-        <Pressable
-          onLongPress={drag}
+    <Swipeable
+      containerStyle={styles.delete}
+      key={account.id}
+      renderLeftActions={() => (
+        <HeaderButton
+          contrast
+          icon="Trash"
           onPress={() => {
-            if (account.id !== selected) {
-              onChange(account.id)
-            }
-
-            onClose()
+            onRemove(account.id)
           }}
-          style={[styles.item, account.id === selected && styles.selected]}
-        >
-          <Icon
-            color={theme.colors.gray.accent}
-            name="DotsSixVertical"
-            size={theme.space[4]}
-            weight="bold"
-          />
+        />
+      )}
+      renderRightActions={() => null}
+    >
+      <Pressable
+        onLongPress={drag}
+        onPress={() => {
+          if (account.id !== selected) {
+            onChange(account.id)
+          }
 
-          <Text weight="medium">{account.id}</Text>
-        </Pressable>
-      </Swipeable>
-    </ReorderableListItem>
+          onClose()
+        }}
+        style={[styles.item, account.id === selected && styles.selected]}
+      >
+        <Icon
+          color={theme.colors.gray.accent}
+          name="DotsSixVertical"
+          size={theme.space[4]}
+          weight="bold"
+        />
+
+        <Text weight="medium">{account.id}</Text>
+      </Pressable>
+    </Swipeable>
   )
 }
 
