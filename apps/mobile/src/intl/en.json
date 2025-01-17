@@ -431,6 +431,11 @@
           "ruby": "Ruby",
           "title": "Light"
         },
+        "preferences": {
+          "themeBackground": "Background color",
+          "themeOled": "OLED mode",
+          "title": "Preferences"
+        },
         "title": "Themes"
       }
     },

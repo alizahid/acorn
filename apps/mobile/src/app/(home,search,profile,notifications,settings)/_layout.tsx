@@ -4,7 +4,7 @@ import { useTranslations } from 'use-intl'
 
 import { StackHeader } from '~/components/navigation/stack-header'
 import { UserSwitcher } from '~/components/users/switcher'
-import { iPad } from '~/lib/common'
+import { modalStyle } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 
 import { type SignInParams } from './sign-in'
@@ -154,7 +154,8 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="posts/[id]/reply"
         options={{
-          presentation: iPad ? 'fullScreenModal' : 'modal',
+          contentStyle: modalStyle,
+          presentation: 'modal',
           title: t('posts.reply.title'),
         }}
       />
@@ -218,10 +219,11 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="sign-in"
         options={(props) => ({
+          contentStyle: modalStyle,
           gestureEnabled:
             (props.route.params as SignInParams).mode === 'dismissible',
           headerShown: false,
-          presentation: iPad ? 'formSheet' : 'modal',
+          presentation: 'modal',
         })}
       />
     </Stack>

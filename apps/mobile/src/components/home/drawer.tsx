@@ -21,6 +21,8 @@ import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 import { type Community } from '~/types/community'
 import { type Feed } from '~/types/feed'
 import { FeedType } from '~/types/sort'
@@ -90,6 +92,7 @@ export function HomeDrawer({ onClose }: Props) {
   const tDrawer = useTranslations('component.home.drawer')
 
   const { drawerSections } = useDefaults()
+  const { themeBackground, themeOled } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -262,7 +265,7 @@ export function HomeDrawer({ onClose }: Props) {
     .filter((item) => item !== null)
 
   return (
-    <View style={styles.main() as ViewStyle}>
+    <View style={styles.main(themeOled, themeBackground) as ViewStyle}>
       <TextBox
         left={
           <Icon
@@ -493,9 +496,13 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     height: theme.typography[3].lineHeight,
     width: theme.typography[3].lineHeight,
   },
-  main: () => {
+  main: (oled: boolean, bg: boolean) => {
     const base: UnistylesValues = {
-      backgroundColor: theme.colors.accent.bg,
+      backgroundColor: oled
+        ? oledTheme[theme.name].bg
+        : bg
+          ? theme.colors.accent.bg
+          : theme.colors.gray.bg,
       flex: 1,
       paddingTop: theme.space[8] + runtime.insets.top + runtime.hairlineWidth,
     }

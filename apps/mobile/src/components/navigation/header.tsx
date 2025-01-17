@@ -6,6 +6,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { tintDark, tintLight } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -32,7 +33,7 @@ export function Header({
 }: Props) {
   const router = useRouter()
 
-  const { blurNavigation } = usePreferences()
+  const { blurNavigation, themeBackground, themeOled } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -40,8 +41,13 @@ export function Header({
 
   return (
     <Main
-      intensity={75}
-      style={[modal ? styles.modal : styles.main(blurNavigation), style]}
+      intensity={themeOled ? 25 : 75}
+      style={[
+        modal
+          ? styles.modal(themeOled, themeBackground)
+          : styles.main(blurNavigation, themeOled, themeBackground),
+        style,
+      ]}
       tint={theme.name === 'dark' ? tintDark : tintLight}
     >
       <View align="center" height="8" justify="center">
@@ -91,9 +97,13 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   left: {
     left: 0,
   },
-  main: (blur: boolean) => ({
-    backgroundColor: theme.colors.accent[blur ? 'bgAlpha' : 'bg'],
-    borderBottomColor: theme.colors.gray.border,
+  main: (blur: boolean, oled: boolean, bg: boolean) => ({
+    backgroundColor: oled
+      ? blur
+        ? oledTheme[theme.name].bgAlpha
+        : oledTheme[theme.name].bg
+      : theme.colors[bg ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
+    borderBottomColor: oled ? 'transparent' : theme.colors.gray.border,
     borderBottomWidth: runtime.hairlineWidth,
     left: 0,
     paddingTop: runtime.insets.top,
@@ -102,11 +112,13 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     top: 0,
     zIndex: 100,
   }),
-  modal: {
-    backgroundColor: theme.colors.gray.bgAlt,
-    borderBottomColor: theme.colors.gray.border,
+  modal: (oled: boolean, bg: boolean) => ({
+    backgroundColor: oled
+      ? oledTheme[theme.name].bg
+      : theme.colors[bg ? 'accent' : 'gray'].bg,
+    borderBottomColor: oled ? 'transparent' : theme.colors.gray.border,
     borderBottomWidth: runtime.hairlineWidth,
-  },
+  }),
   right: {
     right: 0,
   },

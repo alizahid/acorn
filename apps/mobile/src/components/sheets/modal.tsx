@@ -6,19 +6,24 @@ import {
 import { forwardRef, type ReactNode } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { Text } from '../common/text'
-import { View } from '../common/view'
+import { cardMaxWidth, iPad } from '~/lib/common'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
+
 import { SheetBackdrop } from './backdrop'
+import { SheetHeader } from './header'
 
 type Props = {
   children: ReactNode
   container?: 'view' | 'scroll'
   right?: ReactNode
-  title?: string
+  title: string
 }
 
 export const SheetModal = forwardRef<BottomSheetModal, Props>(
   function Component({ children, container = 'view', right, title }, ref) {
+    const { themeBackground, themeOled } = usePreferences()
+
     const { styles } = useStyles(stylesheet)
 
     const Container =
@@ -36,24 +41,15 @@ export const SheetModal = forwardRef<BottomSheetModal, Props>(
     return (
       <BottomSheetModal
         backdropComponent={SheetBackdrop}
-        backgroundStyle={styles.background}
+        backgroundStyle={styles.background(themeOled, themeBackground)}
         handleComponent={null}
-        maxDynamicContentSize={styles.main.maxHeight}
+        maxDynamicContentSize={styles.maxHeight.height}
         ref={ref}
         stackBehavior="push"
+        style={styles.main}
       >
         <Container {...props}>
-          {(title ?? right) ? (
-            <View align="center" height="8" justify="center">
-              {title ? (
-                <Text align="center" weight="bold">
-                  {title}
-                </Text>
-              ) : null}
-
-              {right ? <View style={styles.right}>{right}</View> : null}
-            </View>
-          ) : null}
+          <SheetHeader right={right} style={styles.header} title={title} />
 
           {children}
         </Container>
@@ -63,20 +59,27 @@ export const SheetModal = forwardRef<BottomSheetModal, Props>(
 )
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  background: {
-    backgroundColor: theme.colors.gray.bg,
+  background: (oled: boolean, bg: boolean) => ({
+    backgroundColor: oled
+      ? oledTheme[theme.name].bg
+      : theme.colors[bg ? 'accent' : 'gray'].bg,
     borderCurve: 'continuous',
     borderRadius: theme.radius[5],
-  },
+  }),
   content: {
     paddingBottom: runtime.insets.bottom,
   },
-  main: {
-    maxHeight: runtime.screen.height * 0.8,
+  header: {
+    borderCurve: 'continuous',
+    borderTopLeftRadius: theme.radius[5],
+    borderTopRightRadius: theme.radius[5],
   },
-  right: {
-    bottom: 0,
-    position: 'absolute',
-    right: 0,
+  main: {
+    marginHorizontal: iPad
+      ? (runtime.screen.width - cardMaxWidth) / 2
+      : undefined,
+  },
+  maxHeight: {
+    height: runtime.screen.height * 0.8,
   },
 }))

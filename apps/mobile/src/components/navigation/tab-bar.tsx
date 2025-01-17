@@ -8,6 +8,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { iPad, tintDark, tintLight } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -17,7 +18,7 @@ type Props = BottomTabBarProps
 export function TabBar({ descriptors, navigation, state }: Props) {
   const router = useRouter()
 
-  const { blurNavigation } = usePreferences()
+  const { blurNavigation, themeBackground, themeOled } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -36,8 +37,8 @@ export function TabBar({ descriptors, navigation, state }: Props) {
   return (
     <GestureDetector gesture={gesture}>
       <Main
-        intensity={75}
-        style={styles.main(blurNavigation)}
+        intensity={themeOled ? 25 : 75}
+        style={styles.main(blurNavigation, themeOled, themeBackground)}
         tint={theme.name === 'dark' ? tintDark : tintLight}
       >
         {state.routes
@@ -106,9 +107,13 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       },
     ],
   },
-  main: (blur: boolean) => ({
-    backgroundColor: theme.colors.accent[blur ? 'bgAlpha' : 'bg'],
-    borderTopColor: theme.colors.gray.border,
+  main: (blur: boolean, oled: boolean, bg: boolean) => ({
+    backgroundColor: oled
+      ? blur
+        ? oledTheme[theme.name].bgAlpha
+        : oledTheme[theme.name].bg
+      : theme.colors[bg ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
+    borderTopColor: oled ? 'transparent' : theme.colors.gray.border,
     borderTopWidth: runtime.hairlineWidth,
     bottom: 0,
     flexDirection: 'row',

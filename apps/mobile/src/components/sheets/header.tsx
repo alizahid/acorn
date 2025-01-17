@@ -4,6 +4,8 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 
 type Props = {
   right?: ReactNode
@@ -12,6 +14,8 @@ type Props = {
 }
 
 export function SheetHeader({ right, style, title }: Props) {
+  const { themeBackground, themeOled } = usePreferences()
+
   const { styles } = useStyles(stylesheet)
 
   return (
@@ -19,7 +23,7 @@ export function SheetHeader({ right, style, title }: Props) {
       align="center"
       height="8"
       justify="center"
-      style={[styles.main, style]}
+      style={[styles.main(themeOled, themeBackground), style]}
     >
       <Text weight="bold">{title}</Text>
 
@@ -29,9 +33,11 @@ export function SheetHeader({ right, style, title }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: {
-    backgroundColor: theme.colors.accent.bgAlt,
-  },
+  main: (oled: boolean, bg: boolean) => ({
+    backgroundColor: oled
+      ? oledTheme[theme.name].bg
+      : theme.colors[bg ? 'accent' : 'gray'].bgAlt,
+  }),
   right: {
     bottom: 0,
     position: 'absolute',

@@ -13,3 +13,10 @@ export const swipeActionThreshold = {
 
 export const tintDark: BlurTint = 'systemThickMaterialDark'
 export const tintLight: BlurTint = 'systemThickMaterialLight'
+
+export const modalStyle = iPad
+  ? {
+      maxHeight: 640,
+      maxWidth: 580,
+    }
+  : undefined

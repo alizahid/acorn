@@ -16,7 +16,7 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
-import { iPad, iPhone } from '~/lib/common'
+import { iPhone } from '~/lib/common'
 import { fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
@@ -98,7 +98,7 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   input: (systemFont: boolean) => ({
     color: theme.colors.gray.text,
     flex: 1,
@@ -109,7 +109,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   }),
   main: {
     flex: 1,
-    paddingTop: iPad ? theme.space[8] + runtime.insets.top : 0,
   },
   spinner: {
     height: theme.typography[3].lineHeight,

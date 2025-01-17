@@ -41,7 +41,7 @@ function Acorn() {
         style={
           theme === 'acorn'
             ? 'auto'
-            : theme.endsWith('Light')
+            : theme.endsWith('light')
               ? 'dark'
               : 'light'
         }

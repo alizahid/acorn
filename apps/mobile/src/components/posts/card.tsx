@@ -43,6 +43,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
     oldReddit,
     postGestures,
     swipeGestures,
+    themeOled,
   } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
@@ -137,7 +138,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           onAction={(action) => {
             onAction(post, action)
           }}
-          style={[styles.main(seen), style]}
+          style={[styles.main(seen, themeOled), style]}
         >
           <PostCompactCard
             expanded={expanded}
@@ -173,7 +174,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         onAction={(action) => {
           onAction(post, action)
         }}
-        style={[styles.main(seen), style]}
+        style={[styles.main(seen, themeOled), style]}
       >
         <Pressable
           align="start"
@@ -291,8 +292,8 @@ const stylesheet = createStyleSheet((theme) => ({
   expanded: {
     marginBottom: theme.space[3],
   },
-  main: (seen: boolean) => ({
-    backgroundColor: theme.colors.gray[seen ? 'bgAlt' : 'ui'],
+  main: (seen: boolean, oled: boolean) => ({
+    backgroundColor: theme.colors.gray[oled ? 'bg' : seen ? 'bgAlt' : 'ui'],
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[3] : undefined,
     overflow: 'hidden',

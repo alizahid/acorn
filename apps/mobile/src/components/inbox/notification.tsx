@@ -3,6 +3,8 @@ import { useFormatter, useNow, useTranslations } from 'use-intl'
 
 import { useLink } from '~/hooks/link'
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 import { type ColorToken } from '~/styles/tokens'
 import { type InboxNotification, type NotificationType } from '~/types/inbox'
 
@@ -22,6 +24,8 @@ export function NotificationCard({ notification }: Props) {
   const now = useNow({
     updateInterval: 1_000 * 60,
   })
+
+  const { themeOled } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -45,7 +49,11 @@ export function NotificationCard({ notification }: Props) {
         }
       }}
       p="4"
-      style={styles.main(colors[notification.type], notification.new)}
+      style={styles.main(
+        colors[notification.type],
+        notification.new,
+        themeOled,
+      )}
     >
       <Icon
         color={
@@ -86,8 +94,12 @@ export function NotificationCard({ notification }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (color: ColorToken, unread: boolean) => ({
-    backgroundColor: unread ? theme.colors[color].ui : theme.colors.gray.bgAlt,
+  main: (color: ColorToken, unread: boolean, oled: boolean) => ({
+    backgroundColor: unread
+      ? theme.colors[color].ui
+      : oled
+        ? oledTheme[theme.name].bg
+        : theme.colors.gray.bgAlt,
   }),
 }))
 

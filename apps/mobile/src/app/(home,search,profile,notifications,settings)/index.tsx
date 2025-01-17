@@ -20,6 +20,8 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { iPad } from '~/lib/common'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 import { FeedType } from '~/types/sort'
 
 const schema = z.object({
@@ -30,6 +32,8 @@ const schema = z.object({
 export default function Screen() {
   const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
+
+  const { themeOled } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -85,7 +89,7 @@ export default function Screen() {
         setOpen(true)
       }}
       open={open}
-      overlayStyle={styles.overlay}
+      overlayStyle={styles.overlay(themeOled)}
       renderDrawerContent={() => (
         <HomeDrawer
           onClose={() => {
@@ -122,7 +126,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
 
     return base
   },
-  overlay: {
-    backgroundColor: theme.colors.gray.border,
-  },
+  overlay: (oled: boolean) => ({
+    backgroundColor: oled
+      ? oledTheme[theme.name].overlay
+      : theme.colors.gray.border,
+  }),
 }))

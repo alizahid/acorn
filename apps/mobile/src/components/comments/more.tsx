@@ -27,7 +27,7 @@ type Props = {
 export function CommentMoreCard({ comment, onThread, post, style }: Props) {
   const t = useTranslations('component.comments.more')
 
-  const { coloredComments } = usePreferences()
+  const { coloredComments, themeOled } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -56,7 +56,10 @@ export function CommentMoreCard({ comment, onThread, post, style }: Props) {
         }
       }}
       py="2"
-      style={[styles.main(comment.depth, coloredComments) as ViewStyle, style]}
+      style={[
+        styles.main(comment.depth, coloredComments, themeOled) as ViewStyle,
+        style,
+      ]}
     >
       {isPending ? (
         <Spinner />
@@ -72,15 +75,15 @@ export function CommentMoreCard({ comment, onThread, post, style }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (depth: number, colored: boolean) => {
+  main: (depth: number, colored: boolean, oled: boolean) => {
     const color = getDepthColor(depth)
 
     const marginLeft = theme.space[2] * depth
 
     const base: UnistylesValues = {
       backgroundColor: colored
-        ? theme.colors[color].bgAlt
-        : theme.colors.gray.bgAlt,
+        ? theme.colors[color][oled ? 'bg' : 'bgAlt']
+        : theme.colors.gray[oled ? 'bg' : 'bgAlt'],
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       marginLeft,

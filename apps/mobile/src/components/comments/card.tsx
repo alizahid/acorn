@@ -44,7 +44,8 @@ export function CommentCard({
 }: Props) {
   const router = useRouter()
 
-  const { coloredComments, commentGestures, swipeGestures } = usePreferences()
+  const { coloredComments, commentGestures, swipeGestures, themeOled } =
+    usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -115,7 +116,12 @@ export function CommentCard({
           }
         }}
         style={[
-          styles.main(comment.depth, coloredComments, dull) as ViewStyle,
+          styles.main(
+            comment.depth,
+            coloredComments,
+            themeOled,
+            dull,
+          ) as ViewStyle,
           style,
         ]}
       >
@@ -232,13 +238,13 @@ const stylesheet = createStyleSheet((theme) => ({
       : theme.colors.violet.accent,
     top: -theme.space[6],
   }),
-  main: (depth: number, colored: boolean, dull?: boolean) => {
+  main: (depth: number, colored: boolean, oled: boolean, dull?: boolean) => {
     const color = dull ? 'gray' : getDepthColor(depth)
 
     const base: UnistylesValues = {
       backgroundColor: colored
-        ? theme.colors[color].bgAlt
-        : theme.colors.gray.bgAlt,
+        ? theme.colors[color][oled ? 'bg' : 'bgAlt']
+        : theme.colors.gray[oled ? 'bg' : 'bgAlt'],
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       overflow: 'hidden',

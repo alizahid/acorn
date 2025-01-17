@@ -59,6 +59,8 @@ export type PreferencesPayload = {
   sortUserPosts: UserFeedSort
   swipeGestures: boolean
   theme: Theme
+  themeBackground: boolean
+  themeOled: boolean
   unmuteFullscreen: boolean
 }
 
@@ -120,6 +122,8 @@ export const usePreferences = create<State>()(
       sortUserPosts: 'new',
       swipeGestures: true,
       theme: 'acorn',
+      themeBackground: true,
+      themeOled: false,
       unmuteFullscreen: true,
       update(payload) {
         set(payload)

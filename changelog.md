@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: OLED mode
 - added: button to open post menu on post screen
 - added: user/community links added to post/comment menu
 - added: controversial sorting for communities

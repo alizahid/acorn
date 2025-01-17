@@ -3,6 +3,8 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter, useNow } from 'use-intl'
 
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 import { type InboxMessage } from '~/types/inbox'
 
 import { Markdown } from '../common/markdown'
@@ -15,6 +17,8 @@ type Props = {
 
 export function MessageCard({ message }: Props) {
   const router = useRouter()
+
+  const { themeOled } = usePreferences()
 
   const f = useFormatter()
   const now = useNow({
@@ -35,7 +39,7 @@ export function MessageCard({ message }: Props) {
         })
       }}
       p="4"
-      style={styles.main(message.new)}
+      style={styles.main(message.new, themeOled)}
     >
       <Pressable
         hitSlop={theme.space[4]}
@@ -75,7 +79,11 @@ const stylesheet = createStyleSheet((theme) => ({
   body: {
     marginVertical: theme.space[4],
   },
-  main: (unread: boolean) => ({
-    backgroundColor: unread ? theme.colors.accent.ui : theme.colors.gray.bgAlt,
+  main: (unread: boolean, oled: boolean) => ({
+    backgroundColor: unread
+      ? theme.colors.accent.ui
+      : oled
+        ? oledTheme[theme.name].bg
+        : theme.colors.gray.bgAlt,
   }),
 }))
