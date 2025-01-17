@@ -46,8 +46,8 @@ export function FlairCard({ flair, seen, style }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   emoji: {
-    height: theme.typography[1].lineHeight,
-    width: theme.typography[1].lineHeight,
+    height: theme.typography[1].lineHeight + theme.space[1],
+    width: theme.typography[1].lineHeight + theme.space[1],
   },
   text: {
     backgroundColor: theme.colors.accent.ui,

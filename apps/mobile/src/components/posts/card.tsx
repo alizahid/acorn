@@ -19,6 +19,7 @@ import { Text } from '../common/text'
 import { View } from '../common/view'
 import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
+import { FlairCard } from './flair'
 import { PostFooter, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
@@ -179,7 +180,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         <Pressable
           align="start"
           disabled={expanded}
-          gap="3"
+          gap="1"
           onLongPress={() => {
             menu.current?.present()
           }}
@@ -191,6 +192,8 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           <Text highContrast={!seen} weight="bold">
             {post.title}
           </Text>
+
+          <FlairCard flair={post.flair} seen={seen} />
         </Pressable>
 
         {post.type === 'crosspost' && post.crossPost ? (

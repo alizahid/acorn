@@ -99,9 +99,7 @@ export function PostCompactCard({
           {post.title}
         </Text>
 
-        <View align="center" direction="row" gap="3">
-          <PostMeta post={post} seen={seen} />
-        </View>
+        <PostMeta post={post} seen={seen} />
       </View>
 
       {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
