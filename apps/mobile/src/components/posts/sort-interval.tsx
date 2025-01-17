@@ -158,16 +158,3 @@ export function SortIntervalMenu<Type extends SortType>({
     </>
   )
 }
-
-// export const icons: Record<PostSort, AssetImage> = {
-//   best: 'medal-duotone',
-//   comments: 'chat-circle-duotone',
-//   confidence: 'medal-duotone',
-//   controversial: 'flame-duotone',
-//   hot: 'flame-duotone',
-//   new: 'clock-duotone',
-//   old: 'package-duotone',
-//   relevance: 'target-duotone',
-//   rising: 'chart-line-up-duotone',
-//   top: 'ranking-duotone',
-// }
