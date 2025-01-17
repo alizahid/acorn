@@ -70,7 +70,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
                 style={styles.tab}
               >
                 {options?.tabBarIcon?.({
-                  color: theme.colors[focused ? 'accent' : 'gray'].accent,
+                  color: theme.colors[focused ? 'accent' : 'gray'].accentAlpha,
                   focused,
                   size: theme.space[5],
                 })}
