@@ -7,6 +7,7 @@
 - added: user/community links added to post/comment menu
 - added: controversial sorting for communities
 - fixed: hiding comment skip/post reply buttons
+- fixed: app slow down
 
 ## Build 37
 

@@ -3,7 +3,7 @@ import { QueryClient } from '@tanstack/react-query'
 import { AsyncStorage } from 'expo-sqlite/kv-store'
 import { parse, stringify } from 'superjson'
 
-const cacheVersion = 4
+const cacheVersion = 5
 
 export const queryClient = new QueryClient()
 

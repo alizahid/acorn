@@ -9,6 +9,13 @@ export function useQueryDefaults() {
 
   useEffect(() => {
     queryClient.setDefaultOptions({
+      dehydrate: {
+        shouldDehydrateQuery(query) {
+          const first = String(query.queryKey[0])
+
+          return /communities|feeds|inbox|unread/.test(first)
+        },
+      },
       mutations: {
         throwOnError(error) {
           if (__DEV__) {
