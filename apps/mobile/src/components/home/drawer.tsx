@@ -92,7 +92,7 @@ export function HomeDrawer({ onClose }: Props) {
   const tDrawer = useTranslations('component.home.drawer')
 
   const { drawerSections } = useDefaults()
-  const { themeBackground, themeOled } = usePreferences()
+  const { themeOled, themeTint } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -265,7 +265,7 @@ export function HomeDrawer({ onClose }: Props) {
     .filter((item) => item !== null)
 
   return (
-    <View style={styles.main(themeOled, themeBackground) as ViewStyle}>
+    <View style={styles.main(themeOled, themeTint) as ViewStyle}>
       <TextBox
         left={
           <Icon

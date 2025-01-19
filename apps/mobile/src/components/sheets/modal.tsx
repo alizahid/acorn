@@ -22,7 +22,7 @@ type Props = {
 
 export const SheetModal = forwardRef<BottomSheetModal, Props>(
   function Component({ children, container = 'view', right, title }, ref) {
-    const { themeBackground, themeOled } = usePreferences()
+    const { themeOled, themeTint } = usePreferences()
 
     const { styles } = useStyles(stylesheet)
 
@@ -41,7 +41,7 @@ export const SheetModal = forwardRef<BottomSheetModal, Props>(
     return (
       <BottomSheetModal
         backdropComponent={SheetBackdrop}
-        backgroundStyle={styles.background(themeOled, themeBackground)}
+        backgroundStyle={styles.background(themeOled, themeTint)}
         handleComponent={null}
         maxDynamicContentSize={styles.maxHeight.height}
         ref={ref}

@@ -14,7 +14,7 @@ type Props = {
 }
 
 export function SheetHeader({ right, style, title }: Props) {
-  const { themeBackground, themeOled } = usePreferences()
+  const { themeOled, themeTint } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -23,7 +23,7 @@ export function SheetHeader({ right, style, title }: Props) {
       align="center"
       height="8"
       justify="center"
-      style={[styles.main(themeOled, themeBackground), style]}
+      style={[styles.main(themeOled, themeTint), style]}
     >
       <Text weight="bold">{title}</Text>
 

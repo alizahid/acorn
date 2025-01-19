@@ -33,7 +33,7 @@ export function Header({
 }: Props) {
   const router = useRouter()
 
-  const { blurNavigation, themeBackground, themeOled } = usePreferences()
+  const { blurNavigation, themeOled, themeTint } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -44,8 +44,8 @@ export function Header({
       intensity={themeOled ? 25 : 75}
       style={[
         modal
-          ? styles.modal(themeOled, themeBackground)
-          : styles.main(blurNavigation, themeOled, themeBackground),
+          ? styles.modal(themeOled, themeTint)
+          : styles.main(blurNavigation, themeOled, themeTint),
         style,
       ]}
       tint={theme.name === 'dark' ? tintDark : tintLight}

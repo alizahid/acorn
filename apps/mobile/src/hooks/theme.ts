@@ -6,7 +6,7 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
 export function useTheme() {
-  const { fontSystem, themeBackground, themeOled } = usePreferences()
+  const { fontSystem, themeOled, themeTint } = usePreferences()
 
   const { theme } = useStyles()
 
@@ -16,7 +16,7 @@ export function useTheme() {
     colors: {
       background: themeOled
         ? oledTheme[theme.name].bg
-        : themeBackground
+        : themeTint
           ? theme.colors.accent.bg
           : theme.colors.gray.bg,
       border: theme.colors.gray.border,

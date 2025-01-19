@@ -42,7 +42,7 @@ export function PostGalleryModal({
 }: Props) {
   const frame = useSafeAreaFrame()
 
-  const { themeBackground, themeOled } = usePreferences()
+  const { themeOled, themeTint } = usePreferences()
 
   const t = useTranslations('component.posts.gallery')
 
@@ -136,7 +136,7 @@ export function PostGalleryModal({
     <Modal transparent visible={visible}>
       <Animated.View
         pointerEvents="none"
-        style={[styles.overlay(themeOled, themeBackground), overlay]}
+        style={[styles.overlay(themeOled, themeTint), overlay]}
       />
 
       <GestureDetector gesture={gesture}>

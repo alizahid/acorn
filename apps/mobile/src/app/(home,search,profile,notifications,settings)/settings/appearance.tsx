@@ -18,8 +18,8 @@ export default function Screen() {
     blurNavigation,
     coloredComments,
     theme: selected,
-    themeBackground,
     themeOled,
+    themeTint,
     update,
   } = usePreferences()
 
@@ -37,9 +37,9 @@ export default function Screen() {
     },
     {
       icon: 'PaintRoller',
-      key: 'themeBackground',
-      label: t('preferences.themeBackground'),
-      value: themeBackground,
+      key: 'themeTint',
+      label: t('preferences.themeTint'),
+      value: themeTint,
     },
     {
       icon: 'Drop',
@@ -200,11 +200,11 @@ export default function Screen() {
                   [item.key]: next,
                 }
 
-                if (item.key === 'themeOled' && next && themeBackground) {
-                  payload.themeBackground = false
+                if (item.key === 'themeOled' && next && themeTint) {
+                  payload.themeTint = false
                 }
 
-                if (item.key === 'themeBackground' && next && themeOled) {
+                if (item.key === 'themeTint' && next && themeOled) {
                   payload.themeOled = false
                 }
 

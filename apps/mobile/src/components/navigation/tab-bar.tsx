@@ -18,7 +18,7 @@ type Props = BottomTabBarProps
 export function TabBar({ descriptors, navigation, state }: Props) {
   const router = useRouter()
 
-  const { blurNavigation, themeBackground, themeOled } = usePreferences()
+  const { blurNavigation, themeOled, themeTint } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -38,7 +38,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
     <GestureDetector gesture={gesture}>
       <Main
         intensity={themeOled ? 25 : 75}
-        style={styles.main(blurNavigation, themeOled, themeBackground)}
+        style={styles.main(blurNavigation, themeOled, themeTint)}
         tint={theme.name === 'dark' ? tintDark : tintLight}
       >
         {state.routes
