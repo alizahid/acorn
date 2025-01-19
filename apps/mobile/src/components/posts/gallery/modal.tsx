@@ -19,6 +19,8 @@ import { useTranslations } from 'use-intl'
 
 import { Text } from '~/components/common/text'
 import { HeaderButton } from '~/components/navigation/header-button'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 import { type PostMedia } from '~/types/post'
 
 import { GalleryImage } from './image'
@@ -39,6 +41,8 @@ export function PostGalleryModal({
   visible,
 }: Props) {
   const frame = useSafeAreaFrame()
+
+  const { themeBackground, themeOled } = usePreferences()
 
   const t = useTranslations('component.posts.gallery')
 
@@ -130,7 +134,10 @@ export function PostGalleryModal({
 
   return (
     <Modal transparent visible={visible}>
-      <Animated.View pointerEvents="none" style={[styles.overlay, overlay]} />
+      <Animated.View
+        pointerEvents="none"
+        style={[styles.overlay(themeOled, themeBackground), overlay]}
+      />
 
       <GestureDetector gesture={gesture}>
         <Animated.View style={[styles.main, main]}>
@@ -211,10 +218,12 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   main: {
     ...StyleSheet.absoluteFillObject,
   },
-  overlay: {
+  overlay: (oled: boolean, bg: boolean) => ({
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.gray.ui,
-  },
+    backgroundColor: oled
+      ? oledTheme[theme.name].bg
+      : theme.colors[bg ? 'accent' : 'gray'].ui,
+  }),
   pagination: {
     alignSelf: 'center',
     backgroundColor: theme.colors.black.accentAlpha,
