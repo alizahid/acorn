@@ -13,7 +13,7 @@ export function useQueryDefaults() {
         shouldDehydrateQuery(query) {
           const first = String(query.queryKey[0])
 
-          return /communities|feeds|inbox|unread/.test(first)
+          return /communities|feeds|inbox|unread|redgifs/.test(first)
         },
       },
       mutations: {
