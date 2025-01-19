@@ -24,6 +24,7 @@ export function SheetBackdrop({
       animatedPosition={animatedPosition}
       appearsOnIndex={0}
       disappearsOnIndex={-1}
+      opacity={1}
       style={[styles.main(themeOled), style]}
     />
   )
@@ -33,6 +34,6 @@ const stylesheet = createStyleSheet((theme) => ({
   main: (oled: boolean) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].overlay
-      : theme.colors.gray.border,
+      : theme.colors.gray.borderAlpha,
   }),
 }))

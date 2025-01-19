@@ -129,6 +129,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   overlay: (oled: boolean) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].overlay
-      : theme.colors.gray.border,
+      : theme.colors.gray.borderAlpha,
   }),
 }))
