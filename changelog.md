@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 38
 
 - added: OLED mode
 - added: button to open post menu on post screen
