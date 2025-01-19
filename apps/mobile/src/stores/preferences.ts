@@ -130,8 +130,18 @@ export const usePreferences = create<State>()(
       },
     }),
     {
+      migrate(persisted, version) {
+        const state = persisted as PreferencesPayload
+
+        if (version === 0) {
+          state.theme = 'acorn'
+        }
+
+        return state
+      },
       name: PREFERENCES_KEY,
       storage: new Store(PREFERENCES_KEY),
+      version: 2,
     },
   ),
 )
