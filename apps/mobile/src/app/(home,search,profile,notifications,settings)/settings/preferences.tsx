@@ -35,11 +35,11 @@ export default function Screen() {
             options: [
               {
                 icon: {
-                  name: 'infinity.circle.fill',
+                  name: '0.circle.fill',
                   type: 'symbol',
                 },
-                label: t('refreshInterval.Infinity'),
-                value: Infinity,
+                label: t('refreshInterval.instant'),
+                value: 0,
               },
               {
                 icon: {
@@ -84,6 +84,14 @@ export default function Screen() {
                   unit: 'minute',
                 }),
                 value: 30,
+              },
+              {
+                icon: {
+                  name: 'infinity.circle.fill',
+                  type: 'symbol',
+                },
+                label: t('refreshInterval.never'),
+                value: Infinity,
               },
             ],
           },

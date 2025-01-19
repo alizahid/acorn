@@ -6,6 +6,7 @@
 - added: button to open post menu on post screen
 - added: user/community links added to post/comment menu
 - added: controversial sorting for communities
+- added: instant auto refresh
 - fixed: hiding comment skip/post reply buttons
 - fixed: app slow down
 

@@ -380,7 +380,8 @@
           "unmuteFullscreen": "Unmute on full screen"
         },
         "refreshInterval": {
-          "Infinity": "Never"
+          "instant": "Instant",
+          "never": "Never"
         },
         "side": {
           "hide": "Hide",
