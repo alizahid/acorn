@@ -84,6 +84,7 @@
         "nsfw": "Sensitive content - tap to view"
       },
       "menu": {
+        "copyImage": "Copy image",
         "copyLink": "Copy link",
         "copyText": "Copy text",
         "downvote": "Downvote",

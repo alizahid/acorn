@@ -7,6 +7,7 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useCopy } from '~/hooks/copy'
+import { useCopyImage } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
@@ -46,6 +47,7 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
   const { copy } = useCopy()
   const { hide } = useHide()
   const { handleLink, open } = useLink()
+  const { copy: copyImage } = useCopyImage()
 
   const reasons: Array<ReportReason> = [
     'community',
@@ -173,6 +175,30 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
             onClose()
           }}
         />
+
+        {post.type === 'image' && post.media.images?.[0] ? (
+          <SheetItem
+            icon={{
+              color: theme.colors.gray.textLow,
+              name: 'Copy',
+              type: 'icon',
+            }}
+            label={t('copyImage')}
+            onPress={() => {
+              if (!post.media.images?.[0]?.url) {
+                onClose()
+
+                return
+              }
+
+              copyImage({
+                url: post.media.images[0].url,
+              })
+
+              onClose()
+            }}
+          />
+        ) : null}
 
         <SheetItem
           icon={{
