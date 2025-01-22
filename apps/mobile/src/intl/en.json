@@ -339,6 +339,7 @@
           "oldReddit": "Use old Reddit",
           "refreshInterval": "Auto refresh interval",
           "showFlair": "Show flair",
+          "stickyDrawer": "Sticky drawer on iPad",
           "title": "Browsing"
         },
         "comments": {

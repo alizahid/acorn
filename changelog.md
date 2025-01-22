@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- added: sticky drawer preference for iPad
+
 ## Build 38
 
 - added: OLED mode

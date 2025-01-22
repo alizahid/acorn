@@ -57,7 +57,8 @@ import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import QuestionBold from 'react-native-phosphor/src/bold/Question'
 import RankingBold from 'react-native-phosphor/src/bold/Ranking'
 import RowsBold from 'react-native-phosphor/src/bold/Rows'
-import ShareFatBold from 'react-native-phosphor/src/bold/Share'
+import ShareBold from 'react-native-phosphor/src/bold/Share'
+import SidebarBold from 'react-native-phosphor/src/bold/Sidebar'
 import SlidersHorizontalBold from 'react-native-phosphor/src/bold/SlidersHorizontal'
 import SmileyBold from 'react-native-phosphor/src/bold/Smiley'
 import SmileySadBold from 'react-native-phosphor/src/bold/SmileySad'
@@ -140,7 +141,8 @@ import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import QuestionDuotone from 'react-native-phosphor/src/duotone/Question'
 import RankingDuotone from 'react-native-phosphor/src/duotone/Ranking'
 import RowsDuotone from 'react-native-phosphor/src/duotone/Rows'
-import ShareFatDuotone from 'react-native-phosphor/src/duotone/Share'
+import ShareDuotone from 'react-native-phosphor/src/duotone/Share'
+import SidebarDuotone from 'react-native-phosphor/src/duotone/Sidebar'
 import SlidersHorizontalDuotone from 'react-native-phosphor/src/duotone/SlidersHorizontal'
 import SmileyDuotone from 'react-native-phosphor/src/duotone/Smiley'
 import SmileySadDuotone from 'react-native-phosphor/src/duotone/SmileySad'
@@ -223,7 +225,8 @@ import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import QuestionFill from 'react-native-phosphor/src/fill/Question'
 import RankingFill from 'react-native-phosphor/src/fill/Ranking'
 import RowsFill from 'react-native-phosphor/src/fill/Rows'
-import ShareFatFill from 'react-native-phosphor/src/fill/Share'
+import ShareFill from 'react-native-phosphor/src/fill/Share'
+import SidebarFill from 'react-native-phosphor/src/fill/Sidebar'
 import SlidersHorizontalFill from 'react-native-phosphor/src/fill/SlidersHorizontal'
 import SmileyFill from 'react-native-phosphor/src/fill/Smiley'
 import SmileySadFill from 'react-native-phosphor/src/fill/SmileySad'
@@ -306,7 +309,8 @@ import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import QuestionRegular from 'react-native-phosphor/src/regular/Question'
 import RankingRegular from 'react-native-phosphor/src/regular/Ranking'
 import RowsRegular from 'react-native-phosphor/src/regular/Rows'
-import ShareFatRegular from 'react-native-phosphor/src/regular/Share'
+import ShareRegular from 'react-native-phosphor/src/regular/Share'
+import SidebarRegular from 'react-native-phosphor/src/regular/Sidebar'
 import SlidersHorizontalRegular from 'react-native-phosphor/src/regular/SlidersHorizontal'
 import SmileyRegular from 'react-native-phosphor/src/regular/Smiley'
 import SmileySadRegular from 'react-native-phosphor/src/regular/SmileySad'
@@ -701,10 +705,16 @@ const icons = {
     regular: RowsRegular,
   },
   Share: {
-    bold: ShareFatBold,
-    duotone: ShareFatDuotone,
-    fill: ShareFatFill,
-    regular: ShareFatRegular,
+    bold: ShareBold,
+    duotone: ShareDuotone,
+    fill: ShareFill,
+    regular: ShareRegular,
+  },
+  Sidebar: {
+    bold: SidebarBold,
+    duotone: SidebarDuotone,
+    fill: SidebarFill,
+    regular: SidebarRegular,
   },
   SlidersHorizontal: {
     bold: SlidersHorizontalBold,

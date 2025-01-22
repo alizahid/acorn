@@ -4,13 +4,8 @@ import {
   useNavigation,
 } from 'expo-router'
 import { useState } from 'react'
-import { type ViewStyle } from 'react-native'
 import { Drawer } from 'react-native-drawer-layout'
-import {
-  createStyleSheet,
-  type UnistylesValues,
-  useStyles,
-} from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { HomeDrawer } from '~/components/home/drawer'
@@ -33,7 +28,7 @@ export default function Screen() {
   const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
 
-  const { themeOled } = usePreferences()
+  const { stickyDrawer, themeOled } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -59,7 +54,6 @@ export default function Screen() {
       headerLeft: () => (
         <FeedTypeMenu
           data={params}
-          disabled={iPad}
           onPress={() => {
             setOpen((previous) => !previous)
           }}
@@ -80,8 +74,8 @@ export default function Screen() {
 
   return (
     <Drawer
-      drawerStyle={styles.drawer() as ViewStyle}
-      drawerType={iPad ? 'permanent' : 'front'}
+      drawerStyle={styles.drawer}
+      drawerType={iPad && stickyDrawer ? 'permanent' : 'front'}
       onClose={() => {
         setOpen(false)
       }}
@@ -110,21 +104,9 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  drawer: () => {
-    const base: UnistylesValues = {
-      backgroundColor: theme.colors.gray.ui,
-    }
-
-    if (iPad) {
-      return {
-        ...base,
-        maxWidth: 300,
-        width: runtime.screen.width * 0.4,
-      }
-    }
-
-    return base
+const stylesheet = createStyleSheet((theme) => ({
+  drawer: {
+    backgroundColor: theme.colors.gray.ui,
   },
   overlay: (oled: boolean) => ({
     backgroundColor: oled

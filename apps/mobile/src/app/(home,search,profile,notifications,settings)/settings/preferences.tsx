@@ -100,6 +100,11 @@ export default function Screen() {
             key: 'oldReddit',
             label: 'browsing.oldReddit',
           },
+          {
+            icon: 'Sidebar',
+            key: 'stickyDrawer',
+            label: 'browsing.stickyDrawer',
+          },
 
           null,
           t('comments.title'),

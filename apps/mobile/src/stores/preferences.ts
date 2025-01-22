@@ -57,6 +57,7 @@ export type PreferencesPayload = {
   sortSearchPosts: SearchSort
   sortUserComments: CommentSort
   sortUserPosts: UserFeedSort
+  stickyDrawer: boolean
   swipeGestures: boolean
   theme: Theme
   themeOled: boolean
@@ -120,6 +121,7 @@ export const usePreferences = create<State>()(
       sortSearchPosts: 'relevance',
       sortUserComments: 'new',
       sortUserPosts: 'new',
+      stickyDrawer: true,
       swipeGestures: true,
       theme: 'acorn',
       themeOled: false,
