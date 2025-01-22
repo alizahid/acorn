@@ -1,6 +1,5 @@
-import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useRouter } from 'expo-router'
-import { useCallback, useRef } from 'react'
+import { useCallback } from 'react'
 import { Share, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -9,6 +8,7 @@ import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
+import { PostMenu } from '~/sheets/post-menu'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type Post } from '~/types/post'
@@ -24,7 +24,6 @@ import { FlairCard } from './flair'
 import { PostFooter, type PostLabel } from './footer'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
-import { PostMenu } from './menu'
 import { PostVideoCard } from './video'
 
 type Props = {
@@ -49,8 +48,6 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
-
-  const menu = useRef<BottomSheetModal>(null)
 
   const { vote } = usePostVote()
   const { save } = usePostSave()
@@ -131,43 +128,6 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   if (compact) {
     return (
-      <>
-        <PostGestures
-          containerStyle={styles.container}
-          data={post}
-          disabled={!swipeGestures}
-          gestures={postGestures}
-          onAction={(action) => {
-            onAction(post, action)
-          }}
-          style={[styles.main(seen, themeOled), style]}
-        >
-          <PostCompactCard
-            expanded={expanded}
-            label={label}
-            onLongPress={() => {
-              menu.current?.present()
-            }}
-            onPress={onPress}
-            post={post}
-            seen={seen}
-            side={mediaOnRight ? 'right' : 'left'}
-          />
-        </PostGestures>
-
-        <PostMenu
-          onClose={() => {
-            menu.current?.close()
-          }}
-          post={post}
-          ref={menu}
-        />
-      </>
-    )
-  }
-
-  return (
-    <>
       <PostGestures
         containerStyle={styles.container}
         data={post}
@@ -178,107 +138,138 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         }}
         style={[styles.main(seen, themeOled), style]}
       >
-        <Pressable
-          align="start"
-          disabled={expanded}
-          gap="1"
-          onLongPress={() => {
-            menu.current?.present()
-          }}
-          onPress={onPress}
-          pb={media ? '3' : undefined}
-          pt="3"
-          px="3"
-        >
-          <Text highContrast={!seen} weight="bold">
-            {post.title}
-          </Text>
-
-          <FlairCard flair={post.flair} seen={seen} />
-        </Pressable>
-
-        {post.type === 'crosspost' && post.crossPost ? (
-          <CrossPostCard
-            onLongPress={() => {
-              menu.current?.present()
-            }}
-            post={post.crossPost}
-            recyclingKey={post.id}
-            style={body ? styles.expanded : null}
-            viewing={viewing}
-          />
-        ) : null}
-
-        {post.type === 'video' && post.media.video ? (
-          <PostVideoCard
-            nsfw={post.nsfw}
-            onLongPress={() => {
-              menu.current?.present()
-            }}
-            recyclingKey={post.id}
-            style={body ? styles.expanded : null}
-            video={post.media.video}
-            viewing={viewing}
-          />
-        ) : null}
-
-        {post.type === 'image' && post.media.images ? (
-          <PostGalleryCard
-            images={post.media.images}
-            nsfw={post.nsfw}
-            onLongPress={() => {
-              menu.current?.present()
-            }}
-            recyclingKey={post.id}
-            style={body ? styles.expanded : null}
-          />
-        ) : null}
-
-        {post.type === 'link' && post.url ? (
-          <PostLinkCard
-            media={post.media.images?.[0]}
-            onLongPress={() => {
-              menu.current?.present()
-            }}
-            recyclingKey={post.id}
-            style={body ? styles.expanded : null}
-            url={post.url}
-          />
-        ) : null}
-
-        {expanded && post.body ? (
-          <Markdown
-            meta={post.media.meta}
-            recyclingKey={post.id}
-            size="2"
-            style={styles.body}
-            variant="post"
-          >
-            {post.body}
-          </Markdown>
-        ) : null}
-
-        <PostFooter
+        <PostCompactCard
           expanded={expanded}
           label={label}
           onLongPress={() => {
-            menu.current?.present()
+            void PostMenu.call({
+              post,
+            })
           }}
+          onPress={onPress}
           post={post}
           seen={seen}
+          side={mediaOnRight ? 'right' : 'left'}
         />
-
-        {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
       </PostGestures>
+    )
+  }
 
-      <PostMenu
-        onClose={() => {
-          menu.current?.close()
+  return (
+    <PostGestures
+      containerStyle={styles.container}
+      data={post}
+      disabled={!swipeGestures}
+      gestures={postGestures}
+      onAction={(action) => {
+        onAction(post, action)
+      }}
+      style={[styles.main(seen, themeOled), style]}
+    >
+      <Pressable
+        align="start"
+        disabled={expanded}
+        gap="1"
+        onLongPress={() => {
+          void PostMenu.call({
+            post,
+          })
+        }}
+        onPress={onPress}
+        pb={media ? '3' : undefined}
+        pt="3"
+        px="3"
+      >
+        <Text highContrast={!seen} weight="bold">
+          {post.title}
+        </Text>
+
+        <FlairCard flair={post.flair} seen={seen} />
+      </Pressable>
+
+      {post.type === 'crosspost' && post.crossPost ? (
+        <CrossPostCard
+          onLongPress={() => {
+            void PostMenu.call({
+              post,
+            })
+          }}
+          post={post.crossPost}
+          recyclingKey={post.id}
+          style={body ? styles.expanded : null}
+          viewing={viewing}
+        />
+      ) : null}
+
+      {post.type === 'video' && post.media.video ? (
+        <PostVideoCard
+          nsfw={post.nsfw}
+          onLongPress={() => {
+            void PostMenu.call({
+              post,
+            })
+          }}
+          recyclingKey={post.id}
+          style={body ? styles.expanded : null}
+          video={post.media.video}
+          viewing={viewing}
+        />
+      ) : null}
+
+      {post.type === 'image' && post.media.images ? (
+        <PostGalleryCard
+          images={post.media.images}
+          nsfw={post.nsfw}
+          onLongPress={() => {
+            void PostMenu.call({
+              post,
+            })
+          }}
+          recyclingKey={post.id}
+          style={body ? styles.expanded : null}
+        />
+      ) : null}
+
+      {post.type === 'link' && post.url ? (
+        <PostLinkCard
+          media={post.media.images?.[0]}
+          onLongPress={() => {
+            void PostMenu.call({
+              post,
+            })
+          }}
+          recyclingKey={post.id}
+          style={body ? styles.expanded : null}
+          url={post.url}
+        />
+      ) : null}
+
+      {expanded && post.body ? (
+        <Markdown
+          meta={post.media.meta}
+          recyclingKey={post.id}
+          size="2"
+          style={styles.body}
+          variant="post"
+        >
+          {post.body}
+        </Markdown>
+      ) : null}
+
+      <PostFooter
+        expanded={expanded}
+        label={label}
+        onLongPress={() => {
+          void PostMenu.call({
+            post,
+          })
         }}
         post={post}
-        ref={menu}
+        seen={seen}
       />
-    </>
+
+      {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
+    </PostGestures>
   )
 }
 

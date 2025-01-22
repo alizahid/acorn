@@ -16,12 +16,16 @@ import { SheetHeader } from './header'
 type Props = {
   children: ReactNode
   container?: 'view' | 'scroll'
+  onClose?: () => void
   right?: ReactNode
   title: string
 }
 
 export const SheetModal = forwardRef<BottomSheetModal, Props>(
-  function Component({ children, container = 'view', right, title }, ref) {
+  function Component(
+    { children, container = 'view', onClose, right, title },
+    ref,
+  ) {
     const { themeOled, themeTint } = usePreferences()
 
     const { styles } = useStyles(stylesheet)
@@ -44,6 +48,7 @@ export const SheetModal = forwardRef<BottomSheetModal, Props>(
         backgroundStyle={styles.background(themeOled, themeTint)}
         handleComponent={null}
         maxDynamicContentSize={styles.maxHeight.height}
+        onDismiss={onClose}
         ref={ref}
         stackBehavior="push"
         style={styles.main}

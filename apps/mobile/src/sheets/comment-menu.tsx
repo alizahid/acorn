@@ -1,35 +1,30 @@
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import * as Clipboard from 'expo-clipboard'
 import { useRouter } from 'expo-router'
-import { forwardRef, useRef } from 'react'
+import { useEffect, useRef } from 'react'
+import { createCallable } from 'react-call'
 import { Share } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Logo } from '~/components/common/logo'
+import { View } from '~/components/common/view'
+import { SheetItem } from '~/components/sheets/item'
+import { SheetModal } from '~/components/sheets/modal'
 import { useCopy } from '~/hooks/copy'
-import { useCopyImage } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
-import { usePostSave } from '~/hooks/mutations/posts/save'
-import { usePostVote } from '~/hooks/mutations/posts/vote'
+import { useCommentSave } from '~/hooks/mutations/comments/save'
+import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { usePreferences } from '~/stores/preferences'
-import { type Post } from '~/types/post'
-
-import { Logo } from '../common/logo'
-import { View } from '../common/view'
-import { SheetItem } from '../sheets/item'
-import { SheetModal } from '../sheets/modal'
+import { type CommentReply } from '~/types/comment'
 
 type Props = {
-  onClose: () => void
-  post: Post
+  comment: CommentReply
 }
 
-export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
-  { onClose, post },
-  ref,
-) {
+export const CommentMenu = createCallable<Props>(({ call, comment }) => {
   const router = useRouter()
 
   const { oldReddit } = usePreferences()
@@ -39,18 +34,27 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
   const { theme } = useStyles()
 
   const sheet = useRef<BottomSheetModal>(null)
+  const sheetReport = useRef<BottomSheetModal>(null)
 
-  const { vote } = usePostVote()
-  const { save } = usePostSave()
+  const { vote } = useCommentVote()
+  const { save } = useCommentSave()
   const { report } = useReport()
 
   const { copy } = useCopy()
   const { hide } = useHide()
   const { handleLink, open } = useLink()
-  const { copy: copyImage } = useCopyImage()
+
+  useEffect(() => {
+    sheet.current?.present()
+  }, [])
+
+  useEffect(() => {
+    if (call.ended) {
+      sheet.current?.close()
+    }
+  }, [call.ended])
 
   const reasons: Array<ReportReason> = [
-    'community',
     'HARASSMENT',
     'VIOLENCE',
     'HATE_CONTENT',
@@ -68,21 +72,29 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
 
   return (
     <>
-      <SheetModal container="scroll" ref={ref} title={t('title.post')}>
+      <SheetModal
+        container="scroll"
+        onClose={() => {
+          call.end()
+        }}
+        ref={sheet}
+        title={t('title.comment')}
+      >
         <SheetItem
           icon={{
             color: theme.colors.orange.accent,
             name: 'ArrowFatUp',
             type: 'icon',
           }}
-          label={t(post.liked ? 'removeUpvote' : 'upvote')}
+          label={t(comment.liked ? 'removeUpvote' : 'upvote')}
           onPress={() => {
             vote({
-              direction: post.liked ? 0 : 1,
-              postId: post.id,
+              commentId: comment.id,
+              direction: comment.liked ? 0 : 1,
+              postId: comment.post.id,
             })
 
-            onClose()
+            call.end()
           }}
         />
 
@@ -92,14 +104,15 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
             name: 'ArrowFatDown',
             type: 'icon',
           }}
-          label={t(post.liked === false ? 'removeDownvote' : 'downvote')}
+          label={t(comment.liked === false ? 'removeDownvote' : 'downvote')}
           onPress={() => {
             vote({
-              direction: post.liked === false ? 0 : -1,
-              postId: post.id,
+              commentId: comment.id,
+              direction: comment.liked === false ? 0 : -1,
+              postId: comment.post.id,
             })
 
-            onClose()
+            call.end()
           }}
         />
 
@@ -109,14 +122,15 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
             name: 'BookmarkSimple',
             type: 'icon',
           }}
-          label={t(post.saved ? 'unsave' : 'save')}
+          label={t(comment.saved ? 'unsave' : 'save')}
           onPress={() => {
             save({
-              action: post.saved ? 'unsave' : 'save',
-              postId: post.id,
+              action: comment.saved ? 'unsave' : 'save',
+              commentId: comment.id,
+              postId: comment.post.id,
             })
 
-            onClose()
+            call.end()
           }}
         />
 
@@ -130,12 +144,14 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           onPress={() => {
             router.navigate({
               params: {
-                id: post.id,
+                commentId: comment.id,
+                id: comment.post.id,
+                user: comment.user.name,
               },
               pathname: '/posts/[id]/reply',
             })
 
-            onClose()
+            call.end()
           }}
         />
 
@@ -149,11 +165,9 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           }}
           label={t('copyText')}
           onPress={() => {
-            if (post.body) {
-              void Clipboard.setStringAsync(post.body)
-            }
+            void Clipboard.setStringAsync(comment.body)
 
-            onClose()
+            call.end()
           }}
         />
 
@@ -166,39 +180,15 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           label={t('copyLink')}
           onPress={() => {
             const url = new URL(
-              post.permalink,
+              comment.permalink,
               oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
             )
 
             void copy(url.toString())
 
-            onClose()
+            call.end()
           }}
         />
-
-        {post.type === 'image' && post.media.images?.[0] ? (
-          <SheetItem
-            icon={{
-              color: theme.colors.gray.textLow,
-              name: 'Copy',
-              type: 'icon',
-            }}
-            label={t('copyImage')}
-            onPress={() => {
-              if (!post.media.images?.[0]?.url) {
-                onClose()
-
-                return
-              }
-
-              copyImage({
-                url: post.media.images[0].url,
-              })
-
-              onClose()
-            }}
-          />
-        ) : null}
 
         <SheetItem
           icon={{
@@ -209,7 +199,7 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           label={t('share')}
           onPress={() => {
             const url = new URL(
-              post.permalink,
+              comment.permalink,
               oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
             )
 
@@ -217,7 +207,7 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
               url: url.toString(),
             })
 
-            onClose()
+            call.end()
           }}
         />
 
@@ -227,9 +217,9 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           label={t('openApp')}
           left={<Logo size={theme.space[5]} />}
           onPress={() => {
-            void handleLink(post.permalink)
+            void handleLink(comment.permalink)
 
-            onClose()
+            call.end()
           }}
         />
 
@@ -242,13 +232,13 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           label={t('openBrowser')}
           onPress={() => {
             const url = new URL(
-              post.permalink,
+              comment.permalink,
               oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
             )
 
             void open(url.toString())
 
-            onClose()
+            call.end()
           }}
         />
 
@@ -259,38 +249,17 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
             type: 'icon',
           }}
           label={t('openUser', {
-            user: post.user.name,
+            user: comment.user.name,
           })}
           onPress={() => {
             router.navigate({
               params: {
-                name: post.user.name,
+                name: comment.user.name,
               },
               pathname: '/users/[name]',
             })
 
-            onClose()
-          }}
-        />
-
-        <SheetItem
-          icon={{
-            color: theme.colors.gray.textLow,
-            name: 'UsersFour',
-            type: 'icon',
-          }}
-          label={t('openCommunity', {
-            community: post.community.name,
-          })}
-          onPress={() => {
-            router.navigate({
-              params: {
-                name: post.community.name,
-              },
-              pathname: '/communities/[name]',
-            })
-
-            onClose()
+            call.end()
           }}
         />
 
@@ -302,15 +271,16 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
             name: 'EyeClosed',
             type: 'icon',
           }}
-          label={t('hidePost')}
+          label={t('hideComment')}
           onPress={() => {
             hide({
-              action: post.hidden ? 'unhide' : 'hide',
-              id: post.id,
-              type: 'post',
+              action: 'hide',
+              id: comment.id,
+              postId: comment.post.id,
+              type: 'comment',
             })
 
-            onClose()
+            call.end()
           }}
         />
 
@@ -321,38 +291,18 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
             type: 'icon',
           }}
           label={t('hideUser', {
-            user: post.user.name,
+            user: comment.user.name,
           })}
           onPress={() => {
-            if (post.user.id) {
+            if (comment.user.id) {
               hide({
                 action: 'hide',
-                id: post.user.id,
+                id: comment.user.id,
                 type: 'user',
               })
             }
 
-            onClose()
-          }}
-        />
-
-        <SheetItem
-          icon={{
-            color: theme.colors.red.accent,
-            name: 'UsersFour',
-            type: 'icon',
-          }}
-          label={t('hideCommunity', {
-            community: post.community.name,
-          })}
-          onPress={() => {
-            hide({
-              action: 'hide',
-              id: post.community.id,
-              type: 'community',
-            })
-
-            onClose()
+            call.end()
           }}
         />
 
@@ -365,28 +315,31 @@ export const PostMenu = forwardRef<BottomSheetModal, Props>(function Component(
           label={t('report.title')}
           navigate
           onPress={() => {
-            sheet.current?.present()
+            sheetReport.current?.present()
           }}
         />
       </SheetModal>
 
-      <SheetModal container="scroll" ref={sheet} title={t('report.title')}>
+      <SheetModal
+        container="scroll"
+        ref={sheetReport}
+        title={t('report.title')}
+      >
         {reasons.map((item) => (
           <SheetItem
             key={item}
-            label={t(`report.${item}`, {
-              community: post.community.name,
-            })}
+            label={t(`report.${item}`)}
             onPress={() => {
               report({
-                id: post.id,
+                id: comment.id,
+                postId: comment.post.id,
                 reason: item,
-                type: 'post',
+                type: 'comment',
               })
 
-              sheet.current?.close()
+              sheetReport.current?.close()
 
-              onClose()
+              call.end()
             }}
           />
         ))}

@@ -20,6 +20,8 @@ import en from '~/intl/en.json'
 import { databaseName, onInit } from '~/lib/db'
 import { persister, queryClient } from '~/lib/query'
 import { Sentry } from '~/lib/sentry'
+import { CommentMenu } from '~/sheets/comment-menu'
+import { PostMenu } from '~/sheets/post-menu'
 import { usePreferences } from '~/stores/preferences'
 
 function Acorn() {
@@ -61,6 +63,9 @@ function Acorn() {
                   <RootLayout />
 
                   <Feedback />
+
+                  <PostMenu.Root />
+                  <CommentMenu.Root />
                 </IntlProvider>
               </PersistQueryClientProvider>
             </ThemeProvider>
