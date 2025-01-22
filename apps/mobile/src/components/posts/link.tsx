@@ -36,7 +36,7 @@ export function PostLinkCard({
 }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
-  const { seenOnMedia } = usePreferences()
+  const { seenOnMedia, themeOled } = usePreferences()
   const { handleLink } = useLink()
   const { addPost } = useHistory()
 
@@ -81,7 +81,7 @@ export function PostLinkCard({
           })
         }
       }}
-      style={[styles.main(crossPost), style]}
+      style={[styles.main(themeOled, crossPost), style]}
     >
       {media ? (
         <Image
@@ -126,8 +126,8 @@ const stylesheet = createStyleSheet((theme) => ({
   image: {
     aspectRatio: 2,
   },
-  main: (crossPost?: boolean) => ({
-    backgroundColor: theme.colors.gray.ui,
+  main: (oled: boolean, crossPost?: boolean) => ({
+    backgroundColor: theme.colors.gray[oled ? 'bgAlt' : 'uiActive'],
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     marginTop: crossPost ? theme.space[3] : undefined,

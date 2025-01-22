@@ -5,6 +5,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
+import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -37,6 +38,8 @@ export function CrossPostCard({
   const router = useRouter()
 
   const f = useFormatter()
+
+  const { themeOled } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -101,7 +104,7 @@ export function CrossPostCard({
           pathname: '/posts/[id]',
         })
       }}
-      style={[styles.main, style]}
+      style={[styles.main(themeOled), style]}
     >
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
@@ -208,10 +211,10 @@ const stylesheet = createStyleSheet((theme) => ({
       },
     ],
   },
-  main: {
-    backgroundColor: theme.colors.gray.ui,
+  main: (oled: boolean) => ({
+    backgroundColor: theme.colors.gray[oled ? 'bgAlt' : 'uiActive'],
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     overflow: 'hidden',
-  },
+  }),
 }))
