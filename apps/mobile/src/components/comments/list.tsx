@@ -1,11 +1,13 @@
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { type ReactElement } from 'react'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { type ListProps } from '~/hooks/list'
 import { type CommentsProps, useComments } from '~/hooks/queries/user/comments'
+import { usePreferences } from '~/stores/preferences'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -29,6 +31,10 @@ export function CommentList({
 }: Props) {
   const router = useRouter()
 
+  const { themeOled } = usePreferences()
+
+  const { styles } = useStyles(stylesheet)
+
   const {
     comments,
     fetchNextPage,
@@ -46,7 +52,9 @@ export function CommentList({
   return (
     <FlashList
       {...listProps}
-      ItemSeparatorComponent={() => <View height="4" />}
+      ItemSeparatorComponent={() => (
+        <View style={styles.separator(themeOled)} />
+      )}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null
@@ -95,3 +103,10 @@ export function CommentList({
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  separator: (oled: boolean) => ({
+    backgroundColor: oled ? theme.colors.gray.border : undefined,
+    height: oled ? runtime.hairlineWidth : theme.space[4],
+  }),
+}))

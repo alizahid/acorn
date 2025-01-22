@@ -55,7 +55,7 @@ export function SearchList({
 
   const { styles } = useStyles(stylesheet)
 
-  const { feedCompact, seenOnScroll } = usePreferences()
+  const { feedCompact, seenOnScroll, themeOled } = usePreferences()
   const { addPost } = useHistory()
 
   const history = useSearchHistory(community)
@@ -106,7 +106,7 @@ export function SearchList({
     <FlashList
       {...listProps}
       ItemSeparatorComponent={() => (
-        <View style={styles.separator(type, feedCompact)} />
+        <View style={styles.separator(type, themeOled, feedCompact)} />
       )}
       ListEmptyComponent={
         isLoading ? (
@@ -164,17 +164,18 @@ export function SearchList({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   first: {
     marginTop: theme.space[2],
   },
   last: {
     marginBottom: theme.space[2],
   },
-  separator: (type: SearchTab, compact: boolean) => {
+  separator: (type: SearchTab, oled: boolean, compact: boolean) => {
     if (type === 'post') {
       return {
-        height: theme.space[compact ? 2 : 4],
+        backgroundColor: oled ? theme.colors.gray.border : undefined,
+        height: oled ? runtime.hairlineWidth : theme.space[compact ? 2 : 4],
       }
     }
 

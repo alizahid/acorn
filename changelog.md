@@ -4,6 +4,7 @@
 
 - added: sticky drawer preference for iPad
 - changed: image grid design
+- changed: post/comment list separator added for OLED mode
 
 ## Build 38
 

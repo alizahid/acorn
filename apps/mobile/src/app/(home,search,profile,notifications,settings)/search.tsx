@@ -166,7 +166,7 @@ const stylesheet = createStyleSheet((theme) => ({
     width: theme.space[7],
   },
   query: {
-    backgroundColor: theme.colors.gray.ui,
+    backgroundColor: theme.colors.gray.uiActive,
     borderWidth: 0,
   },
 }))

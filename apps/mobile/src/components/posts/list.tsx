@@ -2,6 +2,7 @@ import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
 import { type ViewabilityConfigCallbackPairs } from 'react-native'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -43,8 +44,10 @@ export function PostList({
 
   useScrollToTop(list)
 
-  const { feedCompact, seenOnScroll } = usePreferences()
+  const { feedCompact, seenOnScroll, themeOled } = usePreferences()
   const { addPost } = useHistory()
+
+  const { styles } = useStyles(stylesheet)
 
   const {
     fetchNextPage,
@@ -98,7 +101,9 @@ export function PostList({
   return (
     <FlashList
       {...listProps}
-      ItemSeparatorComponent={() => <View height={feedCompact ? '2' : '4'} />}
+      ItemSeparatorComponent={() => (
+        <View style={styles.separator(themeOled, feedCompact)} />
+      )}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null
@@ -137,3 +142,10 @@ export function PostList({
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  separator: (oled: boolean, compact: boolean) => ({
+    backgroundColor: oled ? theme.colors.gray.border : undefined,
+    height: oled ? runtime.hairlineWidth : theme.space[compact ? 2 : 4],
+  }),
+}))
