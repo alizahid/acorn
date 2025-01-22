@@ -33,7 +33,6 @@ export function PostVideoCard({
     return (
       <RedGifsVideo
         compact={compact}
-        crossPost={crossPost}
         large={large}
         nsfw={nsfw}
         onLongPress={onLongPress}
@@ -49,7 +48,6 @@ export function PostVideoCard({
     return (
       <VideoPlayer
         compact={compact}
-        crossPost={crossPost}
         large={large}
         nsfw={nsfw}
         onLongPress={onLongPress}

@@ -17,7 +17,6 @@ import { Pressable } from '../../common/pressable'
 
 type Props = {
   compact?: boolean
-  crossPost?: boolean
   large?: boolean
   nsfw?: boolean
   onLongPress?: () => void
@@ -30,7 +29,6 @@ type Props = {
 
 export function VideoPlayer({
   compact,
-  crossPost,
   large,
   nsfw,
   onLongPress,
@@ -144,7 +142,7 @@ export function VideoPlayer({
           })
         }
       }}
-      style={[styles.main(crossPost), style]}
+      style={[styles.main, style]}
     >
       <VideoView
         allowsFullscreen={false}
@@ -227,11 +225,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     ...StyleSheet.absoluteFillObject,
     opacity: 0,
   },
-  main: (crossPost?: boolean) => ({
+  main: {
     justifyContent: 'center',
-    maxHeight: runtime.screen.height * (crossPost ? 0.4 : 0.8),
+    maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
-  }),
+  },
   video: (aspectRatio: number) => ({
     aspectRatio,
   }),

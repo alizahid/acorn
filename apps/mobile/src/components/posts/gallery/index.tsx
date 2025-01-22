@@ -94,10 +94,7 @@ export function PostGalleryCard({
           ) : null}
         </Pressable>
       ) : (
-        <Pressable
-          onLongPress={onLongPress}
-          style={[styles.main(crossPost), style]}
-        >
+        <Pressable onLongPress={onLongPress} style={[styles.main, style]}>
           <ImageGrid
             crossPost={crossPost}
             images={images}
@@ -183,9 +180,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
   },
-  main: (crossPost?: boolean) => ({
+  main: {
     justifyContent: 'center',
-    maxHeight: runtime.screen.height * (crossPost ? 0.6 : 0.8),
+    maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
-  }),
+  },
 }))

@@ -11,7 +11,6 @@ import { VideoPlayer } from './player'
 
 type Props = {
   compact?: boolean
-  crossPost?: boolean
   large?: boolean
   nsfw?: boolean
   onLongPress?: () => void
@@ -23,7 +22,6 @@ type Props = {
 
 export function RedGifsVideo({
   compact,
-  crossPost,
   large,
   nsfw,
   onLongPress,
@@ -40,7 +38,6 @@ export function RedGifsVideo({
     return (
       <VideoPlayer
         compact={compact}
-        crossPost={crossPost}
         large={large}
         nsfw={nsfw}
         onLongPress={onLongPress}
@@ -54,10 +51,7 @@ export function RedGifsVideo({
   }
 
   return (
-    <Pressable
-      onLongPress={onLongPress}
-      style={styles.main(crossPost, compact, large)}
-    >
+    <Pressable onLongPress={onLongPress} style={styles.main(compact, large)}>
       <View
         align="center"
         justify="center"
@@ -70,7 +64,7 @@ export function RedGifsVideo({
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  main: (crossPost?: boolean, compact?: boolean, large?: boolean) => {
+  main: (compact?: boolean, large?: boolean) => {
     if (compact) {
       return {
         backgroundColor: theme.colors.gray.ui,
@@ -84,7 +78,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
 
     return {
       justifyContent: 'center',
-      maxHeight: runtime.screen.height * (crossPost ? 0.4 : 0.8),
+      maxHeight: runtime.screen.height * 0.6,
       overflow: 'hidden',
     }
   },
