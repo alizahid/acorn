@@ -176,7 +176,7 @@ export function PostGalleryModal({
             showsHorizontalScrollIndicator={false}
             snapToOffsets={images.map((item, index) => frame.width * index)}
             viewabilityConfig={{
-              viewAreaCoveragePercentThreshold: 60,
+              viewAreaCoveragePercentThreshold: 50,
             }}
           />
         </Animated.View>

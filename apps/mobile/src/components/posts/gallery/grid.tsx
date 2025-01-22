@@ -1,5 +1,6 @@
 import { Image } from 'expo-image'
 import { StyleSheet } from 'react-native'
+import { ResponsiveGrid } from 'react-native-flexible-grid'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -7,7 +8,6 @@ import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useImagePlaceholder } from '~/hooks/image'
-import { cardMaxWidth, iPad } from '~/lib/common'
 import { type PostMedia } from '~/types/post'
 
 type Props = {
@@ -19,7 +19,6 @@ type Props = {
 }
 
 export function ImageGrid({
-  crossPost,
   images,
   onLongPress,
   onPress,
@@ -31,253 +30,94 @@ export function ImageGrid({
 
   const placeholder = useImagePlaceholder()
 
-  const one = images[0]
-  const two = images[1]
-  const three = images[2]
-  const four = images[3]
+  if (images.length === 1) {
+    const image = images[0]!
 
-  if (one && two && three && four) {
-    return (
-      <View direction="row" gap="2">
-        <View gap="2">
-          <Pressable
-            onLongPress={onLongPress}
-            onPress={() => {
-              onPress(0)
-            }}
-            style={styles.three(crossPost)}
-          >
-            <Image
-              {...placeholder}
-              recyclingKey={recyclingKey}
-              source={one.thumbnail}
-              style={styles.image}
-            />
-
-            <Gif image={one} />
-          </Pressable>
-
-          <Pressable
-            onLongPress={onLongPress}
-            onPress={() => {
-              onPress(1)
-            }}
-            style={styles.three(crossPost)}
-          >
-            <Image
-              {...placeholder}
-              recyclingKey={recyclingKey}
-              source={two.thumbnail}
-              style={styles.image}
-            />
-
-            <Gif image={two} />
-          </Pressable>
-        </View>
-
-        <View gap="2">
-          <Pressable
-            onLongPress={onLongPress}
-            onPress={() => {
-              onPress(2)
-            }}
-            style={styles.three(crossPost)}
-          >
-            <Image
-              {...placeholder}
-              recyclingKey={recyclingKey}
-              source={three.thumbnail}
-              style={styles.image}
-            />
-
-            <Gif image={three} />
-          </Pressable>
-
-          <Pressable
-            onLongPress={onLongPress}
-            onPress={() => {
-              onPress(3)
-            }}
-            style={styles.three(crossPost)}
-          >
-            <Image
-              {...placeholder}
-              recyclingKey={recyclingKey}
-              source={four.thumbnail}
-              style={styles.image}
-            />
-
-            <Gif image={four} />
-
-            {images.length > 4 ? (
-              <View style={[styles.label, styles.items]}>
-                <Text contrast size="1" weight="medium">
-                  {t('items', {
-                    count: images.length,
-                  })}
-                </Text>
-              </View>
-            ) : null}
-          </Pressable>
-        </View>
-      </View>
-    )
-  }
-
-  if (one && two && three) {
-    return (
-      <View direction="row" gap="2">
-        <Pressable
-          onLongPress={onLongPress}
-          onPress={() => {
-            onPress(0)
-          }}
-          style={styles.two(crossPost)}
-        >
-          <Image
-            {...placeholder}
-            recyclingKey={recyclingKey}
-            source={one.thumbnail}
-            style={styles.image}
-          />
-
-          <Gif image={one} />
-        </Pressable>
-
-        <View gap="2">
-          <Pressable
-            onLongPress={onLongPress}
-            onPress={() => {
-              onPress(1)
-            }}
-            style={styles.three(crossPost)}
-          >
-            <Image
-              {...placeholder}
-              recyclingKey={recyclingKey}
-              source={two.thumbnail}
-              style={styles.image}
-            />
-
-            <Gif image={two} />
-          </Pressable>
-
-          <Pressable
-            onLongPress={onLongPress}
-            onPress={() => {
-              onPress(2)
-            }}
-            style={styles.three(crossPost)}
-          >
-            <Image
-              {...placeholder}
-              recyclingKey={recyclingKey}
-              source={three.thumbnail}
-              style={styles.image}
-            />
-
-            <Gif image={three} />
-          </Pressable>
-        </View>
-      </View>
-    )
-  }
-
-  if (one && two) {
-    return (
-      <View direction="row" gap="2">
-        <Pressable
-          onLongPress={onLongPress}
-          onPress={() => {
-            onPress(0)
-          }}
-          style={styles.two(crossPost)}
-        >
-          <Image
-            {...placeholder}
-            recyclingKey={recyclingKey}
-            source={one.thumbnail}
-            style={styles.image}
-          />
-
-          <Gif image={one} />
-        </Pressable>
-
-        <Pressable
-          onLongPress={onLongPress}
-          onPress={() => {
-            onPress(1)
-          }}
-          style={styles.two(crossPost)}
-        >
-          <Image
-            {...placeholder}
-            recyclingKey={recyclingKey}
-            source={two.thumbnail}
-            style={styles.image}
-          />
-
-          <Gif image={two} />
-        </Pressable>
-      </View>
-    )
-  }
-
-  if (one) {
     return (
       <Pressable
         onLongPress={onLongPress}
         onPress={() => {
           onPress(0)
         }}
-        style={styles.one(one.width / one.height)}
+        style={styles.one(image.width / image.height)}
       >
         <Image
           {...placeholder}
           recyclingKey={recyclingKey}
-          source={one.thumbnail}
+          source={image.thumbnail}
           style={styles.image}
         />
 
-        <Gif image={one} />
+        {image.type === 'gif' ? (
+          <View style={[styles.label, styles.gif]}>
+            <Text contrast size="1" weight="medium">
+              {t('gif')}
+            </Text>
+          </View>
+        ) : null}
       </Pressable>
     )
   }
 
-  return null
+  const data = images.slice(0, 4)
+
+  return (
+    <>
+      <ResponsiveGrid
+        data={data.map((image, index) => ({
+          ...image,
+          widthRatio: data.length === 3 && index === 0 ? 2 : undefined,
+        }))}
+        keyExtractor={(item: PostMedia) => item.url}
+        maxItemsPerColumn={2}
+        renderItem={({ index, item }: { index: number; item: PostMedia }) => (
+          <Pressable
+            onLongPress={onLongPress}
+            onPress={() => {
+              onPress(index)
+            }}
+            style={styles.image}
+          >
+            <Image
+              {...placeholder}
+              recyclingKey={recyclingKey}
+              source={item.thumbnail}
+              style={styles.image}
+            />
+
+            {item.type === 'gif' ? (
+              <View style={[styles.label, styles.gif]}>
+                <Text contrast size="1" weight="medium">
+                  {t('gif')}
+                </Text>
+              </View>
+            ) : null}
+          </Pressable>
+        )}
+      />
+
+      {images.length > 4 ? (
+        <View style={[styles.label, styles.count]}>
+          <Text contrast size="1" weight="medium">
+            {t('items', {
+              count: images.length,
+            })}
+          </Text>
+        </View>
+      ) : null}
+    </>
+  )
 }
 
-type GifProps = {
-  image: PostMedia
-}
-
-function Gif({ image }: GifProps) {
-  const t = useTranslations('component.posts.gallery')
-
-  const { styles } = useStyles(stylesheet)
-
-  if (image.type === 'gif') {
-    return (
-      <View style={[styles.label, styles.gif]}>
-        <Text contrast size="1" weight="medium">
-          {t('gif')}
-        </Text>
-      </View>
-    )
-  }
-
-  return null
-}
-
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
+  count: {
+    right: theme.space[2],
+  },
   gif: {
     left: theme.space[2],
   },
   image: {
     flex: 1,
-  },
-  items: {
-    right: theme.space[2],
   },
   label: {
     backgroundColor: theme.colors.black.accentAlpha,
@@ -295,24 +135,4 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   one: (aspectRatio: number) => ({
     aspectRatio,
   }),
-  three: (crossPost?: boolean) => {
-    const maxWidth =
-      (iPad ? cardMaxWidth : runtime.screen.width) -
-      (crossPost ? theme.space[3] * 2 : 0)
-
-    return {
-      height: 150 - theme.space[1],
-      width: (maxWidth - theme.space[2]) / 2,
-    }
-  },
-  two: (crossPost?: boolean) => {
-    const maxWidth =
-      (iPad ? cardMaxWidth : runtime.screen.width) -
-      (crossPost ? theme.space[3] * 2 : 0)
-
-    return {
-      height: 300,
-      width: (maxWidth - theme.space[2]) / 2,
-    }
-  },
 }))

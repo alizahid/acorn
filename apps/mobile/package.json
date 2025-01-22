@@ -81,6 +81,7 @@
     "react-hook-form": "^7.54.2",
     "react-native": "0.76.6",
     "react-native-drawer-layout": "^4.1.1",
+    "react-native-flexible-grid": "^0.2.3",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-keyboard-controller": "^1.15.2",
     "react-native-mmkv": "^3.2.0",

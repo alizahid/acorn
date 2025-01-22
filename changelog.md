@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: sticky drawer preference for iPad
+- changed: image grid design
 
 ## Build 38
 
