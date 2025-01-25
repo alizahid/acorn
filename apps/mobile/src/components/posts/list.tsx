@@ -10,6 +10,7 @@ import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
+import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -145,7 +146,10 @@ export function PostList({
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   separator: (oled: boolean, compact: boolean) => ({
+    alignSelf: 'center',
     backgroundColor: oled ? theme.colors.gray.border : undefined,
     height: oled ? runtime.hairlineWidth : theme.space[compact ? 2 : 4],
+    maxWidth: iPad ? cardMaxWidth : undefined,
+    width: '100%',
   }),
 }))

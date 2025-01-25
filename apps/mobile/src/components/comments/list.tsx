@@ -7,6 +7,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { type ListProps } from '~/hooks/list'
 import { type CommentsProps, useComments } from '~/hooks/queries/user/comments'
+import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 
 import { Empty } from '../common/empty'
@@ -106,7 +107,10 @@ export function CommentList({
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   separator: (oled: boolean) => ({
+    alignSelf: 'center',
     backgroundColor: oled ? theme.colors.gray.border : undefined,
     height: oled ? runtime.hairlineWidth : theme.space[4],
+    maxWidth: iPad ? cardMaxWidth : undefined,
+    width: '100%',
   }),
 }))

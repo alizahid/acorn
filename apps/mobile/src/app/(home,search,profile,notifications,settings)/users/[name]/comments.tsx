@@ -4,11 +4,12 @@ import {
   useNavigation,
 } from 'expo-router'
 import { useCallback, useState } from 'react'
-import { useStyles } from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { z } from 'zod'
 
 import { CommentList } from '~/components/comments/list'
+import { View } from '~/components/common/view'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { UserSearchBar } from '~/components/users/search'
 import { useList } from '~/hooks/list'
@@ -26,7 +27,7 @@ export default function Screen() {
 
   const { intervalUserComments, sortUserComments } = usePreferences()
 
-  const { theme } = useStyles()
+  const { styles, theme } = useStyles(stylesheet)
 
   const listProps = useList({
     padding: iPad ? theme.space[4] : 0,
@@ -62,7 +63,11 @@ export default function Screen() {
 
   return (
     <CommentList
-      header={<UserSearchBar onChange={setQuery} value={query} />}
+      header={
+        <View direction="row" style={styles.header()}>
+          <UserSearchBar onChange={setQuery} value={query} />
+        </View>
+      }
       interval={interval}
       listProps={listProps}
       query={debounced}
@@ -71,3 +76,19 @@ export default function Screen() {
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  header: () => {
+    if (iPad) {
+      return {
+        borderBottomColor: theme.colors.gray.border,
+        borderBottomWidth: runtime.hairlineWidth,
+        marginBottom: theme.space[4],
+        marginHorizontal: -theme.space[4],
+        marginTop: -theme.space[4],
+      }
+    }
+
+    return {}
+  },
+}))
