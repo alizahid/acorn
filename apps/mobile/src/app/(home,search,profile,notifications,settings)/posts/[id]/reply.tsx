@@ -5,7 +5,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { TextInput } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -42,29 +42,39 @@ export default function Screen() {
 
   const [text, setText] = useState('')
 
-  useFocusEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <HeaderButton
-          icon="PaperPlaneTilt"
-          loading={isPending}
-          onPress={async () => {
-            if (text.length === 0) {
-              return
-            }
+  useFocusEffect(
+    useCallback(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <HeaderButton
+            icon="PaperPlaneTilt"
+            loading={isPending}
+            onPress={async () => {
+              if (text.length === 0) {
+                return
+              }
 
-            await reply({
-              commentId: params.commentId,
-              postId: params.id,
-              text,
-            })
+              await reply({
+                commentId: params.commentId,
+                postId: params.id,
+                text,
+              })
 
-            router.back()
-          }}
-        />
-      ),
-    })
-  })
+              router.back()
+            }}
+          />
+        ),
+      })
+    }, [
+      isPending,
+      navigation,
+      params.commentId,
+      params.id,
+      reply,
+      router,
+      text,
+    ]),
+  )
 
   return (
     <View style={styles.main}>

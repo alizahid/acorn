@@ -8,7 +8,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { compact } from 'lodash'
-import { useMemo, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
@@ -67,48 +67,50 @@ export default function Screen() {
 
   const [viewing, setViewing] = useState<Array<number>>([])
 
-  useFocusEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <SortIntervalMenu
-          onChange={(next) => {
-            setSort(next.sort)
-          }}
-          sort={sort}
-          type="comment"
-        />
-      ),
-      headerTitle: () =>
-        post ? (
-          <Pressable
-            height="8"
-            justify="center"
-            onPress={() => {
-              if (post.community.name.startsWith('u/')) {
+  useFocusEffect(
+    useCallback(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <SortIntervalMenu
+            onChange={(next) => {
+              setSort(next.sort)
+            }}
+            sort={sort}
+            type="comment"
+          />
+        ),
+        headerTitle: () =>
+          post ? (
+            <Pressable
+              height="8"
+              justify="center"
+              onPress={() => {
+                if (post.community.name.startsWith('u/')) {
+                  router.navigate({
+                    params: {
+                      name: removePrefix(post.community.name),
+                    },
+                    pathname: '/users/[name]',
+                  })
+
+                  return
+                }
+
                 router.navigate({
                   params: {
                     name: removePrefix(post.community.name),
                   },
-                  pathname: '/users/[name]',
+                  pathname: '/communities/[name]',
                 })
-
-                return
-              }
-
-              router.navigate({
-                params: {
-                  name: removePrefix(post.community.name),
-                },
-                pathname: '/communities/[name]',
-              })
-            }}
-            px="3"
-          >
-            <Text weight="bold">{post.community.name}</Text>
-          </Pressable>
-        ) : undefined,
-    })
-  })
+              }}
+              px="3"
+            >
+              <Text weight="bold">{post.community.name}</Text>
+            </Pressable>
+          ) : undefined,
+      })
+    }, [navigation, post, router, sort]),
+  )
 
   const data = useMemo(
     () =>

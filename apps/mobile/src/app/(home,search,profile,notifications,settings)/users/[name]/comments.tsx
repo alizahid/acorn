@@ -3,7 +3,7 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { useStyles } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { z } from 'zod'
@@ -39,24 +39,26 @@ export default function Screen() {
 
   const [debounced] = useDebounce(query, 500)
 
-  useFocusEffect(() => {
-    navigation.setOptions({
-      headerRight: () => (
-        <SortIntervalMenu
-          interval={interval}
-          onChange={(next) => {
-            setSort(next.sort)
+  useFocusEffect(
+    useCallback(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <SortIntervalMenu
+            interval={interval}
+            onChange={(next) => {
+              setSort(next.sort)
 
-            if (next.interval) {
-              setInterval(next.interval)
-            }
-          }}
-          sort={sort}
-          type="comment"
-        />
-      ),
-    })
-  })
+              if (next.interval) {
+                setInterval(next.interval)
+              }
+            }}
+            sort={sort}
+            type="comment"
+          />
+        ),
+      })
+    }, [interval, navigation, sort]),
+  )
 
   return (
     <CommentList

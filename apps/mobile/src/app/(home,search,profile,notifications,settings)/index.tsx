@@ -3,7 +3,7 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { Drawer } from 'react-native-drawer-layout'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
@@ -49,28 +49,37 @@ export default function Screen() {
 
   const [open, setOpen] = useState(false)
 
-  useFocusEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <FeedTypeMenu
-          data={params}
-          onPress={() => {
-            setOpen((previous) => !previous)
-          }}
-        />
-      ),
-      headerRight: () => (
-        <SortIntervalMenu
-          interval={sorting.interval}
-          onChange={(next) => {
-            updateSorting(next)
-          }}
-          sort={sorting.sort}
-          type={type}
-        />
-      ),
-    })
-  })
+  useFocusEffect(
+    useCallback(() => {
+      navigation.setOptions({
+        headerLeft: () => (
+          <FeedTypeMenu
+            data={params}
+            onPress={() => {
+              setOpen((previous) => !previous)
+            }}
+          />
+        ),
+        headerRight: () => (
+          <SortIntervalMenu
+            interval={sorting.interval}
+            onChange={(next) => {
+              updateSorting(next)
+            }}
+            sort={sorting.sort}
+            type={type}
+          />
+        ),
+      })
+    }, [
+      navigation,
+      params,
+      sorting.interval,
+      sorting.sort,
+      type,
+      updateSorting,
+    ]),
+  )
 
   return (
     <Drawer
