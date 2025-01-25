@@ -11,7 +11,6 @@ import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { UnistylesRuntime } from 'react-native-unistyles'
 import { IntlProvider } from 'use-intl'
 
-import { Feedback } from '~/components/common/feedback'
 import { RootLayout } from '~/components/navigation/layout'
 import { useQueryDefaults } from '~/hooks/query-defaults'
 import { useTheme } from '~/hooks/theme'
@@ -61,8 +60,6 @@ function Acorn() {
               >
                 <IntlProvider locale="en" messages={en} timeZone={timeZone}>
                   <RootLayout />
-
-                  <Feedback />
 
                   <PostMenu.Root />
                   <CommentMenu.Root />
