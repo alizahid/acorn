@@ -6,7 +6,7 @@
   "devDependencies": {
     "@vercel/style-guide": "^6.0.0",
     "eslint": "^8.57.1",
-    "eslint-config-turbo": "^2.3.3",
+    "eslint-config-turbo": "^2.3.4",
     "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-simple-import-sort": "^12.1.1",
     "eslint-plugin-sort-destructure-keys": "^2.0.0",

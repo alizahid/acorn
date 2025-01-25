@@ -1,5 +1,5 @@
 diff --git a/build/config-plugin.js b/build/config-plugin.js
-index 588870684b4151a62c443542d9077198225fa1b2..d4376806d8abca0321d77b4c8c6b017bf5bb4123 100644
+index 88e01d89afbb359cc8d0683d02e5652ec0077e19..46c1d6306282dc257bef933a86dee4a5ba3e2b9c 100644
 --- a/build/config-plugin.js
 +++ b/build/config-plugin.js
 @@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
@@ -17,10 +17,10 @@ index 588870684b4151a62c443542d9077198225fa1b2..d4376806d8abca0321d77b4c8c6b017b
 -        console.warn((0, chalk_1.default) `{yellow [bacons/apple-targets]} Expo config is missing required {cyan ios.appleTeamId} property. Find this in Xcode and add to the Expo Config to correct. iOS builds may fail until this is corrected.`);
 +        console.warn(`{yellow [bacons/apple-targets]} Expo config is missing required {cyan ios.appleTeamId} property. Find this in Xcode and add to the Expo Config to correct. iOS builds may fail until this is corrected.`);
      }
-     const targets = (0, glob_1.globSync)(`${root}/${match}/expo-target.config.@(json|js)`, {
+     const targets = (0, glob_1.sync)(`${root}/${match}/expo-target.config.@(json|js)`, {
          // const targets = globSync(`./targets/action/expo-target.config.@(json|js)`, {
 diff --git a/build/withWidget.js b/build/withWidget.js
-index 7f7759060863b60c60f68d3abfcc92d03352d0e2..bc15a7ae1a9e5c888395f146a9d54cc8da92f872 100644
+index 0a7ad90f1230f2cdec42086c4ac51e06835267e3..35acfefb4e342c88d4cd7531bda504b49a2b30b4 100644
 --- a/build/withWidget.js
 +++ b/build/withWidget.js
 @@ -8,7 +8,6 @@ const plist_1 = __importDefault(require("@expo/plist"));
@@ -31,8 +31,8 @@ index 7f7759060863b60c60f68d3abfcc92d03352d0e2..bc15a7ae1a9e5c888395f146a9d54cc8
  const withIosColorset_1 = require("./colorset/withIosColorset");
  const withImageAsset_1 = require("./icon/withImageAsset");
  const withIosIcon_1 = require("./icon/withIosIcon");
-@@ -53,7 +52,7 @@ function kebabToCamelCase(str) {
- }
+@@ -47,7 +46,7 @@ function createLogQueue() {
+ const prebuildLogQueue = createLogQueue();
  const withWidget = (config, props) => {
      var _a, _b, _c, _d, _e, _f, _g, _h, _j;
 -    prebuildLogQueue.add(() => warnOnce((0, chalk_1.default) `\nUsing experimental Config Plugin {bold @bacons/apple-targets} that is subject to breaking changes.`));
@@ -40,19 +40,37 @@ index 7f7759060863b60c60f68d3abfcc92d03352d0e2..bc15a7ae1a9e5c888395f146a9d54cc8
      // TODO: Magically based on the top-level folders in the `ios-widgets/` folder
      if (props.icon && !/https?:\/\//.test(props.icon)) {
          props.icon = path_1.default.join(props.directory, props.icon);
-@@ -95,13 +94,13 @@ const withWidget = (config, props) => {
+@@ -89,7 +88,7 @@ const withWidget = (config, props) => {
+                     if (!associatedDomains ||
+                         !Array.isArray(associatedDomains) ||
+                         associatedDomains.length === 0) {
+-                        warnOnce((0, chalk_1.default) `{yellow [${targetDirName}]} Apple App Clip may require the associated domains entitlement but none were found in the Expo config.\nExample:\n${JSON.stringify({
++                        warnOnce(`{yellow [${targetDirName}]} Apple App Clip may require the associated domains entitlement but none were found in the Expo config.\nExample:\n${JSON.stringify({
+                             ios: {
+                                 associatedDomains: [`applinks:placeholder.expo.app`],
+                             },
+@@ -112,7 +111,7 @@ const withWidget = (config, props) => {
+                             .filter(Boolean);
+                         const unique = [...new Set(sanitizedUrls)];
+                         if (unique.length) {
+-                            warnOnce((0, chalk_1.default) `{gray [${targetDirName}]} Apple App Clip expo-target.config.js missing associated domains entitlements in the target config. Using the following defaults:\n${JSON.stringify({
++                            warnOnce(`{gray [${targetDirName}]} Apple App Clip expo-target.config.js missing associated domains entitlements in the target config. Using the following defaults:\n${JSON.stringify({
+                                 entitlements: {
+                                     [associatedDomainsKey]: [
+                                         `appclips:${unique[0] || "mywebsite.expo.app"}`,
+@@ -139,13 +138,13 @@ const withWidget = (config, props) => {
                      // Then set the target app groups to match the main app.
                      entitlements[APP_GROUP_KEY] = mainAppGroups;
                      prebuildLogQueue.add(() => {
--                        logOnce((0, chalk_1.default) `[${widget}] Syncing app groups with main app. {dim Define entitlements[${JSON.stringify(APP_GROUP_KEY)}] in the {bold expo-target.config} file to override.}`);
-+                        logOnce(`[${widget}] Syncing app groups with main app. {dim Define entitlements[${JSON.stringify(APP_GROUP_KEY)}] in the {bold expo-target.config} file to override.}`);
+-                        logOnce((0, chalk_1.default) `[${targetDirName}] Syncing app groups with main app. {dim Define entitlements[${JSON.stringify(APP_GROUP_KEY)}] in the {bold expo-target.config} file to override.}`);
++                        logOnce(`[${targetDirName}] Syncing app groups with main app. {dim Define entitlements[${JSON.stringify(APP_GROUP_KEY)}] in the {bold expo-target.config} file to override.}`);
                      });
                  }
                  else {
                      prebuildLogQueue.add(() => {
                          var _a, _b;
--                        return warnOnce((0, chalk_1.default) `{yellow [${widget}]} Apple target may require the App Groups entitlement but none were found in the Expo config.\nExample:\n${JSON.stringify({
-+                        return warnOnce(`{yellow [${widget}]} Apple target may require the App Groups entitlement but none were found in the Expo config.\nExample:\n${JSON.stringify({
+-                        return warnOnce((0, chalk_1.default) `{yellow [${targetDirName}]} Apple target may require the App Groups entitlement but none were found in the Expo config.\nExample:\n${JSON.stringify({
++                        return warnOnce(`{yellow [${targetDirName}]} Apple target may require the App Groups entitlement but none were found in the Expo config.\nExample:\n${JSON.stringify({
                              ios: {
                                  entitlements: {
                                      [APP_GROUP_KEY]: [
