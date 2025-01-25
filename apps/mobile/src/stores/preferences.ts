@@ -1,10 +1,10 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+import { type FloatingButtonSide } from '~/components/common/floating-button'
 import { type Gestures } from '~/components/common/gestures'
 import { Store } from '~/lib/store'
 import { type Theme } from '~/styles/themes'
-import { type Side } from '~/types/preferences'
 import {
   type CommentSort,
   type CommunityFeedSort,
@@ -45,12 +45,12 @@ export type PreferencesPayload = {
   oldReddit: boolean
   postGestures: Gestures
   refreshInterval: number
-  replyPost: Side
+  replyPost: FloatingButtonSide
   seenOnMedia: boolean
   seenOnScroll: boolean
   seenOnVote: boolean
   showFlair: boolean
-  skipComment: Side
+  skipComment: FloatingButtonSide
   sortCommunityPosts: CommunityFeedSort
   sortFeedPosts: FeedSort
   sortPostComments: CommentSort

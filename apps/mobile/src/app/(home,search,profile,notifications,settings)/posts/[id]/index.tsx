@@ -1,6 +1,5 @@
 import { useIsFocused } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
-import { BlurView } from 'expo-blur'
 import {
   useFocusEffect,
   useLocalSearchParams,
@@ -15,12 +14,15 @@ import { z } from 'zod'
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
+import {
+  FloatingButton,
+  type FloatingButtonSide,
+} from '~/components/common/floating-button'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { HeaderButton } from '~/components/navigation/header-button'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
@@ -31,7 +33,6 @@ import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
-import { type Side } from '~/types/preferences'
 
 type ListItem = 'post' | 'header' | Comment | 'empty'
 
@@ -51,7 +52,7 @@ export default function Screen() {
   const { replyPost, skipComment, sortPostComments } = usePreferences()
   const { addPost } = useHistory()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlashList<ListItem>>(null)
 
@@ -255,91 +256,80 @@ export default function Screen() {
       />
 
       {replyPost && post ? (
-        <BlurView
-          intensity={100}
+        <FloatingButton
+          color="blue"
+          icon="ArrowBendUpLeft"
+          onPress={() => {
+            router.navigate({
+              params: {
+                id: params.id,
+              },
+              pathname: '/posts/[id]/reply',
+            })
+          }}
           style={[styles.action, styles.reply(replyPost)]}
-        >
-          <HeaderButton
-            color="blue"
-            icon="ArrowBendUpLeft"
-            onPress={() => {
-              router.navigate({
-                params: {
-                  id: params.id,
-                },
-                pathname: '/posts/[id]/reply',
-              })
-            }}
-            weight="bold"
-          />
-        </BlurView>
+        />
       ) : null}
 
       {skipComment && comments.length > 0 ? (
-        <BlurView
-          intensity={100}
+        <FloatingButton
+          icon="ArrowDown"
+          onLongPress={() => {
+            if (viewing.includes(0)) {
+              list.current?.scrollToIndex({
+                animated: true,
+                index: 2,
+                viewOffset: styles.offset.margin,
+              })
+
+              return
+            }
+
+            const previous = viewing[0] ?? 0
+
+            const next = data.findLastIndex((item, index) => {
+              if (typeof item === 'string') {
+                return false
+              }
+
+              return index < previous && item.data.depth === 0
+            })
+
+            list.current?.scrollToIndex({
+              animated: true,
+              index: next,
+              viewOffset: styles.offset.margin,
+            })
+          }}
+          onPress={() => {
+            if (viewing.includes(0)) {
+              list.current?.scrollToIndex({
+                animated: true,
+                index: 2,
+                viewOffset: styles.offset.margin,
+              })
+
+              return
+            }
+
+            const previous = viewing[0] ?? 0
+
+            const next = data.findIndex((item, index) => {
+              if (typeof item === 'string') {
+                return false
+              }
+
+              return index > previous && item.data.depth === 0
+            })
+
+            list.current?.scrollToIndex({
+              animated: true,
+              index: next,
+              viewOffset: styles.offset.margin,
+            })
+          }}
           style={[styles.action, styles.skip(skipComment)]}
-        >
-          <HeaderButton
-            hitSlop={theme.space[4]}
-            icon="ArrowDown"
-            onLongPress={() => {
-              if (viewing.includes(0)) {
-                list.current?.scrollToIndex({
-                  animated: true,
-                  index: 2,
-                  viewOffset: styles.offset.margin,
-                })
-
-                return
-              }
-
-              const previous = viewing[0] ?? 0
-
-              const next = data.findLastIndex((item, index) => {
-                if (typeof item === 'string') {
-                  return false
-                }
-
-                return index < previous && item.data.depth === 0
-              })
-
-              list.current?.scrollToIndex({
-                animated: true,
-                index: next,
-                viewOffset: styles.offset.margin,
-              })
-            }}
-            onPress={() => {
-              if (viewing.includes(0)) {
-                list.current?.scrollToIndex({
-                  animated: true,
-                  index: 2,
-                  viewOffset: styles.offset.margin,
-                })
-
-                return
-              }
-
-              const previous = viewing[0] ?? 0
-
-              const next = data.findIndex((item, index) => {
-                if (typeof item === 'string') {
-                  return false
-                }
-
-                return index > previous && item.data.depth === 0
-              })
-
-              list.current?.scrollToIndex({
-                animated: true,
-                index: next,
-                viewOffset: styles.offset.margin,
-              })
-            }}
-            weight="bold"
-          />
-        </BlurView>
+        />
       ) : null}
     </>
   )
@@ -347,8 +337,6 @@ export default function Screen() {
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   action: {
-    borderCurve: 'continuous',
-    borderRadius: theme.space[8],
     bottom:
       runtime.insets.bottom +
       theme.space[3] +
@@ -374,13 +362,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   offset: {
     margin: runtime.insets.top + theme.space[8],
   },
-  reply: (side: Side) => ({
-    backgroundColor: theme.colors.blue.uiActiveAlpha,
+  reply: (side: FloatingButtonSide) => ({
     left: side === 'left' ? theme.space[4] : undefined,
     right: side === 'right' ? theme.space[4] : undefined,
   }),
-  skip: (side: Side) => ({
-    backgroundColor: theme.colors.accent.uiActiveAlpha,
+  skip: (side: FloatingButtonSide) => ({
     left: side === 'left' ? theme.space[4] : undefined,
     right: side === 'right' ? theme.space[4] : undefined,
   }),

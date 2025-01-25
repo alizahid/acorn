@@ -2,11 +2,11 @@ import { SymbolView } from 'expo-symbols'
 import { useStyles } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
+import { FloatingButtonSide } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { Menu, type MenuItem } from '~/components/common/menu'
 import { useList } from '~/hooks/list'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
-import { sides } from '~/types/preferences'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.preferences')
@@ -286,7 +286,7 @@ export default function Screen() {
 
               update(payload)
             },
-            options: sides.map((option) => {
+            options: FloatingButtonSide.map((option) => {
               const value = option ?? 'hide'
 
               const icon =
