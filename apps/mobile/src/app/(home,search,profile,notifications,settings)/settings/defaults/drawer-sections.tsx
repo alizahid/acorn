@@ -1,7 +1,5 @@
 import { create } from 'mutative'
-import { ScrollView } from 'react-native'
 import ReorderableList, { reorderItems } from 'react-native-reorderable-list'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { View } from '~/components/common/view'
@@ -14,56 +12,39 @@ export default function Screen() {
 
   const { drawerSections, update } = useDefaults()
 
-  const { styles } = useStyles(stylesheet)
-
-  const listProps = useList()
+  const { contentContainerStyle } = useList()
 
   return (
-    <ScrollView {...listProps}>
-      <View p="4">
-        <ReorderableList
-          contentContainerStyle={styles.content}
-          data={drawerSections}
-          extraData={drawerSections}
-          onReorder={(event) => {
-            const next = reorderItems(drawerSections, event.from, event.to)
+    <View gap="2" style={contentContainerStyle}>
+      <ReorderableList
+        data={drawerSections}
+        extraData={drawerSections}
+        onReorder={(event) => {
+          const next = reorderItems(drawerSections, event.from, event.to)
 
-            update({
-              drawerSections: next,
-            })
-          }}
-          renderItem={({ index, item }) => (
-            <DraggableItem
-              label={t(item.key)}
-              onChange={(value) => {
-                const next = create(drawerSections, (draft) => {
-                  if (draft[index]) {
-                    draft[index].disabled = !value
-                  }
-                })
+          update({
+            drawerSections: next,
+          })
+        }}
+        renderItem={({ index, item }) => (
+          <DraggableItem
+            label={t(item.key)}
+            onChange={(value) => {
+              const next = create(drawerSections, (draft) => {
+                if (draft[index]) {
+                  draft[index].disabled = !value
+                }
+              })
 
-                update({
-                  drawerSections: next,
-                })
-              }}
-              value={!item.disabled}
-            />
-          )}
-          scrollEnabled={false}
-        />
-      </View>
-    </ScrollView>
+              update({
+                drawerSections: next,
+              })
+            }}
+            value={!item.disabled}
+          />
+        )}
+        scrollEnabled={false}
+      />
+    </View>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  content: {
-    backgroundColor: theme.colors.gray.bgAlt,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
-    overflow: 'hidden',
-  },
-  label: {
-    flex: 1,
-  },
-}))
