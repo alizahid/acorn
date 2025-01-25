@@ -246,32 +246,23 @@
         "title": "About"
       },
       "appearance": {
-        "auto": {
-          "acorn": "Acorn",
-          "title": "Auto"
-        },
-        "dark": {
-          "acorn": "Acorn",
-          "indigo": "Indigo",
-          "jade": "Jade",
-          "plum": "Plum",
-          "ruby": "Ruby",
-          "title": "Dark"
-        },
-        "light": {
-          "acorn": "Acorn",
-          "indigo": "Indigo",
-          "jade": "Jade",
-          "plum": "Plum",
-          "ruby": "Ruby",
-          "title": "Light"
-        },
         "preferences": {
           "blurNavigation": "Use blur effect",
           "coloredComments": "Colored comments",
           "themeOled": "OLED mode",
           "themeTint": "Background tint",
           "title": "Preferences"
+        },
+        "themes": {
+          "acorn": "Acorn",
+          "auto": "Auto",
+          "dark": "Dark",
+          "indigo": "Indigo",
+          "jade": "Jade",
+          "light": "Light",
+          "plum": "Plum",
+          "ruby": "Ruby",
+          "title": "Themes"
         },
         "title": "Appearance"
       },

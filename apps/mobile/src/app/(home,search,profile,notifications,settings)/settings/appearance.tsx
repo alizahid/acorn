@@ -6,6 +6,7 @@ import { Icon } from '~/components/common/icon'
 import { Switch } from '~/components/common/switch'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { SheetHeader } from '~/components/sheets/header'
 import { SheetItem } from '~/components/sheets/item'
 import { useList } from '~/hooks/list'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
@@ -55,67 +56,71 @@ export default function Screen() {
     },
     null,
 
-    t('auto.title'),
+    {
+      title: t('themes.title'),
+    },
+
+    t('themes.title'),
     {
       color: 'orange',
       key: 'acorn',
-      label: t('auto.acorn'),
+      label: t('themes.acorn'),
     },
     null,
 
-    t('light.title'),
+    t('themes.title'),
     {
       color: 'orange',
       key: 'acorn-light',
-      label: t('light.acorn'),
+      label: t('themes.acorn'),
     },
     {
       color: 'ruby',
       key: 'ruby-light',
-      label: t('light.ruby'),
+      label: t('themes.ruby'),
     },
     {
       color: 'plum',
       key: 'plum-light',
-      label: t('light.plum'),
+      label: t('themes.plum'),
     },
     {
       color: 'indigo',
       key: 'indigo-light',
-      label: t('light.indigo'),
+      label: t('themes.indigo'),
     },
     {
       color: 'jade',
       key: 'jade-light',
-      label: t('light.jade'),
+      label: t('themes.jade'),
     },
     null,
 
-    t('dark.title'),
+    t('themes.title'),
     {
       color: 'orange',
       key: 'acorn-dark',
-      label: t('dark.acorn'),
+      label: t('themes.acorn'),
     },
     {
       color: 'ruby',
       key: 'ruby-dark',
-      label: t('dark.ruby'),
+      label: t('themes.ruby'),
     },
     {
       color: 'plum',
       key: 'plum-dark',
-      label: t('dark.plum'),
+      label: t('themes.plum'),
     },
     {
       color: 'indigo',
       key: 'indigo-dark',
-      label: t('dark.indigo'),
+      label: t('themes.indigo'),
     },
     {
       color: 'jade',
       key: 'jade-dark',
-      label: t('dark.jade'),
+      label: t('themes.jade'),
     },
   ] as const
 
@@ -135,6 +140,10 @@ export default function Screen() {
 
         if ('color' in item) {
           return 'theme'
+        }
+
+        if ('title' in item) {
+          return 'title'
         }
 
         return 'preference'
@@ -180,6 +189,10 @@ export default function Screen() {
               selected={item.key === selected}
             />
           )
+        }
+
+        if ('title' in item) {
+          return <SheetHeader title={item.title} />
         }
 
         return (

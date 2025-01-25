@@ -203,20 +203,6 @@ function StackLayout({ children }: PropsWithChildren) {
       />
 
       <Stack.Screen
-        name="settings/defaults/drawer-sections"
-        options={{
-          title: t('settings.defaults.drawerSections.title'),
-        }}
-      />
-
-      <Stack.Screen
-        name="settings/defaults/search-tabs"
-        options={{
-          title: t('settings.defaults.searchTabs.title'),
-        }}
-      />
-
-      <Stack.Screen
         name="sign-in"
         options={(props) => ({
           contentStyle: modalStyle,
