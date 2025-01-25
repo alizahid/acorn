@@ -116,6 +116,7 @@ export default function Screen() {
 const stylesheet = createStyleSheet((theme) => ({
   drawer: {
     backgroundColor: theme.colors.gray.ui,
+    maxWidth: iPad ? 300 : undefined,
   },
   overlay: (oled: boolean) => ({
     backgroundColor: oled
