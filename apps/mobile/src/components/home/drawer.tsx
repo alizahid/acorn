@@ -158,7 +158,11 @@ export function HomeDrawer({ onClose }: Props) {
 
     const userItems: Array<Item> = [
       {
-        key: 'user',
+        key: 'users-separator',
+        type: 'separator' as const,
+      },
+      {
+        key: 'users',
         title: t('users.title'),
         type: 'header',
       },
@@ -236,7 +240,7 @@ export function HomeDrawer({ onClose }: Props) {
           ? [
               ...userItems,
               {
-                key: 'user-spinner',
+                key: 'users-spinner',
                 type: 'spinner' as const,
               },
             ]
