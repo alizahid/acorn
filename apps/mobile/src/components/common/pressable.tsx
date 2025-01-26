@@ -29,7 +29,7 @@ type Props = {
   style?: StyleProp<ViewStyle>
 } & ViewStyleProps
 
-export const Pressable = forwardRef<View, Props>(function Pressable(
+export const Pressable = forwardRef<View, Props>(function Component(
   {
     children,
     disabled,
