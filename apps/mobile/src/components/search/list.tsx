@@ -93,7 +93,6 @@ export function SearchList({
           }
         },
         viewabilityConfig: {
-          minimumViewTime: 3_000,
           viewAreaCoveragePercentThreshold: 60,
         },
       },
