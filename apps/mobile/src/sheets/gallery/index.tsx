@@ -1,7 +1,7 @@
 import * as StatusBar from 'expo-status-bar'
 import { useCallback, useState } from 'react'
 import { createCallable } from 'react-call'
-import { Modal, StyleSheet } from 'react-native'
+import { Modal } from 'react-native'
 import AwesomeGallery from 'react-native-awesome-gallery'
 import Animated, {
   useAnimatedStyle,
@@ -12,7 +12,6 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 import { HeaderButton } from '~/components/navigation/header-button'
 import { useCopyImage, useDownloadImage } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
@@ -54,14 +53,11 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
 
   return (
     <Modal animationType="fade" transparent visible>
-      <View flex={1} style={styles.main(themeOled, themeTint)} />
-
       <AwesomeGallery
         data={images}
         emptySpaceWidth={theme.space[6]}
         initialIndex={initial}
         keyExtractor={(item) => item.url}
-        loop
         numToRender={3}
         onIndexChange={setIndex}
         onSwipeToClose={() => {
@@ -79,7 +75,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
 
           return <GalleryItem image={item} />
         }}
-        style={styles.gallery}
+        style={styles.main(themeOled, themeTint)}
       />
 
       {images.length > 1 ? (
@@ -169,12 +165,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     paddingHorizontal: theme.space[2],
     position: 'absolute',
   },
-  gallery: {
-    backgroundColor: 'transparent',
-  },
-
   main: (oled: boolean, bg: boolean) => ({
-    ...StyleSheet.absoluteFillObject,
     backgroundColor: oled
       ? oledTheme[theme.name].bg
       : theme.colors[bg ? 'accent' : 'gray'].ui,

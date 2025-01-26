@@ -1,4 +1,4 @@
-import { Image, useImage } from 'expo-image'
+import { Image } from 'expo-image'
 import { useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -24,8 +24,6 @@ export function GalleryItem({ image }: Props) {
 
   const placeholder = useImagePlaceholder()
 
-  const source = useImage(image.url)
-
   const [playing, setPlaying] = useState(true)
 
   return (
@@ -35,7 +33,7 @@ export function GalleryItem({ image }: Props) {
         contentFit="contain"
         pointerEvents="none"
         ref={ref}
-        source={source ?? image.thumbnail}
+        source={image.url}
         style={styles.overlay}
       />
 
