@@ -4,12 +4,12 @@
 
 - added: post creation
 - added: upvote on save
-- added: sticky drawer preference for iPad
+- added: sticky drawer for iPad
 - changed: image grid design
 - changed: post/comment list separator added for OLED mode
 - changed: defaults screen
 
-## Build 38
+## Build 39
 
 - added: OLED mode
 - added: button to open post menu on post screen
