@@ -14,9 +14,7 @@ export function Switch({ disabled, onChange, value }: Props) {
     <ReactNativeSwitch
       disabled={disabled}
       ios_backgroundColor={theme.colors.gray.uiActive}
-      onValueChange={(next) => {
-        onChange?.(next)
-      }}
+      onValueChange={onChange}
       thumbColor={theme.colors.gray.contrast}
       trackColor={{
         false: theme.colors.gray.uiActive,
