@@ -328,7 +328,10 @@
       "preferences": {
         "browsing": {
           "oldReddit": "Use old Reddit",
-          "refreshInterval": "Auto refresh interval",
+          "refreshInterval": {
+            "description": "Requires app restart",
+            "label": "Auto refresh interval"
+          },
           "showFlair": "Show flair",
           "stickyDrawer": "Sticky drawer on iPad",
           "title": "Browsing"

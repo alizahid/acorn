@@ -29,9 +29,10 @@ export default function Screen() {
             label: 'browsing.showFlair',
           },
           {
+            description: 'browsing.refreshInterval.description',
             icon: 'Clock',
             key: 'refreshInterval',
-            label: 'browsing.refreshInterval',
+            label: 'browsing.refreshInterval.label',
             options: [
               {
                 icon: {
@@ -240,6 +241,8 @@ export default function Screen() {
 
         if ('options' in item) {
           return {
+            description:
+              'description' in item ? t(item.description) : undefined,
             icon: {
               name: item.icon,
               type: 'icon',
