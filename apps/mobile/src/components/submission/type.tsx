@@ -3,7 +3,7 @@ import { compact } from 'lodash'
 import { useRef } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { Keyboard } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
@@ -11,11 +11,8 @@ import { type Submission } from '~/types/submission'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
-import { Text } from '../common/text'
 import { SheetItem } from '../sheets/item'
 import { SheetModal } from '../sheets/modal'
-
-export type SubmissionType = 'text' | 'image' | 'video' | 'link'
 
 type Props = {
   submission: Submission
@@ -24,7 +21,7 @@ type Props = {
 export function SubmissionType({ submission }: Props) {
   const t = useTranslations('component.submission.type')
 
-  const { theme } = useStyles()
+  const { styles, theme } = useStyles(stylesheet)
 
   const sheet = useRef<BottomSheetModal>(null)
 
@@ -52,11 +49,10 @@ export function SubmissionType({ submission }: Props) {
 
               sheet.current?.present()
             }}
+            px="2"
+            py="1"
+            style={styles.main}
           >
-            <Text size="2" weight="medium">
-              {t(field.value)}
-            </Text>
-
             <Icon
               color={theme.colors.gray.text}
               name={
@@ -67,6 +63,13 @@ export function SubmissionType({ submission }: Props) {
                     : 'TextAa'
               }
               weight="duotone"
+            />
+
+            <Icon
+              color={theme.colors.gray.textLow}
+              name="CaretDown"
+              size={theme.space[4]}
+              weight="bold"
             />
           </Pressable>
 
@@ -102,3 +105,11 @@ export function SubmissionType({ submission }: Props) {
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  main: {
+    backgroundColor: theme.colors.accent.ui,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
+  },
+}))
