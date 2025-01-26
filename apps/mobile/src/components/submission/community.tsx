@@ -30,6 +30,7 @@ export function SubmissionCommunityCard({ community }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   image: {
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.typography[3].lineHeight,
     height: theme.typography[3].lineHeight,
