@@ -2,6 +2,7 @@ import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { compact } from 'lodash'
 import { useRef } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
+import { Keyboard } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -47,6 +48,8 @@ export function SubmissionType({ submission }: Props) {
             gap="2"
             hitSlop={theme.space[4]}
             onPress={() => {
+              Keyboard.dismiss()
+
               sheet.current?.present()
             }}
           >
