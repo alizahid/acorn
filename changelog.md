@@ -2,9 +2,12 @@
 
 ## Upcoming
 
+- added: post creation
+- added: upvote on save
 - added: sticky drawer preference for iPad
 - changed: image grid design
 - changed: post/comment list separator added for OLED mode
+- changed: defaults screen
 
 ## Build 38
 

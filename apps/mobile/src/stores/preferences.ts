@@ -131,7 +131,7 @@ export const usePreferences = create<State>()(
       update(payload) {
         set(payload)
       },
-      upvoteOnSave: false,
+      upvoteOnSave: true,
     }),
     {
       migrate(persisted, version) {
