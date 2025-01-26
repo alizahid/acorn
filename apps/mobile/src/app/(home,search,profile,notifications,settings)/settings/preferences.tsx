@@ -6,6 +6,7 @@ import { FloatingButtonSide } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { Menu, type MenuItem } from '~/components/common/menu'
 import { useList } from '~/hooks/list'
+import { iPad } from '~/lib/common'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 
 export default function Screen() {
@@ -106,11 +107,13 @@ export default function Screen() {
             key: 'upvoteOnSave',
             label: 'browsing.upvoteOnSave',
           },
-          {
-            icon: 'Sidebar',
-            key: 'stickyDrawer',
-            label: 'browsing.stickyDrawer',
-          },
+          iPad
+            ? ({
+                icon: 'Sidebar',
+                key: 'stickyDrawer',
+                label: 'browsing.stickyDrawer',
+              } as const)
+            : false,
 
           null,
           t('comments.title'),
@@ -239,12 +242,94 @@ export default function Screen() {
             label: 'feedback.feedbackSounds',
           },
         ] as const
-      ).map((item) => {
-        if (!item || typeof item === 'string') {
-          return item
-        }
+      )
+        .filter((item) => item !== false)
+        .map((item) => {
+          if (!item || typeof item === 'string') {
+            return item
+          }
 
-        if ('options' in item) {
+          if ('options' in item) {
+            return {
+              description:
+                'description' in item ? t(item.description) : undefined,
+              icon: {
+                name: item.icon,
+                type: 'icon',
+              },
+              label: t(item.label),
+              onSelect(value) {
+                update({
+                  [item.key]: Number(value),
+                })
+              },
+              options: item.options.map((option) => ({
+                icon: option.icon,
+                label: option.label,
+                right: (
+                  <SymbolView
+                    name={option.icon.name}
+                    tintColor={theme.colors.accent.accent}
+                  />
+                ),
+                value: String(option.value),
+              })),
+              type: 'options',
+              value: String(preferences[item.key]),
+            }
+          }
+
+          if ('exclusive' in item) {
+            return {
+              icon: {
+                name: item.icon,
+                type: 'icon',
+              },
+              label: t(item.label),
+              onSelect(value) {
+                const exclusive = preferences[item.exclusive]
+
+                const payload: Partial<PreferencesPayload> = {
+                  [item.key]: value === 'hide' ? null : value,
+                }
+
+                if (value !== 'hide' && value === exclusive) {
+                  payload[item.exclusive] = value === 'left' ? 'right' : 'left'
+                }
+
+                update(payload)
+              },
+              options: FloatingButtonSide.map((option) => {
+                const value = option ?? 'hide'
+
+                const icon =
+                  value === 'left'
+                    ? 'ArrowLeft'
+                    : value === 'right'
+                      ? 'ArrowRight'
+                      : 'EyeClosed'
+
+                return {
+                  icon: {
+                    name: icon,
+                    type: 'icon',
+                  },
+                  label: t(`side.${value}`),
+                  right: (
+                    <Icon
+                      color={theme.colors.accent.accent}
+                      name={icon}
+                      weight="bold"
+                    />
+                  ),
+                  value,
+                }
+              }),
+              type: 'options',
+              value: preferences[item.key] ?? 'hide',
+            } satisfies MenuItem
+          }
+
           return {
             description:
               'description' in item ? t(item.description) : undefined,
@@ -255,92 +340,13 @@ export default function Screen() {
             label: t(item.label),
             onSelect(value) {
               update({
-                [item.key]: Number(value),
+                [item.key]: value,
               })
             },
-            options: item.options.map((option) => ({
-              icon: option.icon,
-              label: option.label,
-              right: (
-                <SymbolView
-                  name={option.icon.name}
-                  tintColor={theme.colors.accent.accent}
-                />
-              ),
-              value: String(option.value),
-            })),
-            type: 'options',
-            value: String(preferences[item.key]),
-          }
-        }
-
-        if ('exclusive' in item) {
-          return {
-            icon: {
-              name: item.icon,
-              type: 'icon',
-            },
-            label: t(item.label),
-            onSelect(value) {
-              const exclusive = preferences[item.exclusive]
-
-              const payload: Partial<PreferencesPayload> = {
-                [item.key]: value === 'hide' ? null : value,
-              }
-
-              if (value !== 'hide' && value === exclusive) {
-                payload[item.exclusive] = value === 'left' ? 'right' : 'left'
-              }
-
-              update(payload)
-            },
-            options: FloatingButtonSide.map((option) => {
-              const value = option ?? 'hide'
-
-              const icon =
-                value === 'left'
-                  ? 'ArrowLeft'
-                  : value === 'right'
-                    ? 'ArrowRight'
-                    : 'EyeClosed'
-
-              return {
-                icon: {
-                  name: icon,
-                  type: 'icon',
-                },
-                label: t(`side.${value}`),
-                right: (
-                  <Icon
-                    color={theme.colors.accent.accent}
-                    name={icon}
-                    weight="bold"
-                  />
-                ),
-                value,
-              }
-            }),
-            type: 'options',
-            value: preferences[item.key] ?? 'hide',
+            type: 'switch',
+            value: preferences[item.key],
           } satisfies MenuItem
-        }
-
-        return {
-          description: 'description' in item ? t(item.description) : undefined,
-          icon: {
-            name: item.icon,
-            type: 'icon',
-          },
-          label: t(item.label),
-          onSelect(value) {
-            update({
-              [item.key]: value,
-            })
-          },
-          type: 'switch',
-          value: preferences[item.key],
-        } satisfies MenuItem
-      })}
+        })}
       listProps={listProps}
     />
   )
