@@ -1,10 +1,11 @@
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
 import { TabView } from 'react-native-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { FloatingButton } from '~/components/common/floating-button'
 import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
@@ -30,6 +31,8 @@ const routes = CommunityTab.map((key) => ({
 }))
 
 export default function Screen() {
+  const router = useRouter()
+
   const params = schema.parse(useLocalSearchParams())
 
   const t = useTranslations('screen.community')
@@ -46,60 +49,74 @@ export default function Screen() {
   const [index, setIndex] = useState(0)
 
   return (
-    <TabView
-      lazy
-      navigationState={{
-        index,
-        routes,
-      }}
-      onIndexChange={setIndex}
-      renderLazyPlaceholder={Loading}
-      renderScene={({ route }) => {
-        if (route.key === 'posts') {
-          return (
-            <PostList
-              community={params.name}
-              header={
-                <View direction="row" style={styles.header()}>
-                  <CommunitySearchBar name={params.name} />
+    <>
+      <TabView
+        lazy
+        navigationState={{
+          index,
+          routes,
+        }}
+        onIndexChange={setIndex}
+        renderLazyPlaceholder={Loading}
+        renderScene={({ route }) => {
+          if (route.key === 'posts') {
+            return (
+              <PostList
+                community={params.name}
+                header={
+                  <View direction="row" style={styles.header()}>
+                    <CommunitySearchBar name={params.name} />
 
-                  <SortIntervalMenu
-                    interval={sorting.interval}
-                    onChange={(next) => {
-                      update({
-                        interval: next.interval,
-                        sort: next.sort,
-                      })
-                    }}
-                    sort={sorting.sort}
-                    type="community"
-                  />
-                </View>
-              }
-              interval={sorting.interval}
-              label="user"
-              listProps={listProps}
-              sort={sorting.sort}
-            />
-          )
-        }
+                    <SortIntervalMenu
+                      interval={sorting.interval}
+                      onChange={(next) => {
+                        update({
+                          interval: next.interval,
+                          sort: next.sort,
+                        })
+                      }}
+                      sort={sorting.sort}
+                      type="community"
+                    />
+                  </View>
+                }
+                interval={sorting.interval}
+                label="user"
+                listProps={listProps}
+                sort={sorting.sort}
+              />
+            )
+          }
 
-        return <CommunityAbout listProps={listProps} name={params.name} />
-      }}
-      renderTabBar={({ position }) => (
-        <Header back title={params.name}>
-          <View gap="4" pb="4" px="3">
-            <SegmentedControl
-              items={routes.map(({ key }) => t(`tabs.${key}`))}
-              offset={position}
-              onChange={(next) => {
-                setIndex(next)
-              }}
-            />
-          </View>
-        </Header>
-      )}
-    />
+          return <CommunityAbout listProps={listProps} name={params.name} />
+        }}
+        renderTabBar={({ position }) => (
+          <Header back title={params.name}>
+            <View gap="4" pb="4" px="3">
+              <SegmentedControl
+                items={routes.map(({ key }) => t(`tabs.${key}`))}
+                offset={position}
+                onChange={(next) => {
+                  setIndex(next)
+                }}
+              />
+            </View>
+          </Header>
+        )}
+      />
+
+      <FloatingButton
+        icon="Plus"
+        onPress={() => {
+          router.navigate({
+            params: {
+              name: params.name,
+            },
+            pathname: '/communities/[name]/new',
+          })
+        }}
+      />
+    </>
   )
 }
 

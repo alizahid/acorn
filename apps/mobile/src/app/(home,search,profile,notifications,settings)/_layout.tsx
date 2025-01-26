@@ -124,6 +124,13 @@ function StackLayout({ children }: PropsWithChildren) {
       />
 
       <Stack.Screen
+        name="communities/[name]/new"
+        options={{
+          title: t('posts.new.title'),
+        }}
+      />
+
+      <Stack.Screen
         name="communities/[name]/search"
         options={{
           headerShown: false,

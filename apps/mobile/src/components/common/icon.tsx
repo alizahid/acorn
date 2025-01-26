@@ -40,6 +40,7 @@ import HandSwipeLeftBold from 'react-native-phosphor/src/bold/HandSwipeLeft'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
 import ImageBold from 'react-native-phosphor/src/bold/Image'
+import LinkBold from 'react-native-phosphor/src/bold/Link'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import MegaphoneSimpleBold from 'react-native-phosphor/src/bold/MegaphoneSimple'
@@ -52,6 +53,7 @@ import PaletteBold from 'react-native-phosphor/src/bold/Palette'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
 import PauseBold from 'react-native-phosphor/src/bold/Pause'
 import PlayBold from 'react-native-phosphor/src/bold/Play'
+import PlusBold from 'react-native-phosphor/src/bold/Plus'
 import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
 import PushPinBold from 'react-native-phosphor/src/bold/PushPin'
 import QuestionBold from 'react-native-phosphor/src/bold/Question'
@@ -62,6 +64,7 @@ import SidebarBold from 'react-native-phosphor/src/bold/Sidebar'
 import SlidersHorizontalBold from 'react-native-phosphor/src/bold/SlidersHorizontal'
 import SmileyBold from 'react-native-phosphor/src/bold/Smiley'
 import SmileySadBold from 'react-native-phosphor/src/bold/SmileySad'
+import SmileyWinkBold from 'react-native-phosphor/src/bold/SmileyWink'
 import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
@@ -124,6 +127,7 @@ import HandSwipeLeftDuotone from 'react-native-phosphor/src/duotone/HandSwipeLef
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import ImageDuotone from 'react-native-phosphor/src/duotone/Image'
+import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import MegaphoneSimpleDuotone from 'react-native-phosphor/src/duotone/MegaphoneSimple'
@@ -136,6 +140,7 @@ import PaletteDuotone from 'react-native-phosphor/src/duotone/Palette'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
 import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
 import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
+import PlusDuotone from 'react-native-phosphor/src/duotone/Plus'
 import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
 import PushPinDuotone from 'react-native-phosphor/src/duotone/PushPin'
 import QuestionDuotone from 'react-native-phosphor/src/duotone/Question'
@@ -146,6 +151,7 @@ import SidebarDuotone from 'react-native-phosphor/src/duotone/Sidebar'
 import SlidersHorizontalDuotone from 'react-native-phosphor/src/duotone/SlidersHorizontal'
 import SmileyDuotone from 'react-native-phosphor/src/duotone/Smiley'
 import SmileySadDuotone from 'react-native-phosphor/src/duotone/SmileySad'
+import SmileyWinkDuotone from 'react-native-phosphor/src/duotone/SmileyWink'
 import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscending'
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
@@ -208,6 +214,7 @@ import HandSwipeLeftFill from 'react-native-phosphor/src/fill/HandSwipeLeft'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
 import ImageFill from 'react-native-phosphor/src/fill/Image'
+import LinkFill from 'react-native-phosphor/src/fill/Link'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import MegaphoneSimpleFill from 'react-native-phosphor/src/fill/MegaphoneSimple'
@@ -220,6 +227,7 @@ import PaletteFill from 'react-native-phosphor/src/fill/Palette'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
 import PauseFill from 'react-native-phosphor/src/fill/Pause'
 import PlayFill from 'react-native-phosphor/src/fill/Play'
+import PlusFill from 'react-native-phosphor/src/fill/Plus'
 import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
 import PushPinFill from 'react-native-phosphor/src/fill/PushPin'
 import QuestionFill from 'react-native-phosphor/src/fill/Question'
@@ -230,6 +238,7 @@ import SidebarFill from 'react-native-phosphor/src/fill/Sidebar'
 import SlidersHorizontalFill from 'react-native-phosphor/src/fill/SlidersHorizontal'
 import SmileyFill from 'react-native-phosphor/src/fill/Smiley'
 import SmileySadFill from 'react-native-phosphor/src/fill/SmileySad'
+import SmileyWinkFill from 'react-native-phosphor/src/fill/SmileyWink'
 import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
@@ -292,6 +301,7 @@ import HandSwipeLeftRegular from 'react-native-phosphor/src/regular/HandSwipeLef
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
 import ImageRegular from 'react-native-phosphor/src/regular/Image'
+import LinkRegular from 'react-native-phosphor/src/regular/Link'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import MegaphoneSimpleRegular from 'react-native-phosphor/src/regular/MegaphoneSimple'
@@ -304,6 +314,7 @@ import PaletteRegular from 'react-native-phosphor/src/regular/Palette'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
 import PauseRegular from 'react-native-phosphor/src/regular/Pause'
 import PlayRegular from 'react-native-phosphor/src/regular/Play'
+import PlusRegular from 'react-native-phosphor/src/regular/Plus'
 import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
 import PushPinRegular from 'react-native-phosphor/src/regular/PushPin'
 import QuestionRegular from 'react-native-phosphor/src/regular/Question'
@@ -314,6 +325,7 @@ import SidebarRegular from 'react-native-phosphor/src/regular/Sidebar'
 import SlidersHorizontalRegular from 'react-native-phosphor/src/regular/SlidersHorizontal'
 import SmileyRegular from 'react-native-phosphor/src/regular/Smiley'
 import SmileySadRegular from 'react-native-phosphor/src/regular/SmileySad'
+import SmileyWinkRegular from 'react-native-phosphor/src/regular/SmileyWink'
 import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscending'
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
@@ -602,6 +614,12 @@ const icons = {
     fill: ImageFill,
     regular: ImageRegular,
   },
+  Link: {
+    bold: LinkBold,
+    duotone: LinkDuotone,
+    fill: LinkFill,
+    regular: LinkRegular,
+  },
   MagnifyingGlass: {
     bold: MagnifyingGlassBold,
     duotone: MagnifyingGlassDuotone,
@@ -674,6 +692,12 @@ const icons = {
     fill: PlayFill,
     regular: PlayRegular,
   },
+  Plus: {
+    bold: PlusBold,
+    duotone: PlusDuotone,
+    fill: PlusFill,
+    regular: PlusRegular,
+  },
   PlusCircle: {
     bold: PlusCircleBold,
     duotone: PlusCircleDuotone,
@@ -733,6 +757,12 @@ const icons = {
     duotone: SmileySadDuotone,
     fill: SmileySadFill,
     regular: SmileySadRegular,
+  },
+  SmileyWink: {
+    bold: SmileyWinkBold,
+    duotone: SmileyWinkDuotone,
+    fill: SmileyWinkFill,
+    regular: SmileyWinkRegular,
   },
   SortAscending: {
     bold: SortAscendingBold,

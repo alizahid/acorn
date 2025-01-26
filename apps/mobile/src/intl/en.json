@@ -146,6 +146,36 @@
         "nothing": "No update available"
       }
     },
+    "submission": {
+      "flair": {
+        "label": "Select flair",
+        "title": "Flair"
+      },
+      "image": {
+        "max": "Max {max, number}",
+        "min": "Min {min, number}",
+        "placeholder": "Select images to upload"
+      },
+      "link": {
+        "placeholder": "Link"
+      },
+      "meta": {
+        "nsfw": "NSFW",
+        "spoiler": "Spoiler"
+      },
+      "text": {
+        "placeholder": "Body"
+      },
+      "title": {
+        "placeholder": "Title"
+      },
+      "type": {
+        "image": "Image",
+        "link": "Link",
+        "text": "Text",
+        "title": "Post type"
+      }
+    },
     "users": {
       "about": {
         "follow": "Follow",
@@ -208,6 +238,9 @@
       "title": "Notifications"
     },
     "posts": {
+      "new": {
+        "title": "New post"
+      },
       "reply": {
         "placeholder": "Say something nice",
         "submit": "Reply",

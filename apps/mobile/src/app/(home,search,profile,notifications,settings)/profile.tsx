@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { FloatingButton } from '~/components/common/floating-button'
 import { type IconName } from '~/components/common/icon'
 import { Menu, type MenuItem } from '~/components/common/menu'
 import { ProfileCard } from '~/components/users/profile'
@@ -25,34 +26,50 @@ export default function Screen() {
   const listProps = useList()
 
   return (
-    <Menu
-      header={<ProfileCard profile={profile} />}
-      items={UserFeedType.map<MenuItem>((type) => ({
-        arrow: true,
-        icon: {
-          color: theme.colors[colors[type]].accent,
-          name: icons[type],
-          type: 'icon',
-        },
-        label: t(type),
-        onPress() {
-          if (!profile) {
-            return
-          }
+    <>
+      <Menu
+        header={<ProfileCard profile={profile} />}
+        items={UserFeedType.map<MenuItem>((type) => ({
+          arrow: true,
+          icon: {
+            color: theme.colors[colors[type]].accent,
+            name: icons[type],
+            type: 'icon',
+          },
+          label: t(type),
+          onPress() {
+            if (!profile) {
+              return
+            }
 
-          router.navigate({
-            params: {
-              mode: 'headless',
-              name: removePrefix(profile.name),
-              type,
-            },
-            pathname: '/users/[name]/[type]',
-          })
-        },
-      }))}
-      listProps={listProps}
-      onRefresh={refetch}
-    />
+            router.navigate({
+              params: {
+                mode: 'headless',
+                name: removePrefix(profile.name),
+                type,
+              },
+              pathname: '/users/[name]/[type]',
+            })
+          },
+        }))}
+        listProps={listProps}
+        onRefresh={refetch}
+      />
+
+      {profile ? (
+        <FloatingButton
+          icon="Plus"
+          onPress={() => {
+            router.navigate({
+              params: {
+                name: `u_${profile.name}`,
+              },
+              pathname: '/communities/[name]/new',
+            })
+          }}
+        />
+      ) : null}
+    </>
   )
 }
 

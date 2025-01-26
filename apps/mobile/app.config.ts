@@ -42,6 +42,12 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         savePhotosPermission: `Allow ${name} to save photos to your library.`,
       },
     ],
+    [
+      'expo-image-picker',
+      {
+        photosPermission: `Allow ${name} to access your photo library`,
+      },
+    ],
   ]
 
   if (process.env.SENTRY_AUTH_TOKEN) {
