@@ -16,6 +16,7 @@ type Props = {
   icon: IconName
   onLongPress?: () => void
   onPress?: () => void
+  side?: 'right' | 'left'
   style?: StyleProp<ViewStyle>
 }
 
@@ -24,12 +25,13 @@ export function FloatingButton({
   icon,
   onLongPress,
   onPress,
+  side = 'right',
   style,
 }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <BlurView intensity={100} style={[styles.main(color), style]}>
+    <BlurView intensity={100} style={[styles.main(color, side), style]}>
       <HeaderButton
         color={color}
         hitSlop={theme.space[4]}
@@ -42,10 +44,20 @@ export function FloatingButton({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: (color: ColorToken) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  main: (color: ColorToken, side: FloatingButtonSide) => ({
     backgroundColor: theme.colors[color].uiActiveAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
+    bottom:
+      runtime.insets.bottom +
+      theme.space[3] +
+      theme.space[5] +
+      theme.space[3] +
+      theme.space[4],
+    left: side === 'left' ? theme.space[4] : undefined,
+    overflow: 'hidden',
+    position: 'absolute',
+    right: side === 'right' ? theme.space[4] : undefined,
   }),
 }))

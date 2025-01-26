@@ -14,10 +14,7 @@ import { z } from 'zod'
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
-import {
-  FloatingButton,
-  type FloatingButtonSide,
-} from '~/components/common/floating-button'
+import { FloatingButton } from '~/components/common/floating-button'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -267,7 +264,7 @@ export default function Screen() {
               pathname: '/posts/[id]/reply',
             })
           }}
-          style={[styles.action, styles.reply(replyPost)]}
+          side={replyPost}
         />
       ) : null}
 
@@ -328,7 +325,7 @@ export default function Screen() {
               viewOffset: styles.offset.margin,
             })
           }}
-          style={[styles.action, styles.skip(skipComment)]}
+          side={skipComment}
         />
       ) : null}
     </>
@@ -336,16 +333,6 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  action: {
-    bottom:
-      runtime.insets.bottom +
-      theme.space[3] +
-      theme.space[5] +
-      theme.space[3] +
-      theme.space[4],
-    overflow: 'hidden',
-    position: 'absolute',
-  },
   content: {
     paddingBottom:
       runtime.insets.bottom +
@@ -362,12 +349,4 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   offset: {
     margin: runtime.insets.top + theme.space[8],
   },
-  reply: (side: FloatingButtonSide) => ({
-    left: side === 'left' ? theme.space[4] : undefined,
-    right: side === 'right' ? theme.space[4] : undefined,
-  }),
-  skip: (side: FloatingButtonSide) => ({
-    left: side === 'left' ? theme.space[4] : undefined,
-    right: side === 'right' ? theme.space[4] : undefined,
-  }),
 }))
