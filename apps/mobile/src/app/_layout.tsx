@@ -19,6 +19,7 @@ import { databaseName, onInit } from '~/lib/db'
 import { persister, queryClient } from '~/lib/query'
 import { Sentry } from '~/lib/sentry'
 import { CommentMenu } from '~/sheets/comment-menu'
+import { Gallery } from '~/sheets/gallery'
 import { PostMenu } from '~/sheets/post-menu'
 import { usePreferences } from '~/stores/preferences'
 
@@ -60,6 +61,8 @@ function Acorn() {
 
                   <PostMenu.Root />
                   <CommentMenu.Root />
+
+                  <Gallery.Root />
                 </IntlProvider>
               </PersistQueryClientProvider>
             </ThemeProvider>

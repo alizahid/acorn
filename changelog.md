@@ -8,6 +8,7 @@
 - changed: image grid design
 - changed: post/comment list separator added for OLED mode
 - changed: defaults screen
+- changed: image gallery
 - fixed: drawer user section collapse
 
 ## Build 39

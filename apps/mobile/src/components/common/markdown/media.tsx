@@ -1,9 +1,8 @@
 import { Image } from 'expo-image'
-import { useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { PostGalleryModal } from '~/components/posts/gallery/modal'
 import { useImagePlaceholder } from '~/hooks/image'
+import { Gallery } from '~/sheets/gallery'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
 import { Pressable } from '../pressable'
@@ -22,44 +21,32 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
 
   const placeholder = useImagePlaceholder()
 
-  const [visible, setVisible] = useState(false)
-
   return (
-    <>
-      <Pressable
-        align={variant === 'post' ? 'center' : undefined}
-        disabled={media.width < 100}
-        gap="2"
-        onPress={() => {
-          setVisible(true)
-        }}
-        style={styles.main(media.height, media.width)}
-      >
-        <Image
-          {...placeholder}
-          contentFit="contain"
-          recyclingKey={recyclingKey}
-          source={media.url}
-          style={styles.image}
-        />
+    <Pressable
+      align={variant === 'post' ? 'center' : undefined}
+      disabled={media.width < 100}
+      gap="2"
+      onPress={() => {
+        void Gallery.call({
+          images: [media],
+        })
+      }}
+      style={styles.main(media.height, media.width)}
+    >
+      <Image
+        {...placeholder}
+        contentFit="contain"
+        recyclingKey={recyclingKey}
+        source={media.url}
+        style={styles.image}
+      />
 
-        {caption?.length ? (
-          <Text align="center" highContrast={false} size="2" weight="medium">
-            {caption}
-          </Text>
-        ) : null}
-      </Pressable>
-
-      {media.width > 100 ? (
-        <PostGalleryModal
-          images={[media]}
-          onClose={() => {
-            setVisible(false)
-          }}
-          visible={visible}
-        />
+      {caption?.length ? (
+        <Text align="center" highContrast={false} size="2" weight="medium">
+          {caption}
+        </Text>
       ) : null}
-    </>
+    </Pressable>
   )
 }
 
