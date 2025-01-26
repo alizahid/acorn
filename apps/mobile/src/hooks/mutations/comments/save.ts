@@ -5,6 +5,9 @@ import { updateUserComment } from '~/hooks/queries/user/comments'
 import { triggerFeedback } from '~/lib/feedback'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
+import { usePreferences } from '~/stores/preferences'
+
+import { useCommentVote } from './vote'
 
 type Variables = {
   action: 'save' | 'unsave'
@@ -13,6 +16,10 @@ type Variables = {
 }
 
 export function useCommentSave() {
+  const { upvoteOnSave } = usePreferences()
+
+  const { vote } = useCommentVote()
+
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       const body = new FormData()
@@ -26,6 +33,14 @@ export function useCommentSave() {
       })
     },
     onMutate(variables) {
+      if (upvoteOnSave && variables.action === 'save') {
+        vote({
+          commentId: variables.commentId,
+          direction: 1,
+          postId: variables.postId,
+        })
+      }
+
       triggerFeedback(variables.action === 'save' ? 'save' : 'undo')
 
       updateUserComment(variables.commentId, (draft) => {

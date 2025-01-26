@@ -63,6 +63,7 @@ export type PreferencesPayload = {
   themeOled: boolean
   themeTint: boolean
   unmuteFullscreen: boolean
+  upvoteOnSave: boolean
 }
 
 type State = PreferencesPayload & {
@@ -130,6 +131,7 @@ export const usePreferences = create<State>()(
       update(payload) {
         set(payload)
       },
+      upvoteOnSave: false,
     }),
     {
       migrate(persisted, version) {

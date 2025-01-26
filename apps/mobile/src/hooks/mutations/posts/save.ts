@@ -6,6 +6,9 @@ import { updateSearch } from '~/hooks/queries/search/search'
 import { triggerFeedback } from '~/lib/feedback'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
+import { usePreferences } from '~/stores/preferences'
+
+import { usePostVote } from './vote'
 
 type Variables = {
   action: 'save' | 'unsave'
@@ -13,6 +16,10 @@ type Variables = {
 }
 
 export function usePostSave() {
+  const { upvoteOnSave } = usePreferences()
+
+  const { vote } = usePostVote()
+
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       const body = new FormData()
@@ -26,6 +33,13 @@ export function usePostSave() {
       })
     },
     onMutate(variables) {
+      if (upvoteOnSave && variables.action === 'save') {
+        vote({
+          direction: 1,
+          postId: variables.postId,
+        })
+      }
+
       triggerFeedback(variables.action === 'save' ? 'save' : 'undo')
 
       updatePost(variables.postId, (draft) => {

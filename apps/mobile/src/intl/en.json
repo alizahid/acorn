@@ -367,7 +367,8 @@
           },
           "showFlair": "Show flair",
           "stickyDrawer": "Sticky drawer on iPad",
-          "title": "Browsing"
+          "title": "Browsing",
+          "upvoteOnSave": "Upvote on save"
         },
         "comments": {
           "collapseAutoModerator": "Collapse AutoModerator",

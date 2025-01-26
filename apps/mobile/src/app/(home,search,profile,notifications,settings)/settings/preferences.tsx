@@ -102,6 +102,11 @@ export default function Screen() {
             label: 'browsing.oldReddit',
           },
           {
+            icon: 'ArrowUp',
+            key: 'upvoteOnSave',
+            label: 'browsing.upvoteOnSave',
+          },
+          {
             icon: 'Sidebar',
             key: 'stickyDrawer',
             label: 'browsing.stickyDrawer',
