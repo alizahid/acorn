@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## 40
 
 - added: post creation
 - added: upvote on save
