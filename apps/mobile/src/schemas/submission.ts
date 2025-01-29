@@ -60,3 +60,22 @@ export const SubmissionRequirementsSchema = z.object({
 export type SubmissionRequirementsSchema = z.infer<
   typeof SubmissionRequirementsSchema
 >
+
+export const SubmissionResponseSchema = z.object({
+  json: z.object({
+    data: z.union([
+      z.object({
+        id: z.string(),
+      }),
+      z.object({
+        websocket_url: z.string(),
+      }),
+    ]),
+  }),
+})
+
+export const SubmissionSocketSchema = z.object({
+  payload: z.object({
+    redirect: z.string().url(),
+  }),
+})

@@ -22,6 +22,7 @@ import { SubmissionMeta } from '~/components/submission/meta'
 import { SubmissionText } from '~/components/submission/text'
 import { SubmissionTitle } from '~/components/submission/title'
 import { SubmissionType } from '~/components/submission/type'
+import { useLink } from '~/hooks/link'
 import { useList } from '~/hooks/list'
 import { useCreatePost } from '~/hooks/mutations/posts/create'
 import { useSubmission } from '~/hooks/queries/communities/submission'
@@ -54,6 +55,8 @@ function Content({ refetch, submission }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const { handleLink } = useLink()
+
   const listProps = useList({
     padding: {
       vertical: theme.space[4],
@@ -67,14 +70,18 @@ function Content({ refetch, submission }: Props) {
       return
     }
 
-    const id = await createPost(data)
+    const response = await createPost(data)
 
-    router.replace({
-      params: {
-        id,
-      },
-      pathname: '/posts/[id]',
-    })
+    if ('id' in response) {
+      router.replace({
+        params: {
+          id: response.id,
+        },
+        pathname: '/posts/[id]',
+      })
+    } else {
+      void handleLink(response.url)
+    }
 
     form.reset()
   })

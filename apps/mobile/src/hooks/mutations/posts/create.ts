@@ -7,6 +7,10 @@ import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { reddit } from '~/reddit/api'
+import {
+  SubmissionResponseSchema,
+  SubmissionSocketSchema,
+} from '~/schemas/submission'
 import { type Submission } from '~/types/submission'
 
 export type CreatePostForm = z.infer<ReturnType<typeof generateSchema>>
@@ -34,48 +38,61 @@ export function useCreatePost(submission: Submission) {
     resolver: zodResolver(schema),
   })
 
-  const { isPending, mutateAsync } = useMutation<string, Error, CreatePostForm>(
-    {
-      async mutationFn(variables) {
-        const body = new FormData()
-
-        body.append('api_type', 'json')
-        body.append('sr', variables.community)
-        body.append('title', variables.title)
-        body.append('spoiler', String(variables.spoiler))
-        body.append('nsfw', String(variables.nsfw))
-
-        body.append(
-          'kind',
-          variables.type === 'image'
-            ? 'image'
-            : variables.type === 'link'
-              ? 'link'
-              : 'self',
-        )
-
-        if (variables.type === 'text') {
-          body.append('text', variables.text)
-        } else {
-          body.append('url', variables.url)
-        }
-
-        if (variables.flairId) {
-          body.append('flair_id', variables.flairId)
-        }
-
-        const response = await reddit({
-          body,
-          method: 'post',
-          url: '/api/submit',
-        })
-
-        const { json } = responseSchema.parse(response)
-
-        return json.data.id
+  const { isPending, mutateAsync } = useMutation<
+    | {
+        id: string
+      }
+    | {
+        url: string
       },
+    Error,
+    CreatePostForm
+  >({
+    async mutationFn(variables) {
+      const body = new FormData()
+
+      body.append('api_type', 'json')
+      body.append('sr', variables.community)
+      body.append('title', variables.title)
+      body.append('spoiler', String(variables.spoiler))
+      body.append('nsfw', String(variables.nsfw))
+
+      body.append(
+        'kind',
+        variables.type === 'image'
+          ? 'image'
+          : variables.type === 'link'
+            ? 'link'
+            : 'self',
+      )
+
+      if (variables.type === 'text') {
+        body.append('text', variables.text)
+      } else {
+        body.append('url', variables.url)
+      }
+
+      if (variables.flairId) {
+        body.append('flair_id', variables.flairId)
+      }
+
+      const response = await reddit({
+        body,
+        method: 'post',
+        url: '/api/submit',
+      })
+
+      const { json } = SubmissionResponseSchema.parse(response)
+
+      if ('id' in json.data) {
+        return {
+          id: json.data.id,
+        }
+      }
+
+      return handleSocket(json.data.websocket_url)
     },
-  )
+  })
 
   return {
     createPost: mutateAsync,
@@ -248,10 +265,24 @@ function getHost(link: string) {
   }
 }
 
-const responseSchema = z.object({
-  json: z.object({
-    data: z.object({
-      id: z.string(),
-    }),
-  }),
-})
+function handleSocket(url: string) {
+  return new Promise<{
+    url: string
+  }>((resolve, reject) => {
+    const socket = new WebSocket(url)
+
+    socket.onmessage = (event) => {
+      const { payload } = SubmissionSocketSchema.parse(
+        JSON.parse(event.data as string),
+      )
+
+      resolve({
+        url: payload.redirect,
+      })
+    }
+
+    socket.onerror = () => {
+      reject(new Error())
+    }
+  })
+}
