@@ -10,10 +10,10 @@ import { ScrollView } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
+import { IconButton } from '~/components/common/icon-button'
 import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { View } from '~/components/common/view'
-import { HeaderButton } from '~/components/navigation/header-button'
 import { SubmissionCommunityCard } from '~/components/submission/community'
 import { SubmissionFlair } from '~/components/submission/flair'
 import { SubmissionImage } from '~/components/submission/image'
@@ -83,8 +83,10 @@ function Content({ refetch, submission }: Props) {
     useCallback(() => {
       navigation.setOptions({
         headerRight: () => (
-          <HeaderButton
-            icon="PaperPlaneTilt"
+          <IconButton
+            icon={{
+              name: 'PaperPlaneTilt',
+            }}
             loading={isPending}
             onPress={() => {
               void onSubmit()

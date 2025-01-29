@@ -6,9 +6,9 @@ import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { IconButton } from '~/components/common/icon-button'
 import { TextBox } from '~/components/common/text-box'
 import { Header } from '~/components/navigation/header'
-import { HeaderButton } from '~/components/navigation/header-button'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useList } from '~/hooks/list'
@@ -51,14 +51,16 @@ export default function Screen() {
           returnKeyType="search"
           right={
             query.length > 0 ? (
-              <HeaderButton
-                color="gray"
-                icon="XCircle"
+              <IconButton
+                icon={{
+                  color: 'gray',
+                  name: 'XCircle',
+                  weight: 'fill',
+                }}
                 onPress={() => {
                   setQuery('')
                 }}
                 style={styles.clear}
-                weight="fill"
               />
             ) : null
           }

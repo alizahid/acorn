@@ -3,13 +3,13 @@ import { TabView } from 'react-native-tab-view'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { IconButton } from '~/components/common/icon-button'
 import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { MessagesList } from '~/components/inbox/messages'
 import { NotificationsList } from '~/components/inbox/notifications'
 import { Header } from '~/components/navigation/header'
-import { HeaderButton } from '~/components/navigation/header-button'
 import { useList } from '~/hooks/list'
 import { useMarkAllAsRead } from '~/hooks/mutations/users/notifications'
 import { useInbox } from '~/hooks/queries/user/inbox'
@@ -71,8 +71,10 @@ export default function Screen() {
       renderTabBar={({ position }) => (
         <Header
           right={
-            <HeaderButton
-              icon="CheckCircle"
+            <IconButton
+              icon={{
+                name: 'CheckCircle',
+              }}
               loading={isPending}
               onPress={() => {
                 markAll()

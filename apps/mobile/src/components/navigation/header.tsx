@@ -8,9 +8,9 @@ import { tintDark, tintLight } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
+import { IconButton } from '../common/icon-button'
 import { Text } from '../common/text'
 import { View } from '../common/view'
-import { HeaderButton } from './header-button'
 
 type Props = {
   back?: boolean
@@ -54,12 +54,14 @@ export function Header({
         {(left ?? back) ? (
           <View direction="row" style={[styles.actions, styles.left]}>
             {back ? (
-              <HeaderButton
-                icon={modal ? 'X' : 'ArrowLeft'}
+              <IconButton
+                icon={{
+                  name: modal ? 'X' : 'ArrowLeft',
+                  weight: 'bold',
+                }}
                 onPress={() => {
                   router.back()
                 }}
-                weight="bold"
               />
             ) : null}
 

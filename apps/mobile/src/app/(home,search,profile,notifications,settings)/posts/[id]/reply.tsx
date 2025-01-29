@@ -11,10 +11,10 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { IconButton } from '~/components/common/icon-button'
 import { KeyboardHeight } from '~/components/common/keyboard-height'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { HeaderButton } from '~/components/navigation/header-button'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
 import { iPhone } from '~/lib/common'
 import { fonts } from '~/lib/fonts'
@@ -46,8 +46,10 @@ export default function Screen() {
     useCallback(() => {
       navigation.setOptions({
         headerRight: () => (
-          <HeaderButton
-            icon="PaperPlaneTilt"
+          <IconButton
+            icon={{
+              name: 'PaperPlaneTilt',
+            }}
             loading={isPending}
             onPress={async () => {
               if (text.length === 0) {
