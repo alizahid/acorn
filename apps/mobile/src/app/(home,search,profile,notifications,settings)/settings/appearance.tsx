@@ -60,7 +60,7 @@ export default function Screen() {
       title: t('themes.title'),
     },
 
-    t('themes.title'),
+    t('themes.auto'),
     {
       color: 'orange',
       key: 'acorn',
@@ -68,7 +68,7 @@ export default function Screen() {
     },
     null,
 
-    t('themes.title'),
+    t('themes.light'),
     {
       color: 'orange',
       key: 'acorn-light',
@@ -96,7 +96,7 @@ export default function Screen() {
     },
     null,
 
-    t('themes.title'),
+    t('themes.dark'),
     {
       color: 'orange',
       key: 'acorn-dark',
