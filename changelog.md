@@ -1,6 +1,6 @@
 # Changelog
 
-## 40
+## Build 40
 
 - added: post creation
 - added: upvote on save
