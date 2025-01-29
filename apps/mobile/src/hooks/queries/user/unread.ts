@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
-import { InboxSchema } from '~/schemas/inbox'
+import { type InboxSchema } from '~/schemas/inbox'
 import { useAuth } from '~/stores/auth'
 
 export type UnreadQueryKey = [
@@ -23,13 +23,11 @@ export function useUnread() {
 
       url.searchParams.set('max_replies', '300')
 
-      const payload = await reddit({
+      const payload = await reddit<InboxSchema>({
         url,
       })
 
-      const response = InboxSchema.parse(payload)
-
-      return response.data.children.length
+      return payload?.data.children.length ?? 0
     },
     queryKey: [
       'unread',
@@ -40,7 +38,9 @@ export function useUnread() {
     staleTime: 1_000 * 60,
   })
 
+  const unread = Math.min(Math.max(data ?? 0, 0), 99)
+
   return {
-    unread: Math.min(Math.max(data ?? 0, 0), 99),
+    unread: unread ? String(unread) : undefined,
   }
 }
