@@ -386,7 +386,7 @@
       },
       "preferences": {
         "browsing": {
-          "oldReddit": "Use old Reddit",
+          "oldReddit": "Use old Reddit links",
           "refreshInterval": {
             "description": "Requires app restart",
             "label": "Auto refresh interval"

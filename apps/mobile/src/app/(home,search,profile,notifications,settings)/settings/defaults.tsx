@@ -106,7 +106,7 @@ export default function Screen() {
 
 const stylesheet = createStyleSheet((theme) => ({
   list: {
-    backgroundColor: theme.colors.gray.bgAlt,
+    backgroundColor: theme.colors.gray.uiAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     marginHorizontal: theme.space[3],
