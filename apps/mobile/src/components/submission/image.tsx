@@ -12,11 +12,11 @@ import { uploadFile } from '~/reddit/media'
 
 import { Focusable } from '../common/focusable'
 import { Icon } from '../common/icon'
+import { IconButton } from '../common/icon-button'
 import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 import { Text } from '../common/text'
 import { View } from '../common/view'
-import { HeaderButton } from '../navigation/header-button'
 
 export function SubmissionImage() {
   const t = useTranslations('component.submission.image')
@@ -71,14 +71,16 @@ export function SubmissionImage() {
                 </View>
               ) : null}
 
-              <HeaderButton
-                color="red"
-                icon="Trash"
+              <IconButton
+                icon={{
+                  color: 'red',
+                  name: 'Trash',
+                  weight: 'bold',
+                }}
                 onPress={() => {
                   setImage(undefined)
                 }}
                 style={styles.delete}
-                weight="bold"
               />
             </>
           ) : (

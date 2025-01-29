@@ -4,8 +4,8 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type ColorToken } from '~/styles/tokens'
 
-import { HeaderButton } from '../navigation/header-button'
 import { type IconName } from './icon'
+import { IconButton } from './icon-button'
 
 export const FloatingButtonSide = ['left', 'right', null] as const
 
@@ -32,13 +32,15 @@ export function FloatingButton({
 
   return (
     <BlurView intensity={100} style={[styles.main(color, side), style]}>
-      <HeaderButton
-        color={color}
+      <IconButton
         hitSlop={theme.space[4]}
-        icon={icon}
+        icon={{
+          color,
+          name: icon,
+          weight: 'bold',
+        }}
         onLongPress={onLongPress}
         onPress={onPress}
-        weight="bold"
       />
     </BlurView>
   )

@@ -3,7 +3,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useCopy } from '~/hooks/copy'
 
-import { HeaderButton } from '../navigation/header-button'
+import { IconButton } from './icon-button'
 import { Text } from './text'
 import { View } from './view'
 
@@ -29,9 +29,11 @@ export function Copy({ code = true, style, value }: Props) {
         {value}
       </Text>
 
-      <HeaderButton
-        color={copied ? 'green' : 'accent'}
-        icon={copied ? 'CheckCircle' : 'Copy'}
+      <IconButton
+        icon={{
+          color: copied ? 'green' : 'accent',
+          name: copied ? 'CheckCircle' : 'Copy',
+        }}
         onPress={() => {
           void copy(value)
         }}

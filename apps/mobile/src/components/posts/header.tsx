@@ -7,8 +7,8 @@ import {
 
 import { cardMaxWidth, iPad } from '~/lib/common'
 
+import { IconButton } from '../common/icon-button'
 import { View } from '../common/view'
-import { HeaderButton } from '../navigation/header-button'
 
 type Props = {
   onPress?: (commentId?: string) => void
@@ -20,22 +20,24 @@ export function PostHeader({ onPress, parentId }: Props) {
 
   return (
     <View direction="row" style={styles.main() as ViewStyle}>
-      <HeaderButton
-        color="accent"
-        icon="ArrowArcLeft"
+      <IconButton
+        icon={{
+          name: 'ArrowArcLeft',
+          weight: 'bold',
+        }}
         onPress={() => {
           onPress?.()
         }}
-        weight="bold"
       />
 
-      <HeaderButton
-        color="accent"
-        icon="ArrowElbowLeft"
+      <IconButton
+        icon={{
+          name: 'ArrowElbowLeft',
+          weight: 'bold',
+        }}
         onPress={() => {
           onPress?.(parentId)
         }}
-        weight="bold"
       />
     </View>
   )

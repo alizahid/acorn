@@ -6,8 +6,8 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { type Account } from '~/stores/auth'
 
 import { Icon } from '../common/icon'
+import { IconButton } from '../common/icon-button'
 import { Text } from '../common/text'
-import { HeaderButton } from '../navigation/header-button'
 
 type Props = {
   account: Account
@@ -33,9 +33,11 @@ export function AccountCard({
       containerStyle={styles.delete}
       key={account.id}
       renderLeftActions={() => (
-        <HeaderButton
+        <IconButton
           contrast
-          icon="Trash"
+          icon={{
+            name: 'Trash',
+          }}
           onPress={() => {
             onRemove(account.id)
           }}

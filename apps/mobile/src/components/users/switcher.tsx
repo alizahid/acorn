@@ -6,7 +6,7 @@ import { useTranslations } from 'use-intl'
 
 import { useAuth } from '~/stores/auth'
 
-import { HeaderButton } from '../navigation/header-button'
+import { IconButton } from '../common/icon-button'
 import { SheetModal } from '../sheets/modal'
 import { AccountCard } from './account'
 
@@ -21,8 +21,10 @@ export function UserSwitcher() {
 
   return (
     <>
-      <HeaderButton
-        icon="UserSwitch"
+      <IconButton
+        icon={{
+          name: 'UserSwitch',
+        }}
         onPress={() => {
           sheet.current?.present()
         }}
@@ -31,9 +33,11 @@ export function UserSwitcher() {
       <SheetModal
         ref={sheet}
         right={
-          <HeaderButton
-            color="green"
-            icon="PlusCircle"
+          <IconButton
+            icon={{
+              color: 'green',
+              name: 'PlusCircle',
+            }}
             onPress={() => {
               router.navigate({
                 params: {

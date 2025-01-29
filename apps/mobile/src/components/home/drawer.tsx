@@ -28,9 +28,9 @@ import { type Feed } from '~/types/feed'
 import { FeedType } from '~/types/sort'
 
 import { Empty } from '../common/empty'
+import { IconButton } from '../common/icon-button'
 import { Spinner } from '../common/spinner'
 import { TextBox } from '../common/text-box'
-import { HeaderButton } from '../navigation/header-button'
 import { SheetHeader } from '../sheets/header'
 import { SheetItem } from '../sheets/item'
 
@@ -283,13 +283,15 @@ export function HomeDrawer({ onClose }: Props) {
         returnKeyType="search"
         right={
           query.length > 0 ? (
-            <HeaderButton
-              color="gray"
-              icon="XCircle"
+            <IconButton
+              icon={{
+                color: 'gray',
+                name: 'XCircle',
+                weight: 'fill',
+              }}
               onPress={() => {
                 setQuery('')
               }}
-              weight="fill"
             />
           ) : null
         }
@@ -326,8 +328,10 @@ export function HomeDrawer({ onClose }: Props) {
             return (
               <SheetHeader
                 right={
-                  <HeaderButton
-                    icon={collapsed.get(item.key) ? 'CaretUp' : 'CaretDown'}
+                  <IconButton
+                    icon={{
+                      name: collapsed.get(item.key) ? 'CaretUp' : 'CaretDown',
+                    }}
                     onPress={() => {
                       setCollapsed((previous) => {
                         const next = new Map(previous)
@@ -440,8 +444,11 @@ export function HomeDrawer({ onClose }: Props) {
               right={
                 <>
                   {item.type === 'feed' ? (
-                    <HeaderButton
-                      icon={expanded.get(item.key) ? 'CaretDown' : 'CaretUp'}
+                    <IconButton
+                      icon={{
+                        name: expanded.get(item.key) ? 'CaretDown' : 'CaretUp',
+                        weight: 'fill',
+                      }}
                       onPress={() => {
                         setExpanded((previous) => {
                           const next = new Map(previous)
@@ -452,7 +459,6 @@ export function HomeDrawer({ onClose }: Props) {
                         })
                       }}
                       style={styles.right}
-                      weight="fill"
                     />
                   ) : null}
 

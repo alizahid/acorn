@@ -11,8 +11,8 @@ import Animated, {
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { IconButton } from '~/components/common/icon-button'
 import { Text } from '~/components/common/text'
-import { HeaderButton } from '~/components/navigation/header-button'
 import { useCopyImage, useDownloadImage } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -90,55 +90,66 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
       ) : null}
 
       <Animated.View pointerEvents="box-none" style={[styles.close, style]}>
-        <HeaderButton
-          icon="X"
+        <IconButton
+          icon={{
+            name: 'X',
+            weight: 'bold',
+          }}
           onPress={() => {
             onClose()
           }}
-          weight="bold"
         />
       </Animated.View>
 
       {selected ? (
         <Animated.View pointerEvents="box-none" style={[styles.footer, style]}>
-          <HeaderButton
-            color={
-              download.isError ? 'red' : download.isSuccess ? 'green' : 'accent'
-            }
-            icon={
-              download.isError
+          <IconButton
+            icon={{
+              color: download.isError
+                ? 'red'
+                : download.isSuccess
+                  ? 'green'
+                  : 'accent',
+
+              name: download.isError
                 ? 'XCircle'
                 : download.isSuccess
                   ? 'CheckCircle'
-                  : 'Download'
-            }
+                  : 'Download',
+              weight: download.isError
+                ? 'fill'
+                : download.isSuccess
+                  ? 'fill'
+                  : 'duotone',
+            }}
             loading={download.isPending}
             onPress={() => {
               download.download({
                 url: selected.url,
               })
             }}
-            weight={
-              download.isError
-                ? 'fill'
-                : download.isSuccess
-                  ? 'fill'
-                  : 'duotone'
-            }
           />
 
-          <HeaderButton
-            color={copy.isError ? 'red' : copy.isSuccess ? 'green' : 'accent'}
-            icon={
-              copy.isError ? 'XCircle' : copy.isSuccess ? 'CheckCircle' : 'Copy'
-            }
+          <IconButton
+            icon={{
+              color: copy.isError ? 'red' : copy.isSuccess ? 'green' : 'accent',
+              name: copy.isError
+                ? 'XCircle'
+                : copy.isSuccess
+                  ? 'CheckCircle'
+                  : 'Copy',
+              weight: copy.isError
+                ? 'fill'
+                : copy.isSuccess
+                  ? 'fill'
+                  : 'duotone',
+            }}
             loading={copy.isPending}
             onPress={() => {
               copy.copy({
                 url: selected.url,
               })
             }}
-            weight={copy.isError ? 'fill' : copy.isSuccess ? 'fill' : 'duotone'}
           />
         </Animated.View>
       ) : null}

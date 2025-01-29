@@ -3,7 +3,8 @@ import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { TextBox } from '~/components/common/text-box'
-import { HeaderButton } from '~/components/navigation/header-button'
+
+import { IconButton } from '../common/icon-button'
 
 type Props = {
   onChange: (value: string) => void
@@ -29,14 +30,16 @@ export function UserSearchBar({ onChange, value }: Props) {
       returnKeyType="search"
       right={
         value.length > 0 ? (
-          <HeaderButton
-            color="gray"
-            icon="XCircle"
+          <IconButton
+            icon={{
+              color: 'gray',
+              name: 'XCircle',
+              weight: 'fill',
+            }}
             onPress={() => {
               onChange('')
             }}
             style={styles.clear}
-            weight="fill"
           />
         ) : null
       }

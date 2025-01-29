@@ -4,8 +4,9 @@ import { useTranslations } from 'use-intl'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { HeaderButton } from '~/components/navigation/header-button'
 import { useLink } from '~/hooks/link'
+
+import { IconButton } from '../common/icon-button'
 
 export function AboutCard() {
   const t = useTranslations('screen.settings.about')
@@ -55,16 +56,18 @@ export function AboutCard() {
           wrap="wrap"
         >
           {links.map((link) => (
-            <HeaderButton
+            <IconButton
               contrast
               hitSlop={theme.space[2]}
-              icon={link.icon}
+              icon={{
+                name: link.icon,
+                weight: 'fill',
+              }}
               key={link.key}
               onPress={() => {
                 void handleLink(link.href)
               }}
               style={styles.link}
-              weight="fill"
             />
           ))}
         </View>
