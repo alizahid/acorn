@@ -5,7 +5,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { useCallback } from 'react'
-import { Controller, FormProvider } from 'react-hook-form'
+import { FormProvider } from 'react-hook-form'
 import { ScrollView } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
@@ -95,6 +95,8 @@ function Content({ refetch, submission }: Props) {
     }, [isPending, navigation, onSubmit]),
   )
 
+  const type = form.watch('type')
+
   return (
     <FormProvider {...form}>
       <ScrollView
@@ -119,21 +121,13 @@ function Content({ refetch, submission }: Props) {
         <View flex={1}>
           <SubmissionTitle />
 
-          <Controller
-            control={form.control}
-            name="type"
-            render={({ field }) => {
-              if (field.value === 'image') {
-                return <SubmissionImage />
-              }
-
-              if (field.value === 'link') {
-                return <SubmissionLink />
-              }
-
-              return <SubmissionText />
-            }}
-          />
+          {type === 'image' ? (
+            <SubmissionImage />
+          ) : type === 'link' ? (
+            <SubmissionLink />
+          ) : (
+            <SubmissionText />
+          )}
         </View>
 
         <View gap="4" mt="auto" mx="4">

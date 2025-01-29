@@ -152,11 +152,19 @@
         "title": "Flair"
       },
       "image": {
+        "error": {
+          "url": "Image needs to be uploaded to Reddit"
+        },
         "max": "Max {max, number}",
         "min": "Min {min, number}",
         "placeholder": "Select images to upload"
       },
       "link": {
+        "error": {
+          "blacklist": "Not allowed: {list}",
+          "url": "Required",
+          "whitelist": "Required: {list}"
+        },
         "placeholder": "Link"
       },
       "meta": {
@@ -164,9 +172,21 @@
         "spoiler": "Spoiler"
       },
       "text": {
+        "error": {
+          "blacklist": "Not allowed: {list}",
+          "max": "Max {max, number} {max, plural, =0 {characters} =1 {character} other {characters}}",
+          "min": "Min {min, number} {min, plural, =0 {characters} =1 {character} other {characters}}",
+          "required": "Required words: {list}"
+        },
         "placeholder": "Body"
       },
       "title": {
+        "error": {
+          "blacklist": "Not allowed: {list}",
+          "max": "Max {max, number} {max, plural, =0 {characters} =1 {character} other {characters}}",
+          "min": "Min {min, number} {min, plural, =0 {characters} =1 {character} other {characters}}",
+          "required": "Required words: {list}"
+        },
         "placeholder": "Title"
       },
       "type": {

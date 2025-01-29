@@ -31,14 +31,28 @@ export type Submission = {
     video: boolean
   }
   rules: {
-    bodyMaxLength?: number
-    bodyMinLength?: number
-    domainsBlacklist: Array<string>
-    domainsWhitelist: Array<string>
-    flairRequired: boolean
-    mediaMaxCount?: number
-    mediaMinCount?: number
-    titleMaxLength?: number
-    titleMinLength?: number
+    body: {
+      blacklist: Array<string>
+      max?: number
+      min?: number
+      required: Array<string>
+    }
+    domains: {
+      blacklist: Array<string>
+      whitelist: Array<string>
+    }
+    flair: {
+      required: boolean
+    }
+    media: {
+      max?: number
+      min?: number
+    }
+    title: {
+      blacklist: Array<string>
+      max?: number
+      min?: number
+      required: Array<string>
+    }
   }
 }
