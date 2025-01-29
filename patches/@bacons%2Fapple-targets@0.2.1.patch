@@ -1,5 +1,5 @@
 diff --git a/build/config-plugin.js b/build/config-plugin.js
-index 88e01d89afbb359cc8d0683d02e5652ec0077e19..46c1d6306282dc257bef933a86dee4a5ba3e2b9c 100644
+index 5b6065358417bf12e672d1dce5f5b99f531194f7..566eab920bdc78f6742f7ca96fe8886c6f4feaff 100644
 --- a/build/config-plugin.js
 +++ b/build/config-plugin.js
 @@ -6,7 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
@@ -17,10 +17,10 @@ index 88e01d89afbb359cc8d0683d02e5652ec0077e19..46c1d6306282dc257bef933a86dee4a5
 -        console.warn((0, chalk_1.default) `{yellow [bacons/apple-targets]} Expo config is missing required {cyan ios.appleTeamId} property. Find this in Xcode and add to the Expo Config to correct. iOS builds may fail until this is corrected.`);
 +        console.warn(`{yellow [bacons/apple-targets]} Expo config is missing required {cyan ios.appleTeamId} property. Find this in Xcode and add to the Expo Config to correct. iOS builds may fail until this is corrected.`);
      }
-     const targets = (0, glob_1.sync)(`${root}/${match}/expo-target.config.@(json|js)`, {
+     const targets = (0, glob_1.globSync)(`${root}/${match}/expo-target.config.@(json|js)`, {
          // const targets = globSync(`./targets/action/expo-target.config.@(json|js)`, {
 diff --git a/build/withWidget.js b/build/withWidget.js
-index 0a7ad90f1230f2cdec42086c4ac51e06835267e3..35acfefb4e342c88d4cd7531bda504b49a2b30b4 100644
+index 11bfa693b48aa4bd738efb329c67a02f5b90d4af..6c4f7cf59ef9502be73d8e36e6e724633a2db7d9 100644
 --- a/build/withWidget.js
 +++ b/build/withWidget.js
 @@ -8,7 +8,6 @@ const plist_1 = __importDefault(require("@expo/plist"));

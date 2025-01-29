@@ -19,15 +19,15 @@
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^15.4.2",
+    "lint-staged": "^15.4.3",
     "prettier": "^3.4.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "rimraf": "^6.0.1",
     "turbo": "^2.3.4"
   },
-  "packageManager": "bun@1.2.0",
+  "packageManager": "bun@1.2.1",
   "patchedDependencies": {
-    "@bacons/apple-targets@0.2.0": "patches/@bacons%2Fapple-targets@0.2.0.patch",
+    "@bacons/apple-targets@0.2.1": "patches/@bacons%2Fapple-targets@0.2.1.patch",
     "@shopify/flash-list@1.7.1": "patches/@shopify%2Fflash-list@1.7.1.patch",
     "devlop@1.1.0": "patches/devlop@1.1.0.patch",
     "recyclerlistview@4.2.1": "patches/recyclerlistview@4.2.1.patch",
