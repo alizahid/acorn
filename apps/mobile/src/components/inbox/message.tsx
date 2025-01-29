@@ -81,9 +81,9 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   main: (unread: boolean, oled: boolean) => ({
     backgroundColor: unread
-      ? theme.colors.accent.ui
+      ? theme.colors.accent.uiAlpha
       : oled
-        ? oledTheme[theme.name].bg
-        : theme.colors.gray.bgAlt,
+        ? oledTheme[theme.name].bgAlpha
+        : theme.colors.gray.bgAltAlpha,
   }),
 }))

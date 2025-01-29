@@ -1,8 +1,10 @@
 import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRef } from 'react'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type ListProps } from '~/hooks/list'
+import { usePreferences } from '~/stores/preferences'
 import { type InboxNotification } from '~/types/inbox'
 
 import { Empty } from '../common/empty'
@@ -31,14 +33,20 @@ export function NotificationsList({
   notifications,
   refetch,
 }: Props) {
+  const { themeOled } = usePreferences()
+
   const list = useRef<FlashList<InboxNotification>>(null)
 
   useScrollToTop(list)
 
+  const { styles } = useStyles(stylesheet)
+
   return (
     <FlashList
       {...listProps}
-      ItemSeparatorComponent={() => <View height="4" />}
+      ItemSeparatorComponent={() => (
+        <View style={styles.separator(themeOled)} />
+      )}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null
@@ -62,3 +70,10 @@ export function NotificationsList({
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  separator: (oled: boolean) => ({
+    backgroundColor: oled ? theme.colors.gray.border : undefined,
+    height: oled ? runtime.hairlineWidth : theme.space[4],
+  }),
+}))

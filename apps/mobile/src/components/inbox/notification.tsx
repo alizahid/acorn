@@ -96,10 +96,10 @@ export function NotificationCard({ notification }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   main: (color: ColorToken, unread: boolean, oled: boolean) => ({
     backgroundColor: unread
-      ? theme.colors[color].ui
+      ? theme.colors[color].uiAlpha
       : oled
-        ? oledTheme[theme.name].bg
-        : theme.colors.gray.bgAlt,
+        ? oledTheme[theme.name].bgAlpha
+        : theme.colors.gray.bgAltAlpha,
   }),
 }))
 

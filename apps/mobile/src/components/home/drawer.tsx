@@ -517,7 +517,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       paddingTop: theme.space[8] + runtime.insets.top + runtime.hairlineWidth,
     }
 
-    if (iPad) {
+    if (iPad && !oled) {
       return {
         ...base,
         borderRightColor: theme.colors.gray.border,
