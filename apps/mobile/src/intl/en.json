@@ -279,6 +279,12 @@
         "title": "About"
       },
       "appearance": {
+        "compact": {
+          "feedCompact": "Compact mode",
+          "largeThumbnails": "Large thumbnails",
+          "mediaOnRight": "Show media on right",
+          "title": "Compact mode"
+        },
         "preferences": {
           "blurNavigation": "Use blur effect",
           "coloredComments": "Colored comments",
@@ -375,12 +381,6 @@
           "replyPost": "Post reply floating button",
           "skipComment": "Skip comment floating button",
           "title": "Comments"
-        },
-        "compact": {
-          "feedCompact": "Compact mode",
-          "largeThumbnails": "Large thumbnails",
-          "mediaOnRight": "Show media on right",
-          "title": "Compact mode"
         },
         "feedback": {
           "feedbackHaptics": "Haptics",

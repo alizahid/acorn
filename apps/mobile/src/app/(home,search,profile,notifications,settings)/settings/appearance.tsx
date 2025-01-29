@@ -6,7 +6,6 @@ import { Icon } from '~/components/common/icon'
 import { Switch } from '~/components/common/switch'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { SheetHeader } from '~/components/sheets/header'
 import { SheetItem } from '~/components/sheets/item'
 import { useList } from '~/hooks/list'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
@@ -18,6 +17,9 @@ export default function Screen() {
   const {
     blurNavigation,
     coloredComments,
+    feedCompact,
+    largeThumbnails,
+    mediaOnRight,
     theme: selected,
     themeOled,
     themeTint,
@@ -56,11 +58,28 @@ export default function Screen() {
     },
     null,
 
+    t('compact.title'),
     {
-      title: t('themes.title'),
+      icon: 'Rows',
+      key: 'feedCompact',
+      label: t('compact.feedCompact'),
+      value: feedCompact,
     },
+    {
+      icon: 'ArrowsOut',
+      key: 'largeThumbnails',
+      label: t('compact.largeThumbnails'),
+      value: largeThumbnails,
+    },
+    {
+      icon: 'Image',
+      key: 'mediaOnRight',
+      label: t('compact.mediaOnRight'),
+      value: mediaOnRight,
+    },
+    null,
 
-    t('themes.auto'),
+    t('themes.title'),
     {
       color: 'orange',
       key: 'acorn',
@@ -189,10 +208,6 @@ export default function Screen() {
               selected={item.key === selected}
             />
           )
-        }
-
-        if ('title' in item) {
-          return <SheetHeader title={item.title} />
         }
 
         return (

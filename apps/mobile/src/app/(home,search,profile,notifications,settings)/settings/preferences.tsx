@@ -136,24 +136,6 @@ export default function Screen() {
           },
 
           null,
-          t('compact.title'),
-          {
-            icon: 'Rows',
-            key: 'feedCompact',
-            label: 'compact.feedCompact',
-          },
-          {
-            icon: 'ArrowsOut',
-            key: 'largeThumbnails',
-            label: 'compact.largeThumbnails',
-          },
-          {
-            icon: 'Image',
-            key: 'mediaOnRight',
-            label: 'compact.mediaOnRight',
-          },
-
-          null,
           t('history.title'),
           {
             icon: 'ArrowFatUp',
