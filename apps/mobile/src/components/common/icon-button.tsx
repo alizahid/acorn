@@ -48,11 +48,19 @@ export function IconButton({
       width={size}
     >
       {loading ? (
-        <Spinner color={icon.color ?? theme.colors.accent.accent} contrast />
+        <Spinner
+          color={
+            icon.color
+              ? theme.colors[icon.color].accent
+              : theme.colors.accent[contrast ? 'contrast' : 'accent']
+          }
+        />
       ) : (
         <Icon
           color={
-            icon.color ?? theme.colors.accent[contrast ? 'contrast' : 'accent']
+            icon.color
+              ? theme.colors[icon.color].accent
+              : theme.colors.accent[contrast ? 'contrast' : 'accent']
           }
           name={icon.name}
           size={icon.size ?? theme.space[5]}
