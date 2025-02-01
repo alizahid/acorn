@@ -11,6 +11,7 @@ import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
+import { triggerHaptic } from '~/lib/feedback'
 import { CommentMenu } from '~/sheets/comment-menu'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -127,6 +128,8 @@ export function CommentCard({
           void CommentMenu.call({
             comment,
           })
+
+          triggerHaptic('soft')
         }}
         onPress={() => {
           onPress()

@@ -7,6 +7,7 @@ import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { cardMaxWidth, iPad } from '~/lib/common'
+import { triggerHaptic } from '~/lib/feedback'
 import { removePrefix } from '~/lib/reddit'
 import { PostMenu } from '~/sheets/post-menu'
 import { usePreferences } from '~/stores/preferences'
@@ -126,6 +127,14 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
     })
   }
 
+  function onLongPress() {
+    void PostMenu.call({
+      post,
+    })
+
+    triggerHaptic('soft')
+  }
+
   if (compact) {
     return (
       <PostGestures
@@ -141,11 +150,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         <PostCompactCard
           expanded={expanded}
           label={label}
-          onLongPress={() => {
-            void PostMenu.call({
-              post,
-            })
-          }}
+          onLongPress={onLongPress}
           onPress={onPress}
           post={post}
           seen={seen}
@@ -170,11 +175,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         align="start"
         disabled={expanded}
         gap="1"
-        onLongPress={() => {
-          void PostMenu.call({
-            post,
-          })
-        }}
+        onLongPress={onLongPress}
         onPress={onPress}
         pb={media ? '3' : undefined}
         pt="3"
@@ -189,11 +190,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
       {post.type === 'crosspost' && post.crossPost ? (
         <CrossPostCard
-          onLongPress={() => {
-            void PostMenu.call({
-              post,
-            })
-          }}
+          onLongPress={onLongPress}
           post={post.crossPost}
           recyclingKey={post.id}
           style={body ? styles.expanded : null}
@@ -204,11 +201,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
           nsfw={post.nsfw}
-          onLongPress={() => {
-            void PostMenu.call({
-              post,
-            })
-          }}
+          onLongPress={onLongPress}
           recyclingKey={post.id}
           style={body ? styles.expanded : null}
           video={post.media.video}
@@ -220,11 +213,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         <PostGalleryCard
           images={post.media.images}
           nsfw={post.nsfw}
-          onLongPress={() => {
-            void PostMenu.call({
-              post,
-            })
-          }}
+          onLongPress={onLongPress}
           recyclingKey={post.id}
           style={body ? styles.expanded : null}
         />
@@ -233,11 +222,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
       {post.type === 'link' && post.url ? (
         <PostLinkCard
           media={post.media.images?.[0]}
-          onLongPress={() => {
-            void PostMenu.call({
-              post,
-            })
-          }}
+          onLongPress={onLongPress}
           recyclingKey={post.id}
           style={body ? styles.expanded : null}
           url={post.url}
@@ -259,11 +244,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
       <PostFooter
         expanded={expanded}
         label={label}
-        onLongPress={() => {
-          void PostMenu.call({
-            post,
-          })
-        }}
+        onLongPress={onLongPress}
         post={post}
         seen={seen}
       />

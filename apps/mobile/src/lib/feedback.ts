@@ -23,12 +23,20 @@ export type Feedback = {
 SoundPlayer.setMixAudio(true)
 
 export function triggerFeedback(type: keyof Feedback) {
-  const { feedbackHaptics, feedbackSounds, hapticsLoud } =
-    usePreferences.getState()
+  triggerSound(type)
+  triggerFeedback(type)
+}
+
+export function triggerSound(type: keyof Feedback) {
+  const { feedbackSounds } = usePreferences.getState()
 
   if (feedbackSounds) {
     SoundPlayer.playAsset(assets[type])
   }
+}
+
+export function triggerHaptic(type: keyof Feedback) {
+  const { feedbackHaptics, hapticsLoud } = usePreferences.getState()
 
   if (feedbackHaptics) {
     void Haptics.impactAsync(
