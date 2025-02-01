@@ -62,13 +62,6 @@
         "placeholder": "Search"
       }
     },
-    "home": {
-      "drawer": {
-        "search": {
-          "placeholder": "Filter"
-        }
-      }
-    },
     "inbox": {
       "notification": {
         "comment_reply": "{user} replied to your comment",
@@ -248,6 +241,11 @@
       "tabs": {
         "about": "About",
         "posts": "Posts"
+      }
+    },
+    "drawer": {
+      "search": {
+        "placeholder": "Filter"
       }
     },
     "notifications": {

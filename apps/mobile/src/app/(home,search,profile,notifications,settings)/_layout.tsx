@@ -8,6 +8,7 @@ import { UserSwitcher } from '~/components/users/switcher'
 import { modalStyle } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 
+import { type HomeParams } from '.'
 import { type CommunityParams } from './communities/[name]'
 import { type SignInParams } from './sign-in'
 import { type UserParams } from './users/[name]'
@@ -15,10 +16,7 @@ import { type UserPostsParams } from './users/[name]/[type]'
 
 // eslint-disable-next-line camelcase -- go away
 export const unstable_settings = {
-  home: {
-    initialRouteName: 'index',
-  },
-  initialRouteName: 'index',
+  initialRouteName: 'drawer',
   notifications: {
     initialRouteName: 'notifications',
   },
@@ -44,6 +42,7 @@ type Props = {
 
 export default function Layout({ segment }: Props) {
   const t = useTranslations('screen')
+  const tType = useTranslations('component.common.type.type')
 
   const { accountId } = useAuth()
 
@@ -102,7 +101,26 @@ export default function Layout({ segment }: Props) {
 
   return (
     <StackLayout>
-      <Stack.Screen name="index" />
+      <Stack.Screen
+        name="drawer"
+        options={{
+          headerShown: false,
+        }}
+      />
+
+      <Stack.Screen
+        initialParams={{
+          type: 'home',
+        }}
+        name="index"
+        options={({ route }) => {
+          const { feed, type } = route.params as HomeParams
+
+          return {
+            title: feed ?? tType(type),
+          }
+        }}
+      />
     </StackLayout>
   )
 }
@@ -189,13 +207,6 @@ function StackLayout({ children }: PropsWithChildren) {
         options={({ route }) => ({
           title: t(`profile.${(route.params as UserPostsParams).type}`),
         })}
-      />
-
-      <Stack.Screen
-        name="users/[name]/comments"
-        options={{
-          title: t('profile.comments'),
-        }}
       />
 
       <Stack.Screen
