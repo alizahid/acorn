@@ -68,7 +68,7 @@ export const SavedPostsSchema = z.object({
   data: z.object({
     after: z.string().nullish(),
     children: z.array(
-      z.union([
+      z.discriminatedUnion('kind', [
         z.object({
           data: PostDataSchema,
           kind: z.literal('t3'),

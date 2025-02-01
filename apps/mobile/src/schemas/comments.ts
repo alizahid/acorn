@@ -43,7 +43,7 @@ export const CommentsSchema = z.object({
   data: z.object({
     after: z.string().nullish(),
     children: z.array(
-      z.union([
+      z.discriminatedUnion('kind', [
         z.object({
           data: CommentDataSchema,
           kind: z.literal('t1'),
@@ -63,7 +63,7 @@ export const MoreCommentsSchema = z.object({
   json: z.object({
     data: z.object({
       things: z.array(
-        z.union([
+        z.discriminatedUnion('kind', [
           z.object({
             data: CommentDataSchema,
             kind: z.literal('t1'),

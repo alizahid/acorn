@@ -21,7 +21,7 @@ export type SubmissionCommunitySchema = z.infer<
 >
 
 export const SubmissionFlairSchema = z.array(
-  z.union([
+  z.discriminatedUnion('type', [
     z.object({
       background_color: z.string(),
       id: z.string(),

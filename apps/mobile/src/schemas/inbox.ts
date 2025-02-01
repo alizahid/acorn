@@ -4,7 +4,7 @@ export const InboxSchema = z.object({
   data: z.object({
     after: z.string().nullish(),
     children: z.array(
-      z.union([
+      z.discriminatedUnion('kind', [
         z.object({
           data: z.object({
             author: z.string(),
