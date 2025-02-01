@@ -244,6 +244,7 @@ export default function Screen() {
                 })
               }}
               post={post}
+              sort={sort}
             />
           )
         }}

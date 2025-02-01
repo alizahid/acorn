@@ -13,6 +13,7 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
+import { type CommentSort } from '~/types/sort'
 
 import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
@@ -22,10 +23,17 @@ type Props = {
   comment: CommentMore
   onThread: (id: string) => void
   post?: Post
+  sort: CommentSort
   style?: StyleProp<ViewStyle>
 }
 
-export function CommentMoreCard({ comment, onThread, post, style }: Props) {
+export function CommentMoreCard({
+  comment,
+  onThread,
+  post,
+  sort,
+  style,
+}: Props) {
   const t = useTranslations('component.comments.more')
 
   const { coloredComments, themeOled } = usePreferences()
@@ -53,6 +61,7 @@ export function CommentMoreCard({ comment, onThread, post, style }: Props) {
             children: comment.children,
             id: comment.id,
             postId: post.id,
+            sort,
           })
         }
       }}

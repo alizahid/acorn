@@ -6,11 +6,13 @@ import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { MoreCommentsSchema } from '~/schemas/comments'
 import { transformComment } from '~/transformers/comment'
+import { type CommentSort } from '~/types/sort'
 
 type Variables = {
   children: Array<string>
   id: string
   postId: string
+  sort: CommentSort
 }
 
 export function useLoadMoreComments() {
@@ -23,10 +25,10 @@ export function useLoadMoreComments() {
       const url = new URL('/api/morechildren', REDDIT_URI)
 
       url.searchParams.set('api_type', 'json')
-      url.searchParams.set('threaded', 'false')
-      url.searchParams.set('limit_children', 'true')
       url.searchParams.set('link_id', addPrefix(variables.postId, 'link'))
+      url.searchParams.set('sort', variables.sort)
       url.searchParams.set('children', variables.children.join(','))
+      url.searchParams.set('limit_children', 'true')
 
       const response = await reddit({
         url,
