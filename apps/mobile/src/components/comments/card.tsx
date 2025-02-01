@@ -57,7 +57,7 @@ export function CommentCard({
     <PostGestures
       containerStyle={styles.container(comment.depth) as ViewStyle}
       data={comment}
-      disabled={!swipeGestures || collapsed}
+      disabled={!swipeGestures}
       gestures={commentGestures}
       onAction={(action) => {
         if (action === 'upvote') {
