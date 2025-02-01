@@ -15,7 +15,7 @@ export default function Screen() {
     <>
       <CommunitySearchBox onChange={setQuery} value={query} />
 
-      <CommunitiesList listProps={listProps} query={query} />
+      <CommunitiesList chevron listProps={listProps} query={query} />
     </>
   )
 }

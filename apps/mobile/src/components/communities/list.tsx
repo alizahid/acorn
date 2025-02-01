@@ -65,12 +65,18 @@ type Item =
     }
 
 type Props = {
+  chevron?: boolean
   listProps?: ListProps
   onPress?: () => void
   query?: string
 }
 
-export function CommunitiesList({ listProps, onPress, query = '' }: Props) {
+export function CommunitiesList({
+  chevron,
+  listProps,
+  onPress,
+  query = '',
+}: Props) {
   const router = useRouter()
 
   const t = useTranslations('component.common.type')
@@ -315,11 +321,13 @@ export function CommunitiesList({ listProps, onPress, query = '' }: Props) {
                 })
               }}
               right={
-                <Icon
-                  color={theme.colors.gray.accent}
-                  name="CaretRight"
-                  size={theme.space[4]}
-                />
+                chevron ? (
+                  <Icon
+                    color={theme.colors.gray.accent}
+                    name="CaretRight"
+                    size={theme.space[4]}
+                  />
+                ) : null
               }
             />
           )
@@ -350,11 +358,13 @@ export function CommunitiesList({ listProps, onPress, query = '' }: Props) {
                 })
               }}
               right={
-                <Icon
-                  color={theme.colors.gray.accent}
-                  name="CaretRight"
-                  size={theme.space[4]}
-                />
+                chevron ? (
+                  <Icon
+                    color={theme.colors.gray.accent}
+                    name="CaretRight"
+                    size={theme.space[4]}
+                  />
+                ) : null
               }
               size="2"
               style={styles.feedCommunity}
@@ -427,11 +437,13 @@ export function CommunitiesList({ listProps, onPress, query = '' }: Props) {
                   />
                 ) : null}
 
-                <Icon
-                  color={theme.colors.gray.accent}
-                  name="CaretRight"
-                  size={theme.space[4]}
-                />
+                {chevron ? (
+                  <Icon
+                    color={theme.colors.gray.accent}
+                    name="CaretRight"
+                    size={theme.space[4]}
+                  />
+                ) : null}
               </>
             }
           />
