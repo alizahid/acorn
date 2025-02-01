@@ -12,11 +12,12 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { iPad } from '~/lib/common'
+import { useDefaults } from '~/stores/defaults'
 import { FeedType } from '~/types/sort'
 
 const schema = z.object({
   feed: z.string().optional(),
-  type: z.enum(FeedType).catch('home'),
+  type: z.enum(FeedType).catch(useDefaults.getState().feedType),
 })
 
 export type HomeParams = z.infer<typeof schema>

@@ -3,11 +3,13 @@ import { persist } from 'zustand/middleware'
 
 import { Store } from '~/lib/store'
 import { type DrawerSections, type SearchTabs } from '~/types/defaults'
+import { type FeedType } from '~/types/sort'
 
 export const DEFAULTS_KEY = 'defaults-storage-v2'
 
 export type DefaultsPayload = {
   drawerSections: DrawerSections
+  feedType: FeedType
   searchTabs: SearchTabs
 }
 
@@ -36,6 +38,7 @@ export const useDefaults = create<State>()(
           key: 'users',
         },
       ],
+      feedType: 'home',
       searchTabs: [
         {
           disabled: false,

@@ -12,11 +12,13 @@ type Icon =
   | {
       color?: string
       name: SFSymbol
+      size?: number
       type: 'symbol'
     }
   | {
       color?: string
       name: IconName
+      size?: number
       type: 'icon'
       weight?: IconWeight
     }
@@ -60,14 +62,14 @@ export function SheetItem({
         icon.type === 'symbol' ? (
           <SymbolView
             name={icon.name}
-            size={theme.space[5]}
+            size={icon.size ?? theme.space[5]}
             tintColor={icon.color ?? theme.colors.accent.accent}
           />
         ) : (
           <Icon
             color={icon.color ?? theme.colors.accent.accent}
             name={icon.name}
-            size={theme.space[5]}
+            size={icon.size ?? theme.space[5]}
             weight={icon.weight ?? 'duotone'}
           />
         )

@@ -50,9 +50,6 @@
       }
     },
     "communities": {
-      "searchBox": {
-        "placeholder": "Filter"
-      },
       "about": {
         "age": "Age",
         "favorite": "Favorite",
@@ -63,6 +60,9 @@
       },
       "searchBar": {
         "placeholder": "Search"
+      },
+      "searchBox": {
+        "placeholder": "Filter"
       }
     },
     "inbox": {
@@ -351,6 +351,12 @@
           "feeds": "Custom feeds",
           "title": "Drawer sections",
           "users": "Users"
+        },
+        "feedType": {
+          "all": "All",
+          "home": "Home",
+          "popular": "Popular",
+          "title": "Default feed"
         },
         "searchTabs": {
           "community": "Communities",

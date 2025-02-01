@@ -5,6 +5,7 @@
 - added: comments to user saved screen
 - added: remember sorting preference
 - added: drawer everywhere
+- added: default feed selection
 - fixed: gallery flashes previous image
 
 ## Build 40

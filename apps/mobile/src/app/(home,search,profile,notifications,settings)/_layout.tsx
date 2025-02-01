@@ -12,6 +12,7 @@ import { UserSwitcher } from '~/components/users/switcher'
 import { iPad, modalStyle } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
+import { useDefaults } from '~/stores/defaults'
 
 import { type HomeParams } from '.'
 import { type CommunityParams } from './communities/[name]'
@@ -50,6 +51,7 @@ export default function Layout({ segment }: Props) {
   const tType = useTranslations('component.common.type.type')
 
   const { accountId } = useAuth()
+  const { feedType } = useDefaults()
 
   const { theme } = useStyles()
 
@@ -118,7 +120,7 @@ export default function Layout({ segment }: Props) {
 
         <Stack.Screen
           initialParams={{
-            type: 'home',
+            type: feedType,
           }}
           name="index"
           options={({ route }) => {
