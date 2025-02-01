@@ -6,9 +6,10 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon-button'
 import { Text } from '~/components/common/text'
+import { HomeDrawer } from '~/components/home/drawer'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { UserSwitcher } from '~/components/users/switcher'
-import { modalStyle } from '~/lib/common'
+import { iPad, modalStyle } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
 
@@ -20,7 +21,7 @@ import { type UserPostsParams } from './users/[name]/[type]'
 
 // eslint-disable-next-line camelcase -- go away
 export const unstable_settings = {
-  initialRouteName: 'drawer',
+  initialRouteName: iPad ? 'index' : 'drawer',
   notifications: {
     initialRouteName: 'notifications',
   },
@@ -106,43 +107,46 @@ export default function Layout({ segment }: Props) {
   }
 
   return (
-    <StackLayout>
-      <Stack.Screen
-        name="drawer"
-        options={{
-          headerShown: false,
-        }}
-      />
+    <HomeDrawer>
+      <StackLayout>
+        <Stack.Screen
+          name="drawer"
+          options={{
+            headerShown: false,
+          }}
+        />
 
-      <Stack.Screen
-        initialParams={{
-          type: 'home',
-        }}
-        name="index"
-        options={({ route }) => {
-          const { feed, type } = route.params as HomeParams
+        <Stack.Screen
+          initialParams={{
+            type: 'home',
+          }}
+          name="index"
+          options={({ route }) => {
+            const { feed, type } = route.params as HomeParams
 
-          if (feed) {
             return {
-              title: feed,
+              headerTitle: () => {
+                if (feed) {
+                  return <Text weight="bold">{feed}</Text>
+                }
+
+                return (
+                  <>
+                    <Icon
+                      color={theme.colors[FeedTypeColors[type]].accent}
+                      name={FeedTypeIcons[type]}
+                      weight="duotone"
+                    />
+
+                    <Text weight="bold">{tType(type)}</Text>
+                  </>
+                )
+              },
             }
-          }
-
-          return {
-            headerTitle: () => (
-              <>
-                <Icon
-                  color={theme.colors[FeedTypeColors[type]].accent}
-                  name={FeedTypeIcons[type]}
-                />
-
-                <Text>{tType(type)}</Text>
-              </>
-            ),
-          }
-        }}
-      />
-    </StackLayout>
+          }}
+        />
+      </StackLayout>
+    </HomeDrawer>
   )
 }
 

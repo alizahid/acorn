@@ -50,6 +50,9 @@
       }
     },
     "communities": {
+      "searchBox": {
+        "placeholder": "Filter"
+      },
       "about": {
         "age": "Age",
         "favorite": "Favorite",
@@ -241,11 +244,6 @@
       "tabs": {
         "about": "About",
         "posts": "Posts"
-      }
-    },
-    "drawer": {
-      "search": {
-        "placeholder": "Filter"
       }
     },
     "notifications": {
