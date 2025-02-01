@@ -1,5 +1,6 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
+import { useRouter } from 'expo-router'
 import { type ReactElement, useRef, useState } from 'react'
 import { type ViewabilityConfigCallbackPairs } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -12,8 +13,10 @@ import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
+import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 
+import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
@@ -39,7 +42,9 @@ export function PostList({
   user,
   userType,
 }: Props) {
-  const list = useRef<FlashList<Post>>(null)
+  const router = useRouter()
+
+  const list = useRef<FlashList<Post | Comment>>(null)
 
   const focused = useIsFocused()
 
@@ -114,7 +119,24 @@ export function PostList({
       extraData={{
         viewing,
       }}
-      keyExtractor={(item) => item.id}
+      getItemType={(item) => {
+        if (['reply', 'more'].includes(item.type)) {
+          return item.type
+        }
+
+        return 'post'
+      }}
+      keyExtractor={(item) => {
+        if (item.type === 'reply') {
+          return `reply-${item.data.id}`
+        }
+
+        if (item.type === 'more') {
+          return `more-${item.data.id}`
+        }
+
+        return `post-${item.id}`
+      }}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()
@@ -131,13 +153,37 @@ export function PostList({
           }}
         />
       }
-      renderItem={({ item }) => (
-        <PostCard
-          label={label}
-          post={item}
-          viewing={focused ? viewing.includes(item.id) : false}
-        />
-      )}
+      renderItem={({ item }) => {
+        if (item.type === 'reply') {
+          return (
+            <CommentCard
+              comment={item.data}
+              dull
+              onPress={() => {
+                router.navigate({
+                  params: {
+                    commentId: item.data.id,
+                    id: item.data.post.id,
+                  },
+                  pathname: '/posts/[id]',
+                })
+              }}
+            />
+          )
+        }
+
+        if (item.type === 'more') {
+          return null
+        }
+
+        return (
+          <PostCard
+            label={label}
+            post={item}
+            viewing={focused ? viewing.includes(item.id) : false}
+          />
+        )
+      }}
       viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
     />
   )

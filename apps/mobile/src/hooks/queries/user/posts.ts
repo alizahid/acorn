@@ -12,7 +12,7 @@ import { SavedPostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
 import { transformComment } from '~/transformers/comment'
 import { transformPost } from '~/transformers/post'
-import { type CommentReply } from '~/types/comment'
+import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 import { type TopInterval, type UserFeedSort } from '~/types/sort'
 import { type UserFeedType } from '~/types/user'
@@ -21,16 +21,7 @@ type Param = string | undefined | null
 
 type Page = {
   cursor: Param
-  posts: Array<
-    | {
-        data: CommentReply
-        type: 'comment'
-      }
-    | {
-        data: Post
-        type: 'post'
-      }
-  >
+  posts: Array<Post | Comment>
 }
 
 export type UserPostsQueryKey = [
@@ -117,20 +108,10 @@ export function useUserPosts({
             if (item.kind === 't1') {
               const comment = transformComment(item)
 
-              if (comment.type === 'reply') {
-                return {
-                  data: comment.data,
-                  type: 'comment',
-                }
-              }
-
-              return null
+              return comment
             }
 
-            return {
-              data: transformPost(item.data, seen),
-              type: 'post',
-            }
+            return transformPost(item.data, seen)
           }),
         ),
       }

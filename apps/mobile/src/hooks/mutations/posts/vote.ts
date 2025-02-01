@@ -6,6 +6,7 @@ import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { updateSearch } from '~/hooks/queries/search/search'
 import { triggerFeedback } from '~/lib/feedback'
+import { isPost } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
@@ -54,7 +55,9 @@ export function usePostVote() {
       })
 
       updatePosts(variables.postId, (draft) => {
-        update(variables, draft)
+        if (isPost(draft)) {
+          update(variables, draft)
+        }
       })
 
       updateSearch(variables.postId, (draft) => {

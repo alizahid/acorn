@@ -3,6 +3,7 @@ import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 
 import { collapseComment, getCollapsedForPost } from '~/lib/db/collapsed'
+import { isPost } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
@@ -238,18 +239,18 @@ function getPost(id: string): PostQueryData | undefined {
           }
         }
 
-        if (post.type === 'post') {
-          if (post.data.id === id) {
+        if (isPost(post)) {
+          if (post.id === id) {
             return {
               comments: [],
-              post: post.data,
+              post,
             }
           }
 
-          if (post.data.crossPost?.id === id) {
+          if (post.crossPost?.id === id) {
             return {
               comments: [],
-              post: post.data.crossPost,
+              post: post.crossPost,
             }
           }
         }

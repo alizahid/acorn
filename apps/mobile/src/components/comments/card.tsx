@@ -183,13 +183,6 @@ export function CommentCard({
         <CommentMeta collapsed={collapsed} comment={comment} />
       </Pressable>
 
-      {comment.liked !== null ? (
-        <View
-          pointerEvents="none"
-          style={[styles.saved, styles.liked(comment.liked)]}
-        />
-      ) : null}
-
       {comment.saved ? (
         <View pointerEvents="none" style={styles.saved} />
       ) : null}
@@ -221,12 +214,6 @@ const stylesheet = createStyleSheet((theme) => ({
 
     return base
   },
-  liked: (liked: boolean) => ({
-    backgroundColor: liked
-      ? theme.colors.orange.accent
-      : theme.colors.violet.accent,
-    top: -theme.space[6],
-  }),
   main: (depth: number, colored: boolean, oled: boolean, dull?: boolean) => {
     const color = dull ? 'gray' : getDepthColor(depth)
 
@@ -262,10 +249,10 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   saved: {
     backgroundColor: theme.colors.green.accent,
-    bottom: -theme.space[6],
     height: theme.space[8],
     position: 'absolute',
     right: -theme.space[6],
+    top: -theme.space[6],
     transform: [
       {
         rotate: '45deg',

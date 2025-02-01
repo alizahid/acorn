@@ -14,10 +14,12 @@ import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
-import { type PostDataSchema, PostsSchema } from '~/schemas/posts'
+import { PostsSchema, SavedPostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
+import { transformComment } from '~/transformers/comment'
 import { transformPost } from '~/transformers/post'
+import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 import { type PostSort, type TopInterval } from '~/types/sort'
 import { type UserFeedType } from '~/types/user'
@@ -28,7 +30,7 @@ type Param = string | undefined | null
 
 type Page = {
   cursor: Param
-  posts: Array<Post>
+  posts: Array<Post | Comment>
 }
 
 export type PostsQueryKey = [
@@ -96,7 +98,10 @@ export function usePosts({
 
       url.searchParams.set('limit', '100')
       url.searchParams.set('sr_detail', 'true')
-      url.searchParams.set('type', 'links')
+
+      if (userType !== 'saved') {
+        url.searchParams.set('type', 'links')
+      }
 
       if (sort === 'top' && interval) {
         url.searchParams.set('t', interval)
@@ -110,13 +115,13 @@ export function usePosts({
         url,
       })
 
-      const response = PostsSchema.parse(payload)
+      const schema = userType === 'saved' ? SavedPostsSchema : PostsSchema
+
+      const response = schema.parse(payload)
 
       return {
         cursor: response.data.after,
-        posts: await filterPosts(
-          response.data.children.map((post) => post.data),
-        ),
+        posts: await filterPosts(response),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
@@ -142,7 +147,7 @@ export function usePosts({
 
     if (query?.length) {
       const results = fuzzysort.go(query, items, {
-        key: 'title',
+        keys: ['title', 'data.body'],
       })
 
       return results.map((result) => result.obj)
@@ -162,38 +167,52 @@ export function usePosts({
 }
 
 export async function filterPosts(
-  posts: Array<PostDataSchema>,
-): Promise<Array<Post>> {
+  data: PostsSchema | SavedPostsSchema,
+): Promise<Array<Post | Comment>> {
   const { hideSeen } = usePreferences.getState()
 
-  const seen = await getHistory(posts.map((item) => item.id))
+  const posts = data.data.children
+    .filter((post) => post.kind === 't3')
+    .map((post) => post.data.id)
+
+  const seen = await getHistory(posts)
   const hidden = await getHidden()
 
-  return posts
-    .filter((post) => {
-      if (hideSeen && seen.includes(post.id)) {
+  return data.data.children
+    .filter((item) => {
+      if (item.kind === 't1') {
+        return true
+      }
+
+      if (hideSeen && seen.includes(item.data.id)) {
         return false
       }
 
       if (
-        post.subreddit_id &&
-        hidden.communities.includes(removePrefix(post.subreddit_id))
+        item.data.subreddit_id &&
+        hidden.communities.includes(removePrefix(item.data.subreddit_id))
       ) {
         return false
       }
 
-      if (hidden.users.includes(removePrefix(post.author_fullname))) {
+      if (hidden.users.includes(removePrefix(item.data.author_fullname))) {
         return false
       }
 
       return true
     })
-    .map((post) => transformPost(post, seen))
+    .map((item) => {
+      if (item.kind === 't1') {
+        return transformComment(item)
+      }
+
+      return transformPost(item.data, seen)
+    })
 }
 
 export function updatePosts(
   id: string,
-  updater?: (draft: Draft<Post>) => void,
+  updater?: (draft: Draft<Post | Comment>) => void,
   remove?: boolean,
 ) {
   const cache = queryClient.getQueryCache()
@@ -220,9 +239,7 @@ export function updatePosts(
 
             for (const item of page.posts) {
               if ('id' in item ? item.id === id : item.data.id === id) {
-                if ('id' in item || item.type === 'post') {
-                  updater?.('id' in item ? item : item.data)
-                }
+                updater?.(item)
 
                 if (remove) {
                   const index = page.posts.findIndex(

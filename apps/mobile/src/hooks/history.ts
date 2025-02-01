@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { formatISO } from 'date-fns'
 
 import { getDatabase } from '~/lib/db'
+import { isPost } from '~/lib/guards'
 
 import { updatePost } from './queries/posts/post'
 import { updatePosts } from './queries/posts/posts'
@@ -30,7 +31,9 @@ export function useHistory() {
       })
 
       updatePosts(variables.id, (draft) => {
-        draft.seen = true
+        if (isPost(draft)) {
+          draft.seen = true
+        }
       })
 
       updateSearch(variables.id, (draft) => {

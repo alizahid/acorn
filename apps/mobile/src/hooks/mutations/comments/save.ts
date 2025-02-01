@@ -1,8 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
+import { updatePosts } from '~/hooks/queries/posts/posts'
 import { updateUserComment } from '~/hooks/queries/user/comments'
 import { triggerFeedback } from '~/lib/feedback'
+import { isComment } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
@@ -42,6 +44,12 @@ export function useCommentSave() {
       }
 
       triggerFeedback(variables.action === 'save' ? 'save' : 'undo')
+
+      updatePosts(variables.commentId, (draft) => {
+        if (isComment(draft) && draft.type === 'reply') {
+          draft.data.saved = variables.action === 'save'
+        }
+      })
 
       updateUserComment(variables.commentId, (draft) => {
         draft.saved = variables.action === 'save'

@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { addHidden, removeHidden } from '~/lib/db/hidden'
+import { isPost } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
@@ -59,7 +60,9 @@ export function useHide() {
         updatePosts(
           variables.id,
           (draft) => {
-            draft.hidden = true
+            if (isPost(draft)) {
+              draft.hidden = true
+            }
           },
           true,
         )

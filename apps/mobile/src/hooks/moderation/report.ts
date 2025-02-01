@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { addHidden } from '~/lib/db/hidden'
+import { isPost } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 
@@ -70,7 +71,9 @@ export function useReport() {
         updatePosts(
           variables.id,
           (draft) => {
-            draft.hidden = true
+            if (isPost(draft)) {
+              draft.hidden = true
+            }
           },
           true,
         )

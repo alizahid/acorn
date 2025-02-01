@@ -2,8 +2,10 @@ import { useMutation } from '@tanstack/react-query'
 import { type Draft } from 'mutative'
 
 import { updatePost } from '~/hooks/queries/posts/post'
+import { updatePosts } from '~/hooks/queries/posts/posts'
 import { updateUserComment } from '~/hooks/queries/user/comments'
 import { triggerFeedback } from '~/lib/feedback'
+import { isComment } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { type CommentReply } from '~/types/comment'
@@ -39,6 +41,12 @@ export function useCommentVote() {
 
       updateUserComment(variables.commentId, (draft) => {
         update(variables, draft)
+      })
+
+      updatePosts(variables.commentId, (draft) => {
+        if (isComment(draft) && draft.type === 'reply') {
+          update(variables, draft.data)
+        }
       })
 
       if (variables.postId) {

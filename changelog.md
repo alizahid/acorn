@@ -1,5 +1,10 @@
 # Changelog
 
+## Upcoming
+
+- added: saved screen now shows posts and comments
+- fixed: gallery flashes previous image
+
 ## Build 40
 
 - added: post creation
