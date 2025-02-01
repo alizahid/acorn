@@ -126,7 +126,7 @@ function FlairCard({ flair }: FlairProps) {
         gap="2"
         px="2"
         py="1"
-        style={styles.item(flair.background)}
+        style={styles.item(flair.color, flair.background)}
       >
         {flair.flair.map((item) => {
           if (item.type === 'emoji') {
@@ -148,7 +148,7 @@ function FlairCard({ flair }: FlairProps) {
   }
 
   return (
-    <View px="2" py="1" style={styles.item(flair.background)}>
+    <View px="2" py="1" style={styles.item(flair.color, flair.background)}>
       <Text size="2" style={styles.label(flair.color)}>
         {flair.text}
       </Text>
@@ -161,8 +161,8 @@ const stylesheet = createStyleSheet((theme) => ({
     height: theme.typography[2].lineHeight,
     width: theme.typography[2].lineHeight,
   },
-  item: (bg: string) => ({
-    backgroundColor: bg,
+  item: (color: 'dark' | 'light', bg?: string) => ({
+    backgroundColor: bg ?? (color === 'light' ? '#000' : '#fff'),
     borderCurve: 'continuous',
     borderRadius: theme.radius[6],
   }),

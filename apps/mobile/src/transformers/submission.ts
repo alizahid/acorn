@@ -35,7 +35,7 @@ export function transformSubmission({
       flair.map((item) => {
         if (item.type === 'richtext') {
           return {
-            background: item.background_color,
+            background: item.background_color || undefined,
             color: item.text_color,
             flair: transformFlair(item.richtext),
             id: item.id,
@@ -48,7 +48,7 @@ export function transformSubmission({
         }
 
         return {
-          background: item.background_color,
+          background: item.background_color || undefined,
           color: item.text_color,
           id: item.id,
           text: item.text,

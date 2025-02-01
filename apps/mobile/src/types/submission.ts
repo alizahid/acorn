@@ -8,14 +8,14 @@ export type Submission = {
   }
   flair: Array<
     | {
-        background: string
+        background?: string
         color: 'light' | 'dark'
         flair: Array<Flair>
         id: string
         type: 'richtext'
       }
     | {
-        background: string
+        background?: string
         color: 'light' | 'dark'
         id: string
         text: string
