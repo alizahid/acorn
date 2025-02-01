@@ -4,7 +4,7 @@ import {
   useIsRestoring,
 } from '@tanstack/react-query'
 import fuzzysort from 'fuzzysort'
-import { uniqBy } from 'lodash'
+import { compact, uniqBy } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 
@@ -17,6 +17,7 @@ import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { CommentsSchema } from '~/schemas/comments'
 import { PostsSchema, SavedPostsSchema } from '~/schemas/posts'
+import { type UserDataSchema } from '~/schemas/users'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { transformComment } from '~/transformers/comment'
@@ -25,6 +26,8 @@ import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 import { type PostSort, type TopInterval } from '~/types/sort'
 import { type UserFeedType } from '~/types/user'
+
+import { fetchUserData } from './post'
 
 type Param = string | undefined | null
 
@@ -101,7 +104,7 @@ export function usePosts({
 
       if (userType === 'comments') {
         url.searchParams.set('type', 'comments')
-      } else if (userType !== 'saved') {
+      } else if (!user) {
         url.searchParams.set('type', 'links')
       }
 
@@ -124,19 +127,40 @@ export function usePosts({
       if (userType === 'comments') {
         const response = CommentsSchema.parse(payload)
 
+        const images = await fetchUserData(
+          ...compact(
+            response.data.children
+              .filter((item) => item.kind === 't1')
+              .map((item) => item.data.author_fullname),
+          ),
+        )
+
         return {
           cursor: response.data.after,
-          posts: response.data.children.map((item) => transformComment(item)),
+          posts: response.data.children.map((item) =>
+            transformComment(item, images),
+          ),
         }
       }
 
-      const schema = userType !== 'saved' ? SavedPostsSchema : PostsSchema
+      const schema = user ? SavedPostsSchema : PostsSchema
 
       const response = schema.parse(payload)
 
+      const images =
+        userType === 'saved'
+          ? await fetchUserData(
+              ...compact(
+                response.data.children
+                  .filter((item) => item.kind === 't1')
+                  .map((item) => item.data.author_fullname),
+              ),
+            )
+          : {}
+
       return {
         cursor: response.data.after,
-        posts: await filterPosts(response),
+        posts: await filterPosts(response, images),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
@@ -186,6 +210,7 @@ export function usePosts({
 
 export async function filterPosts(
   data: PostsSchema | SavedPostsSchema,
+  images?: UserDataSchema,
 ): Promise<Array<Post | Comment>> {
   const { hideSeen } = usePreferences.getState()
 
@@ -221,7 +246,7 @@ export async function filterPosts(
     })
     .map((item) => {
       if (item.kind === 't1') {
-        return transformComment(item)
+        return transformComment(item, images)
       }
 
       return transformPost(item.data, seen)

@@ -36,6 +36,7 @@ export type Post = {
   url?: string
   user: {
     id: string
+    image?: string
     name: string
   }
   votes: number

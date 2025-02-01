@@ -4,15 +4,22 @@ import { decode } from 'entities'
 import { getImages, getMeta, getVideo } from '~/lib/media'
 import { removePrefix } from '~/lib/reddit'
 import { type PostDataSchema } from '~/schemas/posts'
+import { type UserDataSchema } from '~/schemas/users'
 import { type Post, type PostType } from '~/types/post'
 
 import { transformCommunity } from './community'
 import { transformFlair } from './flair'
 
-export function transformPost(data: PostDataSchema, seen: Array<string>): Post {
+export function transformPost(
+  data: PostDataSchema,
+  seen: Array<string>,
+  users?: UserDataSchema,
+): Post {
   const crossPost = data.crosspost_parent_list?.[0]
 
   const id = removePrefix(data.id)
+
+  const user = data.author_fullname ? users?.[data.author_fullname] : undefined
 
   return {
     body: decode(data.selftext).trim() || undefined,
@@ -41,6 +48,7 @@ export function transformPost(data: PostDataSchema, seen: Array<string>): Post {
     url: data.url ?? undefined,
     user: {
       id: data.author_fullname,
+      image: user?.profile_img ? decode(user.profile_img) : undefined,
       name: data.author,
     },
     votes: data.ups,

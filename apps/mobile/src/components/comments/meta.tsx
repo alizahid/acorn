@@ -1,3 +1,4 @@
+import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
@@ -61,6 +62,10 @@ export function CommentMeta({ collapsed, comment }: Props) {
         }}
         self="start"
       >
+        {comment.user.image ? (
+          <Image source={comment.user.image} style={styles.image} />
+        ) : null}
+
         <Text
           color={comment.op ? 'accent' : 'gray'}
           highContrast={!comment.op}
@@ -124,6 +129,13 @@ export function CommentMeta({ collapsed, comment }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  image: {
+    backgroundColor: theme.colors.gray.ui,
+    borderCurve: 'continuous',
+    borderRadius: theme.space[4],
+    height: theme.space[4],
+    width: theme.space[4],
+  },
   sticky: {
     marginRight: -theme.space[1],
   },

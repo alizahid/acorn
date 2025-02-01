@@ -1,4 +1,5 @@
 import { useIsRestoring, useMutation, useQuery } from '@tanstack/react-query'
+import { compact } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 
@@ -9,6 +10,7 @@ import { removePrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { PostSchema } from '~/schemas/post'
+import { UserDataSchema } from '~/schemas/users'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { transformComment } from '~/transformers/comment'
@@ -103,7 +105,16 @@ export function usePost({ commentId, id, sort }: Props) {
         throw new Error('Post not found')
       }
 
-      const items = comments.map((item) => transformComment(item))
+      const images = await fetchUserData(
+        post.data.author_fullname,
+        ...compact(
+          response[1].data.children
+            .filter((item) => item.kind === 't1')
+            .map((item) => item.data.author_fullname),
+        ),
+      )
+
+      const items = comments.map((item) => transformComment(item, images))
 
       if (collapseAutoModerator) {
         await Promise.all(
@@ -124,7 +135,7 @@ export function usePost({ commentId, id, sort }: Props) {
 
       return {
         comments: items,
-        post: transformPost(post.data, []),
+        post: transformPost(post.data, [], images),
       }
     },
     queryKey: [
@@ -301,4 +312,20 @@ function isHidden(
   }
 
   return isHidden(comments, collapsed, comment.data.parentId)
+}
+
+export async function fetchUserData(...userIds: Array<string>) {
+  try {
+    const url = new URL('/api/user_data_by_account_ids', REDDIT_URI)
+
+    url.searchParams.set('ids', userIds.join(','))
+
+    const response = await reddit({
+      url,
+    })
+
+    return UserDataSchema.parse(response)
+  } catch {
+    return {}
+  }
 }

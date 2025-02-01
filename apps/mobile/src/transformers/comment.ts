@@ -4,12 +4,14 @@ import { decode } from 'entities'
 import { getMeta } from '~/lib/media'
 import { removePrefix } from '~/lib/reddit'
 import { type CommentsSchema } from '~/schemas/comments'
+import { type UserDataSchema } from '~/schemas/users'
 import { type Comment } from '~/types/comment'
 
 import { transformFlair } from './flair'
 
 export function transformComment(
   data: CommentsSchema['data']['children'][number],
+  users?: UserDataSchema,
 ): Comment {
   const parentId = removePrefix(data.data.parent_id)
 
@@ -27,6 +29,10 @@ export function transformComment(
   }
 
   const postId = removePrefix(data.data.link_id)
+
+  const user = data.data.author_fullname
+    ? users?.[data.data.author_fullname]
+    : undefined
 
   return {
     data: {
@@ -58,6 +64,7 @@ export function transformComment(
         id: data.data.author_fullname
           ? removePrefix(data.data.author_fullname)
           : undefined,
+        image: user?.profile_img ? decode(user.profile_img) : undefined,
         name: data.data.author,
       },
       votes: data.data.ups,

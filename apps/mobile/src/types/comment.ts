@@ -38,6 +38,7 @@ export type CommentReply = {
   sticky: boolean
   user: {
     id?: string
+    image?: string
     name: string
   }
   votes: number

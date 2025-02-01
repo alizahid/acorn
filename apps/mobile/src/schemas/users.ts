@@ -22,3 +22,12 @@ export const UsersSchema = z.object({
 })
 
 export type UsersSchema = z.infer<typeof UsersSchema>
+
+export const UserDataSchema = z.record(
+  z.object({
+    name: z.string(),
+    profile_img: z.string(),
+  }),
+)
+
+export type UserDataSchema = z.infer<typeof UserDataSchema>
