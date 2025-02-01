@@ -5,8 +5,10 @@
 - added: comments to user saved screen
 - added: remember sorting preference
 - added: drawer everywhere
+- added: user images for comments
 - added: default feed selection
 - fixed: gallery flashes previous image
+- fixed: user posts/comments sorting
 
 ## Build 40
 
