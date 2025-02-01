@@ -212,7 +212,7 @@ const stylesheet = createStyleSheet((theme) => ({
     ],
   },
   main: (oled: boolean) => ({
-    backgroundColor: theme.colors.gray[oled ? 'bgAlt' : 'uiActive'],
+    backgroundColor: theme.colors.gray[oled ? 'bg' : 'uiHover'],
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     overflow: 'hidden',
