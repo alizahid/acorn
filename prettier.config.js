@@ -5,8 +5,6 @@ module.exports = {
       files: 'apps/web/src/**/*.{tsx,css}',
       options: {
         plugins: ['prettier-plugin-tailwindcss'],
-        tailwindConfig: 'apps/web/tailwind.config.ts',
-        tailwindFunctions: ['twMerge'],
       },
     },
   ],

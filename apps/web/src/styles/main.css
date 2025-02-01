@@ -8,9 +8,65 @@
 
 /* tailwind */
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import 'tailwindcss';
+
+@theme {
+  --font-sans--font-feature-settings: 'ss04';
+
+  --color-gray-1: var(--sand-1);
+  --color-gray-2: var(--sand-2);
+  --color-gray-3: var(--sand-3);
+  --color-gray-4: var(--sand-4);
+  --color-gray-5: var(--sand-5);
+  --color-gray-5: var(--sand-5);
+  --color-gray-6: var(--sand-6);
+  --color-gray-7: var(--sand-7);
+  --color-gray-8: var(--sand-8);
+  --color-gray-9: var(--sand-9);
+  --color-gray-10: var(--sand-10);
+  --color-gray-11: var(--sand-11);
+  --color-gray-12: var(--sand-12);
+  --color-gray-a1: var(--sand-a1);
+  --color-gray-a2: var(--sand-a2);
+  --color-gray-a3: var(--sand-a3);
+  --color-gray-a4: var(--sand-a4);
+  --color-gray-a5: var(--sand-a5);
+  --color-gray-a5: var(--sand-a5);
+  --color-gray-a6: var(--sand-a6);
+  --color-gray-a7: var(--sand-a7);
+  --color-gray-a8: var(--sand-a8);
+  --color-gray-a9: var(--sand-a9);
+  --color-gray-a10: var(--sand-a10);
+  --color-gray-a11: var(--sand-a11);
+  --color-gray-a12: var(--sand-a12);
+
+  --color-accent-1: var(--orange-1);
+  --color-accent-2: var(--orange-2);
+  --color-accent-3: var(--orange-3);
+  --color-accent-4: var(--orange-4);
+  --color-accent-5: var(--orange-5);
+  --color-accent-5: var(--orange-5);
+  --color-accent-6: var(--orange-6);
+  --color-accent-7: var(--orange-7);
+  --color-accent-8: var(--orange-8);
+  --color-accent-9: var(--orange-9);
+  --color-accent-10: var(--orange-10);
+  --color-accent-11: var(--orange-11);
+  --color-accent-12: var(--orange-12);
+  --color-accent-a1: var(--orange-a1);
+  --color-accent-a2: var(--orange-a2);
+  --color-accent-a3: var(--orange-a3);
+  --color-accent-a4: var(--orange-a4);
+  --color-accent-a5: var(--orange-a5);
+  --color-accent-a5: var(--orange-a5);
+  --color-accent-a6: var(--orange-a6);
+  --color-accent-a7: var(--orange-a7);
+  --color-accent-a8: var(--orange-a8);
+  --color-accent-a9: var(--orange-a9);
+  --color-accent-a10: var(--orange-a10);
+  --color-accent-a11: var(--orange-a11);
+  --color-accent-a12: var(--orange-a12);
+}
 
 /* global */
 
