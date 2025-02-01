@@ -3,6 +3,7 @@ import { FlashList } from '@shopify/flash-list'
 import { type ReactElement, useRef, useState } from 'react'
 import { type ViewabilityConfigCallbackPairs } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
@@ -49,6 +50,8 @@ export function SearchList({
   sort,
   type,
 }: Props) {
+  const t = useTranslations('component.search.list')
+
   const list = useRef<FlashList<Item>>(null)
 
   useScrollToTop(list)
@@ -113,7 +116,7 @@ export function SearchList({
         ) : history.history.length > 0 ? (
           <SearchHistory history={history} onChange={onChangeQuery} />
         ) : (
-          <Empty />
+          <Empty icon="MagnifyingGlass" message={t('empty')} weight="duotone" />
         )
       }
       ListHeaderComponent={header}

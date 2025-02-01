@@ -130,6 +130,9 @@
       "history": {
         "clear": "Clear",
         "title": "Recent"
+      },
+      "list": {
+        "empty": "Search for something"
       }
     },
     "settings": {
