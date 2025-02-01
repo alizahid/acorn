@@ -105,6 +105,10 @@ export function usePosts({
         url.searchParams.set('type', 'links')
       }
 
+      if (user) {
+        url.searchParams.set('sort', sort)
+      }
+
       if (sort === 'top' && interval) {
         url.searchParams.set('t', interval)
       }
