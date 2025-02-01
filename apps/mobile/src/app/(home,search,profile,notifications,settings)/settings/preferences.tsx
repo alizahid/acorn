@@ -103,6 +103,11 @@ export default function Screen() {
             label: 'browsing.oldReddit',
           },
           {
+            icon: 'SortAscending',
+            key: 'rememberSorting',
+            label: 'browsing.rememberSorting',
+          },
+          {
             icon: 'ArrowUp',
             key: 'upvoteOnSave',
             label: 'browsing.upvoteOnSave',

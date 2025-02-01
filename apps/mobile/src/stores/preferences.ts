@@ -45,6 +45,7 @@ export type PreferencesPayload = {
   oldReddit: boolean
   postGestures: Gestures
   refreshInterval: number
+  rememberSorting: boolean
   replyPost: FloatingButtonSide
   seenOnMedia: boolean
   seenOnScroll: boolean
@@ -110,6 +111,7 @@ export const usePreferences = create<State>()(
         rightShort: 'reply',
       },
       refreshInterval: 10,
+      rememberSorting: true,
       replyPost: 'left',
       seenOnMedia: false,
       seenOnScroll: false,

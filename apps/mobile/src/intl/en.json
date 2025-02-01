@@ -389,6 +389,7 @@
             "description": "Requires app restart",
             "label": "Auto refresh interval"
           },
+          "rememberSorting": "Remember sorting",
           "showFlair": "Show flair",
           "stickyDrawer": "Sticky drawer on iPad",
           "title": "Browsing",

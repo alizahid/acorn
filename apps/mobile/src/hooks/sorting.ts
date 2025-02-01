@@ -1,4 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 
 import { getSorting, setSorting } from '~/lib/db/sorting'
 import { queryClient } from '~/lib/query'
@@ -35,6 +36,7 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
     intervalCommunityPosts,
     intervalFeedPosts,
     intervalUserPosts,
+    rememberSorting,
     sortCommunityPosts,
     sortFeedPosts,
     sortUserPosts,
@@ -48,20 +50,22 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
     },
   ]
 
-  const { data } = useQuery<SortingQueryData<Type>>({
-    placeholderData: {
-      interval:
-        type === 'community'
-          ? intervalCommunityPosts
-          : type === 'user'
-            ? intervalUserPosts
-            : intervalFeedPosts,
-      sort: (type === 'community'
-        ? sortCommunityPosts
+  const [initial, setInitial] = useState<SortingQueryData<Type>>({
+    interval:
+      type === 'community'
+        ? intervalCommunityPosts
         : type === 'user'
-          ? sortUserPosts
-          : sortFeedPosts) as SortingQueryData<Type>['sort'],
-    },
+          ? intervalUserPosts
+          : intervalFeedPosts,
+    sort: (type === 'community'
+      ? sortCommunityPosts
+      : type === 'user'
+        ? sortUserPosts
+        : sortFeedPosts) as SortingQueryData<Type>['sort'],
+  })
+
+  const { data } = useQuery<SortingQueryData<Type>>({
+    placeholderData: initial,
     queryFn() {
       return getSorting(type, id)
     },
@@ -73,12 +77,14 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
       await setSorting(id, variables)
     },
     onMutate(variables) {
+      setInitial(variables)
+
       queryClient.setQueryData<SortingQueryData<Type>>(queryKey, variables)
     },
   })
 
   return {
-    sorting: data!,
+    sorting: rememberSorting ? data! : initial,
     update: mutate,
   }
 }

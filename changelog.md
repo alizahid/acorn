@@ -2,7 +2,8 @@
 
 ## Upcoming
 
-- added: saved screen now shows posts and comments
+- added: comments to user saved screen
+- added: remember sorting preference
 - fixed: gallery flashes previous image
 
 ## Build 40
