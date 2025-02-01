@@ -24,7 +24,7 @@ SoundPlayer.setMixAudio(true)
 
 export function triggerFeedback(type: keyof Feedback) {
   triggerSound(type)
-  triggerFeedback(type)
+  triggerHaptic(type)
 }
 
 export function triggerSound(type: keyof Feedback) {
