@@ -1,11 +1,15 @@
 import { Stack, useRouter } from 'expo-router'
 import { type PropsWithChildren } from 'react'
+import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon-button'
+import { Text } from '~/components/common/text'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { UserSwitcher } from '~/components/users/switcher'
 import { modalStyle } from '~/lib/common'
+import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
 
 import { type HomeParams } from '.'
@@ -45,6 +49,8 @@ export default function Layout({ segment }: Props) {
   const tType = useTranslations('component.common.type.type')
 
   const { accountId } = useAuth()
+
+  const { theme } = useStyles()
 
   if (segment === '(search)') {
     return (
@@ -116,8 +122,23 @@ export default function Layout({ segment }: Props) {
         options={({ route }) => {
           const { feed, type } = route.params as HomeParams
 
+          if (feed) {
+            return {
+              title: feed,
+            }
+          }
+
           return {
-            title: feed ?? tType(type),
+            headerTitle: () => (
+              <>
+                <Icon
+                  color={theme.colors[FeedTypeColors[type]].accent}
+                  name={FeedTypeIcons[type]}
+                />
+
+                <Text>{tType(type)}</Text>
+              </>
+            ),
           }
         }}
       />
