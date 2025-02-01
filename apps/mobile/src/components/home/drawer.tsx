@@ -65,7 +65,7 @@ export function HomeDrawer({ children }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   drawer: (sticky: boolean, oled: boolean, tint: boolean) => ({
     backgroundColor: oled
-      ? oledTheme[theme.name].overlay
+      ? oledTheme[theme.name].bg
       : theme.colors[tint ? 'accent' : 'gray'].bgAlt,
     maxWidth: iPad && sticky ? 300 : undefined,
   }),
