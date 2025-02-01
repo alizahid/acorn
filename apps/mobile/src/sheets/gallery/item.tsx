@@ -13,9 +13,10 @@ import { type PostMedia } from '~/types/post'
 
 type Props = {
   image: PostMedia
+  recyclingKey?: string
 }
 
-export function GalleryItem({ image }: Props) {
+export function GalleryItem({ image, recyclingKey }: Props) {
   const t = useTranslations('component.posts.gallery')
 
   const { styles, theme } = useStyles(stylesheet)
@@ -32,6 +33,7 @@ export function GalleryItem({ image }: Props) {
         {...placeholder}
         contentFit="contain"
         pointerEvents="none"
+        recyclingKey={recyclingKey}
         ref={ref}
         source={image.url}
         style={styles.overlay}

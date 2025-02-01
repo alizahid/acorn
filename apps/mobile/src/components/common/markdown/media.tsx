@@ -29,6 +29,7 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
       onPress={() => {
         void Gallery.call({
           images: [media],
+          recyclingKey,
         })
       }}
       style={styles.main(media.height, media.width)}

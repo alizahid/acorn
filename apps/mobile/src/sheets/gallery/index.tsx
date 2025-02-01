@@ -1,13 +1,15 @@
 import * as StatusBar from 'expo-status-bar'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { createCallable } from 'react-call'
-import { Modal } from 'react-native'
+import { StyleSheet } from 'react-native'
 import AwesomeGallery from 'react-native-awesome-gallery'
 import Animated, {
+  interpolate,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -23,139 +25,169 @@ import { GalleryItem } from './item'
 type Props = {
   images: Array<PostMedia>
   initial?: number
+  recyclingKey?: string
 }
 
-export const Gallery = createCallable<Props>(({ call, images, initial }) => {
-  const t = useTranslations('component.posts.gallery')
+export const Gallery = createCallable<Props>(
+  ({ call, images, initial, recyclingKey }) => {
+    const frame = useSafeAreaFrame()
 
-  const { themeOled, themeTint } = usePreferences()
+    const t = useTranslations('component.posts.gallery')
 
-  const { styles, theme } = useStyles(stylesheet)
+    const { themeOled, themeTint } = usePreferences()
 
-  const download = useDownloadImage()
-  const copy = useCopyImage()
+    const { styles, theme } = useStyles(stylesheet)
 
-  const opacity = useSharedValue(1)
+    const download = useDownloadImage()
+    const copy = useCopyImage()
 
-  const style = useAnimatedStyle(() => ({
-    opacity: opacity.get(),
-  }))
+    const translate = useSharedValue(frame.height)
+    const opacity = useSharedValue(1)
 
-  const [index, setIndex] = useState(initial ?? 0)
+    const main = useAnimatedStyle(() => ({
+      opacity: interpolate(translate.get(), [0, frame.height], [1, 0]),
+    }))
 
-  const onClose = useCallback(() => {
-    call.end()
+    const controls = useAnimatedStyle(() => ({
+      opacity: opacity.get(),
+    }))
 
-    StatusBar.setStatusBarHidden(false, 'fade')
-  }, [call])
+    useEffect(() => {
+      translate.set(() => withTiming(0))
+    }, [translate])
 
-  const selected = images[index]
+    const [index, setIndex] = useState(initial ?? 0)
 
-  return (
-    <Modal animationType="fade" transparent visible>
-      <AwesomeGallery
-        data={images}
-        emptySpaceWidth={theme.space[6]}
-        initialIndex={initial}
-        keyExtractor={(item) => item.url}
-        numToRender={3}
-        onIndexChange={setIndex}
-        onSwipeToClose={() => {
-          onClose()
-        }}
-        onTap={() => {
-          const next = opacity.get() > 0 ? 0 : 1
+    const onClose = useCallback(() => {
+      translate.set(() => withTiming(frame.height))
 
-          opacity.set(() => withTiming(next))
+      call.end()
 
-          StatusBar.setStatusBarHidden(!next, 'fade')
-        }}
-        renderItem={({ item, setImageDimensions }) => {
-          setImageDimensions(item)
+      StatusBar.setStatusBarHidden(false, 'fade')
+    }, [call, frame.height, translate])
 
-          return <GalleryItem image={item} />
-        }}
-        style={styles.main(themeOled, themeTint)}
-      />
+    const selected = images[index]
 
-      {images.length > 1 ? (
-        <Animated.View pointerEvents="none" style={[styles.pagination, style]}>
-          <Text contrast size="1" tabular weight="medium">
-            {t('item', {
-              count: images.length,
-              current: index + 1,
-            })}
-          </Text>
-        </Animated.View>
-      ) : null}
-
-      <Animated.View pointerEvents="box-none" style={[styles.close, style]}>
-        <IconButton
-          icon={{
-            name: 'X',
-            weight: 'bold',
-          }}
-          onPress={() => {
+    return (
+      <Animated.View style={[styles.main, main]}>
+        <AwesomeGallery
+          data={images}
+          emptySpaceWidth={theme.space[6]}
+          initialIndex={initial}
+          keyExtractor={(item) => item.url}
+          numToRender={3}
+          onIndexChange={setIndex}
+          onSwipeToClose={() => {
             onClose()
           }}
+          onTap={() => {
+            const next = opacity.get() > 0 ? 0 : 1
+
+            opacity.set(() => withTiming(next))
+
+            StatusBar.setStatusBarHidden(!next, 'fade')
+          }}
+          renderItem={({ item, setImageDimensions }) => {
+            setImageDimensions(item)
+
+            return <GalleryItem image={item} recyclingKey={recyclingKey} />
+          }}
+          style={styles.list(themeOled, themeTint)}
         />
-      </Animated.View>
 
-      {selected ? (
-        <Animated.View pointerEvents="box-none" style={[styles.footer, style]}>
+        {images.length > 1 ? (
+          <Animated.View
+            pointerEvents="none"
+            style={[styles.pagination, controls]}
+          >
+            <Text contrast size="1" tabular weight="medium">
+              {t('item', {
+                count: images.length,
+                current: index + 1,
+              })}
+            </Text>
+          </Animated.View>
+        ) : null}
+
+        <Animated.View
+          pointerEvents="box-none"
+          style={[styles.close, controls]}
+        >
           <IconButton
             icon={{
-              color: download.isError
-                ? 'red'
-                : download.isSuccess
-                  ? 'green'
-                  : 'accent',
-
-              name: download.isError
-                ? 'XCircle'
-                : download.isSuccess
-                  ? 'CheckCircle'
-                  : 'Download',
-              weight: download.isError
-                ? 'fill'
-                : download.isSuccess
-                  ? 'fill'
-                  : 'duotone',
+              name: 'X',
+              weight: 'bold',
             }}
-            loading={download.isPending}
             onPress={() => {
-              download.download({
-                url: selected.url,
-              })
-            }}
-          />
-
-          <IconButton
-            icon={{
-              color: copy.isError ? 'red' : copy.isSuccess ? 'green' : 'accent',
-              name: copy.isError
-                ? 'XCircle'
-                : copy.isSuccess
-                  ? 'CheckCircle'
-                  : 'Copy',
-              weight: copy.isError
-                ? 'fill'
-                : copy.isSuccess
-                  ? 'fill'
-                  : 'duotone',
-            }}
-            loading={copy.isPending}
-            onPress={() => {
-              copy.copy({
-                url: selected.url,
-              })
+              onClose()
             }}
           />
         </Animated.View>
-      ) : null}
-    </Modal>
-  )
-}, 250)
+
+        {selected ? (
+          <Animated.View
+            pointerEvents="box-none"
+            style={[styles.footer, controls]}
+          >
+            <IconButton
+              icon={{
+                color: download.isError
+                  ? 'red'
+                  : download.isSuccess
+                    ? 'green'
+                    : 'accent',
+
+                name: download.isError
+                  ? 'XCircle'
+                  : download.isSuccess
+                    ? 'CheckCircle'
+                    : 'Download',
+                weight: download.isError
+                  ? 'fill'
+                  : download.isSuccess
+                    ? 'fill'
+                    : 'duotone',
+              }}
+              loading={download.isPending}
+              onPress={() => {
+                download.download({
+                  url: selected.url,
+                })
+              }}
+            />
+
+            <IconButton
+              icon={{
+                color: copy.isError
+                  ? 'red'
+                  : copy.isSuccess
+                    ? 'green'
+                    : 'accent',
+                name: copy.isError
+                  ? 'XCircle'
+                  : copy.isSuccess
+                    ? 'CheckCircle'
+                    : 'Copy',
+                weight: copy.isError
+                  ? 'fill'
+                  : copy.isSuccess
+                    ? 'fill'
+                    : 'duotone',
+              }}
+              loading={copy.isPending}
+              onPress={() => {
+                copy.copy({
+                  url: selected.url,
+                })
+              }}
+            />
+          </Animated.View>
+        ) : null}
+      </Animated.View>
+    )
+  },
+  250,
+)
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   close: {
@@ -176,11 +208,15 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     paddingHorizontal: theme.space[2],
     position: 'absolute',
   },
-  main: (oled: boolean, bg: boolean) => ({
+  list: (oled: boolean, bg: boolean) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].bg
       : theme.colors[bg ? 'accent' : 'gray'].ui,
   }),
+  main: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 100,
+  },
   pagination: {
     alignSelf: 'center',
     backgroundColor: theme.colors.black.accentAlpha,
