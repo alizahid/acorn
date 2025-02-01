@@ -1,17 +1,16 @@
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
 import { TabView } from 'react-native-tab-view'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { CommentList } from '~/components/comments/list'
+import { IconButton } from '~/components/common/icon-button'
 import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
-import { UserAbout } from '~/components/users/about'
 import { useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -30,6 +29,8 @@ const routes = UserTab.map((key) => ({
 }))
 
 export default function Screen() {
+  const router = useRouter()
+
   const params = schema.parse(useLocalSearchParams())
 
   const {
@@ -73,21 +74,37 @@ export default function Screen() {
           )
         }
 
-        if (route.key === 'comments') {
-          return (
-            <CommentList
-              interval={intervalUserComments}
-              listProps={listProps}
-              sort={sortUserComments}
-              user={params.name}
-            />
-          )
-        }
-
-        return <UserAbout listProps={listProps} name={params.name} />
+        return (
+          <PostList
+            interval={intervalUserComments}
+            listProps={listProps}
+            sort={sortUserComments}
+            user={params.name}
+            userType="comments"
+          />
+        )
       }}
       renderTabBar={({ position }) => (
-        <Header back title={params.name}>
+        <Header
+          back
+          right={
+            <IconButton
+              icon={{
+                name: 'Info',
+                weight: 'duotone',
+              }}
+              onPress={() => {
+                router.navigate({
+                  params: {
+                    name: params.name,
+                  },
+                  pathname: '/users/[name]/about',
+                })
+              }}
+            />
+          }
+          title={params.name}
+        >
           <View gap="4" pb="4" px="3">
             <SegmentedControl
               items={routes.map(({ key }) => t(`tabs.${key}`))}

@@ -18,7 +18,6 @@ import { type Post } from '~/types/post'
 import { type CommentSort } from '~/types/sort'
 
 import { getPostFromSearch } from '../search/search'
-import { type UserPostsQueryData } from '../user/posts'
 import { type PostsQueryData, type PostsQueryKey } from './posts'
 
 export type PostQueryKey = [
@@ -212,10 +211,7 @@ function getPost(id: string): PostQueryData | undefined {
   })
 
   for (const query of queries) {
-    const data = query.state.data as
-      | PostsQueryData
-      | UserPostsQueryData
-      | undefined
+    const data = query.state.data as PostsQueryData | undefined
 
     if (!data) {
       continue

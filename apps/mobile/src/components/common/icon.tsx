@@ -40,6 +40,7 @@ import HandSwipeLeftBold from 'react-native-phosphor/src/bold/HandSwipeLeft'
 import HardDrivesBold from 'react-native-phosphor/src/bold/HardDrives'
 import HouseBold from 'react-native-phosphor/src/bold/House'
 import ImageBold from 'react-native-phosphor/src/bold/Image'
+import InfoBold from 'react-native-phosphor/src/bold/Info'
 import LinkBold from 'react-native-phosphor/src/bold/Link'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
@@ -127,6 +128,7 @@ import HandSwipeLeftDuotone from 'react-native-phosphor/src/duotone/HandSwipeLef
 import HardDrivesDuotone from 'react-native-phosphor/src/duotone/HardDrives'
 import HouseDuotone from 'react-native-phosphor/src/duotone/House'
 import ImageDuotone from 'react-native-phosphor/src/duotone/Image'
+import InfoDuotone from 'react-native-phosphor/src/duotone/Info'
 import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
@@ -214,6 +216,7 @@ import HandSwipeLeftFill from 'react-native-phosphor/src/fill/HandSwipeLeft'
 import HardDrivesFill from 'react-native-phosphor/src/fill/HardDrives'
 import HouseFill from 'react-native-phosphor/src/fill/House'
 import ImageFill from 'react-native-phosphor/src/fill/Image'
+import InfoFill from 'react-native-phosphor/src/fill/Info'
 import LinkFill from 'react-native-phosphor/src/fill/Link'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
@@ -301,6 +304,7 @@ import HandSwipeLeftRegular from 'react-native-phosphor/src/regular/HandSwipeLef
 import HardDrivesRegular from 'react-native-phosphor/src/regular/HardDrives'
 import HouseRegular from 'react-native-phosphor/src/regular/House'
 import ImageRegular from 'react-native-phosphor/src/regular/Image'
+import InfoRegular from 'react-native-phosphor/src/regular/Info'
 import LinkRegular from 'react-native-phosphor/src/regular/Link'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
@@ -613,6 +617,12 @@ const icons = {
     duotone: ImageDuotone,
     fill: ImageFill,
     regular: ImageRegular,
+  },
+  Info: {
+    bold: InfoBold,
+    duotone: InfoDuotone,
+    fill: InfoFill,
+    regular: InfoRegular,
   },
   Link: {
     bold: LinkBold,

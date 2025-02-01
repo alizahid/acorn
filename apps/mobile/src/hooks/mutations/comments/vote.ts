@@ -3,7 +3,6 @@ import { type Draft } from 'mutative'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
-import { updateUserComment } from '~/hooks/queries/user/comments'
 import { triggerFeedback } from '~/lib/feedback'
 import { isComment } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
@@ -38,10 +37,6 @@ export function useCommentVote() {
             ? 'down'
             : 'undo',
       )
-
-      updateUserComment(variables.commentId, (draft) => {
-        update(variables, draft)
-      })
 
       updatePosts(variables.commentId, (draft) => {
         if (isComment(draft) && draft.type === 'reply') {

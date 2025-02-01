@@ -10,10 +10,12 @@ import { useMemo } from 'react'
 
 import { getHidden } from '~/lib/db/hidden'
 import { getHistory } from '~/lib/db/history'
+import { isComment } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
+import { CommentsSchema } from '~/schemas/comments'
 import { PostsSchema, SavedPostsSchema } from '~/schemas/posts'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
@@ -23,8 +25,6 @@ import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 import { type PostSort, type TopInterval } from '~/types/sort'
 import { type UserFeedType } from '~/types/user'
-
-import { type UserPostsQueryData } from '../user/posts'
 
 type Param = string | undefined | null
 
@@ -99,7 +99,9 @@ export function usePosts({
       url.searchParams.set('limit', '100')
       url.searchParams.set('sr_detail', 'true')
 
-      if (userType !== 'saved') {
+      if (userType === 'comments') {
+        url.searchParams.set('type', 'comments')
+      } else if (userType !== 'saved') {
         url.searchParams.set('type', 'links')
       }
 
@@ -115,7 +117,16 @@ export function usePosts({
         url,
       })
 
-      const schema = userType === 'saved' ? SavedPostsSchema : PostsSchema
+      if (userType === 'comments') {
+        const response = CommentsSchema.parse(payload)
+
+        return {
+          cursor: response.data.after,
+          posts: response.data.children.map((item) => transformComment(item)),
+        }
+      }
+
+      const schema = userType !== 'saved' ? SavedPostsSchema : PostsSchema
 
       const response = schema.parse(payload)
 
@@ -143,7 +154,10 @@ export function usePosts({
   })
 
   const posts = useMemo(() => {
-    const items = uniqBy(data?.pages.flatMap((page) => page.posts) ?? [], 'id')
+    const items = uniqBy(
+      data?.pages.flatMap((page) => page.posts) ?? [],
+      (item) => (isComment(item) ? item.data.id : item.id),
+    )
 
     if (query?.length) {
       const results = fuzzysort.go(query, items, {
@@ -222,41 +236,38 @@ export function updatePosts(
   })
 
   for (const query of queries) {
-    queryClient.setQueryData<PostsQueryData | UserPostsQueryData>(
-      query.queryKey,
-      (previous) => {
-        if (!previous) {
-          return previous
-        }
+    queryClient.setQueryData<PostsQueryData>(query.queryKey, (previous) => {
+      if (!previous) {
+        return previous
+      }
 
-        return create(previous, (draft) => {
-          let found = false
+      return create(previous, (draft) => {
+        let found = false
 
-          for (const page of draft.pages) {
-            if (found) {
+        for (const page of draft.pages) {
+          if (found) {
+            break
+          }
+
+          for (const item of page.posts) {
+            if ('id' in item ? item.id === id : item.data.id === id) {
+              updater?.(item)
+
+              if (remove) {
+                const index = page.posts.findIndex(
+                  (post) => ('id' in post ? post.id : post.data.id) === id,
+                )
+
+                page.posts.splice(index, 1)
+              }
+
+              found = true
+
               break
             }
-
-            for (const item of page.posts) {
-              if ('id' in item ? item.id === id : item.data.id === id) {
-                updater?.(item)
-
-                if (remove) {
-                  const index = page.posts.findIndex(
-                    (post) => ('id' in post ? post.id : post.data.id) === id,
-                  )
-
-                  page.posts.splice(index, 1)
-                }
-
-                found = true
-
-                break
-              }
-            }
           }
-        })
-      },
-    )
+        }
+      })
+    })
   }
 }

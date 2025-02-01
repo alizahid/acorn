@@ -33,6 +33,6 @@ export const UserFeedType = [
 
 export type UserFeedType = (typeof UserFeedType)[number]
 
-export const UserTab = ['posts', 'comments', 'about'] as const
+export const UserTab = ['posts', 'comments'] as const
 
 export type UserTab = (typeof UserTab)[number]

@@ -1,13 +1,16 @@
-import { Stack } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import { type PropsWithChildren } from 'react'
 import { useTranslations } from 'use-intl'
 
+import { IconButton } from '~/components/common/icon-button'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { UserSwitcher } from '~/components/users/switcher'
 import { modalStyle } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 
+import { type CommunityParams } from './communities/[name]'
 import { type SignInParams } from './sign-in'
+import { type UserParams } from './users/[name]'
 import { type UserPostsParams } from './users/[name]/[type]'
 
 // eslint-disable-next-line camelcase -- go away
@@ -105,6 +108,8 @@ export default function Layout({ segment }: Props) {
 }
 
 function StackLayout({ children }: PropsWithChildren) {
+  const router = useRouter()
+
   const t = useTranslations('screen')
 
   return (
@@ -118,9 +123,36 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         name="communities/[name]/index"
-        options={{
-          headerShown: false,
+        options={({ route }) => {
+          const { name } = route.params as CommunityParams
+
+          return {
+            headerRight: () => (
+              <IconButton
+                icon={{
+                  name: 'Info',
+                  weight: 'duotone',
+                }}
+                onPress={() => {
+                  router.navigate({
+                    params: {
+                      name,
+                    },
+                    pathname: '/communities/[name]/about',
+                  })
+                }}
+              />
+            ),
+            title: name,
+          }
         }}
+      />
+
+      <Stack.Screen
+        name="communities/[name]/about"
+        options={({ route }) => ({
+          title: (route.params as CommunityParams).name,
+        })}
       />
 
       <Stack.Screen
@@ -139,15 +171,23 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         name="users/[name]/index"
-        options={{
+        options={({ route }) => ({
           headerShown: false,
-        }}
+          title: (route.params as CommunityParams).name,
+        })}
+      />
+
+      <Stack.Screen
+        name="users/[name]/about"
+        options={({ route }) => ({
+          title: (route.params as UserParams).name,
+        })}
       />
 
       <Stack.Screen
         name="users/[name]/[type]"
-        options={(props) => ({
-          title: t(`profile.${(props.route.params as UserPostsParams).type}`),
+        options={({ route }) => ({
+          title: t(`profile.${(route.params as UserPostsParams).type}`),
         })}
       />
 
@@ -211,10 +251,9 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         name="sign-in"
-        options={(props) => ({
+        options={({ route }) => ({
           contentStyle: modalStyle,
-          gestureEnabled:
-            (props.route.params as SignInParams).mode === 'dismissible',
+          gestureEnabled: (route.params as SignInParams).mode === 'dismissible',
           headerShown: false,
           presentation: 'modal',
         })}
