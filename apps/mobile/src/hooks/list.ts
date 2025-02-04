@@ -1,5 +1,8 @@
 import { type FlashListProps } from '@shopify/flash-list'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import {
+  useSafeAreaFrame,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context'
 import { useStyles } from 'react-native-unistyles'
 
 type Padding =
@@ -27,6 +30,7 @@ type Props = {
 export type ListProps<Type = unknown> = Pick<
   FlashListProps<Type>,
   | 'contentContainerStyle'
+  | 'drawDistance'
   | 'keyboardDismissMode'
   | 'keyboardShouldPersistTaps'
   | 'progressViewOffset'
@@ -41,6 +45,7 @@ export function useList<Type>({
   tabBar = true,
   top = 0,
 }: Props = {}): ListProps<Type> {
+  const frame = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
 
   const { theme } = useStyles()
@@ -108,6 +113,7 @@ export function useList<Type>({
         (paddingTop ?? 0) +
         (typeof top === 'boolean' ? insets.top : 0),
     },
+    drawDistance: frame.height * 3,
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',
     progressViewOffset: offsets.top,

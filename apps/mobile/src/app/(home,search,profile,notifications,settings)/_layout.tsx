@@ -9,6 +9,7 @@ import { Text } from '~/components/common/text'
 import { HomeDrawer } from '~/components/home/drawer'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { UserSwitcher } from '~/components/users/switcher'
+import { useHistory } from '~/hooks/history'
 import { iPad, modalStyle } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
@@ -16,6 +17,7 @@ import { useDefaults } from '~/stores/defaults'
 
 import { type HomeParams } from '.'
 import { type CommunityParams } from './communities/[name]'
+import { type PostParams } from './posts/[id]'
 import { type SignInParams } from './sign-in'
 import { type UserParams } from './users/[name]'
 import { type UserPostsParams } from './users/[name]/[type]'
@@ -157,6 +159,8 @@ function StackLayout({ children }: PropsWithChildren) {
 
   const t = useTranslations('screen')
 
+  const { addPost } = useHistory()
+
   return (
     <Stack
       screenOptions={{
@@ -234,6 +238,17 @@ function StackLayout({ children }: PropsWithChildren) {
         options={({ route }) => ({
           title: t(`profile.${(route.params as UserPostsParams).type}`),
         })}
+      />
+
+      <Stack.Screen
+        listeners={({ route }) => ({
+          focus() {
+            addPost({
+              id: (route.params as PostParams).id,
+            })
+          },
+        })}
+        name="posts/[id]/index"
       />
 
       <Stack.Screen

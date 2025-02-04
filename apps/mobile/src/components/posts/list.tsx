@@ -115,7 +115,7 @@ export function PostList({
       }
       ListHeaderComponent={header}
       data={posts}
-      estimatedItemSize={feedCompact ? 112 : 120}
+      estimatedItemSize={feedCompact ? 120 : 500}
       extraData={{
         viewing,
       }}

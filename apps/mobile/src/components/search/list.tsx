@@ -121,7 +121,7 @@ export function SearchList({
       }
       ListHeaderComponent={header}
       data={results}
-      estimatedItemSize={type === 'post' ? (feedCompact ? 112 : 120) : 56}
+      estimatedItemSize={type === 'post' ? (feedCompact ? 120 : 500) : 56}
       extraData={{
         viewing,
       }}
