@@ -133,6 +133,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
           keyExtractor={(item) => item.url}
           onScroll={onScroll}
           renderItem={({ item }) => <GalleryItem image={item} />}
+          scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={images.map((image, index) => frame.width * index)}
           style={list}

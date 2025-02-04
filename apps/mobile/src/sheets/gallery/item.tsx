@@ -31,7 +31,11 @@ export function GalleryItem({ image }: Props) {
 
   return (
     <>
-      <Zoomable isDoubleTapEnabled style={styles.zoomable(image)}>
+      <Zoomable
+        isDoubleTapEnabled
+        minScale={0.5}
+        style={styles.zoomable(image.width, image.height)}
+      >
         <Image
           {...placeholder}
           contentFit="contain"
@@ -109,22 +113,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     position: 'absolute',
     right: theme.space[2],
   },
-  zoomable: (image: PostMedia) => {
-    const ratio = image.width / image.height
-
-    let width = runtime.screen.width
-    let height = runtime.screen.width / ratio
-
-    if (height > runtime.screen.height) {
-      width = runtime.screen.height * ratio
-      height = runtime.screen.height
-    }
-
-    return {
-      height,
-      maxHeight: runtime.screen.height,
-      maxWidth: runtime.screen.width,
-      width,
-    }
-  },
+  zoomable: (width: number, height: number) => ({
+    aspectRatio: width / height,
+    backgroundColor: 'magenta',
+    maxHeight: runtime.screen.height,
+    maxWidth: runtime.screen.width,
+    width,
+  }),
 }))
