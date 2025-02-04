@@ -1,5 +1,6 @@
 import { usePathname, useSegments } from 'expo-router'
-import { type ReactNode, useState } from 'react'
+import mitt from 'mitt'
+import { type ReactNode, useEffect, useState } from 'react'
 import { Drawer } from 'react-native-drawer-layout'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -10,6 +11,12 @@ import { oledTheme } from '~/styles/oled'
 
 import { CommunitiesList } from '../communities/list'
 import { CommunitySearchBox } from '../communities/search-box'
+
+export const drawer = mitt<{
+  close?: unknown
+  open?: unknown
+  toggle?: unknown
+}>()
 
 type Props = {
   children: ReactNode
@@ -30,10 +37,30 @@ export function HomeDrawer({ children }: Props) {
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
 
+  useEffect(() => {
+    drawer.on('open', () => {
+      setOpen(true)
+    })
+
+    drawer.on('close', () => {
+      setOpen(false)
+    })
+
+    drawer.on('toggle', () => {
+      setOpen((previous) => !previous)
+    })
+
+    return () => {
+      drawer.off('open')
+      drawer.off('close')
+      drawer.off('toggle')
+    }
+  }, [])
+
   return (
     <Drawer
       drawerStyle={styles.drawer(stickyDrawer, themeOled, themeTint)}
-      drawerType={iPad && stickyDrawer ? 'permanent' : 'front'}
+      drawerType={iPad && stickyDrawer ? 'permanent' : 'slide'}
       onClose={() => {
         setOpen(false)
       }}

@@ -6,7 +6,7 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon-button'
 import { Text } from '~/components/common/text'
-import { HomeDrawer } from '~/components/home/drawer'
+import { drawer, HomeDrawer } from '~/components/home/drawer'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { UserSwitcher } from '~/components/users/switcher'
 import { useHistory } from '~/hooks/history'
@@ -49,6 +49,8 @@ type Props = {
 }
 
 export default function Layout({ segment }: Props) {
+  const router = useRouter()
+
   const t = useTranslations('screen')
   const tType = useTranslations('component.common.type.type')
 
@@ -129,6 +131,23 @@ export default function Layout({ segment }: Props) {
             const { feed, type } = route.params as HomeParams
 
             return {
+              headerLeft: () => (
+                <IconButton
+                  icon={{
+                    name: 'Sidebar',
+                    weight: 'duotone',
+                  }}
+                  onPress={() => {
+                    if (iPad) {
+                      drawer.emit('toggle')
+
+                      return
+                    }
+
+                    router.back()
+                  }}
+                />
+              ),
               headerTitle: () => {
                 if (feed) {
                   return <Text weight="bold">{feed}</Text>
