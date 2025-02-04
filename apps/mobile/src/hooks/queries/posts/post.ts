@@ -4,13 +4,13 @@ import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 
 import { collapseComment, getCollapsedForPost } from '~/lib/db/collapsed'
-import { isPost } from '~/lib/guards'
+import { isComment, isPost } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
+import { fetchUserData } from '~/reddit/users'
 import { PostSchema } from '~/schemas/post'
-import { UserDataSchema } from '~/schemas/users'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { transformComment } from '~/transformers/comment'
@@ -20,7 +20,7 @@ import { type Post } from '~/types/post'
 import { type CommentSort } from '~/types/sort'
 
 import { getPostFromSearch } from '../search/search'
-import { type PostsQueryData, type PostsQueryKey } from './posts'
+import { type PostsQueryData, type PostsQueryKey, updatePosts } from './posts'
 
 export type PostQueryKey = [
   'post',
@@ -36,15 +36,6 @@ export type PostQueryData = {
   comments: Array<Comment>
   post: Post
 }
-
-type CollapsedQueryKey = [
-  'collapsed',
-  {
-    id: string
-  },
-]
-
-type CollapsedData = Array<string>
 
 type CollapseVariables = {
   commentId: string
@@ -114,27 +105,15 @@ export function usePost({ commentId, id, sort }: Props) {
         ),
       )
 
-      const items = comments.map((item) => transformComment(item, images))
-
-      if (collapseAutoModerator) {
-        await Promise.all(
-          items
-            .filter(
-              (item) =>
-                item.type === 'reply' &&
-                item.data.user.name === 'AutoModerator',
-            )
-            .map((item) =>
-              collapse.mutateAsync({
-                commentId: item.data.id,
-                force: true,
-              }),
-            ),
-        )
-      }
+      const collapsed = await getCollapsedForPost(id)
 
       return {
-        comments: items,
+        comments: comments.map((item) =>
+          transformComment(item, images, {
+            collapseAutoModerator,
+            collapsed,
+          }),
+        ),
         post: transformPost(post.data, [], images),
       }
     },
@@ -149,49 +128,28 @@ export function usePost({ commentId, id, sort }: Props) {
     ],
   })
 
-  const collapsedQueryKey: CollapsedQueryKey = [
-    'collapsed',
-    {
-      id,
-    },
-  ]
-
-  const collapsed = useQuery<
-    CollapsedData,
-    Error,
-    CollapsedData,
-    CollapsedQueryKey
-  >({
-    placeholderData: [],
-    queryFn() {
-      return getCollapsedForPost(id)
-    },
-    queryKey: collapsedQueryKey,
-  })
-
   const collapse = useMutation<unknown, Error, CollapseVariables>({
     async mutationFn(variables) {
       await collapseComment(variables.commentId, id, variables.force)
     },
     onMutate(variables) {
-      queryClient.setQueryData<CollapsedData>(collapsedQueryKey, (previous) => {
-        if (!previous) {
-          return previous
+      updatePosts(variables.commentId, (draft) => {
+        if (isComment(draft) && draft.type === 'reply') {
+          draft.data.collapsed = !draft.data.collapsed
         }
+      })
 
-        return create(previous, (draft) => {
-          const index = draft.indexOf(variables.commentId)
+      updatePost(id, (draft) => {
+        for (const comment of draft.comments) {
+          if (
+            comment.type === 'reply' &&
+            comment.data.id === variables.commentId
+          ) {
+            comment.data.collapsed = !comment.data.collapsed
 
-          if (index >= 0 && variables.force) {
-            return
+            break
           }
-
-          if (index >= 0) {
-            draft.splice(index, 1)
-          } else {
-            draft.push(variables.commentId)
-          }
-        })
+        }
       })
     },
   })
@@ -199,16 +157,13 @@ export function usePost({ commentId, id, sort }: Props) {
   const comments = useMemo(() => {
     const items = query.data?.comments ?? []
 
-    return items.filter(
-      (item) => !isHidden(items, collapsed.data ?? [], item.data.id),
-    )
-  }, [collapsed.data, query.data?.comments])
+    return items.filter((item) => !isHidden(items, item.data.id))
+  }, [query.data?.comments])
 
   return {
     collapse: collapse.mutate,
-    collapsed: collapsed.data ?? [],
     comments,
-    isFetching: isRestoring || query.isFetching || collapsed.isFetching,
+    isFetching: isRestoring || query.isFetching,
     post: query.data?.post,
     refetch: query.refetch,
   }
@@ -296,36 +251,18 @@ export function updatePost(
   }
 }
 
-function isHidden(
-  comments: Array<Comment>,
-  collapsed: CollapsedData,
-  commentId: string,
-) {
+function isHidden(comments: Array<Comment>, commentId: string) {
   const comment = comments.find((item) => item.data.id === commentId)
 
   if (!comment?.data.parentId) {
     return false
   }
 
-  if (collapsed.includes(comment.data.parentId)) {
+  const parent = comments.find((item) => item.data.id === comment.data.parentId)
+
+  if (parent?.type === 'reply' && parent.data.collapsed) {
     return true
   }
 
-  return isHidden(comments, collapsed, comment.data.parentId)
-}
-
-export async function fetchUserData(...userIds: Array<string>) {
-  try {
-    const url = new URL('/api/user_data_by_account_ids', REDDIT_URI)
-
-    url.searchParams.set('ids', userIds.join(','))
-
-    const response = await reddit({
-      url,
-    })
-
-    return UserDataSchema.parse(response)
-  } catch {
-    return {}
-  }
+  return isHidden(comments, comment.data.parentId)
 }

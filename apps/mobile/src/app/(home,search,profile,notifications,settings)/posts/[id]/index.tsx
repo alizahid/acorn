@@ -6,7 +6,6 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { without } from 'lodash'
 import { useCallback, useRef, useState } from 'react'
 import { z } from 'zod'
 
@@ -51,7 +50,7 @@ export default function Screen() {
 
   const listProps = useList()
 
-  const { collapse, collapsed, comments, isFetching, post, refetch } = usePost({
+  const { collapse, comments, isFetching, post, refetch } = usePost({
     commentId: params.commentId,
     id: params.id,
     sort,
@@ -149,7 +148,11 @@ export default function Screen() {
         keyboardDismissMode="on-drag"
         onViewableItemsChanged={({ viewableItems }) => {
           viewing.current = viewableItems
-            .filter((item) => (item.item as Comment).type === 'reply')
+            .filter((item) => {
+              const comment = item.item as Comment
+
+              return comment.type === 'reply' && !comment.data.collapsed
+            })
             .map((item) => item.index ?? 0)
         }}
         ref={list}
@@ -182,7 +185,7 @@ export default function Screen() {
 
           return (
             <CommentCard
-              collapsed={collapsed.includes(item.data.id)}
+              collapsed={item.data.collapsed}
               comment={item.data}
               onPress={() => {
                 collapse({
@@ -192,9 +195,8 @@ export default function Screen() {
             />
           )
         }}
-        scrollEventThrottle={64}
         viewabilityConfig={{
-          itemVisiblePercentThreshold: 50,
+          itemVisiblePercentThreshold: 60,
         }}
       />
 
@@ -224,7 +226,8 @@ export default function Screen() {
               (item, index) =>
                 index < previous &&
                 item.data.depth === 0 &&
-                !collapsed.includes(item.data.id),
+                item.type === 'reply' &&
+                !item.data.collapsed,
             )
 
             list.current?.scrollToIndex({
@@ -247,22 +250,21 @@ export default function Screen() {
               return
             }
 
-            const ids = without(
-              viewing.current,
-              ...collapsed.map((id) =>
-                comments.findIndex((comment) => comment.data.id === id),
-              ),
-            )
-
             const previous = comments.findIndex(
-              (item, index) => index > (ids[0] ?? 0) && item.data.depth === 0,
+              (item, index) =>
+                index >
+                  ((viewing.current[0] === 0 ? -1 : viewing.current[0]) ?? 0) &&
+                item.data.depth === 0 &&
+                item.type === 'reply' &&
+                !item.data.collapsed,
             )
 
             const next = comments.findIndex(
               (item, index) =>
                 index > previous &&
                 item.data.depth === 0 &&
-                !collapsed.includes(item.data.id),
+                item.type === 'reply' &&
+                !item.data.collapsed,
             )
 
             list.current?.scrollToIndex({

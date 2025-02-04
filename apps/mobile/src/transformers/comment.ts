@@ -12,6 +12,10 @@ import { transformFlair } from './flair'
 export function transformComment(
   data: CommentsSchema['data']['children'][number],
   users?: UserDataSchema,
+  extra?: {
+    collapseAutoModerator?: boolean
+    collapsed?: Array<string>
+  },
 ): Comment {
   const parentId = removePrefix(data.data.parent_id)
 
@@ -34,9 +38,17 @@ export function transformComment(
     ? users?.[data.data.author_fullname]
     : undefined
 
+  const id = removePrefix(data.data.id)
+
+  const collapsed =
+    Boolean(
+      extra?.collapseAutoModerator && data.data.author === 'AutoModerator',
+    ) || Boolean(extra?.collapsed?.includes(id))
+
   return {
     data: {
       body: decode(data.data.body).trim(),
+      collapsed,
       community: {
         id: removePrefix(data.data.subreddit_id),
         name: data.data.subreddit,
@@ -44,7 +56,7 @@ export function transformComment(
       createdAt: fromUnixTime(data.data.created_utc),
       depth: data.data.depth ?? 0,
       flair: transformFlair(data.data.author_flair_richtext),
-      id: removePrefix(data.data.id),
+      id,
       liked: data.data.likes,
       media: {
         meta: getMeta(data.data),

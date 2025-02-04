@@ -15,6 +15,7 @@ import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
+import { fetchUserData } from '~/reddit/users'
 import { CommentsSchema } from '~/schemas/comments'
 import { PostsSchema, SavedPostsSchema } from '~/schemas/posts'
 import { type UserDataSchema } from '~/schemas/users'
@@ -26,8 +27,6 @@ import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 import { type PostSort, type TopInterval } from '~/types/sort'
 import { type UserFeedType } from '~/types/user'
-
-import { fetchUserData } from './post'
 
 type Param = string | undefined | null
 

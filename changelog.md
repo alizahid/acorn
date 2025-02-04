@@ -9,6 +9,7 @@
 - added: default feed selection
 - fixed: gallery issues
 - fixed: user posts/comments sorting
+- fixed: skip comment
 
 ## Build 40
 

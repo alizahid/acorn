@@ -13,6 +13,7 @@ export type Comment =
 
 export type CommentReply = {
   body: string
+  collapsed: boolean
   community: {
     id: string
     name: string
