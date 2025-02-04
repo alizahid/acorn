@@ -7,7 +7,7 @@
 - added: drawer everywhere
 - added: user images for comments
 - added: default feed selection
-- fixed: gallery flashes previous image
+- fixed: gallery issues
 - fixed: user posts/comments sorting
 
 ## Build 40

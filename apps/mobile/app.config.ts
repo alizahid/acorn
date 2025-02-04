@@ -48,6 +48,12 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         photosPermission: `Allow ${name} to access your photo library`,
       },
     ],
+    [
+      'expo-screen-orientation',
+      {
+        initialOrientation: 'PORTRAIT_UP',
+      },
+    ],
   ]
 
   if (process.env.SENTRY_AUTH_TOKEN) {
@@ -99,7 +105,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     },
     name,
     newArchEnabled: true,
-    orientation: 'portrait',
     plugins,
     runtimeVersion: {
       policy: 'appVersion',

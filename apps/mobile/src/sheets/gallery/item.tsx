@@ -1,4 +1,5 @@
-import { Image } from 'expo-image'
+import { Zoomable } from '@likashefqet/react-native-image-zoom'
+import { Image, useImage } from 'expo-image'
 import { useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -13,10 +14,9 @@ import { type PostMedia } from '~/types/post'
 
 type Props = {
   image: PostMedia
-  recyclingKey?: string
 }
 
-export function GalleryItem({ image, recyclingKey }: Props) {
+export function GalleryItem({ image }: Props) {
   const t = useTranslations('component.posts.gallery')
 
   const { styles, theme } = useStyles(stylesheet)
@@ -27,17 +27,21 @@ export function GalleryItem({ image, recyclingKey }: Props) {
 
   const [playing, setPlaying] = useState(true)
 
+  const source = useImage(image.url)
+
   return (
     <>
-      <Image
-        {...placeholder}
-        contentFit="contain"
-        pointerEvents="none"
-        recyclingKey={recyclingKey}
-        ref={ref}
-        source={image.url}
-        style={styles.overlay}
-      />
+      <Zoomable isDoubleTapEnabled style={styles.zoomable(image)}>
+        <Image
+          {...placeholder}
+          contentFit="contain"
+          pointerEvents="none"
+          recyclingKey={image.url}
+          ref={ref}
+          source={image.thumbnail ?? source}
+          style={styles.image}
+        />
+      </Zoomable>
 
       {image.type === 'gif' ? (
         <View pointerEvents="box-none" style={styles.overlay}>
@@ -76,7 +80,7 @@ export function GalleryItem({ image, recyclingKey }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   controls: (aspectRatio: number) => ({
     aspectRatio,
     marginVertical: 'auto',
@@ -91,6 +95,9 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
   },
+  image: {
+    flex: 1,
+  },
   overlay: {
     ...StyleSheet.absoluteFillObject,
   },
@@ -101,5 +108,23 @@ const stylesheet = createStyleSheet((theme) => ({
     bottom: theme.space[2],
     position: 'absolute',
     right: theme.space[2],
+  },
+  zoomable: (image: PostMedia) => {
+    const ratio = image.width / image.height
+
+    let width = runtime.screen.width
+    let height = runtime.screen.width / ratio
+
+    if (height > runtime.screen.height) {
+      width = runtime.screen.height * ratio
+      height = runtime.screen.height
+    }
+
+    return {
+      height,
+      maxHeight: runtime.screen.height,
+      maxWidth: runtime.screen.width,
+      width,
+    }
   },
 }))

@@ -58,7 +58,6 @@ export function PostGalleryCard({
         onPress={() => {
           void Gallery.call({
             images,
-            recyclingKey,
           })
 
           if (recyclingKey && seenOnMedia) {
@@ -104,7 +103,6 @@ export function PostGalleryCard({
           void Gallery.call({
             images,
             initial,
-            recyclingKey,
           })
 
           if (recyclingKey && seenOnMedia) {
