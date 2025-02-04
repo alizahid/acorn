@@ -6,6 +6,8 @@ import {
 } from 'react-native-unistyles'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 
 import { IconButton } from '../common/icon-button'
 import { View } from '../common/view'
@@ -16,10 +18,16 @@ type Props = {
 }
 
 export function PostHeader({ onPress, parentId }: Props) {
+  const { themeOled, themeTint } = usePreferences()
+
   const { styles } = useStyles(stylesheet)
 
   return (
-    <View direction="row" style={styles.main() as ViewStyle}>
+    <View
+      direction="row"
+      mt="2"
+      style={styles.main(themeOled, themeTint) as ViewStyle}
+    >
       <IconButton
         icon={{
           name: 'ArrowArcLeft',
@@ -44,9 +52,11 @@ export function PostHeader({ onPress, parentId }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: () => {
+  main: (oled: boolean, tint: boolean) => {
     const base: UnistylesValues = {
-      backgroundColor: theme.colors.gray.ui,
+      backgroundColor: oled
+        ? oledTheme[theme.name].bg
+        : theme.colors[tint ? 'accent' : 'gray'].ui,
     }
 
     if (iPad) {
