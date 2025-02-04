@@ -94,12 +94,12 @@ export function PostLinkCard({
 
       <View align="center" direction="row" gap="3" p="3">
         <Icon
-          color={theme.colors.gray.textLow}
+          color={theme.colors.accent.accent}
           name="Compass"
           size={theme.typography[2].lineHeight}
         />
 
-        <Text highContrast={false} lines={1} size="2" style={styles.url}>
+        <Text lines={1} size="2" style={styles.url}>
           {url}
         </Text>
       </View>
