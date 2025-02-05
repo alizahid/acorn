@@ -115,7 +115,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   zoomable: (width: number, height: number) => ({
     aspectRatio: width / height,
-    backgroundColor: 'magenta',
     maxHeight: runtime.screen.height,
     maxWidth: runtime.screen.width,
     width,
