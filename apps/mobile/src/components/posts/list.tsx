@@ -119,13 +119,7 @@ export function PostList({
       extraData={{
         viewing,
       }}
-      getItemType={(item) => {
-        if (['reply', 'more'].includes(item.type)) {
-          return item.type
-        }
-
-        return 'post'
-      }}
+      getItemType={(item) => item.type}
       keyExtractor={(item) => {
         if (item.type === 'reply') {
           return `reply-${item.data.id}`
@@ -135,7 +129,7 @@ export function PostList({
           return `more-${item.data.id}`
         }
 
-        return `post-${item.id}`
+        return item.id
       }}
       onEndReached={() => {
         if (hasNextPage) {
