@@ -42,7 +42,8 @@ export default function Screen() {
 
   const focused = useIsFocused()
 
-  const { replyPost, skipComment, sortPostComments } = usePreferences()
+  const { replyPost, skipComment, sortPostComments, themeOled } =
+    usePreferences()
 
   const list = useRef<FlashList<Comment>>(null)
 
@@ -107,12 +108,12 @@ export default function Screen() {
     <>
       <FlashList
         {...listProps}
-        ItemSeparatorComponent={() => <View height="2" />}
+        ItemSeparatorComponent={() => <View height={themeOled ? '1' : '2'} />}
         ListEmptyComponent={() =>
           isFetching ? <Spinner m="4" size="large" /> : <Empty />
         }
         ListHeaderComponent={() => (
-          <View mb="2">
+          <View mb={themeOled ? '1' : '2'}>
             {post ? (
               <PostCard expanded label="user" post={post} viewing={focused} />
             ) : (

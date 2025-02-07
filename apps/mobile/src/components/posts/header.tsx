@@ -25,7 +25,7 @@ export function PostHeader({ onPress, parentId }: Props) {
   return (
     <View
       direction="row"
-      mt="2"
+      mt={themeOled ? '1' : '2'}
       style={styles.main(themeOled, themeTint) as ViewStyle}
     >
       <IconButton
