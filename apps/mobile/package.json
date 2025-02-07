@@ -36,6 +36,7 @@
     "@tanstack/query-async-storage-persister": "^5.66.0",
     "@tanstack/react-query": "^5.66.0",
     "@tanstack/react-query-persist-client": "^5.66.0",
+    "babel-plugin-react-compiler": "^19.0.0-beta-714736e-20250131",
     "date-fns": "^4.1.0",
     "entities": "^6.0.0",
     "expo": "~52.0.31",
@@ -82,6 +83,7 @@
     "mutative": "^1.1.0",
     "react": "18.3.1",
     "react-call": "^1.7.0",
+    "react-compiler-runtime": "^19.0.0-beta-714736e-20250131",
     "react-hook-form": "^7.54.2",
     "react-native": "0.76.7",
     "react-native-bottom-tabs": "^0.8.6",
@@ -113,6 +115,7 @@
     "@types/react": "18.3.18",
     "env-cmd": "^10.1.0",
     "eslint-config-custom": "workspace:*",
+    "eslint-plugin-react-compiler": "^19.0.0-beta-714736e-20250131",
     "typescript": "^5.7.3"
   }
 }

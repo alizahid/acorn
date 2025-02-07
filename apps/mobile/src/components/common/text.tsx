@@ -1,4 +1,4 @@
-import { createElement, forwardRef, type ReactNode } from 'react'
+import { createElement, type ReactNode } from 'react'
 import {
   type StyleProp,
   Text as ReactNativeText,
@@ -18,10 +18,15 @@ type Props = TextStyleProps & {
   style?: StyleProp<TextStyle>
 }
 
-export const Text = forwardRef<ReactNativeText, Props>(function Text(
-  { children, lines, onPress, selectable, slow, style, ...props },
-  ref,
-) {
+export function Text({
+  children,
+  lines,
+  onPress,
+  selectable,
+  slow,
+  style,
+  ...props
+}: Props) {
   const { fontScaling, fontSystem } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
@@ -33,7 +38,6 @@ export const Text = forwardRef<ReactNativeText, Props>(function Text(
         ellipsizeMode={lines ? 'tail' : undefined}
         numberOfLines={lines}
         onPress={onPress}
-        ref={ref}
         selectable={selectable}
         style={[styles.main(props, fontSystem) as TextStyle, style]}
       >
@@ -48,11 +52,10 @@ export const Text = forwardRef<ReactNativeText, Props>(function Text(
     children,
     ellipsizeMode: lines ? 'tail' : undefined,
     numberOfLines: lines,
-    ref,
     selectable,
     style: [styles.main(props, fontSystem), style],
   })
-})
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   main: getTextStyles(theme),

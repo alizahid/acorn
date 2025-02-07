@@ -1,8 +1,7 @@
-import { createElement, forwardRef, type ReactNode } from 'react'
+import { createElement, type ReactNode } from 'react'
 import {
   type LayoutChangeEvent,
   type StyleProp,
-  type View as ReactNativeView,
   type ViewProps,
   type ViewStyle,
 } from 'react-native'
@@ -19,18 +18,15 @@ type Props = ViewStyleProps & {
   style?: StyleProp<ViewStyle>
 }
 
-export const View = forwardRef<ReactNativeView, Props>(function View(
-  {
-    children,
-    collapsable,
-    onLayout,
-    pointerEvents,
-    responder,
-    style,
-    ...props
-  },
-  ref,
-) {
+export function View({
+  children,
+  collapsable,
+  onLayout,
+  pointerEvents,
+  responder,
+  style,
+  ...props
+}: Props) {
   const { styles } = useStyles(stylesheet)
 
   // eslint-disable-next-line react/no-children-prop -- go away
@@ -40,10 +36,9 @@ export const View = forwardRef<ReactNativeView, Props>(function View(
     onLayout,
     onStartShouldSetResponder: responder ? () => true : undefined,
     pointerEvents,
-    ref,
     style: [styles.main(props), style],
   })
-})
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   main: getViewStyles(theme),

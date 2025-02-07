@@ -64,6 +64,7 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
+    // eslint-disable-next-line react-compiler/react-compiler -- go away
     player.muted = muted
 
     if (fullscreen || (viewing && autoPlay)) {

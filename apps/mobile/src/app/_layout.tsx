@@ -16,7 +16,7 @@ import { useTheme } from '~/hooks/theme'
 import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
 import { databaseName, onInit } from '~/lib/db'
-import { persister, queryClient } from '~/lib/query'
+import { dehydrateOptions, persister, queryClient } from '~/lib/query'
 import { Sentry } from '~/lib/sentry'
 import { CommentMenu } from '~/sheets/comment-menu'
 import { Gallery } from '~/sheets/gallery'
@@ -53,6 +53,7 @@ function Acorn() {
               <PersistQueryClientProvider
                 client={queryClient}
                 persistOptions={{
+                  dehydrateOptions,
                   persister,
                 }}
               >

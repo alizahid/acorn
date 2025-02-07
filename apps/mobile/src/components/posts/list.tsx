@@ -1,7 +1,7 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
-import { type ReactElement, useRef, useState } from 'react'
+import { type ReactElement, useMemo, useRef, useState } from 'react'
 import { type ViewabilityConfigCallbackPairs } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -72,34 +72,36 @@ export function PostList({
     userType,
   })
 
-  const viewabilityConfigCallbackPairs = useRef<ViewabilityConfigCallbackPairs>(
-    [
-      {
-        onViewableItemsChanged({ viewableItems }) {
-          setViewing(() => viewableItems.map((item) => item.key))
+  const viewabilityConfigCallbackPairs =
+    useMemo<ViewabilityConfigCallbackPairs>(
+      () => [
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            setViewing(() => viewableItems.map((item) => item.key))
+          },
+          viewabilityConfig: {
+            viewAreaCoveragePercentThreshold: 60,
+          },
         },
-        viewabilityConfig: {
-          viewAreaCoveragePercentThreshold: 60,
-        },
-      },
-      {
-        onViewableItemsChanged({ viewableItems }) {
-          if (!seenOnScroll) {
-            return
-          }
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            if (!seenOnScroll) {
+              return
+            }
 
-          viewableItems.forEach((item) => {
-            addPost({
-              id: (item.item as Post).id,
+            viewableItems.forEach((item) => {
+              addPost({
+                id: (item.item as Post).id,
+              })
             })
-          })
+          },
+          viewabilityConfig: {
+            viewAreaCoveragePercentThreshold: 60,
+          },
         },
-        viewabilityConfig: {
-          viewAreaCoveragePercentThreshold: 60,
-        },
-      },
-    ],
-  )
+      ],
+      [addPost, seenOnScroll],
+    )
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
@@ -184,7 +186,7 @@ export function PostList({
           />
         )
       }}
-      viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs.current}
+      viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs}
     />
   )
 }

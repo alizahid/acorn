@@ -1,4 +1,4 @@
-import { forwardRef, type ReactNode, useCallback } from 'react'
+import { forwardRef, type ReactNode } from 'react'
 import {
   type GestureResponderEvent,
   type Insets,
@@ -50,45 +50,30 @@ export const Pressable = forwardRef<View, Props>(function Component(
     opacity: opacity.get(),
   }))
 
-  const animate = useCallback(() => {
-    opacity.set(() =>
-      withTiming(
-        0.5,
-        {
-          duration: 100,
-        },
-        () => {
-          opacity.set(() =>
-            withTiming(1, {
-              duration: 200,
-            }),
-          )
-        },
-      ),
-    )
-  }, [opacity])
-
   return (
     <AnimatedPressable
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}
-      onLongPress={(event) => {
-        if (onLongPress) {
-          onLongPress(event)
-
-          animate()
-        }
+      onLongPress={onLongPress}
+      onPress={onPress}
+      onPressIn={() => {
+        opacity.set(() =>
+          withTiming(0.5, {
+            duration: 100,
+          }),
+        )
       }}
-      onPress={(event) => {
-        if (onPress) {
-          onPress(event)
-
-          animate()
-        }
+      onPressOut={() => {
+        opacity.set(() =>
+          withTiming(1, {
+            duration: 200,
+          }),
+        )
       }}
       ref={ref}
       style={[main, styles.main(props), style]}
+      unstable_pressDelay={50}
     >
       {children}
     </AnimatedPressable>

@@ -8,13 +8,3 @@ import '@formatjs/intl-numberformat/polyfill-force' // 5
 import '@formatjs/intl-numberformat/locale-data/en' // 6
 import '@formatjs/intl-relativetimeformat/polyfill-force' // 7
 import '@formatjs/intl-relativetimeformat/locale-data/en' // 8
-
-import {
-  configureReanimatedLogger,
-  ReanimatedLogLevel,
-} from 'react-native-reanimated'
-
-configureReanimatedLogger({
-  level: ReanimatedLogLevel.warn,
-  strict: false,
-})

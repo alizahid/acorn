@@ -1,5 +1,5 @@
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
-import { QueryClient } from '@tanstack/react-query'
+import { type DehydrateOptions, QueryClient } from '@tanstack/react-query'
 import { AsyncStorage } from 'expo-sqlite/kv-store'
 import { parse, stringify } from 'superjson'
 
@@ -10,13 +10,6 @@ export const CACHE_KEY = 'cache-storage-7'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
-    dehydrate: {
-      shouldDehydrateQuery(query) {
-        const first = String(query.queryKey[0])
-
-        return /communities|feeds|inbox|submission|unread|redgifs/.test(first)
-      },
-    },
     mutations: {
       throwOnError(error) {
         if (__DEV__) {
@@ -57,3 +50,11 @@ export const persister = createAsyncStoragePersister({
   },
   storage: AsyncStorage,
 })
+
+export const dehydrateOptions: DehydrateOptions = {
+  shouldDehydrateQuery(query) {
+    const first = String(query.queryKey[0])
+
+    return /communities|feeds|inbox|submission|unread|redgifs/.test(first)
+  },
+}

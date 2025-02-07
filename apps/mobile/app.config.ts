@@ -76,6 +76,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
       },
     },
     experiments: {
+      reactCompiler: true,
       tsconfigPaths: true,
       typedRoutes: true,
     },
