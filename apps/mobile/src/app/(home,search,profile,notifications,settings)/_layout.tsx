@@ -10,7 +10,7 @@ import { drawer, HomeDrawer } from '~/components/home/drawer'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { UserSwitcher } from '~/components/users/switcher'
 import { useHistory } from '~/hooks/history'
-import { iPad, modalStyle } from '~/lib/common'
+import { modalStyle } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
 import { useDefaults } from '~/stores/defaults'
@@ -24,7 +24,7 @@ import { type UserPostsParams } from './users/[name]/[type]'
 
 // eslint-disable-next-line camelcase -- go away
 export const unstable_settings = {
-  initialRouteName: iPad ? 'index' : 'drawer',
+  initialRouteName: 'index',
   notifications: {
     initialRouteName: 'notifications',
   },
@@ -49,8 +49,6 @@ type Props = {
 }
 
 export default function Layout({ segment }: Props) {
-  const router = useRouter()
-
   const t = useTranslations('screen')
   const tType = useTranslations('component.common.type.type')
 
@@ -116,13 +114,6 @@ export default function Layout({ segment }: Props) {
     <HomeDrawer>
       <StackLayout>
         <Stack.Screen
-          name="drawer"
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
           initialParams={{
             type: feedType,
           }}
@@ -138,13 +129,7 @@ export default function Layout({ segment }: Props) {
                     weight: 'duotone',
                   }}
                   onPress={() => {
-                    if (iPad) {
-                      drawer.emit('toggle')
-
-                      return
-                    }
-
-                    router.back()
+                    drawer.emit('toggle')
                   }}
                 />
               ),

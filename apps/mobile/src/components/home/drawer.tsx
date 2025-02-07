@@ -1,4 +1,4 @@
-import { usePathname, useSegments } from 'expo-router'
+import { usePathname } from 'expo-router'
 import mitt from 'mitt'
 import { type ReactNode, useEffect, useState } from 'react'
 import { Drawer } from 'react-native-drawer-layout'
@@ -24,7 +24,6 @@ type Props = {
 
 export function HomeDrawer({ children }: Props) {
   const path = usePathname()
-  const segments = useSegments()
 
   const { stickyDrawer, themeOled, themeTint } = usePreferences()
 
@@ -82,7 +81,7 @@ export function HomeDrawer({ children }: Props) {
           />
         </>
       )}
-      swipeEnabled={iPad || (segments[0] === '(home)' && path !== '/')}
+      swipeEnabled={path === '/'}
     >
       {children}
     </Drawer>
