@@ -59,7 +59,7 @@ export default function Screen() {
         routes,
       }}
       onIndexChange={setIndex}
-      renderLazyPlaceholder={Loading}
+      renderLazyPlaceholder={() => <Loading />}
       renderScene={({ route }) => {
         if (route.key === 'posts') {
           return (
