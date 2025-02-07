@@ -105,9 +105,13 @@ function generateSchema(
   t: ReturnType<typeof useTranslations<'component.submission'>>,
   submission: Submission,
 ) {
+  const flairId = submission.rules.flair.required
+    ? z.string()
+    : z.string().optional()
+
   const base = z.object({
     community: z.string(),
-    flairId: z.string().optional(),
+    flairId,
     nsfw: z.boolean(),
     spoiler: z.boolean(),
     title: z

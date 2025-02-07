@@ -35,10 +35,12 @@ export function SubmissionFlair({ submission }: Props) {
     <Controller
       control={control}
       name="flairId"
-      render={({ field }) => {
+      render={({ field, fieldState }) => {
         const selected = submission.flair.find(
           (item) => item.id === field.value,
         )
+
+        const color = theme.colors.red[fieldState.error ? 'contrast' : 'accent']
 
         return (
           <>
@@ -52,7 +54,7 @@ export function SubmissionFlair({ submission }: Props) {
                 sheet.current?.present()
               }}
               px="3"
-              style={styles.main}
+              style={styles.main(Boolean(fieldState.error))}
             >
               {selected ? (
                 <Pressable
@@ -61,18 +63,10 @@ export function SubmissionFlair({ submission }: Props) {
                     field.onChange()
                   }}
                 >
-                  <Icon
-                    color={theme.colors.red.accent}
-                    name="X"
-                    weight="bold"
-                  />
+                  <Icon color={color} name="X" weight="bold" />
                 </Pressable>
               ) : (
-                <Icon
-                  color={theme.colors.red.accent}
-                  name="SmileyWink"
-                  weight="bold"
-                />
+                <Icon color={color} name="SmileyWink" weight="bold" />
               )}
 
               {selected ? (
@@ -80,6 +74,12 @@ export function SubmissionFlair({ submission }: Props) {
               ) : (
                 <Text weight="medium">{t('label')}</Text>
               )}
+
+              {!selected && submission.rules.flair.required ? (
+                <Text size="1" style={styles.required} weight="medium">
+                  {t('required')}
+                </Text>
+              ) : null}
             </Pressable>
 
             <SheetModal ref={sheet} title={t('title')}>
@@ -169,8 +169,12 @@ const stylesheet = createStyleSheet((theme) => ({
   label: (color: 'dark' | 'light') => ({
     color: color === 'dark' ? '#000' : '#fff',
   }),
-  main: {
-    backgroundColor: theme.colors.accent.bgAltAlpha,
+  main: (error: boolean) => ({
+    backgroundColor:
+      theme.colors[error ? 'red' : 'accent'][error ? 'accent' : 'bgAltAlpha'],
+  }),
+  required: {
+    marginLeft: 'auto',
   },
   selected: {
     backgroundColor: theme.colors.accent.uiActive,

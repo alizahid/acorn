@@ -148,6 +148,7 @@
     "submission": {
       "flair": {
         "label": "Select flair",
+        "required": "Required",
         "title": "Flair"
       },
       "image": {
