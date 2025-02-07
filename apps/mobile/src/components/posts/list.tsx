@@ -1,7 +1,13 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
-import { type ReactElement, useMemo, useRef, useState } from 'react'
+import {
+  type ReactElement,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { type ViewabilityConfigCallbackPairs } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -105,6 +111,41 @@ export function PostList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
+  const renderItem = useCallback(
+    (item: Post | Comment) => {
+      if (item.type === 'reply') {
+        return (
+          <CommentCard
+            comment={item.data}
+            dull
+            onPress={() => {
+              router.navigate({
+                params: {
+                  commentId: item.data.id,
+                  id: item.data.post.id,
+                },
+                pathname: '/posts/[id]',
+              })
+            }}
+          />
+        )
+      }
+
+      if (item.type === 'more') {
+        return null
+      }
+
+      return (
+        <PostCard
+          label={label}
+          post={item}
+          viewing={focused ? viewing.includes(item.id) : false}
+        />
+      )
+    },
+    [focused, label, router, viewing],
+  )
+
   return (
     <FlashList
       {...listProps}
@@ -155,37 +196,7 @@ export function PostList({
           }}
         />
       }
-      renderItem={({ item }) => {
-        if (item.type === 'reply') {
-          return (
-            <CommentCard
-              comment={item.data}
-              dull
-              onPress={() => {
-                router.navigate({
-                  params: {
-                    commentId: item.data.id,
-                    id: item.data.post.id,
-                  },
-                  pathname: '/posts/[id]',
-                })
-              }}
-            />
-          )
-        }
-
-        if (item.type === 'more') {
-          return null
-        }
-
-        return (
-          <PostCard
-            label={label}
-            post={item}
-            viewing={focused ? viewing.includes(item.id) : false}
-          />
-        )
-      }}
+      renderItem={({ item }) => renderItem(item)}
       viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs}
     />
   )

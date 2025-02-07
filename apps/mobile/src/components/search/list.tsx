@@ -1,6 +1,12 @@
 import { useScrollToTop } from '@react-navigation/native'
 import { FlashList } from '@shopify/flash-list'
-import { type ReactElement, useMemo, useRef, useState } from 'react'
+import {
+  type ReactElement,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { type ViewabilityConfigCallbackPairs } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -106,6 +112,32 @@ export function SearchList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
+  const renderItem = useCallback(
+    (item: Community | SearchUser | Post, index: number) => {
+      const style = [
+        index === 0 && styles.first,
+        index + 1 === results.length && styles.last,
+      ]
+
+      if (type === 'community') {
+        return <CommunityCard community={item as Community} style={style} />
+      }
+
+      if (type === 'user') {
+        return <UserCard style={style} user={item as SearchUser} />
+      }
+
+      return (
+        <PostCard
+          label="subreddit"
+          post={item as Post}
+          viewing={focused ? viewing.includes(item.id) : false}
+        />
+      )
+    },
+    [focused, results.length, styles.first, styles.last, type, viewing],
+  )
+
   return (
     <FlashList
       {...listProps}
@@ -141,28 +173,7 @@ export function SearchList({
           onRefresh={refetch}
         />
       }
-      renderItem={({ index, item }) => {
-        const style = [
-          index === 0 && styles.first,
-          index + 1 === results.length && styles.last,
-        ]
-
-        if (type === 'community') {
-          return <CommunityCard community={item as Community} style={style} />
-        }
-
-        if (type === 'user') {
-          return <UserCard style={style} user={item as SearchUser} />
-        }
-
-        return (
-          <PostCard
-            label="subreddit"
-            post={item as Post}
-            viewing={focused ? viewing.includes(item.id) : false}
-          />
-        )
-      }}
+      renderItem={({ index, item }) => renderItem(item, index)}
       viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs}
     />
   )

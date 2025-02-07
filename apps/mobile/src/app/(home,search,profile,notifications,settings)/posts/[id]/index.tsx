@@ -6,7 +6,7 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useMemo, useRef, useState } from 'react'
 import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
@@ -104,6 +104,72 @@ export default function Screen() {
     }, [navigation, post, router, sort]),
   )
 
+  const header = useMemo(
+    () => (
+      <View mb={themeOled ? '1' : '2'}>
+        {post ? (
+          <PostCard expanded label="user" post={post} viewing={focused} />
+        ) : (
+          <Spinner m="4" size="large" />
+        )}
+
+        {params.commentId ? (
+          <PostHeader
+            onPress={(next) => {
+              list.current?.scrollToIndex({
+                animated: true,
+                index: 0,
+              })
+
+              router.setParams({
+                commentId: next ?? '',
+              })
+            }}
+            parentId={comments[0]?.data.parentId}
+          />
+        ) : null}
+      </View>
+    ),
+    [comments, focused, params.commentId, post, router, themeOled],
+  )
+
+  const renderItem = useCallback(
+    (item: Comment) => {
+      if (item.type === 'more') {
+        return (
+          <CommentMoreCard
+            comment={item.data}
+            onThread={(id) => {
+              list.current?.scrollToIndex({
+                animated: true,
+                index: 1,
+              })
+
+              router.setParams({
+                commentId: id,
+              })
+            }}
+            post={post}
+            sort={sort}
+          />
+        )
+      }
+
+      return (
+        <CommentCard
+          collapsed={item.data.collapsed}
+          comment={item.data}
+          onPress={() => {
+            collapse({
+              commentId: item.data.id,
+            })
+          }}
+        />
+      )
+    },
+    [collapse, post, router, sort],
+  )
+
   return (
     <>
       <FlashList
@@ -112,31 +178,7 @@ export default function Screen() {
         ListEmptyComponent={() =>
           isFetching ? <Spinner m="4" size="large" /> : <Empty />
         }
-        ListHeaderComponent={() => (
-          <View mb={themeOled ? '1' : '2'}>
-            {post ? (
-              <PostCard expanded label="user" post={post} viewing={focused} />
-            ) : (
-              <Spinner m="4" size="large" />
-            )}
-
-            {params.commentId ? (
-              <PostHeader
-                onPress={(next) => {
-                  list.current?.scrollToIndex({
-                    animated: true,
-                    index: 0,
-                  })
-
-                  router.setParams({
-                    commentId: next ?? '',
-                  })
-                }}
-                parentId={comments[0]?.data.parentId}
-              />
-            ) : null}
-          </View>
-        )}
+        ListHeaderComponent={header}
         data={comments}
         estimatedFirstItemOffset={0}
         estimatedItemSize={200}
@@ -163,39 +205,7 @@ export default function Screen() {
             onRefresh={refetch}
           />
         }
-        renderItem={({ item }) => {
-          if (item.type === 'more') {
-            return (
-              <CommentMoreCard
-                comment={item.data}
-                onThread={(id) => {
-                  list.current?.scrollToIndex({
-                    animated: true,
-                    index: 1,
-                  })
-
-                  router.setParams({
-                    commentId: id,
-                  })
-                }}
-                post={post}
-                sort={sort}
-              />
-            )
-          }
-
-          return (
-            <CommentCard
-              collapsed={item.data.collapsed}
-              comment={item.data}
-              onPress={() => {
-                collapse({
-                  commentId: item.data.id,
-                })
-              }}
-            />
-          )
-        }}
+        renderItem={({ item }) => renderItem(item)}
         viewabilityConfig={{
           itemVisiblePercentThreshold: 60,
         }}
