@@ -1,11 +1,10 @@
-import { forwardRef, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import {
   type GestureResponderEvent,
   type Insets,
   type LayoutChangeEvent,
   Pressable as ReactNativePressable,
   type StyleProp,
-  type View,
   type ViewStyle,
 } from 'react-native'
 import Animated, {
@@ -29,19 +28,16 @@ type Props = {
   style?: StyleProp<ViewStyle>
 } & ViewStyleProps
 
-export const Pressable = forwardRef<View, Props>(function Component(
-  {
-    children,
-    disabled,
-    hitSlop,
-    onLayout,
-    onLongPress,
-    onPress,
-    style,
-    ...props
-  },
-  ref,
-) {
+export function Pressable({
+  children,
+  disabled,
+  hitSlop,
+  onLayout,
+  onLongPress,
+  onPress,
+  style,
+  ...props
+}: Props) {
   const { styles } = useStyles(stylesheet)
 
   const opacity = useSharedValue(1)
@@ -71,14 +67,12 @@ export const Pressable = forwardRef<View, Props>(function Component(
           }),
         )
       }}
-      ref={ref}
       style={[main, styles.main(props), style]}
-      unstable_pressDelay={50}
     >
       {children}
     </AnimatedPressable>
   )
-})
+}
 
 const stylesheet = createStyleSheet((theme) => ({
   main: getViewStyles(theme),
