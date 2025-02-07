@@ -119,7 +119,13 @@ export function PostList({
       extraData={{
         viewing,
       }}
-      getItemType={(item) => item.type}
+      getItemType={(item) => {
+        if (['reply', 'more'].includes(item.type)) {
+          return item.type
+        }
+
+        return 'post'
+      }}
       keyExtractor={(item) => {
         if (item.type === 'reply') {
           return `reply-${item.data.id}`
