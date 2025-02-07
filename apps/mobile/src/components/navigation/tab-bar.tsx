@@ -1,4 +1,4 @@
-import { type BottomTabBarProps } from '@react-navigation/bottom-tabs'
+import { type BottomTabBarProps } from '@bottom-tabs/react-navigation'
 import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
 import { Pressable } from 'react-native'
@@ -6,6 +6,7 @@ import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { runOnJS } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { Icon, type IconName } from '~/components/common/icon'
 import { iPad, tintDark, tintLight } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -47,6 +48,8 @@ export function TabBar({ descriptors, navigation, state }: Props) {
             const options = descriptors[route.key]?.options
             const focused = state.index === index
 
+            const icon = icons[route.name]
+
             return (
               <Pressable
                 key={route.key}
@@ -69,11 +72,16 @@ export function TabBar({ descriptors, navigation, state }: Props) {
                 }}
                 style={styles.tab}
               >
-                {options?.tabBarIcon?.({
-                  color: theme.colors[focused ? 'accent' : 'gray'].accentAlpha,
-                  focused,
-                  size: theme.space[5],
-                })}
+                {icon ? (
+                  <Icon
+                    color={
+                      theme.colors[focused ? 'accent' : 'gray'].accentAlpha
+                    }
+                    name={icon}
+                    size={theme.space[5]}
+                    weight="duotone"
+                  />
+                ) : null}
 
                 {options?.tabBarBadge ? (
                   <View style={styles.badge}>
@@ -129,3 +137,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     paddingTop: theme.space[3],
   },
 }))
+
+const icons: Record<string, IconName> = {
+  '(home)': 'House',
+  '(notifications)': 'Bell',
+  '(profile)': 'UserCircle',
+  '(search)': 'MagnifyingGlass',
+  '(settings)': 'GearSix',
+}

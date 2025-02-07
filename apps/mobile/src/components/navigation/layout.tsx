@@ -1,13 +1,14 @@
 import { focusManager } from '@tanstack/react-query'
-import { Tabs, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { AppState } from 'react-native'
 
-import { Icon } from '~/components/common/icon'
 import { TabBar } from '~/components/navigation/tab-bar'
 import { useUnread } from '~/hooks/queries/user/unread'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
+
+import { Tabs } from './tabs'
 
 export function RootLayout() {
   const router = useRouter()
@@ -42,65 +43,36 @@ export function RootLayout() {
   return (
     <Tabs
       screenOptions={{
-        animation: 'fade',
-        headerShown: false,
         lazy: true,
       }}
       tabBar={(props) => <TabBar {...props} />}
     >
-      <Tabs.Screen
-        name="(home)"
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon color={color} name="House" size={size} weight="duotone" />
-          ),
-        }}
-      />
+      <Tabs.Screen name="(home)" />
 
-      <Tabs.Screen
-        name="(search)"
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon
-              color={color}
-              name="MagnifyingGlass"
-              size={size}
-              weight="duotone"
-            />
-          ),
-        }}
-      />
+      <Tabs.Screen name="(search)" />
 
-      <Tabs.Screen
-        name="(profile)"
-        options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon
-              color={color}
-              name="UserCircle"
-              size={size}
-              weight="duotone"
-            />
-          ),
-        }}
-      />
+      <Tabs.Screen name="(profile)" />
 
       <Tabs.Screen
         name="(notifications)"
         options={{
           tabBarBadge: unread,
-          tabBarIcon: ({ color, size }) => (
-            <Icon color={color} name="Bell" size={size} weight="duotone" />
-          ),
+        }}
+      />
+
+      <Tabs.Screen name="(settings)" />
+
+      <Tabs.Screen
+        name="+not-found"
+        options={{
+          tabBarItemHidden: true,
         }}
       />
 
       <Tabs.Screen
-        name="(settings)"
+        name="_sitemap"
         options={{
-          tabBarIcon: ({ color, size }) => (
-            <Icon color={color} name="GearSix" size={size} weight="duotone" />
-          ),
+          tabBarItemHidden: true,
         }}
       />
     </Tabs>
