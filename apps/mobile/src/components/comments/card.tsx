@@ -23,6 +23,7 @@ import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
+import { FlairCard } from '../posts/flair'
 import { CommentMeta } from './meta'
 
 type Props = {
@@ -136,6 +137,10 @@ export function CommentCard({
         }}
       >
         {!collapsed ? (
+          <FlairCard flair={comment.flair} style={styles.flair} type="text" />
+        ) : null}
+
+        {!collapsed ? (
           <Markdown
             meta={comment.media.meta}
             recyclingKey={comment.id}
@@ -216,6 +221,10 @@ const stylesheet = createStyleSheet((theme) => ({
     }
 
     return base
+  },
+  flair: {
+    marginHorizontal: theme.space[3],
+    marginTop: theme.space[3],
   },
   main: (depth: number, colored: boolean, oled: boolean, dull?: boolean) => {
     const color = dull ? 'gray' : getDepthColor(depth)

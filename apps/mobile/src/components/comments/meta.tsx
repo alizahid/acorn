@@ -76,7 +76,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
           {comment.user.name}
         </Text>
 
-        {!collapsed ? <FlairCard flair={comment.flair} /> : null}
+        {!collapsed ? <FlairCard flair={comment.flair} type="emoji" /> : null}
       </Pressable>
 
       <Text highContrast={false} size="1">
