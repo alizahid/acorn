@@ -7,6 +7,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { useCallback, useMemo, useRef, useState } from 'react'
+import { useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
@@ -23,6 +24,7 @@ import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
+import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -45,11 +47,19 @@ export default function Screen() {
   const { replyPost, skipComment, sortPostComments, themeOled } =
     usePreferences()
 
+  const { theme } = useStyles()
+
   const list = useRef<FlashList<Comment>>(null)
 
   const [sort, setSort] = useState(sortPostComments)
 
-  const listProps = useList()
+  const listProps = useList({
+    padding: {
+      bottom: theme.space[8] + theme.space[4] + theme.space[4],
+      horizontal: iPad ? theme.space[4] : undefined,
+      top: iPad ? theme.space[4] : undefined,
+    },
+  })
 
   const { collapse, comments, isFetching, post, refetch } = usePost({
     commentId: params.commentId,
