@@ -1,33 +1,13 @@
 import localFont from 'next/font/local'
 
 export const sans = localFont({
-  src: [
-    {
-      path: './sans-light.otf',
-      weight: '300',
-    },
-    {
-      path: './sans-regular.otf',
-      weight: '400',
-    },
-    {
-      path: './sans-medium.otf',
-      weight: '500',
-    },
-    {
-      path: './sans-bold.otf',
-      weight: '700',
-    },
-  ],
+  src: './sans.woff2',
   variable: '--font-sans',
+  weight: '100 900',
 })
 
 export const mono = localFont({
-  src: [
-    {
-      path: './mono-regular.otf',
-      weight: '400',
-    },
-  ],
+  src: './mono.woff2',
   variable: '--font-mono',
+  weight: '100 900',
 })
