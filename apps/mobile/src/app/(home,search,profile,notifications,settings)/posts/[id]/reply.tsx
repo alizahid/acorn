@@ -17,7 +17,7 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
 import { iPhone } from '~/lib/common'
-import { fonts } from '~/lib/fonts'
+import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
@@ -32,7 +32,7 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { fontScaling, fontSystem } = usePreferences()
+  const { font, fontScaling, systemScaling } = usePreferences()
 
   const t = useTranslations('screen.posts.reply')
 
@@ -93,7 +93,7 @@ export default function Screen() {
       ) : null}
 
       <TextInput
-        allowFontScaling={fontScaling}
+        allowFontScaling={systemScaling}
         // eslint-disable-next-line jsx-a11y/no-autofocus -- go away
         autoFocus
         multiline
@@ -101,7 +101,7 @@ export default function Screen() {
         placeholder={t('placeholder')}
         placeholderTextColor={theme.colors.gray.accent}
         selectionColor={theme.colors.accent.accent}
-        style={styles.input(fontSystem)}
+        style={styles.input(font, fontScaling)}
         value={text}
       />
 
@@ -111,11 +111,11 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  input: (systemFont: boolean) => ({
+  input: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
     flex: 1,
-    fontFamily: systemFont ? fonts.system : fonts.sans,
-    fontSize: theme.typography[3].fontSize,
+    fontFamily: fonts[font],
+    fontSize: theme.typography[3].fontSize * scaling,
     lineHeight: theme.typography[3].lineHeight,
     padding: theme.space[3],
   }),

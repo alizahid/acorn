@@ -8,7 +8,7 @@ import {
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { fonts } from '~/lib/fonts'
+import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 import { Text } from './text'
@@ -70,7 +70,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
   },
   ref,
 ) {
-  const { fontScaling, fontSystem } = usePreferences()
+  const { font, fontScaling, systemScaling } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -92,7 +92,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
         {left}
 
         <TextInput
-          allowFontScaling={fontScaling}
+          allowFontScaling={systemScaling}
           autoCapitalize={autoCapitalize}
           autoComplete={autoComplete}
           autoCorrect={autoCorrect}
@@ -118,7 +118,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
           secureTextEntry={secureTextEntry}
           selectionColor={theme.colors.accent.accent}
           style={[
-            styles.input(Boolean(multiline), Boolean(code), fontSystem),
+            styles.input(Boolean(multiline), Boolean(code), font, fontScaling),
             styleInput,
           ]}
           textAlignVertical={multiline ? 'top' : 'center'}
@@ -158,11 +158,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     borderWidth: runtime.hairlineWidth,
     flexGrow: 1,
   }),
-  input: (multiline: boolean, code: boolean, systemFont: boolean) => ({
+  input: (multiline: boolean, code: boolean, font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
     flex: 1,
-    fontFamily: code ? fonts.mono : systemFont ? fonts.system : fonts.sans,
-    fontSize: theme.typography[3].fontSize,
+    fontFamily: code ? fonts.mono : fonts[font],
+    fontSize: theme.typography[3].fontSize * scaling,
     height: theme.space[multiline ? 9 : 7],
     paddingHorizontal: theme.space[3],
     paddingVertical: multiline ? theme.space[3] : 0,

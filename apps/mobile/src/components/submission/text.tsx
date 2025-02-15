@@ -4,14 +4,14 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
-import { fonts } from '~/lib/fonts'
+import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
 import { View } from '../common/view'
 
 export function SubmissionText() {
-  const { fontSystem } = usePreferences()
+  const { font, fontScaling, systemScaling } = usePreferences()
 
   const t = useTranslations('component.submission.text')
 
@@ -27,12 +27,13 @@ export function SubmissionText() {
         <View flex={1}>
           <TextInput
             {...field}
+            allowFontScaling={systemScaling}
             multiline
             onChangeText={field.onChange}
             placeholder={t('placeholder')}
             placeholderTextColor={theme.colors.gray.accent}
             selectionColor={theme.colors.accent.accent}
-            style={styles.input(fontSystem)}
+            style={styles.input(font, fontScaling)}
           />
 
           {fieldState.error ? (
@@ -50,11 +51,11 @@ const stylesheet = createStyleSheet((theme) => ({
   error: {
     color: theme.colors.red.accent,
   },
-  input: (systemFont: boolean) => ({
+  input: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
     flex: 1,
-    fontFamily: systemFont ? fonts.system : fonts.sans,
-    fontSize: theme.typography[3].fontSize,
+    fontFamily: fonts[font],
+    fontSize: theme.typography[3].fontSize * scaling,
     minHeight: 400,
     padding: theme.space[4],
   }),

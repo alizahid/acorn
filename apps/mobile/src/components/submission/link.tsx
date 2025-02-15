@@ -4,14 +4,14 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
-import { fonts } from '~/lib/fonts'
+import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
 import { View } from '../common/view'
 
 export function SubmissionLink() {
-  const { fontSystem } = usePreferences()
+  const { font, fontScaling, systemScaling } = usePreferences()
 
   const t = useTranslations('component.submission.link')
 
@@ -27,6 +27,7 @@ export function SubmissionLink() {
         <View>
           <TextInput
             {...field}
+            allowFontScaling={systemScaling}
             autoCapitalize="none"
             autoComplete="url"
             autoCorrect={false}
@@ -34,7 +35,7 @@ export function SubmissionLink() {
             placeholder={t('placeholder')}
             placeholderTextColor={theme.colors.gray.accent}
             selectionColor={theme.colors.accent.accent}
-            style={styles.input(fontSystem)}
+            style={styles.input(font, fontScaling)}
           />
 
           {fieldState.error ? (
@@ -52,10 +53,10 @@ const stylesheet = createStyleSheet((theme) => ({
   error: {
     color: theme.colors.red.accent,
   },
-  input: (systemFont: boolean) => ({
+  input: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
-    fontFamily: systemFont ? fonts.system : fonts.sans,
-    fontSize: theme.typography[4].fontSize,
+    fontFamily: fonts[font],
+    fontSize: theme.typography[4].fontSize * scaling,
     padding: theme.space[4],
   }),
 }))

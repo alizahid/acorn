@@ -6,11 +6,11 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
 export function useTheme() {
-  const { fontSystem, themeOled, themeTint } = usePreferences()
+  const { font, themeOled, themeTint } = usePreferences()
 
   const { theme } = useStyles()
 
-  const fontFamily = fontSystem ? fonts.system : fonts.sans
+  const fontFamily = fonts[font]
 
   return {
     colors: {
