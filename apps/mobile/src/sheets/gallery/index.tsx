@@ -122,7 +122,6 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
 
       <GestureDetector gesture={gesture}>
         <Animated.FlatList
-          contentContainerStyle={styles.content}
           data={images}
           decelerationRate="fast"
           getItemLayout={(data, index) => ({
@@ -246,9 +245,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     position: 'absolute',
     right: theme.space[4],
     top: theme.space[4] + runtime.insets.top,
-  },
-  content: {
-    alignItems: 'center',
   },
   footer: {
     alignItems: 'center',

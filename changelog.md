@@ -8,6 +8,7 @@
 - added: long press profile to open account switcher
 - changed: font settings moved to appearance
 - changed: dimmed posts now have decreased opacity
+- fixed: gallery issues
 
 ## Build 41
 

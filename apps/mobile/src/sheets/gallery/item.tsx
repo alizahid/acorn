@@ -62,16 +62,10 @@ export function GalleryItem({ image, onZoomIn, onZoomOut }: Props) {
   )
 
   return (
-    <>
-      <Zoomable
-        isDoubleTapEnabled
-        minScale={0.5}
-        scale={scale}
-        style={styles.zoomable(image.width, image.height)}
-      >
+    <View style={styles.main(image.width / image.height)}>
+      <Zoomable isDoubleTapEnabled minScale={0.5} scale={scale}>
         <Image
           {...placeholder}
-          contentFit="contain"
           pointerEvents="none"
           recyclingKey={image.url}
           ref={ref}
@@ -82,46 +76,40 @@ export function GalleryItem({ image, onZoomIn, onZoomOut }: Props) {
 
       {image.type === 'gif' ? (
         <View pointerEvents="box-none" style={styles.overlay}>
-          <View style={styles.controls(image.width / image.height)}>
-            <View style={styles.gif}>
-              <Text contrast size="1" weight="medium">
-                {t('gif')}
-              </Text>
-            </View>
-
-            <Pressable
-              hitSlop={theme.space[2]}
-              onPress={() => {
-                if (playing) {
-                  void ref.current?.stopAnimating()
-                } else {
-                  void ref.current?.startAnimating()
-                }
-
-                setPlaying(!playing)
-              }}
-              p="2"
-              style={styles.play}
-            >
-              <Icon
-                color={theme.colors.gray.contrast}
-                name={playing ? 'Pause' : 'Play'}
-                size={theme.space[4]}
-                weight="fill"
-              />
-            </Pressable>
+          <View style={styles.gif}>
+            <Text contrast size="1" weight="medium">
+              {t('gif')}
+            </Text>
           </View>
+
+          <Pressable
+            hitSlop={theme.space[2]}
+            onPress={() => {
+              if (playing) {
+                void ref.current?.stopAnimating()
+              } else {
+                void ref.current?.startAnimating()
+              }
+
+              setPlaying(!playing)
+            }}
+            p="2"
+            style={styles.play}
+          >
+            <Icon
+              color={theme.colors.gray.contrast}
+              name={playing ? 'Pause' : 'Play'}
+              size={theme.space[4]}
+              weight="fill"
+            />
+          </Pressable>
         </View>
       ) : null}
-    </>
+    </View>
   )
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  controls: (aspectRatio: number) => ({
-    aspectRatio,
-    marginVertical: 'auto',
-  }),
   gif: {
     backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
@@ -135,6 +123,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   image: {
     flex: 1,
   },
+  main: (aspectRatio: number) => ({
+    aspectRatio,
+    marginVertical: 'auto',
+    width: runtime.screen.width,
+  }),
   overlay: {
     ...StyleSheet.absoluteFillObject,
   },
@@ -146,10 +139,4 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     position: 'absolute',
     right: theme.space[2],
   },
-  zoomable: (width: number, height: number) => ({
-    aspectRatio: width / height,
-    maxHeight: runtime.screen.height,
-    maxWidth: runtime.screen.width,
-    width,
-  }),
 }))
