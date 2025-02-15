@@ -148,6 +148,9 @@ export default function Screen() {
       {...listProps}
       data={data}
       estimatedItemSize={48}
+      extraData={{
+        selected,
+      }}
       getItemType={(item) => {
         if (item === null) {
           return 'separator'
