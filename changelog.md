@@ -3,6 +3,8 @@
 ## Upcoming
 
 - added: hide controls when zooming in
+- added: more fonts
+- added: font scaling
 - added: long press profile to open account switcher
 - changed: font settings moved to appearance
 - changed: dimmed posts now have decreased opacity

@@ -19,7 +19,10 @@ import { Code } from './code'
 import { findMedia, Media } from './media'
 import { Spoiler } from './spoiler'
 
-type TextProps = Pick<TextStyleProps, 'align' | 'color' | 'weight'> & {
+type TextProps = Pick<
+  TextStyleProps,
+  'align' | 'color' | 'italic' | 'weight'
+> & {
   onPress?: () => void
   style?: TextStyle
 }
@@ -95,7 +98,7 @@ export function Node({ node, ...props }: Props) {
         key={index}
         node={child}
         text={{
-          style: styles.emphasis,
+          italic: true,
         }}
       />
     ))
@@ -378,9 +381,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   delete: {
     textDecorationLine: 'line-through',
     textDecorationStyle: 'solid',
-  },
-  emphasis: {
-    fontStyle: 'italic',
   },
   inlineCode: {
     alignSelf: 'flex-start',

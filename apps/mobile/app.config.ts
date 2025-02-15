@@ -33,7 +33,16 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     [
       'expo-font',
       {
-        fonts: ['./assets/fonts/sans.woff2', './assets/fonts/mono.woff2'],
+        fonts: [
+          './assets/fonts/basis-upright.woff2',
+          './assets/fonts/basis-italic.woff2',
+          './assets/fonts/fold-upright.woff2',
+          './assets/fonts/fold-italic.woff2',
+          './assets/fonts/apercu-upright.woff2',
+          './assets/fonts/apercu-italic.woff2',
+          './assets/fonts/mono-upright.woff2',
+          './assets/fonts/mono-italic.woff2',
+        ],
       },
     ],
     [

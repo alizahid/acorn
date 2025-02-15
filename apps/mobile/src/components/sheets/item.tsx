@@ -1,6 +1,6 @@
 import { type SFSymbol, SymbolView } from 'expo-symbols'
 import { type ReactNode } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
@@ -26,6 +26,7 @@ type Icon =
 type Props = {
   icon?: Icon
   label: string
+  labelStyle?: StyleProp<TextStyle>
   left?: ReactNode
   navigate?: boolean
   onPress: () => void
@@ -38,6 +39,7 @@ type Props = {
 export function SheetItem({
   icon,
   label,
+  labelStyle,
   left,
   navigate,
   onPress,
@@ -77,7 +79,12 @@ export function SheetItem({
         left
       )}
 
-      <Text lines={1} size={size} style={styles.label} weight="medium">
+      <Text
+        lines={1}
+        size={size}
+        style={[styles.label, labelStyle]}
+        weight="medium"
+      >
         {label}
       </Text>
 

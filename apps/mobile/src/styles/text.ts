@@ -5,7 +5,7 @@ import {
   type UnistylesValues,
 } from 'react-native-unistyles/lib/typescript/src/types'
 
-import { fonts } from '~/lib/fonts'
+import { type Font, fonts } from '~/lib/fonts'
 import { type ColorToken, type TypographyToken } from '~/styles/tokens'
 
 import { getMargin, type MarginProps } from './space'
@@ -17,6 +17,7 @@ export type TextStyleProps = {
   color?: ColorToken
   contrast?: boolean
   highContrast?: boolean
+  italic?: boolean
   size?: TypographyToken
   tabular?: boolean
   variant?: 'sans' | 'mono'
@@ -33,10 +34,12 @@ export function getTextStyles(theme: UnistylesTheme) {
       highContrast = color === 'gray',
       size = '3',
       tabular,
+      italic,
       weight = 'regular',
       ...props
     }: TextStyleProps,
-    systemFont: boolean,
+    font: Font,
+    scaling: number,
   ) {
     const fontVariant: Array<FontVariant> = ['no-contextual', 'stylistic-four']
 
@@ -50,13 +53,9 @@ export function getTextStyles(theme: UnistylesTheme) {
         theme.colors[color][
           contrast ? 'contrast' : highContrast ? 'text' : 'textLow'
         ],
-      fontFamily:
-        variant === 'mono'
-          ? fonts.mono
-          : systemFont
-            ? fonts.system
-            : fonts.sans,
-      fontSize: theme.typography[size].fontSize,
+      fontFamily: variant === 'mono' ? fonts.mono : fonts[font],
+      fontSize: theme.typography[size].fontSize * scaling,
+      fontStyle: italic ? 'italic' : 'normal',
       fontVariant,
       fontWeight: weights[weight],
       lineHeight: theme.typography[size].lineHeight,

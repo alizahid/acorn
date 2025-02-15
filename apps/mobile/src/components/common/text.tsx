@@ -27,19 +27,19 @@ export function Text({
   style,
   ...props
 }: Props) {
-  const { fontScaling, fontSystem } = usePreferences()
+  const { font, fontScaling, systemScaling } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
   if (onPress ?? slow) {
     return (
       <ReactNativeText
-        allowFontScaling={fontScaling}
+        allowFontScaling={systemScaling}
         ellipsizeMode={lines ? 'tail' : undefined}
         numberOfLines={lines}
         onPress={onPress}
         selectable={selectable}
-        style={[styles.main(props, fontSystem) as TextStyle, style]}
+        style={[styles.main(props, font, fontScaling) as TextStyle, style]}
       >
         {children}
       </ReactNativeText>
@@ -48,12 +48,12 @@ export function Text({
 
   // eslint-disable-next-line react/no-children-prop -- go away
   return createElement('RCTText', {
-    allowFontScaling: fontScaling,
+    allowFontScaling: systemScaling,
     children,
     ellipsizeMode: lines ? 'tail' : undefined,
     numberOfLines: lines,
     selectable,
-    style: [styles.main(props, fontSystem), style],
+    style: [styles.main(props, font, fontScaling), style],
   })
 }
 

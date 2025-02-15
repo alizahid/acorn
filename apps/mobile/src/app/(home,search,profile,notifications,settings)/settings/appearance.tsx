@@ -3,11 +3,13 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
+import { Slider } from '~/components/common/slider'
 import { Switch } from '~/components/common/switch'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { SheetItem } from '~/components/sheets/item'
 import { useList } from '~/hooks/list'
+import { fonts } from '~/lib/fonts'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 import { type ColorToken } from '~/styles/tokens'
 
@@ -18,10 +20,11 @@ export default function Screen() {
     blurNavigation,
     coloredComments,
     feedCompact,
+    font,
     fontScaling,
-    fontSystem,
     largeThumbnails,
     mediaOnRight,
+    systemScaling,
     theme: selected,
     themeOled,
     themeTint,
@@ -81,18 +84,43 @@ export default function Screen() {
     },
     null,
 
-    t('typography.title'),
+    t('fontScaling.title'),
     {
-      icon: 'TextAa',
-      key: 'fontScaling',
-      label: t('typography.fontScaling'),
-      value: fontScaling,
+      key: 'systemScaling',
+      label: t('fontScaling.systemScaling'),
+      value: systemScaling,
     },
     {
-      icon: 'TextT',
-      key: 'fontSystem',
-      label: t('typography.fontSystem'),
-      value: fontSystem,
+      key: 'fontScaling',
+      type: 'slider',
+      value: fontScaling,
+    },
+    null,
+
+    t('font.title'),
+    {
+      font: 'basis',
+      key: 'basis',
+      label: t('font.basis'),
+      value: font,
+    },
+    {
+      font: 'apercu',
+      key: 'apercu',
+      label: t('font.apercu'),
+      value: font,
+    },
+    {
+      font: 'fold',
+      key: 'fold',
+      label: t('font.fold'),
+      value: font,
+    },
+    {
+      font: 'system',
+      key: 'system',
+      label: t('font.system'),
+      value: font,
     },
     null,
 
@@ -166,6 +194,7 @@ export default function Screen() {
       data={data}
       estimatedItemSize={48}
       extraData={{
+        font,
         selected,
       }}
       getItemType={(item) => {
@@ -207,6 +236,23 @@ export default function Screen() {
           )
         }
 
+        if ('font' in item) {
+          return (
+            <SheetItem
+              label={item.label}
+              labelStyle={{
+                fontFamily: fonts[item.key],
+              }}
+              onPress={() => {
+                update({
+                  font: item.key,
+                })
+              }}
+              selected={item.key === font}
+            />
+          )
+        }
+
         if ('color' in item) {
           return (
             <SheetItem
@@ -230,13 +276,33 @@ export default function Screen() {
           )
         }
 
+        if ('type' in item) {
+          return (
+            <Slider
+              disabled={systemScaling}
+              max={1.2}
+              min={0.8}
+              onChange={(next) => {
+                update({
+                  [item.key]: next,
+                })
+              }}
+              step={0.1}
+              style={styles.slider}
+              value={item.value}
+            />
+          )
+        }
+
         return (
           <View align="center" direction="row" gap="3" height="8" px="3">
-            <Icon
-              color={theme.colors.accent.accent}
-              name={item.icon}
-              weight="duotone"
-            />
+            {'icon' in item ? (
+              <Icon
+                color={theme.colors.accent.accent}
+                name={item.icon}
+                weight="duotone"
+              />
+            ) : null}
 
             <Text lines={1} style={styles.label} weight="medium">
               {item.label}
@@ -268,9 +334,6 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  header: {
-    backgroundColor: theme.colors.gray.bgAlt,
-  },
   icon: (color: ColorToken | 'acorn') => ({
     backgroundColor: theme.colors[color === 'acorn' ? 'orange' : color].accent,
     borderCurve: 'continuous',
@@ -281,5 +344,8 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   label: {
     flex: 1,
+  },
+  slider: {
+    marginHorizontal: theme.space[3],
   },
 }))

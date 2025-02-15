@@ -3,6 +3,7 @@ import { persist } from 'zustand/middleware'
 
 import { type FloatingButtonSide } from '~/components/common/floating-button'
 import { type Gestures } from '~/components/common/gestures'
+import { type Font } from '~/lib/fonts'
 import { Store } from '~/lib/store'
 import { type Theme } from '~/styles/themes'
 import {
@@ -30,8 +31,8 @@ export type PreferencesPayload = {
   feedType: FeedType
   feedbackHaptics: boolean
   feedbackSounds: boolean
-  fontScaling: boolean
-  fontSystem: boolean
+  font: Font
+  fontScaling: number
   hapticsLoud: boolean
   hideSeen: boolean
   intervalCommunityPosts: TopInterval
@@ -60,6 +61,7 @@ export type PreferencesPayload = {
   sortUserPosts: UserFeedSort
   stickyDrawer: boolean
   swipeGestures: boolean
+  systemScaling: boolean
   theme: Theme
   themeOled: boolean
   themeTint: boolean
@@ -91,8 +93,8 @@ export const usePreferences = create<State>()(
       feedType: 'home',
       feedbackHaptics: false,
       feedbackSounds: false,
-      fontScaling: false,
-      fontSystem: false,
+      font: 'basis',
+      fontScaling: 1,
       hapticsLoud: false,
       hideSeen: false,
       intervalCommunityPosts: 'hour',
@@ -126,6 +128,7 @@ export const usePreferences = create<State>()(
       sortUserPosts: 'new',
       stickyDrawer: true,
       swipeGestures: true,
+      systemScaling: false,
       theme: 'acorn',
       themeOled: false,
       themeTint: true,
@@ -143,11 +146,15 @@ export const usePreferences = create<State>()(
           state.theme = 'acorn'
         }
 
+        if (version === 2) {
+          state.fontScaling = 1
+        }
+
         return state
       },
       name: PREFERENCES_KEY,
       storage: new Store(PREFERENCES_KEY),
-      version: 2,
+      version: 3,
     },
   ),
 )

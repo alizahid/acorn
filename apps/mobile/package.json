@@ -29,6 +29,7 @@
     "@likashefqet/react-native-image-zoom": "^4.3.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/colors": "^3.0.0",
+    "@react-native-community/slider": "4.5.5",
     "@react-native-masked-view/masked-view": "0.3.2",
     "@react-navigation/native": "^7.0.14",
     "@sentry/react-native": "~6.3.0",
