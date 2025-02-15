@@ -64,10 +64,10 @@ export const SheetModal = forwardRef<BottomSheetModal, Props>(
 )
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  background: (oled: boolean, bg: boolean) => ({
+  background: (oled: boolean, tint: boolean) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].bg
-      : theme.colors[bg ? 'accent' : 'gray'].bg,
+      : theme.colors[tint ? 'accent' : 'gray'].bg,
   }),
   content: {
     paddingBottom: runtime.insets.bottom,

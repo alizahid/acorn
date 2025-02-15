@@ -33,10 +33,10 @@ export function SheetHeader({ right, style, title }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (oled: boolean, bg: boolean) => ({
+  main: (oled: boolean, tint: boolean) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].bg
-      : theme.colors[bg ? 'accent' : 'gray'].bgAlt,
+      : theme.colors[tint ? 'accent' : 'gray'].bgAlt,
   }),
   right: {
     bottom: 0,

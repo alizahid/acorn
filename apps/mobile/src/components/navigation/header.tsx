@@ -99,10 +99,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   left: {
     left: 0,
   },
-  main: (blur: boolean, oled: boolean, bg: boolean) => ({
+  main: (blur: boolean, oled: boolean, tint: boolean) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].bgAlpha
-      : theme.colors[bg ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
+      : theme.colors[tint ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
     borderBottomColor: oled ? 'transparent' : theme.colors.gray.border,
     borderBottomWidth: runtime.hairlineWidth,
     left: 0,
@@ -112,10 +112,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     top: 0,
     zIndex: 100,
   }),
-  modal: (oled: boolean, bg: boolean) => ({
+  modal: (oled: boolean, tint: boolean) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].bg
-      : theme.colors[bg ? 'accent' : 'gray'].bg,
+      : theme.colors[tint ? 'accent' : 'gray'].bg,
     borderBottomColor: oled ? 'transparent' : theme.colors.gray.border,
     borderBottomWidth: runtime.hairlineWidth,
   }),

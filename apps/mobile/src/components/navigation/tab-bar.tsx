@@ -115,10 +115,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       },
     ],
   },
-  main: (blur: boolean, oled: boolean, bg: boolean) => ({
+  main: (blur: boolean, oled: boolean, tint: boolean) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].bgAlpha
-      : theme.colors[bg ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
+      : theme.colors[tint ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
     borderTopColor: oled ? 'transparent' : theme.colors.gray.border,
     borderTopWidth: runtime.hairlineWidth,
     bottom: 0,

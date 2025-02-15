@@ -267,11 +267,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     ...StyleSheet.absoluteFillObject,
     zIndex: 100,
   },
-  overlay: (oled: boolean, bg: boolean) => ({
+  overlay: (oled: boolean, tint: boolean) => ({
     ...StyleSheet.absoluteFillObject,
     backgroundColor: oled
       ? oledTheme[theme.name].bg
-      : theme.colors[bg ? 'accent' : 'gray'].ui,
+      : theme.colors[tint ? 'accent' : 'gray'].ui,
   }),
   pagination: {
     alignSelf: 'center',
