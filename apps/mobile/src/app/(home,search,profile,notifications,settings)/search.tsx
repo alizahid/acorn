@@ -1,6 +1,5 @@
 import { useIsFocused } from '@react-navigation/native'
-import { useNavigation } from 'expo-router'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { type TextInput } from 'react-native'
 import { TabView } from 'react-native-tab-view'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -16,6 +15,7 @@ import { Header } from '~/components/navigation/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useList } from '~/hooks/list'
+import { useTabPress } from '~/hooks/tabs'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
@@ -28,7 +28,6 @@ const routes = useDefaults
   }))
 
 export default function Screen() {
-  const navigation = useNavigation()
   const focused = useIsFocused()
 
   const t = useTranslations('screen.search')
@@ -54,20 +53,9 @@ export default function Screen() {
 
   const [debounced] = useDebounce(query, 500)
 
-  useEffect(() => {
-    const tabs = navigation.getParent()
-
-    const unsubscribe = tabs?.addListener(
-      'tabPress' as unknown as 'focus',
-      () => {
-        search.current?.focus()
-      },
-    )
-
-    return () => {
-      unsubscribe?.()
-    }
-  }, [navigation])
+  useTabPress('tabPress', () => {
+    search.current?.focus()
+  })
 
   const onChangeQuery = useCallback((next: string) => {
     setQuery(next)

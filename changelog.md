@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: hide controls when zooming in
+- added: long press profile to open account switcher
 
 ## Build 41
 

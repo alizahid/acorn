@@ -1,7 +1,6 @@
 import { type BottomTabBarProps } from '@bottom-tabs/react-navigation'
 import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
-import { Pressable } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { runOnJS } from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -11,6 +10,7 @@ import { iPad, tintDark, tintLight } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
+import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 
@@ -23,13 +23,9 @@ export function TabBar({ descriptors, navigation, state }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  function goBack() {
-    router.back()
-  }
-
   const gesture = Gesture.Pan().onEnd((event) => {
     if (event.translationX > 100) {
-      runOnJS(goBack)()
+      runOnJS(router.back)()
     }
   })
 

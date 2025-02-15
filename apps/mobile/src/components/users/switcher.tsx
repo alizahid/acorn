@@ -4,6 +4,7 @@ import { useRef } from 'react'
 import ReorderableList, { reorderItems } from 'react-native-reorderable-list'
 import { useTranslations } from 'use-intl'
 
+import { useTabPress } from '~/hooks/tabs'
 import { useAuth } from '~/stores/auth'
 
 import { IconButton } from '../common/icon-button'
@@ -18,6 +19,10 @@ export function UserSwitcher() {
   const { accountId, accounts, removeAccount, reorder, setAccount } = useAuth()
 
   const sheet = useRef<BottomSheetModal>(null)
+
+  useTabPress('tabLongPress', () => {
+    sheet.current?.present()
+  })
 
   return (
     <>
