@@ -18,6 +18,8 @@ export default function Screen() {
     blurNavigation,
     coloredComments,
     feedCompact,
+    fontScaling,
+    fontSystem,
     largeThumbnails,
     mediaOnRight,
     theme: selected,
@@ -76,6 +78,21 @@ export default function Screen() {
       key: 'mediaOnRight',
       label: t('compact.mediaOnRight'),
       value: mediaOnRight,
+    },
+    null,
+
+    t('typography.title'),
+    {
+      icon: 'TextAa',
+      key: 'fontScaling',
+      label: t('typography.fontScaling'),
+      value: fontScaling,
+    },
+    {
+      icon: 'TextT',
+      key: 'fontSystem',
+      label: t('typography.fontSystem'),
+      value: fontSystem,
     },
     null,
 

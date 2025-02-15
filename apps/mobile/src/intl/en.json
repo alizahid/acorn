@@ -323,7 +323,12 @@
           "ruby": "Ruby",
           "title": "Themes"
         },
-        "title": "Appearance"
+        "title": "Appearance",
+        "typography": {
+          "fontScaling": "Use system font scaling",
+          "fontSystem": "Use system font",
+          "title": "Typography"
+        }
       },
       "cache": {
         "menu": {
@@ -446,8 +451,6 @@
           "right": "Right"
         },
         "system": {
-          "fontScaling": "Use system font scaling",
-          "fontSystem": "Use system font",
           "linkBrowser": "Open links in browser",
           "title": "System"
         },

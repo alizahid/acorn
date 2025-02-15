@@ -200,16 +200,6 @@ export default function Screen() {
             key: 'linkBrowser',
             label: 'system.linkBrowser',
           },
-          {
-            icon: 'TextAa',
-            key: 'fontScaling',
-            label: 'system.fontScaling',
-          },
-          {
-            icon: 'TextT',
-            key: 'fontSystem',
-            label: 'system.fontSystem',
-          },
 
           null,
           t('feedback.title'),
