@@ -4,6 +4,8 @@ import { useReorderableDrag } from 'react-native-reorderable-list'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type Account } from '~/stores/auth'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 
 import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon-button'
@@ -24,6 +26,8 @@ export function AccountCard({
   onRemove,
   selected,
 }: Props) {
+  const { themeOled, themeTint } = usePreferences()
+
   const drag = useReorderableDrag()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -54,7 +58,10 @@ export function AccountCard({
 
           onClose()
         }}
-        style={[styles.item, account.id === selected && styles.selected]}
+        style={[
+          styles.main(themeOled, themeTint),
+          account.id === selected && styles.selected,
+        ]}
       >
         <Icon
           color={theme.colors.gray.accent}
@@ -73,13 +80,15 @@ const stylesheet = createStyleSheet((theme) => ({
   delete: {
     backgroundColor: theme.colors.red.accent,
   },
-  item: {
+  main: (oled: boolean, tint: boolean) => ({
     alignItems: 'center',
-    backgroundColor: theme.colors.gray.bg,
+    backgroundColor: oled
+      ? oledTheme[theme.name].bg
+      : theme.colors[tint ? 'accent' : 'gray'].bg,
     flexDirection: 'row',
     gap: theme.space[3],
     padding: theme.space[3],
-  },
+  }),
   selected: {
     backgroundColor: theme.colors.accent.uiActive,
   },
