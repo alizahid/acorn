@@ -95,11 +95,17 @@ export function PostList({
               return
             }
 
-            viewableItems.forEach((item) => {
-              addPost({
-                id: (item.item as Post).id,
+            viewableItems
+              .filter((item) => {
+                const data = item.item as Post | Comment
+
+                return data.type !== 'reply' && data.type !== 'more'
               })
-            })
+              .forEach((item) => {
+                addPost({
+                  id: (item.item as Post).id,
+                })
+              })
           },
           viewabilityConfig: {
             viewAreaCoveragePercentThreshold: 60,
