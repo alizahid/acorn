@@ -1,4 +1,5 @@
 import * as ScreenOrientation from 'expo-screen-orientation'
+import * as StatusBar from 'expo-status-bar'
 import { useEffect, useRef, useState } from 'react'
 import { createCallable } from 'react-call'
 import { StyleSheet } from 'react-native'
@@ -9,6 +10,7 @@ import Animated, {
   useAnimatedScrollHandler,
   useAnimatedStyle,
   useSharedValue,
+  withSpring,
   withTiming,
 } from 'react-native-reanimated'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
@@ -68,7 +70,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
 
   useEffect(() => {
     if (call.ended) {
-      translate.set(() => withTiming(frame.height))
+      translate.set(() => withSpring(frame.height))
       opacity.set(() => withTiming(0))
 
       void ScreenOrientation.lockAsync(
@@ -103,7 +105,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
       translate.set(() => event.translationY)
     })
     .onEnd((event) => {
-      if (Math.abs(event.translationY) > 100 || event.velocityY > 1_000) {
+      if (Math.abs(event.translationY) > 100) {
         runOnJS(call.end)()
 
         return
@@ -132,7 +134,21 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
           initialScrollIndex={initial}
           keyExtractor={(item) => item.url}
           onScroll={onScroll}
-          renderItem={({ item }) => <GalleryItem image={item} />}
+          renderItem={({ item }) => (
+            <GalleryItem
+              image={item}
+              onZoomIn={() => {
+                opacity.set(() => withTiming(0))
+
+                StatusBar.setStatusBarHidden(true, 'fade')
+              }}
+              onZoomOut={() => {
+                opacity.set(() => withTiming(1))
+
+                StatusBar.setStatusBarHidden(false, 'fade')
+              }}
+            />
+          )}
           scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={images.map((image, index) => frame.width * index)}

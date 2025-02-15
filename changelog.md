@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- added: hide controls when zooming in
+
 ## Build 41
 
 - added: comments to user saved screen
