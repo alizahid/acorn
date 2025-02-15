@@ -29,11 +29,11 @@ export function TabBar({ descriptors, navigation, state }: Props) {
     }
   })
 
-  const Main = blurNavigation ? BlurView : View
+  const Component = blurNavigation ? BlurView : View
 
   return (
     <GestureDetector gesture={gesture}>
-      <Main
+      <Component
         intensity={themeOled ? 25 : 75}
         style={styles.main(blurNavigation, themeOled, themeTint)}
         tint={theme.name === 'dark' ? tintDark : tintLight}
@@ -89,7 +89,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
               </Pressable>
             )
           })}
-      </Main>
+      </Component>
     </GestureDetector>
   )
 }
@@ -123,7 +123,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     left: 0,
     position: 'absolute',
     right: 0,
-    zIndex: 100,
   }),
   tab: {
     alignItems: 'center',

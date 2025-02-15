@@ -1,8 +1,12 @@
 import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
 import { type ReactNode } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type ViewStyle } from 'react-native'
+import {
+  createStyleSheet,
+  type UnistylesValues,
+  useStyles,
+} from 'react-native-unistyles'
 
 import { tintDark, tintLight } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -18,36 +22,29 @@ type Props = {
   left?: ReactNode
   modal?: boolean
   right?: ReactNode
-  style?: StyleProp<ViewStyle>
   title?: ReactNode
 }
 
-export function Header({
-  back,
-  children,
-  left,
-  modal,
-  right,
-  style,
-  title,
-}: Props) {
+export function Header({ back, children, left, modal, right, title }: Props) {
   const router = useRouter()
 
   const { blurNavigation, themeOled, themeTint } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const Main = modal ? View : blurNavigation ? BlurView : View
+  const Component = blurNavigation ? BlurView : View
 
   return (
-    <Main
+    <Component
       intensity={themeOled ? 25 : 75}
-      style={[
-        modal
-          ? styles.modal(themeOled, themeTint)
-          : styles.main(blurNavigation, themeOled, themeTint),
-        style,
-      ]}
+      style={
+        styles.main(
+          Boolean(modal),
+          blurNavigation,
+          themeOled,
+          themeTint,
+        ) as ViewStyle
+      }
       tint={theme.name === 'dark' ? tintDark : tintLight}
     >
       <View align="center" height="8" justify="center">
@@ -87,7 +84,7 @@ export function Header({
       </View>
 
       {children}
-    </Main>
+    </Component>
   )
 }
 
@@ -99,26 +96,33 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   left: {
     left: 0,
   },
-  main: (blur: boolean, oled: boolean, tint: boolean) => ({
-    backgroundColor: oled
-      ? oledTheme[theme.name].bgAlpha
-      : theme.colors[tint ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
-    borderBottomColor: oled ? 'transparent' : theme.colors.gray.border,
-    borderBottomWidth: runtime.hairlineWidth,
-    left: 0,
-    paddingTop: runtime.insets.top,
-    position: 'absolute',
-    right: 0,
-    top: 0,
-    zIndex: 100,
-  }),
-  modal: (oled: boolean, tint: boolean) => ({
-    backgroundColor: oled
-      ? oledTheme[theme.name].bg
-      : theme.colors[tint ? 'accent' : 'gray'].bg,
-    borderBottomColor: oled ? 'transparent' : theme.colors.gray.border,
-    borderBottomWidth: runtime.hairlineWidth,
-  }),
+  main: (modal: boolean, blur: boolean, oled: boolean, tint: boolean) => {
+    const base: UnistylesValues = {
+      borderBottomColor: oled ? 'transparent' : theme.colors.gray.border,
+      borderBottomWidth: runtime.hairlineWidth,
+    }
+
+    if (modal) {
+      return {
+        ...base,
+        backgroundColor: oled
+          ? oledTheme[theme.name].bg
+          : theme.colors[tint ? 'accent' : 'gray'].bg,
+      }
+    }
+
+    return {
+      ...base,
+      backgroundColor: oled
+        ? oledTheme[theme.name].bgAlpha
+        : theme.colors[tint ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
+      left: 0,
+      paddingTop: runtime.insets.top,
+      position: 'absolute',
+      right: 0,
+      top: 0,
+    }
+  },
   right: {
     right: 0,
   },
