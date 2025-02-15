@@ -162,6 +162,7 @@
   "patchedDependencies": {
     "recyclerlistview@4.2.1": "patches/recyclerlistview@4.2.1.patch",
     "@bacons/apple-targets@0.2.1": "patches/@bacons%2Fapple-targets@0.2.1.patch",
+    "@shopify/flash-list@1.7.3": "patches/@shopify%2Fflash-list@1.7.3.patch",
     "devlop@1.1.0": "patches/devlop@1.1.0.patch",
     "unist-util-visit-parents@6.0.1": "patches/unist-util-visit-parents@6.0.1.patch",
   },

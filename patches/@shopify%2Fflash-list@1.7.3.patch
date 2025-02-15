@@ -1,8 +1,8 @@
 diff --git a/dist/FlashList.js b/dist/FlashList.js
-index 78626b5978090cb14cc75a9899972cd8137e257b..8fbb94818a4e95591e532ae0a5827715febe38ed 100644
+index 486a2847b0dfd68baf3712f063f42d96fb6f638c..04cf9892f269bab19da5b6258263dd764ee655d0 100644
 --- a/dist/FlashList.js
 +++ b/dist/FlashList.js
-@@ -389,7 +389,7 @@ var FlashList = /** @class */ (function (_super) {
+@@ -391,7 +391,7 @@ var FlashList = /** @class */ (function (_super) {
                  ? tslib_1.__assign({}, this.getTransform()) : tslib_1.__assign({ flex: 1, overflow: "hidden" }, this.getTransform()) },
              react_1.default.createElement(recyclerlistview_1.ProgressiveListView, tslib_1.__assign({}, restProps, { ref: this.recyclerRef, layoutProvider: this.state.layoutProvider, dataProvider: this.state.dataProvider, rowRenderer: this.emptyRowRenderer, canChangeSize: true, isHorizontal: Boolean(horizontal), scrollViewProps: tslib_1.__assign({ onScrollBeginDrag: this.onScrollBeginDrag, onLayout: this.handleSizeChange, refreshControl: this.props.refreshControl || this.getRefreshControl(), 
                      // Min values are being used to suppress RLV's bounded exception
