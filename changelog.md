@@ -5,6 +5,7 @@
 - added: hide controls when zooming in
 - added: long press profile to open account switcher
 - changed: font settings moved to appearance
+- changed: dimmed posts now have decreased opacity
 
 ## Build 41
 

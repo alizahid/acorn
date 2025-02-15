@@ -11,10 +11,9 @@ export type PostLabel = 'user' | 'subreddit'
 
 type Props = {
   post: Post
-  seen?: boolean
 }
 
-export function PostMeta({ post, seen }: Props) {
+export function PostMeta({ post }: Props) {
   const f = useFormatter()
 
   const { theme } = useStyles()
@@ -71,14 +70,14 @@ export function PostMeta({ post, seen }: Props) {
             color={
               'color' in item && item.color
                 ? item.color
-                : theme.colors.gray[seen ? 'textLow' : 'text']
+                : theme.colors.gray.text
             }
             name={item.icon}
             size={theme.typography[1].fontSize}
             weight={'weight' in item ? item.weight : undefined}
           />
 
-          <Text highContrast={!seen} size="1" tabular>
+          <Text size="1" tabular>
             {item.label}
           </Text>
         </View>

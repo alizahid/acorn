@@ -10,12 +10,11 @@ import { View } from '../common/view'
 
 type Props = {
   flair: Array<Flair>
-  seen?: boolean
   style?: StyleProp<ViewStyle>
   type?: 'emoji' | 'text'
 }
 
-export function FlairCard({ flair, seen, style, type }: Props) {
+export function FlairCard({ flair, style, type }: Props) {
   const { showFlair } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
@@ -37,9 +36,7 @@ export function FlairCard({ flair, seen, style, type }: Props) {
 
         return (
           <View key={item.id} style={styles.text}>
-            <Text highContrast={!seen} size="1">
-              {item.value}
-            </Text>
+            <Text size="1">{item.value}</Text>
           </View>
         )
       })}

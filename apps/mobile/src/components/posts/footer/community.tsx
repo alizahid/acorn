@@ -12,10 +12,9 @@ export type PostLabel = 'user' | 'subreddit'
 type Props = {
   label?: PostLabel
   post: Post
-  seen?: boolean
 }
 
-export function PostCommunity({ label, post, seen }: Props) {
+export function PostCommunity({ label, post }: Props) {
   const router = useRouter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -62,7 +61,7 @@ export function PostCommunity({ label, post, seen }: Props) {
     >
       {image ? <Image source={image} style={styles.image} /> : null}
 
-      <Text highContrast={!seen} lines={1} size="2" weight="medium">
+      <Text lines={1} size="2" weight="medium">
         {label === 'subreddit' ? post.community.name : post.user.name}
       </Text>
     </Pressable>

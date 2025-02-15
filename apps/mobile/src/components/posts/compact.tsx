@@ -20,7 +20,6 @@ type Props = {
   onLongPress?: () => void
   onPress: () => void
   post: Post
-  seen?: boolean
   side?: 'left' | 'right'
 }
 
@@ -30,7 +29,6 @@ export function PostCompactCard({
   onLongPress,
   onPress,
   post,
-  seen,
   side = 'left',
 }: Props) {
   const { largeThumbnails } = usePreferences()
@@ -93,13 +91,11 @@ export function PostCompactCard({
       ) : null}
 
       <View align="start" flex={1} gap="2">
-        <PostCommunity label={label} post={post} seen={seen} />
+        <PostCommunity label={label} post={post} />
 
-        <Text highContrast={!seen} weight="bold">
-          {post.title}
-        </Text>
+        <Text weight="bold">{post.title}</Text>
 
-        <PostMeta post={post} seen={seen} />
+        <PostMeta post={post} />
       </View>
 
       {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}

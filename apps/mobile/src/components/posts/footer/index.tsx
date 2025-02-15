@@ -18,16 +18,9 @@ type Props = {
   label?: PostLabel
   onLongPress?: () => void
   post: Post
-  seen?: boolean
 }
 
-export function PostFooter({
-  expanded,
-  label,
-  onLongPress,
-  post,
-  seen,
-}: Props) {
+export function PostFooter({ expanded, label, onLongPress, post }: Props) {
   const router = useRouter()
 
   const { theme } = useStyles()
@@ -53,15 +46,15 @@ export function PostFooter({
       p="3"
     >
       <View gap="2">
-        <PostCommunity label={label} post={post} seen={seen} />
+        <PostCommunity label={label} post={post} />
 
-        <PostMeta post={post} seen={seen} />
+        <PostMeta post={post} />
       </View>
 
       <View align="center" direction="row" gap="2">
         {expanded && onLongPress ? (
           <FooterButton
-            color={theme.colors.gray[seen ? 'textLow' : 'text']}
+            color={theme.colors.gray.text}
             icon="DotsThree"
             onPress={() => {
               onLongPress()
@@ -72,9 +65,7 @@ export function PostFooter({
 
         <FooterButton
           color={
-            post.liked
-              ? theme.colors.orange.accent
-              : theme.colors.gray[seen ? 'textLow' : 'text']
+            post.liked ? theme.colors.orange.accent : theme.colors.gray.text
           }
           fill={post.liked === true}
           icon="ArrowUp"
@@ -91,7 +82,7 @@ export function PostFooter({
           color={
             post.liked === false
               ? theme.colors.violet.accent
-              : theme.colors.gray[seen ? 'textLow' : 'text']
+              : theme.colors.gray.text
           }
           fill={post.liked === false}
           icon="ArrowDown"

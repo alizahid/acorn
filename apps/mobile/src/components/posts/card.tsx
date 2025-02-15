@@ -1,6 +1,11 @@
 import { useRouter } from 'expo-router'
-import { useCallback } from 'react'
+import { useCallback, useEffect } from 'react'
 import { Share, type StyleProp, type ViewStyle } from 'react-native'
+import {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useHide } from '~/hooks/moderation/hide'
@@ -50,9 +55,19 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
+  const opacity = useSharedValue(dimSeen ? (post.seen ? 0.5 : 1) : 1)
+
+  const dim = useAnimatedStyle(() => ({
+    opacity: opacity.get(),
+  }))
+
   const { vote } = usePostVote()
   const { save } = usePostSave()
   const { hide } = useHide()
+
+  useEffect(() => {
+    opacity.set(() => withTiming(dimSeen ? (post.seen ? 0.5 : 1) : 1))
+  }, [dimSeen, opacity, post.seen])
 
   const onAction = useCallback(
     (item: Post, action: GestureAction) => {
@@ -110,7 +125,6 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   const body = Boolean(expanded) && Boolean(post.body)
   const compact = feedCompact && !expanded
-  const seen = dimSeen && post.seen && !expanded
   const media =
     (post.type === 'crosspost' && Boolean(post.crossPost)) ||
     (post.type === 'video' && Boolean(post.media.video)) ||
@@ -138,14 +152,14 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   if (compact) {
     return (
       <PostGestures
-        containerStyle={styles.container}
+        containerStyle={[styles.container, dim]}
         data={post}
         disabled={!swipeGestures}
         gestures={postGestures}
         onAction={(action) => {
           onAction(post, action)
         }}
-        style={[styles.main(seen, themeOled), style]}
+        style={[styles.main(themeOled), style]}
       >
         <PostCompactCard
           expanded={expanded}
@@ -153,7 +167,6 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           onLongPress={onLongPress}
           onPress={onPress}
           post={post}
-          seen={seen}
           side={mediaOnRight ? 'right' : 'left'}
         />
       </PostGestures>
@@ -162,14 +175,14 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   return (
     <PostGestures
-      containerStyle={styles.container}
+      containerStyle={[styles.container, dim]}
       data={post}
       disabled={!swipeGestures}
       gestures={postGestures}
       onAction={(action) => {
         onAction(post, action)
       }}
-      style={[styles.main(seen, themeOled), style]}
+      style={[styles.main(themeOled), style]}
     >
       <Pressable
         align="start"
@@ -181,11 +194,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         pt="3"
         px="3"
       >
-        <Text highContrast={!seen} weight="bold">
-          {post.title}
-        </Text>
+        <Text weight="bold">{post.title}</Text>
 
-        <FlairCard flair={post.flair} seen={seen} />
+        <FlairCard flair={post.flair} />
       </Pressable>
 
       {post.type === 'crosspost' && post.crossPost ? (
@@ -246,7 +257,6 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         label={label}
         onLongPress={onLongPress}
         post={post}
-        seen={seen}
       />
 
       {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
@@ -268,10 +278,8 @@ const stylesheet = createStyleSheet((theme) => ({
   expanded: {
     marginBottom: theme.space[3],
   },
-  main: (seen: boolean, oled: boolean) => ({
-    backgroundColor: oled
-      ? oledTheme[theme.name].bg
-      : theme.colors.gray[seen ? 'bgAlt' : 'ui'],
+  main: (oled: boolean) => ({
+    backgroundColor: oled ? oledTheme[theme.name].bg : theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[3] : undefined,
     overflow: 'hidden',
