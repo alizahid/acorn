@@ -121,6 +121,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       position: 'absolute',
       right: 0,
       top: 0,
+      zIndex: 100,
     }
   },
   right: {

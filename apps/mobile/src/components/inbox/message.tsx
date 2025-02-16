@@ -31,6 +31,7 @@ export function MessageCard({ message }: Props) {
 
   return (
     <Pressable
+      delayed
       disabled={!message.new}
       onPress={() => {
         mark({
