@@ -26,7 +26,7 @@ export default function Screen() {
   const t = useTranslations('screen.settings.sort')
   const tCommon = useTranslations('component.common')
 
-  const { update, ...preferences } = usePreferences()
+  const { rememberSorting, update, ...preferences } = usePreferences()
 
   const { theme } = useStyles()
 
@@ -82,6 +82,9 @@ export default function Screen() {
     <Menu
       items={(
         [
+          'remember' as const,
+          null,
+
           t('feed.title'),
           [
             'sortFeedPosts',
@@ -151,6 +154,19 @@ export default function Screen() {
           ],
         ] as const
       ).map((item) => {
+        if (item === 'remember') {
+          return {
+            label: t('remember'),
+            onSelect(value) {
+              update({
+                rememberSorting: value,
+              })
+            },
+            type: 'switch',
+            value: rememberSorting,
+          } satisfies MenuItem
+        }
+
         if (typeof item === 'string' || !item) {
           return item
         }
