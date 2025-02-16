@@ -186,6 +186,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
     >
       <Pressable
         align="start"
+        delayed
         disabled={expanded}
         gap="1"
         onLongPress={onLongPress}

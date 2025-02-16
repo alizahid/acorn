@@ -8,6 +8,8 @@ import {
   type ViewStyle,
 } from 'react-native'
 import Animated, {
+  runOnJS,
+  type SharedValue,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -20,6 +22,7 @@ const AnimatedPressable = Animated.createAnimatedComponent(ReactNativePressable)
 
 type Props = {
   children?: ReactNode
+  delayed?: boolean
   disabled?: boolean
   hitSlop?: number | Insets
   onLayout?: (event: LayoutChangeEvent) => void
@@ -30,6 +33,7 @@ type Props = {
 
 export function Pressable({
   children,
+  delayed,
   disabled,
   hitSlop,
   onLayout,
@@ -51,19 +55,39 @@ export function Pressable({
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}
-      onLongPress={onLongPress}
-      onPress={onPress}
+      onLongPress={(event) => {
+        onLongPress?.(event)
+
+        if (delayed && onLongPress) {
+          animate(opacity)
+        }
+      }}
+      onPress={(event) => {
+        onPress?.(event)
+
+        if (delayed && onPress) {
+          animate(opacity)
+        }
+      }}
       onPressIn={() => {
+        if (delayed) {
+          return
+        }
+
         opacity.set(() =>
           withTiming(0.5, {
-            duration: 100,
+            duration: 50,
           }),
         )
       }}
       onPressOut={() => {
+        if (delayed) {
+          return
+        }
+
         opacity.set(() =>
           withTiming(1, {
-            duration: 200,
+            duration: 100,
           }),
         )
       }}
@@ -77,3 +101,25 @@ export function Pressable({
 const stylesheet = createStyleSheet((theme) => ({
   main: getViewStyles(theme),
 }))
+
+function animate(value: SharedValue<number>) {
+  function out() {
+    value.set(() =>
+      withTiming(1, {
+        duration: 100,
+      }),
+    )
+  }
+
+  value.set(() =>
+    withTiming(
+      0.5,
+      {
+        duration: 50,
+      },
+      () => {
+        runOnJS(out)()
+      },
+    ),
+  )
+}

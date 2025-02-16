@@ -77,6 +77,7 @@ export function VideoPlayer({
   if (compact) {
     return (
       <Pressable
+        delayed
         onLongPress={onLongPress}
         onPress={() => {
           void ref.current?.enterFullscreen()
@@ -133,6 +134,7 @@ export function VideoPlayer({
 
   return (
     <Pressable
+      delayed
       onLongPress={onLongPress}
       onPress={() => {
         void ref.current?.enterFullscreen()

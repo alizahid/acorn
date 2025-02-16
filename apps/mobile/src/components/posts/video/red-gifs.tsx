@@ -51,7 +51,11 @@ export function RedGifsVideo({
   }
 
   return (
-    <Pressable onLongPress={onLongPress} style={styles.main(compact, large)}>
+    <Pressable
+      delayed
+      onLongPress={onLongPress}
+      style={styles.main(compact, large)}
+    >
       <View
         align="center"
         justify="center"

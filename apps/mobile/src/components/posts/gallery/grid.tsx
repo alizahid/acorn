@@ -35,6 +35,7 @@ export function ImageGrid({
 
     return (
       <Pressable
+        delayed
         onLongPress={onLongPress}
         onPress={() => {
           onPress(0)
@@ -72,6 +73,7 @@ export function ImageGrid({
         maxItemsPerColumn={2}
         renderItem={({ index, item }: { index: number; item: PostMedia }) => (
           <Pressable
+            delayed
             onLongPress={onLongPress}
             onPress={() => {
               onPress(index)

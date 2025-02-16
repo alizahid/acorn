@@ -46,6 +46,7 @@ export function CrossPostCard({
   if (compact) {
     return (
       <Pressable
+        delayed
         onLongPress={onLongPress}
         onPress={() => {
           router.navigate({
@@ -94,6 +95,7 @@ export function CrossPostCard({
 
   return (
     <Pressable
+      delayed
       mx="3"
       onLongPress={onLongPress}
       onPress={() => {

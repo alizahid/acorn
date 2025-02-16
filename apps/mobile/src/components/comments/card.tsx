@@ -124,6 +124,7 @@ export function CommentCard({
       ]}
     >
       <Pressable
+        delayed
         disabled={disabled}
         onLongPress={() => {
           void CommentMenu.call({

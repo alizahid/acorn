@@ -30,6 +30,7 @@ export function PostFooter({ expanded, label, onLongPress, post }: Props) {
   return (
     <Pressable
       align="center"
+      delayed
       direction="row"
       disabled={expanded}
       gap="4"
