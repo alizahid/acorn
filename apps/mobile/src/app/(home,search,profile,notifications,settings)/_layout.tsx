@@ -8,7 +8,7 @@ import { IconButton } from '~/components/common/icon-button'
 import { Text } from '~/components/common/text'
 import { drawer, HomeDrawer } from '~/components/home/drawer'
 import { StackHeader } from '~/components/navigation/stack-header'
-import { UserSwitcher } from '~/components/users/switcher'
+import { switcher } from '~/components/users/switcher'
 import { useHistory } from '~/hooks/history'
 import { modalStyle } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
@@ -76,7 +76,16 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="profile"
           options={{
-            headerRight: () => <UserSwitcher />,
+            headerRight: () => (
+              <IconButton
+                icon={{
+                  name: 'UserSwitch',
+                }}
+                onPress={() => {
+                  switcher.emit('open')
+                }}
+              />
+            ),
             title: accountId,
           }}
         />

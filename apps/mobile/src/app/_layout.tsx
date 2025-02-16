@@ -12,6 +12,7 @@ import { UnistylesRuntime } from 'react-native-unistyles'
 import { IntlProvider } from 'use-intl'
 
 import { RootLayout } from '~/components/navigation/layout'
+import { UserSwitcher } from '~/components/users/switcher'
 import { useTheme } from '~/hooks/theme'
 import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
@@ -64,6 +65,8 @@ function Acorn() {
                   <CommentMenu.Root />
 
                   <Gallery.Root />
+
+                  <UserSwitcher />
                 </IntlProvider>
               </PersistQueryClientProvider>
             </ThemeProvider>

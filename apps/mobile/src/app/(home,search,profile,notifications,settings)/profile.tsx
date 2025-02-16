@@ -6,8 +6,10 @@ import { FloatingButton } from '~/components/common/floating-button'
 import { type IconName } from '~/components/common/icon'
 import { Menu, type MenuItem } from '~/components/common/menu'
 import { ProfileCard } from '~/components/users/profile'
+import { switcher } from '~/components/users/switcher'
 import { useList } from '~/hooks/list'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { useTabPress } from '~/hooks/tabs'
 import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 import { type ColorToken } from '~/styles/tokens'
@@ -24,6 +26,10 @@ export default function Screen() {
   const { theme } = useStyles()
 
   const listProps = useList()
+
+  useTabPress('tabLongPress', () => {
+    switcher.emit('open')
+  })
 
   return (
     <>
