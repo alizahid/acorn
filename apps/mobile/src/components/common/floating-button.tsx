@@ -31,7 +31,11 @@ export function FloatingButton({
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <BlurView intensity={100} style={[styles.main(color, side), style]}>
+    <BlurView
+      intensity={100}
+      style={[styles.main(color, side), style]}
+      tint={theme.name}
+    >
       <IconButton
         hitSlop={theme.space[4]}
         icon={{

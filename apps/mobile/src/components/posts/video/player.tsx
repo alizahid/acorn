@@ -119,7 +119,12 @@ export function VideoPlayer({
         />
 
         {nsfw && blurNsfw ? (
-          <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
+          <BlurView
+            intensity={100}
+            pointerEvents="none"
+            style={styles.blur}
+            tint={theme.name}
+          >
             <Icon
               color={theme.colors.accent.accent}
               name="Warning"
@@ -172,7 +177,12 @@ export function VideoPlayer({
       />
 
       {nsfw && blurNsfw ? (
-        <BlurView intensity={100} pointerEvents="none" style={styles.blur}>
+        <BlurView
+          intensity={100}
+          pointerEvents="none"
+          style={styles.blur}
+          tint={theme.name}
+        >
           <Icon
             color={theme.colors.gray.text}
             name="Warning"
