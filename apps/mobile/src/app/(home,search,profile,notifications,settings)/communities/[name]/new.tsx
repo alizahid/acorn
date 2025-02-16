@@ -5,7 +5,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { useCallback, useEffect, useState } from 'react'
-import { FormProvider } from 'react-hook-form'
+import { Controller, FormProvider } from 'react-hook-form'
 import {
   KeyboardAwareScrollView,
   KeyboardEvents,
@@ -128,8 +128,6 @@ function Content({ refetch, submission }: Props) {
     }
   }, [])
 
-  const type = form.watch('type')
-
   return (
     <FormProvider {...form}>
       <KeyboardAwareScrollView
@@ -164,13 +162,19 @@ function Content({ refetch, submission }: Props) {
         <View flexGrow={1} my="4">
           <SubmissionTitle />
 
-          {type === 'image' ? (
-            <SubmissionImage />
-          ) : type === 'link' ? (
-            <SubmissionLink />
-          ) : (
-            <SubmissionText />
-          )}
+          <Controller
+            control={form.control}
+            name="type"
+            render={({ field }) =>
+              field.value === 'image' ? (
+                <SubmissionImage />
+              ) : field.value === 'link' ? (
+                <SubmissionLink />
+              ) : (
+                <SubmissionText />
+              )
+            }
+          />
         </View>
 
         {!visible ? (
