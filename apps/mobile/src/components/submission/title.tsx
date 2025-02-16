@@ -25,6 +25,12 @@ export function SubmissionTitle() {
       name="title"
       render={({ field, fieldState }) => (
         <View>
+          {fieldState.error ? (
+            <Text mx="4" size="2" style={styles.error}>
+              {fieldState.error.message}
+            </Text>
+          ) : null}
+
           <TextInput
             {...field}
             allowFontScaling={systemScaling}
@@ -34,12 +40,6 @@ export function SubmissionTitle() {
             selectionColor={theme.colors.accent.accent}
             style={styles.input(font, fontScaling)}
           />
-
-          {fieldState.error ? (
-            <Text mx="4" size="2" style={styles.error}>
-              {fieldState.error.message}
-            </Text>
-          ) : null}
         </View>
       )}
     />

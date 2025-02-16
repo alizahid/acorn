@@ -25,6 +25,12 @@ export function SubmissionText() {
       name="text"
       render={({ field, fieldState }) => (
         <View flexGrow={1}>
+          {fieldState.error ? (
+            <Text mx="4" size="2" style={styles.error}>
+              {fieldState.error.message}
+            </Text>
+          ) : null}
+
           <TextInput
             {...field}
             allowFontScaling={systemScaling}
@@ -35,12 +41,6 @@ export function SubmissionText() {
             selectionColor={theme.colors.accent.accent}
             style={styles.input(font, fontScaling)}
           />
-
-          {fieldState.error ? (
-            <Text mx="4" size="2" style={styles.error}>
-              {fieldState.error.message}
-            </Text>
-          ) : null}
         </View>
       )}
     />
