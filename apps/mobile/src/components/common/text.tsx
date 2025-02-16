@@ -39,7 +39,14 @@ export function Text({
         numberOfLines={lines}
         onPress={onPress}
         selectable={selectable}
-        style={[styles.main(props, font, fontScaling) as TextStyle, style]}
+        style={[
+          styles.main(
+            props,
+            font,
+            systemScaling ? 1 : fontScaling,
+          ) as TextStyle,
+          style,
+        ]}
       >
         {children}
       </ReactNativeText>
@@ -53,7 +60,7 @@ export function Text({
     ellipsizeMode: lines ? 'tail' : undefined,
     numberOfLines: lines,
     selectable,
-    style: [styles.main(props, font, fontScaling), style],
+    style: [styles.main(props, font, systemScaling ? 1 : fontScaling), style],
   })
 }
 

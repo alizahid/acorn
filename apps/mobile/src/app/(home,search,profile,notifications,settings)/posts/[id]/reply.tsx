@@ -123,7 +123,7 @@ const stylesheet = createStyleSheet((theme) => ({
     flex: 1,
     fontFamily: fonts[font],
     fontSize: theme.typography[3].fontSize * scaling,
-    lineHeight: theme.typography[3].lineHeight,
+    lineHeight: theme.typography[3].lineHeight * scaling,
     padding: theme.space[3],
   }),
   main: {

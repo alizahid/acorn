@@ -58,7 +58,7 @@ export function getTextStyles(theme: UnistylesTheme) {
       fontStyle: italic ? 'italic' : 'normal',
       fontVariant,
       fontWeight: weights[weight],
-      lineHeight: theme.typography[size].lineHeight,
+      lineHeight: theme.typography[size].lineHeight * scaling,
       textAlign: align,
     } satisfies UnistylesValues
   }
