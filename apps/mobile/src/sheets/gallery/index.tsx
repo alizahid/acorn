@@ -261,6 +261,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: {
     ...StyleSheet.absoluteFillObject,
+    zIndex: 100,
   },
   overlay: (oled: boolean, tint: boolean) => ({
     ...StyleSheet.absoluteFillObject,
