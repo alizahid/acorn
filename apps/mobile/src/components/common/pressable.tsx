@@ -21,6 +21,7 @@ import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 const AnimatedPressable = Animated.createAnimatedComponent(ReactNativePressable)
 
 type Props = {
+  animated?: boolean
   children?: ReactNode
   delayed?: boolean
   disabled?: boolean
@@ -32,6 +33,7 @@ type Props = {
 } & ViewStyleProps
 
 export function Pressable({
+  animated = true,
   children,
   delayed,
   disabled,
@@ -58,19 +60,19 @@ export function Pressable({
       onLongPress={(event) => {
         onLongPress?.(event)
 
-        if (delayed && onLongPress) {
+        if (animated && delayed && onLongPress) {
           animate(opacity)
         }
       }}
       onPress={(event) => {
         onPress?.(event)
 
-        if (delayed && onPress) {
+        if (animated && delayed && onPress) {
           animate(opacity)
         }
       }}
       onPressIn={() => {
-        if (delayed) {
+        if (!animated || delayed) {
           return
         }
 
@@ -81,7 +83,7 @@ export function Pressable({
         )
       }}
       onPressOut={() => {
-        if (delayed) {
+        if (!animated || delayed) {
           return
         }
 
