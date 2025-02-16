@@ -25,7 +25,11 @@ export default function Screen() {
   const { styles, theme } = useStyles(stylesheet)
 
   const listProps = useList({
-    padding: iPad ? theme.space[4] : 0,
+    padding: {
+      bottom: theme.space[8] + theme.space[4] + theme.space[4],
+      horizontal: iPad ? theme.space[4] : undefined,
+      top: iPad ? theme.space[4] : undefined,
+    },
   })
 
   const { sorting, update } = useSorting('community', params.name)
