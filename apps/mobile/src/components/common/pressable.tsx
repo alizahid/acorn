@@ -117,7 +117,7 @@ function animate(value: SharedValue<number>) {
     withTiming(
       0.5,
       {
-        duration: 50,
+        duration: 100,
       },
       () => {
         runOnJS(out)()
