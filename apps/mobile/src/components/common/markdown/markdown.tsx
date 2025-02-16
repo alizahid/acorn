@@ -363,7 +363,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   blockQuote: {
     flexDirection: 'row',
     paddingHorizontal: theme.space[3],
-    paddingVertical: theme.space[1],
   },
   blockQuoteBorder: {
     backgroundColor: theme.colors.accent.border,
