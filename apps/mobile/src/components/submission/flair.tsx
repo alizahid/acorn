@@ -82,7 +82,7 @@ export function SubmissionFlair({ submission }: Props) {
               ) : null}
             </Pressable>
 
-            <SheetModal ref={sheet} title={t('title')}>
+            <SheetModal container="scroll" ref={sheet} title={t('title')}>
               {submission.flair.map((item) => (
                 <Pressable
                   align="center"
@@ -137,7 +137,7 @@ function FlairCard({ flair }: FlairProps) {
 
           return (
             <View key={item.id}>
-              <Text size="2" style={styles.label(flair.color)}>
+              <Text size="1" style={styles.label(flair.color)}>
                 {item.value}
               </Text>
             </View>
@@ -149,7 +149,7 @@ function FlairCard({ flair }: FlairProps) {
 
   return (
     <View px="2" py="1" style={styles.item(flair.color, flair.background)}>
-      <Text size="2" style={styles.label(flair.color)}>
+      <Text size="1" style={styles.label(flair.color)}>
         {flair.text}
       </Text>
     </View>
@@ -158,8 +158,8 @@ function FlairCard({ flair }: FlairProps) {
 
 const stylesheet = createStyleSheet((theme) => ({
   emoji: {
-    height: theme.typography[2].lineHeight,
-    width: theme.typography[2].lineHeight,
+    height: theme.typography[1].lineHeight,
+    width: theme.typography[1].lineHeight,
   },
   item: (color: 'dark' | 'light', bg?: string) => ({
     backgroundColor: bg ?? (color === 'light' ? '#000' : '#fff'),
