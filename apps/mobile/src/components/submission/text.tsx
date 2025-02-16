@@ -24,7 +24,7 @@ export function SubmissionText() {
       control={control}
       name="text"
       render={({ field, fieldState }) => (
-        <View flex={1}>
+        <View flexGrow={1}>
           <TextInput
             {...field}
             allowFontScaling={systemScaling}
@@ -53,10 +53,10 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   input: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
-    flex: 1,
+    flexGrow: 1,
     fontFamily: fonts[font],
     fontSize: theme.typography[3].fontSize * scaling,
-    minHeight: 400,
+    lineHeight: theme.typography[3].lineHeight * scaling,
     padding: theme.space[4],
   }),
 }))

@@ -7,12 +7,15 @@ import {
 import { StatusBar } from 'expo-status-bar'
 import { useCallback, useState } from 'react'
 import { TextInput } from 'react-native'
+import Animated, {
+  useAnimatedKeyboard,
+  useAnimatedStyle,
+} from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { IconButton } from '~/components/common/icon-button'
-import { KeyboardHeight } from '~/components/common/keyboard-height'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
@@ -38,9 +41,15 @@ export default function Screen() {
 
   const { styles, theme } = useStyles(stylesheet)
 
+  const keyboard = useAnimatedKeyboard()
+
   const { isPending, reply } = usePostReply()
 
   const [text, setText] = useState('')
+
+  const style = useAnimatedStyle(() => ({
+    paddingBottom: keyboard.height.get(),
+  }))
 
   useFocusEffect(
     useCallback(() => {
@@ -79,7 +88,7 @@ export default function Screen() {
   )
 
   return (
-    <View style={styles.main}>
+    <Animated.View style={[styles.main, style]}>
       {iPhone ? <StatusBar style="light" /> : null}
 
       {params.user ? (
@@ -104,9 +113,7 @@ export default function Screen() {
         style={styles.input(font, fontScaling)}
         value={text}
       />
-
-      <KeyboardHeight enabled />
-    </View>
+    </Animated.View>
   )
 }
 
@@ -121,14 +128,6 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   main: {
     flex: 1,
-  },
-  spinner: {
-    height: theme.typography[3].lineHeight,
-  },
-  submit: {
-    backgroundColor: theme.colors.accent.accent,
-    borderRadius: 0,
-    paddingTop: theme.space[3],
   },
   user: {
     backgroundColor: theme.colors.gray.ui,

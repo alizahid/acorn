@@ -4,9 +4,14 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { FormProvider } from 'react-hook-form'
-import { ScrollView } from 'react-native'
+import {
+  KeyboardAwareScrollView,
+  KeyboardEvents,
+} from 'react-native-keyboard-controller'
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
@@ -50,6 +55,8 @@ type Props = {
 }
 
 function Content({ refetch, submission }: Props) {
+  const insets = useSafeAreaInsets()
+
   const router = useRouter()
   const navigation = useNavigation()
 
@@ -64,6 +71,8 @@ function Content({ refetch, submission }: Props) {
   })
 
   const { createPost, form, isPending } = useCreatePost(submission)
+
+  const [visible, setVisible] = useState(false)
 
   const onSubmit = form.handleSubmit(async (data) => {
     if (isPending) {
@@ -104,16 +113,41 @@ function Content({ refetch, submission }: Props) {
     }, [isPending, navigation, onSubmit]),
   )
 
+  useEffect(() => {
+    const show = KeyboardEvents.addListener('keyboardWillShow', () => {
+      setVisible(true)
+    })
+
+    const hide = KeyboardEvents.addListener('keyboardDidHide', () => {
+      setVisible(false)
+    })
+
+    return () => {
+      show.remove()
+      hide.remove()
+    }
+  }, [])
+
   const type = form.watch('type')
 
   return (
     <FormProvider {...form}>
-      <ScrollView
+      <KeyboardAwareScrollView
         {...listProps}
         contentContainerStyle={[
           listProps.contentContainerStyle,
           styles.content,
         ]}
+        extraKeyboardSpace={
+          0 -
+          insets.bottom -
+          theme.space[3] -
+          theme.space[5] -
+          theme.space[3] -
+          theme.space[4]
+        }
+        keyboardDismissMode="interactive"
+        keyboardShouldPersistTaps="handled"
         refreshControl={
           <RefreshControl
             offset={listProps.progressViewOffset}
@@ -127,7 +161,7 @@ function Content({ refetch, submission }: Props) {
           <SubmissionType submission={submission} />
         </View>
 
-        <View flex={1}>
+        <View flexGrow={1} my="4">
           <SubmissionTitle />
 
           {type === 'image' ? (
@@ -139,12 +173,18 @@ function Content({ refetch, submission }: Props) {
           )}
         </View>
 
-        <View gap="4" mt="auto" mx="4">
-          <SubmissionFlair submission={submission} />
+        {!visible ? (
+          <Animated.View
+            entering={SlideInDown}
+            exiting={SlideOutDown}
+            style={styles.footer}
+          >
+            <SubmissionFlair submission={submission} />
 
-          <SubmissionMeta />
-        </View>
-      </ScrollView>
+            <SubmissionMeta />
+          </Animated.View>
+        ) : null}
+      </KeyboardAwareScrollView>
     </FormProvider>
   )
 }
@@ -152,6 +192,9 @@ function Content({ refetch, submission }: Props) {
 const stylesheet = createStyleSheet((theme) => ({
   content: {
     flexGrow: 1,
+  },
+  footer: {
     gap: theme.space[4],
+    marginHorizontal: theme.space[4],
   },
 }))

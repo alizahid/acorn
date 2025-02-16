@@ -3,14 +3,13 @@ import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Controller, useForm } from 'react-hook-form'
-import { ScrollView } from 'react-native'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { Button } from '~/components/common/button'
 import { Copy } from '~/components/common/copy'
-import { KeyboardHeight } from '~/components/common/keyboard-height'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
@@ -60,7 +59,7 @@ export default function Screen() {
   })
 
   return (
-    <ScrollView
+    <KeyboardAwareScrollView
       contentContainerStyle={styles.content}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
@@ -130,9 +129,7 @@ export default function Screen() {
 
         <Copy value={REDIRECT_URI} />
       </View>
-
-      <KeyboardHeight />
-    </ScrollView>
+    </KeyboardAwareScrollView>
   )
 }
 

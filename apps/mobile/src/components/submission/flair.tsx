@@ -53,7 +53,7 @@ export function SubmissionFlair({ submission }: Props) {
               onPress={() => {
                 sheet.current?.present()
               }}
-              px="3"
+              px="4"
               style={styles.main(Boolean(fieldState.error))}
             >
               {selected ? (
@@ -171,7 +171,7 @@ const stylesheet = createStyleSheet((theme) => ({
   }),
   main: (error: boolean) => ({
     backgroundColor:
-      theme.colors[error ? 'red' : 'accent'][error ? 'accent' : 'bgAltAlpha'],
+      theme.colors[error ? 'red' : 'accent'][error ? 'accent' : 'ui'],
   }),
   required: {
     marginLeft: 'auto',
