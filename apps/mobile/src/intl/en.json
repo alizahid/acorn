@@ -313,7 +313,7 @@
           "title": "Font"
         },
         "fontScaling": {
-          "systemScaling": "System scaling",
+          "systemScaling": "Use system",
           "title": "Font scaling"
         },
         "preferences": {
