@@ -93,6 +93,7 @@
         "react-native-gesture-handler": "~2.22.0",
         "react-native-keyboard-controller": "^1.16.3",
         "react-native-mmkv": "^3.2.0",
+        "react-native-pager-view": "6.5.1",
         "react-native-phosphor": "^2.1.1",
         "react-native-reanimated": "~3.16.7",
         "react-native-reorderable-list": "^0.11.0",
@@ -2191,7 +2192,7 @@
 
     "react-native-mmkv": ["react-native-mmkv@3.2.0", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-9y7K//1MaU46TFrXkyU0wT5VGk9Y2FDLFV6NPl+z3jTbm2G7SC1UIxneF6CfhSmBX5CfKze9SO7kwDuRx7flpQ=="],
 
-    "react-native-pager-view": ["react-native-pager-view@6.7.0", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-sutxKiMqBuQrEyt4mLaLNzy8taIC7IuYpxfcwQBXfSYBSSpAa0qE9G1FXlP/iXqTSlFgBXyK7BESsl9umOjECQ=="],
+    "react-native-pager-view": ["react-native-pager-view@6.5.1", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-YdX7bP+rPYvATMU7HzlMq9JaG3ui/+cVRbFZFGW+QshDULANFg9ECR1BA7H7JTIcO/ZgWCwF+1aVmYG5yBA9Og=="],
 
     "react-native-phosphor": ["react-native-phosphor@2.1.1", "", { "dependencies": { "@phosphor-icons/core": "^2.1.1", "caniuse-lite": "^1.0.30001642" }, "peerDependencies": { "react": "*", "react-native": "*", "react-native-svg": "*" } }, "sha512-PgTef8nmCeHEGds1hPxmUcNW8thpB+ow+/cIV5KIpkLzjl2CMHTiFlwkeZJ3pTcypqeSBv+U/GRDVgHwvgrB+Q=="],
 
