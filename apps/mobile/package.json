@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@bacons/apple-targets": "^0.2.1",
-    "@bottom-tabs/react-navigation": "^0.8.6",
+    "@bottom-tabs/react-navigation": "^0.8.7",
     "@date-fns/tz": "^1.2.0",
     "@formatjs/intl-getcanonicallocales": "^2.5.4",
     "@formatjs/intl-locale": "^4.2.10",
@@ -25,7 +25,7 @@
     "@formatjs/intl-pluralrules": "^5.4.3",
     "@formatjs/intl-relativetimeformat": "^11.4.10",
     "@gorhom/bottom-sheet": "^5.1.1",
-    "@hookform/resolvers": "^4.0.0",
+    "@hookform/resolvers": "^4.1.0",
     "@likashefqet/react-native-image-zoom": "^4.3.0",
     "@paralleldrive/cuid2": "^2.2.2",
     "@radix-ui/colors": "^3.0.0",
@@ -34,9 +34,9 @@
     "@react-navigation/native": "^7.0.14",
     "@sentry/react-native": "~6.3.0",
     "@shopify/flash-list": "1.7.3",
-    "@tanstack/query-async-storage-persister": "^5.66.0",
-    "@tanstack/react-query": "^5.66.0",
-    "@tanstack/react-query-persist-client": "^5.66.0",
+    "@tanstack/query-async-storage-persister": "^5.66.4",
+    "@tanstack/react-query": "^5.66.5",
+    "@tanstack/react-query-persist-client": "^5.66.5",
     "babel-plugin-react-compiler": "^19.0.0-beta-714736e-20250131",
     "date-fns": "^4.1.0",
     "entities": "^6.0.0",
@@ -86,19 +86,18 @@
     "react-call": "^1.7.0",
     "react-compiler-runtime": "^19.0.0-beta-714736e-20250131",
     "react-hook-form": "^7.54.2",
-    "react-native": "0.76.7",
-    "react-native-bottom-tabs": "^0.8.6",
+    "react-native": "~0.77.0",
+    "react-native-bottom-tabs": "^0.8.7",
     "react-native-drawer-layout": "^4.1.1",
     "react-native-flexible-grid": "^0.2.3",
-    "react-native-gesture-handler": "~2.20.2",
+    "react-native-gesture-handler": "~2.22.0",
     "react-native-keyboard-controller": "^1.16.3",
     "react-native-mmkv": "^3.2.0",
-    "react-native-pager-view": "6.5.1",
     "react-native-phosphor": "^2.1.1",
     "react-native-reanimated": "~3.16.7",
     "react-native-reorderable-list": "^0.11.0",
-    "react-native-safe-area-context": "4.12.0",
-    "react-native-screens": "~4.4.0",
+    "react-native-safe-area-context": "~5.1.0",
+    "react-native-screens": "~4.5.0",
     "react-native-sound-player": "^0.14.5",
     "react-native-svg": "15.8.0",
     "react-native-tab-view": "4.0.5",
@@ -118,5 +117,16 @@
     "eslint-config-custom": "workspace:*",
     "eslint-plugin-react-compiler": "^19.0.0-beta-714736e-20250131",
     "typescript": "^5.7.3"
+  },
+  "expo": {
+    "install": {
+      "exclude": [
+        "react-native@~0.76.6",
+        "react-native-reanimated@~3.16.1",
+        "react-native-gesture-handler@~2.20.0",
+        "react-native-screens@~4.4.0",
+        "react-native-safe-area-context@~4.12.0"
+      ]
+    }
   }
 }
