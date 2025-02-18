@@ -9,6 +9,11 @@
 - changed: font settings moved to appearance
 - changed: dimmed posts now have decreased opacity
 - fixed: gallery issues
+- fixed: duplicate tab bar on iPad
+- fixed: keyboard interactions with text boxes
+- fixed: contrast issues with blur views
+- fixed: scroll issues with long list of flair when creating post
+- fixed: post type switching
 
 ## Build 41
 
