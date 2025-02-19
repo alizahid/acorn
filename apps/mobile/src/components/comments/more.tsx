@@ -42,6 +42,8 @@ export function CommentMoreCard({
 
   const { isPending, loadMore } = useLoadMoreComments()
 
+  const color = getDepthColor(comment.depth)
+
   return (
     <Pressable
       align="center"
@@ -72,9 +74,9 @@ export function CommentMoreCard({
       ]}
     >
       {isPending ? (
-        <Spinner />
+        <Spinner color={color} />
       ) : (
-        <Text color="accent" size="2" weight="medium">
+        <Text color={color} size="2" weight="medium">
           {t('label', {
             count: comment.count,
           })}
@@ -88,7 +90,7 @@ const stylesheet = createStyleSheet((theme) => ({
   main: (depth: number, colored: boolean, oled: boolean) => {
     const color = getDepthColor(depth)
 
-    const marginLeft = theme.space[2] * depth
+    const marginLeft = theme.space[oled ? 1 : 2] * depth
 
     const base: UnistylesValues = {
       backgroundColor: colored
@@ -97,7 +99,7 @@ const stylesheet = createStyleSheet((theme) => ({
           ? oledTheme[theme.name].bg
           : theme.colors.gray.bgAlt,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
-      borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
+      borderLeftWidth: depth > 0 ? theme.space[1] / (oled ? 2 : 1) : undefined,
       marginLeft,
     }
 
