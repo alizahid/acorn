@@ -12,21 +12,21 @@
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
     "next": "14.2.16",
-    "next-intl": "^3.26.3",
+    "next-intl": "^3.26.4",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "tailwind-merge": "^3.0.1"
   },
   "devDependencies": {
     "@radix-ui/colors": "^3.0.0",
-    "@tailwindcss/postcss": "^4.0.6",
+    "@tailwindcss/postcss": "^4.0.7",
     "@types/node": "^22.13.4",
     "@types/react": "18.3.18",
     "@types/react-dom": "18.3.5",
     "eslint-config-custom": "workspace:*",
     "eslint-config-next": "14.2.16",
     "postcss": "^8.5.2",
-    "tailwindcss": "^4.0.6",
+    "tailwindcss": "^4.0.7",
     "typescript": "^5.7.3"
   }
 }
