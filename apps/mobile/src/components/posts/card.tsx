@@ -55,7 +55,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
-  const opacity = useSharedValue(dimSeen ? (post.seen ? 0.5 : 1) : 1)
+  const opacity = useSharedValue(
+    viewing || expanded ? 1 : dimSeen ? (post.seen ? 0.5 : 1) : 1,
+  )
 
   const dim = useAnimatedStyle(() => ({
     opacity: opacity.get(),
@@ -66,8 +68,10 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const { hide } = useHide()
 
   useEffect(() => {
-    opacity.set(() => withTiming(dimSeen ? (post.seen ? 0.5 : 1) : 1))
-  }, [dimSeen, opacity, post.seen])
+    opacity.set(() =>
+      withTiming(viewing || expanded ? 1 : dimSeen ? (post.seen ? 0.5 : 1) : 1),
+    )
+  }, [dimSeen, expanded, opacity, post.seen, viewing])
 
   const onAction = useCallback(
     (item: Post, action: GestureAction) => {
