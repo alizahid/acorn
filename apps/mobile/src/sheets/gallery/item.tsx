@@ -66,6 +66,7 @@ export function GalleryItem({ image, onZoomIn, onZoomOut }: Props) {
       <Zoomable isDoubleTapEnabled minScale={0.5} scale={scale}>
         <Image
           {...placeholder}
+          contentFit="contain"
           pointerEvents="none"
           recyclingKey={image.url}
           ref={ref}
@@ -126,6 +127,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   main: (aspectRatio: number) => ({
     aspectRatio,
     marginVertical: 'auto',
+    maxHeight: runtime.screen.height,
     width: runtime.screen.width,
   }),
   overlay: {
