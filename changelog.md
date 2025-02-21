@@ -1,6 +1,11 @@
 # Changelog
 
-## Upcoming
+## Build 44
+
+- fixed: post dimming
+- crash fixes
+
+## Build 43
 
 - added: hide controls when zooming in
 - added: more fonts
@@ -14,6 +19,10 @@
 - fixed: contrast issues with blur views
 - fixed: scroll issues with long list of flair when creating post
 - fixed: post type switching
+
+## Build 42
+
+- performance fixes
 
 ## Build 41
 
