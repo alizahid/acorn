@@ -4,6 +4,7 @@ import Swipeable, {
   type SwipeableMethods,
 } from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { useSharedValue } from 'react-native-reanimated'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { View } from '~/components/common/view'
@@ -50,6 +51,8 @@ export function PostGestures({
   right,
   style,
 }: Props) {
+  const frame = useSafeAreaFrame()
+
   const { styles } = useStyles(stylesheet)
 
   const swipeable = useRef<SwipeableMethods>(null)
@@ -64,14 +67,9 @@ export function PostGestures({
     <Swipeable
       childrenContainerStyle={style}
       containerStyle={containerStyle}
-      hitSlop={
-        iPhone
-          ? {
-              left: -24,
-              right: -12,
-            }
-          : undefined
-      }
+      dragOffsetFromLeftEdge={left.enabled ? 10 : frame.width}
+      dragOffsetFromRightEdge={right.enabled ? 10 : frame.width}
+      hitSlop={iPhone ? -24 : undefined}
       leftThreshold={Infinity}
       onSwipeableWillClose={() => {
         const next = action.get()
