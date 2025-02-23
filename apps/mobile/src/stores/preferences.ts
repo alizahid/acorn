@@ -2,7 +2,6 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { type FloatingButtonSide } from '~/components/common/floating-button'
-import { type Gestures } from '~/components/common/gestures'
 import { type Font } from '~/lib/fonts'
 import { Store } from '~/lib/store'
 import { type Theme } from '~/styles/themes'
@@ -24,7 +23,6 @@ export type PreferencesPayload = {
   blurNsfw: boolean
   collapseAutoModerator: boolean
   coloredComments: boolean
-  commentGestures: Gestures
   dimSeen: boolean
   feedCompact: boolean
   feedMuted: boolean
@@ -45,7 +43,6 @@ export type PreferencesPayload = {
   linkBrowser: boolean
   mediaOnRight: boolean
   oldReddit: boolean
-  postGestures: Gestures
   refreshInterval: number
   rememberSorting: boolean
   replyPost: FloatingButtonSide
@@ -61,7 +58,6 @@ export type PreferencesPayload = {
   sortUserComments: CommentSort
   sortUserPosts: UserFeedSort
   stickyDrawer: boolean
-  swipeGestures: boolean
   systemScaling: boolean
   theme: Theme
   themeOled: boolean
@@ -82,12 +78,6 @@ export const usePreferences = create<State>()(
       blurNsfw: true,
       collapseAutoModerator: false,
       coloredComments: true,
-      commentGestures: {
-        leftLong: 'downvote',
-        leftShort: 'upvote',
-        rightLong: 'save',
-        rightShort: 'reply',
-      },
       dimSeen: false,
       feedCompact: false,
       feedMuted: true,
@@ -108,12 +98,6 @@ export const usePreferences = create<State>()(
       linkBrowser: true,
       mediaOnRight: true,
       oldReddit: false,
-      postGestures: {
-        leftLong: 'downvote',
-        leftShort: 'upvote',
-        rightLong: 'save',
-        rightShort: 'reply',
-      },
       refreshInterval: 10,
       rememberSorting: true,
       replyPost: 'left',
@@ -129,7 +113,6 @@ export const usePreferences = create<State>()(
       sortUserComments: 'new',
       sortUserPosts: 'new',
       stickyDrawer: true,
-      swipeGestures: true,
       systemScaling: false,
       theme: 'acorn',
       themeOled: false,

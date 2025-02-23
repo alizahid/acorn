@@ -18,7 +18,6 @@ export type GestureAction =
   | 'reply'
   | 'share'
   | 'hide'
-  | undefined
 
 export type GestureData = {
   hidden?: boolean
@@ -27,19 +26,18 @@ export type GestureData = {
 }
 
 export type Gestures = {
-  leftLong: NonNullable<GestureAction>
-  leftShort: NonNullable<GestureAction>
-  rightLong: NonNullable<GestureAction>
-  rightShort: NonNullable<GestureAction>
+  enabled: boolean
+  long: GestureAction
+  short: GestureAction
 }
 
 type Props = {
   children: ReactNode
   containerStyle?: StyleProp<ViewStyle>
   data: GestureData
-  disabled?: boolean
-  gestures: Gestures
-  onAction: (action: GestureAction) => void
+  left: Gestures
+  onAction: (action: GestureAction | undefined) => void
+  right: Gestures
   style?: StyleProp<ViewStyle>
 }
 
@@ -47,18 +45,18 @@ export function PostGestures({
   children,
   containerStyle,
   data,
-  disabled,
-  gestures,
+  left,
   onAction,
+  right,
   style,
 }: Props) {
   const { styles } = useStyles(stylesheet)
 
   const swipeable = useRef<SwipeableMethods>(null)
 
-  const action = useSharedValue<GestureAction>(undefined)
+  const action = useSharedValue<GestureAction | undefined>(undefined)
 
-  if (disabled) {
+  if (!left.enabled && !right.enabled) {
     return <View style={[containerStyle, style]}>{children}</View>
   }
 
@@ -84,26 +82,30 @@ export function PostGestures({
         swipeable.current?.close()
       }}
       ref={swipeable}
-      renderLeftActions={(progress) => (
-        <Actions
-          action={action}
-          data={data}
-          long={gestures.leftLong}
-          progress={progress}
-          short={gestures.leftShort}
-          style={styles.left}
-        />
-      )}
-      renderRightActions={(progress) => (
-        <Actions
-          action={action}
-          data={data}
-          long={gestures.rightLong}
-          progress={progress}
-          short={gestures.rightShort}
-          style={styles.right}
-        />
-      )}
+      renderLeftActions={(progress) =>
+        left.enabled ? (
+          <Actions
+            action={action}
+            data={data}
+            long={left.long}
+            progress={progress}
+            short={left.short}
+            style={styles.left}
+          />
+        ) : null
+      }
+      renderRightActions={(progress) =>
+        right.enabled ? (
+          <Actions
+            action={action}
+            data={data}
+            long={right.long}
+            progress={progress}
+            short={right.short}
+            style={styles.right}
+          />
+        ) : null
+      }
       rightThreshold={Infinity}
     >
       {children}

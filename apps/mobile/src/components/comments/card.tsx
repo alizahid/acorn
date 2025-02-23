@@ -13,6 +13,7 @@ import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { triggerHaptic } from '~/lib/feedback'
 import { CommentMenu } from '~/sheets/comment-menu'
+import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type CommentReply } from '~/types/comment'
@@ -45,8 +46,15 @@ export function CommentCard({
 }: Props) {
   const router = useRouter()
 
-  const { coloredComments, commentGestures, swipeGestures, themeOled } =
-    usePreferences()
+  const { coloredComments, themeOled } = usePreferences()
+  const {
+    commentLeft,
+    commentLeftLong,
+    commentLeftShort,
+    commentRight,
+    commentRightLong,
+    commentRightShort,
+  } = useGestures()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -58,8 +66,11 @@ export function CommentCard({
     <PostGestures
       containerStyle={styles.container(comment.depth, themeOled) as ViewStyle}
       data={comment}
-      disabled={!swipeGestures}
-      gestures={commentGestures}
+      left={{
+        enabled: commentLeft,
+        long: commentLeftLong,
+        short: commentLeftShort,
+      }}
       onAction={(action) => {
         if (action === 'upvote') {
           vote({
@@ -112,6 +123,11 @@ export function CommentCard({
             type: 'comment',
           })
         }
+      }}
+      right={{
+        enabled: commentRight,
+        long: commentRightLong,
+        short: commentRightShort,
       }}
       style={[
         styles.main(

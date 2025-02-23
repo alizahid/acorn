@@ -16,11 +16,11 @@ import { type ColorToken } from '~/styles/tokens'
 import { type GestureAction, type GestureData } from '.'
 
 type Props = {
-  action: SharedValue<GestureAction>
+  action: SharedValue<GestureAction | undefined>
   data: GestureData
-  long: NonNullable<GestureAction>
+  long: GestureAction
   progress: SharedValue<number>
-  short: NonNullable<GestureAction>
+  short: GestureAction
   style: StyleProp<ViewStyle>
 }
 
@@ -87,7 +87,7 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
   )
 }
 
-export const colors: Record<NonNullable<GestureAction>, ColorToken> = {
+export const colors: Record<GestureAction, ColorToken> = {
   downvote: 'violet',
   hide: 'red',
   reply: 'blue',
@@ -96,7 +96,7 @@ export const colors: Record<NonNullable<GestureAction>, ColorToken> = {
   upvote: 'orange',
 }
 
-export const icons: Record<NonNullable<GestureAction>, IconName> = {
+export const icons: Record<GestureAction, IconName> = {
   downvote: 'ArrowFatDown',
   hide: 'EyeClosed',
   reply: 'ArrowBendUpLeft',
@@ -106,7 +106,7 @@ export const icons: Record<NonNullable<GestureAction>, IconName> = {
 }
 
 export function getWeight(
-  action: NonNullable<GestureAction>,
+  action: GestureAction,
   data: GestureData,
 ): IconWeight {
   'worklet'

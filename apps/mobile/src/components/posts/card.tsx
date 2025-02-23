@@ -15,6 +15,7 @@ import { cardMaxWidth, iPad } from '~/lib/common'
 import { triggerHaptic } from '~/lib/feedback'
 import { removePrefix } from '~/lib/reddit'
 import { PostMenu } from '~/sheets/post-menu'
+import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type Post } from '~/types/post'
@@ -43,15 +44,16 @@ type Props = {
 export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const router = useRouter()
 
+  const { dimSeen, feedCompact, mediaOnRight, oldReddit, themeOled } =
+    usePreferences()
   const {
-    dimSeen,
-    feedCompact,
-    mediaOnRight,
-    oldReddit,
-    postGestures,
-    swipeGestures,
-    themeOled,
-  } = usePreferences()
+    postLeft,
+    postLeftLong,
+    postLeftShort,
+    postRight,
+    postRightLong,
+    postRightShort,
+  } = useGestures()
 
   const { styles } = useStyles(stylesheet)
 
@@ -74,7 +76,11 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   }, [dimSeen, expanded, opacity, post.seen])
 
   const onAction = useCallback(
-    (item: Post, action: GestureAction) => {
+    (item: Post, action?: GestureAction) => {
+      if (!action) {
+        return
+      }
+
       if (action === 'upvote') {
         vote({
           direction: item.liked ? 0 : 1,
@@ -158,10 +164,18 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
       <PostGestures
         containerStyle={[styles.container, dim]}
         data={post}
-        disabled={!swipeGestures}
-        gestures={postGestures}
+        left={{
+          enabled: postLeft,
+          long: postLeftLong,
+          short: postLeftShort,
+        }}
         onAction={(action) => {
           onAction(post, action)
+        }}
+        right={{
+          enabled: postRight,
+          long: postRightLong,
+          short: postRightShort,
         }}
         style={[styles.main(themeOled), style]}
       >
@@ -181,10 +195,18 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
     <PostGestures
       containerStyle={[styles.container, dim]}
       data={post}
-      disabled={!swipeGestures}
-      gestures={postGestures}
+      left={{
+        enabled: postLeft,
+        long: postLeftLong,
+        short: postLeftShort,
+      }}
       onAction={(action) => {
         onAction(post, action)
+      }}
+      right={{
+        enabled: postRight,
+        long: postRightLong,
+        short: postRightShort,
       }}
       style={[styles.main(themeOled), style]}
     >

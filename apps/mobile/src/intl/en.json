@@ -410,12 +410,11 @@
       "gestures": {
         "menu": {
           "comments": "Comments",
-          "leftLong": "Left long",
-          "leftShort": "Left short",
+          "left": "Left",
+          "long": "Long swipe",
           "posts": "Posts",
-          "rightLong": "Right long",
-          "rightShort": "Right short",
-          "swipeGestures": "Use swipe gestures"
+          "right": "Right",
+          "short": "Short swipe"
         },
         "options": {
           "downvote": "Downvote",

@@ -1,20 +1,30 @@
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { type GestureAction } from '~/components/common/gestures'
 import { Icon } from '~/components/common/icon'
-import {
-  Menu,
-  type MenuItem,
-  type MenuItemOption,
-} from '~/components/common/menu'
+import { Menu, type MenuItemOption } from '~/components/common/menu'
 import { useList } from '~/hooks/list'
-import { usePreferences } from '~/stores/preferences'
+import { useGestures } from '~/stores/gestures'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.gestures')
 
-  const { commentGestures, postGestures, swipeGestures, update } =
-    usePreferences()
+  const {
+    commentLeft,
+    commentLeftLong,
+    commentLeftShort,
+    commentRight,
+    commentRightLong,
+    commentRightShort,
+    postLeft,
+    postLeftLong,
+    postLeftShort,
+    postRight,
+    postRightLong,
+    postRightShort,
+    update,
+  } = useGestures()
 
   const { theme } = useStyles()
 
@@ -122,48 +132,138 @@ export default function Screen() {
   return (
     <Menu
       items={[
+        t('menu.posts'),
         {
-          label: t('menu.swipeGestures'),
+          label: t('menu.left'),
           onSelect(value) {
             update({
-              swipeGestures: value,
+              postLeft: value,
             })
           },
           type: 'switch',
-          value: swipeGestures,
+          value: postLeft,
         },
+        {
+          label: t('menu.short'),
+          onSelect(value) {
+            update({
+              postLeftShort: value as GestureAction,
+            })
+          },
+          options,
+          type: 'options',
+          value: postLeftShort,
+        },
+        {
+          label: t('menu.long'),
+          onSelect(value) {
+            update({
+              postLeftLong: value as GestureAction,
+            })
+          },
+          options,
+          type: 'options',
+          value: postLeftLong,
+        },
+        {
+          label: t('menu.right'),
+          onSelect(value) {
+            update({
+              postRight: value,
+            })
+          },
+          type: 'switch',
+          value: postRight,
+        },
+        {
+          label: t('menu.short'),
+          onSelect(value) {
+            update({
+              postRightShort: value as GestureAction,
+            })
+          },
+          options,
+          type: 'options',
+          value: postRightShort,
+        },
+        {
+          label: t('menu.long'),
+          onSelect(value) {
+            update({
+              postRightLong: value as GestureAction,
+            })
+          },
+          options,
+          type: 'options',
+          value: postRightLong,
+        },
+        null,
 
-        ...(
-          [
-            {
-              key: 'posts',
-              value: postGestures,
-            },
-            {
-              key: 'comments',
-              value: commentGestures,
-            },
-          ] as const
-        ).flatMap((item) => [
-          null,
-          t(`menu.${item.key}`),
-          ...(
-            ['leftShort', 'leftLong', 'rightShort', 'rightLong'] as const
-          ).map<MenuItem>((gesture) => ({
-            label: t(`menu.${gesture}`),
-            onSelect(value) {
-              update({
-                [item.key === 'posts' ? 'postGestures' : 'commentGestures']: {
-                  ...item.value,
-                  [gesture]: value,
-                },
-              })
-            },
-            options,
-            type: 'options',
-            value: item.value[gesture],
-          })),
-        ]),
+        t('menu.comments'),
+        {
+          label: t('menu.left'),
+          onSelect(value) {
+            update({
+              commentLeft: value,
+            })
+          },
+          type: 'switch',
+          value: commentLeft,
+        },
+        {
+          label: t('menu.short'),
+          onSelect(value) {
+            update({
+              commentLeftShort: value as GestureAction,
+            })
+          },
+          options,
+          type: 'options',
+          value: commentLeftShort,
+        },
+        {
+          label: t('menu.long'),
+          onSelect(value) {
+            update({
+              commentLeftLong: value as GestureAction,
+            })
+          },
+          options,
+          type: 'options',
+          value: commentLeftLong,
+        },
+        {
+          label: t('menu.right'),
+          onSelect(value) {
+            update({
+              commentRight: value,
+            })
+          },
+          type: 'switch',
+          value: commentRight,
+        },
+        {
+          label: t('menu.short'),
+          onSelect(value) {
+            update({
+              commentRightShort: value as GestureAction,
+            })
+          },
+          options,
+          type: 'options',
+          value: commentRightShort,
+        },
+        {
+          label: t('menu.long'),
+          onSelect(value) {
+            update({
+              commentRightLong: value as GestureAction,
+            })
+          },
+          options,
+          type: 'options',
+          value: commentRightLong,
+        },
       ]}
       listProps={listProps}
     />
