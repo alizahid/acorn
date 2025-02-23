@@ -1,7 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
 
-import { updateCommunities } from '~/hooks/queries/communities/communities'
+import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { updateCommunity } from '~/hooks/queries/communities/community'
+import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 
@@ -29,9 +30,10 @@ export function useJoin() {
       updateCommunity(variables.name, (draft) => {
         draft.subscribed = variables.action === 'join'
       })
-
-      updateCommunities(variables.name, (draft) => {
-        draft.subscribed = variables.action === 'join'
+    },
+    onSuccess() {
+      void queryClient.invalidateQueries({
+        queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
       })
     },
   })
