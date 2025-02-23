@@ -253,6 +253,13 @@ export default function Screen() {
         }
 
         return {
+          icon:
+            'icon' in item
+              ? {
+                  name: item.icon,
+                  type: 'icon',
+                }
+              : undefined,
           label: item.label,
           onSelect(value) {
             const payload: Partial<PreferencesPayload> = {
