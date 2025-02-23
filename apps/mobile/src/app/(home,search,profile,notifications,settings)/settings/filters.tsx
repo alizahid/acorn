@@ -114,11 +114,11 @@ export default function Screen() {
             [
               {
                 key: 'yes',
-                rules: [0, 1],
+                rules: ['one', 'two'],
               },
               {
                 key: 'no',
-                rules: [0, 1],
+                rules: ['one', 'two'],
               },
             ] as const
           ).map((rule) => (
@@ -140,7 +140,7 @@ export default function Screen() {
                   />
 
                   <Text style={styles.rule}>
-                    {t(`rules.${rule.key}.rules.${index}`)}
+                    {t(`rules.${rule.key}.${index}`)}
                   </Text>
                 </View>
               ))}

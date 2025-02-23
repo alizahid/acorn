@@ -395,15 +395,14 @@
         },
         "rules": {
           "no": {
-            "rules": ["Comments", "Your own posts and comments"],
-            "title": "Filters will not apply to"
+            "one": "Post comments",
+            "title": "Filters will not apply to",
+            "two": "Your own posts and comments"
           },
           "yes": {
-            "rules": [
-              "Posts in feeds and search",
-              "Communities and users in search"
-            ],
-            "title": "Filters will apply to"
+            "one": "Posts in feeds and search",
+            "title": "Filters will apply to",
+            "two": "Communities and users in search"
           }
         },
         "title": "Filters"
