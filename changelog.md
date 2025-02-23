@@ -1,5 +1,10 @@
 # Changelog
 
+## Upcoming
+
+- added: spoiler blur
+- fixed: list performance
+
 ## Build 44
 
 - fixed: post dimming
