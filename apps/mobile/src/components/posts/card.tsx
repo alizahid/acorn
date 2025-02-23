@@ -55,7 +55,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
-  const opacity = useSharedValue(dimSeen ? (post.seen ? 0.5 : 1) : 1)
+  const opacity = useSharedValue(
+    !expanded && dimSeen ? (post.seen ? 0.5 : 1) : 1,
+  )
 
   const dim = useAnimatedStyle(() => ({
     opacity: opacity.get(),
@@ -66,8 +68,10 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const { hide } = useHide()
 
   useEffect(() => {
-    opacity.set(() => withTiming(dimSeen ? (post.seen ? 0.5 : 1) : 1))
-  }, [dimSeen, expanded, opacity, post.seen, viewing])
+    opacity.set(() =>
+      withTiming(!expanded && dimSeen ? (post.seen ? 0.5 : 1) : 1),
+    )
+  }, [dimSeen, expanded, opacity, post.seen])
 
   const onAction = useCallback(
     (item: Post, action: GestureAction) => {
@@ -215,6 +219,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           nsfw={post.nsfw}
           onLongPress={onLongPress}
           recyclingKey={post.id}
+          spoiler={post.spoiler}
           style={body ? styles.expanded : null}
           video={post.media.video}
           viewing={viewing}
@@ -227,6 +232,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
           nsfw={post.nsfw}
           onLongPress={onLongPress}
           recyclingKey={post.id}
+          spoiler={post.spoiler}
           style={body ? styles.expanded : null}
         />
       ) : null}

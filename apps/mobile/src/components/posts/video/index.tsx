@@ -13,6 +13,7 @@ type Props = {
   nsfw?: boolean
   onLongPress?: () => void
   recyclingKey?: string
+  spoiler?: boolean
   style?: StyleProp<ViewStyle>
   video: PostMedia
   viewing: boolean
@@ -25,6 +26,7 @@ export function PostVideoCard({
   nsfw,
   onLongPress,
   recyclingKey,
+  spoiler,
   style,
   video,
   viewing,
@@ -37,6 +39,7 @@ export function PostVideoCard({
         nsfw={nsfw}
         onLongPress={onLongPress}
         recyclingKey={recyclingKey}
+        spoiler={spoiler}
         style={style}
         video={video}
         viewing={viewing}
@@ -53,6 +56,7 @@ export function PostVideoCard({
         onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         source={video.url}
+        spoiler={spoiler}
         style={style}
         video={video}
         viewing={viewing}

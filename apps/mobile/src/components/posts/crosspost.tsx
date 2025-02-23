@@ -114,6 +114,7 @@ export function CrossPostCard({
           nsfw={post.nsfw}
           onLongPress={onLongPress}
           recyclingKey={recyclingKey}
+          spoiler={post.spoiler}
           video={post.media.video}
           viewing={viewing}
         />
@@ -126,6 +127,7 @@ export function CrossPostCard({
           nsfw={post.nsfw}
           onLongPress={onLongPress}
           recyclingKey={recyclingKey}
+          spoiler={post.spoiler}
         />
       ) : null}
 

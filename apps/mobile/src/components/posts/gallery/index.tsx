@@ -23,6 +23,7 @@ type Props = {
   nsfw?: boolean
   onLongPress?: () => void
   recyclingKey?: string
+  spoiler?: boolean
   style?: StyleProp<ViewStyle>
 }
 
@@ -34,6 +35,7 @@ export function PostGalleryCard({
   nsfw,
   onLongPress,
   recyclingKey,
+  spoiler,
   style,
 }: Props) {
   const t = useTranslations('component.posts.gallery')
@@ -75,7 +77,7 @@ export function PostGalleryCard({
           style={styles.compactImage}
         />
 
-        {nsfw && blurNsfw ? (
+        {Boolean(nsfw && blurNsfw) || spoiler ? (
           <BlurView
             intensity={100}
             pointerEvents="none"
@@ -115,7 +117,7 @@ export function PostGalleryCard({
         recyclingKey={recyclingKey}
       />
 
-      {nsfw && blurNsfw ? (
+      {Boolean(nsfw && blurNsfw) || spoiler ? (
         <BlurView
           intensity={100}
           pointerEvents="none"
@@ -129,7 +131,7 @@ export function PostGalleryCard({
             weight="fill"
           />
 
-          <Text weight="medium">{t('nsfw')}</Text>
+          <Text weight="medium">{t(spoiler ? 'spoiler' : 'nsfw')}</Text>
         </BlurView>
       ) : null}
     </Pressable>

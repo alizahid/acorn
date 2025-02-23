@@ -15,6 +15,7 @@ type Props = {
   nsfw?: boolean
   onLongPress?: () => void
   recyclingKey?: string
+  spoiler?: boolean
   style?: StyleProp<ViewStyle>
   video: PostMedia
   viewing: boolean
@@ -26,6 +27,7 @@ export function RedGifsVideo({
   nsfw,
   onLongPress,
   recyclingKey,
+  spoiler,
   style,
   video,
   viewing,
@@ -43,6 +45,7 @@ export function RedGifsVideo({
         onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         source={gif.source}
+        spoiler={spoiler}
         style={style}
         video={video}
         viewing={viewing}

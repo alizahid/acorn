@@ -77,7 +77,8 @@
         "gif": "GIF",
         "item": "{current, number} of {count, number}",
         "items": "{count, number} images",
-        "nsfw": "Sensitive content - tap to view"
+        "nsfw": "Sensitive content - tap to view",
+        "spoiler": "Spoiler - tap to view"
       },
       "menu": {
         "copyImage": "Copy image",
@@ -123,7 +124,8 @@
         "upvote": "Upvote"
       },
       "video": {
-        "nsfw": "Sensitive content - tap to watch"
+        "nsfw": "Sensitive content - tap to watch",
+        "spoiler": "Spoiler - tap to view"
       }
     },
     "search": {

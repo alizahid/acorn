@@ -77,6 +77,7 @@ export function PostCompactCard({
           nsfw={post.nsfw}
           onLongPress={onLongPress}
           recyclingKey={post.id}
+          spoiler={post.spoiler}
         />
       ) : null}
 

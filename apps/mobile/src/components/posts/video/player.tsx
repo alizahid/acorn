@@ -22,6 +22,7 @@ type Props = {
   onLongPress?: () => void
   recyclingKey?: string
   source: VideoSource
+  spoiler?: boolean
   style?: StyleProp<ViewStyle>
   video: PostMedia
   viewing: boolean
@@ -34,6 +35,7 @@ export function VideoPlayer({
   onLongPress,
   recyclingKey,
   source,
+  spoiler,
   style,
   video,
   viewing,
@@ -118,7 +120,7 @@ export function VideoPlayer({
           style={styles.compactVideo}
         />
 
-        {nsfw && blurNsfw ? (
+        {Boolean(nsfw && blurNsfw) || spoiler ? (
           <BlurView
             intensity={100}
             pointerEvents="none"
@@ -176,7 +178,7 @@ export function VideoPlayer({
         style={styles.video(video.width / video.height)}
       />
 
-      {nsfw && blurNsfw ? (
+      {Boolean(nsfw && blurNsfw) || spoiler ? (
         <BlurView
           intensity={100}
           pointerEvents="none"
@@ -190,7 +192,7 @@ export function VideoPlayer({
             weight="fill"
           />
 
-          <Text weight="medium">{t('nsfw')}</Text>
+          <Text weight="medium">{t(spoiler ? 'spoiler' : 'nsfw')}</Text>
         </BlurView>
       ) : (
         <Pressable
