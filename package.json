@@ -20,12 +20,12 @@
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
-    "prettier": "^3.5.1",
+    "prettier": "^3.5.2",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "rimraf": "^6.0.1",
     "turbo": "^2.4.2"
   },
-  "packageManager": "bun@1.2.2",
+  "packageManager": "bun@1.2.3",
   "patchedDependencies": {
     "@bacons/apple-targets@0.2.1": "patches/@bacons%2Fapple-targets@0.2.1.patch",
     "@shopify/flash-list@1.7.3": "patches/@shopify%2Fflash-list@1.7.3.patch",
