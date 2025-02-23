@@ -3,6 +3,7 @@ import { compact } from 'lodash'
 import { create, type Draft } from 'mutative'
 
 import { getHistory } from '~/lib/db/history'
+import { filter } from '~/lib/filtering'
 import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
@@ -10,6 +11,7 @@ import { CommunitiesSchema } from '~/schemas/communities'
 import { PostsSchema } from '~/schemas/posts'
 import { UsersSchema } from '~/schemas/users'
 import { useAuth } from '~/stores/auth'
+import { usePreferences } from '~/stores/preferences'
 import { transformCommunity } from '~/transformers/community'
 import { transformPost } from '~/transformers/post'
 import { transformSearchUser } from '~/transformers/user'
@@ -54,6 +56,7 @@ export function useSearch<Type extends SearchTab>({
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
+  const { filteredKeywords } = usePreferences()
 
   const { data, isLoading, refetch } = useQuery<
     SearchQueryData<Type> | undefined,
@@ -99,6 +102,7 @@ export function useSearch<Type extends SearchTab>({
 
         return response.data.children
           .filter((item) => item.data.subreddit_type === 'public')
+          .filter((item) => filter(filteredKeywords, item.data.display_name))
           .map((item) => transformCommunity(item.data)) as SearchQueryData<Type>
       }
 
@@ -106,7 +110,9 @@ export function useSearch<Type extends SearchTab>({
         const response = UsersSchema.parse(payload)
 
         return compact(
-          response.data.children.map((item) => transformSearchUser(item.data)),
+          response.data.children
+            .filter((item) => filter(filteredKeywords, item.data.name))
+            .map((item) => transformSearchUser(item.data)),
         ) as SearchQueryData<Type>
       }
 
@@ -117,9 +123,11 @@ export function useSearch<Type extends SearchTab>({
           response.data.children.map((item) => item.data.id),
         )
 
-        return response.data.children.map((item) =>
-          transformPost(item.data, seen),
-        ) as SearchQueryData<Type>
+        return response.data.children
+          .filter((item) => filter(filteredKeywords, item.data.title))
+          .map((item) =>
+            transformPost(item.data, seen),
+          ) as SearchQueryData<Type>
       }
 
       return []

@@ -31,6 +31,7 @@ export type PreferencesPayload = {
   feedType: FeedType
   feedbackHaptics: boolean
   feedbackSounds: boolean
+  filteredKeywords: Array<string>
   font: Font
   fontScaling: number
   hapticsLoud: boolean
@@ -93,6 +94,7 @@ export const usePreferences = create<State>()(
       feedType: 'home',
       feedbackHaptics: false,
       feedbackSounds: false,
+      filteredKeywords: [],
       font: 'basis',
       fontScaling: 1,
       hapticsLoud: false,

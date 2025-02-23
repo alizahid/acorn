@@ -145,6 +145,8 @@ export function SearchList({
       ListEmptyComponent={
         isLoading ? (
           <Loading />
+        ) : query.length > 1 ? (
+          <Empty icon="SmileySad" message={t('notFound')} />
         ) : history.history.length > 0 ? (
           <SearchHistory history={history} onChange={onChangeQuery} />
         ) : (

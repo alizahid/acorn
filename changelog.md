@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: spoiler blur
+- added: filters
 - fixed: list performance
 
 ## Build 44

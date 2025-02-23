@@ -302,6 +302,13 @@ function StackLayout({ children }: PropsWithChildren) {
       />
 
       <Stack.Screen
+        name="settings/filters"
+        options={{
+          title: t('settings.filters.title'),
+        }}
+      />
+
+      <Stack.Screen
         name="settings/appearance"
         options={{
           title: t('settings.appearance.title'),

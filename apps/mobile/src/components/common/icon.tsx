@@ -34,6 +34,7 @@ import EyeBold from 'react-native-phosphor/src/bold/Eye'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
 import FlagBold from 'react-native-phosphor/src/bold/Flag'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
+import FunnelBold from 'react-native-phosphor/src/bold/Funnel'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import GitHubLogoBold from 'react-native-phosphor/src/bold/GithubLogo'
 import HandSwipeLeftBold from 'react-native-phosphor/src/bold/HandSwipeLeft'
@@ -122,6 +123,7 @@ import EyeDuotone from 'react-native-phosphor/src/duotone/Eye'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
 import FlagDuotone from 'react-native-phosphor/src/duotone/Flag'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
+import FunnelDuotone from 'react-native-phosphor/src/duotone/Funnel'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import GitHubLogoDuotone from 'react-native-phosphor/src/duotone/GithubLogo'
 import HandSwipeLeftDuotone from 'react-native-phosphor/src/duotone/HandSwipeLeft'
@@ -210,6 +212,7 @@ import EyeFill from 'react-native-phosphor/src/fill/Eye'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
 import FlagFill from 'react-native-phosphor/src/fill/Flag'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
+import FunnelFill from 'react-native-phosphor/src/fill/Funnel'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import GitHubLogoFill from 'react-native-phosphor/src/fill/GithubLogo'
 import HandSwipeLeftFill from 'react-native-phosphor/src/fill/HandSwipeLeft'
@@ -298,6 +301,7 @@ import EyeRegular from 'react-native-phosphor/src/regular/Eye'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
 import FlagRegular from 'react-native-phosphor/src/regular/Flag'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
+import FunnelRegular from 'react-native-phosphor/src/regular/Funnel'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import GitHubLogoRegular from 'react-native-phosphor/src/regular/GithubLogo'
 import HandSwipeLeftRegular from 'react-native-phosphor/src/regular/HandSwipeLeft'
@@ -581,6 +585,12 @@ const icons = {
     duotone: FlameDuotone,
     fill: FlameFill,
     regular: FlameRegular,
+  },
+  Funnel: {
+    bold: FunnelBold,
+    duotone: FunnelDuotone,
+    fill: FunnelFill,
+    regular: FunnelRegular,
   },
   GearSix: {
     bold: GearSixBold,

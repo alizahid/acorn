@@ -134,7 +134,8 @@
         "title": "Recent"
       },
       "list": {
-        "empty": "Search for something"
+        "empty": "Search for something",
+        "notFound": "Nothing here"
       }
     },
     "settings": {
@@ -380,6 +381,33 @@
           "user": "Users"
         }
       },
+      "filters": {
+        "form": {
+          "action": {
+            "add": "Add",
+            "reset": "Clear all"
+          },
+          "field": {
+            "keyword": {
+              "placeholder": "Keyword"
+            }
+          }
+        },
+        "rules": {
+          "no": {
+            "rules": ["Comments", "Your own posts and comments"],
+            "title": "Filters will not apply to"
+          },
+          "yes": {
+            "rules": [
+              "Posts in feeds and search",
+              "Communities and users in search"
+            ],
+            "title": "Filters will apply to"
+          }
+        },
+        "title": "Filters"
+      },
       "gestures": {
         "menu": {
           "comments": "Comments",
@@ -465,6 +493,7 @@
         "appearance": "Appearance",
         "cache": "Cache",
         "defaults": "Defaults",
+        "filters": "Filters",
         "gestures": "Gestures",
         "preferences": "Preferences",
         "sort": "Sort",

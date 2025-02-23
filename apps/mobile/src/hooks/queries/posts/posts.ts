@@ -10,6 +10,7 @@ import { useMemo } from 'react'
 
 import { getHidden } from '~/lib/db/hidden'
 import { getHistory } from '~/lib/db/history'
+import { filter } from '~/lib/filtering'
 import { isComment } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
@@ -72,6 +73,7 @@ export function usePosts({
   const isRestoring = useIsRestoring()
 
   const { accountId } = useAuth()
+  const { filteredKeywords } = usePreferences()
 
   const {
     data,
@@ -157,9 +159,21 @@ export function usePosts({
             )
           : {}
 
+      const $posts = await filterPosts(response, images)
+
       return {
         cursor: response.data.after,
-        posts: await filterPosts(response, images),
+        posts: $posts.filter((item) => {
+          if (
+            user === accountId ||
+            item.type === 'more' ||
+            item.type === 'reply'
+          ) {
+            return true
+          }
+
+          return filter(filteredKeywords, item.title)
+        }),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away

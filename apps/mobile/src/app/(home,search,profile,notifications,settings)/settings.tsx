@@ -77,6 +77,20 @@ export default function Screen() {
         {
           arrow: true,
           icon: {
+            name: 'Funnel',
+            type: 'icon',
+            weight: 'duotone',
+          },
+          label: t('filters'),
+          onPress() {
+            router.navigate({
+              pathname: '/settings/filters',
+            })
+          },
+        },
+        {
+          arrow: true,
+          icon: {
             name: 'SortAscending',
             type: 'icon',
             weight: 'duotone',
