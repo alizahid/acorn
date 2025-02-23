@@ -1,7 +1,8 @@
+import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useScrollToTop } from '@react-navigation/native'
 import { type SFSymbol } from 'expo-symbols'
-import { type ReactElement, useRef } from 'react'
-import { FlatList } from 'react-native'
+import { type ReactElement, type ReactNode, useRef } from 'react'
+import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -28,24 +29,30 @@ type Icon =
 export type MenuItemOption = {
   icon?: Icon
   label: string
+  labelStyle?: StyleProp<TextStyle>
   left?: ReactElement
   right?: ReactElement
+  style?: StyleProp<ViewStyle>
   value: string
 }
 
 export type MenuItem = {
   arrow?: boolean
   description?: string
+  hideSelected?: boolean
   icon?: Icon
   label: string
+  labelStyle?: StyleProp<TextStyle>
   onPress?: () => void | Promise<void>
+  style?: StyleProp<ViewStyle>
 } & (
   | {
       type?: undefined
     }
   | {
       onSelect: (value: string) => void
-      options: Array<MenuItemOption>
+      options: Array<MenuItemOption | string | null>
+      title?: string
       type: 'options'
       value?: string
     }
@@ -59,7 +66,7 @@ export type MenuItem = {
 type Props = {
   footer?: ReactElement
   header?: ReactElement
-  items: Array<MenuItem | string | null>
+  items: Array<MenuItem | string | null | (() => ReactNode)>
   listProps?: ListProps
   onRefresh?: () => Promise<unknown>
 }
@@ -67,17 +74,27 @@ type Props = {
 export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  const list = useRef<FlatList<MenuItem | string | null>>(null)
+  const list = useRef<LegendListRef>(null)
 
   useScrollToTop(list)
 
   return (
-    <FlatList
+    <LegendList
       {...listProps}
       ListFooterComponent={footer}
       ListHeaderComponent={header}
       data={items}
-      initialNumToRender={items.length}
+      getEstimatedItemSize={(index, item) => {
+        if (item === null) {
+          return 16
+        }
+
+        if (typeof item === 'string') {
+          return 40
+        }
+
+        return 48
+      }}
       keyExtractor={(item, index) => String(index)}
       ref={list}
       refreshControl={
@@ -108,12 +125,17 @@ export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
           )
         }
 
+        if (typeof item === 'function') {
+          return item()
+        }
+
         return (
           <MenuItem
             item={item}
             style={[
               index === 0 && styles.first,
               index === items.length - 1 && styles.last,
+              item.style,
             ]}
           />
         )

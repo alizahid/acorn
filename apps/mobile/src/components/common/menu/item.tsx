@@ -1,7 +1,7 @@
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useMutation } from '@tanstack/react-query'
 import { SymbolView } from 'expo-symbols'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 
@@ -38,11 +38,17 @@ export function MenuItem({ item, style }: Props) {
 
   const Component = item.type === 'switch' ? View : Pressable
 
-  const selected =
-    item.type === 'options'
-      ? (item.options.find((option) => option.value === item.value)?.right ??
-        item.options.find((option) => option.value === item.value)?.value)
-      : null
+  const selected = useMemo(() => {
+    if (item.type === 'options') {
+      const $selected = item.options
+        .filter((option) => typeof option === 'object')
+        .find((option) => option?.value === item.value)
+
+      return $selected?.right ?? $selected?.value
+    }
+
+    return null
+  }, [item])
 
   return (
     <>
@@ -86,7 +92,9 @@ export function MenuItem({ item, style }: Props) {
         ) : null}
 
         <View flex={1}>
-          <Text weight="medium">{item.label}</Text>
+          <Text style={item.labelStyle} weight="medium">
+            {item.label}
+          </Text>
 
           {item.description ? (
             <Text color="gray" highContrast={false} size="1">
@@ -95,7 +103,7 @@ export function MenuItem({ item, style }: Props) {
           ) : null}
         </View>
 
-        {typeof selected === 'string' ? (
+        {item.hideSelected ? null : typeof selected === 'string' ? (
           <Text color="accent" weight="bold">
             {selected}
           </Text>
@@ -122,20 +130,49 @@ export function MenuItem({ item, style }: Props) {
       </Component>
 
       {item.type === 'options' ? (
-        <SheetModal container="view" ref={sheet} title={item.label}>
-          {item.options.map((option) => (
-            <SheetItem
-              icon={option.icon}
-              key={option.value}
-              label={option.label}
-              onPress={() => {
-                item.onSelect(option.value)
+        <SheetModal
+          container="view"
+          ref={sheet}
+          title={item.title ?? item.label}
+        >
+          {item.options.map((option, index) => {
+            if (option === null) {
+              return <View height="4" key={`separator-${index}`} />
+            }
 
-                sheet.current?.dismiss()
-              }}
-              selected={option.value === item.value}
-            />
-          ))}
+            if (typeof option === 'string') {
+              return (
+                <Text
+                  highContrast={false}
+                  key={option}
+                  mb="2"
+                  mt="3"
+                  mx="3"
+                  size="2"
+                  weight="medium"
+                >
+                  {option}
+                </Text>
+              )
+            }
+            return (
+              <SheetItem
+                icon={'icon' in option ? option.icon : undefined}
+                key={option.value}
+                label={option.label}
+                labelStyle={option.labelStyle}
+                left={option.left}
+                onPress={() => {
+                  item.onSelect(option.value)
+
+                  sheet.current?.dismiss()
+                }}
+                right={option.right}
+                selected={option.value === item.value}
+                style={option.style}
+              />
+            )
+          })}
         </SheetModal>
       ) : null}
     </>

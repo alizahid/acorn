@@ -303,18 +303,15 @@
           "feedCompact": "Compact mode",
           "largeThumbnails": "Large thumbnails",
           "mediaOnRight": "Show media on right",
-          "title": "Compact mode"
+          "title": "Compact"
         },
-        "font": {
+        "fonts": {
           "apercu": "Apercu",
           "basis": "Basis",
           "fold": "Fold",
           "system": "San Francisco",
+          "systemScaling": "Use system scaling",
           "title": "Font"
-        },
-        "fontScaling": {
-          "systemScaling": "Use system",
-          "title": "Font scaling"
         },
         "preferences": {
           "blurNavigation": "Use blur effect",
@@ -332,7 +329,7 @@
           "light": "Light",
           "plum": "Plum",
           "ruby": "Ruby",
-          "title": "Themes"
+          "title": "Theme"
         },
         "title": "Appearance"
       },

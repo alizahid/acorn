@@ -1,9 +1,9 @@
+import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useScrollToTop } from '@react-navigation/native'
-import { FlashList } from '@shopify/flash-list'
 import { useRef } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { type ListProps } from '~/hooks/list'
+import { estimateHeight, type ListProps } from '~/hooks/list'
 import { usePreferences } from '~/stores/preferences'
 import { type InboxMessage } from '~/types/inbox'
 
@@ -35,14 +35,14 @@ export function MessagesList({
 }: Props) {
   const { themeOled } = usePreferences()
 
-  const list = useRef<FlashList<InboxMessage>>(null)
+  const list = useRef<LegendListRef>(null)
 
   useScrollToTop(list)
 
   const { styles } = useStyles(stylesheet)
 
   return (
-    <FlashList
+    <LegendList
       {...listProps}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(themeOled)} />
@@ -52,13 +52,20 @@ export function MessagesList({
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
       data={messages}
-      estimatedItemSize={400}
+      getEstimatedItemSize={(index, item) =>
+        estimateHeight({
+          index,
+          item,
+          type: 'message',
+        })
+      }
       keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()
         }
       }}
+      recycleItems
       ref={list}
       refreshControl={
         <RefreshControl

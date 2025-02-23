@@ -29,7 +29,7 @@ type Props = {
   labelStyle?: StyleProp<TextStyle>
   left?: ReactNode
   navigate?: boolean
-  onPress: () => void
+  onPress?: () => void
   right?: ReactNode
   selected?: boolean
   size?: TypographyToken
@@ -54,6 +54,7 @@ export function SheetItem({
     <Pressable
       align="center"
       direction="row"
+      disabled={!onPress}
       gap="3"
       height="8"
       onPress={onPress}

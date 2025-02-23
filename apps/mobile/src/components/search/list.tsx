@@ -1,5 +1,5 @@
+import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useScrollToTop } from '@react-navigation/native'
-import { FlashList } from '@shopify/flash-list'
 import {
   type ReactElement,
   useCallback,
@@ -17,7 +17,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
-import { type ListProps } from '~/hooks/list'
+import { estimateHeight, type ListProps } from '~/hooks/list'
 import { useSearch } from '~/hooks/queries/search/search'
 import { useSearchHistory } from '~/hooks/search'
 import { usePreferences } from '~/stores/preferences'
@@ -30,8 +30,6 @@ import { type SearchUser } from '~/types/user'
 import { View } from '../common/view'
 import { UserCard } from '../users/card'
 import { SearchHistory } from './history'
-
-type Item = Community | SearchUser | Post
 
 type Props = {
   community?: string
@@ -58,7 +56,7 @@ export function SearchList({
 }: Props) {
   const t = useTranslations('component.search.list')
 
-  const list = useRef<FlashList<Item>>(null)
+  const list = useRef<LegendListRef>(null)
 
   useScrollToTop(list)
 
@@ -139,7 +137,7 @@ export function SearchList({
   )
 
   return (
-    <FlashList
+    <LegendList
       {...listProps}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(type, themeOled, feedCompact)} />
@@ -155,17 +153,28 @@ export function SearchList({
       }
       ListHeaderComponent={header}
       data={results}
-      estimatedItemSize={type === 'post' ? (feedCompact ? 120 : 500) : 56}
       extraData={{
         viewing,
       }}
-      getItemType={() => type}
+      getEstimatedItemSize={(index, item) => {
+        if (type === 'post') {
+          return estimateHeight({
+            compact: feedCompact,
+            index,
+            item: item as Post,
+            type: 'post',
+          })
+        }
+
+        return 56
+      }}
       keyExtractor={(item) => item.id}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
       onScrollBeginDrag={() => {
         history.save(query)
       }}
+      recycleItems
       ref={list}
       refreshControl={
         <RefreshControl

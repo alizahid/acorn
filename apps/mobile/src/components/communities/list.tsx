@@ -1,4 +1,4 @@
-import { FlashList } from '@shopify/flash-list'
+import { LegendList } from '@legendapp/list'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
@@ -248,22 +248,25 @@ export function CommunitiesList({
     users,
   ])
 
-  const sticky = items
-    .map((item, index) => (item.type === 'header' ? index : null))
-    .filter((item) => item !== null)
-
   return (
-    <FlashList
+    <LegendList
       {...listProps}
-      ListEmptyComponent={<Empty />}
+      ListEmptyComponent={() => <Empty />}
       data={items}
       estimatedItemSize={48}
       extraData={{
         collapsed,
         expanded,
       }}
-      getItemType={(item) => item.type}
+      getEstimatedItemSize={(index, item) => {
+        if (item.type === 'separator') {
+          return 32
+        }
+
+        return 48
+      }}
       keyExtractor={(item) => item.key}
+      recycleItems
       renderItem={({ item }) => {
         if (item.type === 'spinner') {
           return (
@@ -449,15 +452,11 @@ export function CommunitiesList({
           />
         )
       }}
-      stickyHeaderIndices={sticky}
     />
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  content: {
-    paddingBottom: runtime.insets.bottom,
-  },
+const stylesheet = createStyleSheet((theme) => ({
   feedCommunity: {
     height: theme.space[7],
     paddingLeft: theme.space[8],

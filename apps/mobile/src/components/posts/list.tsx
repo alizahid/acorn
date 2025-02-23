@@ -1,5 +1,5 @@
+import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
-import { FlashList } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import {
   type ReactElement,
@@ -15,7 +15,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
-import { type ListProps } from '~/hooks/list'
+import { estimateHeight, type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -50,13 +50,14 @@ export function PostList({
 }: Props) {
   const router = useRouter()
 
-  const list = useRef<FlashList<Post | Comment>>(null)
+  const list = useRef<LegendListRef>(null)
 
   const focused = useIsFocused()
 
   useScrollToTop(list)
 
-  const { feedCompact, seenOnScroll, themeOled } = usePreferences()
+  const { feedCompact, largeThumbnails, seenOnScroll, themeOled } =
+    usePreferences()
   const { addPost } = useHistory()
 
   const { styles } = useStyles(stylesheet)
@@ -153,7 +154,7 @@ export function PostList({
   )
 
   return (
-    <FlashList
+    <LegendList
       {...listProps}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(themeOled, feedCompact)} />
@@ -164,16 +165,29 @@ export function PostList({
       }
       ListHeaderComponent={header}
       data={posts}
-      estimatedItemSize={feedCompact ? 120 : 500}
       extraData={{
         viewing,
       }}
-      getItemType={(item) => {
-        if (['reply', 'more'].includes(item.type)) {
-          return item.type
+      getEstimatedItemSize={(index, item) => {
+        if (!(item as Post | Comment | undefined)) {
+          return 100
         }
 
-        return 'post'
+        if (item.type === 'reply' || item.type === 'more') {
+          return estimateHeight({
+            index,
+            item,
+            type: 'comment',
+          })
+        }
+
+        return estimateHeight({
+          compact: feedCompact,
+          index,
+          item,
+          large: largeThumbnails,
+          type: 'post',
+        })
       }}
       keyExtractor={(item) => {
         if (item.type === 'reply') {
@@ -191,6 +205,7 @@ export function PostList({
           void fetchNextPage()
         }
       }}
+      recycleItems
       ref={list}
       refreshControl={
         <RefreshControl

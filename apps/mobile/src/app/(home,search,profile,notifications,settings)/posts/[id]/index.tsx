@@ -1,5 +1,5 @@
+import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useIsFocused } from '@react-navigation/native'
-import { FlashList } from '@shopify/flash-list'
 import {
   useFocusEffect,
   useLocalSearchParams,
@@ -22,7 +22,7 @@ import { View } from '~/components/common/view'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useList } from '~/hooks/list'
+import { estimateHeight, useList } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
 import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
@@ -44,12 +44,11 @@ export default function Screen() {
 
   const focused = useIsFocused()
 
-  const { replyPost, skipComment, sortPostComments, themeOled } =
-    usePreferences()
+  const { replyPost, sortPostComments, themeOled } = usePreferences()
 
   const { theme } = useStyles()
 
-  const list = useRef<FlashList<Comment>>(null)
+  const list = useRef<LegendListRef>(null)
 
   const [sort, setSort] = useState(sortPostComments)
 
@@ -67,7 +66,7 @@ export default function Screen() {
     sort,
   })
 
-  const viewing = useRef<Array<number>>([])
+  // const viewing = useRef<Array<number>>([])
 
   useFocusEffect(
     useCallback(() => {
@@ -182,7 +181,7 @@ export default function Screen() {
 
   return (
     <>
-      <FlashList
+      <LegendList
         {...listProps}
         ItemSeparatorComponent={() => <View height={themeOled ? '1' : '2'} />}
         ListEmptyComponent={() =>
@@ -190,24 +189,29 @@ export default function Screen() {
         }
         ListHeaderComponent={header}
         data={comments}
-        estimatedFirstItemOffset={0}
-        estimatedItemSize={200}
         extraData={{
           commentId: params.commentId,
         }}
-        getItemType={(item) => item.type}
+        getEstimatedItemSize={(index, item) =>
+          estimateHeight({
+            index,
+            item,
+            type: 'comment',
+          })
+        }
         initialScrollIndex={params.commentId ? 0 : undefined}
         keyExtractor={(item) => `${item.type}-${item.data.id}`}
         keyboardDismissMode="on-drag"
-        onViewableItemsChanged={({ viewableItems }) => {
-          viewing.current = viewableItems
-            .filter((item) => {
-              const comment = item.item as Comment
+        // onViewableItemsChanged={({ viewableItems }) => {
+        //   viewing.current = viewableItems
+        //     .filter((item) => {
+        //       const comment = item.item as Comment
 
-              return comment.type === 'reply' && !comment.data.collapsed
-            })
-            .map((item) => item.index ?? 0)
-        }}
+        //       return comment.type === 'reply' && !comment.data.collapsed
+        //     })
+        //     .map((item) => item.index)
+        // }}
+        recycleItems
         ref={list}
         refreshControl={
           <RefreshControl
@@ -216,9 +220,9 @@ export default function Screen() {
           />
         }
         renderItem={({ item }) => renderItem(item)}
-        viewabilityConfig={{
-          itemVisiblePercentThreshold: 60,
-        }}
+        // viewabilityConfig={{
+        //   itemVisiblePercentThreshold: 60,
+        // }}
       />
 
       {replyPost && post ? (
@@ -237,7 +241,7 @@ export default function Screen() {
         />
       ) : null}
 
-      {skipComment && comments.length > 0 ? (
+      {/* {skipComment && comments.length > 0 ? (
         <FloatingButton
           icon="ArrowDown"
           onLongPress={() => {
@@ -296,7 +300,7 @@ export default function Screen() {
           }}
           side={skipComment}
         />
-      ) : null}
+      ) : null} */}
     </>
   )
 }

@@ -1,5 +1,6 @@
 import { createElement, type ReactNode } from 'react'
 import {
+  type LayoutChangeEvent,
   type StyleProp,
   Text as ReactNativeText,
   type TextStyle,
@@ -12,6 +13,7 @@ import { getTextStyles, type TextStyleProps } from '~/styles/text'
 type Props = TextStyleProps & {
   children: ReactNode
   lines?: number
+  onLayout?: (event: LayoutChangeEvent) => void
   onPress?: () => void
   selectable?: boolean
   slow?: boolean
@@ -21,6 +23,7 @@ type Props = TextStyleProps & {
 export function Text({
   children,
   lines,
+  onLayout,
   onPress,
   selectable,
   slow,
@@ -37,6 +40,7 @@ export function Text({
         allowFontScaling={systemScaling}
         ellipsizeMode={lines ? 'tail' : undefined}
         numberOfLines={lines}
+        onLayout={onLayout}
         onPress={onPress}
         selectable={selectable}
         style={[
@@ -59,6 +63,7 @@ export function Text({
     children,
     ellipsizeMode: lines ? 'tail' : undefined,
     numberOfLines: lines,
+    onLayout,
     selectable,
     style: [styles.main(props, font, systemScaling ? 1 : fontScaling), style],
   })

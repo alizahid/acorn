@@ -1,5 +1,6 @@
+import { LegendList } from '@legendapp/list'
 import { create } from 'mutative'
-import { FlatList, ScrollView } from 'react-native'
+import { ScrollView } from 'react-native'
 import ReorderableList, { reorderItems } from 'react-native-reorderable-list'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -28,8 +29,9 @@ export default function Screen() {
         {t('feedType.title')}
       </Text>
 
-      <FlatList
+      <LegendList
         data={FeedType}
+        estimatedItemSize={48}
         renderItem={({ item }) => (
           <SheetItem
             icon={{
@@ -146,6 +148,7 @@ const stylesheet = createStyleSheet((theme) => ({
     backgroundColor: theme.colors.gray.uiAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
+    flexGrow: 0,
     marginHorizontal: theme.space[3],
   },
 }))
