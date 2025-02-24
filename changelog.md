@@ -5,6 +5,7 @@
 - added: spoiler blur
 - added: filters
 - changed: swipe gestures extended
+- changed: comment skip disabled (temporarily)
 - fixed: list performance
 
 ## Build 44
