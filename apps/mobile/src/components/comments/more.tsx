@@ -47,6 +47,7 @@ export function CommentMoreCard({
   return (
     <Pressable
       align="center"
+      delayed
       direction="row"
       disabled={isPending}
       gap="4"
