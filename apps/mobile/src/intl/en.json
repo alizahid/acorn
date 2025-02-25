@@ -468,6 +468,7 @@
           "autoPlay": "Auto play videos",
           "blurNsfw": "Blur NSFW media",
           "feedMuted": "Mute feed",
+          "saveToAlbum": "Save to Acorn album",
           "title": "Media",
           "unmuteFullscreen": "Unmute on full screen"
         },

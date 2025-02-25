@@ -5,6 +5,7 @@
 - added: spoiler blur
 - added: keyword filtering
 - added: floating button center position
+- added: save media to Acorn album
 - changed: swipe gestures extended
 - changed: comment skip disabled (temporarily)
 - fixed: list performance

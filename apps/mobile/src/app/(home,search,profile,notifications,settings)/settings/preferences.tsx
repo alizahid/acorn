@@ -187,6 +187,11 @@ export default function Screen() {
             key: 'blurNsfw',
             label: 'media.blurNsfw',
           },
+          {
+            icon: 'Image',
+            key: 'saveToAlbum',
+            label: 'media.saveToAlbum',
+          },
 
           null,
           t('system.title'),

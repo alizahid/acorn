@@ -9,6 +9,7 @@ import { useStyles } from 'react-native-unistyles'
 
 import placeholderDark from '~/assets/images/placeholder-dark.png'
 import placeholderLight from '~/assets/images/placeholder-light.png'
+import { usePreferences } from '~/stores/preferences'
 
 export function useImagePlaceholder() {
   const { theme } = useStyles()
@@ -24,6 +25,8 @@ type DownloadVariables = {
 }
 
 export function useDownloadImage() {
+  const { saveToAlbum } = usePreferences()
+
   const timer = useRef<NodeJS.Timeout>()
 
   const { isError, isPending, isSuccess, mutate, reset } = useMutation<
@@ -32,7 +35,8 @@ export function useDownloadImage() {
     DownloadVariables
   >({
     async mutationFn(variables) {
-      const { granted } = await MediaLibrary.requestPermissionsAsync(true)
+      const { granted } =
+        await MediaLibrary.requestPermissionsAsync(!saveToAlbum)
 
       if (!granted) {
         throw new Error('Permission not granted')
@@ -43,6 +47,16 @@ export function useDownloadImage() {
       directory.create()
 
       const file = await File.downloadFileAsync(variables.url, directory)
+
+      if (saveToAlbum) {
+        const album = await getAlbum()
+
+        const asset = await MediaLibrary.createAssetAsync(file.uri)
+
+        await MediaLibrary.addAssetsToAlbumAsync([asset], album)
+
+        return
+      }
 
       await MediaLibrary.saveToLibraryAsync(file.uri)
 
@@ -107,4 +121,18 @@ export function useCopyImage() {
     isPending,
     isSuccess,
   }
+}
+
+async function getAlbum() {
+  const name = 'Acorn'
+
+  const exists = (await MediaLibrary.getAlbumAsync(
+    name,
+  )) as MediaLibrary.Album | null
+
+  if (exists) {
+    return exists
+  }
+
+  return MediaLibrary.createAlbumAsync(name)
 }

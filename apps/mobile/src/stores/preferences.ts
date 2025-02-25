@@ -46,6 +46,7 @@ export type PreferencesPayload = {
   refreshInterval: number
   rememberSorting: boolean
   replyPost: FloatingButtonSide
+  saveToAlbum: boolean
   seenOnMedia: boolean
   seenOnScroll: boolean
   seenOnVote: boolean
@@ -101,6 +102,7 @@ export const usePreferences = create<State>()(
       refreshInterval: 10,
       rememberSorting: true,
       replyPost: 'left',
+      saveToAlbum: false,
       seenOnMedia: false,
       seenOnScroll: false,
       seenOnVote: false,
