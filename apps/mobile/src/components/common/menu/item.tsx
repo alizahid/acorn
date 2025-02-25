@@ -137,6 +137,7 @@ export function MenuItem({ item, style }: Props) {
         >
           {item.options.map((option, index) => {
             if (option === null) {
+              // eslint-disable-next-line react/no-array-index-key -- go away
               return <View height="4" key={`separator-${index}`} />
             }
 
