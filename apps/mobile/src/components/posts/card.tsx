@@ -1,11 +1,6 @@
 import { useRouter } from 'expo-router'
-import { useCallback, useEffect } from 'react'
+import { useCallback } from 'react'
 import { Share, type StyleProp, type ViewStyle } from 'react-native'
-import {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useHide } from '~/hooks/moderation/hide'
@@ -57,23 +52,9 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
-  const opacity = useSharedValue(
-    !expanded && dimSeen ? (post.seen ? 0.5 : 1) : 1,
-  )
-
-  const dim = useAnimatedStyle(() => ({
-    opacity: opacity.get(),
-  }))
-
   const { vote } = usePostVote()
   const { save } = usePostSave()
   const { hide } = useHide()
-
-  useEffect(() => {
-    opacity.set(() =>
-      withTiming(!expanded && dimSeen ? (post.seen ? 0.5 : 1) : 1),
-    )
-  }, [dimSeen, expanded, opacity, post.seen])
 
   const onAction = useCallback(
     (item: Post, action?: GestureAction) => {
@@ -159,10 +140,12 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
     triggerHaptic('soft')
   }
 
+  const dimmed = !expanded && dimSeen && post.seen
+
   if (compact) {
     return (
       <PostGestures
-        containerStyle={[styles.container, dim]}
+        containerStyle={[styles.container(dimmed)]}
         data={post}
         left={{
           enabled: postLeft,
@@ -193,7 +176,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
 
   return (
     <PostGestures
-      containerStyle={[styles.container, dim]}
+      containerStyle={[styles.container(dimmed)]}
       data={post}
       left={{
         enabled: postLeft,
@@ -297,13 +280,14 @@ const stylesheet = createStyleSheet((theme) => ({
   body: {
     marginHorizontal: theme.space[3],
   },
-  container: {
+  container: (dimmed: boolean) => ({
     alignSelf: 'center',
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[4] : undefined,
     maxWidth: iPad ? cardMaxWidth : undefined,
+    opacity: dimmed ? 0.5 : undefined,
     width: '100%',
-  },
+  }),
   expanded: {
     marginBottom: theme.space[3],
   },

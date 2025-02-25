@@ -7,6 +7,7 @@
 - changed: swipe gestures extended
 - changed: comment skip disabled (temporarily)
 - fixed: list performance
+- fixed: post dimming
 
 ## Build 44
 
