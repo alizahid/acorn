@@ -114,8 +114,8 @@ export default function Screen() {
                 label: 'browsing.stickyDrawer',
               } as const)
             : false,
-
           null,
+
           t('comments.title'),
           {
             exclusive: 'replyPost',
@@ -134,8 +134,8 @@ export default function Screen() {
             key: 'collapseAutoModerator',
             label: 'comments.collapseAutoModerator',
           },
-
           null,
+
           t('history.title'),
           {
             icon: 'ArrowFatUp',
@@ -164,8 +164,8 @@ export default function Screen() {
             key: 'hideSeen',
             label: 'history.hideSeen.label',
           },
-
           null,
+
           t('media.title'),
           {
             icon: 'Play',
@@ -192,16 +192,16 @@ export default function Screen() {
             key: 'saveToAlbum',
             label: 'media.saveToAlbum',
           },
-
           null,
+
           t('system.title'),
           {
             icon: 'Browser',
             key: 'linkBrowser',
             label: 'system.linkBrowser',
           },
-
           null,
+
           t('feedback.title'),
           {
             icon: 'Vibrate',

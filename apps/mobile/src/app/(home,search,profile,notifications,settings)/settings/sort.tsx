@@ -108,8 +108,8 @@ export default function Screen() {
             'search.interval',
             TopInterval.map((item) => enhanceInterval(item)),
           ],
-
           null,
+
           t('community.title'),
           [
             'sortCommunityPosts',
@@ -121,16 +121,16 @@ export default function Screen() {
             'community.interval',
             TopInterval.map((item) => enhanceInterval(item)),
           ],
-
           null,
+
           t('post.title'),
           [
             'sortPostComments',
             'post.sort',
             CommentSort.map((item) => enhanceSort(item)),
           ],
-
           null,
+
           t('user.title'),
           [
             'sortUserPosts',
