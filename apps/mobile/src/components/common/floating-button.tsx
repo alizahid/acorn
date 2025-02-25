@@ -7,7 +7,7 @@ import { type ColorToken } from '~/styles/tokens'
 import { type IconName } from './icon'
 import { IconButton } from './icon-button'
 
-export const FloatingButtonSide = ['left', 'right', null] as const
+export const FloatingButtonSide = ['left', 'center', 'right', null] as const
 
 export type FloatingButtonSide = (typeof FloatingButtonSide)[number]
 
@@ -16,7 +16,7 @@ type Props = {
   icon: IconName
   onLongPress?: () => void
   onPress?: () => void
-  side?: 'right' | 'left'
+  side?: NonNullable<FloatingButtonSide>
   style?: StyleProp<ViewStyle>
 }
 
@@ -61,7 +61,12 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       theme.space[5] +
       theme.space[3] +
       theme.space[4],
-    left: side === 'left' ? theme.space[4] : undefined,
+    left:
+      side === 'center'
+        ? runtime.screen.width / 2 - theme.space[5]
+        : side === 'left'
+          ? theme.space[4]
+          : undefined,
     overflow: 'hidden',
     position: 'absolute',
     right: side === 'right' ? theme.space[4] : undefined,

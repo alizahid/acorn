@@ -3,7 +3,8 @@
 ## Upcoming
 
 - added: spoiler blur
-- added: filters
+- added: keyword filtering
+- added: floating button center position
 - changed: swipe gestures extended
 - changed: comment skip disabled (temporarily)
 - fixed: list performance

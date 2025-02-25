@@ -3,7 +3,7 @@ import { useStyles } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { FloatingButtonSide } from '~/components/common/floating-button'
-import { Icon } from '~/components/common/icon'
+import { Icon, type IconName } from '~/components/common/icon'
 import { Menu, type MenuItem } from '~/components/common/menu'
 import { useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
@@ -274,18 +274,16 @@ export default function Screen() {
               options: FloatingButtonSide.map((option) => {
                 const value = option ?? 'hide'
 
-                const icon =
+                const icon: IconName =
                   value === 'left'
                     ? 'ArrowLeft'
-                    : value === 'right'
-                      ? 'ArrowRight'
-                      : 'EyeClosed'
+                    : value === 'center'
+                      ? 'ArrowDown'
+                      : value === 'right'
+                        ? 'ArrowRight'
+                        : 'EyeClosed'
 
                 return {
-                  icon: {
-                    name: icon,
-                    type: 'icon',
-                  },
                   label: t(`side.${value}`),
                   right: (
                     <Icon

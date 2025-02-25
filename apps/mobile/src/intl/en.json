@@ -476,6 +476,7 @@
           "never": "Never"
         },
         "side": {
+          "center": "Center",
           "hide": "Hide",
           "left": "Left",
           "right": "Right"
