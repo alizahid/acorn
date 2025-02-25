@@ -1,4 +1,4 @@
-import { useIsRestoring, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { reddit } from '~/reddit/api'
 import { FeedsSchema } from '~/schemas/feeds'
@@ -16,8 +16,6 @@ export type FeedsQueryKey = [
 export type FeedsQueryData = Array<Feed>
 
 export function useFeeds() {
-  const isRestoring = useIsRestoring()
-
   const { accountId } = useAuth()
 
   const queryKey: FeedsQueryKey = [
@@ -27,11 +25,7 @@ export function useFeeds() {
     },
   ]
 
-  const {
-    data,
-    isLoading,
-    refetch: refresh,
-  } = useQuery<
+  const { data, isLoading, refetch } = useQuery<
     FeedsQueryData | undefined,
     Error,
     FeedsQueryData,
@@ -53,9 +47,7 @@ export function useFeeds() {
 
   return {
     feeds: data ?? [],
-    isLoading: isRestoring || isLoading,
-    refetch: async () => {
-      await refresh()
-    },
+    isLoading,
+    refetch,
   }
 }

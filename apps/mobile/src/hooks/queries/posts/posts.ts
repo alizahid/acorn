@@ -1,8 +1,4 @@
-import {
-  type InfiniteData,
-  useInfiniteQuery,
-  useIsRestoring,
-} from '@tanstack/react-query'
+import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import fuzzysort from 'fuzzysort'
 import { compact, uniqBy } from 'lodash'
 import { create, type Draft } from 'mutative'
@@ -70,8 +66,6 @@ export function usePosts({
   user,
   userType,
 }: PostsProps) {
-  const isRestoring = useIsRestoring()
-
   const { accountId } = useAuth()
   const { filteredKeywords } = usePreferences()
 
@@ -215,7 +209,7 @@ export function usePosts({
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading: isRestoring || isLoading,
+    isLoading,
     posts,
     refetch,
   }

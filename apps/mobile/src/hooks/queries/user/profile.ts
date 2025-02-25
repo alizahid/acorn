@@ -1,4 +1,4 @@
-import { useIsRestoring, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 
 import { reddit } from '~/reddit/api'
 import { ProfileSchema } from '~/schemas/profile'
@@ -16,8 +16,6 @@ export type ProfileQueryKey = [
 export type ProfileQueryData = Profile
 
 export function useProfile(name?: string) {
-  const isRestoring = useIsRestoring()
-
   const { accountId } = useAuth()
 
   const { data, isLoading, refetch } = useQuery<
@@ -45,7 +43,7 @@ export function useProfile(name?: string) {
   })
 
   return {
-    isLoading: isRestoring || isLoading,
+    isLoading,
     profile: data,
     refetch,
   }

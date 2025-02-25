@@ -1,4 +1,4 @@
-import { useIsRestoring, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { compact } from 'lodash'
 import { create, type Draft } from 'mutative'
 
@@ -53,8 +53,6 @@ export function useSearch<Type extends SearchTab>({
   sort,
   type,
 }: SearchProps<Type>) {
-  const isRestoring = useIsRestoring()
-
   const { accountId } = useAuth()
   const { filteredKeywords } = usePreferences()
 
@@ -145,7 +143,7 @@ export function useSearch<Type extends SearchTab>({
   })
 
   return {
-    isLoading: isRestoring || isLoading,
+    isLoading,
     refetch,
     results: data ?? [],
   }

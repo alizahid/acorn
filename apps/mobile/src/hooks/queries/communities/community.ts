@@ -1,4 +1,4 @@
-import { useIsRestoring, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
 
 import { queryClient } from '~/lib/query'
@@ -24,8 +24,6 @@ export type CommunityQueryKey = [
 export type CommunityQueryData = Community
 
 export function useCommunity(name: string) {
-  const isRestoring = useIsRestoring()
-
   const { accountId } = useAuth()
 
   const { data, isLoading, refetch } = useQuery<
@@ -62,7 +60,7 @@ export function useCommunity(name: string) {
 
   return {
     community: data,
-    isLoading: isRestoring || isLoading,
+    isLoading,
     refetch,
   }
 }

@@ -1,4 +1,4 @@
-import { useIsRestoring, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import { sortBy, uniq } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
@@ -21,8 +21,6 @@ export type CommunitiesQueryKey = [
 export type CommunitiesQueryData = Array<Community>
 
 export function useCommunities() {
-  const isRestoring = useIsRestoring()
-
   const { accountId } = useAuth()
 
   const queryKey: CommunitiesQueryKey = [
@@ -32,11 +30,7 @@ export function useCommunities() {
     },
   ]
 
-  const {
-    data,
-    isLoading,
-    refetch: refresh,
-  } = useQuery<
+  const { data, isLoading, refetch } = useQuery<
     CommunitiesQueryData,
     Error,
     CommunitiesQueryData,
@@ -55,8 +49,8 @@ export function useCommunities() {
 
   return {
     communities,
-    isLoading: isRestoring || isLoading,
-    refetch: refresh,
+    isLoading,
+    refetch,
     users,
   }
 }

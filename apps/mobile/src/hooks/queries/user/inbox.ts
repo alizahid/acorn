@@ -1,8 +1,4 @@
-import {
-  type InfiniteData,
-  useInfiniteQuery,
-  useIsRestoring,
-} from '@tanstack/react-query'
+import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
 
 import { queryClient } from '~/lib/query'
@@ -30,8 +26,6 @@ export type InboxQueryKey = [
 export type InboxQueryData = InfiniteData<Page, Param>
 
 export function useInbox() {
-  const isRestoring = useIsRestoring()
-
   const { accountId } = useAuth()
 
   const {
@@ -91,7 +85,7 @@ export function useInbox() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
-    isLoading: isRestoring || isLoading,
+    isLoading,
     isRefreshing: isStale && isFetching && !isLoading,
     messages,
     notifications,
