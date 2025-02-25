@@ -4,7 +4,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
 import { View } from '~/components/common/view'
-import { useRedGifs } from '~/hooks/redgifs'
+import { useRedGifs } from '~/hooks/red-gifs'
 import { type PostMedia } from '~/types/post'
 
 import { VideoPlayer } from './player'

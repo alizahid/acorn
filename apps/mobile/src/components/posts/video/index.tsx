@@ -31,7 +31,7 @@ export function PostVideoCard({
   video,
   viewing,
 }: Props) {
-  if (video.provider === 'redgifs') {
+  if (video.provider === 'red-gifs') {
     return (
       <RedGifsVideo
         compact={compact}

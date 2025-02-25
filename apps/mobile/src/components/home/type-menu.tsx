@@ -4,7 +4,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useCommunities } from '~/hooks/queries/communities/communities'
-import { useFeeds } from '~/hooks/queries/feeds/feeds'
+import { useFeeds } from '~/hooks/queries/communities/feeds'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { type FeedType } from '~/types/sort'

@@ -101,7 +101,7 @@ export function getVideo(data: PostDataSchema): PostMedia | undefined {
         if (parts?.[1]) {
           return {
             height: data.media.oembed.height,
-            provider: 'redgifs',
+            provider: 'red-gifs',
             type: 'video',
             url: parts[1],
             width: data.media.oembed.width,

@@ -4,7 +4,7 @@ import { type SQLiteDatabase } from 'expo-sqlite'
 export const databaseName = 'acorn.sql'
 
 export async function onInit(db: SQLiteDatabase) {
-  const latest = 4
+  const latest = 5
 
   const pragma = await db.getFirstAsync<{
     user_version: number
@@ -17,7 +17,7 @@ export async function onInit(db: SQLiteDatabase) {
   }
 
   if (current === 0) {
-    await db.execAsync(`PRAGMA journal_mode = 'wal'`)
+    await db.execAsync(`PRAGMA journal_mode = 'WAL'`)
 
     await db.execAsync(
       `CREATE TABLE history (post_id TEXT NOT NULL PRIMARY KEY, seen_at TEXT NOT NULL)`,
@@ -48,6 +48,12 @@ export async function onInit(db: SQLiteDatabase) {
     )
 
     current = 4
+  }
+
+  if (current === 4) {
+    await db.execAsync(`PRAGMA journal_mode = 'TRUNCATE'`)
+
+    current = 5
   }
 
   await db.execAsync(`PRAGMA user_version = ${latest}`)

@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import { differenceInMilliseconds } from 'date-fns'
 
-import { getGif, type Gif } from '~/lib/redgifs'
+import { getGif, type Gif } from '~/lib/red-gifs'
 
 type RedGifsQueryKey = [
-  'redgifs',
+  'red-gifs',
   {
     id: string
   },
@@ -19,11 +19,12 @@ export function useRedGifs(id: string) {
     RedGifsData,
     RedGifsQueryKey
   >({
+    networkMode: 'offlineFirst',
     queryFn() {
       return getGif(id)
     },
     queryKey: [
-      'redgifs',
+      'red-gifs',
       {
         id,
       },

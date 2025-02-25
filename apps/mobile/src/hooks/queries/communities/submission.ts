@@ -14,7 +14,7 @@ export function useSubmission(name: string) {
 
   const { data, isLoading, refetch } = useQuery({
     enabled: Boolean(accountId),
-
+    networkMode: 'offlineFirst',
     async queryFn() {
       const community = SubmissionCommunitySchema.parse(
         await reddit({

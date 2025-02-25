@@ -46,6 +46,7 @@ export function useInbox() {
   } = useInfiniteQuery<Page, Error, InboxQueryData, InboxQueryKey, Param>({
     enabled: Boolean(accountId),
     initialPageParam: null,
+    networkMode: 'offlineFirst',
     async queryFn({ pageParam }) {
       const url = new URL('/message/inbox', REDDIT_URI)
 

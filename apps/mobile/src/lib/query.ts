@@ -1,12 +1,13 @@
 import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister'
-import { type DehydrateOptions, QueryClient } from '@tanstack/react-query'
+import { QueryClient } from '@tanstack/react-query'
+import { type PersistQueryClientOptions } from '@tanstack/react-query-persist-client'
 import { AsyncStorage } from 'expo-sqlite/kv-store'
 import { parse, stringify } from 'superjson'
 
 import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
 
-export const CACHE_KEY = 'cache-storage-8'
+export const CACHE_KEY = 'cache-storage-1'
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -40,21 +41,23 @@ export const queryClient = new QueryClient({
   },
 })
 
-export const persister = createAsyncStoragePersister({
-  deserialize(cache) {
-    return parse(cache)
+export const persistOptions: Omit<PersistQueryClientOptions, 'queryClient'> = {
+  buster: CACHE_KEY,
+  dehydrateOptions: {
+    shouldDehydrateQuery(query) {
+      return (
+        query.state.status === 'success' &&
+        query.options.networkMode === 'offlineFirst'
+      )
+    },
   },
-  key: CACHE_KEY,
-  serialize(client) {
-    return stringify(client)
-  },
-  storage: AsyncStorage,
-})
-
-export const dehydrateOptions: DehydrateOptions = {
-  shouldDehydrateQuery(query) {
-    const first = String(query.queryKey[0])
-
-    return /communities|feeds|inbox|submission|unread|redgifs/.test(first)
-  },
+  persister: createAsyncStoragePersister({
+    deserialize(cache) {
+      return parse(cache)
+    },
+    serialize(client) {
+      return stringify(client)
+    },
+    storage: AsyncStorage,
+  }),
 }

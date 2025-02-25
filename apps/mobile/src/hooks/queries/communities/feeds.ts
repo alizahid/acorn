@@ -38,6 +38,7 @@ export function useFeeds() {
     FeedsQueryKey
   >({
     enabled: Boolean(accountId),
+    networkMode: 'offlineFirst',
     async queryFn() {
       const payload = await reddit({
         url: '/api/multi/mine',

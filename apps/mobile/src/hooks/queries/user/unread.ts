@@ -17,6 +17,7 @@ export function useUnread() {
 
   const { data } = useQuery<number, Error, number, UnreadQueryKey>({
     enabled: Boolean(accountId),
+    networkMode: 'offlineFirst',
     placeholderData: 0,
     async queryFn() {
       const url = new URL('/message/unread', REDDIT_URI)
