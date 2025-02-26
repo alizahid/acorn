@@ -363,26 +363,28 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
           }}
         />
 
-        <SheetItem
-          icon={{
-            color: theme.colors.gray.textLow,
-            name: 'UsersFour',
-            type: 'icon',
-          }}
-          label={t('openCommunity', {
-            community: post.community.name,
-          })}
-          onPress={() => {
-            router.navigate({
-              params: {
-                name: post.community.name,
-              },
-              pathname: '/communities/[name]',
-            })
+        {!post.community.name.startsWith('u/') ? (
+          <SheetItem
+            icon={{
+              color: theme.colors.gray.textLow,
+              name: 'UsersFour',
+              type: 'icon',
+            }}
+            label={t('openCommunity', {
+              community: post.community.name,
+            })}
+            onPress={() => {
+              router.navigate({
+                params: {
+                  name: post.community.name,
+                },
+                pathname: '/communities/[name]',
+              })
 
-            call.end()
-          }}
-        />
+              call.end()
+            }}
+          />
+        ) : null}
 
         <View height="4" />
 
@@ -426,25 +428,27 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
           }}
         />
 
-        <SheetItem
-          icon={{
-            color: theme.colors.red.accent,
-            name: 'UsersFour',
-            type: 'icon',
-          }}
-          label={t('hideCommunity', {
-            community: post.community.name,
-          })}
-          onPress={() => {
-            hide({
-              action: 'hide',
-              id: post.community.id,
-              type: 'community',
-            })
+        {!post.community.name.startsWith('u/') ? (
+          <SheetItem
+            icon={{
+              color: theme.colors.red.accent,
+              name: 'UsersFour',
+              type: 'icon',
+            }}
+            label={t('hideCommunity', {
+              community: post.community.name,
+            })}
+            onPress={() => {
+              hide({
+                action: 'hide',
+                id: post.community.id,
+                type: 'community',
+              })
 
-            call.end()
-          }}
-        />
+              call.end()
+            }}
+          />
+        ) : null}
 
         <SheetItem
           icon={{
@@ -465,25 +469,31 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
         ref={sheetReport}
         title={t('report.title')}
       >
-        {reasons.map((item) => (
-          <SheetItem
-            key={item}
-            label={t(`report.${item}`, {
-              community: post.community.name,
-            })}
-            onPress={() => {
-              report({
-                id: post.id,
-                reason: item,
-                type: 'post',
-              })
+        {reasons
+          .filter((reason) =>
+            reason === 'community'
+              ? !post.community.name.startsWith('u/')
+              : true,
+          )
+          .map((item) => (
+            <SheetItem
+              key={item}
+              label={t(`report.${item}`, {
+                community: post.community.name,
+              })}
+              onPress={() => {
+                report({
+                  id: post.id,
+                  reason: item,
+                  type: 'post',
+                })
 
-              sheetReport.current?.close()
+                sheetReport.current?.close()
 
-              call.end()
-            }}
-          />
-        ))}
+                call.end()
+              }}
+            />
+          ))}
       </SheetModal>
     </>
   )
