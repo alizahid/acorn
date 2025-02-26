@@ -7,8 +7,6 @@ import { TimeAgo } from '~/components/common/time'
 import { View } from '~/components/common/view'
 import { type Post } from '~/types/post'
 
-export type PostLabel = 'user' | 'subreddit'
-
 type Props = {
   post: Post
 }

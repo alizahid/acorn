@@ -8,10 +8,8 @@ import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
 import { FooterButton } from './button'
-import { PostCommunity } from './community'
+import { PostCommunity, type PostLabel } from './community'
 import { PostMeta } from './meta'
-
-export type PostLabel = 'user' | 'subreddit'
 
 type Props = {
   community?: boolean

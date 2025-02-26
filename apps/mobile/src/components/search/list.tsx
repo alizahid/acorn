@@ -127,7 +127,7 @@ export function SearchList({
 
       return (
         <PostCard
-          label="subreddit"
+          label="both"
           post={item as Post}
           viewing={focused ? viewing.includes(item.id) : false}
         />

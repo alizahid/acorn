@@ -73,6 +73,9 @@
       }
     },
     "posts": {
+      "community": {
+        "by": "by"
+      },
       "gallery": {
         "gif": "GIF",
         "item": "{current, number} of {count, number}",

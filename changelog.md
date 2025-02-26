@@ -9,6 +9,7 @@
 - added: show community on top
 - added: download gallery
 - added: copy post title
+- added: user name on post cards in feeds
 - changed: swipe gestures extended
 - changed: comment skip disabled (temporarily)
 - fixed: list performance

@@ -61,7 +61,7 @@ export default function Screen() {
       community={params.type === 'home' ? undefined : params.type}
       feed={params.feed}
       interval={sorting.interval}
-      label="subreddit"
+      label="both"
       listProps={listProps}
       sort={sorting.sort}
     />

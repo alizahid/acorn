@@ -26,7 +26,7 @@ import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
-import { type PostLabel } from './footer'
+import { type PostLabel } from './footer/community'
 
 type Props = PostsProps & {
   header?: ReactElement
