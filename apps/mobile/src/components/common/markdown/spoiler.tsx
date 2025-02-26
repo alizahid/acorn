@@ -18,7 +18,7 @@ export function Spoiler({ children, size = '3' }: SpoilerProps) {
   return (
     <Text
       onPress={() => {
-        setVisible(true)
+        setVisible((previous) => !previous)
       }}
       size={size}
       style={!visible ? styles.main : undefined}
