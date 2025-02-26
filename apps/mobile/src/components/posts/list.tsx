@@ -223,11 +223,11 @@ export function PostList({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   separator: (oled: boolean, compact: boolean) => ({
     alignSelf: 'center',
     backgroundColor: oled ? theme.colors.gray.border : undefined,
-    height: oled ? runtime.hairlineWidth : theme.space[compact ? 2 : 4],
+    height: oled ? 1 : theme.space[compact ? 2 : 4],
     maxWidth: iPad ? cardMaxWidth : undefined,
     width: '100%',
   }),

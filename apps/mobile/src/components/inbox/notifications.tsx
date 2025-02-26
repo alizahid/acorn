@@ -79,9 +79,9 @@ export function NotificationsList({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   separator: (oled: boolean) => ({
     backgroundColor: oled ? theme.colors.gray.border : undefined,
-    height: oled ? runtime.hairlineWidth : theme.space[4],
+    height: oled ? 1 : theme.space[4],
   }),
 }))

@@ -190,7 +190,7 @@ export function SearchList({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   first: {
     marginTop: theme.space[2],
   },
@@ -201,7 +201,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     if (type === 'post') {
       return {
         backgroundColor: oled ? theme.colors.gray.border : undefined,
-        height: oled ? runtime.hairlineWidth : theme.space[compact ? 2 : 4],
+        height: oled ? 1 : theme.space[compact ? 2 : 4],
       }
     }
 
