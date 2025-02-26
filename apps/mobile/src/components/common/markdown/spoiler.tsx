@@ -31,7 +31,7 @@ export function Spoiler({ children, size = '3' }: SpoilerProps) {
 const stylesheet = createStyleSheet((theme) => ({
   main: {
     alignSelf: 'flex-start',
-    backgroundColor: theme.colors.accent.accent,
-    color: theme.colors.accent.accent,
+    backgroundColor: theme.colors.orange.accent,
+    color: theme.colors.orange.accent,
   },
 }))
