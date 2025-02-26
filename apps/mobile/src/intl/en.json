@@ -428,6 +428,7 @@
       },
       "preferences": {
         "browsing": {
+          "communityOnTop": "Show community on top",
           "oldReddit": "Use old Reddit links",
           "refreshInterval": {
             "description": "Requires app restart",

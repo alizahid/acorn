@@ -24,6 +24,7 @@ import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
 import { PostFooter, type PostLabel } from './footer'
+import { PostCommunity } from './footer/community'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
@@ -39,8 +40,14 @@ type Props = {
 export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const router = useRouter()
 
-  const { dimSeen, feedCompact, mediaOnRight, oldReddit, themeOled } =
-    usePreferences()
+  const {
+    communityOnTop,
+    dimSeen,
+    feedCompact,
+    mediaOnRight,
+    oldReddit,
+    themeOled,
+  } = usePreferences()
   const {
     postLeft,
     postLeftLong,
@@ -193,6 +200,12 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
       }}
       style={[styles.main(themeOled), style]}
     >
+      {communityOnTop ? (
+        <View mt="3" mx="3">
+          <PostCommunity label={label} post={post} />
+        </View>
+      ) : null}
+
       <Pressable
         align="start"
         delayed
@@ -265,6 +278,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
       ) : null}
 
       <PostFooter
+        community={!communityOnTop}
         expanded={expanded}
         label={label}
         onLongPress={onLongPress}

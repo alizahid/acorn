@@ -14,13 +14,20 @@ import { PostMeta } from './meta'
 export type PostLabel = 'user' | 'subreddit'
 
 type Props = {
+  community?: boolean
   expanded?: boolean
   label?: PostLabel
   onLongPress?: () => void
   post: Post
 }
 
-export function PostFooter({ expanded, label, onLongPress, post }: Props) {
+export function PostFooter({
+  community = true,
+  expanded,
+  label,
+  onLongPress,
+  post,
+}: Props) {
   const router = useRouter()
 
   const { theme } = useStyles()
@@ -29,7 +36,7 @@ export function PostFooter({ expanded, label, onLongPress, post }: Props) {
 
   return (
     <Pressable
-      align="center"
+      align={community ? 'center' : 'end'}
       delayed
       direction="row"
       disabled={expanded}
@@ -47,7 +54,7 @@ export function PostFooter({ expanded, label, onLongPress, post }: Props) {
       p="3"
     >
       <View gap="2">
-        <PostCommunity label={label} post={post} />
+        {community ? <PostCommunity label={label} post={post} /> : null}
 
         <PostMeta post={post} />
       </View>

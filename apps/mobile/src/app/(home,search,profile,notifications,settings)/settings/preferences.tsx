@@ -30,6 +30,11 @@ export default function Screen() {
             label: 'browsing.showFlair',
           },
           {
+            icon: 'ArrowUp',
+            key: 'communityOnTop',
+            label: 'browsing.communityOnTop',
+          },
+          {
             description: 'browsing.refreshInterval.description',
             icon: 'Clock',
             key: 'refreshInterval',
