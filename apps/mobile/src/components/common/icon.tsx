@@ -12,6 +12,7 @@ import ArrowRightBold from 'react-native-phosphor/src/bold/ArrowRight'
 import ArrowsOutBold from 'react-native-phosphor/src/bold/ArrowsOut'
 import ArrowsSplitBold from 'react-native-phosphor/src/bold/ArrowsSplit'
 import ArrowUpBold from 'react-native-phosphor/src/bold/ArrowUp'
+import BabyBold from 'react-native-phosphor/src/bold/Baby'
 import BalloonBold from 'react-native-phosphor/src/bold/Balloon'
 import BellBold from 'react-native-phosphor/src/bold/Bell'
 import BookmarkSimpleBold from 'react-native-phosphor/src/bold/BookmarkSimple'
@@ -102,6 +103,7 @@ import ArrowRightDuotone from 'react-native-phosphor/src/duotone/ArrowRight'
 import ArrowsOutDuotone from 'react-native-phosphor/src/duotone/ArrowsOut'
 import ArrowsSplitDuotone from 'react-native-phosphor/src/duotone/ArrowsSplit'
 import ArrowUpDuotone from 'react-native-phosphor/src/duotone/ArrowUp'
+import BabyDuotone from 'react-native-phosphor/src/duotone/Baby'
 import BalloonDuotone from 'react-native-phosphor/src/duotone/Balloon'
 import BellDuotone from 'react-native-phosphor/src/duotone/Bell'
 import BookmarkSimpleDuotone from 'react-native-phosphor/src/duotone/BookmarkSimple'
@@ -192,6 +194,7 @@ import ArrowRightFill from 'react-native-phosphor/src/fill/ArrowRight'
 import ArrowsOutFill from 'react-native-phosphor/src/fill/ArrowsOut'
 import ArrowsSplitFill from 'react-native-phosphor/src/fill/ArrowsSplit'
 import ArrowUpFill from 'react-native-phosphor/src/fill/ArrowUp'
+import BabyFill from 'react-native-phosphor/src/fill/Baby'
 import BalloonFill from 'react-native-phosphor/src/fill/Balloon'
 import BellFill from 'react-native-phosphor/src/fill/Bell'
 import BookmarkSimpleFill from 'react-native-phosphor/src/fill/BookmarkSimple'
@@ -282,6 +285,7 @@ import ArrowRightRegular from 'react-native-phosphor/src/regular/ArrowRight'
 import ArrowsOutRegular from 'react-native-phosphor/src/regular/ArrowsOut'
 import ArrowsSplitRegular from 'react-native-phosphor/src/regular/ArrowsSplit'
 import ArrowUpRegular from 'react-native-phosphor/src/regular/ArrowUp'
+import BabyRegular from 'react-native-phosphor/src/regular/Baby'
 import BalloonRegular from 'react-native-phosphor/src/regular/Balloon'
 import BellRegular from 'react-native-phosphor/src/regular/Bell'
 import BookmarkSimpleRegular from 'react-native-phosphor/src/regular/BookmarkSimple'
@@ -457,6 +461,12 @@ const icons = {
     duotone: ArrowsSplitDuotone,
     fill: ArrowsSplitFill,
     regular: ArrowsSplitRegular,
+  },
+  Baby: {
+    bold: BabyBold,
+    duotone: BabyDuotone,
+    fill: BabyFill,
+    regular: BabyRegular,
   },
   Balloon: {
     bold: BalloonBold,

@@ -94,7 +94,7 @@ export function usePost({ commentId, id, sort }: Props) {
         throw new Error('Post not found')
       }
 
-      const images = await fetchUserData(
+      const users = await fetchUserData(
         post.data.author_fullname,
         ...compact(
           response[1].data.children
@@ -107,12 +107,12 @@ export function usePost({ commentId, id, sort }: Props) {
 
       return {
         comments: comments.map((item) =>
-          transformComment(item, images, {
+          transformComment(item, users, {
             collapseAutoModerator,
             collapsed,
           }),
         ),
-        post: transformPost(post.data, [], images),
+        post: transformPost(post.data, [], users),
       }
     },
     queryKey: [

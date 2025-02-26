@@ -11,6 +11,7 @@
 - added: copy post title
 - added: user name on post cards in feeds
 - added: nsfw tag on posts
+- added: new account age on comments
 - changed: swipe gestures extended
 - changed: comment skip disabled (temporarily)
 - fixed: list performance

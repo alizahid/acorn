@@ -1,3 +1,4 @@
+import { differenceInMonths } from 'date-fns'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -27,6 +28,12 @@ export function CommentMeta({ collapsed, comment }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   const { vote } = useCommentVote()
+
+  const baby =
+    comment.user.createdAt &&
+    differenceInMonths(new Date(), comment.user.createdAt) < 1
+      ? comment.user.createdAt
+      : null
 
   return (
     <View
@@ -75,6 +82,21 @@ export function CommentMeta({ collapsed, comment }: Props) {
         >
           {comment.user.name}
         </Text>
+
+        {baby ? (
+          <View align="center" direction="row" gap="1">
+            <Icon
+              color={theme.colors.orange.accent}
+              name="Baby"
+              size={theme.typography[1].lineHeight}
+              weight="fill"
+            />
+
+            <Text highContrast={false} size="1">
+              <TimeAgo unit="days">{baby}</TimeAgo>
+            </Text>
+          </View>
+        ) : null}
 
         {!collapsed ? <FlairCard flair={comment.flair} type="emoji" /> : null}
       </Pressable>

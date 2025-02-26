@@ -73,6 +73,7 @@ export function transformComment(
       saved: data.data.saved,
       sticky: Boolean(data.data.stickied),
       user: {
+        createdAt: user ? fromUnixTime(user.created_utc) : undefined,
         id: data.data.author_fullname
           ? removePrefix(data.data.author_fullname)
           : undefined,

@@ -35,6 +35,7 @@ export type Post = {
   type: PostType
   url?: string
   user: {
+    createdAt?: Date
     id: string
     image?: string
     name: string

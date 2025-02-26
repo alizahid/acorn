@@ -38,6 +38,7 @@ export type CommentReply = {
   saved: boolean
   sticky: boolean
   user: {
+    createdAt?: Date
     id?: string
     image?: string
     name: string

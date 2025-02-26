@@ -2,9 +2,10 @@ import { useFormatter, useNow } from 'use-intl'
 
 type Props = {
   children: Date
+  unit?: Intl.RelativeTimeFormatUnit
 }
 
-export function TimeAgo({ children }: Props) {
+export function TimeAgo({ children, unit }: Props) {
   const f = useFormatter()
 
   const now = useNow({
@@ -14,6 +15,7 @@ export function TimeAgo({ children }: Props) {
   const time = f.relativeTime(children, {
     now,
     style: 'narrow',
+    unit,
   })
 
   if (time.endsWith('ago')) {

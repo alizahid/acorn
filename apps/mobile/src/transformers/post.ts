@@ -47,6 +47,7 @@ export function transformPost(
     type: getType(data),
     url: data.url ?? undefined,
     user: {
+      createdAt: user ? fromUnixTime(user.created_utc) : undefined,
       id: data.author_fullname,
       image: user?.profile_img ? decode(user.profile_img) : undefined,
       name: data.author,
