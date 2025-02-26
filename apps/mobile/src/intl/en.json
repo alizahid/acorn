@@ -73,6 +73,9 @@
       }
     },
     "posts": {
+      "card": {
+        "nsfw": "NSFW"
+      },
       "community": {
         "by": "by"
       },

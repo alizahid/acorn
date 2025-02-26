@@ -10,6 +10,7 @@
 - added: download gallery
 - added: copy post title
 - added: user name on post cards in feeds
+- added: nsfw tag on posts
 - changed: swipe gestures extended
 - changed: comment skip disabled (temporarily)
 - fixed: list performance

@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router'
 import { useCallback } from 'react'
 import { Share, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
@@ -39,6 +40,8 @@ type Props = {
 
 export function PostCard({ expanded, label, post, style, viewing }: Props) {
   const router = useRouter()
+
+  const t = useTranslations('component.posts.card')
 
   const {
     communityOnTop,
@@ -200,24 +203,32 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
       }}
       style={[styles.main(themeOled), style]}
     >
-      {communityOnTop ? (
-        <View mt="3" mx="3">
-          <PostCommunity label={label} post={post} />
-        </View>
-      ) : null}
-
       <Pressable
         align="start"
         delayed
         disabled={expanded}
-        gap="1"
+        gap="2"
         onLongPress={onLongPress}
         onPress={onPress}
         pb={media ? '3' : undefined}
         pt="3"
         px="3"
       >
-        <Text weight="bold">{post.title}</Text>
+        {communityOnTop ? <PostCommunity label={label} post={post} /> : null}
+
+        <View align="start" direction="row">
+          <Text style={styles.title} weight="bold">
+            {post.title}
+          </Text>
+
+          {post.nsfw ? (
+            <View style={styles.nsfw}>
+              <Text contrast size="1" weight="bold">
+                {t('nsfw')}
+              </Text>
+            </View>
+          ) : null}
+        </View>
 
         <FlairCard flair={post.flair} />
       </Pressable>
@@ -311,6 +322,13 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: iPad ? theme.radius[3] : undefined,
     overflow: 'hidden',
   }),
+  nsfw: {
+    backgroundColor: theme.colors.red.accent,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[2],
+    paddingHorizontal: theme.space[1] / 2,
+    paddingVertical: theme.space[1] / 3,
+  },
   saved: {
     backgroundColor: theme.colors.green.accent,
     height: theme.space[8],
@@ -323,5 +341,8 @@ const stylesheet = createStyleSheet((theme) => ({
       },
     ],
     width: theme.space[8],
+  },
+  title: {
+    flex: 1,
   },
 }))
