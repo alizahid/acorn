@@ -176,7 +176,7 @@ export function SearchList({
       onScrollBeginDrag={() => {
         history.save(query)
       }}
-      recycleItems
+      recycleItems={type !== 'post'}
       ref={list}
       refreshControl={
         <RefreshControl

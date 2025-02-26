@@ -65,7 +65,7 @@ export function MessagesList({
           void fetchNextPage()
         }
       }}
-      recycleItems
+      // recycleItems
       ref={list}
       refreshControl={
         <RefreshControl

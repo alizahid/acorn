@@ -211,7 +211,7 @@ export default function Screen() {
         //     })
         //     .map((item) => item.index)
         // }}
-        recycleItems
+        // recycleItems
         ref={list}
         refreshControl={
           <RefreshControl

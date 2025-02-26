@@ -205,7 +205,7 @@ export function PostList({
           void fetchNextPage()
         }
       }}
-      recycleItems
+      // recycleItems
       ref={list}
       refreshControl={
         <RefreshControl
