@@ -30,3 +30,7 @@ export function removePrefix(id: string) {
 
   return id
 }
+
+export function addSlash(name: string) {
+  return name.startsWith('u/') ? name : `r/${name}`
+}

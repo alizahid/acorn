@@ -8,6 +8,7 @@
 - added: save media to Acorn album
 - added: show community on top
 - added: download gallery
+- added: copy post title
 - changed: swipe gestures extended
 - changed: comment skip disabled (temporarily)
 - fixed: list performance

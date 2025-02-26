@@ -167,15 +167,31 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
             name: 'Copy',
             type: 'icon',
           }}
-          label={t('copyText')}
+          label={t('copyTitle')}
           onPress={() => {
-            if (post.body) {
-              void Clipboard.setStringAsync(post.body)
-            }
+            void Clipboard.setStringAsync(post.title)
 
             call.end()
           }}
         />
+
+        {post.body?.length ? (
+          <SheetItem
+            icon={{
+              color: theme.colors.gray.textLow,
+              name: 'Copy',
+              type: 'icon',
+            }}
+            label={t('copyText')}
+            onPress={() => {
+              if (post.body) {
+                void Clipboard.setStringAsync(post.body)
+              }
+
+              call.end()
+            }}
+          />
+        ) : null}
 
         <SheetItem
           icon={{
