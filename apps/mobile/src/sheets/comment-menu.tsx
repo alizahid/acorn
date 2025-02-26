@@ -3,7 +3,7 @@ import * as Clipboard from 'expo-clipboard'
 import { useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import { createCallable } from 'react-call'
-import { Share } from 'react-native'
+import { Alert, Share } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -190,14 +190,30 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
                 name: 'Trash',
                 type: 'icon',
               }}
-              label={t('deleteComment')}
+              label={t('deleteComment.title')}
               onPress={() => {
-                remove({
-                  id: comment.id,
-                  postId: comment.post.id,
-                })
+                Alert.alert(
+                  t('deleteComment.title'),
+                  t('deleteComment.description'),
+                  [
+                    {
+                      style: 'cancel',
+                      text: t('deleteComment.no'),
+                    },
+                    {
+                      onPress() {
+                        remove({
+                          id: comment.id,
+                          postId: comment.post.id,
+                        })
 
-                call.end()
+                        call.end()
+                      },
+                      style: 'destructive',
+                      text: t('deleteComment.yes'),
+                    },
+                  ],
+                )
               }}
             />
           </>

@@ -3,7 +3,7 @@ import * as Clipboard from 'expo-clipboard'
 import { usePathname, useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import { createCallable } from 'react-call'
-import { Share } from 'react-native'
+import { Alert, Share } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -174,17 +174,33 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
                 name: 'Trash',
                 type: 'icon',
               }}
-              label={t('deletePost')}
+              label={t('deletePost.title')}
               onPress={() => {
-                remove({
-                  id: post.id,
-                })
+                Alert.alert(
+                  t('deletePost.title'),
+                  t('deleteComment.description'),
+                  [
+                    {
+                      style: 'cancel',
+                      text: t('deletePost.no'),
+                    },
+                    {
+                      onPress() {
+                        remove({
+                          id: post.id,
+                        })
 
-                if (path.startsWith('/posts/')) {
-                  router.back()
-                }
+                        if (path.startsWith('/posts/')) {
+                          router.back()
+                        }
 
-                call.end()
+                        call.end()
+                      },
+                      style: 'destructive',
+                      text: t('deletePost.yes'),
+                    },
+                  ],
+                )
               }}
             />
           </>

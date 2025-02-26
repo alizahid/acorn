@@ -91,8 +91,18 @@
         "copyLink": "Copy link",
         "copyText": "Copy text",
         "copyTitle": "Copy title",
-        "deleteComment": "Delete comment",
-        "deletePost": "Delete post",
+        "deleteComment": {
+          "description": "Are you sure you want to delete this comment? This cannot be undone.",
+          "no": "No",
+          "title": "Delete comment",
+          "yes": "Yes"
+        },
+        "deletePost": {
+          "description": "Are you sure you want to delete this post? This cannot be undone.",
+          "no": "No",
+          "title": "Delete post",
+          "yes": "Yes"
+        },
         "downloadGallery": "Download gallery",
         "downloadImage": "Download image",
         "downvote": "Downvote",
