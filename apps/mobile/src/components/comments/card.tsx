@@ -220,7 +220,7 @@ const stylesheet = createStyleSheet((theme) => ({
     margin: theme.space[3],
   },
   container: (depth: number) => {
-    const marginLeft = theme.space[3] * depth
+    const marginLeft = theme.space[2] * depth
 
     const base: UnistylesValues = {
       marginLeft,
@@ -257,7 +257,7 @@ const stylesheet = createStyleSheet((theme) => ({
             ? oledTheme[theme.name].bg
             : theme.colors.gray.bgAlt,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
-      borderLeftWidth: depth > 0 ? theme.space[1] / (oled ? 2 : 1) : undefined,
+      borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       overflow: 'hidden',
     }
 
