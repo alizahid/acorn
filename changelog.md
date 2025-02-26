@@ -7,6 +7,7 @@
 - added: floating button center position
 - added: save media to Acorn album
 - added: show community on top
+- added: download gallery
 - changed: swipe gestures extended
 - changed: comment skip disabled (temporarily)
 - fixed: list performance

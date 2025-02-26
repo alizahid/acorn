@@ -15,6 +15,7 @@ import ArrowUpBold from 'react-native-phosphor/src/bold/ArrowUp'
 import BalloonBold from 'react-native-phosphor/src/bold/Balloon'
 import BellBold from 'react-native-phosphor/src/bold/Bell'
 import BookmarkSimpleBold from 'react-native-phosphor/src/bold/BookmarkSimple'
+import BoxArrowDownBold from 'react-native-phosphor/src/bold/BoxArrowDown'
 import BrowserBold from 'react-native-phosphor/src/bold/Browser'
 import CaretDownBold from 'react-native-phosphor/src/bold/CaretDown'
 import CaretRightBold from 'react-native-phosphor/src/bold/CaretRight'
@@ -104,6 +105,7 @@ import ArrowUpDuotone from 'react-native-phosphor/src/duotone/ArrowUp'
 import BalloonDuotone from 'react-native-phosphor/src/duotone/Balloon'
 import BellDuotone from 'react-native-phosphor/src/duotone/Bell'
 import BookmarkSimpleDuotone from 'react-native-phosphor/src/duotone/BookmarkSimple'
+import BoxArrowDownDuotone from 'react-native-phosphor/src/duotone/BoxArrowDown'
 import BrowserDuotone from 'react-native-phosphor/src/duotone/Browser'
 import CaretDownDuotone from 'react-native-phosphor/src/duotone/CaretDown'
 import CaretRightDuotone from 'react-native-phosphor/src/duotone/CaretRight'
@@ -193,6 +195,7 @@ import ArrowUpFill from 'react-native-phosphor/src/fill/ArrowUp'
 import BalloonFill from 'react-native-phosphor/src/fill/Balloon'
 import BellFill from 'react-native-phosphor/src/fill/Bell'
 import BookmarkSimpleFill from 'react-native-phosphor/src/fill/BookmarkSimple'
+import BoxArrowDownFill from 'react-native-phosphor/src/fill/BoxArrowDown'
 import BrowserFill from 'react-native-phosphor/src/fill/Browser'
 import CaretDownFill from 'react-native-phosphor/src/fill/CaretDown'
 import CaretRightFill from 'react-native-phosphor/src/fill/CaretRight'
@@ -282,6 +285,7 @@ import ArrowUpRegular from 'react-native-phosphor/src/regular/ArrowUp'
 import BalloonRegular from 'react-native-phosphor/src/regular/Balloon'
 import BellRegular from 'react-native-phosphor/src/regular/Bell'
 import BookmarkSimpleRegular from 'react-native-phosphor/src/regular/BookmarkSimple'
+import BoxArrowDownRegular from 'react-native-phosphor/src/regular/BoxArrowDown'
 import BrowserRegular from 'react-native-phosphor/src/regular/Browser'
 import CaretDownRegular from 'react-native-phosphor/src/regular/CaretDown'
 import CaretRightRegular from 'react-native-phosphor/src/regular/CaretRight'
@@ -471,6 +475,12 @@ const icons = {
     duotone: BookmarkSimpleDuotone,
     fill: BookmarkSimpleFill,
     regular: BookmarkSimpleRegular,
+  },
+  BoxArrowDown: {
+    bold: BoxArrowDownBold,
+    duotone: BoxArrowDownDuotone,
+    fill: BoxArrowDownFill,
+    regular: BoxArrowDownRegular,
   },
   Browser: {
     bold: BrowserBold,

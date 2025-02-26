@@ -19,7 +19,11 @@ import { useTranslations } from 'use-intl'
 
 import { IconButton } from '~/components/common/icon-button'
 import { Text } from '~/components/common/text'
-import { useCopyImage, useDownloadImage } from '~/hooks/image'
+import {
+  useCopyImage,
+  useDownloadImage,
+  useDownloadImages,
+} from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type PostMedia } from '~/types/post'
@@ -43,6 +47,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
   const mounted = useRef(false)
 
   const download = useDownloadImage()
+  const downloadAll = useDownloadImages()
   const copy = useCopyImage()
 
   const translate = useSharedValue(frame.height)
@@ -188,6 +193,33 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
         >
           <IconButton
             icon={{
+              color: downloadAll.isError
+                ? 'red'
+                : downloadAll.isSuccess
+                  ? 'green'
+                  : 'accent',
+
+              name: downloadAll.isError
+                ? 'XCircle'
+                : downloadAll.isSuccess
+                  ? 'CheckCircle'
+                  : 'BoxArrowDown',
+              weight: downloadAll.isError
+                ? 'fill'
+                : downloadAll.isSuccess
+                  ? 'fill'
+                  : 'duotone',
+            }}
+            loading={downloadAll.isPending}
+            onPress={() => {
+              downloadAll.download({
+                urls: images.map((image) => image.url),
+              })
+            }}
+          />
+
+          <IconButton
+            icon={{
               color: download.isError
                 ? 'red'
                 : download.isSuccess
@@ -274,6 +306,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
+    height: theme.space[8],
+    justifyContent: 'center',
     paddingHorizontal: theme.space[1],
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',

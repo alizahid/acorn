@@ -4,6 +4,7 @@ import * as Clipboard from 'expo-clipboard'
 import { Directory, File, Paths } from 'expo-file-system/next'
 import { type ImageProps } from 'expo-image'
 import * as MediaLibrary from 'expo-media-library'
+import { compact } from 'lodash'
 import { useRef } from 'react'
 import { useStyles } from 'react-native-unistyles'
 
@@ -20,7 +21,7 @@ export function useImagePlaceholder() {
   } satisfies ImageProps
 }
 
-type DownloadVariables = {
+type DownloadImageVariables = {
   url: string
 }
 
@@ -32,7 +33,7 @@ export function useDownloadImage() {
   const { isError, isPending, isSuccess, mutate, reset } = useMutation<
     unknown,
     Error,
-    DownloadVariables
+    DownloadImageVariables
   >({
     async mutationFn(variables) {
       const { granted } =
@@ -54,11 +55,9 @@ export function useDownloadImage() {
         const asset = await MediaLibrary.createAssetAsync(file.uri)
 
         await MediaLibrary.addAssetsToAlbumAsync([asset], album)
-
-        return
+      } else {
+        await MediaLibrary.saveToLibraryAsync(file.uri)
       }
-
-      await MediaLibrary.saveToLibraryAsync(file.uri)
 
       directory.delete()
     },
@@ -81,7 +80,74 @@ export function useDownloadImage() {
   }
 }
 
-type CopyVariables = {
+type DownloadImagesVariables = {
+  urls: Array<string>
+}
+
+export function useDownloadImages() {
+  const { saveToAlbum } = usePreferences()
+
+  const timer = useRef<NodeJS.Timeout>()
+
+  const { isError, isPending, isSuccess, mutate, reset } = useMutation<
+    unknown,
+    Error,
+    DownloadImagesVariables
+  >({
+    async mutationFn(variables) {
+      const { granted } =
+        await MediaLibrary.requestPermissionsAsync(!saveToAlbum)
+
+      if (!granted) {
+        throw new Error('Permission not granted')
+      }
+
+      const directory = new Directory(Paths.cache, createId())
+
+      directory.create()
+
+      const assets = await Promise.all(
+        variables.urls.map(async (url) => {
+          const file = await File.downloadFileAsync(url, directory)
+
+          if (saveToAlbum) {
+            const asset = await MediaLibrary.createAssetAsync(file.uri)
+
+            return asset
+          }
+
+          await MediaLibrary.saveToLibraryAsync(file.uri)
+        }),
+      )
+
+      if (saveToAlbum) {
+        const album = await getAlbum()
+
+        await MediaLibrary.addAssetsToAlbumAsync(compact(assets), album)
+      }
+
+      directory.delete()
+    },
+    onSettled() {
+      if (timer.current) {
+        clearTimeout(timer.current)
+      }
+
+      timer.current = setTimeout(() => {
+        reset()
+      }, 5_000)
+    },
+  })
+
+  return {
+    download: mutate,
+    isError,
+    isPending,
+    isSuccess,
+  }
+}
+
+type CopyImageVariables = {
   url: string
 }
 
@@ -91,7 +157,7 @@ export function useCopyImage() {
   const { isError, isPending, isSuccess, mutate, reset } = useMutation<
     unknown,
     Error,
-    CopyVariables
+    CopyImageVariables
   >({
     async mutationFn(variables) {
       const directory = new Directory(Paths.cache, createId())

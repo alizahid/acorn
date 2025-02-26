@@ -84,6 +84,8 @@
         "copyImage": "Copy image",
         "copyLink": "Copy link",
         "copyText": "Copy text",
+        "downloadGallery": "Download gallery",
+        "downloadImage": "Download image",
         "downvote": "Downvote",
         "hideComment": "Hide comment",
         "hideCommunity": "Hide r/{community}",

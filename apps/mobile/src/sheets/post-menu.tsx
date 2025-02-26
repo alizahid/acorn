@@ -12,7 +12,11 @@ import { View } from '~/components/common/view'
 import { SheetItem } from '~/components/sheets/item'
 import { SheetModal } from '~/components/sheets/modal'
 import { useCopy } from '~/hooks/copy'
-import { useCopyImage } from '~/hooks/image'
+import {
+  useCopyImage,
+  useDownloadImage,
+  useDownloadImages,
+} from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
@@ -45,6 +49,8 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
   const { hide } = useHide()
   const { handleLink, open } = useLink()
   const { copy: copyImage } = useCopyImage()
+  const { download: downloadImage } = useDownloadImage()
+  const { download: downloadAll } = useDownloadImages()
 
   useEffect(() => {
     sheet.current?.present()
@@ -190,30 +196,6 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
           }}
         />
 
-        {post.type === 'image' && post.media.images?.[0] ? (
-          <SheetItem
-            icon={{
-              color: theme.colors.gray.textLow,
-              name: 'Copy',
-              type: 'icon',
-            }}
-            label={t('copyImage')}
-            onPress={() => {
-              if (!post.media.images?.[0]?.url) {
-                call.end()
-
-                return
-              }
-
-              copyImage({
-                url: post.media.images[0].url,
-              })
-
-              call.end()
-            }}
-          />
-        ) : null}
-
         <SheetItem
           icon={{
             color: theme.colors.gray.textLow,
@@ -234,6 +216,84 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
             call.end()
           }}
         />
+
+        {post.media.images ? (
+          <>
+            <View height="4" />
+
+            {post.type === 'image' && post.media.images[0] ? (
+              <SheetItem
+                icon={{
+                  color: theme.colors.gray.textLow,
+                  name: 'Copy',
+                  type: 'icon',
+                }}
+                label={t('copyImage')}
+                onPress={() => {
+                  if (!post.media.images?.[0]?.url) {
+                    call.end()
+
+                    return
+                  }
+
+                  copyImage({
+                    url: post.media.images[0].url,
+                  })
+
+                  call.end()
+                }}
+              />
+            ) : null}
+
+            {post.type === 'image' && post.media.images[0] ? (
+              <SheetItem
+                icon={{
+                  color: theme.colors.gray.textLow,
+                  name: 'Download',
+                  type: 'icon',
+                }}
+                label={t('downloadImage')}
+                onPress={() => {
+                  if (!post.media.images?.[0]?.url) {
+                    call.end()
+
+                    return
+                  }
+
+                  downloadImage({
+                    url: post.media.images[0].url,
+                  })
+
+                  call.end()
+                }}
+              />
+            ) : null}
+
+            {post.type === 'image' && post.media.images.length > 1 ? (
+              <SheetItem
+                icon={{
+                  color: theme.colors.gray.textLow,
+                  name: 'BoxArrowDown',
+                  type: 'icon',
+                }}
+                label={t('downloadGallery')}
+                onPress={() => {
+                  if (!post.media.images?.[0]?.url) {
+                    call.end()
+
+                    return
+                  }
+
+                  downloadAll({
+                    urls: post.media.images.map((image) => image.url),
+                  })
+
+                  call.end()
+                }}
+              />
+            ) : null}
+          </>
+        ) : null}
 
         <View height="4" />
 
