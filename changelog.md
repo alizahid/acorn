@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: comment edit/delete
 - added: spoiler blur
 - added: keyword filtering
 - added: floating button center position

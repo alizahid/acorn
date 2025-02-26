@@ -18,14 +18,17 @@ import { z } from 'zod'
 import { IconButton } from '~/components/common/icon-button'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
 import { iPhone } from '~/lib/common'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
+  body: z.string().optional(),
   commentId: z.string().optional(),
   id: z.string().catch('17jkixh'),
+  postId: z.string().optional(),
   user: z.string().optional(),
 })
 
@@ -43,9 +46,10 @@ export default function Screen() {
 
   const keyboard = useAnimatedKeyboard()
 
-  const { isPending, reply } = usePostReply()
+  const reply = usePostReply()
+  const edit = useCommentEdit()
 
-  const [text, setText] = useState('')
+  const [text, setText] = useState(params.body ?? '')
 
   const style = useAnimatedStyle(() => ({
     paddingBottom: keyboard.height.get(),
@@ -59,13 +63,27 @@ export default function Screen() {
             icon={{
               name: 'PaperPlaneTilt',
             }}
-            loading={isPending}
+            loading={reply.isPending || edit.isPending}
             onPress={async () => {
               if (text.length === 0) {
                 return
               }
 
-              await reply({
+              if (params.body && params.commentId) {
+                if (params.body !== text) {
+                  await edit.edit({
+                    body: text,
+                    id: params.commentId,
+                    postId: params.postId,
+                  })
+                }
+
+                router.back()
+
+                return
+              }
+
+              await reply.reply({
                 commentId: params.commentId,
                 postId: params.id,
                 text,
@@ -77,10 +95,12 @@ export default function Screen() {
         ),
       })
     }, [
-      isPending,
+      edit,
       navigation,
+      params.body,
       params.commentId,
       params.id,
+      params.postId,
       reply,
       router,
       text,

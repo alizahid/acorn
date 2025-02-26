@@ -56,6 +56,7 @@ import PaintRollerBold from 'react-native-phosphor/src/bold/PaintRoller'
 import PaletteBold from 'react-native-phosphor/src/bold/Palette'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
 import PauseBold from 'react-native-phosphor/src/bold/Pause'
+import PencilSimpleBold from 'react-native-phosphor/src/bold/PencilSimple'
 import PlayBold from 'react-native-phosphor/src/bold/Play'
 import PlusBold from 'react-native-phosphor/src/bold/Plus'
 import PlusCircleBold from 'react-native-phosphor/src/bold/PlusCircle'
@@ -147,6 +148,7 @@ import PaintRollerDuotone from 'react-native-phosphor/src/duotone/PaintRoller'
 import PaletteDuotone from 'react-native-phosphor/src/duotone/Palette'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
 import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
+import PencilSimpleDuotone from 'react-native-phosphor/src/duotone/PencilSimple'
 import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
 import PlusDuotone from 'react-native-phosphor/src/duotone/Plus'
 import PlusCircleDuotone from 'react-native-phosphor/src/duotone/PlusCircle'
@@ -238,6 +240,7 @@ import PaintRollerFill from 'react-native-phosphor/src/fill/PaintRoller'
 import PaletteFill from 'react-native-phosphor/src/fill/Palette'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
 import PauseFill from 'react-native-phosphor/src/fill/Pause'
+import PencilSimpleFill from 'react-native-phosphor/src/fill/PencilSimple'
 import PlayFill from 'react-native-phosphor/src/fill/Play'
 import PlusFill from 'react-native-phosphor/src/fill/Plus'
 import PlusCircleFill from 'react-native-phosphor/src/fill/PlusCircle'
@@ -329,6 +332,7 @@ import PaintRollerRegular from 'react-native-phosphor/src/regular/PaintRoller'
 import PaletteRegular from 'react-native-phosphor/src/regular/Palette'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
 import PauseRegular from 'react-native-phosphor/src/regular/Pause'
+import PencilSimpleRegular from 'react-native-phosphor/src/regular/PencilSimple'
 import PlayRegular from 'react-native-phosphor/src/regular/Play'
 import PlusRegular from 'react-native-phosphor/src/regular/Plus'
 import PlusCircleRegular from 'react-native-phosphor/src/regular/PlusCircle'
@@ -725,6 +729,12 @@ const icons = {
     duotone: PauseDuotone,
     fill: PauseFill,
     regular: PauseRegular,
+  },
+  PencilSimple: {
+    bold: PencilSimpleBold,
+    duotone: PencilSimpleDuotone,
+    fill: PencilSimpleFill,
+    regular: PencilSimpleRegular,
   },
   Play: {
     bold: PlayBold,

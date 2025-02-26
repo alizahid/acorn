@@ -15,8 +15,10 @@ import { useCopy } from '~/hooks/copy'
 import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
+import { useCommentRemove } from '~/hooks/mutations/comments/remove'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
+import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
 
@@ -27,6 +29,7 @@ type Props = {
 export const CommentMenu = createCallable<Props>(({ call, comment }) => {
   const router = useRouter()
 
+  const { accountId } = useAuth()
   const { oldReddit } = usePreferences()
 
   const t = useTranslations('component.posts.menu')
@@ -42,6 +45,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
 
   const { copy } = useCopy()
   const { hide } = useHide()
+  const { remove } = useCommentRemove()
   const { handleLink, open } = useLink()
 
   useEffect(() => {
@@ -154,6 +158,50 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
             call.end()
           }}
         />
+
+        {comment.user.name === accountId ? (
+          <>
+            <View height="4" />
+
+            <SheetItem
+              icon={{
+                name: 'PencilSimple',
+                type: 'icon',
+              }}
+              label={t('editComment')}
+              onPress={() => {
+                router.navigate({
+                  params: {
+                    body: comment.body,
+                    commentId: comment.id,
+                    id: comment.post.id,
+                    postId: comment.post.id,
+                  },
+                  pathname: '/posts/[id]/reply',
+                })
+
+                call.end()
+              }}
+            />
+
+            <SheetItem
+              icon={{
+                color: theme.colors.red.accent,
+                name: 'Trash',
+                type: 'icon',
+              }}
+              label={t('deleteComment')}
+              onPress={() => {
+                remove({
+                  id: comment.id,
+                  postId: comment.post.id,
+                })
+
+                call.end()
+              }}
+            />
+          </>
+        ) : null}
 
         <View height="4" />
 
