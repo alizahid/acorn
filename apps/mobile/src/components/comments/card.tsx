@@ -64,7 +64,7 @@ export function CommentCard({
 
   return (
     <PostGestures
-      containerStyle={styles.container(comment.depth, themeOled) as ViewStyle}
+      containerStyle={styles.container(comment.depth) as ViewStyle}
       data={comment}
       left={{
         enabled: commentLeft,
@@ -219,8 +219,8 @@ const stylesheet = createStyleSheet((theme) => ({
   body: {
     margin: theme.space[3],
   },
-  container: (depth: number, oled: boolean) => {
-    const marginLeft = theme.space[oled ? 1 : 2] * depth
+  container: (depth: number) => {
+    const marginLeft = theme.space[3] * depth
 
     const base: UnistylesValues = {
       marginLeft,

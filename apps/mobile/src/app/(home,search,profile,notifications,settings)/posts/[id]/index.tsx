@@ -44,7 +44,7 @@ export default function Screen() {
 
   const focused = useIsFocused()
 
-  const { replyPost, sortPostComments, themeOled } = usePreferences()
+  const { replyPost, sortPostComments } = usePreferences()
 
   const { theme } = useStyles()
 
@@ -115,7 +115,7 @@ export default function Screen() {
 
   const header = useMemo(
     () => (
-      <View mb={themeOled ? '1' : '2'}>
+      <View mb="2">
         {post ? (
           <PostCard expanded label="user" post={post} viewing={focused} />
         ) : (
@@ -139,7 +139,7 @@ export default function Screen() {
         ) : null}
       </View>
     ),
-    [comments, focused, params.commentId, post, router, themeOled],
+    [comments, focused, params.commentId, post, router],
   )
 
   const renderItem = useCallback(
@@ -183,7 +183,7 @@ export default function Screen() {
     <>
       <LegendList
         {...listProps}
-        ItemSeparatorComponent={() => <View height={themeOled ? '1' : '2'} />}
+        ItemSeparatorComponent={() => <View height="2" />}
         ListEmptyComponent={() =>
           isFetching ? <Spinner m="4" size="large" /> : <Empty />
         }

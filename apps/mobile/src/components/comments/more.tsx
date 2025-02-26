@@ -91,7 +91,7 @@ const stylesheet = createStyleSheet((theme) => ({
   main: (depth: number, colored: boolean, oled: boolean) => {
     const color = getDepthColor(depth)
 
-    const marginLeft = theme.space[oled ? 1 : 2] * depth
+    const marginLeft = theme.space[3] * depth
 
     const base: UnistylesValues = {
       backgroundColor: colored
