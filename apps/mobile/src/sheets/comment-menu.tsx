@@ -41,11 +41,11 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
 
   const { vote } = useCommentVote()
   const { save } = useCommentSave()
+  const { remove } = useCommentRemove()
   const { report } = useReport()
 
   const { copy } = useCopy()
   const { hide } = useHide()
-  const { remove } = useCommentRemove()
   const { handleLink, open } = useLink()
 
   useEffect(() => {

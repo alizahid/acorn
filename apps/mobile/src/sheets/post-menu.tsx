@@ -1,6 +1,6 @@
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import * as Clipboard from 'expo-clipboard'
-import { useRouter } from 'expo-router'
+import { usePathname, useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import { createCallable } from 'react-call'
 import { Share } from 'react-native'
@@ -20,8 +20,10 @@ import {
 import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
 import { type ReportReason, useReport } from '~/hooks/moderation/report'
+import { usePostRemove } from '~/hooks/mutations/posts/remove'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
+import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -31,7 +33,9 @@ type Props = {
 
 export const PostMenu = createCallable<Props>(({ call, post }) => {
   const router = useRouter()
+  const path = usePathname()
 
+  const { accountId } = useAuth()
   const { oldReddit } = usePreferences()
 
   const t = useTranslations('component.posts.menu')
@@ -44,6 +48,7 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
   const { vote } = usePostVote()
   const { save } = usePostSave()
   const { report } = useReport()
+  const { remove } = usePostRemove()
 
   const { copy } = useCopy()
   const { hide } = useHide()
@@ -158,6 +163,32 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
             call.end()
           }}
         />
+
+        {post.user.name === accountId ? (
+          <>
+            <View height="4" />
+
+            <SheetItem
+              icon={{
+                color: theme.colors.red.accent,
+                name: 'Trash',
+                type: 'icon',
+              }}
+              label={t('deletePost')}
+              onPress={() => {
+                remove({
+                  id: post.id,
+                })
+
+                if (path.startsWith('/posts/')) {
+                  router.back()
+                }
+
+                call.end()
+              }}
+            />
+          </>
+        ) : null}
 
         <View height="4" />
 
