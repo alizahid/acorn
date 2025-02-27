@@ -27,6 +27,7 @@ import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
 import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
+import DeviceMobileCameraBold from 'react-native-phosphor/src/bold/DeviceMobileCamera'
 import DiscordLogoBold from 'react-native-phosphor/src/bold/DiscordLogo'
 import DotsSixVerticalBold from 'react-native-phosphor/src/bold/DotsSixVertical'
 import DotsThreeBold from 'react-native-phosphor/src/bold/DotsThree'
@@ -48,6 +49,7 @@ import LinkBold from 'react-native-phosphor/src/bold/Link'
 import MagnifyingGlassBold from 'react-native-phosphor/src/bold/MagnifyingGlass'
 import MedalBold from 'react-native-phosphor/src/bold/Medal'
 import MegaphoneSimpleBold from 'react-native-phosphor/src/bold/MegaphoneSimple'
+import MoonBold from 'react-native-phosphor/src/bold/Moon'
 import MouseScrollBold from 'react-native-phosphor/src/bold/MouseScroll'
 import NoteBlankBold from 'react-native-phosphor/src/bold/NoteBlank'
 import PackageBold from 'react-native-phosphor/src/bold/Package'
@@ -74,6 +76,7 @@ import SortAscendingBold from 'react-native-phosphor/src/bold/SortAscending'
 import SpeakerSimpleHighBold from 'react-native-phosphor/src/bold/SpeakerSimpleHigh'
 import SpeakerSimpleXBold from 'react-native-phosphor/src/bold/SpeakerSimpleX'
 import StarBold from 'react-native-phosphor/src/bold/Star'
+import SunBold from 'react-native-phosphor/src/bold/Sun'
 import SunDimBold from 'react-native-phosphor/src/bold/SunDim'
 import SwordBold from 'react-native-phosphor/src/bold/Sword'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
@@ -119,6 +122,7 @@ import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
 import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
+import DeviceMobileCameraDuotone from 'react-native-phosphor/src/duotone/DeviceMobileCamera'
 import DiscordLogoDuotone from 'react-native-phosphor/src/duotone/DiscordLogo'
 import DotsSixVerticalDuotone from 'react-native-phosphor/src/duotone/DotsSixVertical'
 import DotsThreeDuotone from 'react-native-phosphor/src/duotone/DotsThree'
@@ -140,6 +144,7 @@ import LinkDuotone from 'react-native-phosphor/src/duotone/Link'
 import MagnifyingGlassDuotone from 'react-native-phosphor/src/duotone/MagnifyingGlass'
 import MedalDuotone from 'react-native-phosphor/src/duotone/Medal'
 import MegaphoneSimpleDuotone from 'react-native-phosphor/src/duotone/MegaphoneSimple'
+import MoonDuotone from 'react-native-phosphor/src/duotone/Moon'
 import MouseScrollDuotone from 'react-native-phosphor/src/duotone/MouseScroll'
 import NoteBlankDuotone from 'react-native-phosphor/src/duotone/NoteBlank'
 import PackageDuotone from 'react-native-phosphor/src/duotone/Package'
@@ -166,6 +171,7 @@ import SortAscendingDuotone from 'react-native-phosphor/src/duotone/SortAscendin
 import SpeakerSimpleHighDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleHigh'
 import SpeakerSimpleXDuotone from 'react-native-phosphor/src/duotone/SpeakerSimpleX'
 import StarDuotone from 'react-native-phosphor/src/duotone/Star'
+import SunDuotone from 'react-native-phosphor/src/duotone/Sun'
 import SunDimDuotone from 'react-native-phosphor/src/duotone/SunDim'
 import SwordDuotone from 'react-native-phosphor/src/duotone/Sword'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
@@ -211,6 +217,7 @@ import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
 import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
+import DeviceMobileCameraFill from 'react-native-phosphor/src/fill/DeviceMobileCamera'
 import DiscordLogoFill from 'react-native-phosphor/src/fill/DiscordLogo'
 import DotsSixVerticalFill from 'react-native-phosphor/src/fill/DotsSixVertical'
 import DotsThreeFill from 'react-native-phosphor/src/fill/DotsThree'
@@ -232,6 +239,7 @@ import LinkFill from 'react-native-phosphor/src/fill/Link'
 import MagnifyingGlassFill from 'react-native-phosphor/src/fill/MagnifyingGlass'
 import MedalFill from 'react-native-phosphor/src/fill/Medal'
 import MegaphoneSimpleFill from 'react-native-phosphor/src/fill/MegaphoneSimple'
+import MoonFill from 'react-native-phosphor/src/fill/Moon'
 import MouseScrollFill from 'react-native-phosphor/src/fill/MouseScroll'
 import NoteBlankFill from 'react-native-phosphor/src/fill/NoteBlank'
 import PackageFill from 'react-native-phosphor/src/fill/Package'
@@ -258,6 +266,7 @@ import SortAscendingFill from 'react-native-phosphor/src/fill/SortAscending'
 import SpeakerSimpleHighFill from 'react-native-phosphor/src/fill/SpeakerSimpleHigh'
 import SpeakerSimpleXFill from 'react-native-phosphor/src/fill/SpeakerSimpleX'
 import StarFill from 'react-native-phosphor/src/fill/Star'
+import SunFill from 'react-native-phosphor/src/fill/Sun'
 import SunDimFill from 'react-native-phosphor/src/fill/SunDim'
 import SwordFill from 'react-native-phosphor/src/fill/Sword'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
@@ -303,6 +312,7 @@ import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
 import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
+import DeviceMobileCameraRegular from 'react-native-phosphor/src/regular/DeviceMobileCamera'
 import DiscordLogoRegular from 'react-native-phosphor/src/regular/DiscordLogo'
 import DotsSixVerticalRegular from 'react-native-phosphor/src/regular/DotsSixVertical'
 import DotsThreeRegular from 'react-native-phosphor/src/regular/DotsThree'
@@ -324,6 +334,7 @@ import LinkRegular from 'react-native-phosphor/src/regular/Link'
 import MagnifyingGlassRegular from 'react-native-phosphor/src/regular/MagnifyingGlass'
 import MedalRegular from 'react-native-phosphor/src/regular/Medal'
 import MegaphoneSimpleRegular from 'react-native-phosphor/src/regular/MegaphoneSimple'
+import MoonRegular from 'react-native-phosphor/src/regular/Moon'
 import MouseScrollRegular from 'react-native-phosphor/src/regular/MouseScroll'
 import NoteBlankRegular from 'react-native-phosphor/src/regular/NoteBlank'
 import PackageRegular from 'react-native-phosphor/src/regular/Package'
@@ -350,6 +361,7 @@ import SortAscendingRegular from 'react-native-phosphor/src/regular/SortAscendin
 import SpeakerSimpleHighRegular from 'react-native-phosphor/src/regular/SpeakerSimpleHigh'
 import SpeakerSimpleXRegular from 'react-native-phosphor/src/regular/SpeakerSimpleX'
 import StarRegular from 'react-native-phosphor/src/regular/Star'
+import SunRegular from 'react-native-phosphor/src/regular/Sun'
 import SunDimRegular from 'react-native-phosphor/src/regular/SunDim'
 import SwordRegular from 'react-native-phosphor/src/regular/Sword'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
@@ -556,6 +568,12 @@ const icons = {
     fill: CopyFill,
     regular: CopyRegular,
   },
+  DeviceMobileCamera: {
+    bold: DeviceMobileCameraBold,
+    duotone: DeviceMobileCameraDuotone,
+    fill: DeviceMobileCameraFill,
+    regular: DeviceMobileCameraRegular,
+  },
   DiscordLogo: {
     bold: DiscordLogoBold,
     duotone: DiscordLogoDuotone,
@@ -681,6 +699,12 @@ const icons = {
     duotone: MegaphoneSimpleDuotone,
     fill: MegaphoneSimpleFill,
     regular: MegaphoneSimpleRegular,
+  },
+  Moon: {
+    bold: MoonBold,
+    duotone: MoonDuotone,
+    fill: MoonFill,
+    regular: MoonRegular,
   },
   MouseScroll: {
     bold: MouseScrollBold,
@@ -837,6 +861,12 @@ const icons = {
     duotone: StarDuotone,
     fill: StarFill,
     regular: StarRegular,
+  },
+  Sun: {
+    bold: SunBold,
+    duotone: SunDuotone,
+    fill: SunFill,
+    regular: SunRegular,
   },
   SunDim: {
     bold: SunDimBold,

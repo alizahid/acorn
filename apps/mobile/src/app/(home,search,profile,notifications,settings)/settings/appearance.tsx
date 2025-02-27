@@ -104,13 +104,11 @@ export default function Screen() {
           t('themes.title'),
           {
             key: 'theme',
-            label: t('themes.acorn'),
             options: [
               t('themes.auto'),
               {
                 color: 'orange',
                 key: 'acorn',
-                label: t('themes.acorn'),
               },
               null,
 
@@ -118,27 +116,22 @@ export default function Screen() {
               {
                 color: 'orange',
                 key: 'acorn-light',
-                label: t('themes.acorn'),
               },
               {
                 color: 'ruby',
                 key: 'ruby-light',
-                label: t('themes.ruby'),
               },
               {
                 color: 'plum',
                 key: 'plum-light',
-                label: t('themes.plum'),
               },
               {
                 color: 'indigo',
                 key: 'indigo-light',
-                label: t('themes.indigo'),
               },
               {
                 color: 'jade',
                 key: 'jade-light',
-                label: t('themes.jade'),
               },
               null,
 
@@ -146,27 +139,22 @@ export default function Screen() {
               {
                 color: 'orange',
                 key: 'acorn-dark',
-                label: t('themes.acorn'),
               },
               {
                 color: 'ruby',
                 key: 'ruby-dark',
-                label: t('themes.ruby'),
               },
               {
                 color: 'plum',
                 key: 'plum-dark',
-                label: t('themes.plum'),
               },
               {
                 color: 'indigo',
                 key: 'indigo-dark',
-                label: t('themes.indigo'),
               },
               {
                 color: 'jade',
                 key: 'jade-dark',
-                label: t('themes.jade'),
               },
             ],
             value: theme,
@@ -221,7 +209,15 @@ export default function Screen() {
 
         if (item.key === 'theme') {
           return {
-            label: item.label,
+            icon: {
+              name: item.value.endsWith('-dark')
+                ? 'Moon'
+                : item.value.endsWith('-light')
+                  ? 'Sun'
+                  : 'DeviceMobileCamera',
+              type: 'icon',
+            },
+            label: t(`themes.${item.value}`),
             onSelect(value) {
               update({
                 theme: value as Theme,
@@ -233,7 +229,7 @@ export default function Screen() {
               }
 
               return {
-                label: option.label,
+                label: t(`themes.${option.key}`),
                 right: (
                   <View
                     align="center"
