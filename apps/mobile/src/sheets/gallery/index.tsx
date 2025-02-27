@@ -141,15 +141,16 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
           renderItem={({ item }) => (
             <GalleryItem
               image={item}
-              onZoomIn={() => {
-                opacity.set(() => withTiming(0))
+              onTap={() => {
+                if (opacity.get() > 0) {
+                  opacity.set(() => withTiming(0))
 
-                StatusBar.setStatusBarHidden(true, 'fade')
-              }}
-              onZoomOut={() => {
-                opacity.set(() => withTiming(1))
+                  StatusBar.setStatusBarHidden(true, 'fade')
+                } else {
+                  opacity.set(() => withTiming(1))
 
-                StatusBar.setStatusBarHidden(false, 'fade')
+                  StatusBar.setStatusBarHidden(false, 'fade')
+                }
               }}
             />
           )}

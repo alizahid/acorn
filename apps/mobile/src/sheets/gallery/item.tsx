@@ -2,11 +2,6 @@ import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { Image, useImage } from 'expo-image'
 import { useRef, useState } from 'react'
 import { StyleSheet } from 'react-native'
-import {
-  runOnJS,
-  useAnimatedReaction,
-  useSharedValue,
-} from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -19,17 +14,13 @@ import { type PostMedia } from '~/types/post'
 
 type Props = {
   image: PostMedia
-  onZoomIn: () => void
-  onZoomOut: () => void
+  onTap: () => void
 }
 
-export function GalleryItem({ image, onZoomIn, onZoomOut }: Props) {
+export function GalleryItem({ image, onTap }: Props) {
   const t = useTranslations('component.posts.gallery')
 
   const { styles, theme } = useStyles(stylesheet)
-
-  const scale = useSharedValue(1)
-  const zoomed = useSharedValue(false)
 
   const ref = useRef<Image>(null)
 
@@ -39,31 +30,14 @@ export function GalleryItem({ image, onZoomIn, onZoomOut }: Props) {
 
   const source = useImage(image.url)
 
-  useAnimatedReaction(
-    () => ({
-      $scale: scale.get(),
-      $zoomed: zoomed.get(),
-    }),
-    ({ $scale, $zoomed }) => {
-      if ($scale > 1 && !$zoomed) {
-        zoomed.set(true)
-
-        runOnJS(onZoomIn)()
-
-        return
-      }
-
-      if ($scale <= 1 && $zoomed) {
-        zoomed.set(false)
-
-        runOnJS(onZoomOut)()
-      }
-    },
-  )
-
   return (
     <View style={styles.main(image.width / image.height)}>
-      <Zoomable isDoubleTapEnabled minScale={0.5} scale={scale}>
+      <Zoomable
+        isDoubleTapEnabled
+        isSingleTapEnabled
+        minScale={0.5}
+        onSingleTap={onTap}
+      >
         <Image
           {...placeholder}
           contentFit="contain"
@@ -77,7 +51,7 @@ export function GalleryItem({ image, onZoomIn, onZoomOut }: Props) {
 
       {image.type === 'gif' ? (
         <View pointerEvents="box-none" style={styles.overlay}>
-          <View style={styles.gif}>
+          <View pointerEvents="none" style={styles.gif}>
             <Text contrast size="1" weight="medium">
               {t('gif')}
             </Text>

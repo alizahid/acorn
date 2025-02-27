@@ -16,6 +16,7 @@
 - added: new account age on comments
 - changed: swipe gestures extended
 - changed: comment skip disabled (temporarily)
+- changed: tap to hide image gallery controls
 - fixed: list performance
 - fixed: post dimming
 
