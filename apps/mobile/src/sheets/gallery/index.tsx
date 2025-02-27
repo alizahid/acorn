@@ -192,32 +192,34 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
           pointerEvents="box-none"
           style={[styles.footer, controls]}
         >
-          <IconButton
-            icon={{
-              color: downloadAll.isError
-                ? 'red'
-                : downloadAll.isSuccess
-                  ? 'green'
-                  : 'accent',
+          {images.length > 1 ? (
+            <IconButton
+              icon={{
+                color: downloadAll.isError
+                  ? 'red'
+                  : downloadAll.isSuccess
+                    ? 'green'
+                    : 'accent',
 
-              name: downloadAll.isError
-                ? 'XCircle'
-                : downloadAll.isSuccess
-                  ? 'CheckCircle'
-                  : 'BoxArrowDown',
-              weight: downloadAll.isError
-                ? 'fill'
-                : downloadAll.isSuccess
+                name: downloadAll.isError
+                  ? 'XCircle'
+                  : downloadAll.isSuccess
+                    ? 'CheckCircle'
+                    : 'BoxArrowDown',
+                weight: downloadAll.isError
                   ? 'fill'
-                  : 'duotone',
-            }}
-            loading={downloadAll.isPending}
-            onPress={() => {
-              downloadAll.download({
-                urls: images.map((image) => image.url),
-              })
-            }}
-          />
+                  : downloadAll.isSuccess
+                    ? 'fill'
+                    : 'duotone',
+              }}
+              loading={downloadAll.isPending}
+              onPress={() => {
+                downloadAll.download({
+                  urls: images.map((image) => image.url),
+                })
+              }}
+            />
+          ) : null}
 
           <IconButton
             icon={{
