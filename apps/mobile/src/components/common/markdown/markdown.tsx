@@ -118,17 +118,21 @@ export function Node({ node, ...props }: Props) {
     const base = map[node.depth]
     const size = String(base - difference) as TypographyToken
 
-    return node.children.map((child, index) => (
-      <Node
-        {...props}
-        key={index}
-        node={child}
-        size={size in theme.typography ? size : '3'}
-        text={{
-          weight: 'bold',
-        }}
-      />
-    ))
+    return (
+      <Text>
+        {node.children.map((child, index) => (
+          <Node
+            {...props}
+            key={index}
+            node={child}
+            size={size in theme.typography ? size : '3'}
+            text={{
+              weight: 'bold',
+            }}
+          />
+        ))}
+      </Text>
+    )
   }
 
   if (node.type === 'html') {
@@ -182,6 +186,7 @@ export function Node({ node, ...props }: Props) {
         key={index}
         node={child}
         text={{
+          ...props.text,
           color: 'accent',
           onPress() {
             void handleLink(node.url)
