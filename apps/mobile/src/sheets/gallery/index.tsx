@@ -19,6 +19,7 @@ import { useTranslations } from 'use-intl'
 
 import { IconButton } from '~/components/common/icon-button'
 import { Text } from '~/components/common/text'
+import { View } from '~/components/common/view'
 import {
   useCopyImage,
   useDownloadImage,
@@ -75,9 +76,6 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
 
   useEffect(() => {
     if (call.ended) {
-      translate.set(() => withSpring(frame.height))
-      opacity.set(() => withTiming(0))
-
       void ScreenOrientation.lockAsync(
         ScreenOrientation.OrientationLock.PORTRAIT_UP,
       )
@@ -111,6 +109,11 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
     })
     .onEnd((event) => {
       if (Math.abs(event.translationY) > 100) {
+        translate.set(() =>
+          withSpring(event.translationY > 0 ? frame.height : -frame.height),
+        )
+        opacity.set(() => withTiming(0))
+
         runOnJS(call.end)()
 
         return
@@ -161,29 +164,30 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
         />
       </GestureDetector>
 
-      {images.length > 1 ? (
-        <Animated.View
-          pointerEvents="none"
-          style={[styles.pagination, controls]}
-        >
-          <Text contrast size="1" tabular weight="medium">
-            {t('item', {
-              count: images.length,
-              current: viewing + 1,
-            })}
-          </Text>
-        </Animated.View>
-      ) : null}
+      <Animated.View pointerEvents="box-none" style={[styles.header, controls]}>
+        {images.length > 1 ? (
+          <View pointerEvents="none" style={styles.pagination}>
+            <Text contrast size="1" tabular weight="medium">
+              {t('item', {
+                count: images.length,
+                current: viewing + 1,
+              })}
+            </Text>
+          </View>
+        ) : null}
 
-      <Animated.View pointerEvents="box-none" style={[styles.close, controls]}>
         <IconButton
           icon={{
             name: 'X',
             weight: 'bold',
           }}
           onPress={() => {
+            translate.set(() => withSpring(frame.height))
+            opacity.set(() => withTiming(0))
+
             call.end()
           }}
+          style={styles.close}
         />
       </Animated.View>
 
@@ -277,9 +281,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   close: {
-    position: 'absolute',
-    right: theme.space[4],
-    top: theme.space[4] + runtime.insets.top,
+    marginLeft: 'auto',
   },
   footer: {
     alignItems: 'center',
@@ -294,6 +296,14 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     paddingHorizontal: theme.space[2],
     position: 'absolute',
   },
+  header: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    left: theme.space[4],
+    position: 'absolute',
+    right: theme.space[4],
+    top: theme.space[4] + runtime.insets.top,
+  },
   main: {
     ...StyleSheet.absoluteFillObject,
     zIndex: 100,
@@ -305,15 +315,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       : theme.colors[tint ? 'accent' : 'gray'].ui,
   }),
   pagination: {
-    alignSelf: 'center',
     backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[2],
-    height: theme.space[8],
     justifyContent: 'center',
     paddingHorizontal: theme.space[1],
     paddingVertical: theme.space[1] / 2,
-    position: 'absolute',
-    top: theme.space[4] + runtime.insets.top,
   },
 }))
