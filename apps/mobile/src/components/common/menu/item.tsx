@@ -131,7 +131,7 @@ export function MenuItem({ item, style }: Props) {
 
       {item.type === 'options' ? (
         <SheetModal
-          container="scroll"
+          container={item.options.length > 6 ? 'scroll' : 'view'}
           ref={sheet}
           title={item.title ?? item.label}
         >
