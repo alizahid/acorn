@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- fixed: theme selector name/scrolling
+
 ## Build 45
 
 - added: comment edit/delete
