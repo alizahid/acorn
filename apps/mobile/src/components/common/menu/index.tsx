@@ -1,8 +1,12 @@
-import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useScrollToTop } from '@react-navigation/native'
 import { type SFSymbol } from 'expo-symbols'
-import { type ReactElement, type ReactNode, useRef } from 'react'
-import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
+import { type ReactElement, useRef } from 'react'
+import {
+  FlatList,
+  type StyleProp,
+  type TextStyle,
+  type ViewStyle,
+} from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -66,7 +70,7 @@ export type MenuItem = {
 type Props = {
   footer?: ReactElement
   header?: ReactElement
-  items: Array<MenuItem | string | null | (() => ReactNode)>
+  items: Array<MenuItem | string | null | (() => ReactElement)>
   listProps?: ListProps
   onRefresh?: () => Promise<unknown>
 }
@@ -74,27 +78,17 @@ type Props = {
 export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  const list = useRef<LegendListRef>(null)
+  const list =
+    useRef<FlatList<MenuItem | string | null | (() => ReactElement)>>(null)
 
   useScrollToTop(list)
 
   return (
-    <LegendList
+    <FlatList
       {...listProps}
       ListFooterComponent={footer}
       ListHeaderComponent={header}
       data={items}
-      getEstimatedItemSize={(index, item) => {
-        if (item === null) {
-          return 16
-        }
-
-        if (typeof item === 'string') {
-          return 40
-        }
-
-        return 48
-      }}
       keyExtractor={(item, index) => String(index)}
       ref={list}
       refreshControl={

@@ -1,6 +1,5 @@
-import { LegendList } from '@legendapp/list'
 import { create } from 'mutative'
-import { ScrollView } from 'react-native'
+import { FlatList, ScrollView } from 'react-native'
 import ReorderableList, { reorderItems } from 'react-native-reorderable-list'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -29,9 +28,8 @@ export default function Screen() {
         {t('feedType.title')}
       </Text>
 
-      <LegendList
+      <FlatList
         data={FeedType}
-        estimatedItemSize={48}
         renderItem={({ item }) => (
           <SheetItem
             icon={{
