@@ -82,7 +82,7 @@ export function PostMeta({ post }: Props) {
         </View>
       ))}
 
-      {!post.nsfw ? (
+      {post.nsfw ? (
         <View style={styles.nsfw}>
           <Text contrast size="1" weight="bold">
             {t('nsfw')}
