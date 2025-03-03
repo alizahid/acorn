@@ -83,11 +83,9 @@ export function PostMeta({ post }: Props) {
       ))}
 
       {post.nsfw ? (
-        <View style={styles.nsfw}>
-          <Text contrast size="1" weight="bold">
-            {t('nsfw')}
-          </Text>
-        </View>
+        <Text contrast size="1" style={styles.nsfw} weight="bold">
+          {t('nsfw')}
+        </Text>
       ) : null}
     </View>
   )
@@ -97,6 +95,6 @@ const stylesheet = createStyleSheet((theme) => ({
   nsfw: {
     backgroundColor: theme.colors.red.accent,
     borderCurve: 'continuous',
-    borderRadius: theme.radius[2],
+    borderRadius: theme.radius[1],
   },
 }))
