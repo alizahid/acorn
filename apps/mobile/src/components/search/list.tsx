@@ -1,13 +1,6 @@
 import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useScrollToTop } from '@react-navigation/native'
-import {
-  type ReactElement,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
-import { type ViewabilityConfigCallbackPairs } from 'react-native'
+import { type ReactElement, useCallback, useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -16,7 +9,6 @@ import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
-import { useHistory } from '~/hooks/history'
 import { estimateHeight, type ListProps } from '~/hooks/list'
 import { useSearch } from '~/hooks/queries/search/search'
 import { useSearchHistory } from '~/hooks/search'
@@ -62,8 +54,7 @@ export function SearchList({
 
   const { styles } = useStyles(stylesheet)
 
-  const { feedCompact, seenOnScroll, themeOled } = usePreferences()
-  const { addPost } = useHistory()
+  const { feedCompact, themeOled } = usePreferences()
 
   const history = useSearchHistory(community)
 
@@ -74,39 +65,6 @@ export function SearchList({
     sort,
     type,
   })
-
-  const viewabilityConfigCallbackPairs =
-    useMemo<ViewabilityConfigCallbackPairs>(
-      () => [
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            setViewing(() => viewableItems.map((item) => item.key))
-          },
-          viewabilityConfig: {
-            viewAreaCoveragePercentThreshold: 60,
-          },
-        },
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            if (!seenOnScroll) {
-              return
-            }
-
-            if (type === 'post') {
-              viewableItems.forEach((item) => {
-                addPost({
-                  id: (item.item as Post).id,
-                })
-              })
-            }
-          },
-          viewabilityConfig: {
-            viewAreaCoveragePercentThreshold: 60,
-          },
-        },
-      ],
-      [addPost, seenOnScroll, type],
-    )
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
@@ -176,6 +134,9 @@ export function SearchList({
       onScrollBeginDrag={() => {
         history.save(query)
       }}
+      onViewableItemsChanged={({ viewableItems }) => {
+        setViewing(() => viewableItems.map((item) => item.key))
+      }}
       recycleItems={type !== 'post'}
       ref={list}
       refreshControl={
@@ -185,7 +146,9 @@ export function SearchList({
         />
       }
       renderItem={({ index, item }) => renderItem(item, index)}
-      viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs}
+      viewabilityConfig={{
+        viewAreaCoveragePercentThreshold: 60,
+      }}
     />
   )
 }

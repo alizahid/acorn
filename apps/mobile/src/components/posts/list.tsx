@@ -1,14 +1,7 @@
 import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { useRouter } from 'expo-router'
-import {
-  type ReactElement,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
-import { type ViewabilityConfigCallbackPairs } from 'react-native'
+import { type ReactElement, useCallback, useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -78,43 +71,6 @@ export function PostList({
     user,
     userType,
   })
-
-  const viewabilityConfigCallbackPairs =
-    useMemo<ViewabilityConfigCallbackPairs>(
-      () => [
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            setViewing(() => viewableItems.map((item) => item.key))
-          },
-          viewabilityConfig: {
-            viewAreaCoveragePercentThreshold: 60,
-          },
-        },
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            if (!seenOnScroll) {
-              return
-            }
-
-            viewableItems
-              .filter((item) => {
-                const data = item.item as Post | Comment
-
-                return data.type !== 'reply' && data.type !== 'more'
-              })
-              .forEach((item) => {
-                addPost({
-                  id: (item.item as Post).id,
-                })
-              })
-          },
-          viewabilityConfig: {
-            viewAreaCoveragePercentThreshold: 60,
-          },
-        },
-      ],
-      [addPost, seenOnScroll],
-    )
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
@@ -205,6 +161,25 @@ export function PostList({
           void fetchNextPage()
         }
       }}
+      onViewableItemsChanged={({ viewableItems }) => {
+        setViewing(() => viewableItems.map((item) => item.key))
+
+        if (!seenOnScroll) {
+          return
+        }
+
+        viewableItems
+          .filter((item) => {
+            const data = item.item as Post | Comment
+
+            return data.type !== 'reply' && data.type !== 'more'
+          })
+          .forEach((item) => {
+            addPost({
+              id: (item.item as Post).id,
+            })
+          })
+      }}
       // recycleItems
       ref={list}
       refreshControl={
@@ -218,7 +193,9 @@ export function PostList({
         />
       }
       renderItem={({ item }) => renderItem(item)}
-      viewabilityConfigCallbackPairs={viewabilityConfigCallbackPairs}
+      viewabilityConfig={{
+        viewAreaCoveragePercentThreshold: 60,
+      }}
     />
   )
 }
