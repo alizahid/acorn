@@ -3,10 +3,13 @@
 ## Upcoming
 
 - added: subscriber count to community search results
-- fixed: theme selector name/scrolling
-- fixed: dim on scroll
 - changed: disable autocomplete for search boxes
 - changed: filters extended
+- changed: flair
+- changed: nsfw post badge moved to card footer
+- fixed: theme selector name/scrolling
+- fixed: post dim on scroll
+- fixed: post/comment pressable area
 
 ## Build 45
 
