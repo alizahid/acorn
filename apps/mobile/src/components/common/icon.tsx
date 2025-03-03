@@ -37,6 +37,7 @@ import EyeBold from 'react-native-phosphor/src/bold/Eye'
 import EyeClosedBold from 'react-native-phosphor/src/bold/EyeClosed'
 import FlagBold from 'react-native-phosphor/src/bold/Flag'
 import FlameBold from 'react-native-phosphor/src/bold/Flame'
+import FloppyDiskBold from 'react-native-phosphor/src/bold/FloppyDisk'
 import FunnelBold from 'react-native-phosphor/src/bold/Funnel'
 import GearSixBold from 'react-native-phosphor/src/bold/GearSix'
 import GitHubLogoBold from 'react-native-phosphor/src/bold/GithubLogo'
@@ -132,6 +133,7 @@ import EyeDuotone from 'react-native-phosphor/src/duotone/Eye'
 import EyeClosedDuotone from 'react-native-phosphor/src/duotone/EyeClosed'
 import FlagDuotone from 'react-native-phosphor/src/duotone/Flag'
 import FlameDuotone from 'react-native-phosphor/src/duotone/Flame'
+import FloppyDiskDuotone from 'react-native-phosphor/src/duotone/FloppyDisk'
 import FunnelDuotone from 'react-native-phosphor/src/duotone/Funnel'
 import GearSixDuotone from 'react-native-phosphor/src/duotone/GearSix'
 import GitHubLogoDuotone from 'react-native-phosphor/src/duotone/GithubLogo'
@@ -227,6 +229,7 @@ import EyeFill from 'react-native-phosphor/src/fill/Eye'
 import EyeClosedFill from 'react-native-phosphor/src/fill/EyeClosed'
 import FlagFill from 'react-native-phosphor/src/fill/Flag'
 import FlameFill from 'react-native-phosphor/src/fill/Flame'
+import FloppyDiskFill from 'react-native-phosphor/src/fill/FloppyDisk'
 import FunnelFill from 'react-native-phosphor/src/fill/Funnel'
 import GearSixFill from 'react-native-phosphor/src/fill/GearSix'
 import GitHubLogoFill from 'react-native-phosphor/src/fill/GithubLogo'
@@ -322,6 +325,7 @@ import EyeRegular from 'react-native-phosphor/src/regular/Eye'
 import EyeClosedRegular from 'react-native-phosphor/src/regular/EyeClosed'
 import FlagRegular from 'react-native-phosphor/src/regular/Flag'
 import FlameRegular from 'react-native-phosphor/src/regular/Flame'
+import FloppyDiskRegular from 'react-native-phosphor/src/regular/FloppyDisk'
 import FunnelRegular from 'react-native-phosphor/src/regular/Funnel'
 import GearSixRegular from 'react-native-phosphor/src/regular/GearSix'
 import GitHubLogoRegular from 'react-native-phosphor/src/regular/GithubLogo'
@@ -627,6 +631,12 @@ const icons = {
     duotone: FlameDuotone,
     fill: FlameFill,
     regular: FlameRegular,
+  },
+  FloppyDisk: {
+    bold: FloppyDiskBold,
+    duotone: FloppyDiskDuotone,
+    fill: FloppyDiskFill,
+    regular: FloppyDiskRegular,
   },
   Funnel: {
     bold: FunnelBold,

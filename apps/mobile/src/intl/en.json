@@ -413,17 +413,28 @@
       },
       "filters": {
         "form": {
-          "action": {
-            "add": "Add",
-            "reset": "Clear all"
-          },
           "field": {
             "keyword": {
-              "placeholder": "Keyword"
+              "placeholder": "keyword, user:name, community:name"
             }
           }
         },
         "rules": {
+          "example": {
+            "one": {
+              "label": "Post titles",
+              "value": "politics"
+            },
+            "three": {
+              "label": "Communities",
+              "value": "community:askreddit"
+            },
+            "title": "Examples",
+            "two": {
+              "label": "Users",
+              "value": "user:cool_dude"
+            }
+          },
           "no": {
             "one": "Post comments",
             "title": "Filters will not apply to",

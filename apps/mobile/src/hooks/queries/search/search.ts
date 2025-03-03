@@ -3,7 +3,7 @@ import { compact } from 'lodash'
 import { create, type Draft } from 'mutative'
 
 import { getHistory } from '~/lib/db/history'
-import { filter } from '~/lib/filtering'
+import { filterByKeyword } from '~/lib/filtering'
 import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
@@ -100,7 +100,11 @@ export function useSearch<Type extends SearchTab>({
 
         return response.data.children
           .filter((item) => item.data.subreddit_type === 'public')
-          .filter((item) => filter(filteredKeywords, item.data.display_name))
+          .filter((item) =>
+            filterByKeyword(filteredKeywords, {
+              community: item.data.display_name,
+            }),
+          )
           .map((item) => transformCommunity(item.data)) as SearchQueryData<Type>
       }
 
@@ -109,7 +113,11 @@ export function useSearch<Type extends SearchTab>({
 
         return compact(
           response.data.children
-            .filter((item) => filter(filteredKeywords, item.data.name))
+            .filter((item) =>
+              filterByKeyword(filteredKeywords, {
+                user: item.data.name,
+              }),
+            )
             .map((item) => transformSearchUser(item.data)),
         ) as SearchQueryData<Type>
       }
@@ -122,7 +130,13 @@ export function useSearch<Type extends SearchTab>({
         )
 
         return response.data.children
-          .filter((item) => filter(filteredKeywords, item.data.title))
+          .filter((item) =>
+            filterByKeyword(filteredKeywords, {
+              community: item.data.sr_detail.display_name,
+              title: item.data.title,
+              user: item.data.author,
+            }),
+          )
           .map((item) =>
             transformPost(item.data, seen),
           ) as SearchQueryData<Type>

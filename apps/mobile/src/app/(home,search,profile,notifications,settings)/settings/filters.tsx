@@ -79,7 +79,7 @@ export default function Screen() {
         headerRight: () => (
           <IconButton
             icon={{
-              name: 'CheckCircle',
+              name: 'FloppyDisk',
               weight: 'duotone',
             }}
             onPress={() => {
@@ -146,6 +146,24 @@ export default function Screen() {
               ))}
             </View>
           ))}
+
+          <View gap="2">
+            <Text highContrast={false} size="2">
+              {t('rules.example.title')}
+            </Text>
+
+            {(['one', 'two', 'three'] as const).map((index) => (
+              <View align="center" direction="row" gap="2" key={index}>
+                <Text highContrast={false} weight="medium">
+                  {t(`rules.example.${index}.label`)}
+                </Text>
+
+                <View px="2" py="1" style={styles.chip}>
+                  <Text>{t(`rules.example.${index}.value`)}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
         </View>
 
         <View gap="4" mt="6">
@@ -178,7 +196,7 @@ export default function Screen() {
                       keywords.remove(index)
                     }}
                     size="7"
-                    style={styles.action}
+                    style={styles.delete}
                   />
                 </View>
               )}
@@ -218,12 +236,24 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   action: {
-    marginRight: -theme.space[1],
+    flex: 1,
+  },
+  chip: {
+    backgroundColor: theme.colors.accent.ui,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[2],
   },
   content: {
     flexGrow: 1,
+  },
+  delete: {
+    marginRight: -theme.space[1],
+  },
+  footer: {
+    marginBottom:
+      theme.space[3] + theme.space[5] + theme.space[3] + runtime.insets.bottom,
   },
   input: {
     flex: 1,

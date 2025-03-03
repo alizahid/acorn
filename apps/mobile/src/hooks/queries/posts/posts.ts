@@ -6,7 +6,7 @@ import { useMemo } from 'react'
 
 import { getHidden } from '~/lib/db/hidden'
 import { getHistory } from '~/lib/db/history'
-import { filter } from '~/lib/filtering'
+import { filterByKeyword } from '~/lib/filtering'
 import { isComment } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
@@ -166,7 +166,11 @@ export function usePosts({
             return true
           }
 
-          return filter(filteredKeywords, item.title)
+          return filterByKeyword(filteredKeywords, {
+            community: item.community.name,
+            title: item.title,
+            user: item.user.name,
+          })
         }),
       }
     },
