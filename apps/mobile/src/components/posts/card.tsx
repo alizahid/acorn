@@ -43,6 +43,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
     communityOnTop,
     dimSeen,
     feedCompact,
+    fontSizePost,
     mediaOnRight,
     oldReddit,
     themeOled,
@@ -210,7 +211,9 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
       >
         {communityOnTop ? <PostCommunity post={post} /> : null}
 
-        <Text weight="bold">{post.title}</Text>
+        <Text size={fontSizePost} weight="bold">
+          {post.title}
+        </Text>
 
         <FlairCard flair={post.flair} />
       </Pressable>

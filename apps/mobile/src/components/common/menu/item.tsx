@@ -168,7 +168,7 @@ export function MenuItem({ item, style }: Props) {
 
                   sheet.current?.dismiss()
                 }}
-                right={option.right}
+                right={!option.hideRight ? option.right : null}
                 selected={option.value === item.value}
                 style={option.style}
               />

@@ -73,9 +73,6 @@
       }
     },
     "posts": {
-      "meta": {
-        "nsfw": "NSFW"
-      },
       "community": {
         "by": "by"
       },
@@ -144,6 +141,9 @@
         "unhidePost": "Unhide post",
         "unsave": "Unsave",
         "upvote": "Upvote"
+      },
+      "meta": {
+        "nsfw": "NSFW"
       },
       "video": {
         "nsfw": "Sensitive content - tap to watch",
@@ -334,6 +334,8 @@
           "apercu": "Apercu",
           "basis": "Basis",
           "fold": "Fold",
+          "fontSizeComment": "Comment size",
+          "fontSizePost": "Post size",
           "system": "San Francisco",
           "systemScaling": "Use system scaling",
           "title": "Font"

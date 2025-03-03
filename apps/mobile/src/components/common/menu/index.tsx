@@ -31,6 +31,7 @@ type Icon =
     }
 
 export type MenuItemOption = {
+  hideRight?: boolean
   icon?: Icon
   label: string
   labelStyle?: StyleProp<TextStyle>

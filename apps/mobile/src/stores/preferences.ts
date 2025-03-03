@@ -5,6 +5,7 @@ import { type FloatingButtonSide } from '~/components/common/floating-button'
 import { type Font } from '~/lib/fonts'
 import { Store } from '~/lib/store'
 import { type Theme } from '~/styles/themes'
+import { type TypographyToken } from '~/styles/tokens'
 import {
   type CommentSort,
   type CommunityFeedSort,
@@ -33,6 +34,8 @@ export type PreferencesPayload = {
   filteredKeywords: Array<string>
   font: Font
   fontScaling: number
+  fontSizeComment: TypographyToken
+  fontSizePost: TypographyToken
   hapticsLoud: boolean
   hideSeen: boolean
   intervalCommunityPosts: TopInterval
@@ -90,6 +93,8 @@ export const usePreferences = create<State>()(
       filteredKeywords: [],
       font: 'basis',
       fontScaling: 1,
+      fontSizeComment: '2',
+      fontSizePost: '3',
       hapticsLoud: false,
       hideSeen: false,
       intervalCommunityPosts: 'hour',

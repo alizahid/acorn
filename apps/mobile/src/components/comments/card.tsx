@@ -46,7 +46,7 @@ export function CommentCard({
 }: Props) {
   const router = useRouter()
 
-  const { coloredComments, themeOled } = usePreferences()
+  const { coloredComments, fontSizeComment, themeOled } = usePreferences()
   const {
     commentLeft,
     commentLeftLong,
@@ -157,7 +157,7 @@ export function CommentCard({
           <Markdown
             meta={comment.media.meta}
             recyclingKey={comment.id}
-            size="2"
+            size={fontSizeComment}
             style={styles.body}
             variant="comment"
           >

@@ -28,7 +28,7 @@ export function PostCompactCard({
   post,
   side = 'left',
 }: Props) {
-  const { largeThumbnails } = usePreferences()
+  const { fontSizePost, largeThumbnails } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -92,7 +92,9 @@ export function PostCompactCard({
       <View align="start" flex={1} gap="2">
         <PostCommunity post={post} />
 
-        <Text weight="bold">{post.title}</Text>
+        <Text size={fontSizePost} weight="bold">
+          {post.title}
+        </Text>
 
         <PostMeta post={post} />
       </View>

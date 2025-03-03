@@ -1,3 +1,4 @@
+import { SymbolView } from 'expo-symbols'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -8,7 +9,11 @@ import { useList } from '~/hooks/list'
 import { type Font, fonts } from '~/lib/fonts'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 import { type Theme } from '~/styles/themes'
-import { type ColorToken } from '~/styles/tokens'
+import {
+  type ColorToken,
+  typography,
+  type TypographyToken,
+} from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.appearance')
@@ -19,16 +24,18 @@ export default function Screen() {
     feedCompact,
     font,
     fontScaling,
+    fontSizeComment,
+    fontSizePost,
     largeThumbnails,
     mediaOnRight,
     systemScaling,
-    theme,
+    theme: selected,
     themeOled,
     themeTint,
     update,
   } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   const listProps = useList()
 
@@ -99,6 +106,14 @@ export default function Screen() {
             key: 'fontScaling',
             value: fontScaling,
           },
+          {
+            key: 'fontSizePost',
+            value: fontSizePost,
+          },
+          {
+            key: 'fontSizeComment',
+            value: fontSizeComment,
+          },
           null,
 
           t('themes.title'),
@@ -157,7 +172,7 @@ export default function Screen() {
                 key: 'jade-dark',
               },
             ],
-            value: theme,
+            value: selected,
           },
         ] as const
       ).map((item) => {
@@ -243,6 +258,31 @@ export default function Screen() {
               }
             }),
             title: t('themes.title'),
+            type: 'options',
+            value: item.value,
+          } satisfies MenuItem
+        }
+
+        if (item.key === 'fontSizePost' || item.key === 'fontSizeComment') {
+          return {
+            label: t(`fonts.${item.key}`),
+            onSelect(value) {
+              update({
+                [item.key]: value,
+              })
+            },
+            options: Object.keys(typography).map((token) => ({
+              hideRight: true,
+              label: token,
+              right: (
+                <SymbolView
+                  name={`${token as TypographyToken}.circle.fill`}
+                  size={theme.space[5]}
+                  tintColor={theme.colors.accent.accent}
+                />
+              ),
+              value: token,
+            })),
             type: 'options',
             value: item.value,
           } satisfies MenuItem

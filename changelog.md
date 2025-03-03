@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: subscriber count to community search results
+- added: custom size for posts/comments
 - changed: disable autocomplete for search boxes
 - changed: filters extended
 - changed: flair
