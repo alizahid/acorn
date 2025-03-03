@@ -3,6 +3,8 @@
 ## Upcoming
 
 - fixed: theme selector name/scrolling
+- fixed: dim on scroll
+- changed: disable autocomplete for search boxes
 
 ## Build 45
 

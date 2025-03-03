@@ -113,6 +113,9 @@ export default function Screen() {
         <Header title={t('title')}>
           <View gap="4" pb="4" px="3">
             <TextBox
+              autoCapitalize="none"
+              autoComplete="off"
+              autoCorrect={false}
               onChangeText={setQuery}
               placeholder={t('title')}
               ref={search}

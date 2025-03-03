@@ -46,6 +46,9 @@ export default function Screen() {
     <>
       <Header back title={params.name}>
         <TextBox
+          autoCapitalize="none"
+          autoComplete="off"
+          autoCorrect={false}
           onChangeText={setQuery}
           placeholder={t('placeholder')}
           returnKeyType="search"

@@ -18,6 +18,9 @@ export function UserSearchBar({ onChange, value }: Props) {
 
   return (
     <TextBox
+      autoCapitalize="none"
+      autoComplete="off"
+      autoCorrect={false}
       left={
         <Icon
           color={theme.colors.gray.accent}

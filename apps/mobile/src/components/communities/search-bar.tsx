@@ -20,6 +20,9 @@ export function CommunitySearchBar({ name, style }: Props) {
 
   return (
     <TextBox
+      autoCapitalize="none"
+      autoComplete="off"
+      autoCorrect={false}
       left={
         <Icon
           color={theme.colors.gray.accent}
