@@ -72,7 +72,7 @@ export function PostGestures({
       hitSlop={
         iPhone
           ? {
-              horizontal: -24,
+              left: -24,
             }
           : undefined
       }
