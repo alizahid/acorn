@@ -203,7 +203,9 @@ export function CommentCard({
 
         <CommentMeta collapsed={collapsed} comment={comment} />
 
-        {!collapsed ? <FlairCard flair={comment.flair} /> : null}
+        {!collapsed ? (
+          <FlairCard flair={comment.flair} style={styles.flair} />
+        ) : null}
       </Pressable>
 
       {comment.saved ? (
@@ -238,8 +240,8 @@ const stylesheet = createStyleSheet((theme) => ({
     return base
   },
   flair: {
+    marginBottom: theme.space[3],
     marginHorizontal: theme.space[3],
-    marginTop: theme.space[3],
   },
   main: (depth: number, colored: boolean, oled: boolean, dull?: boolean) => {
     const color = dull ? 'gray' : getDepthColor(depth)

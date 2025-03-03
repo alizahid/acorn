@@ -27,8 +27,6 @@ export function FlairCard({ flair, style }: Props) {
       align="center"
       direction="row"
       gap="2"
-      mb="3"
-      mx="3"
       pointerEvents="none"
       style={style}
     >
