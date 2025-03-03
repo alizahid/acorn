@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: subscriber count to community search results
 - fixed: theme selector name/scrolling
 - fixed: dim on scroll
 - changed: disable autocomplete for search boxes

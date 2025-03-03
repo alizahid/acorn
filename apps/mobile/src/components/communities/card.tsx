@@ -2,6 +2,7 @@ import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useFormatter } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
 import { type Community } from '~/types/community'
@@ -9,6 +10,7 @@ import { type Community } from '~/types/community'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 
 type Props = {
   community: Community
@@ -17,6 +19,8 @@ type Props = {
 
 export function CommunityCard({ community, style }: Props) {
   const router = useRouter()
+
+  const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -53,9 +57,15 @@ export function CommunityCard({ community, style }: Props) {
         style={styles.image}
       />
 
-      <Text my="4" style={styles.name} weight="medium">
-        {community.name}
-      </Text>
+      <View align="center" direction="row" flex={1} gap="2" my="4">
+        <Text weight="medium">{community.name}</Text>
+
+        <Text highContrast={false} size="1" tabular>
+          {f.number(community.subscribers, {
+            notation: 'compact',
+          })}
+        </Text>
+      </View>
 
       <Icon
         color={theme.colors.gray.accent}
