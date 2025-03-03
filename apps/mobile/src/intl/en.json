@@ -73,7 +73,7 @@
       }
     },
     "posts": {
-      "card": {
+      "meta": {
         "nsfw": "NSFW"
       },
       "community": {
