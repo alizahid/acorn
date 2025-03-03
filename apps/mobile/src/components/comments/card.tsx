@@ -154,10 +154,6 @@ export function CommentCard({
         }}
       >
         {!collapsed ? (
-          <FlairCard flair={comment.flair} style={styles.flair} type="text" />
-        ) : null}
-
-        {!collapsed ? (
           <Markdown
             meta={comment.media.meta}
             recyclingKey={comment.id}
@@ -206,6 +202,8 @@ export function CommentCard({
         ) : null}
 
         <CommentMeta collapsed={collapsed} comment={comment} />
+
+        {!collapsed ? <FlairCard flair={comment.flair} /> : null}
       </Pressable>
 
       {comment.saved ? (

@@ -11,23 +11,28 @@ import { View } from '../common/view'
 type Props = {
   flair: Array<Flair>
   style?: StyleProp<ViewStyle>
-  type?: 'emoji' | 'text'
 }
 
-export function FlairCard({ flair, style, type }: Props) {
+export function FlairCard({ flair, style }: Props) {
   const { showFlair } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
-  const items = flair.filter((item) => (type ? item.type === type : true))
-
-  if (!showFlair || flair.length === 0 || items.length === 0) {
+  if (!showFlair || flair.length === 0) {
     return null
   }
 
   return (
-    <View align="center" direction="row" gap="2" style={style}>
-      {items.map((item) => {
+    <View
+      align="center"
+      direction="row"
+      gap="2"
+      mb="3"
+      mx="3"
+      pointerEvents="none"
+      style={style}
+    >
+      {flair.map((item) => {
         if (item.type === 'emoji') {
           return (
             <Image key={item.id} source={item.value} style={styles.emoji} />
@@ -36,7 +41,9 @@ export function FlairCard({ flair, style, type }: Props) {
 
         return (
           <View key={item.id} style={styles.text}>
-            <Text size="1">{item.value}</Text>
+            <Text lines={1} size="1">
+              {item.value}
+            </Text>
           </View>
         )
       })}

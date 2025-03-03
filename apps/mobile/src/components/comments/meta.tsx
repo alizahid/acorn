@@ -13,7 +13,6 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { TimeAgo } from '../common/time'
 import { View } from '../common/view'
-import { FlairCard } from '../posts/flair'
 import { FooterButton } from '../posts/footer/button'
 
 type Props = {
@@ -97,8 +96,6 @@ export function CommentMeta({ collapsed, comment }: Props) {
             </Text>
           </View>
         ) : null}
-
-        {!collapsed ? <FlairCard flair={comment.flair} type="emoji" /> : null}
       </Pressable>
 
       <Text highContrast={false} size="1">
