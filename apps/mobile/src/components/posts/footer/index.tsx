@@ -8,13 +8,12 @@ import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
 import { FooterButton } from './button'
-import { PostCommunity, type PostLabel } from './community'
+import { PostCommunity } from './community'
 import { PostMeta } from './meta'
 
 type Props = {
   community?: boolean
   expanded?: boolean
-  label?: PostLabel
   onLongPress?: () => void
   post: Post
 }
@@ -22,7 +21,6 @@ type Props = {
 export function PostFooter({
   community = true,
   expanded,
-  label,
   onLongPress,
   post,
 }: Props) {
@@ -51,8 +49,8 @@ export function PostFooter({
       }}
       p="3"
     >
-      <View gap="2">
-        {community ? <PostCommunity label={label} post={post} /> : null}
+      <View flex={1} gap="2">
+        {community ? <PostCommunity post={post} /> : null}
 
         <PostMeta post={post} />
       </View>

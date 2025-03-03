@@ -25,20 +25,19 @@ import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
 import { PostFooter } from './footer'
-import { PostCommunity, type PostLabel } from './footer/community'
+import { PostCommunity } from './footer/community'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
 type Props = {
   expanded?: boolean
-  label?: PostLabel
   post: Post
   style?: StyleProp<ViewStyle>
   viewing: boolean
 }
 
-export function PostCard({ expanded, label, post, style, viewing }: Props) {
+export function PostCard({ expanded, post, style, viewing }: Props) {
   const router = useRouter()
 
   const t = useTranslations('component.posts.card')
@@ -174,7 +173,6 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
       >
         <PostCompactCard
           expanded={expanded}
-          label={label}
           onLongPress={onLongPress}
           onPress={onPress}
           post={post}
@@ -214,7 +212,7 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
         pt="3"
         px="3"
       >
-        {communityOnTop ? <PostCommunity label={label} post={post} /> : null}
+        {communityOnTop ? <PostCommunity post={post} /> : null}
 
         <View align="start" direction="row">
           <Text style={styles.title} weight="bold">
@@ -291,7 +289,6 @@ export function PostCard({ expanded, label, post, style, viewing }: Props) {
       <PostFooter
         community={!communityOnTop}
         expanded={expanded}
-        label={label}
         onLongPress={onLongPress}
         post={post}
       />

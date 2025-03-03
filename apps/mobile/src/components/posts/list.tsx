@@ -19,11 +19,9 @@ import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
-import { type PostLabel } from './footer/community'
 
 type Props = PostsProps & {
   header?: ReactElement
-  label?: PostLabel
   listProps?: ListProps
   onRefresh?: () => void
 }
@@ -33,7 +31,6 @@ export function PostList({
   feed,
   header,
   interval,
-  label,
   listProps,
   onRefresh,
   query,
@@ -100,13 +97,12 @@ export function PostList({
 
       return (
         <PostCard
-          label={label}
           post={item}
           viewing={focused ? viewing.includes(item.id) : false}
         />
       )
     },
-    [focused, label, router, viewing],
+    [focused, router, viewing],
   )
 
   return (

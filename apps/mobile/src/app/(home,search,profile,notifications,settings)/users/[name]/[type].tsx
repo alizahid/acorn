@@ -73,7 +73,6 @@ export default function Screen() {
         </View>
       }
       interval={interval}
-      label="subreddit"
       listProps={listProps}
       query={debounced}
       sort={sort}

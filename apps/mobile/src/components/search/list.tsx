@@ -85,7 +85,6 @@ export function SearchList({
 
       return (
         <PostCard
-          label="both"
           post={item as Post}
           viewing={focused ? viewing.includes(item.id) : false}
         />

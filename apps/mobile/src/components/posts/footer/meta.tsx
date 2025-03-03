@@ -52,7 +52,7 @@ export function PostMeta({ post }: Props) {
   ] as const
 
   return (
-    <View align="center" direction="row" gap="2" pointerEvents="none">
+    <View align="center" direction="row" gap="2">
       {post.sticky ? (
         <Icon
           color={theme.colors.red.accent}

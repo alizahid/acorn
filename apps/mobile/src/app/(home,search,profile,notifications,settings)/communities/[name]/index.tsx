@@ -56,7 +56,6 @@ export default function Screen() {
           </View>
         }
         interval={sorting.interval}
-        label="user"
         listProps={listProps}
         sort={sorting.sort}
       />

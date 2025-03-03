@@ -65,7 +65,6 @@ export default function Screen() {
           return (
             <PostList
               interval={intervalUserPosts}
-              label="subreddit"
               listProps={listProps}
               sort={sortUserPosts}
               user={params.name}

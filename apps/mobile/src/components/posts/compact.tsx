@@ -7,7 +7,7 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { CrossPostCard } from './crosspost'
-import { PostCommunity, type PostLabel } from './footer/community'
+import { PostCommunity } from './footer/community'
 import { PostMeta } from './footer/meta'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
@@ -15,7 +15,6 @@ import { PostVideoCard } from './video'
 
 type Props = {
   expanded?: boolean
-  label?: PostLabel
   onLongPress?: () => void
   onPress: () => void
   post: Post
@@ -24,7 +23,6 @@ type Props = {
 
 export function PostCompactCard({
   expanded,
-  label,
   onLongPress,
   onPress,
   post,
@@ -92,7 +90,7 @@ export function PostCompactCard({
       ) : null}
 
       <View align="start" flex={1} gap="2">
-        <PostCommunity label={label} post={post} />
+        <PostCommunity post={post} />
 
         <Text weight="bold">{post.title}</Text>
 

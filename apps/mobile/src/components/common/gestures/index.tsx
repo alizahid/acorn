@@ -69,7 +69,13 @@ export function PostGestures({
       containerStyle={containerStyle}
       dragOffsetFromLeftEdge={left.enabled ? 10 : frame.width}
       dragOffsetFromRightEdge={right.enabled ? 10 : frame.width}
-      hitSlop={iPhone ? -24 : undefined}
+      hitSlop={
+        iPhone
+          ? {
+              horizontal: -24,
+            }
+          : undefined
+      }
       leftThreshold={Infinity}
       onSwipeableWillClose={() => {
         const next = action.get()

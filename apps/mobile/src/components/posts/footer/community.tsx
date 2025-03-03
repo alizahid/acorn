@@ -9,98 +9,25 @@ import { View } from '~/components/common/view'
 import { removePrefix } from '~/lib/reddit'
 import { type Post } from '~/types/post'
 
-export type PostLabel = 'user' | 'subreddit' | 'both'
-
 type Props = {
-  label?: PostLabel
   post: Post
 }
 
-export function PostCommunity({ label, post }: Props) {
+export function PostCommunity({ post }: Props) {
   const router = useRouter()
 
   const t = useTranslations('component.posts.community')
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const image = label === 'subreddit' ? post.community.image : post.user.image
-
-  if (label === 'both') {
-    return (
-      <View direction="row" flex={1} gap="1" style={styles.main}>
-        <Pressable
-          align="center"
-          direction="row"
-          gap="2"
-          hitSlop={theme.space[3]}
-          onPress={() => {
-            if (post.community.name.startsWith('u/')) {
-              router.navigate({
-                params: {
-                  name: removePrefix(post.community.name),
-                },
-                pathname: '/users/[name]',
-              })
-
-              return
-            }
-
-            router.navigate({
-              params: {
-                name: removePrefix(post.community.name),
-              },
-              pathname: '/communities/[name]',
-            })
-          }}
-        >
-          {post.community.image ? (
-            <Image source={post.community.image} style={styles.image} />
-          ) : null}
-
-          <Text lines={1} size="2" weight="medium">
-            {post.community.name}
-          </Text>
-        </Pressable>
-
-        <Text highContrast={false} size="2">
-          {t('by')}
-        </Text>
-
-        <Pressable
-          align="center"
-          direction="row"
-          gap="2"
-          hitSlop={theme.space[3]}
-          onPress={() => {
-            router.navigate({
-              params: {
-                name: removePrefix(post.user.name),
-              },
-              pathname: '/users/[name]',
-            })
-          }}
-          style={styles.user(post.community.name)}
-        >
-          {post.user.image ? (
-            <Image source={post.user.image} style={styles.image} />
-          ) : null}
-
-          <Text lines={1} size="2" weight="medium">
-            {post.user.name}
-          </Text>
-        </Pressable>
-      </View>
-    )
-  }
-
   return (
-    <Pressable
-      align="center"
-      direction="row"
-      gap="2"
-      hitSlop={theme.space[3]}
-      onPress={() => {
-        if (label === 'subreddit') {
+    <View direction="row" flex={1} gap="1">
+      <Pressable
+        align="center"
+        direction="row"
+        gap="2"
+        hitSlop={theme.space[3]}
+        onPress={() => {
           if (post.community.name.startsWith('u/')) {
             router.navigate({
               params: {
@@ -118,29 +45,45 @@ export function PostCommunity({ label, post }: Props) {
             },
             pathname: '/communities/[name]',
           })
+        }}
+      >
+        {post.community.image ? (
+          <Image source={post.community.image} style={styles.image} />
+        ) : null}
 
-          return
-        }
+        <Text lines={1} size="2" weight="medium">
+          {post.community.name}
+        </Text>
+      </Pressable>
 
-        router.navigate({
-          params: {
-            name: removePrefix(post.user.name),
-          },
-          pathname: '/users/[name]',
-        })
-      }}
-      self="start"
-    >
-      {image ? <Image source={image} style={styles.image} /> : null}
-
-      <Text lines={1} size="2" weight="medium">
-        {label === 'subreddit' ? post.community.name : post.user.name}
+      <Text highContrast={false} size="2">
+        {t('by')}
       </Text>
-    </Pressable>
+
+      <Pressable
+        align="center"
+        direction="row"
+        flex={1}
+        gap="2"
+        hitSlop={theme.space[3]}
+        onPress={() => {
+          router.navigate({
+            params: {
+              name: removePrefix(post.user.name),
+            },
+            pathname: '/users/[name]',
+          })
+        }}
+      >
+        <Text lines={1} size="2" weight="medium">
+          {post.user.name}
+        </Text>
+      </Pressable>
+    </View>
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((theme) => ({
   image: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
@@ -148,12 +91,4 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     height: theme.space[4],
     width: theme.space[4],
   },
-  main: {
-    maxWidth: runtime.screen.width - 148,
-    overflow: 'hidden',
-  },
-  user: (community: string) => ({
-    maxWidth: runtime.screen.width - 192 - community.length * 9,
-    overflow: 'hidden',
-  }),
 }))

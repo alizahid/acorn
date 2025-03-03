@@ -117,7 +117,7 @@ export default function Screen() {
     () => (
       <View mb="2">
         {post ? (
-          <PostCard expanded label="user" post={post} viewing={focused} />
+          <PostCard expanded post={post} viewing={focused} />
         ) : (
           <Spinner m="4" size="large" />
         )}
