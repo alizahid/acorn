@@ -66,8 +66,10 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    // eslint-disable-next-line react-compiler/react-compiler -- go away
-    player.muted = muted
+    if (player.muted !== muted) {
+      // eslint-disable-next-line react-compiler/react-compiler -- go away
+      player.muted = muted
+    }
 
     if (fullscreen || (viewing && autoPlay)) {
       player.play()
@@ -110,7 +112,9 @@ export function VideoPlayer({
             setFullscreen(true)
           }}
           onFullscreenExit={() => {
-            setMuted(previousMuted.current)
+            if (previousMuted.current !== muted) {
+              setMuted(previousMuted.current)
+            }
 
             setFullscreen(false)
           }}
