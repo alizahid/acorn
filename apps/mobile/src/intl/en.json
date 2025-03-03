@@ -417,7 +417,7 @@
         "form": {
           "field": {
             "keyword": {
-              "placeholder": "keyword, user:name, community:name"
+              "placeholder": "Keyword"
             }
           }
         },

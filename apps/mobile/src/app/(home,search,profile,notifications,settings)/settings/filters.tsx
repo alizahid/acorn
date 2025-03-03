@@ -147,7 +147,7 @@ export default function Screen() {
             </View>
           ))}
 
-          <View gap="2">
+          {/* <View gap="2">
             <Text highContrast={false} size="2">
               {t('rules.example.title')}
             </Text>
@@ -163,7 +163,7 @@ export default function Screen() {
                 </View>
               </View>
             ))}
-          </View>
+          </View> */}
         </View>
 
         <View gap="4" mt="6">
