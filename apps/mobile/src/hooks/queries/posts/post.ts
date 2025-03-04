@@ -69,7 +69,7 @@ export function usePost({ commentId, id, sort }: Props) {
     async queryFn() {
       const url = new URL(`/comments/${id}`, REDDIT_URI)
 
-      url.searchParams.set('limit', '100')
+      url.searchParams.set('limit', '25')
       url.searchParams.set('threaded', 'false')
       url.searchParams.set('sr_detail', 'true')
 

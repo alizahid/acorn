@@ -4,6 +4,7 @@
 
 - added: subscriber count to community search results
 - added: custom size for posts/comments
+- added: skip comment button
 - changed: disable autocomplete for search boxes
 - changed: filters extended
 - changed: flair

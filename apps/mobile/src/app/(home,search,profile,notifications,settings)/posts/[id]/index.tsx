@@ -1,4 +1,3 @@
-import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useIsFocused } from '@react-navigation/native'
 import {
   useFocusEffect,
@@ -7,6 +6,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { useCallback, useMemo, useRef, useState } from 'react'
+import { FlatList, type ListRenderItem } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
@@ -22,7 +22,7 @@ import { View } from '~/components/common/view'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { estimateHeight, useList } from '~/hooks/list'
+import { useList } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
 import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
@@ -44,11 +44,11 @@ export default function Screen() {
 
   const focused = useIsFocused()
 
-  const { replyPost, sortPostComments } = usePreferences()
+  const { replyPost, skipComment, sortPostComments } = usePreferences()
 
   const { theme } = useStyles()
 
-  const list = useRef<LegendListRef>(null)
+  const list = useRef<FlatList<Comment>>(null)
 
   const [sort, setSort] = useState(sortPostComments)
 
@@ -66,7 +66,8 @@ export default function Screen() {
     sort,
   })
 
-  // const viewing = useRef<Array<number>>([])
+  const viewing = useRef<Array<number>>([])
+  const offset = useRef(0)
 
   useFocusEffect(
     useCallback(() => {
@@ -142,8 +143,8 @@ export default function Screen() {
     [comments, focused, params.commentId, post, router],
   )
 
-  const renderItem = useCallback(
-    (item: Comment) => {
+  const renderItem: ListRenderItem<Comment> = useCallback(
+    ({ item }) => {
       if (item.type === 'more') {
         return (
           <CommentMoreCard
@@ -181,7 +182,7 @@ export default function Screen() {
 
   return (
     <>
-      <LegendList
+      <FlatList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
         ListEmptyComponent={() =>
@@ -192,26 +193,24 @@ export default function Screen() {
         extraData={{
           commentId: params.commentId,
         }}
-        getEstimatedItemSize={(index, item) =>
-          estimateHeight({
-            index,
-            item,
-            type: 'comment',
-          })
-        }
         initialScrollIndex={params.commentId ? 0 : undefined}
-        keyExtractor={(item) => `${item.type}-${item.data.id}`}
-        keyboardDismissMode="on-drag"
-        // onViewableItemsChanged={({ viewableItems }) => {
-        //   viewing.current = viewableItems
-        //     .filter((item) => {
-        //       const comment = item.item as Comment
+        keyExtractor={(item) => {
+          if (item.type === 'more') {
+            return `${item.type}-${item.data.parentId}`
+          }
 
-        //       return comment.type === 'reply' && !comment.data.collapsed
-        //     })
-        //     .map((item) => item.index)
-        // }}
-        // recycleItems
+          return `${item.type}-${item.data.id}`
+        }}
+        onScroll={(event) => {
+          offset.current = event.nativeEvent.contentOffset.y
+        }}
+        onViewableItemsChanged={({ viewableItems }) => {
+          viewing.current = viewableItems
+            .filter(
+              (item) => item.item.type === 'reply' && !item.item.data.collapsed,
+            )
+            .map((item) => item.index ?? 0)
+        }}
         ref={list}
         refreshControl={
           <RefreshControl
@@ -219,10 +218,11 @@ export default function Screen() {
             onRefresh={refetch}
           />
         }
-        renderItem={({ item }) => renderItem(item)}
-        // viewabilityConfig={{
-        //   itemVisiblePercentThreshold: 60,
-        // }}
+        renderItem={renderItem}
+        scrollEventThrottle={100}
+        viewabilityConfig={{
+          itemVisiblePercentThreshold: 60,
+        }}
       />
 
       {replyPost && post ? (
@@ -241,7 +241,7 @@ export default function Screen() {
         />
       ) : null}
 
-      {/* {skipComment && comments.length > 0 ? (
+      {skipComment && comments.length > 0 ? (
         <FloatingButton
           icon="ArrowDown"
           onLongPress={() => {
@@ -262,10 +262,7 @@ export default function Screen() {
             })
           }}
           onPress={() => {
-            const offset =
-              list.current?.recyclerlistview_unsafe?.getCurrentScrollOffset()
-
-            if (offset !== undefined && offset < 100) {
+            if (offset.current < 100) {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 0,
@@ -300,7 +297,7 @@ export default function Screen() {
           }}
           side={skipComment}
         />
-      ) : null} */}
+      ) : null}
     </>
   )
 }
