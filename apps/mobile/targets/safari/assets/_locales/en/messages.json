@@ -1,7 +1,7 @@
 {
   "extension_description": {
     "description": "Description of what the extension does.",
-    "message": "Opens Reddit links in Apollo"
+    "message": "Opens Reddit links in Acorn"
   },
   "extension_name": {
     "description": "The display name for the extension.",
