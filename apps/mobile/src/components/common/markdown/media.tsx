@@ -50,16 +50,15 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet(() => ({
   image: {
     flex: 1,
     width: '100%',
   },
   main: (height: number, width: number) => ({
-    alignSelf: width > runtime.screen.width ? 'center' : undefined,
     aspectRatio: width / height,
-    maxHeight: width,
-    width: '100%',
+    maxHeight: 300,
+    width: width < 300 ? width : '100%',
   }),
   modal: {
     justifyContent: 'center',
