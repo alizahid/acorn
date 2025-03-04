@@ -121,7 +121,7 @@ export function useList<Type>({
         (paddingTop ?? 0) +
         (typeof top === 'boolean' ? insets.top : 0),
     },
-    drawDistance: frame.height * 3,
+    drawDistance: frame.height * 2,
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',
     progressViewOffset: offsets.top,
