@@ -79,7 +79,7 @@ export function CommentMoreCard({
       ) : (
         <Text color={color} size="2" weight="medium">
           {t('label', {
-            count: comment.count,
+            count: comment.children.length,
           })}
         </Text>
       )}
