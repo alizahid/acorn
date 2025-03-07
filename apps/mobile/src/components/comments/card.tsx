@@ -204,7 +204,7 @@ export function CommentCard({
         <CommentMeta collapsed={collapsed} comment={comment} />
 
         {!collapsed ? (
-          <FlairCard flair={comment.flair} style={styles.flair} />
+          <FlairCard flair={comment.flair} style={styles.flair} type="text" />
         ) : null}
       </Pressable>
 
