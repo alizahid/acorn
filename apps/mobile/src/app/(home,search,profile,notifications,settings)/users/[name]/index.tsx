@@ -93,7 +93,7 @@ export default function Screen() {
                 weight: 'duotone',
               }}
               onPress={() => {
-                router.navigate({
+                router.push({
                   params: {
                     name: params.name,
                   },

@@ -27,7 +27,7 @@ export default function Screen() {
           },
           label: t('preferences'),
           onPress() {
-            router.navigate({
+            router.push({
               pathname: '/settings/preferences',
             })
           },
@@ -41,7 +41,7 @@ export default function Screen() {
           },
           label: t('gestures'),
           onPress() {
-            router.navigate({
+            router.push({
               pathname: '/settings/gestures',
             })
           },
@@ -55,7 +55,7 @@ export default function Screen() {
           },
           label: t('appearance'),
           onPress() {
-            router.navigate({
+            router.push({
               pathname: '/settings/appearance',
             })
           },
@@ -69,7 +69,7 @@ export default function Screen() {
           },
           label: t('defaults'),
           onPress() {
-            router.navigate({
+            router.push({
               pathname: '/settings/defaults',
             })
           },
@@ -83,7 +83,7 @@ export default function Screen() {
           },
           label: t('filters'),
           onPress() {
-            router.navigate({
+            router.push({
               pathname: '/settings/filters',
             })
           },
@@ -97,7 +97,7 @@ export default function Screen() {
           },
           label: t('sort'),
           onPress() {
-            router.navigate({
+            router.push({
               pathname: '/settings/sort',
             })
           },
@@ -111,7 +111,7 @@ export default function Screen() {
           },
           label: t('cache'),
           onPress() {
-            router.navigate({
+            router.push({
               pathname: '/settings/cache',
             })
           },

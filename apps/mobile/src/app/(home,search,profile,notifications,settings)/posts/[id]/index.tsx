@@ -88,7 +88,7 @@ export default function Screen() {
               justify="center"
               onPress={() => {
                 if (post.community.name.startsWith('u/')) {
-                  router.navigate({
+                  router.push({
                     params: {
                       name: removePrefix(post.community.name),
                     },
@@ -98,7 +98,7 @@ export default function Screen() {
                   return
                 }
 
-                router.navigate({
+                router.push({
                   params: {
                     name: removePrefix(post.community.name),
                   },
@@ -230,7 +230,7 @@ export default function Screen() {
           color="blue"
           icon="ArrowBendUpLeft"
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 id: params.id,
               },

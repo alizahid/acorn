@@ -146,7 +146,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
           }}
           label={t('reply')}
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 commentId: comment.id,
                 id: comment.post.id,
@@ -170,7 +170,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
               }}
               label={t('editComment')}
               onPress={() => {
-                router.navigate({
+                router.push({
                   params: {
                     body: comment.body,
                     commentId: comment.id,
@@ -316,7 +316,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
             user: comment.user.name,
           })}
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 name: comment.user.name,
               },

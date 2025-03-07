@@ -97,7 +97,7 @@ export function CommentCard({
         }
 
         if (action === 'reply') {
-          router.navigate({
+          router.push({
             params: {
               commentId: comment.id,
               id: comment.post.id,
@@ -173,7 +173,7 @@ export function CommentCard({
             mb="3"
             mx="3"
             onPress={() => {
-              router.navigate({
+              router.push({
                 params: {
                   id: comment.post.id,
                 },

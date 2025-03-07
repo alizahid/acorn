@@ -48,7 +48,7 @@ export default function Screen() {
               return
             }
 
-            router.navigate({
+            router.push({
               params: {
                 mode: 'headless',
                 name: removePrefix(profile.name),
@@ -66,7 +66,7 @@ export default function Screen() {
         <FloatingButton
           icon="Plus"
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 name: `u_${profile.name}`,
               },

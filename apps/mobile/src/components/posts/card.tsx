@@ -91,7 +91,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
       }
 
       if (action === 'reply') {
-        router.navigate({
+        router.push({
           params: {
             id: item.id,
           },
@@ -131,7 +131,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
     (expanded && post.body)
 
   function onPress() {
-    router.navigate({
+    router.push({
       params: {
         id: removePrefix(post.id),
       },

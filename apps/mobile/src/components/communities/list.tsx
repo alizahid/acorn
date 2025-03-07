@@ -316,7 +316,7 @@ export function CommunitiesList({
               onPress={() => {
                 onPress?.()
 
-                router.navigate({
+                router.push({
                   params: {
                     type: item.data,
                   },
@@ -353,7 +353,7 @@ export function CommunitiesList({
               onPress={() => {
                 onPress?.()
 
-                router.navigate({
+                router.push({
                   params: {
                     name: item.data,
                   },
@@ -383,7 +383,7 @@ export function CommunitiesList({
               onPress?.()
 
               if (item.type === 'community') {
-                router.navigate({
+                router.push({
                   params: {
                     name: item.data.name,
                   },
@@ -394,7 +394,7 @@ export function CommunitiesList({
               }
 
               if (item.type === 'user') {
-                router.navigate({
+                router.push({
                   params: {
                     name: removePrefix(item.data.name),
                   },
@@ -404,7 +404,7 @@ export function CommunitiesList({
                 return
               }
 
-              router.navigate({
+              router.push({
                 params: {
                   feed: item.data.id,
                 },

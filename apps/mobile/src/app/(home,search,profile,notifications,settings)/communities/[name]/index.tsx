@@ -63,7 +63,7 @@ export default function Screen() {
       <FloatingButton
         icon="Plus"
         onPress={() => {
-          router.navigate({
+          router.push({
             params: {
               name: params.name,
             },

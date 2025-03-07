@@ -79,7 +79,7 @@ export function PostList({
             comment={item.data}
             dull
             onPress={() => {
-              router.navigate({
+              router.push({
                 params: {
                   commentId: item.data.id,
                   id: item.data.post.id,

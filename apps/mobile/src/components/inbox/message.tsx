@@ -45,7 +45,7 @@ export function MessageCard({ message }: Props) {
       <Pressable
         hitSlop={theme.space[4]}
         onPress={() => {
-          router.navigate({
+          router.push({
             params: {
               name: message.author,
             },

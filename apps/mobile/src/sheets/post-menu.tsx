@@ -153,7 +153,7 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
           }}
           label={t('reply')}
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 id: post.id,
               },
@@ -399,7 +399,7 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
             user: post.user.name,
           })}
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 name: post.user.name,
               },
@@ -421,7 +421,7 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
               community: post.community.name,
             })}
             onPress={() => {
-              router.navigate({
+              router.push({
                 params: {
                   name: post.community.name,
                 },
