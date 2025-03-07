@@ -177,6 +177,8 @@ function StackLayout({ children }: PropsWithChildren) {
   return (
     <Stack
       screenOptions={{
+        animation: 'simple_push',
+        animationDuration: 250,
         fullScreenGestureEnabled: true,
         header: (props) => <StackHeader {...props} />,
       }}
