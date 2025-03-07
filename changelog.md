@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- fixed: status bar disappearing
+
 ## Build 46
 
 - added: subscriber count to community search results

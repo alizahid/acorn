@@ -76,6 +76,8 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
 
   useEffect(() => {
     if (call.ended) {
+      StatusBar.setStatusBarHidden(false, 'fade')
+
       void ScreenOrientation.lockAsync(
         ScreenOrientation.OrientationLock.PORTRAIT_UP,
       )
@@ -109,10 +111,10 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
     })
     .onEnd((event) => {
       if (Math.abs(event.translationY) > 100) {
+        opacity.set(() => withTiming(0))
         translate.set(() =>
           withSpring(event.translationY > 0 ? frame.height : -frame.height),
         )
-        opacity.set(() => withTiming(0))
 
         runOnJS(call.end)()
 
