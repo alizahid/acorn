@@ -94,7 +94,7 @@ export function usePosts({
 
       const url = new URL(path, REDDIT_URI)
 
-      url.searchParams.set('limit', '100')
+      url.searchParams.set('limit', '25')
       url.searchParams.set('sr_detail', 'true')
 
       if (userType === 'comments') {
