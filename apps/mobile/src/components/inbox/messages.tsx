@@ -1,9 +1,9 @@
-import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useScrollToTop } from '@react-navigation/native'
 import { useRef } from 'react'
+import { FlatList } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { estimateHeight, type ListProps } from '~/hooks/list'
+import { type ListProps } from '~/hooks/list'
 import { usePreferences } from '~/stores/preferences'
 import { type InboxMessage } from '~/types/inbox'
 
@@ -35,14 +35,14 @@ export function MessagesList({
 }: Props) {
   const { themeOled } = usePreferences()
 
-  const list = useRef<LegendListRef>(null)
+  const list = useRef<FlatList<InboxMessage>>(null)
 
   useScrollToTop(list)
 
   const { styles } = useStyles(stylesheet)
 
   return (
-    <LegendList
+    <FlatList
       {...listProps}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(themeOled)} />
@@ -51,34 +51,25 @@ export function MessagesList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
+      contentContainerStyle={styles.content}
       data={messages}
-      getEstimatedItemSize={(index, item) =>
-        estimateHeight({
-          index,
-          item,
-          type: 'message',
-        })
-      }
       keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()
         }
       }}
-      // recycleItems
       ref={list}
-      refreshControl={
-        <RefreshControl
-          offset={listProps?.progressViewOffset}
-          onRefresh={refetch}
-        />
-      }
+      refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => <MessageCard message={item} />}
     />
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  content: {
+    flexGrow: 1,
+  },
   separator: (oled: boolean) => ({
     backgroundColor: oled ? theme.colors.gray.border : undefined,
     height: oled ? 1 : theme.space[4],

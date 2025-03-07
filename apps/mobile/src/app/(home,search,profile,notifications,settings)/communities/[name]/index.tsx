@@ -1,5 +1,10 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type ViewStyle } from 'react-native'
+import {
+  createStyleSheet,
+  type UnistylesValues,
+  useStyles,
+} from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { FloatingButton } from '~/components/common/floating-button'
@@ -10,6 +15,8 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { iPad } from '~/lib/common'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -22,15 +29,11 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { themeOled, themeTint } = usePreferences()
 
-  const listProps = useList({
-    padding: {
-      bottom: theme.space[8] + theme.space[4] + theme.space[4],
-      horizontal: iPad ? theme.space[4] : undefined,
-      top: iPad ? theme.space[4] : undefined,
-    },
-  })
+  const { styles } = useStyles(stylesheet)
+
+  const listProps = useList()
 
   const { sorting, update } = useSorting('community', params.name)
 
@@ -39,7 +42,10 @@ export default function Screen() {
       <PostList
         community={params.name}
         header={
-          <View direction="row" style={styles.header()}>
+          <View
+            direction="row"
+            style={styles.header(themeOled, themeTint) as ViewStyle}
+          >
             <CommunitySearchBar name={params.name} />
 
             <SortIntervalMenu
@@ -58,6 +64,8 @@ export default function Screen() {
         interval={sorting.interval}
         listProps={listProps}
         sort={sorting.sort}
+        sticky
+        style={styles.list()}
       />
 
       <FloatingButton
@@ -76,17 +84,28 @@ export default function Screen() {
 }
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
-  header: () => {
+  header: (oled: boolean, tint: boolean) => {
+    const base: UnistylesValues = {
+      backgroundColor: oled
+        ? oledTheme[theme.name].bgAlpha
+        : theme.colors[tint ? 'accent' : 'gray'].bg,
+      borderBottomColor: theme.colors.gray.border,
+      borderBottomWidth: runtime.hairlineWidth,
+    }
+
     if (iPad) {
       return {
-        borderBottomColor: theme.colors.gray.border,
-        borderBottomWidth: runtime.hairlineWidth,
+        ...base,
         marginBottom: theme.space[4],
         marginHorizontal: -theme.space[4],
-        marginTop: -theme.space[4],
       }
     }
 
-    return {}
+    return base
   },
+  list: () => ({
+    flexGrow: 1,
+    paddingBottom: iPad ? theme.space[4] : undefined,
+    paddingHorizontal: iPad ? theme.space[4] : undefined,
+  }),
 }))

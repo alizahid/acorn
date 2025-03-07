@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { sortBy, uniq } from 'lodash'
+import { orderBy } from 'lodash'
 import { create, type Draft } from 'mutative'
-import { useMemo } from 'react'
 
 import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
@@ -44,14 +43,19 @@ export function useCommunities() {
     queryKey,
   })
 
-  const communities = useMemo(() => transform(data ?? [], false), [data])
-  const users = useMemo(() => transform(data ?? [], true), [data])
-
   return {
-    communities,
+    communities: orderBy(
+      (data ?? []).filter((item) => !item.user),
+      ['favorite', (item) => item.name.toLowerCase()],
+      ['desc', 'asc'],
+    ),
     isLoading,
     refetch,
-    users,
+    users: orderBy(
+      (data ?? []).filter((item) => item.user),
+      ['favorite', (item) => item.name.toLowerCase()],
+      ['desc', 'asc'],
+    ),
   }
 }
 
@@ -78,33 +82,6 @@ async function fetchCommunities(after?: string): Promise<CommunitiesQueryData> {
   }
 
   return response.data.children.map((item) => transformCommunity(item.data))
-}
-
-function transform(communities: Array<Community>, isUser: boolean) {
-  const list = sortBy(communities, (community) =>
-    community.name.toLowerCase(),
-  ).filter((community) => community.user === isUser)
-
-  const favorites = list.filter((community) => community.favorite)
-
-  if (favorites.length > 0) {
-    return [
-      'favorites',
-      ...favorites,
-      ...filter(list.filter((community) => !community.favorite)),
-    ]
-  }
-
-  return filter(list)
-}
-
-function filter(communities: Array<Community>) {
-  return uniq(
-    communities.flatMap((community) => [
-      community.name.slice(0, 1).toLowerCase(),
-      community,
-    ]),
-  )
 }
 
 export function updateCommunities(

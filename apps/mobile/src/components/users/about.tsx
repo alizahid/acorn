@@ -8,6 +8,7 @@ import { useImagePlaceholder } from '~/hooks/image'
 import { type ListProps } from '~/hooks/list'
 import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { iPad } from '~/lib/common'
 
 import { Loading } from '../common/loading'
 import { Markdown } from '../common/markdown'
@@ -39,13 +40,8 @@ export function UserAbout({ listProps, name }: Props) {
   return (
     <ScrollView
       {...listProps}
-      contentContainerStyle={[listProps?.contentContainerStyle, styles.content]}
-      refreshControl={
-        <RefreshControl
-          offset={listProps?.progressViewOffset}
-          onRefresh={refetch}
-        />
-      }
+      contentContainerStyle={styles.content}
+      refreshControl={<RefreshControl onRefresh={refetch} />}
     >
       {profile.banner ? (
         <View mb="-4">
@@ -109,8 +105,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   content: {
     gap: theme.space[4],
-    paddingLeft: 0,
-    paddingRight: 0,
+    padding: iPad ? theme.space[4] : 0,
   },
   description: {
     marginHorizontal: theme.space[4],

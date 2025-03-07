@@ -1,14 +1,14 @@
-import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
+import { FlatList, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
-import { estimateHeight, type ListProps } from '~/hooks/list'
+import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -24,6 +24,8 @@ type Props = PostsProps & {
   header?: ReactElement
   listProps?: ListProps
   onRefresh?: () => void
+  sticky?: boolean
+  style?: StyleProp<ViewStyle>
 }
 
 export function PostList({
@@ -35,19 +37,20 @@ export function PostList({
   onRefresh,
   query,
   sort,
+  sticky,
+  style,
   user,
   userType,
 }: Props) {
   const router = useRouter()
 
-  const list = useRef<LegendListRef>(null)
+  const list = useRef<FlatList<Post | Comment>>(null)
 
   const focused = useIsFocused()
 
   useScrollToTop(list)
 
-  const { feedCompact, largeThumbnails, seenOnScroll, themeOled } =
-    usePreferences()
+  const { feedCompact, seenOnScroll, themeOled } = usePreferences()
   const { addPost } = useHistory()
 
   const { styles } = useStyles(stylesheet)
@@ -106,7 +109,7 @@ export function PostList({
   )
 
   return (
-    <LegendList
+    <FlatList
       {...listProps}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(themeOled, feedCompact)} />
@@ -116,30 +119,10 @@ export function PostList({
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
       ListHeaderComponent={header}
+      contentContainerStyle={[styles.content, style]}
       data={posts}
       extraData={{
         viewing,
-      }}
-      getEstimatedItemSize={(index, item) => {
-        if (!(item as Post | Comment | undefined)) {
-          return 100
-        }
-
-        if (item.type === 'reply' || item.type === 'more') {
-          return estimateHeight({
-            index,
-            item,
-            type: 'comment',
-          })
-        }
-
-        return estimateHeight({
-          compact: feedCompact,
-          index,
-          item,
-          large: largeThumbnails,
-          type: 'post',
-        })
       }}
       keyExtractor={(item) => {
         if (item.type === 'reply') {
@@ -165,22 +148,18 @@ export function PostList({
         }
 
         viewableItems
-          .filter((item) => {
-            const data = item.item as Post | Comment
-
-            return data.type !== 'reply' && data.type !== 'more'
-          })
+          .filter(
+            (item) => item.item.type !== 'reply' && item.item.type !== 'more',
+          )
           .forEach((item) => {
             addPost({
               id: (item.item as Post).id,
             })
           })
       }}
-      // recycleItems
       ref={list}
       refreshControl={
         <RefreshControl
-          offset={listProps?.progressViewOffset}
           onRefresh={() => {
             onRefresh?.()
 
@@ -189,6 +168,7 @@ export function PostList({
         />
       }
       renderItem={({ item }) => renderItem(item)}
+      stickyHeaderIndices={sticky ? [0] : undefined}
       viewabilityConfig={{
         viewAreaCoveragePercentThreshold: 60,
       }}
@@ -197,6 +177,9 @@ export function PostList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  content: {
+    flexGrow: 1,
+  },
   separator: (oled: boolean, compact: boolean) => ({
     alignSelf: 'center',
     backgroundColor: oled ? theme.colors.gray.border : undefined,

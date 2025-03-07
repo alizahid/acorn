@@ -64,8 +64,6 @@ export function useCommentSave() {
           }
         })
       }
-
-      // TODO: update user saved
     },
   })
 

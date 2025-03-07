@@ -7,7 +7,6 @@ import {
   type TextStyle,
   type ViewStyle,
 } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
@@ -77,8 +76,6 @@ type Props = {
 }
 
 export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
-  const { styles } = useStyles(stylesheet)
-
   const list =
     useRef<FlatList<MenuItem | string | null | (() => ReactElement)>>(null)
 
@@ -93,14 +90,9 @@ export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
       keyExtractor={(item, index) => String(index)}
       ref={list}
       refreshControl={
-        onRefresh ? (
-          <RefreshControl
-            offset={listProps?.progressViewOffset}
-            onRefresh={onRefresh}
-          />
-        ) : undefined
+        onRefresh ? <RefreshControl onRefresh={onRefresh} /> : undefined
       }
-      renderItem={({ index, item }) => {
+      renderItem={({ item }) => {
         if (item === null) {
           return <View height="4" />
         }
@@ -124,26 +116,8 @@ export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
           return item()
         }
 
-        return (
-          <MenuItem
-            item={item}
-            style={[
-              index === 0 && styles.first,
-              index === items.length - 1 && styles.last,
-              item.style,
-            ]}
-          />
-        )
+        return <MenuItem item={item} style={item.style} />
       }}
     />
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  first: {
-    marginTop: theme.space[1],
-  },
-  last: {
-    marginBottom: theme.space[1],
-  },
-}))

@@ -10,6 +10,7 @@ import { type ListProps } from '~/hooks/list'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
+import { iPad } from '~/lib/common'
 
 import { Loading } from '../../common/loading'
 import { RefreshControl } from '../../common/refresh-control'
@@ -55,13 +56,8 @@ export function CommunityAbout({ listProps, name }: Props) {
   return (
     <ScrollView
       {...listProps}
-      contentContainerStyle={[listProps?.contentContainerStyle, styles.content]}
-      refreshControl={
-        <RefreshControl
-          offset={listProps?.progressViewOffset}
-          onRefresh={refetch}
-        />
-      }
+      contentContainerStyle={styles.content}
+      refreshControl={<RefreshControl onRefresh={refetch} />}
     >
       {community.banner ? (
         <View mb="-4">
@@ -161,8 +157,7 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   content: {
     gap: theme.space[4],
-    paddingLeft: 0,
-    paddingRight: 0,
+    padding: iPad ? theme.space[4] : 0,
   },
   description: {
     marginHorizontal: theme.space[4],

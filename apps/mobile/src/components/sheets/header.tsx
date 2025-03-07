@@ -8,12 +8,13 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
 type Props = {
+  left?: ReactNode
   right?: ReactNode
   style?: StyleProp<ViewStyle>
   title: string
 }
 
-export function SheetHeader({ right, style, title }: Props) {
+export function SheetHeader({ left, right, style, title }: Props) {
   const { themeOled, themeTint } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
@@ -25,6 +26,8 @@ export function SheetHeader({ right, style, title }: Props) {
       justify="center"
       style={[styles.main(themeOled, themeTint), style]}
     >
+      {left ? <View style={[styles.left]}>{left}</View> : null}
+
       <Text weight="bold">{title}</Text>
 
       {right ? <View style={[styles.right]}>{right}</View> : null}
@@ -33,6 +36,11 @@ export function SheetHeader({ right, style, title }: Props) {
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  left: {
+    bottom: 0,
+    left: 0,
+    position: 'absolute',
+  },
   main: (oled: boolean, tint: boolean) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].bg

@@ -35,14 +35,7 @@ export default function Screen() {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const listProps = useList({
-    padding: {
-      bottom: theme.space[8] + theme.space[4] + theme.space[4],
-      left: theme.space[4],
-      right: theme.space[2],
-      top: theme.space[4],
-    },
-  })
+  const listProps = useList()
 
   const { control, handleSubmit, setValue } = useForm<Form>({
     defaultValues: (() => {
@@ -102,10 +95,7 @@ export default function Screen() {
         {...listProps}
         automaticallyAdjustKeyboardInsets
         bottomOffset={-120}
-        contentContainerStyle={[
-          listProps.contentContainerStyle,
-          styles.content,
-        ]}
+        contentContainerStyle={styles.content}
         keyboardDismissMode="on-drag"
         keyboardShouldPersistTaps="handled"
       >
@@ -246,7 +236,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     borderRadius: theme.radius[2],
   },
   content: {
-    flexGrow: 1,
+    padding: theme.space[4],
   },
   delete: {
     marginRight: -theme.space[1],

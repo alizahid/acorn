@@ -69,7 +69,7 @@ export function useSearch<Type extends SearchTab>({
       const url = new URL(path, REDDIT_URI)
 
       url.searchParams.set('q', query)
-      url.searchParams.set('limit', '100')
+      url.searchParams.set('limit', '50')
       url.searchParams.set(
         'type',
         type === 'community' ? 'sr' : type === 'user' ? 'user' : 'link',

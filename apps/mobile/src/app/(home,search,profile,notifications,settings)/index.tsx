@@ -4,7 +4,7 @@ import {
   useNavigation,
 } from 'expo-router'
 import { useCallback } from 'react'
-import { useStyles } from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { PostList } from '~/components/posts/list'
@@ -26,11 +26,9 @@ export default function Screen() {
   const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
 
-  const { theme } = useStyles()
+  const listProps = useList()
 
-  const listProps = useList({
-    padding: iPad ? theme.space[4] : undefined,
-  })
+  const { styles } = useStyles(stylesheet)
 
   const type = params.type === 'home' ? 'feed' : 'community'
 
@@ -63,6 +61,13 @@ export default function Screen() {
       interval={sorting.interval}
       listProps={listProps}
       sort={sorting.sort}
+      style={styles.list}
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  list: {
+    padding: iPad ? theme.space[4] : undefined,
+  },
+}))

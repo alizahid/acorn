@@ -7,7 +7,7 @@ import {
 } from 'expo-router'
 import { useCallback, useMemo, useRef, useState } from 'react'
 import { FlatList, type ListRenderItem } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
@@ -46,19 +46,13 @@ export default function Screen() {
 
   const { replyPost, skipComment, sortPostComments } = usePreferences()
 
-  const { theme } = useStyles()
+  const { styles } = useStyles(stylesheet)
 
   const list = useRef<FlatList<Comment>>(null)
 
   const [sort, setSort] = useState(sortPostComments)
 
-  const listProps = useList({
-    padding: {
-      bottom: theme.space[8] + theme.space[4] + theme.space[4],
-      horizontal: iPad ? theme.space[4] : undefined,
-      top: iPad ? theme.space[4] : undefined,
-    },
-  })
+  const listProps = useList()
 
   const { collapse, comments, isFetching, post, refetch } = usePost({
     commentId: params.commentId,
@@ -189,6 +183,7 @@ export default function Screen() {
           isFetching ? <Spinner m="4" size="large" /> : <Empty />
         }
         ListHeaderComponent={header}
+        contentContainerStyle={styles.content}
         data={comments}
         extraData={{
           commentId: params.commentId,
@@ -212,12 +207,7 @@ export default function Screen() {
             .map((item) => item.index ?? 0)
         }}
         ref={list}
-        refreshControl={
-          <RefreshControl
-            offset={listProps.progressViewOffset}
-            onRefresh={refetch}
-          />
-        }
+        refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
         scrollEventThrottle={100}
         viewabilityConfig={{
@@ -258,7 +248,7 @@ export default function Screen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
-              viewOffset: listProps.progressViewOffset,
+              viewOffset: listProps.contentInset?.top,
             })
           }}
           onPress={() => {
@@ -266,7 +256,7 @@ export default function Screen() {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 0,
-                viewOffset: listProps.progressViewOffset,
+                viewOffset: listProps.contentInset?.top,
               })
 
               return
@@ -292,7 +282,7 @@ export default function Screen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
-              viewOffset: listProps.progressViewOffset,
+              viewOffset: listProps.contentInset?.top,
             })
           }}
           side={skipComment}
@@ -301,3 +291,12 @@ export default function Screen() {
     </>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  content: {
+    flexGrow: 1,
+    paddingBottom: theme.space[8] + theme.space[4] + theme.space[4],
+    paddingHorizontal: iPad ? theme.space[4] : undefined,
+    paddingTop: iPad ? theme.space[4] : undefined,
+  },
+}))

@@ -14,7 +14,7 @@ import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
-import { useList } from '~/hooks/list'
+import { ListFlags, useList } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
@@ -36,10 +36,7 @@ export default function Screen() {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const listProps = useList({
-    padding: {
-      bottom: theme.space[4],
-    },
+  const listProps = useList(ListFlags.ALL, {
     top: theme.space[7] + theme.space[4] + theme.space[7] + theme.space[4],
   })
 

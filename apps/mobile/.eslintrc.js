@@ -5,6 +5,7 @@ module.exports = create({
   plugins: ['eslint-plugin-react-compiler'],
   root: true,
   rules: {
+    'no-bitwise': 'off',
     'react-compiler/react-compiler': 'error',
   },
 })
