@@ -200,11 +200,7 @@ export default function Screen() {
           offset.current = event.nativeEvent.contentOffset.y
         }}
         onViewableItemsChanged={({ viewableItems }) => {
-          viewing.current = viewableItems
-            .filter(
-              (item) => item.item.type === 'reply' && !item.item.data.collapsed,
-            )
-            .map((item) => item.index ?? 0)
+          viewing.current = viewableItems.map((item) => item.index ?? 0)
         }}
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
@@ -245,6 +241,10 @@ export default function Screen() {
                 !item.data.collapsed,
             )
 
+            if (next < 0) {
+              return
+            }
+
             list.current?.scrollToIndex({
               animated: true,
               index: next,
@@ -264,8 +264,7 @@ export default function Screen() {
 
             const previous = comments.findIndex(
               (item, index) =>
-                index >
-                  ((viewing.current[0] === 0 ? -1 : viewing.current[0]) ?? 0) &&
+                index > (viewing.current[0] ?? 0) &&
                 item.data.depth === 0 &&
                 item.type === 'reply' &&
                 !item.data.collapsed,
@@ -278,6 +277,10 @@ export default function Screen() {
                 item.type === 'reply' &&
                 !item.data.collapsed,
             )
+
+            if (next < 0) {
+              return
+            }
 
             list.current?.scrollToIndex({
               animated: true,
