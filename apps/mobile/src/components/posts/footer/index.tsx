@@ -49,7 +49,7 @@ export function PostFooter({
       }}
       p="3"
     >
-      <View flex={1} gap="2">
+      <View flexShrink={1} gap="2">
         {community ? <PostCommunity post={post} /> : null}
 
         <PostMeta post={post} />

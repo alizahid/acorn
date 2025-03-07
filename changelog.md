@@ -3,6 +3,7 @@
 ## Upcoming
 
 - fixed: status bar disappearing
+- fixed: post card username pressable area
 
 ## Build 46
 

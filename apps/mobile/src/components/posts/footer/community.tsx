@@ -21,7 +21,7 @@ export function PostCommunity({ post }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
   return (
-    <View direction="row" flex={1} gap="1">
+    <View direction="row" flexShrink={1} gap="1">
       <Pressable
         align="center"
         direction="row"
@@ -63,7 +63,7 @@ export function PostCommunity({ post }: Props) {
       <Pressable
         align="center"
         direction="row"
-        flex={1}
+        flexShrink={1}
         gap="2"
         hitSlop={theme.space[3]}
         onPress={() => {
