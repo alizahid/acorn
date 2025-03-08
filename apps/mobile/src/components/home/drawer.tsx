@@ -31,7 +31,6 @@ export function HomeDrawer({ children }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
-
   const { postLeft } = useGestures()
 
   const listProps = useList(ListFlags.BOTTOM)
