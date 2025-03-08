@@ -1,11 +1,13 @@
 import { usePathname } from 'expo-router'
 import mitt from 'mitt'
 import { type ReactNode, useEffect, useState } from 'react'
+import { Dimensions } from 'react-native'
 import { Drawer } from 'react-native-drawer-layout'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
+import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
@@ -28,6 +30,8 @@ export function HomeDrawer({ children }: Props) {
   const { stickyDrawer, themeOled, themeTint } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
+
+  const { postLeft } = useGestures()
 
   const listProps = useList({
     header: false,
@@ -56,6 +60,8 @@ export function HomeDrawer({ children }: Props) {
     }
   }, [])
 
+  const screenWidth = Dimensions.get('window').width
+
   return (
     <Drawer
       drawerStyle={styles.drawer(stickyDrawer, themeOled, themeTint)}
@@ -82,6 +88,9 @@ export function HomeDrawer({ children }: Props) {
         </>
       )}
       swipeEnabled={path === '/'}
+      // If the left swipe post gesture is disabled, then allow opening
+      // the drawer from anywhere, instead of just the left edge.
+      {...(!postLeft && { swipeEdgeWidth: screenWidth })}
     >
       {children}
     </Drawer>
