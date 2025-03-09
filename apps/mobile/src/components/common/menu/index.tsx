@@ -7,6 +7,7 @@ import {
   type TextStyle,
   type ViewStyle,
 } from 'react-native'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
@@ -81,11 +82,14 @@ export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
 
   useScrollToTop(list)
 
+  const { styles } = useStyles(stylesheet)
+
   return (
     <FlatList
       {...listProps}
       ListFooterComponent={footer}
       ListHeaderComponent={header}
+      contentContainerStyle={styles.content}
       data={items}
       keyExtractor={(item, index) => String(index)}
       ref={list}
@@ -121,3 +125,9 @@ export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  content: {
+    paddingVertical: theme.space[1],
+  },
+}))
