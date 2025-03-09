@@ -1,20 +1,21 @@
-CREATE TABLE `collapsed` (
-	`commentId` text PRIMARY KEY NOT NULL,
-	`postId` text NOT NULL
+create table `collapsed` (
+	`commentId` text primary key not null,
+	`postId` text not null
 );
+
 --> statement-breakpoint
-CREATE TABLE `filters` (
-	`id` text PRIMARY KEY NOT NULL,
-	`type` text NOT NULL,
-	`value` text NOT NULL
+create table `filters` (
+	`id` text primary key not null,
+	`type` text not null,
+	`value` text not null
 );
+
 --> statement-breakpoint
-CREATE TABLE `history` (
-	`postId` text PRIMARY KEY NOT NULL
-);
+create table `history` (`postId` text primary key not null);
+
 --> statement-breakpoint
-CREATE TABLE `sorting` (
-	`communityId` text PRIMARY KEY NOT NULL,
-	`sort` text NOT NULL,
+create table `sorting` (
+	`communityId` text primary key not null,
+	`sort` text not null,
 	`interval` text
 );
