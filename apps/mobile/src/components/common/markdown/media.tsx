@@ -31,7 +31,8 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
           images: [media],
         })
       }}
-      style={styles.main(media.height, media.width)}
+      self={variant === 'post' ? 'center' : undefined}
+      style={styles.main(variant, media.height, media.width)}
     >
       <Image
         {...placeholder}
@@ -55,9 +56,9 @@ const stylesheet = createStyleSheet(() => ({
     flex: 1,
     width: '100%',
   },
-  main: (height: number, width: number) => ({
+  main: (variant: MarkdownVariant, height: number, width: number) => ({
     aspectRatio: width / height,
-    maxHeight: 300,
+    maxHeight: variant === 'comment' ? 300 : undefined,
     width: width < 300 ? width : '100%',
   }),
   modal: {
