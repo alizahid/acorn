@@ -3,7 +3,7 @@ import { openDatabaseSync } from 'expo-sqlite'
 
 import * as schema from './schema'
 
-const expo = openDatabaseSync('acorn.sql')
+const expo = openDatabaseSync('acorn.db')
 
 const connection = drizzle(expo, {
   schema,
