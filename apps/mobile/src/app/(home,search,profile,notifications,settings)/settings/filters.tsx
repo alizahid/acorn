@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { FormProvider, useFieldArray } from 'react-hook-form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -49,13 +50,15 @@ export default function Screen() {
               weight: 'duotone',
             }}
             loading={isPending}
-            onPress={() => {
-              void onSubmit()
+            onPress={async () => {
+              await onSubmit()
+
+              toast.success(t('message.saved'))
             }}
           />
         ),
       })
-    }, [isPending, navigation, onSubmit]),
+    }, [isPending, navigation, onSubmit, t]),
   )
 
   const filters = useFieldArray({
@@ -142,12 +145,14 @@ export default function Screen() {
       <FloatingButton
         color="red"
         icon="X"
-        onPress={() => {
+        onPress={async () => {
           form.setValue('filters', [])
 
-          update({
+          await update({
             filters: [],
           })
+
+          toast.success(t('message.cleared'))
         }}
         side="left"
       />

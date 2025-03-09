@@ -388,6 +388,9 @@ import VibrateRegular from 'react-native-phosphor/src/regular/Vibrate'
 import WarningRegular from 'react-native-phosphor/src/regular/Warning'
 import XRegular from 'react-native-phosphor/src/regular/X'
 import XCircleRegular from 'react-native-phosphor/src/regular/XCircle'
+import { UnistylesRuntime, type UnistylesTheme } from 'react-native-unistyles'
+
+import { type ColorToken } from '~/styles/tokens'
 
 export type IconName = keyof typeof icons
 
@@ -411,6 +414,26 @@ export function Icon({
   const Component = icons[name][weight]
 
   return <Component color={color} size={size} style={style} weight={weight} />
+}
+
+type GetIconProps = {
+  color: ColorToken
+  name: IconName
+  size?: number
+  weight?: IconWeight
+}
+
+export function getIcon({ color, name, size = 20, weight }: GetIconProps) {
+  const theme = UnistylesRuntime.getTheme() as UnistylesTheme
+
+  return (
+    <Icon
+      color={theme.colors[color].accent}
+      name={name}
+      size={size}
+      weight={weight}
+    />
+  )
 }
 
 const icons = {

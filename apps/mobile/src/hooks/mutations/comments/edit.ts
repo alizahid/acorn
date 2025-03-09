@@ -1,4 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { addPrefix } from '~/lib/reddit'
@@ -11,6 +13,8 @@ type Variables = {
 }
 
 export function useCommentEdit() {
+  const t = useTranslations('toasts.comments')
+
   const { isPending, mutateAsync } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       const body = new FormData()
@@ -37,6 +41,9 @@ export function useCommentEdit() {
           }
         })
       }
+    },
+    onSuccess() {
+      toast.success(t('updated'))
     },
   })
 

@@ -1,5 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
+import { getIcon } from '~/components/common/icon'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { addPrefix } from '~/lib/reddit'
@@ -11,6 +14,8 @@ type Variables = {
 }
 
 export function useCommentRemove() {
+  const t = useTranslations('toasts.comments')
+
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       const body = new FormData()
@@ -33,6 +38,14 @@ export function useCommentRemove() {
           )
         })
       }
+    },
+    onSuccess() {
+      toast.success(t('deleted'), {
+        icon: getIcon({
+          color: 'green',
+          name: 'Trash',
+        }),
+      })
     },
   })
 

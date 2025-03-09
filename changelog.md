@@ -4,6 +4,7 @@
 
 - added: post size now applies post text as well
 - added: seen on scroll delay
+- added: notification toasts
 - fixed: status bar disappearing
 - fixed: post card username pressable area
 - fixed: filters

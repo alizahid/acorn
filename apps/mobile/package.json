@@ -103,6 +103,7 @@
     "react-native-svg": "15.8.0",
     "react-native-tab-view": "4.0.5",
     "react-native-unistyles": "^2.31.0",
+    "sonner-native": "^0.17.0",
     "superjson": "^2.2.2",
     "use-debounce": "^10.0.4",
     "use-intl": "^3.26.5",

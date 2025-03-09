@@ -1,4 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
@@ -16,6 +18,8 @@ type Variables = {
 }
 
 export function usePostReply() {
+  const t = useTranslations('toasts.comments')
+
   const { isPending, mutateAsync } = useMutation<
     CreateCommentSchema,
     Error,
@@ -85,6 +89,8 @@ export function usePostReply() {
           draft.comments.unshift(comment)
         }
       })
+
+      toast.success(t('created'))
     },
   })
 

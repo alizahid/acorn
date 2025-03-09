@@ -1,4 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
@@ -17,6 +19,8 @@ type Variables = {
 }
 
 export function useCommentSave() {
+  const t = useTranslations('toasts.comments')
+
   const { upvoteOnSave } = usePreferences()
 
   const { vote } = useCommentVote()
@@ -64,6 +68,9 @@ export function useCommentSave() {
           }
         })
       }
+    },
+    onSuccess(data, variables) {
+      toast.success(t(variables.action === 'save' ? 'saved' : 'unsaved'))
     },
   })
 

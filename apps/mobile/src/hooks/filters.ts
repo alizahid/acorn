@@ -35,22 +35,24 @@ export function useFilters() {
     resolver: zodResolver(schema),
   })
 
-  const { isPending, mutate } = useMutation<unknown, Error, FiltersForm>({
+  const { isPending, mutateAsync } = useMutation<unknown, Error, FiltersForm>({
     async mutationFn(variables) {
       await db.delete(db.schema.filters)
 
-      await db.insert(db.schema.filters).values(variables.filters)
+      if (variables.filters.length > 0) {
+        await db.insert(db.schema.filters).values(variables.filters)
+      }
     },
   })
 
-  const onSubmit = form.handleSubmit((data) => {
-    mutate(data)
+  const onSubmit = form.handleSubmit(async (data) => {
+    await mutateAsync(data)
   })
 
   return {
     form,
     isPending,
     onSubmit,
-    update: mutate,
+    update: mutateAsync,
   }
 }

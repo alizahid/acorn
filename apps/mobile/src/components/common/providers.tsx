@@ -18,6 +18,8 @@ import { Gallery } from '~/sheets/gallery'
 import { PostMenu } from '~/sheets/post-menu'
 import { usePreferences } from '~/stores/preferences'
 
+import { Toast } from './toast'
+
 type Props = {
   children: ReactNode
 }
@@ -61,6 +63,8 @@ export function Providers({ children }: Props) {
                 <Gallery.Root />
 
                 <UserSwitcher />
+
+                <Toast />
               </IntlProvider>
             </PersistQueryClientProvider>
           </ThemeProvider>

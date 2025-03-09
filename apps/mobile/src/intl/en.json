@@ -202,6 +202,10 @@
         },
         "placeholder": "Link"
       },
+      "message": {
+        "created": "Post created",
+        "error": "Error creating post"
+      },
       "meta": {
         "nsfw": "NSFW",
         "spoiler": "Spoiler"
@@ -424,6 +428,10 @@
         }
       },
       "filters": {
+        "message": {
+          "cleared": "Filters cleared",
+          "saved": "Filters updated"
+        },
         "rules": {
           "info": {
             "one": "Community and user names are case sensitive"
@@ -580,6 +588,33 @@
           "posts": "Posts"
         }
       }
+    }
+  },
+  "toasts": {
+    "comments": {
+      "created": "Comment added",
+      "deleted": "Comment deleted",
+      "saved": "Comment saved",
+      "unsaved": "Comment unsaved",
+      "updated": "Comment updated"
+    },
+    "communities": {
+      "favorited": "Favorited {community}",
+      "joined": "Joined {community}",
+      "left": "Left {community}",
+      "unfavorited": "Unfavorited {community}"
+    },
+    "notifications": {
+      "markAllAsRead": "All notifications marked as read"
+    },
+    "posts": {
+      "deleted": "Post deleted",
+      "saved": "Post saved",
+      "unsaved": "Post unsaved"
+    },
+    "users": {
+      "followed": "Followed {user}",
+      "unfollowed": "Unfollowed {user}"
     }
   }
 }

@@ -59,7 +59,11 @@ export async function reddit<Response>({
 
   const response = await fetch(input, request)
 
-  if (response.status !== 200) {
+  if (url === '/api/read_all_messages') {
+    return {} as Response
+  }
+
+  if (response.status >= 400) {
     const json = (await response.json()) as {
       message?: string
     }
