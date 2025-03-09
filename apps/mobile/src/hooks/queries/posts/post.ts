@@ -1,9 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
+import { eq } from 'drizzle-orm'
 import { compact } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 
-import { collapseComment, getCollapsedForPost } from '~/lib/db/collapsed'
+import { db } from '~/db'
 import { isComment, isPost } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
@@ -39,7 +40,6 @@ export type PostQueryData = {
 
 type CollapseVariables = {
   commentId: string
-  force?: boolean
 }
 
 type Props = {
@@ -103,16 +103,24 @@ export function usePost({ commentId, id, sort }: Props) {
         ),
       )
 
-      const collapsed = await getCollapsedForPost(id)
+      const collapsed = await db
+        .select({
+          id: db.schema.collapsed.commentId,
+        })
+        .from(db.schema.collapsed)
+        .where(eq(db.schema.collapsed.postId, id))
 
       return {
         comments: comments.map((item) =>
-          transformComment(item, users, {
+          transformComment(item, {
             collapseAutoModerator,
-            collapsed,
+            collapsed: collapsed.map((comment) => comment.id),
+            users,
           }),
         ),
-        post: transformPost(post.data, [], users),
+        post: transformPost(post.data, {
+          users,
+        }),
       }
     },
     queryKey: [
@@ -128,7 +136,23 @@ export function usePost({ commentId, id, sort }: Props) {
 
   const collapse = useMutation<unknown, Error, CollapseVariables>({
     async mutationFn(variables) {
-      await collapseComment(variables.commentId, id, variables.force)
+      const [exists] = await db
+        .select()
+        .from(db.schema.collapsed)
+        .where(eq(db.schema.collapsed.commentId, variables.commentId))
+
+      if (exists) {
+        await db
+          .delete(db.schema.collapsed)
+          .where(eq(db.schema.collapsed.commentId, variables.commentId))
+
+        return
+      }
+
+      await db.insert(db.schema.collapsed).values({
+        commentId: variables.commentId,
+        postId: id,
+      })
     },
     onMutate(variables) {
       updatePosts(variables.commentId, (draft) => {

@@ -65,6 +65,16 @@
         "placeholder": "Filter"
       }
     },
+    "filters": {
+      "card": {
+        "type": {
+          "community": "AskReddit",
+          "keyword": "politics",
+          "title": "Type",
+          "user": "CoolDude123"
+        }
+      }
+    },
     "inbox": {
       "notification": {
         "comment_reply": "{user} replied to your comment",
@@ -414,38 +424,18 @@
         }
       },
       "filters": {
-        "form": {
-          "field": {
-            "keyword": {
-              "placeholder": "Keyword"
-            }
-          }
-        },
         "rules": {
-          "example": {
-            "one": {
-              "label": "Post titles",
-              "value": "politics"
-            },
-            "three": {
-              "label": "Communities",
-              "value": "community:askreddit"
-            },
-            "title": "Examples",
-            "two": {
-              "label": "Users",
-              "value": "user:cool_dude"
-            }
+          "info": {
+            "one": "Community and user names are case sensitive"
           },
           "no": {
-            "one": "Post comments",
-            "title": "Filters will not apply to",
+            "one": "Community and user feeds",
+            "three": "User and post comments",
             "two": "Your own posts and comments"
           },
           "yes": {
-            "one": "Posts in feeds and search",
-            "title": "Filters will apply to",
-            "two": "Communities and users in search"
+            "one": "Posts in /home, /popular, /all feeds",
+            "two": "Posts, communities, and users in search"
           }
         },
         "title": "Filters"

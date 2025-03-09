@@ -4,6 +4,8 @@
 
 - fixed: status bar disappearing
 - fixed: post card username pressable area
+- fixed: filters
+- changed: filters
 
 ## Build 46
 

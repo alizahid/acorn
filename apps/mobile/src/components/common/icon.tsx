@@ -80,6 +80,7 @@ import StarBold from 'react-native-phosphor/src/bold/Star'
 import SunBold from 'react-native-phosphor/src/bold/Sun'
 import SunDimBold from 'react-native-phosphor/src/bold/SunDim'
 import SwordBold from 'react-native-phosphor/src/bold/Sword'
+import TagBold from 'react-native-phosphor/src/bold/Tag'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
 import TelevisionSimpleBold from 'react-native-phosphor/src/bold/TelevisionSimple'
 import TextAaBold from 'react-native-phosphor/src/bold/TextAa'
@@ -176,6 +177,7 @@ import StarDuotone from 'react-native-phosphor/src/duotone/Star'
 import SunDuotone from 'react-native-phosphor/src/duotone/Sun'
 import SunDimDuotone from 'react-native-phosphor/src/duotone/SunDim'
 import SwordDuotone from 'react-native-phosphor/src/duotone/Sword'
+import TagDuotone from 'react-native-phosphor/src/duotone/Tag'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
 import TelevisionSimpleDuotone from 'react-native-phosphor/src/duotone/TelevisionSimple'
 import TextAaDuotone from 'react-native-phosphor/src/duotone/TextAa'
@@ -272,6 +274,7 @@ import StarFill from 'react-native-phosphor/src/fill/Star'
 import SunFill from 'react-native-phosphor/src/fill/Sun'
 import SunDimFill from 'react-native-phosphor/src/fill/SunDim'
 import SwordFill from 'react-native-phosphor/src/fill/Sword'
+import TagFill from 'react-native-phosphor/src/fill/Tag'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
 import TelevisionSimpleFill from 'react-native-phosphor/src/fill/TelevisionSimple'
 import TextAaFill from 'react-native-phosphor/src/fill/TextAa'
@@ -368,6 +371,7 @@ import StarRegular from 'react-native-phosphor/src/regular/Star'
 import SunRegular from 'react-native-phosphor/src/regular/Sun'
 import SunDimRegular from 'react-native-phosphor/src/regular/SunDim'
 import SwordRegular from 'react-native-phosphor/src/regular/Sword'
+import TagRegular from 'react-native-phosphor/src/regular/Tag'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
 import TelevisionSimpleRegular from 'react-native-phosphor/src/regular/TelevisionSimple'
 import TextAaRegular from 'react-native-phosphor/src/regular/TextAa'
@@ -889,6 +893,12 @@ const icons = {
     duotone: SwordDuotone,
     fill: SwordFill,
     regular: SwordRegular,
+  },
+  Tag: {
+    bold: TagBold,
+    duotone: TagDuotone,
+    fill: TagFill,
+    regular: TagRegular,
   },
   Target: {
     bold: TargetBold,

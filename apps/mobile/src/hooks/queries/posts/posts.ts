@@ -4,22 +4,16 @@ import { compact, uniqBy } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 
-import { getHidden } from '~/lib/db/hidden'
-import { getHistory } from '~/lib/db/history'
-import { filterByKeyword } from '~/lib/filtering'
+import { filterPosts } from '~/lib/filtering'
 import { isComment } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
-import { removePrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { fetchUserData } from '~/reddit/users'
 import { CommentsSchema } from '~/schemas/comments'
 import { PostsSchema, SavedPostsSchema } from '~/schemas/posts'
-import { type UserDataSchema } from '~/schemas/users'
 import { useAuth } from '~/stores/auth'
-import { usePreferences } from '~/stores/preferences'
 import { transformComment } from '~/transformers/comment'
-import { transformPost } from '~/transformers/post'
 import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 import { type PostSort, type TopInterval } from '~/types/sort'
@@ -67,7 +61,6 @@ export function usePosts({
   userType,
 }: PostsProps) {
   const { accountId } = useAuth()
-  const { filteredKeywords } = usePreferences()
 
   const {
     data,
@@ -122,7 +115,7 @@ export function usePosts({
       if (userType === 'comments') {
         const response = CommentsSchema.parse(payload)
 
-        const images = await fetchUserData(
+        const users = await fetchUserData(
           ...compact(
             response.data.children
               .filter((item) => item.kind === 't1')
@@ -133,7 +126,9 @@ export function usePosts({
         return {
           cursor: response.data.after,
           posts: response.data.children.map((item) =>
-            transformComment(item, images),
+            transformComment(item, {
+              users,
+            }),
           ),
         }
       }
@@ -142,36 +137,9 @@ export function usePosts({
 
       const response = schema.parse(payload)
 
-      const images =
-        userType === 'saved'
-          ? await fetchUserData(
-              ...compact(
-                response.data.children
-                  .filter((item) => item.kind === 't1')
-                  .map((item) => item.data.author_fullname),
-              ),
-            )
-          : {}
-
-      const $posts = await filterPosts(response, images)
-
       return {
         cursor: response.data.after,
-        posts: $posts.filter((item) => {
-          if (
-            user === accountId ||
-            item.type === 'more' ||
-            item.type === 'reply'
-          ) {
-            return true
-          }
-
-          return filterByKeyword(filteredKeywords, {
-            community: item.community.name,
-            title: item.title,
-            user: item.user.name,
-          })
-        }),
+        posts: await filterPosts(response),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
@@ -217,51 +185,6 @@ export function usePosts({
     posts,
     refetch,
   }
-}
-
-export async function filterPosts(
-  data: PostsSchema | SavedPostsSchema,
-  images?: UserDataSchema,
-): Promise<Array<Post | Comment>> {
-  const { hideSeen } = usePreferences.getState()
-
-  const posts = data.data.children
-    .filter((post) => post.kind === 't3')
-    .map((post) => post.data.id)
-
-  const seen = await getHistory(posts)
-  const hidden = await getHidden()
-
-  return data.data.children
-    .filter((item) => {
-      if (item.kind === 't1') {
-        return true
-      }
-
-      if (hideSeen && seen.includes(item.data.id)) {
-        return false
-      }
-
-      if (
-        item.data.subreddit_id &&
-        hidden.communities.includes(removePrefix(item.data.subreddit_id))
-      ) {
-        return false
-      }
-
-      if (hidden.users.includes(removePrefix(item.data.author_fullname))) {
-        return false
-      }
-
-      return true
-    })
-    .map((item) => {
-      if (item.kind === 't1') {
-        return transformComment(item, images)
-      }
-
-      return transformPost(item.data, seen)
-    })
 }
 
 export function updatePosts(

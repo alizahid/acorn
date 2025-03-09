@@ -35,6 +35,7 @@ const PostBaseSchema = z.object({
   spoiler: z.boolean(),
   sr_detail: CommunityDataSchema,
   stickied: z.boolean(),
+  subreddit: z.string(),
   subreddit_id: z.string().nullish(),
   thumbnail: z.string().nullish(),
   title: z.string(),

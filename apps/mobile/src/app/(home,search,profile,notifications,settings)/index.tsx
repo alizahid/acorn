@@ -32,10 +32,7 @@ export default function Screen() {
 
   const type = params.type === 'home' ? 'feed' : 'community'
 
-  const { sorting, update: updateSorting } = useSorting(
-    type,
-    params.feed ?? params.type,
-  )
+  const { sorting, update } = useSorting(type, params.feed ?? params.type)
 
   useFocusEffect(
     useCallback(() => {
@@ -44,14 +41,14 @@ export default function Screen() {
           <SortIntervalMenu
             interval={sorting.interval}
             onChange={(next) => {
-              updateSorting(next)
+              update(next)
             }}
             sort={sorting.sort}
             type={type}
           />
         ),
       })
-    }, [navigation, sorting.interval, sorting.sort, type, updateSorting]),
+    }, [navigation, sorting.interval, sorting.sort, type, update]),
   )
 
   return (
