@@ -91,6 +91,7 @@ export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
       ListHeaderComponent={header}
       contentContainerStyle={styles.content}
       data={items}
+      initialNumToRender={100}
       keyExtractor={(item, index) => String(index)}
       ref={list}
       refreshControl={
