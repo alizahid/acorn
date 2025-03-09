@@ -74,9 +74,17 @@ type Props = {
   items: Array<MenuItem | string | null | (() => ReactElement)>
   listProps?: ListProps
   onRefresh?: () => Promise<unknown>
+  style?: StyleProp<ViewStyle>
 }
 
-export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
+export function Menu({
+  footer,
+  header,
+  items,
+  listProps,
+  onRefresh,
+  style,
+}: Props) {
   const list =
     useRef<FlatList<MenuItem | string | null | (() => ReactElement)>>(null)
 
@@ -89,7 +97,7 @@ export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
       {...listProps}
       ListFooterComponent={footer}
       ListHeaderComponent={header}
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[styles.content, style]}
       data={items}
       initialNumToRender={100}
       keyExtractor={(item, index) => String(index)}
