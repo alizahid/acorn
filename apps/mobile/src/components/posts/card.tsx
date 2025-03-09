@@ -13,6 +13,7 @@ import { PostMenu } from '~/sheets/post-menu'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
+import { addTextSize } from '~/styles/text'
 import { type Post } from '~/types/post'
 
 import { type GestureAction, PostGestures } from '../common/gestures'
@@ -265,7 +266,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
         <Markdown
           meta={post.media.meta}
           recyclingKey={post.id}
-          size="2"
+          size={addTextSize(fontSizePost, 1)}
           style={styles.body}
           variant="post"
         >
