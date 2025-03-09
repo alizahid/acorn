@@ -5,6 +5,7 @@
 - fixed: status bar disappearing
 - fixed: post card username pressable area
 - fixed: filters
+- fixed: scroll to top when post changes
 - changed: filters
 
 ## Build 46

@@ -5,7 +5,7 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { useCallback, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { FlatList, type ListRenderItem } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
@@ -60,8 +60,20 @@ export default function Screen() {
     sort,
   })
 
+  const last = useRef(params.id)
   const viewing = useRef<Array<number>>([])
   const offset = useRef(0)
+
+  useEffect(() => {
+    if (last.current !== params.id) {
+      list.current?.scrollToOffset({
+        animated: true,
+        offset: 0,
+      })
+
+      last.current = params.id
+    }
+  }, [params.id, post])
 
   useFocusEffect(
     useCallback(() => {
