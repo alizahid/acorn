@@ -159,6 +159,77 @@ export default function Screen() {
             label: 'history.seenOnScroll.label',
           },
           {
+            description: 'history.seenOnScrollDelay.description',
+            icon: 'Clock',
+            key: 'seenOnScrollDelay',
+            label: 'history.seenOnScrollDelay.label',
+            options: [
+              {
+                icon: {
+                  name: '0.circle.fill',
+                  type: 'symbol',
+                },
+                label: t('refreshInterval.instant'),
+                value: 0,
+              },
+              {
+                icon: {
+                  name: '1.circle.fill',
+                  type: 'symbol',
+                },
+                label: f.number(1, {
+                  style: 'unit',
+                  unit: 'second',
+                }),
+                value: 1,
+              },
+              {
+                icon: {
+                  name: '2.circle.fill',
+                  type: 'symbol',
+                },
+                label: f.number(2, {
+                  style: 'unit',
+                  unit: 'second',
+                }),
+                value: 2,
+              },
+              {
+                icon: {
+                  name: '3.circle.fill',
+                  type: 'symbol',
+                },
+                label: f.number(3, {
+                  style: 'unit',
+                  unit: 'second',
+                }),
+                value: 3,
+              },
+              {
+                icon: {
+                  name: '5.circle.fill',
+                  type: 'symbol',
+                },
+                label: f.number(5, {
+                  style: 'unit',
+                  unit: 'second',
+                }),
+                value: 5,
+              },
+              {
+                icon: {
+                  name: '10.circle.fill',
+                  type: 'symbol',
+                },
+                label: f.number(10, {
+                  style: 'unit',
+                  unit: 'second',
+                }),
+                value: 10,
+              },
+            ],
+          },
+          {
             icon: 'SunDim',
             key: 'dimSeen',
             label: 'history.dimSeen',
@@ -246,7 +317,7 @@ export default function Screen() {
                 })
               },
               options: item.options.map((option) => ({
-                icon: option.icon,
+                hideRight: true,
                 label: option.label,
                 right: (
                   <SymbolView
@@ -258,7 +329,7 @@ export default function Screen() {
               })),
               type: 'options',
               value: String(preferences[item.key]),
-            }
+            } satisfies MenuItem
           }
 
           if ('exclusive' in item) {

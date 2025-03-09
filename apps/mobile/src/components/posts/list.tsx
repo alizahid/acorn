@@ -1,7 +1,12 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
-import { FlatList, type StyleProp, type ViewStyle } from 'react-native'
+import {
+  FlatList,
+  type StyleProp,
+  type ViewabilityConfig,
+  type ViewStyle,
+} from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -19,6 +24,11 @@ import { CommentCard } from '../comments/card'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
+
+const viewabilityConfig: ViewabilityConfig = {
+  minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1_000,
+  viewAreaCoveragePercentThreshold: 60,
+}
 
 type Props = PostsProps & {
   header?: ReactElement
@@ -169,9 +179,7 @@ export function PostList({
       }
       renderItem={({ item }) => renderItem(item)}
       stickyHeaderIndices={sticky ? [0] : undefined}
-      viewabilityConfig={{
-        viewAreaCoveragePercentThreshold: 60,
-      }}
+      viewabilityConfig={viewabilityConfig}
     />
   )
 }

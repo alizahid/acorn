@@ -52,6 +52,7 @@ export type PreferencesPayload = {
   saveToAlbum: boolean
   seenOnMedia: boolean
   seenOnScroll: boolean
+  seenOnScrollDelay: number
   seenOnVote: boolean
   showFlair: boolean
   skipComment: FloatingButtonSide
@@ -110,6 +111,7 @@ export const usePreferences = create<State>()(
       saveToAlbum: false,
       seenOnMedia: false,
       seenOnScroll: false,
+      seenOnScrollDelay: 0,
       seenOnVote: false,
       showFlair: true,
       skipComment: 'right',

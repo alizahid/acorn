@@ -495,6 +495,10 @@
             "description": "Requires app restart",
             "label": "Mark as seen while scrolling"
           },
+          "seenOnScrollDelay": {
+            "description": "Requires app restart",
+            "label": "Seen on scroll delay"
+          },
           "seenOnVote": "Mark as seen when voting",
           "title": "History"
         },
