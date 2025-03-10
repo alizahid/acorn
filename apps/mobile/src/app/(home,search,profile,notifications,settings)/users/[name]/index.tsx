@@ -17,7 +17,6 @@ import { usePreferences } from '~/stores/preferences'
 import { UserTab } from '~/types/user'
 
 const schema = z.object({
-  mode: z.literal('headless').optional(),
   name: z.string().catch('mildpanda'),
 })
 
@@ -45,7 +44,7 @@ export default function Screen() {
   const { styles, theme } = useStyles(stylesheet)
 
   const listProps = useList(ListFlags.ALL, {
-    top: params.mode === 'headless' ? 0 : theme.space[7] + theme.space[4],
+    top: theme.space[7] + theme.space[4],
   })
 
   const [index, setIndex] = useState(0)

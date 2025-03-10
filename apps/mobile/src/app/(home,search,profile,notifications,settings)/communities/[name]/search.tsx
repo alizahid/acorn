@@ -105,8 +105,7 @@ export default function Screen() {
         onChangeQuery={setQuery}
         query={debounced}
         sort={sort}
-        sticky
-        style={styles.list()}
+        style={styles.list}
         type="post"
       />
     </>
@@ -137,11 +136,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
 
     return base
   },
-  list: () => ({
-    flexGrow: 1,
+  list: {
     paddingBottom: iPad ? theme.space[4] : undefined,
     paddingHorizontal: iPad ? theme.space[4] : undefined,
-  }),
+  },
   query: {
     backgroundColor: theme.colors.gray.uiActiveAlpha,
     borderWidth: 0,

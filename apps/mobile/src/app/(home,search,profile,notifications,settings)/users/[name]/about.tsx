@@ -5,7 +5,6 @@ import { UserAbout } from '~/components/users/about'
 import { useList } from '~/hooks/list'
 
 const schema = z.object({
-  mode: z.literal('headless').optional(),
   name: z.string().catch('mildpanda'),
 })
 

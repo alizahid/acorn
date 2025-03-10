@@ -153,7 +153,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
   if (compact) {
     return (
       <PostGestures
-        containerStyle={[styles.container(dimmed)]}
+        containerStyle={styles.container(dimmed)}
         data={post}
         left={{
           enabled: postLeft,
@@ -183,7 +183,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
 
   return (
     <PostGestures
-      containerStyle={[styles.container(dimmed)]}
+      containerStyle={styles.container(dimmed)}
       data={post}
       left={{
         enabled: postLeft,

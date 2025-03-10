@@ -50,7 +50,6 @@ export default function Screen() {
 
             router.push({
               params: {
-                mode: 'headless',
                 name: removePrefix(profile.name),
                 type,
               },

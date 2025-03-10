@@ -1,11 +1,7 @@
 import { useScrollToTop } from '@react-navigation/native'
+import { FlashList, type ListRenderItem } from '@shopify/flash-list'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
-import {
-  FlatList,
-  type ListRenderItem,
-  type StyleProp,
-  type ViewStyle,
-} from 'react-native'
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -37,7 +33,6 @@ type Props = {
   onChangeQuery: (query: string) => void
   query: string
   sort?: SearchSort
-  sticky?: boolean
   style?: StyleProp<ViewStyle>
   type: SearchTab
 }
@@ -51,13 +46,12 @@ export function SearchList({
   onChangeQuery,
   query,
   sort,
-  sticky,
   style,
   type,
 }: Props) {
   const t = useTranslations('component.search.list')
 
-  const list = useRef<FlatList<Post | Community | SearchUser>>(null)
+  const list = useRef<FlashList<Post | Community | SearchUser>>(null)
 
   useScrollToTop(list)
 
@@ -98,7 +92,7 @@ export function SearchList({
   )
 
   return (
-    <FlatList
+    <FlashList
       {...listProps}
       ItemSeparatorComponent={() =>
         type === 'post' ? (
@@ -117,11 +111,16 @@ export function SearchList({
         )
       }
       ListHeaderComponent={header}
-      contentContainerStyle={[type !== 'post' && styles.content, style]}
+      contentContainerStyle={StyleSheet.flatten([
+        type !== 'post' && styles.content,
+        style,
+      ])}
       data={results}
+      estimatedItemSize={type === 'post' ? (feedCompact ? 120 : 500) : 48}
       extraData={{
         viewing,
       }}
+      getItemType={(item) => (type === 'post' ? (item as Post).type : type)}
       keyExtractor={(item) => item.id}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
@@ -134,7 +133,6 @@ export function SearchList({
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={renderItem}
-      stickyHeaderIndices={sticky ? [0] : undefined}
       viewabilityConfig={{
         viewAreaCoveragePercentThreshold: 60,
       }}
@@ -144,7 +142,6 @@ export function SearchList({
 
 const stylesheet = createStyleSheet((theme) => ({
   content: {
-    flexGrow: 1,
     paddingVertical: theme.space[2],
   },
   separator: (oled: boolean, compact: boolean) => ({

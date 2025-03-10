@@ -12,7 +12,7 @@ import { View } from '~/components/common/view'
 import { CommunitySearchBar } from '~/components/communities/search-bar'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useList } from '~/hooks/list'
+import { ListFlags, useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -33,39 +33,37 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
-  const listProps = useList()
+  const listProps = useList(ListFlags.BOTTOM)
 
   const { sorting, update } = useSorting('community', params.name)
 
   return (
     <>
+      <View
+        direction="row"
+        style={styles.header(themeOled, themeTint) as ViewStyle}
+      >
+        <CommunitySearchBar name={params.name} />
+
+        <SortIntervalMenu
+          interval={sorting.interval}
+          onChange={(next) => {
+            update({
+              interval: next.interval,
+              sort: next.sort,
+            })
+          }}
+          sort={sorting.sort}
+          type="community"
+        />
+      </View>
+
       <PostList
         community={params.name}
-        header={
-          <View
-            direction="row"
-            style={styles.header(themeOled, themeTint) as ViewStyle}
-          >
-            <CommunitySearchBar name={params.name} />
-
-            <SortIntervalMenu
-              interval={sorting.interval}
-              onChange={(next) => {
-                update({
-                  interval: next.interval,
-                  sort: next.sort,
-                })
-              }}
-              sort={sorting.sort}
-              type="community"
-            />
-          </View>
-        }
         interval={sorting.interval}
         listProps={listProps}
         sort={sorting.sort}
-        sticky
-        style={styles.list()}
+        style={styles.list}
       />
 
       <FloatingButton
@@ -91,6 +89,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
         : theme.colors[tint ? 'accent' : 'gray'].bg,
       borderBottomColor: theme.colors.gray.border,
       borderBottomWidth: runtime.hairlineWidth,
+      marginTop: 48 + runtime.insets.top + runtime.hairlineWidth,
     }
 
     if (iPad) {
@@ -103,9 +102,12 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
 
     return base
   },
-  list: () => ({
-    flexGrow: 1,
-    paddingBottom: iPad ? theme.space[4] : undefined,
+  list: {
+    paddingBottom:
+      theme.space[4] +
+      theme.space[8] +
+      theme.space[4] +
+      (iPad ? theme.space[4] : 0),
     paddingHorizontal: iPad ? theme.space[4] : undefined,
-  }),
+  },
 }))

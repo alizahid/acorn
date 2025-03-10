@@ -24,7 +24,6 @@ import { oledTheme } from '~/styles/oled'
 import { UserFeedType } from '~/types/user'
 
 const schema = z.object({
-  mode: z.literal('headless').optional(),
   name: z.string().catch('mildpanda'),
   type: z.enum(UserFeedType).catch('submitted'),
 })
@@ -38,11 +37,9 @@ export default function Screen() {
   const { intervalUserPosts, sortUserPosts, themeOled, themeTint } =
     usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
-  const listProps = useList(ListFlags.ALL, {
-    top: params.mode === 'headless' ? 0 : theme.space[7] + theme.space[4],
-  })
+  const listProps = useList(ListFlags.BOTTOM)
 
   const [sort, setSort] = useState(sortUserPosts)
   const [interval, setInterval] = useState(intervalUserPosts)
@@ -72,24 +69,24 @@ export default function Screen() {
   )
 
   return (
-    <PostList
-      header={
-        <View
-          direction="row"
-          style={styles.header(themeOled, themeTint) as ViewStyle}
-        >
-          <UserSearchBar onChange={setQuery} value={query} />
-        </View>
-      }
-      interval={interval}
-      listProps={listProps}
-      query={debounced}
-      sort={sort}
-      sticky
-      style={styles.list()}
-      user={params.name}
-      userType={params.type}
-    />
+    <>
+      <View
+        direction="row"
+        style={styles.header(themeOled, themeTint) as ViewStyle}
+      >
+        <UserSearchBar onChange={setQuery} value={query} />
+      </View>
+
+      <PostList
+        interval={interval}
+        listProps={listProps}
+        query={debounced}
+        sort={sort}
+        style={styles.list}
+        user={params.name}
+        userType={params.type}
+      />
+    </>
   )
 }
 
@@ -101,6 +98,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
         : theme.colors[tint ? 'accent' : 'gray'].bg,
       borderBottomColor: theme.colors.gray.border,
       borderBottomWidth: runtime.hairlineWidth,
+      marginTop: 48 + runtime.insets.top + runtime.hairlineWidth,
     }
 
     if (iPad) {
@@ -113,9 +111,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
 
     return base
   },
-  list: () => ({
-    flexGrow: 1,
+  list: {
     paddingBottom: iPad ? theme.space[4] : undefined,
     paddingHorizontal: iPad ? theme.space[4] : undefined,
-  }),
+  },
 }))

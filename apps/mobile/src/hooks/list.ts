@@ -1,5 +1,9 @@
-import { StyleSheet, type VirtualizedListProps } from 'react-native'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { type FlashListProps } from '@shopify/flash-list'
+import { StyleSheet } from 'react-native'
+import {
+  useSafeAreaFrame,
+  useSafeAreaInsets,
+} from 'react-native-safe-area-context'
 
 export const ListFlags = {
   ALL: 1 | 2 | 4 | 8,
@@ -12,9 +16,11 @@ export const ListFlags = {
 }
 
 export type ListProps<Type = unknown> = Pick<
-  VirtualizedListProps<Type>,
+  FlashListProps<Type>,
   | 'contentInset'
   | 'contentOffset'
+  | 'drawDistance'
+  | 'estimatedListSize'
   | 'keyboardDismissMode'
   | 'keyboardShouldPersistTaps'
   | 'scrollIndicatorInsets'
@@ -29,9 +35,10 @@ export function useList<Type>(
   flags = ListFlags.ALL,
   props?: Props,
 ): ListProps<Type> {
-  const height = 48 + StyleSheet.hairlineWidth
-
+  const frame = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
+
+  const height = 48 + StyleSheet.hairlineWidth
 
   const start = props?.top ?? 0
   const end = props?.bottom ?? 0
@@ -63,6 +70,11 @@ export function useList<Type>(
     contentOffset: {
       x: 0,
       y: -top,
+    },
+    drawDistance: frame.height * 3,
+    estimatedListSize: {
+      height: frame.height,
+      width: frame.width,
     },
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',

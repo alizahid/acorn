@@ -51,7 +51,6 @@ export function MessagesList({
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
-      contentContainerStyle={styles.content}
       data={messages}
       keyExtractor={(item) => item.id}
       onEndReached={() => {
@@ -67,9 +66,6 @@ export function MessagesList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  content: {
-    flexGrow: 1,
-  },
   separator: (oled: boolean) => ({
     backgroundColor: oled ? theme.colors.gray.border : undefined,
     height: oled ? 1 : theme.space[4],

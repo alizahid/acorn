@@ -1,12 +1,12 @@
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
+import {
+  type ContentStyle,
+  FlashList,
+  type ListRenderItem,
+} from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
-import {
-  FlatList,
-  type StyleProp,
-  type ViewabilityConfig,
-  type ViewStyle,
-} from 'react-native'
+import { type ViewabilityConfig } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -34,8 +34,7 @@ type Props = PostsProps & {
   header?: ReactElement
   listProps?: ListProps
   onRefresh?: () => void
-  sticky?: boolean
-  style?: StyleProp<ViewStyle>
+  style?: ContentStyle
 }
 
 export function PostList({
@@ -47,14 +46,13 @@ export function PostList({
   onRefresh,
   query,
   sort,
-  sticky,
   style,
   user,
   userType,
 }: Props) {
   const router = useRouter()
 
-  const list = useRef<FlatList<Post | Comment>>(null)
+  const list = useRef<FlashList<Post | Comment>>(null)
 
   const focused = useIsFocused()
 
@@ -84,8 +82,8 @@ export function PostList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const renderItem = useCallback(
-    (item: Post | Comment) => {
+  const renderItem: ListRenderItem<Post | Comment> = useCallback(
+    ({ item }) => {
       if (item.type === 'reply') {
         return (
           <CommentCard
@@ -119,7 +117,7 @@ export function PostList({
   )
 
   return (
-    <FlatList
+    <FlashList
       {...listProps}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(themeOled, feedCompact)} />
@@ -129,11 +127,13 @@ export function PostList({
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
       ListHeaderComponent={header}
-      contentContainerStyle={[styles.content, style]}
+      contentContainerStyle={style}
       data={posts}
+      estimatedItemSize={feedCompact ? 120 : 500}
       extraData={{
         viewing,
       }}
+      getItemType={(item) => item.type}
       keyExtractor={(item) => {
         if (item.type === 'reply') {
           return `reply-${item.data.id}`
@@ -158,9 +158,11 @@ export function PostList({
         }
 
         viewableItems
-          .filter(
-            (item) => item.item.type !== 'reply' && item.item.type !== 'more',
-          )
+          .filter((item) => {
+            const $item = item.item as Post | Comment
+
+            return $item.type !== 'reply' && $item.type !== 'more'
+          })
           .forEach((item) => {
             addPost({
               id: (item.item as Post).id,
@@ -177,17 +179,13 @@ export function PostList({
           }}
         />
       }
-      renderItem={({ item }) => renderItem(item)}
-      stickyHeaderIndices={sticky ? [0] : undefined}
+      renderItem={renderItem}
       viewabilityConfig={viewabilityConfig}
     />
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  content: {
-    flexGrow: 1,
-  },
   separator: (oled: boolean, compact: boolean) => ({
     alignSelf: 'center',
     backgroundColor: oled ? theme.colors.gray.border : undefined,

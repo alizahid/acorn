@@ -1,4 +1,5 @@
 import { useIsFocused } from '@react-navigation/native'
+import { FlashList, type ListRenderItem } from '@shopify/flash-list'
 import {
   useFocusEffect,
   useLocalSearchParams,
@@ -6,7 +7,6 @@ import {
   useRouter,
 } from 'expo-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { FlatList, type ListRenderItem } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
@@ -48,7 +48,7 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
-  const list = useRef<FlatList<Comment>>(null)
+  const list = useRef<FlashList<Comment>>(null)
 
   const [sort, setSort] = useState(sortPostComments)
 
@@ -188,7 +188,7 @@ export default function Screen() {
 
   return (
     <>
-      <FlatList
+      <FlashList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
         ListEmptyComponent={() =>
@@ -197,6 +197,7 @@ export default function Screen() {
         ListHeaderComponent={header}
         contentContainerStyle={styles.content}
         data={comments}
+        estimatedItemSize={100}
         extraData={{
           commentId: params.commentId,
         }}
@@ -213,9 +214,11 @@ export default function Screen() {
         }}
         onViewableItemsChanged={({ viewableItems }) => {
           viewing.current = viewableItems
-            .filter(
-              (item) => item.item.type === 'reply' && !item.item.data.collapsed,
-            )
+            .filter((item) => {
+              const $item = item.item as Comment
+
+              return $item.type === 'reply' && !$item.data.collapsed
+            })
             .map((item) => item.index ?? 0)
         }}
         ref={list}
@@ -310,7 +313,6 @@ export default function Screen() {
 
 const stylesheet = createStyleSheet((theme) => ({
   content: {
-    flexGrow: 1,
     paddingBottom: theme.space[8] + theme.space[4] + theme.space[4],
     paddingHorizontal: iPad ? theme.space[4] : undefined,
     paddingTop: iPad ? theme.space[4] : undefined,
