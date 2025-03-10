@@ -4,7 +4,7 @@ import { compact } from 'lodash'
 import { db } from '~/db'
 import { type CommunitiesSchema } from '~/schemas/communities'
 import { type PostsSchema, type SavedPostsSchema } from '~/schemas/posts'
-import { type UserDataSchema, type UsersSchema } from '~/schemas/users'
+import { type UsersSchema } from '~/schemas/users'
 import { usePreferences } from '~/stores/preferences'
 import { transformComment } from '~/transformers/comment'
 import { transformCommunity } from '~/transformers/community'
@@ -17,7 +17,7 @@ import { type SearchUser } from '~/types/user'
 
 export async function filterPosts(
   { data }: PostsSchema | SavedPostsSchema,
-  users?: UserDataSchema,
+  apply = true,
 ): Promise<Array<Post | Comment>> {
   const { hideSeen } = usePreferences.getState()
 
@@ -47,6 +47,10 @@ export async function filterPosts(
 
       if (hideSeen && seen.includes(item.data.id)) {
         return false
+      }
+
+      if (!apply) {
+        return true
       }
 
       const keyword = filters
@@ -83,14 +87,11 @@ export async function filterPosts(
     })
     .map((item) => {
       if (item.kind === 't1') {
-        return transformComment(item, {
-          users,
-        })
+        return transformComment(item)
       }
 
       return transformPost(item.data, {
         seen,
-        users,
       })
     })
 }

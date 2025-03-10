@@ -139,7 +139,7 @@ export function usePosts({
 
       return {
         cursor: response.data.after,
-        posts: await filterPosts(response),
+        posts: await filterPosts(response, !user && !userType && !community),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
