@@ -2,7 +2,7 @@
 
 ## Upcoming
 
-- added: post size now applies post text as well
+- added: post size now applies to post text as well
 - added: seen on scroll delay
 - added: notification toasts
 - changed: filters
