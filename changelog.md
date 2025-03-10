@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 47
 
 - added: post size now applies to post text as well
 - added: seen on scroll delay
