@@ -467,6 +467,7 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
               hide({
                 action: 'hide',
                 id: post.user.id,
+                name: post.user.name,
                 type: 'user',
               })
             }
@@ -489,6 +490,7 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
               hide({
                 action: 'hide',
                 id: post.community.id,
+                name: post.community.name,
                 type: 'community',
               })
 

@@ -68,10 +68,19 @@
     "filters": {
       "card": {
         "type": {
-          "community": "AskReddit",
-          "keyword": "politics",
+          "community": {
+            "label": "Community",
+            "placeholder": "AskReddit"
+          },
+          "keyword": {
+            "label": "Keyword",
+            "placeholder": "politics"
+          },
           "title": "Type",
-          "user": "CoolDude123"
+          "user": {
+            "label": "User",
+            "placeholder": "CoolDude123"
+          }
         }
       }
     },
@@ -428,10 +437,6 @@
         }
       },
       "filters": {
-        "message": {
-          "cleared": "Filters cleared",
-          "saved": "Filters updated"
-        },
         "rules": {
           "info": {
             "one": "Community and user names are case sensitive"
@@ -603,6 +608,9 @@
       "joined": "Joined {community}",
       "left": "Left {community}",
       "unfavorited": "Unfavorited {community}"
+    },
+    "filters": {
+      "updated": "Filters updated"
     },
     "notifications": {
       "markAllAsRead": "All notifications marked as read"

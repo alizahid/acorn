@@ -19,7 +19,11 @@ type Variables = {
       type: 'comment'
     }
   | {
-      type: 'community' | 'user' | 'post'
+      type: 'post'
+    }
+  | {
+      name: string
+      type: 'community' | 'user'
     }
 )
 
@@ -45,7 +49,10 @@ export function useHide() {
             .delete(db.schema.filters)
             .where(
               and(
-                eq(db.schema.filters.id, variables.id),
+                eq(
+                  db.schema.filters.id,
+                  'name' in variables ? variables.name : variables.id,
+                ),
                 eq(db.schema.filters.type, variables.type),
               ),
             )
@@ -84,7 +91,7 @@ export function useHide() {
         await db.insert(db.schema.filters).values({
           id: createId(),
           type: variables.type,
-          value: variables.id,
+          value: 'name' in variables ? variables.name : variables.id,
         })
       }
     },

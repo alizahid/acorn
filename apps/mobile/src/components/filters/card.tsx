@@ -84,7 +84,7 @@ export function FilterCard({ index, onRemove }: Props) {
                     type: 'icon',
                   }}
                   key={item}
-                  label={t(`type.${item}`)}
+                  label={t(`type.${item}.label`)}
                   onPress={() => {
                     field.onChange(item)
 
@@ -109,7 +109,7 @@ export function FilterCard({ index, onRemove }: Props) {
             autoComplete="off"
             autoCorrect={false}
             onChangeText={field.onChange}
-            placeholder={t(`type.${type}`)}
+            placeholder={t(`type.${type}.placeholder`)}
             ref={field.ref}
             style={styles.input}
             styleContent={styles.inputContent}

@@ -362,6 +362,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
               hide({
                 action: 'hide',
                 id: comment.user.id,
+                name: comment.user.name,
                 type: 'user',
               })
             }
