@@ -14,6 +14,7 @@ export const ListFlags = {
 export type ListProps<Type = unknown> = Pick<
   VirtualizedListProps<Type>,
   | 'contentInset'
+  | 'contentOffset'
   | 'keyboardDismissMode'
   | 'keyboardShouldPersistTaps'
   | 'scrollIndicatorInsets'
@@ -58,6 +59,10 @@ export function useList<Type>(
     contentInset: {
       bottom,
       top,
+    },
+    contentOffset: {
+      x: 0,
+      y: -top,
     },
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',
