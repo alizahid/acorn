@@ -25,6 +25,7 @@ type Props = {
   recyclingKey?: string
   spoiler?: boolean
   style?: StyleProp<ViewStyle>
+  viewing?: boolean
 }
 
 export function PostGalleryCard({
@@ -37,6 +38,7 @@ export function PostGalleryCard({
   recyclingKey,
   spoiler,
   style,
+  viewing,
 }: Props) {
   const t = useTranslations('component.posts.gallery')
 
@@ -72,6 +74,7 @@ export function PostGalleryCard({
       >
         <Image
           {...placeholder}
+          priority={viewing ? 'high' : 'normal'}
           recyclingKey={recyclingKey}
           source={first.thumbnail}
           style={styles.compactImage}
@@ -115,6 +118,7 @@ export function PostGalleryCard({
           }
         }}
         recyclingKey={recyclingKey}
+        viewing={viewing}
       />
 
       {Boolean(nsfw && blurNsfw) || spoiler ? (

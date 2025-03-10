@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- added: prioritize image loading for posts in view
+
 ## Build 47
 
 - added: post size now applies to post text as well

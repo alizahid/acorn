@@ -16,6 +16,7 @@ type Props = {
   onLongPress?: () => void
   onPress: (index: number) => void
   recyclingKey?: string
+  viewing?: boolean
 }
 
 export function ImageGrid({
@@ -23,6 +24,7 @@ export function ImageGrid({
   onLongPress,
   onPress,
   recyclingKey,
+  viewing,
 }: Props) {
   const t = useTranslations('component.posts.gallery')
 
@@ -44,6 +46,7 @@ export function ImageGrid({
       >
         <Image
           {...placeholder}
+          priority={viewing ? 'high' : 'normal'}
           recyclingKey={recyclingKey}
           source={image.thumbnail}
           style={styles.image}
@@ -82,6 +85,7 @@ export function ImageGrid({
           >
             <Image
               {...placeholder}
+              priority={viewing ? 'high' : 'normal'}
               recyclingKey={recyclingKey}
               source={item.thumbnail}
               style={styles.image}

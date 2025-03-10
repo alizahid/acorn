@@ -19,6 +19,7 @@ type Props = {
   onPress: () => void
   post: Post
   side?: 'left' | 'right'
+  viewing?: boolean
 }
 
 export function PostCompactCard({
@@ -27,6 +28,7 @@ export function PostCompactCard({
   onPress,
   post,
   side = 'left',
+  viewing,
 }: Props) {
   const { fontSizePost, largeThumbnails } = usePreferences()
 
@@ -75,6 +77,7 @@ export function PostCompactCard({
           onLongPress={onLongPress}
           recyclingKey={post.id}
           spoiler={post.spoiler}
+          viewing={viewing}
         />
       ) : null}
 
