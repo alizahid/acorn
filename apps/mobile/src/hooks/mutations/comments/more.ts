@@ -27,7 +27,10 @@ export function useLoadMoreComments() {
       url.searchParams.set('api_type', 'json')
       url.searchParams.set('link_id', addPrefix(variables.postId, 'link'))
       url.searchParams.set('sort', variables.sort)
-      url.searchParams.set('children', variables.children.join(','))
+      url.searchParams.set(
+        'children',
+        variables.children.slice(0, 50).join(','),
+      )
       url.searchParams.set('limit_children', 'true')
 
       const response = await reddit({
@@ -46,6 +49,18 @@ export function useLoadMoreComments() {
           const comments = data.json.data.things.map((item) =>
             transformComment(item),
           )
+
+          const more = draft.comments[index]
+
+          if (more?.type === 'more') {
+            more.data.children = more.data.children.slice(50)
+
+            if (more.data.children.length > 0) {
+              draft.comments.splice(index, 1, ...comments, more)
+
+              return
+            }
+          }
 
           draft.comments.splice(index, 1, ...comments)
         }

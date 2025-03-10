@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: prioritize image loading for posts in view
+- fixed: load more comments
 
 ## Build 47
 
