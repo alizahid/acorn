@@ -2,6 +2,7 @@ import { createId } from '@paralleldrive/cuid2'
 import { useFocusEffect, useNavigation } from 'expo-router'
 import { useCallback } from 'react'
 import { FormProvider, useFieldArray } from 'react-hook-form'
+import { FlatList } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -66,78 +67,74 @@ export default function Screen() {
 
   return (
     <FormProvider {...form}>
-      <KeyboardAwareScrollView
+      <FlatList
         {...listProps}
-        automaticallyAdjustKeyboardInsets
-        bottomOffset={-120}
+        ItemSeparatorComponent={() => <View height="4" />}
+        ListHeaderComponent={
+          <View gap="2" mb="4">
+            {[
+              {
+                label: t('rules.yes.one'),
+                type: 'yes',
+              },
+              {
+                label: t('rules.yes.two'),
+                type: 'yes',
+              },
+              {
+                label: t('rules.no.one'),
+                type: 'no',
+              },
+              {
+                label: t('rules.no.two'),
+                type: 'no',
+              },
+              {
+                label: t('rules.no.three'),
+                type: 'no',
+              },
+              {
+                label: t('rules.info.one'),
+                type: 'info',
+              },
+            ].map((rule) => (
+              <View align="center" direction="row" gap="2" key={rule.label}>
+                <Icon
+                  color={
+                    rule.type === 'yes'
+                      ? theme.colors.green.accent
+                      : rule.type === 'no'
+                        ? theme.colors.red.accent
+                        : theme.colors.blue.accent
+                  }
+                  name={
+                    rule.type === 'yes'
+                      ? 'CheckCircle'
+                      : rule.type === 'no'
+                        ? 'XCircle'
+                        : 'Info'
+                  }
+                  size={theme.typography[2].lineHeight}
+                  weight="fill"
+                />
+
+                <Text size="2" style={styles.rule}>
+                  {rule.label}
+                </Text>
+              </View>
+            ))}
+          </View>
+        }
         contentContainerStyle={styles.content}
-        keyboardDismissMode="on-drag"
-        keyboardShouldPersistTaps="handled"
-      >
-        <View gap="2">
-          {[
-            {
-              label: t('rules.yes.one'),
-              type: 'yes',
-            },
-            {
-              label: t('rules.yes.two'),
-              type: 'yes',
-            },
-            {
-              label: t('rules.no.one'),
-              type: 'no',
-            },
-            {
-              label: t('rules.no.two'),
-              type: 'no',
-            },
-            {
-              label: t('rules.no.three'),
-              type: 'no',
-            },
-            {
-              label: t('rules.info.one'),
-              type: 'info',
-            },
-          ].map((rule) => (
-            <View align="center" direction="row" gap="2" key={rule.label}>
-              <Icon
-                color={
-                  rule.type === 'yes'
-                    ? theme.colors.green.accent
-                    : rule.type === 'no'
-                      ? theme.colors.red.accent
-                      : theme.colors.blue.accent
-                }
-                name={
-                  rule.type === 'yes'
-                    ? 'CheckCircle'
-                    : rule.type === 'no'
-                      ? 'XCircle'
-                      : 'Info'
-                }
-                size={theme.typography[2].lineHeight}
-                weight="fill"
-              />
-
-              <Text size="2" style={styles.rule}>
-                {rule.label}
-              </Text>
-            </View>
-          ))}
-        </View>
-
-        <View gap="4" mt="6">
-          {filters.fields.map((item, index) => (
-            <FilterCard
-              index={index}
-              key={item.key}
-              onRemove={filters.remove}
-            />
-          ))}
-        </View>
-      </KeyboardAwareScrollView>
+        data={filters.fields}
+        keyExtractor={(item) => item.key}
+        renderItem={({ index }) => (
+          <FilterCard index={index} onRemove={filters.remove} />
+        )}
+        renderScrollComponent={(props) => (
+          <KeyboardAwareScrollView {...props} bottomOffset={16} />
+        )}
+      />
 
       <FloatingButton
         color="red"
