@@ -9,11 +9,11 @@ import { usePreferences } from '~/stores/preferences'
 import { transformComment } from '~/transformers/comment'
 import { transformCommunity } from '~/transformers/community'
 import { transformPost } from '~/transformers/post'
-import { transformSearchUser } from '~/transformers/user'
+import { transformUser } from '~/transformers/user'
 import { type Comment } from '~/types/comment'
 import { type Community } from '~/types/community'
 import { type Post } from '~/types/post'
-import { type SearchUser } from '~/types/user'
+import { type User } from '~/types/user'
 
 export async function filterPosts(
   { data }: PostsSchema | SavedPostsSchema,
@@ -121,9 +121,7 @@ export async function filterCommunities({
     .map((item) => transformCommunity(item.data))
 }
 
-export async function filterUsers({
-  data,
-}: UsersSchema): Promise<Array<SearchUser>> {
+export async function filterUsers({ data }: UsersSchema): Promise<Array<User>> {
   const filters = await db
     .select()
     .from(db.schema.filters)
@@ -144,6 +142,6 @@ export async function filterUsers({
 
         return true
       })
-      .map((item) => transformSearchUser(item.data)),
+      .map((item) => transformUser(item.data)),
   )
 }

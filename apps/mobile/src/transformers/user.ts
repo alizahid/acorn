@@ -3,9 +3,9 @@ import { decode } from 'entities'
 
 import { removePrefix } from '~/lib/reddit'
 import { type UserSchema } from '~/schemas/users'
-import { type SearchUser } from '~/types/user'
+import { type User } from '~/types/user'
 
-export function transformSearchUser(data: UserSchema): SearchUser | null {
+export function transformUser(data: UserSchema): User | null {
   if (!data.id || !data.created_utc) {
     return null
   }

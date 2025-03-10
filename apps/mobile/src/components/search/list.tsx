@@ -18,7 +18,7 @@ import { type Community } from '~/types/community'
 import { type SearchTab } from '~/types/defaults'
 import { type Post } from '~/types/post'
 import { type SearchSort, type TopInterval } from '~/types/sort'
-import { type SearchUser } from '~/types/user'
+import { type User } from '~/types/user'
 
 import { View } from '../common/view'
 import { UserCard } from '../users/card'
@@ -51,7 +51,7 @@ export function SearchList({
 }: Props) {
   const t = useTranslations('component.search.list')
 
-  const list = useRef<FlashList<Post | Community | SearchUser>>(null)
+  const list = useRef<FlashList<Post | Community | User>>(null)
 
   useScrollToTop(list)
 
@@ -71,14 +71,14 @@ export function SearchList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const renderItem: ListRenderItem<Post | Community | SearchUser> = useCallback(
+  const renderItem: ListRenderItem<Post | Community | User> = useCallback(
     ({ item }) => {
       if (type === 'community') {
         return <CommunityCard community={item as Community} />
       }
 
       if (type === 'user') {
-        return <UserCard user={item as SearchUser} />
+        return <UserCard user={item as User} />
       }
 
       return (

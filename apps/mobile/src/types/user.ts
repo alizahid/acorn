@@ -15,7 +15,7 @@ export type Profile = {
   subscribed: boolean
 }
 
-export type SearchUser = {
+export type User = {
   createdAt: Date
   id: string
   image?: string

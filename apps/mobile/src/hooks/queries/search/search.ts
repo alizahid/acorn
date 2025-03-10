@@ -13,7 +13,7 @@ import { type Community } from '~/types/community'
 import { type SearchTab } from '~/types/defaults'
 import { type Post } from '~/types/post'
 import { type SearchSort, type TopInterval } from '~/types/sort'
-import { type SearchUser } from '~/types/user'
+import { type User } from '~/types/user'
 
 import { type PostQueryData } from '../posts/post'
 
@@ -29,7 +29,7 @@ export type SearchQueryKey = [
 ]
 
 export type SearchQueryData<Type extends SearchTab> = Array<
-  Type extends 'community' ? Community : Type extends 'user' ? SearchUser : Post
+  Type extends 'community' ? Community : Type extends 'user' ? User : Post
 >
 
 export type SearchProps<Type extends SearchTab> = {
@@ -93,7 +93,7 @@ export function useSearch<Type extends SearchTab>({
 
         const communities = await filterCommunities(response)
 
-        return communities satisfies Array<SearchUser> as SearchQueryData<Type>
+        return communities satisfies Array<User> as SearchQueryData<Type>
       }
 
       if (type === 'user') {
@@ -101,7 +101,7 @@ export function useSearch<Type extends SearchTab>({
 
         const users = await filterUsers(response)
 
-        return users satisfies Array<SearchUser> as SearchQueryData<Type>
+        return users satisfies Array<User> as SearchQueryData<Type>
       }
 
       if (type === 'post') {
