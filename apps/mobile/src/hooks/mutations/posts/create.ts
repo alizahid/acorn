@@ -94,12 +94,12 @@ export function useCreatePost(submission: Submission) {
       return handleSocket(json.data.websocket_url)
     },
     onError(error) {
-      toast.error(t('message.error'), {
+      toast.error(t('toast.error'), {
         description: error.message,
       })
     },
     onSuccess() {
-      toast.success(t('message.created'))
+      toast.success(t('toast.created'))
     },
   })
 

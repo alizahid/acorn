@@ -1,10 +1,10 @@
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
-import * as Clipboard from 'expo-clipboard'
 import { usePathname, useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import { createCallable } from 'react-call'
 import { Alert, Share } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
+import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
 import { Logo } from '~/components/common/logo'
@@ -216,7 +216,9 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
           }}
           label={t('copyTitle')}
           onPress={() => {
-            void Clipboard.setStringAsync(post.title)
+            void copy(post.title).then(() => {
+              toast.success(t('toast.titleCopied'))
+            })
 
             call.end()
           }}
@@ -232,7 +234,9 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
             label={t('copyText')}
             onPress={() => {
               if (post.body) {
-                void Clipboard.setStringAsync(post.body)
+                void copy(post.body).then(() => {
+                  toast.success(t('toast.textCopied'))
+                })
               }
 
               call.end()
@@ -253,7 +257,9 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
               oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
             )
 
-            void copy(url.toString())
+            void copy(url.toString()).then(() => {
+              toast.success(t('toast.linkCopied'))
+            })
 
             call.end()
           }}

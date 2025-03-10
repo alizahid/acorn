@@ -157,6 +157,11 @@
           "comment": "Comment",
           "post": "Post"
         },
+        "toast": {
+          "linkCopied": "Link copied",
+          "textCopied": "Text copied",
+          "titleCopied": "Title copied"
+        },
         "unhidePost": "Unhide post",
         "unsave": "Unsave",
         "upvote": "Upvote"
@@ -211,10 +216,6 @@
         },
         "placeholder": "Link"
       },
-      "message": {
-        "created": "Post created",
-        "error": "Error creating post"
-      },
       "meta": {
         "nsfw": "NSFW",
         "spoiler": "Spoiler"
@@ -236,6 +237,10 @@
           "required": "Required words: {list}"
         },
         "placeholder": "Title"
+      },
+      "toast": {
+        "created": "Post created",
+        "error": "Error creating post"
       },
       "type": {
         "image": "Image",
@@ -611,6 +616,10 @@
     },
     "filters": {
       "updated": "Filters updated"
+    },
+    "image": {
+      "copied": "Image copied",
+      "downloaded": "{count, plural, =0 {Images} =1 {Image} other {# images}} downloaded"
     },
     "notifications": {
       "markAllAsRead": "All notifications marked as read"
