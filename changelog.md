@@ -5,13 +5,14 @@
 - added: post size now applies post text as well
 - added: seen on scroll delay
 - added: notification toasts
+- changed: filters
+- changed: removed blur/transparent header for post screen (to make skip comment button more reliable)
 - fixed: status bar disappearing
 - fixed: post card username pressable area
 - fixed: filters
 - fixed: scroll to top when post changes
 - fixed: skip comment button
-- changed: filters
-- changed: removed blur/transparent header for post screen (to make skip comment button more reliable)
+- fixed: iPad menus with stage manager
 
 ## Build 46
 

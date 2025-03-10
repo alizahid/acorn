@@ -4,9 +4,10 @@ import {
   BottomSheetView,
 } from '@gorhom/bottom-sheet'
 import { forwardRef, type ReactNode } from 'react'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { cardMaxWidth, iPad } from '~/lib/common'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
@@ -26,6 +27,8 @@ export const SheetModal = forwardRef<BottomSheetModal, Props>(
     { children, container = 'view', onClose, right, title },
     ref,
   ) {
+    const frame = useSafeAreaFrame()
+
     const { themeOled, themeTint } = usePreferences()
 
     const { styles } = useStyles(stylesheet)
@@ -47,7 +50,7 @@ export const SheetModal = forwardRef<BottomSheetModal, Props>(
         backdropComponent={SheetBackdrop}
         backgroundStyle={styles.background(themeOled, themeTint)}
         handleComponent={null}
-        maxDynamicContentSize={styles.maxHeight.height}
+        maxDynamicContentSize={frame.height * 0.8}
         onDismiss={onClose}
         ref={ref}
         stackBehavior="push"
@@ -76,11 +79,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: 'transparent',
   },
   main: {
-    marginHorizontal: iPad
-      ? (runtime.screen.width - cardMaxWidth) / 2
-      : undefined,
-  },
-  maxHeight: {
-    height: runtime.screen.height * 0.8,
+    marginLeft: iPad ? theme.space[6] : undefined,
+    maxWidth: iPad ? 600 : undefined,
   },
 }))
