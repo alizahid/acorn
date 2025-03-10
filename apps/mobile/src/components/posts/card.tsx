@@ -266,7 +266,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
         <Markdown
           meta={post.media.meta}
           recyclingKey={post.id}
-          size={addTextSize(fontSizePost, 1)}
+          size={addTextSize(fontSizePost, -1)}
           style={styles.body}
           variant="post"
         >
