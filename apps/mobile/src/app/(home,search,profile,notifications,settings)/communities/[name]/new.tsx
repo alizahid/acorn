@@ -59,7 +59,7 @@ function Content({ refetch, submission }: Props) {
   const router = useRouter()
   const navigation = useNavigation()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const { handleLink } = useLink()
 
@@ -125,14 +125,7 @@ function Content({ refetch, submission }: Props) {
     <FormProvider {...form}>
       <KeyboardAwareScrollView
         contentContainerStyle={styles.content}
-        extraKeyboardSpace={
-          0 -
-          insets.bottom -
-          theme.space[3] -
-          theme.space[5] -
-          theme.space[3] -
-          theme.space[4]
-        }
+        extraKeyboardSpace={0 - insets.bottom - 80}
         keyboardDismissMode="interactive"
         refreshControl={<RefreshControl onRefresh={refetch} />}
         style={styles.main}
