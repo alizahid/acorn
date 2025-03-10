@@ -9,7 +9,9 @@
 - fixed: post card username pressable area
 - fixed: filters
 - fixed: scroll to top when post changes
+- fixed: skip comment button
 - changed: filters
+- changed: removed blur/transparent header for post screen (to make skip comment button more reliable)
 
 ## Build 46
 

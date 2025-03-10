@@ -19,6 +19,7 @@ export function StackHeader({ options, route, ...props }: Props) {
       right={options.headerRight?.({
         canGoBack: back,
       })}
+      sticky={options.headerTransparent !== false}
       title={
         typeof options.headerTitle === 'function'
           ? options.headerTitle({

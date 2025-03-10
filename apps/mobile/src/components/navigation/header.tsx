@@ -22,10 +22,19 @@ type Props = {
   left?: ReactNode
   modal?: boolean
   right?: ReactNode
+  sticky?: boolean
   title?: ReactNode
 }
 
-export function Header({ back, children, left, modal, right, title }: Props) {
+export function Header({
+  back,
+  children,
+  left,
+  modal,
+  right,
+  sticky = true,
+  title,
+}: Props) {
   const router = useRouter()
 
   const { blurNavigation, themeOled, themeTint } = usePreferences()
@@ -39,6 +48,7 @@ export function Header({ back, children, left, modal, right, title }: Props) {
       intensity={themeOled ? 25 : 75}
       style={
         styles.main(
+          sticky,
           Boolean(modal),
           blurNavigation,
           themeOled,
@@ -96,8 +106,17 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   left: {
     left: 0,
   },
-  main: (modal: boolean, blur: boolean, oled: boolean, tint: boolean) => {
+  main: (
+    sticky: boolean,
+    modal: boolean,
+    blur: boolean,
+    oled: boolean,
+    tint: boolean,
+  ) => {
     const base: UnistylesValues = {
+      backgroundColor: oled
+        ? oledTheme[theme.name].bgAlpha
+        : theme.colors[tint ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
       borderBottomColor: oled ? 'transparent' : theme.colors.gray.border,
       borderBottomWidth: runtime.hairlineWidth,
     }
@@ -111,17 +130,21 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       }
     }
 
+    if (sticky) {
+      return {
+        ...base,
+        left: 0,
+        paddingTop: runtime.insets.top,
+        position: 'absolute',
+        right: 0,
+        top: 0,
+        zIndex: 100,
+      }
+    }
+
     return {
       ...base,
-      backgroundColor: oled
-        ? oledTheme[theme.name].bgAlpha
-        : theme.colors[tint ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
-      left: 0,
       paddingTop: runtime.insets.top,
-      position: 'absolute',
-      right: 0,
-      top: 0,
-      zIndex: 100,
     }
   },
   right: {

@@ -22,7 +22,7 @@ import { View } from '~/components/common/view'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useList } from '~/hooks/list'
+import { ListFlags, useList } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
 import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
@@ -52,7 +52,7 @@ export default function Screen() {
 
   const [sort, setSort] = useState(sortPostComments)
 
-  const listProps = useList()
+  const listProps = useList(ListFlags.BOTTOM)
 
   const { collapse, comments, isFetching, post, refetch } = usePost({
     commentId: params.commentId,
@@ -60,18 +60,17 @@ export default function Screen() {
     sort,
   })
 
-  const last = useRef(params.id)
-  const viewing = useRef<Array<number>>([])
-  const offset = useRef(0)
+  const previous = useRef(params.id)
+  const viewing = useRef(0)
 
   useEffect(() => {
-    if (last.current !== params.id) {
+    if (previous.current !== params.id) {
       list.current?.scrollToOffset({
         animated: true,
         offset: 0,
       })
 
-      last.current = params.id
+      previous.current = params.id
     }
   }, [params.id, post])
 
@@ -209,17 +208,20 @@ export default function Screen() {
 
           return `${item.type}-${item.data.id}`
         }}
-        onScroll={(event) => {
-          offset.current = event.nativeEvent.contentOffset.y
-        }}
         onViewableItemsChanged={({ viewableItems }) => {
-          viewing.current = viewableItems
-            .filter((item) => {
-              const $item = item.item as Comment
+          const next = viewableItems.find((item) => {
+            const $item = item.item as Comment
 
-              return $item.type === 'reply' && !$item.data.collapsed
-            })
-            .map((item) => item.index ?? 0)
+            return (
+              $item.type === 'reply' &&
+              !$item.data.collapsed &&
+              $item.data.depth === 0
+            )
+          })
+
+          if (next?.index) {
+            viewing.current = next.index
+          }
         }}
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
@@ -250,11 +252,9 @@ export default function Screen() {
         <FloatingButton
           icon="ArrowDown"
           onLongPress={() => {
-            const previous = viewing.current[0] ?? 0
-
             const next = comments.findLastIndex(
               (item, index) =>
-                index < previous &&
+                index < viewing.current &&
                 item.data.depth === 0 &&
                 item.type === 'reply' &&
                 !item.data.collapsed,
@@ -267,32 +267,25 @@ export default function Screen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
-              viewOffset: listProps.contentInset?.top,
             })
           }}
           onPress={() => {
-            if (offset.current < 100) {
+            const offset =
+              list.current?.recyclerlistview_unsafe?.getCurrentScrollOffset() ??
+              0
+
+            if (offset < 200) {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 0,
-                viewOffset: listProps.contentInset?.top,
               })
 
               return
             }
 
-            const previous = comments.findIndex(
-              (item, index) =>
-                index >
-                  ((viewing.current[0] === 0 ? -1 : viewing.current[0]) ?? 0) &&
-                item.data.depth === 0 &&
-                item.type === 'reply' &&
-                !item.data.collapsed,
-            )
-
             const next = comments.findIndex(
               (item, index) =>
-                index > previous &&
+                index > viewing.current &&
                 item.data.depth === 0 &&
                 item.type === 'reply' &&
                 !item.data.collapsed,
@@ -301,7 +294,6 @@ export default function Screen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
-              viewOffset: listProps.contentInset?.top,
             })
           }}
           side={skipComment}
