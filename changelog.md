@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- fixed: filters apply to /popular and /all
+
 ## Build 47
 
 - added: post size now applies to post text as well

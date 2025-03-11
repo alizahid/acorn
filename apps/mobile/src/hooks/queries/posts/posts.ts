@@ -139,7 +139,10 @@ export function usePosts({
 
       return {
         cursor: response.data.after,
-        posts: await filterPosts(response, !user && !userType && !community),
+        posts: await filterPosts(
+          response,
+          !user && !userType && community !== 'all' && community !== 'popular',
+        ),
       }
     },
     // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
