@@ -31,7 +31,7 @@ export function CommunityCard({ community, style }: Props) {
       gap="4"
       onPress={() => {
         if (community.user) {
-          router.navigate({
+          router.push({
             params: {
               name: removePrefix(community.name),
             },
@@ -41,7 +41,7 @@ export function CommunityCard({ community, style }: Props) {
           return
         }
 
-        router.navigate({
+        router.push({
           params: {
             name: removePrefix(community.name),
           },

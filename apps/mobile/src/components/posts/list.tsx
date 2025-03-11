@@ -1,14 +1,19 @@
-import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useIsFocused, useScrollToTop } from '@react-navigation/native'
+import {
+  type ContentStyle,
+  FlashList,
+  type ListRenderItem,
+} from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
+import { type ViewabilityConfig } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
-import { estimateHeight, type ListProps } from '~/hooks/list'
+import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -20,10 +25,16 @@ import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
 
+const viewabilityConfig: ViewabilityConfig = {
+  minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1_000,
+  viewAreaCoveragePercentThreshold: 60,
+}
+
 type Props = PostsProps & {
   header?: ReactElement
   listProps?: ListProps
   onRefresh?: () => void
+  style?: ContentStyle
 }
 
 export function PostList({
@@ -35,19 +46,19 @@ export function PostList({
   onRefresh,
   query,
   sort,
+  style,
   user,
   userType,
 }: Props) {
   const router = useRouter()
 
-  const list = useRef<LegendListRef>(null)
+  const list = useRef<FlashList<Post | Comment>>(null)
 
   const focused = useIsFocused()
 
   useScrollToTop(list)
 
-  const { feedCompact, largeThumbnails, seenOnScroll, themeOled } =
-    usePreferences()
+  const { feedCompact, seenOnScroll, themeOled } = usePreferences()
   const { addPost } = useHistory()
 
   const { styles } = useStyles(stylesheet)
@@ -71,15 +82,15 @@ export function PostList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const renderItem = useCallback(
-    (item: Post | Comment) => {
+  const renderItem: ListRenderItem<Post | Comment> = useCallback(
+    ({ item }) => {
       if (item.type === 'reply') {
         return (
           <CommentCard
             comment={item.data}
             dull
             onPress={() => {
-              router.navigate({
+              router.push({
                 params: {
                   commentId: item.data.id,
                   id: item.data.post.id,
@@ -106,7 +117,7 @@ export function PostList({
   )
 
   return (
-    <LegendList
+    <FlashList
       {...listProps}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(themeOled, feedCompact)} />
@@ -116,31 +127,13 @@ export function PostList({
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
       ListHeaderComponent={header}
+      contentContainerStyle={style}
       data={posts}
+      estimatedItemSize={feedCompact ? 120 : 500}
       extraData={{
         viewing,
       }}
-      getEstimatedItemSize={(index, item) => {
-        if (!(item as Post | Comment | undefined)) {
-          return 100
-        }
-
-        if (item.type === 'reply' || item.type === 'more') {
-          return estimateHeight({
-            index,
-            item,
-            type: 'comment',
-          })
-        }
-
-        return estimateHeight({
-          compact: feedCompact,
-          index,
-          item,
-          large: largeThumbnails,
-          type: 'post',
-        })
-      }}
+      getItemType={(item) => item.type}
       keyExtractor={(item) => {
         if (item.type === 'reply') {
           return `reply-${item.data.id}`
@@ -166,9 +159,9 @@ export function PostList({
 
         viewableItems
           .filter((item) => {
-            const data = item.item as Post | Comment
+            const $item = item.item as Post | Comment
 
-            return data.type !== 'reply' && data.type !== 'more'
+            return $item.type !== 'reply' && $item.type !== 'more'
           })
           .forEach((item) => {
             addPost({
@@ -176,11 +169,9 @@ export function PostList({
             })
           })
       }}
-      // recycleItems
       ref={list}
       refreshControl={
         <RefreshControl
-          offset={listProps?.progressViewOffset}
           onRefresh={() => {
             onRefresh?.()
 
@@ -188,10 +179,8 @@ export function PostList({
           }}
         />
       }
-      renderItem={({ item }) => renderItem(item)}
-      viewabilityConfig={{
-        viewAreaCoveragePercentThreshold: 60,
-      }}
+      renderItem={renderItem}
+      viewabilityConfig={viewabilityConfig}
     />
   )
 }

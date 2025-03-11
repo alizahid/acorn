@@ -13,6 +13,7 @@ import { PostMenu } from '~/sheets/post-menu'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
+import { addTextSize } from '~/styles/text'
 import { type Post } from '~/types/post'
 
 import { type GestureAction, PostGestures } from '../common/gestures'
@@ -91,7 +92,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
       }
 
       if (action === 'reply') {
-        router.navigate({
+        router.push({
           params: {
             id: item.id,
           },
@@ -131,7 +132,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
     (expanded && post.body)
 
   function onPress() {
-    router.navigate({
+    router.push({
       params: {
         id: removePrefix(post.id),
       },
@@ -152,7 +153,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
   if (compact) {
     return (
       <PostGestures
-        containerStyle={[styles.container(dimmed)]}
+        containerStyle={styles.container(dimmed)}
         data={post}
         left={{
           enabled: postLeft,
@@ -175,6 +176,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           onPress={onPress}
           post={post}
           side={mediaOnRight ? 'right' : 'left'}
+          viewing={viewing}
         />
       </PostGestures>
     )
@@ -182,7 +184,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
 
   return (
     <PostGestures
-      containerStyle={[styles.container(dimmed)]}
+      containerStyle={styles.container(dimmed)}
       data={post}
       left={{
         enabled: postLeft,
@@ -248,6 +250,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           recyclingKey={post.id}
           spoiler={post.spoiler}
           style={body ? styles.expanded : null}
+          viewing={viewing}
         />
       ) : null}
 
@@ -265,7 +268,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
         <Markdown
           meta={post.media.meta}
           recyclingKey={post.id}
-          size="2"
+          size={addTextSize(fontSizePost, -1)}
           style={styles.body}
           variant="post"
         >

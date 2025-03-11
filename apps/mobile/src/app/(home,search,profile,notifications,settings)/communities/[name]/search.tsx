@@ -1,18 +1,26 @@
 import { useIsFocused } from '@react-navigation/native'
 import { useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type ViewStyle } from 'react-native'
+import {
+  createStyleSheet,
+  type UnistylesValues,
+  useStyles,
+} from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { IconButton } from '~/components/common/icon-button'
 import { TextBox } from '~/components/common/text-box'
+import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
-import { useList } from '~/hooks/list'
+import { ListFlags, useList } from '~/hooks/list'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -27,11 +35,12 @@ export default function Screen() {
 
   const t = useTranslations('screen.community.search')
 
-  const { intervalSearchPosts, sortSearchPosts } = usePreferences()
+  const { intervalSearchPosts, sortSearchPosts, themeOled, themeTint } =
+    usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const listProps = useList({
+  const listProps = useList(ListFlags.ALL, {
     top: theme.space[7] + theme.space[4],
   })
 
@@ -76,37 +85,63 @@ export default function Screen() {
         community={params.name}
         focused={focused}
         header={
-          <SortIntervalMenu
-            interval={interval}
-            onChange={(next) => {
-              setSort(next.sort)
+          <View style={styles.header(themeOled, themeTint) as ViewStyle}>
+            <SortIntervalMenu
+              interval={interval}
+              onChange={(next) => {
+                setSort(next.sort)
 
-              if (next.interval) {
-                setInterval(next.interval)
-              }
-            }}
-            sort={sort}
-            type="search"
-          />
+                if (next.interval) {
+                  setInterval(next.interval)
+                }
+              }}
+              sort={sort}
+              type="search"
+            />
+          </View>
         }
         interval={interval}
         listProps={listProps}
         onChangeQuery={setQuery}
         query={debounced}
         sort={sort}
+        style={styles.list}
         type="post"
       />
     </>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   clear: {
     height: theme.space[7],
     width: theme.space[7],
   },
+  header: (oled: boolean, tint: boolean) => {
+    const base: UnistylesValues = {
+      backgroundColor: oled
+        ? oledTheme[theme.name].bgAlpha
+        : theme.colors[tint ? 'accent' : 'gray'].bg,
+      borderBottomColor: theme.colors.gray.border,
+      borderBottomWidth: runtime.hairlineWidth,
+    }
+
+    if (iPad) {
+      return {
+        ...base,
+        marginBottom: theme.space[4],
+        marginHorizontal: -theme.space[4],
+      }
+    }
+
+    return base
+  },
+  list: {
+    paddingBottom: iPad ? theme.space[4] : undefined,
+    paddingHorizontal: iPad ? theme.space[4] : undefined,
+  },
   query: {
-    backgroundColor: theme.colors.gray.ui,
+    backgroundColor: theme.colors.gray.uiActiveAlpha,
     borderWidth: 0,
     marginBottom: theme.space[4],
     marginHorizontal: theme.space[3],

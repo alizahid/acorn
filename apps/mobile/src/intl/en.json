@@ -65,6 +65,25 @@
         "placeholder": "Filter"
       }
     },
+    "filters": {
+      "card": {
+        "type": {
+          "community": {
+            "label": "Community",
+            "placeholder": "AskReddit"
+          },
+          "keyword": {
+            "label": "Keyword",
+            "placeholder": "politics"
+          },
+          "title": "Type",
+          "user": {
+            "label": "User",
+            "placeholder": "CoolDude123"
+          }
+        }
+      }
+    },
     "inbox": {
       "notification": {
         "comment_reply": "{user} replied to your comment",
@@ -137,6 +156,11 @@
         "title": {
           "comment": "Comment",
           "post": "Post"
+        },
+        "toast": {
+          "linkCopied": "Link copied",
+          "textCopied": "Text copied",
+          "titleCopied": "Title copied"
         },
         "unhidePost": "Unhide post",
         "unsave": "Unsave",
@@ -213,6 +237,10 @@
           "required": "Required words: {list}"
         },
         "placeholder": "Title"
+      },
+      "toast": {
+        "created": "Post created",
+        "error": "Error creating post"
       },
       "type": {
         "image": "Image",
@@ -414,38 +442,18 @@
         }
       },
       "filters": {
-        "form": {
-          "field": {
-            "keyword": {
-              "placeholder": "Keyword"
-            }
-          }
-        },
         "rules": {
-          "example": {
-            "one": {
-              "label": "Post titles",
-              "value": "politics"
-            },
-            "three": {
-              "label": "Communities",
-              "value": "community:askreddit"
-            },
-            "title": "Examples",
-            "two": {
-              "label": "Users",
-              "value": "user:cool_dude"
-            }
+          "info": {
+            "one": "Community and user names are case sensitive"
           },
           "no": {
-            "one": "Post comments",
-            "title": "Filters will not apply to",
+            "one": "Community and user feeds",
+            "three": "User and post comments",
             "two": "Your own posts and comments"
           },
           "yes": {
-            "one": "Posts in feeds and search",
-            "title": "Filters will apply to",
-            "two": "Communities and users in search"
+            "one": "Posts in /home, /popular, /all feeds",
+            "two": "Posts, communities, and users in search"
           }
         },
         "title": "Filters"
@@ -504,6 +512,10 @@
           "seenOnScroll": {
             "description": "Requires app restart",
             "label": "Mark as seen while scrolling"
+          },
+          "seenOnScrollDelay": {
+            "description": "Requires app restart",
+            "label": "Seen on scroll delay"
           },
           "seenOnVote": "Mark as seen when voting",
           "title": "History"
@@ -586,6 +598,40 @@
           "posts": "Posts"
         }
       }
+    }
+  },
+  "toasts": {
+    "comments": {
+      "created": "Comment added",
+      "deleted": "Comment deleted",
+      "saved": "Comment saved",
+      "unsaved": "Comment unsaved",
+      "updated": "Comment updated"
+    },
+    "communities": {
+      "favorited": "Favorited {community}",
+      "joined": "Joined {community}",
+      "left": "Left {community}",
+      "unfavorited": "Unfavorited {community}"
+    },
+    "filters": {
+      "updated": "Filters updated"
+    },
+    "image": {
+      "copied": "Image copied",
+      "downloaded": "{count, plural, =0 {Images} =1 {Image} other {# images}} downloaded"
+    },
+    "notifications": {
+      "markAllAsRead": "All notifications marked as read"
+    },
+    "posts": {
+      "deleted": "Post deleted",
+      "saved": "Post saved",
+      "unsaved": "Post unsaved"
+    },
+    "users": {
+      "followed": "Followed {user}",
+      "unfollowed": "Unfollowed {user}"
     }
   }
 }

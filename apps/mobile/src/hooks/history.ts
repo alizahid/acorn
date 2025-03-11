@@ -1,7 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
-import { formatISO } from 'date-fns'
 
-import { getDatabase } from '~/lib/db'
+import { db } from '~/db'
 import { isPost } from '~/lib/guards'
 
 import { updatePost } from './queries/posts/post'
@@ -15,15 +14,12 @@ type Variables = {
 export function useHistory() {
   const { mutate: addPost } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const db = await getDatabase()
-
-      await db.runAsync(
-        'INSERT INTO history (post_id, seen_at) VALUES ($post, $time) ON CONFLICT (post_id) DO NOTHING',
-        {
-          $post: variables.id,
-          $time: formatISO(new Date()),
-        },
-      )
+      await db
+        .insert(db.schema.history)
+        .values({
+          postId: variables.id,
+        })
+        .onConflictDoNothing()
     },
     onMutate(variables) {
       updatePost(variables.id, (draft) => {

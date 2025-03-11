@@ -1,9 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { compact } from 'lodash'
 import { create, type Draft } from 'mutative'
 
-import { getHistory } from '~/lib/db/history'
-import { filterByKeyword } from '~/lib/filtering'
+import { filterCommunities, filterPosts, filterUsers } from '~/lib/filtering'
 import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
@@ -11,15 +9,11 @@ import { CommunitiesSchema } from '~/schemas/communities'
 import { PostsSchema } from '~/schemas/posts'
 import { UsersSchema } from '~/schemas/users'
 import { useAuth } from '~/stores/auth'
-import { usePreferences } from '~/stores/preferences'
-import { transformCommunity } from '~/transformers/community'
-import { transformPost } from '~/transformers/post'
-import { transformSearchUser } from '~/transformers/user'
 import { type Community } from '~/types/community'
 import { type SearchTab } from '~/types/defaults'
 import { type Post } from '~/types/post'
 import { type SearchSort, type TopInterval } from '~/types/sort'
-import { type SearchUser } from '~/types/user'
+import { type User } from '~/types/user'
 
 import { type PostQueryData } from '../posts/post'
 
@@ -35,7 +29,7 @@ export type SearchQueryKey = [
 ]
 
 export type SearchQueryData<Type extends SearchTab> = Array<
-  Type extends 'community' ? Community : Type extends 'user' ? SearchUser : Post
+  Type extends 'community' ? Community : Type extends 'user' ? User : Post
 >
 
 export type SearchProps<Type extends SearchTab> = {
@@ -54,7 +48,6 @@ export function useSearch<Type extends SearchTab>({
   type,
 }: SearchProps<Type>) {
   const { accountId } = useAuth()
-  const { filteredKeywords } = usePreferences()
 
   const { data, isLoading, refetch } = useQuery<
     SearchQueryData<Type> | undefined,
@@ -69,7 +62,7 @@ export function useSearch<Type extends SearchTab>({
       const url = new URL(path, REDDIT_URI)
 
       url.searchParams.set('q', query)
-      url.searchParams.set('limit', '100')
+      url.searchParams.set('limit', '50')
       url.searchParams.set(
         'type',
         type === 'community' ? 'sr' : type === 'user' ? 'user' : 'link',
@@ -98,48 +91,27 @@ export function useSearch<Type extends SearchTab>({
       if (type === 'community') {
         const response = CommunitiesSchema.parse(payload)
 
-        return response.data.children
-          .filter((item) => item.data.subreddit_type === 'public')
-          .filter((item) =>
-            filterByKeyword(filteredKeywords, {
-              community: item.data.display_name,
-            }),
-          )
-          .map((item) => transformCommunity(item.data)) as SearchQueryData<Type>
+        const communities = await filterCommunities(response)
+
+        return communities satisfies Array<User> as SearchQueryData<Type>
       }
 
       if (type === 'user') {
         const response = UsersSchema.parse(payload)
 
-        return compact(
-          response.data.children
-            .filter((item) =>
-              filterByKeyword(filteredKeywords, {
-                user: item.data.name,
-              }),
-            )
-            .map((item) => transformSearchUser(item.data)),
-        ) as SearchQueryData<Type>
+        const users = await filterUsers(response)
+
+        return users satisfies Array<User> as SearchQueryData<Type>
       }
 
       if (type === 'post') {
         const response = PostsSchema.parse(payload)
 
-        const seen = await getHistory(
-          response.data.children.map((item) => item.data.id),
-        )
+        const posts = await filterPosts(response)
 
-        return response.data.children
-          .filter((item) =>
-            filterByKeyword(filteredKeywords, {
-              community: item.data.sr_detail.display_name,
-              title: item.data.title,
-              user: item.data.author,
-            }),
-          )
-          .map((item) =>
-            transformPost(item.data, seen),
-          ) as SearchQueryData<Type>
+        return posts.filter(
+          (post) => post.type !== 'reply' && post.type !== 'more',
+        ) satisfies Array<Post> as SearchQueryData<Type>
       }
 
       return []

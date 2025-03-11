@@ -1,5 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
+import { getIcon } from '~/components/common/icon'
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { type ProfileQueryKey } from '~/hooks/queries/user/profile'
 import { queryClient } from '~/lib/query'
@@ -13,6 +16,8 @@ type Variables = {
 }
 
 export function useFollow() {
+  const t = useTranslations('toasts.users')
+
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       const body = new FormData()
@@ -39,6 +44,21 @@ export function useFollow() {
       void queryClient.invalidateQueries({
         queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
       })
+
+      toast.success(
+        t(variables.action === 'follow' ? 'followed' : 'unfollowed', {
+          user: variables.name,
+        }),
+        {
+          icon: getIcon({
+            color: variables.action === 'follow' ? 'green' : 'red',
+            name:
+              variables.action === 'follow'
+                ? 'UserCirclePlus'
+                : 'UserCircleMinus',
+          }),
+        },
+      )
     },
   })
 

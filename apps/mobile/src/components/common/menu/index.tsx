@@ -74,33 +74,38 @@ type Props = {
   items: Array<MenuItem | string | null | (() => ReactElement)>
   listProps?: ListProps
   onRefresh?: () => Promise<unknown>
+  style?: StyleProp<ViewStyle>
 }
 
-export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
-  const { styles } = useStyles(stylesheet)
-
+export function Menu({
+  footer,
+  header,
+  items,
+  listProps,
+  onRefresh,
+  style,
+}: Props) {
   const list =
     useRef<FlatList<MenuItem | string | null | (() => ReactElement)>>(null)
 
   useScrollToTop(list)
+
+  const { styles } = useStyles(stylesheet)
 
   return (
     <FlatList
       {...listProps}
       ListFooterComponent={footer}
       ListHeaderComponent={header}
+      contentContainerStyle={[styles.content, style]}
       data={items}
+      initialNumToRender={100}
       keyExtractor={(item, index) => String(index)}
       ref={list}
       refreshControl={
-        onRefresh ? (
-          <RefreshControl
-            offset={listProps?.progressViewOffset}
-            onRefresh={onRefresh}
-          />
-        ) : undefined
+        onRefresh ? <RefreshControl onRefresh={onRefresh} /> : undefined
       }
-      renderItem={({ index, item }) => {
+      renderItem={({ item }) => {
         if (item === null) {
           return <View height="4" />
         }
@@ -124,26 +129,14 @@ export function Menu({ footer, header, items, listProps, onRefresh }: Props) {
           return item()
         }
 
-        return (
-          <MenuItem
-            item={item}
-            style={[
-              index === 0 && styles.first,
-              index === items.length - 1 && styles.last,
-              item.style,
-            ]}
-          />
-        )
+        return <MenuItem item={item} style={item.style} />
       }}
     />
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  first: {
-    marginTop: theme.space[1],
-  },
-  last: {
-    marginBottom: theme.space[1],
+  content: {
+    paddingVertical: theme.space[1],
   },
 }))

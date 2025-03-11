@@ -4,7 +4,7 @@ import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { removePrefix } from '~/lib/reddit'
-import { type SearchUser } from '~/types/user'
+import { type User } from '~/types/user'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
@@ -12,7 +12,7 @@ import { Text } from '../common/text'
 
 type Props = {
   style?: StyleProp<ViewStyle>
-  user: SearchUser
+  user: User
 }
 
 export function UserCard({ style, user }: Props) {
@@ -26,7 +26,7 @@ export function UserCard({ style, user }: Props) {
       direction="row"
       gap="4"
       onPress={() => {
-        router.navigate({
+        router.push({
           params: {
             name: removePrefix(user.name),
           },

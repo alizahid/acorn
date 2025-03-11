@@ -13,6 +13,7 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { TimeAgo } from '../common/time'
 import { View } from '../common/view'
+import { FlairCard } from '../posts/flair'
 import { FooterButton } from '../posts/footer/button'
 
 type Props = {
@@ -59,7 +60,7 @@ export function CommentMeta({ collapsed, comment }: Props) {
         gap="2"
         hitSlop={theme.space[3]}
         onPress={() => {
-          router.navigate({
+          router.push({
             params: {
               name: removePrefix(comment.user.name),
             },
@@ -143,6 +144,8 @@ export function CommentMeta({ collapsed, comment }: Props) {
           weight={comment.liked === false ? 'fill' : 'bold'}
         />
       </View>
+
+      <FlairCard flair={comment.flair} type="emoji" />
     </View>
   )
 }

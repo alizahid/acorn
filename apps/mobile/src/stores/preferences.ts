@@ -31,7 +31,6 @@ export type PreferencesPayload = {
   feedType: FeedType
   feedbackHaptics: boolean
   feedbackSounds: boolean
-  filteredKeywords: Array<string>
   font: Font
   fontScaling: number
   fontSizeComment: TypographyToken
@@ -53,6 +52,7 @@ export type PreferencesPayload = {
   saveToAlbum: boolean
   seenOnMedia: boolean
   seenOnScroll: boolean
+  seenOnScrollDelay: number
   seenOnVote: boolean
   showFlair: boolean
   skipComment: FloatingButtonSide
@@ -90,7 +90,6 @@ export const usePreferences = create<State>()(
       feedType: 'home',
       feedbackHaptics: false,
       feedbackSounds: false,
-      filteredKeywords: [],
       font: 'basis',
       fontScaling: 1,
       fontSizeComment: '2',
@@ -112,6 +111,7 @@ export const usePreferences = create<State>()(
       saveToAlbum: false,
       seenOnMedia: false,
       seenOnScroll: false,
+      seenOnScrollDelay: 0,
       seenOnVote: false,
       showFlair: true,
       skipComment: 'right',

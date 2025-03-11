@@ -11,14 +11,19 @@ import { View } from '../common/view'
 type Props = {
   flair: Array<Flair>
   style?: StyleProp<ViewStyle>
+  type?: 'text' | 'emoji' | 'both'
 }
 
-export function FlairCard({ flair, style }: Props) {
+export function FlairCard({ flair, style, type = 'both' }: Props) {
   const { showFlair } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
-  if (!showFlair || flair.length === 0) {
+  const items = flair.filter((item) =>
+    type === 'both' ? true : item.type === type,
+  )
+
+  if (!showFlair || items.length === 0) {
     return null
   }
 

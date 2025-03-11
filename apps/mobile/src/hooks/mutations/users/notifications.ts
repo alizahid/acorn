@@ -1,4 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
 import { updateInbox, updateNotification } from '~/hooks/queries/user/inbox'
 import { type UnreadQueryKey } from '~/hooks/queries/user/unread'
@@ -57,6 +59,8 @@ export function useMarkAsRead() {
 }
 
 export function useMarkAllAsRead() {
+  const t = useTranslations('toasts.notifications')
+
   const { accountId } = useAuth()
 
   const { isPending, mutate } = useMutation({
@@ -80,6 +84,9 @@ export function useMarkAllAsRead() {
         ],
         0,
       )
+    },
+    onSuccess() {
+      toast.success(t('markAllAsRead'))
     },
   })
 

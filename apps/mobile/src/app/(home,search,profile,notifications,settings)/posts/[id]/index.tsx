@@ -1,13 +1,13 @@
 import { useIsFocused } from '@react-navigation/native'
+import { FlashList, type ListRenderItem } from '@shopify/flash-list'
 import {
   useFocusEffect,
   useLocalSearchParams,
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { useCallback, useMemo, useRef, useState } from 'react'
-import { FlatList, type ListRenderItem } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
@@ -22,7 +22,7 @@ import { View } from '~/components/common/view'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useList } from '~/hooks/list'
+import { ListFlags, useList } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
 import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
@@ -46,19 +46,13 @@ export default function Screen() {
 
   const { replyPost, skipComment, sortPostComments } = usePreferences()
 
-  const { theme } = useStyles()
+  const { styles } = useStyles(stylesheet)
 
-  const list = useRef<FlatList<Comment>>(null)
+  const list = useRef<FlashList<Comment>>(null)
 
   const [sort, setSort] = useState(sortPostComments)
 
-  const listProps = useList({
-    padding: {
-      bottom: theme.space[8] + theme.space[4] + theme.space[4],
-      horizontal: iPad ? theme.space[4] : undefined,
-      top: iPad ? theme.space[4] : undefined,
-    },
-  })
+  const listProps = useList(ListFlags.BOTTOM)
 
   const { collapse, comments, isFetching, post, refetch } = usePost({
     commentId: params.commentId,
@@ -66,8 +60,19 @@ export default function Screen() {
     sort,
   })
 
-  const viewing = useRef<Array<number>>([])
-  const offset = useRef(0)
+  const previous = useRef(params.id)
+  const viewing = useRef(0)
+
+  useEffect(() => {
+    if (previous.current !== params.id) {
+      list.current?.scrollToOffset({
+        animated: true,
+        offset: 0,
+      })
+
+      previous.current = params.id
+    }
+  }, [params.id, post])
 
   useFocusEffect(
     useCallback(() => {
@@ -88,7 +93,7 @@ export default function Screen() {
               justify="center"
               onPress={() => {
                 if (post.community.name.startsWith('u/')) {
-                  router.navigate({
+                  router.push({
                     params: {
                       name: removePrefix(post.community.name),
                     },
@@ -98,7 +103,7 @@ export default function Screen() {
                   return
                 }
 
-                router.navigate({
+                router.push({
                   params: {
                     name: removePrefix(post.community.name),
                   },
@@ -182,14 +187,16 @@ export default function Screen() {
 
   return (
     <>
-      <FlatList
+      <FlashList
         {...listProps}
         ItemSeparatorComponent={() => <View height="2" />}
         ListEmptyComponent={() =>
           isFetching ? <Spinner m="4" size="large" /> : <Empty />
         }
         ListHeaderComponent={header}
+        contentContainerStyle={styles.content}
         data={comments}
+        estimatedItemSize={100}
         extraData={{
           commentId: params.commentId,
         }}
@@ -201,23 +208,23 @@ export default function Screen() {
 
           return `${item.type}-${item.data.id}`
         }}
-        onScroll={(event) => {
-          offset.current = event.nativeEvent.contentOffset.y
-        }}
         onViewableItemsChanged={({ viewableItems }) => {
-          viewing.current = viewableItems
-            .filter(
-              (item) => item.item.type === 'reply' && !item.item.data.collapsed,
+          const next = viewableItems.find((item) => {
+            const $item = item.item as Comment
+
+            return (
+              $item.type === 'reply' &&
+              !$item.data.collapsed &&
+              $item.data.depth === 0
             )
-            .map((item) => item.index ?? 0)
+          })
+
+          if (next?.index) {
+            viewing.current = next.index
+          }
         }}
         ref={list}
-        refreshControl={
-          <RefreshControl
-            offset={listProps.progressViewOffset}
-            onRefresh={refetch}
-          />
-        }
+        refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
         scrollEventThrottle={100}
         viewabilityConfig={{
@@ -230,7 +237,7 @@ export default function Screen() {
           color="blue"
           icon="ArrowBendUpLeft"
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 id: params.id,
               },
@@ -245,45 +252,40 @@ export default function Screen() {
         <FloatingButton
           icon="ArrowDown"
           onLongPress={() => {
-            const previous = viewing.current[0] ?? 0
-
             const next = comments.findLastIndex(
               (item, index) =>
-                index < previous &&
+                index < viewing.current &&
                 item.data.depth === 0 &&
                 item.type === 'reply' &&
                 !item.data.collapsed,
             )
 
+            if (next < 0) {
+              return
+            }
+
             list.current?.scrollToIndex({
               animated: true,
               index: next,
-              viewOffset: listProps.progressViewOffset,
             })
           }}
           onPress={() => {
-            if (offset.current < 100) {
+            const offset =
+              list.current?.recyclerlistview_unsafe?.getCurrentScrollOffset() ??
+              0
+
+            if (offset < 200) {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 0,
-                viewOffset: listProps.progressViewOffset,
               })
 
               return
             }
 
-            const previous = comments.findIndex(
-              (item, index) =>
-                index >
-                  ((viewing.current[0] === 0 ? -1 : viewing.current[0]) ?? 0) &&
-                item.data.depth === 0 &&
-                item.type === 'reply' &&
-                !item.data.collapsed,
-            )
-
             const next = comments.findIndex(
               (item, index) =>
-                index > previous &&
+                index > viewing.current &&
                 item.data.depth === 0 &&
                 item.type === 'reply' &&
                 !item.data.collapsed,
@@ -292,7 +294,6 @@ export default function Screen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
-              viewOffset: listProps.progressViewOffset,
             })
           }}
           side={skipComment}
@@ -301,3 +302,11 @@ export default function Screen() {
     </>
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  content: {
+    paddingBottom: theme.space[8] + theme.space[4] + theme.space[4],
+    paddingHorizontal: iPad ? theme.space[4] : undefined,
+    paddingTop: iPad ? theme.space[4] : undefined,
+  },
+}))

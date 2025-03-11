@@ -28,7 +28,6 @@ import { SubmissionText } from '~/components/submission/text'
 import { SubmissionTitle } from '~/components/submission/title'
 import { SubmissionType } from '~/components/submission/type'
 import { useLink } from '~/hooks/link'
-import { useList } from '~/hooks/list'
 import { useCreatePost } from '~/hooks/mutations/posts/create'
 import { useSubmission } from '~/hooks/queries/communities/submission'
 import { type Submission } from '~/types/submission'
@@ -60,15 +59,9 @@ function Content({ refetch, submission }: Props) {
   const router = useRouter()
   const navigation = useNavigation()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const { handleLink } = useLink()
-
-  const listProps = useList({
-    padding: {
-      vertical: theme.space[4],
-    },
-  })
 
   const { createPost, form, isPending } = useCreatePost(submission)
 
@@ -131,27 +124,11 @@ function Content({ refetch, submission }: Props) {
   return (
     <FormProvider {...form}>
       <KeyboardAwareScrollView
-        {...listProps}
-        contentContainerStyle={[
-          listProps.contentContainerStyle,
-          styles.content,
-        ]}
-        extraKeyboardSpace={
-          0 -
-          insets.bottom -
-          theme.space[3] -
-          theme.space[5] -
-          theme.space[3] -
-          theme.space[4]
-        }
+        contentContainerStyle={styles.content}
+        extraKeyboardSpace={0 - insets.bottom - 80}
         keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
-        refreshControl={
-          <RefreshControl
-            offset={listProps.progressViewOffset}
-            onRefresh={refetch}
-          />
-        }
+        refreshControl={<RefreshControl onRefresh={refetch} />}
+        style={styles.main}
       >
         <View direction="row" gap="4" justify="between" mx="4">
           <SubmissionCommunityCard community={submission.community} />
@@ -193,12 +170,19 @@ function Content({ refetch, submission }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   content: {
     flexGrow: 1,
+    paddingVertical: theme.space[4],
   },
   footer: {
     gap: theme.space[4],
     marginHorizontal: theme.space[4],
+  },
+  main: {
+    flex: 1,
+    marginBottom:
+      runtime.insets.bottom + theme.space[8] + runtime.hairlineWidth,
+    marginTop: runtime.insets.top + theme.space[8] + runtime.hairlineWidth,
   },
 }))

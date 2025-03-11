@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router'
-import { useStyles } from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { FloatingButton } from '~/components/common/floating-button'
@@ -23,7 +23,7 @@ export default function Screen() {
   const { accountId } = useAuth()
   const { profile, refetch } = useProfile(accountId)
 
-  const { theme } = useStyles()
+  const { styles, theme } = useStyles(stylesheet)
 
   const listProps = useList()
 
@@ -48,9 +48,8 @@ export default function Screen() {
               return
             }
 
-            router.navigate({
+            router.push({
               params: {
-                mode: 'headless',
                 name: removePrefix(profile.name),
                 type,
               },
@@ -60,13 +59,14 @@ export default function Screen() {
         }))}
         listProps={listProps}
         onRefresh={refetch}
+        style={styles.content}
       />
 
       {profile ? (
         <FloatingButton
           icon="Plus"
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 name: `u_${profile.name}`,
               },
@@ -78,6 +78,12 @@ export default function Screen() {
     </>
   )
 }
+
+const stylesheet = createStyleSheet(() => ({
+  content: {
+    paddingVertical: 0,
+  },
+}))
 
 const icons: Record<UserFeedType, IconName> = {
   comments: 'ChatCircle',

@@ -44,7 +44,7 @@ export function UserSwitcher() {
             name: 'PlusCircle',
           }}
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 mode: 'dismissible',
               },

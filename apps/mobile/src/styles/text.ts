@@ -70,3 +70,20 @@ const weights: Record<FontWeight, TextStyle['fontWeight']> = {
   medium: '500',
   regular: '400',
 }
+
+export function addTextSize(
+  size: TypographyToken,
+  by: number,
+): TypographyToken {
+  const next = Number(size) + by
+
+  if (next < 1) {
+    return '1'
+  }
+
+  if (next > 9) {
+    return '9'
+  }
+
+  return String(next) as TypographyToken
+}

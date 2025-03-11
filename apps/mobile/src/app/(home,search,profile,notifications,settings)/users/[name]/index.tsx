@@ -1,7 +1,7 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
 import { TabView } from 'react-native-tab-view'
-import { useStyles } from 'react-native-unistyles'
+import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -11,13 +11,12 @@ import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
-import { useList } from '~/hooks/list'
+import { ListFlags, useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { UserTab } from '~/types/user'
 
 const schema = z.object({
-  mode: z.literal('headless').optional(),
   name: z.string().catch('mildpanda'),
 })
 
@@ -42,11 +41,10 @@ export default function Screen() {
 
   const t = useTranslations('screen.users.user')
 
-  const { theme } = useStyles()
+  const { styles, theme } = useStyles(stylesheet)
 
-  const listProps = useList({
-    padding: iPad ? theme.space[4] : 0,
-    top: params.mode === 'headless' ? 0 : theme.space[7] + theme.space[4],
+  const listProps = useList(ListFlags.ALL, {
+    top: theme.space[7] + theme.space[4],
   })
 
   const [index, setIndex] = useState(0)
@@ -67,6 +65,7 @@ export default function Screen() {
               interval={intervalUserPosts}
               listProps={listProps}
               sort={sortUserPosts}
+              style={styles.list}
               user={params.name}
               userType="submitted"
             />
@@ -78,6 +77,7 @@ export default function Screen() {
             interval={intervalUserComments}
             listProps={listProps}
             sort={sortUserComments}
+            style={styles.list}
             user={params.name}
             userType="comments"
           />
@@ -93,7 +93,7 @@ export default function Screen() {
                 weight: 'duotone',
               }}
               onPress={() => {
-                router.navigate({
+                router.push({
                   params: {
                     name: params.name,
                   },
@@ -118,3 +118,9 @@ export default function Screen() {
     />
   )
 }
+
+const stylesheet = createStyleSheet((theme) => ({
+  list: {
+    padding: iPad ? theme.space[4] : 0,
+  },
+}))

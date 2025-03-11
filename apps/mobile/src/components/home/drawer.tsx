@@ -5,7 +5,7 @@ import { Dimensions } from 'react-native'
 import { Drawer } from 'react-native-drawer-layout'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { useList } from '~/hooks/list'
+import { ListFlags, useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
@@ -31,11 +31,10 @@ export function HomeDrawer({ children }: Props) {
 
   const { styles } = useStyles(stylesheet)
 
+
   const { postLeft } = useGestures()
 
-  const listProps = useList({
-    header: false,
-  })
+  const listProps = useList(ListFlags.BOTTOM)
 
   const [open, setOpen] = useState(false)
   const [query, setQuery] = useState('')
@@ -97,11 +96,13 @@ export function HomeDrawer({ children }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   drawer: (sticky: boolean, oled: boolean, tint: boolean) => ({
     backgroundColor: oled
       ? oledTheme[theme.name].bg
       : theme.colors[tint ? 'accent' : 'gray'].bgAlt,
+    borderRightColor: theme.colors.gray.border,
+    borderRightWidth: iPad ? runtime.hairlineWidth : undefined,
     maxWidth: iPad && sticky ? 300 : undefined,
   }),
   overlay: (oled: boolean) => ({

@@ -12,21 +12,25 @@ import { transformFlair } from './flair'
 
 export function transformPost(
   data: PostDataSchema,
-  seen: Array<string>,
-  users?: UserDataSchema,
+  extra?: {
+    seen?: Array<string>
+    users?: UserDataSchema
+  },
 ): Post {
   const crossPost = data.crosspost_parent_list?.[0]
 
   const id = removePrefix(data.id)
 
-  const user = data.author_fullname ? users?.[data.author_fullname] : undefined
+  const user = data.author_fullname
+    ? extra?.users?.[data.author_fullname]
+    : undefined
 
   return {
     body: decode(data.selftext).trim() || undefined,
     comments: data.num_comments,
     community: transformCommunity(data.sr_detail),
     createdAt: fromUnixTime(data.created_utc),
-    crossPost: crossPost ? transformPost(crossPost, seen) : undefined,
+    crossPost: crossPost ? transformPost(crossPost, extra) : undefined,
     flair: transformFlair(data.link_flair_richtext),
     hidden: Boolean(data.hidden),
     id,
@@ -40,7 +44,7 @@ export function transformPost(
     permalink: data.permalink,
     ratio: data.upvote_ratio,
     saved: data.saved,
-    seen: seen.includes(id),
+    seen: extra?.seen?.includes(id) ?? false,
     spoiler: data.spoiler,
     sticky: Boolean(data.stickied),
     title: decode(data.title).trim(),

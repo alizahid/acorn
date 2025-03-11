@@ -1,5 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
+import { getIcon } from '~/components/common/icon'
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { updateCommunity } from '~/hooks/queries/communities/community'
 import { queryClient } from '~/lib/query'
@@ -13,6 +16,8 @@ type Variables = {
 }
 
 export function useJoin() {
+  const t = useTranslations('toasts.communities')
+
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       const body = new FormData()
@@ -31,10 +36,25 @@ export function useJoin() {
         draft.subscribed = variables.action === 'join'
       })
     },
-    onSuccess() {
+    onSuccess(data, variables) {
       void queryClient.invalidateQueries({
         queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
       })
+
+      toast.success(
+        t(variables.action === 'join' ? 'joined' : 'left', {
+          community: variables.name,
+        }),
+        {
+          icon: getIcon({
+            color: variables.action === 'join' ? 'green' : 'red',
+            name:
+              variables.action === 'join'
+                ? 'UserCirclePlus'
+                : 'UserCircleMinus',
+          }),
+        },
+      )
     },
   })
 

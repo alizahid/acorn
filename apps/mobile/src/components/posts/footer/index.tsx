@@ -40,7 +40,7 @@ export function PostFooter({
       justify="between"
       onLongPress={onLongPress}
       onPress={() => {
-        router.navigate({
+        router.push({
           params: {
             id: removePrefix(post.id),
           },

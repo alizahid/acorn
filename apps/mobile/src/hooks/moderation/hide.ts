@@ -1,9 +1,10 @@
+import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
+import { and, eq } from 'drizzle-orm'
 
+import { db } from '~/db'
 import { updatePosts } from '~/hooks/queries/posts/posts'
-import { addHidden, removeHidden } from '~/lib/db/hidden'
 import { isPost } from '~/lib/guards'
-import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 
@@ -18,7 +19,11 @@ type Variables = {
       type: 'comment'
     }
   | {
-      type: 'community' | 'user' | 'post'
+      type: 'post'
+    }
+  | {
+      name: string
+      type: 'community' | 'user'
     }
 )
 
@@ -39,24 +44,24 @@ export function useHide() {
     },
     async onMutate(variables) {
       if (variables.action === 'unhide') {
-        await removeHidden(variables.id)
+        if (variables.type !== 'comment') {
+          await db
+            .delete(db.schema.filters)
+            .where(
+              and(
+                eq(
+                  db.schema.filters.id,
+                  'name' in variables ? variables.name : variables.id,
+                ),
+                eq(db.schema.filters.type, variables.type),
+              ),
+            )
+        }
 
         return
       }
 
-      if (['community', 'user'].includes(variables.type)) {
-        await addHidden(variables.id, variables.type)
-      }
-
-      if (variables.type === 'comment') {
-        updatePost(variables.postId, (draft) => {
-          const index = draft.comments.findIndex(
-            (comment) => comment.data.id === variables.id,
-          )
-
-          draft.comments.splice(index, 1)
-        })
-      } else if (variables.type === 'post') {
+      if (variables.type === 'post') {
         updatePosts(
           variables.id,
           (draft) => {
@@ -70,14 +75,24 @@ export function useHide() {
         updatePost(variables.id, (draft) => {
           draft.post.hidden = true
         })
-      } else {
-        await queryClient.invalidateQueries({
-          queryKey: ['posts'],
+      }
+
+      if (variables.type === 'comment') {
+        updatePost(variables.postId, (draft) => {
+          const index = draft.comments.findIndex(
+            (comment) => comment.data.id === variables.id,
+          )
+
+          draft.comments.splice(index, 1)
         })
       }
 
-      if (['comment', 'post'].includes(variables.type)) {
-        await addHidden(variables.id, variables.type)
+      if (variables.type !== 'comment') {
+        await db.insert(db.schema.filters).values({
+          id: createId(),
+          type: variables.type,
+          value: 'name' in variables ? variables.name : variables.id,
+        })
       }
     },
   })

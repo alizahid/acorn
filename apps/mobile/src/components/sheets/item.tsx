@@ -93,7 +93,7 @@ export function SheetItem({
         <Icon
           color={theme.colors.gray.textLow}
           name="CaretRight"
-          size={theme.typography[2].lineHeight}
+          size={theme.typography[size === '2' ? '1' : '2'].lineHeight}
         />
       ) : (
         right

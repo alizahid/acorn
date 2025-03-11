@@ -1,8 +1,9 @@
+import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
 
+import { db } from '~/db'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
-import { addHidden } from '~/lib/db/hidden'
 import { isPost } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
@@ -77,9 +78,13 @@ export function useReport() {
           },
           true,
         )
-      }
 
-      await addHidden(variables.id, variables.type)
+        await db.insert(db.schema.filters).values({
+          id: createId(),
+          type: variables.type,
+          value: variables.id,
+        })
+      }
     },
   })
 

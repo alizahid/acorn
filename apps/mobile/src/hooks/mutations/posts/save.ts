@@ -1,5 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
+import { getIcon } from '~/components/common/icon'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { updateSearch } from '~/hooks/queries/search/search'
@@ -17,6 +20,8 @@ type Variables = {
 }
 
 export function usePostSave() {
+  const t = useTranslations('toasts.posts')
+
   const { upvoteOnSave } = usePreferences()
 
   const { vote } = usePostVote()
@@ -55,6 +60,15 @@ export function usePostSave() {
 
       updateSearch(variables.postId, (draft) => {
         draft.saved = variables.action === 'save'
+      })
+    },
+    onSuccess(data, variables) {
+      toast.success(t(variables.action === 'save' ? 'saved' : 'unsaved'), {
+        icon: getIcon({
+          color: 'green',
+          name: 'BookmarkSimple',
+          weight: variables.action === 'save' ? 'fill' : 'regular',
+        }),
       })
     },
   })

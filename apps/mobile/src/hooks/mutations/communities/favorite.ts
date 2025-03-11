@@ -1,5 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
+import { getIcon } from '~/components/common/icon'
 import { updateCommunities } from '~/hooks/queries/communities/communities'
 import { updateCommunity } from '~/hooks/queries/communities/community'
 import { reddit } from '~/reddit/api'
@@ -10,6 +13,8 @@ type Variables = {
 }
 
 export function useFavorite() {
+  const t = useTranslations('toasts.communities')
+
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       const body = new FormData()
@@ -31,6 +36,20 @@ export function useFavorite() {
       updateCommunities(variables.name, (draft) => {
         draft.favorite = variables.favorite
       })
+    },
+    onSuccess(data, variables) {
+      toast.success(
+        t(variables.favorite ? 'favorited' : 'unfavorited', {
+          community: variables.name,
+        }),
+        {
+          icon: getIcon({
+            color: variables.favorite ? 'amber' : 'gray',
+            name: 'Star',
+            weight: variables.favorite ? 'fill' : 'regular',
+          }),
+        },
+      )
     },
   })
 

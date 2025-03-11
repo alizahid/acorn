@@ -10,7 +10,7 @@ import { View } from '~/components/common/view'
 import { MessagesList } from '~/components/inbox/messages'
 import { NotificationsList } from '~/components/inbox/notifications'
 import { Header } from '~/components/navigation/header'
-import { useList } from '~/hooks/list'
+import { ListFlags, useList } from '~/hooks/list'
 import { useMarkAllAsRead } from '~/hooks/mutations/users/notifications'
 import { useInbox } from '~/hooks/queries/user/inbox'
 import { InboxTab } from '~/types/inbox'
@@ -37,7 +37,7 @@ export default function Screen() {
 
   const { isPending, markAll } = useMarkAllAsRead()
 
-  const listProps = useList({
+  const listProps = useList(ListFlags.ALL, {
     top: theme.space[7] + theme.space[4],
   })
 

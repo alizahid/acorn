@@ -7,6 +7,8 @@ import * as MediaLibrary from 'expo-media-library'
 import { compact } from 'lodash'
 import { useRef } from 'react'
 import { useStyles } from 'react-native-unistyles'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
 import placeholderDark from '~/assets/images/placeholder-dark.png'
 import placeholderLight from '~/assets/images/placeholder-light.png'
@@ -26,6 +28,8 @@ type DownloadImageVariables = {
 }
 
 export function useDownloadImage() {
+  const t = useTranslations('toasts.image')
+
   const { saveToAlbum } = usePreferences()
 
   const timer = useRef<NodeJS.Timeout>()
@@ -61,6 +65,7 @@ export function useDownloadImage() {
 
       directory.delete()
     },
+
     onSettled() {
       if (timer.current) {
         clearTimeout(timer.current)
@@ -69,6 +74,13 @@ export function useDownloadImage() {
       timer.current = setTimeout(() => {
         reset()
       }, 5_000)
+    },
+    onSuccess() {
+      toast.success(
+        t('downloaded', {
+          count: 1,
+        }),
+      )
     },
   })
 
@@ -85,6 +97,8 @@ type DownloadImagesVariables = {
 }
 
 export function useDownloadImages() {
+  const t = useTranslations('toasts.image')
+
   const { saveToAlbum } = usePreferences()
 
   const timer = useRef<NodeJS.Timeout>()
@@ -137,6 +151,13 @@ export function useDownloadImages() {
         reset()
       }, 5_000)
     },
+    onSuccess(data, variables) {
+      toast.success(
+        t('downloaded', {
+          count: variables.urls.length,
+        }),
+      )
+    },
   })
 
   return {
@@ -152,6 +173,8 @@ type CopyImageVariables = {
 }
 
 export function useCopyImage() {
+  const t = useTranslations('toasts.image')
+
   const timer = useRef<NodeJS.Timeout>()
 
   const { isError, isPending, isSuccess, mutate, reset } = useMutation<
@@ -178,6 +201,9 @@ export function useCopyImage() {
       timer.current = setTimeout(() => {
         reset()
       }, 5_000)
+    },
+    onSuccess() {
+      toast.success(t('copied'))
     },
   })
 

@@ -1,10 +1,10 @@
 import { type BottomSheetModal } from '@gorhom/bottom-sheet'
-import * as Clipboard from 'expo-clipboard'
 import { useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import { createCallable } from 'react-call'
 import { Alert, Share } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
+import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
 import { Logo } from '~/components/common/logo'
@@ -146,7 +146,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
           }}
           label={t('reply')}
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 commentId: comment.id,
                 id: comment.post.id,
@@ -170,7 +170,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
               }}
               label={t('editComment')}
               onPress={() => {
-                router.navigate({
+                router.push({
                   params: {
                     body: comment.body,
                     commentId: comment.id,
@@ -229,7 +229,9 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
           }}
           label={t('copyText')}
           onPress={() => {
-            void Clipboard.setStringAsync(comment.body)
+            void copy(comment.body).then(() => {
+              toast.success(t('toast.textCopied'))
+            })
 
             call.end()
           }}
@@ -248,7 +250,9 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
               oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
             )
 
-            void copy(url.toString())
+            void copy(url.toString()).then(() => {
+              toast.success(t('toast.linkCopied'))
+            })
 
             call.end()
           }}
@@ -316,7 +320,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
             user: comment.user.name,
           })}
           onPress={() => {
-            router.navigate({
+            router.push({
               params: {
                 name: comment.user.name,
               },
@@ -362,6 +366,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
               hide({
                 action: 'hide',
                 id: comment.user.id,
+                name: comment.user.name,
                 type: 'user',
               })
             }

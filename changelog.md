@@ -1,9 +1,20 @@
 # Changelog
 
-## Upcoming
+## Build 47
 
+- added: post size now applies to post text as well
+- added: seen on scroll delay
+- added: notification toasts
+- added: prioritize image loading for posts in view
+- changed: filters
+- changed: removed blur/transparent header for post screen (to make skip comment button more reliable)
 - fixed: status bar disappearing
 - fixed: post card username pressable area
+- fixed: filters
+- fixed: scroll to top when post changes
+- fixed: skip comment button
+- fixed: iPad menus with stage manager
+- fixed: load more comments
 
 ## Build 46
 

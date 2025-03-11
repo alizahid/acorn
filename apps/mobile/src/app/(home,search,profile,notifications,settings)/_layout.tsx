@@ -196,7 +196,7 @@ function StackLayout({ children }: PropsWithChildren) {
                   weight: 'duotone',
                 }}
                 onPress={() => {
-                  router.navigate({
+                  router.push({
                     params: {
                       name,
                     },
@@ -262,6 +262,9 @@ function StackLayout({ children }: PropsWithChildren) {
           },
         })}
         name="posts/[id]/index"
+        options={{
+          headerTransparent: false,
+        }}
       />
 
       <Stack.Screen

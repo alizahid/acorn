@@ -3,6 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import { compact } from 'lodash'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
+import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -91,6 +92,14 @@ export function useCreatePost(submission: Submission) {
       }
 
       return handleSocket(json.data.websocket_url)
+    },
+    onError(error) {
+      toast.error(t('toast.error'), {
+        description: error.message,
+      })
+    },
+    onSuccess() {
+      toast.success(t('toast.created'))
     },
   })
 

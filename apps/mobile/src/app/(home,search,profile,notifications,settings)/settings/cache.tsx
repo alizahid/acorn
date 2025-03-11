@@ -3,11 +3,8 @@ import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Menu } from '~/components/common/menu'
+import { db } from '~/db'
 import { useList } from '~/hooks/list'
-import { clearCollapsed } from '~/lib/db/collapsed'
-import { clearHidden } from '~/lib/db/hidden'
-import { clearHistory } from '~/lib/db/history'
-import { clearSorting } from '~/lib/db/sorting'
 import { queryClient } from '~/lib/query'
 
 export default function Screen() {
@@ -55,7 +52,8 @@ export default function Screen() {
           },
           label: t('menu.history.label'),
           async onPress() {
-            await clearHistory()
+            db.query
+            await db.delete(db.schema.history)
           },
         },
         {
@@ -66,19 +64,7 @@ export default function Screen() {
           },
           label: t('menu.collapsed'),
           async onPress() {
-            await clearCollapsed()
-          },
-        },
-        {
-          description: t('menu.hidden.description'),
-          icon: {
-            color: theme.colors.red.accent,
-            name: 'EyeClosed',
-            type: 'icon',
-          },
-          label: t('menu.hidden.label'),
-          async onPress() {
-            await clearHidden()
+            await db.delete(db.schema.collapsed)
           },
         },
         {
@@ -89,7 +75,7 @@ export default function Screen() {
           },
           label: t('menu.sorting'),
           async onPress() {
-            await clearSorting()
+            await db.delete(db.schema.sorting)
           },
         },
       ]}

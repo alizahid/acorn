@@ -11,10 +11,10 @@ import { transformFlair } from './flair'
 
 export function transformComment(
   data: CommentsSchema['data']['children'][number],
-  users?: UserDataSchema,
   extra?: {
     collapseAutoModerator?: boolean
     collapsed?: Array<string>
+    users?: UserDataSchema
   },
 ): Comment {
   const parentId = removePrefix(data.data.parent_id)
@@ -35,7 +35,7 @@ export function transformComment(
   const postId = removePrefix(data.data.link_id)
 
   const user = data.data.author_fullname
-    ? users?.[data.data.author_fullname]
+    ? extra?.users?.[data.data.author_fullname]
     : undefined
 
   const id = removePrefix(data.data.id)

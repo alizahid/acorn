@@ -1,9 +1,9 @@
-import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useScrollToTop } from '@react-navigation/native'
 import { useRef } from 'react'
+import { FlatList } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
-import { estimateHeight, type ListProps } from '~/hooks/list'
+import { type ListProps } from '~/hooks/list'
 import { usePreferences } from '~/stores/preferences'
 import { type InboxNotification } from '~/types/inbox'
 
@@ -35,14 +35,14 @@ export function NotificationsList({
 }: Props) {
   const { themeOled } = usePreferences()
 
-  const list = useRef<LegendListRef>(null)
+  const list = useRef<FlatList<InboxNotification>>(null)
 
   useScrollToTop(list)
 
   const { styles } = useStyles(stylesheet)
 
   return (
-    <LegendList
+    <FlatList
       {...listProps}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(themeOled)} />
@@ -52,28 +52,14 @@ export function NotificationsList({
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
       data={notifications}
-      estimatedItemSize={200}
-      getEstimatedItemSize={(index, item) =>
-        estimateHeight({
-          index,
-          item,
-          type: 'notification',
-        })
-      }
       keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()
         }
       }}
-      recycleItems
       ref={list}
-      refreshControl={
-        <RefreshControl
-          offset={listProps?.progressViewOffset}
-          onRefresh={refetch}
-        />
-      }
+      refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => <NotificationCard notification={item} />}
     />
   )

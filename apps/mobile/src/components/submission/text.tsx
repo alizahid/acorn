@@ -38,6 +38,7 @@ export function SubmissionText() {
             onChangeText={field.onChange}
             placeholder={t('placeholder')}
             placeholderTextColor={theme.colors.gray.accent}
+            scrollEnabled={false}
             selectionColor={theme.colors.accent.accent}
             style={styles.input(font, fontScaling)}
           />

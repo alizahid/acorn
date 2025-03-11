@@ -34,7 +34,7 @@ export function CommunitySearchBar({ name, style }: Props) {
         const query = event.nativeEvent.text
 
         if (query.length > 2) {
-          router.navigate({
+          router.push({
             params: {
               name,
               query,

@@ -1,6 +1,7 @@
-import { LegendList, type LegendListRef } from '@legendapp/list'
 import { useScrollToTop } from '@react-navigation/native'
+import { FlashList, type ListRenderItem } from '@shopify/flash-list'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
+import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -9,7 +10,7 @@ import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
-import { estimateHeight, type ListProps } from '~/hooks/list'
+import { type ListProps } from '~/hooks/list'
 import { useSearch } from '~/hooks/queries/search/search'
 import { useSearchHistory } from '~/hooks/search'
 import { usePreferences } from '~/stores/preferences'
@@ -17,7 +18,7 @@ import { type Community } from '~/types/community'
 import { type SearchTab } from '~/types/defaults'
 import { type Post } from '~/types/post'
 import { type SearchSort, type TopInterval } from '~/types/sort'
-import { type SearchUser } from '~/types/user'
+import { type User } from '~/types/user'
 
 import { View } from '../common/view'
 import { UserCard } from '../users/card'
@@ -32,6 +33,7 @@ type Props = {
   onChangeQuery: (query: string) => void
   query: string
   sort?: SearchSort
+  style?: StyleProp<ViewStyle>
   type: SearchTab
 }
 
@@ -44,11 +46,12 @@ export function SearchList({
   onChangeQuery,
   query,
   sort,
+  style,
   type,
 }: Props) {
   const t = useTranslations('component.search.list')
 
-  const list = useRef<LegendListRef>(null)
+  const list = useRef<FlashList<Post | Community | User>>(null)
 
   useScrollToTop(list)
 
@@ -68,19 +71,14 @@ export function SearchList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const renderItem = useCallback(
-    (item: Community | SearchUser | Post, index: number) => {
-      const style = [
-        index === 0 && styles.first,
-        index + 1 === results.length && styles.last,
-      ]
-
+  const renderItem: ListRenderItem<Post | Community | User> = useCallback(
+    ({ item }) => {
       if (type === 'community') {
-        return <CommunityCard community={item as Community} style={style} />
+        return <CommunityCard community={item as Community} />
       }
 
       if (type === 'user') {
-        return <UserCard style={style} user={item as SearchUser} />
+        return <UserCard user={item as User} />
       }
 
       return (
@@ -90,15 +88,17 @@ export function SearchList({
         />
       )
     },
-    [focused, results.length, styles.first, styles.last, type, viewing],
+    [focused, type, viewing],
   )
 
   return (
-    <LegendList
+    <FlashList
       {...listProps}
-      ItemSeparatorComponent={() => (
-        <View style={styles.separator(type, themeOled, feedCompact)} />
-      )}
+      ItemSeparatorComponent={() =>
+        type === 'post' ? (
+          <View style={styles.separator(themeOled, feedCompact)} />
+        ) : null
+      }
       ListEmptyComponent={
         isLoading ? (
           <Loading />
@@ -111,22 +111,16 @@ export function SearchList({
         )
       }
       ListHeaderComponent={header}
+      contentContainerStyle={StyleSheet.flatten([
+        type !== 'post' && styles.content,
+        style,
+      ])}
       data={results}
+      estimatedItemSize={type === 'post' ? (feedCompact ? 120 : 500) : 48}
       extraData={{
         viewing,
       }}
-      getEstimatedItemSize={(index, item) => {
-        if (type === 'post') {
-          return estimateHeight({
-            compact: feedCompact,
-            index,
-            item: item as Post,
-            type: 'post',
-          })
-        }
-
-        return 56
-      }}
+      getItemType={(item) => (type === 'post' ? (item as Post).type : type)}
       keyExtractor={(item) => item.id}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
@@ -136,15 +130,9 @@ export function SearchList({
       onViewableItemsChanged={({ viewableItems }) => {
         setViewing(() => viewableItems.map((item) => item.key))
       }}
-      recycleItems={type !== 'post'}
       ref={list}
-      refreshControl={
-        <RefreshControl
-          offset={listProps?.progressViewOffset}
-          onRefresh={refetch}
-        />
-      }
-      renderItem={({ index, item }) => renderItem(item, index)}
+      refreshControl={<RefreshControl onRefresh={refetch} />}
+      renderItem={renderItem}
       viewabilityConfig={{
         viewAreaCoveragePercentThreshold: 60,
       }}
@@ -153,20 +141,11 @@ export function SearchList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  first: {
-    marginTop: theme.space[2],
+  content: {
+    paddingVertical: theme.space[2],
   },
-  last: {
-    marginBottom: theme.space[2],
-  },
-  separator: (type: SearchTab, oled: boolean, compact: boolean) => {
-    if (type === 'post') {
-      return {
-        backgroundColor: oled ? theme.colors.gray.border : undefined,
-        height: oled ? 1 : theme.space[compact ? 2 : 4],
-      }
-    }
-
-    return {}
-  },
+  separator: (oled: boolean, compact: boolean) => ({
+    backgroundColor: oled ? theme.colors.gray.border : undefined,
+    height: oled ? 1 : theme.space[compact ? 2 : 4],
+  }),
 }))
