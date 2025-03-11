@@ -20,7 +20,7 @@ export default function Screen() {
 
   const {
     blurNavigation,
-    coloredComments,
+    colorfulComments,
     feedCompact,
     font,
     fontScaling,
@@ -64,9 +64,9 @@ export default function Screen() {
           },
           {
             icon: 'PaintBrush',
-            key: 'coloredComments',
-            label: t('preferences.coloredComments'),
-            value: coloredComments,
+            key: 'colorfulComments',
+            label: t('preferences.colorfulComments'),
+            value: colorfulComments,
           },
           null,
 

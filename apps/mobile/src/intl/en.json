@@ -370,7 +370,7 @@
         },
         "preferences": {
           "blurNavigation": "Use blur effect",
-          "coloredComments": "Colored comments",
+          "colorfulComments": "Colorful comments",
           "themeOled": "OLED mode",
           "themeTint": "Background tint",
           "title": "Preferences"

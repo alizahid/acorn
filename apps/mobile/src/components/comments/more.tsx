@@ -36,7 +36,7 @@ export function CommentMoreCard({
 }: Props) {
   const t = useTranslations('component.comments.more')
 
-  const { coloredComments, themeOled } = usePreferences()
+  const { colorfulComments, themeOled } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -70,7 +70,7 @@ export function CommentMoreCard({
       }}
       py="2"
       style={[
-        styles.main(comment.depth, coloredComments, themeOled) as ViewStyle,
+        styles.main(comment.depth, colorfulComments, themeOled) as ViewStyle,
         style,
       ]}
     >
@@ -88,13 +88,13 @@ export function CommentMoreCard({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
-  main: (depth: number, colored: boolean, oled: boolean) => {
+  main: (depth: number, colorful: boolean, oled: boolean) => {
     const color = getDepthColor(depth)
 
     const marginLeft = theme.space[2] * depth
 
     const base: UnistylesValues = {
-      backgroundColor: colored
+      backgroundColor: colorful
         ? theme.colors[color][oled ? 'bg' : 'bgAlt']
         : oled
           ? oledTheme[theme.name].bg

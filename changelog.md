@@ -198,7 +198,7 @@
 ## Build 29
 
 - added: view messages in the notifications tab
-- added: colored comments preference
+- added: colorful comments preference
 - added: better menus for sort selector
 - changed: allow taller media
 - fixed: theme reverting

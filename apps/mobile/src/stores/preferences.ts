@@ -23,7 +23,7 @@ export type PreferencesPayload = {
   blurNavigation: boolean
   blurNsfw: boolean
   collapseAutoModerator: boolean
-  coloredComments: boolean
+  colorfulComments: boolean
   communityOnTop: boolean
   dimSeen: boolean
   feedCompact: boolean
@@ -82,7 +82,7 @@ export const usePreferences = create<State>()(
       blurNavigation: true,
       blurNsfw: true,
       collapseAutoModerator: false,
-      coloredComments: true,
+      colorfulComments: true,
       communityOnTop: false,
       dimSeen: false,
       feedCompact: false,
@@ -144,11 +144,19 @@ export const usePreferences = create<State>()(
           state.fontScaling = 1
         }
 
+        if (version === 3) {
+          state.colorfulComments = (
+            persisted as {
+              coloredComments: boolean
+            }
+          ).coloredComments
+        }
+
         return state
       },
       name: PREFERENCES_KEY,
       storage: new Store(PREFERENCES_KEY),
-      version: 3,
+      version: 4,
     },
   ),
 )

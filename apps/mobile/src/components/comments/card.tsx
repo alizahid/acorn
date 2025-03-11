@@ -46,7 +46,7 @@ export function CommentCard({
 }: Props) {
   const router = useRouter()
 
-  const { coloredComments, fontSizeComment, themeOled } = usePreferences()
+  const { colorfulComments, fontSizeComment, themeOled } = usePreferences()
   const {
     commentLeft,
     commentLeftLong,
@@ -132,7 +132,7 @@ export function CommentCard({
       style={[
         styles.main(
           comment.depth,
-          coloredComments,
+          colorfulComments,
           themeOled,
           dull,
         ) as ViewStyle,
@@ -243,7 +243,7 @@ const stylesheet = createStyleSheet((theme) => ({
     marginBottom: theme.space[3],
     marginHorizontal: theme.space[3],
   },
-  main: (depth: number, colored: boolean, oled: boolean, dull?: boolean) => {
+  main: (depth: number, colorful: boolean, oled: boolean, dull?: boolean) => {
     const color = dull ? 'gray' : getDepthColor(depth)
 
     const base: UnistylesValues = {
@@ -251,7 +251,7 @@ const stylesheet = createStyleSheet((theme) => ({
         ? oled
           ? oledTheme[theme.name].bg
           : theme.colors.gray.ui
-        : colored
+        : colorful
           ? theme.colors[color][oled ? 'bg' : 'bgAlt']
           : oled
             ? oledTheme[theme.name].bg
