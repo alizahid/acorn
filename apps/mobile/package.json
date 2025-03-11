@@ -115,7 +115,7 @@
     "@babel/core": "^7.26.9",
     "@tanstack/eslint-plugin-query": "^5.67.2",
     "@types/lodash": "^4.17.16",
-    "@types/react": "~18.3.12",
+    "@types/react": "18.3.18",
     "babel-plugin-inline-import": "^3.0.0",
     "drizzle-kit": "^0.30.5",
     "env-cmd": "^10.1.0",

@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.7",
-    "next": "14.2.16",
+    "next": "14.2.24",
     "next-intl": "^3.26.5",
     "react": "18.3.1",
     "react-dom": "18.3.1",
@@ -24,7 +24,7 @@
     "@types/react": "18.3.18",
     "@types/react-dom": "18.3.5",
     "eslint-config-custom": "workspace:*",
-    "eslint-config-next": "14.2.16",
+    "eslint-config-next": "14.2.24",
     "postcss": "^8.5.3",
     "tailwindcss": "^4.0.12",
     "typescript": "^5.8.2"
