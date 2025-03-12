@@ -24,7 +24,7 @@ import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
-import { FlairCard } from '../posts/flair'
+import { FlairCard, type FlairType } from '../posts/flair'
 import { CommentMeta } from './meta'
 
 type Props = {
@@ -61,6 +61,18 @@ export function CommentCard({
   const { vote } = useCommentVote()
   const { save } = useCommentSave()
   const { hide } = useHide()
+
+  const flair = comment.flair.reduce<FlairType | undefined>((type, item) => {
+    if (!type) {
+      return item.type
+    }
+
+    if (type === item.type) {
+      return type
+    }
+
+    return 'both'
+  }, undefined)
 
   return (
     <PostGestures
@@ -201,10 +213,10 @@ export function CommentCard({
           </Pressable>
         ) : null}
 
-        <CommentMeta collapsed={collapsed} comment={comment} />
+        <CommentMeta collapsed={collapsed} comment={comment} flair={flair} />
 
-        {!collapsed ? (
-          <FlairCard flair={comment.flair} style={styles.flair} type="text" />
+        {!collapsed && (flair === 'both' || flair === 'text') ? (
+          <FlairCard flair={comment.flair} style={styles.flair} type={flair} />
         ) : null}
       </Pressable>
 

@@ -13,15 +13,16 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { TimeAgo } from '../common/time'
 import { View } from '../common/view'
-import { FlairCard } from '../posts/flair'
+import { FlairCard, type FlairType } from '../posts/flair'
 import { FooterButton } from '../posts/footer/button'
 
 type Props = {
   collapsed?: boolean
   comment: CommentReply
+  flair?: FlairType
 }
 
-export function CommentMeta({ collapsed, comment }: Props) {
+export function CommentMeta({ collapsed, comment, flair }: Props) {
   const router = useRouter()
   const f = useFormatter()
 
@@ -145,7 +146,9 @@ export function CommentMeta({ collapsed, comment }: Props) {
         />
       </View>
 
-      <FlairCard flair={comment.flair} type="emoji" />
+      {flair === 'emoji' ? (
+        <FlairCard flair={comment.flair} type="emoji" />
+      ) : null}
     </View>
   )
 }
