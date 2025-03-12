@@ -8,10 +8,12 @@ import { type Flair } from '~/types/flair'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 
+export type FlairType = 'text' | 'emoji' | 'both'
+
 type Props = {
   flair: Array<Flair>
   style?: StyleProp<ViewStyle>
-  type?: 'text' | 'emoji' | 'both'
+  type?: FlairType
 }
 
 export function FlairCard({ flair, style, type = 'both' }: Props) {
@@ -35,7 +37,7 @@ export function FlairCard({ flair, style, type = 'both' }: Props) {
       pointerEvents="none"
       style={style}
     >
-      {flair.map((item) => {
+      {items.map((item) => {
         if (item.type === 'emoji') {
           return (
             <Image key={item.id} source={item.value} style={styles.emoji} />

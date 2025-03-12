@@ -3,6 +3,7 @@
 ## Upcoming
 
 - fixed: filters apply to /popular and /all
+- fixed: comment duplicate flair
 
 ## Build 47
 
