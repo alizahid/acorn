@@ -70,7 +70,7 @@ export default function Screen() {
               params: {
                 name: `u_${profile.name}`,
               },
-              pathname: '/communities/[name]/new',
+              pathname: '/posts/new',
             })
           }}
         />
