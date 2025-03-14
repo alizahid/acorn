@@ -1,9 +1,9 @@
-import { useScrollToTop } from '@react-navigation/native'
 import { useRef } from 'react'
 import { FlatList } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type ListProps } from '~/hooks/list'
+import { useScrollToTop } from '~/hooks/scroll-top'
 import { usePreferences } from '~/stores/preferences'
 import { type InboxMessage } from '~/types/inbox'
 
@@ -19,7 +19,7 @@ type Props = {
   hasNextPage: boolean
   isFetchingNextPage: boolean
   isLoading: boolean
-  listProps?: ListProps
+  listProps?: ListProps<InboxMessage>
   messages: Array<InboxMessage>
   refetch: () => Promise<unknown>
 }
@@ -37,7 +37,7 @@ export function MessagesList({
 
   const list = useRef<FlatList<InboxMessage>>(null)
 
-  useScrollToTop(list)
+  useScrollToTop(list, listProps)
 
   const { styles } = useStyles(stylesheet)
 
