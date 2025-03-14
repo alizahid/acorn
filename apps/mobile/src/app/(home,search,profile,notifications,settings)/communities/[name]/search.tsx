@@ -18,7 +18,7 @@ import { Header } from '~/components/navigation/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { ListFlags, useList } from '~/hooks/list'
-import { iPad } from '~/lib/common'
+import { heights, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
@@ -38,10 +38,10 @@ export default function Screen() {
   const { intervalSearchPosts, sortSearchPosts, themeOled, themeTint } =
     usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const listProps = useList(ListFlags.ALL, {
-    top: theme.space[7] + theme.space[4],
+    top: heights.notifications,
   })
 
   const [sort, setSort] = useState(sortSearchPosts)

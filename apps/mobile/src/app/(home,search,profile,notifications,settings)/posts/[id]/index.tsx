@@ -24,7 +24,7 @@ import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { ListFlags, useList } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
-import { iPad } from '~/lib/common'
+import { heights, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -305,7 +305,7 @@ export default function Screen() {
 
 const stylesheet = createStyleSheet((theme) => ({
   content: {
-    paddingBottom: theme.space[8] + theme.space[4] + theme.space[4],
+    paddingBottom: heights.floatingButton,
     paddingHorizontal: iPad ? theme.space[4] : undefined,
     paddingTop: iPad ? theme.space[4] : undefined,
   },

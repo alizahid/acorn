@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { TabView } from 'react-native-tab-view'
-import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { IconButton } from '~/components/common/icon-button'
@@ -13,6 +12,7 @@ import { Header } from '~/components/navigation/header'
 import { ListFlags, useList } from '~/hooks/list'
 import { useMarkAllAsRead } from '~/hooks/mutations/users/notifications'
 import { useInbox } from '~/hooks/queries/user/inbox'
+import { heights } from '~/lib/common'
 import { InboxTab } from '~/types/inbox'
 
 const routes = InboxTab.map((key) => ({
@@ -22,8 +22,6 @@ const routes = InboxTab.map((key) => ({
 
 export default function Screen() {
   const t = useTranslations('screen.notifications')
-
-  const { theme } = useStyles()
 
   const {
     fetchNextPage,
@@ -38,7 +36,7 @@ export default function Screen() {
   const { isPending, markAll } = useMarkAllAsRead()
 
   const listProps = useList(ListFlags.ALL, {
-    top: theme.space[7] + theme.space[4],
+    top: heights.notifications,
   })
 
   const [index, setIndex] = useState(0)

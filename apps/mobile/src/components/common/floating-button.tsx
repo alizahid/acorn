@@ -55,15 +55,10 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: theme.colors[color].uiActiveAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
-    bottom:
-      runtime.insets.bottom +
-      theme.space[3] +
-      theme.space[5] +
-      theme.space[3] +
-      theme.space[4],
+    bottom: runtime.insets.bottom + 64,
     left:
       side === 'center'
-        ? runtime.screen.width / 2 - theme.space[5]
+        ? runtime.screen.width / 2 - theme.space[8] / 2
         : side === 'left'
           ? theme.space[4]
           : undefined,

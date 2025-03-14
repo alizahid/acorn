@@ -16,6 +16,7 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { ListFlags, useList } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
+import { heights } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
@@ -34,10 +35,10 @@ export default function Screen() {
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const listProps = useList(ListFlags.ALL, {
-    top: theme.space[7] + theme.space[4] + theme.space[7] + theme.space[4],
+    top: heights.search,
   })
 
   const search = useRef<TextInput>(null)
