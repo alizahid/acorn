@@ -218,13 +218,6 @@ function StackLayout({ children }: PropsWithChildren) {
       />
 
       <Stack.Screen
-        name="communities/[name]/new"
-        options={{
-          title: t('posts.new.title'),
-        }}
-      />
-
-      <Stack.Screen
         name="communities/[name]/search"
         options={{
           headerShown: false,
@@ -251,6 +244,13 @@ function StackLayout({ children }: PropsWithChildren) {
         options={({ route }) => ({
           title: t(`profile.${(route.params as UserPostsParams).type}`),
         })}
+      />
+
+      <Stack.Screen
+        name="posts/new"
+        options={{
+          title: t('posts.new.title'),
+        }}
       />
 
       <Stack.Screen

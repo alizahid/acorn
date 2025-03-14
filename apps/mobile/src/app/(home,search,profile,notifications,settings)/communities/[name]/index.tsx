@@ -73,7 +73,7 @@ export default function Screen() {
             params: {
               name: params.name,
             },
-            pathname: '/communities/[name]/new',
+            pathname: '/posts/new',
           })
         }}
       />
