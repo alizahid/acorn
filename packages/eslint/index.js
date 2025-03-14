@@ -7,7 +7,7 @@ const { resolve } = require('node:path')
  *   extends?: string[]
  *   plugins?: string[]
  *   rules?: Partial<import('eslint').Linter.RulesRecord>
- *   ignorePatterns?: string | string[]
+ *   ignorePatterns?: string[]
  *   overrides?: import('eslint').Linter.ConfigOverride[]
  * }}
  *
@@ -24,7 +24,7 @@ exports.create = ({
 }) => {
   const project = resolve(process.cwd(), 'tsconfig.json')
 
-  /** @type {import('eslint').Linter.Config} */
+  /** @type {import('eslint').Linter.BaseConfig} */
   const config = {
     extends: [
       'eslint:recommended',
