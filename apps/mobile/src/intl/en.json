@@ -223,8 +223,8 @@
       "text": {
         "error": {
           "blacklist": "Not allowed: {list}",
-          "max": "Max {max, number} {max, plural, =0 {characters} =1 {character} other {characters}}",
-          "min": "Min {min, number} {min, plural, =0 {characters} =1 {character} other {characters}}",
+          "max": "Max {max, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
+          "min": "Min {min, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
           "required": "Required words: {list}"
         },
         "placeholder": "Body"
@@ -232,8 +232,8 @@
       "title": {
         "error": {
           "blacklist": "Not allowed: {list}",
-          "max": "Max {max, number} {max, plural, =0 {characters} =1 {character} other {characters}}",
-          "min": "Min {min, number} {min, plural, =0 {characters} =1 {character} other {characters}}",
+          "max": "Max {max, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
+          "min": "Min {min, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
           "required": "Required words: {list}"
         },
         "placeholder": "Title"
