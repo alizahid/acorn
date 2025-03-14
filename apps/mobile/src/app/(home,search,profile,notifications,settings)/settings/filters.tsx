@@ -16,6 +16,7 @@ import { View } from '~/components/common/view'
 import { FilterCard } from '~/components/filters/card'
 import { useFilters } from '~/hooks/filters'
 import { useList } from '~/hooks/list'
+import { heights } from '~/lib/common'
 
 const schema = z.object({
   filters: z.array(
@@ -168,7 +169,7 @@ export default function Screen() {
 const stylesheet = createStyleSheet((theme) => ({
   content: {
     padding: theme.space[4],
-    paddingBottom: theme.space[8] + theme.space[4] + theme.space[4],
+    paddingBottom: heights.floatingButton,
   },
   rule: {
     flex: 1,

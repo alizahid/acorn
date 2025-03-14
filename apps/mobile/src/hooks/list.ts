@@ -1,9 +1,10 @@
 import { type FlashListProps } from '@shopify/flash-list'
-import { StyleSheet } from 'react-native'
 import {
   useSafeAreaFrame,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context'
+
+import { heights } from '~/lib/common'
 
 export const ListFlags = {
   ALL: 1 | 2 | 4 | 8,
@@ -38,8 +39,6 @@ export function useList<Type>(
   const frame = useSafeAreaFrame()
   const insets = useSafeAreaInsets()
 
-  const height = 48 + StyleSheet.hairlineWidth
-
   const start = props?.top ?? 0
   const end = props?.bottom ?? 0
 
@@ -51,7 +50,7 @@ export function useList<Type>(
   }
 
   if (flags & ListFlags.HEADER) {
-    top += height
+    top += heights.header
   }
 
   if (flags & ListFlags.BOTTOM_INSET) {
@@ -59,7 +58,7 @@ export function useList<Type>(
   }
 
   if (flags & ListFlags.TAB_BAR) {
-    bottom += height
+    bottom += heights.tabBar
   }
 
   return {
@@ -79,9 +78,9 @@ export function useList<Type>(
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',
     scrollIndicatorInsets: {
-      bottom: flags & ListFlags.TAB_BAR ? height + end : end,
+      bottom: flags & ListFlags.TAB_BAR ? heights.tabBar + end : end,
       right: 1,
-      top: flags & ListFlags.HEADER ? height + start : start,
+      top: flags & ListFlags.HEADER ? heights.header + start : start,
     },
   }
 }

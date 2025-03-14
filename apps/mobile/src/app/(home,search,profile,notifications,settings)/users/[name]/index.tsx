@@ -12,7 +12,7 @@ import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
 import { ListFlags, useList } from '~/hooks/list'
-import { iPad } from '~/lib/common'
+import { heights, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { UserTab } from '~/types/user'
 
@@ -41,10 +41,10 @@ export default function Screen() {
 
   const t = useTranslations('screen.users.user')
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const listProps = useList(ListFlags.ALL, {
-    top: theme.space[7] + theme.space[4],
+    top: heights.notifications,
   })
 
   const [index, setIndex] = useState(0)

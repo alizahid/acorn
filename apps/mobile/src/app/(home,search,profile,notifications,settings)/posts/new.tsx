@@ -30,6 +30,7 @@ import { SubmissionType } from '~/components/submission/type'
 import { useLink } from '~/hooks/link'
 import { useCreatePost } from '~/hooks/mutations/posts/create'
 import { useSubmission } from '~/hooks/queries/communities/submission'
+import { heights } from '~/lib/common'
 import { type Submission } from '~/types/submission'
 
 const schema = z.object({
@@ -181,8 +182,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   main: {
     flex: 1,
-    marginBottom:
-      runtime.insets.bottom + theme.space[8] + runtime.hairlineWidth,
-    marginTop: runtime.insets.top + theme.space[8] + runtime.hairlineWidth,
+    marginBottom: heights.tabBar + runtime.insets.bottom,
+    marginTop: heights.header + runtime.insets.top,
   },
 }))

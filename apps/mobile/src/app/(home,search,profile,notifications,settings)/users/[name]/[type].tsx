@@ -18,7 +18,7 @@ import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { UserSearchBar } from '~/components/users/search'
 import { ListFlags, useList } from '~/hooks/list'
-import { iPad } from '~/lib/common'
+import { heights, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { UserFeedType } from '~/types/user'
@@ -98,7 +98,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
         : theme.colors[tint ? 'accent' : 'gray'].bg,
       borderBottomColor: theme.colors.gray.border,
       borderBottomWidth: runtime.hairlineWidth,
-      marginTop: 48 + runtime.insets.top + runtime.hairlineWidth,
+      marginTop: heights.header + runtime.insets.top,
     }
 
     if (iPad) {

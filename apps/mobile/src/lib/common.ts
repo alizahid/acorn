@@ -1,5 +1,5 @@
 import { type BlurTint } from 'expo-blur'
-import { Platform } from 'react-native'
+import { Platform, StyleSheet } from 'react-native'
 
 export const cardMaxWidth = 700
 
@@ -20,3 +20,11 @@ export const modalStyle = iPad
       maxWidth: 580,
     }
   : undefined
+
+export const heights = {
+  floatingButton: 80,
+  header: 48 + StyleSheet.hairlineWidth,
+  notifications: 56,
+  search: 112,
+  tabBar: 48 + StyleSheet.hairlineWidth,
+} as const
