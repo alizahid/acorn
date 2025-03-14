@@ -57,7 +57,7 @@ type Item =
 
 type Props = {
   chevron?: boolean
-  listProps?: ListProps
+  listProps?: ListProps<Item>
   onPress?: () => void
   query?: string
 }

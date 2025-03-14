@@ -1,4 +1,3 @@
-import { useScrollToTop } from '@react-navigation/native'
 import { FlashList, type ListRenderItem } from '@shopify/flash-list'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
@@ -12,6 +11,7 @@ import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
 import { type ListProps } from '~/hooks/list'
 import { useSearch } from '~/hooks/queries/search/search'
+import { useScrollToTop } from '~/hooks/scroll-top'
 import { useSearchHistory } from '~/hooks/search'
 import { usePreferences } from '~/stores/preferences'
 import { type Community } from '~/types/community'
@@ -24,12 +24,14 @@ import { View } from '../common/view'
 import { UserCard } from '../users/card'
 import { SearchHistory } from './history'
 
+type Item = Post | Community | User
+
 type Props = {
   community?: string
   focused?: boolean
   header?: ReactElement
   interval?: TopInterval
-  listProps?: ListProps
+  listProps?: ListProps<Item>
   onChangeQuery: (query: string) => void
   query: string
   sort?: SearchSort
@@ -51,9 +53,9 @@ export function SearchList({
 }: Props) {
   const t = useTranslations('component.search.list')
 
-  const list = useRef<FlashList<Post | Community | User>>(null)
+  const list = useRef<FlashList<Item>>(null)
 
-  useScrollToTop(list)
+  useScrollToTop(list, listProps)
 
   const { styles } = useStyles(stylesheet)
 
@@ -71,7 +73,7 @@ export function SearchList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const renderItem: ListRenderItem<Post | Community | User> = useCallback(
+  const renderItem: ListRenderItem<Item> = useCallback(
     ({ item }) => {
       if (type === 'community') {
         return <CommunityCard community={item as Community} />

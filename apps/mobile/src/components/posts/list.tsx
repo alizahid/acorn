@@ -1,4 +1,4 @@
-import { useIsFocused, useScrollToTop } from '@react-navigation/native'
+import { useIsFocused } from '@react-navigation/native'
 import {
   type ContentStyle,
   FlashList,
@@ -15,6 +15,7 @@ import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
+import { useScrollToTop } from '~/hooks/scroll-top'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -30,9 +31,11 @@ const viewabilityConfig: ViewabilityConfig = {
   viewAreaCoveragePercentThreshold: 60,
 }
 
+type Item = Post | Comment
+
 type Props = PostsProps & {
   header?: ReactElement
-  listProps?: ListProps
+  listProps?: ListProps<Item>
   onRefresh?: () => void
   style?: ContentStyle
 }
@@ -52,11 +55,11 @@ export function PostList({
 }: Props) {
   const router = useRouter()
 
-  const list = useRef<FlashList<Post | Comment>>(null)
+  const list = useRef<FlashList<Item>>(null)
 
   const focused = useIsFocused()
 
-  useScrollToTop(list)
+  useScrollToTop(list, listProps)
 
   const { feedCompact, seenOnScroll, themeOled } = usePreferences()
   const { addPost } = useHistory()
@@ -82,7 +85,7 @@ export function PostList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const renderItem: ListRenderItem<Post | Comment> = useCallback(
+  const renderItem: ListRenderItem<Item> = useCallback(
     ({ item }) => {
       if (item.type === 'reply') {
         return (
@@ -159,7 +162,7 @@ export function PostList({
 
         viewableItems
           .filter((item) => {
-            const $item = item.item as Post | Comment
+            const $item = item.item as Item
 
             return $item.type !== 'reply' && $item.type !== 'more'
           })

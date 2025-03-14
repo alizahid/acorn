@@ -1,4 +1,3 @@
-import { useScrollToTop } from '@react-navigation/native'
 import { type SFSymbol } from 'expo-symbols'
 import { type ReactElement, useRef } from 'react'
 import {
@@ -13,9 +12,12 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { type ListProps } from '~/hooks/list'
+import { useScrollToTop } from '~/hooks/scroll-top'
 
 import { type IconName, type IconWeight } from '../icon'
 import { MenuItem } from './item'
+
+type Item = MenuItem | string | null | (() => ReactElement)
 
 type Icon =
   | {
@@ -71,8 +73,8 @@ export type MenuItem = {
 type Props = {
   footer?: ReactElement
   header?: ReactElement
-  items: Array<MenuItem | string | null | (() => ReactElement)>
-  listProps?: ListProps
+  items: Array<Item>
+  listProps?: ListProps<Item>
   onRefresh?: () => Promise<unknown>
   style?: StyleProp<ViewStyle>
 }
@@ -85,10 +87,9 @@ export function Menu({
   onRefresh,
   style,
 }: Props) {
-  const list =
-    useRef<FlatList<MenuItem | string | null | (() => ReactElement)>>(null)
+  const list = useRef<FlatList<Item>>(null)
 
-  useScrollToTop(list)
+  useScrollToTop(list, listProps)
 
   const { styles } = useStyles(stylesheet)
 
