@@ -4,9 +4,7 @@ function check() {
   )
 
   if (match) {
-    window.stop()
-
-    const { commentId, community, feed, postId, shareId, user } = match
+    const { commentId, community, feed, postId, shareId, user } = match.groups
 
     if (shareId) {
       window.location.replace(window.location.href)
