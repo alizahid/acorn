@@ -227,7 +227,7 @@ export function CommentCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
   body: {
     margin: theme.space[3],
   },
@@ -236,6 +236,7 @@ const stylesheet = createStyleSheet((theme) => ({
 
     const base: UnistylesValues = {
       marginLeft,
+      width: runtime.screen.width - marginLeft,
     }
 
     if (iPad) {

@@ -2,8 +2,10 @@
 
 ## Upcoming
 
+- added: open user feeds in Acorn
 - fixed: filters apply to /popular and /all
 - fixed: comment duplicate flair
+- fixed: comment text cutting off
 
 ## Build 47
 
