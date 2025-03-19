@@ -1,3 +1,4 @@
+import { type Nullable } from '.'
 import { type Community } from './community'
 import { type Flair } from './flair'
 
@@ -18,7 +19,7 @@ export type Post = {
   flair: Array<Flair>
   hidden: boolean
   id: string
-  liked: boolean | null
+  liked: Nullable<boolean>
   media: {
     images?: Array<PostMedia>
     meta: PostMediaMeta

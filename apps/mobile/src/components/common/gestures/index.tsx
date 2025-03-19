@@ -9,7 +9,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { View } from '~/components/common/view'
 import { iPhone } from '~/lib/common'
-import { type Undefined } from '~/types'
+import { type Nullable, type Undefined } from '~/types'
 
 import { Actions } from './actions'
 
@@ -23,7 +23,7 @@ export type GestureAction =
 
 export type GestureData = {
   hidden?: boolean
-  liked: boolean | null
+  liked: Nullable<boolean>
   saved: boolean
 }
 

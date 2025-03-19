@@ -2,6 +2,7 @@ import { addSeconds } from 'date-fns'
 import { z } from 'zod'
 
 import { type Account } from '~/stores/auth'
+import { type Nullable } from '~/types'
 
 import { REDIRECT_URI } from './config'
 import { getAccountName } from './name'
@@ -17,7 +18,7 @@ export type TokenSchema = z.infer<typeof TokenSchema>
 export async function getAccessToken(
   clientId: string,
   code: string,
-): Promise<Account | null> {
+): Promise<Nullable<Account>> {
   const url = new URL('/api/v1/access_token', 'https://www.reddit.com')
 
   const data = new FormData()
@@ -58,7 +59,7 @@ export async function getAccessToken(
 export async function refreshAccessToken(
   clientId: string,
   token: string,
-): Promise<Account | null> {
+): Promise<Nullable<Account>> {
   const url = new URL('/api/v1/access_token', 'https://www.reddit.com')
 
   const data = new FormData()

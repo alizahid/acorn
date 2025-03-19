@@ -1,3 +1,4 @@
+import { type Nullable } from '.'
 import { type Flair } from './flair'
 import { type PostMediaMeta } from './post'
 
@@ -22,7 +23,7 @@ export type CommentReply = {
   depth: number
   flair: Array<Flair>
   id: string
-  liked: boolean | null
+  liked: Nullable<boolean>
   media: {
     meta: PostMediaMeta
   }

@@ -3,9 +3,10 @@ import { decode } from 'entities'
 
 import { removePrefix } from '~/lib/reddit'
 import { type UserSchema } from '~/schemas/users'
+import { type Nullable } from '~/types'
 import { type User } from '~/types/user'
 
-export function transformUser(data: UserSchema): User | null {
+export function transformUser(data: UserSchema): Nullable<User> {
   if (!data.id || !data.created_utc) {
     return null
   }

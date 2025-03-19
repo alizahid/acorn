@@ -1,9 +1,10 @@
 import { createId } from '@paralleldrive/cuid2'
 
 import { type FlairSchema } from '~/schemas/flair'
+import { type Nullable } from '~/types'
 import { type Flair } from '~/types/flair'
 
-export function transformFlair(data?: FlairSchema | null): Array<Flair> {
+export function transformFlair(data?: Nullable<FlairSchema>): Array<Flair> {
   if (!data) {
     return []
   }

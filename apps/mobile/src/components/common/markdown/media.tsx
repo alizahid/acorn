@@ -3,7 +3,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useImagePlaceholder } from '~/hooks/image'
 import { Gallery } from '~/sheets/gallery'
-import { type Undefined } from '~/types'
+import { type Nullable, type Undefined } from '~/types'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
 import { Pressable } from '../pressable'
@@ -11,7 +11,7 @@ import { Text } from '../text'
 import { type MarkdownVariant } from '.'
 
 type Props = {
-  caption?: string | null
+  caption?: Nullable<string>
   media: PostMedia
   recyclingKey?: string
   variant: MarkdownVariant

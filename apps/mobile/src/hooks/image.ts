@@ -13,6 +13,7 @@ import { useTranslations } from 'use-intl'
 import placeholderDark from '~/assets/images/placeholder-dark.png'
 import placeholderLight from '~/assets/images/placeholder-light.png'
 import { usePreferences } from '~/stores/preferences'
+import { type Nullable } from '~/types'
 
 export function useImagePlaceholder() {
   const { theme } = useStyles()
@@ -220,7 +221,7 @@ async function getAlbum() {
 
   const exists = (await MediaLibrary.getAlbumAsync(
     name,
-  )) as MediaLibrary.Album | null
+  )) as Nullable<MediaLibrary.Album>
 
   if (exists) {
     return exists
