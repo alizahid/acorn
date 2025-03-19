@@ -4,6 +4,7 @@ import { reddit } from '~/reddit/api'
 import { FeedsSchema } from '~/schemas/feeds'
 import { useAuth } from '~/stores/auth'
 import { transformFeed } from '~/transformers/feed'
+import { type Undefined } from '~/types'
 import { type Feed } from '~/types/feed'
 
 export type FeedsQueryKey = [
@@ -26,7 +27,7 @@ export function useFeeds() {
   ]
 
   const { data, isLoading, refetch } = useQuery<
-    FeedsQueryData | undefined,
+    Undefined<FeedsQueryData>,
     Error,
     FeedsQueryData,
     FeedsQueryKey

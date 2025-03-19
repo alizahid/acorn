@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { differenceInMilliseconds } from 'date-fns'
 
 import { getGif, type Gif } from '~/lib/red-gifs'
+import { type Undefined } from '~/types'
 
 type RedGifsQueryKey = [
   'red-gifs',
@@ -14,7 +15,7 @@ type RedGifsData = Gif
 
 export function useRedGifs(id: string) {
   const { data, isLoading } = useQuery<
-    RedGifsData | undefined,
+    Undefined<RedGifsData>,
     Error,
     RedGifsData,
     RedGifsQueryKey

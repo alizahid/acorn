@@ -3,6 +3,7 @@ import { compact, maxBy } from 'lodash'
 
 import { type CommentDataSchema } from '~/schemas/comments'
 import { type PostDataSchema } from '~/schemas/posts'
+import { type Undefined } from '~/types'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
 export function getMeta(
@@ -45,7 +46,7 @@ export function getMeta(
   return {}
 }
 
-export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
+export function getImages(data: PostDataSchema): Undefined<Array<PostMedia>> {
   if (data.media_metadata && data.gallery_data) {
     return compact(
       data.gallery_data.items.map((item) => {
@@ -90,7 +91,7 @@ export function getImages(data: PostDataSchema): Array<PostMedia> | undefined {
   }
 }
 
-export function getVideo(data: PostDataSchema): PostMedia | undefined {
+export function getVideo(data: PostDataSchema): Undefined<PostMedia> {
   if (data.media && 'oembed' in data.media && 'type' in data.media.oembed) {
     if (data.media.oembed.type === 'video') {
       if (data.media.type.endsWith('redgifs.com')) {

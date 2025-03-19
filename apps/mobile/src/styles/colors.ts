@@ -1,6 +1,8 @@
 import * as colors from '@radix-ui/colors'
 import { compact } from 'lodash'
 
+import { type Undefined } from '~/types'
+
 import { type ColorToken } from './tokens'
 
 type RadixColor = keyof typeof colors
@@ -92,7 +94,7 @@ export function getColors<Palette extends Colors>(...names: Array<RadixColor>) {
 
     palette.push(
       ...Object.values(colors[name]).map((color, index) => {
-        const key: Array<string | undefined> = [map[index + 1]]
+        const key: Array<Undefined<string>> = [map[index + 1]]
 
         if (alpha) {
           key.push('Alpha')

@@ -9,6 +9,7 @@ import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { uploadFile } from '~/reddit/media'
+import { type Undefined } from '~/types'
 
 import { Focusable } from '../common/focusable'
 import { Icon } from '../common/icon'
@@ -28,7 +29,7 @@ export function SubmissionImage() {
   const [image, setImage] = useState<ImagePicker.ImagePickerAsset>()
 
   const { isPending, mutate } = useMutation<
-    string | undefined,
+    Undefined<string>,
     Error,
     ImagePicker.ImagePickerAsset
   >({

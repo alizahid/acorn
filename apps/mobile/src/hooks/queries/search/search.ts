@@ -9,6 +9,7 @@ import { CommunitiesSchema } from '~/schemas/communities'
 import { PostsSchema } from '~/schemas/posts'
 import { UsersSchema } from '~/schemas/users'
 import { useAuth } from '~/stores/auth'
+import { type Undefined } from '~/types'
 import { type Community } from '~/types/community'
 import { type SearchTab } from '~/types/defaults'
 import { type Post } from '~/types/post'
@@ -50,7 +51,7 @@ export function useSearch<Type extends SearchTab>({
   const { accountId } = useAuth()
 
   const { data, isLoading, refetch } = useQuery<
-    SearchQueryData<Type> | undefined,
+    Undefined<SearchQueryData<Type>>,
     Error,
     SearchQueryData<Type>,
     SearchQueryKey
@@ -135,7 +136,7 @@ export function useSearch<Type extends SearchTab>({
   }
 }
 
-export function getPostFromSearch(id: string): PostQueryData | undefined {
+export function getPostFromSearch(id: string): Undefined<PostQueryData> {
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
@@ -148,7 +149,7 @@ export function getPostFromSearch(id: string): PostQueryData | undefined {
   })
 
   for (const query of queries) {
-    const data = query.state.data as SearchQueryData<'post'> | undefined
+    const data = query.state.data as Undefined<SearchQueryData<'post'>>
 
     if (!data) {
       continue

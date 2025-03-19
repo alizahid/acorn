@@ -1,3 +1,5 @@
+import { type Undefined } from '~/types'
+
 import { REDDIT_URI, USER_AGENT } from './config'
 
 export async function getAccountName(accessToken: string) {
@@ -10,11 +12,9 @@ export async function getAccountName(accessToken: string) {
     },
   })
 
-  const json = (await response.json()) as
-    | {
-        name: string
-      }
-    | undefined
+  const json = (await response.json()) as Undefined<{
+    name: string
+  }>
 
   return json?.name
 }

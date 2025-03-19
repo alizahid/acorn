@@ -14,6 +14,7 @@ import { modalStyle } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
 import { useDefaults } from '~/stores/defaults'
+import { type Undefined } from '~/types'
 
 import { type HomeParams } from '.'
 import { type CommunityParams } from './communities/[name]'
@@ -70,7 +71,7 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="index"
           options={({ route }) => ({
-            title: (route.params as HomeParams | undefined)?.feed,
+            title: (route.params as Undefined<HomeParams>)?.feed,
           })}
         />
       </StackLayout>
@@ -100,7 +101,7 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="index"
           options={({ route }) => ({
-            title: (route.params as HomeParams | undefined)?.feed,
+            title: (route.params as Undefined<HomeParams>)?.feed,
           })}
         />
       </StackLayout>
@@ -120,7 +121,7 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="index"
           options={({ route }) => ({
-            title: (route.params as HomeParams | undefined)?.feed,
+            title: (route.params as Undefined<HomeParams>)?.feed,
           })}
         />
       </StackLayout>

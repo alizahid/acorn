@@ -3,6 +3,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { useImagePlaceholder } from '~/hooks/image'
 import { Gallery } from '~/sheets/gallery'
+import { type Undefined } from '~/types'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
 import { Pressable } from '../pressable'
@@ -69,7 +70,7 @@ const stylesheet = createStyleSheet(() => ({
 export function findMedia(
   url: string,
   meta?: PostMediaMeta,
-): PostMedia | undefined {
+): Undefined<PostMedia> {
   return (
     meta?.[url] ?? Object.values(meta ?? {}).find((item) => item.url === url)
   )

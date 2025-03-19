@@ -16,6 +16,7 @@ import { CommentMenu } from '~/sheets/comment-menu'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
+import { type Undefined } from '~/types'
 import { type CommentReply } from '~/types/comment'
 
 import { PostGestures } from '../common/gestures'
@@ -62,7 +63,7 @@ export function CommentCard({
   const { save } = useCommentSave()
   const { hide } = useHide()
 
-  const flair = comment.flair.reduce<FlairType | undefined>((type, item) => {
+  const flair = comment.flair.reduce<Undefined<FlairType>>((type, item) => {
     if (!type) {
       return item.type
     }

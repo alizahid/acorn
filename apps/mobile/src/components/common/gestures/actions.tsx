@@ -12,11 +12,12 @@ import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
 import { swipeActionThreshold } from '~/lib/common'
 import { triggerFeedback } from '~/lib/feedback'
 import { type ColorToken } from '~/styles/tokens'
+import { type Undefined } from '~/types'
 
 import { type GestureAction, type GestureData } from '.'
 
 type Props = {
-  action: SharedValue<GestureAction | undefined>
+  action: SharedValue<Undefined<GestureAction>>
   data: GestureData
   long: GestureAction
   progress: SharedValue<number>

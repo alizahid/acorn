@@ -6,6 +6,7 @@ import { reddit } from '~/reddit/api'
 import { CommunitySchema } from '~/schemas/communities'
 import { useAuth } from '~/stores/auth'
 import { transformCommunity } from '~/transformers/community'
+import { type Undefined } from '~/types'
 import { type Community } from '~/types/community'
 
 import {
@@ -27,7 +28,7 @@ export function useCommunity(name: string) {
   const { accountId } = useAuth()
 
   const { data, isLoading, refetch } = useQuery<
-    CommunityQueryData | undefined,
+    Undefined<CommunityQueryData>,
     Error,
     CommunityQueryData,
     CommunityQueryKey
@@ -73,7 +74,7 @@ function getCommunity(name: string) {
   })
 
   for (const query of queries) {
-    const data = query.state.data as CommunitiesQueryData | undefined
+    const data = query.state.data as Undefined<CommunitiesQueryData>
 
     if (!data) {
       continue

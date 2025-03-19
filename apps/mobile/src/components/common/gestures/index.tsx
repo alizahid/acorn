@@ -9,6 +9,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { View } from '~/components/common/view'
 import { iPhone } from '~/lib/common'
+import { type Undefined } from '~/types'
 
 import { Actions } from './actions'
 
@@ -37,7 +38,7 @@ type Props = {
   containerStyle?: StyleProp<ViewStyle>
   data: GestureData
   left: Gestures
-  onAction: (action: GestureAction | undefined) => void
+  onAction: (action: Undefined<GestureAction>) => void
   right: Gestures
   style?: StyleProp<ViewStyle>
 }
@@ -57,7 +58,7 @@ export function PostGestures({
 
   const swipeable = useRef<SwipeableMethods>(null)
 
-  const action = useSharedValue<GestureAction | undefined>(undefined)
+  const action = useSharedValue<Undefined<GestureAction>>(undefined)
 
   if (!left.enabled && !right.enabled) {
     return <View style={[containerStyle, style]}>{children}</View>

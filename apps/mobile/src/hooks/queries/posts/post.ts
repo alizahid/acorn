@@ -16,6 +16,7 @@ import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { transformComment } from '~/transformers/comment'
 import { transformPost } from '~/transformers/post'
+import { type Undefined } from '~/types'
 import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 import { type CommentSort } from '~/types/sort'
@@ -53,7 +54,7 @@ export function usePost({ commentId, id, sort }: Props) {
   const { collapseAutoModerator } = usePreferences()
 
   const query = useQuery<
-    PostQueryData | undefined,
+    Undefined<PostQueryData>,
     Error,
     PostQueryData,
     PostQueryKey
@@ -191,7 +192,7 @@ export function usePost({ commentId, id, sort }: Props) {
   }
 }
 
-function getPost(id: string): PostQueryData | undefined {
+function getPost(id: string): Undefined<PostQueryData> {
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
@@ -199,7 +200,7 @@ function getPost(id: string): PostQueryData | undefined {
   })
 
   for (const query of queries) {
-    const data = query.state.data as PostsQueryData | undefined
+    const data = query.state.data as Undefined<PostsQueryData>
 
     if (!data) {
       continue

@@ -4,6 +4,7 @@ import { reddit } from '~/reddit/api'
 import { ProfileSchema } from '~/schemas/profile'
 import { useAuth } from '~/stores/auth'
 import { transformProfile } from '~/transformers/profile'
+import { type Undefined } from '~/types'
 import { type Profile } from '~/types/user'
 
 export type ProfileQueryKey = [
@@ -19,7 +20,7 @@ export function useProfile(name?: string) {
   const { accountId } = useAuth()
 
   const { data, isLoading, refetch } = useQuery<
-    ProfileQueryData | undefined,
+    Undefined<ProfileQueryData>,
     Error,
     ProfileQueryData,
     ProfileQueryKey
