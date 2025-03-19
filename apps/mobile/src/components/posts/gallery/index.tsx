@@ -1,8 +1,6 @@
-import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
 
 import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
@@ -10,14 +8,12 @@ import { Gallery } from '~/sheets/gallery'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
-import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
-import { Text } from '../../common/text'
+import { GalleryBlur } from './blur'
 import { ImageGrid } from './grid'
 
 type Props = {
   compact?: boolean
-  crossPost?: boolean
   images: Array<PostMedia>
   large?: boolean
   nsfw?: boolean
@@ -30,7 +26,6 @@ type Props = {
 
 export function PostGalleryCard({
   compact,
-  crossPost,
   images,
   large,
   nsfw,
@@ -40,12 +35,10 @@ export function PostGalleryCard({
   style,
   viewing,
 }: Props) {
-  const t = useTranslations('component.posts.gallery')
-
   const { blurNsfw, seenOnMedia } = usePreferences()
   const { addPost } = useHistory()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
   const placeholder = useImagePlaceholder()
 
@@ -80,21 +73,7 @@ export function PostGalleryCard({
           style={styles.compactImage}
         />
 
-        {Boolean(nsfw && blurNsfw) || spoiler ? (
-          <BlurView
-            intensity={100}
-            pointerEvents="none"
-            style={[styles.blur, styles.compactIcon]}
-            tint={theme.name}
-          >
-            <Icon
-              color={theme.colors.accent.accent}
-              name="Warning"
-              size={theme.space[5]}
-              weight="fill"
-            />
-          </BlurView>
-        ) : null}
+        {Boolean(nsfw && blurNsfw) || spoiler ? <GalleryBlur /> : null}
       </Pressable>
     )
   }
@@ -102,8 +81,8 @@ export function PostGalleryCard({
   return (
     <Pressable onLongPress={onLongPress} style={[styles.main, style]}>
       <ImageGrid
-        crossPost={crossPost}
         images={images}
+        nsfw={Boolean(nsfw && blurNsfw)}
         onLongPress={onLongPress}
         onPress={(initial) => {
           void Gallery.call({
@@ -118,26 +97,9 @@ export function PostGalleryCard({
           }
         }}
         recyclingKey={recyclingKey}
+        spoiler={spoiler}
         viewing={viewing}
       />
-
-      {Boolean(nsfw && blurNsfw) || spoiler ? (
-        <BlurView
-          intensity={100}
-          pointerEvents="none"
-          style={styles.blur}
-          tint={theme.name}
-        >
-          <Icon
-            color={theme.colors.gray.text}
-            name="Warning"
-            size={theme.space[6]}
-            weight="fill"
-          />
-
-          <Text weight="medium">{t(spoiler ? 'spoiler' : 'nsfw')}</Text>
-        </BlurView>
-      ) : null}
     </Pressable>
   )
 }

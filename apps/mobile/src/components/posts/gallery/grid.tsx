@@ -10,20 +10,25 @@ import { View } from '~/components/common/view'
 import { useImagePlaceholder } from '~/hooks/image'
 import { type PostMedia } from '~/types/post'
 
+import { GalleryBlur } from './blur'
+
 type Props = {
-  crossPost?: boolean
   images: Array<PostMedia>
+  nsfw?: boolean
   onLongPress?: () => void
   onPress: (index: number) => void
   recyclingKey?: string
+  spoiler?: boolean
   viewing?: boolean
 }
 
 export function ImageGrid({
   images,
+  nsfw = false,
   onLongPress,
   onPress,
   recyclingKey,
+  spoiler = false,
   viewing,
 }: Props) {
   const t = useTranslations('component.posts.gallery')
@@ -51,6 +56,10 @@ export function ImageGrid({
           source={image.thumbnail}
           style={styles.image}
         />
+
+        {nsfw || spoiler ? (
+          <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+        ) : null}
 
         {image.type === 'gif' ? (
           <View style={[styles.label, styles.gif]}>
@@ -91,6 +100,10 @@ export function ImageGrid({
               style={styles.image}
             />
 
+            {nsfw || spoiler ? (
+              <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+            ) : null}
+
             {item.type === 'gif' ? (
               <View style={[styles.label, styles.gif]}>
                 <Text contrast size="1" weight="medium">
@@ -116,6 +129,12 @@ export function ImageGrid({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  blur: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    gap: theme.space[4],
+    justifyContent: 'center',
+  },
   count: {
     right: theme.space[2],
   },

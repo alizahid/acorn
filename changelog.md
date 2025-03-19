@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: open user feeds in Acorn
+- changed: separate blur for galleries
 - fixed: filters apply to /popular and /all
 - fixed: comment duplicate flair
 - fixed: comment text cutting off

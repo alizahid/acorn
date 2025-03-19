@@ -1,4 +1,3 @@
-import { BlurView } from 'expo-blur'
 import { Image } from 'expo-image'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
 import { useEffect, useRef, useState } from 'react'
@@ -6,7 +5,6 @@ import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
@@ -14,6 +12,7 @@ import { type PostMedia } from '~/types/post'
 
 import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
+import { GalleryBlur } from '../gallery/blur'
 
 type Props = {
   compact?: boolean
@@ -124,21 +123,7 @@ export function VideoPlayer({
           style={styles.compactVideo}
         />
 
-        {Boolean(nsfw && blurNsfw) || spoiler ? (
-          <BlurView
-            intensity={100}
-            pointerEvents="none"
-            style={styles.blur}
-            tint={theme.name}
-          >
-            <Icon
-              color={theme.colors.accent.accent}
-              name="Warning"
-              size={theme.space[5]}
-              weight="fill"
-            />
-          </BlurView>
-        ) : null}
+        {Boolean(nsfw && blurNsfw) || spoiler ? <GalleryBlur /> : null}
       </Pressable>
     )
   }
@@ -183,21 +168,7 @@ export function VideoPlayer({
       />
 
       {Boolean(nsfw && blurNsfw) || spoiler ? (
-        <BlurView
-          intensity={100}
-          pointerEvents="none"
-          style={styles.blur}
-          tint={theme.name}
-        >
-          <Icon
-            color={theme.colors.gray.text}
-            name="Warning"
-            size={theme.space[6]}
-            weight="fill"
-          />
-
-          <Text weight="medium">{t(spoiler ? 'spoiler' : 'nsfw')}</Text>
-        </BlurView>
+        <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
       ) : (
         <Pressable
           hitSlop={theme.space[2]}

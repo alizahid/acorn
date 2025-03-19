@@ -122,7 +122,6 @@ export function CrossPostCard({
 
       {post.type === 'image' && post.media.images ? (
         <PostGalleryCard
-          crossPost
           images={post.media.images}
           nsfw={post.nsfw}
           onLongPress={onLongPress}
