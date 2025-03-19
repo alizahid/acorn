@@ -621,6 +621,9 @@
       "copied": "Image copied",
       "downloaded": "{count, plural, =0 {Images} =1 {Image} other {# images}} downloaded"
     },
+    "link": {
+      "loading": "Loading"
+    },
     "notifications": {
       "markAllAsRead": "All notifications marked as read"
     },

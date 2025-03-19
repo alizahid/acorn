@@ -3,12 +3,16 @@ import { useRouter } from 'expo-router'
 import * as WebBrowser from 'expo-web-browser'
 import { useCallback, useState } from 'react'
 import { useStyles } from 'react-native-unistyles'
+import { toast } from 'sonner-native'
+import { useTranslations } from 'use-intl'
 
 import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
 
 export function useLink() {
   const router = useRouter()
+
+  const t = useTranslations('toasts.link')
 
   const { linkBrowser, oldReddit } = usePreferences()
 
@@ -34,6 +38,19 @@ export function useLink() {
     [theme.colors.accent, theme.colors.gray],
   )
 
+  const handle = useCallback(
+    (url: string) => {
+      if (linkBrowser) {
+        void Linking.openURL(url)
+
+        return
+      }
+
+      void open(url)
+    },
+    [linkBrowser, open],
+  )
+
   const handleLink = useCallback(
     async (href: string) => {
       try {
@@ -46,84 +63,93 @@ export function useLink() {
               : 'https://reddit.com',
         )
 
-        if (url.hostname.endsWith('reddit.com')) {
-          if (url.pathname.includes('/wiki/')) {
-            void open(href)
-          } else if (url.pathname.includes('/s/')) {
-            setLoading(true)
+        const match =
+          /^(?:https?:\/\/)?(?:(?:www|amp|m|i)\.)?(?:(?:reddit\.com))(?:\/r\/(\w+)(?:\/(?:comments\/(\w+)(?:\/[^/]+(?:\/(?:comment\/)?(\w+))?)?|wiki\/([^/?]+)|s\/(\w+)))?(?:\/?.*?(?:[?&]context=(\d+))?)?|\/user\/(\w+)\/(?:m\/(\w+)|comments\/(\w+)(?:\/[^/]+)?(?:\/?.*?(?:[?&]context=(\d+))?)?))/i.exec(
+            url.toString(),
+          )
+
+        if (match) {
+          const community = match[1]
+          const postId = match[2] ?? match[9]
+          const commentId = match[3]
+          const shareId = match[5]
+          const context = match[6] ?? match[10]
+          const user = match[7]
+          const feed = match[8]
+
+          if (postId) {
+            router.push({
+              params: {
+                commentId,
+                context,
+                id: postId,
+              },
+              pathname: '/posts/[id]',
+            })
+
+            return
+          }
+
+          if (feed) {
+            router.push({
+              params: {
+                feed,
+              },
+              pathname: '/',
+            })
+
+            return
+          }
+
+          if (shareId) {
+            const id = toast.loading(t('loading'), {
+              duration: Infinity,
+            })
 
             const response = await fetch(url, {
               method: 'trace',
             })
 
+            toast.dismiss(id)
+
             void handleLink(response.url)
 
-            setLoading(false)
-          } else if (url.pathname.startsWith('/r/')) {
-            const [, , name, , id, , commentId] = url.pathname.split('/')
-
-            if (commentId && id) {
-              router.push({
-                params: {
-                  commentId,
-                  id,
-                },
-                pathname: '/posts/[id]',
-              })
-            } else if (id) {
-              router.push({
-                params: {
-                  id,
-                },
-                pathname: '/posts/[id]',
-              })
-            } else if (name) {
-              router.push({
-                params: {
-                  name,
-                },
-                pathname: '/communities/[name]',
-              })
-            }
+            return
           }
 
-          if (url.pathname.startsWith('/user/')) {
-            const [, , name, , id] = url.pathname.split('/')
+          if (user) {
+            router.push({
+              params: {
+                name: user,
+              },
+              pathname: '/users/[name]',
+            })
 
-            if (id) {
-              router.push({
-                params: {
-                  id,
-                },
-                pathname: '/posts/[id]',
-              })
-            } else if (name) {
-              router.push({
-                params: {
-                  name,
-                },
-                pathname: '/users/[name]',
-              })
-            }
+            return
           }
-        } else if (linkBrowser) {
-          void Linking.openURL(href)
-        } else {
-          void open(href)
+
+          if (community) {
+            router.push({
+              params: {
+                name: community,
+              },
+              pathname: '/communities/[name]',
+            })
+
+            return
+          }
         }
+
+        handle(href)
       } catch (error) {
         Sentry.captureException(error)
 
-        if (linkBrowser) {
-          void Linking.openURL(href)
-        } else {
-          void open(href)
-        }
+        handle(href)
       } finally {
         setLoading(false)
       }
     },
-    [linkBrowser, oldReddit, open, router],
+    [handle, oldReddit, router, t],
   )
 
   return {

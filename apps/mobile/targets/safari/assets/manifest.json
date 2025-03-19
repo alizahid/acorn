@@ -3,7 +3,7 @@
     {
       "js": ["content.js"],
       "matches": ["https://*.reddit.com/*"],
-      "run_at": "document_end"
+      "run_at": "document_start"
     }
   ],
   "default_locale": "en",

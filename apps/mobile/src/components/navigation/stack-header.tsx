@@ -5,13 +5,13 @@ import { Header } from './header'
 
 type Props = NativeStackHeaderProps | BottomTabHeaderProps
 
-export function StackHeader({ options, route, ...props }: Props) {
+export function StackHeader({ options, ...props }: Props) {
   const back = 'back' in props ? Boolean(props.back?.title) : false
   const modal = 'presentation' in options && options.presentation === 'modal'
 
   return (
     <Header
-      back={back ? route.name !== 'index' : false}
+      back={back}
       left={options.headerLeft?.({
         canGoBack: back,
       })}
