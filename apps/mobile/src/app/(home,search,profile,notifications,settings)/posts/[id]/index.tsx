@@ -227,9 +227,6 @@ export default function Screen() {
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
         scrollEventThrottle={100}
-        viewabilityConfig={{
-          itemVisiblePercentThreshold: 60,
-        }}
       />
 
       {replyPost && post ? (
