@@ -13,7 +13,7 @@ export function transformFlair(data?: Nullable<FlairSchema>): Array<Flair> {
     .map((flair) => ({
       id: createId(),
       type: flair.e,
-      value: (flair.e === 'emoji' ? flair.u : flair.t).trim(),
+      value: flair.e === 'emoji' ? flair.u : flair.t,
     }))
     .filter((flair) => flair.value.length > 0)
 }

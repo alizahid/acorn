@@ -26,7 +26,7 @@ export function transformPost(
     : undefined
 
   return {
-    body: decode(data.selftext).trim() || undefined,
+    body: decode(data.selftext) || undefined,
     comments: data.num_comments,
     community: transformCommunity(data.sr_detail),
     createdAt: fromUnixTime(data.created_utc),
@@ -47,7 +47,7 @@ export function transformPost(
     seen: extra?.seen?.includes(id) ?? false,
     spoiler: data.spoiler,
     sticky: Boolean(data.stickied),
-    title: decode(data.title).trim(),
+    title: decode(data.title),
     type: getType(data),
     url: data.url ?? undefined,
     user: {

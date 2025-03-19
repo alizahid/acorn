@@ -47,7 +47,7 @@ export function transformComment(
 
   return {
     data: {
-      body: decode(data.data.body).trim(),
+      body: decode(data.data.body),
       collapsed,
       community: {
         id: removePrefix(data.data.subreddit_id),

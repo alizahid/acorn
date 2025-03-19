@@ -12,7 +12,7 @@ export function transformInboxItem(
     return {
       data: {
         author: data.data.author,
-        body: decode(data.data.body).trim(),
+        body: decode(data.data.body),
         context: data.data.context,
         createdAt: fromUnixTime(data.data.created_utc),
         id: removePrefix(data.data.id),
@@ -27,7 +27,7 @@ export function transformInboxItem(
   return {
     data: {
       author: data.data.author ?? 'Unknown',
-      body: decode(data.data.body).trim(),
+      body: decode(data.data.body),
       createdAt: fromUnixTime(data.data.created_utc),
       id: removePrefix(data.data.id),
       new: data.data.new,
