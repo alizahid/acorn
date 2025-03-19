@@ -61,17 +61,17 @@ export default function Layout({ segment }: Props) {
     return (
       <StackLayout>
         <Stack.Screen
-          name="index"
-          options={({ route }) => ({
-            title: (route.params as HomeParams | undefined)?.feed,
-          })}
-        />
-
-        <Stack.Screen
           name="search"
           options={{
             headerShown: false,
           }}
+        />
+
+        <Stack.Screen
+          name="index"
+          options={({ route }) => ({
+            title: (route.params as HomeParams | undefined)?.feed,
+          })}
         />
       </StackLayout>
     )
@@ -80,13 +80,6 @@ export default function Layout({ segment }: Props) {
   if (segment === '(profile)') {
     return (
       <StackLayout>
-        <Stack.Screen
-          name="index"
-          options={({ route }) => ({
-            title: (route.params as HomeParams | undefined)?.feed,
-          })}
-        />
-
         <Stack.Screen
           name="profile"
           options={{
@@ -103,6 +96,13 @@ export default function Layout({ segment }: Props) {
             title: accountId,
           }}
         />
+
+        <Stack.Screen
+          name="index"
+          options={({ route }) => ({
+            title: (route.params as HomeParams | undefined)?.feed,
+          })}
+        />
       </StackLayout>
     )
   }
@@ -111,17 +111,17 @@ export default function Layout({ segment }: Props) {
     return (
       <StackLayout>
         <Stack.Screen
-          name="index"
-          options={({ route }) => ({
-            title: (route.params as HomeParams | undefined)?.feed,
-          })}
-        />
-
-        <Stack.Screen
           name="notifications"
           options={{
             headerShown: false,
           }}
+        />
+
+        <Stack.Screen
+          name="index"
+          options={({ route }) => ({
+            title: (route.params as HomeParams | undefined)?.feed,
+          })}
         />
       </StackLayout>
     )
