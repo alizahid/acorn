@@ -46,7 +46,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
 
   const { copy } = useCopy()
   const { hide } = useHide()
-  const { handleLink, open } = useLink()
+  const { handleLink, openInBrowser } = useLink()
 
   useEffect(() => {
     sheet.current?.present()
@@ -304,7 +304,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
               oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
             )
 
-            void open(url.toString())
+            openInBrowser(url.toString())
 
             call.end()
           }}

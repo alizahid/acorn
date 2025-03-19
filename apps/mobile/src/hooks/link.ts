@@ -22,7 +22,7 @@ export function useLink() {
   const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(false)
 
-  const open = useCallback(
+  const openInApp = useCallback(
     async (url: string) => {
       try {
         setVisible(true)
@@ -39,17 +39,21 @@ export function useLink() {
     [theme.colors.accent, theme.colors.gray],
   )
 
+  const openInBrowser = useCallback((url: string) => {
+    void Linking.openURL(url)
+  }, [])
+
   const handle = useCallback(
     (url: string) => {
       if (linkBrowser) {
-        void Linking.openURL(url)
+        openInBrowser(url)
 
         return
       }
 
-      void open(url)
+      void openInApp(url)
     },
-    [linkBrowser, open],
+    [linkBrowser, openInApp, openInBrowser],
   )
 
   const handleLink = useCallback(
@@ -142,7 +146,8 @@ export function useLink() {
   return {
     handleLink,
     loading,
-    open,
+    openInApp,
+    openInBrowser,
     visible,
   }
 }

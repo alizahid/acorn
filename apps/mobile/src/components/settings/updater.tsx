@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-named-as-default -- go away
 import Constants from 'expo-constants'
 import * as Updates from 'expo-updates'
 import { useRef, useState } from 'react'

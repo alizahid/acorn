@@ -52,7 +52,7 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
 
   const { copy } = useCopy()
   const { hide } = useHide()
-  const { handleLink, open } = useLink()
+  const { handleLink, openInBrowser } = useLink()
   const { copy: copyImage } = useCopyImage()
   const { download: downloadImage } = useDownloadImage()
   const { download: downloadAll } = useDownloadImages()
@@ -389,7 +389,7 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
               oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
             )
 
-            void open(url.toString())
+            openInBrowser(url.toString())
 
             call.end()
           }}
