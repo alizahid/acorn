@@ -143,7 +143,7 @@ const stylesheet = createStyleSheet((theme) => ({
     borderWidth: 0,
   },
   main: {
-    backgroundColor: theme.colors.gray.bgAlt,
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
   },

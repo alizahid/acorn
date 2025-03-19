@@ -140,7 +140,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   content: (focused: boolean, error: boolean) => ({
-    backgroundColor: theme.colors.gray.bgAlt,
+    backgroundColor: theme.colors.gray.ui,
     borderColor: focused
       ? error
         ? theme.colors.red.accent
