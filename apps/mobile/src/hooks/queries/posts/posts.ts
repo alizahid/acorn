@@ -141,7 +141,11 @@ export function usePosts({
         cursor: response.data.after,
         posts: await filterPosts(
           response,
-          !user && !userType && community !== 'all' && community !== 'popular',
+          Boolean(user) || Boolean(userType)
+            ? false
+            : community
+              ? community === 'all' || community === 'popular'
+              : true,
         ),
       }
     },
