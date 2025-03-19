@@ -423,7 +423,12 @@ type GetIconProps = {
   weight?: IconWeight
 }
 
-export function getIcon({ color, name, size = 20, weight }: GetIconProps) {
+export function getIcon({
+  color,
+  name,
+  size = 24,
+  weight = 'duotone',
+}: GetIconProps) {
   const theme = UnistylesRuntime.getTheme() as UnistylesTheme
 
   return (

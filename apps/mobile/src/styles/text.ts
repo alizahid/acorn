@@ -64,7 +64,7 @@ export function getTextStyles(theme: UnistylesTheme) {
   }
 }
 
-const weights: Record<FontWeight, TextStyle['fontWeight']> = {
+export const weights: Record<FontWeight, TextStyle['fontWeight']> = {
   bold: '700',
   light: '300',
   medium: '500',
