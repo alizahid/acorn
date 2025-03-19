@@ -34,6 +34,18 @@ export async function filterPosts(
     )
     .then((items) => items.map((item) => item.postId))
 
+  if (!apply) {
+    return data.children.map((item) => {
+      if (item.kind === 't1') {
+        return transformComment(item)
+      }
+
+      return transformPost(item.data, {
+        seen,
+      })
+    })
+  }
+
   const filters = await db
     .select()
     .from(db.schema.filters)
@@ -49,10 +61,6 @@ export async function filterPosts(
         return false
       }
 
-      if (!apply) {
-        return true
-      }
-
       const keyword = filters
         .filter((filter) => filter.type === 'keyword')
         .some((filter) =>
@@ -65,8 +73,7 @@ export async function filterPosts(
 
       const community = filters.find(
         (filter) =>
-          filter.type === 'community' &&
-          filter.value.toLowerCase() === item.data.subreddit.toLowerCase(),
+          filter.type === 'community' && filter.value === item.data.subreddit,
       )
 
       if (community) {
@@ -74,9 +81,7 @@ export async function filterPosts(
       }
 
       const user = filters.find(
-        (filter) =>
-          filter.type === 'user' &&
-          filter.value.toLowerCase() === item.data.author.toLowerCase(),
+        (filter) => filter.type === 'user' && filter.value === item.data.author,
       )
 
       if (user) {
