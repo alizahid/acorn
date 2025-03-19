@@ -4,13 +4,9 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback } from 'react'
 import { Controller, FormProvider } from 'react-hook-form'
-import {
-  KeyboardAwareScrollView,
-  KeyboardEvents,
-} from 'react-native-keyboard-controller'
-import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { z } from 'zod'
@@ -66,8 +62,6 @@ function Content({ refetch, submission }: Props) {
 
   const { createPost, form, isPending } = useCreatePost(submission)
 
-  const [visible, setVisible] = useState(false)
-
   const onSubmit = form.handleSubmit(async (data) => {
     if (isPending) {
       return
@@ -107,26 +101,11 @@ function Content({ refetch, submission }: Props) {
     }, [isPending, navigation, onSubmit]),
   )
 
-  useEffect(() => {
-    const show = KeyboardEvents.addListener('keyboardWillShow', () => {
-      setVisible(true)
-    })
-
-    const hide = KeyboardEvents.addListener('keyboardDidHide', () => {
-      setVisible(false)
-    })
-
-    return () => {
-      show.remove()
-      hide.remove()
-    }
-  }, [])
-
   return (
     <FormProvider {...form}>
       <KeyboardAwareScrollView
         contentContainerStyle={styles.content}
-        extraKeyboardSpace={0 - insets.bottom - 80}
+        extraKeyboardSpace={0 - insets.bottom - 110}
         keyboardDismissMode="interactive"
         refreshControl={<RefreshControl onRefresh={refetch} />}
         style={styles.main}
@@ -155,17 +134,11 @@ function Content({ refetch, submission }: Props) {
           />
         </View>
 
-        {!visible ? (
-          <Animated.View
-            entering={SlideInDown}
-            exiting={SlideOutDown}
-            style={styles.footer}
-          >
-            <SubmissionFlair submission={submission} />
+        <View gap="4" mx="4">
+          <SubmissionFlair submission={submission} />
 
-            <SubmissionMeta />
-          </Animated.View>
-        ) : null}
+          <SubmissionMeta />
+        </View>
       </KeyboardAwareScrollView>
     </FormProvider>
   )
@@ -175,10 +148,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   content: {
     flexGrow: 1,
     paddingVertical: theme.space[4],
-  },
-  footer: {
-    gap: theme.space[4],
-    marginHorizontal: theme.space[4],
   },
   main: {
     flex: 1,

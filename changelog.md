@@ -6,6 +6,7 @@
 - fixed: filters apply to /popular and /all
 - fixed: comment duplicate flair
 - fixed: comment text cutting off
+- fixed: hidden flair when creating new post
 
 ## Build 47
 
