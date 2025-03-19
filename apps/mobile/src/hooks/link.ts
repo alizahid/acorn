@@ -8,6 +8,7 @@ import { useTranslations } from 'use-intl'
 
 import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
+import { type Nullable, type Undefined } from '~/types'
 
 export function useLink() {
   const router = useRouter()
@@ -63,81 +64,67 @@ export function useLink() {
               : 'https://reddit.com',
         )
 
-        const match =
-          /^(?:https?:\/\/)?(?:(?:www|amp|m|i)\.)?(?:(?:reddit\.com))(?:\/r\/(\w+)(?:\/(?:comments\/(\w+)(?:\/[^/]+(?:\/(?:comment\/)?(\w+))?)?|wiki\/([^/?]+)|s\/(\w+)))?(?:\/?.*?(?:[?&]context=(\d+))?)?|\/user\/(\w+)\/(?:m\/(\w+)|comments\/(\w+)(?:\/[^/]+)?(?:\/?.*?(?:[?&]context=(\d+))?)?))/i.exec(
-            url.toString(),
-          )
+        const match = parseLink(url.toString())
 
-        if (match) {
-          const community = match[1]
-          const postId = match[2] ?? match[9]
-          const commentId = match[3]
-          const shareId = match[5]
-          const context = match[6] ?? match[10]
-          const user = match[7]
-          const feed = match[8]
+        if (match?.shareId) {
+          const id = toast.loading(t('loading'), {
+            duration: Infinity,
+          })
 
-          if (postId) {
-            router.push({
-              params: {
-                commentId,
-                context,
-                id: postId,
-              },
-              pathname: '/posts/[id]',
-            })
+          const response = await fetch(url, {
+            method: 'trace',
+          })
 
-            return
-          }
+          toast.dismiss(id)
 
-          if (feed) {
-            router.push({
-              params: {
-                feed,
-              },
-              pathname: '/',
-            })
+          void handleLink(response.url)
 
-            return
-          }
+          return
+        }
 
-          if (shareId) {
-            const id = toast.loading(t('loading'), {
-              duration: Infinity,
-            })
+        if (match?.postId) {
+          router.push({
+            params: {
+              commentId: match.commentId,
+              id: match.postId,
+            },
+            pathname: '/posts/[id]',
+          })
 
-            const response = await fetch(url, {
-              method: 'trace',
-            })
+          return
+        }
 
-            toast.dismiss(id)
+        if (match?.feed) {
+          router.push({
+            params: {
+              feed: match.feed,
+            },
+            pathname: '/',
+          })
 
-            void handleLink(response.url)
+          return
+        }
 
-            return
-          }
+        if (match?.user) {
+          router.push({
+            params: {
+              name: match.user,
+            },
+            pathname: '/users/[name]',
+          })
 
-          if (user) {
-            router.push({
-              params: {
-                name: user,
-              },
-              pathname: '/users/[name]',
-            })
+          return
+        }
 
-            return
-          }
+        if (match?.community) {
+          router.push({
+            params: {
+              name: match.community,
+            },
+            pathname: '/communities/[name]',
+          })
 
-          if (community) {
-            router.push({
-              params: {
-                name: community,
-              },
-              pathname: '/communities/[name]',
-            })
-
-            return
-          }
+          return
         }
 
         handle(href)
@@ -158,4 +145,53 @@ export function useLink() {
     open,
     visible,
   }
+}
+
+// https://amp.reddit.com/user/mildpanda/m/js // user:mildpanda, feed:js
+// https://www.reddit.com/user/mildpanda/comments/1i7h986/three_images/ // user:mildpanda, postId: 1i7h986
+// https://www.reddit.com/user/mildpanda/comments/1i7h986/comment/mcv3hr9/ // user:mildpanda, postId:1i7h986, commentId:mcv3hr9
+// https://i.reddit.com/r/acornblue/ // community:acornblue
+// https://www.reddit.com/r/macgaming/comments/1jeumij/well_i_did_it_preorder_ac_shadows/ // community:macgaming, postId:1jeumij
+// https://www.reddit.com/r/live/comments/1dtm4eq/comment/lvn4wgx/ // community:live, postId:1dtm4eq, commentId:lvn4wgx
+// https://www.reddit.com/r/macgaming/wiki/faq/ // community:macgaming, wiki:faq
+// https://www.reddit.com/r/wow/s/gT8f86WL7A // community:wow, shareId:gT8f86WL7A
+// https://www.reddit.com/live/18hnzysb1elcs // liveId: 18hnzysb1elcs
+
+export function parseLink(url: string): Nullable<{
+  commentId?: string
+  community?: string
+  feed?: string
+  liveId?: string
+  postId?: string
+  shareId?: string
+  user?: string
+  wiki?: string
+}> {
+  const regex =
+    /reddit\.com(?:\/user\/(?<user>[^/]+)(?:\/m\/(?<feed>[^/]+)|\/comments\/(?<postId>[^/]+)(?:\/comment\/(?<commentId>[^/]+))?)?|\/r\/(?<community>[^/]+)(?:\/comments\/(?<communityPostId>[^/]+)(?:\/comment\/(?<communityCommentId>[^/]+))?|\/wiki\/(?<wiki>[^/]+)|\/s\/(?<shareId>[^/]+))?|\/live\/(?<liveId>[^/]+))/i
+
+  const match = regex.exec(url)
+
+  if (!match?.groups) {
+    return null
+  }
+
+  const result = Object.fromEntries(
+    Object.entries(match.groups).filter(
+      ([key, value]: [string, Undefined<string>]) =>
+        value !== undefined &&
+        key !== 'communityPostId' &&
+        key !== 'communityCommentId',
+    ),
+  )
+
+  if (match.groups.communityPostId) {
+    result.postId = match.groups.communityPostId
+  }
+
+  if (match.groups.communityCommentId) {
+    result.commentId = match.groups.communityCommentId
+  }
+
+  return result
 }

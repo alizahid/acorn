@@ -1,23 +1,15 @@
 function check() {
   const match = window.location.href.match(
-    /^(?:https?:\/\/)?(?:(?:www|amp|m|i)\.)?(?:(?:reddit\.com))(?:\/r\/(\w+)(?:\/(?:comments\/(\w+)(?:\/[^/]+(?:\/(?:comment\/)?(\w+))?)?|wiki\/([^/?]+)|s\/(\w+)))?(?:\/?.*?(?:[?&]context=(\d+))?)?|\/user\/(\w+)\/(?:m\/(\w+)|comments\/(\w+)(?:\/[^/]+)?(?:\/?.*?(?:[?&]context=(\d+))?)?))/i,
+    /reddit\.com(?:\/user\/(?<user>[^/]+)(?:\/m\/(?<feed>[^/]+)|\/comments\/(?<postId>[^/]+)(?:\/comment\/(?<commentId>[^/]+))?)?|\/r\/(?<community>[^/]+)(?:\/comments\/(?<communityPostId>[^/]+)(?:\/comment\/(?<communityCommentId>[^/]+))?|\/wiki\/(?<wiki>[^/]+)|\/s\/(?<shareId>[^/]+))?|\/live\/(?<liveId>[^/]+))/i,
   )
 
   if (match) {
     window.stop()
 
-    const community = match[1]
-    const postId = match[2] || match[9]
-    const commentId = match[3]
-    const shareId = match[5]
-    const context = match[6] || match[10]
-    const user = match[7]
-    const feed = match[8]
+    const { commentId, community, feed, postId, shareId, user } = match
 
-    if (postId && commentId && context) {
-      window.location.replace(
-        `acorn:///posts/${postId}?commentId=${commentId}&context=${context}`,
-      )
+    if (shareId) {
+      window.location.replace(window.location.href)
 
       return
     }
@@ -36,12 +28,6 @@ function check() {
 
     if (feed) {
       window.location.replace(`acorn:///?feed=${feed}`)
-
-      return
-    }
-
-    if (shareId) {
-      window.location.replace(window.location.href)
 
       return
     }
