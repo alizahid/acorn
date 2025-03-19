@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 48
 
 - added: open user feeds in Acorn
 - changed: separate blur for galleries
