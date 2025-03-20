@@ -1,10 +1,8 @@
 function check() {
-  const match = window.location.href.match(
-    /reddit\.com(?:\/user\/(?<user>[^/]+)(?:\/m\/(?<feed>[^/]+)|\/comments\/(?<postId>[^/]+)(?:\/comment\/(?<commentId>[^/]+))?)?|\/r\/(?<community>[^/]+)(?:\/comments\/(?<communityPostId>[^/]+)(?:\/comment\/(?<communityCommentId>[^/]+))?|\/wiki\/(?<wiki>[^/]+)|\/s\/(?<shareId>[^/]+))?|\/live\/(?<liveId>[^/]+))/i,
-  )
+  const parts = parseLink(window.location.href)
 
-  if (match) {
-    const { commentId, community, feed, postId, shareId, user } = match.groups
+  if (parts) {
+    const { commentId, community, feed, postId, shareId, user } = parts
 
     if (shareId) {
       window.location.replace(window.location.href)
@@ -39,6 +37,47 @@ function check() {
     if (community) {
       window.location.replace(`acorn:///communities/${community}`)
     }
+  }
+}
+
+function parseLink(url) {
+  const regex =
+    /^(?:https?:\/\/)?(?:www\.|amp\.|i\.)?reddit\.com\/(?:user\/([^/]+)(?:\/m\/([^/]+)|\/comments\/([^/]+)(?:\/comment\/([^/]+))?(?:\/\?context=(\d+))?)?|r\/([^/]+)(?:\/comments\/([^/]+)(?:\/[^/]+(?:\/([^/]+))?(?:\/\?context=(\d+))?)?|\/s\/([^/]+)(?:\?context=(\d+))?|\/wiki\/([^/]+))?|live\/([^/]+)(?:\?context=(\d+))?)/i
+
+  const match = url.match(regex)
+
+  if (!match) {
+    return null
+  }
+
+  const [
+    ,
+    user,
+    feed,
+    userPostId,
+    userCommentId,
+    userContext,
+    community,
+    communityPostId,
+    communityCommentId,
+    communityContext,
+    shareId,
+    shareContext,
+    wiki,
+    liveId,
+    liveContext,
+  ] = match
+
+  return {
+    commentId: userCommentId || communityCommentId,
+    community,
+    context: userContext || communityContext || shareContext || liveContext,
+    feed,
+    liveId,
+    postId: userPostId || communityPostId,
+    shareId,
+    user,
+    wiki,
   }
 }
 

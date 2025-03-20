@@ -1,6 +1,10 @@
 # Changelog
 
-## Build 48
+## Upcoming
+
+- fixed: Reddit link handling
+
+## Build 49
 
 - added: open user feeds in Acorn
 - changed: separate blur for galleries

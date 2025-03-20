@@ -8,7 +8,7 @@ import { useTranslations } from 'use-intl'
 
 import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
-import { type Nullable, type Undefined } from '~/types'
+import { type Nullable } from '~/types'
 
 export function useLink() {
   const router = useRouter()
@@ -68,9 +68,9 @@ export function useLink() {
               : 'https://reddit.com',
         )
 
-        const match = parseLink(url.toString())
+        const parts = parseLink(url.toString())
 
-        if (match?.shareId) {
+        if (parts?.shareId) {
           const id = toast.loading(t('loading'), {
             duration: Infinity,
           })
@@ -86,11 +86,11 @@ export function useLink() {
           return
         }
 
-        if (match?.postId) {
+        if (parts?.postId) {
           router.push({
             params: {
-              commentId: match.commentId,
-              id: match.postId,
+              commentId: parts.commentId,
+              id: parts.postId,
             },
             pathname: '/posts/[id]',
           })
@@ -98,10 +98,10 @@ export function useLink() {
           return
         }
 
-        if (match?.feed) {
+        if (parts?.feed) {
           router.push({
             params: {
-              feed: match.feed,
+              feed: parts.feed,
             },
             pathname: '/',
           })
@@ -109,10 +109,10 @@ export function useLink() {
           return
         }
 
-        if (match?.user) {
+        if (parts?.user) {
           router.push({
             params: {
-              name: match.user,
+              name: parts.user,
             },
             pathname: '/users/[name]',
           })
@@ -120,10 +120,10 @@ export function useLink() {
           return
         }
 
-        if (match?.community) {
+        if (parts?.community) {
           router.push({
             params: {
-              name: match.community,
+              name: parts.community,
             },
             pathname: '/communities/[name]',
           })
@@ -152,19 +152,22 @@ export function useLink() {
   }
 }
 
-// https://amp.reddit.com/user/mildpanda/m/js // user:mildpanda, feed:js
-// https://www.reddit.com/user/mildpanda/comments/1i7h986/three_images/ // user:mildpanda, postId: 1i7h986
-// https://www.reddit.com/user/mildpanda/comments/1i7h986/comment/mcv3hr9/ // user:mildpanda, postId:1i7h986, commentId:mcv3hr9
-// https://i.reddit.com/r/acornblue/ // community:acornblue
-// https://www.reddit.com/r/macgaming/comments/1jeumij/well_i_did_it_preorder_ac_shadows/ // community:macgaming, postId:1jeumij
-// https://www.reddit.com/r/live/comments/1dtm4eq/comment/lvn4wgx/ // community:live, postId:1dtm4eq, commentId:lvn4wgx
-// https://www.reddit.com/r/macgaming/wiki/faq/ // community:macgaming, wiki:faq
-// https://www.reddit.com/r/wow/s/gT8f86WL7A // community:wow, shareId:gT8f86WL7A
-// https://www.reddit.com/live/18hnzysb1elcs // liveId: 18hnzysb1elcs
+// 'https://amp.reddit.com/user/mildpanda/m/js', // user:mildpanda, feed:js
+// 'https://www.reddit.com/user/mildpanda/comments/1i7h986/three_images/', // user:mildpanda, postId: 1i7h986
+// 'https://www.reddit.com/user/mildpanda/comments/1i7h986/comment/mcv3hr9/', // user:mildpanda, postId:1i7h986, commentId:mcv3hr9
+// 'https://www.reddit.com/user/mildpanda/comments/1i7h986/comment/mcv3hr9/?context=3', // user:mildpanda, postId:1i7h986, commentId:mcv3hr9, context:3
+// 'https://i.reddit.com/r/acornblue/', // community:acornblue
+// 'https://www.reddit.com/r/macgaming/comments/1jeumij/well_i_did_it_preorder_ac_shadows/', // community:macgaming, postId:1jeumij
+// 'https://www.reddit.com/r/live/comments/1dtm4eq/comment/lvn4wgx/', // community:live, postId:1dtm4eq, commentId:lvn4wgx
+// 'https://www.reddit.com/r/macgaming/wiki/faq/', // community:macgaming, wiki:faq
+// 'https://www.reddit.com/r/wow/s/gT8f86WL7A', // community:wow, shareId:gT8f86WL7A
+// 'https://www.reddit.com/live/18hnzysb1elcs', // liveId: 18hnzysb1elcs
+// 'https://www.reddit.com/r/acornblue/comments/1gdy1c4/join_us_on_discord/mh8vxwr/', // community:acornblue, postId:1gdy1c4, commentId:mh8vxwr, context:3
 
 export function parseLink(url: string): Nullable<{
   commentId?: string
   community?: string
+  context?: string
   feed?: string
   liveId?: string
   postId?: string
@@ -173,30 +176,41 @@ export function parseLink(url: string): Nullable<{
   wiki?: string
 }> {
   const regex =
-    /reddit\.com(?:\/user\/(?<user>[^/]+)(?:\/m\/(?<feed>[^/]+)|\/comments\/(?<postId>[^/]+)(?:\/comment\/(?<commentId>[^/]+))?)?|\/r\/(?<community>[^/]+)(?:\/comments\/(?<communityPostId>[^/]+)(?:\/comment\/(?<communityCommentId>[^/]+))?|\/wiki\/(?<wiki>[^/]+)|\/s\/(?<shareId>[^/]+))?|\/live\/(?<liveId>[^/]+))/i
+    /^(?:https?:\/\/)?(?:www\.|amp\.|i\.)?reddit\.com\/(?:user\/([^/]+)(?:\/m\/([^/]+)|\/comments\/([^/]+)(?:\/comment\/([^/]+))?(?:\/\?context=(\d+))?)?|r\/([^/]+)(?:\/comments\/([^/]+)(?:\/[^/]+(?:\/([^/]+))?(?:\/\?context=(\d+))?)?|\/s\/([^/]+)(?:\?context=(\d+))?|\/wiki\/([^/]+))?|live\/([^/]+)(?:\?context=(\d+))?)/i
 
   const match = regex.exec(url)
 
-  if (!match?.groups) {
+  if (!match) {
     return null
   }
 
-  const result = Object.fromEntries(
-    Object.entries(match.groups).filter(
-      ([key, value]: [string, Undefined<string>]) =>
-        value !== undefined &&
-        key !== 'communityPostId' &&
-        key !== 'communityCommentId',
-    ),
-  )
+  const [
+    ,
+    user,
+    feed,
+    userPostId,
+    userCommentId,
+    userContext,
+    community,
+    communityPostId,
+    communityCommentId,
+    communityContext,
+    shareId,
+    shareContext,
+    wiki,
+    liveId,
+    liveContext,
+  ] = match
 
-  if (match.groups.communityPostId) {
-    result.postId = match.groups.communityPostId
+  return {
+    commentId: userCommentId ?? communityCommentId,
+    community,
+    context: userContext ?? communityContext ?? shareContext ?? liveContext,
+    feed,
+    liveId,
+    postId: userPostId ?? communityPostId,
+    shareId,
+    user,
+    wiki,
   }
-
-  if (match.groups.communityCommentId) {
-    result.commentId = match.groups.communityCommentId
-  }
-
-  return result
 }
