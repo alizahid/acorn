@@ -91,6 +91,11 @@
         "username_mention": "{user} mentioned you"
       }
     },
+    "messages": {
+      "reply": {
+        "placeholder": "Say something nice"
+      }
+    },
     "posts": {
       "community": {
         "by": "by"

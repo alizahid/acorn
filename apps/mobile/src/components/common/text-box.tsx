@@ -54,6 +54,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
     keyboardType,
     label,
     left,
+    multiline,
     onBlur,
     onChangeText,
     onFocus,
@@ -97,6 +98,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
           autoCorrect={autoCorrect}
           editable={editable}
           keyboardType={keyboardType}
+          multiline={multiline}
           onBlur={(event) => {
             setFocused(false)
 
@@ -115,7 +117,10 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
           returnKeyType={returnKeyType}
           secureTextEntry={secureTextEntry}
           selectionColor={theme.colors.accent.accent}
-          style={[styles.input(Boolean(code), font, fontScaling), styleInput]}
+          style={[
+            styles.input(Boolean(multiline), Boolean(code), font, fontScaling),
+            styleInput,
+          ]}
           textAlignVertical="center"
           value={value}
         />
@@ -153,13 +158,14 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     borderWidth: runtime.hairlineWidth,
     flexGrow: 1,
   }),
-  input: (code: boolean, font: Font, scaling: number) => ({
+  input: (multiline: boolean, code: boolean, font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
     flex: 1,
     fontFamily: code ? fonts.mono : fonts[font],
     fontSize: theme.typography[3].fontSize * scaling,
-    height: theme.space[7],
+    height: multiline ? undefined : theme.space[7],
     paddingHorizontal: theme.space[3],
+    paddingVertical: multiline ? theme.space[3] : undefined,
   }),
   main: {
     gap: theme.space[1],

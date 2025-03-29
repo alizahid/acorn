@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: message replying
 - fixed: Reddit link handling
 
 ## Build 49

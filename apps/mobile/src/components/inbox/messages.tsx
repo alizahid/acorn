@@ -1,5 +1,5 @@
+import { FlashList } from '@shopify/flash-list'
 import { useRef } from 'react'
-import { FlatList } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type ListProps } from '~/hooks/list'
@@ -35,14 +35,14 @@ export function MessagesList({
 }: Props) {
   const { themeOled } = usePreferences()
 
-  const list = useRef<FlatList<InboxMessage>>(null)
+  const list = useRef<FlashList<InboxMessage>>(null)
 
   useScrollToTop(list, listProps)
 
   const { styles } = useStyles(stylesheet)
 
   return (
-    <FlatList
+    <FlashList
       {...listProps}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(themeOled)} />
@@ -52,6 +52,7 @@ export function MessagesList({
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
       data={messages}
+      estimatedItemSize={84}
       keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {

@@ -7,9 +7,10 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type InboxMessage } from '~/types/inbox'
 
-import { Markdown } from '../common/markdown'
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { View } from '../common/view'
 
 type Props = {
   message: InboxMessage
@@ -31,47 +32,60 @@ export function MessageCard({ message }: Props) {
 
   return (
     <Pressable
+      align="center"
       delayed
-      disabled={!message.new}
+      direction="row"
+      gap="4"
       onPress={() => {
-        mark({
-          id: message.id,
-          type: 'message',
+        router.push({
+          params: {
+            id: message.id,
+            user: message.author,
+          },
+          pathname: '/messages/[id]',
         })
+
+        if (message.new) {
+          mark({
+            id: message.id,
+            type: 'message',
+          })
+        }
       }}
       p="4"
       style={styles.main(message.new, themeOled)}
     >
-      <Pressable
-        hitSlop={theme.space[4]}
-        onPress={() => {
-          router.push({
-            params: {
-              name: message.author,
-            },
-            pathname: '/users/[name]',
-          })
-        }}
-      >
-        <Text color="accent" size="2" weight="medium">
-          {message.author}
-        </Text>
-      </Pressable>
+      <View flex={1} gap="2">
+        <Text>{message.subject}</Text>
 
-      <Text weight="medium">{message.subject}</Text>
+        <View direction="row" gap="4">
+          <Pressable
+            hitSlop={theme.space[4]}
+            onPress={() => {
+              router.push({
+                params: {
+                  name: message.author,
+                },
+                pathname: '/users/[name]',
+              })
+            }}
+          >
+            <Text color="accent" size="2" weight="medium">
+              {message.author}
+            </Text>
+          </Pressable>
 
-      <Markdown
-        recyclingKey={message.id}
-        size="2"
-        style={styles.body}
-        variant="comment"
-      >
-        {message.body}
-      </Markdown>
+          <Text highContrast={false} size="2">
+            {f.relativeTime(message.createdAt, now)}
+          </Text>
+        </View>
+      </View>
 
-      <Text highContrast={false} size="2">
-        {f.relativeTime(message.createdAt, now)}
-      </Text>
+      <Icon
+        color={theme.colors.gray.accent}
+        name="CaretRight"
+        size={theme.space[4]}
+      />
     </Pressable>
   )
 }
