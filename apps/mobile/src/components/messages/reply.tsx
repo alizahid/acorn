@@ -36,6 +36,7 @@ export function ReplyCard({ id, user }: Props) {
       <IconButton
         icon={{
           name: 'PaperPlaneTilt',
+          weight: 'duotone',
         }}
         loading={isPending}
         onPress={() => {

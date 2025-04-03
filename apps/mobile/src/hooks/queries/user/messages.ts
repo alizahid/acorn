@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { compact } from 'lodash'
+import { getDayOfYear, setDayOfYear } from 'date-fns'
+import { compact, groupBy, orderBy } from 'lodash'
+import { useMemo } from 'react'
 
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
@@ -57,10 +59,7 @@ export function useMessages(id: string) {
       if (message) {
         const first = transformMessage(message)
 
-        return compact([
-          first,
-          ...(first.replies ? first.replies : []),
-        ]).reverse()
+        return compact([first, ...(first.replies ? first.replies : [])])
       }
 
       return []
@@ -74,9 +73,21 @@ export function useMessages(id: string) {
     ],
   })
 
+  const messages = useMemo(() => {
+    const groups = groupBy(data, (item) => getDayOfYear(item.createdAt))
+
+    return Object.entries(groups)
+      .flatMap(([day, items], index) => ({
+        data: orderBy(items, 'createdAt', 'desc'),
+        date: setDayOfYear(new Date(), Number(day)),
+        index,
+      }))
+      .reverse()
+  }, [data])
+
   return {
     isLoading,
-    messages: data,
+    messages,
     refetch,
   }
 }

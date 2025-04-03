@@ -1,12 +1,14 @@
 import { useLocalSearchParams } from 'expo-router'
-import { FlatList } from 'react-native'
+import { SectionList } from 'react-native'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useFormatter } from 'use-intl'
 import { z } from 'zod'
 
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
+import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { MessageCard } from '~/components/messages/card'
 import { ReplyCard } from '~/components/messages/reply'
@@ -25,6 +27,8 @@ export type MessageParams = z.infer<typeof schema>
 export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
+  const f = useFormatter()
+
   const { accountId } = useAuth()
 
   const { isLoading, messages, refetch } = useMessages(params.id)
@@ -35,9 +39,8 @@ export default function Screen() {
 
   return (
     <KeyboardAvoidingView behavior="translate-with-padding" style={styles.main}>
-      <FlatList
+      <SectionList
         {...listProps}
-        ItemSeparatorComponent={() => <View height="4" />}
         ListEmptyComponent={() => (isLoading ? <Loading /> : <Empty />)}
         contentContainerStyle={styles.content}
         contentInset={{
@@ -45,15 +48,29 @@ export default function Screen() {
           top: listProps.contentInset?.bottom,
         }}
         contentOffset={undefined}
-        data={messages}
         inverted
         keyExtractor={(item) => item.id}
         keyboardDismissMode="interactive"
         refreshControl={<RefreshControl onRefresh={refetch} />}
-        renderItem={({ item }) => (
-          <MessageCard message={item} userId={accountId} />
+        renderItem={({ index, item }) => (
+          <MessageCard
+            message={item}
+            style={index > 0 ? styles.item : undefined}
+            userId={accountId}
+          />
+        )}
+        renderSectionFooter={({ section }) => (
+          <View self="center" style={styles.header(section.index)}>
+            <Text highContrast={false} size="1" tabular weight="medium">
+              {f.dateTime(section.date, {
+                dateStyle: 'medium',
+              })}
+            </Text>
+          </View>
         )}
         scrollIndicatorInsets={undefined}
+        sections={messages}
+        stickySectionHeadersEnabled={false}
       />
 
       <ReplyCard id={params.id} user={params.user} />
@@ -64,6 +81,18 @@ export default function Screen() {
 const stylesheet = createStyleSheet((theme, runtime) => ({
   content: {
     padding: theme.space[4],
+  },
+  header: (index: number) => ({
+    backgroundColor: theme.colors.gray.ui,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[6],
+    marginBottom: theme.space[4],
+    marginTop: index > 0 ? theme.space[4] : undefined,
+    paddingHorizontal: theme.space[2],
+    paddingVertical: theme.space[1],
+  }),
+  item: {
+    marginBottom: theme.space[4],
   },
   main: {
     flex: 1,
