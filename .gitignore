@@ -59,4 +59,4 @@ apps/mobile/android
 *.key
 *.mobileprovision
 *.orig.*
-apps/mobile/targets/safari/Assets.xcassets
+apps/mobile/targets/*/Assets.xcassets

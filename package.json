@@ -25,7 +25,7 @@
     "rimraf": "^6.0.1",
     "turbo": "2.4.4"
   },
-  "packageManager": "bun@1.2.7",
+  "packageManager": "bun@1.2.8",
   "patchedDependencies": {
     "@bacons/apple-targets@0.2.1": "patches/@bacons%2Fapple-targets@0.2.1.patch",
     "devlop@1.1.0": "patches/devlop@1.1.0.patch",
