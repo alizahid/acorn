@@ -40,7 +40,6 @@ const routes = UserTab.map((key) => ({
 
 export default function Screen() {
   const router = useRouter()
-
   const params = schema.parse(useLocalSearchParams())
 
   const {

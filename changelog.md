@@ -9,6 +9,7 @@
 - added: option for collapsible comments
 - added: option for blurring spoilers
 - fixed: Reddit link handling
+- fixed: video audio doubling
 
 ## Build 49
 

@@ -54,10 +54,9 @@ export function PostList({
   userType,
 }: Props) {
   const router = useRouter()
+  const focused = useIsFocused()
 
   const list = useRef<FlashList<Item>>(null)
-
-  const focused = useIsFocused()
 
   useScrollToTop(list, listProps)
 
@@ -134,6 +133,7 @@ export function PostList({
       data={posts}
       estimatedItemSize={feedCompact ? 120 : 500}
       extraData={{
+        focused,
         viewing,
       }}
       getItemType={(item) => item.type}

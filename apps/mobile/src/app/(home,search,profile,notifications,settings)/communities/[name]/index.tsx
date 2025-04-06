@@ -26,7 +26,6 @@ export type CommunityParams = z.infer<typeof schema>
 
 export default function Screen() {
   const router = useRouter()
-
   const params = schema.parse(useLocalSearchParams())
 
   const { themeOled, themeTint } = usePreferences()
