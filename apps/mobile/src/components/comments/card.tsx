@@ -162,9 +162,7 @@ export function CommentCard({
 
           triggerHaptic('soft')
         }}
-        onPress={() => {
-          onPress()
-        }}
+        onPress={onPress}
       >
         {!collapsed ? (
           <Markdown
