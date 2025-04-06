@@ -1,5 +1,5 @@
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useFormatter, useTranslations } from 'use-intl'
+import { useStyles } from 'react-native-unistyles'
+import { useFormatter } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Text } from '~/components/common/text'
@@ -12,10 +12,9 @@ type Props = {
 }
 
 export function PostMeta({ post }: Props) {
-  const t = useTranslations('component.posts.meta')
   const f = useFormatter()
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useStyles()
 
   const items = [
     {
@@ -81,20 +80,6 @@ export function PostMeta({ post }: Props) {
           </Text>
         </View>
       ))}
-
-      {post.nsfw ? (
-        <Text contrast size="1" style={styles.nsfw} weight="bold">
-          {t('nsfw')}
-        </Text>
-      ) : null}
     </View>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  nsfw: {
-    backgroundColor: theme.colors.red.accent,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[1],
-  },
-}))

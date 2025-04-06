@@ -103,6 +103,10 @@
       "community": {
         "by": "by"
       },
+      "flair": {
+        "nsfw": "NSFW",
+        "spoiler": "Spoiler"
+      },
       "gallery": {
         "gif": "GIF",
         "item": "{current, number} of {count, number}",
@@ -173,9 +177,6 @@
         "unhidePost": "Unhide post",
         "unsave": "Unsave",
         "upvote": "Upvote"
-      },
-      "meta": {
-        "nsfw": "NSFW"
       },
       "video": {
         "nsfw": "Sensitive content - tap to watch",

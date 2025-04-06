@@ -217,7 +217,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           {post.title}
         </Text>
 
-        <FlairCard flair={post.flair} />
+        <FlairCard flair={post.flair} nsfw={post.nsfw} spoiler={post.spoiler} />
       </Pressable>
 
       {post.type === 'crosspost' && post.crossPost ? (

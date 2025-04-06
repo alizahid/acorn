@@ -5,6 +5,7 @@
 - added: message replying
 - added: user posts/comments sorting
 - added: comment edited icon
+- added: post spoiler tag
 - fixed: Reddit link handling
 
 ## Build 49
