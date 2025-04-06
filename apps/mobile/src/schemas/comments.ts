@@ -10,6 +10,7 @@ export const CommentDataSchema = z.object({
   body: z.string(),
   created_utc: z.number(),
   depth: z.number().nullish(),
+  edited: z.union([z.boolean(), z.number()]).optional(),
   id: z.string(),
   is_submitter: z.boolean(),
   likes: z.boolean().nullable(),

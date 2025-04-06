@@ -109,7 +109,7 @@ const stylesheet = createStyleSheet((theme) => ({
         ...base,
         alignSelf: 'center',
         borderCurve: 'continuous',
-        borderRadius: theme.radius[2],
+        borderRadius: theme.radius[3],
         maxWidth: cardMaxWidth - marginLeft,
         width: '100%',
       }

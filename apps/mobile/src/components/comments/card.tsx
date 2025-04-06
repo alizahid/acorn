@@ -279,7 +279,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       return {
         ...base,
         borderCurve: 'continuous',
-        borderRadius: theme.radius[2],
+        borderRadius: theme.radius[3],
       }
     }
 

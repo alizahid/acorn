@@ -21,6 +21,7 @@ export type CommentReply = {
   }
   createdAt: Date
   depth: number
+  edited: boolean
   flair: Array<Flair>
   id: string
   liked: Nullable<boolean>

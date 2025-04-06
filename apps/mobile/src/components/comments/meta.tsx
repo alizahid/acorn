@@ -84,6 +84,15 @@ export function CommentMeta({ collapsed, comment, flair }: Props) {
           {comment.user.name}
         </Text>
 
+        {comment.edited ? (
+          <Icon
+            color={theme.colors.orange.accent}
+            name="PencilSimple"
+            size={theme.typography[1].lineHeight}
+            weight="duotone"
+          />
+        ) : null}
+
         {baby ? (
           <View align="center" direction="row" gap="1">
             <Icon

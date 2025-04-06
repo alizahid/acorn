@@ -55,6 +55,7 @@ export function transformComment(
       },
       createdAt: fromUnixTime(data.data.created_utc),
       depth: data.data.depth ?? 0,
+      edited: Boolean(data.data.edited),
       flair: transformFlair(data.data.author_flair_richtext),
       id,
       liked: data.data.likes,

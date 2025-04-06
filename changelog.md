@@ -4,6 +4,7 @@
 
 - added: message replying
 - added: user posts/comments sorting
+- added: comment edited icon
 - fixed: Reddit link handling
 
 ## Build 49
