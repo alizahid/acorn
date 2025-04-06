@@ -267,11 +267,10 @@ export default function Screen() {
             })
           }}
           onPress={() => {
-            const offset =
-              list.current?.recyclerlistview_unsafe?.getCurrentScrollOffset() ??
-              0
+            const offset = list.current?.getAbsoluteLastScrollOffset() ?? 0
+            const first = list.current?.getFirstItemOffset() ?? 100
 
-            if (offset < 200) {
+            if (offset < first) {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 0,
