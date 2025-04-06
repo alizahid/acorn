@@ -9,11 +9,11 @@ import {
 } from '@react-navigation/native'
 import { withLayoutContext } from 'expo-router'
 
-const BottomTabNavigator = createNativeBottomTabNavigator().Navigator
+const { Navigator } = createNativeBottomTabNavigator()
 
 export const Tabs = withLayoutContext<
   NativeBottomTabNavigationOptions,
-  typeof BottomTabNavigator,
+  typeof Navigator,
   TabNavigationState<ParamListBase>,
   NativeBottomTabNavigationEventMap
->(BottomTabNavigator)
+>(Navigator)
