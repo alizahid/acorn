@@ -52,6 +52,7 @@ export default function Screen() {
   const list = useRef<FlashList<Comment>>(null)
 
   const [sort, setSort] = useState(sortPostComments)
+  const [playing, setPlaying] = useState(focused)
 
   const listProps = useList(ListFlags.BOTTOM)
 
@@ -124,7 +125,7 @@ export default function Screen() {
     () => (
       <View mb="2">
         {post ? (
-          <PostCard expanded post={post} viewing={focused} />
+          <PostCard expanded post={post} viewing={playing} />
         ) : (
           <Spinner m="4" size="large" />
         )}
@@ -146,7 +147,7 @@ export default function Screen() {
         ) : null}
       </View>
     ),
-    [comments, focused, params.commentId, post, router],
+    [comments, params.commentId, playing, post, router],
   )
 
   const renderItem: ListRenderItem<Comment> = useCallback(
@@ -204,6 +205,7 @@ export default function Screen() {
         estimatedItemSize={100}
         extraData={{
           commentId: params.commentId,
+          playing,
         }}
         initialScrollIndex={params.commentId ? 0 : undefined}
         keyExtractor={(item) => {
@@ -212,6 +214,13 @@ export default function Screen() {
           }
 
           return `${item.type}-${item.data.id}`
+        }}
+        onScroll={(event) => {
+          setPlaying(
+            focused &&
+              (list.current?.getFirstItemOffset() ?? 0) >
+                event.nativeEvent.contentOffset.y,
+          )
         }}
         onViewableItemsChanged={({ viewableItems }) => {
           const next = viewableItems.find((item) => {
@@ -231,7 +240,7 @@ export default function Screen() {
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
-        scrollEventThrottle={100}
+        scrollEventThrottle={250}
       />
 
       {replyPost && post ? (
