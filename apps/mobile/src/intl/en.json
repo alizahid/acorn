@@ -18,6 +18,9 @@
         "week": "This week",
         "year": "This year"
       },
+      "search": {
+        "placeholder": "Filter"
+      },
       "sort": {
         "best": "Best",
         "comments": "Comment count",

@@ -8,8 +8,8 @@ import {
 import { z } from 'zod'
 
 import { FloatingButton } from '~/components/common/floating-button'
+import { SearchBox } from '~/components/common/search'
 import { View } from '~/components/common/view'
-import { CommunitySearchBar } from '~/components/communities/search-bar'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { ListFlags, useList } from '~/hooks/list'
@@ -43,7 +43,21 @@ export default function Screen() {
         direction="row"
         style={styles.header(themeOled, themeTint) as ViewStyle}
       >
-        <CommunitySearchBar name={params.name} />
+        <SearchBox
+          onSubmitEditing={(event) => {
+            const query = event.nativeEvent.text
+
+            if (query.length > 2) {
+              router.push({
+                params: {
+                  name: params.name,
+                  query,
+                },
+                pathname: '/communities/[name]/search',
+              })
+            }
+          }}
+        />
 
         <SortIntervalMenu
           interval={sorting.interval}

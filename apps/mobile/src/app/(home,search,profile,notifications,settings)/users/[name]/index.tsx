@@ -1,19 +1,30 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
+import { type ViewStyle } from 'react-native'
 import { TabView } from 'react-native-tab-view'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import {
+  createStyleSheet,
+  type UnistylesValues,
+  useStyles,
+} from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { IconButton } from '~/components/common/icon-button'
 import { Loading } from '~/components/common/loading'
+import { SearchBox } from '~/components/common/search'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
+import {
+  SortIntervalMenu,
+  type SortIntervalMenuData,
+} from '~/components/posts/sort-interval'
 import { ListFlags, useList } from '~/hooks/list'
 import { heights, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 import { UserTab } from '~/types/user'
 
 const schema = z.object({
@@ -37,6 +48,8 @@ export default function Screen() {
     intervalUserPosts,
     sortUserComments,
     sortUserPosts,
+    themeOled,
+    themeTint,
   } = usePreferences()
 
   const t = useTranslations('screen.users.user')
@@ -48,6 +61,16 @@ export default function Screen() {
   })
 
   const [index, setIndex] = useState(0)
+  const [query, setQuery] = useState('')
+
+  const [posts, setPosts] = useState<SortIntervalMenuData<'user'>>({
+    interval: intervalUserPosts,
+    sort: sortUserPosts,
+  })
+  const [comments, setComments] = useState<SortIntervalMenuData<'comment'>>({
+    interval: intervalUserComments,
+    sort: sortUserComments,
+  })
 
   return (
     <TabView
@@ -62,9 +85,27 @@ export default function Screen() {
         if (route.key === 'posts') {
           return (
             <PostList
-              interval={intervalUserPosts}
+              header={
+                <View
+                  direction="row"
+                  style={styles.header(themeOled, themeTint) as ViewStyle}
+                >
+                  <SearchBox onChange={setQuery} value={query} />
+
+                  <SortIntervalMenu
+                    interval={posts.interval}
+                    onChange={(next) => {
+                      setPosts(next)
+                    }}
+                    sort={posts.sort}
+                    type="user"
+                  />
+                </View>
+              }
+              interval={posts.interval}
               listProps={listProps}
-              sort={sortUserPosts}
+              query={query}
+              sort={posts.sort}
               style={styles.list}
               user={params.name}
               userType="submitted"
@@ -74,9 +115,27 @@ export default function Screen() {
 
         return (
           <PostList
-            interval={intervalUserComments}
+            header={
+              <View
+                direction="row"
+                style={styles.header(themeOled, themeTint) as ViewStyle}
+              >
+                <SearchBox onChange={setQuery} value={query} />
+
+                <SortIntervalMenu
+                  interval={comments.interval}
+                  onChange={(next) => {
+                    setComments(next)
+                  }}
+                  sort={comments.sort}
+                  type="comment"
+                />
+              </View>
+            }
+            interval={comments.interval}
             listProps={listProps}
-            sort={sortUserComments}
+            query={query}
+            sort={comments.sort}
             style={styles.list}
             user={params.name}
             userType="comments"
@@ -119,7 +178,27 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const stylesheet = createStyleSheet((theme, runtime) => ({
+  header: (oled: boolean, tint: boolean) => {
+    const base: UnistylesValues = {
+      backgroundColor: oled
+        ? oledTheme[theme.name].bgAlpha
+        : theme.colors[tint ? 'accent' : 'gray'].bg,
+      borderBottomColor: theme.colors.gray.border,
+      borderBottomWidth: runtime.hairlineWidth,
+    }
+
+    if (iPad) {
+      return {
+        ...base,
+        marginBottom: theme.space[4],
+        marginHorizontal: -theme.space[4],
+        marginTop: -theme.space[4],
+      }
+    }
+
+    return base
+  },
   list: {
     padding: iPad ? theme.space[4] : 0,
   },

@@ -9,8 +9,9 @@ import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
+import { SearchBox } from '../common/search'
+import { View } from '../common/view'
 import { CommunitiesList } from '../communities/list'
-import { CommunitySearchBox } from '../communities/search-box'
 
 export const drawer = mitt<{
   close?: unknown
@@ -68,7 +69,9 @@ export function HomeDrawer({ children }: Props) {
       overlayStyle={styles.overlay(themeOled)}
       renderDrawerContent={() => (
         <>
-          <CommunitySearchBox onChange={setQuery} value={query} />
+          <View pr="1" style={styles.search}>
+            <SearchBox onChange={setQuery} value={query} />
+          </View>
 
           <CommunitiesList
             listProps={listProps}
@@ -100,4 +103,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       ? oledTheme[theme.name].overlay
       : theme.colors.gray.borderAlpha,
   }),
+  search: {
+    marginTop: runtime.insets.top,
+  },
 }))

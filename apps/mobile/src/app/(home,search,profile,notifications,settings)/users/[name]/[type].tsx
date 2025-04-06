@@ -13,10 +13,10 @@ import {
 import { useDebounce } from 'use-debounce'
 import { z } from 'zod'
 
+import { SearchBox } from '~/components/common/search'
 import { View } from '~/components/common/view'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { UserSearchBar } from '~/components/users/search'
 import { ListFlags, useList } from '~/hooks/list'
 import { heights, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -74,7 +74,7 @@ export default function Screen() {
         direction="row"
         style={styles.header(themeOled, themeTint) as ViewStyle}
       >
-        <UserSearchBar onChange={setQuery} value={query} />
+        <SearchBox onChange={setQuery} value={query} />
       </View>
 
       <PostList

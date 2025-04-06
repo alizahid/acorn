@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: message replying
+- added: user posts/comments sorting
 - fixed: Reddit link handling
 
 ## Build 49
