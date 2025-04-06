@@ -8,6 +8,7 @@ import { useUnread } from '~/hooks/queries/user/unread'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 
+import { switcher } from '../users/switcher'
 import { Tabs } from './tabs'
 
 export function RootLayout() {
@@ -51,7 +52,14 @@ export function RootLayout() {
 
       <Tabs.Screen name="(search)" />
 
-      <Tabs.Screen name="(profile)" />
+      <Tabs.Screen
+        listeners={{
+          tabLongPress() {
+            switcher.emit('open')
+          },
+        }}
+        name="(profile)"
+      />
 
       <Tabs.Screen
         name="(notifications)"
