@@ -41,8 +41,14 @@ export function VideoPlayer({
 }: Props) {
   const t = useTranslations('component.posts.video')
 
-  const { autoPlay, blurNsfw, feedMuted, seenOnMedia, unmuteFullscreen } =
-    usePreferences()
+  const {
+    autoPlay,
+    blurNsfw,
+    blurSpoiler,
+    feedMuted,
+    seenOnMedia,
+    unmuteFullscreen,
+  } = usePreferences()
   const { addPost } = useHistory()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -123,7 +129,9 @@ export function VideoPlayer({
           style={styles.compactVideo}
         />
 
-        {Boolean(nsfw && blurNsfw) || spoiler ? <GalleryBlur /> : null}
+        {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+          <GalleryBlur />
+        ) : null}
       </Pressable>
     )
   }
@@ -167,7 +175,7 @@ export function VideoPlayer({
         style={styles.video(video.width / video.height)}
       />
 
-      {Boolean(nsfw && blurNsfw) || spoiler ? (
+      {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
         <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
       ) : (
         <Pressable

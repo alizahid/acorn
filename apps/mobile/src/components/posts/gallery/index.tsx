@@ -35,7 +35,7 @@ export function PostGalleryCard({
   style,
   viewing,
 }: Props) {
-  const { blurNsfw, seenOnMedia } = usePreferences()
+  const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences()
   const { addPost } = useHistory()
 
   const { styles } = useStyles(stylesheet)
@@ -73,7 +73,9 @@ export function PostGalleryCard({
           style={styles.compactImage}
         />
 
-        {Boolean(nsfw && blurNsfw) || spoiler ? <GalleryBlur /> : null}
+        {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+          <GalleryBlur />
+        ) : null}
       </Pressable>
     )
   }
@@ -97,7 +99,7 @@ export function PostGalleryCard({
           }
         }}
         recyclingKey={recyclingKey}
-        spoiler={spoiler}
+        spoiler={Boolean(spoiler && blurSpoiler)}
         viewing={viewing}
       />
     </Pressable>

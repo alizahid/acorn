@@ -269,6 +269,11 @@ export default function Screen() {
             label: 'media.blurNsfw',
           },
           {
+            icon: 'EyeClosed',
+            key: 'blurSpoiler',
+            label: 'media.blurSpoiler',
+          },
+          {
             icon: 'Image',
             key: 'saveToAlbum',
             label: 'media.saveToAlbum',

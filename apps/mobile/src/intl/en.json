@@ -532,7 +532,8 @@
         },
         "media": {
           "autoPlay": "Auto play videos",
-          "blurNsfw": "Blur NSFW media",
+          "blurNsfw": "Blur NSFW",
+          "blurSpoiler": "Blur spoiler",
           "feedMuted": "Mute feed",
           "saveToAlbum": "Save to Acorn album",
           "title": "Media",
