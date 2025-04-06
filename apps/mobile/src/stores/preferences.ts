@@ -23,6 +23,7 @@ export type PreferencesPayload = {
   blurNavigation: boolean
   blurNsfw: boolean
   collapseAutoModerator: boolean
+  collapsibleComments: boolean
   colorfulComments: boolean
   communityOnTop: boolean
   dimSeen: boolean
@@ -82,6 +83,7 @@ export const usePreferences = create<State>()(
       blurNavigation: true,
       blurNsfw: true,
       collapseAutoModerator: false,
+      collapsibleComments: true,
       colorfulComments: true,
       communityOnTop: false,
       dimSeen: false,

@@ -6,6 +6,7 @@
 - added: user posts/comments sorting
 - added: comment edited icon
 - added: post spoiler tag
+- added: option for collapsible comments
 - fixed: Reddit link handling
 
 ## Build 49

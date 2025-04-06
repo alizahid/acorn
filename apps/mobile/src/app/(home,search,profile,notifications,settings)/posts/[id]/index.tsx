@@ -44,7 +44,8 @@ export default function Screen() {
 
   const focused = useIsFocused()
 
-  const { replyPost, skipComment, sortPostComments } = usePreferences()
+  const { collapsibleComments, replyPost, skipComment, sortPostComments } =
+    usePreferences()
 
   const { styles } = useStyles(stylesheet)
 
@@ -175,6 +176,10 @@ export default function Screen() {
           collapsed={item.data.collapsed}
           comment={item.data}
           onPress={() => {
+            if (!collapsibleComments) {
+              return
+            }
+
             collapse({
               commentId: item.data.id,
             })
@@ -182,7 +187,7 @@ export default function Screen() {
         />
       )
     },
-    [collapse, post, router, sort],
+    [collapse, collapsibleComments, post, router, sort],
   )
 
   return (

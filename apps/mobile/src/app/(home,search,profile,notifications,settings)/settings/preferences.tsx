@@ -123,6 +123,11 @@ export default function Screen() {
 
           t('comments.title'),
           {
+            icon: 'ArrowsInLineVertical',
+            key: 'collapsibleComments',
+            label: 'comments.collapsibleComments',
+          },
+          {
             exclusive: 'replyPost',
             icon: 'ArrowDown',
             key: 'skipComment',

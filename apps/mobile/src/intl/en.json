@@ -501,6 +501,7 @@
         },
         "comments": {
           "collapseAutoModerator": "Collapse AutoModerator",
+          "collapsibleComments": "Collapsible comments",
           "replyPost": "Post reply floating button",
           "skipComment": "Skip comment floating button",
           "title": "Comments"
