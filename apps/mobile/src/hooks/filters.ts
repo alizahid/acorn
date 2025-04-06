@@ -23,7 +23,7 @@ export type FiltersForm = z.infer<typeof schema>
 export function useFilters() {
   const t = useTranslations('toasts.filters')
 
-  const form = useForm<FiltersForm>({
+  const form = useForm({
     async defaultValues() {
       const filters = await db
         .select()

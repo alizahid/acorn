@@ -16,7 +16,7 @@ import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
 import { iPhone } from '~/lib/common'
-import { type AuthCodeForm, AuthCodeSchema } from '~/reddit/auth'
+import { AuthCodeSchema } from '~/reddit/auth'
 import { REDIRECT_URI } from '~/reddit/config'
 import { useAuth } from '~/stores/auth'
 
@@ -36,7 +36,7 @@ export default function Screen() {
   const { clientId, setClientId } = useAuth()
   const { isPending, signIn } = useSignIn()
 
-  const { control, handleSubmit } = useForm<AuthCodeForm>({
+  const { control, handleSubmit } = useForm({
     defaultValues: {
       clientId: clientId ?? '',
       state: String(Math.random()),

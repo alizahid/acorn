@@ -28,7 +28,7 @@ export function useCreatePost(submission: Submission) {
 
   const schema = useMemo(() => generateSchema(t, submission), [submission, t])
 
-  const form = useForm<CreatePostForm>({
+  const form = useForm({
     defaultValues: {
       community: submission.community.name,
       nsfw: false,
