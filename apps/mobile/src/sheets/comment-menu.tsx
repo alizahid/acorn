@@ -243,7 +243,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
             name: 'Copy',
             type: 'icon',
           }}
-          label={t('copyLink')}
+          label={t('copyPermalink')}
           onPress={() => {
             const url = new URL(
               comment.permalink,
@@ -264,7 +264,7 @@ export const CommentMenu = createCallable<Props>(({ call, comment }) => {
             name: 'Share',
             type: 'icon',
           }}
-          label={t('share')}
+          label={t('sharePermalink')}
           onPress={() => {
             const url = new URL(
               comment.permalink,

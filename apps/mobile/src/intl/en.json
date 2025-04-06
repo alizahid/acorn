@@ -109,7 +109,7 @@
       },
       "menu": {
         "copyImage": "Copy image",
-        "copyLink": "Copy link",
+        "copyPermalink": "Copy permalink",
         "copyText": "Copy text",
         "copyTitle": "Copy title",
         "deleteComment": {
@@ -157,7 +157,7 @@
           "title": "Report"
         },
         "save": "Save",
-        "share": "Share link",
+        "sharePermalink": "Share permalink",
         "title": {
           "comment": "Comment",
           "post": "Post"
