@@ -1,6 +1,7 @@
 import { Image } from 'expo-image'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
@@ -35,6 +36,8 @@ export function PostGalleryCard({
   style,
   viewing,
 }: Props) {
+  const a11y = useTranslations('a11y')
+
   const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences()
   const { addPost } = useHistory()
 
@@ -51,6 +54,7 @@ export function PostGalleryCard({
   if (compact) {
     return (
       <Pressable
+        label={a11y('viewImage')}
         onLongPress={onLongPress}
         onPress={() => {
           void Gallery.call({
@@ -67,6 +71,7 @@ export function PostGalleryCard({
       >
         <Image
           {...placeholder}
+          accessibilityIgnoresInvertColors
           priority={viewing ? 'high' : 'normal'}
           recyclingKey={recyclingKey}
           source={first.thumbnail}
@@ -81,7 +86,11 @@ export function PostGalleryCard({
   }
 
   return (
-    <Pressable onLongPress={onLongPress} style={[styles.main, style]}>
+    <Pressable
+      label={a11y('viewImage')}
+      onLongPress={onLongPress}
+      style={[styles.main, style]}
+    >
       <ImageGrid
         images={images}
         nsfw={Boolean(nsfw && blurNsfw)}

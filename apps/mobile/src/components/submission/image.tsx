@@ -21,6 +21,7 @@ import { View } from '../common/view'
 
 export function SubmissionImage() {
   const t = useTranslations('component.submission.image')
+  const a11y = useTranslations('a11y')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -59,12 +60,21 @@ export function SubmissionImage() {
       control={control}
       name="url"
       render={({ field }) => (
-        <Pressable disabled={isPending} flex={1} onPress={onPress}>
+        <Pressable
+          disabled={isPending}
+          flex={1}
+          label={a11y('chooseImage')}
+          onPress={onPress}
+        >
           <Focusable onFocus={onPress} ref={field.ref} />
 
           {image ? (
             <>
-              <Image source={image.uri} style={styles.image} />
+              <Image
+                accessibilityIgnoresInvertColors
+                source={image.uri}
+                style={styles.image}
+              />
 
               {isPending ? (
                 <View align="center" justify="center" style={styles.loading}>
@@ -78,6 +88,7 @@ export function SubmissionImage() {
                   name: 'Trash',
                   weight: 'bold',
                 }}
+                label={a11y('removeImage')}
                 onPress={() => {
                   setImage(undefined)
                 }}

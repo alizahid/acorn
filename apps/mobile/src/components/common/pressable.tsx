@@ -1,5 +1,6 @@
 import { type ReactNode } from 'react'
 import {
+  type AccessibilityRole,
   type GestureResponderEvent,
   type Insets,
   type LayoutChangeEvent,
@@ -7,86 +8,62 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native'
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
-const AnimatedPressable = Animated.createAnimatedComponent(ReactNativePressable)
-
 type Props = {
-  animated?: boolean
   children?: ReactNode
   delayed?: boolean
   disabled?: boolean
   hitSlop?: number | Insets
+  label: string
   onLayout?: (event: LayoutChangeEvent) => void
   onLongPress?: (event: GestureResponderEvent) => void
   onPress?: (event: GestureResponderEvent) => void
+  role?: AccessibilityRole
   style?: StyleProp<ViewStyle>
 } & ViewStyleProps
 
 export function Pressable({
-  animated = true,
   children,
   delayed,
   disabled,
   hitSlop,
+  label,
   onLayout,
   onLongPress,
   onPress,
+  role = 'button',
   style,
   ...props
 }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  const opacity = useSharedValue(1)
-
-  const main = useAnimatedStyle(() => ({
-    opacity: opacity.get(),
-  }))
-
   return (
-    <AnimatedPressable
+    <ReactNativePressable
+      accessibilityLabel={label}
+      accessibilityRole={role}
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}
       onLongPress={onLongPress}
       onPress={onPress}
-      onPressIn={() => {
-        if (!animated) {
-          return
-        }
-
-        opacity.set(() =>
-          withTiming(0.5, {
-            duration: 50,
-          }),
-        )
-      }}
-      onPressOut={() => {
-        if (!animated) {
-          return
-        }
-
-        opacity.set(() =>
-          withTiming(1, {
-            duration: 100,
-          }),
-        )
-      }}
-      style={[main, styles.main(props), style]}
-      unstable_pressDelay={delayed ? 100 : undefined}
+      style={({ pressed }) => [
+        styles.main(props) as ViewStyle,
+        styles.opacity(pressed),
+        style,
+      ]}
+      unstable_pressDelay={delayed ? 100 : 0}
     >
       {children}
-    </AnimatedPressable>
+    </ReactNativePressable>
   )
 }
 
 const stylesheet = createStyleSheet((theme) => ({
   main: getViewStyles(theme),
+  opacity: (pressed: boolean) => ({
+    opacity: pressed ? 0.5 : 1,
+  }),
 }))

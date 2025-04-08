@@ -33,12 +33,18 @@ export function NotificationCard({ notification }: Props) {
 
   const { handleLink } = useLink()
 
+  const body = t(notification.type, {
+    subreddit: notification.subreddit,
+    user: notification.author,
+  })
+
   return (
     <Pressable
       align="center"
       delayed
       direction="row"
       gap="4"
+      label={body}
       onPress={() => {
         void handleLink(notification.context)
 
@@ -70,10 +76,7 @@ export function NotificationCard({ notification }: Props) {
           highContrast={notification.new}
           weight={notification.new ? 'medium' : undefined}
         >
-          {t(notification.type, {
-            subreddit: notification.subreddit,
-            user: notification.author,
-          })}
+          {body}
         </Text>
 
         <Markdown recyclingKey={notification.id} size="2" variant="comment">

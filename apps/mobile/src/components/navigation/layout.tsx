@@ -2,6 +2,7 @@ import { focusManager } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { AppState } from 'react-native'
+import { useTranslations } from 'use-intl'
 
 import { TabBar } from '~/components/navigation/tab-bar'
 import { useUnread } from '~/hooks/queries/user/unread'
@@ -13,6 +14,8 @@ import { Tabs } from './tabs'
 
 export function RootLayout() {
   const router = useRouter()
+
+  const t = useTranslations('screen')
 
   const { accountId } = useAuth()
   const { unread } = useUnread()
@@ -48,9 +51,19 @@ export function RootLayout() {
       }}
       tabBar={(props) => <TabBar {...props} />}
     >
-      <Tabs.Screen name="(home)" />
+      <Tabs.Screen
+        name="(home)"
+        options={{
+          title: t('home.title'),
+        }}
+      />
 
-      <Tabs.Screen name="(search)" />
+      <Tabs.Screen
+        name="(search)"
+        options={{
+          title: t('search.title'),
+        }}
+      />
 
       <Tabs.Screen
         listeners={{
@@ -59,16 +72,25 @@ export function RootLayout() {
           },
         }}
         name="(profile)"
+        options={{
+          title: t('profile.title'),
+        }}
       />
 
       <Tabs.Screen
         name="(notifications)"
         options={{
           tabBarBadge: unread,
+          title: t('notifications.title'),
         }}
       />
 
-      <Tabs.Screen name="(settings)" />
+      <Tabs.Screen
+        name="(settings)"
+        options={{
+          title: t('settings.title'),
+        }}
+      />
 
       <Tabs.Screen
         name="+not-found"

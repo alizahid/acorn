@@ -20,6 +20,7 @@ type Props = {
 
 export function SubmissionFlair({ submission }: Props) {
   const t = useTranslations('component.submission.flair')
+  const a11y = useTranslations('a11y')
 
   const sheet = useRef<BottomSheetModal>(null)
 
@@ -49,6 +50,7 @@ export function SubmissionFlair({ submission }: Props) {
               direction="row"
               gap="2"
               height="8"
+              label={t('label')}
               mx="-4"
               onPress={() => {
                 sheet.current?.present()
@@ -59,6 +61,7 @@ export function SubmissionFlair({ submission }: Props) {
               {selected ? (
                 <Pressable
                   hitSlop={theme.space[4]}
+                  label={a11y('clearFlair')}
                   onPress={() => {
                     field.onChange()
                   }}
@@ -89,6 +92,11 @@ export function SubmissionFlair({ submission }: Props) {
                   direction="row"
                   gap="3"
                   key={item.id}
+                  label={
+                    item.type === 'text'
+                      ? item.text
+                      : item.flair.map((flair) => flair.value).join(' ')
+                  }
                   onPress={() => {
                     setValue('flairId', item.id)
 
@@ -131,7 +139,12 @@ function FlairCard({ flair }: FlairProps) {
         {flair.flair.map((item) => {
           if (item.type === 'emoji') {
             return (
-              <Image key={item.id} source={item.value} style={styles.emoji} />
+              <Image
+                accessibilityIgnoresInvertColors
+                key={item.id}
+                source={item.value}
+                style={styles.emoji}
+              />
             )
           }
 

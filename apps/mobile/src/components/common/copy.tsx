@@ -1,5 +1,6 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { useCopy } from '~/hooks/copy'
 
@@ -14,6 +15,8 @@ type Props = {
 }
 
 export function Copy({ code = true, style, value }: Props) {
+  const a11y = useTranslations('a11y')
+
   const { styles } = useStyles(stylesheet)
 
   const { copied, copy } = useCopy()
@@ -34,6 +37,7 @@ export function Copy({ code = true, style, value }: Props) {
           color: copied ? 'green' : 'accent',
           name: copied ? 'CheckCircle' : 'Copy',
         }}
+        label={a11y(copied ? 'copied' : 'copy')}
         onPress={() => {
           void copy(value)
         }}

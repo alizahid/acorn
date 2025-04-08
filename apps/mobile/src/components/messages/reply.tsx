@@ -15,6 +15,7 @@ type Props = {
 
 export function ReplyCard({ id, user }: Props) {
   const t = useTranslations('component.messages.reply')
+  const a11y = useTranslations('a11y')
 
   const { styles } = useStyles(stylesheet)
 
@@ -38,6 +39,7 @@ export function ReplyCard({ id, user }: Props) {
           name: 'PaperPlaneTilt',
           weight: 'duotone',
         }}
+        label={a11y('createReply')}
         loading={isPending}
         onPress={() => {
           if (text.length === 0) {

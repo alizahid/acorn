@@ -63,6 +63,7 @@ export function CommunityAbout({ listProps, name }: Props) {
         <View mb="-4">
           <Image
             {...placeholder}
+            accessibilityIgnoresInvertColors
             source={community.banner}
             style={styles.banner}
           />
@@ -71,7 +72,11 @@ export function CommunityAbout({ listProps, name }: Props) {
 
       <View align="center" direction="row" gap="4" mt="4" mx="4">
         {community.image ? (
-          <Image source={community.image} style={styles.image} />
+          <Image
+            accessibilityIgnoresInvertColors
+            source={community.image}
+            style={styles.image}
+          />
         ) : null}
 
         <View flex={1} gap="2">

@@ -17,6 +17,7 @@ export default function Screen() {
   const router = useRouter()
 
   const t = useTranslations('screen.profile')
+  const a11y = useTranslations('a11y')
 
   const { accountId } = useAuth()
   const { profile, refetch } = useProfile(accountId)
@@ -59,6 +60,7 @@ export default function Screen() {
       {profile ? (
         <FloatingButton
           icon="Plus"
+          label={a11y('createPost')}
           onPress={() => {
             router.push({
               params: {

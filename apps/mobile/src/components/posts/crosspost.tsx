@@ -2,7 +2,7 @@ import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useFormatter } from 'use-intl'
+import { useFormatter, useTranslations } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
@@ -37,6 +37,7 @@ export function CrossPostCard({
 }: Props) {
   const router = useRouter()
 
+  const a11y = useTranslations('a11y')
   const f = useFormatter()
 
   const { themeOled } = usePreferences()
@@ -47,6 +48,7 @@ export function CrossPostCard({
     return (
       <Pressable
         delayed
+        label={a11y('viewPost')}
         onLongPress={onLongPress}
         onPress={() => {
           router.push({
@@ -60,6 +62,7 @@ export function CrossPostCard({
       >
         {post.media.images?.[0] ? (
           <Image
+            accessibilityIgnoresInvertColors
             source={post.media.images[0].thumbnail}
             style={styles.compactImage}
           />
@@ -96,6 +99,7 @@ export function CrossPostCard({
   return (
     <Pressable
       delayed
+      label={a11y('viewPost')}
       mx="3"
       onLongPress={onLongPress}
       onPress={() => {
@@ -151,6 +155,7 @@ export function CrossPostCard({
             direction="row"
             gap="2"
             hitSlop={theme.space[4]}
+            label={a11y('viewCommunity')}
             onPress={() => {
               router.push({
                 params: {

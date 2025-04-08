@@ -7,6 +7,7 @@ import {
   type UnistylesValues,
   useStyles,
 } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { tintDark, tintLight } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -37,6 +38,8 @@ export function Header({
 }: Props) {
   const router = useRouter()
 
+  const a11y = useTranslations('a11y')
+
   const { blurNavigation, themeOled, themeTint } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -66,6 +69,7 @@ export function Header({
                   name: modal ? 'X' : 'ArrowLeft',
                   weight: 'bold',
                 }}
+                label={a11y(modal ? 'close' : 'goBack')}
                 onPress={() => {
                   router.back()
                 }}

@@ -2,6 +2,7 @@ import { Pressable } from 'react-native'
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { useReorderableDrag } from 'react-native-reorderable-list'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { type Account } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
@@ -26,6 +27,8 @@ export function AccountCard({
   onRemove,
   selected,
 }: Props) {
+  const a11y = useTranslations('a11y')
+
   const { themeOled, themeTint } = usePreferences()
 
   const drag = useReorderableDrag()
@@ -42,6 +45,9 @@ export function AccountCard({
           icon={{
             name: 'Trash',
           }}
+          label={a11y('removeAccount', {
+            account: account.id,
+          })}
           onPress={() => {
             onRemove(account.id)
           }}

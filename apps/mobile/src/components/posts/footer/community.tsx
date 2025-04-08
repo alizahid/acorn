@@ -27,6 +27,7 @@ export function PostCommunity({ post }: Props) {
         direction="row"
         gap="2"
         hitSlop={theme.space[3]}
+        label={post.community.name}
         onPress={() => {
           if (post.community.name.startsWith('u/')) {
             router.push({
@@ -48,7 +49,11 @@ export function PostCommunity({ post }: Props) {
         }}
       >
         {post.community.image ? (
-          <Image source={post.community.image} style={styles.image} />
+          <Image
+            accessibilityIgnoresInvertColors
+            source={post.community.image}
+            style={styles.image}
+          />
         ) : null}
 
         <Text lines={1} size="2" weight="medium">
@@ -66,6 +71,7 @@ export function PostCommunity({ post }: Props) {
         flexShrink={1}
         gap="2"
         hitSlop={theme.space[3]}
+        label={post.user.name}
         onPress={() => {
           router.push({
             params: {

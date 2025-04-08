@@ -47,6 +47,7 @@ export function UserAbout({ listProps, name }: Props) {
         <View mb="-4">
           <Image
             {...placeholder}
+            accessibilityIgnoresInvertColors
             source={profile.banner}
             style={styles.banner}
           />
@@ -55,7 +56,11 @@ export function UserAbout({ listProps, name }: Props) {
 
       <View align="center" direction="row" gap="4" mt="4" mx="4">
         {profile.image ? (
-          <Image source={profile.image} style={styles.image} />
+          <Image
+            accessibilityIgnoresInvertColors
+            source={profile.image}
+            style={styles.image}
+          />
         ) : null}
 
         <View flex={1} gap="2">

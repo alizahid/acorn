@@ -40,6 +40,7 @@ export function VideoPlayer({
   viewing,
 }: Props) {
   const t = useTranslations('component.posts.video')
+  const a11y = useTranslations('a11y')
 
   const {
     autoPlay,
@@ -87,6 +88,7 @@ export function VideoPlayer({
     return (
       <Pressable
         delayed
+        label={a11y('viewVideo')}
         onLongPress={onLongPress}
         onPress={() => {
           void ref.current?.enterFullscreen()
@@ -99,7 +101,11 @@ export function VideoPlayer({
         }}
         style={styles.compact(large)}
       >
-        <Image source={video.thumbnail} style={styles.compactImage} />
+        <Image
+          accessibilityIgnoresInvertColors
+          source={video.thumbnail}
+          style={styles.compactImage}
+        />
 
         <View align="center" justify="center" style={styles.compactIcon}>
           <Icon color={theme.colors.accent.accent} name="Play" weight="fill" />
@@ -139,6 +145,7 @@ export function VideoPlayer({
   return (
     <Pressable
       delayed
+      label={a11y('viewVideo')}
       onLongPress={onLongPress}
       onPress={() => {
         void ref.current?.enterFullscreen()
@@ -180,6 +187,7 @@ export function VideoPlayer({
       ) : (
         <Pressable
           hitSlop={theme.space[2]}
+          label={a11y(muted ? 'unmute' : 'mute')}
           onPress={() => {
             setMuted(() => !muted)
           }}

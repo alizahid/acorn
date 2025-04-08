@@ -1,5 +1,6 @@
 import { Image } from 'expo-image'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { useImagePlaceholder } from '~/hooks/image'
 import { Gallery } from '~/sheets/gallery'
@@ -18,6 +19,8 @@ type Props = {
 }
 
 export function Media({ caption, media, recyclingKey, variant }: Props) {
+  const a11y = useTranslations('a11y')
+
   const { styles } = useStyles(stylesheet)
 
   const placeholder = useImagePlaceholder()
@@ -27,6 +30,7 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
       align={variant === 'post' ? 'center' : undefined}
       disabled={media.width < 100}
       gap="2"
+      label={a11y('viewImage')}
       onPress={() => {
         void Gallery.call({
           images: [media],
@@ -37,6 +41,7 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
     >
       <Image
         {...placeholder}
+        accessibilityIgnoresInvertColors
         contentFit="contain"
         recyclingKey={recyclingKey}
         source={media.url}

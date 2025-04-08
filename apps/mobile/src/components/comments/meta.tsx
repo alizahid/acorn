@@ -2,7 +2,7 @@ import { differenceInMonths } from 'date-fns'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useFormatter } from 'use-intl'
+import { useFormatter, useTranslations } from 'use-intl'
 
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { removePrefix } from '~/lib/reddit'
@@ -24,6 +24,8 @@ type Props = {
 
 export function CommentMeta({ collapsed, comment, flair }: Props) {
   const router = useRouter()
+
+  const a11y = useTranslations('a11y')
   const f = useFormatter()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -60,6 +62,7 @@ export function CommentMeta({ collapsed, comment, flair }: Props) {
         direction="row"
         gap="2"
         hitSlop={theme.space[3]}
+        label={comment.user.name}
         onPress={() => {
           router.push({
             params: {
@@ -71,7 +74,11 @@ export function CommentMeta({ collapsed, comment, flair }: Props) {
         self="start"
       >
         {comment.user.image ? (
-          <Image source={comment.user.image} style={styles.image} />
+          <Image
+            accessibilityIgnoresInvertColors
+            source={comment.user.image}
+            style={styles.image}
+          />
         ) : null}
 
         <Text
@@ -120,6 +127,7 @@ export function CommentMeta({ collapsed, comment, flair }: Props) {
           }
           compact
           icon="ArrowFatUp"
+          label={a11y(comment.liked ? 'removeUpvote' : 'upvote')}
           onPress={() => {
             vote({
               commentId: comment.id,
@@ -144,6 +152,7 @@ export function CommentMeta({ collapsed, comment, flair }: Props) {
           }
           compact
           icon="ArrowFatDown"
+          label={a11y(comment.liked === false ? 'removeDownvote' : 'downvote')}
           onPress={() => {
             vote({
               commentId: comment.id,

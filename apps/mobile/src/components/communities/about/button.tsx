@@ -33,6 +33,7 @@ export function Button({
       flex={1}
       gap="2"
       height="7"
+      label={label}
       onPress={onPress}
       px="3"
       style={styles.main}

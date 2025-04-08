@@ -20,10 +20,10 @@ export function DraggableItem({ label, onChange, value }: Props) {
   return (
     <Pressable
       align="center"
-      animated={false}
       direction="row"
       gap="3"
       height="8"
+      label={label}
       onLongPress={drag}
       px="3"
     >

@@ -4,6 +4,7 @@ import {
   type UnistylesValues,
   useStyles,
 } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -18,6 +19,8 @@ type Props = {
 }
 
 export function PostHeader({ onPress, parentId }: Props) {
+  const a11y = useTranslations('a11y')
+
   const { themeOled, themeTint } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
@@ -33,6 +36,7 @@ export function PostHeader({ onPress, parentId }: Props) {
           name: 'ArrowArcLeft',
           weight: 'bold',
         }}
+        label={a11y('viewFullThread')}
         onPress={() => {
           onPress?.()
         }}
@@ -43,6 +47,7 @@ export function PostHeader({ onPress, parentId }: Props) {
           name: 'ArrowElbowLeft',
           weight: 'bold',
         }}
+        label={a11y('viewParentThread')}
         onPress={() => {
           onPress?.(parentId)
         }}

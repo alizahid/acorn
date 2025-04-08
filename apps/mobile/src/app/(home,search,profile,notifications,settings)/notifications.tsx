@@ -22,6 +22,7 @@ const routes = InboxTab.map((key) => ({
 
 export default function Screen() {
   const t = useTranslations('screen.notifications')
+  const a11y = useTranslations('a11y')
 
   const {
     fetchNextPage,
@@ -73,6 +74,7 @@ export default function Screen() {
               icon={{
                 name: 'CheckCircle',
               }}
+              label={a11y('clearNotifications')}
               loading={isPending}
               onPress={() => {
                 markAll()

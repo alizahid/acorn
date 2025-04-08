@@ -8,6 +8,7 @@ import {
 } from 'expo-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { CommentCard } from '~/components/comments/card'
@@ -39,10 +40,10 @@ export type PostParams = z.infer<typeof schema>
 export default function Screen() {
   const router = useRouter()
   const navigation = useNavigation()
-
   const params = schema.parse(useLocalSearchParams())
-
   const focused = useIsFocused()
+
+  const a11y = useTranslations('a11y')
 
   const { collapsibleComments, replyPost, skipComment, sortPostComments } =
     usePreferences()
@@ -93,6 +94,7 @@ export default function Screen() {
             <Pressable
               height="8"
               justify="center"
+              label={post.community.name}
               onPress={() => {
                 if (post.community.name.startsWith('u/')) {
                   router.push({
@@ -247,6 +249,7 @@ export default function Screen() {
         <FloatingButton
           color="blue"
           icon="ArrowBendUpLeft"
+          label={a11y('createComment')}
           onPress={() => {
             router.push({
               params: {
@@ -262,6 +265,7 @@ export default function Screen() {
       {skipComment && comments.length > 0 ? (
         <FloatingButton
           icon="ArrowDown"
+          label={a11y('skipComment')}
           onLongPress={() => {
             const next = comments.findLastIndex(
               (item, index) =>

@@ -45,6 +45,7 @@ export function SortIntervalMenu<Type extends SortType>({
   type,
 }: Props<Type>) {
   const t = useTranslations('component.common')
+  const a11y = useTranslations('a11y')
 
   const { theme } = useStyles()
 
@@ -69,6 +70,7 @@ export function SortIntervalMenu<Type extends SortType>({
         direction="row"
         gap="2"
         height="8"
+        label={a11y('changeSorting')}
         onPress={() => {
           sheetSort.current?.present()
         }}

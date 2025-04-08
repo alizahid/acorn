@@ -68,7 +68,12 @@ export function FlairCard({
         ? items.map((item) => {
             if (item.type === 'emoji') {
               return (
-                <Image key={item.id} source={item.value} style={styles.emoji} />
+                <Image
+                  accessibilityIgnoresInvertColors
+                  key={item.id}
+                  source={item.value}
+                  style={styles.emoji}
+                />
               )
             }
 

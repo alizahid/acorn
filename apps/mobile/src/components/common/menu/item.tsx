@@ -57,6 +57,7 @@ export function MenuItem({ item, style }: Props) {
         direction="row"
         gap="3"
         height="8"
+        label={item.label}
         onPress={() => {
           if (item.onPress) {
             mutate(item.onPress)

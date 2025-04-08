@@ -2,6 +2,7 @@ import { useRouter } from 'expo-router'
 import { useCallback } from 'react'
 import { Share, type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
@@ -39,6 +40,8 @@ type Props = {
 
 export function PostCard({ expanded, post, style, viewing }: Props) {
   const router = useRouter()
+
+  const a11y = useTranslations('a11y')
 
   const {
     communityOnTop,
@@ -205,6 +208,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
         delayed
         disabled={expanded}
         gap="2"
+        label={a11y('viewPost')}
         onLongPress={onLongPress}
         onPress={onPress}
         pb={media ? '3' : undefined}

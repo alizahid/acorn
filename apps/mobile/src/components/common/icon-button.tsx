@@ -16,6 +16,7 @@ type Props = {
     size?: number
     weight?: IconWeight
   }
+  label: string
   loading?: boolean
   onLongPress?: () => void
   onPress?: () => void
@@ -27,6 +28,7 @@ export function IconButton({
   contrast,
   hitSlop,
   icon,
+  label,
   loading,
   onLongPress,
   onPress,
@@ -42,6 +44,7 @@ export function IconButton({
       height={size}
       hitSlop={hitSlop}
       justify="center"
+      label={label}
       onLongPress={onLongPress}
       onPress={onPress}
       style={style}

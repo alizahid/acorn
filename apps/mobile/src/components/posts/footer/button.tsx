@@ -9,6 +9,7 @@ type Props = {
   compact?: boolean
   fill?: boolean
   icon: IconName
+  label: string
   onPress?: (event: GestureResponderEvent) => void
   weight?: IconWeight
 }
@@ -18,6 +19,7 @@ export function FooterButton({
   compact,
   fill,
   icon,
+  label,
   onPress,
   weight,
 }: Props) {
@@ -29,6 +31,7 @@ export function FooterButton({
       height={compact ? undefined : '6'}
       hitSlop={theme.space[2]}
       justify="center"
+      label={label}
       onPress={onPress}
       style={styles.main(color, fill)}
       width={compact ? undefined : '6'}

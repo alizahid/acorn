@@ -40,6 +40,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
   const frame = useSafeAreaFrame()
 
   const t = useTranslations('component.posts.gallery')
+  const a11y = useTranslations('a11y')
 
   const { themeOled, themeTint } = usePreferences()
 
@@ -183,6 +184,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
             name: 'X',
             weight: 'bold',
           }}
+          label={a11y('close')}
           onPress={() => {
             translate.set(() => withSpring(frame.height))
             opacity.set(() => withTiming(0))
@@ -206,7 +208,6 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
                   : downloadAll.isSuccess
                     ? 'green'
                     : 'accent',
-
                 name: downloadAll.isError
                   ? 'XCircle'
                   : downloadAll.isSuccess
@@ -218,6 +219,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
                     ? 'fill'
                     : 'duotone',
               }}
+              label={a11y('downloadAllImages')}
               loading={downloadAll.isPending}
               onPress={() => {
                 downloadAll.download({
@@ -246,6 +248,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
                   ? 'fill'
                   : 'duotone',
             }}
+            label={a11y('downloadImage')}
             loading={download.isPending}
             onPress={() => {
               download.download({
@@ -268,6 +271,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
                   ? 'fill'
                   : 'duotone',
             }}
+            label={a11y('copyImage')}
             loading={copy.isPending}
             onPress={() => {
               copy.copy({

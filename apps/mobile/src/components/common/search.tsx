@@ -20,6 +20,7 @@ type Props = {
 
 export function SearchBox({ onChange, onSubmitEditing, style, value }: Props) {
   const t = useTranslations('component.common.search')
+  const a11y = useTranslations('a11y')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -47,6 +48,7 @@ export function SearchBox({ onChange, onSubmitEditing, style, value }: Props) {
               name: 'XCircle',
               weight: 'fill',
             }}
+            label={a11y('clearQuery')}
             onPress={() => {
               onChange?.('')
             }}

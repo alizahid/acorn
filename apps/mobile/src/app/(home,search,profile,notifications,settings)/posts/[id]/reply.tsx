@@ -41,6 +41,7 @@ export default function Screen() {
   const { font, fontScaling, systemScaling } = usePreferences()
 
   const t = useTranslations('screen.posts.reply')
+  const a11y = useTranslations('a11y')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -63,6 +64,7 @@ export default function Screen() {
             icon={{
               name: 'PaperPlaneTilt',
             }}
+            label={a11y('createComment')}
             loading={reply.isPending || edit.isPending}
             onPress={async () => {
               if (text.length === 0) {
@@ -95,6 +97,7 @@ export default function Screen() {
         ),
       })
     }, [
+      a11y,
       edit,
       navigation,
       params.body,

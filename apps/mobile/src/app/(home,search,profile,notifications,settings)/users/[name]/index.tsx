@@ -52,6 +52,7 @@ export default function Screen() {
   } = usePreferences()
 
   const t = useTranslations('screen.users.user')
+  const a11y = useTranslations('a11y')
 
   const { styles } = useStyles(stylesheet)
 
@@ -150,6 +151,9 @@ export default function Screen() {
                 name: 'Info',
                 weight: 'duotone',
               }}
+              label={a11y('aboutCommunity', {
+                community: params.name,
+              })}
               onPress={() => {
                 router.push({
                   params: {

@@ -45,6 +45,7 @@ export function Button({
       gap="2"
       height="7"
       justify="center"
+      label={label}
       onPress={onPress}
       px="4"
       style={[styles.main(color), style]}

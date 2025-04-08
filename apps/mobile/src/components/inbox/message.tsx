@@ -36,6 +36,7 @@ export function MessageCard({ message }: Props) {
       delayed
       direction="row"
       gap="4"
+      label={message.subject}
       onPress={() => {
         router.push({
           params: {
@@ -61,6 +62,7 @@ export function MessageCard({ message }: Props) {
         <View direction="row" gap="4">
           <Pressable
             hitSlop={theme.space[4]}
+            label={message.author}
             onPress={() => {
               router.push({
                 params: {

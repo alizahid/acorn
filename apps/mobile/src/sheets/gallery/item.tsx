@@ -19,6 +19,7 @@ type Props = {
 
 export function GalleryItem({ image, onTap }: Props) {
   const t = useTranslations('component.posts.gallery')
+  const a11y = useTranslations('a11y')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -40,6 +41,7 @@ export function GalleryItem({ image, onTap }: Props) {
       >
         <Image
           {...placeholder}
+          accessibilityIgnoresInvertColors
           contentFit="contain"
           pointerEvents="none"
           recyclingKey={image.url}
@@ -59,6 +61,7 @@ export function GalleryItem({ image, onTap }: Props) {
 
           <Pressable
             hitSlop={theme.space[2]}
+            label={a11y(playing ? 'pause' : 'play')}
             onPress={() => {
               if (playing) {
                 void ref.current?.stopAnimating()

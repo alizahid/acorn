@@ -35,6 +35,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
     <GestureDetector gesture={gesture}>
       <Component
         intensity={themeOled ? 25 : 75}
+        role="tablist"
         style={styles.main(blurNavigation, themeOled, themeTint)}
         tint={theme.name === 'dark' ? tintDark : tintLight}
       >
@@ -49,6 +50,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
             return (
               <Pressable
                 key={route.key}
+                label={options?.title ?? 'Tab'}
                 onLongPress={() => {
                   navigation.emit({
                     target: route.key,
@@ -66,6 +68,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
                     navigation.navigate(route.name, route.params)
                   }
                 }}
+                role="tab"
                 style={styles.tab}
               >
                 {icon ? (

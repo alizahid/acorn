@@ -50,10 +50,12 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
           height="7"
           justify="center"
           key={item}
+          label={item}
           onPress={() => {
             onChange(index)
           }}
           px="2"
+          role="tab"
         >
           <Text highContrast={false} size="2" weight="bold">
             {item}

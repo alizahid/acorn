@@ -54,6 +54,7 @@ type Props = {
 export default function Layout({ segment }: Props) {
   const t = useTranslations('screen')
   const tType = useTranslations('component.common.type.type')
+  const a11y = useTranslations('a11y')
 
   const { accountId } = useAuth()
   const { feedType } = useDefaults()
@@ -91,6 +92,7 @@ export default function Layout({ segment }: Props) {
                 icon={{
                   name: 'UserSwitch',
                 }}
+                label={a11y('switchAccount')}
                 onPress={() => {
                   switcher.emit('open')
                 }}
@@ -161,6 +163,7 @@ export default function Layout({ segment }: Props) {
                     name: 'Sidebar',
                     weight: 'duotone',
                   }}
+                  label={a11y('toggleSidebar')}
                   onPress={() => {
                     drawer.emit('toggle')
                   }}
@@ -195,6 +198,7 @@ function StackLayout({ children }: PropsWithChildren) {
   const router = useRouter()
 
   const t = useTranslations('screen')
+  const a11y = useTranslations('a11y')
 
   const { addPost } = useHistory()
 
@@ -219,6 +223,9 @@ function StackLayout({ children }: PropsWithChildren) {
                   name: 'Info',
                   weight: 'duotone',
                 }}
+                label={a11y('aboutCommunity', {
+                  community: name,
+                })}
                 onPress={() => {
                   router.push({
                     params: {
@@ -311,6 +318,7 @@ function StackLayout({ children }: PropsWithChildren) {
                 <Pressable
                   height="8"
                   justify="center"
+                  label={user}
                   onPress={() => {
                     router.push({
                       params: {

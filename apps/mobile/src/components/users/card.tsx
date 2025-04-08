@@ -25,6 +25,7 @@ export function UserCard({ style, user }: Props) {
       align="center"
       direction="row"
       gap="4"
+      label={user.name}
       onPress={() => {
         router.push({
           params: {
@@ -36,7 +37,12 @@ export function UserCard({ style, user }: Props) {
       px="4"
       style={style}
     >
-      <Image recyclingKey={user.id} source={user.image} style={styles.image} />
+      <Image
+        accessibilityIgnoresInvertColors
+        recyclingKey={user.id}
+        source={user.image}
+        style={styles.image}
+      />
 
       <Text my="4" style={styles.name} weight="medium">
         {user.name}

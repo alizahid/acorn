@@ -5,6 +5,7 @@ import {
   type UnistylesValues,
   useStyles,
 } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { useHide } from '~/hooks/moderation/hide'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
@@ -46,6 +47,8 @@ export function CommentCard({
   style,
 }: Props) {
   const router = useRouter()
+
+  const a11y = useTranslations('a11y')
 
   const { colorfulComments, fontSizeComment, themeOled } = usePreferences()
   const {
@@ -155,6 +158,13 @@ export function CommentCard({
       <Pressable
         delayed
         disabled={disabled}
+        label={a11y(
+          dull
+            ? 'viewComment'
+            : collapsed
+              ? 'expandComment'
+              : 'collapseComment',
+        )}
         onLongPress={() => {
           void CommentMenu.call({
             comment,
@@ -181,6 +191,7 @@ export function CommentCard({
             align="center"
             direction="row"
             gap="2"
+            label={a11y('viewPost')}
             mb="3"
             mx="3"
             onPress={() => {

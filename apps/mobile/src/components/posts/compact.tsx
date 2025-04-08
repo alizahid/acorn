@@ -1,4 +1,5 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
@@ -30,6 +31,8 @@ export function PostCompactCard({
   side = 'left',
   viewing,
 }: Props) {
+  const a11y = useTranslations('a11y')
+
   const { fontSizePost, largeThumbnails } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
@@ -40,6 +43,7 @@ export function PostCompactCard({
       direction={side === 'right' ? 'row-reverse' : 'row'}
       disabled={expanded}
       gap="3"
+      label={a11y('viewPost')}
       onLongPress={onLongPress}
       onPress={onPress}
       p="3"

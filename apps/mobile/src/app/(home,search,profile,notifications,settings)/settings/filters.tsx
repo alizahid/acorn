@@ -34,6 +34,7 @@ export default function Screen() {
   const navigation = useNavigation()
 
   const t = useTranslations('screen.settings.filters')
+  const a11y = useTranslations('a11y')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -50,6 +51,7 @@ export default function Screen() {
               name: 'FloppyDisk',
               weight: 'duotone',
             }}
+            label={a11y('saveFilters')}
             loading={isPending}
             onPress={() => {
               void onSubmit()
@@ -57,7 +59,7 @@ export default function Screen() {
           />
         ),
       })
-    }, [isPending, navigation, onSubmit]),
+    }, [a11y, isPending, navigation, onSubmit]),
   )
 
   const filters = useFieldArray({
@@ -140,6 +142,7 @@ export default function Screen() {
       <FloatingButton
         color="red"
         icon="X"
+        label={a11y('clearFilters')}
         onPress={() => {
           form.setValue('filters', [])
 
@@ -153,6 +156,7 @@ export default function Screen() {
       <FloatingButton
         color="green"
         icon="Plus"
+        label={a11y('addFilter')}
         onPress={() => {
           filters.append({
             id: createId(),

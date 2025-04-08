@@ -57,6 +57,7 @@ export function SheetItem({
       disabled={!onPress}
       gap="3"
       height="8"
+      label={label}
       onPress={onPress}
       px="3"
       style={[selected ? styles.selected : undefined, style]}

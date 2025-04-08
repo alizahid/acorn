@@ -29,6 +29,7 @@ export function CommunityCard({ community, style }: Props) {
       align="center"
       direction="row"
       gap="4"
+      label={community.name}
       onPress={() => {
         if (community.user) {
           router.push({
@@ -52,6 +53,7 @@ export function CommunityCard({ community, style }: Props) {
       style={style}
     >
       <Image
+        accessibilityIgnoresInvertColors
         recyclingKey={community.id}
         source={community.image}
         style={styles.image}

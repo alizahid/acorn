@@ -19,6 +19,7 @@ export function UserSwitcher() {
   const router = useRouter()
 
   const t = useTranslations('component.users.switcher')
+  const a11y = useTranslations('a11y')
 
   const { accountId, accounts, removeAccount, reorder, setAccount } = useAuth()
 
@@ -43,6 +44,7 @@ export function UserSwitcher() {
             color: 'green',
             name: 'PlusCircle',
           }}
+          label={a11y('addAccount')}
           onPress={() => {
             router.push({
               params: {

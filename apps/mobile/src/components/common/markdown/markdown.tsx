@@ -153,7 +153,13 @@ export function Node({ node, ...props }: Props) {
       )
     }
 
-    return <Image recyclingKey={props.recyclingKey} source={node.url} />
+    return (
+      <Image
+        accessibilityIgnoresInvertColors
+        recyclingKey={props.recyclingKey}
+        source={node.url}
+      />
+    )
   }
 
   if (node.type === 'inlineCode') {

@@ -15,6 +15,7 @@ type Props = {
 
 export function SearchHistory({ history, onChange }: Props) {
   const t = useTranslations('component.search.history')
+  const a11y = useTranslations('a11y')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -31,6 +32,7 @@ export function SearchHistory({ history, onChange }: Props) {
           gap="3"
           hitSlop={theme.space[4]}
           key={query}
+          label={query}
           onPress={() => {
             onChange(query)
           }}
@@ -41,6 +43,9 @@ export function SearchHistory({ history, onChange }: Props) {
 
           <Pressable
             hitSlop={theme.space[4]}
+            label={a11y('removeQuery', {
+              query,
+            })}
             onPress={() => {
               history.remove(query)
             }}
@@ -55,6 +60,7 @@ export function SearchHistory({ history, onChange }: Props) {
         direction="row"
         gap="3"
         hitSlop={theme.space[4]}
+        label={t('clear')}
         onPress={() => {
           history.clear()
         }}

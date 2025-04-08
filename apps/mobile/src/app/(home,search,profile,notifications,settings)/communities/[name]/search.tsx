@@ -34,6 +34,7 @@ export default function Screen() {
   const focused = useIsFocused()
 
   const t = useTranslations('screen.community.search')
+  const a11y = useTranslations('a11y')
 
   const { intervalSearchPosts, sortSearchPosts, themeOled, themeTint } =
     usePreferences()
@@ -69,6 +70,7 @@ export default function Screen() {
                   name: 'XCircle',
                   weight: 'fill',
                 }}
+                label={a11y('clearQuery')}
                 onPress={() => {
                   setQuery('')
                 }}

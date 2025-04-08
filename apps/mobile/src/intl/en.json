@@ -1,4 +1,57 @@
 {
+  "a11y": {
+    "aboutCommunity": "About {community}",
+    "addAccount": "Add account",
+    "addFilter": "Add filter",
+    "changeSorting": "Change sorting",
+    "chooseImage": "Choose image",
+    "clearFilters": "Clear filters",
+    "clearFlair": "Clear flair",
+    "clearNotifications": "Mark all notifications as read",
+    "clearQuery": "Clear query",
+    "close": "Close",
+    "collapseComment": "Collapse comment",
+    "collapseFeed": "Collapse feed",
+    "collapseSection": "Collapse section",
+    "copied": "Copied",
+    "copy": "Copy",
+    "copyImage": "Copy image",
+    "createComment": "Create comment",
+    "createPost": "Create post",
+    "createReply": "Send message",
+    "downloadAllImages": "Download all images",
+    "downloadImage": "Download image",
+    "downvote": "Downvote",
+    "expandComment": "Expand comment",
+    "expandFeed": "Expand feed",
+    "expandSection": "Expand section",
+    "goBack": "Go back",
+    "loadingVideo": "Loading video",
+    "menu": "Menu",
+    "mute": "Mute",
+    "pause": "Pause",
+    "play": "Play",
+    "removeAccount": "Remove {account}",
+    "removeDownvote": "Remove downvote",
+    "removeFilter": "Remove filter",
+    "removeImage": "Remove image",
+    "removeQuery": "Remove {query}",
+    "removeUpvote": "Remove upvote",
+    "saveFilters": "Save filters",
+    "skipComment": "Skip comment",
+    "switchAccount": "Switch account",
+    "toggleSidebar": "Toggle sidebar",
+    "unmute": "Unmute",
+    "upvote": "Upvote",
+    "viewComment": "View comment",
+    "viewCommunity": "View community",
+    "viewFullThread": "View full thread",
+    "viewImage": "View image",
+    "viewLink": "View link",
+    "viewParentThread": "View parent thread",
+    "viewPost": "View post",
+    "viewVideo": "View video"
+  },
   "component": {
     "comments": {
       "more": {
@@ -60,12 +113,6 @@
         "leave": "Leave",
         "subscribers": "Subscribers",
         "unfavorite": "Unfavorite"
-      },
-      "searchBar": {
-        "placeholder": "Search"
-      },
-      "searchBox": {
-        "placeholder": "Filter"
       }
     },
     "filters": {
@@ -312,6 +359,9 @@
         "posts": "Posts"
       }
     },
+    "home": {
+      "title": "Home"
+    },
     "notifications": {
       "tabs": {
         "messages": "Messages",
@@ -325,7 +375,6 @@
       },
       "reply": {
         "placeholder": "Say something nice",
-        "submit": "Reply",
         "title": "Reply",
         "user": "Replying to {user}"
       }
@@ -336,6 +385,7 @@
       "hidden": "Hidden",
       "saved": "Saved",
       "submitted": "Posts",
+      "title": "Profile",
       "upvoted": "Upvoted"
     },
     "search": {
@@ -599,7 +649,8 @@
           },
           "title": "User"
         }
-      }
+      },
+      "title": "Settings"
     },
     "users": {
       "user": {

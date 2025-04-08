@@ -20,16 +20,19 @@ export function AboutCard() {
       href: 'https://acorn.blue',
       icon: 'Compass',
       key: 'web',
+      label: 'Website',
     },
     {
       href: 'https://discord.gg/sWzw5GU5RV',
       icon: 'DiscordLogo',
       key: 'discord',
+      label: 'Discord',
     },
     {
       href: 'https://github.com/alizahid/acorn',
       icon: 'GitHubLogo',
       key: 'github',
+      label: 'GitHub',
     },
   ] as const
 
@@ -64,6 +67,7 @@ export function AboutCard() {
                 weight: 'fill',
               }}
               key={link.key}
+              label={link.label}
               onPress={() => {
                 void handleLink(link.href)
               }}

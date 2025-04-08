@@ -32,6 +32,7 @@ export function ImageGrid({
   viewing,
 }: Props) {
   const t = useTranslations('component.posts.gallery')
+  const a11y = useTranslations('a11y')
 
   const { styles } = useStyles(stylesheet)
 
@@ -43,6 +44,7 @@ export function ImageGrid({
     return (
       <Pressable
         delayed
+        label={a11y('viewImage')}
         onLongPress={onLongPress}
         onPress={() => {
           onPress(0)
@@ -51,6 +53,7 @@ export function ImageGrid({
       >
         <Image
           {...placeholder}
+          accessibilityIgnoresInvertColors
           priority={viewing ? 'high' : 'normal'}
           recyclingKey={recyclingKey}
           source={image.thumbnail}
@@ -86,6 +89,7 @@ export function ImageGrid({
         renderItem={({ index, item }: { index: number; item: PostMedia }) => (
           <Pressable
             delayed
+            label={a11y('viewImage')}
             onLongPress={onLongPress}
             onPress={() => {
               onPress(index)
@@ -94,6 +98,7 @@ export function ImageGrid({
           >
             <Image
               {...placeholder}
+              accessibilityIgnoresInvertColors
               priority={viewing ? 'high' : 'normal'}
               recyclingKey={recyclingKey}
               source={item.thumbnail}

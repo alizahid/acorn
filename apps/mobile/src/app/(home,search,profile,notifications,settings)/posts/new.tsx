@@ -9,6 +9,7 @@ import { Controller, FormProvider } from 'react-hook-form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { IconButton } from '~/components/common/icon-button'
@@ -56,6 +57,8 @@ function Content({ refetch, submission }: Props) {
   const router = useRouter()
   const navigation = useNavigation()
 
+  const a11y = useTranslations('a11y')
+
   const { styles } = useStyles(stylesheet)
 
   const { handleLink } = useLink()
@@ -91,6 +94,7 @@ function Content({ refetch, submission }: Props) {
             icon={{
               name: 'PaperPlaneTilt',
             }}
+            label={a11y('createPost')}
             loading={isPending}
             onPress={() => {
               void onSubmit()
@@ -98,7 +102,7 @@ function Content({ refetch, submission }: Props) {
           />
         ),
       })
-    }, [isPending, navigation, onSubmit]),
+    }, [a11y, isPending, navigation, onSubmit]),
   )
 
   return (

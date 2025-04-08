@@ -71,6 +71,7 @@ export function CommunitiesList({
   const router = useRouter()
 
   const t = useTranslations('component.common.type')
+  const a11y = useTranslations('a11y')
 
   const { drawerSections } = useDefaults()
 
@@ -256,7 +257,13 @@ export function CommunitiesList({
             <>
               <SheetItem
                 label={item.data.name}
-                left={<Image source={item.data.image} style={styles.image} />}
+                left={
+                  <Image
+                    accessibilityIgnoresInvertColors
+                    source={item.data.image}
+                    style={styles.image}
+                  />
+                }
                 onPress={() => {
                   onPress?.()
 
@@ -273,6 +280,9 @@ export function CommunitiesList({
                       name: expanded.get(item.key) ? 'CaretDown' : 'CaretUp',
                       weight: 'fill',
                     }}
+                    label={a11y(
+                      expanded.get(item.key) ? 'collapseFeed' : 'expandFeed',
+                    )}
                     onPress={() => {
                       setExpanded((previous) => {
                         const next = new Map(previous)
@@ -299,6 +309,7 @@ export function CommunitiesList({
                         label={community}
                         left={
                           <Image
+                            accessibilityIgnoresInvertColors
                             source={exists?.image}
                             style={[styles.image, styles.feedCommunityImage]}
                           />
@@ -327,7 +338,13 @@ export function CommunitiesList({
         return (
           <SheetItem
             label={item.data.name}
-            left={<Image source={item.data.image} style={styles.image} />}
+            left={
+              <Image
+                accessibilityIgnoresInvertColors
+                source={item.data.image}
+                style={styles.image}
+              />
+            }
             onPress={() => {
               onPress?.()
 
@@ -391,6 +408,11 @@ export function CommunitiesList({
                   icon={{
                     name: collapsed.get(section.key) ? 'CaretUp' : 'CaretDown',
                   }}
+                  label={a11y(
+                    collapsed.get(section.key)
+                      ? 'collapseSection'
+                      : 'expandSection',
+                  )}
                   onPress={() => {
                     setCollapsed((previous) => {
                       const next = new Map(previous)

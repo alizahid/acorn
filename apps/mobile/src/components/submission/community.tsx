@@ -19,7 +19,11 @@ export function SubmissionCommunityCard({ community }: Props) {
 
   return (
     <View align="center" direction="row" flex={1} gap="2">
-      <Image source={community.image} style={styles.image} />
+      <Image
+        accessibilityIgnoresInvertColors
+        source={community.image}
+        style={styles.image}
+      />
 
       <Text lines={1} style={styles.name} weight="medium">
         {name}

@@ -5,6 +5,7 @@ import {
   type UnistylesValues,
   useStyles,
 } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { FloatingButton } from '~/components/common/floating-button'
@@ -27,6 +28,8 @@ export type CommunityParams = z.infer<typeof schema>
 export default function Screen() {
   const router = useRouter()
   const params = schema.parse(useLocalSearchParams())
+
+  const a11y = useTranslations('a11y')
 
   const { themeOled, themeTint } = usePreferences()
 
@@ -81,6 +84,7 @@ export default function Screen() {
 
       <FloatingButton
         icon="Plus"
+        label={a11y('createPost')}
         onPress={() => {
           router.push({
             params: {

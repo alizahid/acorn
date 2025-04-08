@@ -44,6 +44,7 @@ export function SubmissionType({ submission }: Props) {
             direction="row"
             gap="2"
             hitSlop={theme.space[4]}
+            label={t('title')}
             onPress={() => {
               Keyboard.dismiss()
 

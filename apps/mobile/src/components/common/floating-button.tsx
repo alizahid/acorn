@@ -14,6 +14,7 @@ export type FloatingButtonSide = (typeof FloatingButtonSide)[number]
 type Props = {
   color?: ColorToken
   icon: IconName
+  label: string
   onLongPress?: () => void
   onPress?: () => void
   side?: NonNullable<FloatingButtonSide>
@@ -23,6 +24,7 @@ type Props = {
 export function FloatingButton({
   color = 'accent',
   icon,
+  label,
   onLongPress,
   onPress,
   side = 'right',
@@ -43,6 +45,7 @@ export function FloatingButton({
           name: icon,
           weight: 'bold',
         }}
+        label={label}
         onLongPress={onLongPress}
         onPress={onPress}
       />

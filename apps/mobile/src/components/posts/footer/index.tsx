@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router'
 import { useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
 import { View } from '~/components/common/view'
@@ -26,6 +27,8 @@ export function PostFooter({
 }: Props) {
   const router = useRouter()
 
+  const a11y = useTranslations('a11y')
+
   const { theme } = useStyles()
 
   const { vote } = usePostVote()
@@ -38,6 +41,7 @@ export function PostFooter({
       disabled={expanded}
       gap="4"
       justify="between"
+      label={a11y('viewPost')}
       onLongPress={onLongPress}
       onPress={() => {
         router.push({
@@ -60,6 +64,7 @@ export function PostFooter({
           <FooterButton
             color={theme.colors.gray.text}
             icon="DotsThree"
+            label={a11y('menu')}
             onPress={() => {
               onLongPress()
             }}
@@ -73,6 +78,7 @@ export function PostFooter({
           }
           fill={post.liked === true}
           icon="ArrowUp"
+          label={a11y(post.liked ? 'removeUpvote' : 'upvote')}
           onPress={() => {
             vote({
               direction: post.liked ? 0 : 1,
@@ -90,6 +96,7 @@ export function PostFooter({
           }
           fill={post.liked === false}
           icon="ArrowDown"
+          label={a11y(post.liked === false ? 'removeDownvote' : 'downvote')}
           onPress={() => {
             vote({
               direction: post.liked === false ? 0 : -1,

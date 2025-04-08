@@ -1,6 +1,7 @@
 import { Image } from 'expo-image'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
@@ -34,6 +35,8 @@ export function PostLinkCard({
   style,
   url,
 }: Props) {
+  const a11y = useTranslations('a11y')
+
   const { styles, theme } = useStyles(stylesheet)
 
   const { seenOnMedia, themeOled } = usePreferences()
@@ -45,6 +48,7 @@ export function PostLinkCard({
   if (compact) {
     return (
       <Pressable
+        label={a11y('viewLink')}
         onLongPress={onLongPress}
         onPress={() => {
           void handleLink(url)
@@ -58,7 +62,11 @@ export function PostLinkCard({
         style={styles.compact(large)}
       >
         {media?.thumbnail ? (
-          <Image source={media.thumbnail} style={styles.compactImage} />
+          <Image
+            accessibilityIgnoresInvertColors
+            source={media.thumbnail}
+            style={styles.compactImage}
+          />
         ) : null}
 
         <View align="center" justify="center" style={styles.compactIcon}>
@@ -70,6 +78,7 @@ export function PostLinkCard({
 
   return (
     <Pressable
+      label={a11y('viewLink')}
       mx="3"
       onLongPress={onLongPress}
       onPress={() => {
@@ -86,6 +95,7 @@ export function PostLinkCard({
       {media ? (
         <Image
           {...placeholder}
+          accessibilityIgnoresInvertColors
           recyclingKey={recyclingKey}
           source={media.url}
           style={styles.image}

@@ -1,5 +1,6 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
@@ -32,6 +33,8 @@ export function RedGifsVideo({
   video,
   viewing,
 }: Props) {
+  const a11y = useTranslations('a11y')
+
   const { styles } = useStyles(stylesheet)
 
   const { gif } = useRedGifs(video.url)
@@ -56,6 +59,7 @@ export function RedGifsVideo({
   return (
     <Pressable
       delayed
+      label={a11y('loadingVideo')}
       onLongPress={onLongPress}
       style={styles.main(compact, large)}
     >

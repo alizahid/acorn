@@ -52,6 +52,9 @@ export function CommentMoreCard({
       disabled={isPending}
       gap="4"
       justify="center"
+      label={t('label', {
+        count: comment.children.length,
+      })}
       onPress={() => {
         if (!post) {
           return

@@ -21,6 +21,7 @@ type Props = {
 
 export function FilterCard({ index, onRemove }: Props) {
   const t = useTranslations('component.filters.card')
+  const a11y = useTranslations('a11y')
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -43,6 +44,7 @@ export function FilterCard({ index, onRemove }: Props) {
               gap="2"
               height="7"
               hitSlop={theme.space[4]}
+              label={field.value}
               onPress={() => {
                 Keyboard.dismiss()
 
@@ -124,6 +126,7 @@ export function FilterCard({ index, onRemove }: Props) {
           name: 'Trash',
           weight: 'duotone',
         }}
+        label={a11y('removeFilter')}
         onPress={() => {
           onRemove(index)
         }}
