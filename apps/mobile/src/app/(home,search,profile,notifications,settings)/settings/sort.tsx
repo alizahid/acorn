@@ -38,11 +38,6 @@ export default function Screen() {
       const color = theme.colors[SortColors[sort]].accent
 
       return {
-        icon: {
-          color,
-          name: SortIcons[sort],
-          type: 'icon',
-        },
         label: tCommon(`sort.${sort}`),
         right: (
           <Icon
@@ -60,11 +55,6 @@ export default function Screen() {
 
   const enhanceInterval = useCallback(
     (interval: TopInterval): MenuItemOption => ({
-      icon: {
-        color: theme.colors.gold.accent,
-        name: IntervalIcons[interval],
-        type: 'symbol',
-      },
       label: tCommon(`interval.${interval}`),
       right: (
         <SymbolView

@@ -32,11 +32,6 @@ export default function Screen() {
 
   const options: Array<MenuItemOption> = [
     {
-      icon: {
-        color: theme.colors.orange.accent,
-        name: 'ArrowFatUp',
-        type: 'icon',
-      },
       label: t('options.upvote'),
       right: (
         <Icon
@@ -48,11 +43,6 @@ export default function Screen() {
       value: 'upvote',
     },
     {
-      icon: {
-        color: theme.colors.violet.accent,
-        name: 'ArrowFatDown',
-        type: 'icon',
-      },
       label: t('options.downvote'),
       right: (
         <Icon
@@ -64,11 +54,6 @@ export default function Screen() {
       value: 'downvote',
     },
     {
-      icon: {
-        color: theme.colors.blue.accent,
-        name: 'ArrowBendUpLeft',
-        type: 'icon',
-      },
       label: t('options.reply'),
       right: (
         <Icon
@@ -80,11 +65,6 @@ export default function Screen() {
       value: 'reply',
     },
     {
-      icon: {
-        color: theme.colors.green.accent,
-        name: 'BookmarkSimple',
-        type: 'icon',
-      },
       label: t('options.save'),
       right: (
         <Icon
@@ -96,11 +76,6 @@ export default function Screen() {
       value: 'save',
     },
     {
-      icon: {
-        color: theme.colors.red.accent,
-        name: 'EyeClosed',
-        type: 'icon',
-      },
       label: t('options.hide'),
       right: (
         <Icon
@@ -112,11 +87,6 @@ export default function Screen() {
       value: 'hide',
     },
     {
-      icon: {
-        color: theme.colors.accent.accent,
-        name: 'Share',
-        type: 'icon',
-      },
       label: t('options.share'),
       right: (
         <Icon
