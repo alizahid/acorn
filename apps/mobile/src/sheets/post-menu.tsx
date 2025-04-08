@@ -16,6 +16,7 @@ import {
   useCopyImage,
   useDownloadImage,
   useDownloadImages,
+  useShareImage,
 } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
@@ -56,6 +57,7 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
   const { copy: copyImage } = useCopyImage()
   const { download: downloadImage } = useDownloadImage()
   const { download: downloadAll } = useDownloadImages()
+  const { share: shareImage } = useShareImage()
 
   useEffect(() => {
     sheet.current?.present()
@@ -306,6 +308,30 @@ export const PostMenu = createCallable<Props>(({ call, post }) => {
                   }
 
                   copyImage({
+                    url: post.media.images[0].url,
+                  })
+
+                  call.end()
+                }}
+              />
+            ) : null}
+
+            {post.type === 'image' && post.media.images[0] ? (
+              <SheetItem
+                icon={{
+                  color: theme.colors.gray.textLow,
+                  name: 'Share',
+                  type: 'icon',
+                }}
+                label={t('shareImage')}
+                onPress={() => {
+                  if (!post.media.images?.[0]?.url) {
+                    call.end()
+
+                    return
+                  }
+
+                  shareImage({
                     url: post.media.images[0].url,
                   })
 

@@ -38,6 +38,7 @@
     "removeQuery": "Remove {query}",
     "removeUpvote": "Remove upvote",
     "saveFilters": "Save filters",
+    "shareImage": "Share image",
     "skipComment": "Skip comment",
     "switchAccount": "Switch account",
     "toggleSidebar": "Toggle sidebar",
@@ -211,6 +212,7 @@
           "title": "Report"
         },
         "save": "Save",
+        "shareImage": "Share image",
         "sharePermalink": "Share permalink",
         "title": {
           "comment": "Comment",
@@ -681,7 +683,8 @@
     },
     "image": {
       "copied": "Image copied",
-      "downloaded": "{count, plural, =0 {Images} =1 {Image} other {# images}} downloaded"
+      "downloaded": "{count, plural, =0 {Images} =1 {Image} other {# images}} downloaded",
+      "shared": "Image shared"
     },
     "link": {
       "loading": "Loading"

@@ -2,7 +2,8 @@
 
 ## Upcoming
 
-added: a11y
+- added: a11y
+- added: share images
 
 ## Build 50
 

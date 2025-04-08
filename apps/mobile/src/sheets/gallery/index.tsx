@@ -24,6 +24,7 @@ import {
   useCopyImage,
   useDownloadImage,
   useDownloadImages,
+  useShareImage,
 } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -51,6 +52,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
   const download = useDownloadImage()
   const downloadAll = useDownloadImages()
   const copy = useCopyImage()
+  const share = useShareImage()
 
   const translate = useSharedValue(frame.height)
   const opacity = useSharedValue(0)
@@ -252,6 +254,33 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
             loading={download.isPending}
             onPress={() => {
               download.download({
+                url: selected.url,
+              })
+            }}
+          />
+
+          <IconButton
+            icon={{
+              color: share.isError
+                ? 'red'
+                : share.isSuccess
+                  ? 'green'
+                  : 'accent',
+              name: share.isError
+                ? 'XCircle'
+                : share.isSuccess
+                  ? 'CheckCircle'
+                  : 'Share',
+              weight: share.isError
+                ? 'fill'
+                : share.isSuccess
+                  ? 'fill'
+                  : 'duotone',
+            }}
+            label={a11y('shareImage')}
+            loading={share.isPending}
+            onPress={() => {
+              share.share({
                 url: selected.url,
               })
             }}

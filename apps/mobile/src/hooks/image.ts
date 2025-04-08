@@ -6,6 +6,7 @@ import { type ImageProps } from 'expo-image'
 import * as MediaLibrary from 'expo-media-library'
 import { compact } from 'lodash'
 import { useRef } from 'react'
+import { Share } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
@@ -213,6 +214,55 @@ export function useCopyImage() {
     isError,
     isPending,
     isSuccess,
+  }
+}
+
+type ShareImageVariables = {
+  url: string
+}
+
+export function useShareImage() {
+  const t = useTranslations('toasts.image')
+
+  const timer = useRef<NodeJS.Timeout>()
+
+  const { isError, isPending, isSuccess, mutate, reset } = useMutation<
+    unknown,
+    Error,
+    ShareImageVariables
+  >({
+    async mutationFn(variables) {
+      const directory = new Directory(Paths.cache, createId())
+
+      directory.create()
+
+      const file = await File.downloadFileAsync(variables.url, directory)
+
+      await Share.share({
+        url: file.uri,
+      })
+
+      directory.delete()
+    },
+    onSettled() {
+      if (timer.current) {
+        clearTimeout(timer.current)
+      }
+
+      timer.current = setTimeout(() => {
+        reset()
+      }, 5_000)
+    },
+    onSuccess() {
+      toast.success(t('shared'))
+    },
+  })
+
+  return {
+    isError,
+    isPending,
+    isSuccess,
+    share: mutate,
   }
 }
 
