@@ -587,6 +587,7 @@
           "blurNsfw": "Blur NSFW",
           "blurSpoiler": "Blur spoiler",
           "feedMuted": "Mute feed",
+          "pictureInPicture": "Allow picture in picture",
           "saveToAlbum": "Save to Acorn album",
           "title": "Media",
           "unmuteFullscreen": "Unmute on full screen"

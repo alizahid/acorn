@@ -48,6 +48,7 @@ export type PreferencesPayload = {
   linkBrowser: boolean
   mediaOnRight: boolean
   oldReddit: boolean
+  pictureInPicture: boolean
   refreshInterval: number
   rememberSorting: boolean
   replyPost: FloatingButtonSide
@@ -109,6 +110,7 @@ export const usePreferences = create<State>()(
       linkBrowser: true,
       mediaOnRight: true,
       oldReddit: false,
+      pictureInPicture: false,
       refreshInterval: 10,
       rememberSorting: true,
       replyPost: 'left',

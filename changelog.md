@@ -4,6 +4,8 @@
 
 - added: a11y
 - added: share images
+- added: video progress bar
+- added: video picture in picture
 
 ## Build 50
 

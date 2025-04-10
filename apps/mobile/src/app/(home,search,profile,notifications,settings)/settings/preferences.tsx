@@ -264,6 +264,11 @@ export default function Screen() {
             label: 'media.unmuteFullscreen',
           },
           {
+            icon: 'PictureInPicture',
+            key: 'pictureInPicture',
+            label: 'media.pictureInPicture',
+          },
+          {
             icon: 'EyeClosed',
             key: 'blurNsfw',
             label: 'media.blurNsfw',

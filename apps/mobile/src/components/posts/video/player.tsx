@@ -1,6 +1,6 @@
 import { Image } from 'expo-image'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -13,6 +13,7 @@ import { type PostMedia } from '~/types/post'
 import { Icon } from '../../common/icon'
 import { Pressable } from '../../common/pressable'
 import { GalleryBlur } from '../gallery/blur'
+import { VideoStatus } from './status'
 
 type Props = {
   compact?: boolean
@@ -47,6 +48,7 @@ export function VideoPlayer({
     blurNsfw,
     blurSpoiler,
     feedMuted,
+    pictureInPicture,
     seenOnMedia,
     unmuteFullscreen,
   } = usePreferences()
@@ -55,6 +57,7 @@ export function VideoPlayer({
   const { styles, theme } = useStyles(stylesheet)
 
   const ref = useRef<VideoView>(null)
+  const previous = useRef(source)
 
   const previousMuted = useRef(feedMuted)
 
@@ -62,9 +65,10 @@ export function VideoPlayer({
   const [muted, setMuted] = useState(feedMuted)
 
   const player = useVideoPlayer(source, (instance) => {
-    instance.muted = true
+    instance.muted = muted
     instance.loop = true
     instance.audioMixingMode = 'mixWithOthers'
+    instance.timeUpdateEventInterval = 1_000 / 1_000 / 60
 
     if (viewing) {
       instance.play()
@@ -72,17 +76,41 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    if (player.muted !== muted) {
-      // eslint-disable-next-line react-compiler/react-compiler -- go away
-      player.muted = muted
-    }
+    if (previous.current !== source) {
+      player.replace(source)
 
+      previous.current = source
+    }
+  }, [player, source])
+
+  useEffect(() => {
     if (fullscreen || (viewing && autoPlay)) {
       player.play()
     } else {
       player.pause()
     }
-  }, [autoPlay, fullscreen, muted, player, viewing])
+  }, [autoPlay, fullscreen, player, viewing])
+
+  const onFullscreenEnter = useCallback(() => {
+    setFullscreen(true)
+
+    previousMuted.current = muted
+
+    if (unmuteFullscreen && muted) {
+      setMuted(false)
+
+      // eslint-disable-next-line react-compiler/react-compiler -- go away
+      player.muted = false
+    }
+  }, [muted, player, unmuteFullscreen])
+
+  const onFullscreenExit = useCallback(() => {
+    setFullscreen(false)
+
+    setMuted(previousMuted.current)
+
+    player.muted = previousMuted.current
+  }, [player])
 
   if (compact) {
     return (
@@ -112,23 +140,10 @@ export function VideoPlayer({
         </View>
 
         <VideoView
+          allowsPictureInPicture={pictureInPicture}
           contentFit="cover"
-          onFullscreenEnter={() => {
-            previousMuted.current = muted
-
-            if (unmuteFullscreen && muted) {
-              setMuted(false)
-            }
-
-            setFullscreen(true)
-          }}
-          onFullscreenExit={() => {
-            if (previousMuted.current !== muted) {
-              setMuted(previousMuted.current)
-            }
-
-            setFullscreen(false)
-          }}
+          onFullscreenEnter={onFullscreenEnter}
+          onFullscreenExit={onFullscreenExit}
           player={player}
           pointerEvents="none"
           ref={ref}
@@ -160,27 +175,16 @@ export function VideoPlayer({
     >
       <VideoView
         allowsFullscreen={false}
-        allowsPictureInPicture={false}
-        allowsVideoFrameAnalysis={false}
+        allowsPictureInPicture
         contentFit="cover"
-        onFullscreenEnter={() => {
-          previousMuted.current = muted
-
-          if (unmuteFullscreen && muted) {
-            setMuted(false)
-          }
-
-          setFullscreen(true)
-        }}
-        onFullscreenExit={() => {
-          setMuted(previousMuted.current)
-
-          setFullscreen(false)
-        }}
+        onFullscreenEnter={onFullscreenEnter}
+        onFullscreenExit={onFullscreenExit}
         player={player}
         ref={ref}
         style={styles.video(video.width / video.height)}
       />
+
+      <VideoStatus player={player} />
 
       {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
         <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
@@ -189,7 +193,11 @@ export function VideoPlayer({
           hitSlop={theme.space[2]}
           label={a11y(muted ? 'unmute' : 'mute')}
           onPress={() => {
-            setMuted(() => !muted)
+            const next = !muted
+
+            setMuted(() => next)
+
+            player.muted = next
           }}
           p="2"
           style={styles.volume}

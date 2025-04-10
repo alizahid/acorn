@@ -16,9 +16,14 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     'expo-router',
     'expo-localization',
     'expo-secure-store',
-    'expo-video',
     'react-native-bottom-tabs',
     '@bacons/apple-targets',
+    [
+      'expo-video',
+      {
+        supportsPictureInPicture: true,
+      },
+    ],
     [
       'expo-splash-screen',
       {
