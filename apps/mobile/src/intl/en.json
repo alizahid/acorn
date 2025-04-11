@@ -27,6 +27,7 @@
     "expandFeed": "Expand feed",
     "expandSection": "Expand section",
     "goBack": "Go back",
+    "imageMenu": "Image options",
     "loadingVideo": "Loading video",
     "menu": "Menu",
     "mute": "Mute",
@@ -163,6 +164,12 @@
         "items": "{count, number} images",
         "nsfw": "Sensitive content - tap to view",
         "spoiler": "Spoiler - tap to view"
+      },
+      "link": {
+        "copy": "Copy",
+        "download": "Download",
+        "open": "Open",
+        "share": "Share"
       },
       "menu": {
         "copyImage": "Copy image",
@@ -681,11 +688,17 @@
       "updated": "Filters updated"
     },
     "image": {
+      "canceled": "Sharing canceled",
       "copied": "Image copied",
+      "copying": "Copying image",
       "downloaded": "{count, plural, =0 {Images} =1 {Image} other {# images}} downloaded",
-      "shared": "Image shared"
+      "downloading": "Downloading image",
+      "downloadingImages": "Downloading images",
+      "shared": "Image shared",
+      "sharing": "Sharing image"
     },
     "link": {
+      "copied": "Link copied",
       "loading": "Loading"
     },
     "notifications": {

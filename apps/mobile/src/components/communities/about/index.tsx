@@ -3,8 +3,12 @@ import { ScrollView } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
+import { Loading } from '~/components/common/loading'
 import { Markdown } from '~/components/common/markdown'
+import { RefreshControl } from '~/components/common/refresh-control'
+import { Text } from '~/components/common/text'
 import { TimeAgo } from '~/components/common/time'
+import { View } from '~/components/common/view'
 import { useImagePlaceholder } from '~/hooks/image'
 import { type ListProps } from '~/hooks/list'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
@@ -12,10 +16,6 @@ import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
 import { iPad } from '~/lib/common'
 
-import { Loading } from '../../common/loading'
-import { RefreshControl } from '../../common/refresh-control'
-import { Text } from '../../common/text'
-import { View } from '../../common/view'
 import { Button } from './button'
 
 type Props = {

@@ -11,6 +11,7 @@ import { useImagePlaceholder } from '~/hooks/image'
 import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from './blur'
+import { ImageMenu } from './menu'
 
 type Props = {
   images: Array<PostMedia>
@@ -40,35 +41,42 @@ export function ImageGrid({
     const image = images[0]!
 
     return (
-      <Pressable
-        delayed
-        label={a11y('viewImage')}
+      <ImageMenu
+        image={image}
         onPress={() => {
           onPress(0)
         }}
-        style={styles.one(image.width / image.height)}
       >
-        <Image
-          {...placeholder}
-          accessibilityIgnoresInvertColors
-          priority={viewing ? 'high' : 'normal'}
-          recyclingKey={recyclingKey}
-          source={image.thumbnail}
-          style={styles.image}
-        />
+        <Pressable
+          delayed
+          label={a11y('viewImage')}
+          onPress={() => {
+            onPress(0)
+          }}
+          style={styles.one(image.width / image.height)}
+        >
+          <Image
+            {...placeholder}
+            accessibilityIgnoresInvertColors
+            priority={viewing ? 'high' : 'normal'}
+            recyclingKey={recyclingKey}
+            source={image.thumbnail}
+            style={styles.image}
+          />
 
-        {nsfw || spoiler ? (
-          <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
-        ) : null}
+          {nsfw || spoiler ? (
+            <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+          ) : null}
 
-        {image.type === 'gif' ? (
-          <View style={[styles.label, styles.gif]}>
-            <Text contrast size="1" weight="medium">
-              {t('gif')}
-            </Text>
-          </View>
-        ) : null}
-      </Pressable>
+          {image.type === 'gif' ? (
+            <View style={[styles.label, styles.gif]}>
+              <Text contrast size="1" weight="medium">
+                {t('gif')}
+              </Text>
+            </View>
+          ) : null}
+        </Pressable>
+      </ImageMenu>
     )
   }
 
@@ -84,35 +92,42 @@ export function ImageGrid({
         keyExtractor={(item: PostMedia) => item.url}
         maxItemsPerColumn={2}
         renderItem={({ index, item }: { index: number; item: PostMedia }) => (
-          <Pressable
-            delayed
-            label={a11y('viewImage')}
+          <ImageMenu
+            image={item}
             onPress={() => {
               onPress(index)
             }}
-            style={styles.image}
           >
-            <Image
-              {...placeholder}
-              accessibilityIgnoresInvertColors
-              priority={viewing ? 'high' : 'normal'}
-              recyclingKey={recyclingKey}
-              source={item.thumbnail}
+            <Pressable
+              delayed
+              label={a11y('viewImage')}
+              onPress={() => {
+                onPress(index)
+              }}
               style={styles.image}
-            />
+            >
+              <Image
+                {...placeholder}
+                accessibilityIgnoresInvertColors
+                priority={viewing ? 'high' : 'normal'}
+                recyclingKey={recyclingKey}
+                source={item.thumbnail}
+                style={styles.image}
+              />
 
-            {nsfw || spoiler ? (
-              <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
-            ) : null}
+              {nsfw || spoiler ? (
+                <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+              ) : null}
 
-            {item.type === 'gif' ? (
-              <View style={[styles.label, styles.gif]}>
-                <Text contrast size="1" weight="medium">
-                  {t('gif')}
-                </Text>
-              </View>
-            ) : null}
-          </Pressable>
+              {item.type === 'gif' ? (
+                <View style={[styles.label, styles.gif]}>
+                  <Text contrast size="1" weight="medium">
+                    {t('gif')}
+                  </Text>
+                </View>
+              ) : null}
+            </Pressable>
+          </ImageMenu>
         )}
       />
 
@@ -143,7 +158,8 @@ const stylesheet = createStyleSheet((theme) => ({
     left: theme.space[2],
   },
   image: {
-    flex: 1,
+    height: '100%',
+    width: '100%',
   },
   label: {
     backgroundColor: theme.colors.black.accentAlpha,

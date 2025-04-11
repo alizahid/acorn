@@ -17,15 +17,11 @@ import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Button } from '~/components/common/button'
 import { IconButton } from '~/components/common/icon-button'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import {
-  useCopyImage,
-  useDownloadImage,
-  useDownloadImages,
-  useShareImage,
-} from '~/hooks/image'
+import { useDownloadImages } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type PostMedia } from '~/types/post'
@@ -49,10 +45,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
 
   const mounted = useRef(false)
 
-  const download = useDownloadImage()
-  const downloadAll = useDownloadImages()
-  const copy = useCopyImage()
-  const share = useShareImage()
+  const download = useDownloadImages()
 
   const translate = useSharedValue(frame.height)
   const opacity = useSharedValue(0)
@@ -127,8 +120,6 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
       translate.set(() => withTiming(0))
     })
 
-  const selected = images[viewing]
-
   return (
     <Animated.View style={styles.main}>
       <Animated.View style={[styles.overlay(themeOled, themeTint), overlay]} />
@@ -197,114 +188,34 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
         />
       </Animated.View>
 
-      {selected ? (
+      {images.length > 1 ? (
         <Animated.View
           pointerEvents="box-none"
           style={[styles.footer, controls]}
         >
-          {images.length > 1 ? (
-            <IconButton
-              icon={{
-                color: downloadAll.isError
-                  ? 'red'
-                  : downloadAll.isSuccess
-                    ? 'green'
-                    : 'accent',
-                name: downloadAll.isError
-                  ? 'XCircle'
-                  : downloadAll.isSuccess
-                    ? 'CheckCircle'
-                    : 'BoxArrowDown',
-                weight: downloadAll.isError
-                  ? 'fill'
-                  : downloadAll.isSuccess
-                    ? 'fill'
-                    : 'duotone',
-              }}
-              label={a11y('downloadAllImages')}
-              loading={downloadAll.isPending}
-              onPress={() => {
-                downloadAll.download({
-                  urls: images.map((image) => image.url),
-                })
-              }}
-            />
-          ) : null}
-
-          <IconButton
+          <Button
             icon={{
               color: download.isError
                 ? 'red'
                 : download.isSuccess
                   ? 'green'
-                  : 'accent',
-
+                  : undefined,
               name: download.isError
                 ? 'XCircle'
                 : download.isSuccess
                   ? 'CheckCircle'
-                  : 'Download',
+                  : 'BoxArrowDown',
               weight: download.isError
                 ? 'fill'
                 : download.isSuccess
                   ? 'fill'
                   : 'duotone',
             }}
-            label={a11y('downloadImage')}
+            label={a11y('downloadAllImages')}
             loading={download.isPending}
             onPress={() => {
               download.download({
-                url: selected.url,
-              })
-            }}
-          />
-
-          <IconButton
-            icon={{
-              color: share.isError
-                ? 'red'
-                : share.isSuccess
-                  ? 'green'
-                  : 'accent',
-              name: share.isError
-                ? 'XCircle'
-                : share.isSuccess
-                  ? 'CheckCircle'
-                  : 'Share',
-              weight: share.isError
-                ? 'fill'
-                : share.isSuccess
-                  ? 'fill'
-                  : 'duotone',
-            }}
-            label={a11y('shareImage')}
-            loading={share.isPending}
-            onPress={() => {
-              share.share({
-                url: selected.url,
-              })
-            }}
-          />
-
-          <IconButton
-            icon={{
-              color: copy.isError ? 'red' : copy.isSuccess ? 'green' : 'accent',
-              name: copy.isError
-                ? 'XCircle'
-                : copy.isSuccess
-                  ? 'CheckCircle'
-                  : 'Copy',
-              weight: copy.isError
-                ? 'fill'
-                : copy.isSuccess
-                  ? 'fill'
-                  : 'duotone',
-            }}
-            label={a11y('copyImage')}
-            loading={copy.isPending}
-            onPress={() => {
-              copy.copy({
-                url: selected.url,
+                urls: images.map((image) => image.url),
               })
             }}
           />
@@ -328,7 +239,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     flexDirection: 'row',
     justifyContent: 'center',
     overflow: 'hidden',
-    paddingHorizontal: theme.space[2],
+    // paddingHorizontal: theme.space[2],
     position: 'absolute',
   },
   header: {

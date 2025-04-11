@@ -13,9 +13,9 @@ import { useTheme } from '~/hooks/theme'
 import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
 import { persistOptions, queryClient } from '~/lib/query'
-import { Gallery } from '~/sheets/gallery'
 import { usePreferences } from '~/stores/preferences'
 
+import { Gallery } from './gallery'
 import { Toast } from './toast'
 
 type Props = {
@@ -35,14 +35,14 @@ export function Providers({ children }: Props) {
 
   return (
     <GestureHandlerRootView>
-      <BottomSheetModalProvider>
-        <KeyboardProvider>
-          <ThemeProvider value={useTheme()}>
-            <PersistQueryClientProvider
-              client={queryClient}
-              persistOptions={persistOptions}
-            >
-              <IntlProvider locale="en" messages={en} timeZone={timeZone}>
+      <IntlProvider locale="en" messages={en} timeZone={timeZone}>
+        <BottomSheetModalProvider>
+          <KeyboardProvider>
+            <ThemeProvider value={useTheme()}>
+              <PersistQueryClientProvider
+                client={queryClient}
+                persistOptions={persistOptions}
+              >
                 <StatusBar
                   style={
                     theme === 'acorn'
@@ -60,11 +60,11 @@ export function Providers({ children }: Props) {
                 <AccountSwitcher />
 
                 <Toast />
-              </IntlProvider>
-            </PersistQueryClientProvider>
-          </ThemeProvider>
-        </KeyboardProvider>
-      </BottomSheetModalProvider>
+              </PersistQueryClientProvider>
+            </ThemeProvider>
+          </KeyboardProvider>
+        </BottomSheetModalProvider>
+      </IntlProvider>
     </GestureHandlerRootView>
   )
 }

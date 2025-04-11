@@ -34,14 +34,18 @@ export function useDownloadImage() {
 
   const { saveToAlbum } = usePreferences()
 
-  const timer = useRef<NodeJS.Timeout>()
+  const id = useRef<string | number>()
 
-  const { isError, isPending, isSuccess, mutate, reset } = useMutation<
+  const { isError, isPending, isSuccess, mutate } = useMutation<
     unknown,
     Error,
     DownloadImageVariables
   >({
     async mutationFn(variables) {
+      id.current = toast.loading(t('downloading'), {
+        duration: Infinity,
+      })
+
       const { granted } =
         await MediaLibrary.requestPermissionsAsync(!saveToAlbum)
 
@@ -67,21 +71,17 @@ export function useDownloadImage() {
 
       directory.delete()
     },
-
-    onSettled() {
-      if (timer.current) {
-        clearTimeout(timer.current)
-      }
-
-      timer.current = setTimeout(() => {
-        reset()
-      }, 5_000)
+    onError() {
+      toast.dismiss(id.current)
     },
     onSuccess() {
       toast.success(
         t('downloaded', {
           count: 1,
         }),
+        {
+          id: id.current,
+        },
       )
     },
   })
@@ -103,14 +103,18 @@ export function useDownloadImages() {
 
   const { saveToAlbum } = usePreferences()
 
-  const timer = useRef<NodeJS.Timeout>()
+  const id = useRef<string | number>()
 
-  const { isError, isPending, isSuccess, mutate, reset } = useMutation<
+  const { isError, isPending, isSuccess, mutate } = useMutation<
     unknown,
     Error,
     DownloadImagesVariables
   >({
     async mutationFn(variables) {
+      id.current = toast.loading(t('downloadingImages'), {
+        duration: Infinity,
+      })
+
       const { granted } =
         await MediaLibrary.requestPermissionsAsync(!saveToAlbum)
 
@@ -144,20 +148,17 @@ export function useDownloadImages() {
 
       directory.delete()
     },
-    onSettled() {
-      if (timer.current) {
-        clearTimeout(timer.current)
-      }
-
-      timer.current = setTimeout(() => {
-        reset()
-      }, 5_000)
+    onError() {
+      toast.dismiss(id.current)
     },
     onSuccess(data, variables) {
       toast.success(
         t('downloaded', {
           count: variables.urls.length,
         }),
+        {
+          id: id.current,
+        },
       )
     },
   })
@@ -177,14 +178,18 @@ type CopyImageVariables = {
 export function useCopyImage() {
   const t = useTranslations('toasts.image')
 
-  const timer = useRef<NodeJS.Timeout>()
+  const id = useRef<string | number>()
 
-  const { isError, isPending, isSuccess, mutate, reset } = useMutation<
+  const { isError, isPending, isSuccess, mutate } = useMutation<
     unknown,
     Error,
     CopyImageVariables
   >({
     async mutationFn(variables) {
+      id.current = toast.loading(t('copying'), {
+        duration: Infinity,
+      })
+
       const directory = new Directory(Paths.cache, createId())
 
       directory.create()
@@ -195,17 +200,13 @@ export function useCopyImage() {
 
       directory.delete()
     },
-    onSettled() {
-      if (timer.current) {
-        clearTimeout(timer.current)
-      }
-
-      timer.current = setTimeout(() => {
-        reset()
-      }, 5_000)
+    onError() {
+      toast.dismiss(id.current)
     },
     onSuccess() {
-      toast.success(t('copied'))
+      toast.success(t('copied'), {
+        id: id.current,
+      })
     },
   })
 
@@ -224,37 +225,39 @@ type ShareImageVariables = {
 export function useShareImage() {
   const t = useTranslations('toasts.image')
 
-  const timer = useRef<NodeJS.Timeout>()
+  const id = useRef<string | number>()
 
-  const { isError, isPending, isSuccess, mutate, reset } = useMutation<
-    unknown,
+  const { isError, isPending, isSuccess, mutate } = useMutation<
+    boolean,
     Error,
     ShareImageVariables
   >({
     async mutationFn(variables) {
+      id.current = toast.loading(t('sharing'), {
+        duration: Infinity,
+      })
+
       const directory = new Directory(Paths.cache, createId())
 
       directory.create()
 
       const file = await File.downloadFileAsync(variables.url, directory)
 
-      await Share.share({
+      const result = await Share.share({
         url: file.uri,
       })
 
       directory.delete()
-    },
-    onSettled() {
-      if (timer.current) {
-        clearTimeout(timer.current)
-      }
 
-      timer.current = setTimeout(() => {
-        reset()
-      }, 5_000)
+      return result.action === 'sharedAction'
     },
-    onSuccess() {
-      toast.success(t('shared'))
+    onError() {
+      toast.dismiss(id.current)
+    },
+    onSuccess(data) {
+      toast.success(t(data ? 'shared' : 'canceled'), {
+        id: id.current,
+      })
     },
   })
 

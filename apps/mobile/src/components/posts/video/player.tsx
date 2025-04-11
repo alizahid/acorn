@@ -5,13 +5,13 @@ import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '~/components/common/icon'
+import { Pressable } from '~/components/common/pressable'
 import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
-import { Icon } from '../../common/icon'
-import { Pressable } from '../../common/pressable'
 import { GalleryBlur } from '../gallery/blur'
 import { VideoStatus } from './status'
 

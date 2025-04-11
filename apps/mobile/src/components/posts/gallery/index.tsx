@@ -1,17 +1,19 @@
 import { Image } from 'expo-image'
+import { useCallback } from 'react'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Gallery } from '~/components/common/gallery'
+import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
-import { Gallery } from '~/sheets/gallery'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
-import { Pressable } from '../../common/pressable'
 import { GalleryBlur } from './blur'
 import { ImageGrid } from './grid'
+import { ImageMenu } from './menu'
 
 type Props = {
   compact?: boolean
@@ -45,40 +47,55 @@ export function PostGalleryCard({
 
   const first = images[0]
 
+  const onPress = useCallback(
+    (initial?: number) => {
+      void Gallery.call({
+        images,
+        initial,
+      })
+
+      if (recyclingKey && seenOnMedia) {
+        addPost({
+          id: recyclingKey,
+        })
+      }
+    },
+    [addPost, images, recyclingKey, seenOnMedia],
+  )
+
   if (!first) {
     return null
   }
 
   if (compact) {
     return (
-      <Pressable
-        label={a11y('viewImage')}
+      <ImageMenu
+        image={first}
         onPress={() => {
-          void Gallery.call({
-            images,
-          })
-
-          if (recyclingKey && seenOnMedia) {
-            addPost({
-              id: recyclingKey,
-            })
-          }
+          onPress()
         }}
-        style={[styles.compact(large), style]}
       >
-        <Image
-          {...placeholder}
-          accessibilityIgnoresInvertColors
-          priority={viewing ? 'high' : 'normal'}
-          recyclingKey={recyclingKey}
-          source={first.thumbnail}
-          style={styles.compactImage}
-        />
+        <Pressable
+          label={a11y('viewImage')}
+          onPress={() => {
+            onPress()
+          }}
+          style={[styles.compact(large), style]}
+        >
+          <Image
+            {...placeholder}
+            accessibilityIgnoresInvertColors
+            priority={viewing ? 'high' : 'normal'}
+            recyclingKey={recyclingKey}
+            source={first.thumbnail}
+            style={styles.compactImage}
+          />
 
-        {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
-          <GalleryBlur />
-        ) : null}
-      </Pressable>
+          {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+            <GalleryBlur />
+          ) : null}
+        </Pressable>
+      </ImageMenu>
     )
   }
 
@@ -88,16 +105,7 @@ export function PostGalleryCard({
         images={images}
         nsfw={Boolean(nsfw && blurNsfw)}
         onPress={(initial) => {
-          void Gallery.call({
-            images,
-            initial,
-          })
-
-          if (recyclingKey && seenOnMedia) {
-            addPost({
-              id: recyclingKey,
-            })
-          }
+          onPress(initial)
         }}
         recyclingKey={recyclingKey}
         spoiler={Boolean(spoiler && blurSpoiler)}

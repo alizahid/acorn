@@ -3,16 +3,17 @@ import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '~/components/common/icon'
+import { Pressable } from '~/components/common/pressable'
+import { Text } from '~/components/common/text'
+import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
-import { Icon } from '../common/icon'
-import { Pressable } from '../common/pressable'
-import { Text } from '../common/text'
-import { View } from '../common/view'
+import { LinkMenu } from './menu'
 
 type Props = {
   compact?: boolean
@@ -45,8 +46,41 @@ export function PostLinkCard({
 
   if (compact) {
     return (
+      <LinkMenu url={url}>
+        <Pressable
+          label={a11y('viewLink')}
+          onPress={() => {
+            void handleLink(url)
+
+            if (recyclingKey && seenOnMedia) {
+              addPost({
+                id: recyclingKey,
+              })
+            }
+          }}
+          style={styles.compact(large)}
+        >
+          {media?.thumbnail ? (
+            <Image
+              accessibilityIgnoresInvertColors
+              source={media.thumbnail}
+              style={styles.compactImage}
+            />
+          ) : null}
+
+          <View align="center" justify="center" style={styles.compactIcon}>
+            <Icon color={theme.colors.accent.accent} name="Compass" />
+          </View>
+        </Pressable>
+      </LinkMenu>
+    )
+  }
+
+  return (
+    <LinkMenu url={url}>
       <Pressable
         label={a11y('viewLink')}
+        mx="3"
         onPress={() => {
           void handleLink(url)
 
@@ -56,60 +90,31 @@ export function PostLinkCard({
             })
           }
         }}
-        style={styles.compact(large)}
+        style={[styles.main(themeOled, crossPost), style]}
       >
-        {media?.thumbnail ? (
+        {media ? (
           <Image
+            {...placeholder}
             accessibilityIgnoresInvertColors
-            source={media.thumbnail}
-            style={styles.compactImage}
+            recyclingKey={recyclingKey}
+            source={media.url}
+            style={styles.image}
           />
         ) : null}
 
-        <View align="center" justify="center" style={styles.compactIcon}>
-          <Icon color={theme.colors.accent.accent} name="Compass" />
+        <View align="center" direction="row" gap="3" p="3">
+          <Icon
+            color={theme.colors.accent.accent}
+            name="Compass"
+            size={theme.typography[2].lineHeight}
+          />
+
+          <Text lines={1} size="2" style={styles.url}>
+            {url}
+          </Text>
         </View>
       </Pressable>
-    )
-  }
-
-  return (
-    <Pressable
-      label={a11y('viewLink')}
-      mx="3"
-      onPress={() => {
-        void handleLink(url)
-
-        if (recyclingKey && seenOnMedia) {
-          addPost({
-            id: recyclingKey,
-          })
-        }
-      }}
-      style={[styles.main(themeOled, crossPost), style]}
-    >
-      {media ? (
-        <Image
-          {...placeholder}
-          accessibilityIgnoresInvertColors
-          recyclingKey={recyclingKey}
-          source={media.url}
-          style={styles.image}
-        />
-      ) : null}
-
-      <View align="center" direction="row" gap="3" p="3">
-        <Icon
-          color={theme.colors.accent.accent}
-          name="Compass"
-          size={theme.typography[2].lineHeight}
-        />
-
-        <Text lines={1} size="2" style={styles.url}>
-          {url}
-        </Text>
-      </View>
-    </Pressable>
+    </LinkMenu>
   )
 }
 

@@ -15,7 +15,7 @@ import { oledTheme } from '~/styles/oled'
 import { addTextSize } from '~/styles/text'
 import { type Post } from '~/types/post'
 
-import { type GestureAction, PostGestures } from '../common/gestures'
+import { type GestureAction, Gestures } from '../common/gestures'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
@@ -147,7 +147,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
   if (compact) {
     return (
       <PostMenu onPress={onPress} post={post}>
-        <PostGestures
+        <Gestures
           containerStyle={styles.container(dimmed)}
           data={post}
           left={{
@@ -172,14 +172,14 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
             side={mediaOnRight ? 'right' : 'left'}
             viewing={viewing}
           />
-        </PostGestures>
+        </Gestures>
       </PostMenu>
     )
   }
 
   return (
     <PostMenu onPress={onPress} post={post}>
-      <PostGestures
+      <Gestures
         containerStyle={styles.container(dimmed)}
         data={post}
         left={{
@@ -279,7 +279,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
         />
 
         {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
-      </PostGestures>
+      </Gestures>
     </PostMenu>
   )
 }

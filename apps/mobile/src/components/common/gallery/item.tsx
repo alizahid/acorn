@@ -9,6 +9,7 @@ import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { ImageMenu } from '~/components/posts/gallery/menu'
 import { useImagePlaceholder } from '~/hooks/image'
 import { type PostMedia } from '~/types/post'
 
@@ -39,16 +40,18 @@ export function GalleryItem({ image, onTap }: Props) {
         minScale={0.5}
         onSingleTap={onTap}
       >
-        <Image
-          {...placeholder}
-          accessibilityIgnoresInvertColors
-          contentFit="contain"
-          pointerEvents="none"
-          recyclingKey={image.url}
-          ref={ref}
-          source={image.thumbnail ?? source}
-          style={styles.image}
-        />
+        <ImageMenu image={image}>
+          <Image
+            {...placeholder}
+            accessibilityIgnoresInvertColors
+            contentFit="contain"
+            pointerEvents="none"
+            recyclingKey={image.url}
+            ref={ref}
+            source={image.thumbnail ?? source}
+            style={styles.image}
+          />
+        </ImageMenu>
       </Zoomable>
 
       {image.type === 'gif' ? (
@@ -99,7 +102,8 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     position: 'absolute',
   },
   image: {
-    flex: 1,
+    height: '100%',
+    width: '100%',
   },
   main: (aspectRatio: number) => ({
     aspectRatio,

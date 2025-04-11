@@ -43,7 +43,7 @@ type Props = {
   style?: StyleProp<ViewStyle>
 }
 
-export function PostGestures({
+export function Gestures({
   children,
   containerStyle,
   data,

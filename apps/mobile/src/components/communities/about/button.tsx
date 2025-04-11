@@ -1,11 +1,10 @@
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
+import { Pressable } from '~/components/common/pressable'
+import { Spinner } from '~/components/common/spinner'
+import { Text } from '~/components/common/text'
 import { type ColorToken } from '~/styles/tokens'
-
-import { Icon, type IconName, type IconWeight } from '../../common/icon'
-import { Pressable } from '../../common/pressable'
-import { Spinner } from '../../common/spinner'
-import { Text } from '../../common/text'
 
 type Props = {
   color: ColorToken

@@ -2,11 +2,12 @@ import { Image } from 'expo-image'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { ImageMenu } from '~/components/posts/gallery/menu'
 import { useImagePlaceholder } from '~/hooks/image'
-import { Gallery } from '~/sheets/gallery'
 import { type Nullable, type Undefined } from '~/types'
 import { type PostMedia, type PostMediaMeta } from '~/types/post'
 
+import { Gallery } from '../gallery'
 import { Pressable } from '../pressable'
 import { Text } from '../text'
 import { type MarkdownVariant } from '.'
@@ -26,34 +27,36 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
   const placeholder = useImagePlaceholder()
 
   return (
-    <Pressable
-      align={variant === 'post' ? 'center' : undefined}
-      disabled={media.width < 100}
-      gap="2"
-      label={a11y('viewImage')}
-      onPress={() => {
-        void Gallery.call({
-          images: [media],
-        })
-      }}
-      self={variant === 'post' ? 'center' : undefined}
-      style={styles.main(variant, media.height, media.width)}
-    >
-      <Image
-        {...placeholder}
-        accessibilityIgnoresInvertColors
-        contentFit="contain"
-        recyclingKey={recyclingKey}
-        source={media.url}
-        style={styles.image}
-      />
+    <ImageMenu image={media} style={styles.menu}>
+      <Pressable
+        align={variant === 'post' ? 'center' : undefined}
+        disabled={media.width < 100}
+        gap="2"
+        label={a11y('viewImage')}
+        onPress={() => {
+          void Gallery.call({
+            images: [media],
+          })
+        }}
+        self={variant === 'post' ? 'center' : undefined}
+        style={styles.main(variant, media.height, media.width)}
+      >
+        <Image
+          {...placeholder}
+          accessibilityIgnoresInvertColors
+          contentFit="contain"
+          recyclingKey={recyclingKey}
+          source={media.url}
+          style={styles.image}
+        />
 
-      {caption?.length ? (
-        <Text align="center" highContrast={false} size="2" weight="medium">
-          {caption}
-        </Text>
-      ) : null}
-    </Pressable>
+        {caption?.length ? (
+          <Text align="center" highContrast={false} size="2" weight="medium">
+            {caption}
+          </Text>
+        ) : null}
+      </Pressable>
+    </ImageMenu>
   )
 }
 
@@ -67,6 +70,9 @@ const stylesheet = createStyleSheet(() => ({
     maxHeight: variant === 'comment' ? 300 : undefined,
     width: width < 300 ? width : '100%',
   }),
+  menu: {
+    alignSelf: 'flex-start',
+  },
   modal: {
     justifyContent: 'center',
   },

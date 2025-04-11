@@ -8,7 +8,7 @@ import { useTranslations } from 'use-intl'
 import { useAuth } from '~/stores/auth'
 
 import { IconButton } from '../common/icon-button'
-import { SheetModal } from '../sheets/modal'
+import { SheetModal } from '../common/sheets/modal'
 import { AccountCard } from './account'
 
 export const switcher = mitt<{

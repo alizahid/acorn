@@ -54,7 +54,6 @@ export function VideoStatus({ player }: Props) {
 
 const stylesheet = createStyleSheet((theme) => ({
   bar: {
-    backgroundColor: 'magenta',
     bottom: 0,
     height: theme.space[1],
     left: 0,

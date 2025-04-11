@@ -21,9 +21,9 @@ import { FeedType } from '~/types/sort'
 
 import { Empty } from '../common/empty'
 import { IconButton } from '../common/icon-button'
+import { SheetHeader } from '../common/sheets/header'
+import { SheetItem } from '../common/sheets/item'
 import { Spinner } from '../common/spinner'
-import { SheetHeader } from '../sheets/header'
-import { SheetItem } from '../sheets/item'
 
 type Section = {
   collapsed?: boolean

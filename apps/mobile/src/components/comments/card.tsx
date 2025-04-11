@@ -18,7 +18,7 @@ import { oledTheme } from '~/styles/oled'
 import { type Undefined } from '~/types'
 import { type CommentReply } from '~/types/comment'
 
-import { PostGestures } from '../common/gestures'
+import { Gestures } from '../common/gestures'
 import { Icon } from '../common/icon'
 import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
@@ -79,7 +79,7 @@ export function CommentCard({
 
   return (
     <CommentMenu comment={comment} onPress={onPress}>
-      <PostGestures
+      <Gestures
         containerStyle={styles.container(comment.depth) as ViewStyle}
         data={comment}
         left={{
@@ -230,7 +230,7 @@ export function CommentCard({
         {comment.saved ? (
           <View pointerEvents="none" style={styles.saved} />
         ) : null}
-      </PostGestures>
+      </Gestures>
     </CommentMenu>
   )
 }

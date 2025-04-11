@@ -5,6 +5,7 @@ import { type Nodes } from 'mdast'
 import { ScrollView, type TextStyle, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
+import { LinkMenu } from '~/components/posts/link/menu'
 import { useLink } from '~/hooks/link'
 import { getText } from '~/lib/markdown'
 import { Sentry } from '~/lib/sentry'
@@ -186,20 +187,24 @@ export function Node({ node, ...props }: Props) {
       )
     }
 
-    return node.children.map((child, index) => (
-      <Node
-        {...props}
-        key={index}
-        node={child}
-        text={{
-          ...props.text,
-          color: 'accent',
-          onPress() {
-            void handleLink(node.url)
-          },
-        }}
-      />
-    ))
+    return (
+      <LinkMenu style={styles.menu} url={node.url}>
+        {node.children.map((child, index) => (
+          <Node
+            {...props}
+            key={index}
+            node={child}
+            text={{
+              ...props.text,
+              color: 'accent',
+              onPress() {
+                void handleLink(node.url)
+              },
+            }}
+          />
+        ))}
+      </LinkMenu>
+    )
   }
 
   if (node.type === 'list') {
@@ -410,6 +415,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   listText: {
     flexShrink: 1,
+  },
+  menu: {
+    alignSelf: 'flex-start',
   },
   super: {
     fontSize: 12,

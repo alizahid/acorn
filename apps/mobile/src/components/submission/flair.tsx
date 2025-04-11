@@ -10,9 +10,9 @@ import { type Submission } from '~/types/submission'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
+import { SheetModal } from '../common/sheets/modal'
 import { Text } from '../common/text'
 import { View } from '../common/view'
-import { SheetModal } from '../sheets/modal'
 
 type Props = {
   submission: Submission

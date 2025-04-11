@@ -10,9 +10,9 @@ import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
-import { SheetItem } from '~/components/sheets/item'
-import { SheetModal } from '~/components/sheets/modal'
 
+import { SheetItem } from '../sheets/item'
+import { SheetModal } from '../sheets/modal'
 import { Switch } from '../switch'
 import { type MenuItem } from '.'
 
