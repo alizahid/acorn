@@ -1,18 +1,15 @@
-import { type BottomSheetModal } from '@gorhom/bottom-sheet'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { Keyboard } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon-button'
-import { Pressable } from '~/components/common/pressable'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
-import { SheetItem } from '~/components/sheets/item'
-import { SheetModal } from '~/components/sheets/modal'
 import { type FiltersForm } from '~/hooks/filters'
+
+import { ContextMenu } from '../common/context-menu'
 
 type Props = {
   index: number
@@ -25,8 +22,6 @@ export function FilterCard({ index, onRemove }: Props) {
 
   const { styles, theme } = useStyles(stylesheet)
 
-  const sheet = useRef<BottomSheetModal>(null)
-
   const { control } = useFormContext<FiltersForm>()
 
   const [type, setType] = useState<'community' | 'keyword' | 'user'>('keyword')
@@ -37,21 +32,34 @@ export function FilterCard({ index, onRemove }: Props) {
         control={control}
         name={`filters.${index}.type`}
         render={({ field }) => (
-          <>
-            <Pressable
-              align="center"
-              direction="row"
-              gap="2"
-              height="7"
-              hitSlop={theme.space[4]}
-              label={field.value}
-              onPress={() => {
-                Keyboard.dismiss()
+          <ContextMenu
+            hitSlop={theme.space[4]}
+            label={field.value}
+            options={(['keyword', 'community', 'user'] as const).map(
+              (item) => ({
+                action() {
+                  field.onChange(item)
 
-                sheet.current?.present()
-              }}
-              px="2"
-            >
+                  setType(item)
+                },
+                icon: {
+                  color: theme.colors.gray.text,
+                  name:
+                    item === 'community'
+                      ? 'users-four-duotone'
+                      : item === 'user'
+                        ? 'user-duotone'
+                        : 'tag-duotone',
+                  type: 'icon',
+                },
+                id: item,
+                state: item === field.value ? 'on' : undefined,
+                title: t(`type.${item}.label`),
+              }),
+            )}
+            tap
+          >
+            <View align="center" direction="row" gap="2" height="7" px="2">
               <Icon
                 color={theme.colors.gray.text}
                 name={
@@ -71,34 +79,8 @@ export function FilterCard({ index, onRemove }: Props) {
                 size={theme.space[4]}
                 weight="bold"
               />
-            </Pressable>
-
-            <SheetModal ref={sheet} title={t('type.title')}>
-              {(['keyword', 'community', 'user'] as const).map((item) => (
-                <SheetItem
-                  icon={{
-                    name:
-                      item === 'community'
-                        ? 'UsersFour'
-                        : item === 'user'
-                          ? 'User'
-                          : 'Tag',
-                    type: 'icon',
-                  }}
-                  key={item}
-                  label={t(`type.${item}.label`)}
-                  onPress={() => {
-                    field.onChange(item)
-
-                    setType(item)
-
-                    sheet.current?.close()
-                  }}
-                  selected={item === field.value}
-                />
-              ))}
-            </SheetModal>
-          </>
+            </View>
+          </ContextMenu>
         )}
       />
 

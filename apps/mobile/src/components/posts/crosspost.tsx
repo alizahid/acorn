@@ -19,7 +19,6 @@ import { PostVideoCard } from './video'
 type Props = {
   compact?: boolean
   large?: boolean
-  onLongPress?: () => void
   post: Post
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
@@ -29,7 +28,6 @@ type Props = {
 export function CrossPostCard({
   compact,
   large,
-  onLongPress,
   post,
   recyclingKey,
   style,
@@ -49,7 +47,6 @@ export function CrossPostCard({
       <Pressable
         delayed
         label={a11y('viewPost')}
-        onLongPress={onLongPress}
         onPress={() => {
           router.push({
             params: {
@@ -101,7 +98,6 @@ export function CrossPostCard({
       delayed
       label={a11y('viewPost')}
       mx="3"
-      onLongPress={onLongPress}
       onPress={() => {
         router.push({
           params: {
@@ -116,7 +112,6 @@ export function CrossPostCard({
         <PostVideoCard
           crossPost
           nsfw={post.nsfw}
-          onLongPress={onLongPress}
           recyclingKey={recyclingKey}
           spoiler={post.spoiler}
           video={post.media.video}
@@ -128,7 +123,6 @@ export function CrossPostCard({
         <PostGalleryCard
           images={post.media.images}
           nsfw={post.nsfw}
-          onLongPress={onLongPress}
           recyclingKey={recyclingKey}
           spoiler={post.spoiler}
         />
@@ -138,7 +132,6 @@ export function CrossPostCard({
         <PostLinkCard
           crossPost
           media={post.media.images?.[0]}
-          onLongPress={onLongPress}
           recyclingKey={recyclingKey}
           url={post.url}
         />

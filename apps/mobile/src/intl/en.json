@@ -13,6 +13,7 @@
     "collapseComment": "Collapse comment",
     "collapseFeed": "Collapse feed",
     "collapseSection": "Collapse section",
+    "commentMenu": "Comment menu",
     "copied": "Copied",
     "copy": "Copy",
     "copyImage": "Copy image",
@@ -31,6 +32,7 @@
     "mute": "Mute",
     "pause": "Pause",
     "play": "Play",
+    "postMenu": "Post menu",
     "removeAccount": "Remove {account}",
     "removeDownvote": "Remove downvote",
     "removeFilter": "Remove filter",
@@ -214,10 +216,6 @@
         "save": "Save",
         "shareImage": "Share image",
         "sharePermalink": "Share permalink",
-        "title": {
-          "comment": "Comment",
-          "post": "Post"
-        },
         "toast": {
           "linkCopied": "Link copied",
           "textCopied": "Text copied",

@@ -32,7 +32,7 @@ export function Pressable({
   hitSlop,
   label,
   onLayout,
-  onLongPress,
+  onLongPress = () => null,
   onPress,
   role = 'button',
   style,
@@ -44,6 +44,7 @@ export function Pressable({
     <ReactNativePressable
       accessibilityLabel={label}
       accessibilityRole={role}
+      delayLongPress={delayed ? 200 : 100}
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}

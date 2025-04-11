@@ -14,7 +14,6 @@ type Props = {
   compact?: boolean
   large?: boolean
   nsfw?: boolean
-  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
   style?: StyleProp<ViewStyle>
@@ -26,7 +25,6 @@ export function RedGifsVideo({
   compact,
   large,
   nsfw,
-  onLongPress,
   recyclingKey,
   spoiler,
   style,
@@ -45,7 +43,6 @@ export function RedGifsVideo({
         compact={compact}
         large={large}
         nsfw={nsfw}
-        onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         source={gif.source}
         spoiler={spoiler}
@@ -60,7 +57,6 @@ export function RedGifsVideo({
     <Pressable
       delayed
       label={a11y('loadingVideo')}
-      onLongPress={onLongPress}
       style={styles.main(compact, large)}
     >
       <View

@@ -1,18 +1,14 @@
-import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { compact } from 'lodash'
-import { useRef } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { Keyboard } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { type Submission } from '~/types/submission'
 
+import { ContextMenu } from '../common/context-menu'
 import { Icon } from '../common/icon'
-import { Pressable } from '../common/pressable'
-import { SheetItem } from '../sheets/item'
-import { SheetModal } from '../sheets/modal'
+import { View } from '../common/view'
 
 type Props = {
   submission: Submission
@@ -22,8 +18,6 @@ export function SubmissionType({ submission }: Props) {
   const t = useTranslations('component.submission.type')
 
   const { styles, theme } = useStyles(stylesheet)
-
-  const sheet = useRef<BottomSheetModal>(null)
 
   const types = compact([
     submission.media.text && 'text',
@@ -38,18 +32,36 @@ export function SubmissionType({ submission }: Props) {
       control={control}
       name="type"
       render={({ field }) => (
-        <>
-          <Pressable
+        <ContextMenu
+          hitSlop={theme.space[4]}
+          label={t('title')}
+          options={types.map((item) => ({
+            action() {
+              if (item !== field.value) {
+                setValue('url', '')
+              }
+
+              field.onChange(item)
+            },
+            icon: {
+              color: theme.colors.gray.text,
+              name:
+                item === 'image'
+                  ? 'image-duotone'
+                  : item === 'link'
+                    ? 'link-duotone'
+                    : 'textbox-duotone',
+              type: 'icon',
+            },
+            id: item,
+            title: t(item),
+          }))}
+          tap
+        >
+          <View
             align="center"
             direction="row"
             gap="2"
-            hitSlop={theme.space[4]}
-            label={t('title')}
-            onPress={() => {
-              Keyboard.dismiss()
-
-              sheet.current?.present()
-            }}
             px="2"
             py="1"
             style={styles.main}
@@ -61,7 +73,7 @@ export function SubmissionType({ submission }: Props) {
                   ? 'Image'
                   : field.value === 'link'
                     ? 'Link'
-                    : 'TextAa'
+                    : 'Textbox'
               }
               weight="duotone"
             />
@@ -72,36 +84,8 @@ export function SubmissionType({ submission }: Props) {
               size={theme.space[4]}
               weight="bold"
             />
-          </Pressable>
-
-          <SheetModal ref={sheet} title={t('title')}>
-            {types.map((item) => (
-              <SheetItem
-                icon={{
-                  name:
-                    item === 'image'
-                      ? 'Image'
-                      : item === 'link'
-                        ? 'Link'
-                        : 'TextAa',
-                  type: 'icon',
-                }}
-                key={item}
-                label={t(item)}
-                onPress={() => {
-                  if (item !== field.value) {
-                    setValue('url', '')
-                  }
-
-                  field.onChange(item)
-
-                  sheet.current?.close()
-                }}
-                selected={item === field.value}
-              />
-            ))}
-          </SheetModal>
-        </>
+          </View>
+        </ContextMenu>
       )}
     />
   )

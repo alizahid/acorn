@@ -15,16 +15,10 @@ import { PostMeta } from './meta'
 type Props = {
   community?: boolean
   expanded?: boolean
-  onLongPress?: () => void
   post: Post
 }
 
-export function PostFooter({
-  community = true,
-  expanded,
-  onLongPress,
-  post,
-}: Props) {
+export function PostFooter({ community = true, expanded, post }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -42,7 +36,6 @@ export function PostFooter({
       gap="4"
       justify="between"
       label={a11y('viewPost')}
-      onLongPress={onLongPress}
       onPress={() => {
         router.push({
           params: {
@@ -60,18 +53,6 @@ export function PostFooter({
       </View>
 
       <View align="center" direction="row" gap="2">
-        {expanded && onLongPress ? (
-          <FooterButton
-            color={theme.colors.gray.text}
-            icon="DotsThree"
-            label={a11y('menu')}
-            onPress={() => {
-              onLongPress()
-            }}
-            weight="bold"
-          />
-        ) : null}
-
         <FooterButton
           color={
             post.liked ? theme.colors.orange.accent : theme.colors.gray.text

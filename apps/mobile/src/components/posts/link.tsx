@@ -19,7 +19,6 @@ type Props = {
   crossPost?: boolean
   large?: boolean
   media?: PostMedia
-  onLongPress?: () => void
   recyclingKey?: string
   style?: StyleProp<ViewStyle>
   url: string
@@ -30,7 +29,6 @@ export function PostLinkCard({
   crossPost,
   large,
   media,
-  onLongPress,
   recyclingKey,
   style,
   url,
@@ -49,7 +47,6 @@ export function PostLinkCard({
     return (
       <Pressable
         label={a11y('viewLink')}
-        onLongPress={onLongPress}
         onPress={() => {
           void handleLink(url)
 
@@ -80,7 +77,6 @@ export function PostLinkCard({
     <Pressable
       label={a11y('viewLink')}
       mx="3"
-      onLongPress={onLongPress}
       onPress={() => {
         void handleLink(url)
 

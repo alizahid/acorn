@@ -15,7 +15,6 @@ import { GalleryBlur } from './blur'
 type Props = {
   images: Array<PostMedia>
   nsfw?: boolean
-  onLongPress?: () => void
   onPress: (index: number) => void
   recyclingKey?: string
   spoiler?: boolean
@@ -25,7 +24,6 @@ type Props = {
 export function ImageGrid({
   images,
   nsfw = false,
-  onLongPress,
   onPress,
   recyclingKey,
   spoiler = false,
@@ -45,7 +43,6 @@ export function ImageGrid({
       <Pressable
         delayed
         label={a11y('viewImage')}
-        onLongPress={onLongPress}
         onPress={() => {
           onPress(0)
         }}
@@ -90,7 +87,6 @@ export function ImageGrid({
           <Pressable
             delayed
             label={a11y('viewImage')}
-            onLongPress={onLongPress}
             onPress={() => {
               onPress(index)
             }}

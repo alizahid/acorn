@@ -6,6 +6,7 @@
 - added: share images
 - added: video progress bar
 - added: video picture in picture
+- added: context menus
 
 ## Build 50
 

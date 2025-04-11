@@ -15,7 +15,7 @@ export const switcher = mitt<{
   open?: unknown
 }>()
 
-export function UserSwitcher() {
+export function AccountSwitcher() {
   const router = useRouter()
 
   const t = useTranslations('component.users.switcher')

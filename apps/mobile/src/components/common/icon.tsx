@@ -60,7 +60,7 @@ import PaintRollerBold from 'react-native-phosphor/src/bold/PaintRoller'
 import PaletteBold from 'react-native-phosphor/src/bold/Palette'
 import PaperPlaneTiltBold from 'react-native-phosphor/src/bold/PaperPlaneTilt'
 import PauseBold from 'react-native-phosphor/src/bold/Pause'
-import PencilSimpleBold from 'react-native-phosphor/src/bold/PencilSimple'
+import PencilBold from 'react-native-phosphor/src/bold/Pencil'
 import PictureInPictureBold from 'react-native-phosphor/src/bold/PictureInPicture'
 import PlayBold from 'react-native-phosphor/src/bold/Play'
 import PlusBold from 'react-native-phosphor/src/bold/Plus'
@@ -85,8 +85,7 @@ import SwordBold from 'react-native-phosphor/src/bold/Sword'
 import TagBold from 'react-native-phosphor/src/bold/Tag'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
 import TelevisionSimpleBold from 'react-native-phosphor/src/bold/TelevisionSimple'
-import TextAaBold from 'react-native-phosphor/src/bold/TextAa'
-import TextTBold from 'react-native-phosphor/src/bold/TextT'
+import TextboxBold from 'react-native-phosphor/src/bold/Textbox'
 import TrashBold from 'react-native-phosphor/src/bold/Trash'
 import TreeViewBold from 'react-native-phosphor/src/bold/TreeView'
 import UserBold from 'react-native-phosphor/src/bold/User'
@@ -159,7 +158,7 @@ import PaintRollerDuotone from 'react-native-phosphor/src/duotone/PaintRoller'
 import PaletteDuotone from 'react-native-phosphor/src/duotone/Palette'
 import PaperPlaneTiltDuotone from 'react-native-phosphor/src/duotone/PaperPlaneTilt'
 import PauseDuotone from 'react-native-phosphor/src/duotone/Pause'
-import PencilSimpleDuotone from 'react-native-phosphor/src/duotone/PencilSimple'
+import PencilDuotone from 'react-native-phosphor/src/duotone/Pencil'
 import PictureInPictureDuotone from 'react-native-phosphor/src/duotone/PictureInPicture'
 import PlayDuotone from 'react-native-phosphor/src/duotone/Play'
 import PlusDuotone from 'react-native-phosphor/src/duotone/Plus'
@@ -184,8 +183,7 @@ import SwordDuotone from 'react-native-phosphor/src/duotone/Sword'
 import TagDuotone from 'react-native-phosphor/src/duotone/Tag'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
 import TelevisionSimpleDuotone from 'react-native-phosphor/src/duotone/TelevisionSimple'
-import TextAaDuotone from 'react-native-phosphor/src/duotone/TextAa'
-import TextTDuotone from 'react-native-phosphor/src/duotone/TextT'
+import TextboxDuotone from 'react-native-phosphor/src/duotone/Textbox'
 import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
 import TreeViewDuotone from 'react-native-phosphor/src/duotone/TreeView'
 import UserDuotone from 'react-native-phosphor/src/duotone/User'
@@ -258,7 +256,7 @@ import PaintRollerFill from 'react-native-phosphor/src/fill/PaintRoller'
 import PaletteFill from 'react-native-phosphor/src/fill/Palette'
 import PaperPlaneTiltFill from 'react-native-phosphor/src/fill/PaperPlaneTilt'
 import PauseFill from 'react-native-phosphor/src/fill/Pause'
-import PencilSimpleFill from 'react-native-phosphor/src/fill/PencilSimple'
+import PencilFill from 'react-native-phosphor/src/fill/Pencil'
 import PictureInPictureFill from 'react-native-phosphor/src/fill/PictureInPicture'
 import PlayFill from 'react-native-phosphor/src/fill/Play'
 import PlusFill from 'react-native-phosphor/src/fill/Plus'
@@ -283,8 +281,7 @@ import SwordFill from 'react-native-phosphor/src/fill/Sword'
 import TagFill from 'react-native-phosphor/src/fill/Tag'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
 import TelevisionSimpleFill from 'react-native-phosphor/src/fill/TelevisionSimple'
-import TextAaFill from 'react-native-phosphor/src/fill/TextAa'
-import TextTFill from 'react-native-phosphor/src/fill/TextT'
+import TextboxFill from 'react-native-phosphor/src/fill/Textbox'
 import TrashFill from 'react-native-phosphor/src/fill/Trash'
 import TreeViewFill from 'react-native-phosphor/src/fill/TreeView'
 import UserFill from 'react-native-phosphor/src/fill/User'
@@ -357,7 +354,7 @@ import PaintRollerRegular from 'react-native-phosphor/src/regular/PaintRoller'
 import PaletteRegular from 'react-native-phosphor/src/regular/Palette'
 import PaperPlaneTiltRegular from 'react-native-phosphor/src/regular/PaperPlaneTilt'
 import PauseRegular from 'react-native-phosphor/src/regular/Pause'
-import PencilSimpleRegular from 'react-native-phosphor/src/regular/PencilSimple'
+import PencilRegular from 'react-native-phosphor/src/regular/Pencil'
 import PictureInPictureRegular from 'react-native-phosphor/src/regular/PictureInPicture'
 import PlayRegular from 'react-native-phosphor/src/regular/Play'
 import PlusRegular from 'react-native-phosphor/src/regular/Plus'
@@ -382,8 +379,7 @@ import SwordRegular from 'react-native-phosphor/src/regular/Sword'
 import TagRegular from 'react-native-phosphor/src/regular/Tag'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
 import TelevisionSimpleRegular from 'react-native-phosphor/src/regular/TelevisionSimple'
-import TextAaRegular from 'react-native-phosphor/src/regular/TextAa'
-import TextTRegular from 'react-native-phosphor/src/regular/TextT'
+import TextboxRegular from 'react-native-phosphor/src/regular/Textbox'
 import TrashRegular from 'react-native-phosphor/src/regular/Trash'
 import TreeViewRegular from 'react-native-phosphor/src/regular/TreeView'
 import UserRegular from 'react-native-phosphor/src/regular/User'
@@ -810,11 +806,11 @@ const icons = {
     fill: PauseFill,
     regular: PauseRegular,
   },
-  PencilSimple: {
-    bold: PencilSimpleBold,
-    duotone: PencilSimpleDuotone,
-    fill: PencilSimpleFill,
-    regular: PencilSimpleRegular,
+  Pencil: {
+    bold: PencilBold,
+    duotone: PencilDuotone,
+    fill: PencilFill,
+    regular: PencilRegular,
   },
   PictureInPicture: {
     bold: PictureInPictureBold,
@@ -960,17 +956,11 @@ const icons = {
     fill: TelevisionSimpleFill,
     regular: TelevisionSimpleRegular,
   },
-  TextAa: {
-    bold: TextAaBold,
-    duotone: TextAaDuotone,
-    fill: TextAaFill,
-    regular: TextAaRegular,
-  },
-  TextT: {
-    bold: TextTBold,
-    duotone: TextTDuotone,
-    fill: TextTFill,
-    regular: TextTRegular,
+  Textbox: {
+    bold: TextboxBold,
+    duotone: TextboxDuotone,
+    fill: TextboxFill,
+    regular: TextboxRegular,
   },
   Trash: {
     bold: TrashBold,

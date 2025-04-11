@@ -18,7 +18,6 @@ type Props = {
   images: Array<PostMedia>
   large?: boolean
   nsfw?: boolean
-  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
   style?: StyleProp<ViewStyle>
@@ -30,7 +29,6 @@ export function PostGalleryCard({
   images,
   large,
   nsfw,
-  onLongPress,
   recyclingKey,
   spoiler,
   style,
@@ -55,7 +53,6 @@ export function PostGalleryCard({
     return (
       <Pressable
         label={a11y('viewImage')}
-        onLongPress={onLongPress}
         onPress={() => {
           void Gallery.call({
             images,
@@ -86,15 +83,10 @@ export function PostGalleryCard({
   }
 
   return (
-    <Pressable
-      label={a11y('viewImage')}
-      onLongPress={onLongPress}
-      style={[styles.main, style]}
-    >
+    <Pressable label={a11y('viewImage')} style={[styles.main, style]}>
       <ImageGrid
         images={images}
         nsfw={Boolean(nsfw && blurNsfw)}
-        onLongPress={onLongPress}
         onPress={(initial) => {
           void Gallery.call({
             images,

@@ -65,7 +65,7 @@ export function useLink() {
             ? undefined
             : oldReddit
               ? 'https://old.reddit.com'
-              : 'https://reddit.com',
+              : 'https://www.reddit.com',
         )
 
         const parts = parseLink(url.toString())

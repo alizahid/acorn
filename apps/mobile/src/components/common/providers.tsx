@@ -8,14 +8,12 @@ import { KeyboardProvider } from 'react-native-keyboard-controller'
 import { UnistylesRuntime } from 'react-native-unistyles'
 import { IntlProvider } from 'use-intl'
 
-import { UserSwitcher } from '~/components/users/switcher'
+import { AccountSwitcher } from '~/components/users/switcher'
 import { useTheme } from '~/hooks/theme'
 import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
 import { persistOptions, queryClient } from '~/lib/query'
-import { CommentMenu } from '~/sheets/comment-menu'
 import { Gallery } from '~/sheets/gallery'
-import { PostMenu } from '~/sheets/post-menu'
 import { usePreferences } from '~/stores/preferences'
 
 import { Toast } from './toast'
@@ -57,12 +55,9 @@ export function Providers({ children }: Props) {
 
                 {children}
 
-                <PostMenu.Root />
-                <CommentMenu.Root />
-
                 <Gallery.Root />
 
-                <UserSwitcher />
+                <AccountSwitcher />
 
                 <Toast />
               </IntlProvider>

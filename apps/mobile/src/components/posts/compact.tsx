@@ -16,7 +16,6 @@ import { PostVideoCard } from './video'
 
 type Props = {
   expanded?: boolean
-  onLongPress?: () => void
   onPress: () => void
   post: Post
   side?: 'left' | 'right'
@@ -25,7 +24,6 @@ type Props = {
 
 export function PostCompactCard({
   expanded,
-  onLongPress,
   onPress,
   post,
   side = 'left',
@@ -44,7 +42,6 @@ export function PostCompactCard({
       disabled={expanded}
       gap="3"
       label={a11y('viewPost')}
-      onLongPress={onLongPress}
       onPress={onPress}
       p="3"
       style={styles.main}
@@ -53,7 +50,6 @@ export function PostCompactCard({
         <CrossPostCard
           compact
           large={largeThumbnails}
-          onLongPress={onLongPress}
           post={post.crossPost}
           recyclingKey={post.id}
           viewing={false}
@@ -65,7 +61,6 @@ export function PostCompactCard({
           compact
           large={largeThumbnails}
           nsfw={post.nsfw}
-          onLongPress={onLongPress}
           recyclingKey={post.id}
           video={post.media.video}
           viewing={false}
@@ -78,7 +73,6 @@ export function PostCompactCard({
           images={post.media.images}
           large={largeThumbnails}
           nsfw={post.nsfw}
-          onLongPress={onLongPress}
           recyclingKey={post.id}
           spoiler={post.spoiler}
           viewing={viewing}
@@ -90,7 +84,6 @@ export function PostCompactCard({
           compact
           large={largeThumbnails}
           media={post.media.images?.[0]}
-          onLongPress={onLongPress}
           recyclingKey={post.id}
           url={post.url}
         />

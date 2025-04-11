@@ -8,9 +8,7 @@ import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { cardMaxWidth, iPad } from '~/lib/common'
-import { triggerHaptic } from '~/lib/feedback'
 import { removePrefix } from '~/lib/reddit'
-import { PostMenu } from '~/sheets/post-menu'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -29,6 +27,7 @@ import { PostFooter } from './footer'
 import { PostCommunity } from './footer/community'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
+import { PostMenu } from './menu'
 import { PostVideoCard } from './video'
 
 type Props = {
@@ -106,7 +105,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
       if (action === 'share') {
         const url = new URL(
           post.permalink,
-          oldReddit ? 'https://old.reddit.com' : 'https://reddit.com',
+          oldReddit ? 'https://old.reddit.com' : 'https://www.reddit.com',
         )
 
         void Share.share({
@@ -143,18 +142,43 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
     })
   }
 
-  function onLongPress() {
-    void PostMenu.call({
-      post,
-    })
-
-    triggerHaptic('soft')
-  }
-
   const dimmed = !expanded && dimSeen && post.seen
 
   if (compact) {
     return (
+      <PostMenu onPress={onPress} post={post}>
+        <PostGestures
+          containerStyle={styles.container(dimmed)}
+          data={post}
+          left={{
+            enabled: postLeft,
+            long: postLeftLong,
+            short: postLeftShort,
+          }}
+          onAction={(action) => {
+            onAction(post, action)
+          }}
+          right={{
+            enabled: postRight,
+            long: postRightLong,
+            short: postRightShort,
+          }}
+          style={[styles.main(themeOled), style]}
+        >
+          <PostCompactCard
+            expanded={expanded}
+            onPress={onPress}
+            post={post}
+            side={mediaOnRight ? 'right' : 'left'}
+            viewing={viewing}
+          />
+        </PostGestures>
+      </PostMenu>
+    )
+  }
+
+  return (
+    <PostMenu onPress={onPress} post={post}>
       <PostGestures
         containerStyle={styles.container(dimmed)}
         data={post}
@@ -173,122 +197,90 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
         }}
         style={[styles.main(themeOled), style]}
       >
-        <PostCompactCard
-          expanded={expanded}
-          onLongPress={onLongPress}
+        <Pressable
+          delayed
+          disabled={expanded}
+          gap="2"
+          label={a11y('viewPost')}
           onPress={onPress}
-          post={post}
-          side={mediaOnRight ? 'right' : 'left'}
-          viewing={viewing}
-        />
-      </PostGestures>
-    )
-  }
-
-  return (
-    <PostGestures
-      containerStyle={styles.container(dimmed)}
-      data={post}
-      left={{
-        enabled: postLeft,
-        long: postLeftLong,
-        short: postLeftShort,
-      }}
-      onAction={(action) => {
-        onAction(post, action)
-      }}
-      right={{
-        enabled: postRight,
-        long: postRightLong,
-        short: postRightShort,
-      }}
-      style={[styles.main(themeOled), style]}
-    >
-      <Pressable
-        delayed
-        disabled={expanded}
-        gap="2"
-        label={a11y('viewPost')}
-        onLongPress={onLongPress}
-        onPress={onPress}
-        pb={media ? '3' : undefined}
-        pt="3"
-        px="3"
-      >
-        {communityOnTop ? <PostCommunity post={post} /> : null}
-
-        <Text size={fontSizePost} weight="bold">
-          {post.title}
-        </Text>
-
-        <FlairCard flair={post.flair} nsfw={post.nsfw} spoiler={post.spoiler} />
-      </Pressable>
-
-      {post.type === 'crosspost' && post.crossPost ? (
-        <CrossPostCard
-          onLongPress={onLongPress}
-          post={post.crossPost}
-          recyclingKey={post.id}
-          style={body ? styles.expanded : null}
-          viewing={viewing}
-        />
-      ) : null}
-
-      {post.type === 'video' && post.media.video ? (
-        <PostVideoCard
-          nsfw={post.nsfw}
-          onLongPress={onLongPress}
-          recyclingKey={post.id}
-          spoiler={post.spoiler}
-          style={body ? styles.expanded : null}
-          video={post.media.video}
-          viewing={viewing}
-        />
-      ) : null}
-
-      {post.type === 'image' && post.media.images ? (
-        <PostGalleryCard
-          images={post.media.images}
-          nsfw={post.nsfw}
-          onLongPress={onLongPress}
-          recyclingKey={post.id}
-          spoiler={post.spoiler}
-          style={body ? styles.expanded : null}
-          viewing={viewing}
-        />
-      ) : null}
-
-      {post.type === 'link' && post.url ? (
-        <PostLinkCard
-          media={post.media.images?.[0]}
-          onLongPress={onLongPress}
-          recyclingKey={post.id}
-          style={body ? styles.expanded : null}
-          url={post.url}
-        />
-      ) : null}
-
-      {expanded && post.body ? (
-        <Markdown
-          meta={post.media.meta}
-          recyclingKey={post.id}
-          size={addTextSize(fontSizePost, -1)}
-          style={styles.body}
-          variant="post"
+          pb={media ? '3' : undefined}
+          pt="3"
+          px="3"
         >
-          {post.body}
-        </Markdown>
-      ) : null}
+          {communityOnTop ? <PostCommunity post={post} /> : null}
 
-      <PostFooter
-        community={!communityOnTop}
-        expanded={expanded}
-        onLongPress={onLongPress}
-        post={post}
-      />
+          <Text size={fontSizePost} weight="bold">
+            {post.title}
+          </Text>
 
-      {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
-    </PostGestures>
+          <FlairCard
+            flair={post.flair}
+            nsfw={post.nsfw}
+            spoiler={post.spoiler}
+          />
+        </Pressable>
+
+        {post.type === 'crosspost' && post.crossPost ? (
+          <CrossPostCard
+            post={post.crossPost}
+            recyclingKey={post.id}
+            style={body ? styles.expanded : null}
+            viewing={viewing}
+          />
+        ) : null}
+
+        {post.type === 'video' && post.media.video ? (
+          <PostVideoCard
+            nsfw={post.nsfw}
+            recyclingKey={post.id}
+            spoiler={post.spoiler}
+            style={body ? styles.expanded : null}
+            video={post.media.video}
+            viewing={viewing}
+          />
+        ) : null}
+
+        {post.type === 'image' && post.media.images ? (
+          <PostGalleryCard
+            images={post.media.images}
+            nsfw={post.nsfw}
+            recyclingKey={post.id}
+            spoiler={post.spoiler}
+            style={body ? styles.expanded : null}
+            viewing={viewing}
+          />
+        ) : null}
+
+        {post.type === 'link' && post.url ? (
+          <PostLinkCard
+            media={post.media.images?.[0]}
+            recyclingKey={post.id}
+            style={body ? styles.expanded : null}
+            url={post.url}
+          />
+        ) : null}
+
+        {expanded && post.body ? (
+          <Markdown
+            meta={post.media.meta}
+            recyclingKey={post.id}
+            size={addTextSize(fontSizePost, -1)}
+            style={styles.body}
+            variant="post"
+          >
+            {post.body}
+          </Markdown>
+        ) : null}
+
+        <PostFooter
+          community={!communityOnTop}
+          expanded={expanded}
+          post={post}
+        />
+
+        {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
+      </PostGestures>
+    </PostMenu>
   )
 }
 

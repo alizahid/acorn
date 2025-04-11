@@ -12,8 +12,6 @@ import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
-import { triggerHaptic } from '~/lib/feedback'
-import { CommentMenu } from '~/sheets/comment-menu'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -27,6 +25,7 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { FlairCard, type FlairType } from '../posts/flair'
+import { CommentMenu } from './menu'
 import { CommentMeta } from './meta'
 
 type Props = {
@@ -79,161 +78,160 @@ export function CommentCard({
   }, undefined)
 
   return (
-    <PostGestures
-      containerStyle={styles.container(comment.depth) as ViewStyle}
-      data={comment}
-      left={{
-        enabled: commentLeft,
-        long: commentLeftLong,
-        short: commentLeftShort,
-      }}
-      onAction={(action) => {
-        if (action === 'upvote') {
-          vote({
-            commentId: comment.id,
-            direction: comment.liked ? 0 : 1,
-            postId: comment.post.id,
-          })
-        }
-
-        if (action === 'downvote') {
-          vote({
-            commentId: comment.id,
-            direction: comment.liked === false ? 0 : -1,
-            postId: comment.post.id,
-          })
-        }
-
-        if (action === 'save') {
-          save({
-            action: comment.saved ? 'unsave' : 'save',
-            commentId: comment.id,
-            postId: comment.post.id,
-          })
-        }
-
-        if (action === 'reply') {
-          router.push({
-            params: {
-              commentId: comment.id,
-              id: comment.post.id,
-              user: comment.user.name,
-            },
-            pathname: '/posts/[id]/reply',
-          })
-        }
-
-        if (action === 'share') {
-          const url = new URL(comment.permalink, 'https://reddit.com')
-
-          void Share.share({
-            url: url.toString(),
-          })
-        }
-
-        if (action === 'hide') {
-          hide({
-            action: 'hide',
-            id: comment.id,
-            postId: comment.post.id,
-            type: 'comment',
-          })
-        }
-      }}
-      right={{
-        enabled: commentRight,
-        long: commentRightLong,
-        short: commentRightShort,
-      }}
-      style={[
-        styles.main(
-          comment.depth,
-          colorfulComments,
-          themeOled,
-          dull,
-        ) as ViewStyle,
-        style,
-      ]}
-    >
-      <Pressable
-        delayed
-        disabled={disabled}
-        label={a11y(
-          dull
-            ? 'viewComment'
-            : collapsed
-              ? 'expandComment'
-              : 'collapseComment',
-        )}
-        onLongPress={() => {
-          void CommentMenu.call({
-            comment,
-          })
-
-          triggerHaptic('soft')
+    <CommentMenu comment={comment} onPress={onPress}>
+      <PostGestures
+        containerStyle={styles.container(comment.depth) as ViewStyle}
+        data={comment}
+        left={{
+          enabled: commentLeft,
+          long: commentLeftLong,
+          short: commentLeftShort,
         }}
-        onPress={onPress}
+        onAction={(action) => {
+          if (action === 'upvote') {
+            vote({
+              commentId: comment.id,
+              direction: comment.liked ? 0 : 1,
+              postId: comment.post.id,
+            })
+          }
+
+          if (action === 'downvote') {
+            vote({
+              commentId: comment.id,
+              direction: comment.liked === false ? 0 : -1,
+              postId: comment.post.id,
+            })
+          }
+
+          if (action === 'save') {
+            save({
+              action: comment.saved ? 'unsave' : 'save',
+              commentId: comment.id,
+              postId: comment.post.id,
+            })
+          }
+
+          if (action === 'reply') {
+            router.push({
+              params: {
+                commentId: comment.id,
+                id: comment.post.id,
+                user: comment.user.name,
+              },
+              pathname: '/posts/[id]/reply',
+            })
+          }
+
+          if (action === 'share') {
+            const url = new URL(comment.permalink, 'https://www.reddit.com')
+
+            void Share.share({
+              url: url.toString(),
+            })
+          }
+
+          if (action === 'hide') {
+            hide({
+              action: 'hide',
+              id: comment.id,
+              postId: comment.post.id,
+              type: 'comment',
+            })
+          }
+        }}
+        right={{
+          enabled: commentRight,
+          long: commentRightLong,
+          short: commentRightShort,
+        }}
+        style={[
+          styles.main(
+            comment.depth,
+            colorfulComments,
+            themeOled,
+            dull,
+          ) as ViewStyle,
+          style,
+        ]}
       >
-        {!collapsed ? (
-          <Markdown
-            meta={comment.media.meta}
-            recyclingKey={comment.id}
-            size={fontSizeComment}
-            style={styles.body}
-            variant="comment"
-          >
-            {comment.body}
-          </Markdown>
-        ) : null}
+        <Pressable
+          delayed
+          disabled={disabled}
+          label={a11y(
+            dull
+              ? 'viewComment'
+              : collapsed
+                ? 'expandComment'
+                : 'collapseComment',
+          )}
+          onPress={onPress}
+        >
+          {!collapsed ? (
+            <Markdown
+              meta={comment.media.meta}
+              recyclingKey={comment.id}
+              size={fontSizeComment}
+              style={styles.body}
+              variant="comment"
+            >
+              {comment.body}
+            </Markdown>
+          ) : null}
 
-        {comment.post.title ? (
-          <Pressable
-            align="center"
-            direction="row"
-            gap="2"
-            label={a11y('viewPost')}
-            mb="3"
-            mx="3"
-            onPress={() => {
-              router.push({
-                params: {
-                  id: comment.post.id,
-                },
-                pathname: '/posts/[id]',
-              })
-            }}
-            p="2"
-            style={styles.post}
-          >
-            <Icon
-              color={theme.colors.gray.accent}
-              name="NoteBlank"
-              weight="duotone"
+          {comment.post.title ? (
+            <Pressable
+              align="center"
+              direction="row"
+              gap="2"
+              label={a11y('viewPost')}
+              mb="3"
+              mx="3"
+              onPress={() => {
+                router.push({
+                  params: {
+                    id: comment.post.id,
+                  },
+                  pathname: '/posts/[id]',
+                })
+              }}
+              p="2"
+              style={styles.post}
+            >
+              <Icon
+                color={theme.colors.gray.accent}
+                name="NoteBlank"
+                weight="duotone"
+              />
+
+              <View flex={1} gap="1">
+                <Text size="1" weight="medium">
+                  {comment.post.title}
+                </Text>
+
+                <Text highContrast={false} size="1">
+                  r/{comment.community.name}
+                </Text>
+              </View>
+            </Pressable>
+          ) : null}
+
+          <CommentMeta collapsed={collapsed} comment={comment} flair={flair} />
+
+          {!collapsed && (flair === 'both' || flair === 'text') ? (
+            <FlairCard
+              flair={comment.flair}
+              style={styles.flair}
+              type={flair}
             />
+          ) : null}
+        </Pressable>
 
-            <View flex={1} gap="1">
-              <Text size="1" weight="medium">
-                {comment.post.title}
-              </Text>
-
-              <Text highContrast={false} size="1">
-                r/{comment.community.name}
-              </Text>
-            </View>
-          </Pressable>
+        {comment.saved ? (
+          <View pointerEvents="none" style={styles.saved} />
         ) : null}
-
-        <CommentMeta collapsed={collapsed} comment={comment} flair={flair} />
-
-        {!collapsed && (flair === 'both' || flair === 'text') ? (
-          <FlairCard flair={comment.flair} style={styles.flair} type={flair} />
-        ) : null}
-      </Pressable>
-
-      {comment.saved ? (
-        <View pointerEvents="none" style={styles.saved} />
-      ) : null}
-    </PostGestures>
+      </PostGestures>
+    </CommentMenu>
   )
 }
 

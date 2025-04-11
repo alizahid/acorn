@@ -94,7 +94,7 @@ export function CommentMeta({ collapsed, comment, flair }: Props) {
         {comment.edited ? (
           <Icon
             color={theme.colors.orange.accent}
-            name="PencilSimple"
+            name="Pencil"
             size={theme.typography[1].lineHeight}
             weight="duotone"
           />

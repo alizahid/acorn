@@ -18,11 +18,11 @@ export function parse(markdown: string) {
     .replaceAll(/\^\((.*?)\)/g, ':super_script[$1]')
     .replaceAll(
       /(?<!\S)(?:\/?r\/(?!\/))([\w-]+)\b/g,
-      '[r/$1](https://reddit.com/r/$1)',
+      '[r/$1](https://www.reddit.com/r/$1)',
     )
     .replaceAll(
       /(?<!\S)(?:\/?u\/(?!\/))([\w-]+)\b/g,
-      '[u/$1](https://reddit.com/user/$1)',
+      '[u/$1](https://www.reddit.com/user/$1)',
     )
 
   return fromMarkdown(value, {

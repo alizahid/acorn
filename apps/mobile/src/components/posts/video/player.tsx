@@ -19,7 +19,6 @@ type Props = {
   compact?: boolean
   large?: boolean
   nsfw?: boolean
-  onLongPress?: () => void
   recyclingKey?: string
   source: VideoSource
   spoiler?: boolean
@@ -32,7 +31,6 @@ export function VideoPlayer({
   compact,
   large,
   nsfw,
-  onLongPress,
   recyclingKey,
   source,
   spoiler,
@@ -117,7 +115,6 @@ export function VideoPlayer({
       <Pressable
         delayed
         label={a11y('viewVideo')}
-        onLongPress={onLongPress}
         onPress={() => {
           void ref.current?.enterFullscreen()
 
@@ -161,7 +158,6 @@ export function VideoPlayer({
     <Pressable
       delayed
       label={a11y('viewVideo')}
-      onLongPress={onLongPress}
       onPress={() => {
         void ref.current?.enterFullscreen()
 
