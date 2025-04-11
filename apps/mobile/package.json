@@ -113,7 +113,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.26.10",
-    "@tanstack/eslint-plugin-query": "^5.72.2",
+    "@tanstack/eslint-plugin-query": "5.72.1",
     "@types/lodash": "^4.17.16",
     "@types/react": "18.3.18",
     "babel-plugin-inline-import": "^3.0.0",
