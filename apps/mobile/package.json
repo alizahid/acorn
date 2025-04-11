@@ -122,7 +122,6 @@
     "env-cmd": "^10.1.0",
     "eslint-config-custom": "workspace:*",
     "eslint-plugin-react-compiler": "^19.0.0-beta-e993439-20250405",
-    "react-compiler-runtime": "^19.0.0-beta-e993439-20250405",
     "typescript": "^5.8.3"
   },
   "expo": {
