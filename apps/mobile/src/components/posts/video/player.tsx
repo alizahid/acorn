@@ -173,6 +173,7 @@ export function VideoPlayer({
         allowsFullscreen={false}
         allowsPictureInPicture
         contentFit="cover"
+        nativeControls={fullscreen}
         onFullscreenEnter={onFullscreenEnter}
         onFullscreenExit={onFullscreenExit}
         player={player}
