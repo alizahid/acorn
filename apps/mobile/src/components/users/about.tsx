@@ -3,13 +3,13 @@ import { ScrollView } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Button } from '~/components/communities/about/button'
 import { useImagePlaceholder } from '~/hooks/image'
 import { type ListProps } from '~/hooks/list'
 import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { iPad } from '~/lib/common'
 
+import { Button } from '../common/button'
 import { Loading } from '../common/loading'
 import { Markdown } from '../common/markdown'
 import { RefreshControl } from '../common/refresh-control'
@@ -86,7 +86,9 @@ export function UserAbout({ listProps, name }: Props) {
       <View direction="row" gap="4" mx="4">
         <Button
           color={profile.subscribed ? 'red' : 'accent'}
-          icon={profile.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
+          icon={{
+            name: profile.subscribed ? 'UserCircleMinus' : 'UserCirclePlus',
+          }}
           label={t(profile.subscribed ? 'unfollow' : 'follow')}
           onPress={() => {
             follow({
@@ -95,6 +97,7 @@ export function UserAbout({ listProps, name }: Props) {
               name: profile.name,
             })
           }}
+          style={styles.button}
         />
 
         <View flex={1} />
@@ -107,6 +110,9 @@ const stylesheet = createStyleSheet((theme) => ({
   banner: {
     aspectRatio: 1280 / 384,
     backgroundColor: theme.colors.gray.ui,
+  },
+  button: {
+    flex: 1,
   },
   content: {
     gap: theme.space[4],

@@ -17,7 +17,6 @@ import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Button } from '~/components/common/button'
 import { IconButton } from '~/components/common/icon-button'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
@@ -193,25 +192,12 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
           pointerEvents="box-none"
           style={[styles.footer, controls]}
         >
-          <Button
+          <IconButton
             icon={{
-              color: download.isError
-                ? 'red'
-                : download.isSuccess
-                  ? 'green'
-                  : undefined,
-              name: download.isError
-                ? 'XCircle'
-                : download.isSuccess
-                  ? 'CheckCircle'
-                  : 'BoxArrowDown',
-              weight: download.isError
-                ? 'fill'
-                : download.isSuccess
-                  ? 'fill'
-                  : 'duotone',
+              name: 'Download',
+              weight: 'duotone',
             }}
-            label={a11y('downloadAllImages')}
+            label={a11y('downloadGallery')}
             loading={download.isPending}
             onPress={() => {
               download.download({
@@ -232,14 +218,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   footer: {
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: theme.colors.black.accentAlpha,
-    borderCurve: 'continuous',
-    borderRadius: theme.space[9],
     bottom: theme.space[9] + runtime.insets.bottom,
     flexDirection: 'row',
     justifyContent: 'center',
-    overflow: 'hidden',
-    // paddingHorizontal: theme.space[2],
     position: 'absolute',
   },
   header: {

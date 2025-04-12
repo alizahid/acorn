@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
+import { Button } from '~/components/common/button'
 import { Loading } from '~/components/common/loading'
 import { Markdown } from '~/components/common/markdown'
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -15,8 +16,6 @@ import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
 import { iPad } from '~/lib/common'
-
-import { Button } from './button'
 
 type Props = {
   listProps?: ListProps
@@ -127,7 +126,10 @@ export function CommunityAbout({ listProps, name }: Props) {
       <View direction="row" gap="4" mx="4">
         <Button
           color={community.subscribed ? 'red' : 'accent'}
-          icon={community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus'}
+          icon={{
+            name: community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus',
+          }}
+          justify="start"
           label={t(community.subscribed ? 'leave' : 'join')}
           onPress={() => {
             join({
@@ -136,11 +138,16 @@ export function CommunityAbout({ listProps, name }: Props) {
               name: community.name,
             })
           }}
+          style={styles.button}
         />
 
         <Button
           color={community.favorite ? 'amber' : 'gray'}
-          icon="Star"
+          icon={{
+            name: 'Star',
+            weight: community.favorite ? 'fill' : 'regular',
+          }}
+          justify="start"
           label={t(community.favorite ? 'unfavorite' : 'favorite')}
           onPress={() => {
             favorite({
@@ -148,7 +155,7 @@ export function CommunityAbout({ listProps, name }: Props) {
               name: community.name,
             })
           }}
-          weight={community.favorite ? 'fill' : 'regular'}
+          style={styles.button}
         />
       </View>
     </ScrollView>
@@ -159,6 +166,9 @@ const stylesheet = createStyleSheet((theme) => ({
   banner: {
     aspectRatio: 1280 / 384,
     backgroundColor: theme.colors.gray.ui,
+  },
+  button: {
+    flex: 1,
   },
   content: {
     gap: theme.space[4],
