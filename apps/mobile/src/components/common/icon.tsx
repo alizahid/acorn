@@ -25,6 +25,7 @@ import ChartLineUpBold from 'react-native-phosphor/src/bold/ChartLineUp'
 import ChatCircleBold from 'react-native-phosphor/src/bold/ChatCircle'
 import CheckCircleBold from 'react-native-phosphor/src/bold/CheckCircle'
 import ClockBold from 'react-native-phosphor/src/bold/Clock'
+import CoffeeBold from 'react-native-phosphor/src/bold/Coffee'
 import CompassBold from 'react-native-phosphor/src/bold/Compass'
 import CopyBold from 'react-native-phosphor/src/bold/Copy'
 import DeviceMobileCameraBold from 'react-native-phosphor/src/bold/DeviceMobileCamera'
@@ -122,6 +123,7 @@ import ChartLineUpDuotone from 'react-native-phosphor/src/duotone/ChartLineUp'
 import ChatCircleDuotone from 'react-native-phosphor/src/duotone/ChatCircle'
 import CheckCircleDuotone from 'react-native-phosphor/src/duotone/CheckCircle'
 import ClockDuotone from 'react-native-phosphor/src/duotone/Clock'
+import CoffeeDuotone from 'react-native-phosphor/src/duotone/Coffee'
 import CompassDuotone from 'react-native-phosphor/src/duotone/Compass'
 import CopyDuotone from 'react-native-phosphor/src/duotone/Copy'
 import DeviceMobileCameraDuotone from 'react-native-phosphor/src/duotone/DeviceMobileCamera'
@@ -219,6 +221,7 @@ import ChartLineUpFill from 'react-native-phosphor/src/fill/ChartLineUp'
 import ChatCircleFill from 'react-native-phosphor/src/fill/ChatCircle'
 import CheckCircleFill from 'react-native-phosphor/src/fill/CheckCircle'
 import ClockFill from 'react-native-phosphor/src/fill/Clock'
+import CoffeeFill from 'react-native-phosphor/src/fill/Coffee'
 import CompassFill from 'react-native-phosphor/src/fill/Compass'
 import CopyFill from 'react-native-phosphor/src/fill/Copy'
 import DeviceMobileCameraFill from 'react-native-phosphor/src/fill/DeviceMobileCamera'
@@ -316,6 +319,7 @@ import ChartLineUpRegular from 'react-native-phosphor/src/regular/ChartLineUp'
 import ChatCircleRegular from 'react-native-phosphor/src/regular/ChatCircle'
 import CheckCircleRegular from 'react-native-phosphor/src/regular/CheckCircle'
 import ClockRegular from 'react-native-phosphor/src/regular/Clock'
+import CoffeeRegular from 'react-native-phosphor/src/regular/Coffee'
 import CompassRegular from 'react-native-phosphor/src/regular/Compass'
 import CopyRegular from 'react-native-phosphor/src/regular/Copy'
 import DeviceMobileCameraRegular from 'react-native-phosphor/src/regular/DeviceMobileCamera'
@@ -591,6 +595,12 @@ const icons = {
     duotone: ClockDuotone,
     fill: ClockFill,
     regular: ClockRegular,
+  },
+  Coffee: {
+    bold: CoffeeBold,
+    duotone: CoffeeDuotone,
+    fill: CoffeeFill,
+    regular: CoffeeRegular,
   },
   Compass: {
     bold: CompassBold,

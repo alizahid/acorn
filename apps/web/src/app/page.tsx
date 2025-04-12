@@ -1,4 +1,9 @@
-import { DiscordLogo, Fan, GithubLogo } from '@phosphor-icons/react/dist/ssr'
+import {
+  Coffee,
+  DiscordLogo,
+  Fan,
+  GithubLogo,
+} from '@phosphor-icons/react/dist/ssr'
 import Image from 'next/image'
 import { useTranslations } from 'next-intl'
 
@@ -23,6 +28,11 @@ export default function Page() {
       href: 'https://github.com/alizahid/acorn',
       icon: <GithubLogo className="size-6" weight="duotone" />,
       key: 'github',
+    },
+    {
+      href: 'https://buymeacoffee.com/acornblue',
+      icon: <Coffee className="size-6" weight="duotone" />,
+      key: 'coffee',
     },
   ] as const
 

@@ -4,6 +4,7 @@
       "action": {
         "discord": "Discord",
         "github": "GitHub",
+        "coffee": "Buy Me a Coffee",
         "testFlight": "TestFlight"
       },
       "header": {

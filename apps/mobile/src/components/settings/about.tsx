@@ -6,6 +6,7 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useLink } from '~/hooks/link'
 
+import { Button } from '../common/button'
 import { IconButton } from '../common/icon-button'
 
 export function AboutCard() {
@@ -20,25 +21,25 @@ export function AboutCard() {
       href: 'https://acorn.blue',
       icon: 'Compass',
       key: 'web',
-      label: 'Website',
+      label: t('links.web'),
     },
     {
       href: 'https://discord.gg/sWzw5GU5RV',
       icon: 'DiscordLogo',
       key: 'discord',
-      label: 'Discord',
+      label: t('links.discord'),
     },
     {
       href: 'https://github.com/alizahid/acorn',
       icon: 'GitHubLogo',
       key: 'github',
-      label: 'GitHub',
+      label: t('links.github'),
     },
   ] as const
 
   return (
     <View align="center" gap="6" mx="4" my="9">
-      <View gap="6">
+      <View align="center" gap="6">
         <View align="center">
           <Logo />
 
@@ -75,6 +76,17 @@ export function AboutCard() {
             />
           ))}
         </View>
+
+        <Button
+          icon={{
+            name: 'Coffee',
+            weight: 'duotone',
+          }}
+          label={t('links.coffee')}
+          onPress={() => {
+            void handleLink('https://buymeacoffee.com/acornblue')
+          }}
+        />
       </View>
     </View>
   )
