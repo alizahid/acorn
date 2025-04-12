@@ -16,22 +16,22 @@ export default function Page() {
   const actions = [
     {
       href: 'https://testflight.apple.com/join/uKWP3MFB',
-      icon: <Fan className="size-6" weight="duotone" />,
+      icon: <Fan className="size-6" weight="fill" />,
       key: 'testFlight',
     },
     {
       href: 'https://discord.gg/sWzw5GU5RV',
-      icon: <DiscordLogo className="size-6" weight="duotone" />,
+      icon: <DiscordLogo className="size-6" weight="fill" />,
       key: 'discord',
     },
     {
       href: 'https://github.com/alizahid/acorn',
-      icon: <GithubLogo className="size-6" weight="duotone" />,
+      icon: <GithubLogo className="size-6" weight="fill" />,
       key: 'github',
     },
     {
       href: 'https://buymeacoffee.com/acornblue',
-      icon: <Coffee className="size-6" weight="duotone" />,
+      icon: <Coffee className="size-6" weight="fill" />,
       key: 'coffee',
     },
   ] as const
