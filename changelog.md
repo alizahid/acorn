@@ -2,11 +2,11 @@
 
 ## Upcoming
 
-- added: a11y
-- added: share images
+- added: accessibility features
+- added: image sharing
 - added: video progress bar
-- added: video picture in picture
-- added: context menus
+- added: picture in picture
+- added: context menus for posts, comments, images, and links
 
 ## Build 50
 
