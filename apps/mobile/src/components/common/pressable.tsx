@@ -44,7 +44,7 @@ export function Pressable({
     <ReactNativePressable
       accessibilityLabel={label}
       accessibilityRole={role}
-      delayLongPress={delayed ? 200 : 100}
+      delayLongPress={250}
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}
