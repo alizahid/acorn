@@ -1,5 +1,6 @@
+import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { SymbolView } from 'expo-symbols'
-import { useMemo } from 'react'
+import { useRef } from 'react'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -8,20 +9,16 @@ import {
   CommentSort,
   CommunityFeedSort,
   FeedSort,
-  type PostSort,
   SearchSort,
   type SortType,
   TopInterval,
   UserFeedSort,
 } from '~/types/sort'
 
-import {
-  ContextMenu,
-  type MenuIconName,
-  type MenuOption,
-} from '../common/context-menu'
 import { Icon } from '../common/icon'
-import { View } from '../common/view'
+import { Pressable } from '../common/pressable'
+import { SheetItem } from '../common/sheets/item'
+import { SheetModal } from '../common/sheets/modal'
 
 export type SortIntervalMenuData<Type extends SortType> = {
   interval?: TopInterval
@@ -52,6 +49,9 @@ export function SortIntervalMenu<Type extends SortType>({
 
   const { theme } = useStyles()
 
+  const sheetSort = useRef<BottomSheetModal>(null)
+  const sheetInterval = useRef<BottomSheetModal>(null)
+
   const items =
     type === 'comment'
       ? CommentSort
@@ -63,51 +63,20 @@ export function SortIntervalMenu<Type extends SortType>({
             ? UserFeedSort
             : FeedSort
 
-  const intervalOptions = useMemo(
-    () =>
-      TopInterval.map<MenuOption>((item) => ({
-        action() {
-          onChange({
-            interval: item,
-            sort: 'top' as SortIntervalMenuData<Type>['sort'],
-          })
-        },
-        icon: {
-          color: theme.colors.gold.accent,
-          name: IntervalIcons[item],
-          type: 'symbol',
-        },
-        id: item,
-        state: item === interval ? 'on' : undefined,
-        title: t(`interval.${item}`),
-      })),
-    [interval, onChange, t, theme.colors.gold.accent],
-  )
-
-  const sortOptions = useMemo(
-    () =>
-      items.map<MenuOption>((item) => ({
-        action() {
-          onChange({
-            sort: item as SortIntervalMenuData<Type>['sort'],
-          })
-        },
-        icon: {
-          color: theme.colors[SortColors[item]].accent,
-          name: sortIcons[item],
-          type: 'icon',
-        },
-        id: item,
-        options: item === 'top' ? intervalOptions : undefined,
-        state: item === sort ? 'on' : undefined,
-        title: t(`sort.${item}`),
-      })),
-    [intervalOptions, items, onChange, sort, t, theme.colors],
-  )
-
   return (
-    <ContextMenu label={a11y('changeSorting')} options={sortOptions} tap>
-      <View align="center" direction="row" gap="2" height="8" px="3" self="end">
+    <>
+      <Pressable
+        align="center"
+        direction="row"
+        gap="2"
+        height="8"
+        label={a11y('changeSorting')}
+        onPress={() => {
+          sheetSort.current?.present()
+        }}
+        px="3"
+        self="end"
+      >
         <Icon
           color={theme.colors[SortColors[sort]].accent}
           name={SortIcons[sort]}
@@ -129,20 +98,65 @@ export function SortIntervalMenu<Type extends SortType>({
           size={theme.space[4]}
           weight="bold"
         />
-      </View>
-    </ContextMenu>
-  )
-}
+      </Pressable>
 
-const sortIcons: Record<PostSort, MenuIconName> = {
-  best: 'medal-duotone',
-  comments: 'chat-circle-duotone',
-  confidence: 'medal-duotone',
-  controversial: 'sword-duotone',
-  hot: 'flame-duotone',
-  new: 'clock-duotone',
-  old: 'package-duotone',
-  relevance: 'target-duotone',
-  rising: 'chart-line-up-duotone',
-  top: 'ranking-duotone',
+      <SheetModal container="view" ref={sheetSort} title={t('sort.title')}>
+        {items.map((item) => (
+          <SheetItem
+            icon={{
+              color: theme.colors[SortColors[item]].accent,
+              name: SortIcons[item],
+              type: 'icon',
+            }}
+            key={item}
+            label={t(`sort.${item}`)}
+            navigate={item === 'top'}
+            onPress={() => {
+              if (item === 'top') {
+                sheetInterval.current?.present()
+
+                return
+              }
+
+              onChange({
+                sort: item as SortIntervalMenuData<Type>['sort'],
+              })
+
+              sheetSort.current?.dismiss()
+            }}
+            selected={item === sort}
+          />
+        ))}
+      </SheetModal>
+
+      <SheetModal
+        container="view"
+        ref={sheetInterval}
+        title={t('interval.title')}
+      >
+        {TopInterval.map((item) => (
+          <SheetItem
+            key={item}
+            label={t(`interval.${item}`)}
+            left={
+              <SymbolView
+                name={IntervalIcons[item]}
+                tintColor={theme.colors.gold.accent}
+              />
+            }
+            onPress={() => {
+              onChange({
+                interval: item,
+                sort: 'top' as SortIntervalMenuData<Type>['sort'],
+              })
+
+              sheetInterval.current?.dismiss()
+              sheetSort.current?.dismiss()
+            }}
+            selected={sort === 'top' && item === interval}
+          />
+        ))}
+      </SheetModal>
+    </>
+  )
 }
