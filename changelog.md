@@ -1,5 +1,12 @@
 # Changelog
 
+## Upcoming
+
+- added: accessibility features
+- fixed: invisible menu icons
+- fixed: post/comment body links
+- fixed: slow tap
+
 ## Build 51
 
 - added: accessibility features
