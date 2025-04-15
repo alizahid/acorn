@@ -41,7 +41,8 @@ export function PostCompactCard({
       direction={side === 'right' ? 'row-reverse' : 'row'}
       disabled={expanded}
       gap="3"
-      label={a11y('viewPost')}
+      hint={a11y('viewPost')}
+      label={post.title}
       onPress={onPress}
       p="3"
       style={styles.main}

@@ -46,7 +46,8 @@ export function CrossPostCard({
     return (
       <Pressable
         delayed
-        label={a11y('viewPost')}
+        hint={a11y('viewPost')}
+        label={post.title}
         onPress={() => {
           router.push({
             params: {
@@ -96,7 +97,8 @@ export function CrossPostCard({
   return (
     <Pressable
       delayed
-      label={a11y('viewPost')}
+      hint={a11y('viewPost')}
+      label={post.title}
       mx="3"
       onPress={() => {
         router.push({
@@ -147,8 +149,9 @@ export function CrossPostCard({
             align="center"
             direction="row"
             gap="2"
+            hint={a11y('viewCommunity')}
             hitSlop={theme.space[4]}
-            label={a11y('viewCommunity')}
+            label={post.community.name}
             onPress={() => {
               router.push({
                 params: {

@@ -16,6 +16,7 @@ type Props = {
   children?: ReactNode
   delayed?: boolean
   disabled?: boolean
+  hint?: string
   hitSlop?: number | Insets
   label: string
   onLayout?: (event: LayoutChangeEvent) => void
@@ -29,6 +30,7 @@ export function Pressable({
   children,
   delayed,
   disabled,
+  hint,
   hitSlop,
   label,
   onLayout,
@@ -42,6 +44,7 @@ export function Pressable({
 
   return (
     <ReactNativePressable
+      accessibilityHint={hint}
       accessibilityLabel={label}
       accessibilityRole={role}
       delayLongPress={250}

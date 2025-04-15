@@ -34,8 +34,9 @@ export function PostFooter({ community = true, expanded, post }: Props) {
       direction="row"
       disabled={expanded}
       gap="4"
+      hint={a11y('viewPost')}
       justify="between"
-      label={a11y('viewPost')}
+      label={post.title}
       onPress={() => {
         router.push({
           params: {

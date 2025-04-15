@@ -201,7 +201,8 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           delayed
           disabled={expanded}
           gap="2"
-          label={a11y('viewPost')}
+          hint={a11y('viewPost')}
+          label={post.title}
           onPress={onPress}
           pb={media ? '3' : undefined}
           pt="3"

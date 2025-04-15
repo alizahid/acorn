@@ -158,13 +158,14 @@ export function CommentCard({
         <Pressable
           delayed
           disabled={disabled}
-          label={a11y(
+          hint={a11y(
             dull
               ? 'viewComment'
               : collapsed
                 ? 'expandComment'
                 : 'collapseComment',
           )}
+          label={comment.body}
           onPress={onPress}
         >
           {!collapsed ? (
@@ -184,7 +185,8 @@ export function CommentCard({
               align="center"
               direction="row"
               gap="2"
-              label={a11y('viewPost')}
+              hint={a11y('viewPost')}
+              label={comment.post.title}
               mb="3"
               mx="3"
               onPress={() => {
