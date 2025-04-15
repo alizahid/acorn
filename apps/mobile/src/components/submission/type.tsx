@@ -44,7 +44,6 @@ export function SubmissionType({ submission }: Props) {
               field.onChange(item)
             },
             icon: {
-              color: theme.colors.gray.text,
               name:
                 item === 'image'
                   ? 'image-duotone'

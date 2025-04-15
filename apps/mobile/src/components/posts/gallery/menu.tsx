@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { ContextMenu } from '~/components/common/context-menu'
@@ -18,8 +17,6 @@ export function ImageMenu({ children, image, onPress, style }: Props) {
   const t = useTranslations('component.posts.link')
   const a11y = useTranslations('a11y')
 
-  const { theme } = useStyles()
-
   const { download } = useDownloadImage()
   const { copy } = useCopyImage()
   const { share } = useShareImage()
@@ -36,7 +33,6 @@ export function ImageMenu({ children, image, onPress, style }: Props) {
             })
           },
           icon: {
-            color: theme.colors.gray.text,
             name: 'copy-duotone',
             type: 'icon',
           },
@@ -50,7 +46,6 @@ export function ImageMenu({ children, image, onPress, style }: Props) {
             })
           },
           icon: {
-            color: theme.colors.gray.text,
             name: 'share-duotone',
             type: 'icon',
           },
@@ -64,7 +59,6 @@ export function ImageMenu({ children, image, onPress, style }: Props) {
             })
           },
           icon: {
-            color: theme.colors.gray.text,
             name: 'download-duotone',
             type: 'icon',
           },

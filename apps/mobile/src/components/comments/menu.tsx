@@ -195,7 +195,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'copy-duotone',
                 type: 'icon',
               },
@@ -216,7 +215,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'copy-duotone',
                 type: 'icon',
               },
@@ -237,7 +235,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'share-duotone',
                 type: 'icon',
               },
@@ -274,7 +271,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 openInBrowser(url.toString())
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'compass-duotone',
                 type: 'icon',
               },
@@ -298,7 +294,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'user-duotone',
                 type: 'icon',
               },
@@ -317,7 +312,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'users-four-duotone',
                 type: 'icon',
               },

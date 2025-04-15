@@ -165,7 +165,6 @@ export function PostMenu({ children, onPress, post }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'copy-duotone',
                 type: 'icon',
               },
@@ -181,7 +180,6 @@ export function PostMenu({ children, onPress, post }: Props) {
                 }
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'copy-duotone',
                 type: 'icon',
               },
@@ -202,7 +200,6 @@ export function PostMenu({ children, onPress, post }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'copy-duotone',
                 type: 'icon',
               },
@@ -223,7 +220,6 @@ export function PostMenu({ children, onPress, post }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'share-duotone',
                 type: 'icon',
               },
@@ -239,7 +235,6 @@ export function PostMenu({ children, onPress, post }: Props) {
                 }
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'box-arrow-down-duotone',
                 type: 'icon',
               },
@@ -276,7 +271,6 @@ export function PostMenu({ children, onPress, post }: Props) {
                 openInBrowser(url.toString())
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'compass-duotone',
                 type: 'icon',
               },
@@ -300,7 +294,6 @@ export function PostMenu({ children, onPress, post }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'user-duotone',
                 type: 'icon',
               },
@@ -319,7 +312,6 @@ export function PostMenu({ children, onPress, post }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.gray.text,
                 name: 'users-four-duotone',
                 type: 'icon',
               },

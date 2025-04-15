@@ -1,6 +1,5 @@
 import { type ReactNode } from 'react'
 import { Share, type StyleProp, type ViewStyle } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
@@ -19,8 +18,6 @@ export function LinkMenu({ children, style, url }: Props) {
   const toasts = useTranslations('toasts')
   const a11y = useTranslations('a11y')
 
-  const { theme } = useStyles()
-
   const { handleLink } = useLink()
   const { copy } = useCopy()
 
@@ -33,7 +30,6 @@ export function LinkMenu({ children, style, url }: Props) {
             void handleLink(url)
           },
           icon: {
-            color: theme.colors.gray.text,
             name: 'compass-duotone',
             type: 'icon',
           },
@@ -47,7 +43,6 @@ export function LinkMenu({ children, style, url }: Props) {
             })
           },
           icon: {
-            color: theme.colors.gray.text,
             name: 'copy-duotone',
             type: 'icon',
           },
@@ -61,7 +56,6 @@ export function LinkMenu({ children, style, url }: Props) {
             })
           },
           icon: {
-            color: theme.colors.gray.text,
             name: 'share-duotone',
             type: 'icon',
           },

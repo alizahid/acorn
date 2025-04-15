@@ -14,6 +14,7 @@ import {
   type MenuElementConfig,
   type MenuState,
 } from 'react-native-ios-context-menu'
+import { type DynamicColor } from 'react-native-ios-utilities'
 
 import arrowBendUpLeftDuotone from '~/assets/icons/arrow-bend-up-left-duotone.png'
 import arrowFatDownDuotone from '~/assets/icons/arrow-fat-down-duotone.png'
@@ -156,6 +157,11 @@ export function ContextMenu({
 }
 
 function transformOption(option: MenuOption): MenuElementConfig {
+  const fallback: DynamicColor = {
+    dark: '#fff',
+    light: '#000',
+  }
+
   return {
     actionKey: option.id,
     actionTitle: option.title,
@@ -163,9 +169,7 @@ function transformOption(option: MenuOption): MenuElementConfig {
       option.icon?.type === 'symbol'
         ? {
             imageValue: {
-              paletteColors: option.icon.color
-                ? [option.icon.color]
-                : undefined,
+              paletteColors: [option.icon.color ?? fallback],
               systemName: option.icon.name,
             },
             type: 'IMAGE_SYSTEM',
@@ -173,7 +177,7 @@ function transformOption(option: MenuOption): MenuElementConfig {
         : option.icon?.type === 'icon'
           ? {
               imageOptions: {
-                tint: option.icon.color,
+                tint: option.icon.color ?? fallback,
               },
               imageValue: icons[option.icon.name],
               type: 'IMAGE_REQUIRE',

@@ -43,7 +43,6 @@ export function FilterCard({ index, onRemove }: Props) {
                   setType(item)
                 },
                 icon: {
-                  color: theme.colors.gray.text,
                   name:
                     item === 'community'
                       ? 'users-four-duotone'
