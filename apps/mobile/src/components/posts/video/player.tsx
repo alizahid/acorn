@@ -1,3 +1,4 @@
+import { useEventListener } from 'expo'
 import { Image } from 'expo-image'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
 import { useCallback, useEffect, useRef, useState } from 'react'
@@ -68,9 +69,13 @@ export function VideoPlayer({
     instance.audioMixingMode = 'mixWithOthers'
     instance.timeUpdateEventInterval = 1_000 / 1_000 / 60
 
-    if (!compact && viewing) {
+    if (viewing) {
       instance.play()
     }
+  })
+
+  useEventListener(player, 'mutedChange', (event) => {
+    setMuted(event.muted)
   })
 
   useEffect(() => {
@@ -82,12 +87,12 @@ export function VideoPlayer({
   }, [player, source])
 
   useEffect(() => {
-    if (!compact || fullscreen || (viewing && autoPlay)) {
+    if (fullscreen || (viewing && autoPlay)) {
       player.play()
     } else {
       player.pause()
     }
-  }, [autoPlay, compact, fullscreen, player, viewing])
+  }, [autoPlay, fullscreen, player, viewing])
 
   const onFullscreenEnter = useCallback(() => {
     setFullscreen(true)
@@ -95,8 +100,6 @@ export function VideoPlayer({
     previousMuted.current = muted
 
     if (unmuteFullscreen && muted) {
-      setMuted(false)
-
       // eslint-disable-next-line react-compiler/react-compiler -- go away
       player.muted = false
     }
@@ -104,8 +107,6 @@ export function VideoPlayer({
 
   const onFullscreenExit = useCallback(() => {
     setFullscreen(false)
-
-    setMuted(previousMuted.current)
 
     player.muted = previousMuted.current
   }, [player])
@@ -137,6 +138,7 @@ export function VideoPlayer({
         </View>
 
         <VideoView
+          allowsFullscreen={false}
           allowsPictureInPicture={pictureInPicture}
           contentFit="cover"
           onFullscreenEnter={onFullscreenEnter}
@@ -173,7 +175,6 @@ export function VideoPlayer({
         allowsFullscreen={false}
         allowsPictureInPicture={pictureInPicture}
         contentFit="cover"
-        nativeControls
         onFullscreenEnter={onFullscreenEnter}
         onFullscreenExit={onFullscreenExit}
         player={player}
@@ -190,11 +191,7 @@ export function VideoPlayer({
           hitSlop={theme.space[2]}
           label={a11y(muted ? 'unmute' : 'mute')}
           onPress={() => {
-            const next = !muted
-
-            setMuted(() => next)
-
-            player.muted = next
+            player.muted = !muted
           }}
           p="2"
           style={styles.volume}
@@ -248,7 +245,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.space[4],
-    bottom: theme.space[2],
+    bottom: theme.space[3],
     position: 'absolute',
     right: theme.space[2],
   },
