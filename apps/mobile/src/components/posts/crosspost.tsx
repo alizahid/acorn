@@ -194,7 +194,7 @@ export function CrossPostCard({
 
 const stylesheet = createStyleSheet((theme) => ({
   compact: (large?: boolean) => ({
-    backgroundColor: theme.colors.gray.ui,
+    backgroundColor: theme.colors.gray.uiActive,
     borderCurve: 'continuous',
     borderRadius: theme.space[large ? 2 : 1],
     height: theme.space[8] * (large ? 2 : 1),

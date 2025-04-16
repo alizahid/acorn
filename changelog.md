@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: accessibility features
+- added: compact icon for text posts
 - fixed: invisible menu icons
 - fixed: post/comment body links
 - fixed: slow tap

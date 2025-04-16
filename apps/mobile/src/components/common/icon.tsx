@@ -85,6 +85,7 @@ import SwordBold from 'react-native-phosphor/src/bold/Sword'
 import TagBold from 'react-native-phosphor/src/bold/Tag'
 import TargetBold from 'react-native-phosphor/src/bold/Target'
 import TelevisionSimpleBold from 'react-native-phosphor/src/bold/TelevisionSimple'
+import TextAlignLeftBold from 'react-native-phosphor/src/bold/TextAlignLeft'
 import TextboxBold from 'react-native-phosphor/src/bold/Textbox'
 import TrashBold from 'react-native-phosphor/src/bold/Trash'
 import TreeViewBold from 'react-native-phosphor/src/bold/TreeView'
@@ -183,6 +184,7 @@ import SwordDuotone from 'react-native-phosphor/src/duotone/Sword'
 import TagDuotone from 'react-native-phosphor/src/duotone/Tag'
 import TargetDuotone from 'react-native-phosphor/src/duotone/Target'
 import TelevisionSimpleDuotone from 'react-native-phosphor/src/duotone/TelevisionSimple'
+import TextAlignLeftDuotone from 'react-native-phosphor/src/duotone/TextAlignLeft'
 import TextboxDuotone from 'react-native-phosphor/src/duotone/Textbox'
 import TrashDuotone from 'react-native-phosphor/src/duotone/Trash'
 import TreeViewDuotone from 'react-native-phosphor/src/duotone/TreeView'
@@ -281,6 +283,7 @@ import SwordFill from 'react-native-phosphor/src/fill/Sword'
 import TagFill from 'react-native-phosphor/src/fill/Tag'
 import TargetFill from 'react-native-phosphor/src/fill/Target'
 import TelevisionSimpleFill from 'react-native-phosphor/src/fill/TelevisionSimple'
+import TextAlignLeftFill from 'react-native-phosphor/src/fill/TextAlignLeft'
 import TextboxFill from 'react-native-phosphor/src/fill/Textbox'
 import TrashFill from 'react-native-phosphor/src/fill/Trash'
 import TreeViewFill from 'react-native-phosphor/src/fill/TreeView'
@@ -379,6 +382,7 @@ import SwordRegular from 'react-native-phosphor/src/regular/Sword'
 import TagRegular from 'react-native-phosphor/src/regular/Tag'
 import TargetRegular from 'react-native-phosphor/src/regular/Target'
 import TelevisionSimpleRegular from 'react-native-phosphor/src/regular/TelevisionSimple'
+import TextAlignLeftRegular from 'react-native-phosphor/src/regular/TextAlignLeft'
 import TextboxRegular from 'react-native-phosphor/src/regular/Textbox'
 import TrashRegular from 'react-native-phosphor/src/regular/Trash'
 import TreeViewRegular from 'react-native-phosphor/src/regular/TreeView'
@@ -955,6 +959,12 @@ const icons = {
     duotone: TelevisionSimpleDuotone,
     fill: TelevisionSimpleFill,
     regular: TelevisionSimpleRegular,
+  },
+  TextAlignLeft: {
+    bold: TextAlignLeftBold,
+    duotone: TextAlignLeftDuotone,
+    fill: TextAlignLeftFill,
+    regular: TextAlignLeftRegular,
   },
   Textbox: {
     bold: TextboxBold,

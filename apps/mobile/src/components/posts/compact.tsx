@@ -5,6 +5,7 @@ import { useTranslations } from 'use-intl'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -36,7 +37,7 @@ export function PostCompactCard({
 
   const { fontSizePost, largeThumbnails } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  const { styles, theme } = useStyles(stylesheet)
 
   return (
     <Pressable
@@ -94,6 +95,16 @@ export function PostCompactCard({
         />
       ) : null}
 
+      {post.type === 'text' ? (
+        <View
+          align="center"
+          justify="center"
+          style={styles.text(largeThumbnails)}
+        >
+          <Icon color={theme.colors.accent.accent} name="TextAlignLeft" />
+        </View>
+      ) : null}
+
       <View align="start" flex={1} gap="2">
         <PostCommunity post={post} />
 
@@ -126,4 +137,12 @@ const stylesheet = createStyleSheet((theme) => ({
     ],
     width: theme.space[8],
   },
+  text: (large?: boolean) => ({
+    backgroundColor: theme.colors.gray.uiActive,
+    borderCurve: 'continuous',
+    borderRadius: theme.space[large ? 2 : 1],
+    height: theme.space[8] * (large ? 2 : 1),
+    overflow: 'hidden',
+    width: theme.space[8] * (large ? 2 : 1),
+  }),
 }))
