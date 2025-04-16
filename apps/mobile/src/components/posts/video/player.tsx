@@ -68,7 +68,7 @@ export function VideoPlayer({
     instance.audioMixingMode = 'mixWithOthers'
     instance.timeUpdateEventInterval = 1_000 / 1_000 / 60
 
-    if (viewing) {
+    if (!compact && viewing) {
       instance.play()
     }
   })
@@ -82,12 +82,12 @@ export function VideoPlayer({
   }, [player, source])
 
   useEffect(() => {
-    if (fullscreen || (viewing && autoPlay)) {
+    if (!compact || fullscreen || (viewing && autoPlay)) {
       player.play()
     } else {
       player.pause()
     }
-  }, [autoPlay, fullscreen, player, viewing])
+  }, [autoPlay, compact, fullscreen, player, viewing])
 
   const onFullscreenEnter = useCallback(() => {
     setFullscreen(true)
@@ -171,9 +171,9 @@ export function VideoPlayer({
     >
       <VideoView
         allowsFullscreen={false}
-        allowsPictureInPicture
+        allowsPictureInPicture={pictureInPicture}
         contentFit="cover"
-        nativeControls={fullscreen}
+        nativeControls
         onFullscreenEnter={onFullscreenEnter}
         onFullscreenExit={onFullscreenExit}
         player={player}
