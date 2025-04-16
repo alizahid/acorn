@@ -40,6 +40,7 @@ export function PostCompactCard({
 
   return (
     <Pressable
+      align="start"
       delayed
       direction={side === 'right' ? 'row-reverse' : 'row'}
       disabled={expanded}
