@@ -163,13 +163,14 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
             long: postRightLong,
             short: postRightShort,
           }}
-          style={[styles.main(themeOled), styles.dimmed(dimmed), style]}
+          style={[styles.main(themeOled), style]}
         >
           <PostCompactCard
             expanded={expanded}
             onPress={onPress}
             post={post}
             side={mediaOnRight ? 'right' : 'left'}
+            style={styles.dimmed(dimmed)}
             viewing={viewing}
           />
         </Gestures>
