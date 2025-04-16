@@ -6,6 +6,7 @@
 - fixed: invisible menu icons
 - fixed: post/comment body links
 - fixed: slow tap
+- fixed: compact post dimming
 
 ## Build 51
 

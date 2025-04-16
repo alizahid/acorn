@@ -1,3 +1,4 @@
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -19,6 +20,7 @@ type Props = {
   onPress: () => void
   post: Post
   side?: 'left' | 'right'
+  style?: StyleProp<ViewStyle>
   viewing?: boolean
 }
 
@@ -27,6 +29,7 @@ export function PostCompactCard({
   onPress,
   post,
   side = 'left',
+  style,
   viewing,
 }: Props) {
   const a11y = useTranslations('a11y')
@@ -45,7 +48,7 @@ export function PostCompactCard({
       label={post.title}
       onPress={onPress}
       p="3"
-      style={styles.main}
+      style={[styles.main, style]}
     >
       {post.type === 'crosspost' && post.crossPost ? (
         <CrossPostCard

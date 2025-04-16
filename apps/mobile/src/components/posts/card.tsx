@@ -163,7 +163,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
             long: postRightLong,
             short: postRightShort,
           }}
-          style={[styles.main(themeOled), style]}
+          style={[styles.main(themeOled), styles.dimmed(dimmed), style]}
         >
           <PostCompactCard
             expanded={expanded}
