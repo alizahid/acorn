@@ -148,7 +148,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
     return (
       <PostMenu onPress={onPress} post={post}>
         <Gestures
-          containerStyle={styles.container(dimmed)}
+          containerStyle={styles.container}
           data={post}
           left={{
             enabled: postLeft,
@@ -180,7 +180,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
   return (
     <PostMenu onPress={onPress} post={post}>
       <Gestures
-        containerStyle={styles.container(dimmed)}
+        containerStyle={styles.container}
         data={post}
         left={{
           enabled: postLeft,
@@ -207,6 +207,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           pb={media ? '3' : undefined}
           pt="3"
           px="3"
+          style={styles.dimmed(dimmed)}
         >
           {communityOnTop ? <PostCommunity post={post} /> : null}
 
@@ -277,6 +278,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           community={!communityOnTop}
           expanded={expanded}
           post={post}
+          style={styles.dimmed(dimmed)}
         />
 
         {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
@@ -289,13 +291,15 @@ const stylesheet = createStyleSheet((theme) => ({
   body: {
     marginHorizontal: theme.space[3],
   },
-  container: (dimmed: boolean) => ({
+  container: {
     alignSelf: 'center',
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[4] : undefined,
     maxWidth: iPad ? cardMaxWidth : undefined,
-    opacity: dimmed ? 0.5 : undefined,
     width: '100%',
+  },
+  dimmed: (dimmed: boolean) => ({
+    opacity: dimmed ? 0.5 : undefined,
   }),
   expanded: {
     marginBottom: theme.space[3],

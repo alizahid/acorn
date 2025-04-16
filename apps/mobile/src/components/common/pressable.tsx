@@ -34,7 +34,7 @@ export function Pressable({
   hitSlop,
   label,
   onLayout,
-  onLongPress = () => null,
+  onLongPress,
   onPress,
   role = 'button',
   style,
@@ -47,7 +47,6 @@ export function Pressable({
       accessibilityHint={hint}
       accessibilityLabel={label}
       accessibilityRole={role}
-      delayLongPress={250}
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}

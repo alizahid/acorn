@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -16,9 +17,10 @@ type Props = {
   community?: boolean
   expanded?: boolean
   post: Post
+  style?: StyleProp<ViewStyle>
 }
 
-export function PostFooter({ community = true, expanded, post }: Props) {
+export function PostFooter({ community = true, expanded, post, style }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -46,6 +48,7 @@ export function PostFooter({ community = true, expanded, post }: Props) {
         })
       }}
       p="3"
+      style={style}
     >
       <View flexShrink={1} gap="2">
         {community ? <PostCommunity post={post} /> : null}
