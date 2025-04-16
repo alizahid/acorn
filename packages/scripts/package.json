@@ -1,0 +1,12 @@
+{
+  "name": "scripts",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "run": "zx"
+  },
+  "dependencies": {
+    "zx": "^8.5.3"
+  }
+}
