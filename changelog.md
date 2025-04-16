@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 52
 
 - added: accessibility features
 - added: compact icon for text posts
