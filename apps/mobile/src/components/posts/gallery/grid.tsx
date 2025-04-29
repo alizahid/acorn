@@ -48,7 +48,6 @@ export function ImageGrid({
         }}
       >
         <Pressable
-          delayed
           label={a11y('viewImage')}
           onPress={() => {
             onPress(0)
@@ -99,7 +98,6 @@ export function ImageGrid({
             }}
           >
             <Pressable
-              delayed
               label={a11y('viewImage')}
               onPress={() => {
                 onPress(index)

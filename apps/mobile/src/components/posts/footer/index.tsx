@@ -32,7 +32,6 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
   return (
     <Pressable
       align={community ? 'center' : 'end'}
-      delayed
       direction="row"
       disabled={expanded}
       gap="4"

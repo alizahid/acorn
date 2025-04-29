@@ -54,11 +54,7 @@ export function RedGifsVideo({
   }
 
   return (
-    <Pressable
-      delayed
-      label={a11y('loadingVideo')}
-      style={styles.main(compact, large)}
-    >
+    <Pressable label={a11y('loadingVideo')} style={styles.main(compact, large)}>
       <View
         align="center"
         justify="center"

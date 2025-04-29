@@ -45,7 +45,6 @@ export function CrossPostCard({
   if (compact) {
     return (
       <Pressable
-        delayed
         hint={a11y('viewPost')}
         label={post.title}
         onPress={() => {
@@ -96,7 +95,6 @@ export function CrossPostCard({
 
   return (
     <Pressable
-      delayed
       hint={a11y('viewPost')}
       label={post.title}
       mx="3"

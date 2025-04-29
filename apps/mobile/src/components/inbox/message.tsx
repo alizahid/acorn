@@ -33,7 +33,6 @@ export function MessageCard({ message }: Props) {
   return (
     <Pressable
       align="center"
-      delayed
       direction="row"
       gap="4"
       label={message.subject}

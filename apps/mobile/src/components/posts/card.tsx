@@ -199,7 +199,6 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
         style={[styles.main(themeOled), style]}
       >
         <Pressable
-          delayed
           disabled={expanded}
           gap="2"
           hint={a11y('viewPost')}

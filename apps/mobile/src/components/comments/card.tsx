@@ -156,7 +156,6 @@ export function CommentCard({
         ]}
       >
         <Pressable
-          delayed
           disabled={disabled}
           hint={a11y(
             dull

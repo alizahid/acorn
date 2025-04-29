@@ -41,7 +41,6 @@ export function NotificationCard({ notification }: Props) {
   return (
     <Pressable
       align="center"
-      delayed
       direction="row"
       gap="4"
       label={body}

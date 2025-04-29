@@ -111,7 +111,6 @@ export function VideoPlayer({
   if (compact) {
     return (
       <Pressable
-        delayed
         label={a11y('viewVideo')}
         onPress={() => {
           void ref.current?.enterFullscreen()
@@ -155,7 +154,6 @@ export function VideoPlayer({
 
   return (
     <Pressable
-      delayed
       label={a11y('viewVideo')}
       onPress={() => {
         void ref.current?.enterFullscreen()
