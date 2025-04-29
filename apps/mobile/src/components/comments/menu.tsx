@@ -142,7 +142,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                color: theme.colors.accent.accent,
                 name: 'pencil-duotone',
                 type: 'icon',
               },

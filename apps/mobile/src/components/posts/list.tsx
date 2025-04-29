@@ -7,6 +7,7 @@ import {
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
 import { type ViewabilityConfig } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -184,6 +185,7 @@ export function PostList({
         />
       }
       renderItem={renderItem}
+      renderScrollComponent={(props) => <ScrollView {...props} />}
       viewabilityConfig={viewabilityConfig}
     />
   )

@@ -1,5 +1,5 @@
 import { create } from 'mutative'
-import { FlatList, ScrollView } from 'react-native'
+import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import ReorderableList, { reorderItems } from 'react-native-reorderable-list'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'

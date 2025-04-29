@@ -3,6 +3,7 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useCallback } from 'react'
 import { FormProvider, useFieldArray } from 'react-hook-form'
 import { FlatList } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -135,7 +136,11 @@ export default function Screen() {
           <FilterCard index={index} onRemove={filters.remove} />
         )}
         renderScrollComponent={(props) => (
-          <KeyboardAwareScrollView {...props} bottomOffset={16} />
+          <KeyboardAwareScrollView
+            {...props}
+            ScrollViewComponent={ScrollView}
+            bottomOffset={16}
+          />
         )}
       />
 

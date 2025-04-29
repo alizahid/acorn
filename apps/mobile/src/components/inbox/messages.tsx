@@ -1,5 +1,6 @@
 import { FlashList } from '@shopify/flash-list'
 import { useRef } from 'react'
+import { ScrollView } from 'react-native-gesture-handler'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type ListProps } from '~/hooks/list'
@@ -62,6 +63,7 @@ export function MessagesList({
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => <MessageCard message={item} />}
+      renderScrollComponent={(props) => <ScrollView {...props} />}
     />
   )
 }

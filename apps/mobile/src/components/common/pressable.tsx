@@ -2,27 +2,25 @@ import { type ReactNode } from 'react'
 import {
   type AccessibilityRole,
   type AccessibilityState,
-  type GestureResponderEvent,
   type Insets,
   type LayoutChangeEvent,
-  Pressable as ReactNativePressable,
   type StyleProp,
   type ViewStyle,
 } from 'react-native'
+import { Pressable as Component } from 'react-native-gesture-handler'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
 type Props = {
   children?: ReactNode
-  delayed?: boolean
   disabled?: boolean
   hint?: string
   hitSlop?: number | Insets
   label: string
   onLayout?: (event: LayoutChangeEvent) => void
-  onLongPress?: (event: GestureResponderEvent) => void
-  onPress?: (event: GestureResponderEvent) => void
+  onLongPress?: () => void
+  onPress?: () => void
   role?: AccessibilityRole
   state?: AccessibilityState
   style?: StyleProp<ViewStyle>
@@ -30,7 +28,6 @@ type Props = {
 
 export function Pressable({
   children,
-  delayed,
   disabled,
   hint,
   hitSlop,
@@ -46,7 +43,7 @@ export function Pressable({
   const { styles } = useStyles(stylesheet)
 
   return (
-    <ReactNativePressable
+    <Component
       accessibilityHint={hint}
       accessibilityLabel={label}
       accessibilityRole={role}
@@ -61,10 +58,9 @@ export function Pressable({
         styles.opacity(pressed),
         style,
       ]}
-      unstable_pressDelay={delayed ? 100 : 0}
     >
       {children}
-    </ReactNativePressable>
+    </Component>
   )
 }
 

@@ -1,4 +1,3 @@
-import { type GestureResponderEvent } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
@@ -10,7 +9,7 @@ type Props = {
   fill?: boolean
   icon: IconName
   label: string
-  onPress?: (event: GestureResponderEvent) => void
+  onPress?: () => void
   weight?: IconWeight
 }
 

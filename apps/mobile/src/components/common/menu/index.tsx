@@ -1,11 +1,7 @@
 import { type SFSymbol } from 'expo-symbols'
 import { type ReactElement, useRef } from 'react'
-import {
-  FlatList,
-  type StyleProp,
-  type TextStyle,
-  type ViewStyle,
-} from 'react-native'
+import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { RefreshControl } from '~/components/common/refresh-control'

@@ -1,8 +1,4 @@
-import {
-  type GestureResponderEvent,
-  type StyleProp,
-  type ViewStyle,
-} from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type ColorToken } from '~/styles/tokens'
@@ -23,7 +19,7 @@ type Props = {
   justify?: ViewStyleProps['justify']
   label: string
   loading?: boolean
-  onPress?: (event: GestureResponderEvent) => void
+  onPress?: () => void
   style?: StyleProp<ViewStyle>
 }
 
