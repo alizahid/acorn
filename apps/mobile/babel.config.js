@@ -10,6 +10,13 @@ module.exports = function config(api) {
         },
       ],
     ],
-    presets: ['babel-preset-expo'],
+    presets: [
+      [
+        'babel-preset-expo',
+        {
+          unstable_transformImportMeta: true,
+        },
+      ],
+    ],
   }
 }

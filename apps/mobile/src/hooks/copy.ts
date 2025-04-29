@@ -2,7 +2,7 @@ import * as Clipboard from 'expo-clipboard'
 import { useCallback, useRef, useState } from 'react'
 
 export function useCopy() {
-  const timer = useRef<NodeJS.Timeout>()
+  const timer = useRef<NodeJS.Timeout>(null)
 
   const [copied, setCopied] = useState(false)
 

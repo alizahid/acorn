@@ -6,7 +6,7 @@ import { type FlatList } from 'react-native'
 import { type ListProps } from './list'
 
 export function useScrollToTop<Type>(
-  ref: RefObject<FlatList<Type> | FlashList<Type>>,
+  ref: RefObject<FlatList<Type> | FlashList<Type> | null>,
   props?: ListProps<Type>,
 ) {
   useScroll(

@@ -29,6 +29,7 @@ import { View } from '../common/view'
 const viewabilityConfig: ViewabilityConfig = {
   minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1_000,
   viewAreaCoveragePercentThreshold: 60,
+  waitForInteraction: false,
 }
 
 type Item = Post | Comment

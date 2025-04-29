@@ -14,7 +14,7 @@ export function Updater() {
 
   const updates = Updates.useUpdates()
 
-  const timer = useRef<NodeJS.Timeout>()
+  const timer = useRef<NodeJS.Timeout>(null)
 
   const [nothing, setNothing] = useState<boolean>()
 

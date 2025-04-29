@@ -1,10 +1,10 @@
 import { useIsFocused } from '@react-navigation/native'
-import { type ImageSource } from 'expo-image'
 import { type SFSymbol } from 'expo-symbols'
 import { compact } from 'lodash'
 import { type ReactNode, useEffect, useMemo, useRef } from 'react'
 import {
   Image,
+  type ImageRequireSource,
   type Insets,
   type StyleProp,
   type ViewStyle,
@@ -88,7 +88,7 @@ export type MenuIcon =
       type: 'icon'
     }
   | {
-      image: ImageSource
+      image: ImageRequireSource
       type: 'image'
     }
   | {

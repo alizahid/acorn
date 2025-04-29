@@ -56,22 +56,19 @@ export function VideoPlayer({
   const { styles, theme } = useStyles(stylesheet)
 
   const ref = useRef<VideoView>(null)
-  const previous = useRef(source)
 
   const previousMuted = useRef(feedMuted)
 
   const [fullscreen, setFullscreen] = useState(false)
   const [muted, setMuted] = useState(feedMuted)
 
-  const player = useVideoPlayer(source, (instance) => {
+  const player = useVideoPlayer(null, (instance) => {
     instance.muted = muted
     instance.loop = true
     instance.audioMixingMode = 'mixWithOthers'
     instance.timeUpdateEventInterval = 1_000 / 1_000 / 60
 
-    if (viewing) {
-      instance.play()
-    }
+    instance.pause()
   })
 
   useEventListener(player, 'mutedChange', (event) => {
@@ -79,12 +76,10 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    if (previous.current !== source) {
-      player.replace(source)
+    void player.replaceAsync(source)
 
-      previous.current = source
-    }
-  }, [player, source])
+    previousMuted.current = feedMuted
+  }, [feedMuted, player, source])
 
   useEffect(() => {
     if (fullscreen || (viewing && autoPlay)) {

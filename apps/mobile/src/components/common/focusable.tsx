@@ -1,4 +1,4 @@
-import { forwardRef, useImperativeHandle } from 'react'
+import { type Ref, useImperativeHandle } from 'react'
 
 type Focusable = {
   focus: () => void
@@ -6,12 +6,10 @@ type Focusable = {
 
 type Props = {
   onFocus: () => void
+  ref?: Ref<Focusable>
 }
 
-export const Focusable = forwardRef<Focusable, Props>(function Component(
-  { onFocus },
-  ref,
-) {
+export function Focusable({ onFocus, ref }: Props) {
   useImperativeHandle(ref, () => ({
     focus() {
       onFocus()
@@ -19,4 +17,4 @@ export const Focusable = forwardRef<Focusable, Props>(function Component(
   }))
 
   return null
-})
+}

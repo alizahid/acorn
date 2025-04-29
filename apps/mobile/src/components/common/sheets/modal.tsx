@@ -3,7 +3,7 @@ import {
   BottomSheetScrollView,
   BottomSheetView,
 } from '@gorhom/bottom-sheet'
-import { forwardRef, type ReactNode } from 'react'
+import { type ReactNode, type Ref } from 'react'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -18,53 +18,56 @@ type Props = {
   children: ReactNode
   container?: 'view' | 'scroll'
   onClose?: () => void
+  ref?: Ref<BottomSheetModal>
   right?: ReactNode
   title: string
 }
 
-export const SheetModal = forwardRef<BottomSheetModal, Props>(
-  function Component(
-    { children, container = 'view', onClose, right, title },
-    ref,
-  ) {
-    const frame = useSafeAreaFrame()
+export function SheetModal({
+  children,
+  container = 'view',
+  onClose,
+  ref,
+  right,
+  title,
+}: Props) {
+  const frame = useSafeAreaFrame()
 
-    const { themeOled, themeTint } = usePreferences()
+  const { themeOled, themeTint } = usePreferences()
 
-    const { styles } = useStyles(stylesheet)
+  const { styles } = useStyles(stylesheet)
 
-    const Container =
-      container === 'scroll' ? BottomSheetScrollView : BottomSheetView
+  const Container =
+    container === 'scroll' ? BottomSheetScrollView : BottomSheetView
 
-    const props =
-      container === 'scroll'
-        ? {
-            contentContainerStyle: styles.content,
-          }
-        : {
-            style: styles.content,
-          }
+  const props =
+    container === 'scroll'
+      ? {
+          contentContainerStyle: styles.content,
+        }
+      : {
+          style: styles.content,
+        }
 
-    return (
-      <BottomSheetModal
-        backdropComponent={SheetBackdrop}
-        backgroundStyle={styles.background(themeOled, themeTint)}
-        handleComponent={null}
-        maxDynamicContentSize={frame.height * 0.8}
-        onDismiss={onClose}
-        ref={ref}
-        stackBehavior="push"
-        style={styles.main}
-      >
-        <Container {...props}>
-          <SheetHeader right={right} style={styles.header} title={title} />
+  return (
+    <BottomSheetModal
+      backdropComponent={SheetBackdrop}
+      backgroundStyle={styles.background(themeOled, themeTint)}
+      handleComponent={null}
+      maxDynamicContentSize={frame.height * 0.8}
+      onDismiss={onClose}
+      ref={ref}
+      stackBehavior="push"
+      style={styles.main}
+    >
+      <Container {...props}>
+        <SheetHeader right={right} style={styles.header} title={title} />
 
-          {children}
-        </Container>
-      </BottomSheetModal>
-    )
-  },
-)
+        {children}
+      </Container>
+    </BottomSheetModal>
+  )
+}
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   background: (oled: boolean, tint: boolean) => ({

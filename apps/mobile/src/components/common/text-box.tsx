@@ -1,4 +1,4 @@
-import { forwardRef, type ReactNode, useState } from 'react'
+import { type ReactNode, type Ref, useState } from 'react'
 import {
   type StyleProp,
   TextInput,
@@ -36,40 +36,39 @@ type Props = Pick<
   hint?: string
   label?: string
   left?: ReactNode
+  ref?: Ref<TextInput>
   right?: ReactNode
   style?: StyleProp<ViewStyle>
   styleContent?: StyleProp<ViewStyle>
   styleInput?: StyleProp<TextStyle>
 }
 
-export const TextBox = forwardRef<TextInput, Props>(function Component(
-  {
-    autoCapitalize,
-    autoComplete,
-    autoCorrect,
-    code,
-    editable = true,
-    error,
-    hint,
-    keyboardType,
-    label,
-    left,
-    multiline,
-    onBlur,
-    onChangeText,
-    onFocus,
-    onSubmitEditing,
-    placeholder,
-    returnKeyType,
-    right,
-    secureTextEntry,
-    style,
-    styleContent,
-    styleInput,
-    value,
-  },
+export function TextBox({
+  autoCapitalize,
+  autoComplete,
+  autoCorrect,
+  code,
+  editable = true,
+  error,
+  hint,
+  keyboardType,
+  label,
+  left,
+  multiline,
+  onBlur,
+  onChangeText,
+  onFocus,
+  onSubmitEditing,
+  placeholder,
   ref,
-) {
+  returnKeyType,
+  right,
+  secureTextEntry,
+  style,
+  styleContent,
+  styleInput,
+  value,
+}: Props) {
   const { font, fontScaling, systemScaling } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
@@ -141,7 +140,7 @@ export const TextBox = forwardRef<TextInput, Props>(function Component(
       ) : null}
     </View>
   )
-})
+}
 
 const stylesheet = createStyleSheet((theme, runtime) => ({
   content: (focused: boolean, error: boolean) => ({

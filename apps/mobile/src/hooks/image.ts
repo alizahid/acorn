@@ -34,7 +34,7 @@ export function useDownloadImage() {
 
   const { saveToAlbum } = usePreferences()
 
-  const id = useRef<string | number>()
+  const id = useRef<string | number>(undefined)
 
   const { isError, isPending, isSuccess, mutate } = useMutation<
     unknown,
@@ -103,7 +103,7 @@ export function useDownloadImages() {
 
   const { saveToAlbum } = usePreferences()
 
-  const id = useRef<string | number>()
+  const id = useRef<string | number>(undefined)
 
   const { isError, isPending, isSuccess, mutate } = useMutation<
     unknown,
@@ -178,7 +178,7 @@ type CopyImageVariables = {
 export function useCopyImage() {
   const t = useTranslations('toasts.image')
 
-  const id = useRef<string | number>()
+  const id = useRef<string | number>(undefined)
 
   const { isError, isPending, isSuccess, mutate } = useMutation<
     unknown,
@@ -225,7 +225,7 @@ type ShareImageVariables = {
 export function useShareImage() {
   const t = useTranslations('toasts.image')
 
-  const id = useRef<string | number>()
+  const id = useRef<string | number>(undefined)
 
   const { isError, isPending, isSuccess, mutate } = useMutation<
     boolean,

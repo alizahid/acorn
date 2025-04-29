@@ -1,7 +1,7 @@
 declare module '*.png' {
-  import { type ImageSource } from 'expo-image'
+  import { type ImageRequireSource } from 'react-native'
 
-  const content: ImageSource
+  const content: ImageRequireSource
 
   export default content
 }

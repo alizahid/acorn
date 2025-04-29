@@ -1,17 +1,15 @@
-import { forwardRef } from 'react'
+import { type Ref } from 'react'
 import { Switch as ReactNativeSwitch } from 'react-native'
 import { useStyles } from 'react-native-unistyles'
 
 type Props = {
   disabled?: boolean
   onChange?: (value: boolean) => void
+  ref?: Ref<ReactNativeSwitch>
   value?: boolean
 }
 
-export const Switch = forwardRef<ReactNativeSwitch, Props>(function Component(
-  { disabled, onChange, value },
-  ref,
-) {
+export function Switch({ disabled, onChange, ref, value }: Props) {
   const { theme } = useStyles()
 
   return (
@@ -28,4 +26,4 @@ export const Switch = forwardRef<ReactNativeSwitch, Props>(function Component(
       value={value}
     />
   )
-})
+}

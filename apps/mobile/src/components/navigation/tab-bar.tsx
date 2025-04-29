@@ -67,6 +67,9 @@ export function TabBar({ descriptors, navigation, state }: Props) {
                     navigation.navigate(route.name, route.params)
                   }
                 }}
+                state={{
+                  selected: focused,
+                }}
                 style={styles.tab}
               >
                 {icon ? (

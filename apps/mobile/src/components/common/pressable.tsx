@@ -1,6 +1,7 @@
 import { type ReactNode } from 'react'
 import {
   type AccessibilityRole,
+  type AccessibilityState,
   type GestureResponderEvent,
   type Insets,
   type LayoutChangeEvent,
@@ -23,6 +24,7 @@ type Props = {
   onLongPress?: (event: GestureResponderEvent) => void
   onPress?: (event: GestureResponderEvent) => void
   role?: AccessibilityRole
+  state?: AccessibilityState
   style?: StyleProp<ViewStyle>
 } & ViewStyleProps
 
@@ -37,6 +39,7 @@ export function Pressable({
   onLongPress,
   onPress,
   role = 'button',
+  state,
   style,
   ...props
 }: Props) {
@@ -47,6 +50,7 @@ export function Pressable({
       accessibilityHint={hint}
       accessibilityLabel={label}
       accessibilityRole={role}
+      accessibilityState={state}
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}

@@ -137,6 +137,7 @@ export function SearchList({
       renderItem={renderItem}
       viewabilityConfig={{
         viewAreaCoveragePercentThreshold: 60,
+        waitForInteraction: false,
       }}
     />
   )
