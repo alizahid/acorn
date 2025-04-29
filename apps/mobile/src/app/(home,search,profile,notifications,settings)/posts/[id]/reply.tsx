@@ -1,9 +1,5 @@
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from 'expo-router'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useCallback, useState } from 'react'
 import { TextInput } from 'react-native'

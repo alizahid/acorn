@@ -1,8 +1,5 @@
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-} from 'expo-router'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useLocalSearchParams } from 'expo-router'
 import { useCallback, useState } from 'react'
 import { type ViewStyle } from 'react-native'
 import {

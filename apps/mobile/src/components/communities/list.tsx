@@ -232,7 +232,7 @@ export function CommunitiesList({
               onPress={() => {
                 onPress?.()
 
-                router.push({
+                router.navigate({
                   params: {
                     type: item.data,
                   },
@@ -267,7 +267,7 @@ export function CommunitiesList({
                 onPress={() => {
                   onPress?.()
 
-                  router.push({
+                  router.navigate({
                     params: {
                       feed: item.data.id,
                     },
