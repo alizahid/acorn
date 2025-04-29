@@ -79,6 +79,9 @@ export function VideoPlayer({
     void player.replaceAsync(source)
 
     previousMuted.current = feedMuted
+
+    // eslint-disable-next-line react-compiler/react-compiler -- go away
+    player.muted = feedMuted
   }, [feedMuted, player, source])
 
   useEffect(() => {
@@ -95,7 +98,6 @@ export function VideoPlayer({
     previousMuted.current = muted
 
     if (unmuteFullscreen && muted) {
-      // eslint-disable-next-line react-compiler/react-compiler -- go away
       player.muted = false
     }
   }, [muted, player, unmuteFullscreen])
