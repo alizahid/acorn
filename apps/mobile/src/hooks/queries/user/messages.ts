@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
-import { formatISO } from 'date-fns'
-import { compact, groupBy } from 'lodash'
+import { getDayOfYear, setDayOfYear } from 'date-fns'
+import { compact, groupBy, orderBy } from 'lodash'
 import { useMemo } from 'react'
 
 import { addPrefix } from '~/lib/reddit'
@@ -74,13 +74,15 @@ export function useMessages(id: string) {
   })
 
   const messages = useMemo(() => {
-    const groups = groupBy(data, (item) =>
-      formatISO(item.createdAt, {
-        representation: 'date',
-      }),
-    )
+    const groups = groupBy(data, (item) => getDayOfYear(item.createdAt))
 
-    return Object.entries(groups).flatMap(([day, items]) => [day, ...items])
+    return Object.entries(groups)
+      .flatMap(([day, items], index) => ({
+        data: orderBy(items, 'createdAt', 'desc'),
+        date: setDayOfYear(new Date(), Number(day)),
+        index,
+      }))
+      .reverse()
   }, [data])
 
   return {

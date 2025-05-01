@@ -1,5 +1,6 @@
 import { FlashList } from '@shopify/flash-list'
 import { useRef } from 'react'
+import { ScrollView } from 'react-native-gesture-handler'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { type ListProps } from '~/hooks/list'
@@ -52,6 +53,7 @@ export function NotificationsList({
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
       data={notifications}
+      estimatedItemSize={132}
       keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {
@@ -61,6 +63,7 @@ export function NotificationsList({
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => <NotificationCard notification={item} />}
+      renderScrollComponent={(props) => <ScrollView {...props} />}
     />
   )
 }

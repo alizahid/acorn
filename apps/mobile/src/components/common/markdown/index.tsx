@@ -1,4 +1,3 @@
-import { useMappingHelper } from '@shopify/flash-list'
 import { type StyleProp, type ViewStyle } from 'react-native'
 
 import { parse } from '~/lib/markdown'
@@ -27,15 +26,14 @@ export function Markdown({
   style,
   variant,
 }: Props) {
-  const { getMappingKey } = useMappingHelper()
-
   const markdown = parse(children)
 
   return (
     <View gap="3" style={style}>
       {markdown.children.map((node, index) => (
         <Node
-          key={getMappingKey(index, recyclingKey)}
+          // eslint-disable-next-line react/no-array-index-key -- go away
+          key={index}
           meta={meta}
           node={node}
           recyclingKey={recyclingKey}

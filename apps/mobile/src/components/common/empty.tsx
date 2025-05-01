@@ -18,7 +18,7 @@ export function Empty({ color, icon = 'SmileySad', message, weight }: Props) {
   const { theme } = useStyles()
 
   return (
-    <View align="center" justify="center" my="9">
+    <View align="center" flexGrow={1} gap="4" justify="center" p="6">
       <Icon
         color={color ?? theme.colors.accent.accent}
         name={icon}

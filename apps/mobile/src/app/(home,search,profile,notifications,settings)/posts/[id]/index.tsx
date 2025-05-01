@@ -6,6 +6,7 @@ import {
 import { FlashList, type ListRenderItem } from '@shopify/flash-list'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { ScrollView } from 'react-native-gesture-handler'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -203,11 +204,11 @@ export default function Screen() {
         ListHeaderComponent={header}
         contentContainerStyle={styles.content}
         data={comments}
+        estimatedItemSize={100}
         extraData={{
           commentId: params.commentId,
           playing,
         }}
-        getItemType={(item) => item.type}
         initialScrollIndex={params.commentId ? 0 : undefined}
         keyExtractor={(item) => {
           if (item.type === 'more') {
@@ -241,6 +242,7 @@ export default function Screen() {
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
+        renderScrollComponent={(props) => <ScrollView {...props} />}
         scrollEventThrottle={250}
         viewabilityConfig={{
           waitForInteraction: false,
