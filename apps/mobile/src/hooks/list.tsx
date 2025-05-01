@@ -1,4 +1,5 @@
 import { type FlashListProps } from '@shopify/flash-list'
+import { ScrollView } from 'react-native-gesture-handler'
 import {
   useSafeAreaFrame,
   useSafeAreaInsets,
@@ -21,10 +22,10 @@ export type ListProps<Type = unknown> = Pick<
   | 'contentInset'
   | 'contentOffset'
   | 'drawDistance'
-  | 'estimatedListSize'
   | 'keyboardDismissMode'
   | 'keyboardShouldPersistTaps'
   | 'scrollIndicatorInsets'
+  | 'renderScrollComponent'
 >
 
 type Props = {
@@ -71,12 +72,9 @@ export function useList<Type>(
       y: -top,
     },
     drawDistance: frame.height * 3,
-    estimatedListSize: {
-      height: frame.height,
-      width: frame.width,
-    },
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',
+    renderScrollComponent: (scrollProps) => <ScrollView {...scrollProps} />,
     scrollIndicatorInsets: {
       bottom: flags & ListFlags.TAB_BAR ? heights.tabBar + end : end,
       right: 1,

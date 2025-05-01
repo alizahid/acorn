@@ -1,7 +1,8 @@
+import { useRecyclingState } from '@shopify/flash-list'
 import { useEventListener } from 'expo'
 import { Image } from 'expo-image'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -56,11 +57,10 @@ export function VideoPlayer({
   const { styles, theme } = useStyles(stylesheet)
 
   const ref = useRef<VideoView>(null)
-
   const previousMuted = useRef(feedMuted)
 
-  const [fullscreen, setFullscreen] = useState(false)
-  const [muted, setMuted] = useState(feedMuted)
+  const [fullscreen, setFullscreen] = useRecyclingState(false, [recyclingKey])
+  const [muted, setMuted] = useRecyclingState(feedMuted, [recyclingKey])
 
   const player = useVideoPlayer(null, (instance) => {
     instance.muted = muted
@@ -100,13 +100,13 @@ export function VideoPlayer({
     if (unmuteFullscreen && muted) {
       player.muted = false
     }
-  }, [muted, player, unmuteFullscreen])
+  }, [muted, player, setFullscreen, unmuteFullscreen])
 
   const onFullscreenExit = useCallback(() => {
     setFullscreen(false)
 
     player.muted = previousMuted.current
-  }, [player])
+  }, [player, setFullscreen])
 
   if (compact) {
     return (

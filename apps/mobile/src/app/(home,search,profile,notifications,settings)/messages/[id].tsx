@@ -1,5 +1,6 @@
+import { FlashList } from '@shopify/flash-list'
+import { parseISO } from 'date-fns'
 import { useLocalSearchParams } from 'expo-router'
-import { SectionList } from 'react-native'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
@@ -39,38 +40,38 @@ export default function Screen() {
 
   return (
     <KeyboardAvoidingView behavior="translate-with-padding" style={styles.main}>
-      <SectionList
+      <FlashList
         {...listProps}
         ListEmptyComponent={() => (isLoading ? <Loading /> : <Empty />)}
         contentContainerStyle={styles.content}
-        contentInset={{
-          bottom: listProps.contentInset?.top,
-          top: listProps.contentInset?.bottom,
-        }}
-        contentOffset={undefined}
-        inverted
-        keyExtractor={(item) => item.id}
+        data={messages}
+        keyExtractor={(item) => (typeof item === 'string' ? item : item.id)}
         keyboardDismissMode="interactive"
+        maintainVisibleContentPosition={{
+          startRenderingFromBottom: true,
+        }}
         refreshControl={<RefreshControl onRefresh={refetch} />}
-        renderItem={({ index, item }) => (
-          <MessageCard
-            message={item}
-            style={index > 0 ? styles.item : undefined}
-            userId={accountId}
-          />
-        )}
-        renderSectionFooter={({ section }) => (
-          <View self="center" style={styles.header(section.index)}>
-            <Text highContrast={false} size="1" tabular weight="medium">
-              {f.dateTime(section.date, {
-                dateStyle: 'medium',
-              })}
-            </Text>
-          </View>
-        )}
-        scrollIndicatorInsets={undefined}
-        sections={messages}
-        stickySectionHeadersEnabled={false}
+        renderItem={({ index, item }) => {
+          if (typeof item === 'string') {
+            return (
+              <View self="center" style={styles.header(index)}>
+                <Text highContrast={false} size="1" tabular weight="medium">
+                  {f.dateTime(parseISO(item), {
+                    dateStyle: 'medium',
+                  })}
+                </Text>
+              </View>
+            )
+          }
+
+          return (
+            <MessageCard
+              message={item}
+              style={index > 0 ? styles.item : undefined}
+              userId={accountId}
+            />
+          )
+        }}
       />
 
       <ReplyCard id={params.id} user={params.user} />
