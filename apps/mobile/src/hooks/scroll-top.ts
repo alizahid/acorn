@@ -19,7 +19,7 @@ export function useScrollToTop<Type>(
         if ('scrollToOffset' in ref.current) {
           ref.current.scrollToOffset({
             animated: true,
-            offset: -(props?.contentInset?.top ?? 0),
+            offset: -(props?.contentInset.top ?? 0),
           })
         }
       },

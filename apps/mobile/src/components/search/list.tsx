@@ -1,7 +1,6 @@
 import { FlashList, type ListRenderItem } from '@shopify/flash-list'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -136,7 +135,6 @@ export function SearchList({
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={renderItem}
-      renderScrollComponent={(props) => <ScrollView {...props} />}
       viewabilityConfig={{
         viewAreaCoveragePercentThreshold: 60,
         waitForInteraction: false,

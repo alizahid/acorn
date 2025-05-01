@@ -44,8 +44,8 @@ export default function Screen() {
         ListEmptyComponent={() => (isLoading ? <Loading /> : <Empty />)}
         contentContainerStyle={styles.content}
         contentInset={{
-          bottom: listProps.contentInset?.top,
-          top: listProps.contentInset?.bottom,
+          bottom: listProps.contentInset.top,
+          top: listProps.contentInset.bottom,
         }}
         contentOffset={undefined}
         inverted
