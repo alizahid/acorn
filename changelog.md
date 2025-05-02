@@ -1,5 +1,10 @@
 # Changelog
 
+## Build 53
+
+- fixed: code snippet crash
+- fixed: video unmuting
+
 ## Build 52
 
 - added: accessibility features
