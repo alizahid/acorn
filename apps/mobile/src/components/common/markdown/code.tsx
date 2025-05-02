@@ -22,10 +22,13 @@ const lowlight = createLowlight(common)
 export function Code({ children, language, size }: Props) {
   const { styles, theme } = useStyles(stylesheet)
 
-  const root = useMemo(
-    () => lowlight.highlight(language, children.trim()),
-    [children, language],
-  )
+  const root = useMemo(() => {
+    try {
+      return lowlight.highlight(language, children.trim())
+    } catch (error) {
+      return lowlight.highlight('text', children.trim())
+    }
+  }, [children, language])
 
   return (
     <ScrollView
