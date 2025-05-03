@@ -76,7 +76,8 @@
         "year": "This year"
       },
       "search": {
-        "placeholder": "Filter"
+        "filter": "Filter",
+        "search": "Search"
       },
       "sort": {
         "best": "Best",

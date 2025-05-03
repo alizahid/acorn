@@ -59,6 +59,7 @@ export default function Screen() {
               })
             }
           }}
+          placeholder="search"
         />
 
         <SortIntervalMenu
@@ -113,7 +114,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       return {
         ...base,
         marginBottom: theme.space[4],
-        marginHorizontal: -theme.space[4],
       }
     }
 

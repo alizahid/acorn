@@ -7,7 +7,6 @@ import { useImagePlaceholder } from '~/hooks/image'
 import { type ListProps } from '~/hooks/list'
 import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
-import { iPad } from '~/lib/common'
 
 import { Button } from '../common/button'
 import { Loading } from '../common/loading'
@@ -116,7 +115,6 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   content: {
     gap: theme.space[4],
-    padding: iPad ? theme.space[4] : 0,
   },
   description: {
     marginHorizontal: theme.space[4],

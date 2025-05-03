@@ -14,11 +14,18 @@ import { IconButton } from './icon-button'
 type Props = {
   onChange?: (value: string) => void
   onSubmitEditing?: TextInputProps['onSubmitEditing']
+  placeholder?: 'search' | 'filter'
   style?: StyleProp<ViewStyle>
   value?: string
 }
 
-export function SearchBox({ onChange, onSubmitEditing, style, value }: Props) {
+export function SearchBox({
+  onChange,
+  onSubmitEditing,
+  placeholder = 'filter',
+  style,
+  value,
+}: Props) {
   const t = useTranslations('component.common.search')
   const a11y = useTranslations('a11y')
 
@@ -38,7 +45,7 @@ export function SearchBox({ onChange, onSubmitEditing, style, value }: Props) {
       }
       onChangeText={onChange}
       onSubmitEditing={onSubmitEditing}
-      placeholder={t('placeholder')}
+      placeholder={t(placeholder)}
       returnKeyType="search"
       right={
         value?.length ? (

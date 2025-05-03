@@ -102,7 +102,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       return {
         ...base,
         marginBottom: theme.space[4],
-        marginHorizontal: -theme.space[4],
       }
     }
 

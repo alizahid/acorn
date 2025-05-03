@@ -15,7 +15,6 @@ import { type ListProps } from '~/hooks/list'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
-import { iPad } from '~/lib/common'
 
 type Props = {
   listProps?: ListProps
@@ -172,7 +171,6 @@ const stylesheet = createStyleSheet((theme) => ({
   },
   content: {
     gap: theme.space[4],
-    padding: iPad ? theme.space[4] : 0,
   },
   description: {
     marginHorizontal: theme.space[4],
