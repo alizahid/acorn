@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- fixed: nested pressable
+
 ## Build 53
 
 - fixed: code snippet crash

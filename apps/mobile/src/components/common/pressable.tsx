@@ -4,10 +4,10 @@ import {
   type AccessibilityState,
   type Insets,
   type LayoutChangeEvent,
+  Pressable as Component,
   type StyleProp,
   type ViewStyle,
 } from 'react-native'
-import { Pressable as Component } from 'react-native-gesture-handler'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
 import { getViewStyles, type ViewStyleProps } from '~/styles/view'
