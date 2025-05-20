@@ -1,6 +1,7 @@
+import { useIsFocused } from '@react-navigation/native'
 import { type SFSymbol } from 'expo-symbols'
 import { compact } from 'lodash'
-import { type ReactNode, useMemo } from 'react'
+import { type ReactNode, useEffect, useMemo, useRef } from 'react'
 import {
   Image,
   type ImageRequireSource,
@@ -127,6 +128,16 @@ export function ContextMenu({
   style,
   tap = false,
 }: Props) {
+  const menu = useRef<ContextMenuView>(null)
+
+  const focused = useIsFocused()
+
+  useEffect(() => {
+    if (!focused) {
+      void menu.current?.dismissMenu()
+    }
+  }, [focused])
+
   const actions = useMemo(
     () => options.map((option) => transformOption(option)),
     [options],
@@ -148,6 +159,7 @@ export function ContextMenu({
         action?.()
       }}
       onPressMenuPreview={onPress}
+      ref={menu}
       shouldWaitForMenuToHideBeforeFiringOnPressMenuItem={false}
       style={style}
     >
