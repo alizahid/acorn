@@ -10,23 +10,23 @@
     "start": "next start"
   },
   "dependencies": {
-    "@phosphor-icons/react": "^2.1.7",
-    "next": "15.3.1",
+    "@phosphor-icons/react": "^2.1.10",
+    "next": "15.3.3",
     "next-intl": "^4.1.0",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "tailwind-merge": "^3.2.0"
+    "tailwind-merge": "^3.3.0"
   },
   "devDependencies": {
     "@radix-ui/colors": "^3.0.0",
-    "@tailwindcss/postcss": "^4.1.5",
-    "@types/node": "^22.15.3",
+    "@tailwindcss/postcss": "^4.1.8",
+    "@types/node": "^22.15.29",
     "@types/react": "~19.0.10",
     "@types/react-dom": "19.0.6",
     "eslint-config-custom": "workspace:*",
-    "eslint-config-next": "15.3.1",
-    "postcss": "^8.5.3",
-    "tailwindcss": "^4.1.5",
+    "eslint-config-next": "15.3.3",
+    "postcss": "^8.5.4",
+    "tailwindcss": "^4.1.8",
     "typescript": "^5.8.3"
   }
 }

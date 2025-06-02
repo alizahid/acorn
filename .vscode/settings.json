@@ -1,3 +1,4 @@
 {
-  "tailwindCSS.files.exclude": ["apps/mobile/**"]
+  "tailwindCSS.files.exclude": ["apps/mobile/**"],
+  "biome.enabled": false
 }
