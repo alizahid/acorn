@@ -118,7 +118,6 @@ export function SearchList({
         style,
       ])}
       data={results}
-      estimatedItemSize={type === 'post' ? (feedCompact ? 120 : 500) : 48}
       extraData={{
         viewing,
       }}

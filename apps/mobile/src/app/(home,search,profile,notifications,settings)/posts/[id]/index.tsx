@@ -203,7 +203,6 @@ export default function Screen() {
         ListHeaderComponent={header}
         contentContainerStyle={styles.content}
         data={comments}
-        estimatedItemSize={100}
         extraData={{
           commentId: params.commentId,
           playing,
@@ -224,15 +223,12 @@ export default function Screen() {
           )
         }}
         onViewableItemsChanged={({ viewableItems }) => {
-          const next = viewableItems.find((item) => {
-            const $item = item.item as Comment
-
-            return (
-              $item.type === 'reply' &&
-              !$item.data.collapsed &&
-              $item.data.depth === 0
-            )
-          })
+          const next = viewableItems.find(
+            (item) =>
+              item.item.type === 'reply' &&
+              !item.item.data.collapsed &&
+              item.item.data.depth === 0,
+          )
 
           if (next?.index) {
             viewing.current = next.index

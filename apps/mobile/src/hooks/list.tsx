@@ -22,7 +22,6 @@ export type ListProps<Type = unknown> = Required<
     | 'contentInset'
     | 'contentOffset'
     | 'drawDistance'
-    | 'estimatedListSize'
     | 'keyboardDismissMode'
     | 'keyboardShouldPersistTaps'
     | 'scrollIndicatorInsets'
@@ -73,10 +72,6 @@ export function useList<Type>(
       y: -top,
     },
     drawDistance: frame.height * 3,
-    estimatedListSize: {
-      height: frame.height,
-      width: frame.width,
-    },
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',
     scrollIndicatorInsets: {

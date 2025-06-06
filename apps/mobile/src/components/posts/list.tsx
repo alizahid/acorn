@@ -132,7 +132,6 @@ export function PostList({
       ListHeaderComponent={header}
       contentContainerStyle={style}
       data={posts}
-      estimatedItemSize={feedCompact ? 120 : 500}
       extraData={{
         focused,
         viewing,
@@ -162,11 +161,9 @@ export function PostList({
         }
 
         viewableItems
-          .filter((item) => {
-            const $item = item.item as Item
-
-            return $item.type !== 'reply' && $item.type !== 'more'
-          })
+          .filter(
+            (item) => item.item.type !== 'reply' && item.item.type !== 'more',
+          )
           .forEach((item) => {
             addPost({
               id: (item.item as Post).id,

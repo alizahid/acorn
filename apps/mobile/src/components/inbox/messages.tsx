@@ -52,7 +52,6 @@ export function MessagesList({
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
       data={messages}
-      estimatedItemSize={84}
       keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {

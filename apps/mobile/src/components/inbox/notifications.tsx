@@ -52,7 +52,6 @@ export function NotificationsList({
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
       data={notifications}
-      estimatedItemSize={132}
       keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {
