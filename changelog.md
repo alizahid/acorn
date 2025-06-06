@@ -5,6 +5,7 @@
 - fixed: drawer on iPad
 - fixed: crash on menu
 - fixed: video issues
+- fixed: background audio issues
 - removed: opacity feedback on press
 
 ## Build 55
