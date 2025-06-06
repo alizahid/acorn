@@ -20,8 +20,6 @@ export type Feedback = {
   up: undefined
 }
 
-SoundPlayer.setMixAudio(true)
-
 export function triggerFeedback(type: keyof Feedback) {
   triggerSound(type)
   triggerHaptic(type)

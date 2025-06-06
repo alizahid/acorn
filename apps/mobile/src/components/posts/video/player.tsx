@@ -59,16 +59,19 @@ export function VideoPlayer({
 
   const previousMuted = useRef(feedMuted)
 
-  const [fullscreen, setFullscreen] = useState(false)
   const [muted, setMuted] = useState(feedMuted)
 
-  const player = useVideoPlayer(null, (instance) => {
+  const player = useVideoPlayer(source, (instance) => {
+    instance.audioMixingMode = 'mixWithOthers'
     instance.muted = muted
     instance.loop = true
-    instance.audioMixingMode = 'mixWithOthers'
     instance.timeUpdateEventInterval = 1_000 / 1_000 / 60
 
-    instance.pause()
+    if (viewing && autoPlay) {
+      instance.play()
+    } else {
+      instance.pause()
+    }
   })
 
   useEventListener(player, 'mutedChange', (event) => {
@@ -76,37 +79,31 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    void player.replaceAsync(source)
-
-    previousMuted.current = feedMuted
-
-    // eslint-disable-next-line react-compiler/react-compiler -- go away
-    player.muted = feedMuted
-  }, [feedMuted, player, source])
-
-  useEffect(() => {
-    if (fullscreen || (viewing && autoPlay)) {
+    if (viewing && autoPlay) {
       player.play()
     } else {
       player.pause()
     }
-  }, [autoPlay, fullscreen, player, viewing])
+  }, [autoPlay, player, viewing])
 
   const onFullscreenEnter = useCallback(() => {
-    setFullscreen(true)
+    player.play()
 
     previousMuted.current = muted
 
     if (unmuteFullscreen && muted) {
+      // eslint-disable-next-line react-compiler/react-compiler -- go away
       player.muted = false
     }
   }, [muted, player, unmuteFullscreen])
 
   const onFullscreenExit = useCallback(() => {
-    setFullscreen(false)
+    if (!autoPlay) {
+      player.pause()
+    }
 
     player.muted = previousMuted.current
-  }, [player])
+  }, [autoPlay, player])
 
   if (compact) {
     return (

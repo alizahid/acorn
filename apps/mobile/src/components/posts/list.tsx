@@ -27,8 +27,8 @@ import { Loading } from '../common/loading'
 import { View } from '../common/view'
 
 const viewabilityConfig: ViewabilityConfig = {
+  itemVisiblePercentThreshold: 90,
   minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1_000,
-  viewAreaCoveragePercentThreshold: 60,
   waitForInteraction: false,
 }
 

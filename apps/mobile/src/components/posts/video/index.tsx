@@ -3,6 +3,7 @@ import { type StyleProp, type ViewStyle } from 'react-native'
 import { type PostMedia } from '~/types/post'
 
 import { PostLinkCard } from '../link'
+import { VideoPlaceholder } from './placeholder'
 import { VideoPlayer } from './player'
 import { RedGifsVideo } from './red-gifs'
 
@@ -45,17 +46,29 @@ export function PostVideoCard({
   }
 
   if (video.provider === 'reddit') {
+    if (viewing) {
+      return (
+        <VideoPlayer
+          compact={compact}
+          large={large}
+          nsfw={nsfw}
+          recyclingKey={recyclingKey}
+          source={video.url}
+          spoiler={spoiler}
+          style={style}
+          video={video}
+          viewing={viewing}
+        />
+      )
+    }
+
     return (
-      <VideoPlayer
+      <VideoPlaceholder
         compact={compact}
         large={large}
         nsfw={nsfw}
-        recyclingKey={recyclingKey}
-        source={video.url}
         spoiler={spoiler}
-        style={style}
         video={video}
-        viewing={viewing}
       />
     )
   }

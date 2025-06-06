@@ -11,7 +11,6 @@ import { drawer, HomeDrawer } from '~/components/home/drawer'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { switcher } from '~/components/users/switcher'
 import { useHistory } from '~/hooks/history'
-import { modalStyle } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
 import { useDefaults } from '~/stores/defaults'
@@ -301,7 +300,6 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="posts/[id]/reply"
         options={{
-          contentStyle: modalStyle,
           presentation: 'modal',
           title: t('posts.reply.title'),
         }}
@@ -389,7 +387,6 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="sign-in"
         options={({ route }) => ({
-          contentStyle: modalStyle,
           gestureEnabled: (route.params as SignInParams).mode === 'dismissible',
           headerShown: false,
           presentation: 'modal',

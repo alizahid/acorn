@@ -2,7 +2,9 @@ import '~/styles/uni'
 
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import * as SplashScreen from 'expo-splash-screen'
+import {} from 'expo-video'
 import { useEffect } from 'react'
+import SoundPlayer from 'react-native-sound-player'
 import { UnistylesRuntime } from 'react-native-unistyles'
 
 import { Providers } from '~/components/common/providers'
@@ -11,6 +13,8 @@ import { db } from '~/db'
 import migrations from '~/drizzle/migrations'
 import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
+
+SoundPlayer.setMixAudio(true)
 
 void SplashScreen.preventAutoHideAsync()
 

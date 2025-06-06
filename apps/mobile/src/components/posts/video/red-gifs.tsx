@@ -1,13 +1,12 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
 
-import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
 import { View } from '~/components/common/view'
 import { useRedGifs } from '~/hooks/red-gifs'
 import { type PostMedia } from '~/types/post'
 
+import { VideoPlaceholder } from './placeholder'
 import { VideoPlayer } from './player'
 
 type Props = {
@@ -31,30 +30,40 @@ export function RedGifsVideo({
   video,
   viewing,
 }: Props) {
-  const a11y = useTranslations('a11y')
-
   const { styles } = useStyles(stylesheet)
 
   const { gif } = useRedGifs(video.url)
 
   if (gif) {
+    if (viewing) {
+      return (
+        <VideoPlayer
+          compact={compact}
+          large={large}
+          nsfw={nsfw}
+          recyclingKey={recyclingKey}
+          source={gif.source}
+          spoiler={spoiler}
+          style={style}
+          video={video}
+          viewing={viewing}
+        />
+      )
+    }
+
     return (
-      <VideoPlayer
+      <VideoPlaceholder
         compact={compact}
         large={large}
         nsfw={nsfw}
-        recyclingKey={recyclingKey}
-        source={gif.source}
         spoiler={spoiler}
-        style={style}
         video={video}
-        viewing={viewing}
       />
     )
   }
 
   return (
-    <Pressable label={a11y('loadingVideo')} style={styles.main(compact, large)}>
+    <View style={styles.main(compact, large)}>
       <View
         align="center"
         justify="center"
@@ -62,7 +71,7 @@ export function RedGifsVideo({
       >
         <Spinner />
       </View>
-    </Pressable>
+    </View>
   )
 }
 
