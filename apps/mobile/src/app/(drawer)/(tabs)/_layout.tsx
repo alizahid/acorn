@@ -5,14 +5,12 @@ import { AppState } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { TabBar } from '~/components/navigation/tab-bar'
+import { Tabs } from '~/components/navigation/tabs'
 import { useUnread } from '~/hooks/queries/user/unread'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 
-import { switcher } from '../users/switcher'
-import { Tabs } from './tabs'
-
-export function RootLayout() {
+export default function Layout() {
   const router = useRouter()
 
   const t = useTranslations('screen')
@@ -68,7 +66,7 @@ export function RootLayout() {
       <Tabs.Screen
         listeners={{
           tabLongPress() {
-            switcher.emit('open')
+            // switcher.emit('open')
           },
         }}
         name="(profile)"

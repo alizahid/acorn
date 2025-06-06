@@ -1,4 +1,4 @@
-import { Stack, useRouter } from 'expo-router'
+import { Stack, useNavigation, useRouter } from 'expo-router'
 import { type PropsWithChildren } from 'react'
 import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -7,13 +7,14 @@ import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon-button'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
-import { drawer, HomeDrawer } from '~/components/home/drawer'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { switcher } from '~/components/users/switcher'
 import { useHistory } from '~/hooks/history'
+import { iPad } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
 import { useDefaults } from '~/stores/defaults'
+import { usePreferences } from '~/stores/preferences'
 import { type Undefined } from '~/types'
 
 import { type HomeParams } from '.'
@@ -51,12 +52,15 @@ type Props = {
 }
 
 export default function Layout({ segment }: Props) {
+  const navigation = useNavigation()
+
   const t = useTranslations('screen')
   const tType = useTranslations('component.common.type.type')
   const a11y = useTranslations('a11y')
 
   const { accountId } = useAuth()
   const { feedType } = useDefaults()
+  const { stickyDrawer } = usePreferences()
 
   const { theme } = useStyles()
 
@@ -145,18 +149,22 @@ export default function Layout({ segment }: Props) {
   }
 
   return (
-    <HomeDrawer>
-      <StackLayout>
-        <Stack.Screen
-          initialParams={{
-            type: feedType,
-          }}
-          name="index"
-          options={({ route }) => {
-            const { feed, type } = route.params as HomeParams
+    <StackLayout>
+      <Stack.Screen
+        initialParams={{
+          type: feedType,
+        }}
+        name="index"
+        options={({ route }) => {
+          const { feed, type } = route.params as HomeParams
 
-            return {
-              headerLeft: () => (
+          return {
+            headerLeft: () => {
+              if (iPad && stickyDrawer) {
+                return null
+              }
+
+              return (
                 <IconButton
                   icon={{
                     name: 'Sidebar',
@@ -164,32 +172,34 @@ export default function Layout({ segment }: Props) {
                   }}
                   label={a11y('toggleSidebar')}
                   onPress={() => {
-                    drawer.emit('toggle')
+                    // @ts-expect-error -- go away
+                    // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- go away
+                    navigation.toggleDrawer()
                   }}
                 />
-              ),
-              headerTitle: () => {
-                if (feed) {
-                  return <Text weight="bold">{feed}</Text>
-                }
+              )
+            },
+            headerTitle: () => {
+              if (feed) {
+                return <Text weight="bold">{feed}</Text>
+              }
 
-                return (
-                  <>
-                    <Icon
-                      color={theme.colors[FeedTypeColors[type]].accent}
-                      name={FeedTypeIcons[type]}
-                      weight="duotone"
-                    />
+              return (
+                <>
+                  <Icon
+                    color={theme.colors[FeedTypeColors[type]].accent}
+                    name={FeedTypeIcons[type]}
+                    weight="duotone"
+                  />
 
-                    <Text weight="bold">{tType(type)}</Text>
-                  </>
-                )
-              },
-            }
-          }}
-        />
-      </StackLayout>
-    </HomeDrawer>
+                  <Text weight="bold">{tType(type)}</Text>
+                </>
+              )
+            },
+          }
+        }}
+      />
+    </StackLayout>
   )
 }
 

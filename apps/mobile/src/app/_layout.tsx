@@ -1,14 +1,13 @@
 import '~/styles/uni'
 
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
+import { Slot } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
-import {} from 'expo-video'
 import { useEffect } from 'react'
 import SoundPlayer from 'react-native-sound-player'
 import { UnistylesRuntime } from 'react-native-unistyles'
 
 import { Providers } from '~/components/common/providers'
-import { RootLayout } from '~/components/navigation/layout'
 import { db } from '~/db'
 import migrations from '~/drizzle/migrations'
 import { Sentry } from '~/lib/sentry'
@@ -49,7 +48,7 @@ function Acorn() {
 
   return (
     <Providers>
-      <RootLayout />
+      <Slot />
     </Providers>
   )
 }
