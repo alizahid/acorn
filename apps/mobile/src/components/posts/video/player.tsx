@@ -131,6 +131,7 @@ export function VideoPlayer({
         </View>
 
         <VideoView
+          accessibilityIgnoresInvertColors
           allowsFullscreen={false}
           allowsPictureInPicture={pictureInPicture}
           contentFit="cover"
@@ -163,7 +164,14 @@ export function VideoPlayer({
       }}
       style={[styles.main, style]}
     >
+      <Image
+        accessibilityIgnoresInvertColors
+        source={video.thumbnail}
+        style={styles.thumbnail}
+      />
+
       <VideoView
+        accessibilityIgnoresInvertColors
         allowsFullscreen={false}
         allowsPictureInPicture={pictureInPicture}
         contentFit="cover"
@@ -229,6 +237,9 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     justifyContent: 'center',
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
+  },
+  thumbnail: {
+    ...StyleSheet.absoluteFillObject,
   },
   video: (aspectRatio: number) => ({
     aspectRatio,
