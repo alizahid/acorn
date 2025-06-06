@@ -1,5 +1,11 @@
 # Changelog
 
+## Upcoming
+
+- fixed: drawer on iPad
+- fixed: crash on menu
+- fixed: video issues
+
 ## Build 55
 
 - fixed: nested pressable
