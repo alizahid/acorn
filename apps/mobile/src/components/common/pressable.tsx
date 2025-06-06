@@ -53,11 +53,7 @@ export function Pressable({
       onLayout={onLayout}
       onLongPress={onLongPress}
       onPress={onPress}
-      style={({ pressed }) => [
-        styles.main(props) as ViewStyle,
-        styles.opacity(pressed),
-        style,
-      ]}
+      style={[styles.main(props) as ViewStyle, style]}
     >
       {children}
     </Component>
@@ -66,7 +62,4 @@ export function Pressable({
 
 const stylesheet = createStyleSheet((theme) => ({
   main: getViewStyles(theme),
-  opacity: (pressed: boolean) => ({
-    opacity: pressed ? 0.5 : 1,
-  }),
 }))
