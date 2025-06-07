@@ -1,5 +1,6 @@
+import { FlashList } from '@shopify/flash-list'
+import { formatISO, isDate } from 'date-fns'
 import { useLocalSearchParams } from 'expo-router'
-import { SectionList } from 'react-native'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
@@ -38,39 +39,35 @@ export default function Screen() {
   const listProps = useList(ListFlags.TOP)
 
   return (
-    <KeyboardAvoidingView behavior="translate-with-padding" style={styles.main}>
-      <SectionList
+    <KeyboardAvoidingView behavior="padding" style={styles.main}>
+      <FlashList
         {...listProps}
+        ItemSeparatorComponent={() => <View height="4" />}
         ListEmptyComponent={() => (isLoading ? <Loading /> : <Empty />)}
         contentContainerStyle={styles.content}
-        contentInset={{
-          bottom: listProps.contentInset.top,
-          top: listProps.contentInset.bottom,
-        }}
-        contentOffset={undefined}
-        inverted
-        keyExtractor={(item) => item.id}
+        data={messages}
+        keyExtractor={(item) => (isDate(item) ? formatISO(item) : item.id)}
         keyboardDismissMode="interactive"
+        maintainVisibleContentPosition={{
+          autoscrollToBottomThreshold: 0.5,
+          startRenderingFromBottom: true,
+        }}
         refreshControl={<RefreshControl onRefresh={refetch} />}
-        renderItem={({ index, item }) => (
-          <MessageCard
-            message={item}
-            style={index > 0 ? styles.item : undefined}
-            userId={accountId}
-          />
-        )}
-        renderSectionFooter={({ section }) => (
-          <View self="center" style={styles.header(section.index)}>
-            <Text highContrast={false} size="1" tabular weight="medium">
-              {f.dateTime(section.date, {
-                dateStyle: 'medium',
-              })}
-            </Text>
-          </View>
-        )}
-        scrollIndicatorInsets={undefined}
-        sections={messages}
-        stickySectionHeadersEnabled={false}
+        renderItem={({ item }) => {
+          if (isDate(item)) {
+            return (
+              <View self="center" style={styles.header}>
+                <Text highContrast={false} size="1" tabular weight="medium">
+                  {f.dateTime(item, {
+                    dateStyle: 'medium',
+                  })}
+                </Text>
+              </View>
+            )
+          }
+
+          return <MessageCard message={item} userId={accountId} />
+        }}
       />
 
       <ReplyCard id={params.id} user={params.user} />
@@ -82,17 +79,12 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   content: {
     padding: theme.space[4],
   },
-  header: (index: number) => ({
+  header: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[6],
-    marginBottom: theme.space[4],
-    marginTop: index > 0 ? theme.space[4] : undefined,
     paddingHorizontal: theme.space[2],
     paddingVertical: theme.space[1],
-  }),
-  item: {
-    marginBottom: theme.space[4],
   },
   main: {
     flex: 1,

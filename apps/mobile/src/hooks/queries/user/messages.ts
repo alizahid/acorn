@@ -76,13 +76,10 @@ export function useMessages(id: string) {
   const messages = useMemo(() => {
     const groups = groupBy(data, (item) => getDayOfYear(item.createdAt))
 
-    return Object.entries(groups)
-      .flatMap(([day, items], index) => ({
-        data: orderBy(items, 'createdAt', 'desc'),
-        date: setDayOfYear(new Date(), Number(day)),
-        index,
-      }))
-      .reverse()
+    return Object.entries(groups).flatMap(([day, items]) => [
+      setDayOfYear(new Date(), Number(day)),
+      ...orderBy(items, 'createdAt', 'desc'),
+    ])
   }, [data])
 
   return {
