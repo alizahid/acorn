@@ -125,6 +125,9 @@ export function SearchList({
       keyExtractor={(item) => item.id}
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
+      maintainVisibleContentPosition={{
+        disabled: true,
+      }}
       onScrollBeginDrag={() => {
         history.save(query)
       }}

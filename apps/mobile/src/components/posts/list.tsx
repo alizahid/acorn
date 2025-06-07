@@ -148,6 +148,9 @@ export function PostList({
 
         return item.id
       }}
+      maintainVisibleContentPosition={{
+        disabled: true,
+      }}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()

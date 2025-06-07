@@ -215,6 +215,9 @@ export default function Screen() {
 
           return `${item.type}-${item.data.id}`
         }}
+        maintainVisibleContentPosition={{
+          disabled: true,
+        }}
         onScroll={(event) => {
           setPlaying(
             focused &&
