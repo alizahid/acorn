@@ -114,6 +114,7 @@ export function CrossPostCard({
           nsfw={post.nsfw}
           recyclingKey={recyclingKey}
           spoiler={post.spoiler}
+          thumbnail={post.media.images?.[0]?.url}
           video={post.media.video}
           viewing={viewing}
         />

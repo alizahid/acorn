@@ -16,6 +16,7 @@ type Props = {
   recyclingKey?: string
   spoiler?: boolean
   style?: StyleProp<ViewStyle>
+  thumbnail?: string
   video: PostMedia
   viewing: boolean
 }
@@ -27,6 +28,7 @@ export function RedGifsVideo({
   recyclingKey,
   spoiler,
   style,
+  thumbnail,
   video,
   viewing,
 }: Props) {
@@ -45,6 +47,7 @@ export function RedGifsVideo({
           source={gif.source}
           spoiler={spoiler}
           style={style}
+          thumbnail={thumbnail}
           video={video}
           viewing={viewing}
         />
@@ -57,6 +60,7 @@ export function RedGifsVideo({
         large={large}
         nsfw={nsfw}
         spoiler={spoiler}
+        thumbnail={thumbnail}
         video={video}
       />
     )

@@ -15,6 +15,7 @@ type Props = {
   recyclingKey?: string
   spoiler?: boolean
   style?: StyleProp<ViewStyle>
+  thumbnail?: string
   video: PostMedia
   viewing: boolean
 }
@@ -27,6 +28,7 @@ export function PostVideoCard({
   recyclingKey,
   spoiler,
   style,
+  thumbnail,
   video,
   viewing,
 }: Props) {
@@ -39,6 +41,7 @@ export function PostVideoCard({
         recyclingKey={recyclingKey}
         spoiler={spoiler}
         style={style}
+        thumbnail={thumbnail}
         video={video}
         viewing={viewing}
       />
@@ -56,6 +59,7 @@ export function PostVideoCard({
           source={video.url}
           spoiler={spoiler}
           style={style}
+          thumbnail={thumbnail}
           video={video}
           viewing={viewing}
         />
@@ -68,6 +72,7 @@ export function PostVideoCard({
         large={large}
         nsfw={nsfw}
         spoiler={spoiler}
+        thumbnail={thumbnail}
         video={video}
       />
     )

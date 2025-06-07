@@ -237,6 +237,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
             recyclingKey={post.id}
             spoiler={post.spoiler}
             style={body ? styles.expanded : null}
+            thumbnail={post.media.images?.[0]?.url}
             video={post.media.video}
             viewing={viewing}
           />

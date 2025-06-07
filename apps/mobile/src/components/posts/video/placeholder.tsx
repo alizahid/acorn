@@ -14,6 +14,7 @@ type Props = {
   large?: boolean
   nsfw?: boolean
   spoiler?: boolean
+  thumbnail?: string
   video: PostMedia
 }
 
@@ -22,6 +23,7 @@ export function VideoPlaceholder({
   large,
   nsfw,
   spoiler,
+  thumbnail,
   video,
 }: Props) {
   const { blurNsfw, blurSpoiler } = usePreferences()
@@ -33,7 +35,7 @@ export function VideoPlaceholder({
       <View style={styles.compact(large)}>
         <Image
           accessibilityIgnoresInvertColors
-          source={video.thumbnail}
+          source={thumbnail ?? video.thumbnail}
           style={styles.compactImage}
         />
 
@@ -52,7 +54,7 @@ export function VideoPlaceholder({
     <View style={styles.main}>
       <Image
         accessibilityIgnoresInvertColors
-        source={video.thumbnail}
+        source={thumbnail ?? video.thumbnail}
         style={styles.video(video.width / video.height)}
       />
 

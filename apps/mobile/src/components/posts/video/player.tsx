@@ -1,7 +1,8 @@
+import { useRecyclingState } from '@shopify/flash-list'
 import { useEventListener } from 'expo'
 import { Image } from 'expo-image'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -24,6 +25,7 @@ type Props = {
   source: VideoSource
   spoiler?: boolean
   style?: StyleProp<ViewStyle>
+  thumbnail?: string
   video: PostMedia
   viewing: boolean
 }
@@ -36,6 +38,7 @@ export function VideoPlayer({
   source,
   spoiler,
   style,
+  thumbnail,
   video,
   viewing,
 }: Props) {
@@ -59,7 +62,7 @@ export function VideoPlayer({
 
   const previousMuted = useRef(feedMuted)
 
-  const [muted, setMuted] = useState(feedMuted)
+  const [muted, setMuted] = useRecyclingState(feedMuted, [recyclingKey])
 
   const player = useVideoPlayer(source, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
@@ -122,7 +125,7 @@ export function VideoPlayer({
       >
         <Image
           accessibilityIgnoresInvertColors
-          source={video.thumbnail}
+          source={thumbnail ?? video.thumbnail}
           style={styles.compactImage}
         />
 
@@ -166,7 +169,7 @@ export function VideoPlayer({
     >
       <Image
         accessibilityIgnoresInvertColors
-        source={video.thumbnail}
+        source={thumbnail ?? video.thumbnail}
         style={styles.thumbnail}
       />
 
