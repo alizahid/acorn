@@ -53,9 +53,6 @@ export function NotificationsList({
       }
       data={notifications}
       keyExtractor={(item) => item.id}
-      maintainVisibleContentPosition={{
-        disabled: true,
-      }}
       onEndReached={() => {
         if (hasNextPage) {
           void fetchNextPage()
