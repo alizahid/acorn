@@ -1,6 +1,8 @@
-import { Image } from 'expo-image'
+import { ImageBackground } from 'expo-image'
+import { type ReactNode } from 'react'
 import { StyleSheet } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { View } from '~/components/common/view'
@@ -10,6 +12,7 @@ import { type PostMedia } from '~/types/post'
 import { GalleryBlur } from '../gallery/blur'
 
 type Props = {
+  children?: ReactNode
   compact?: boolean
   large?: boolean
   nsfw?: boolean
@@ -19,6 +22,7 @@ type Props = {
 }
 
 export function VideoPlaceholder({
+  children,
   compact,
   large,
   nsfw,
@@ -26,51 +30,61 @@ export function VideoPlaceholder({
   thumbnail,
   video,
 }: Props) {
+  const t = useTranslations('component.posts.video')
+
   const { blurNsfw, blurSpoiler } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
   if (compact) {
     return (
-      <View style={styles.compact(large)}>
-        <Image
-          accessibilityIgnoresInvertColors
-          source={thumbnail ?? video.thumbnail}
-          style={styles.compactImage}
-        />
+      <ImageBackground
+        accessibilityIgnoresInvertColors
+        source={thumbnail ?? video.thumbnail}
+        style={styles.compact(large)}
+      >
+        {children ?? (
+          <View align="center" justify="center" style={styles.compactIcon}>
+            <Icon
+              color={theme.colors.accent.accent}
+              name="Play"
+              weight="fill"
+            />
 
-        <View align="center" justify="center" style={styles.compactIcon}>
-          <Icon color={theme.colors.accent.accent} name="Play" weight="fill" />
-        </View>
-
-        {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
-          <GalleryBlur />
-        ) : null}
-      </View>
+            {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+              <GalleryBlur />
+            ) : null}
+          </View>
+        )}
+      </ImageBackground>
     )
   }
 
   return (
-    <View style={styles.main}>
-      <Image
-        accessibilityIgnoresInvertColors
-        source={thumbnail ?? video.thumbnail}
-        style={styles.video(video.width / video.height)}
-      />
+    <ImageBackground
+      accessibilityIgnoresInvertColors
+      source={thumbnail ?? video.thumbnail}
+      style={styles.main}
+    >
+      {children ?? (
+        <View
+          align="center"
+          justify="center"
+          style={styles.video(video.width / video.height)}
+        >
+          <Icon
+            color={theme.colors.accent.accent}
+            name="Play"
+            size={theme.space[9]}
+            weight="fill"
+          />
 
-      <View align="center" justify="center" style={styles.icon}>
-        <Icon
-          color={theme.colors.accent.accent}
-          name="Play"
-          size={theme.space[9]}
-          weight="fill"
-        />
-      </View>
-
-      {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
-        <GalleryBlur />
-      ) : null}
-    </View>
+          {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+            <GalleryBlur label={t(nsfw ? 'nsfw' : 'spoiler')} />
+          ) : null}
+        </View>
+      )}
+    </ImageBackground>
   )
 }
 
@@ -87,13 +101,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.black.accentAlpha,
   },
-  compactImage: {
-    flex: 1,
-  },
-  compactVideo: {
-    ...StyleSheet.absoluteFillObject,
-    opacity: 0,
-  },
   icon: {
     ...StyleSheet.absoluteFillObject,
   },
@@ -104,5 +111,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   video: (aspectRatio: number) => ({
     aspectRatio,
+    backgroundColor: theme.colors.black.accentAlpha,
   }),
 }))

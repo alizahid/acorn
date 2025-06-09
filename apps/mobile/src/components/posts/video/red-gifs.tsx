@@ -37,23 +37,6 @@ export function RedGifsVideo({
   const { gif } = useRedGifs(video.url)
 
   if (gif) {
-    if (viewing) {
-      return (
-        <VideoPlayer
-          compact={compact}
-          large={large}
-          nsfw={nsfw}
-          recyclingKey={recyclingKey}
-          source={gif.source}
-          spoiler={spoiler}
-          style={style}
-          thumbnail={thumbnail}
-          video={video}
-          viewing={viewing}
-        />
-      )
-    }
-
     return (
       <VideoPlaceholder
         compact={compact}
@@ -62,7 +45,22 @@ export function RedGifsVideo({
         spoiler={spoiler}
         thumbnail={thumbnail}
         video={video}
-      />
+      >
+        {viewing ? (
+          <VideoPlayer
+            compact={compact}
+            large={large}
+            nsfw={nsfw}
+            recyclingKey={recyclingKey}
+            source={gif.source}
+            spoiler={spoiler}
+            style={style}
+            thumbnail={thumbnail}
+            video={video}
+            viewing={viewing}
+          />
+        ) : null}
+      </VideoPlaceholder>
     )
   }
 

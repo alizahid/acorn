@@ -2,6 +2,11 @@
 
 ## Upcoming
 
+- fixed: feed crashes
+- fixed: video flicker
+
+## Build 57
+
 - fixed: drawer on iPad
 - fixed: crash on menu
 - fixed: video issues

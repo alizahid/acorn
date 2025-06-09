@@ -49,23 +49,6 @@ export function PostVideoCard({
   }
 
   if (video.provider === 'reddit') {
-    if (viewing) {
-      return (
-        <VideoPlayer
-          compact={compact}
-          large={large}
-          nsfw={nsfw}
-          recyclingKey={recyclingKey}
-          source={video.url}
-          spoiler={spoiler}
-          style={style}
-          thumbnail={thumbnail}
-          video={video}
-          viewing={viewing}
-        />
-      )
-    }
-
     return (
       <VideoPlaceholder
         compact={compact}
@@ -74,7 +57,22 @@ export function PostVideoCard({
         spoiler={spoiler}
         thumbnail={thumbnail}
         video={video}
-      />
+      >
+        {viewing ? (
+          <VideoPlayer
+            compact={compact}
+            large={large}
+            nsfw={nsfw}
+            recyclingKey={recyclingKey}
+            source={video.url}
+            spoiler={spoiler}
+            style={style}
+            thumbnail={thumbnail}
+            video={video}
+            viewing={viewing}
+          />
+        ) : null}
+      </VideoPlaceholder>
     )
   }
 

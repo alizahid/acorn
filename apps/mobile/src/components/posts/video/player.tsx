@@ -1,5 +1,4 @@
-import { useRecyclingState } from '@shopify/flash-list'
-import { useEventListener } from 'expo'
+import { useEvent } from 'expo'
 import { Image } from 'expo-image'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
 import { useCallback, useEffect, useRef } from 'react'
@@ -60,13 +59,9 @@ export function VideoPlayer({
 
   const ref = useRef<VideoView>(null)
 
-  const previousMuted = useRef(feedMuted)
-
-  const [muted, setMuted] = useRecyclingState(feedMuted, [recyclingKey])
-
   const player = useVideoPlayer(source, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
-    instance.muted = muted
+    instance.muted = feedMuted
     instance.loop = true
     instance.timeUpdateEventInterval = 1_000 / 1_000 / 60
 
@@ -77,8 +72,8 @@ export function VideoPlayer({
     }
   })
 
-  useEventListener(player, 'mutedChange', (event) => {
-    setMuted(event.muted)
+  const { muted } = useEvent(player, 'mutedChange', {
+    muted: feedMuted,
   })
 
   useEffect(() => {
@@ -92,8 +87,6 @@ export function VideoPlayer({
   const onFullscreenEnter = useCallback(() => {
     player.play()
 
-    previousMuted.current = muted
-
     if (unmuteFullscreen && muted) {
       // eslint-disable-next-line react-compiler/react-compiler -- go away
       player.muted = false
@@ -104,8 +97,6 @@ export function VideoPlayer({
     if (!autoPlay) {
       player.pause()
     }
-
-    player.muted = previousMuted.current
   }, [autoPlay, player])
 
   if (compact) {
