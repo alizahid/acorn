@@ -5,7 +5,6 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "lint": "next lint --fix",
     "lint:types": "tsc --noEmit",
     "start": "next start"
   },
@@ -23,8 +22,6 @@
     "@types/node": "^24.0.10",
     "@types/react": "~19.0.10",
     "@types/react-dom": "19.0.6",
-    "eslint-config-custom": "workspace:*",
-    "eslint-config-next": "15.3.5",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3"

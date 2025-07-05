@@ -39,7 +39,7 @@ export function Copy({ code = true, style, value }: Props) {
         }}
         label={a11y(copied ? 'copied' : 'copy')}
         onPress={() => {
-          void copy(value)
+          copy(value)
         }}
       />
     </View>

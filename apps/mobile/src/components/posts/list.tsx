@@ -28,7 +28,7 @@ import { View } from '../common/view'
 
 const viewabilityConfig: ViewabilityConfig = {
   itemVisiblePercentThreshold: 60,
-  minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1_000,
+  minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
   waitForInteraction: false,
 }
 
@@ -122,14 +122,6 @@ export function PostList({
   return (
     <FlashList
       {...listProps}
-      ItemSeparatorComponent={() => (
-        <View style={styles.separator(themeOled, feedCompact)} />
-      )}
-      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-      ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner m="6" /> : null
-      }
-      ListHeaderComponent={header}
       contentContainerStyle={style}
       data={posts}
       extraData={{
@@ -137,6 +129,9 @@ export function PostList({
         viewing,
       }}
       getItemType={(item) => item.type}
+      ItemSeparatorComponent={() => (
+        <View style={styles.separator(themeOled, feedCompact)} />
+      )}
       keyExtractor={(item) => {
         if (item.type === 'reply') {
           return `reply-${item.data.id}`
@@ -148,12 +143,17 @@ export function PostList({
 
         return item.id
       }}
+      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+      ListFooterComponent={() =>
+        isFetchingNextPage ? <Spinner m="6" /> : null
+      }
+      ListHeaderComponent={header}
       maintainVisibleContentPosition={{
         disabled: true,
       }}
       onEndReached={() => {
         if (hasNextPage) {
-          void fetchNextPage()
+          fetchNextPage()
         }
       }}
       onViewableItemsChanged={({ viewableItems }) => {
@@ -163,15 +163,15 @@ export function PostList({
           return
         }
 
-        viewableItems
-          .filter(
-            (item) => item.item.type !== 'reply' && item.item.type !== 'more',
-          )
-          .forEach((item) => {
-            addPost({
-              id: (item.item as Post).id,
-            })
+        const items = viewableItems.filter(
+          (item) => item.item.type !== 'reply' && item.item.type !== 'more',
+        )
+
+        for (const item of items) {
+          addPost({
+            id: (item.item as Post).id,
           })
+        }
       }}
       ref={list}
       refreshControl={

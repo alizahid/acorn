@@ -44,18 +44,18 @@ export function NotificationsList({
   return (
     <FlashList
       {...listProps}
+      data={notifications}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(themeOled)} />
       )}
+      keyExtractor={(item) => item.id}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
-      data={notifications}
-      keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {
-          void fetchNextPage()
+          fetchNextPage()
         }
       }}
       ref={list}

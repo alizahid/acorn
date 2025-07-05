@@ -63,7 +63,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
                     type: 'tabPress',
                   })
 
-                  if (!focused && !event.defaultPrevented) {
+                  if (!(focused || event.defaultPrevented)) {
                     navigation.navigate(route.name, route.params)
                   }
                 }}

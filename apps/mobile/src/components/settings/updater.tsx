@@ -1,5 +1,5 @@
-// eslint-disable-next-line import/no-named-as-default -- go away
 import Constants from 'expo-constants'
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as Updates from 'expo-updates'
 import { useRef, useState } from 'react'
 import { useTranslations } from 'use-intl'
@@ -57,7 +57,7 @@ export function Updater() {
           setNothing(false)
 
           if (updates.isUpdatePending) {
-            void Updates.reloadAsync()
+            Updates.reloadAsync()
           } else {
             if (timer.current) {
               clearTimeout(timer.current)
@@ -66,13 +66,13 @@ export function Updater() {
             const update = await Updates.checkForUpdateAsync()
 
             if (update.isAvailable) {
-              void Updates.fetchUpdateAsync()
+              Updates.fetchUpdateAsync()
             } else {
               setNothing(true)
 
               timer.current = setTimeout(() => {
                 setNothing(undefined)
-              }, 3_000)
+              }, 3000)
             }
           }
         }}

@@ -42,12 +42,12 @@ export default function Screen() {
     <KeyboardAvoidingView behavior="padding" style={styles.main}>
       <FlashList
         {...listProps}
-        ItemSeparatorComponent={() => <View height="4" />}
-        ListEmptyComponent={() => (isLoading ? <Loading /> : <Empty />)}
         contentContainerStyle={styles.content}
         data={messages}
-        keyExtractor={(item) => (isDate(item) ? formatISO(item) : item.id)}
+        ItemSeparatorComponent={() => <View height="4" />}
         keyboardDismissMode="interactive"
+        keyExtractor={(item) => (isDate(item) ? formatISO(item) : item.id)}
+        ListEmptyComponent={() => (isLoading ? <Loading /> : <Empty />)}
         maintainVisibleContentPosition={{
           autoscrollToBottomThreshold: 0.5,
           startRenderingFromBottom: true,

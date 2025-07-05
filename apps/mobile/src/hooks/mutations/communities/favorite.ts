@@ -37,7 +37,7 @@ export function useFavorite() {
         draft.favorite = variables.favorite
       })
     },
-    onSuccess(data, variables) {
+    onSuccess(_data, variables) {
       toast.success(
         t(variables.favorite ? 'favorited' : 'unfavorited', {
           community: variables.name,

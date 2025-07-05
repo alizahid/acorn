@@ -1,5 +1,4 @@
-/* eslint-disable camelcase -- go away */
-
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as Haptics from 'expo-haptics'
 import SoundPlayer from 'react-native-sound-player'
 
@@ -37,7 +36,7 @@ export function triggerHaptic(type: keyof Feedback) {
   const { feedbackHaptics, hapticsLoud } = usePreferences.getState()
 
   if (feedbackHaptics) {
-    void Haptics.impactAsync(
+    Haptics.impactAsync(
       type === 'soft'
         ? hapticsLoud
           ? Haptics.ImpactFeedbackStyle.Rigid

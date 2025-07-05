@@ -1,7 +1,7 @@
 import { createElement, type ReactNode } from 'react'
 import {
-  type StyleProp,
   Text as ReactNativeText,
+  type StyleProp,
   type TextStyle,
 } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -53,7 +53,6 @@ export function Text({
     )
   }
 
-  // eslint-disable-next-line react/no-children-prop -- go away
   return createElement('RCTText', {
     allowFontScaling: systemScaling,
     children,

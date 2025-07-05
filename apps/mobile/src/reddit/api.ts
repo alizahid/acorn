@@ -52,8 +52,9 @@ export async function reddit<Response>({
 
   input.searchParams.set('g', 'GLOBAL')
 
+  // biome-ignore lint/correctness/noUndeclaredVariables: go away
   if (__DEV__) {
-    // eslint-disable-next-line no-console -- dev
+    // biome-ignore lint/suspicious/noConsole: go away
     console.log('reddit', input.toString(), request)
   }
 
@@ -81,7 +82,7 @@ function checkExpiry(skip?: boolean) {
 
   const { accessToken, expiresAt, refreshToken } = useAuth.getState()
 
-  if (!accessToken || !refreshToken || !expiresAt) {
+  if (!(accessToken && refreshToken && expiresAt)) {
     return true
   }
 
@@ -91,7 +92,7 @@ function checkExpiry(skip?: boolean) {
 async function refresh() {
   const { clientId, refreshToken } = useAuth.getState()
 
-  if (!clientId || !refreshToken) {
+  if (!(clientId && refreshToken)) {
     return
   }
 

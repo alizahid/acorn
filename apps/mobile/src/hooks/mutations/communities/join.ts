@@ -36,8 +36,8 @@ export function useJoin() {
         draft.subscribed = variables.action === 'join'
       })
     },
-    onSuccess(data, variables) {
-      void queryClient.invalidateQueries({
+    onSuccess(_data, variables) {
+      queryClient.invalidateQueries({
         queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
       })
 

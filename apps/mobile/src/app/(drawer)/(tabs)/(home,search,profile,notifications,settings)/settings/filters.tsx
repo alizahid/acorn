@@ -55,7 +55,7 @@ export default function Screen() {
             label={a11y('saveFilters')}
             loading={isPending}
             onPress={() => {
-              void onSubmit()
+              onSubmit()
             }}
           />
         ),
@@ -73,7 +73,10 @@ export default function Screen() {
     <FormProvider {...form}>
       <FlatList
         {...listProps}
+        contentContainerStyle={styles.content}
+        data={filters.fields}
         ItemSeparatorComponent={() => <View height="4" />}
+        keyExtractor={(item) => item.key}
         ListHeaderComponent={
           <View gap="2" mb="4">
             {[
@@ -129,17 +132,14 @@ export default function Screen() {
             ))}
           </View>
         }
-        contentContainerStyle={styles.content}
-        data={filters.fields}
-        keyExtractor={(item) => item.key}
         renderItem={({ index }) => (
           <FilterCard index={index} onRemove={filters.remove} />
         )}
         renderScrollComponent={(props) => (
           <KeyboardAwareScrollView
             {...props}
-            ScrollViewComponent={ScrollView}
             bottomOffset={16}
+            ScrollViewComponent={ScrollView}
           />
         )}
       />

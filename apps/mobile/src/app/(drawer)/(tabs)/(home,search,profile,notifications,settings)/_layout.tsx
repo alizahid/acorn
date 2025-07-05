@@ -25,7 +25,6 @@ import { type SignInParams } from './sign-in'
 import { type UserParams } from './users/[name]'
 import { type UserPostsParams } from './users/[name]/[type]'
 
-// eslint-disable-next-line camelcase -- go away
 export const unstable_settings = {
   initialRouteName: 'index',
   notifications: {
@@ -172,8 +171,7 @@ export default function Layout({ segment }: Props) {
                   }}
                   label={a11y('toggleSidebar')}
                   onPress={() => {
-                    // @ts-expect-error -- go away
-                    // eslint-disable-next-line @typescript-eslint/no-unsafe-call -- go away
+                    // @ts-expect-error
                     navigation.toggleDrawer()
                   }}
                 />

@@ -1,8 +1,10 @@
 import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as Clipboard from 'expo-clipboard'
 import { Directory, File, Paths } from 'expo-file-system/next'
 import { type ImageProps } from 'expo-image'
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as MediaLibrary from 'expo-media-library'
 import { compact } from 'lodash'
 import { useRef } from 'react'
@@ -43,11 +45,12 @@ export function useDownloadImage() {
   >({
     async mutationFn(variables) {
       id.current = toast.loading(t('downloading'), {
-        duration: Infinity,
+        duration: Number.POSITIVE_INFINITY,
       })
 
-      const { granted } =
-        await MediaLibrary.requestPermissionsAsync(!saveToAlbum)
+      const { granted } = await MediaLibrary.requestPermissionsAsync(
+        !saveToAlbum,
+      )
 
       if (!granted) {
         throw new Error('Permission not granted')
@@ -112,11 +115,12 @@ export function useDownloadImages() {
   >({
     async mutationFn(variables) {
       id.current = toast.loading(t('downloadingImages'), {
-        duration: Infinity,
+        duration: Number.POSITIVE_INFINITY,
       })
 
-      const { granted } =
-        await MediaLibrary.requestPermissionsAsync(!saveToAlbum)
+      const { granted } = await MediaLibrary.requestPermissionsAsync(
+        !saveToAlbum,
+      )
 
       if (!granted) {
         throw new Error('Permission not granted')
@@ -151,7 +155,7 @@ export function useDownloadImages() {
     onError() {
       toast.dismiss(id.current)
     },
-    onSuccess(data, variables) {
+    onSuccess(_data, variables) {
       toast.success(
         t('downloaded', {
           count: variables.urls.length,
@@ -187,7 +191,7 @@ export function useCopyImage() {
   >({
     async mutationFn(variables) {
       id.current = toast.loading(t('copying'), {
-        duration: Infinity,
+        duration: Number.POSITIVE_INFINITY,
       })
 
       const directory = new Directory(Paths.cache, createId())
@@ -234,7 +238,7 @@ export function useShareImage() {
   >({
     async mutationFn(variables) {
       id.current = toast.loading(t('sharing'), {
-        duration: Infinity,
+        duration: Number.POSITIVE_INFINITY,
       })
 
       const directory = new Directory(Paths.cache, createId())

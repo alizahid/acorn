@@ -3,14 +3,16 @@ import { z } from 'zod'
 
 import { reddit } from './api'
 
+const uploadFileRegex = /<Location>(.*?)<\/Location>/
+
 export async function uploadFile(asset: ImagePickerAsset) {
   const lease = await prepareUpload(asset)
 
   const body = new FormData()
 
-  lease.args.fields.forEach((field) => {
+  for (const field of lease.args.fields) {
     body.append(field.name, field.value)
-  })
+  }
 
   // @ts-expect-error -- go away
   body.append('file', {
@@ -29,7 +31,7 @@ export async function uploadFile(asset: ImagePickerAsset) {
 
   const xml = await response.text()
 
-  const matches = /<Location>(.*?)<\/Location>/.exec(xml)
+  const matches = uploadFileRegex.exec(xml)
 
   return matches?.[1]
 }

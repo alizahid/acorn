@@ -74,7 +74,7 @@ export default function Screen() {
 
       previous.current = params.id
     }
-  }, [params.id, post])
+  }, [params.id])
 
   useFocusEffect(
     useCallback(() => {
@@ -196,17 +196,13 @@ export default function Screen() {
     <>
       <FlashList
         {...listProps}
-        ItemSeparatorComponent={() => <View height="2" />}
-        ListEmptyComponent={() =>
-          isFetching ? <Spinner m="4" size="large" /> : <Empty />
-        }
-        ListHeaderComponent={header}
         contentContainerStyle={styles.content}
         data={comments}
         extraData={{
           commentId: params.commentId,
           playing,
         }}
+        ItemSeparatorComponent={() => <View height="2" />}
         initialScrollIndex={params.commentId ? 0 : undefined}
         keyExtractor={(item) => {
           if (item.type === 'more') {
@@ -215,6 +211,10 @@ export default function Screen() {
 
           return `${item.type}-${item.data.id}`
         }}
+        ListEmptyComponent={() =>
+          isFetching ? <Spinner m="4" size="large" /> : <Empty />
+        }
+        ListHeaderComponent={header}
         maintainVisibleContentPosition={{
           disabled: true,
         }}

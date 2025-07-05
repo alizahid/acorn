@@ -23,7 +23,7 @@ export function MessageCard({ message }: Props) {
 
   const f = useFormatter()
   const now = useNow({
-    updateInterval: 1_000 * 60,
+    updateInterval: 1000 * 60,
   })
 
   const { styles, theme } = useStyles(stylesheet)

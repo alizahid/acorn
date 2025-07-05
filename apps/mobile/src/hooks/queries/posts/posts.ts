@@ -71,6 +71,9 @@ export function usePosts({
     refetch,
   } = useInfiniteQuery<Page, Error, PostsQueryData, PostsQueryKey, Param>({
     enabled: Boolean(accountId),
+    getNextPageParam(page) {
+      return page.cursor
+    },
     initialPageParam: null,
     async queryFn({ pageParam }) {
       if (!accountId) {
@@ -148,10 +151,6 @@ export function usePosts({
               : true,
         ),
       }
-    },
-    // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
-    getNextPageParam(page) {
-      return page.cursor
     },
     queryKey: [
       'posts',

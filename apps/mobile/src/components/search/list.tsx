@@ -96,11 +96,23 @@ export function SearchList({
   return (
     <FlashList
       {...listProps}
+      contentContainerStyle={StyleSheet.flatten([
+        type !== 'post' && styles.content,
+        style,
+      ])}
+      data={results}
+      extraData={{
+        viewing,
+      }}
+      getItemType={(item) => (type === 'post' ? (item as Post).type : type)}
       ItemSeparatorComponent={() =>
         type === 'post' ? (
           <View style={styles.separator(themeOled, feedCompact)} />
         ) : null
       }
+      keyboardDismissMode="on-drag"
+      keyboardShouldPersistTaps="handled"
+      keyExtractor={(item) => item.id}
       ListEmptyComponent={
         isLoading ? (
           <Loading />
@@ -113,18 +125,6 @@ export function SearchList({
         )
       }
       ListHeaderComponent={header}
-      contentContainerStyle={StyleSheet.flatten([
-        type !== 'post' && styles.content,
-        style,
-      ])}
-      data={results}
-      extraData={{
-        viewing,
-      }}
-      getItemType={(item) => (type === 'post' ? (item as Post).type : type)}
-      keyExtractor={(item) => item.id}
-      keyboardDismissMode="on-drag"
-      keyboardShouldPersistTaps="handled"
       maintainVisibleContentPosition={{
         disabled: true,
       }}

@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { differenceInMilliseconds } from 'date-fns'
 
-import { getGif, type Gif } from '~/lib/red-gifs'
+import { type Gif, getGif } from '~/lib/red-gifs'
 import { type Undefined } from '~/types'
 
 type RedGifsQueryKey = [

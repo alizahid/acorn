@@ -1,4 +1,4 @@
-/* eslint-disable react/no-array-index-key -- go away */
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: go away */
 
 import { type ElementContent, type RootContent } from 'hast'
 import { common, createLowlight } from 'lowlight'
@@ -25,7 +25,7 @@ export function Code({ children, language, size }: Props) {
   const root = useMemo(() => {
     try {
       return lowlight.highlight(language, children.trim())
-    } catch (error) {
+    } catch {
       return lowlight.highlight('text', children.trim())
     }
   }, [children, language])

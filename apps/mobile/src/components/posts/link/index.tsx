@@ -50,7 +50,7 @@ export function PostLinkCard({
         <Pressable
           label={a11y('viewLink')}
           onPress={() => {
-            void handleLink(url)
+            handleLink(url)
 
             if (recyclingKey && seenOnMedia) {
               addPost({
@@ -82,7 +82,7 @@ export function PostLinkCard({
         label={a11y('viewLink')}
         mx="3"
         onPress={() => {
-          void handleLink(url)
+          handleLink(url)
 
           if (recyclingKey && seenOnMedia) {
             addPost({

@@ -160,7 +160,7 @@ export function PostMenu({ children, onPress, post }: Props) {
           options: compact([
             {
               action() {
-                void copy(post.title).then(() => {
+                copy(post.title).then(() => {
                   toast.success(t('toast.titleCopied'))
                 })
               },
@@ -174,7 +174,7 @@ export function PostMenu({ children, onPress, post }: Props) {
             post.body?.length && {
               action() {
                 if (post.body) {
-                  void copy(post.body).then(() => {
+                  copy(post.body).then(() => {
                     toast.success(t('toast.textCopied'))
                   })
                 }
@@ -195,7 +195,7 @@ export function PostMenu({ children, onPress, post }: Props) {
                     : 'https://www.reddit.com',
                 )
 
-                void copy(url.toString()).then(() => {
+                copy(url.toString()).then(() => {
                   toast.success(t('toast.linkCopied'))
                 })
               },
@@ -215,7 +215,7 @@ export function PostMenu({ children, onPress, post }: Props) {
                     : 'https://www.reddit.com',
                 )
 
-                void Share.share({
+                Share.share({
                   url: url.toString(),
                 })
               },
@@ -250,7 +250,7 @@ export function PostMenu({ children, onPress, post }: Props) {
           options: [
             {
               action() {
-                void handleLink(post.permalink)
+                handleLink(post.permalink)
               },
               icon: {
                 image: acorn,

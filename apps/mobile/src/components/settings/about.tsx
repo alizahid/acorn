@@ -70,7 +70,7 @@ export function AboutCard() {
               key={link.key}
               label={link.label}
               onPress={() => {
-                void handleLink(link.href)
+                handleLink(link.href)
               }}
               style={styles.link}
             />
@@ -84,7 +84,7 @@ export function AboutCard() {
           }}
           label={t('links.coffee')}
           onPress={() => {
-            void handleLink('https://buymeacoffee.com/acornblue')
+            handleLink('https://buymeacoffee.com/acornblue')
           }}
         />
       </View>

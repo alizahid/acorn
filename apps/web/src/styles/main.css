@@ -1,17 +1,17 @@
 /* colors */
 
-@import '@radix-ui/colors/sand-dark.css';
-@import '@radix-ui/colors/sand-dark-alpha.css';
+@import "@radix-ui/colors/sand-dark.css";
+@import "@radix-ui/colors/sand-dark-alpha.css";
 
-@import '@radix-ui/colors/orange-dark.css';
-@import '@radix-ui/colors/orange-dark-alpha.css';
+@import "@radix-ui/colors/orange-dark.css";
+@import "@radix-ui/colors/orange-dark-alpha.css";
 
 /* tailwind */
 
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
-  --font-sans--font-feature-settings: 'ss04';
+  --font-sans--font-feature-settings: "ss04";
 
   --color-gray-1: var(--sand-1);
   --color-gray-2: var(--sand-2);

@@ -1,3 +1,4 @@
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as Clipboard from 'expo-clipboard'
 import { useCallback, useRef, useState } from 'react'
 
@@ -17,7 +18,7 @@ export function useCopy() {
 
     timer.current = setTimeout(() => {
       setCopied(false)
-    }, 3_000)
+    }, 3000)
   }, [])
 
   return {

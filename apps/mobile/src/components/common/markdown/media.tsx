@@ -34,7 +34,7 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
         gap="2"
         label={a11y('viewImage')}
         onPress={() => {
-          void Gallery.call({
+          Gallery.call({
             images: [media],
           })
         }}

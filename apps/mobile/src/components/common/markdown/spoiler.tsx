@@ -21,7 +21,7 @@ export function Spoiler({ children, size = '3' }: SpoilerProps) {
         setVisible((previous) => !previous)
       }}
       size={size}
-      style={!visible ? styles.main : undefined}
+      style={visible ? undefined : styles.main}
     >
       {children}
     </Text>

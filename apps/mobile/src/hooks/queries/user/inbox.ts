@@ -39,6 +39,9 @@ export function useInbox() {
     refetch,
   } = useInfiniteQuery<Page, Error, InboxQueryData, InboxQueryKey, Param>({
     enabled: Boolean(accountId),
+    getNextPageParam(page) {
+      return page.cursor
+    },
     initialPageParam: null,
     networkMode: 'offlineFirst',
     async queryFn({ pageParam }) {
@@ -58,10 +61,6 @@ export function useInbox() {
         cursor: response.data.after,
         items: response.data.children.map((item) => transformInboxItem(item)),
       }
-    },
-    // eslint-disable-next-line sort-keys-fix/sort-keys-fix -- go away
-    getNextPageParam(page) {
-      return page.cursor
     },
     queryKey: [
       'inbox',

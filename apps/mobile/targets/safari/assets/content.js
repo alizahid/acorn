@@ -40,11 +40,11 @@ function check() {
   }
 }
 
-function parseLink(url) {
-  const regex =
-    /^(?:https?:\/\/)?(?:www\.|amp\.|i\.)?reddit\.com\/(?:user\/([^/]+)(?:\/m\/([^/]+)|\/comments\/([^/]+)(?:\/comment\/([^/]+))?(?:\/\?context=(\d+))?)?|r\/([^/]+)(?:\/comments\/([^/]+)(?:\/[^/]+(?:\/([^/]+))?(?:\/\?context=(\d+))?)?|\/s\/([^/]+)(?:\?context=(\d+))?|\/wiki\/([^/]+))?|live\/([^/]+)(?:\?context=(\d+))?)/i
+const linkRegex =
+  /^(?:https?:\/\/)?(?:www\.|amp\.|i\.)?reddit\.com\/(?:user\/([^/]+)(?:\/m\/([^/]+)|\/comments\/([^/]+)(?:\/comment\/([^/]+))?(?:\/\?context=(\d+))?)?|r\/([^/]+)(?:\/comments\/([^/]+)(?:\/[^/]+(?:\/([^/]+))?(?:\/\?context=(\d+))?)?|\/s\/([^/]+)(?:\?context=(\d+))?|\/wiki\/([^/]+))?|live\/([^/]+)(?:\?context=(\d+))?)/i
 
-  const match = url.match(regex)
+function parseLink(url) {
+  const match = url.match(linkRegex)
 
   if (!match) {
     return null

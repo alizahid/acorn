@@ -1,4 +1,6 @@
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as ScreenOrientation from 'expo-screen-orientation'
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as StatusBar from 'expo-status-bar'
 import { useEffect, useRef, useState } from 'react'
 import { createCallable } from 'react-call'
@@ -73,9 +75,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
     if (call.ended) {
       StatusBar.setStatusBarHidden(false, 'fade')
 
-      void ScreenOrientation.lockAsync(
-        ScreenOrientation.OrientationLock.PORTRAIT_UP,
-      )
+      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
 
       return
     }
@@ -89,8 +89,8 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
     translate.set(() => withTiming(0))
     opacity.set(() => withTiming(1))
 
-    void ScreenOrientation.unlockAsync()
-  }, [call.ended, frame.height, opacity, translate])
+    ScreenOrientation.unlockAsync()
+  }, [call.ended, opacity.set, translate.set])
 
   const [viewing, setViewing] = useState(initial ?? 0)
 
@@ -127,7 +127,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
         <Animated.FlatList
           data={images}
           decelerationRate="fast"
-          getItemLayout={(data, index) => ({
+          getItemLayout={(_data, index) => ({
             index,
             length: frame.width,
             offset: frame.width * index,
@@ -154,7 +154,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
           )}
           scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
-          snapToOffsets={images.map((image, index) => frame.width * index)}
+          snapToOffsets={images.map((_image, index) => frame.width * index)}
           style={list}
         />
       </GestureDetector>

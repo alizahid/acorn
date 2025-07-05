@@ -11,8 +11,8 @@ import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 import { type Theme } from '~/styles/themes'
 import {
   type ColorToken,
-  typography,
   type TypographyToken,
+  typography,
 } from '~/styles/tokens'
 
 export default function Screen() {

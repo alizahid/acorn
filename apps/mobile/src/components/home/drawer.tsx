@@ -34,7 +34,7 @@ export function HomeDrawer({ navigation }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const stylesheet = createStyleSheet((_theme, runtime) => ({
   search: {
     marginTop: runtime.insets.top,
   },

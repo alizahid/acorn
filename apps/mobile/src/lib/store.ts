@@ -1,4 +1,5 @@
 import { createId } from '@paralleldrive/cuid2'
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as SecureStore from 'expo-secure-store'
 import { MMKV } from 'react-native-mmkv'
 import { parse, stringify } from 'superjson'

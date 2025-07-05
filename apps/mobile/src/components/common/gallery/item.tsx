@@ -67,9 +67,9 @@ export function GalleryItem({ image, onTap }: Props) {
             label={a11y(playing ? 'pause' : 'play')}
             onPress={() => {
               if (playing) {
-                void ref.current?.stopAnimating()
+                ref.current?.stopAnimating()
               } else {
-                void ref.current?.startAnimating()
+                ref.current?.startAnimating()
               }
 
               setPlaying(!playing)

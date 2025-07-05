@@ -138,7 +138,7 @@ export function MenuItem({ item, style }: Props) {
         >
           {item.options.map((option, index) => {
             if (option === null) {
-              // eslint-disable-next-line react/no-array-index-key -- go away
+              // biome-ignore lint/suspicious/noArrayIndexKey: go away
               return <View height="4" key={`separator-${index}`} />
             }
 
@@ -169,7 +169,7 @@ export function MenuItem({ item, style }: Props) {
 
                   sheet.current?.dismiss()
                 }}
-                right={!option.hideRight ? option.right : null}
+                right={option.hideRight ? null : option.right}
                 selected={option.value === item.value}
                 style={option.style}
               />

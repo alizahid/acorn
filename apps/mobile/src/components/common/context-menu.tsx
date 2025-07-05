@@ -134,7 +134,7 @@ export function ContextMenu({
 
   useEffect(() => {
     if (!focused) {
-      void menu.current?.dismissMenu()
+      menu.current?.dismissMenu()
     }
   }, [focused])
 

@@ -122,7 +122,6 @@ export default function Screen() {
 
       <TextInput
         allowFontScaling={systemScaling}
-        // eslint-disable-next-line jsx-a11y/no-autofocus -- go away
         autoFocus
         multiline
         onChangeText={setText}

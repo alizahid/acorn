@@ -41,11 +41,11 @@ export default function Page() {
       <header className="flex flex-col items-center gap-2">
         <Logo className="size-24" />
 
-        <h1 className="text-accent-a9 text-6xl font-bold">
+        <h1 className="font-bold text-6xl text-accent-a9">
           {t('header.title')}
         </h1>
 
-        <p className="text-gray-a11 font-medium">{t('header.description')}</p>
+        <p className="font-medium text-gray-a11">{t('header.description')}</p>
       </header>
 
       <section className="flex flex-col gap-6 lg:flex-row">

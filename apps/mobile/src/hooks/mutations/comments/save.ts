@@ -69,7 +69,7 @@ export function useCommentSave() {
         })
       }
     },
-    onSuccess(data, variables) {
+    onSuccess(_data, variables) {
       toast.success(t(variables.action === 'save' ? 'saved' : 'unsaved'))
     },
   })

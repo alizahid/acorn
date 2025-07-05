@@ -98,7 +98,7 @@ export default function Screen() {
                   type: 'symbol',
                 },
                 label: t('refreshInterval.never'),
-                value: Infinity,
+                value: Number.POSITIVE_INFINITY,
               },
             ],
           },

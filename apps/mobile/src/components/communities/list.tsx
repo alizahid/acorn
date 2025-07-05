@@ -209,12 +209,12 @@ export function CommunitiesList({
   return (
     <SectionList
       {...listProps}
-      ListEmptyComponent={() => <Empty />}
       extraData={{
         collapsed,
         expanded,
       }}
       keyExtractor={(item) => item.key}
+      ListEmptyComponent={() => <Empty />}
       renderItem={({ item, section }) => {
         if (section.collapsed) {
           return null

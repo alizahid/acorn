@@ -1,4 +1,5 @@
 import { addHours, fromUnixTime } from 'date-fns'
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as SecureStore from 'expo-secure-store'
 import { type VideoSource } from 'expo-video'
 import { z } from 'zod'
@@ -50,7 +51,7 @@ export async function getGif(id: string): Promise<Gif> {
   const expires = Number(uri.searchParams.get('expires')) || 0
 
   return {
-    expiresAt: fromUnixTime(expires - 1_000 * 60),
+    expiresAt: fromUnixTime(expires - 1000 * 60),
     source: {
       headers: {
         authorization: `Bearer ${token}`,

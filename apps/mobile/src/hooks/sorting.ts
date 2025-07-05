@@ -74,7 +74,6 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
 
       return initial
     },
-    // eslint-disable-next-line @tanstack/query/exhaustive-deps -- go away
     queryKey,
   })
 

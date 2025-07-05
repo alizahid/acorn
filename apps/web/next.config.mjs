@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-unresolved -- go away
 import createIntlPlugin from 'next-intl/plugin'
 
 const withIntl = createIntlPlugin('./src/intl')

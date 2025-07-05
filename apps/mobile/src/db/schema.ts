@@ -1,5 +1,3 @@
-/* eslint-disable sort-keys-fix/sort-keys-fix -- go away*/
-
 import { sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 import { CommunityFeedSort, FeedSort, TopInterval } from '~/types/sort'
@@ -17,6 +15,7 @@ export const collapsed = sqliteTable('collapsed', {
 
 export type Collapsed = typeof collapsed.$inferSelect
 
+// biome-ignore assist/source/useSortedKeys: go away
 export const sorting = sqliteTable('sorting', {
   communityId: text().notNull().primaryKey(),
   sort: text({

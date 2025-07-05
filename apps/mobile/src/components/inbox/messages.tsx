@@ -44,18 +44,18 @@ export function MessagesList({
   return (
     <FlashList
       {...listProps}
+      data={messages}
       ItemSeparatorComponent={() => (
         <View style={styles.separator(themeOled)} />
       )}
+      keyExtractor={(item) => item.id}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null
       }
-      data={messages}
-      keyExtractor={(item) => item.id}
       onEndReached={() => {
         if (hasNextPage) {
-          void fetchNextPage()
+          fetchNextPage()
         }
       }}
       ref={list}

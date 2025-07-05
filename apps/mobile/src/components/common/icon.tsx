@@ -93,8 +93,8 @@ import UserBold from 'react-native-phosphor/src/bold/User'
 import UserCircleBold from 'react-native-phosphor/src/bold/UserCircle'
 import UserCircleMinusBold from 'react-native-phosphor/src/bold/UserCircleMinus'
 import UserCirclePlusBold from 'react-native-phosphor/src/bold/UserCirclePlus'
-import UsersFourBold from 'react-native-phosphor/src/bold/UsersFour'
 import UserSwitchBold from 'react-native-phosphor/src/bold/UserSwitch'
+import UsersFourBold from 'react-native-phosphor/src/bold/UsersFour'
 import VibrateBold from 'react-native-phosphor/src/bold/Vibrate'
 import WarningBold from 'react-native-phosphor/src/bold/Warning'
 import XBold from 'react-native-phosphor/src/bold/X'
@@ -192,8 +192,8 @@ import UserDuotone from 'react-native-phosphor/src/duotone/User'
 import UserCircleDuotone from 'react-native-phosphor/src/duotone/UserCircle'
 import UserCircleMinusDuotone from 'react-native-phosphor/src/duotone/UserCircleMinus'
 import UserCirclePlusDuotone from 'react-native-phosphor/src/duotone/UserCirclePlus'
-import UsersFourDuotone from 'react-native-phosphor/src/duotone/UsersFour'
 import UserSwitchDuotone from 'react-native-phosphor/src/duotone/UserSwitch'
+import UsersFourDuotone from 'react-native-phosphor/src/duotone/UsersFour'
 import VibrateDuotone from 'react-native-phosphor/src/duotone/Vibrate'
 import WarningDuotone from 'react-native-phosphor/src/duotone/Warning'
 import XDuotone from 'react-native-phosphor/src/duotone/X'
@@ -291,8 +291,8 @@ import UserFill from 'react-native-phosphor/src/fill/User'
 import UserCircleFill from 'react-native-phosphor/src/fill/UserCircle'
 import UserCircleMinusFill from 'react-native-phosphor/src/fill/UserCircleMinus'
 import UserCirclePlusFill from 'react-native-phosphor/src/fill/UserCirclePlus'
-import UsersFourFill from 'react-native-phosphor/src/fill/UsersFour'
 import UserSwitchFill from 'react-native-phosphor/src/fill/UserSwitch'
+import UsersFourFill from 'react-native-phosphor/src/fill/UsersFour'
 import VibrateFill from 'react-native-phosphor/src/fill/Vibrate'
 import WarningFill from 'react-native-phosphor/src/fill/Warning'
 import XFill from 'react-native-phosphor/src/fill/X'
@@ -390,8 +390,8 @@ import UserRegular from 'react-native-phosphor/src/regular/User'
 import UserCircleRegular from 'react-native-phosphor/src/regular/UserCircle'
 import UserCircleMinusRegular from 'react-native-phosphor/src/regular/UserCircleMinus'
 import UserCirclePlusRegular from 'react-native-phosphor/src/regular/UserCirclePlus'
-import UsersFourRegular from 'react-native-phosphor/src/regular/UsersFour'
 import UserSwitchRegular from 'react-native-phosphor/src/regular/UserSwitch'
+import UsersFourRegular from 'react-native-phosphor/src/regular/UsersFour'
 import VibrateRegular from 'react-native-phosphor/src/regular/Vibrate'
 import WarningRegular from 'react-native-phosphor/src/regular/Warning'
 import XRegular from 'react-native-phosphor/src/regular/X'
@@ -504,12 +504,6 @@ const icons = {
     fill: ArrowRightFill,
     regular: ArrowRightRegular,
   },
-  ArrowUp: {
-    bold: ArrowUpBold,
-    duotone: ArrowUpDuotone,
-    fill: ArrowUpFill,
-    regular: ArrowUpRegular,
-  },
   ArrowsInLineVertical: {
     bold: ArrowsInLineVerticalBold,
     duotone: ArrowsInLineVerticalDuotone,
@@ -527,6 +521,12 @@ const icons = {
     duotone: ArrowsSplitDuotone,
     fill: ArrowsSplitFill,
     regular: ArrowsSplitRegular,
+  },
+  ArrowUp: {
+    bold: ArrowUpBold,
+    duotone: ArrowUpDuotone,
+    fill: ArrowUpFill,
+    regular: ArrowUpRegular,
   },
   Baby: {
     bold: BabyBold,

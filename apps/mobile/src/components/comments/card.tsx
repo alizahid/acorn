@@ -126,7 +126,7 @@ export function CommentCard({
           if (action === 'share') {
             const url = new URL(comment.permalink, 'https://www.reddit.com')
 
-            void Share.share({
+            Share.share({
               url: url.toString(),
             })
           }
@@ -167,7 +167,7 @@ export function CommentCard({
           label={comment.body}
           onPress={onPress}
         >
-          {!collapsed ? (
+          {collapsed ? null : (
             <Markdown
               meta={comment.media.meta}
               recyclingKey={comment.id}
@@ -177,7 +177,7 @@ export function CommentCard({
             >
               {comment.body}
             </Markdown>
-          ) : null}
+          )}
 
           {comment.post.title ? (
             <Pressable

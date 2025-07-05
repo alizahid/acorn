@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/nursery/noBitwiseOperators: go away */
+
 import { type FlashListProps } from '@shopify/flash-list'
 import {
   useSafeAreaFrame,

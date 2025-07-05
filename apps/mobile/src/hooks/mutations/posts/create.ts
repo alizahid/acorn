@@ -179,9 +179,9 @@ function generateSchema(
             }),
           )
           .max(
-            submission.rules.body.max ?? Infinity,
+            submission.rules.body.max ?? Number.POSITIVE_INFINITY,
             t('text.error.max', {
-              max: submission.rules.body.max ?? Infinity,
+              max: submission.rules.body.max ?? Number.POSITIVE_INFINITY,
             }),
           )
           .refine(
@@ -295,7 +295,7 @@ function handleSocket(url: string) {
     }
 
     socket.onerror = () => {
-      reject(new Error())
+      reject(new Error('Error'))
     }
   })
 }

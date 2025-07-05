@@ -5,7 +5,6 @@ import { getMargin, type MarginProps } from '~/styles/space'
 import { type ColorToken, ColorTokens } from '~/styles/tokens'
 
 type Props = {
-  // eslint-disable-next-line @typescript-eslint/ban-types -- go away
   color?: ColorToken | (string & {})
   contrast?: boolean
   size?: 'small' | 'large' | number

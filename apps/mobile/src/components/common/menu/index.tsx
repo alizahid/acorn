@@ -92,12 +92,12 @@ export function Menu({
   return (
     <FlatList
       {...listProps}
-      ListFooterComponent={footer}
-      ListHeaderComponent={header}
       contentContainerStyle={[styles.content, style]}
       data={items}
       initialNumToRender={100}
-      keyExtractor={(item, index) => String(index)}
+      keyExtractor={(_item, index) => String(index)}
+      ListFooterComponent={footer}
+      ListHeaderComponent={header}
       ref={list}
       refreshControl={
         onRefresh ? <RefreshControl onRefresh={onRefresh} /> : undefined

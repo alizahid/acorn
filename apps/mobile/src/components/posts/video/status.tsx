@@ -22,13 +22,13 @@ export function VideoStatus({ player }: Props) {
   useEventListener(player, 'timeUpdate', (event) => {
     current.set(() =>
       withTiming((event.currentTime / player.duration) * 100 || 0, {
-        duration: 1_000 / 1_000 / 60,
+        duration: 1000 / 1000 / 60,
       }),
     )
 
     buffered.set(() =>
       withTiming((event.bufferedPosition / player.duration) * 100 || 0, {
-        duration: 1_000 / 1_000 / 60,
+        duration: 1000 / 1000 / 60,
       }),
     )
   })

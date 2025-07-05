@@ -1,0 +1,64 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":BUN:", ":NODE:"],
+              ":BLANK_LINE:",
+              [":PACKAGE:", ":PACKAGE_WITH_PROTOCOL:"],
+              ":BLANK_LINE:",
+              ":ALIAS:",
+              ":BLANK_LINE:",
+              ":PATH:"
+            ]
+          }
+        },
+        "useSortedAttributes": "on",
+        "useSortedKeys": "on",
+        "useSortedProperties": "on"
+      }
+    }
+  },
+  "extends": ["ultracite"],
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded",
+      "trailingCommas": "all"
+    }
+  },
+  "linter": {
+    "rules": {
+      "complexity": {
+        "noExcessiveCognitiveComplexity": "off"
+      },
+      "nursery": {
+        "noUnknownAtRule": "off",
+        "useJsonImportAttribute": "off"
+      },
+      "style": {
+        "noNestedTernary": "off",
+        "noNonNullAssertion": "off",
+        "useConsistentArrayType": {
+          "level": "error",
+          "options": {
+            "syntax": "generic"
+          }
+        },
+        "useFilenamingConvention": "off",
+        "useImportType": {
+          "level": "error",
+          "options": {
+            "style": "inlineType"
+          }
+        }
+      },
+      "suspicious": {
+        "noRedeclare": "off"
+      }
+    }
+  }
+}

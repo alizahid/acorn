@@ -7,7 +7,7 @@ import { type Nullable } from '~/types'
 import { type User } from '~/types/user'
 
 export function transformUser(data: UserSchema): Nullable<User> {
-  if (!data.id || !data.created_utc) {
+  if (!(data.id && data.created_utc)) {
     return null
   }
 

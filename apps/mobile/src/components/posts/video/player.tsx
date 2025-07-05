@@ -63,7 +63,7 @@ export function VideoPlayer({
     instance.audioMixingMode = 'mixWithOthers'
     instance.muted = feedMuted
     instance.loop = true
-    instance.timeUpdateEventInterval = 1_000 / 1_000 / 60
+    instance.timeUpdateEventInterval = 1000 / 1000 / 60
 
     if (viewing && autoPlay) {
       instance.play()
@@ -88,7 +88,6 @@ export function VideoPlayer({
     player.play()
 
     if (unmuteFullscreen && muted) {
-      // eslint-disable-next-line react-compiler/react-compiler -- go away
       player.muted = false
     }
   }, [muted, player, unmuteFullscreen])
@@ -104,7 +103,7 @@ export function VideoPlayer({
       <Pressable
         label={a11y('viewVideo')}
         onPress={() => {
-          void ref.current?.enterFullscreen()
+          ref.current?.enterFullscreen()
 
           if (recyclingKey && seenOnMedia) {
             addPost({
@@ -148,7 +147,7 @@ export function VideoPlayer({
     <Pressable
       label={a11y('viewVideo')}
       onPress={() => {
-        void ref.current?.enterFullscreen()
+        ref.current?.enterFullscreen()
 
         if (recyclingKey && seenOnMedia) {
           addPost({

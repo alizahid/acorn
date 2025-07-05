@@ -22,9 +22,9 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
     transform: [
       {
         translateX: offset.interpolate({
-          inputRange: items.map((item, index) => index),
+          inputRange: items.map((_item, index) => index),
           outputRange: items.map(
-            (item, index) => index * width + theme.space[1] / 2,
+            (_item, index) => index * width + theme.space[1] / 2,
           ),
         }),
       },

@@ -1,5 +1,7 @@
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as WebBrowser from 'expo-web-browser'
 import { useCallback, useState } from 'react'
 import { useStyles } from 'react-native-unistyles'
@@ -40,7 +42,7 @@ export function useLink() {
   )
 
   const openInBrowser = useCallback((url: string) => {
-    void Linking.openURL(url)
+    Linking.openURL(url)
   }, [])
 
   const handle = useCallback(
@@ -51,7 +53,7 @@ export function useLink() {
         return
       }
 
-      void openInApp(url)
+      openInApp(url)
     },
     [linkBrowser, openInApp, openInBrowser],
   )
@@ -72,7 +74,7 @@ export function useLink() {
 
         if (parts?.shareId) {
           const id = toast.loading(t('loading'), {
-            duration: Infinity,
+            duration: Number.POSITIVE_INFINITY,
           })
 
           const response = await fetch(url, {
@@ -81,7 +83,7 @@ export function useLink() {
 
           toast.dismiss(id)
 
-          void handleLink(response.url)
+          handleLink(response.url)
 
           return
         }
@@ -164,6 +166,9 @@ export function useLink() {
 // 'https://www.reddit.com/live/18hnzysb1elcs', // liveId: 18hnzysb1elcs
 // 'https://www.reddit.com/r/acornblue/comments/1gdy1c4/join_us_on_discord/mh8vxwr/', // community:acornblue, postId:1gdy1c4, commentId:mh8vxwr, context:3
 
+const linkRegex =
+  /^(?:https?:\/\/)?(?:www\.|amp\.|i\.)?reddit\.com\/(?:user\/([^/]+)(?:\/m\/([^/]+)|\/comments\/([^/]+)(?:\/comment\/([^/]+))?(?:\/\?context=(\d+))?)?|r\/([^/]+)(?:\/comments\/([^/]+)(?:\/[^/]+(?:\/([^/]+))?(?:\/\?context=(\d+))?)?|\/s\/([^/]+)(?:\?context=(\d+))?|\/wiki\/([^/]+))?|live\/([^/]+)(?:\?context=(\d+))?)/i
+
 export function parseLink(url: string): Nullable<{
   commentId?: string
   community?: string
@@ -175,10 +180,7 @@ export function parseLink(url: string): Nullable<{
   user?: string
   wiki?: string
 }> {
-  const regex =
-    /^(?:https?:\/\/)?(?:www\.|amp\.|i\.)?reddit\.com\/(?:user\/([^/]+)(?:\/m\/([^/]+)|\/comments\/([^/]+)(?:\/comment\/([^/]+))?(?:\/\?context=(\d+))?)?|r\/([^/]+)(?:\/comments\/([^/]+)(?:\/[^/]+(?:\/([^/]+))?(?:\/\?context=(\d+))?)?|\/s\/([^/]+)(?:\?context=(\d+))?|\/wiki\/([^/]+))?|live\/([^/]+)(?:\?context=(\d+))?)/i
-
-  const match = regex.exec(url)
+  const match = linkRegex.exec(url)
 
   if (!match) {
     return null

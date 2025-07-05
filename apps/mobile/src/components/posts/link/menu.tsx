@@ -27,7 +27,7 @@ export function LinkMenu({ children, style, url }: Props) {
       options={[
         {
           action() {
-            void handleLink(url)
+            handleLink(url)
           },
           icon: {
             name: 'compass-duotone',
@@ -38,7 +38,7 @@ export function LinkMenu({ children, style, url }: Props) {
         },
         {
           action() {
-            void copy(url).then(() => {
+            copy(url).then(() => {
               toast.success(toasts('link.copied'))
             })
           },
@@ -51,7 +51,7 @@ export function LinkMenu({ children, style, url }: Props) {
         },
         {
           action() {
-            void Share.share({
+            Share.share({
               url,
             })
           },

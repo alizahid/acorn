@@ -1,4 +1,4 @@
-/* eslint-disable react/no-array-index-key -- go away */
+/** biome-ignore-all lint/suspicious/noArrayIndexKey: go away */
 
 import { Image } from 'expo-image'
 import { type Nodes } from 'mdast'
@@ -195,7 +195,7 @@ export function Node({ node, ...props }: Props) {
           ...props.text,
           color: 'accent',
           onPress() {
-            void handleLink(node.url)
+            handleLink(node.url)
           },
         }}
       />
@@ -356,8 +356,9 @@ export function Node({ node, ...props }: Props) {
     return <View style={styles.thematicBreak} />
   }
 
+  // biome-ignore lint/correctness/noUndeclaredVariables: go away
   if (__DEV__) {
-    // eslint-disable-next-line no-console -- go away
+    // biome-ignore lint/suspicious/noConsole: go away
     console.log(`Markdown not available: ${node.type}`, JSON.stringify(node))
   } else {
     Sentry.captureMessage('Markdown not available', {

@@ -53,7 +53,7 @@ export function getImages(data: PostDataSchema): Undefined<Array<PostMedia>> {
         const media = data.media_metadata?.[item.media_id]
 
         if (!media || media.status !== 'valid') {
-          return
+          return null
         }
 
         const video = 'hlsUrl' in media
@@ -91,33 +91,36 @@ export function getImages(data: PostDataSchema): Undefined<Array<PostMedia>> {
   }
 }
 
+const videoPartsRegex = /https:\/\/www\.redgifs\.com\/ifr\/(\w+)/
+
 export function getVideo(data: PostDataSchema): Undefined<PostMedia> {
-  if (data.media && 'oembed' in data.media && 'type' in data.media.oembed) {
-    if (data.media.oembed.type === 'video') {
-      if (data.media.type.endsWith('redgifs.com')) {
-        const parts = /https:\/\/www\.redgifs\.com\/ifr\/(\w+)/.exec(
-          data.media.oembed.html,
-        )
+  if (
+    data.media &&
+    'oembed' in data.media &&
+    'type' in data.media.oembed &&
+    data.media.oembed.type === 'video'
+  ) {
+    if (data.media.type.endsWith('redgifs.com')) {
+      const parts = videoPartsRegex.exec(data.media.oembed.html)
 
-        if (parts?.[1]) {
-          return {
-            height: data.media.oembed.height,
-            provider: 'red-gifs',
-            type: 'video',
-            url: parts[1],
-            width: data.media.oembed.width,
-          }
-        }
-      }
-
-      if (data.url) {
+      if (parts?.[1]) {
         return {
           height: data.media.oembed.height,
-          thumbnail: data.media.oembed.thumbnail_url ?? undefined,
-          type: 'image',
-          url: data.url,
+          provider: 'red-gifs',
+          type: 'video',
+          url: parts[1],
           width: data.media.oembed.width,
         }
+      }
+    }
+
+    if (data.url) {
+      return {
+        height: data.media.oembed.height,
+        thumbnail: data.media.oembed.thumbnail_url ?? undefined,
+        type: 'image',
+        url: data.url,
+        width: data.media.oembed.width,
       }
     }
   }

@@ -29,7 +29,6 @@ export function View({
 }: Props) {
   const { styles } = useStyles(stylesheet)
 
-  // eslint-disable-next-line react/no-children-prop -- go away
   return createElement('RCTView', {
     children,
     collapsable,

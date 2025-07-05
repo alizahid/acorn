@@ -13,8 +13,9 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
       throwOnError(error) {
+        // biome-ignore lint/correctness/noUndeclaredVariables: go away
         if (__DEV__) {
-          // eslint-disable-next-line no-console -- dev
+          // biome-ignore lint/suspicious/noConsole: go away
           console.log(error)
         }
 
@@ -24,12 +25,13 @@ export const queryClient = new QueryClient({
       },
     },
     queries: {
-      gcTime: usePreferences.getState().refreshInterval * 60 * 1_000,
+      gcTime: usePreferences.getState().refreshInterval * 60 * 1000,
       retry: false,
-      staleTime: usePreferences.getState().refreshInterval * 60 * 1_000,
+      staleTime: usePreferences.getState().refreshInterval * 60 * 1000,
       throwOnError(error) {
+        // biome-ignore lint/correctness/noUndeclaredVariables: go away
         if (__DEV__) {
-          // eslint-disable-next-line no-console -- dev
+          // biome-ignore lint/suspicious/noConsole: go away
           console.log(error)
         }
 

@@ -1,4 +1,5 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
@@ -93,7 +94,7 @@ export default function Screen() {
               }
               onChangeText={field.onChange}
               onSubmitEditing={() => {
-                void onSubmit()
+                onSubmit()
               }}
               placeholder={t('form.field.clientId.placeholder')}
               returnKeyType="go"
@@ -106,7 +107,7 @@ export default function Screen() {
           label={t('form.action.submit')}
           loading={isPending}
           onPress={() => {
-            void onSubmit()
+            onSubmit()
           }}
         />
       </View>
@@ -118,7 +119,7 @@ export default function Screen() {
               <Text
                 color="accent"
                 onPress={() => {
-                  void Linking.openURL('https://www.reddit.com/prefs/apps')
+                  Linking.openURL('https://www.reddit.com/prefs/apps')
                 }}
               >
                 {text}

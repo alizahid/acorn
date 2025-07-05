@@ -49,7 +49,7 @@ export function PostGalleryCard({
 
   const onPress = useCallback(
     (initial?: number) => {
-      void Gallery.call({
+      Gallery.call({
         images,
         initial,
       })

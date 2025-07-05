@@ -76,7 +76,7 @@ function Content({ refetch, submission }: Props) {
         pathname: '/posts/[id]',
       })
     } else {
-      void handleLink(response.url)
+      handleLink(response.url)
     }
 
     form.reset()
@@ -93,7 +93,7 @@ function Content({ refetch, submission }: Props) {
             label={a11y('createPost')}
             loading={isPending}
             onPress={() => {
-              void onSubmit()
+              onSubmit()
             }}
           />
         ),

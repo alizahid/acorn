@@ -1,4 +1,14 @@
 {
+  "[javascript][typescript][javascriptreact][typescriptreact][json][jsonc][css][graphql]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports.biome": "explicit"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "emmet.showExpandedAbbreviation": "never",
   "tailwindCSS.files.exclude": ["apps/mobile/**"],
-  "biome.enabled": false
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

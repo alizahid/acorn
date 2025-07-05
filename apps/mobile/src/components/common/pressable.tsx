@@ -2,9 +2,9 @@ import { type ReactNode } from 'react'
 import {
   type AccessibilityRole,
   type AccessibilityState,
+  Pressable as Component,
   type Insets,
   type LayoutChangeEvent,
-  Pressable as Component,
   type StyleProp,
   type ViewStyle,
 } from 'react-native'

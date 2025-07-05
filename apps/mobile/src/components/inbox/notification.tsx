@@ -22,7 +22,7 @@ export function NotificationCard({ notification }: Props) {
   const t = useTranslations('component.inbox.notification')
   const f = useFormatter()
   const now = useNow({
-    updateInterval: 1_000 * 60,
+    updateInterval: 1000 * 60,
   })
 
   const { themeOled } = usePreferences()
@@ -45,7 +45,7 @@ export function NotificationCard({ notification }: Props) {
       gap="4"
       label={body}
       onPress={() => {
-        void handleLink(notification.context)
+        handleLink(notification.context)
 
         if (notification.new) {
           mark({

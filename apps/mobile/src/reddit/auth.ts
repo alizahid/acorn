@@ -1,3 +1,4 @@
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as WebBrowser from 'expo-web-browser'
 import { type UnistylesTheme } from 'react-native-unistyles'
 import { z } from 'zod'

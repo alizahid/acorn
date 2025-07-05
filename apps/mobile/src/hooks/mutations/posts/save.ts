@@ -62,7 +62,7 @@ export function usePostSave() {
         draft.saved = variables.action === 'save'
       })
     },
-    onSuccess(data, variables) {
+    onSuccess(_data, variables) {
       toast.success(t(variables.action === 'save' ? 'saved' : 'unsaved'), {
         icon: getIcon({
           color: 'green',

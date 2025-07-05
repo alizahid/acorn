@@ -31,7 +31,7 @@ export function useFollow() {
         url: '/api/subscribe',
       })
     },
-    async onSuccess(data, variables) {
+    async onSuccess(_data, variables) {
       await queryClient.invalidateQueries({
         queryKey: [
           'users',
@@ -41,7 +41,7 @@ export function useFollow() {
         ] satisfies ProfileQueryKey,
       })
 
-      void queryClient.invalidateQueries({
+      queryClient.invalidateQueries({
         queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
       })
 

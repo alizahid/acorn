@@ -36,7 +36,7 @@ export function useUnread() {
         accountId,
       },
     ],
-    staleTime: 1_000 * 60,
+    staleTime: 1000 * 60,
   })
 
   const unread = Math.min(Math.max(data ?? 0, 0), 99)

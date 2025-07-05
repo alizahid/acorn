@@ -108,7 +108,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           oldReddit ? 'https://old.reddit.com' : 'https://www.reddit.com',
         )
 
-        void Share.share({
+        Share.share({
           url: url.toString(),
         })
       }

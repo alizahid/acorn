@@ -9,21 +9,23 @@
     "build": "turbo build",
     "clean": "rimraf --glob '**/.next' '**/.expo' '**/.turbo'",
     "dev": "bun clean; watchman shutdown-server; turbo dev --parallel",
-    "lint": "turbo lint",
+    "lint": "bunx ultracite format",
     "lint:types": "turbo lint:types",
     "nuke": "bun clean '**/node_modules' bun.lock",
     "prepare": "husky"
   },
   "lint-staged": {
-    "*.json": "prettier --write"
+    "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
+      "npx ultracite format"
+    ]
   },
   "devDependencies": {
+    "@biomejs/biome": "2.0.6",
     "husky": "^9.1.7",
     "lint-staged": "^16.1.2",
-    "prettier": "^3.6.2",
-    "prettier-plugin-tailwindcss": "^0.6.13",
     "rimraf": "^6.0.1",
-    "turbo": "2.5.4"
+    "turbo": "2.5.4",
+    "ultracite": "5.0.32"
   },
   "packageManager": "bun@1.2.18",
   "patchedDependencies": {

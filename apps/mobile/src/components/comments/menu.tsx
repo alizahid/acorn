@@ -189,7 +189,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
           options: compact([
             {
               action() {
-                void copy(comment.body).then(() => {
+                copy(comment.body).then(() => {
                   toast.success(t('toast.textCopied'))
                 })
               },
@@ -209,7 +209,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                     : 'https://www.reddit.com',
                 )
 
-                void copy(url.toString()).then(() => {
+                copy(url.toString()).then(() => {
                   toast.success(t('toast.linkCopied'))
                 })
               },
@@ -229,7 +229,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                     : 'https://www.reddit.com',
                 )
 
-                void Share.share({
+                Share.share({
                   url: url.toString(),
                 })
               },
@@ -249,7 +249,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
           options: [
             {
               action() {
-                void handleLink(comment.permalink)
+                handleLink(comment.permalink)
               },
               icon: {
                 image: acorn,

@@ -1,3 +1,4 @@
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as Updates from 'expo-updates'
 
 export const REDIRECT_URI = 'acorn://login'

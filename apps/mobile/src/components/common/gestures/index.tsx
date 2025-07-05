@@ -60,7 +60,7 @@ export function Gestures({
 
   const action = useSharedValue<Undefined<GestureAction>>(undefined)
 
-  if (!left.enabled && !right.enabled) {
+  if (!(left.enabled || right.enabled)) {
     return <View style={[containerStyle, style]}>{children}</View>
   }
 
@@ -77,7 +77,7 @@ export function Gestures({
             }
           : undefined
       }
-      leftThreshold={Infinity}
+      leftThreshold={Number.POSITIVE_INFINITY}
       onSwipeableWillClose={() => {
         const next = action.get()
 
@@ -111,7 +111,7 @@ export function Gestures({
           />
         ) : null
       }
-      rightThreshold={Infinity}
+      rightThreshold={Number.POSITIVE_INFINITY}
     >
       {children}
     </Swipeable>
