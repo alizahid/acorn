@@ -11,22 +11,22 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
-    "next": "15.3.3",
-    "next-intl": "^4.1.0",
+    "next": "15.3.5",
+    "next-intl": "^4.3.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",
-    "tailwind-merge": "^3.3.0"
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@radix-ui/colors": "^3.0.0",
-    "@tailwindcss/postcss": "^4.1.8",
-    "@types/node": "^22.15.30",
+    "@tailwindcss/postcss": "^4.1.11",
+    "@types/node": "^24.0.10",
     "@types/react": "~19.0.10",
     "@types/react-dom": "19.0.6",
     "eslint-config-custom": "workspace:*",
-    "eslint-config-next": "15.3.3",
-    "postcss": "^8.5.4",
-    "tailwindcss": "^4.1.8",
+    "eslint-config-next": "15.3.5",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.8.3"
   }
 }
