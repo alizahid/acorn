@@ -6,6 +6,7 @@
 - added: opening an in app browser pauses video
 - added: device rotation unlocked when opening in app browser
 - added: comment user on top
+- added: hide post actions
 - fixed: long press profile tab to switch accounts
 
 ## Build 58

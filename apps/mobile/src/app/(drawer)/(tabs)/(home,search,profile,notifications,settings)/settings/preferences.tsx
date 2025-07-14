@@ -35,6 +35,11 @@ export default function Screen() {
             label: 'browsing.communityOnTop',
           },
           {
+            icon: 'BookmarkSimple',
+            key: 'hidePostActions',
+            label: 'browsing.hidePostActions',
+          },
+          {
             description: 'browsing.refreshInterval.description',
             icon: 'Clock',
             key: 'refreshInterval',

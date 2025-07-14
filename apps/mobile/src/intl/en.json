@@ -547,6 +547,7 @@
       "preferences": {
         "browsing": {
           "communityOnTop": "Show community on top",
+          "hidePostActions": "Hide post actions",
           "oldReddit": "Use old Reddit links",
           "refreshInterval": {
             "description": "Requires app restart",

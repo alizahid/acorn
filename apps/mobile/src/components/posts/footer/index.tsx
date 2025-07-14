@@ -7,6 +7,7 @@ import { Pressable } from '~/components/common/pressable'
 import { View } from '~/components/common/view'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { removePrefix } from '~/lib/reddit'
+import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { FooterButton } from './button'
@@ -24,6 +25,8 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
+
+  const { hidePostActions } = usePreferences()
 
   const { theme } = useStyles()
 
@@ -55,41 +58,43 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
         <PostMeta post={post} />
       </View>
 
-      <View align="center" direction="row" gap="2">
-        <FooterButton
-          color={
-            post.liked ? theme.colors.orange.accent : theme.colors.gray.text
-          }
-          fill={post.liked === true}
-          icon="ArrowUp"
-          label={a11y(post.liked ? 'removeUpvote' : 'upvote')}
-          onPress={() => {
-            vote({
-              direction: post.liked ? 0 : 1,
-              postId: post.id,
-            })
-          }}
-          weight="bold"
-        />
+      {hidePostActions ? null : (
+        <View align="center" direction="row" gap="2">
+          <FooterButton
+            color={
+              post.liked ? theme.colors.orange.accent : theme.colors.gray.text
+            }
+            fill={post.liked === true}
+            icon="ArrowUp"
+            label={a11y(post.liked ? 'removeUpvote' : 'upvote')}
+            onPress={() => {
+              vote({
+                direction: post.liked ? 0 : 1,
+                postId: post.id,
+              })
+            }}
+            weight="bold"
+          />
 
-        <FooterButton
-          color={
-            post.liked === false
-              ? theme.colors.violet.accent
-              : theme.colors.gray.text
-          }
-          fill={post.liked === false}
-          icon="ArrowDown"
-          label={a11y(post.liked === false ? 'removeDownvote' : 'downvote')}
-          onPress={() => {
-            vote({
-              direction: post.liked === false ? 0 : -1,
-              postId: post.id,
-            })
-          }}
-          weight="bold"
-        />
-      </View>
+          <FooterButton
+            color={
+              post.liked === false
+                ? theme.colors.violet.accent
+                : theme.colors.gray.text
+            }
+            fill={post.liked === false}
+            icon="ArrowDown"
+            label={a11y(post.liked === false ? 'removeDownvote' : 'downvote')}
+            onPress={() => {
+              vote({
+                direction: post.liked === false ? 0 : -1,
+                postId: post.id,
+              })
+            }}
+            weight="bold"
+          />
+        </View>
+      )}
     </Pressable>
   )
 }

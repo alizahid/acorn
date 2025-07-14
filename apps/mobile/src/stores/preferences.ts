@@ -27,18 +27,18 @@ export type PreferencesPayload = {
   collapsibleComments: boolean
   colorfulComments: boolean
   communityOnTop: boolean
-  userOnTop: boolean
   dimSeen: boolean
+  feedbackHaptics: boolean
+  feedbackSounds: boolean
   feedCompact: boolean
   feedMuted: boolean
   feedType: FeedType
-  feedbackHaptics: boolean
-  feedbackSounds: boolean
   font: Font
   fontScaling: number
   fontSizeComment: TypographyToken
   fontSizePost: TypographyToken
   hapticsLoud: boolean
+  hidePostActions: boolean
   hideSeen: boolean
   intervalCommunityPosts: TopInterval
   intervalFeedPosts: TopInterval
@@ -73,6 +73,7 @@ export type PreferencesPayload = {
   themeTint: boolean
   unmuteFullscreen: boolean
   upvoteOnSave: boolean
+  userOnTop: boolean
 }
 
 type State = PreferencesPayload & {
@@ -101,6 +102,7 @@ export const usePreferences = create<State>()(
       fontSizeComment: '2',
       fontSizePost: '3',
       hapticsLoud: false,
+      hidePostActions: false,
       hideSeen: false,
       intervalCommunityPosts: 'hour',
       intervalFeedPosts: 'hour',
