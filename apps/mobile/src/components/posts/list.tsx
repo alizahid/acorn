@@ -6,7 +6,6 @@ import {
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
 import { type ViewabilityConfig } from 'react-native'
-import { Tabs } from 'react-native-collapsible-tab-view'
 import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -47,7 +46,6 @@ type Props = PostsProps & {
   onRefresh?: () => void
   sticky?: HeaderProps
   style?: ContentStyle
-  tab?: boolean
 }
 
 const List = Animated.createAnimatedComponent(FlashList<Item>)
@@ -63,7 +61,6 @@ export function PostList({
   sort,
   sticky,
   style,
-  tab,
   user,
   userType,
 }: Props) {
@@ -138,7 +135,7 @@ export function PostList({
     [focused, router, viewing],
   )
 
-  const Component = tab ? Tabs.FlashList : sticky ? List : FlashList<Item>
+  const Component = sticky ? List : FlashList<Item>
 
   return (
     <>
