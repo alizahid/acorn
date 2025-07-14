@@ -8,6 +8,7 @@ import { useStyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
+import { lockOrientation, unlockOrientation } from '~/lib/orientation'
 import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
 import { type Nullable } from '~/types'
@@ -26,15 +27,21 @@ export function useLink() {
 
   const openInApp = useCallback(
     async (url: string) => {
-      setFocused(false)
+      try {
+        setFocused(false)
 
-      await WebBrowser.openBrowserAsync(url, {
-        controlsColor: theme.colors.accent.accent,
-        presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
-        toolbarColor: theme.colors.gray.bg,
-      })
+        unlockOrientation()
 
-      setFocused(true)
+        await WebBrowser.openBrowserAsync(url, {
+          controlsColor: theme.colors.accent.accent,
+          presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
+          toolbarColor: theme.colors.gray.bg,
+        })
+      } finally {
+        setFocused(true)
+
+        lockOrientation()
+      }
     },
     [theme.colors.accent, theme.colors.gray, setFocused],
   )

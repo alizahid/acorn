@@ -1,6 +1,4 @@
 // biome-ignore lint/performance/noNamespaceImport: go away
-import * as ScreenOrientation from 'expo-screen-orientation'
-// biome-ignore lint/performance/noNamespaceImport: go away
 import * as StatusBar from 'expo-status-bar'
 import { useEffect, useRef, useState } from 'react'
 import { createCallable } from 'react-call'
@@ -23,6 +21,7 @@ import { IconButton } from '~/components/common/icon-button'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useDownloadImages } from '~/hooks/image'
+import { lockOrientation, unlockOrientation } from '~/lib/orientation'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type PostMedia } from '~/types/post'
@@ -75,7 +74,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
     if (call.ended) {
       StatusBar.setStatusBarHidden(false, 'fade')
 
-      ScreenOrientation.lockAsync(ScreenOrientation.OrientationLock.PORTRAIT_UP)
+      lockOrientation()
 
       return
     }
@@ -89,7 +88,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
     translate.set(() => withTiming(0))
     opacity.set(() => withTiming(1))
 
-    ScreenOrientation.unlockAsync()
+    unlockOrientation()
   }, [call.ended, opacity.set, translate.set])
 
   const [viewing, setViewing] = useState(initial ?? 0)
