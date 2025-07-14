@@ -12,7 +12,6 @@ import { removePrefix } from '~/lib/reddit'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
-import { addTextSize } from '~/styles/text'
 import { type Post } from '~/types/post'
 
 import { type GestureAction, Gestures } from '../common/gestures'
@@ -43,12 +42,13 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
   const a11y = useTranslations('a11y')
 
   const {
+    boldTitle,
     communityOnTop,
     dimSeen,
     feedCompact,
-    fontSizePost,
+    fontSizePostBody,
+    fontSizePostTitle,
     mediaOnRight,
-    boldTitle,
     oldReddit,
     themeOled,
   } = usePreferences()
@@ -212,7 +212,10 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
         >
           {communityOnTop ? <PostCommunity post={post} /> : null}
 
-          <Text size={fontSizePost} weight={boldTitle ? 'bold' : undefined}>
+          <Text
+            size={fontSizePostTitle}
+            weight={boldTitle ? 'bold' : undefined}
+          >
             {post.title}
           </Text>
 
@@ -268,7 +271,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           <Markdown
             meta={post.media.meta}
             recyclingKey={post.id}
-            size={addTextSize(fontSizePost, -1)}
+            size={fontSizePostBody}
             style={styles.body}
             variant="post"
           >

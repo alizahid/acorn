@@ -35,7 +35,7 @@ export function PostCompactCard({
 }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { fontSizePost, largeThumbnails } = usePreferences()
+  const { fontSizePostTitle, largeThumbnails } = usePreferences()
 
   const { styles, theme } = useStyles(stylesheet)
 
@@ -108,7 +108,7 @@ export function PostCompactCard({
       <View align="start" flex={1} gap="2">
         <PostCommunity post={post} />
 
-        <Text size={fontSizePost} weight="bold">
+        <Text size={fontSizePostTitle} weight="bold">
           {post.title}
         </Text>
 

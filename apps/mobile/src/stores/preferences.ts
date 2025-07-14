@@ -4,6 +4,7 @@ import { persist } from 'zustand/middleware'
 import { type FloatingButtonSide } from '~/components/common/floating-button'
 import { type Font } from '~/lib/fonts'
 import { Store } from '~/lib/store'
+import { addTextSize } from '~/styles/text'
 import { type Theme } from '~/styles/themes'
 import { type TypographyToken } from '~/styles/tokens'
 import {
@@ -37,7 +38,8 @@ export type PreferencesPayload = {
   font: Font
   fontScaling: number
   fontSizeComment: TypographyToken
-  fontSizePost: TypographyToken
+  fontSizePostTitle: TypographyToken
+  fontSizePostBody: TypographyToken
   hapticsLoud: boolean
   hidePostActions: boolean
   hideSeen: boolean
@@ -103,7 +105,8 @@ export const usePreferences = create<State>()(
       font: 'basis',
       fontScaling: 1,
       fontSizeComment: '2',
-      fontSizePost: '3',
+      fontSizePostBody: '2',
+      fontSizePostTitle: '3',
       hapticsLoud: false,
       hidePostActions: false,
       hideSeen: false,
@@ -159,18 +162,27 @@ export const usePreferences = create<State>()(
         }
 
         if (version === 3) {
-          state.colorfulComments = (
-            persisted as {
-              coloredComments: boolean
-            }
-          ).coloredComments
+          const { coloredComments } = persisted as {
+            coloredComments: boolean
+          }
+
+          state.colorfulComments = coloredComments
+        }
+
+        if (version === 4) {
+          const { fontSizePost } = persisted as {
+            fontSizePost: TypographyToken
+          }
+
+          state.fontSizePostTitle = fontSizePost
+          state.fontSizePostBody = addTextSize(fontSizePost, -1)
         }
 
         return state
       },
       name: PREFERENCES_KEY,
       storage: new Store(PREFERENCES_KEY),
-      version: 4,
+      version: 5,
     },
   ),
 )

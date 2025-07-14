@@ -25,7 +25,8 @@ export default function Screen() {
     font,
     fontScaling,
     fontSizeComment,
-    fontSizePost,
+    fontSizePostBody,
+    fontSizePostTitle,
     largeThumbnails,
     mediaOnRight,
     systemScaling,
@@ -107,8 +108,12 @@ export default function Screen() {
             value: fontScaling,
           },
           {
-            key: 'fontSizePost',
-            value: fontSizePost,
+            key: 'fontSizePostTitle',
+            value: fontSizePostTitle,
+          },
+          {
+            key: 'fontSizePostBody',
+            value: fontSizePostBody,
           },
           {
             key: 'fontSizeComment',
@@ -263,7 +268,11 @@ export default function Screen() {
           } satisfies MenuItem
         }
 
-        if (item.key === 'fontSizePost' || item.key === 'fontSizeComment') {
+        if (
+          item.key === 'fontSizePostTitle' ||
+          item.key === 'fontSizePostBody' ||
+          item.key === 'fontSizeComment'
+        ) {
           return {
             label: t(`fonts.${item.key}`),
             onSelect(value) {

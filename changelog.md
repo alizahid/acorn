@@ -11,6 +11,7 @@
 - added: infinite scrolling toggle
 - added: bold post title toggle
 - added: alphabet list for communities/users
+- added: separate post title and body font size
 - changed: drawer headers pressable area increased
 - changed: drawer headers left aligned
 - changed: allow collapsing feeds section in drawer
