@@ -2,6 +2,11 @@
 
 ## Upcoming
 
+- added: opening an in app browser pauses video
+- added: device rotation unlocked when opening in app browser
+
+## Build 58
+
 - fixed: feed crashes
 - fixed: video flicker
 
