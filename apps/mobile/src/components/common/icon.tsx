@@ -85,6 +85,7 @@ import { TagIcon } from 'phosphor-react-native/src/icons/Tag'
 import { TargetIcon } from 'phosphor-react-native/src/icons/Target'
 import { TelevisionSimpleIcon } from 'phosphor-react-native/src/icons/TelevisionSimple'
 import { TextAlignLeftIcon } from 'phosphor-react-native/src/icons/TextAlignLeft'
+import { TextBIcon } from 'phosphor-react-native/src/icons/TextB'
 import { TextboxIcon } from 'phosphor-react-native/src/icons/Textbox'
 import { TrashIcon } from 'phosphor-react-native/src/icons/Trash'
 import { TreeViewIcon } from 'phosphor-react-native/src/icons/TreeView'
@@ -240,6 +241,7 @@ const icons = {
   Target: TargetIcon,
   TelevisionSimple: TelevisionSimpleIcon,
   TextAlignLeft: TextAlignLeftIcon,
+  TextB: TextBIcon,
   Textbox: TextboxIcon,
   Trash: TrashIcon,
   TreeView: TreeViewIcon,

@@ -549,6 +549,7 @@
       },
       "preferences": {
         "browsing": {
+          "boldTitle": "Bold titles",
           "communityOnTop": "Show community on top",
           "hidePostActions": "Hide post actions",
           "infiniteScrolling": "Infinite scrolling",

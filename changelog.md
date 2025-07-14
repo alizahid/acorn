@@ -9,6 +9,7 @@
 - added: hide post actions
 - added: background for sticky posts
 - added: infinite scrolling toggle
+- added: bold post title toggle
 - fixed: long press profile tab to switch accounts
 
 ## Build 58

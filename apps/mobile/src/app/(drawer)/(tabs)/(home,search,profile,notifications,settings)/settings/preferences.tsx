@@ -40,6 +40,11 @@ export default function Screen() {
             label: 'browsing.infiniteScrolling',
           },
           {
+            icon: 'TextB',
+            key: 'boldTitle',
+            label: 'browsing.boldTitle',
+          },
+          {
             icon: 'BookmarkSimple',
             key: 'hidePostActions',
             label: 'browsing.hidePostActions',

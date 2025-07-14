@@ -48,6 +48,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
     feedCompact,
     fontSizePost,
     mediaOnRight,
+    boldTitle,
     oldReddit,
     themeOled,
   } = usePreferences()
@@ -211,7 +212,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
         >
           {communityOnTop ? <PostCommunity post={post} /> : null}
 
-          <Text size={fontSizePost} weight="bold">
+          <Text size={fontSizePost} weight={boldTitle ? 'bold' : undefined}>
             {post.title}
           </Text>
 
