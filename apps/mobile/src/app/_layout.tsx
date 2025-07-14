@@ -2,9 +2,9 @@ import '~/styles/uni'
 
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import { Slot } from 'expo-router'
-import { hideAsync, preventAutoHideAsync } from 'expo-splash-screen'
+// biome-ignore lint/performance/noNamespaceImport: go away
+import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
-import SoundPlayer from 'react-native-sound-player'
 import { UnistylesRuntime } from 'react-native-unistyles'
 
 import { Providers } from '~/components/common/providers'
@@ -13,9 +13,7 @@ import migrations from '~/drizzle/migrations'
 import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
 
-SoundPlayer.setMixAudio(true)
-
-preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync()
 
 function Acorn() {
   const { theme } = usePreferences()
@@ -24,7 +22,7 @@ function Acorn() {
 
   useEffect(() => {
     if (success) {
-      hideAsync()
+      SplashScreen.hideAsync()
     }
   }, [success])
 

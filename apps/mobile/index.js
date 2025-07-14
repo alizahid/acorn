@@ -8,3 +8,7 @@ import '@formatjs/intl-numberformat/polyfill-force' // 5
 import '@formatjs/intl-numberformat/locale-data/en' // 6
 import '@formatjs/intl-relativetimeformat/polyfill-force' // 7
 import '@formatjs/intl-relativetimeformat/locale-data/en' // 8
+
+import SoundPlayer from 'react-native-sound-player'
+
+SoundPlayer.setMixAudio(true)
