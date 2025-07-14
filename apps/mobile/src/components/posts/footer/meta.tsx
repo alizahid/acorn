@@ -55,7 +55,7 @@ export function PostMeta({ post }: Props) {
     <View align="center" direction="row" gap="2">
       {post.sticky ? (
         <Icon
-          color={theme.colors.red.accent}
+          color={theme.colors.green.accent}
           name="PushPin"
           size={theme.typography[1].fontSize}
           weight="fill"

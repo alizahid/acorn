@@ -163,7 +163,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
             long: postRightLong,
             short: postRightShort,
           }}
-          style={[styles.main(themeOled), style]}
+          style={[styles.main(themeOled, post.sticky), style]}
         >
           <PostCompactCard
             expanded={expanded}
@@ -196,7 +196,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           long: postRightLong,
           short: postRightShort,
         }}
-        style={[styles.main(themeOled), style]}
+        style={[styles.main(themeOled, post.sticky), style]}
       >
         <Pressable
           disabled={expanded}
@@ -305,8 +305,12 @@ const stylesheet = createStyleSheet((theme) => ({
   expanded: {
     marginBottom: theme.space[3],
   },
-  main: (oled: boolean) => ({
-    backgroundColor: oled ? oledTheme[theme.name].bg : theme.colors.gray.ui,
+  main: (oled: boolean, sticky: boolean) => ({
+    backgroundColor: oled
+      ? sticky
+        ? theme.colors.green.uiAlpha
+        : oledTheme[theme.name].bg
+      : theme.colors[sticky ? 'green' : 'gray'].ui,
     borderCurve: 'continuous',
     borderRadius: iPad ? theme.radius[3] : undefined,
     overflow: 'hidden',

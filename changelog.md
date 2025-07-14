@@ -7,6 +7,7 @@
 - added: device rotation unlocked when opening in app browser
 - added: comment user on top
 - added: hide post actions
+- added: background for sticky posts
 - fixed: long press profile tab to switch accounts
 
 ## Build 58
