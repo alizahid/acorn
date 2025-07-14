@@ -35,6 +35,11 @@ export default function Screen() {
             label: 'browsing.communityOnTop',
           },
           {
+            icon: 'Infinity',
+            key: 'infiniteScrolling',
+            label: 'browsing.infiniteScrolling',
+          },
+          {
             icon: 'BookmarkSimple',
             key: 'hidePostActions',
             label: 'browsing.hidePostActions',

@@ -40,6 +40,7 @@ export type PreferencesPayload = {
   hapticsLoud: boolean
   hidePostActions: boolean
   hideSeen: boolean
+  infiniteScrolling: boolean
   intervalCommunityPosts: TopInterval
   intervalFeedPosts: TopInterval
   intervalSearchPosts: TopInterval
@@ -104,6 +105,7 @@ export const usePreferences = create<State>()(
       hapticsLoud: false,
       hidePostActions: false,
       hideSeen: false,
+      infiniteScrolling: true,
       intervalCommunityPosts: 'hour',
       intervalFeedPosts: 'hour',
       intervalSearchPosts: 'all',

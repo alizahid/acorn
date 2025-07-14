@@ -172,6 +172,9 @@
         "open": "Open",
         "share": "Share"
       },
+      "list": {
+        "more": "Load more"
+      },
       "menu": {
         "copyImage": "Copy image",
         "copyPermalink": "Copy permalink",
@@ -548,6 +551,7 @@
         "browsing": {
           "communityOnTop": "Show community on top",
           "hidePostActions": "Hide post actions",
+          "infiniteScrolling": "Infinite scrolling",
           "oldReddit": "Use old Reddit links",
           "refreshInterval": {
             "description": "Requires app restart",

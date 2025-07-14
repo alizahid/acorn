@@ -9,6 +9,7 @@ import { type ViewabilityConfig } from 'react-native'
 import { Tabs } from 'react-native-collapsible-tab-view'
 import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -25,6 +26,7 @@ import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 
 import { CommentCard } from '../comments/card'
+import { Button } from '../common/button'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
@@ -69,11 +71,14 @@ export function PostList({
 
   const { focused } = useFocused()
 
+  const t = useTranslations('component.posts.list')
+
   const list = useRef<FlashList<Item>>(null)
 
   useScrollToTop(list, listProps)
 
-  const { feedCompact, seenOnScroll, themeOled } = usePreferences()
+  const { feedCompact, infiniteScrolling, seenOnScroll, themeOled } =
+    usePreferences()
   const { addPost } = useHistory()
 
   const { styles } = useStyles(stylesheet)
@@ -164,13 +169,27 @@ export function PostList({
         }}
         ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
         ListFooterComponent={() =>
-          isFetchingNextPage ? <Spinner m="6" /> : null
+          isFetchingNextPage ? (
+            <Spinner style={styles.spinner} />
+          ) : infiniteScrolling ? null : hasNextPage ? (
+            <Button
+              label={t('more')}
+              onPress={() => {
+                fetchNextPage()
+              }}
+              style={styles.more}
+            />
+          ) : null
         }
         ListHeaderComponent={header}
         maintainVisibleContentPosition={{
           disabled: true,
         }}
         onEndReached={() => {
+          if (!infiniteScrolling) {
+            return
+          }
+
           if (hasNextPage) {
             fetchNextPage()
           }
@@ -211,6 +230,11 @@ export function PostList({
 }
 
 const stylesheet = createStyleSheet((theme) => ({
+  more: {
+    alignSelf: 'center',
+    marginBottom: iPad ? theme.space[4] : theme.space[4] * 2,
+    marginTop: theme.space[4] * 2,
+  },
   separator: (oled: boolean, compact: boolean) => ({
     alignSelf: 'center',
     backgroundColor: oled ? theme.colors.gray.border : undefined,
@@ -218,4 +242,9 @@ const stylesheet = createStyleSheet((theme) => ({
     maxWidth: iPad ? cardMaxWidth : undefined,
     width: '100%',
   }),
+  spinner: {
+    height: theme.space[7],
+    marginBottom: iPad ? theme.space[4] : theme.space[4] * 2,
+    marginTop: theme.space[4] * 2,
+  },
 }))
