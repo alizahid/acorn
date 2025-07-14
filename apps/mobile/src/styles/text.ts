@@ -1,5 +1,4 @@
 import { type FontVariant, type TextStyle } from 'react-native'
-import { type Record } from 'react-native-phosphor'
 import {
   type UnistylesTheme,
   type UnistylesValues,
