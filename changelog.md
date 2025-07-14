@@ -11,7 +11,8 @@
 - added: infinite scrolling toggle
 - added: bold post title toggle
 - added: alphabet list for communities/users
-- changed: full pressable area for drawer headers
+- changed: drawer headers pressable area increased
+- changed: drawer headers left aligned
 - fixed: long press profile tab to switch accounts
 
 ## Build 58

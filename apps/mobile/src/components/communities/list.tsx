@@ -470,7 +470,9 @@ export function CommunitiesList({
                   />
                 ) : null
               }
+              style={styles.header}
               title={section.title}
+              titleStyle={styles.headerTitle}
             />
           </>
         )
@@ -488,6 +490,13 @@ const stylesheet = createStyleSheet((theme) => ({
   feedCommunityImage: {
     height: theme.typography[2].lineHeight,
     width: theme.typography[2].lineHeight,
+  },
+  header: {
+    alignItems: 'flex-start',
+    paddingLeft: theme.space[3],
+  },
+  headerTitle: {
+    color: theme.colors.accent.textLow,
   },
   image: {
     backgroundColor: theme.colors.gray.ui,
