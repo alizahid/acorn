@@ -134,7 +134,7 @@ export function CommunitiesList({
         if (section.key === 'feed' && !section.disabled) {
           return {
             collapsed: collapsed.get('type'),
-            collapsible: false,
+            collapsible: true,
             data: FeedType.map((item) => ({
               data: item,
               key: item,

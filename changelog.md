@@ -13,6 +13,7 @@
 - added: alphabet list for communities/users
 - changed: drawer headers pressable area increased
 - changed: drawer headers left aligned
+- changed: allow collapsing feeds section in drawer
 - fixed: long press profile tab to switch accounts
 
 ## Build 58
