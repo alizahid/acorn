@@ -1,4 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
+import { useMemo } from 'react'
 import { type ViewStyle } from 'react-native'
 import {
   createStyleSheet,
@@ -9,11 +10,13 @@ import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { FloatingButton } from '~/components/common/floating-button'
+import { IconButton } from '~/components/common/icon-button'
 import { SearchBox } from '~/components/common/search'
 import { View } from '~/components/common/view'
+import { type HeaderProps } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { ListFlags, useList } from '~/hooks/list'
+import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { heights, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -35,51 +38,90 @@ export default function Screen() {
 
   const { styles } = useStyles(stylesheet)
 
-  const listProps = useList(ListFlags.BOTTOM)
+  const listProps = useList()
 
   const { sorting, update } = useSorting('community', params.name)
 
-  return (
-    <>
-      <View
-        direction="row"
-        style={styles.header(themeOled, themeTint) as ViewStyle}
-      >
-        <SearchBox
-          onSubmitEditing={(event) => {
-            const query = event.nativeEvent.text
+  const sticky = useMemo<HeaderProps>(
+    () => ({
+      back: true,
+      children: (
+        <View
+          direction="row"
+          style={styles.header(themeOled, themeTint) as ViewStyle}
+        >
+          <SearchBox
+            onSubmitEditing={(event) => {
+              const query = event.nativeEvent.text
 
-            if (query.length > 2) {
-              router.push({
-                params: {
-                  name: params.name,
-                  query,
-                },
-                pathname: '/communities/[name]/search',
+              if (query.length > 2) {
+                router.push({
+                  params: {
+                    name: params.name,
+                    query,
+                  },
+                  pathname: '/communities/[name]/search',
+                })
+              }
+            }}
+            placeholder="search"
+          />
+
+          <SortIntervalMenu
+            interval={sorting.interval}
+            onChange={(next) => {
+              update({
+                interval: next.interval,
+                sort: next.sort,
               })
-            }
+            }}
+            sort={sorting.sort}
+            type="community"
+          />
+        </View>
+      ),
+      right: (
+        <IconButton
+          icon={{
+            name: 'Info',
+            weight: 'duotone',
           }}
-          placeholder="search"
-        />
-
-        <SortIntervalMenu
-          interval={sorting.interval}
-          onChange={(next) => {
-            update({
-              interval: next.interval,
-              sort: next.sort,
+          label={a11y('aboutCommunity', {
+            community: params.name,
+          })}
+          onPress={() => {
+            router.push({
+              params: {
+                name: params.name,
+              },
+              pathname: '/communities/[name]/about',
             })
           }}
-          sort={sorting.sort}
-          type="community"
         />
-      </View>
+      ),
+      title: params.name,
+    }),
+    [
+      a11y,
+      params.name,
+      router.push,
+      sorting.interval,
+      sorting.sort,
+      styles.header,
+      themeOled,
+      themeTint,
+      update,
+    ],
+  )
 
+  return (
+    <>
       <PostList
         community={params.name}
         interval={sorting.interval}
         listProps={listProps}
         sort={sorting.sort}
+        sticky={sticky}
         style={styles.list}
       />
 
@@ -105,15 +147,13 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       backgroundColor: oled
         ? oledTheme[theme.name].bgAlpha
         : theme.colors[tint ? 'accent' : 'gray'].bg,
-      borderBottomColor: theme.colors.gray.border,
-      borderBottomWidth: runtime.hairlineWidth,
-      marginTop: heights.header + runtime.insets.top,
     }
 
-    if (iPad) {
+    if (oled) {
       return {
         ...base,
-        marginBottom: theme.space[4],
+        borderBottomColor: theme.colors.gray.border,
+        borderBottomWidth: runtime.hairlineWidth,
       }
     }
 
@@ -122,5 +162,6 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   list: {
     paddingBottom: heights.floatingButton + (iPad ? theme.space[4] : 0),
     paddingHorizontal: iPad ? theme.space[4] : undefined,
+    paddingTop: heights.header + (iPad ? theme.space[4] : 0),
   },
 }))

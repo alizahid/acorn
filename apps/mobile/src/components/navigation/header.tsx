@@ -17,7 +17,7 @@ import { IconButton } from '../common/icon-button'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 
-type Props = {
+export type HeaderProps = {
   back?: boolean
   children?: ReactNode
   left?: ReactNode
@@ -35,7 +35,7 @@ export function Header({
   right,
   sticky = true,
   title,
-}: Props) {
+}: HeaderProps) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')

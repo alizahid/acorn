@@ -1,20 +1,15 @@
-import { Stack, useNavigation, useRouter } from 'expo-router'
+import { Stack, useRouter } from 'expo-router'
 import { type PropsWithChildren } from 'react'
-import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon-button'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { switcher } from '~/components/users/switcher'
 import { useHistory } from '~/hooks/history'
-import { iPad } from '~/lib/common'
-import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useAuth } from '~/stores/auth'
 import { useDefaults } from '~/stores/defaults'
-import { usePreferences } from '~/stores/preferences'
 import { type Undefined } from '~/types'
 
 import { type HomeParams } from '.'
@@ -23,7 +18,6 @@ import { type MessageParams } from './messages/[id]'
 import { type PostParams } from './posts/[id]'
 import { type SignInParams } from './sign-in'
 import { type UserParams } from './users/[name]'
-import { type UserPostsParams } from './users/[name]/[type]'
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -51,17 +45,11 @@ type Props = {
 }
 
 export default function Layout({ segment }: Props) {
-  const navigation = useNavigation()
-
   const t = useTranslations('screen')
-  const tType = useTranslations('component.common.type.type')
   const a11y = useTranslations('a11y')
 
   const { accountId } = useAuth()
   const { feedType } = useDefaults()
-  const { stickyDrawer } = usePreferences()
-
-  const { theme } = useStyles()
 
   if (segment === '(search)') {
     return (
@@ -154,47 +142,8 @@ export default function Layout({ segment }: Props) {
           type: feedType,
         }}
         name="index"
-        options={({ route }) => {
-          const { feed, type } = route.params as HomeParams
-
-          return {
-            headerLeft: () => {
-              if (iPad && stickyDrawer) {
-                return null
-              }
-
-              return (
-                <IconButton
-                  icon={{
-                    name: 'Sidebar',
-                    weight: 'duotone',
-                  }}
-                  label={a11y('toggleSidebar')}
-                  onPress={() => {
-                    // @ts-expect-error
-                    navigation.toggleDrawer()
-                  }}
-                />
-              )
-            },
-            headerTitle: () => {
-              if (feed) {
-                return <Text weight="bold">{feed}</Text>
-              }
-
-              return (
-                <>
-                  <Icon
-                    color={theme.colors[FeedTypeColors[type]].accent}
-                    name={FeedTypeIcons[type]}
-                    weight="duotone"
-                  />
-
-                  <Text weight="bold">{tType(type)}</Text>
-                </>
-              )
-            },
-          }
+        options={{
+          headerShown: false,
         }}
       />
     </StackLayout>
@@ -205,7 +154,6 @@ function StackLayout({ children }: PropsWithChildren) {
   const router = useRouter()
 
   const t = useTranslations('screen')
-  const a11y = useTranslations('a11y')
 
   const { addPost } = useHistory()
 
@@ -220,31 +168,8 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         name="communities/[name]/index"
-        options={({ route }) => {
-          const { name } = route.params as CommunityParams
-
-          return {
-            headerRight: () => (
-              <IconButton
-                icon={{
-                  name: 'Info',
-                  weight: 'duotone',
-                }}
-                label={a11y('aboutCommunity', {
-                  community: name,
-                })}
-                onPress={() => {
-                  router.push({
-                    params: {
-                      name,
-                    },
-                    pathname: '/communities/[name]/about',
-                  })
-                }}
-              />
-            ),
-            title: name,
-          }
+        options={{
+          headerShown: false,
         }}
       />
 
@@ -279,9 +204,9 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         name="users/[name]/[type]"
-        options={({ route }) => ({
-          title: t(`profile.${(route.params as UserPostsParams).type}`),
-        })}
+        options={{
+          headerShown: false,
+        }}
       />
 
       <Stack.Screen

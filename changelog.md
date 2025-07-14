@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: sticky header
 - added: opening an in app browser pauses video
 - added: device rotation unlocked when opening in app browser
 
