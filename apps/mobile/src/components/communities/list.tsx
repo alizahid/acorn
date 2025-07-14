@@ -445,6 +445,9 @@ export function CommunitiesList({
               right={
                 section.collapsible ? (
                   <IconButton
+                    hitSlop={{
+                      left: 300,
+                    }}
                     icon={{
                       name: collapsed.get(section.key)
                         ? 'CaretUp'
