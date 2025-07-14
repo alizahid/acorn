@@ -138,7 +138,7 @@ export function SearchList({
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={renderItem}
       viewabilityConfig={{
-        itemVisiblePercentThreshold: 90,
+        viewAreaCoveragePercentThreshold: 50,
         waitForInteraction: false,
       }}
     />

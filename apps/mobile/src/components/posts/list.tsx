@@ -32,8 +32,8 @@ import { type HeaderProps } from '../navigation/header'
 import { StickyHeader } from '../navigation/sticky-header'
 
 const viewabilityConfig: ViewabilityConfig = {
-  itemVisiblePercentThreshold: 60,
   minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
+  viewAreaCoveragePercentThreshold: 50,
   waitForInteraction: false,
 }
 
