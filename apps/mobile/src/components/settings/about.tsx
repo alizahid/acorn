@@ -31,7 +31,7 @@ export function AboutCard() {
     },
     {
       href: 'https://github.com/alizahid/acorn',
-      icon: 'GitHubLogo',
+      icon: 'GithubLogo',
       key: 'github',
       label: t('links.github'),
     },
