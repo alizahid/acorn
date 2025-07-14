@@ -24,6 +24,7 @@ export const UsersSchema = z.object({
 export type UsersSchema = z.infer<typeof UsersSchema>
 
 export const UserDataSchema = z.record(
+  z.string(),
   z.object({
     created_utc: z.number(),
     name: z.string(),
