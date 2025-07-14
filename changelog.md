@@ -10,6 +10,7 @@
 - added: background for sticky posts
 - added: infinite scrolling toggle
 - added: bold post title toggle
+- added: alphabet list for communities/users
 - fixed: long press profile tab to switch accounts
 
 ## Build 58

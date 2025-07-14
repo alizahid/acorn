@@ -2,7 +2,7 @@ import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
 import { compact } from 'lodash'
-import { useMemo, useState } from 'react'
+import { useMemo, useRef, useState } from 'react'
 import { SectionList, type SectionListData } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -12,6 +12,7 @@ import { View } from '~/components/common/view'
 import { type ListProps } from '~/hooks/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/communities/feeds'
+import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
@@ -24,6 +25,7 @@ import { IconButton } from '../common/icon-button'
 import { SheetHeader } from '../common/sheets/header'
 import { SheetItem } from '../common/sheets/item'
 import { Spinner } from '../common/spinner'
+import { type AlphabetItem, AlphabetList } from './alphabet'
 
 type Section = {
   collapsed?: boolean
@@ -79,6 +81,8 @@ export function CommunitiesList({
 
   const { feeds, isLoading: loadingFeeds } = useFeeds()
   const { communities, isLoading: loadingCommunities, users } = useCommunities()
+
+  const list = useRef<SectionList<Item, Section>>(null)
 
   const [collapsed, setCollapsed] = useState(new Map<string, boolean>())
   const [expanded, setExpanded] = useState(new Map<string, boolean>())
@@ -213,8 +217,14 @@ export function CommunitiesList({
         collapsed,
         expanded,
       }}
+      getItemLayout={(_data, index) => ({
+        index,
+        length: theme.space[8],
+        offset: theme.space[8] * index,
+      })}
       keyExtractor={(item) => item.key}
       ListEmptyComponent={() => <Empty />}
+      ref={list}
       renderItem={({ item, section }) => {
         if (section.collapsed) {
           return null
@@ -385,6 +395,12 @@ export function CommunitiesList({
                 ) : null}
               </>
             }
+            style={
+              !section.collapsed &&
+              ['communities', 'users'].includes(section.key)
+                ? styles.item
+                : undefined
+            }
           />
         )
       }}
@@ -393,40 +409,67 @@ export function CommunitiesList({
           return null
         }
 
+        const sectionIndex = sections.findIndex(
+          (item) => item.key === section.key,
+        )
+
         return (
-          <SheetHeader
-            left={
-              section.loading ? (
-                <View align="center" height="8" justify="center" width="8">
-                  <Spinner />
-                </View>
-              ) : null
-            }
-            right={
-              section.collapsible ? (
-                <IconButton
-                  icon={{
-                    name: collapsed.get(section.key) ? 'CaretUp' : 'CaretDown',
-                  }}
-                  label={a11y(
-                    collapsed.get(section.key)
-                      ? 'collapseSection'
-                      : 'expandSection',
-                  )}
-                  onPress={() => {
-                    setCollapsed((previous) => {
-                      const next = new Map(previous)
+          <>
+            {!section.collapsed &&
+            ['communities', 'users'].includes(section.key) ? (
+              <AlphabetList
+                data={section.data as Array<AlphabetItem>}
+                onScroll={(itemIndex) => {
+                  list.current?.scrollToLocation({
+                    animated: false,
+                    itemIndex: iPad
+                      ? itemIndex - 2
+                      : itemIndex === 0
+                        ? 1
+                        : itemIndex,
+                    sectionIndex,
+                    viewOffset: itemIndex === 0 ? undefined : -theme.space[8],
+                  })
+                }}
+              />
+            ) : undefined}
 
-                      next.set(section.key, !next.get(section.key))
+            <SheetHeader
+              left={
+                section.loading ? (
+                  <View align="center" height="8" justify="center" width="8">
+                    <Spinner />
+                  </View>
+                ) : null
+              }
+              right={
+                section.collapsible ? (
+                  <IconButton
+                    icon={{
+                      name: collapsed.get(section.key)
+                        ? 'CaretUp'
+                        : 'CaretDown',
+                    }}
+                    label={a11y(
+                      collapsed.get(section.key)
+                        ? 'collapseSection'
+                        : 'expandSection',
+                    )}
+                    onPress={() => {
+                      setCollapsed((previous) => {
+                        const next = new Map(previous)
 
-                      return next
-                    })
-                  }}
-                />
-              ) : null
-            }
-            title={section.title}
-          />
+                        next.set(section.key, !next.get(section.key))
+
+                        return next
+                      })
+                    }}
+                  />
+                ) : null
+              }
+              title={section.title}
+            />
+          </>
         )
       }}
       sections={sections}
@@ -449,6 +492,9 @@ const stylesheet = createStyleSheet((theme) => ({
     borderRadius: theme.typography[3].lineHeight,
     height: theme.typography[3].lineHeight,
     width: theme.typography[3].lineHeight,
+  },
+  item: {
+    marginRight: theme.space[6],
   },
   right: {
     marginRight: -theme.space[3],
