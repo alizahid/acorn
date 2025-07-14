@@ -1,8 +1,4 @@
-import {
-  useFocusEffect,
-  useIsFocused,
-  useNavigation,
-} from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { FlashList, type ListRenderItem } from '@shopify/flash-list'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -22,6 +18,7 @@ import { View } from '~/components/common/view'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { useFocused } from '~/hooks/focus'
 import { ListFlags, useList } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
 import { heights, iPad } from '~/lib/common'
@@ -40,7 +37,6 @@ export default function Screen() {
   const router = useRouter()
   const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
-  const focused = useIsFocused()
 
   const a11y = useTranslations('a11y')
 
@@ -48,6 +44,8 @@ export default function Screen() {
     usePreferences()
 
   const { styles } = useStyles(stylesheet)
+
+  const { focused } = useFocused()
 
   const list = useRef<FlashList<Comment>>(null)
 

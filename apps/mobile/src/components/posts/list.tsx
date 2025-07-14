@@ -1,4 +1,3 @@
-import { useIsFocused } from '@react-navigation/native'
 import {
   type ContentStyle,
   FlashList,
@@ -12,6 +11,7 @@ import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
+import { useFocused } from '~/hooks/focus'
 import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
@@ -55,7 +55,8 @@ export function PostList({
   userType,
 }: Props) {
   const router = useRouter()
-  const focused = useIsFocused()
+
+  const { focused } = useFocused()
 
   const list = useRef<FlashList<Item>>(null)
 

@@ -9,6 +9,7 @@ import { UnistylesRuntime } from 'react-native-unistyles'
 import { IntlProvider } from 'use-intl'
 
 import { AccountSwitcher } from '~/components/users/switcher'
+import { FocusProvider } from '~/hooks/focus'
 import { useTheme } from '~/hooks/theme'
 import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
@@ -53,13 +54,15 @@ export function Providers({ children }: Props) {
                   }
                 />
 
-                {children}
+                <FocusProvider>
+                  {children}
 
-                <Gallery.Root />
+                  <Gallery.Root />
 
-                <AccountSwitcher />
+                  <AccountSwitcher />
 
-                <Toast />
+                  <Toast />
+                </FocusProvider>
               </PersistQueryClientProvider>
             </ThemeProvider>
           </KeyboardProvider>

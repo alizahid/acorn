@@ -1,4 +1,3 @@
-import { useIsFocused } from '@react-navigation/native'
 import { useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
 import { type ViewStyle } from 'react-native'
@@ -17,6 +16,7 @@ import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
+import { useFocused } from '~/hooks/focus'
 import { ListFlags, useList } from '~/hooks/list'
 import { heights, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -31,13 +31,14 @@ export type CommunitiesSearchParams = z.infer<typeof schema>
 
 export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
-  const focused = useIsFocused()
 
   const t = useTranslations('screen.community.search')
   const a11y = useTranslations('a11y')
 
   const { intervalSearchPosts, sortSearchPosts, themeOled, themeTint } =
     usePreferences()
+
+  const { focused } = useFocused()
 
   const { styles } = useStyles(stylesheet)
 

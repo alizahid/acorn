@@ -1,4 +1,3 @@
-import { useIsFocused } from '@react-navigation/native'
 import { useCallback, useRef, useState } from 'react'
 import { type TextInput } from 'react-native'
 import { TabView } from 'react-native-tab-view'
@@ -14,6 +13,7 @@ import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
+import { useFocused } from '~/hooks/focus'
 import { ListFlags, useList } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
 import { heights } from '~/lib/common'
@@ -29,14 +29,14 @@ const routes = useDefaults
   }))
 
 export default function Screen() {
-  const focused = useIsFocused()
-
   const t = useTranslations('screen.search')
   const a11y = useTranslations('a11y')
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences()
 
   const { styles } = useStyles(stylesheet)
+
+  const { focused } = useFocused()
 
   const listProps = useList(ListFlags.ALL, {
     top: heights.search,

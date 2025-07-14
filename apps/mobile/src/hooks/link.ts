@@ -3,7 +3,7 @@ import * as Linking from 'expo-linking'
 import { useRouter } from 'expo-router'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as WebBrowser from 'expo-web-browser'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { useStyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
@@ -12,33 +12,31 @@ import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
 import { type Nullable } from '~/types'
 
+import { useFocused } from './focus'
+
 export function useLink() {
   const router = useRouter()
 
   const t = useTranslations('toasts.link')
 
   const { linkBrowser, oldReddit } = usePreferences()
+  const { setFocused } = useFocused()
 
   const { theme } = useStyles()
 
-  const [loading, setLoading] = useState(false)
-  const [visible, setVisible] = useState(false)
-
   const openInApp = useCallback(
     async (url: string) => {
-      try {
-        setVisible(true)
+      setFocused(false)
 
-        await WebBrowser.openBrowserAsync(url, {
-          controlsColor: theme.colors.accent.accent,
-          presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
-          toolbarColor: theme.colors.gray.bg,
-        })
-      } finally {
-        setVisible(false)
-      }
+      await WebBrowser.openBrowserAsync(url, {
+        controlsColor: theme.colors.accent.accent,
+        presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
+        toolbarColor: theme.colors.gray.bg,
+      })
+
+      setFocused(true)
     },
-    [theme.colors.accent, theme.colors.gray],
+    [theme.colors.accent, theme.colors.gray, setFocused],
   )
 
   const openInBrowser = useCallback((url: string) => {
@@ -138,8 +136,6 @@ export function useLink() {
         Sentry.captureException(error)
 
         handle(href)
-      } finally {
-        setLoading(false)
       }
     },
     [handle, oldReddit, router, t],
@@ -147,10 +143,8 @@ export function useLink() {
 
   return {
     handleLink,
-    loading,
     openInApp,
     openInBrowser,
-    visible,
   }
 }
 

@@ -1,4 +1,3 @@
-import { useIsFocused } from '@react-navigation/native'
 import { type SFSymbol } from 'expo-symbols'
 import { compact } from 'lodash'
 import { type ReactNode, useEffect, useMemo, useRef } from 'react'
@@ -45,6 +44,7 @@ import textboxDuotone from '~/assets/icons/textbox-duotone.png'
 import trashDuotone from '~/assets/icons/trash-duotone.png'
 import userDuotone from '~/assets/icons/user-duotone.png'
 import usersFourDuotone from '~/assets/icons/users-four-duotone.png'
+import { useFocused } from '~/hooks/focus'
 
 const icons = {
   'arrow-bend-up-left-duotone': Image.resolveAssetSource(
@@ -128,9 +128,9 @@ export function ContextMenu({
   style,
   tap = false,
 }: Props) {
-  const menu = useRef<ContextMenuView>(null)
+  const { focused } = useFocused()
 
-  const focused = useIsFocused()
+  const menu = useRef<ContextMenuView>(null)
 
   useEffect(() => {
     if (!focused) {
