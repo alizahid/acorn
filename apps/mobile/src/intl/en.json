@@ -562,7 +562,8 @@
           "collapsibleComments": "Collapsible comments",
           "replyPost": "Post reply floating button",
           "skipComment": "Skip comment floating button",
-          "title": "Comments"
+          "title": "Comments",
+          "userOnTop": "Show user on top"
         },
         "feedback": {
           "feedbackHaptics": "Haptics",

@@ -128,6 +128,11 @@ export default function Screen() {
             label: 'comments.collapsibleComments',
           },
           {
+            icon: 'ArrowUp',
+            key: 'userOnTop',
+            label: 'comments.userOnTop',
+          },
+          {
             exclusive: 'replyPost',
             icon: 'ArrowDown',
             key: 'skipComment',

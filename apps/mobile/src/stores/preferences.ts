@@ -27,6 +27,7 @@ export type PreferencesPayload = {
   collapsibleComments: boolean
   colorfulComments: boolean
   communityOnTop: boolean
+  userOnTop: boolean
   dimSeen: boolean
   feedCompact: boolean
   feedMuted: boolean
@@ -137,6 +138,7 @@ export const usePreferences = create<State>()(
         set(payload)
       },
       upvoteOnSave: true,
+      userOnTop: false,
     }),
     {
       migrate(persisted, version) {

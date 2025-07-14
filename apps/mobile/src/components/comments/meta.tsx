@@ -20,9 +20,10 @@ type Props = {
   collapsed?: boolean
   comment: CommentReply
   flair?: FlairType
+  top?: boolean
 }
 
-export function CommentMeta({ collapsed, comment, flair }: Props) {
+export function CommentMeta({ collapsed, comment, flair, top }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -43,8 +44,8 @@ export function CommentMeta({ collapsed, comment, flair }: Props) {
       align="center"
       direction="row"
       gap="3"
-      mb="3"
-      mt={collapsed ? '3' : undefined}
+      mb={top ? (collapsed ? '3' : undefined) : '3'}
+      mt={top || collapsed ? '3' : undefined}
       mx="3"
     >
       {comment.sticky ? (

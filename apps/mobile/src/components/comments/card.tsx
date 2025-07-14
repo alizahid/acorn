@@ -49,7 +49,8 @@ export function CommentCard({
 
   const a11y = useTranslations('a11y')
 
-  const { colorfulComments, fontSizeComment, themeOled } = usePreferences()
+  const { colorfulComments, fontSizeComment, themeOled, userOnTop } =
+    usePreferences()
   const {
     commentLeft,
     commentLeftLong,
@@ -167,6 +168,15 @@ export function CommentCard({
           label={comment.body}
           onPress={onPress}
         >
+          {userOnTop ? (
+            <CommentMeta
+              collapsed={collapsed}
+              comment={comment}
+              flair={flair}
+              top
+            />
+          ) : null}
+
           {collapsed ? null : (
             <Markdown
               meta={comment.media.meta}
@@ -217,7 +227,13 @@ export function CommentCard({
             </Pressable>
           ) : null}
 
-          <CommentMeta collapsed={collapsed} comment={comment} flair={flair} />
+          {userOnTop ? null : (
+            <CommentMeta
+              collapsed={collapsed}
+              comment={comment}
+              flair={flair}
+            />
+          )}
 
           {!collapsed && (flair === 'both' || flair === 'text') ? (
             <FlairCard

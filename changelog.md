@@ -5,6 +5,7 @@
 - added: sticky header
 - added: opening an in app browser pauses video
 - added: device rotation unlocked when opening in app browser
+- added: comment user on top
 - fixed: long press profile tab to switch accounts
 
 ## Build 58
