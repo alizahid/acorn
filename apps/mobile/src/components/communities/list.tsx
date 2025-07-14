@@ -397,6 +397,7 @@ export function CommunitiesList({
             }
             style={
               !section.collapsed &&
+              section.data.length > 10 &&
               ['communities', 'users'].includes(section.key)
                 ? styles.item
                 : undefined
@@ -416,6 +417,7 @@ export function CommunitiesList({
         return (
           <>
             {!section.collapsed &&
+            section.data.length > 10 &&
             ['communities', 'users'].includes(section.key) ? (
               <AlphabetList
                 data={section.data as Array<AlphabetItem>}
