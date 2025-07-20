@@ -5,7 +5,6 @@ import {
 } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
-import { type ViewabilityConfig } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -31,12 +30,6 @@ import { Loading } from '../common/loading'
 import { View } from '../common/view'
 import { type HeaderProps } from '../navigation/header'
 import { StickyHeader } from '../navigation/sticky-header'
-
-const viewabilityConfig: ViewabilityConfig = {
-  minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
-  viewAreaCoveragePercentThreshold: 50,
-  waitForInteraction: false,
-}
 
 type Item = Post | Comment
 
@@ -192,23 +185,6 @@ export function PostList({
           }
         }}
         onScroll={sticky ? onScroll : undefined}
-        onViewableItemsChanged={({ viewableItems }) => {
-          setViewing(() => viewableItems.map((item) => item.key))
-
-          if (!seenOnScroll) {
-            return
-          }
-
-          const items = viewableItems.filter(
-            (item) => item.item.type !== 'reply' && item.item.type !== 'more',
-          )
-
-          for (const item of items) {
-            addPost({
-              id: (item.item as Post).id,
-            })
-          }
-        }}
         ref={list}
         refreshControl={
           <RefreshControl
@@ -220,7 +196,42 @@ export function PostList({
           />
         }
         renderItem={renderItem}
-        viewabilityConfig={viewabilityConfig}
+        viewabilityConfigCallbackPairs={[
+          {
+            onViewableItemsChanged({ viewableItems }) {
+              setViewing(() => viewableItems.map((item) => item.key))
+            },
+            viewabilityConfig: {
+              itemVisiblePercentThreshold: 100,
+              minimumViewTime: 0,
+              waitForInteraction: false,
+            },
+          },
+          {
+            onViewableItemsChanged({ viewableItems }) {
+              if (!seenOnScroll) {
+                return
+              }
+
+              const items = viewableItems.filter(
+                (item) =>
+                  item.item.type !== 'reply' && item.item.type !== 'more',
+              )
+
+              for (const item of items) {
+                addPost({
+                  id: (item.item as Post).id,
+                })
+              }
+            },
+            viewabilityConfig: {
+              itemVisiblePercentThreshold: 100,
+              minimumViewTime:
+                usePreferences.getState().seenOnScrollDelay * 1000,
+              waitForInteraction: false,
+            },
+          },
+        ]}
       />
     </>
   )
