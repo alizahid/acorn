@@ -18,12 +18,10 @@ type Props = {
 export function FocusProvider({ children }: Props) {
   const [focused, setFocused] = useState(true)
 
-  const isFocused = useIsFocused()
-
   return (
     <FocusContext
       value={{
-        focused: focused && isFocused,
+        focused,
         setFocused(next) {
           setFocused(next)
         },
@@ -35,5 +33,12 @@ export function FocusProvider({ children }: Props) {
 }
 
 export function useFocused() {
-  return useContext(FocusContext)
+  const { focused, setFocused } = useContext(FocusContext)
+
+  const isFocused = useIsFocused()
+
+  return {
+    focused: focused && isFocused,
+    setFocused,
+  }
 }
