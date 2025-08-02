@@ -1,5 +1,9 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { FlashList, type ListRenderItem } from '@shopify/flash-list'
+import {
+  FlashList,
+  type FlashListRef,
+  type ListRenderItem,
+} from '@shopify/flash-list'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -47,7 +51,7 @@ export default function Screen() {
 
   const { focused } = useFocused()
 
-  const list = useRef<FlashList<Comment>>(null)
+  const list = useRef<FlashListRef<Comment>>(null)
 
   const [sort, setSort] = useState(sortPostComments)
   const [playing, setPlaying] = useState(focused)

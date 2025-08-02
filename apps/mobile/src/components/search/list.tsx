@@ -1,4 +1,8 @@
-import { FlashList, type ListRenderItem } from '@shopify/flash-list'
+import {
+  FlashList,
+  type FlashListRef,
+  type ListRenderItem,
+} from '@shopify/flash-list'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
 import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
@@ -53,7 +57,7 @@ export function SearchList({
 }: Props) {
   const t = useTranslations('component.search.list')
 
-  const list = useRef<FlashList<Item>>(null)
+  const list = useRef<FlashListRef<Item>>(null)
 
   useScrollToTop(list, listProps)
 

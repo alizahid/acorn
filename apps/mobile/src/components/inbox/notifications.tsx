@@ -1,4 +1,4 @@
-import { FlashList } from '@shopify/flash-list'
+import { FlashList, type FlashListRef } from '@shopify/flash-list'
 import { useRef } from 'react'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 
@@ -35,7 +35,7 @@ export function NotificationsList({
 }: Props) {
   const { themeOled } = usePreferences()
 
-  const list = useRef<FlashList<InboxNotification>>(null)
+  const list = useRef<FlashListRef<InboxNotification>>(null)
 
   useScrollToTop(list, listProps)
 

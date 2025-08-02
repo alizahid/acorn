@@ -1,10 +1,11 @@
 import {
-  type ContentStyle,
   FlashList,
+  type FlashListRef,
   type ListRenderItem,
 } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
 import { createStyleSheet, useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -38,7 +39,7 @@ type Props = PostsProps & {
   listProps?: ListProps<Item>
   onRefresh?: () => void
   sticky?: HeaderProps
-  style?: ContentStyle
+  style?: StyleProp<ViewStyle>
 }
 
 const List = Animated.createAnimatedComponent(FlashList<Item>)
@@ -63,7 +64,7 @@ export function PostList({
 
   const t = useTranslations('component.posts.list')
 
-  const list = useRef<FlashList<Item>>(null)
+  const list = useRef<FlashListRef<Item>>(null)
 
   useScrollToTop(list, listProps)
 

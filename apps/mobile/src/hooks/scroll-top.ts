@@ -1,12 +1,12 @@
 import { useScrollToTop as useScroll } from '@react-navigation/native'
-import { type FlashList } from '@shopify/flash-list'
+import { type FlashListRef } from '@shopify/flash-list'
 import { type RefObject, useRef } from 'react'
 import { type FlatList } from 'react-native'
 
 import { type ListProps } from './list'
 
 export function useScrollToTop<Type>(
-  ref: RefObject<FlatList<Type> | FlashList<Type> | null>,
+  ref: RefObject<FlatList<Type> | FlashListRef<Type> | null>,
   props?: ListProps<Type>,
 ) {
   useScroll(

@@ -1,9 +1,13 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "jsx": "preserve",
     "moduleResolution": "bundler",
     "noUncheckedIndexedAccess": true,
     "paths": {
+      "react-native-ios-context-menu": [
+        "../../node_modules/react-native-ios-context-menu/src/index.tsx"
+      ],
       "~/*": ["./src/*"]
     },
     "strict": true,
