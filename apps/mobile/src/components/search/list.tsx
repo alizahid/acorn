@@ -17,6 +17,7 @@ import { type ListProps } from '~/hooks/list'
 import { useSearch } from '~/hooks/queries/search/search'
 import { useScrollToTop } from '~/hooks/scroll-top'
 import { useSearchHistory } from '~/hooks/search'
+import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Community } from '~/types/community'
 import { type SearchTab } from '~/types/defaults'
@@ -155,7 +156,10 @@ const stylesheet = createStyleSheet((theme) => ({
     paddingVertical: theme.space[2],
   },
   separator: (oled: boolean, compact: boolean) => ({
+    alignSelf: 'center',
     backgroundColor: oled ? theme.colors.gray.border : undefined,
     height: oled ? 1 : theme.space[compact ? 2 : 4],
+    maxWidth: iPad ? cardMaxWidth : undefined,
+    width: '100%',
   }),
 }))
