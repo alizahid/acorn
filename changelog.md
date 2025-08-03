@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 59
 
 - added: sticky header
 - added: opening an in app browser pauses video
