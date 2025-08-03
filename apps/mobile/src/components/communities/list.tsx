@@ -12,7 +12,6 @@ import { View } from '~/components/common/view'
 import { type ListProps } from '~/hooks/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/communities/feeds'
-import { iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
@@ -424,13 +423,9 @@ export function CommunitiesList({
                 onScroll={(itemIndex) => {
                   list.current?.scrollToLocation({
                     animated: false,
-                    itemIndex: iPad
-                      ? itemIndex - 2
-                      : itemIndex === 0
-                        ? 1
-                        : itemIndex,
+                    itemIndex: itemIndex === 0 ? -1 : itemIndex,
                     sectionIndex,
-                    viewOffset: itemIndex === 0 ? undefined : -theme.space[8],
+                    viewOffset: theme.space[8],
                   })
                 }}
               />
