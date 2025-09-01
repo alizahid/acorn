@@ -26,6 +26,7 @@
   "extends": ["ultracite"],
   "javascript": {
     "formatter": {
+      "quoteStyle": "single",
       "semicolons": "asNeeded",
       "trailingCommas": "all"
     }
@@ -35,11 +36,11 @@
       "complexity": {
         "noExcessiveCognitiveComplexity": "off"
       },
-      "nursery": {
-        "noUnknownAtRule": "off",
-        "useJsonImportAttribute": "off"
+      "correctness": {
+        "useJsonImportAttributes": "off"
       },
       "style": {
+        "noMagicNumbers": "off",
         "noNestedTernary": "off",
         "noNonNullAssertion": "off",
         "useConsistentArrayType": {
@@ -57,7 +58,8 @@
         }
       },
       "suspicious": {
-        "noRedeclare": "off"
+        "noRedeclare": "off",
+        "noUnknownAtRules": "off"
       }
     }
   }

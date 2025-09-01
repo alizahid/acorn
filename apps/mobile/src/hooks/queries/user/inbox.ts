@@ -109,20 +109,12 @@ export function updateNotification(
       }
 
       return create(previous, (draft) => {
-        let found = false
-
-        for (const page of draft.pages) {
-          if (found) {
-            break
-          }
-
+        loop: for (const page of draft.pages) {
           for (const item of page.items) {
             if (item.data.id === id) {
               updater(item)
 
-              found = true
-
-              break
+              break loop
             }
           }
         }

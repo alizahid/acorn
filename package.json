@@ -9,25 +9,25 @@
     "build": "turbo build",
     "clean": "rimraf --glob '**/.next' '**/.expo' '**/.turbo'",
     "dev": "bun clean; watchman shutdown-server; turbo dev --parallel",
-    "lint": "bunx ultracite format",
+    "lint": "bunx ultracite fix",
     "lint:types": "turbo lint:types",
     "nuke": "bun clean '**/node_modules' bun.lock",
     "prepare": "husky"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
-      "npx ultracite format"
+      "npx ultracite fix"
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "2.1.3",
+    "@biomejs/biome": "2.2.2",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.2",
+    "lint-staged": "^16.1.5",
     "rimraf": "^6.0.1",
-    "turbo": "2.5.5",
-    "ultracite": "5.1.2"
+    "turbo": "2.5.6",
+    "ultracite": "5.3.0"
   },
-  "packageManager": "bun@1.2.19",
+  "packageManager": "bun@1.2.21",
   "patchedDependencies": {
     "devlop@1.1.0": "patches/devlop@1.1.0.patch",
     "unist-util-visit-parents@6.0.1": "patches/unist-util-visit-parents@6.0.1.patch",

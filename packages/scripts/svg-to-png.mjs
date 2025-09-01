@@ -9,7 +9,6 @@ const icons = await glob(`${directory}/*.svg`)
 for (const icon of icons) {
   const name = path.basename(icon, '.svg')
 
-  // biome-ignore lint/nursery/noAwaitInLoop: go away
   await $`magick -background none -density 512 ${icon} -resize 256x256 -gravity center -extent 256x256 ${directory}/${name}.png`
 
   await $`rm ${icon}`

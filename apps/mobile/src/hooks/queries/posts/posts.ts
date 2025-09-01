@@ -211,13 +211,7 @@ export function updatePosts(
       }
 
       return create(previous, (draft) => {
-        let found = false
-
-        for (const page of draft.pages) {
-          if (found) {
-            break
-          }
-
+        loop: for (const page of draft.pages) {
           for (const item of page.posts) {
             if ('id' in item ? item.id === id : item.data.id === id) {
               updater?.(item)
@@ -230,9 +224,7 @@ export function updatePosts(
                 page.posts.splice(index, 1)
               }
 
-              found = true
-
-              break
+              break loop
             }
           }
         }

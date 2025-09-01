@@ -1,4 +1,4 @@
-/** biome-ignore-all lint/nursery/noBitwiseOperators: go away */
+/** biome-ignore-all lint/suspicious/noBitwiseOperators: go away */
 
 import { type FlashListProps } from '@shopify/flash-list'
 import {
