@@ -1,9 +1,11 @@
 import { useCallback, useState } from 'react'
 import { RefreshControl as ReactNativeRefreshControl } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
+import { withUnistyles } from 'react-native-unistyles'
 
 import { triggerFeedback } from '~/lib/feedback'
 import { type ColorToken } from '~/styles/tokens'
+
+const Component = withUnistyles(ReactNativeRefreshControl)
 
 type Props = {
   color?: ColorToken
@@ -12,8 +14,6 @@ type Props = {
 }
 
 export function RefreshControl({ color = 'accent', offset, onRefresh }: Props) {
-  const { theme } = useStyles()
-
   const [refreshing, setRefreshing] = useState(false)
 
   const refresh = useCallback(async () => {
@@ -27,11 +27,13 @@ export function RefreshControl({ color = 'accent', offset, onRefresh }: Props) {
   }, [onRefresh])
 
   return (
-    <ReactNativeRefreshControl
+    <Component
       onRefresh={refresh}
       progressViewOffset={offset}
       refreshing={refreshing}
-      tintColor={theme.colors[color].accent}
+      uniProps={(theme) => ({
+        tintColor: theme.colors[color].accent,
+      })}
     />
   )
 }

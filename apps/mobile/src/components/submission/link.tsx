@@ -1,6 +1,5 @@
 import { Controller, useFormContext } from 'react-hook-form'
-import { TextInput } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
@@ -9,13 +8,12 @@ import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
 import { View } from '../common/view'
+import { TextInput } from '../native/text-input'
 
 export function SubmissionLink() {
   const { font, fontScaling, systemScaling } = usePreferences()
 
   const t = useTranslations('component.submission.link')
-
-  const { styles, theme } = useStyles(stylesheet)
 
   const { control } = useFormContext<CreatePostForm>()
 
@@ -33,8 +31,6 @@ export function SubmissionLink() {
             autoCorrect={false}
             onChangeText={field.onChange}
             placeholder={t('placeholder')}
-            placeholderTextColor={theme.colors.gray.accent}
-            selectionColor={theme.colors.accent.accent}
             style={styles.input(font, fontScaling)}
           />
 
@@ -49,7 +45,7 @@ export function SubmissionLink() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   error: {
     color: theme.colors.red.accent,
   },

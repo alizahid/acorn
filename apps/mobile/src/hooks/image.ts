@@ -9,7 +9,7 @@ import * as MediaLibrary from 'expo-media-library'
 import { compact } from 'lodash'
 import { useRef } from 'react'
 import { Share } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
+import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
@@ -19,10 +19,10 @@ import { usePreferences } from '~/stores/preferences'
 import { type Nullable } from '~/types'
 
 export function useImagePlaceholder() {
-  const { theme } = useStyles()
+  const { theme } = useUnistyles()
 
   return {
-    placeholder: theme.name === 'dark' ? placeholderDark : placeholderLight,
+    placeholder: theme.variant === 'dark' ? placeholderDark : placeholderLight,
     placeholderContentFit: 'contain',
   } satisfies ImageProps
 }

@@ -8,7 +8,7 @@ import {
   type TapGestureHandlerEventPayload,
 } from 'react-native-gesture-handler'
 import { clamp, interpolate } from 'react-native-reanimated'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { type Community } from '~/types/community'
 
@@ -28,8 +28,6 @@ type Props = {
 }
 
 export function AlphabetList({ data, onScroll }: Props) {
-  const { styles, theme } = useStyles(stylesheet)
-
   const items = useMemo(() => {
     const favorites = data.some((item) => item.data.favorite)
 
@@ -125,9 +123,11 @@ export function AlphabetList({ data, onScroll }: Props) {
           item.letter === 'favorite' ? (
             <View justify="center" key={item.key} style={styles.letter}>
               <Icon
-                color={theme.colors.amber.accent}
                 name="Star"
                 size={10}
+                uniProps={(theme) => ({
+                  color: theme.colors.amber.accent,
+                })}
                 weight="fill"
               />
             </View>
@@ -148,7 +148,7 @@ export function AlphabetList({ data, onScroll }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   letter: {
     height: 18,
   },

@@ -1,11 +1,12 @@
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
-import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type StyleProp, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
+import { space } from '~/styles/tokens'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -40,7 +41,10 @@ export function CrossPostCard({
 
   const { themeOled } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    large,
+    oled: themeOled,
+  })
 
   if (compact) {
     return (
@@ -55,7 +59,7 @@ export function CrossPostCard({
             pathname: '/posts/[id]',
           })
         }}
-        style={styles.compact(large)}
+        style={styles.compact}
       >
         {post.media.images?.[0] ? (
           <Image
@@ -66,11 +70,7 @@ export function CrossPostCard({
         ) : null}
 
         <View align="center" justify="center" style={styles.compactIcon}>
-          <Icon
-            color={theme.colors.accent.accent}
-            name="ArrowsSplit"
-            style={styles.crossPost}
-          />
+          <Icon name="ArrowsSplit" style={styles.crossPost} />
         </View>
       </Pressable>
     )
@@ -106,7 +106,7 @@ export function CrossPostCard({
           pathname: '/posts/[id]',
         })
       }}
-      style={[styles.main(themeOled), style]}
+      style={[styles.main, style]}
     >
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
@@ -149,7 +149,7 @@ export function CrossPostCard({
             direction="row"
             gap="2"
             hint={a11y('viewCommunity')}
-            hitSlop={theme.space[4]}
+            hitSlop={space[4]}
             label={post.community.name}
             onPress={() => {
               router.push({
@@ -161,10 +161,11 @@ export function CrossPostCard({
             }}
           >
             <Icon
-              color={theme.colors.accent.accent}
               name="ArrowsSplit"
-              size={theme.typography[1].lineHeight}
               style={styles.crossPost}
+              uniProps={(theme) => ({
+                size: theme.typography[1].lineHeight,
+              })}
             />
 
             <Text size="1" weight="medium">
@@ -175,9 +176,11 @@ export function CrossPostCard({
           {footer.map((item) => (
             <View align="center" direction="row" gap="1" key={item.key}>
               <Icon
-                color={theme.colors.gray.textLow}
                 name={item.icon}
-                size={theme.typography[1].lineHeight}
+                uniProps={(theme) => ({
+                  color: theme.colors.gray.textLow,
+                  size: theme.typography[1].lineHeight,
+                })}
               />
 
               <Text highContrast={false} size="1" tabular>
@@ -191,15 +194,26 @@ export function CrossPostCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  compact: (large?: boolean) => ({
+const styles = StyleSheet.create((theme) => ({
+  compact: {
     backgroundColor: theme.colors.gray.uiActive,
     borderCurve: 'continuous',
-    borderRadius: theme.space[large ? 2 : 1],
-    height: theme.space[8] * (large ? 2 : 1),
     overflow: 'hidden',
-    width: theme.space[8] * (large ? 2 : 1),
-  }),
+    variants: {
+      large: {
+        false: {
+          borderRadius: theme.space[1],
+          height: theme.space[8],
+          width: theme.space[8],
+        },
+        true: {
+          borderRadius: theme.space[2],
+          height: theme.space[8] * 2,
+          width: theme.space[8] * 2,
+        },
+      },
+    },
+  },
   compactIcon: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.black.accentAlpha,
@@ -214,10 +228,17 @@ const stylesheet = createStyleSheet((theme) => ({
       },
     ],
   },
-  main: (oled: boolean) => ({
-    backgroundColor: theme.colors.gray[oled ? 'bg' : 'uiHover'],
+  main: {
+    backgroundColor: theme.colors.gray.uiHover,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     overflow: 'hidden',
-  }),
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: theme.colors.gray.bg,
+        },
+      },
+    },
+  },
 }))

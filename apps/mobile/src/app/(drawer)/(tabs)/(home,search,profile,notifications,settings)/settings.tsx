@@ -1,6 +1,8 @@
 import { useRouter } from 'expo-router'
+import { ScrollView } from 'react-native'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { AboutCard } from '~/components/settings/about'
 import { Updater } from '~/components/settings/updater'
@@ -14,110 +16,89 @@ export default function Screen() {
   const listProps = useList()
 
   return (
-    <Menu
-      footer={<Updater />}
-      header={<AboutCard />}
-      items={[
-        {
-          arrow: true,
-          icon: {
-            name: 'GearSix',
-            type: 'icon',
-            weight: 'duotone',
-          },
-          label: t('preferences'),
-          onPress() {
+    <ScrollView {...listProps}>
+      <AboutCard />
+
+      <Menu.Root>
+        <Menu.Button
+          arrow
+          icon={<Icon name="GearSix" />}
+          label={t('preferences')}
+          onPress={() => {
             router.push({
               pathname: '/settings/preferences',
             })
-          },
-        },
-        {
-          arrow: true,
-          icon: {
-            name: 'HandSwipeLeft',
-            type: 'icon',
-            weight: 'duotone',
-          },
-          label: t('gestures'),
-          onPress() {
+          }}
+        />
+
+        <Menu.Button
+          arrow
+          icon={<Icon name="HandSwipeLeft" />}
+          label={t('gestures')}
+          onPress={() => {
             router.push({
               pathname: '/settings/gestures',
             })
-          },
-        },
-        {
-          arrow: true,
-          icon: {
-            name: 'Palette',
-            type: 'icon',
-            weight: 'duotone',
-          },
-          label: t('appearance'),
-          onPress() {
+          }}
+        />
+
+        <Menu.Button
+          arrow
+          icon={<Icon name="Palette" />}
+          label={t('appearance')}
+          onPress={() => {
             router.push({
               pathname: '/settings/appearance',
             })
-          },
-        },
-        {
-          arrow: true,
-          icon: {
-            name: 'SlidersHorizontal',
-            type: 'icon',
-            weight: 'duotone',
-          },
-          label: t('defaults'),
-          onPress() {
+          }}
+        />
+
+        <Menu.Button
+          arrow
+          icon={<Icon name="SlidersHorizontal" />}
+          label={t('defaults')}
+          onPress={() => {
             router.push({
               pathname: '/settings/defaults',
             })
-          },
-        },
-        {
-          arrow: true,
-          icon: {
-            name: 'Funnel',
-            type: 'icon',
-            weight: 'duotone',
-          },
-          label: t('filters'),
-          onPress() {
+          }}
+        />
+
+        <Menu.Button
+          arrow
+          icon={<Icon name="Funnel" />}
+          label={t('filters')}
+          onPress={() => {
             router.push({
               pathname: '/settings/filters',
             })
-          },
-        },
-        {
-          arrow: true,
-          icon: {
-            name: 'SortAscending',
-            type: 'icon',
-            weight: 'duotone',
-          },
-          label: t('sort'),
-          onPress() {
+          }}
+        />
+
+        <Menu.Button
+          arrow
+          icon={<Icon name="SortAscending" />}
+          label={t('sort')}
+          onPress={() => {
             router.push({
               pathname: '/settings/sort',
             })
-          },
-        },
-        {
-          arrow: true,
-          icon: {
-            name: 'HardDrives',
-            type: 'icon',
-            weight: 'duotone',
-          },
-          label: t('cache'),
-          onPress() {
+          }}
+        />
+
+        <Menu.Button
+          arrow
+          icon={<Icon name="HardDrives" />}
+          label={t('cache')}
+          onPress={() => {
             router.push({
               pathname: '/settings/cache',
             })
-          },
-        },
-      ]}
-      listProps={listProps}
-    />
+          }}
+        />
+      </Menu.Root>
+
+      <Updater />
+    </ScrollView>
   )
 }

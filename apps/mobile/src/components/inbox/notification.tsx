@@ -1,11 +1,11 @@
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useNow, useTranslations } from 'use-intl'
 
 import { useLink } from '~/hooks/link'
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
-import { type ColorToken } from '~/styles/tokens'
+import { type ColorToken, ColorTokens } from '~/styles/tokens'
 import { type InboxNotification, type NotificationType } from '~/types/inbox'
 
 import { Icon, type IconName } from '../common/icon'
@@ -27,7 +27,11 @@ export function NotificationCard({ notification }: Props) {
 
   const { themeOled } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    color: colors[notification.type],
+    oled: themeOled,
+    unread: notification.new,
+  })
 
   const { mark } = useMarkAsRead()
 
@@ -55,18 +59,15 @@ export function NotificationCard({ notification }: Props) {
         }
       }}
       p="4"
-      style={styles.main(
-        colors[notification.type],
-        notification.new,
-        themeOled,
-      )}
+      style={styles.main}
     >
       <Icon
-        color={
-          theme.colors[notification.new ? colors[notification.type] : 'gray']
-            .accent
-        }
         name={icons[notification.type]}
+        uniProps={(theme) => ({
+          color:
+            theme.colors[notification.new ? colors[notification.type] : 'gray']
+              .accent,
+        })}
         weight={notification.new ? 'fill' : 'bold'}
       />
 
@@ -96,14 +97,28 @@ export function NotificationCard({ notification }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: (color: ColorToken, unread: boolean, oled: boolean) => ({
-    backgroundColor: unread
-      ? theme.colors[color].uiAlpha
-      : oled
-        ? oledTheme[theme.name].bgAlpha
-        : theme.colors.gray.bgAltAlpha,
-  }),
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    backgroundColor: theme.colors.gray.bgAltAlpha,
+    compoundVariants: ColorTokens.map((token) => ({
+      color: token,
+      styles: {
+        backgroundColor: theme.colors[token].uiAlpha,
+      },
+      unread: true,
+    })),
+    variants: {
+      color: Object.fromEntries(ColorTokens.map((token) => [token, {}])),
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bgAlpha,
+        },
+      },
+      unread: {
+        true: {},
+      },
+    },
+  },
 }))
 
 const icons: Record<NotificationType, IconName> = {

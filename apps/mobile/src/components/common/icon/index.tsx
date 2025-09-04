@@ -1,5 +1,6 @@
 import { AlienIcon } from 'phosphor-react-native/src/icons/Alien'
 import { ArrowArcLeftIcon } from 'phosphor-react-native/src/icons/ArrowArcLeft'
+import { ArrowArcRightIcon } from 'phosphor-react-native/src/icons/ArrowArcRight'
 import { ArrowBendUpLeftIcon } from 'phosphor-react-native/src/icons/ArrowBendUpLeft'
 import { ArrowDownIcon } from 'phosphor-react-native/src/icons/ArrowDown'
 import { ArrowElbowLeftIcon } from 'phosphor-react-native/src/icons/ArrowElbowLeft'
@@ -99,10 +100,9 @@ import { VibrateIcon } from 'phosphor-react-native/src/icons/Vibrate'
 import { WarningIcon } from 'phosphor-react-native/src/icons/Warning'
 import { XIcon } from 'phosphor-react-native/src/icons/X'
 import { XCircleIcon } from 'phosphor-react-native/src/icons/XCircle'
+import { createElement } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { UnistylesRuntime, type UnistylesTheme } from 'react-native-unistyles'
-
-import { type ColorToken } from '~/styles/tokens'
+import { withUnistyles } from 'react-native-unistyles'
 
 export type IconName = keyof typeof icons
 
@@ -116,46 +116,24 @@ type Props = {
   weight?: IconWeight
 }
 
-export function Icon({
-  color,
-  name,
-  size = 24,
-  style,
-  weight = 'regular',
-}: Props) {
-  const Component = icons[name]
-
-  return <Component color={color} size={size} style={style} weight={weight} />
-}
-
-type GetIconProps = {
-  color: ColorToken
-  name: IconName
-  size?: number
-  weight?: IconWeight
-}
-
-export function getIcon({
-  color,
-  name,
-  size = 24,
-  weight = 'duotone',
-}: GetIconProps) {
-  const theme = UnistylesRuntime.getTheme() as UnistylesTheme
-
-  return (
-    <Icon
-      color={theme.colors[color].accent}
-      name={name}
-      size={size}
-      weight={weight}
-    />
-  )
-}
+export const Icon = withUnistyles(
+  ({ color, name, size = 24, style, weight = 'regular' }: Props) =>
+    createElement(icons[name], {
+      color,
+      size,
+      style,
+      weight,
+    }),
+  (theme) => ({
+    color: theme.colors.accent.accent,
+    size: theme.space[5],
+  }),
+)
 
 const icons = {
   Alien: AlienIcon,
   ArrowArcLeft: ArrowArcLeftIcon,
+  ArrowArcRight: ArrowArcRightIcon,
   ArrowBendUpLeft: ArrowBendUpLeftIcon,
   ArrowDown: ArrowDownIcon,
   ArrowElbowLeft: ArrowElbowLeftIcon,

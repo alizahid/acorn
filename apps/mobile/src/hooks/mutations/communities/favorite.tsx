@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import { getIcon } from '~/components/common/icon'
+import { Icon } from '~/components/common/icon'
 import { updateCommunities } from '~/hooks/queries/communities/communities'
 import { updateCommunity } from '~/hooks/queries/communities/community'
 import { reddit } from '~/reddit/api'
@@ -43,11 +43,17 @@ export function useFavorite() {
           community: variables.name,
         }),
         {
-          icon: getIcon({
-            color: variables.favorite ? 'amber' : 'gray',
-            name: 'Star',
-            weight: variables.favorite ? 'fill' : 'regular',
-          }),
+          icon: (
+            <Icon
+              name="Star"
+              uniProps={(theme) => ({
+                color: variables.favorite
+                  ? theme.colors.amber.accent
+                  : theme.colors.gray.accent,
+              })}
+              weight={variables.favorite ? 'fill' : 'regular'}
+            />
+          ),
         },
       )
     },

@@ -1,5 +1,5 @@
 import { ActivityIndicator } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { Toaster } from 'sonner-native'
 
 import { iPad } from '~/lib/common'
@@ -7,41 +7,33 @@ import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 import { weights } from '~/styles/text'
 
-import { getIcon } from './icon'
+import { Icon } from './icon'
 
 export function Toast() {
-  const { font } = usePreferences()
+  const { font, fontScaling } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    iPad,
+  })
+
+  const { theme } = useUnistyles()
 
   return (
     <Toaster
       autoWiggleOnUpdate="always"
       icons={{
-        error: getIcon({
-          color: 'red',
-          name: 'Warning',
-        }),
-        info: getIcon({
-          color: 'accent',
-          name: 'Info',
-        }),
+        error: <Icon color={theme.colors.red.accent} name="Warning" />,
+        info: <Icon color={theme.colors.accent.accent} name="Info" />,
         loading: <ActivityIndicator size={theme.typography[3].lineHeight} />,
-        success: getIcon({
-          color: 'green',
-          name: 'CheckCircle',
-        }),
-        warning: getIcon({
-          color: 'orange',
-          name: 'Warning',
-        }),
+        success: <Icon color={theme.colors.green.accent} name="CheckCircle" />,
+        warning: <Icon color={theme.colors.orange.accent} name="Warning" />,
       }}
-      theme={theme.name}
+      theme={theme.variant}
       toastOptions={{
         closeButtonStyle: styles.close,
-        descriptionStyle: styles.description(font),
+        descriptionStyle: styles.description(font, fontScaling),
         style: styles.main,
-        titleStyle: styles.title(font),
+        titleStyle: styles.title(font, fontScaling),
         toastContainerStyle: styles.container,
         toastContentStyle: styles.content,
         unstyled: true,
@@ -50,7 +42,7 @@ export function Toast() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   close: {
     alignItems: 'center',
     height: theme.typography[3].lineHeight,
@@ -58,18 +50,24 @@ const stylesheet = createStyleSheet((theme) => ({
     width: theme.typography[3].lineHeight,
   },
   container: {
-    maxWidth: iPad ? 600 : undefined,
+    variants: {
+      iPad: {
+        true: {
+          maxWidth: 600,
+        },
+      },
+    },
   },
   content: {
     flexDirection: 'row',
     gap: theme.space[2],
     padding: theme.space[3],
   },
-  description: (font: Font) => ({
+  description: (font: Font, scaling: number) => ({
     color: theme.colors.gray.textLow,
     fontFamily: fonts[font],
-    fontSize: theme.typography[2].fontSize,
-    lineHeight: theme.typography[2].lineHeight,
+    fontSize: theme.typography[2].fontSize * scaling,
+    lineHeight: theme.typography[2].lineHeight * scaling,
     marginTop: theme.space[1],
   }),
   main: {
@@ -79,11 +77,11 @@ const stylesheet = createStyleSheet((theme) => ({
     marginHorizontal: theme.space[4],
     marginVertical: theme.space[2],
   },
-  title: (font: Font) => ({
+  title: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
     fontFamily: fonts[font],
-    fontSize: theme.typography[3].fontSize,
+    fontSize: theme.typography[3].fontSize * scaling,
     fontWeight: weights.medium,
-    lineHeight: theme.typography[3].lineHeight,
+    lineHeight: theme.typography[3].lineHeight * scaling,
   }),
 }))

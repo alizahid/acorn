@@ -4,8 +4,7 @@ import { Image } from 'expo-image'
 import * as ImagePicker from 'expo-image-picker'
 import { useCallback, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { StyleSheet } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
@@ -14,7 +13,7 @@ import { type Undefined } from '~/types'
 
 import { Focusable } from '../common/focusable'
 import { Icon } from '../common/icon'
-import { IconButton } from '../common/icon-button'
+import { IconButton } from '../common/icon/button'
 import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 import { Text } from '../common/text'
@@ -23,8 +22,6 @@ import { View } from '../common/view'
 export function SubmissionImage() {
   const t = useTranslations('component.submission.image')
   const a11y = useTranslations('a11y')
-
-  const { styles, theme } = useStyles(stylesheet)
 
   const { control, setValue } = useFormContext<CreatePostForm>()
 
@@ -99,9 +96,10 @@ export function SubmissionImage() {
           ) : (
             <View align="center" flex={1} gap="4" justify="center">
               <Icon
-                color={theme.colors.accent.accent}
                 name="Image"
-                size={theme.space[9]}
+                uniProps={(theme) => ({
+                  size: theme.space[9],
+                })}
                 weight="duotone"
               />
 
@@ -114,7 +112,7 @@ export function SubmissionImage() {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   delete: {
     bottom: 0,
     position: 'absolute',

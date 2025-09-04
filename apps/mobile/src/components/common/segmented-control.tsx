@@ -1,7 +1,7 @@
 import MaskedView from '@react-native-masked-view/masked-view'
 import { useState } from 'react'
 import { Animated, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 
 import { Pressable } from './pressable'
 import { Text } from './text'
@@ -14,7 +14,7 @@ type Props = {
 }
 
 export function SegmentedControl({ items, offset, onChange }: Props) {
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useUnistyles()
 
   const [width, setWidth] = useState(0)
 
@@ -95,7 +95,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   main: {
     backgroundColor: theme.colors.gray.uiAlpha,
     borderCurve: 'continuous',

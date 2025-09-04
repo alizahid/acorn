@@ -1,11 +1,10 @@
 import { type Insets, type StyleProp, type ViewStyle } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
 
 import { type ColorToken, type SpaceToken } from '~/styles/tokens'
 
-import { Icon, type IconName, type IconWeight } from './icon'
-import { Pressable } from './pressable'
-import { Spinner } from './spinner'
+import { Pressable } from '../pressable'
+import { Spinner } from '../spinner'
+import { Icon, type IconName, type IconWeight } from '.'
 
 type Props = {
   contrast?: boolean
@@ -35,8 +34,6 @@ export function IconButton({
   size = '8',
   style,
 }: Props) {
-  const { theme } = useStyles()
-
   return (
     <Pressable
       align="center"
@@ -52,21 +49,21 @@ export function IconButton({
     >
       {loading ? (
         <Spinner
-          color={
-            icon.color
+          uniProps={(theme) => ({
+            color: icon.color
               ? theme.colors[icon.color].accent
-              : theme.colors.accent[contrast ? 'contrast' : 'accent']
-          }
+              : theme.colors.accent[contrast ? 'contrast' : 'accent'],
+          })}
         />
       ) : (
         <Icon
-          color={
-            icon.color
-              ? theme.colors[icon.color].accent
-              : theme.colors.accent[contrast ? 'contrast' : 'accent']
-          }
           name={icon.name}
-          size={icon.size ?? theme.space[5]}
+          uniProps={(theme) => ({
+            color: icon.color
+              ? theme.colors[icon.color].accent
+              : theme.colors.accent[contrast ? 'contrast' : 'accent'],
+            size: icon.size ?? theme.space[5],
+          })}
           weight={icon.weight}
         />
       )}

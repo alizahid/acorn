@@ -1,7 +1,7 @@
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { removePrefix } from '~/lib/reddit'
 import { type User } from '~/types/user'
@@ -17,8 +17,6 @@ type Props = {
 
 export function UserCard({ style, user }: Props) {
   const router = useRouter()
-
-  const { styles, theme } = useStyles(stylesheet)
 
   return (
     <Pressable
@@ -49,15 +47,17 @@ export function UserCard({ style, user }: Props) {
       </Text>
 
       <Icon
-        color={theme.colors.gray.accent}
         name="CaretRight"
-        size={theme.space[4]}
+        uniProps={(theme) => ({
+          color: theme.colors.gray.accent,
+          size: theme.space[4],
+        })}
       />
     </Pressable>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   image: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',

@@ -1,7 +1,7 @@
 import { Image } from 'expo-image'
 import { useCallback } from 'react'
-import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type StyleProp, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Gallery } from '~/components/common/gallery'
@@ -41,7 +41,9 @@ export function PostGalleryCard({
   const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences()
   const { addPost } = useHistory()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    large,
+  })
 
   const placeholder = useImagePlaceholder()
 
@@ -80,7 +82,7 @@ export function PostGalleryCard({
           onPress={() => {
             onPress()
           }}
-          style={[styles.compact(large), style]}
+          style={[styles.compact, style]}
         >
           <Image
             {...placeholder}
@@ -115,21 +117,32 @@ export function PostGalleryCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   blur: {
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     gap: theme.space[4],
     justifyContent: 'center',
   },
-  compact: (large?: boolean) => ({
+  compact: {
     backgroundColor: theme.colors.gray.uiActive,
     borderCurve: 'continuous',
-    borderRadius: theme.space[large ? 2 : 1],
-    height: theme.space[8] * (large ? 2 : 1),
     overflow: 'hidden',
-    width: theme.space[8] * (large ? 2 : 1),
-  }),
+    variants: {
+      large: {
+        false: {
+          borderRadius: theme.space[1],
+          height: theme.space[8],
+          width: theme.space[8],
+        },
+        true: {
+          borderRadius: theme.space[2],
+          height: theme.space[8] * 2,
+          width: theme.space[8] * 2,
+        },
+      },
+    },
+  },
   compactIcon: {
     backgroundColor: theme.colors.black.accentAlpha,
   },

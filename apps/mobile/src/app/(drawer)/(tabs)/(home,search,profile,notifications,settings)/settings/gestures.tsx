@@ -1,9 +1,10 @@
-import { useStyles } from 'react-native-unistyles'
+import { ScrollView } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { type GestureAction } from '~/components/common/gestures'
 import { Icon } from '~/components/common/icon'
-import { Menu, type MenuItemOption } from '~/components/common/menu'
+import { Menu } from '~/components/common/menu'
+import { type MenuItemOption } from '~/components/common/menu/item/options'
 import { useList } from '~/hooks/list'
 import { useGestures } from '~/stores/gestures'
 
@@ -26,17 +27,17 @@ export default function Screen() {
     update,
   } = useGestures()
 
-  const { theme } = useStyles()
-
   const listProps = useList()
 
-  const options: Array<MenuItemOption> = [
+  const options: Array<MenuItemOption<GestureAction>> = [
     {
       label: t('options.upvote'),
       right: (
         <Icon
-          color={theme.colors.orange.accent}
           name="ArrowFatUp"
+          uniProps={(theme) => ({
+            color: theme.colors.orange.accent,
+          })}
           weight="duotone"
         />
       ),
@@ -46,8 +47,10 @@ export default function Screen() {
       label: t('options.downvote'),
       right: (
         <Icon
-          color={theme.colors.violet.accent}
           name="ArrowFatDown"
+          uniProps={(theme) => ({
+            color: theme.colors.violet.accent,
+          })}
           weight="duotone"
         />
       ),
@@ -57,8 +60,10 @@ export default function Screen() {
       label: t('options.reply'),
       right: (
         <Icon
-          color={theme.colors.blue.accent}
           name="ArrowBendUpLeft"
+          uniProps={(theme) => ({
+            color: theme.colors.blue.accent,
+          })}
           weight="duotone"
         />
       ),
@@ -68,8 +73,10 @@ export default function Screen() {
       label: t('options.save'),
       right: (
         <Icon
-          color={theme.colors.green.accent}
           name="BookmarkSimple"
+          uniProps={(theme) => ({
+            color: theme.colors.green.accent,
+          })}
           weight="duotone"
         />
       ),
@@ -79,8 +86,10 @@ export default function Screen() {
       label: t('options.hide'),
       right: (
         <Icon
-          color={theme.colors.red.accent}
           name="EyeClosed"
+          uniProps={(theme) => ({
+            color: theme.colors.red.accent,
+          })}
           weight="duotone"
         />
       ),
@@ -90,8 +99,10 @@ export default function Screen() {
       label: t('options.share'),
       right: (
         <Icon
-          color={theme.colors.accent.accent}
           name="Share"
+          uniProps={(theme) => ({
+            color: theme.colors.accent.accent,
+          })}
           weight="duotone"
         />
       ),
@@ -100,142 +111,162 @@ export default function Screen() {
   ]
 
   return (
-    <Menu
-      items={[
-        t('menu.posts'),
-        {
-          label: t('menu.left'),
-          onSelect(value) {
-            update({
-              postLeft: value,
-            })
-          },
-          type: 'switch',
-          value: postLeft,
-        },
-        {
-          label: t('menu.short'),
-          onSelect(value) {
-            update({
-              postLeftShort: value as GestureAction,
-            })
-          },
-          options,
-          type: 'options',
-          value: postLeftShort,
-        },
-        {
-          label: t('menu.long'),
-          onSelect(value) {
-            update({
-              postLeftLong: value as GestureAction,
-            })
-          },
-          options,
-          type: 'options',
-          value: postLeftLong,
-        },
-        {
-          label: t('menu.right'),
-          onSelect(value) {
-            update({
-              postRight: value,
-            })
-          },
-          type: 'switch',
-          value: postRight,
-        },
-        {
-          label: t('menu.short'),
-          onSelect(value) {
-            update({
-              postRightShort: value as GestureAction,
-            })
-          },
-          options,
-          type: 'options',
-          value: postRightShort,
-        },
-        {
-          label: t('menu.long'),
-          onSelect(value) {
-            update({
-              postRightLong: value as GestureAction,
-            })
-          },
-          options,
-          type: 'options',
-          value: postRightLong,
-        },
-        null,
+    <ScrollView {...listProps}>
+      <Menu.Root>
+        <Menu.Label>{t('menu.posts')}</Menu.Label>
 
-        t('menu.comments'),
-        {
-          label: t('menu.left'),
-          onSelect(value) {
+        <Menu.Switch
+          icon={<Icon name="ArrowArcLeft" />}
+          label={t('menu.left')}
+          onChange={(next) => {
             update({
-              commentLeft: value,
+              postLeft: next,
             })
-          },
-          type: 'switch',
-          value: commentLeft,
-        },
-        {
-          label: t('menu.short'),
-          onSelect(value) {
+          }}
+          value={postLeft}
+        />
+
+        {postLeft ? (
+          <>
+            <Menu.Options
+              label={t('menu.short')}
+              onChange={(next) => {
+                update({
+                  postLeftShort: next as GestureAction,
+                })
+              }}
+              options={options}
+              value={postLeftShort}
+            />
+
+            <Menu.Options
+              label={t('menu.long')}
+              onChange={(next) => {
+                update({
+                  postLeftLong: next as GestureAction,
+                })
+              }}
+              options={options}
+              value={postLeftLong}
+            />
+          </>
+        ) : null}
+
+        <Menu.Switch
+          icon={<Icon name="ArrowArcRight" />}
+          label={t('menu.right')}
+          onChange={(next) => {
             update({
-              commentLeftShort: value as GestureAction,
+              postRight: next,
             })
-          },
-          options,
-          type: 'options',
-          value: commentLeftShort,
-        },
-        {
-          label: t('menu.long'),
-          onSelect(value) {
+          }}
+          value={postRight}
+        />
+
+        {postRight ? (
+          <>
+            <Menu.Options
+              label={t('menu.short')}
+              onChange={(next) => {
+                update({
+                  postRightShort: next as GestureAction,
+                })
+              }}
+              options={options}
+              value={postRightShort}
+            />
+
+            <Menu.Options
+              label={t('menu.long')}
+              onChange={(next) => {
+                update({
+                  postRightLong: next as GestureAction,
+                })
+              }}
+              options={options}
+              value={postRightLong}
+            />
+          </>
+        ) : null}
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('menu.comments')}</Menu.Label>
+
+        <Menu.Switch
+          icon={<Icon name="ArrowArcLeft" />}
+          label={t('menu.left')}
+          onChange={(next) => {
             update({
-              commentLeftLong: value as GestureAction,
+              commentLeft: next,
             })
-          },
-          options,
-          type: 'options',
-          value: commentLeftLong,
-        },
-        {
-          label: t('menu.right'),
-          onSelect(value) {
+          }}
+          value={commentLeft}
+        />
+
+        {commentLeft ? (
+          <>
+            <Menu.Options
+              label={t('menu.short')}
+              onChange={(next) => {
+                update({
+                  commentLeftShort: next as GestureAction,
+                })
+              }}
+              options={options}
+              value={commentLeftShort}
+            />
+
+            <Menu.Options
+              label={t('menu.long')}
+              onChange={(next) => {
+                update({
+                  commentLeftLong: next as GestureAction,
+                })
+              }}
+              options={options}
+              value={commentLeftLong}
+            />
+          </>
+        ) : null}
+
+        <Menu.Switch
+          icon={<Icon name="ArrowArcRight" />}
+          label={t('menu.right')}
+          onChange={(next) => {
             update({
-              commentRight: value,
+              commentRight: next,
             })
-          },
-          type: 'switch',
-          value: commentRight,
-        },
-        {
-          label: t('menu.short'),
-          onSelect(value) {
-            update({
-              commentRightShort: value as GestureAction,
-            })
-          },
-          options,
-          type: 'options',
-          value: commentRightShort,
-        },
-        {
-          label: t('menu.long'),
-          onSelect(value) {
-            update({
-              commentRightLong: value as GestureAction,
-            })
-          },
-          options,
-          type: 'options',
-          value: commentRightLong,
-        },
-      ]}
-      listProps={listProps}
-    />
+          }}
+          value={commentRight}
+        />
+
+        {commentRight ? (
+          <>
+            <Menu.Options
+              label={t('menu.short')}
+              onChange={(next) => {
+                update({
+                  commentRightShort: next as GestureAction,
+                })
+              }}
+              options={options}
+              value={commentRightShort}
+            />
+
+            <Menu.Options
+              label={t('menu.long')}
+              onChange={(next) => {
+                update({
+                  commentRightLong: next as GestureAction,
+                })
+              }}
+              options={options}
+              value={commentRightLong}
+            />
+          </>
+        ) : null}
+      </Menu.Root>
+    </ScrollView>
   )
 }

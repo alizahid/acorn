@@ -6,7 +6,7 @@ import Animated, {
   useAnimatedReaction,
   useAnimatedStyle,
 } from 'react-native-reanimated'
-import { useStyles } from 'react-native-unistyles'
+import { useUnistyles } from 'react-native-unistyles'
 
 import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
 import { swipeActionThreshold } from '~/lib/common'
@@ -26,7 +26,7 @@ type Props = {
 }
 
 export function Actions({ action, data, long, progress, short, style }: Props) {
-  const { theme } = useStyles()
+  const { theme } = useUnistyles()
 
   const [icon, setIcon] = useState<IconName>(icons[short])
   const [weight, setWeight] = useState<IconWeight>('fill')
@@ -78,9 +78,11 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
     <Animated.View style={[style, background]}>
       <Animated.View style={foreground}>
         <Icon
-          color={theme.colors.accent.contrast}
           name={icon}
-          size={theme.space[6]}
+          uniProps={($theme) => ({
+            color: $theme.colors.accent.contrast,
+            size: $theme.space[6],
+          })}
           weight={weight}
         />
       </Animated.View>

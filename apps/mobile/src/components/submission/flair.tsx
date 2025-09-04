@@ -1,11 +1,11 @@
-import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { Image } from 'expo-image'
 import { useRef } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
+import { space } from '~/styles/tokens'
 import { type Submission } from '~/types/submission'
 
 import { Icon } from '../common/icon'
@@ -22,9 +22,7 @@ export function SubmissionFlair({ submission }: Props) {
   const t = useTranslations('component.submission.flair')
   const a11y = useTranslations('a11y')
 
-  const sheet = useRef<BottomSheetModal>(null)
-
-  const { styles, theme } = useStyles(stylesheet)
+  const sheet = useRef<SheetModal>(null)
 
   const { control, setValue } = useFormContext<CreatePostForm>()
 
@@ -40,8 +38,6 @@ export function SubmissionFlair({ submission }: Props) {
         const selected = submission.flair.find(
           (item) => item.id === field.value,
         )
-
-        const color = theme.colors.red[fieldState.error ? 'contrast' : 'accent']
 
         return (
           <>
@@ -60,16 +56,34 @@ export function SubmissionFlair({ submission }: Props) {
             >
               {selected ? (
                 <Pressable
-                  hitSlop={theme.space[4]}
+                  hitSlop={space[4]}
                   label={a11y('clearFlair')}
                   onPress={() => {
                     field.onChange()
                   }}
                 >
-                  <Icon color={color} name="X" weight="bold" />
+                  <Icon
+                    name="X"
+                    uniProps={(theme) => ({
+                      color:
+                        theme.colors.red[
+                          fieldState.error ? 'contrast' : 'accent'
+                        ],
+                    })}
+                    weight="bold"
+                  />
                 </Pressable>
               ) : (
-                <Icon color={color} name="SmileyWink" weight="bold" />
+                <Icon
+                  name="SmileyWink"
+                  uniProps={(theme) => ({
+                    color:
+                      theme.colors.red[
+                        fieldState.error ? 'contrast' : 'accent'
+                      ],
+                  })}
+                  weight="bold"
+                />
               )}
 
               {selected ? (
@@ -121,8 +135,6 @@ type FlairProps = {
 }
 
 function FlairCard({ flair }: FlairProps) {
-  const { styles } = useStyles(stylesheet)
-
   if (!flair) {
     return null
   }
@@ -169,7 +181,7 @@ function FlairCard({ flair }: FlairProps) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   emoji: {
     height: theme.typography[1].lineHeight,
     width: theme.typography[1].lineHeight,

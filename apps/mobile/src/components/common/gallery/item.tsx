@@ -1,8 +1,7 @@
 import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { Image, useImage } from 'expo-image'
 import { useRef, useState } from 'react'
-import { StyleSheet } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -11,6 +10,7 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { ImageMenu } from '~/components/posts/gallery/menu'
 import { useImagePlaceholder } from '~/hooks/image'
+import { space } from '~/styles/tokens'
 import { type PostMedia } from '~/types/post'
 
 type Props = {
@@ -21,8 +21,6 @@ type Props = {
 export function GalleryItem({ image, onTap }: Props) {
   const t = useTranslations('component.posts.gallery')
   const a11y = useTranslations('a11y')
-
-  const { styles, theme } = useStyles(stylesheet)
 
   const ref = useRef<Image>(null)
 
@@ -63,7 +61,7 @@ export function GalleryItem({ image, onTap }: Props) {
           </View>
 
           <Pressable
-            hitSlop={theme.space[2]}
+            hitSlop={space[2]}
             label={a11y(playing ? 'pause' : 'play')}
             onPress={() => {
               if (playing) {
@@ -78,9 +76,11 @@ export function GalleryItem({ image, onTap }: Props) {
             style={styles.play}
           >
             <Icon
-              color={theme.colors.gray.contrast}
               name={playing ? 'Pause' : 'Play'}
-              size={theme.space[4]}
+              uniProps={(theme) => ({
+                color: theme.colors.gray.contrast,
+                size: theme.space[4],
+              })}
               weight="fill"
             />
           </Pressable>
@@ -90,7 +90,7 @@ export function GalleryItem({ image, onTap }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   gif: {
     backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',

@@ -1,13 +1,13 @@
-import { BlurView } from 'expo-blur'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
-import { type ColorToken } from '~/styles/tokens'
+import { type ColorToken, ColorTokens, space } from '~/styles/tokens'
 
+import { BlurView } from '../native/blur-view'
 import { type IconName } from './icon'
-import { IconButton } from './icon-button'
+import { IconButton } from './icon/button'
 
-export const FloatingButtonSide = ['left', 'center', 'right', null] as const
+export const FloatingButtonSide = ['left', 'center', 'right', 'hide'] as const
 
 export type FloatingButtonSide = (typeof FloatingButtonSide)[number]
 
@@ -17,7 +17,7 @@ type Props = {
   label: string
   onLongPress?: () => void
   onPress?: () => void
-  side?: NonNullable<FloatingButtonSide>
+  side?: FloatingButtonSide
   style?: StyleProp<ViewStyle>
 }
 
@@ -30,16 +30,21 @@ export function FloatingButton({
   side = 'right',
   style,
 }: Props) {
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    color,
+    side,
+  })
 
   return (
     <BlurView
       intensity={100}
-      style={[styles.main(color, side), style]}
-      tint={theme.name}
+      style={[styles.main, style]}
+      uniProps={(theme) => ({
+        tint: theme.variant,
+      })}
     >
       <IconButton
-        hitSlop={theme.space[4]}
+        hitSlop={space[4]}
         icon={{
           color,
           name: icon,
@@ -53,20 +58,36 @@ export function FloatingButton({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  main: (color: ColorToken, side: FloatingButtonSide) => ({
-    backgroundColor: theme.colors[color].uiActiveAlpha,
+const styles = StyleSheet.create((theme, runtime) => ({
+  main: {
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
     bottom: runtime.insets.bottom + 64,
-    left:
-      side === 'center'
-        ? runtime.screen.width / 2 - theme.space[8] / 2
-        : side === 'left'
-          ? theme.space[4]
-          : undefined,
     overflow: 'hidden',
     position: 'absolute',
-    right: side === 'right' ? theme.space[4] : undefined,
-  }),
+    variants: {
+      color: Object.fromEntries(
+        ColorTokens.map((token) => [
+          token,
+          {
+            backgroundColor: theme.colors[token].uiActiveAlpha,
+          },
+        ]),
+      ),
+      side: {
+        center: {
+          left: runtime.screen.width / 2 - theme.space[8] / 2,
+        },
+        hide: {
+          display: 'none',
+        },
+        left: {
+          left: theme.space[4],
+        },
+        right: {
+          right: theme.space[4],
+        },
+      },
+    },
+  },
 }))

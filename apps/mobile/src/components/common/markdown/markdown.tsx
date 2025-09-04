@@ -3,7 +3,7 @@
 import { Image } from 'expo-image'
 import { type Nodes } from 'mdast'
 import { ScrollView, type TextStyle, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 
 import { useLink } from '~/hooks/link'
 import { getText } from '~/lib/markdown'
@@ -44,7 +44,7 @@ type Props = {
 }
 
 export function Node({ node, ...props }: Props) {
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useUnistyles()
 
   const { handleLink } = useLink()
 
@@ -63,11 +63,7 @@ export function Node({ node, ...props }: Props) {
   }
 
   if (node.type === 'break') {
-    return (
-      <Text size={props.size} slow>
-        {'\n'}
-      </Text>
-    )
+    return <Text size={props.size}>{'\n'}</Text>
   }
 
   if (node.type === 'code') {
@@ -164,7 +160,7 @@ export function Node({ node, ...props }: Props) {
 
   if (node.type === 'inlineCode') {
     return (
-      <Text size={props.size} slow style={styles.inlineCode} variant="mono">
+      <Text size={props.size} style={styles.inlineCode} variant="mono">
         {node.value}
       </Text>
     )
@@ -258,7 +254,7 @@ export function Node({ node, ...props }: Props) {
     }
 
     return (
-      <Text size={props.size} slow {...props.text}>
+      <Text size={props.size} {...props.text}>
         {node.children.map((child, index) => (
           <Node {...props} key={index} node={child} />
         ))}
@@ -314,7 +310,7 @@ export function Node({ node, ...props }: Props) {
 
   if (node.type === 'text') {
     return (
-      <Text size={props.size} slow {...props.text}>
+      <Text size={props.size} {...props.text}>
         {node.value}
       </Text>
     )
@@ -345,11 +341,7 @@ export function Node({ node, ...props }: Props) {
       )
     }
 
-    return (
-      <Text size={props.size} slow>
-        :{node.name}
-      </Text>
-    )
+    return <Text size={props.size}>:{node.name}</Text>
   }
 
   if (node.type === 'thematicBreak') {
@@ -371,7 +363,7 @@ export function Node({ node, ...props }: Props) {
   return null
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   blockQuote: {
     flexDirection: 'row',
     paddingHorizontal: theme.space[3],
@@ -417,11 +409,11 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     lineHeight: 14,
   },
   table: {
-    backgroundColor: theme.name === 'dark' ? '#0d1117' : '#fff',
+    backgroundColor: theme.variant === 'dark' ? '#0d1117' : '#fff',
     borderColor: theme.colors.gray.border,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    borderWidth: runtime.hairlineWidth,
+    borderWidth: StyleSheet.hairlineWidth,
   },
   tableCell: {
     flexDirection: 'row',
@@ -431,7 +423,7 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
   },
   tableRow: (divider: boolean) => ({
     borderTopColor: divider ? theme.colors.gray.border : undefined,
-    borderTopWidth: divider ? runtime.hairlineWidth : undefined,
+    borderTopWidth: divider ? StyleSheet.hairlineWidth : undefined,
   }),
   thematicBreak: {
     backgroundColor: theme.colors.gray.border,

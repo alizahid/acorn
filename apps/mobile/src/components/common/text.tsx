@@ -1,68 +1,138 @@
-import { createElement, type ReactNode } from 'react'
+import { type ReactNode } from 'react'
 import {
-  Text as ReactNativeText,
+  Text as Component,
+  type FontVariant,
   type StyleProp,
   type TextStyle,
 } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
+import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
-import { getTextStyles, type TextStyleProps } from '~/styles/text'
+import { getMargin } from '~/styles/space'
+import { type TextStyleProps, weights } from '~/styles/text'
+import { ColorTokens } from '~/styles/tokens'
 
 type Props = TextStyleProps & {
   children: ReactNode
   lines?: number
   onPress?: () => void
   selectable?: boolean
-  slow?: boolean
   style?: StyleProp<TextStyle>
 }
 
 export function Text({
+  accent,
   children,
+  color = 'gray',
+  contrast,
+  highContrast = color === 'gray',
   lines,
   onPress,
   selectable,
-  slow,
   style,
   ...props
 }: Props) {
   const { font, fontScaling, systemScaling } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
-
-  if (onPress ?? slow) {
-    return (
-      <ReactNativeText
-        allowFontScaling={systemScaling}
-        ellipsizeMode={lines ? 'tail' : undefined}
-        numberOfLines={lines}
-        onPress={onPress}
-        selectable={selectable}
-        style={[
-          styles.main(
-            props,
-            font,
-            systemScaling ? 1 : fontScaling,
-          ) as TextStyle,
-          style,
-        ]}
-      >
-        {children}
-      </ReactNativeText>
-    )
-  }
-
-  return createElement('RCTText', {
-    allowFontScaling: systemScaling,
-    children,
-    ellipsizeMode: lines ? 'tail' : undefined,
-    numberOfLines: lines,
-    selectable,
-    style: [styles.main(props, font, systemScaling ? 1 : fontScaling), style],
+  styles.useVariants({
+    accent,
+    color,
+    contrast,
+    highContrast,
   })
+
+  return (
+    <Component
+      allowFontScaling={systemScaling}
+      ellipsizeMode={lines ? 'tail' : undefined}
+      numberOfLines={lines}
+      onPress={onPress}
+      selectable={selectable}
+      style={[styles.main(props, font, systemScaling ? 1 : fontScaling), style]}
+    >
+      {children}
+    </Component>
+  )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: getTextStyles(theme),
+const styles = StyleSheet.create((theme) => ({
+  main: (
+    {
+      align = 'left',
+      variant = 'sans',
+      size = '3',
+      tabular,
+      italic,
+      weight = 'regular',
+      ...props
+    }: TextStyleProps,
+    font: Font,
+    scaling: number,
+  ) => {
+    const fontVariant: Array<FontVariant> = ['no-contextual', 'stylistic-four']
+
+    if (tabular) {
+      fontVariant.push('tabular-nums')
+    }
+
+    return {
+      ...getMargin(props),
+      compoundVariants: ColorTokens.flatMap((token) => [
+        {
+          accent: true,
+          color: token,
+          styles: {
+            color: theme.colors[token].accent,
+          },
+        },
+        {
+          color: token,
+          contrast: true,
+          styles: {
+            color: theme.colors[token].contrast,
+          },
+        },
+        {
+          color: token,
+          highContrast: true,
+          styles: {
+            color: theme.colors[token].text,
+          },
+        },
+      ]),
+      fontFamily: variant === 'mono' ? fonts.mono : fonts[font],
+      fontSize: theme.typography[size].fontSize * scaling,
+      fontStyle: italic ? 'italic' : 'normal',
+      fontVariant,
+      fontWeight: weights[weight],
+      lineHeight: theme.typography[size].lineHeight * scaling,
+      textAlign: align,
+      variants: {
+        accent: {
+          true: {
+            color: theme.colors.accent.accent,
+          },
+        },
+        color: Object.fromEntries(
+          ColorTokens.map((token) => [
+            token,
+            {
+              color: theme.colors[token].textLow,
+            },
+          ]),
+        ),
+        contrast: {
+          true: {
+            color: theme.colors.accent.contrast,
+          },
+        },
+        highContrast: {
+          true: {
+            color: theme.colors.accent.text,
+          },
+        },
+      },
+    }
+  },
 }))

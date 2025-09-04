@@ -1,11 +1,11 @@
 import { useCallback, useRef, useState } from 'react'
 import { type TextInput } from 'react-native'
 import { TabView } from 'react-native-tab-view'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { TextBox } from '~/components/common/text-box'
@@ -33,8 +33,6 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences()
-
-  const { styles } = useStyles(stylesheet)
 
   const { focused } = useFocused()
 
@@ -153,7 +151,7 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   clear: {
     height: theme.space[7],
     width: theme.space[7],

@@ -1,7 +1,8 @@
 import { Image } from 'expo-image'
-import { useStyles } from 'react-native-unistyles'
+import { ScrollView } from 'react-native'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { db } from '~/db'
 import { useList } from '~/hooks/list'
@@ -10,76 +11,101 @@ import { queryClient } from '~/lib/query'
 export default function Screen() {
   const t = useTranslations('screen.settings.cache')
 
-  const { theme } = useStyles()
-
   const listProps = useList()
 
   return (
-    <Menu
-      items={[
-        {
-          description: t('menu.query.description'),
-          icon: {
-            color: theme.colors.red.accent,
-            name: 'HardDrives',
-            type: 'icon',
-          },
-          label: t('menu.query.label'),
-          onPress() {
+    <ScrollView {...listProps}>
+      <Menu.Root>
+        <Menu.Label>{t('data.title')}</Menu.Label>
+
+        <Menu.Button
+          description={t('data.query.description')}
+          icon={
+            <Icon
+              name="HardDrives"
+              uniProps={(theme) => ({
+                color: theme.colors.red.accent,
+              })}
+            />
+          }
+          label={t('data.query.label')}
+          onPress={() => {
             queryClient.clear()
-          },
-        },
-        {
-          icon: {
-            color: theme.colors.red.accent,
-            name: 'Image',
-            type: 'icon',
-          },
-          label: t('menu.image'),
-          async onPress() {
+          }}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('media.title')}</Menu.Label>
+
+        <Menu.Button
+          icon={
+            <Icon
+              name="Image"
+              uniProps={(theme) => ({
+                color: theme.colors.red.accent,
+              })}
+            />
+          }
+          label={t('media.image')}
+          onPress={async () => {
             await Promise.all([
               Image.clearDiskCache(),
               Image.clearMemoryCache(),
             ])
-          },
-        },
-        {
-          description: t('menu.history.description'),
-          icon: {
-            color: theme.colors.red.accent,
-            name: 'Eye',
-            type: 'icon',
-          },
-          label: t('menu.history.label'),
-          async onPress() {
-            db.query
+          }}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('history.title')}</Menu.Label>
+
+        <Menu.Button
+          description={t('history.history.description')}
+          icon={
+            <Icon
+              name="Eye"
+              uniProps={(theme) => ({
+                color: theme.colors.red.accent,
+              })}
+            />
+          }
+          label={t('history.history.label')}
+          onPress={async () => {
             await db.delete(db.schema.history)
-          },
-        },
-        {
-          icon: {
-            color: theme.colors.red.accent,
-            name: 'TreeView',
-            type: 'icon',
-          },
-          label: t('menu.collapsed'),
-          async onPress() {
+          }}
+        />
+
+        <Menu.Button
+          icon={
+            <Icon
+              name="TreeView"
+              uniProps={(theme) => ({
+                color: theme.colors.red.accent,
+              })}
+            />
+          }
+          label={t('history.collapsed')}
+          onPress={async () => {
             await db.delete(db.schema.collapsed)
-          },
-        },
-        {
-          icon: {
-            color: theme.colors.red.accent,
-            name: 'SortAscending',
-            type: 'icon',
-          },
-          label: t('menu.sorting'),
-          async onPress() {
+          }}
+        />
+
+        <Menu.Button
+          icon={
+            <Icon
+              name="SortAscending"
+              uniProps={(theme) => ({
+                color: theme.colors.red.accent,
+              })}
+            />
+          }
+          label={t('history.sorting')}
+          onPress={async () => {
             await db.delete(db.schema.sorting)
-          },
-        },
-      ]}
-      listProps={listProps}
-    />
+          }}
+        />
+      </Menu.Root>
+    </ScrollView>
   )
 }

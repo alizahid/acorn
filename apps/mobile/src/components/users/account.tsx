@@ -1,7 +1,7 @@
 import { Pressable } from 'react-native'
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { useReorderableDrag } from 'react-native-reorderable-list'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type Account } from '~/stores/auth'
@@ -9,7 +9,7 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
 import { Icon } from '../common/icon'
-import { IconButton } from '../common/icon-button'
+import { IconButton } from '../common/icon/button'
 import { Text } from '../common/text'
 
 type Props = {
@@ -31,9 +31,12 @@ export function AccountCard({
 
   const { themeOled, themeTint } = usePreferences()
 
-  const drag = useReorderableDrag()
+  styles.useVariants({
+    oled: themeOled,
+    tint: themeTint,
+  })
 
-  const { styles, theme } = useStyles(stylesheet)
+  const drag = useReorderableDrag()
 
   return (
     <Swipeable
@@ -64,15 +67,14 @@ export function AccountCard({
 
           onClose()
         }}
-        style={[
-          styles.main(themeOled, themeTint),
-          account.id === selected && styles.selected,
-        ]}
+        style={[styles.main, account.id === selected && styles.selected]}
       >
         <Icon
-          color={theme.colors.gray.accent}
           name="DotsSixVertical"
-          size={theme.space[4]}
+          uniProps={(theme) => ({
+            color: theme.colors.gray.accent,
+            size: theme.space[4],
+          })}
           weight="bold"
         />
 
@@ -82,19 +84,29 @@ export function AccountCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   delete: {
     backgroundColor: theme.colors.red.accent,
   },
-  main: (oled: boolean, tint: boolean) => ({
+  main: {
     alignItems: 'center',
-    backgroundColor: oled
-      ? oledTheme[theme.name].bg
-      : theme.colors[tint ? 'accent' : 'gray'].bg,
+    backgroundColor: theme.colors.gray.bg,
     flexDirection: 'row',
     gap: theme.space[3],
     padding: theme.space[3],
-  }),
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bg,
+        },
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.bg,
+        },
+      },
+    },
+  },
   selected: {
     backgroundColor: theme.colors.accent.uiActive,
   },

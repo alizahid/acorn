@@ -5,7 +5,7 @@ import {
 } from '@gorhom/bottom-sheet'
 import { type ReactNode, type Ref } from 'react'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -14,11 +14,13 @@ import { oledTheme } from '~/styles/oled'
 import { SheetBackdrop } from './backdrop'
 import { SheetHeader } from './header'
 
+export type SheetModal = BottomSheetModal
+
 type Props = {
   children: ReactNode
   container?: 'view' | 'scroll'
   onClose?: () => void
-  ref?: Ref<BottomSheetModal>
+  ref?: Ref<SheetModal>
   right?: ReactNode
   title: string
 }
@@ -35,7 +37,11 @@ export function SheetModal({
 
   const { themeOled, themeTint } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    iPad,
+    oled: themeOled,
+    tint: themeTint,
+  })
 
   const Container =
     container === 'scroll' ? BottomSheetScrollView : BottomSheetView
@@ -52,7 +58,7 @@ export function SheetModal({
   return (
     <BottomSheetModal
       backdropComponent={SheetBackdrop}
-      backgroundStyle={styles.background(themeOled, themeTint)}
+      backgroundStyle={styles.background}
       handleComponent={null}
       maxDynamicContentSize={frame.height * 0.8}
       onDismiss={onClose}
@@ -69,12 +75,22 @@ export function SheetModal({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  background: (oled: boolean, tint: boolean) => ({
-    backgroundColor: oled
-      ? oledTheme[theme.name].bg
-      : theme.colors[tint ? 'accent' : 'gray'].bg,
-  }),
+const styles = StyleSheet.create((theme, runtime) => ({
+  background: {
+    backgroundColor: theme.colors.gray.bg,
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bg,
+        },
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.bg,
+        },
+      },
+    },
+  },
   content: {
     paddingBottom: runtime.insets.bottom,
   },
@@ -82,7 +98,13 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     backgroundColor: 'transparent',
   },
   main: {
-    marginLeft: iPad ? theme.space[6] : undefined,
-    maxWidth: iPad ? 600 : undefined,
+    variants: {
+      iPad: {
+        true: {
+          marginLeft: theme.space[6],
+          maxWidth: 600,
+        },
+      },
+    },
   },
 }))

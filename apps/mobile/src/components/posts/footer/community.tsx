@@ -1,12 +1,13 @@
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { removePrefix } from '~/lib/reddit'
+import { space } from '~/styles/tokens'
 import { type Post } from '~/types/post'
 
 type Props = {
@@ -18,15 +19,13 @@ export function PostCommunity({ post }: Props) {
 
   const t = useTranslations('component.posts.community')
 
-  const { styles, theme } = useStyles(stylesheet)
-
   return (
     <View direction="row" flexShrink={1} gap="1">
       <Pressable
         align="center"
         direction="row"
         gap="2"
-        hitSlop={theme.space[3]}
+        hitSlop={space[3]}
         label={post.community.name}
         onPress={() => {
           if (post.community.name.startsWith('u/')) {
@@ -70,7 +69,7 @@ export function PostCommunity({ post }: Props) {
         direction="row"
         flexShrink={1}
         gap="2"
-        hitSlop={theme.space[3]}
+        hitSlop={space[3]}
         label={post.user.name}
         onPress={() => {
           router.push({
@@ -89,7 +88,7 @@ export function PostCommunity({ post }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   image: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',

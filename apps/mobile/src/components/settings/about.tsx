@@ -1,20 +1,19 @@
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useLink } from '~/hooks/link'
+import { space } from '~/styles/tokens'
 
 import { Button } from '../common/button'
-import { IconButton } from '../common/icon-button'
+import { IconButton } from '../common/icon/button'
 
 export function AboutCard() {
   const t = useTranslations('screen.settings.about')
 
   const { handleLink } = useLink()
-
-  const { styles, theme } = useStyles(stylesheet)
 
   const links = [
     {
@@ -62,7 +61,7 @@ export function AboutCard() {
           {links.map((link) => (
             <IconButton
               contrast
-              hitSlop={theme.space[2]}
+              hitSlop={space[4]}
               icon={{
                 name: link.icon,
                 weight: 'fill',
@@ -92,7 +91,7 @@ export function AboutCard() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   link: {
     backgroundColor: theme.colors.accent.accent,
     borderCurve: 'continuous',

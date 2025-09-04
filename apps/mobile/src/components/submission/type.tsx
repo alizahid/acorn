@@ -1,9 +1,10 @@
 import { compact } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
+import { space } from '~/styles/tokens'
 import { type Submission } from '~/types/submission'
 
 import { ContextMenu } from '../common/context-menu'
@@ -16,8 +17,6 @@ type Props = {
 
 export function SubmissionType({ submission }: Props) {
   const t = useTranslations('component.submission.type')
-
-  const { styles, theme } = useStyles(stylesheet)
 
   const types = compact([
     submission.media.text && 'text',
@@ -33,7 +32,7 @@ export function SubmissionType({ submission }: Props) {
       name="type"
       render={({ field }) => (
         <ContextMenu
-          hitSlop={theme.space[4]}
+          hitSlop={space[4]}
           label={t('title')}
           options={types.map((item) => ({
             action() {
@@ -66,7 +65,6 @@ export function SubmissionType({ submission }: Props) {
             style={styles.main}
           >
             <Icon
-              color={theme.colors.gray.text}
               name={
                 field.value === 'image'
                   ? 'Image'
@@ -74,13 +72,18 @@ export function SubmissionType({ submission }: Props) {
                     ? 'Link'
                     : 'Textbox'
               }
+              uniProps={(theme) => ({
+                color: theme.colors.gray.text,
+              })}
               weight="duotone"
             />
 
             <Icon
-              color={theme.colors.gray.textLow}
               name="CaretDown"
-              size={theme.space[4]}
+              uniProps={(theme) => ({
+                color: theme.colors.gray.textLow,
+                size: theme.space[4],
+              })}
               weight="bold"
             />
           </View>
@@ -90,7 +93,7 @@ export function SubmissionType({ submission }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   main: {
     backgroundColor: theme.colors.accent.ui,
     borderCurve: 'continuous',

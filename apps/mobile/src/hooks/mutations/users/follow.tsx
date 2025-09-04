@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import { getIcon } from '~/components/common/icon'
+import { Icon } from '~/components/common/icon'
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { type ProfileQueryKey } from '~/hooks/queries/user/profile'
 import { queryClient } from '~/lib/query'
@@ -50,13 +50,21 @@ export function useFollow() {
           user: variables.name,
         }),
         {
-          icon: getIcon({
-            color: variables.action === 'follow' ? 'green' : 'red',
-            name:
-              variables.action === 'follow'
-                ? 'UserCirclePlus'
-                : 'UserCircleMinus',
-          }),
+          icon: (
+            <Icon
+              name={
+                variables.action === 'follow'
+                  ? 'UserCirclePlus'
+                  : 'UserCircleMinus'
+              }
+              uniProps={(theme) => ({
+                color:
+                  variables.action === 'follow'
+                    ? theme.colors.green.accent
+                    : theme.colors.red.accent,
+              })}
+            />
+          ),
         },
       )
     },

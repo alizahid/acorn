@@ -7,6 +7,7 @@ import { Store } from '~/lib/store'
 import { addTextSize } from '~/styles/text'
 import { type Theme } from '~/styles/themes'
 import { type TypographyToken } from '~/styles/tokens'
+import { type Nullable } from '~/types'
 import {
   type CommentSort,
   type CommunityFeedSort,
@@ -38,8 +39,8 @@ export type PreferencesPayload = {
   font: Font
   fontScaling: number
   fontSizeComment: TypographyToken
-  fontSizePostTitle: TypographyToken
   fontSizePostBody: TypographyToken
+  fontSizePostTitle: TypographyToken
   hapticsLoud: boolean
   hidePostActions: boolean
   hideSeen: boolean
@@ -178,11 +179,21 @@ export const usePreferences = create<State>()(
           state.fontSizePostBody = addTextSize(fontSizePost, -1)
         }
 
+        if (version === 5) {
+          const { replyPost, skipComment } = persisted as {
+            replyPost: Nullable<FloatingButtonSide>
+            skipComment: Nullable<FloatingButtonSide>
+          }
+
+          state.replyPost = replyPost ? replyPost : 'hide'
+          state.skipComment = skipComment ? skipComment : 'hide'
+        }
+
         return state
       },
       name: PREFERENCES_KEY,
       storage: new Store(PREFERENCES_KEY),
-      version: 5,
+      version: 6,
     },
   ),
 )

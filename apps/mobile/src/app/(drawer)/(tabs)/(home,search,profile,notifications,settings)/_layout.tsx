@@ -2,7 +2,7 @@ import { Stack, useRouter } from 'expo-router'
 import { type PropsWithChildren } from 'react'
 import { useTranslations } from 'use-intl'
 
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { StackHeader } from '~/components/navigation/stack-header'

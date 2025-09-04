@@ -1,7 +1,8 @@
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type SearchHistoryData } from '~/hooks/search'
+import { space } from '~/styles/tokens'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
@@ -17,8 +18,6 @@ export function SearchHistory({ history, onChange }: Props) {
   const t = useTranslations('component.search.history')
   const a11y = useTranslations('a11y')
 
-  const { styles, theme } = useStyles(stylesheet)
-
   return (
     <View gap="4" px="3" py="4">
       <Text size="2" weight="medium">
@@ -30,19 +29,24 @@ export function SearchHistory({ history, onChange }: Props) {
           align="center"
           direction="row"
           gap="3"
-          hitSlop={theme.space[4]}
+          hitSlop={space[4]}
           key={query}
           label={query}
           onPress={() => {
             onChange(query)
           }}
         >
-          <Icon color={theme.colors.gray.text} name="MagnifyingGlass" />
+          <Icon
+            name="MagnifyingGlass"
+            uniProps={(theme) => ({
+              color: theme.colors.gray.text,
+            })}
+          />
 
           <Text style={styles.query}>{query}</Text>
 
           <Pressable
-            hitSlop={theme.space[4]}
+            hitSlop={space[4]}
             label={a11y('removeQuery', {
               query,
             })}
@@ -50,7 +54,13 @@ export function SearchHistory({ history, onChange }: Props) {
               history.remove(query)
             }}
           >
-            <Icon color={theme.colors.red.accent} name="X" weight="bold" />
+            <Icon
+              name="X"
+              uniProps={(theme) => ({
+                color: theme.colors.red.accent,
+              })}
+              weight="bold"
+            />
           </Pressable>
         </Pressable>
       ))}
@@ -59,13 +69,19 @@ export function SearchHistory({ history, onChange }: Props) {
         align="center"
         direction="row"
         gap="3"
-        hitSlop={theme.space[4]}
+        hitSlop={space[4]}
         label={t('clear')}
         onPress={() => {
           history.clear()
         }}
       >
-        <Icon color={theme.colors.red.accent} name="X" weight="bold" />
+        <Icon
+          name="X"
+          uniProps={(theme) => ({
+            color: theme.colors.red.accent,
+          })}
+          weight="bold"
+        />
 
         <Text>{t('clear')}</Text>
       </Pressable>
@@ -73,8 +89,8 @@ export function SearchHistory({ history, onChange }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create({
   query: {
     flex: 1,
   },
-}))
+})

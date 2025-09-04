@@ -1,6 +1,6 @@
 import { Image } from 'expo-image'
-import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type StyleProp, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -36,11 +36,15 @@ export function PostLinkCard({
 }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { styles, theme } = useStyles(stylesheet)
-
   const { seenOnMedia, themeOled } = usePreferences()
   const { handleLink } = useLink()
   const { addPost } = useHistory()
+
+  styles.useVariants({
+    crossPost,
+    large,
+    oled: themeOled,
+  })
 
   const placeholder = useImagePlaceholder()
 
@@ -58,7 +62,7 @@ export function PostLinkCard({
               })
             }
           }}
-          style={styles.compact(large)}
+          style={styles.compact}
         >
           {media?.thumbnail ? (
             <Image
@@ -69,7 +73,12 @@ export function PostLinkCard({
           ) : null}
 
           <View align="center" justify="center" style={styles.compactIcon}>
-            <Icon color={theme.colors.accent.accent} name="Compass" />
+            <Icon
+              name="Compass"
+              uniProps={(theme) => ({
+                color: theme.colors.accent.accent,
+              })}
+            />
           </View>
         </Pressable>
       </LinkMenu>
@@ -90,7 +99,7 @@ export function PostLinkCard({
             })
           }
         }}
-        style={[styles.main(themeOled, crossPost), style]}
+        style={[styles.main, style]}
       >
         {media ? (
           <Image
@@ -104,9 +113,10 @@ export function PostLinkCard({
 
         <View align="center" direction="row" gap="3" p="3">
           <Icon
-            color={theme.colors.accent.accent}
             name="Compass"
-            size={theme.typography[2].lineHeight}
+            uniProps={(theme) => ({
+              size: theme.typography[2].lineHeight,
+            })}
           />
 
           <Text lines={1} size="2" style={styles.url}>
@@ -118,15 +128,24 @@ export function PostLinkCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  compact: (large?: boolean) => ({
+const styles = StyleSheet.create((theme) => ({
+  compact: {
     backgroundColor: theme.colors.gray.uiActive,
     borderCurve: 'continuous',
-    borderRadius: theme.space[large ? 2 : 1],
-    height: theme.space[8] * (large ? 2 : 1),
+    borderRadius: theme.space[1],
+    height: theme.space[8],
     overflow: 'hidden',
-    width: theme.space[8] * (large ? 2 : 1),
-  }),
+    variants: {
+      large: {
+        true: {
+          borderRadius: theme.space[2],
+          height: theme.space[8] * 2,
+          width: theme.space[8] * 2,
+        },
+      },
+    },
+    width: theme.space[8],
+  },
   compactIcon: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.black.accentAlpha,
@@ -137,13 +156,24 @@ const stylesheet = createStyleSheet((theme) => ({
   image: {
     aspectRatio: 2,
   },
-  main: (oled: boolean, crossPost?: boolean) => ({
-    backgroundColor: theme.colors.gray[oled ? 'bgAlt' : 'uiActive'],
+  main: {
+    backgroundColor: theme.colors.gray.uiActive,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    marginTop: crossPost ? theme.space[3] : undefined,
     overflow: 'hidden',
-  }),
+    variants: {
+      crossPost: {
+        true: {
+          marginTop: theme.space[3],
+        },
+      },
+      oled: {
+        true: {
+          backgroundColor: theme.colors.gray.bgAlt,
+        },
+      },
+    },
+  },
   url: {
     flex: 1,
   },

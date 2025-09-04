@@ -1,16 +1,16 @@
 import { type ReactNode, type Ref, useState } from 'react'
 import {
   type StyleProp,
-  TextInput,
   type TextInputProps,
   type TextStyle,
   type ViewStyle,
 } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
+import { TextInput } from '../native/text-input'
 import { Text } from './text'
 import { View } from './view'
 
@@ -31,7 +31,6 @@ type Props = Pick<
   | 'secureTextEntry'
   | 'value'
 > & {
-  code?: boolean
   error?: string
   hint?: string
   label?: string
@@ -41,13 +40,13 @@ type Props = Pick<
   style?: StyleProp<ViewStyle>
   styleContent?: StyleProp<ViewStyle>
   styleInput?: StyleProp<TextStyle>
+  variant?: 'sans' | 'mono'
 }
 
 export function TextBox({
   autoCapitalize,
   autoComplete,
   autoCorrect,
-  code,
   editable = true,
   error,
   hint,
@@ -68,12 +67,18 @@ export function TextBox({
   styleContent,
   styleInput,
   value,
+  variant = 'sans',
 }: Props) {
   const { font, fontScaling, systemScaling } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
-
   const [focused, setFocused] = useState(false)
+
+  styles.useVariants({
+    error: Boolean(error),
+    focused,
+    multiline,
+    variant,
+  })
 
   return (
     <View style={[styles.main, style]}>
@@ -86,7 +91,7 @@ export function TextBox({
       <View
         align="center"
         direction="row"
-        style={[styles.content(focused, Boolean(error)), styleContent]}
+        style={[styles.content, styleContent]}
       >
         {left}
 
@@ -111,15 +116,10 @@ export function TextBox({
           }}
           onSubmitEditing={onSubmitEditing}
           placeholder={placeholder}
-          placeholderTextColor={theme.colors.gray.accent}
           ref={ref}
           returnKeyType={returnKeyType}
           secureTextEntry={secureTextEntry}
-          selectionColor={theme.colors.accent.accent}
-          style={[
-            styles.input(Boolean(multiline), Boolean(code), font, fontScaling),
-            styleInput,
-          ]}
+          style={[styles.input(font, fontScaling), styleInput]}
           textAlignVertical="center"
           value={value}
         />
@@ -142,29 +142,59 @@ export function TextBox({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  content: (focused: boolean, error: boolean) => ({
+const styles = StyleSheet.create((theme) => ({
+  content: {
     backgroundColor: theme.colors.gray.ui,
-    borderColor: focused
-      ? error
-        ? theme.colors.red.accent
-        : theme.colors.accent.accent
-      : error
-        ? theme.colors.red.borderUi
-        : theme.colors.gray.borderUi,
+    borderColor: theme.colors.gray.borderUi,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    borderWidth: runtime.hairlineWidth,
+    borderWidth: StyleSheet.hairlineWidth,
+    compoundVariants: [
+      {
+        error: true,
+        focused: true,
+        styles: {
+          borderColor: theme.colors.red.accent,
+        },
+      },
+    ],
     flexGrow: 1,
-  }),
-  input: (multiline: boolean, code: boolean, font: Font, scaling: number) => ({
+    variants: {
+      error: {
+        true: {
+          borderColor: theme.colors.red.borderUi,
+        },
+      },
+      focused: {
+        true: {
+          borderColor: theme.colors.accent.accent,
+        },
+      },
+    },
+  },
+  input: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
     flex: 1,
-    fontFamily: code ? fonts.mono : fonts[font],
     fontSize: theme.typography[3].fontSize * scaling,
-    height: multiline ? undefined : theme.space[7],
     paddingHorizontal: theme.space[3],
-    paddingVertical: multiline ? theme.space[3] : undefined,
+    variants: {
+      multiline: {
+        false: {
+          height: theme.space[7],
+        },
+        true: {
+          paddingVertical: theme.space[3],
+        },
+      },
+      variant: {
+        mono: {
+          fontFamily: fonts.mono,
+        },
+        sans: {
+          fontFamily: fonts[font],
+        },
+      },
+    },
   }),
   main: {
     gap: theme.space[1],

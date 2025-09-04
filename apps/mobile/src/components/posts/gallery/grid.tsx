@@ -1,7 +1,6 @@
 import { Image } from 'expo-image'
-import { StyleSheet } from 'react-native'
 import { ResponsiveGrid } from 'react-native-flexible-grid'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
@@ -32,8 +31,6 @@ export function ImageGrid({
 }: Props) {
   const t = useTranslations('component.posts.gallery')
   const a11y = useTranslations('a11y')
-
-  const { styles } = useStyles(stylesheet)
 
   const placeholder = useImagePlaceholder()
 
@@ -142,7 +139,7 @@ export function ImageGrid({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   blur: {
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',

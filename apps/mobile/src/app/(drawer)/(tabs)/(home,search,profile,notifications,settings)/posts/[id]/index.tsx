@@ -6,7 +6,7 @@ import {
 } from '@shopify/flash-list'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -47,7 +47,9 @@ export default function Screen() {
   const { collapsibleComments, replyPost, skipComment, sortPostComments } =
     usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    iPad,
+  })
 
   const { focused } = useFocused()
 
@@ -320,10 +322,16 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   content: {
     paddingBottom: heights.floatingButton,
-    paddingHorizontal: iPad ? theme.space[4] : undefined,
-    paddingTop: iPad ? theme.space[4] : undefined,
+    variants: {
+      iPad: {
+        true: {
+          paddingHorizontal: theme.space[4],
+          paddingTop: theme.space[4],
+        },
+      },
+    },
   },
 }))

@@ -1,16 +1,11 @@
-import { type ViewStyle } from 'react-native'
-import {
-  createStyleSheet,
-  type UnistylesValues,
-  useStyles,
-} from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
-import { IconButton } from '../common/icon-button'
+import { IconButton } from '../common/icon/button'
 import { View } from '../common/view'
 
 type Props = {
@@ -23,14 +18,14 @@ export function PostHeader({ onPress, parentId }: Props) {
 
   const { themeOled, themeTint } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    iPad,
+    oled: themeOled,
+    tint: themeTint,
+  })
 
   return (
-    <View
-      direction="row"
-      mt={themeOled ? '1' : '2'}
-      style={styles.main(themeOled, themeTint) as ViewStyle}
-    >
+    <View direction="row" mt={themeOled ? '1' : '2'} style={styles.main}>
       <IconButton
         icon={{
           name: 'ArrowArcLeft',
@@ -56,25 +51,29 @@ export function PostHeader({ onPress, parentId }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: (oled: boolean, tint: boolean) => {
-    const base: UnistylesValues = {
-      backgroundColor: oled
-        ? oledTheme[theme.name].bg
-        : theme.colors[tint ? 'accent' : 'gray'].ui,
-    }
-
-    if (iPad) {
-      return {
-        ...base,
-        alignSelf: 'center',
-        borderCurve: 'continuous',
-        borderRadius: theme.radius[3],
-        maxWidth: cardMaxWidth,
-        width: '100%',
-      }
-    }
-
-    return base
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    backgroundColor: theme.colors.gray.ui,
+    variants: {
+      iPad: {
+        true: {
+          alignSelf: 'center',
+          borderCurve: 'continuous',
+          borderRadius: theme.radius[3],
+          maxWidth: cardMaxWidth,
+          width: '100%',
+        },
+      },
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bg,
+        },
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.ui,
+        },
+      },
+    },
   },
 }))

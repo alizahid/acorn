@@ -1,19 +1,16 @@
-import { SymbolView } from 'expo-symbols'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { ScrollView } from 'react-native'
 import { useTranslations } from 'use-intl'
 
-import { Menu, type MenuItem } from '~/components/common/menu'
+import { Icon } from '~/components/common/icon'
+import { SymbolIcon } from '~/components/common/icon/symbol'
+import { Menu } from '~/components/common/menu'
 import { Slider } from '~/components/common/slider'
 import { View } from '~/components/common/view'
+import { Themes } from '~/components/settings/themes'
 import { useList } from '~/hooks/list'
 import { type Font, fonts } from '~/lib/fonts'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
-import { type Theme } from '~/styles/themes'
-import {
-  type ColorToken,
-  type TypographyToken,
-  typography,
-} from '~/styles/tokens'
+import { type TypographyToken, typography } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.appearance')
@@ -30,319 +27,206 @@ export default function Screen() {
     largeThumbnails,
     mediaOnRight,
     systemScaling,
-    theme: selected,
+    theme,
     themeOled,
     themeTint,
     update,
   } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
-
   const listProps = useList()
 
+  const sizes = {
+    fontSizeComment,
+    fontSizePostBody,
+    fontSizePostTitle,
+  }
+
   return (
-    <Menu
-      items={(
-        [
-          t('preferences.title'),
-          {
-            icon: 'TelevisionSimple',
-            key: 'themeOled',
-            label: t('preferences.themeOled'),
-            value: themeOled,
-          },
-          {
-            icon: 'PaintRoller',
-            key: 'themeTint',
-            label: t('preferences.themeTint'),
-            value: themeTint,
-          },
-          {
-            icon: 'Drop',
-            key: 'blurNavigation',
-            label: t('preferences.blurNavigation'),
-            value: blurNavigation,
-          },
-          {
-            icon: 'PaintBrush',
-            key: 'colorfulComments',
-            label: t('preferences.colorfulComments'),
-            value: colorfulComments,
-          },
-          null,
+    <ScrollView {...listProps}>
+      <Menu.Root>
+        <Menu.Label>{t('preferences.title')}</Menu.Label>
 
-          t('compact.title'),
-          {
-            icon: 'Rows',
-            key: 'feedCompact',
-            label: t('compact.feedCompact'),
-            value: feedCompact,
-          },
-          {
-            icon: 'ArrowsOut',
-            key: 'largeThumbnails',
-            label: t('compact.largeThumbnails'),
-            value: largeThumbnails,
-          },
-          {
-            icon: 'Image',
-            key: 'mediaOnRight',
-            label: t('compact.mediaOnRight'),
-            value: mediaOnRight,
-          },
-          null,
-
-          t('fonts.title'),
-          {
-            key: 'font',
-            options: ['basis', 'apercu', 'fold', 'system'],
-            value: font,
-          },
-          {
-            key: 'systemScaling',
-            label: t('fonts.systemScaling'),
-            value: systemScaling,
-          },
-          {
-            key: 'fontScaling',
-            value: fontScaling,
-          },
-          {
-            key: 'fontSizePostTitle',
-            value: fontSizePostTitle,
-          },
-          {
-            key: 'fontSizePostBody',
-            value: fontSizePostBody,
-          },
-          {
-            key: 'fontSizeComment',
-            value: fontSizeComment,
-          },
-          null,
-
-          t('themes.title'),
-          {
-            key: 'theme',
-            options: [
-              t('themes.auto'),
-              {
-                color: 'orange',
-                key: 'acorn',
-              },
-              null,
-
-              t('themes.light'),
-              {
-                color: 'orange',
-                key: 'acorn-light',
-              },
-              {
-                color: 'ruby',
-                key: 'ruby-light',
-              },
-              {
-                color: 'plum',
-                key: 'plum-light',
-              },
-              {
-                color: 'indigo',
-                key: 'indigo-light',
-              },
-              {
-                color: 'jade',
-                key: 'jade-light',
-              },
-              null,
-
-              t('themes.dark'),
-              {
-                color: 'orange',
-                key: 'acorn-dark',
-              },
-              {
-                color: 'ruby',
-                key: 'ruby-dark',
-              },
-              {
-                color: 'plum',
-                key: 'plum-dark',
-              },
-              {
-                color: 'indigo',
-                key: 'indigo-dark',
-              },
-              {
-                color: 'jade',
-                key: 'jade-dark',
-              },
-            ],
-            value: selected,
-          },
-        ] as const
-      ).map((item) => {
-        if (item === null || typeof item === 'string') {
-          return item
-        }
-
-        if (item.key === 'font') {
-          return {
-            hideSelected: true,
-            label: t(`fonts.${item.value}`),
-            onSelect(value) {
-              update({
-                font: value as Font,
-              })
-            },
-            options: item.options.map((option) => ({
-              label: t(`fonts.${option}`),
-              labelStyle: {
-                fontFamily: fonts[option],
-              },
-              value: option,
-            })),
-            title: t('fonts.title'),
-            type: 'options',
-            value: item.value,
-          } satisfies MenuItem
-        }
-
-        if (item.key === 'fontScaling') {
-          return function Component() {
-            return (
-              <Slider
-                disabled={systemScaling}
-                max={1.2}
-                min={0.8}
-                onChange={(next) => {
-                  update({
-                    [item.key]: next,
-                  })
-                }}
-                step={0.1}
-                style={styles.slider}
-                value={item.value}
-              />
-            )
-          }
-        }
-
-        if (item.key === 'theme') {
-          return {
-            icon: {
-              name: item.value.endsWith('-dark')
-                ? 'Moon'
-                : item.value.endsWith('-light')
-                  ? 'Sun'
-                  : 'DeviceMobileCamera',
-              type: 'icon',
-            },
-            label: t(`themes.${item.value}`),
-            onSelect(value) {
-              update({
-                theme: value as Theme,
-              })
-            },
-            options: item.options.map((option) => {
-              if (option === null || typeof option === 'string') {
-                return option
-              }
-
-              return {
-                label: t(`themes.${option.key}`),
-                right: (
-                  <View
-                    align="center"
-                    height="6"
-                    justify="center"
-                    style={styles.theme(option.color)}
-                    width="6"
-                  />
-                ),
-                value: option.key,
-              }
-            }),
-            title: t('themes.title'),
-            type: 'options',
-            value: item.value,
-          } satisfies MenuItem
-        }
-
-        if (
-          item.key === 'fontSizePostTitle' ||
-          item.key === 'fontSizePostBody' ||
-          item.key === 'fontSizeComment'
-        ) {
-          return {
-            label: t(`fonts.${item.key}`),
-            onSelect(value) {
-              update({
-                [item.key]: value,
-              })
-            },
-            options: Object.keys(typography).map((token) => ({
-              hideRight: true,
-              label: token,
-              right: (
-                <SymbolView
-                  name={`${token as TypographyToken}.circle.fill`}
-                  size={theme.space[5]}
-                  tintColor={theme.colors.accent.accent}
-                />
-              ),
-              value: token,
-            })),
-            type: 'options',
-            value: item.value,
-          } satisfies MenuItem
-        }
-
-        return {
-          icon:
-            'icon' in item
-              ? {
-                  name: item.icon,
-                  type: 'icon',
-                }
-              : undefined,
-          label: item.label,
-          onSelect(value) {
+        <Menu.Switch
+          icon={<Icon name="TelevisionSimple" />}
+          label={t('preferences.themeOled')}
+          onChange={(next) => {
             const payload: Partial<PreferencesPayload> = {
-              [item.key]: value,
+              themeOled: next,
             }
 
-            if (item.key === 'themeOled' && value && themeTint) {
+            if (next) {
               payload.themeTint = false
             }
 
-            if (item.key === 'themeTint' && value && themeOled) {
+            update(payload)
+          }}
+          value={themeOled}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="PaintRoller" />}
+          label={t('preferences.themeTint')}
+          onChange={(next) => {
+            const payload: Partial<PreferencesPayload> = {
+              themeTint: next,
+            }
+
+            if (next) {
               payload.themeOled = false
             }
 
             update(payload)
-          },
-          type: 'switch',
-          value: item.value,
-        } satisfies MenuItem
-      })}
-      listProps={listProps}
-    />
+          }}
+          value={themeTint}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="Drop" />}
+          label={t('preferences.blurNavigation')}
+          onChange={(next) => {
+            update({
+              blurNavigation: next,
+            })
+          }}
+          value={blurNavigation}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="PaintBrush" />}
+          label={t('preferences.colorfulComments')}
+          onChange={(next) => {
+            update({
+              colorfulComments: next,
+            })
+          }}
+          value={colorfulComments}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('compact.title')}</Menu.Label>
+
+        <Menu.Switch
+          icon={<Icon name="Rows" />}
+          label={t('compact.feedCompact')}
+          onChange={(next) => {
+            update({
+              feedCompact: next,
+            })
+          }}
+          value={feedCompact}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="ArrowsOut" />}
+          label={t('compact.largeThumbnails')}
+          onChange={(next) => {
+            update({
+              largeThumbnails: next,
+            })
+          }}
+          value={largeThumbnails}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="Image" />}
+          label={t('compact.mediaOnRight')}
+          onChange={(next) => {
+            update({
+              mediaOnRight: next,
+            })
+          }}
+          value={mediaOnRight}
+        />
+      </Menu.Root>
+
+      <Menu.Separator />
+
+      <Menu.Label>{t('fonts.title')}</Menu.Label>
+
+      <Menu.Options
+        hideSelected
+        label={t(`fonts.${font}`)}
+        onChange={(next) => {
+          update({
+            font: next as Font,
+          })
+        }}
+        options={(['basis', 'apercu', 'fold', 'system'] as const).map(
+          (item) => ({
+            label: t(`fonts.${item}`),
+            labelStyle: {
+              fontFamily: fonts[item],
+            },
+            value: item,
+          }),
+        )}
+        title={t('fonts.title')}
+        value={font}
+      />
+
+      <Menu.Switch
+        label={t('fonts.systemScaling')}
+        onChange={(next) => {
+          update({
+            systemScaling: next,
+          })
+        }}
+        value={systemScaling}
+      />
+
+      {systemScaling ? null : (
+        <View height="8" justify="center" mx="3">
+          <Slider
+            disabled={systemScaling}
+            max={1.2}
+            min={0.8}
+            onChange={(next) => {
+              update({
+                fontScaling: next,
+              })
+            }}
+            step={0.1}
+            value={fontScaling}
+          />
+        </View>
+      )}
+
+      {(
+        ['fontSizePostTitle', 'fontSizePostBody', 'fontSizeComment'] as const
+      ).map((item) => (
+        <Menu.Options
+          key={item}
+          label={t(`fonts.${item}`)}
+          onChange={(next) => {
+            update({
+              [item]: next as TypographyToken,
+            })
+          }}
+          options={Object.keys(typography).map((token) => ({
+            hideRight: true,
+            label: token,
+            right: (
+              <SymbolIcon name={`${token as TypographyToken}.circle.fill`} />
+            ),
+            value: token,
+          }))}
+          value={sizes[item]}
+        />
+      ))}
+
+      <Menu.Separator />
+
+      <Menu.Label>{t('themes.title')}</Menu.Label>
+
+      <Themes
+        onChange={(next) => {
+          update({
+            theme: next,
+          })
+        }}
+        value={theme}
+      />
+    </ScrollView>
   )
 }
-
-const stylesheet = createStyleSheet((theme) => ({
-  item: (selected: boolean) => ({
-    backgroundColor: selected ? theme.colors.accent.uiActive : undefined,
-  }),
-  label: {
-    flex: 1,
-  },
-  slider: {
-    marginHorizontal: theme.space[3],
-  },
-  theme: (color: ColorToken | 'acorn') => ({
-    backgroundColor: theme.colors[color === 'acorn' ? 'orange' : color].accent,
-    borderCurve: 'continuous',
-    borderRadius: theme.space[5],
-  }),
-}))

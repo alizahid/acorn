@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
 import { type FiltersForm } from '~/hooks/filters'
+import { space } from '~/styles/tokens'
 
 import { ContextMenu } from '../common/context-menu'
 
@@ -20,8 +21,6 @@ export function FilterCard({ index, onRemove }: Props) {
   const t = useTranslations('component.filters.card')
   const a11y = useTranslations('a11y')
 
-  const { styles, theme } = useStyles(stylesheet)
-
   const { control } = useFormContext<FiltersForm>()
 
   const [type, setType] = useState<'community' | 'keyword' | 'user'>('keyword')
@@ -33,7 +32,7 @@ export function FilterCard({ index, onRemove }: Props) {
         name={`filters.${index}.type`}
         render={({ field }) => (
           <ContextMenu
-            hitSlop={theme.space[4]}
+            hitSlop={space[4]}
             label={field.value}
             options={(['keyword', 'community', 'user'] as const).map(
               (item) => ({
@@ -60,7 +59,6 @@ export function FilterCard({ index, onRemove }: Props) {
           >
             <View align="center" direction="row" gap="2" height="7" px="2">
               <Icon
-                color={theme.colors.gray.text}
                 name={
                   field.value === 'community'
                     ? 'UsersFour'
@@ -68,14 +66,19 @@ export function FilterCard({ index, onRemove }: Props) {
                       ? 'User'
                       : 'Tag'
                 }
-                size={theme.typography[2].lineHeight}
+                uniProps={(theme) => ({
+                  color: theme.colors.gray.text,
+                  size: theme.typography[2].lineHeight,
+                })}
                 weight="duotone"
               />
 
               <Icon
-                color={theme.colors.gray.textLow}
                 name="CaretDown"
-                size={theme.space[4]}
+                uniProps={(theme) => ({
+                  color: theme.colors.gray.textLow,
+                  size: theme.space[4],
+                })}
                 weight="bold"
               />
             </View>
@@ -117,7 +120,7 @@ export function FilterCard({ index, onRemove }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   input: {
     flex: 1,
   },

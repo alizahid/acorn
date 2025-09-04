@@ -1,4 +1,4 @@
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { Text } from '~/components/common/text'
@@ -14,8 +14,6 @@ type Props = {
 export function ProfileCard({ profile }: Props) {
   const t = useTranslations('component.users.profile')
   const f = useFormatter()
-
-  const { styles } = useStyles(stylesheet)
 
   const items = [
     {
@@ -66,7 +64,7 @@ export function ProfileCard({ profile }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   main: {
     backgroundColor: theme.colors.accent.ui,
   },

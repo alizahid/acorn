@@ -5,13 +5,13 @@ import { FormProvider, useFieldArray } from 'react-hook-form'
 import { FlatList } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { FloatingButton } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { FilterCard } from '~/components/filters/card'
@@ -36,8 +36,6 @@ export default function Screen() {
 
   const t = useTranslations('screen.settings.filters')
   const a11y = useTranslations('a11y')
-
-  const { styles, theme } = useStyles(stylesheet)
 
   const listProps = useList()
 
@@ -107,13 +105,6 @@ export default function Screen() {
             ].map((rule) => (
               <View align="center" direction="row" gap="2" key={rule.label}>
                 <Icon
-                  color={
-                    rule.type === 'yes'
-                      ? theme.colors.green.accent
-                      : rule.type === 'no'
-                        ? theme.colors.red.accent
-                        : theme.colors.blue.accent
-                  }
                   name={
                     rule.type === 'yes'
                       ? 'CheckCircle'
@@ -121,7 +112,15 @@ export default function Screen() {
                         ? 'XCircle'
                         : 'Info'
                   }
-                  size={theme.typography[2].lineHeight}
+                  uniProps={(theme) => ({
+                    color:
+                      rule.type === 'yes'
+                        ? theme.colors.green.accent
+                        : rule.type === 'no'
+                          ? theme.colors.red.accent
+                          : theme.colors.blue.accent,
+                    size: theme.typography[2].lineHeight,
+                  })}
                   weight="fill"
                 />
 
@@ -175,7 +174,7 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   content: {
     padding: theme.space[4],
     paddingBottom: heights.floatingButton,

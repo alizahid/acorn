@@ -1,10 +1,11 @@
 import { useRouter } from 'expo-router'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useNow } from 'use-intl'
 
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
+import { space } from '~/styles/tokens'
 import { type InboxMessage } from '~/types/inbox'
 
 import { Icon } from '../common/icon'
@@ -26,7 +27,10 @@ export function MessageCard({ message }: Props) {
     updateInterval: 1000 * 60,
   })
 
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    oled: themeOled,
+    unread: message.new,
+  })
 
   const { mark } = useMarkAsRead()
 
@@ -53,14 +57,14 @@ export function MessageCard({ message }: Props) {
         }
       }}
       p="4"
-      style={styles.main(message.new, themeOled)}
+      style={styles.main}
     >
       <View flex={1} gap="2">
         <Text>{message.subject}</Text>
 
         <View direction="row" gap="4">
           <Pressable
-            hitSlop={theme.space[4]}
+            hitSlop={space[4]}
             label={message.author}
             onPress={() => {
               router.push({
@@ -83,23 +87,33 @@ export function MessageCard({ message }: Props) {
       </View>
 
       <Icon
-        color={theme.colors.gray.accent}
         name="CaretRight"
-        size={theme.space[4]}
+        uniProps={(theme) => ({
+          color: theme.colors.gray.accent,
+          size: theme.space[4],
+        })}
       />
     </Pressable>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   body: {
     marginVertical: theme.space[4],
   },
-  main: (unread: boolean, oled: boolean) => ({
-    backgroundColor: unread
-      ? theme.colors.accent.uiAlpha
-      : oled
-        ? oledTheme[theme.name].bgAlpha
-        : theme.colors.gray.bgAltAlpha,
-  }),
+  main: {
+    backgroundColor: theme.colors.gray.bgAltAlpha,
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bgAlpha,
+        },
+      },
+      unread: {
+        true: {
+          backgroundColor: theme.colors.accent.uiAlpha,
+        },
+      },
+    },
+  },
 }))

@@ -1,6 +1,6 @@
 import { type ReactNode } from 'react'
 import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
@@ -18,37 +18,50 @@ type Props = {
 export function SheetHeader({ left, right, style, title, titleStyle }: Props) {
   const { themeOled, themeTint } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    oled: themeOled,
+    tint: themeTint,
+  })
 
   return (
     <View
       align="center"
       height="8"
       justify="center"
-      style={[styles.main(themeOled, themeTint), style]}
+      style={[styles.main, style]}
     >
-      {left ? <View style={[styles.left]}>{left}</View> : null}
+      {left ? <View style={styles.left}>{left}</View> : null}
 
       <Text style={titleStyle} weight="bold">
         {title}
       </Text>
 
-      {right ? <View style={[styles.right]}>{right}</View> : null}
+      {right ? <View style={styles.right}>{right}</View> : null}
     </View>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   left: {
     bottom: 0,
     left: 0,
     position: 'absolute',
   },
-  main: (oled: boolean, tint: boolean) => ({
-    backgroundColor: oled
-      ? oledTheme[theme.name].bg
-      : theme.colors[tint ? 'accent' : 'gray'].bgAlt,
-  }),
+  main: {
+    backgroundColor: theme.colors.gray.bgAlt,
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bg,
+        },
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.bgAlt,
+        },
+      },
+    },
+  },
   right: {
     bottom: 0,
     position: 'absolute',

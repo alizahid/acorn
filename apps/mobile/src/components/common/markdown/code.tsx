@@ -4,7 +4,7 @@ import { type ElementContent, type RootContent } from 'hast'
 import { common, createLowlight } from 'lowlight'
 import { useMemo } from 'react'
 import { ScrollView, type TextStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 
 import { type TypographyToken } from '~/styles/tokens'
 
@@ -20,7 +20,7 @@ type Props = {
 const lowlight = createLowlight(common)
 
 export function Code({ children, language, size }: Props) {
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useUnistyles()
 
   const root = useMemo(() => {
     try {
@@ -37,10 +37,10 @@ export function Code({ children, language, size }: Props) {
       style={styles.main}
     >
       <View responder>
-        <Text size={size} slow variant="mono">
+        <Text size={size} variant="mono">
           {root.children.map((node, index) => (
             <Node
-              dark={theme.name === 'dark'}
+              dark={theme.variant === 'dark'}
               key={index}
               node={node}
               size={size}
@@ -52,13 +52,13 @@ export function Code({ children, language, size }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   content: {
     paddingHorizontal: theme.space[3],
     paddingVertical: theme.space[2],
   },
   main: {
-    backgroundColor: theme.name === 'dark' ? '#0d1117' : '#fff',
+    backgroundColor: theme.variant === 'dark' ? '#0d1117' : '#fff',
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
   },
@@ -92,7 +92,7 @@ function Node({ dark, node, size }: NodeProps) {
   }
 
   return (
-    <Text size={size} slow style={getStyles(dark)} variant="mono">
+    <Text size={size} style={getStyles(dark)} variant="mono">
       {node.value}
     </Text>
   )
@@ -123,7 +123,7 @@ function Element({ dark, node, size, style }: ElementProps) {
   }
 
   return (
-    <Text size={size} slow style={style} variant="mono">
+    <Text size={size} style={style} variant="mono">
       {node.value}
     </Text>
   )

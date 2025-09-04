@@ -1,4 +1,4 @@
-import { useStyles } from 'react-native-unistyles'
+import { useUnistyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -14,7 +14,7 @@ type Props = {
 export function PostMeta({ post }: Props) {
   const f = useFormatter()
 
-  const { theme } = useStyles()
+  const { theme } = useUnistyles()
 
   const items = [
     {
@@ -55,9 +55,11 @@ export function PostMeta({ post }: Props) {
     <View align="center" direction="row" gap="2">
       {post.sticky ? (
         <Icon
-          color={theme.colors.green.accent}
           name="PushPin"
-          size={theme.typography[1].fontSize}
+          uniProps={($theme) => ({
+            color: $theme.colors.green.accent,
+            size: $theme.typography[1].fontSize,
+          })}
           weight="fill"
         />
       ) : null}
@@ -65,13 +67,14 @@ export function PostMeta({ post }: Props) {
       {items.map((item) => (
         <View align="center" direction="row" gap="1" key={item.key}>
           <Icon
-            color={
-              'color' in item && item.color
-                ? item.color
-                : theme.colors.gray.text
-            }
             name={item.icon}
-            size={theme.typography[1].fontSize}
+            uniProps={($theme) => ({
+              color:
+                'color' in item && item.color
+                  ? item.color
+                  : $theme.colors.gray.text,
+              size: $theme.typography[1].fontSize,
+            })}
             weight={'weight' in item ? item.weight : undefined}
           />
 

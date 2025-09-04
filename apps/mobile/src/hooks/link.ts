@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as WebBrowser from 'expo-web-browser'
 import { useCallback } from 'react'
-import { useStyles } from 'react-native-unistyles'
+import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
@@ -23,7 +23,7 @@ export function useLink() {
   const { linkBrowser, oldReddit } = usePreferences()
   const { setFocused } = useFocused()
 
-  const { theme } = useStyles()
+  const { theme } = useUnistyles()
 
   const openInApp = useCallback(
     async (url: string) => {

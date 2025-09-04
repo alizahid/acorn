@@ -1,6 +1,5 @@
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as WebBrowser from 'expo-web-browser'
-import { type UnistylesTheme } from 'react-native-unistyles'
 import { z } from 'zod'
 
 import { REDDIT_SCOPES, REDIRECT_URI } from './config'
@@ -12,7 +11,15 @@ export const AuthCodeSchema = z.object({
 
 export type AuthCodeForm = z.infer<typeof AuthCodeSchema>
 
-export async function getAuthCode(data: AuthCodeForm, theme?: UnistylesTheme) {
+type Props = {
+  accent?: string
+  background?: string
+}
+
+export async function getAuthCode(
+  data: AuthCodeForm,
+  { accent, background }: Props,
+) {
   const oauth = new URL('/api/v1/authorize.compact', 'https://www.reddit.com')
 
   oauth.searchParams.set('client_id', data.clientId)
@@ -26,10 +33,10 @@ export async function getAuthCode(data: AuthCodeForm, theme?: UnistylesTheme) {
     oauth.toString(),
     REDIRECT_URI,
     {
-      controlsColor: theme?.colors.accent.accent,
+      controlsColor: accent,
       preferEphemeralSession: true,
       presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
-      toolbarColor: theme?.colors.gray.bg,
+      toolbarColor: background,
     },
   )
 

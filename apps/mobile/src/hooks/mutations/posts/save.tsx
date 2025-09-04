@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import { getIcon } from '~/components/common/icon'
+import { Icon } from '~/components/common/icon'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { updateSearch } from '~/hooks/queries/search/search'
@@ -64,11 +64,15 @@ export function usePostSave() {
     },
     onSuccess(_data, variables) {
       toast.success(t(variables.action === 'save' ? 'saved' : 'unsaved'), {
-        icon: getIcon({
-          color: 'green',
-          name: 'BookmarkSimple',
-          weight: variables.action === 'save' ? 'fill' : 'regular',
-        }),
+        icon: (
+          <Icon
+            name="BookmarkSimple"
+            uniProps={(theme) => ({
+              color: theme.colors.green.accent,
+            })}
+            weight={variables.action === 'save' ? 'fill' : 'regular'}
+          />
+        ),
       })
     },
   })

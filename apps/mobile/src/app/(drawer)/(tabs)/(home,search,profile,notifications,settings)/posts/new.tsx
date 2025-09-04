@@ -4,11 +4,11 @@ import { useCallback } from 'react'
 import { Controller, FormProvider } from 'react-hook-form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { View } from '~/components/common/view'
@@ -54,8 +54,6 @@ function Content({ refetch, submission }: Props) {
   const navigation = useNavigation()
 
   const a11y = useTranslations('a11y')
-
-  const { styles } = useStyles(stylesheet)
 
   const { handleLink } = useLink()
 
@@ -144,7 +142,7 @@ function Content({ refetch, submission }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   content: {
     flexGrow: 1,
     paddingVertical: theme.space[4],

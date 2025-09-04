@@ -1,7 +1,7 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
-import { type ColorToken } from '~/styles/tokens'
+import { type ColorToken, ColorTokens } from '~/styles/tokens'
 import { type ViewStyleProps } from '~/styles/view'
 
 import { Icon, type IconName, type IconWeight } from './icon'
@@ -33,7 +33,9 @@ export function Button({
   onPress,
   style,
 }: Props) {
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    color,
+  })
 
   return (
     <Pressable
@@ -46,15 +48,21 @@ export function Button({
       label={label}
       onPress={onPress}
       px="4"
-      style={[styles.main(color), style]}
+      style={[styles.main, style]}
     >
       {icon && loading ? (
-        <Spinner color={theme.colors[color].contrast} size={theme.space[5]} />
+        <Spinner
+          uniProps={(theme) => ({
+            color: theme.colors[color].contrast,
+            size: theme.space[5],
+          })}
+        />
       ) : icon ? (
         <Icon
-          color={theme.colors[color].contrast}
           name={icon.name}
-          size={theme.space[5]}
+          uniProps={(theme) => ({
+            color: theme.colors[color].contrast,
+          })}
           weight={icon.weight}
         />
       ) : null}
@@ -64,16 +72,31 @@ export function Button({
       </Text>
 
       {!icon && loading ? (
-        <Spinner color={color} contrast size={theme.space[5]} />
+        <Spinner
+          color={color}
+          contrast
+          uniProps={(theme) => ({
+            size: theme.space[5],
+          })}
+        />
       ) : null}
     </Pressable>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: (color?: ColorToken) => ({
-    backgroundColor: theme.colors[color ?? 'accent'].accent,
+const styles = StyleSheet.create((theme) => ({
+  main: {
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-  }),
+    variants: {
+      color: Object.fromEntries(
+        ColorTokens.map((token) => [
+          token,
+          {
+            backgroundColor: theme.colors[token].accent,
+          },
+        ]),
+      ),
+    },
+  },
 }))

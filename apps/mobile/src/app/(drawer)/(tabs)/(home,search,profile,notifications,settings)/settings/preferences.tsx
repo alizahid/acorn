@@ -1,10 +1,10 @@
-import { SymbolView } from 'expo-symbols'
-import { useStyles } from 'react-native-unistyles'
+import { ScrollView } from 'react-native'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { FloatingButtonSide } from '~/components/common/floating-button'
-import { Icon, type IconName } from '~/components/common/icon'
-import { Menu, type MenuItem } from '~/components/common/menu'
+import { Icon } from '~/components/common/icon'
+import { SymbolIcon } from '~/components/common/icon/symbol'
+import { Menu } from '~/components/common/menu'
 import { useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
@@ -13,427 +13,552 @@ export default function Screen() {
   const t = useTranslations('screen.settings.preferences')
   const f = useFormatter()
 
-  const { update, ...preferences } = usePreferences()
-
-  const { theme } = useStyles()
+  const {
+    autoPlay,
+    blurNsfw,
+    blurSpoiler,
+    boldTitle,
+    collapseAutoModerator,
+    collapsibleComments,
+    communityOnTop,
+    dimSeen,
+    feedbackHaptics,
+    feedbackSounds,
+    feedMuted,
+    hapticsLoud,
+    hidePostActions,
+    hideSeen,
+    infiniteScrolling,
+    linkBrowser,
+    oldReddit,
+    pictureInPicture,
+    refreshInterval,
+    replyPost,
+    saveToAlbum,
+    seenOnMedia,
+    seenOnScroll,
+    seenOnScrollDelay,
+    seenOnVote,
+    showFlair,
+    skipComment,
+    stickyDrawer,
+    unmuteFullscreen,
+    update,
+    upvoteOnSave,
+    userOnTop,
+  } = usePreferences()
 
   const listProps = useList()
 
   return (
-    <Menu
-      items={(
-        [
-          t('browsing.title'),
-          {
-            icon: 'Medal',
-            key: 'showFlair',
-            label: 'browsing.showFlair',
-          },
-          {
-            icon: 'ArrowUp',
-            key: 'communityOnTop',
-            label: 'browsing.communityOnTop',
-          },
-          {
-            icon: 'Infinity',
-            key: 'infiniteScrolling',
-            label: 'browsing.infiniteScrolling',
-          },
-          {
-            icon: 'TextB',
-            key: 'boldTitle',
-            label: 'browsing.boldTitle',
-          },
-          {
-            icon: 'BookmarkSimple',
-            key: 'hidePostActions',
-            label: 'browsing.hidePostActions',
-          },
-          {
-            description: 'browsing.refreshInterval.description',
-            icon: 'Clock',
-            key: 'refreshInterval',
-            label: 'browsing.refreshInterval.label',
-            options: [
-              {
-                icon: {
-                  name: '0.circle.fill',
-                  type: 'symbol',
-                },
-                label: t('refreshInterval.instant'),
-                value: 0,
-              },
-              {
-                icon: {
-                  name: '5.circle.fill',
-                  type: 'symbol',
-                },
-                label: f.number(5, {
-                  style: 'unit',
-                  unit: 'minute',
-                }),
-                value: 5,
-              },
-              {
-                icon: {
-                  name: '10.circle.fill',
-                  type: 'symbol',
-                },
-                label: f.number(10, {
-                  style: 'unit',
-                  unit: 'minute',
-                }),
-                value: 10,
-              },
-              {
-                icon: {
-                  name: '15.circle.fill',
-                  type: 'symbol',
-                },
-                label: f.number(15, {
-                  style: 'unit',
-                  unit: 'minute',
-                }),
-                value: 15,
-              },
-              {
-                icon: {
-                  name: '30.circle.fill',
-                  type: 'symbol',
-                },
-                label: f.number(30, {
-                  style: 'unit',
-                  unit: 'minute',
-                }),
-                value: 30,
-              },
-              {
-                icon: {
-                  name: 'infinity.circle.fill',
-                  type: 'symbol',
-                },
-                label: t('refreshInterval.never'),
-                value: Number.POSITIVE_INFINITY,
-              },
-            ],
-          },
-          {
-            icon: 'Alien',
-            key: 'oldReddit',
-            label: 'browsing.oldReddit',
-          },
-          {
-            icon: 'ArrowUp',
-            key: 'upvoteOnSave',
-            label: 'browsing.upvoteOnSave',
-          },
-          iPad
-            ? ({
-                icon: 'Sidebar',
-                key: 'stickyDrawer',
-                label: 'browsing.stickyDrawer',
-              } as const)
-            : false,
-          null,
+    <ScrollView {...listProps}>
+      <Menu.Root>
+        <Menu.Label>{t('browsing.title')}</Menu.Label>
 
-          t('comments.title'),
-          {
-            icon: 'ArrowsInLineVertical',
-            key: 'collapsibleComments',
-            label: 'comments.collapsibleComments',
-          },
-          {
-            icon: 'ArrowUp',
-            key: 'userOnTop',
-            label: 'comments.userOnTop',
-          },
-          {
-            exclusive: 'replyPost',
-            icon: 'ArrowDown',
-            key: 'skipComment',
-            label: 'comments.skipComment',
-          },
-          {
-            exclusive: 'skipComment',
-            icon: 'ArrowBendUpLeft',
-            key: 'replyPost',
-            label: 'comments.replyPost',
-          },
-          {
-            icon: 'PushPin',
-            key: 'collapseAutoModerator',
-            label: 'comments.collapseAutoModerator',
-          },
-          null,
+        <Menu.Switch
+          icon={<Icon name="Medal" />}
+          label={t('browsing.showFlair')}
+          onChange={(next) => {
+            update({
+              showFlair: next,
+            })
+          }}
+          value={showFlair}
+        />
 
-          t('history.title'),
-          {
-            icon: 'ArrowFatUp',
-            key: 'seenOnVote',
-            label: 'history.seenOnVote',
-          },
-          {
-            icon: 'Image',
-            key: 'seenOnMedia',
-            label: 'history.seenOnMedia',
-          },
-          {
-            description: 'history.seenOnScroll.description',
-            icon: 'MouseScroll',
-            key: 'seenOnScroll',
-            label: 'history.seenOnScroll.label',
-          },
-          {
-            description: 'history.seenOnScrollDelay.description',
-            icon: 'Clock',
-            key: 'seenOnScrollDelay',
-            label: 'history.seenOnScrollDelay.label',
-            options: [
-              {
-                icon: {
-                  name: '0.circle.fill',
-                  type: 'symbol',
-                },
-                label: t('refreshInterval.instant'),
-                value: 0,
-              },
-              {
-                icon: {
-                  name: '1.circle.fill',
-                  type: 'symbol',
-                },
-                label: f.number(1, {
-                  style: 'unit',
-                  unit: 'second',
-                }),
-                value: 1,
-              },
-              {
-                icon: {
-                  name: '2.circle.fill',
-                  type: 'symbol',
-                },
-                label: f.number(2, {
-                  style: 'unit',
-                  unit: 'second',
-                }),
-                value: 2,
-              },
-              {
-                icon: {
-                  name: '3.circle.fill',
-                  type: 'symbol',
-                },
-                label: f.number(3, {
-                  style: 'unit',
-                  unit: 'second',
-                }),
-                value: 3,
-              },
-              {
-                icon: {
-                  name: '5.circle.fill',
-                  type: 'symbol',
-                },
-                label: f.number(5, {
-                  style: 'unit',
-                  unit: 'second',
-                }),
-                value: 5,
-              },
-              {
-                icon: {
-                  name: '10.circle.fill',
-                  type: 'symbol',
-                },
-                label: f.number(10, {
-                  style: 'unit',
-                  unit: 'second',
-                }),
-                value: 10,
-              },
-            ],
-          },
-          {
-            icon: 'SunDim',
-            key: 'dimSeen',
-            label: 'history.dimSeen',
-          },
-          {
-            description: 'history.hideSeen.description',
-            icon: 'Eye',
-            key: 'hideSeen',
-            label: 'history.hideSeen.label',
-          },
-          null,
+        <Menu.Switch
+          icon={<Icon name="ArrowUp" />}
+          label={t('browsing.communityOnTop')}
+          onChange={(next) => {
+            update({
+              communityOnTop: next,
+            })
+          }}
+          value={communityOnTop}
+        />
 
-          t('media.title'),
-          {
-            icon: 'Play',
-            key: 'autoPlay',
-            label: 'media.autoPlay',
-          },
-          {
-            icon: 'SpeakerSimpleX',
-            key: 'feedMuted',
-            label: 'media.feedMuted',
-          },
-          {
-            icon: 'SpeakerSimpleHigh',
-            key: 'unmuteFullscreen',
-            label: 'media.unmuteFullscreen',
-          },
-          {
-            icon: 'PictureInPicture',
-            key: 'pictureInPicture',
-            label: 'media.pictureInPicture',
-          },
-          {
-            icon: 'EyeClosed',
-            key: 'blurNsfw',
-            label: 'media.blurNsfw',
-          },
-          {
-            icon: 'EyeClosed',
-            key: 'blurSpoiler',
-            label: 'media.blurSpoiler',
-          },
-          {
-            icon: 'Image',
-            key: 'saveToAlbum',
-            label: 'media.saveToAlbum',
-          },
-          null,
+        <Menu.Switch
+          icon={<Icon name="Infinity" />}
+          label={t('browsing.infiniteScrolling')}
+          onChange={(next) => {
+            update({
+              infiniteScrolling: next,
+            })
+          }}
+          value={infiniteScrolling}
+        />
 
-          t('system.title'),
-          {
-            icon: 'Browser',
-            key: 'linkBrowser',
-            label: 'system.linkBrowser',
-          },
-          null,
+        <Menu.Switch
+          icon={<Icon name="TextB" />}
+          label={t('browsing.boldTitle')}
+          onChange={(next) => {
+            update({
+              boldTitle: next,
+            })
+          }}
+          value={boldTitle}
+        />
 
-          t('feedback.title'),
-          {
-            icon: 'Vibrate',
-            key: 'feedbackHaptics',
-            label: 'feedback.feedbackHaptics',
-          },
-          {
-            icon: 'MegaphoneSimple',
-            key: 'hapticsLoud',
-            label: 'feedback.hapticsLoud',
-          },
-          {
-            icon: 'SpeakerSimpleHigh',
-            key: 'feedbackSounds',
-            label: 'feedback.feedbackSounds',
-          },
-        ] as const
-      )
-        .filter((item) => item !== false)
-        .map((item) => {
-          if (!item || typeof item === 'string') {
-            return item
-          }
+        <Menu.Switch
+          icon={<Icon name="BookmarkSimple" />}
+          label={t('browsing.hidePostActions')}
+          onChange={(next) => {
+            update({
+              hidePostActions: next,
+            })
+          }}
+          value={hidePostActions}
+        />
 
-          if ('options' in item) {
-            return {
-              description:
-                'description' in item ? t(item.description) : undefined,
-              icon: {
-                name: item.icon,
-                type: 'icon',
-              },
-              label: t(item.label),
-              onSelect(value) {
-                update({
-                  [item.key]: Number(value),
-                })
-              },
-              options: item.options.map((option) => ({
-                hideRight: true,
-                label: option.label,
-                right: (
-                  <SymbolView
-                    name={option.icon.name}
-                    tintColor={theme.colors.accent.accent}
-                  />
-                ),
-                value: String(option.value),
-              })),
-              type: 'options',
-              value: String(preferences[item.key]),
-            } satisfies MenuItem
-          }
+        <Menu.Options
+          description={t('browsing.refreshInterval.description')}
+          icon={<Icon name="Clock" />}
+          label={t('browsing.refreshInterval.label')}
+          onChange={(next) => {
+            update({
+              refreshInterval: next,
+            })
+          }}
+          options={[
+            {
+              label: t('refreshInterval.instant'),
+              right: <SymbolIcon name="0.circle.fill" />,
+              value: 0,
+            },
+            {
+              label: f.number(5, {
+                style: 'unit',
+                unit: 'minute',
+              }),
+              right: <SymbolIcon name="5.circle.fill" />,
+              value: 5,
+            },
+            {
+              label: f.number(10, {
+                style: 'unit',
+                unit: 'minute',
+              }),
+              right: <SymbolIcon name="10.circle.fill" />,
+              value: 10,
+            },
+            {
+              label: f.number(15, {
+                style: 'unit',
+                unit: 'minute',
+              }),
+              right: <SymbolIcon name="15.circle.fill" />,
+              value: 15,
+            },
+            {
+              label: f.number(30, {
+                style: 'unit',
+                unit: 'minute',
+              }),
+              right: <SymbolIcon name="30.circle.fill" />,
+              value: 30,
+            },
+            {
+              label: t('refreshInterval.never'),
+              right: <SymbolIcon name="infinity.circle.fill" />,
+              value: Number.POSITIVE_INFINITY,
+            },
+          ]}
+          value={refreshInterval}
+        />
 
-          if ('exclusive' in item) {
-            return {
-              icon: {
-                name: item.icon,
-                type: 'icon',
-              },
-              label: t(item.label),
-              onSelect(value) {
-                const exclusive = preferences[item.exclusive]
+        <Menu.Switch
+          icon={<Icon name="Alien" />}
+          label={t('browsing.oldReddit')}
+          onChange={(next) => {
+            update({
+              oldReddit: next,
+            })
+          }}
+          value={oldReddit}
+        />
 
-                const payload: Partial<PreferencesPayload> = {
-                  [item.key]: value === 'hide' ? null : value,
-                }
+        <Menu.Switch
+          icon={<Icon name="ArrowUp" />}
+          label={t('browsing.upvoteOnSave')}
+          onChange={(next) => {
+            update({
+              upvoteOnSave: next,
+            })
+          }}
+          value={upvoteOnSave}
+        />
 
-                if (value !== 'hide' && value === exclusive) {
-                  payload[item.exclusive] = value === 'left' ? 'right' : 'left'
-                }
+        {iPad ? (
+          <Menu.Switch
+            icon={<Icon name="Sidebar" />}
+            label={t('browsing.stickyDrawer')}
+            onChange={(next) => {
+              update({
+                stickyDrawer: next,
+              })
+            }}
+            value={stickyDrawer}
+          />
+        ) : null}
 
-                update(payload)
-              },
-              options: FloatingButtonSide.map((option) => {
-                const value = option ?? 'hide'
+        <Menu.Separator />
 
-                const icon: IconName =
-                  value === 'left'
+        <Menu.Label>{t('comments.title')}</Menu.Label>
+
+        <Menu.Switch
+          icon={<Icon name="PushPin" />}
+          label={t('comments.collapseAutoModerator')}
+          onChange={(next) => {
+            update({
+              collapseAutoModerator: next,
+            })
+          }}
+          value={collapseAutoModerator}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="ArrowsInLineVertical" />}
+          label={t('comments.collapsibleComments')}
+          onChange={(next) => {
+            update({
+              collapsibleComments: next,
+            })
+          }}
+          value={collapsibleComments}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="ArrowUp" />}
+          label={t('comments.userOnTop')}
+          onChange={(next) => {
+            update({
+              userOnTop: next,
+            })
+          }}
+          value={userOnTop}
+        />
+
+        <Menu.Options
+          icon={<Icon name="ArrowDown" />}
+          label={t('comments.skipComment')}
+          onChange={(next) => {
+            const payload: Partial<PreferencesPayload> = {
+              skipComment: next,
+            }
+
+            if (next !== 'hide' && next === replyPost) {
+              payload.replyPost = next === 'left' ? 'right' : 'left'
+            }
+
+            update(payload)
+          }}
+          options={FloatingButtonSide.map((item) => ({
+            label: t(`side.${item}`),
+            right: (
+              <Icon
+                name={
+                  item === 'left'
                     ? 'ArrowLeft'
-                    : value === 'center'
+                    : item === 'center'
                       ? 'ArrowDown'
-                      : value === 'right'
+                      : item === 'right'
                         ? 'ArrowRight'
                         : 'EyeClosed'
-
-                return {
-                  label: t(`side.${value}`),
-                  right: (
-                    <Icon
-                      color={theme.colors.accent.accent}
-                      name={icon}
-                      weight="bold"
-                    />
-                  ),
-                  value,
                 }
-              }),
-              type: 'options',
-              value: preferences[item.key] ?? 'hide',
-            } satisfies MenuItem
-          }
+                weight="bold"
+              />
+            ),
+            value: item,
+          }))}
+          value={skipComment}
+        />
 
-          return {
-            description:
-              'description' in item ? t(item.description) : undefined,
-            icon: {
-              name: item.icon,
-              type: 'icon',
+        <Menu.Options
+          icon={<Icon name="ArrowBendUpLeft" />}
+          label={t('comments.replyPost')}
+          onChange={(next) => {
+            const payload: Partial<PreferencesPayload> = {
+              replyPost: next,
+            }
+
+            if (next !== 'hide' && next === skipComment) {
+              payload.skipComment = next === 'left' ? 'right' : 'left'
+            }
+
+            update(payload)
+          }}
+          options={FloatingButtonSide.map((item) => ({
+            label: t(`side.${item}`),
+            right: (
+              <Icon
+                name={
+                  item === 'left'
+                    ? 'ArrowLeft'
+                    : item === 'center'
+                      ? 'ArrowDown'
+                      : item === 'right'
+                        ? 'ArrowRight'
+                        : 'EyeClosed'
+                }
+                weight="bold"
+              />
+            ),
+            value: item,
+          }))}
+          value={replyPost}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('history.title')}</Menu.Label>
+
+        <Menu.Switch
+          icon={<Icon name="ArrowFatUp" />}
+          label={t('history.seenOnVote')}
+          onChange={(next) => {
+            update({
+              seenOnVote: next,
+            })
+          }}
+          value={seenOnVote}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="Image" />}
+          label={t('history.seenOnMedia')}
+          onChange={(next) => {
+            update({
+              seenOnMedia: next,
+            })
+          }}
+          value={seenOnMedia}
+        />
+
+        <Menu.Switch
+          description={t('history.seenOnScroll.description')}
+          icon={<Icon name="MouseScroll" />}
+          label={t('history.seenOnScroll.label')}
+          onChange={(next) => {
+            update({
+              seenOnScroll: next,
+            })
+          }}
+          value={seenOnScroll}
+        />
+
+        <Menu.Options
+          description={t('history.seenOnScrollDelay.description')}
+          icon={<Icon name="Clock" />}
+          label={t('history.seenOnScrollDelay.label')}
+          onChange={(next) => {
+            update({
+              seenOnScrollDelay: next,
+            })
+          }}
+          options={[
+            {
+              label: t('refreshInterval.instant'),
+              right: <SymbolIcon name="0.circle.fill" />,
+              value: 0,
             },
-            label: t(item.label),
-            onSelect(value) {
-              update({
-                [item.key]: value,
-              })
+            {
+              label: f.number(1, {
+                style: 'unit',
+                unit: 'second',
+              }),
+              right: <SymbolIcon name="1.circle.fill" />,
+              value: 1,
             },
-            type: 'switch',
-            value: preferences[item.key],
-          } satisfies MenuItem
-        })}
-      listProps={listProps}
-    />
+            {
+              label: f.number(2, {
+                style: 'unit',
+                unit: 'second',
+              }),
+              right: <SymbolIcon name="2.circle.fill" />,
+              value: 2,
+            },
+            {
+              label: f.number(3, {
+                style: 'unit',
+                unit: 'second',
+              }),
+              right: <SymbolIcon name="3.circle.fill" />,
+              value: 3,
+            },
+            {
+              label: f.number(5, {
+                style: 'unit',
+                unit: 'second',
+              }),
+              right: <SymbolIcon name="5.circle.fill" />,
+              value: 5,
+            },
+            {
+              label: f.number(10, {
+                style: 'unit',
+                unit: 'second',
+              }),
+              right: <SymbolIcon name="10.circle.fill" />,
+              value: 10,
+            },
+          ]}
+          value={seenOnScrollDelay}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="SunDim" />}
+          label={t('history.dimSeen')}
+          onChange={(next) => {
+            update({
+              dimSeen: next,
+            })
+          }}
+          value={dimSeen}
+        />
+
+        <Menu.Switch
+          description={t('history.hideSeen.description')}
+          icon={<Icon name="Eye" />}
+          label={t('history.hideSeen.label')}
+          onChange={(next) => {
+            update({
+              hideSeen: next,
+            })
+          }}
+          value={hideSeen}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('media.title')}</Menu.Label>
+
+        <Menu.Switch
+          icon={<Icon name="Play" />}
+          label={t('media.autoPlay')}
+          onChange={(next) => {
+            update({
+              autoPlay: next,
+            })
+          }}
+          value={autoPlay}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="SpeakerSimpleX" />}
+          label={t('media.feedMuted')}
+          onChange={(next) => {
+            update({
+              feedMuted: next,
+            })
+          }}
+          value={feedMuted}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="SpeakerSimpleHigh" />}
+          label={t('media.unmuteFullscreen')}
+          onChange={(next) => {
+            update({
+              unmuteFullscreen: next,
+            })
+          }}
+          value={unmuteFullscreen}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="PictureInPicture" />}
+          label={t('media.pictureInPicture')}
+          onChange={(next) => {
+            update({
+              pictureInPicture: next,
+            })
+          }}
+          value={pictureInPicture}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="EyeClosed" />}
+          label={t('media.blurNsfw')}
+          onChange={(next) => {
+            update({
+              blurNsfw: next,
+            })
+          }}
+          value={blurNsfw}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="EyeClosed" />}
+          label={t('media.blurSpoiler')}
+          onChange={(next) => {
+            update({
+              blurSpoiler: next,
+            })
+          }}
+          value={blurSpoiler}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="Image" />}
+          label={t('media.saveToAlbum')}
+          onChange={(next) => {
+            update({
+              saveToAlbum: next,
+            })
+          }}
+          value={saveToAlbum}
+        />
+        <Menu.Separator />
+
+        <Menu.Label>{t('system.title')}</Menu.Label>
+
+        <Menu.Switch
+          icon={<Icon name="Browser" />}
+          label={t('system.linkBrowser')}
+          onChange={(next) => {
+            update({
+              linkBrowser: next,
+            })
+          }}
+          value={linkBrowser}
+        />
+        <Menu.Separator />
+
+        <Menu.Label>{t('feedback.title')}</Menu.Label>
+
+        <Menu.Switch
+          icon={<Icon name="Vibrate" />}
+          label={t('feedback.feedbackHaptics')}
+          onChange={(next) => {
+            update({
+              feedbackHaptics: next,
+            })
+          }}
+          value={feedbackHaptics}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="MegaphoneSimple" />}
+          label={t('feedback.hapticsLoud')}
+          onChange={(next) => {
+            update({
+              hapticsLoud: next,
+            })
+          }}
+          value={hapticsLoud}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="SpeakerSimpleHigh" />}
+          label={t('feedback.feedbackSounds')}
+          onChange={(next) => {
+            update({
+              feedbackSounds: next,
+            })
+          }}
+          value={feedbackSounds}
+        />
+      </Menu.Root>
+    </ScrollView>
   )
 }

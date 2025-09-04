@@ -2,7 +2,7 @@ import {
   BottomSheetBackdrop,
   type BottomSheetBackdropProps,
 } from '@gorhom/bottom-sheet'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -16,7 +16,9 @@ export function SheetBackdrop({
 }: Props) {
   const { themeOled } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    oled: themeOled,
+  })
 
   return (
     <BottomSheetBackdrop
@@ -25,15 +27,20 @@ export function SheetBackdrop({
       appearsOnIndex={0}
       disappearsOnIndex={-1}
       opacity={1}
-      style={[styles.main(themeOled), style]}
+      style={[styles.main, style]}
     />
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: (oled: boolean) => ({
-    backgroundColor: oled
-      ? oledTheme[theme.name].overlay
-      : theme.colors.gray.borderAlpha,
-  }),
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    backgroundColor: theme.colors.gray.borderAlpha,
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].overlay,
+        },
+      },
+    },
+  },
 }))

@@ -448,42 +448,37 @@
         },
         "themes": {
           "acorn": "Acorn",
-          "acorn-dark": "Acorn",
-          "acorn-light": "Acorn",
           "auto": "Auto",
           "dark": "Dark",
-          "indigo-dark": "Indigo",
-          "indigo-light": "Indigo",
-          "jade-dark": "Jade",
-          "jade-light": "Jade",
+          "indigo": "Indigo",
+          "jade": "Jade",
           "light": "Light",
-          "light-dark": "Light",
-          "light-light": "Light",
-          "plum-dark": "Plum",
-          "plum-light": "Plum",
-          "ruby-dark": "Ruby",
-          "ruby-light": "Ruby",
+          "plum": "Plum",
+          "ruby": "Ruby",
           "title": "Theme"
         },
         "title": "Appearance"
       },
       "cache": {
-        "menu": {
-          "collapsed": "Clear collapsed comments",
-          "hidden": {
-            "description": "Communities, users, posts, comments",
-            "label": "Clear hidden"
-          },
-          "history": {
-            "description": "Refresh posts to restore them or remove dimming",
-            "label": "Clear seen history"
-          },
-          "image": "Clear image cache",
+        "data": {
           "query": {
             "description": "Will refetch all data",
             "label": "Clear data"
           },
-          "sorting": "Clear community sorting"
+          "title": "Data"
+        },
+        "history": {
+          "collapsed": "Clear collapsed comments",
+          "history": {
+            "description": "Refresh posts to restore them or remove dimming",
+            "label": "Clear seen history"
+          },
+          "sorting": "Clear community sorting",
+          "title": "History"
+        },
+        "media": {
+          "image": "Clear image cache",
+          "title": "Media"
         },
         "title": "Cache"
       },
@@ -560,7 +555,7 @@
             "label": "Auto refresh interval"
           },
           "showFlair": "Show flair",
-          "stickyDrawer": "Sticky drawer on iPad",
+          "stickyDrawer": "Sticky drawer",
           "title": "Browsing",
           "upvoteOnSave": "Upvote on save"
         },

@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { useStyles } from 'react-native-unistyles'
+import { useUnistyles } from 'react-native-unistyles'
 
 import { type AuthCodeForm, getAuthCode } from '~/reddit/auth'
 import { getAccessToken } from '~/reddit/token'
@@ -8,11 +8,14 @@ import { useAuth } from '~/stores/auth'
 export function useSignIn() {
   const { addAccount } = useAuth()
 
-  const { theme } = useStyles()
+  const { theme } = useUnistyles()
 
   const { isPending, mutateAsync } = useMutation<boolean, Error, AuthCodeForm>({
     async mutationFn(data) {
-      const code = await getAuthCode(data, theme)
+      const code = await getAuthCode(data, {
+        accent: theme.colors.accent.accent,
+        background: theme.colors.gray.bg,
+      })
 
       if (!code) {
         return false

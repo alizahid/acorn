@@ -1,10 +1,10 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useCopy } from '~/hooks/copy'
 
-import { IconButton } from './icon-button'
+import { IconButton } from './icon/button'
 import { Text } from './text'
 import { View } from './view'
 
@@ -16,8 +16,6 @@ type Props = {
 
 export function Copy({ code = true, style, value }: Props) {
   const a11y = useTranslations('a11y')
-
-  const { styles } = useStyles(stylesheet)
 
   const { copied, copy } = useCopy()
 
@@ -46,7 +44,7 @@ export function Copy({ code = true, style, value }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   main: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',

@@ -1,9 +1,11 @@
 import { create } from 'mutative'
 import { FlatList, ScrollView } from 'react-native-gesture-handler'
 import ReorderableList, { reorderItems } from 'react-native-reorderable-list'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '~/components/common/icon'
+import { Menu } from '~/components/common/menu'
 import { SheetItem } from '~/components/common/sheets/item'
 import { Switch } from '~/components/common/switch'
 import { Text } from '~/components/common/text'
@@ -18,27 +20,25 @@ export default function Screen() {
 
   const { drawerSections, feedType, searchTabs, update } = useDefaults()
 
-  const { styles, theme } = useStyles(stylesheet)
-
   const listProps = useList()
 
   return (
     <ScrollView {...listProps}>
-      <Text highContrast={false} mb="2" mt="3" mx="3" size="2" weight="medium">
-        {t('feedType.title')}
-      </Text>
+      <Menu.Label>{t('feedType.title')}</Menu.Label>
 
       <FlatList
         data={FeedType}
         renderItem={({ item }) => (
           <SheetItem
-            icon={{
-              color: theme.colors[FeedTypeColors[item]].accent,
-              name: FeedTypeIcons[item],
-              size: theme.space[4],
-              type: 'icon',
-              weight: 'duotone',
-            }}
+            icon={
+              <Icon
+                name={FeedTypeIcons[item]}
+                uniProps={(theme) => ({
+                  color: theme.colors[FeedTypeColors[item]].accent,
+                })}
+                weight="duotone"
+              />
+            }
             label={t(`feedType.${item}`)}
             onPress={() => null}
             right={
@@ -57,9 +57,7 @@ export default function Screen() {
         style={styles.list}
       />
 
-      <Text highContrast={false} mb="2" mt="6" mx="3" size="2" weight="medium">
-        {t('searchTabs.title')}
-      </Text>
+      <Menu.Label mt="6">{t('searchTabs.title')}</Menu.Label>
 
       <ReorderableList
         data={searchTabs}
@@ -103,9 +101,7 @@ export default function Screen() {
         {t('searchTabs.hint')}
       </Text>
 
-      <Text highContrast={false} mb="2" mt="6" mx="3" size="2" weight="medium">
-        {t('drawerSections.title')}
-      </Text>
+      <Menu.Label mt="6">{t('drawerSections.title')}</Menu.Label>
 
       <ReorderableList
         data={drawerSections}
@@ -141,7 +137,7 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   list: {
     backgroundColor: theme.colors.gray.uiAlpha,
     borderCurve: 'continuous',

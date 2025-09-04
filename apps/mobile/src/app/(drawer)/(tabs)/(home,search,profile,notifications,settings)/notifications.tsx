@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { TabView } from 'react-native-tab-view'
 import { useTranslations } from 'use-intl'
 
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { View } from '~/components/common/view'

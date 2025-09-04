@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router'
 import { useCallback } from 'react'
 import { Share, type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useHide } from '~/hooks/moderation/hide'
@@ -61,7 +61,14 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
     postRightShort,
   } = useGestures()
 
-  const { styles } = useStyles(stylesheet)
+  const dimmed = !expanded && dimSeen && post.seen
+
+  styles.useVariants({
+    dimmed,
+    iPad,
+    oled: themeOled,
+    sticky: post.sticky,
+  })
 
   const { vote } = usePostVote()
   const { save } = usePostSave()
@@ -143,8 +150,6 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
     })
   }
 
-  const dimmed = !expanded && dimSeen && post.seen
-
   if (compact) {
     return (
       <PostMenu onPress={onPress} post={post}>
@@ -164,14 +169,14 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
             long: postRightLong,
             short: postRightShort,
           }}
-          style={[styles.main(themeOled, post.sticky), style]}
+          style={[styles.main, style]}
         >
           <PostCompactCard
             expanded={expanded}
             onPress={onPress}
             post={post}
             side={mediaOnRight ? 'right' : 'left'}
-            style={styles.dimmed(dimmed)}
+            style={styles.dimmed}
             viewing={viewing}
           />
         </Gestures>
@@ -197,7 +202,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           long: postRightLong,
           short: postRightShort,
         }}
-        style={[styles.main(themeOled, post.sticky), style]}
+        style={[styles.main, style]}
       >
         <Pressable
           disabled={expanded}
@@ -208,7 +213,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           pb={media ? '3' : undefined}
           pt="3"
           px="3"
-          style={styles.dimmed(dimmed)}
+          style={styles.dimmed}
         >
           {communityOnTop ? <PostCommunity post={post} /> : null}
 
@@ -283,7 +288,7 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
           community={!communityOnTop}
           expanded={expanded}
           post={post}
-          style={styles.dimmed(dimmed)}
+          style={styles.dimmed}
         />
 
         {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
@@ -292,33 +297,66 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   body: {
     marginHorizontal: theme.space[3],
   },
   container: {
     alignSelf: 'center',
     borderCurve: 'continuous',
-    borderRadius: iPad ? theme.radius[4] : undefined,
-    maxWidth: iPad ? cardMaxWidth : undefined,
+    variants: {
+      iPad: {
+        true: {
+          borderRadius: theme.radius[4],
+          maxWidth: cardMaxWidth,
+        },
+      },
+    },
     width: '100%',
   },
-  dimmed: (dimmed: boolean) => ({
-    opacity: dimmed ? 0.5 : undefined,
-  }),
+  dimmed: {
+    variants: {
+      dimmed: {
+        true: {
+          opacity: 0.5,
+        },
+      },
+    },
+  },
   expanded: {
     marginBottom: theme.space[3],
   },
-  main: (oled: boolean, sticky: boolean) => ({
-    backgroundColor: oled
-      ? sticky
-        ? theme.colors.green.uiAlpha
-        : oledTheme[theme.name].bg
-      : theme.colors[sticky ? 'green' : 'gray'].ui,
+  main: {
+    backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
-    borderRadius: iPad ? theme.radius[3] : undefined,
+    compoundVariants: [
+      {
+        oled: true,
+        sticky: true,
+        styles: {
+          backgroundColor: theme.colors.green.uiAlpha,
+        },
+      },
+    ],
     overflow: 'hidden',
-  }),
+    variants: {
+      iPad: {
+        true: {
+          borderRadius: theme.radius[3],
+        },
+      },
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bg,
+        },
+      },
+      sticky: {
+        true: {
+          backgroundColor: theme.colors.green.ui,
+        },
+      },
+    },
+  },
   saved: {
     backgroundColor: theme.colors.green.accent,
     height: theme.space[8],

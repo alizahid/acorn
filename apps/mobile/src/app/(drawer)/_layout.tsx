@@ -1,7 +1,7 @@
 import { useSegments } from 'expo-router'
 import { Drawer } from 'expo-router/drawer'
 import { last } from 'lodash'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { HomeDrawer } from '~/components/home/drawer'
 import { iPad } from '~/lib/common'
@@ -13,16 +13,21 @@ export default function Layout() {
 
   const { stickyDrawer, themeOled, themeTint } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    iPad,
+    oled: themeOled,
+    sticky: stickyDrawer,
+    tint: themeTint,
+  })
 
   return (
     <Drawer
       drawerContent={(props) => <HomeDrawer {...props} />}
       screenOptions={{
-        drawerStyle: styles.drawer(stickyDrawer, themeOled, themeTint),
+        drawerStyle: styles.drawer,
         drawerType: iPad && stickyDrawer ? 'permanent' : 'slide',
         headerShown: false,
-        overlayColor: styles.overlay(themeOled).backgroundColor,
+        overlayColor: styles.overlay.backgroundColor,
         swipeEnabled: last(segments) === '(home)',
       }}
     >
@@ -31,20 +36,50 @@ export default function Layout() {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  drawer: (sticky: boolean, oled: boolean, tint: boolean) => ({
-    backgroundColor: oled
-      ? oledTheme[theme.name].bg
-      : theme.colors[tint ? 'accent' : 'gray'].bgAlt,
+const styles = StyleSheet.create((theme, runtime) => ({
+  drawer: {
+    backgroundColor: theme.colors.gray.bgAlt,
     borderRightColor: theme.colors.gray.border,
-    borderRightWidth: iPad ? runtime.hairlineWidth : undefined,
-    maxWidth: iPad && sticky ? 300 : undefined,
-  }),
-  overlay: (oled: boolean) => ({
-    backgroundColor: oled
-      ? oledTheme[theme.name].overlay
-      : theme.colors.gray.borderAlpha,
-  }),
+    compoundVariants: [
+      {
+        iPad: true,
+        sticky: true,
+        styles: {
+          maxWidth: 300,
+        },
+      },
+    ],
+    variants: {
+      iPad: {
+        true: {
+          borderRightWidth: StyleSheet.hairlineWidth,
+        },
+      },
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bg,
+        },
+      },
+      sticky: {
+        true: {},
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.bgAlt,
+        },
+      },
+    },
+  },
+  overlay: {
+    backgroundColor: theme.colors.gray.borderAlpha,
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].overlay,
+        },
+      },
+    },
+  },
   search: {
     marginTop: runtime.insets.top,
   },

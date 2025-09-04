@@ -1,5 +1,5 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { usePreferences } from '~/stores/preferences'
@@ -37,7 +37,9 @@ export function PostCompactCard({
 
   const { fontSizePostTitle, largeThumbnails } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    large: largeThumbnails,
+  })
 
   return (
     <Pressable
@@ -96,12 +98,8 @@ export function PostCompactCard({
       ) : null}
 
       {post.type === 'text' ? (
-        <View
-          align="center"
-          justify="center"
-          style={styles.text(largeThumbnails)}
-        >
-          <Icon color={theme.colors.accent.accent} name="TextAlignLeft" />
+        <View align="center" justify="center" style={styles.text}>
+          <Icon name="TextAlignLeft" />
         </View>
       ) : null}
 
@@ -120,7 +118,7 @@ export function PostCompactCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   main: {
     overflow: 'hidden',
   },
@@ -137,12 +135,23 @@ const stylesheet = createStyleSheet((theme) => ({
     ],
     width: theme.space[8],
   },
-  text: (large?: boolean) => ({
+  text: {
     backgroundColor: theme.colors.gray.uiActive,
     borderCurve: 'continuous',
-    borderRadius: theme.space[large ? 2 : 1],
-    height: theme.space[8] * (large ? 2 : 1),
     overflow: 'hidden',
-    width: theme.space[8] * (large ? 2 : 1),
-  }),
+    variants: {
+      large: {
+        false: {
+          borderRadius: theme.space[1],
+          height: theme.space[8],
+          width: theme.space[8],
+        },
+        true: {
+          borderRadius: theme.space[2],
+          height: theme.space[8] * 2,
+          width: theme.space[8] * 2,
+        },
+      },
+    },
+  },
 }))

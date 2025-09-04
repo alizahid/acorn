@@ -4,8 +4,8 @@ import {
   type ListRenderItem,
 } from '@shopify/flash-list'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
-import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type StyleProp, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Empty } from '~/components/common/empty'
@@ -62,9 +62,13 @@ export function SearchList({
 
   useScrollToTop(list, listProps)
 
-  const { styles } = useStyles(stylesheet)
-
   const { feedCompact, themeOled } = usePreferences()
+
+  styles.useVariants({
+    compact: feedCompact,
+    iPad,
+    oled: themeOled,
+  })
 
   const history = useSearchHistory(community)
 
@@ -111,9 +115,7 @@ export function SearchList({
       }}
       getItemType={(item) => (type === 'post' ? (item as Post).type : type)}
       ItemSeparatorComponent={() =>
-        type === 'post' ? (
-          <View style={styles.separator(themeOled, feedCompact)} />
-        ) : null
+        type === 'post' ? <View style={styles.separator} /> : null
       }
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
@@ -151,15 +153,31 @@ export function SearchList({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   content: {
     paddingVertical: theme.space[2],
   },
-  separator: (oled: boolean, compact: boolean) => ({
+  separator: {
     alignSelf: 'center',
-    backgroundColor: oled ? theme.colors.gray.border : undefined,
-    height: oled ? 1 : theme.space[compact ? 2 : 4],
-    maxWidth: iPad ? cardMaxWidth : undefined,
+    height: theme.space[4],
+    variants: {
+      compact: {
+        true: {
+          height: theme.space[2],
+        },
+      },
+      iPad: {
+        true: {
+          maxWidth: cardMaxWidth,
+        },
+      },
+      oled: {
+        true: {
+          backgroundColor: theme.colors.gray.border,
+          height: 1,
+        },
+      },
+    },
     width: '100%',
-  }),
+  },
 }))

@@ -7,7 +7,7 @@ import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import Animated from 'react-native-reanimated'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -72,7 +72,11 @@ export function PostList({
     usePreferences()
   const { addPost } = useHistory()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    compact: feedCompact,
+    iPad,
+    oled: themeOled,
+  })
 
   const {
     fetchNextPage,
@@ -144,9 +148,7 @@ export function PostList({
           viewing,
         }}
         getItemType={(item) => item.type}
-        ItemSeparatorComponent={() => (
-          <View style={styles.separator(themeOled, feedCompact)} />
-        )}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
         keyExtractor={(item) => {
           if (item.type === 'reply') {
             return `reply-${item.data.id}`
@@ -238,22 +240,52 @@ export function PostList({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   more: {
     alignSelf: 'center',
-    marginBottom: iPad ? theme.space[4] : theme.space[4] * 2,
+    marginBottom: theme.space[4] * 2,
     marginTop: theme.space[4] * 2,
+    variants: {
+      iPad: {
+        true: {
+          marginBottom: theme.space[4],
+        },
+      },
+    },
   },
-  separator: (oled: boolean, compact: boolean) => ({
+  separator: {
     alignSelf: 'center',
-    backgroundColor: oled ? theme.colors.gray.border : undefined,
-    height: oled ? 1 : theme.space[compact ? 2 : 4],
-    maxWidth: iPad ? cardMaxWidth : undefined,
+    height: theme.space[4],
+    variants: {
+      compact: {
+        true: {
+          height: theme.space[2],
+        },
+      },
+      iPad: {
+        true: {
+          maxWidth: cardMaxWidth,
+        },
+      },
+      oled: {
+        true: {
+          backgroundColor: theme.colors.gray.border,
+          height: 1,
+        },
+      },
+    },
     width: '100%',
-  }),
+  },
   spinner: {
     height: theme.space[7],
-    marginBottom: iPad ? theme.space[4] : theme.space[4] * 2,
+    marginBottom: theme.space[4] * 2,
     marginTop: theme.space[4] * 2,
+    variants: {
+      iPad: {
+        true: {
+          marginBottom: theme.space[4],
+        },
+      },
+    },
   },
 }))

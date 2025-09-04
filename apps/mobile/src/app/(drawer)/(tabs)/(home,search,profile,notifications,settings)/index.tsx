@@ -1,12 +1,12 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useLocalSearchParams } from 'expo-router'
 import { useCallback, useMemo } from 'react'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { Icon } from '~/components/common/icon'
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
 import { type HeaderProps } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
@@ -37,7 +37,9 @@ export default function Screen() {
 
   const listProps = useList()
 
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    iPad,
+  })
 
   const type = params.type === 'home' ? 'feed' : 'community'
 
@@ -91,8 +93,10 @@ export default function Screen() {
       ) : (
         <>
           <Icon
-            color={theme.colors[FeedTypeColors[params.type]].accent}
             name={FeedTypeIcons[params.type]}
+            uniProps={(theme) => ({
+              color: theme.colors[FeedTypeColors[params.type]].accent,
+            })}
             weight="duotone"
           />
 
@@ -110,7 +114,6 @@ export default function Screen() {
       sorting.sort,
       stickyDrawer,
       tType,
-      theme.colors[FeedTypeColors[params.type]].accent,
       type,
       update,
     ],
@@ -129,8 +132,14 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   list: {
-    padding: iPad ? theme.space[4] : undefined,
+    variants: {
+      iPad: {
+        true: {
+          padding: theme.space[4],
+        },
+      },
+    },
   },
 }))

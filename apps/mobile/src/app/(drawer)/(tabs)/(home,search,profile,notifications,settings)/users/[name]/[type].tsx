@@ -1,11 +1,6 @@
 import { useLocalSearchParams } from 'expo-router'
 import { useMemo, useState } from 'react'
-import { type ViewStyle } from 'react-native'
-import {
-  createStyleSheet,
-  type UnistylesValues,
-  useStyles,
-} from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -36,7 +31,11 @@ export default function Screen() {
   const { intervalUserPosts, sortUserPosts, themeOled, themeTint } =
     usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    iPad,
+    oled: themeOled,
+    tint: themeTint,
+  })
 
   const listProps = useList()
 
@@ -50,10 +49,7 @@ export default function Screen() {
     () => ({
       back: true,
       children: (
-        <View
-          direction="row"
-          style={styles.header(themeOled, themeTint) as ViewStyle}
-        >
+        <View direction="row" style={styles.header}>
           <SearchBox onChange={setQuery} value={query} />
         </View>
       ),
@@ -73,16 +69,7 @@ export default function Screen() {
       ),
       title: t(params.type),
     }),
-    [
-      params.type,
-      query,
-      styles.header,
-      t,
-      themeOled,
-      themeTint,
-      interval,
-      sort,
-    ],
+    [params.type, query, t, interval, sort],
   )
 
   return (
@@ -99,27 +86,34 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  header: (oled: boolean, tint: boolean) => {
-    const base: UnistylesValues = {
-      backgroundColor: oled
-        ? oledTheme[theme.name].bgAlpha
-        : theme.colors[tint ? 'accent' : 'gray'].bg,
-    }
-
-    if (oled) {
-      return {
-        ...base,
-        borderBottomColor: theme.colors.gray.border,
-        borderBottomWidth: runtime.hairlineWidth,
-      }
-    }
-
-    return base
+const styles = StyleSheet.create((theme) => ({
+  header: {
+    backgroundColor: theme.colors.gray.bg,
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bgAlpha,
+          borderBottomColor: theme.colors.gray.border,
+          borderBottomWidth: StyleSheet.hairlineWidth,
+        },
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.bg,
+        },
+      },
+    },
   },
   list: {
-    paddingBottom: iPad ? theme.space[4] : undefined,
-    paddingHorizontal: iPad ? theme.space[4] : undefined,
-    paddingTop: heights.header + (iPad ? theme.space[4] : 0),
+    paddingTop: heights.header,
+    variants: {
+      iPad: {
+        true: {
+          paddingBottom: theme.space[4],
+          paddingHorizontal: theme.space[4],
+          paddingTop: heights.header + theme.space[4],
+        },
+      },
+    },
   },
 }))

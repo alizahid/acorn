@@ -1,7 +1,4 @@
-import { type BottomSheetModal } from '@gorhom/bottom-sheet'
-import { SymbolView } from 'expo-symbols'
 import { useRef } from 'react'
-import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { IntervalIcons, SortColors, SortIcons } from '~/lib/sort'
@@ -16,6 +13,7 @@ import {
 } from '~/types/sort'
 
 import { Icon } from '../common/icon'
+import { SymbolIcon } from '../common/icon/symbol'
 import { Pressable } from '../common/pressable'
 import { SheetItem } from '../common/sheets/item'
 import { SheetModal } from '../common/sheets/modal'
@@ -47,10 +45,8 @@ export function SortIntervalMenu<Type extends SortType>({
   const t = useTranslations('component.common')
   const a11y = useTranslations('a11y')
 
-  const { theme } = useStyles()
-
-  const sheetSort = useRef<BottomSheetModal>(null)
-  const sheetInterval = useRef<BottomSheetModal>(null)
+  const sheetSort = useRef<SheetModal>(null)
+  const sheetInterval = useRef<SheetModal>(null)
 
   const items =
     type === 'comment'
@@ -78,24 +74,30 @@ export function SortIntervalMenu<Type extends SortType>({
         self="end"
       >
         <Icon
-          color={theme.colors[SortColors[sort]].accent}
           name={SortIcons[sort]}
-          size={theme.space[5]}
+          uniProps={($theme) => ({
+            color: $theme.colors[SortColors[sort]].accent,
+            size: $theme.space[5],
+          })}
           weight="duotone"
         />
 
         {sort === 'top' && interval ? (
-          <SymbolView
+          <SymbolIcon
             name={IntervalIcons[interval]}
             size={20}
-            tintColor={theme.colors.gold.accent}
+            uniProps={($theme) => ({
+              tintColor: $theme.colors.gold.accent,
+            })}
           />
         ) : null}
 
         <Icon
-          color={theme.colors.gray.textLow}
           name="CaretDown"
-          size={theme.space[4]}
+          uniProps={($theme) => ({
+            color: $theme.colors.gray.textLow,
+            size: $theme.space[4],
+          })}
           weight="bold"
         />
       </Pressable>
@@ -103,11 +105,14 @@ export function SortIntervalMenu<Type extends SortType>({
       <SheetModal container="view" ref={sheetSort} title={t('sort.title')}>
         {items.map((item) => (
           <SheetItem
-            icon={{
-              color: theme.colors[SortColors[item]].accent,
-              name: SortIcons[item],
-              type: 'icon',
-            }}
+            icon={
+              <Icon
+                name={SortIcons[item]}
+                uniProps={(theme) => ({
+                  color: theme.colors[SortColors[item]].accent,
+                })}
+              />
+            }
             key={item}
             label={t(`sort.${item}`)}
             navigate={item === 'top'}
@@ -139,9 +144,11 @@ export function SortIntervalMenu<Type extends SortType>({
             key={item}
             label={t(`interval.${item}`)}
             left={
-              <SymbolView
+              <SymbolIcon
                 name={IntervalIcons[item]}
-                tintColor={theme.colors.gold.accent}
+                uniProps={($theme) => ({
+                  tintColor: $theme.colors.gold.accent,
+                })}
               />
             }
             onPress={() => {

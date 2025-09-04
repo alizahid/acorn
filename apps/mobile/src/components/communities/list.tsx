@@ -4,7 +4,7 @@ import fuzzysort from 'fuzzysort'
 import { compact } from 'lodash'
 import { useMemo, useRef, useState } from 'react'
 import { SectionList, type SectionListData } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -15,12 +15,13 @@ import { useFeeds } from '~/hooks/queries/communities/feeds'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
+import { space } from '~/styles/tokens'
 import { type Community } from '~/types/community'
 import { type Feed } from '~/types/feed'
 import { FeedType } from '~/types/sort'
 
 import { Empty } from '../common/empty'
-import { IconButton } from '../common/icon-button'
+import { IconButton } from '../common/icon/button'
 import { SheetHeader } from '../common/sheets/header'
 import { SheetItem } from '../common/sheets/item'
 import { Spinner } from '../common/spinner'
@@ -75,8 +76,6 @@ export function CommunitiesList({
   const a11y = useTranslations('a11y')
 
   const { drawerSections } = useDefaults()
-
-  const { styles, theme } = useStyles(stylesheet)
 
   const { feeds, isLoading: loadingFeeds } = useFeeds()
   const { communities, isLoading: loadingCommunities, users } = useCommunities()
@@ -218,8 +217,8 @@ export function CommunitiesList({
       }}
       getItemLayout={(_data, index) => ({
         index,
-        length: theme.space[8],
-        offset: theme.space[8] * index,
+        length: space[8],
+        offset: space[8] * index,
       })}
       keyExtractor={(item) => item.key}
       ListEmptyComponent={() => <Empty />}
@@ -232,11 +231,14 @@ export function CommunitiesList({
         if (item.type === 'type') {
           return (
             <SheetItem
-              icon={{
-                color: theme.colors[FeedTypeColors[item.data]].accent,
-                name: FeedTypeIcons[item.data],
-                type: 'icon',
-              }}
+              icon={
+                <Icon
+                  name={FeedTypeIcons[item.data]}
+                  uniProps={(theme) => ({
+                    color: theme.colors[FeedTypeColors[item.data]].accent,
+                  })}
+                />
+              }
               label={t(`type.${item.data}`)}
               onPress={() => {
                 onPress?.()
@@ -251,9 +253,11 @@ export function CommunitiesList({
               right={
                 chevron ? (
                   <Icon
-                    color={theme.colors.gray.accent}
                     name="CaretRight"
-                    size={theme.space[4]}
+                    uniProps={($theme) => ({
+                      color: $theme.colors.gray.accent,
+                      size: $theme.space[4],
+                    })}
                   />
                 ) : null
               }
@@ -379,17 +383,21 @@ export function CommunitiesList({
               <>
                 {'favorite' in item.data && item.data.favorite ? (
                   <Icon
-                    color={theme.colors.amber.accent}
                     name="Star"
+                    uniProps={($theme) => ({
+                      color: $theme.colors.amber.accent,
+                    })}
                     weight="fill"
                   />
                 ) : null}
 
                 {chevron ? (
                   <Icon
-                    color={theme.colors.gray.accent}
                     name="CaretRight"
-                    size={theme.space[4]}
+                    uniProps={($theme) => ({
+                      color: $theme.colors.gray.accent,
+                      size: $theme.space[4],
+                    })}
                   />
                 ) : null}
               </>
@@ -425,7 +433,7 @@ export function CommunitiesList({
                     animated: false,
                     itemIndex: itemIndex === 0 ? -1 : itemIndex,
                     sectionIndex,
-                    viewOffset: theme.space[8],
+                    viewOffset: space[8],
                   })
                 }}
               />
@@ -479,7 +487,7 @@ export function CommunitiesList({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   feedCommunity: {
     height: theme.space[7],
     paddingLeft: theme.space[8],

@@ -1,11 +1,12 @@
 import { differenceInMonths } from 'date-fns'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { removePrefix } from '~/lib/reddit'
+import { space } from '~/styles/tokens'
 import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
@@ -29,8 +30,6 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
   const a11y = useTranslations('a11y')
   const f = useFormatter()
 
-  const { styles, theme } = useStyles(stylesheet)
-
   const { vote } = useCommentVote()
 
   const baby =
@@ -50,10 +49,12 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
     >
       {comment.sticky ? (
         <Icon
-          color={theme.colors.red.accent}
           name="PushPin"
-          size={theme.typography[1].lineHeight}
           style={styles.sticky}
+          uniProps={(theme) => ({
+            color: theme.colors.red.accent,
+            size: theme.typography[1].lineHeight,
+          })}
           weight="fill"
         />
       ) : null}
@@ -62,7 +63,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         align="center"
         direction="row"
         gap="2"
-        hitSlop={theme.space[3]}
+        hitSlop={space[3]}
         label={comment.user.name}
         onPress={() => {
           router.push({
@@ -94,9 +95,11 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
 
         {comment.edited ? (
           <Icon
-            color={theme.colors.orange.accent}
             name="Pencil"
-            size={theme.typography[1].lineHeight}
+            uniProps={(theme) => ({
+              color: theme.colors.orange.accent,
+              size: theme.typography[1].lineHeight,
+            })}
             weight="duotone"
           />
         ) : null}
@@ -104,9 +107,11 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         {baby ? (
           <View align="center" direction="row" gap="1">
             <Icon
-              color={theme.colors.orange.accent}
               name="Baby"
-              size={theme.typography[1].lineHeight}
+              uniProps={(theme) => ({
+                color: theme.colors.orange.accent,
+                size: theme.typography[1].lineHeight,
+              })}
               weight="fill"
             />
 
@@ -123,9 +128,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
 
       <View align="center" direction="row" gap="1">
         <FooterButton
-          color={
-            comment.liked ? theme.colors.orange.accent : theme.colors.gray.text
-          }
+          color={comment.liked === true ? 'orange' : undefined}
           compact
           icon="ArrowFatUp"
           label={a11y(comment.liked ? 'removeUpvote' : 'upvote')}
@@ -146,11 +149,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         </Text>
 
         <FooterButton
-          color={
-            comment.liked === false
-              ? theme.colors.violet.accent
-              : theme.colors.gray.text
-          }
+          color={comment.liked === false ? 'violet' : undefined}
           compact
           icon="ArrowFatDown"
           label={a11y(comment.liked === false ? 'removeDownvote' : 'downvote')}
@@ -172,7 +171,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   image: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',

@@ -1,9 +1,8 @@
 import { type BottomTabBarProps } from '@bottom-tabs/react-navigation'
-import { BlurView } from 'expo-blur'
 import { useRouter } from 'expo-router'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import { runOnJS } from 'react-native-reanimated'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Icon, type IconName } from '~/components/common/icon'
 import { iPad, tintDark, tintLight } from '~/lib/common'
@@ -13,6 +12,7 @@ import { oledTheme } from '~/styles/oled'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
+import { BlurView } from '../native/blur-view'
 
 type Props = BottomTabBarProps
 
@@ -21,7 +21,12 @@ export function TabBar({ descriptors, navigation, state }: Props) {
 
   const { blurNavigation, themeOled, themeTint } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    blur: blurNavigation,
+    iPad,
+    oled: themeOled,
+    tint: themeTint,
+  })
 
   const gesture = Gesture.Pan().onEnd((event) => {
     if (event.translationX > 100) {
@@ -35,8 +40,10 @@ export function TabBar({ descriptors, navigation, state }: Props) {
     <GestureDetector gesture={gesture}>
       <Component
         intensity={themeOled ? 25 : 75}
-        style={styles.main(blurNavigation, themeOled, themeTint)}
-        tint={theme.name === 'dark' ? tintDark : tintLight}
+        style={styles.main}
+        uniProps={(theme) => ({
+          tint: theme.variant === 'dark' ? tintDark : tintLight,
+        })}
       >
         {state.routes
           .filter((route) => route.name.startsWith('('))
@@ -74,11 +81,11 @@ export function TabBar({ descriptors, navigation, state }: Props) {
               >
                 {icon ? (
                   <Icon
-                    color={
-                      theme.colors[focused ? 'accent' : 'gray'].accentAlpha
-                    }
                     name={icon}
-                    size={theme.space[5]}
+                    uniProps={(theme) => ({
+                      color:
+                        theme.colors[focused ? 'accent' : 'gray'].accentAlpha,
+                    })}
                     weight="duotone"
                   />
                 ) : null}
@@ -98,7 +105,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   badge: {
     backgroundColor: theme.colors.accent.accent,
     borderCurve: 'continuous',
@@ -115,26 +122,59 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
       },
     ],
   },
-  main: (blur: boolean, oled: boolean, tint: boolean) => ({
-    backgroundColor: oled
-      ? oledTheme[theme.name].bgAlpha
-      : theme.colors[tint ? 'accent' : 'gray'][blur ? 'bgAlpha' : 'bg'],
-    borderTopColor: oled ? 'transparent' : theme.colors.gray.border,
-    borderTopWidth: runtime.hairlineWidth,
+  main: {
+    backgroundColor: theme.colors.gray.bg,
+    borderTopColor: theme.colors.gray.border,
+    borderTopWidth: StyleSheet.hairlineWidth,
     bottom: 0,
+    compoundVariants: [
+      {
+        blur: true,
+        styles: {
+          backgroundColor: theme.colors.accent.bgAlpha,
+        },
+        tint: true,
+      },
+    ],
     flexDirection: 'row',
     justifyContent: 'center',
     left: 0,
     position: 'absolute',
     right: 0,
+    variants: {
+      blur: {
+        true: {
+          backgroundColor: theme.colors.gray.bgAlpha,
+        },
+      },
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bgAlpha,
+          borderTopColor: 'transparent',
+        },
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.bg,
+        },
+      },
+    },
     zIndex: 100,
-  }),
+  },
   tab: {
     alignItems: 'center',
-    flexGrow: iPad ? undefined : 1,
     paddingBottom: theme.space[3] + runtime.insets.bottom,
-    paddingHorizontal: iPad ? theme.space[6] : undefined,
     paddingTop: theme.space[3],
+    variants: {
+      iPad: {
+        false: {
+          flexGrow: 1,
+        },
+        true: {
+          paddingHorizontal: theme.space[6],
+        },
+      },
+    },
   },
 }))
 

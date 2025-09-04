@@ -1,5 +1,5 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Spinner } from '~/components/common/spinner'
 import { View } from '~/components/common/view'
@@ -32,7 +32,10 @@ export function RedGifsVideo({
   video,
   viewing,
 }: Props) {
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    compact,
+    large,
+  })
 
   const { gif } = useRedGifs(video.url)
 
@@ -65,7 +68,7 @@ export function RedGifsVideo({
   }
 
   return (
-    <View style={styles.main(compact, large)}>
+    <View style={styles.main}>
       <View
         align="center"
         justify="center"
@@ -77,24 +80,37 @@ export function RedGifsVideo({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  main: (compact?: boolean, large?: boolean) => {
-    if (compact) {
-      return {
-        backgroundColor: theme.colors.gray.ui,
-        borderCurve: 'continuous',
-        borderRadius: theme.space[large ? 2 : 1],
-        height: theme.space[8] * (large ? 2 : 1),
-        overflow: 'hidden',
-        width: theme.space[8] * (large ? 2 : 1),
-      }
-    }
-
-    return {
-      justifyContent: 'center',
-      maxHeight: runtime.screen.height * 0.6,
-      overflow: 'hidden',
-    }
+const styles = StyleSheet.create((theme, runtime) => ({
+  main: {
+    compoundVariants: [
+      {
+        compact: true,
+        large: true,
+        styles: {
+          borderRadius: theme.space[2],
+          height: theme.space[8] * 2,
+          width: theme.space[8] * 2,
+        },
+      },
+    ],
+    justifyContent: 'center',
+    maxHeight: runtime.screen.height * 0.6,
+    overflow: 'hidden',
+    variants: {
+      compact: {
+        true: {
+          backgroundColor: theme.colors.gray.ui,
+          borderCurve: 'continuous',
+          borderRadius: theme.space[1],
+          height: theme.space[8],
+          overflow: 'hidden',
+          width: theme.space[8],
+        },
+      },
+      large: {
+        true: {},
+      },
+    },
   },
   video: (aspectRatio: number, compact?: boolean) => ({
     aspectRatio: compact ? 1 : aspectRatio,

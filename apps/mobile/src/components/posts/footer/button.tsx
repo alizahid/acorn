@@ -1,10 +1,11 @@
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
+import { type ColorToken, ColorTokens, space } from '~/styles/tokens'
 
 type Props = {
-  color?: string
+  color?: ColorToken
   compact?: boolean
   fill?: boolean
   icon: IconName
@@ -22,33 +23,55 @@ export function FooterButton({
   onPress,
   weight,
 }: Props) {
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    color,
+    fill,
+  })
 
   return (
     <Pressable
       align="center"
       height={compact ? undefined : '6'}
-      hitSlop={theme.space[2]}
+      hitSlop={space[2]}
       justify="center"
       label={label}
       onPress={onPress}
-      style={styles.main(color, fill)}
+      style={styles.main}
       width={compact ? undefined : '6'}
     >
       <Icon
-        color={fill ? theme.colors.white.textAlpha : color}
         name={icon}
-        size={compact ? theme.typography[1].fontSize : theme.space[5]}
+        uniProps={(theme) => ({
+          color: fill
+            ? theme.colors.white.textAlpha
+            : color
+              ? theme.colors[color].accent
+              : theme.colors[theme.variant === 'dark' ? 'white' : 'black']
+                  .textAlpha,
+          size: compact ? theme.typography[1].fontSize : theme.space[5],
+        })}
         weight={weight}
       />
     </Pressable>
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: (color?: string, fill?: boolean) => ({
-    backgroundColor: fill ? color : undefined,
+const styles = StyleSheet.create((theme) => ({
+  main: {
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
-  }),
+    compoundVariants: ColorTokens.map((token) => ({
+      color: token,
+      fill: true,
+      styles: {
+        backgroundColor: theme.colors[token].accent,
+      },
+    })),
+    variants: {
+      color: Object.fromEntries(ColorTokens.map((token) => [token, {}])),
+      fill: {
+        true: {},
+      },
+    },
+  },
 }))

@@ -1,8 +1,5 @@
 import { type FlexStyle } from 'react-native'
-import {
-  type UnistylesTheme,
-  type UnistylesValues,
-} from 'react-native-unistyles/lib/typescript/src/types'
+import { UnistylesRuntime } from 'react-native-unistyles'
 
 import { type SpaceToken } from '~/styles/tokens'
 
@@ -31,81 +28,79 @@ export type ViewStyleProps = {
 } & MarginProps &
   PaddingProps
 
-export function getViewStyles(theme: UnistylesTheme) {
-  return function styles({
-    align,
-    direction,
+export function getViewStyles({
+  align,
+  direction,
+  flex,
+  flexBasis,
+  flexGrow,
+  flexShrink,
+  gap,
+  gapX,
+  gapY,
+  height,
+  justify,
+  self,
+  width,
+  wrap,
+  ...props
+}: ViewStyleProps) {
+  const alignItems: FlexStyle['alignItems'] =
+    align === 'baseline'
+      ? 'baseline'
+      : align === 'center'
+        ? 'center'
+        : align === 'end'
+          ? 'flex-end'
+          : align === 'start'
+            ? 'flex-start'
+            : align === 'stretch'
+              ? 'stretch'
+              : undefined
+
+  const justifyContent: FlexStyle['justifyContent'] =
+    justify === 'between'
+      ? 'space-between'
+      : justify === 'center'
+        ? 'center'
+        : justify === 'end'
+          ? 'flex-end'
+          : justify === 'start'
+            ? 'flex-start'
+            : undefined
+
+  const alignSelf: FlexStyle['alignSelf'] =
+    self === 'center'
+      ? 'center'
+      : self === 'stretch'
+        ? 'stretch'
+        : self === 'end'
+          ? 'flex-end'
+          : self === 'start'
+            ? 'flex-start'
+            : undefined
+
+  return {
+    ...getMargin(props),
+    ...getPadding(props),
+    alignItems,
+    alignSelf,
+    columnGap: getSpace(gapY),
     flex,
     flexBasis,
+    flexDirection: direction,
     flexGrow,
     flexShrink,
-    gap,
-    gapX,
-    gapY,
-    height,
-    justify,
-    self,
-    width,
-    wrap,
-    ...props
-  }: ViewStyleProps) {
-    const alignItems: FlexStyle['alignItems'] =
-      align === 'baseline'
-        ? 'baseline'
-        : align === 'center'
-          ? 'center'
-          : align === 'end'
-            ? 'flex-end'
-            : align === 'start'
-              ? 'flex-start'
-              : align === 'stretch'
-                ? 'stretch'
-                : undefined
-
-    const justifyContent: FlexStyle['justifyContent'] =
-      justify === 'between'
-        ? 'space-between'
-        : justify === 'center'
-          ? 'center'
-          : justify === 'end'
-            ? 'flex-end'
-            : justify === 'start'
-              ? 'flex-start'
-              : undefined
-
-    const alignSelf: FlexStyle['alignSelf'] =
-      self === 'center'
-        ? 'center'
-        : self === 'stretch'
-          ? 'stretch'
-          : self === 'end'
-            ? 'flex-end'
-            : self === 'start'
-              ? 'flex-start'
-              : undefined
-
-    return {
-      ...getMargin(theme)(props),
-      ...getPadding(theme)(props),
-      alignItems,
-      alignSelf,
-      columnGap: getSpace(theme, gapY),
-      flex,
-      flexBasis,
-      flexDirection: direction,
-      flexGrow,
-      flexShrink,
-      flexWrap: wrap,
-      gap: getSpace(theme, gap),
-      height: getSpace(theme, height),
-      justifyContent,
-      rowGap: getSpace(theme, gapX),
-      width: getSpace(theme, width),
-    } satisfies UnistylesValues
+    flexWrap: wrap,
+    gap: getSpace(gap),
+    height: getSpace(height),
+    justifyContent,
+    rowGap: getSpace(gapX),
+    width: getSpace(width),
   }
 }
 
-function getSpace(theme: UnistylesTheme, key?: SpaceToken | number) {
+function getSpace(key?: SpaceToken | number) {
   if (!key) {
     return
   }
@@ -113,6 +108,8 @@ function getSpace(theme: UnistylesTheme, key?: SpaceToken | number) {
   if (typeof key === 'number') {
     return key
   }
+
+  const theme = UnistylesRuntime.getTheme()
 
   return theme.space[key]
 }

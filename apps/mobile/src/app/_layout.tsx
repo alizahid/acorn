@@ -1,5 +1,3 @@
-import '~/styles/uni'
-
 import { useMigrations } from 'drizzle-orm/expo-sqlite/migrator'
 import { Slot } from 'expo-router'
 // biome-ignore lint/performance/noNamespaceImport: go away
@@ -11,6 +9,7 @@ import { Providers } from '~/components/common/providers'
 import { db } from '~/db'
 import migrations from '~/drizzle/migrations'
 import { Sentry } from '~/lib/sentry'
+import { setAdaptiveTheme } from '~/lib/theme'
 import { usePreferences } from '~/stores/preferences'
 
 SplashScreen.preventAutoHideAsync()
@@ -33,9 +32,13 @@ function Acorn() {
   }, [error])
 
   useEffect(() => {
-    UnistylesRuntime.setAdaptiveThemes(theme === 'acorn')
+    const adaptive = !(theme.endsWith('light') || theme.endsWith('dark'))
 
-    if (theme !== 'acorn') {
+    UnistylesRuntime.setAdaptiveThemes(adaptive)
+
+    if (adaptive) {
+      setAdaptiveTheme(theme)
+    } else {
       UnistylesRuntime.setTheme(theme)
     }
   }, [theme])

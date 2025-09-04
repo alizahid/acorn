@@ -2,7 +2,6 @@
 import * as StatusBar from 'expo-status-bar'
 import { useEffect, useRef, useState } from 'react'
 import { createCallable } from 'react-call'
-import { StyleSheet } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
   interpolate,
@@ -14,10 +13,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useDownloadImages } from '~/hooks/image'
@@ -41,7 +40,10 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
 
   const { themeOled, themeTint } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    oled: themeOled,
+    tint: themeTint,
+  })
 
   const mounted = useRef(false)
 
@@ -120,7 +122,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
 
   return (
     <Animated.View style={styles.main}>
-      <Animated.View style={[styles.overlay(themeOled, themeTint), overlay]} />
+      <Animated.View style={[styles.overlay, overlay]} />
 
       <GestureDetector gesture={gesture}>
         <Animated.FlatList
@@ -210,7 +212,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
   )
 }, 250)
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   close: {
     marginLeft: 'auto',
   },
@@ -234,12 +236,22 @@ const stylesheet = createStyleSheet((theme, runtime) => ({
     ...StyleSheet.absoluteFillObject,
     zIndex: 100,
   },
-  overlay: (oled: boolean, tint: boolean) => ({
+  overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: oled
-      ? oledTheme[theme.name].bg
-      : theme.colors[tint ? 'accent' : 'gray'].ui,
-  }),
+    backgroundColor: theme.colors.gray.ui,
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bg,
+        },
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.ui,
+        },
+      },
+    },
+  },
   pagination: {
     backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',

@@ -1,5 +1,5 @@
 import { useReorderableDrag } from 'react-native-reorderable-list'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
@@ -15,8 +15,6 @@ type Props = {
 export function DraggableItem({ label, onChange, value }: Props) {
   const drag = useReorderableDrag()
 
-  const { styles, theme } = useStyles(stylesheet)
-
   return (
     <Pressable
       align="center"
@@ -28,9 +26,11 @@ export function DraggableItem({ label, onChange, value }: Props) {
       px="3"
     >
       <Icon
-        color={theme.colors.gray.accent}
         name="DotsSixVertical"
-        size={theme.space[4]}
+        uniProps={(theme) => ({
+          color: theme.colors.gray.accent,
+          size: theme.space[4],
+        })}
         weight="bold"
       />
 
@@ -50,8 +50,8 @@ export function DraggableItem({ label, onChange, value }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create({
   label: {
     flex: 1,
   },
-}))
+})

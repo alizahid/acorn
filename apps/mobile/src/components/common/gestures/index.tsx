@@ -5,7 +5,7 @@ import Swipeable, {
 } from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { useSharedValue } from 'react-native-reanimated'
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { View } from '~/components/common/view'
 import { iPhone } from '~/lib/common'
@@ -53,8 +53,6 @@ export function Gestures({
   style,
 }: Props) {
   const frame = useSafeAreaFrame()
-
-  const { styles } = useStyles(stylesheet)
 
   const swipeable = useRef<SwipeableMethods>(null)
 
@@ -118,7 +116,7 @@ export function Gestures({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   left: {
     alignItems: 'flex-start',
     justifyContent: 'center',

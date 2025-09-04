@@ -1,8 +1,10 @@
 import { ActivityIndicator, type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet, withUnistyles } from 'react-native-unistyles'
 
 import { getMargin, type MarginProps } from '~/styles/space'
 import { type ColorToken, ColorTokens } from '~/styles/tokens'
+
+const Indicator = withUnistyles(ActivityIndicator)
 
 type Props = {
   color?: ColorToken | (string & {})
@@ -11,28 +13,20 @@ type Props = {
   style?: StyleProp<ViewStyle>
 } & MarginProps
 
-export function Spinner({
-  color = 'accent',
-  contrast,
-  size = 'small',
-  style,
-  ...props
-}: Props) {
-  const { styles, theme } = useStyles(stylesheet)
-
-  return (
-    <ActivityIndicator
-      color={
-        ColorTokens.includes(color as ColorToken)
-          ? theme.colors[color as ColorToken][contrast ? 'contrast' : 'accent']
-          : color
-      }
+export const Spinner = withUnistyles(
+  ({ color = 'accent', contrast, size = 'small', style, ...props }: Props) => (
+    <Indicator
       size={size}
       style={[styles.main(props) as ViewStyle, style]}
+      uniProps={(theme) => ({
+        color: ColorTokens.includes(color as ColorToken)
+          ? theme.colors[color as ColorToken][contrast ? 'contrast' : 'accent']
+          : color,
+      })}
     />
-  )
-}
+  ),
+)
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: getMargin(theme),
-}))
+const styles = StyleSheet.create({
+  main: getMargin,
+})

@@ -1,4 +1,3 @@
-import { type BottomSheetModal } from '@gorhom/bottom-sheet'
 import { useRouter } from 'expo-router'
 import mitt from 'mitt'
 import { useEffect, useRef } from 'react'
@@ -7,7 +6,7 @@ import { useTranslations } from 'use-intl'
 
 import { useAuth } from '~/stores/auth'
 
-import { IconButton } from '../common/icon-button'
+import { IconButton } from '../common/icon/button'
 import { SheetModal } from '../common/sheets/modal'
 import { AccountCard } from './account'
 
@@ -23,7 +22,7 @@ export function AccountSwitcher() {
 
   const { accountId, accounts, removeAccount, reorder, setAccount } = useAuth()
 
-  const sheet = useRef<BottomSheetModal>(null)
+  const sheet = useRef<SheetModal>(null)
 
   useEffect(() => {
     switcher.on('open', () => {

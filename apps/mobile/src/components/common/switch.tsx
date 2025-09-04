@@ -1,6 +1,15 @@
 import { type Ref } from 'react'
 import { Switch as ReactNativeSwitch } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
+import { withUnistyles } from 'react-native-unistyles'
+
+const Component = withUnistyles(ReactNativeSwitch, (theme) => ({
+  ios_backgroundColor: theme.colors.gray.uiActive,
+  thumbColor: theme.colors.gray.contrast,
+  trackColor: {
+    false: theme.colors.gray.uiActive,
+    true: theme.colors.accent.accent,
+  },
+}))
 
 type Props = {
   disabled?: boolean
@@ -10,19 +19,11 @@ type Props = {
 }
 
 export function Switch({ disabled, onChange, ref, value }: Props) {
-  const { theme } = useStyles()
-
   return (
-    <ReactNativeSwitch
+    <Component
       disabled={disabled}
-      ios_backgroundColor={theme.colors.gray.uiActive}
       onValueChange={onChange}
       ref={ref}
-      thumbColor={theme.colors.gray.contrast}
-      trackColor={{
-        false: theme.colors.gray.uiActive,
-        true: theme.colors.accent.accent,
-      }}
       value={value}
     />
   )

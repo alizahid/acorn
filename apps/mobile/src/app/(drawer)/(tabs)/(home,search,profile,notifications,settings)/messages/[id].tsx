@@ -2,7 +2,7 @@ import { FlashList } from '@shopify/flash-list'
 import { formatISO, isDate } from 'date-fns'
 import { useLocalSearchParams } from 'expo-router'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 import { z } from 'zod'
 
@@ -33,8 +33,6 @@ export default function Screen() {
   const { accountId } = useAuth()
 
   const { isLoading, messages, refetch } = useMessages(params.id)
-
-  const { styles } = useStyles(stylesheet)
 
   const listProps = useList(ListFlags.TOP)
 
@@ -75,7 +73,7 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   content: {
     padding: theme.space[4],
   },

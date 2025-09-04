@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { type TypographyToken } from '~/styles/tokens'
 
@@ -11,8 +11,6 @@ type SpoilerProps = {
 }
 
 export function Spoiler({ children, size = '3' }: SpoilerProps) {
-  const { styles } = useStyles(stylesheet)
-
   const [visible, setVisible] = useState(false)
 
   return (
@@ -28,7 +26,7 @@ export function Spoiler({ children, size = '3' }: SpoilerProps) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   main: {
     alignSelf: 'flex-start',
     backgroundColor: theme.colors.orange.accent,

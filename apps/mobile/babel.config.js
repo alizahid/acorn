@@ -4,6 +4,12 @@ module.exports = function config(api) {
   return {
     plugins: [
       [
+        'react-native-unistyles/plugin',
+        {
+          root: 'src',
+        },
+      ],
+      [
         'inline-import',
         {
           extensions: ['.sql'],

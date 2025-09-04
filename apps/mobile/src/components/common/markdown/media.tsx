@@ -1,5 +1,5 @@
 import { Image } from 'expo-image'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { ImageMenu } from '~/components/posts/gallery/menu'
@@ -21,8 +21,6 @@ type Props = {
 
 export function Media({ caption, media, recyclingKey, variant }: Props) {
   const a11y = useTranslations('a11y')
-
-  const { styles } = useStyles(stylesheet)
 
   const placeholder = useImagePlaceholder()
 
@@ -60,7 +58,7 @@ export function Media({ caption, media, recyclingKey, variant }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet(() => ({
+const styles = StyleSheet.create({
   image: {
     flex: 1,
     width: '100%',
@@ -76,7 +74,7 @@ const stylesheet = createStyleSheet(() => ({
   modal: {
     justifyContent: 'center',
   },
-}))
+})
 
 export function findMedia(
   url: string,

@@ -2,7 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import { getIcon } from '~/components/common/icon'
+import { Icon } from '~/components/common/icon'
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { updateCommunity } from '~/hooks/queries/communities/community'
 import { queryClient } from '~/lib/query'
@@ -46,13 +46,21 @@ export function useJoin() {
           community: variables.name,
         }),
         {
-          icon: getIcon({
-            color: variables.action === 'join' ? 'green' : 'red',
-            name:
-              variables.action === 'join'
-                ? 'UserCirclePlus'
-                : 'UserCircleMinus',
-          }),
+          icon: (
+            <Icon
+              name={
+                variables.action === 'join'
+                  ? 'UserCirclePlus'
+                  : 'UserCircleMinus'
+              }
+              uniProps={(theme) => ({
+                color:
+                  variables.action === 'join'
+                    ? theme.colors.green.accent
+                    : theme.colors.red.accent,
+              })}
+            />
+          ),
         },
       )
     },

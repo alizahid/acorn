@@ -1,185 +1,182 @@
-import { SymbolView } from 'expo-symbols'
-import { useCallback } from 'react'
-import { useStyles } from 'react-native-unistyles'
+import { ScrollView } from 'react-native'
 import { useTranslations } from 'use-intl'
 
-import { Icon } from '~/components/common/icon'
-import {
-  Menu,
-  type MenuItem,
-  type MenuItemOption,
-} from '~/components/common/menu'
-// import { icons } from '~/components/posts/sort-interval'
+import { Menu } from '~/components/common/menu'
+import { IntervalItem } from '~/components/settings/interval'
+import { SortItem } from '~/components/settings/sort'
 import { useList } from '~/hooks/list'
-import { IntervalIcons, SortColors, SortIcons } from '~/lib/sort'
 import { usePreferences } from '~/stores/preferences'
-import {
-  CommentSort,
-  CommunityFeedSort,
-  FeedSort,
-  SearchSort,
-  TopInterval,
-  UserFeedSort,
-} from '~/types/sort'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.sort')
-  const tCommon = useTranslations('component.common')
 
-  const { rememberSorting, update, ...preferences } = usePreferences()
-
-  const { theme } = useStyles()
+  const {
+    intervalCommunityPosts,
+    intervalFeedPosts,
+    intervalSearchPosts,
+    intervalUserComments,
+    intervalUserPosts,
+    rememberSorting,
+    sortCommunityPosts,
+    sortFeedPosts,
+    sortPostComments,
+    sortSearchPosts,
+    sortUserComments,
+    sortUserPosts,
+    update,
+  } = usePreferences()
 
   const listProps = useList()
 
-  const enhanceSort = useCallback(
-    (sort: FeedSort | CommentSort | SearchSort): MenuItemOption => {
-      const icon = SortIcons[sort]
-      const color = theme.colors[SortColors[sort]].accent
-
-      return {
-        label: tCommon(`sort.${sort}`),
-        right: (
-          <Icon
-            color={color}
-            name={icon}
-            size={theme.space[5]}
-            weight="duotone"
-          />
-        ),
-        value: sort,
-      } satisfies MenuItemOption
-    },
-    [tCommon, theme.colors, theme.space],
-  )
-
-  const enhanceInterval = useCallback(
-    (interval: TopInterval): MenuItemOption => ({
-      label: tCommon(`interval.${interval}`),
-      right: (
-        <SymbolView
-          name={IntervalIcons[interval]}
-          size={theme.space[5]}
-          tintColor={theme.colors.gold.accent}
-        />
-      ),
-      value: interval,
-    }),
-    [tCommon, theme.colors.gold, theme.space],
-  )
-
   return (
-    <Menu
-      items={(
-        [
-          'remember' as const,
-          null,
-
-          t('feed.title'),
-          [
-            'sortFeedPosts',
-            'feed.sort',
-            FeedSort.map((item) => enhanceSort(item)),
-          ],
-          [
-            'intervalFeedPosts',
-            'feed.interval',
-            TopInterval.map((item) => enhanceInterval(item)),
-          ],
-
-          t('search.title'),
-          [
-            'sortSearchPosts',
-            'search.sort',
-            SearchSort.map((item) => enhanceSort(item)),
-          ],
-          [
-            'intervalSearchPosts',
-            'search.interval',
-            TopInterval.map((item) => enhanceInterval(item)),
-          ],
-          null,
-
-          t('community.title'),
-          [
-            'sortCommunityPosts',
-            'community.sort',
-            CommunityFeedSort.map((item) => enhanceSort(item)),
-          ],
-          [
-            'intervalCommunityPosts',
-            'community.interval',
-            TopInterval.map((item) => enhanceInterval(item)),
-          ],
-          null,
-
-          t('post.title'),
-          [
-            'sortPostComments',
-            'post.sort',
-            CommentSort.map((item) => enhanceSort(item)),
-          ],
-          null,
-
-          t('user.title'),
-          [
-            'sortUserPosts',
-            'user.posts.sort',
-            UserFeedSort.map((item) => enhanceSort(item)),
-          ],
-          [
-            'intervalUserPosts',
-            'user.posts.interval',
-            TopInterval.map((item) => enhanceInterval(item)),
-          ],
-          [
-            'sortUserComments',
-            'user.comments.sort',
-            CommentSort.map((item) => enhanceSort(item)),
-          ],
-          [
-            'intervalUserComments',
-            'user.comments.interval',
-            TopInterval.map((item) => enhanceInterval(item)),
-          ],
-        ] as const
-      ).map((item) => {
-        if (item === 'remember') {
-          return {
-            label: t('remember'),
-            onSelect(value) {
-              update({
-                rememberSorting: value,
-              })
-            },
-            type: 'switch',
-            value: rememberSorting,
-          } satisfies MenuItem
-        }
-
-        if (typeof item === 'string' || !item) {
-          return item
-        }
-
-        const [key, label, options] = item
-
-        return {
-          icon: {
-            name: key.startsWith('sort') ? 'SortAscending' : 'Clock',
-            type: 'icon',
-          },
-          label: t(label),
-          onSelect: (next) => {
+    <ScrollView {...listProps}>
+      <Menu.Root>
+        <Menu.Switch
+          label={t('remember')}
+          onChange={(next) => {
             update({
-              [key]: next,
+              rememberSorting: next,
             })
-          },
-          options,
-          type: 'options',
-          value: preferences[key],
-        } satisfies MenuItem
-      })}
-      listProps={listProps}
-    />
+          }}
+          value={rememberSorting}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('feed.title')}</Menu.Label>
+
+        <SortItem
+          label={t('feed.sort')}
+          onChange={(next) => {
+            update({
+              sortFeedPosts: next,
+            })
+          }}
+          type="feed"
+          value={sortFeedPosts}
+        />
+
+        <IntervalItem
+          label={t('feed.interval')}
+          onChange={(next) => {
+            update({
+              intervalFeedPosts: next,
+            })
+          }}
+          value={intervalFeedPosts}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('search.title')}</Menu.Label>
+
+        <SortItem
+          label={t('search.sort')}
+          onChange={(next) => {
+            update({
+              sortSearchPosts: next,
+            })
+          }}
+          type="search"
+          value={sortSearchPosts}
+        />
+
+        <IntervalItem
+          label={t('search.interval')}
+          onChange={(next) => {
+            update({
+              intervalSearchPosts: next,
+            })
+          }}
+          value={intervalSearchPosts}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('community.title')}</Menu.Label>
+
+        <SortItem
+          label={t('community.sort')}
+          onChange={(next) => {
+            update({
+              sortCommunityPosts: next,
+            })
+          }}
+          type="community"
+          value={sortCommunityPosts}
+        />
+
+        <IntervalItem
+          label={t('community.interval')}
+          onChange={(next) => {
+            update({
+              intervalCommunityPosts: next,
+            })
+          }}
+          value={intervalCommunityPosts}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('post.title')}</Menu.Label>
+
+        <SortItem
+          label={t('post.sort')}
+          onChange={(next) => {
+            update({
+              sortPostComments: next,
+            })
+          }}
+          type="comment"
+          value={sortPostComments}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('user.title')}</Menu.Label>
+
+        <SortItem
+          label={t('user.posts.sort')}
+          onChange={(next) => {
+            update({
+              sortUserPosts: next,
+            })
+          }}
+          type="user"
+          value={sortUserPosts}
+        />
+
+        <IntervalItem
+          label={t('user.posts.interval')}
+          onChange={(next) => {
+            update({
+              intervalUserPosts: next,
+            })
+          }}
+          value={intervalUserPosts}
+        />
+
+        <SortItem
+          label={t('user.comments.sort')}
+          onChange={(next) => {
+            update({
+              sortUserComments: next,
+            })
+          }}
+          type="user"
+          value={sortUserComments}
+        />
+
+        <IntervalItem
+          label={t('user.comments.interval')}
+          onChange={(next) => {
+            update({
+              intervalUserComments: next,
+            })
+          }}
+          value={intervalUserComments}
+        />
+      </Menu.Root>
+    </ScrollView>
   )
 }

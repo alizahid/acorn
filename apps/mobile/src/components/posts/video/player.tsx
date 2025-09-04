@@ -2,8 +2,8 @@ import { useEvent } from 'expo'
 import { Image } from 'expo-image'
 import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
 import { useCallback, useEffect, useRef } from 'react'
-import { type StyleProp, StyleSheet, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { type StyleProp, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -11,6 +11,7 @@ import { Pressable } from '~/components/common/pressable'
 import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
+import { space } from '~/styles/tokens'
 import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from '../gallery/blur'
@@ -55,7 +56,9 @@ export function VideoPlayer({
   } = usePreferences()
   const { addPost } = useHistory()
 
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    large,
+  })
 
   const ref = useRef<VideoView>(null)
 
@@ -111,7 +114,7 @@ export function VideoPlayer({
             })
           }
         }}
-        style={styles.compact(large)}
+        style={styles.compact}
       >
         <Image
           accessibilityIgnoresInvertColors
@@ -120,7 +123,7 @@ export function VideoPlayer({
         />
 
         <View align="center" justify="center" style={styles.compactIcon}>
-          <Icon color={theme.colors.accent.accent} name="Play" weight="fill" />
+          <Icon name="Play" weight="fill" />
         </View>
 
         <VideoView
@@ -181,7 +184,7 @@ export function VideoPlayer({
         <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
       ) : (
         <Pressable
-          hitSlop={theme.space[2]}
+          hitSlop={space[2]}
           label={a11y(muted ? 'unmute' : 'mute')}
           onPress={() => {
             player.muted = !muted
@@ -190,9 +193,11 @@ export function VideoPlayer({
           style={styles.volume}
         >
           <Icon
-            color={theme.colors.gray.contrast}
             name={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
-            size={theme.space[4]}
+            uniProps={(theme) => ({
+              color: theme.colors.gray.contrast,
+              size: theme.space[4],
+            })}
           />
         </Pressable>
       )}
@@ -200,21 +205,32 @@ export function VideoPlayer({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   blur: {
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',
     gap: theme.space[4],
     justifyContent: 'center',
   },
-  compact: (large?: boolean) => ({
+  compact: {
     backgroundColor: theme.colors.gray.uiActive,
     borderCurve: 'continuous',
-    borderRadius: theme.space[large ? 2 : 1],
-    height: theme.space[8] * (large ? 2 : 1),
     overflow: 'hidden',
-    width: theme.space[8] * (large ? 2 : 1),
-  }),
+    variants: {
+      large: {
+        false: {
+          borderRadius: theme.space[1],
+          height: theme.space[8],
+          width: theme.space[8],
+        },
+        true: {
+          borderRadius: theme.space[2],
+          height: theme.space[8] * 2,
+          width: theme.space[8] * 2,
+        },
+      },
+    },
+  },
   compactIcon: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.black.accentAlpha,

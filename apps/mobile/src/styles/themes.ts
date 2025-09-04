@@ -1,95 +1,114 @@
 import { createPalette } from './colors'
 import { radius, space, typography } from './tokens'
 
-export type Theme =
-  | 'acorn'
-  | 'acorn-light'
-  | 'acorn-dark'
-  | 'ruby-light'
-  | 'ruby-dark'
-  | 'plum-light'
-  | 'plum-dark'
-  | 'indigo-light'
-  | 'indigo-dark'
-  | 'jade-light'
-  | 'jade-dark'
-
 export const lightTheme = {
   colors: createPalette('orange'),
-  name: 'light',
+  name: 'acorn-light',
   radius,
   space,
   typography,
+  variant: 'light',
 } as const
 
 export const darkTheme = {
   colors: createPalette('orange', true),
-  name: 'dark',
+  name: 'acorn-dark',
   radius,
   space,
   typography,
+  variant: 'dark',
 } as const
 
 export const rubyLight = {
   colors: createPalette('ruby'),
-  name: 'light',
+  name: 'ruby-light',
   radius,
   space,
   typography,
+  variant: 'light',
 } as const
 
 export const rubyDark = {
   colors: createPalette('ruby', true),
-  name: 'dark',
+  name: 'ruby-dark',
   radius,
   space,
   typography,
+  variant: 'dark',
 } as const
 
 export const plumLight = {
   colors: createPalette('plum'),
-  name: 'light',
+  name: 'plum-light',
   radius,
   space,
   typography,
+  variant: 'light',
 } as const
 
 export const plumDark = {
   colors: createPalette('plum', true),
-  name: 'dark',
+  name: 'plum-dark',
   radius,
   space,
   typography,
+  variant: 'dark',
 } as const
 
 export const indigoLight = {
   colors: createPalette('indigo'),
-  name: 'light',
+  name: 'indigo-light',
   radius,
   space,
   typography,
+  variant: 'light',
 } as const
 
 export const indigoDark = {
   colors: createPalette('indigo', true),
-  name: 'dark',
+  name: 'indigo-dark',
   radius,
   space,
   typography,
+  variant: 'dark',
 } as const
 
 export const jadeLight = {
   colors: createPalette('jade'),
-  name: 'light',
+  name: 'jade-light',
   radius,
   space,
   typography,
+  variant: 'light',
 } as const
 
 export const jadeDark = {
   colors: createPalette('jade', true),
-  name: 'dark',
+  name: 'jade-dark',
   radius,
   space,
   typography,
+  variant: 'dark',
 } as const
+
+export const themes = {
+  acorn: lightTheme,
+  'acorn-dark': darkTheme,
+  'acorn-light': lightTheme,
+  dark: darkTheme,
+  indigo: indigoLight,
+  'indigo-dark': indigoDark,
+  'indigo-light': indigoLight,
+  jade: jadeLight,
+  'jade-dark': jadeDark,
+  'jade-light': jadeLight,
+  light: lightTheme,
+  plum: plumLight,
+  'plum-dark': plumDark,
+  'plum-light': plumLight,
+  ruby: rubyLight,
+  'ruby-dark': rubyDark,
+  'ruby-light': rubyLight,
+}
+
+export type Theme = keyof typeof themes

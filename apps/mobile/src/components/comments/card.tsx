@@ -1,10 +1,6 @@
 import { useRouter } from 'expo-router'
 import { Share, type StyleProp, type ViewStyle } from 'react-native'
-import {
-  createStyleSheet,
-  type UnistylesValues,
-  useStyles,
-} from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useHide } from '~/hooks/moderation/hide'
@@ -60,7 +56,12 @@ export function CommentCard({
     commentRightShort,
   } = useGestures()
 
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    colorful: colorfulComments,
+    dull,
+    iPad,
+    oled: themeOled,
+  })
 
   const { vote } = useCommentVote()
   const { save } = useCommentSave()
@@ -146,15 +147,7 @@ export function CommentCard({
           long: commentRightLong,
           short: commentRightShort,
         }}
-        style={[
-          styles.main(
-            comment.depth,
-            colorfulComments,
-            themeOled,
-            dull,
-          ) as ViewStyle,
-          style,
-        ]}
+        style={[styles.main(comment.depth, dull), style]}
       >
         <Pressable
           disabled={disabled}
@@ -210,8 +203,10 @@ export function CommentCard({
               style={styles.post}
             >
               <Icon
-                color={theme.colors.gray.accent}
                 name="NoteBlank"
+                uniProps={(theme) => ({
+                  color: theme.colors.gray.accent,
+                })}
                 weight="duotone"
               />
 
@@ -252,62 +247,81 @@ export function CommentCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   body: {
     margin: theme.space[3],
   },
   container: (depth: number) => {
     const marginLeft = theme.space[2] * depth
 
-    const base: UnistylesValues = {
+    return {
       marginLeft,
+      variants: {
+        iPad: {
+          true: {
+            alignSelf: 'center',
+            borderCurve: 'continuous',
+            borderRadius: theme.radius[3],
+            maxWidth: cardMaxWidth - marginLeft,
+            width: '100%',
+          },
+        },
+      },
       width: runtime.screen.width - marginLeft,
     }
-
-    if (iPad) {
-      return {
-        ...base,
-        alignSelf: 'center',
-        borderCurve: 'continuous',
-        borderRadius: theme.radius[3],
-        maxWidth: cardMaxWidth - marginLeft,
-        width: '100%',
-      }
-    }
-
-    return base
   },
   flair: {
     marginBottom: theme.space[3],
     marginHorizontal: theme.space[3],
   },
-  main: (depth: number, colorful: boolean, oled: boolean, dull?: boolean) => {
+  main: (depth: number, dull?: boolean) => {
     const color = dull ? 'gray' : getDepthColor(depth)
 
-    const base: UnistylesValues = {
-      backgroundColor: dull
-        ? oled
-          ? oledTheme[theme.name].bg
-          : theme.colors.gray.ui
-        : colorful
-          ? theme.colors[color][oled ? 'bg' : 'bgAlt']
-          : oled
-            ? oledTheme[theme.name].bg
-            : theme.colors.gray.bgAlt,
+    return {
+      backgroundColor: theme.colors.gray.bgAlt,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
+      compoundVariants: [
+        {
+          colorful: true,
+          oled: true,
+          styles: {
+            backgroundColor: theme.colors[color].bg,
+          },
+        },
+        {
+          dull: true,
+          oled: true,
+          styles: {
+            backgroundColor: oledTheme[theme.variant].bg,
+          },
+        },
+      ],
       overflow: 'hidden',
+      variants: {
+        colorful: {
+          true: {
+            backgroundColor: theme.colors[color].bgAlt,
+          },
+        },
+        dull: {
+          true: {
+            backgroundColor: theme.colors.gray.ui,
+          },
+        },
+        iPad: {
+          true: {
+            borderCurve: 'continuous',
+            borderRadius: theme.radius[3],
+          },
+        },
+        oled: {
+          true: {
+            backgroundColor: oledTheme[theme.variant].bg,
+          },
+        },
+      },
     }
-
-    if (iPad) {
-      return {
-        ...base,
-        borderCurve: 'continuous',
-        borderRadius: theme.radius[3],
-      }
-    }
-
-    return base
   },
   post: {
     backgroundColor: theme.colors.gray.uiAlpha,

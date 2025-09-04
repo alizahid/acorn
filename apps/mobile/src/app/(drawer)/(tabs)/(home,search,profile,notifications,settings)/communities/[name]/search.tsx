@@ -1,16 +1,11 @@
 import { useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
-import { type ViewStyle } from 'react-native'
-import {
-  createStyleSheet,
-  type UnistylesValues,
-  useStyles,
-} from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
@@ -38,9 +33,13 @@ export default function Screen() {
   const { intervalSearchPosts, sortSearchPosts, themeOled, themeTint } =
     usePreferences()
 
-  const { focused } = useFocused()
+  styles.useVariants({
+    iPad,
+    oled: themeOled,
+    tint: themeTint,
+  })
 
-  const { styles } = useStyles(stylesheet)
+  const { focused } = useFocused()
 
   const listProps = useList(ListFlags.ALL, {
     top: heights.notifications,
@@ -88,7 +87,7 @@ export default function Screen() {
         community={params.name}
         focused={focused}
         header={
-          <View style={styles.header(themeOled, themeTint) as ViewStyle}>
+          <View style={styles.header}>
             <SortIntervalMenu
               interval={interval}
               onChange={(next) => {
@@ -115,33 +114,43 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   clear: {
     height: theme.space[7],
     width: theme.space[7],
   },
-  header: (oled: boolean, tint: boolean) => {
-    const base: UnistylesValues = {
-      backgroundColor: oled
-        ? oledTheme[theme.name].bgAlpha
-        : theme.colors[tint ? 'accent' : 'gray'].bg,
-      borderBottomColor: theme.colors.gray.border,
-      borderBottomWidth: runtime.hairlineWidth,
-    }
-
-    if (iPad) {
-      return {
-        ...base,
-        marginBottom: theme.space[4],
-        marginHorizontal: -theme.space[4],
-      }
-    }
-
-    return base
+  header: {
+    backgroundColor: theme.colors.gray.bg,
+    borderBottomColor: theme.colors.gray.border,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    variants: {
+      iPad: {
+        true: {
+          marginBottom: theme.space[4],
+          marginHorizontal: -theme.space[4],
+        },
+      },
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bgAlpha,
+        },
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.bg,
+        },
+      },
+    },
   },
   list: {
-    paddingBottom: iPad ? theme.space[4] : undefined,
-    paddingHorizontal: iPad ? theme.space[4] : undefined,
+    variants: {
+      iPad: {
+        true: {
+          paddingBottom: theme.space[4],
+          paddingHorizontal: theme.space[4],
+        },
+      },
+    },
   },
   query: {
     backgroundColor: theme.colors.gray.uiActiveAlpha,

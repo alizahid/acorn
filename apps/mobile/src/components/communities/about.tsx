@@ -1,6 +1,6 @@
 import { Image } from 'expo-image'
 import { ScrollView } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { Button } from '~/components/common/button'
@@ -24,8 +24,6 @@ type Props = {
 export function CommunityAbout({ listProps, name }: Props) {
   const t = useTranslations('component.communities.about')
   const f = useFormatter()
-
-  const { styles } = useStyles(stylesheet)
 
   const { community, refetch } = useCommunity(name)
 
@@ -161,7 +159,7 @@ export function CommunityAbout({ listProps, name }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   banner: {
     aspectRatio: 1280 / 384,
     backgroundColor: theme.colors.gray.ui,

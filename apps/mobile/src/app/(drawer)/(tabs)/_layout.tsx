@@ -90,20 +90,6 @@ export default function Layout() {
           title: t('settings.title'),
         }}
       />
-
-      <Tabs.Screen
-        name="+not-found"
-        options={{
-          tabBarItemHidden: true,
-        }}
-      />
-
-      <Tabs.Screen
-        name="_sitemap"
-        options={{
-          tabBarItemHidden: true,
-        }}
-      />
     </Tabs>
   )
 }

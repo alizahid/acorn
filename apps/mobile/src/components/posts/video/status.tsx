@@ -5,7 +5,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 
 import { View } from '~/components/common/view'
 
@@ -17,7 +17,7 @@ export function VideoStatus({ player }: Props) {
   const current = useSharedValue(0)
   const buffered = useSharedValue(0)
 
-  const { styles, theme } = useStyles(stylesheet)
+  const { theme } = useUnistyles()
 
   useEventListener(player, 'timeUpdate', (event) => {
     current.set(() =>
@@ -52,7 +52,7 @@ export function VideoStatus({ player }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   bar: {
     bottom: 0,
     height: theme.space[1],

@@ -1,10 +1,11 @@
 import { useRouter } from 'expo-router'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { ScrollView } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { FloatingButton } from '~/components/common/floating-button'
-import { type IconName } from '~/components/common/icon'
-import { Menu, type MenuItem } from '~/components/common/menu'
+import { Icon, type IconName } from '~/components/common/icon'
+import { Menu } from '~/components/common/menu'
+import { RefreshControl } from '~/components/common/refresh-control'
 import { ProfileCard } from '~/components/users/profile'
 import { useList } from '~/hooks/list'
 import { useProfile } from '~/hooks/queries/user/profile'
@@ -22,40 +23,47 @@ export default function Screen() {
   const { accountId } = useAuth()
   const { profile, refetch } = useProfile(accountId)
 
-  const { styles, theme } = useStyles(stylesheet)
-
   const listProps = useList()
 
   return (
     <>
-      <Menu
-        header={<ProfileCard profile={profile} />}
-        items={UserFeedType.map<MenuItem>((type) => ({
-          arrow: true,
-          icon: {
-            color: theme.colors[colors[type]].accent,
-            name: icons[type],
-            type: 'icon',
-          },
-          label: t(type),
-          onPress() {
-            if (!profile) {
-              return
-            }
+      <ScrollView
+        {...listProps}
+        refreshControl={<RefreshControl onRefresh={refetch} />}
+      >
+        <Menu.Root py="0">
+          <ProfileCard profile={profile} />
 
-            router.push({
-              params: {
-                name: removePrefix(profile.name),
-                type,
-              },
-              pathname: '/users/[name]/[type]',
-            })
-          },
-        }))}
-        listProps={listProps}
-        onRefresh={refetch}
-        style={styles.content}
-      />
+          {UserFeedType.map((type) => (
+            <Menu.Button
+              arrow
+              icon={
+                <Icon
+                  name={icons[type]}
+                  uniProps={(theme) => ({
+                    color: theme.colors[colors[type]].accent,
+                  })}
+                />
+              }
+              key={type}
+              label={t(type)}
+              onPress={() => {
+                if (!profile) {
+                  return
+                }
+
+                router.push({
+                  params: {
+                    name: removePrefix(profile.name),
+                    type,
+                  },
+                  pathname: '/users/[name]/[type]',
+                })
+              }}
+            />
+          ))}
+        </Menu.Root>
+      </ScrollView>
 
       {profile ? (
         <FloatingButton
@@ -74,12 +82,6 @@ export default function Screen() {
     </>
   )
 }
-
-const stylesheet = createStyleSheet(() => ({
-  content: {
-    paddingVertical: 0,
-  },
-}))
 
 const icons: Record<UserFeedType, IconName> = {
   comments: 'ChatCircle',

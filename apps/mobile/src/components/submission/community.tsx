@@ -1,5 +1,5 @@
 import { Image } from 'expo-image'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { type Submission } from '~/types/submission'
 
@@ -11,8 +11,6 @@ type Props = {
 }
 
 export function SubmissionCommunityCard({ community }: Props) {
-  const { styles } = useStyles(stylesheet)
-
   const name = community.name.startsWith('u_')
     ? `u/${community.name.slice(2)}`
     : `r/${community.name}`
@@ -32,7 +30,7 @@ export function SubmissionCommunityCard({ community }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   image: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',

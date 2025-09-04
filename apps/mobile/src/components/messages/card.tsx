@@ -1,5 +1,5 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { type Message } from '~/types/message'
@@ -16,8 +16,6 @@ type Props = {
 
 export function MessageCard({ message, style, userId }: Props) {
   const f = useFormatter()
-
-  const { styles } = useStyles(stylesheet)
 
   const self = message.author === userId
 
@@ -43,7 +41,7 @@ export function MessageCard({ message, style, userId }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   content: (self: boolean) => ({
     backgroundColor: self ? theme.colors.accent.ui : theme.colors.gray.ui,
     borderCurve: 'continuous',

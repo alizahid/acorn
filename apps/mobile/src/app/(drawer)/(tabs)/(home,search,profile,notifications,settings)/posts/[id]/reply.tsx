@@ -2,18 +2,18 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { useCallback, useState } from 'react'
-import { TextInput } from 'react-native'
 import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle,
 } from 'react-native-reanimated'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { TextInput } from '~/components/native/text-input'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
 import { iPhone } from '~/lib/common'
@@ -38,8 +38,6 @@ export default function Screen() {
 
   const t = useTranslations('screen.posts.reply')
   const a11y = useTranslations('a11y')
-
-  const { styles, theme } = useStyles(stylesheet)
 
   const keyboard = useAnimatedKeyboard()
 
@@ -126,8 +124,6 @@ export default function Screen() {
         multiline
         onChangeText={setText}
         placeholder={t('placeholder')}
-        placeholderTextColor={theme.colors.gray.accent}
-        selectionColor={theme.colors.accent.accent}
         style={styles.input(font, fontScaling)}
         value={text}
       />
@@ -135,7 +131,7 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   input: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
     flex: 1,

@@ -1,6 +1,6 @@
 import { type DrawerContentComponentProps } from '@react-navigation/drawer'
 import { useState } from 'react'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { ListFlags, useList } from '~/hooks/list'
 
@@ -11,8 +11,6 @@ import { CommunitiesList } from '../communities/list'
 type Props = DrawerContentComponentProps
 
 export function HomeDrawer({ navigation }: Props) {
-  const { styles } = useStyles(stylesheet)
-
   const listProps = useList(ListFlags.BOTTOM_INSET)
 
   const [query, setQuery] = useState('')
@@ -34,7 +32,7 @@ export function HomeDrawer({ navigation }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((_theme, runtime) => ({
+const styles = StyleSheet.create((_theme, runtime) => ({
   search: {
     marginTop: runtime.insets.top,
   },

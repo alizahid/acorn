@@ -2,25 +2,23 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import { getIcon } from '~/components/common/icon'
-import { updatePost } from '~/hooks/queries/posts/post'
+import { Icon } from '~/components/common/icon'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 
 type Variables = {
   id: string
-  postId?: string
 }
 
-export function useCommentRemove() {
-  const t = useTranslations('toasts.comments')
+export function usePostRemove() {
+  const t = useTranslations('toasts.posts')
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       const body = new FormData()
 
-      body.append('id', addPrefix(variables.id, 'comment'))
+      body.append('id', addPrefix(variables.id, 'link'))
 
       await reddit({
         body,
@@ -30,21 +28,17 @@ export function useCommentRemove() {
     },
     onMutate(variables) {
       updatePosts(variables.id, undefined, true)
-
-      if (variables.postId) {
-        updatePost(variables.postId, (draft) => {
-          draft.comments = draft.comments.filter(
-            (comment) => comment.data.id !== variables.id,
-          )
-        })
-      }
     },
     onSuccess() {
       toast.success(t('deleted'), {
-        icon: getIcon({
-          color: 'green',
-          name: 'Trash',
-        }),
+        icon: (
+          <Icon
+            name="Trash"
+            uniProps={(theme) => ({
+              color: theme.colors.green.accent,
+            })}
+          />
+        ),
       })
     },
   })

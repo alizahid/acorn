@@ -1,9 +1,5 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
-import {
-  createStyleSheet,
-  type UnistylesValues,
-  useStyles,
-} from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
@@ -38,7 +34,11 @@ export function CommentMoreCard({
 
   const { colorfulComments, themeOled } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    colorful: colorfulComments,
+    iPad,
+    oled: themeOled,
+  })
 
   const { isPending, loadMore } = useLoadMoreComments()
 
@@ -71,10 +71,7 @@ export function CommentMoreCard({
         }
       }}
       py="2"
-      style={[
-        styles.main(comment.depth, colorfulComments, themeOled) as ViewStyle,
-        style,
-      ]}
+      style={[styles.main(comment.depth), style]}
     >
       {isPending ? (
         <Spinner color={color} />
@@ -89,34 +86,47 @@ export function CommentMoreCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: (depth: number, colorful: boolean, oled: boolean) => {
+const styles = StyleSheet.create((theme) => ({
+  main: (depth: number) => {
     const color = getDepthColor(depth)
 
     const marginLeft = theme.space[2] * depth
 
-    const base: UnistylesValues = {
-      backgroundColor: colorful
-        ? theme.colors[color][oled ? 'bg' : 'bgAlt']
-        : oled
-          ? oledTheme[theme.name].bg
-          : theme.colors.gray.bgAlt,
+    return {
+      backgroundColor: theme.colors.gray.bgAlt,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
+      compoundVariants: [
+        {
+          colorful: true,
+          oled: true,
+          styles: {
+            backgroundColor: theme.colors[color].bg,
+          },
+        },
+      ],
       marginLeft,
+      variants: {
+        colorful: {
+          true: {
+            backgroundColor: theme.colors[color].bgAlt,
+          },
+        },
+        iPad: {
+          true: {
+            alignSelf: 'center',
+            borderCurve: 'continuous',
+            borderRadius: theme.radius[3],
+            maxWidth: cardMaxWidth - marginLeft,
+            width: '100%',
+          },
+        },
+        oled: {
+          true: {
+            backgroundColor: oledTheme[theme.variant].bg,
+          },
+        },
+      },
     }
-
-    if (iPad) {
-      return {
-        ...base,
-        alignSelf: 'center',
-        borderCurve: 'continuous',
-        borderRadius: theme.radius[3],
-        maxWidth: cardMaxWidth - marginLeft,
-        width: '100%',
-      }
-    }
-
-    return base
   },
 }))

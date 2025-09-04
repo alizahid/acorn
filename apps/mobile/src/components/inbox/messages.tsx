@@ -1,6 +1,6 @@
 import { FlashList, type FlashListRef } from '@shopify/flash-list'
 import { useRef } from 'react'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { type ListProps } from '~/hooks/list'
 import { useScrollToTop } from '~/hooks/scroll-top'
@@ -35,19 +35,19 @@ export function MessagesList({
 }: Props) {
   const { themeOled } = usePreferences()
 
+  styles.useVariants({
+    oled: themeOled,
+  })
+
   const list = useRef<FlashListRef<InboxMessage>>(null)
 
   useScrollToTop(list, listProps)
-
-  const { styles } = useStyles(stylesheet)
 
   return (
     <FlashList
       {...listProps}
       data={messages}
-      ItemSeparatorComponent={() => (
-        <View style={styles.separator(themeOled)} />
-      )}
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
       keyExtractor={(item) => item.id}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
@@ -65,9 +65,16 @@ export function MessagesList({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  separator: (oled: boolean) => ({
-    backgroundColor: oled ? theme.colors.gray.border : undefined,
-    height: oled ? 1 : theme.space[4],
-  }),
+const styles = StyleSheet.create((theme) => ({
+  separator: {
+    height: theme.space[4],
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: theme.colors.gray.border,
+          height: 1,
+        },
+      },
+    },
+  },
 }))

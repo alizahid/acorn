@@ -2,7 +2,7 @@ import { usePathname, useRouter } from 'expo-router'
 import { compact } from 'lodash'
 import { type ReactNode } from 'react'
 import { Alert, Share } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
+import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
@@ -37,7 +37,7 @@ export function PostMenu({ children, onPress, post }: Props) {
   const t = useTranslations('component.posts.menu')
   const a11y = useTranslations('a11y')
 
-  const { theme } = useStyles()
+  const { theme } = useUnistyles()
 
   const { vote } = usePostVote()
   const { save } = usePostSave()

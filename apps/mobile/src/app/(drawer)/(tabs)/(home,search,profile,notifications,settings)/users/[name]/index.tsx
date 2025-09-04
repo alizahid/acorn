@@ -1,16 +1,11 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useState } from 'react'
-import { type ViewStyle } from 'react-native'
 import { TabView } from 'react-native-tab-view'
-import {
-  createStyleSheet,
-  type UnistylesValues,
-  useStyles,
-} from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { Loading } from '~/components/common/loading'
 import { SearchBox } from '~/components/common/search'
 import { SegmentedControl } from '~/components/common/segmented-control'
@@ -54,7 +49,11 @@ export default function Screen() {
   const t = useTranslations('screen.users.user')
   const a11y = useTranslations('a11y')
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    iPad,
+    oled: themeOled,
+    tint: themeTint,
+  })
 
   const listProps = useList(ListFlags.ALL, {
     top: heights.notifications,
@@ -86,10 +85,7 @@ export default function Screen() {
           return (
             <PostList
               header={
-                <View
-                  direction="row"
-                  style={styles.header(themeOled, themeTint) as ViewStyle}
-                >
+                <View direction="row" style={styles.header}>
                   <SearchBox onChange={setQuery} value={query} />
 
                   <SortIntervalMenu
@@ -116,10 +112,7 @@ export default function Screen() {
         return (
           <PostList
             header={
-              <View
-                direction="row"
-                style={styles.header(themeOled, themeTint) as ViewStyle}
-              >
+              <View direction="row" style={styles.header}>
                 <SearchBox onChange={setQuery} value={query} />
 
                 <SortIntervalMenu
@@ -181,28 +174,38 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  header: (oled: boolean, tint: boolean) => {
-    const base: UnistylesValues = {
-      backgroundColor: oled
-        ? oledTheme[theme.name].bgAlpha
-        : theme.colors[tint ? 'accent' : 'gray'].bg,
-      borderBottomColor: theme.colors.gray.border,
-      borderBottomWidth: runtime.hairlineWidth,
-    }
-
-    if (iPad) {
-      return {
-        ...base,
-        marginBottom: theme.space[4],
-        marginHorizontal: -theme.space[4],
-        marginTop: -theme.space[4],
-      }
-    }
-
-    return base
+const styles = StyleSheet.create((theme) => ({
+  header: {
+    backgroundColor: theme.colors.gray.bg,
+    borderBottomColor: theme.colors.gray.border,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    variants: {
+      iPad: {
+        true: {
+          marginBottom: theme.space[4],
+          marginHorizontal: -theme.space[4],
+          marginTop: -theme.space[4],
+        },
+      },
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bgAlpha,
+        },
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.bg,
+        },
+      },
+    },
   },
   list: {
-    padding: iPad ? theme.space[4] : 0,
+    variants: {
+      iPad: {
+        true: {
+          padding: theme.space[4],
+        },
+      },
+    },
   },
 }))

@@ -8,7 +8,7 @@ import {
   type StyleProp,
   type ViewStyle,
 } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
@@ -40,8 +40,6 @@ export function Pressable({
   style,
   ...props
 }: Props) {
-  const { styles } = useStyles(stylesheet)
-
   return (
     <Component
       accessibilityHint={hint}
@@ -60,6 +58,6 @@ export function Pressable({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
-  main: getViewStyles(theme),
-}))
+const styles = StyleSheet.create({
+  main: getViewStyles,
+})

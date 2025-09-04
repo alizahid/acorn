@@ -1,7 +1,6 @@
 import { ImageBackground } from 'expo-image'
 import { type ReactNode } from 'react'
-import { StyleSheet } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -34,22 +33,20 @@ export function VideoPlaceholder({
 
   const { blurNsfw, blurSpoiler } = usePreferences()
 
-  const { styles, theme } = useStyles(stylesheet)
+  styles.useVariants({
+    large,
+  })
 
   if (compact) {
     return (
       <ImageBackground
         accessibilityIgnoresInvertColors
         source={thumbnail ?? video.thumbnail}
-        style={styles.compact(large)}
+        style={styles.compact}
       >
         {children ?? (
           <View align="center" justify="center" style={styles.compactIcon}>
-            <Icon
-              color={theme.colors.accent.accent}
-              name="Play"
-              weight="fill"
-            />
+            <Icon name="Play" weight="fill" />
 
             {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
               <GalleryBlur />
@@ -73,9 +70,10 @@ export function VideoPlaceholder({
           style={styles.video(video.width / video.height)}
         >
           <Icon
-            color={theme.colors.accent.accent}
             name="Play"
-            size={theme.space[9]}
+            uniProps={(theme) => ({
+              size: theme.space[9],
+            })}
             weight="fill"
           />
 
@@ -88,15 +86,26 @@ export function VideoPlaceholder({
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  compact: (large?: boolean) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
+  compact: {
     backgroundColor: theme.colors.gray.uiActive,
     borderCurve: 'continuous',
-    borderRadius: theme.space[large ? 2 : 1],
-    height: theme.space[8] * (large ? 2 : 1),
     overflow: 'hidden',
-    width: theme.space[8] * (large ? 2 : 1),
-  }),
+    variants: {
+      large: {
+        false: {
+          borderRadius: theme.space[1],
+          height: theme.space[8],
+          width: theme.space[8],
+        },
+        true: {
+          borderRadius: theme.space[2],
+          height: theme.space[8] * 2,
+          width: theme.space[8] * 2,
+        },
+      },
+    },
+  },
   compactIcon: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.black.accentAlpha,

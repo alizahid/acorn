@@ -3,13 +3,13 @@ import {
   type TextInputProps,
   type ViewStyle,
 } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { TextBox } from '~/components/common/text-box'
 
-import { IconButton } from './icon-button'
+import { IconButton } from './icon/button'
 
 type Props = {
   onChange?: (value: string) => void
@@ -29,8 +29,6 @@ export function SearchBox({
   const t = useTranslations('component.common.search')
   const a11y = useTranslations('a11y')
 
-  const { styles, theme } = useStyles(stylesheet)
-
   return (
     <TextBox
       autoCapitalize="none"
@@ -38,9 +36,11 @@ export function SearchBox({
       autoCorrect={false}
       left={
         <Icon
-          color={theme.colors.gray.accent}
           name="MagnifyingGlass"
           style={styles.icon}
+          uniProps={(theme) => ({
+            color: theme.colors.gray.accent,
+          })}
         />
       }
       onChangeText={onChange}
@@ -70,7 +70,7 @@ export function SearchBox({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   clear: {
     height: theme.space[7],
     width: theme.space[7],

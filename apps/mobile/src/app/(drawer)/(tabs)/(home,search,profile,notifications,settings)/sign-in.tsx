@@ -5,7 +5,7 @@ import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 import { Controller, useForm } from 'react-hook-form'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -31,8 +31,6 @@ export default function Screen() {
   const router = useRouter()
 
   const t = useTranslations('screen.auth.signIn')
-
-  const { styles } = useStyles(stylesheet)
 
   const { clientId, setClientId } = useAuth()
   const { isPending, signIn } = useSignIn()
@@ -88,7 +86,6 @@ export default function Screen() {
               {...field}
               autoCapitalize="none"
               autoCorrect={false}
-              code
               error={
                 fieldState.error ? t('form.field.clientId.error') : undefined
               }
@@ -99,6 +96,7 @@ export default function Screen() {
               placeholder={t('form.field.clientId.placeholder')}
               returnKeyType="go"
               style={styles.clientId}
+              variant="mono"
             />
           )}
         />
@@ -113,7 +111,7 @@ export default function Screen() {
       </View>
 
       <View gap="4">
-        <Text slow>
+        <Text>
           {t.rich('instructions', {
             link: (text) => (
               <Text
@@ -134,7 +132,7 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   clientId: {
     flex: 1,
   },

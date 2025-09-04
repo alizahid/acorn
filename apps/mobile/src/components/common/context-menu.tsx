@@ -46,39 +46,6 @@ import userDuotone from '~/assets/icons/user-duotone.png'
 import usersFourDuotone from '~/assets/icons/users-four-duotone.png'
 import { useFocused } from '~/hooks/focus'
 
-const icons = {
-  'arrow-bend-up-left-duotone': Image.resolveAssetSource(
-    arrowBendUpLeftDuotone,
-  ),
-  'arrow-fat-down-duotone': Image.resolveAssetSource(arrowFatDownDuotone),
-  'arrow-fat-up-duotone': Image.resolveAssetSource(arrowFatUpDuotone),
-  'bookmark-simple-duotone': Image.resolveAssetSource(bookmarkSimpleDuotone),
-  'box-arrow-down-duotone': Image.resolveAssetSource(boxArrowDownDuotone),
-  'chart-line-up-duotone': Image.resolveAssetSource(chartLineUpDuotone),
-  'chat-circle-duotone': Image.resolveAssetSource(chatCircleDuotone),
-  'clock-duotone': Image.resolveAssetSource(clockDuotone),
-  'compass-duotone': Image.resolveAssetSource(compassDuotone),
-  'copy-duotone': Image.resolveAssetSource(copyDuotone),
-  'download-duotone': Image.resolveAssetSource(downloadDuotone),
-  'eye-closed-duotone': Image.resolveAssetSource(eyeClosedDuotone),
-  'flag-duotone': Image.resolveAssetSource(flagDuotone),
-  'flame-duotone': Image.resolveAssetSource(flameDuotone),
-  'image-duotone': Image.resolveAssetSource(imageDuotone),
-  'link-duotone': Image.resolveAssetSource(linkDuotone),
-  'medal-duotone': Image.resolveAssetSource(medalDuotone),
-  'package-duotone': Image.resolveAssetSource(packageDuotone),
-  'pencil-duotone': Image.resolveAssetSource(pencilDuotone),
-  'ranking-duotone': Image.resolveAssetSource(rankingDuotone),
-  'share-duotone': Image.resolveAssetSource(shareDuotone),
-  'sword-duotone': Image.resolveAssetSource(swordDuotone),
-  'tag-duotone': Image.resolveAssetSource(tagDuotone),
-  'target-duotone': Image.resolveAssetSource(targetDuotone),
-  'textbox-duotone': Image.resolveAssetSource(textboxDuotone),
-  'trash-duotone': Image.resolveAssetSource(trashDuotone),
-  'user-duotone': Image.resolveAssetSource(userDuotone),
-  'users-four-duotone': Image.resolveAssetSource(usersFourDuotone),
-} as const
-
 export type MenuIconName = keyof typeof icons
 
 export type MenuIcon =
@@ -229,3 +196,36 @@ function findAction(
     }
   }
 }
+
+const icons = {
+  'arrow-bend-up-left-duotone': Image.resolveAssetSource(
+    arrowBendUpLeftDuotone,
+  ),
+  'arrow-fat-down-duotone': Image.resolveAssetSource(arrowFatDownDuotone),
+  'arrow-fat-up-duotone': Image.resolveAssetSource(arrowFatUpDuotone),
+  'bookmark-simple-duotone': Image.resolveAssetSource(bookmarkSimpleDuotone),
+  'box-arrow-down-duotone': Image.resolveAssetSource(boxArrowDownDuotone),
+  'chart-line-up-duotone': Image.resolveAssetSource(chartLineUpDuotone),
+  'chat-circle-duotone': Image.resolveAssetSource(chatCircleDuotone),
+  'clock-duotone': Image.resolveAssetSource(clockDuotone),
+  'compass-duotone': Image.resolveAssetSource(compassDuotone),
+  'copy-duotone': Image.resolveAssetSource(copyDuotone),
+  'download-duotone': Image.resolveAssetSource(downloadDuotone),
+  'eye-closed-duotone': Image.resolveAssetSource(eyeClosedDuotone),
+  'flag-duotone': Image.resolveAssetSource(flagDuotone),
+  'flame-duotone': Image.resolveAssetSource(flameDuotone),
+  'image-duotone': Image.resolveAssetSource(imageDuotone),
+  'link-duotone': Image.resolveAssetSource(linkDuotone),
+  'medal-duotone': Image.resolveAssetSource(medalDuotone),
+  'package-duotone': Image.resolveAssetSource(packageDuotone),
+  'pencil-duotone': Image.resolveAssetSource(pencilDuotone),
+  'ranking-duotone': Image.resolveAssetSource(rankingDuotone),
+  'share-duotone': Image.resolveAssetSource(shareDuotone),
+  'sword-duotone': Image.resolveAssetSource(swordDuotone),
+  'tag-duotone': Image.resolveAssetSource(tagDuotone),
+  'target-duotone': Image.resolveAssetSource(targetDuotone),
+  'textbox-duotone': Image.resolveAssetSource(textboxDuotone),
+  'trash-duotone': Image.resolveAssetSource(trashDuotone),
+  'user-duotone': Image.resolveAssetSource(userDuotone),
+  'users-four-duotone': Image.resolveAssetSource(usersFourDuotone),
+} as const

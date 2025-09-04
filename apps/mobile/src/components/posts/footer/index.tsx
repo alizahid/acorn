@@ -1,6 +1,5 @@
 import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
@@ -27,8 +26,6 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
   const a11y = useTranslations('a11y')
 
   const { hidePostActions } = usePreferences()
-
-  const { theme } = useStyles()
 
   const { vote } = usePostVote()
 
@@ -61,9 +58,7 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
       {hidePostActions ? null : (
         <View align="center" direction="row" gap="2">
           <FooterButton
-            color={
-              post.liked ? theme.colors.orange.accent : theme.colors.gray.text
-            }
+            color={post.liked === true ? 'orange' : undefined}
             fill={post.liked === true}
             icon="ArrowUp"
             label={a11y(post.liked ? 'removeUpvote' : 'upvote')}
@@ -77,11 +72,7 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
           />
 
           <FooterButton
-            color={
-              post.liked === false
-                ? theme.colors.violet.accent
-                : theme.colors.gray.text
-            }
+            color={post.liked === false ? 'violet' : undefined}
             fill={post.liked === false}
             icon="ArrowDown"
             label={a11y(post.liked === false ? 'removeDownvote' : 'downvote')}

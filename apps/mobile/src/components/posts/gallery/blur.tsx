@@ -1,28 +1,29 @@
-import { BlurView } from 'expo-blur'
-import { StyleSheet } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Icon } from '~/components/common/icon'
 import { Text } from '~/components/common/text'
+import { BlurView } from '~/components/native/blur-view'
 
 type Props = {
   label?: string
 }
 
 export function GalleryBlur({ label }: Props) {
-  const { styles, theme } = useStyles(stylesheet)
-
   return (
     <BlurView
       intensity={100}
       pointerEvents="none"
       style={styles.main}
-      tint={theme.name}
+      uniProps={(theme) => ({
+        tint: theme.variant,
+      })}
     >
       <Icon
-        color={theme.colors.gray.text}
         name="Warning"
-        size={theme.space[5]}
+        uniProps={(theme) => ({
+          color: theme.colors.gray.text,
+          size: theme.space[5],
+        })}
         weight="fill"
       />
 
@@ -35,7 +36,7 @@ export function GalleryBlur({ label }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   main: {
     ...StyleSheet.absoluteFillObject,
     alignItems: 'center',

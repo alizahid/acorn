@@ -1,16 +1,11 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useMemo } from 'react'
-import { type ViewStyle } from 'react-native'
-import {
-  createStyleSheet,
-  type UnistylesValues,
-  useStyles,
-} from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { FloatingButton } from '~/components/common/floating-button'
-import { IconButton } from '~/components/common/icon-button'
+import { IconButton } from '~/components/common/icon/button'
 import { SearchBox } from '~/components/common/search'
 import { View } from '~/components/common/view'
 import { type HeaderProps } from '~/components/navigation/header'
@@ -36,7 +31,11 @@ export default function Screen() {
 
   const { themeOled, themeTint } = usePreferences()
 
-  const { styles } = useStyles(stylesheet)
+  styles.useVariants({
+    iPad,
+    oled: themeOled,
+    tint: themeTint,
+  })
 
   const listProps = useList()
 
@@ -46,10 +45,7 @@ export default function Screen() {
     () => ({
       back: true,
       children: (
-        <View
-          direction="row"
-          style={styles.header(themeOled, themeTint) as ViewStyle}
-        >
+        <View direction="row" style={styles.header}>
           <SearchBox
             onSubmitEditing={(event) => {
               const query = event.nativeEvent.text
@@ -101,17 +97,7 @@ export default function Screen() {
       ),
       title: params.name,
     }),
-    [
-      a11y,
-      params.name,
-      router.push,
-      sorting.interval,
-      sorting.sort,
-      styles.header,
-      themeOled,
-      themeTint,
-      update,
-    ],
+    [a11y, params.name, router.push, sorting.interval, sorting.sort, update],
   )
 
   return (
@@ -141,27 +127,35 @@ export default function Screen() {
   )
 }
 
-const stylesheet = createStyleSheet((theme, runtime) => ({
-  header: (oled: boolean, tint: boolean) => {
-    const base: UnistylesValues = {
-      backgroundColor: oled
-        ? oledTheme[theme.name].bgAlpha
-        : theme.colors[tint ? 'accent' : 'gray'].bg,
-    }
-
-    if (oled) {
-      return {
-        ...base,
-        borderBottomColor: theme.colors.gray.border,
-        borderBottomWidth: runtime.hairlineWidth,
-      }
-    }
-
-    return base
+const styles = StyleSheet.create((theme) => ({
+  header: {
+    backgroundColor: theme.colors.gray.bg,
+    variants: {
+      oled: {
+        true: {
+          backgroundColor: oledTheme[theme.variant].bgAlpha,
+          borderBottomColor: theme.colors.gray.border,
+          borderBottomWidth: StyleSheet.hairlineWidth,
+        },
+      },
+      tint: {
+        true: {
+          backgroundColor: theme.colors.accent.bg,
+        },
+      },
+    },
   },
   list: {
-    paddingBottom: heights.floatingButton + (iPad ? theme.space[4] : 0),
-    paddingHorizontal: iPad ? theme.space[4] : undefined,
-    paddingTop: heights.header + (iPad ? theme.space[4] : 0),
+    paddingBottom: heights.floatingButton,
+    paddingTop: heights.header,
+    variants: {
+      iPad: {
+        true: {
+          paddingBottom: heights.floatingButton + theme.space[4],
+          paddingHorizontal: theme.space[4],
+          paddingTop: heights.header + theme.space[4],
+        },
+      },
+    },
   },
 }))

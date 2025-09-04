@@ -1,6 +1,6 @@
 import { Image } from 'expo-image'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { usePreferences } from '~/stores/preferences'
@@ -29,8 +29,6 @@ export function FlairCard({
   const t = useTranslations('component.posts.flair')
 
   const { showFlair } = usePreferences()
-
-  const { styles } = useStyles(stylesheet)
 
   const items = flair.filter((item) =>
     type === 'both' ? true : item.type === type,
@@ -90,7 +88,7 @@ export function FlairCard({
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   emoji: {
     height: theme.typography[1].lineHeight + theme.space[1],
     width: theme.typography[1].lineHeight + theme.space[1],

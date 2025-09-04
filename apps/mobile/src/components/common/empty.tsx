@@ -1,4 +1,3 @@
-import { useStyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon, type IconName, type IconWeight } from './icon'
@@ -15,15 +14,15 @@ type Props = {
 export function Empty({ color, icon = 'SmileySad', message, weight }: Props) {
   const t = useTranslations('component.common.empty')
 
-  const { theme } = useStyles()
-
   return (
     <View align="center" gap="4" justify="center" my="9" p="4">
       <Icon
-        color={color ?? theme.colors.accent.accent}
         name={icon}
-        size={theme.space[9]}
-        weight={weight ?? (theme.name === 'dark' ? 'fill' : 'regular')}
+        uniProps={(theme) => ({
+          color: color ?? theme.colors.accent.accent,
+          size: theme.space[9],
+          weight: weight ?? (theme.variant === 'dark' ? 'fill' : 'regular'),
+        })}
       />
 
       <Text weight="medium">{message ?? t('message')}</Text>

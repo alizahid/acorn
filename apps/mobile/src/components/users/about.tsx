@@ -1,6 +1,6 @@
 import { Image } from 'expo-image'
 import { ScrollView } from 'react-native'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useImagePlaceholder } from '~/hooks/image'
@@ -23,8 +23,6 @@ type Props = {
 
 export function UserAbout({ listProps, name }: Props) {
   const t = useTranslations('component.users.about')
-
-  const { styles } = useStyles(stylesheet)
 
   const { profile, refetch } = useProfile(name)
 
@@ -105,7 +103,7 @@ export function UserAbout({ listProps, name }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   banner: {
     aspectRatio: 1280 / 384,
     backgroundColor: theme.colors.gray.ui,

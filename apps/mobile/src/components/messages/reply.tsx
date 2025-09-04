@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { createStyleSheet, useStyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useReply } from '~/hooks/mutations/messages/reply'
 
-import { IconButton } from '../common/icon-button'
+import { IconButton } from '../common/icon/button'
 import { TextBox } from '../common/text-box'
 import { View } from '../common/view'
 
@@ -16,8 +16,6 @@ type Props = {
 export function ReplyCard({ id, user }: Props) {
   const t = useTranslations('component.messages.reply')
   const a11y = useTranslations('a11y')
-
-  const { styles } = useStyles(stylesheet)
 
   const { createReply, isPending } = useReply()
 
@@ -60,7 +58,7 @@ export function ReplyCard({ id, user }: Props) {
   )
 }
 
-const stylesheet = createStyleSheet((theme) => ({
+const styles = StyleSheet.create((theme) => ({
   content: {
     backgroundColor: 'transparent',
     borderRadius: 0,
