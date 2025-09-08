@@ -1,5 +1,13 @@
 # Changelog
 
+## Upcoming
+
+- added: auto themes
+- added: bottom tabs reordering
+- fixed: videos jumping
+- removed: hide seen posts
+- removed: messages
+
 ## Build 59
 
 - added: sticky header
