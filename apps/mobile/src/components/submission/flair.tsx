@@ -10,7 +10,7 @@ import { type Submission } from '~/types/submission'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
-import { SheetModal } from '../common/sheets/modal'
+import { Sheet } from '../common/sheet'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 
@@ -22,7 +22,7 @@ export function SubmissionFlair({ submission }: Props) {
   const t = useTranslations('component.submission.flair')
   const a11y = useTranslations('a11y')
 
-  const sheet = useRef<SheetModal>(null)
+  const sheet = useRef<Sheet>(null)
 
   const { control, setValue } = useFormContext<CreatePostForm>()
 
@@ -99,7 +99,12 @@ export function SubmissionFlair({ submission }: Props) {
               ) : null}
             </Pressable>
 
-            <SheetModal container="scroll" ref={sheet} title={t('title')}>
+            <Sheet.Root
+              // container="scroll"
+              ref={sheet}
+            >
+              <Sheet.Header title={t('title')} />
+
               {submission.flair.map((item) => (
                 <Pressable
                   align="center"
@@ -114,7 +119,7 @@ export function SubmissionFlair({ submission }: Props) {
                   onPress={() => {
                     setValue('flairId', item.id)
 
-                    sheet.current?.close()
+                    sheet.current?.dismiss()
                   }}
                   p="3"
                   style={item.id === field.value && styles.selected}
@@ -122,7 +127,7 @@ export function SubmissionFlair({ submission }: Props) {
                   <FlairCard flair={item} />
                 </Pressable>
               ))}
-            </SheetModal>
+            </Sheet.Root>
           </>
         )
       }}

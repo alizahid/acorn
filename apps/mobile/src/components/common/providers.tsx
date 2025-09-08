@@ -1,4 +1,3 @@
-import { BottomSheetModalProvider } from '@gorhom/bottom-sheet'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { StatusBar } from 'expo-status-bar'
 import { type ReactNode } from 'react'
@@ -27,36 +26,34 @@ export function Providers({ children }: Props) {
   return (
     <GestureHandlerRootView>
       <IntlProvider locale="en" messages={en} timeZone={timeZone}>
-        <BottomSheetModalProvider>
-          <KeyboardProvider>
-            <ThemeProvider>
-              <PersistQueryClientProvider
-                client={queryClient}
-                persistOptions={persistOptions}
-              >
-                <StatusBar
-                  style={
-                    theme.endsWith('light')
-                      ? 'dark'
-                      : theme.endsWith('dark')
-                        ? 'light'
-                        : 'auto'
-                  }
-                />
+        <KeyboardProvider>
+          <ThemeProvider>
+            <PersistQueryClientProvider
+              client={queryClient}
+              persistOptions={persistOptions}
+            >
+              <StatusBar
+                style={
+                  theme.endsWith('light')
+                    ? 'dark'
+                    : theme.endsWith('dark')
+                      ? 'light'
+                      : 'auto'
+                }
+              />
 
-                <FocusProvider>
-                  {children}
+              <FocusProvider>
+                {children}
 
-                  <Gallery.Root />
+                <Gallery.Root />
 
-                  <AccountSwitcher />
+                <AccountSwitcher />
 
-                  <Toast />
-                </FocusProvider>
-              </PersistQueryClientProvider>
-            </ThemeProvider>
-          </KeyboardProvider>
-        </BottomSheetModalProvider>
+                <Toast />
+              </FocusProvider>
+            </PersistQueryClientProvider>
+          </ThemeProvider>
+        </KeyboardProvider>
       </IntlProvider>
     </GestureHandlerRootView>
   )

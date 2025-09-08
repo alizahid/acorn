@@ -15,7 +15,7 @@ type Props = {
   titleStyle?: StyleProp<TextStyle>
 }
 
-export function SheetHeader({ left, right, style, title, titleStyle }: Props) {
+export function ListHeader({ left, right, style, title, titleStyle }: Props) {
   const { themeOled, themeTint } = usePreferences()
 
   styles.useVariants({

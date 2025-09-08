@@ -5,8 +5,8 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
+import { ListItem } from '~/components/common/list/item'
 import { Menu } from '~/components/common/menu'
-import { SheetItem } from '~/components/common/sheets/item'
 import { Switch } from '~/components/common/switch'
 import { Text } from '~/components/common/text'
 import { DraggableItem } from '~/components/defaults/draggable-item'
@@ -29,7 +29,7 @@ export default function Screen() {
       <FlatList
         data={FeedType}
         renderItem={({ item }) => (
-          <SheetItem
+          <ListItem
             icon={
               <Icon
                 name={FeedTypeIcons[item]}

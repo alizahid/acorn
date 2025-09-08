@@ -15,8 +15,7 @@ import {
 import { Icon } from '../common/icon'
 import { SymbolIcon } from '../common/icon/symbol'
 import { Pressable } from '../common/pressable'
-import { SheetItem } from '../common/sheets/item'
-import { SheetModal } from '../common/sheets/modal'
+import { Sheet } from '../common/sheet'
 
 export type SortIntervalMenuData<Type extends SortType> = {
   interval?: TopInterval
@@ -45,8 +44,8 @@ export function SortIntervalMenu<Type extends SortType>({
   const t = useTranslations('component.common')
   const a11y = useTranslations('a11y')
 
-  const sheetSort = useRef<SheetModal>(null)
-  const sheetInterval = useRef<SheetModal>(null)
+  const sheetSort = useRef<Sheet>(null)
+  const sheetInterval = useRef<Sheet>(null)
 
   const items =
     type === 'comment'
@@ -102,10 +101,13 @@ export function SortIntervalMenu<Type extends SortType>({
         />
       </Pressable>
 
-      <SheetModal container="view" ref={sheetSort} title={t('sort.title')}>
+      <Sheet.Root ref={sheetSort}>
+        <Sheet.Header title={t('sort.title')} />
         {items.map((item) => (
-          <SheetItem
-            icon={
+          <Sheet.Item
+            key={item}
+            label={t(`sort.${item}`)}
+            left={
               <Icon
                 name={SortIcons[item]}
                 uniProps={(theme) => ({
@@ -113,9 +115,7 @@ export function SortIntervalMenu<Type extends SortType>({
                 })}
               />
             }
-            key={item}
-            label={t(`sort.${item}`)}
-            navigate={item === 'top'}
+            // navigate={item === 'top'}
             onPress={() => {
               if (item === 'top') {
                 sheetInterval.current?.present()
@@ -132,15 +132,13 @@ export function SortIntervalMenu<Type extends SortType>({
             selected={item === sort}
           />
         ))}
-      </SheetModal>
+      </Sheet.Root>
 
-      <SheetModal
-        container="view"
-        ref={sheetInterval}
-        title={t('interval.title')}
-      >
+      <Sheet.Root ref={sheetInterval}>
+        <Sheet.Header title={t('interval.title')} />
+
         {TopInterval.map((item) => (
-          <SheetItem
+          <Sheet.Item
             key={item}
             label={t(`interval.${item}`)}
             left={
@@ -163,7 +161,7 @@ export function SortIntervalMenu<Type extends SortType>({
             selected={sort === 'top' && item === interval}
           />
         ))}
-      </SheetModal>
+      </Sheet.Root>
     </>
   )
 }

@@ -4,8 +4,7 @@ import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 
-import { SheetItem } from '../../sheets/item'
-import { SheetModal } from '../../sheets/modal'
+import { Sheet } from '../../sheet'
 import { MenuLabel } from '../label'
 import { MenuSeparator } from '../separator'
 import { MenuItemContent } from './content'
@@ -48,7 +47,7 @@ export function MenuItemOptions<Type extends string | number>({
   title,
   value,
 }: Props<Type>) {
-  const sheet = useRef<SheetModal>(null)
+  const sheet = useRef<Sheet>(null)
 
   const selected = useMemo(() => {
     const item = options
@@ -90,11 +89,9 @@ export function MenuItemOptions<Type extends string | number>({
         />
       </Pressable>
 
-      <SheetModal
-        container={options.length > 10 ? 'scroll' : 'view'}
-        ref={sheet}
-        title={title ?? label}
-      >
+      <Sheet.Root ref={sheet}>
+        <Sheet.Header title={title ?? label} />
+
         {options.map((option) => {
           if (option === null) {
             return <MenuSeparator />
@@ -105,12 +102,10 @@ export function MenuItemOptions<Type extends string | number>({
           }
 
           return (
-            <SheetItem
-              icon={option.icon}
+            <Sheet.Item
               key={option.value}
               label={option.label}
-              labelStyle={option.labelStyle}
-              left={option.left}
+              left={option.icon ?? option.left}
               onPress={() => {
                 onChange(option.value)
 
@@ -122,7 +117,7 @@ export function MenuItemOptions<Type extends string | number>({
             />
           )
         })}
-      </SheetModal>
+      </Sheet.Root>
     </>
   )
 }

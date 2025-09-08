@@ -4,7 +4,7 @@ import { useTranslations } from 'use-intl'
 
 import { CheckIcon } from '~/components/common/icon/check'
 import { Pressable } from '~/components/common/pressable'
-import { SheetModal } from '~/components/common/sheets/modal'
+import { Sheet } from '~/components/common/sheet'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { getThemeName } from '~/lib/theme'
@@ -22,7 +22,7 @@ type Props = {
 export function Themes({ onChange, value }: Props) {
   const t = useTranslations('screen.settings.appearance')
 
-  const modal = useRef<SheetModal>(null)
+  const modal = useRef<Sheet>(null)
 
   return (
     <>
@@ -44,7 +44,9 @@ export function Themes({ onChange, value }: Props) {
         }}
       />
 
-      <SheetModal ref={modal} title={t('themes.title')}>
+      <Sheet.Root ref={modal}>
+        <Sheet.Header title={t('themes.title')} />
+
         {(
           [
             {
@@ -145,7 +147,7 @@ export function Themes({ onChange, value }: Props) {
             </View>
           </View>
         ))}
-      </SheetModal>
+      </Sheet.Root>
     </>
   )
 }

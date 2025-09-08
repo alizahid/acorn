@@ -22,8 +22,8 @@ import { FeedType } from '~/types/sort'
 
 import { Empty } from '../common/empty'
 import { IconButton } from '../common/icon/button'
-import { SheetHeader } from '../common/sheets/header'
-import { SheetItem } from '../common/sheets/item'
+import { ListHeader } from '../common/list/header'
+import { ListItem } from '../common/list/item'
 import { Spinner } from '../common/spinner'
 import { type AlphabetItem, AlphabetList } from './alphabet'
 
@@ -230,7 +230,7 @@ export function CommunitiesList({
 
         if (item.type === 'type') {
           return (
-            <SheetItem
+            <ListItem
               icon={
                 <Icon
                   name={FeedTypeIcons[item.data]}
@@ -268,7 +268,7 @@ export function CommunitiesList({
         if (item.type === 'feed') {
           return (
             <>
-              <SheetItem
+              <ListItem
                 label={item.data.name}
                 left={
                   <Image
@@ -317,7 +317,7 @@ export function CommunitiesList({
                     )
 
                     return (
-                      <SheetItem
+                      <ListItem
                         key={community}
                         label={community}
                         left={
@@ -349,7 +349,7 @@ export function CommunitiesList({
         }
 
         return (
-          <SheetItem
+          <ListItem
             label={item.data.name}
             left={
               <Image
@@ -439,7 +439,7 @@ export function CommunitiesList({
               />
             ) : undefined}
 
-            <SheetHeader
+            <ListHeader
               left={
                 section.loading ? (
                   <View align="center" height="8" justify="center" width="8">

@@ -7,7 +7,7 @@ import { useTranslations } from 'use-intl'
 import { useAuth } from '~/stores/auth'
 
 import { IconButton } from '../common/icon/button'
-import { SheetModal } from '../common/sheets/modal'
+import { Sheet } from '../common/sheet'
 import { AccountCard } from './account'
 
 export const switcher = mitt<{
@@ -22,7 +22,7 @@ export function AccountSwitcher() {
 
   const { accountId, accounts, removeAccount, reorder, setAccount } = useAuth()
 
-  const sheet = useRef<SheetModal>(null)
+  const sheet = useRef<Sheet>(null)
 
   useEffect(() => {
     switcher.on('open', () => {
@@ -35,27 +35,28 @@ export function AccountSwitcher() {
   }, [])
 
   return (
-    <SheetModal
-      ref={sheet}
-      right={
-        <IconButton
-          icon={{
-            color: 'green',
-            name: 'PlusCircle',
-          }}
-          label={a11y('addAccount')}
-          onPress={() => {
-            router.push({
-              params: {
-                mode: 'dismissible',
-              },
-              pathname: '/sign-in',
-            })
-          }}
-        />
-      }
-      title={t('title')}
-    >
+    <Sheet.Root ref={sheet}>
+      <Sheet.Header
+        right={
+          <IconButton
+            icon={{
+              color: 'green',
+              name: 'PlusCircle',
+            }}
+            label={a11y('addAccount')}
+            onPress={() => {
+              router.push({
+                params: {
+                  mode: 'dismissible',
+                },
+                pathname: '/sign-in',
+              })
+            }}
+          />
+        }
+        title={t('title')}
+      />
+
       <ReorderableList
         data={accounts}
         onReorder={(event) => {
@@ -81,6 +82,6 @@ export function AccountSwitcher() {
         )}
         scrollEnabled={false}
       />
-    </SheetModal>
+    </Sheet.Root>
   )
 }

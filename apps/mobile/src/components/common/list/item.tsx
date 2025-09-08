@@ -20,7 +20,7 @@ type Props = {
   style?: StyleProp<ViewStyle>
 }
 
-export function SheetItem({
+export function ListItem({
   icon,
   label,
   labelStyle,
