@@ -179,6 +179,9 @@ const styles = StyleSheet.create((theme) => ({
     paddingHorizontal: theme.space[3],
     variants: {
       multiline: {
+        default: {
+          height: theme.space[7],
+        },
         false: {
           height: theme.space[7],
         },
