@@ -205,8 +205,8 @@ export function PostList({
               setViewing(() => viewableItems.map((item) => item.key))
             },
             viewabilityConfig: {
-              itemVisiblePercentThreshold: 60,
               minimumViewTime: 0,
+              viewAreaCoveragePercentThreshold: 60,
               waitForInteraction: false,
             },
           },
@@ -228,9 +228,9 @@ export function PostList({
               }
             },
             viewabilityConfig: {
-              itemVisiblePercentThreshold: 100,
               minimumViewTime:
                 usePreferences.getState().seenOnScrollDelay * 1000,
+              viewAreaCoveragePercentThreshold: 60,
               waitForInteraction: false,
             },
           },
