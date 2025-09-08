@@ -6,8 +6,10 @@ import { StyleSheet } from 'react-native-unistyles'
 
 import { Icon, type IconName } from '~/components/common/icon'
 import { iPad, tintDark, tintLight } from '~/lib/common'
+import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
+import { type BottomTab } from '~/types/defaults'
 
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
@@ -19,6 +21,7 @@ type Props = BottomTabBarProps
 export function TabBar({ descriptors, navigation, state }: Props) {
   const router = useRouter()
 
+  const { tabs } = useDefaults()
   const { blurNavigation, themeOled, themeTint } = usePreferences()
 
   styles.useVariants({
@@ -45,33 +48,43 @@ export function TabBar({ descriptors, navigation, state }: Props) {
           tint: theme.variant === 'dark' ? tintDark : tintLight,
         })}
       >
-        {state.routes
-          .filter((route) => route.name.startsWith('('))
-          .map((route, index) => {
-            const options = descriptors[route.key]?.options
-            const focused = state.index === index
+        {tabs
+          .filter((tab) => !tab.disabled)
+          .map((tab) => {
+            const item = state.routes.find((route) => route.name === tab.key)
 
-            const icon = icons[route.name]
+            const options = item ? descriptors[item.key]?.options : undefined
+            const focused = state.routeNames[state.index] === tab.key
+
+            const icon = icons[tab.key]
 
             return (
               <Pressable
-                key={route.key}
+                key={tab.key}
                 label={options?.title ?? 'Tab'}
                 onLongPress={() => {
+                  if (!item) {
+                    return
+                  }
+
                   navigation.emit({
-                    target: route.key,
+                    target: item.key,
                     type: 'tabLongPress',
                   })
                 }}
                 onPress={() => {
+                  if (!item) {
+                    return
+                  }
+
                   const event = navigation.emit({
                     canPreventDefault: true,
-                    target: route.key,
+                    target: item.key,
                     type: 'tabPress',
                   })
 
                   if (!(focused || event.defaultPrevented)) {
-                    navigation.navigate(route.name, route.params)
+                    navigation.navigate(item.name, item.params)
                   }
                 }}
                 state={{
@@ -178,7 +191,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
 }))
 
-const icons: Record<string, IconName> = {
+const icons: Record<BottomTab, IconName> = {
   '(home)': 'House',
   '(notifications)': 'Bell',
   '(profile)': 'UserCircle',

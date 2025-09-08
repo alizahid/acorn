@@ -18,7 +18,7 @@ import { FeedType } from '~/types/sort'
 export default function Screen() {
   const t = useTranslations('screen.settings.defaults')
 
-  const { drawerSections, feedType, searchTabs, update } = useDefaults()
+  const { drawerSections, feedType, searchTabs, tabs, update } = useDefaults()
 
   const listProps = useList()
 
@@ -57,11 +57,50 @@ export default function Screen() {
         style={styles.list}
       />
 
+      <Menu.Label mt="6">{t('tabs.title')}</Menu.Label>
+
+      <ReorderableList
+        data={tabs}
+        keyExtractor={(item) => item.key}
+        onReorder={(event) => {
+          const next = reorderItems(tabs, event.from, event.to)
+
+          update({
+            tabs: next,
+          })
+        }}
+        renderItem={({ index, item }) => (
+          <DraggableItem
+            label={t(`tabs.${item.key}`)}
+            onChange={(value) => {
+              const next = create(tabs, (draft) => {
+                if (draft[index]) {
+                  draft[index].disabled = !value
+                }
+              })
+
+              const disabled = next.filter(($item) => $item.disabled)
+
+              if (disabled.length === tabs.length) {
+                return
+              }
+
+              update({
+                tabs: next,
+              })
+            }}
+            value={!item.disabled}
+          />
+        )}
+        scrollEnabled={false}
+        style={styles.list}
+      />
+
       <Menu.Label mt="6">{t('searchTabs.title')}</Menu.Label>
 
       <ReorderableList
         data={searchTabs}
-        extraData={searchTabs}
+        keyExtractor={(item) => item.key}
         onReorder={(event) => {
           const next = reorderItems(searchTabs, event.from, event.to)
 
@@ -105,7 +144,7 @@ export default function Screen() {
 
       <ReorderableList
         data={drawerSections}
-        extraData={drawerSections}
+        keyExtractor={(item) => item.key}
         onReorder={(event) => {
           const next = reorderItems(drawerSections, event.from, event.to)
 
