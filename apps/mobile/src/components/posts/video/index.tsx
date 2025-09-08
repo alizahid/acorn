@@ -58,18 +58,20 @@ export function PostVideoCard({
         thumbnail={thumbnail}
         video={video}
       >
-        <VideoPlayer
-          compact={compact}
-          large={large}
-          nsfw={nsfw}
-          recyclingKey={recyclingKey}
-          source={video.url}
-          spoiler={spoiler}
-          style={style}
-          thumbnail={thumbnail}
-          video={video}
-          viewing={viewing}
-        />
+        {viewing ? (
+          <VideoPlayer
+            compact={compact}
+            large={large}
+            nsfw={nsfw}
+            recyclingKey={recyclingKey}
+            source={video.url}
+            spoiler={spoiler}
+            style={style}
+            thumbnail={thumbnail}
+            video={video}
+            viewing={viewing}
+          />
+        ) : null}
       </VideoPlaceholder>
     )
   }
