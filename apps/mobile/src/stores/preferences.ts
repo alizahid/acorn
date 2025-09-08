@@ -43,7 +43,6 @@ export type PreferencesPayload = {
   fontSizePostTitle: TypographyToken
   hapticsLoud: boolean
   hidePostActions: boolean
-  hideSeen: boolean
   infiniteScrolling: boolean
   intervalCommunityPosts: TopInterval
   intervalFeedPosts: TopInterval
@@ -110,7 +109,6 @@ export const usePreferences = create<State>()(
       fontSizePostTitle: '3',
       hapticsLoud: false,
       hidePostActions: false,
-      hideSeen: false,
       infiniteScrolling: true,
       intervalCommunityPosts: 'hour',
       intervalFeedPosts: 'hour',

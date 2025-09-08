@@ -27,7 +27,6 @@ export default function Screen() {
     feedMuted,
     hapticsLoud,
     hidePostActions,
-    hideSeen,
     infiniteScrolling,
     linkBrowser,
     oldReddit,
@@ -414,18 +413,6 @@ export default function Screen() {
             })
           }}
           value={dimSeen}
-        />
-
-        <Menu.Switch
-          description={t('history.hideSeen.description')}
-          icon={<Icon name="Eye" />}
-          label={t('history.hideSeen.label')}
-          onChange={(next) => {
-            update({
-              hideSeen: next,
-            })
-          }}
-          value={hideSeen}
         />
 
         <Menu.Separator />
