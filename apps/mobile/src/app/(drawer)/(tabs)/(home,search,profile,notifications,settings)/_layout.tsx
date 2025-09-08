@@ -108,7 +108,7 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="notifications"
           options={{
-            headerShown: false,
+            title: t('notifications.title'),
           }}
         />
 

@@ -5,7 +5,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { type ListProps } from '~/hooks/list'
 import { useScrollToTop } from '~/hooks/scroll-top'
 import { usePreferences } from '~/stores/preferences'
-import { type InboxNotification } from '~/types/inbox'
+import { type Notification } from '~/types/inbox'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -19,8 +19,8 @@ type Props = {
   hasNextPage: boolean
   isFetchingNextPage: boolean
   isLoading: boolean
-  listProps?: ListProps<InboxNotification>
-  notifications: Array<InboxNotification>
+  listProps?: ListProps<Notification>
+  notifications: Array<Notification>
   refetch: () => Promise<unknown>
 }
 
@@ -39,7 +39,7 @@ export function NotificationsList({
     oled: themeOled,
   })
 
-  const list = useRef<FlashListRef<InboxNotification>>(null)
+  const list = useRef<FlashListRef<Notification>>(null)
 
   useScrollToTop(list, listProps)
 

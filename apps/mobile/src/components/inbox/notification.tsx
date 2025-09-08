@@ -6,7 +6,7 @@ import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type ColorToken, ColorTokens } from '~/styles/tokens'
-import { type InboxNotification, type NotificationType } from '~/types/inbox'
+import { type Notification, type NotificationType } from '~/types/inbox'
 
 import { Icon, type IconName } from '../common/icon'
 import { Markdown } from '../common/markdown'
@@ -15,7 +15,7 @@ import { Text } from '../common/text'
 import { View } from '../common/view'
 
 type Props = {
-  notification: InboxNotification
+  notification: Notification
 }
 
 export function NotificationCard({ notification }: Props) {
