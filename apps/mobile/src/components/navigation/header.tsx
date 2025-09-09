@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router'
+import { usePathname, useRouter } from 'expo-router'
 import { type ReactNode, useEffect, useState } from 'react'
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -38,6 +38,7 @@ export function Header({
   const insets = useSafeAreaInsets()
 
   const router = useRouter()
+  const path = usePathname()
 
   const a11y = useTranslations('a11y')
 
@@ -70,6 +71,10 @@ export function Header({
       mitter.off('hide-nav', onHide)
     }
   }, [])
+
+  useEffect(() => {
+    setVisible(Boolean(path))
+  }, [path])
 
   const style = useAnimatedStyle(() => ({
     transform: [

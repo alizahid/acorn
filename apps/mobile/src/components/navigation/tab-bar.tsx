@@ -1,5 +1,5 @@
 import { type BottomTabBarProps } from '@bottom-tabs/react-navigation'
-import { useRouter } from 'expo-router'
+import { usePathname, useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
@@ -30,6 +30,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
   const insets = useSafeAreaInsets()
 
   const router = useRouter()
+  const path = usePathname()
 
   const { tabs } = useDefaults()
   const { blurNavigation, themeOled, themeTint } = usePreferences()
@@ -66,6 +67,10 @@ export function TabBar({ descriptors, navigation, state }: Props) {
       mitter.off('hide-nav', onHide)
     }
   }, [])
+
+  useEffect(() => {
+    setVisible(Boolean(path))
+  }, [path])
 
   const style = useAnimatedStyle(() => ({
     transform: [
