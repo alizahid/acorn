@@ -115,7 +115,6 @@ export function SortIntervalMenu<Type extends SortType>({
                 })}
               />
             }
-            // navigate={item === 'top'}
             onPress={() => {
               if (item === 'top') {
                 sheetInterval.current?.present()
@@ -129,38 +128,49 @@ export function SortIntervalMenu<Type extends SortType>({
 
               sheetSort.current?.dismiss()
             }}
+            right={
+              item === 'top' ? (
+                <Icon
+                  name="CaretRight"
+                  uniProps={(theme) => ({
+                    color: theme.colors.gray.accent,
+                    size: theme.space[4],
+                  })}
+                />
+              ) : undefined
+            }
             selected={item === sort}
           />
         ))}
-      </Sheet.Root>
 
-      <Sheet.Root ref={sheetInterval}>
-        <Sheet.Header title={t('interval.title')} />
+        <Sheet.Root ref={sheetInterval}>
+          <Sheet.Header title={t('interval.title')} />
 
-        {TopInterval.map((item) => (
-          <Sheet.Item
-            key={item}
-            label={t(`interval.${item}`)}
-            left={
-              <SymbolIcon
-                name={IntervalIcons[item]}
-                uniProps={($theme) => ({
-                  tintColor: $theme.colors.gold.accent,
-                })}
-              />
-            }
-            onPress={() => {
-              onChange({
-                interval: item,
-                sort: 'top' as SortIntervalMenuData<Type>['sort'],
-              })
+          {TopInterval.map((item) => (
+            <Sheet.Item
+              key={item}
+              label={t(`interval.${item}`)}
+              left={
+                <SymbolIcon
+                  name={IntervalIcons[item]}
+                  uniProps={($theme) => ({
+                    tintColor: $theme.colors.gold.accent,
+                  })}
+                />
+              }
+              onPress={() => {
+                onChange({
+                  interval: item,
+                  sort: 'top' as SortIntervalMenuData<Type>['sort'],
+                })
 
-              sheetInterval.current?.dismiss()
-              sheetSort.current?.dismiss()
-            }}
-            selected={sort === 'top' && item === interval}
-          />
-        ))}
+                sheetInterval.current?.dismiss()
+                sheetSort.current?.dismiss()
+              }}
+              selected={sort === 'top' && item === interval}
+            />
+          ))}
+        </Sheet.Root>
       </Sheet.Root>
     </>
   )
