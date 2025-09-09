@@ -214,7 +214,7 @@ function generateSchema(
           ),
         type: z.literal('text'),
       })
-      .merge(base),
+      .extend(base),
     z
       .object({
         type: z.literal('link'),
@@ -251,7 +251,7 @@ function generateSchema(
             }),
           ),
       })
-      .merge(base),
+      .extend(base),
     z
       .object({
         type: z.literal('image'),
@@ -264,7 +264,7 @@ function generateSchema(
             return host === 'reddit-uploaded-media.s3-accelerate.amazonaws.com'
           }, t('image.error.url')),
       })
-      .merge(base),
+      .extend(base),
   ])
 }
 
