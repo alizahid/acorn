@@ -1,17 +1,19 @@
-import { useLocalSearchParams } from 'expo-router'
-import { useMemo, useState } from 'react'
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+} from 'expo-router'
+import { useCallback, useState } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
-import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { SearchBox } from '~/components/common/search'
 import { View } from '~/components/common/view'
-import { type HeaderProps } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
-import { heights, iPad } from '~/lib/common'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { UserFeedType } from '~/types/user'
@@ -24,9 +26,8 @@ const schema = z.object({
 export type UserPostsParams = z.infer<typeof schema>
 
 export default function Screen() {
+  const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
-
-  const t = useTranslations('screen.profile')
 
   const { intervalUserPosts, sortUserPosts, themeOled, themeTint } =
     usePreferences()
@@ -45,40 +46,38 @@ export default function Screen() {
 
   const [debounced] = useDebounce(query, 500)
 
-  const sticky = useMemo<HeaderProps>(
-    () => ({
-      back: true,
-      children: (
-        <View direction="row" style={styles.header}>
-          <SearchBox onChange={setQuery} value={query} />
-        </View>
-      ),
-      right: (
-        <SortIntervalMenu
-          interval={interval}
-          onChange={(next) => {
-            setSort(next.sort)
+  useFocusEffect(
+    useCallback(() => {
+      navigation.setOptions({
+        headerRight: () => (
+          <SortIntervalMenu
+            interval={interval}
+            onChange={(next) => {
+              setSort(next.sort)
 
-            if (next.interval) {
-              setInterval(next.interval)
-            }
-          }}
-          sort={sort}
-          type="user"
-        />
-      ),
-      title: t(params.type),
-    }),
-    [params.type, query, t, interval, sort],
+              if (next.interval) {
+                setInterval(next.interval)
+              }
+            }}
+            sort={sort}
+            type="user"
+          />
+        ),
+      })
+    }, [interval, navigation.setOptions, sort]),
   )
 
   return (
     <PostList
+      header={
+        <View direction="row" style={styles.header}>
+          <SearchBox onChange={setQuery} value={query} />
+        </View>
+      }
       interval={interval}
       listProps={listProps}
       query={debounced}
       sort={sort}
-      sticky={sticky}
       style={styles.list}
       user={params.name}
       userType={params.type}
@@ -105,13 +104,12 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   list: {
-    paddingTop: heights.header,
     variants: {
       iPad: {
         true: {
           paddingBottom: theme.space[4],
           paddingHorizontal: theme.space[4],
-          paddingTop: heights.header + theme.space[4],
+          paddingTop: theme.space[4],
         },
       },
     },

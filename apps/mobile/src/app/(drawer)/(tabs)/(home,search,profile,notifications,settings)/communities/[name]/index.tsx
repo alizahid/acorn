@@ -1,14 +1,11 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
-import { useMemo } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { FloatingButton } from '~/components/common/floating-button'
-import { IconButton } from '~/components/common/icon/button'
 import { SearchBox } from '~/components/common/search'
 import { View } from '~/components/common/view'
-import { type HeaderProps } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
@@ -41,73 +38,45 @@ export default function Screen() {
 
   const { sorting, update } = useSorting('community', params.name)
 
-  const sticky = useMemo<HeaderProps>(
-    () => ({
-      back: true,
-      children: (
-        <View direction="row" style={styles.header}>
-          <SearchBox
-            onSubmitEditing={(event) => {
-              const query = event.nativeEvent.text
-
-              if (query.length > 2) {
-                router.push({
-                  params: {
-                    name: params.name,
-                    query,
-                  },
-                  pathname: '/communities/[name]/search',
-                })
-              }
-            }}
-            placeholder="search"
-          />
-
-          <SortIntervalMenu
-            interval={sorting.interval}
-            onChange={(next) => {
-              update({
-                interval: next.interval,
-                sort: next.sort,
-              })
-            }}
-            sort={sorting.sort}
-            type="community"
-          />
-        </View>
-      ),
-      right: (
-        <IconButton
-          icon={{
-            name: 'Info',
-            weight: 'duotone',
-          }}
-          label={a11y('aboutCommunity', {
-            community: params.name,
-          })}
-          onPress={() => {
-            router.push({
-              params: {
-                name: params.name,
-              },
-              pathname: '/communities/[name]/about',
-            })
-          }}
-        />
-      ),
-      title: params.name,
-    }),
-    [a11y, params.name, router.push, sorting.interval, sorting.sort, update],
-  )
-
   return (
     <>
       <PostList
         community={params.name}
+        header={
+          <View direction="row" style={styles.header}>
+            <SearchBox
+              onSubmitEditing={(event) => {
+                const query = event.nativeEvent.text
+
+                if (query.length > 2) {
+                  router.push({
+                    params: {
+                      name: params.name,
+                      query,
+                    },
+                    pathname: '/communities/[name]/search',
+                  })
+                }
+              }}
+              placeholder="search"
+            />
+
+            <SortIntervalMenu
+              interval={sorting.interval}
+              onChange={(next) => {
+                update({
+                  interval: next.interval,
+                  sort: next.sort,
+                })
+              }}
+              sort={sorting.sort}
+              type="community"
+            />
+          </View>
+        }
         interval={sorting.interval}
         listProps={listProps}
         sort={sorting.sort}
-        sticky={sticky}
         style={styles.list}
       />
 
@@ -147,13 +116,12 @@ const styles = StyleSheet.create((theme) => ({
   },
   list: {
     paddingBottom: heights.floatingButton,
-    paddingTop: heights.header,
     variants: {
       iPad: {
         true: {
           paddingBottom: heights.floatingButton + theme.space[4],
           paddingHorizontal: theme.space[4],
-          paddingTop: heights.header + theme.space[4],
+          paddingTop: theme.space[4],
         },
       },
     },

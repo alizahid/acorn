@@ -6,7 +6,6 @@ import {
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef, useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import Animated from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -18,7 +17,7 @@ import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { useScrollToTop } from '~/hooks/scroll-top'
-import { useStickyHeader } from '~/hooks/sticky-header'
+import { useStickyNav } from '~/hooks/sticky-nav'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -29,8 +28,6 @@ import { Button } from '../common/button'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
-import { type HeaderProps } from '../navigation/header'
-import { StickyHeader } from '../navigation/sticky-header'
 
 type Item = Post | Comment
 
@@ -38,11 +35,8 @@ type Props = PostsProps & {
   header?: ReactElement
   listProps?: ListProps<Item>
   onRefresh?: () => void
-  sticky?: HeaderProps
   style?: StyleProp<ViewStyle>
 }
-
-const List = Animated.createAnimatedComponent(FlashList<Item>)
 
 export function PostList({
   community,
@@ -53,7 +47,6 @@ export function PostList({
   onRefresh,
   query,
   sort,
-  sticky,
   style,
   user,
   userType,
@@ -97,7 +90,7 @@ export function PostList({
 
   const [viewing, setViewing] = useState<Array<string>>([])
 
-  const { onScroll, visible } = useStickyHeader()
+  const sticky = useStickyNav()
 
   const renderItem: ListRenderItem<Item> = useCallback(
     ({ item }) => {
@@ -133,110 +126,102 @@ export function PostList({
     [focused, router, viewing],
   )
 
-  const Component = sticky ? List : FlashList<Item>
-
   return (
-    <>
-      {sticky ? <StickyHeader visible={visible} {...sticky} /> : null}
-
-      <Component
-        {...listProps}
-        contentContainerStyle={style}
-        data={posts}
-        extraData={{
-          focused,
-          viewing,
-        }}
-        getItemType={(item) => item.type}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
-        keyExtractor={(item) => {
-          if (item.type === 'reply') {
-            return `reply-${item.data.id}`
-          }
-
-          if (item.type === 'more') {
-            return `more-${item.data.id}`
-          }
-
-          return item.id
-        }}
-        ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
-        ListFooterComponent={() =>
-          isFetchingNextPage ? (
-            <Spinner style={styles.spinner} />
-          ) : infiniteScrolling ? null : hasNextPage ? (
-            <Button
-              label={t('more')}
-              onPress={() => {
-                fetchNextPage()
-              }}
-              style={styles.more}
-            />
-          ) : null
+    <FlashList
+      {...listProps}
+      {...sticky}
+      contentContainerStyle={style}
+      data={posts}
+      extraData={{
+        focused,
+        viewing,
+      }}
+      getItemType={(item) => item.type}
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
+      keyExtractor={(item) => {
+        if (item.type === 'reply') {
+          return `reply-${item.data.id}`
         }
-        ListHeaderComponent={header}
-        maintainVisibleContentPosition={{
-          disabled: true,
-        }}
-        onEndReached={() => {
-          if (!infiniteScrolling) {
-            return
-          }
 
-          if (hasNextPage) {
-            fetchNextPage()
-          }
-        }}
-        onScroll={sticky ? onScroll : undefined}
-        ref={list}
-        refreshControl={
-          <RefreshControl
-            onRefresh={() => {
-              onRefresh?.()
+        if (item.type === 'more') {
+          return `more-${item.data.id}`
+        }
 
-              return refetch()
+        return item.id
+      }}
+      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+      ListFooterComponent={() =>
+        isFetchingNextPage ? (
+          <Spinner style={styles.spinner} />
+        ) : infiniteScrolling ? null : hasNextPage ? (
+          <Button
+            label={t('more')}
+            onPress={() => {
+              fetchNextPage()
             }}
+            style={styles.more}
           />
+        ) : null
+      }
+      ListHeaderComponent={header}
+      maintainVisibleContentPosition={{
+        disabled: true,
+      }}
+      onEndReached={() => {
+        if (!infiniteScrolling) {
+          return
         }
-        renderItem={renderItem}
-        viewabilityConfigCallbackPairs={[
-          {
-            onViewableItemsChanged({ viewableItems }) {
-              setViewing(() => viewableItems.map((item) => item.key))
-            },
-            viewabilityConfig: {
-              minimumViewTime: 0,
-              viewAreaCoveragePercentThreshold: 60,
-              waitForInteraction: false,
-            },
-          },
-          {
-            onViewableItemsChanged({ viewableItems }) {
-              if (!seenOnScroll) {
-                return
-              }
 
-              const items = viewableItems.filter(
-                (item) =>
-                  item.item.type !== 'reply' && item.item.type !== 'more',
-              )
+        if (hasNextPage) {
+          fetchNextPage()
+        }
+      }}
+      ref={list}
+      refreshControl={
+        <RefreshControl
+          onRefresh={() => {
+            onRefresh?.()
 
-              for (const item of items) {
-                addPost({
-                  id: (item.item as Post).id,
-                })
-              }
-            },
-            viewabilityConfig: {
-              minimumViewTime:
-                usePreferences.getState().seenOnScrollDelay * 1000,
-              viewAreaCoveragePercentThreshold: 60,
-              waitForInteraction: false,
-            },
+            return refetch()
+          }}
+        />
+      }
+      renderItem={renderItem}
+      viewabilityConfigCallbackPairs={[
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            setViewing(() => viewableItems.map((item) => item.key))
           },
-        ]}
-      />
-    </>
+          viewabilityConfig: {
+            minimumViewTime: 0,
+            viewAreaCoveragePercentThreshold: 60,
+            waitForInteraction: false,
+          },
+        },
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            if (!seenOnScroll) {
+              return
+            }
+
+            const items = viewableItems.filter(
+              (item) => item.item.type !== 'reply' && item.item.type !== 'more',
+            )
+
+            for (const item of items) {
+              addPost({
+                id: (item.item as Post).id,
+              })
+            }
+          },
+          viewabilityConfig: {
+            minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
+            viewAreaCoveragePercentThreshold: 60,
+            waitForInteraction: false,
+          },
+        },
+      ]}
+    />
   )
 }
 

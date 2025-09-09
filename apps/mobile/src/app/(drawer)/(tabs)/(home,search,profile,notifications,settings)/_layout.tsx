@@ -6,8 +6,8 @@ import { IconButton } from '~/components/common/icon/button'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { StackHeader } from '~/components/navigation/stack-header'
-import { switcher } from '~/components/users/switcher'
 import { useHistory } from '~/hooks/history'
+import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 import { useDefaults } from '~/stores/defaults'
 import { type Undefined } from '~/types'
@@ -18,6 +18,7 @@ import { type MessageParams } from './messages/[id]'
 import { type PostParams } from './posts/[id]'
 import { type SignInParams } from './sign-in'
 import { type UserParams } from './users/[name]'
+import { type UserPostsParams } from './users/[name]/[type]'
 
 export const unstable_settings = {
   initialRouteName: 'index',
@@ -84,7 +85,7 @@ export default function Layout({ segment }: Props) {
                 }}
                 label={a11y('switchAccount')}
                 onPress={() => {
-                  switcher.emit('open')
+                  mitter.emit('switch-account')
                 }}
               />
             ),
@@ -142,9 +143,6 @@ export default function Layout({ segment }: Props) {
           type: feedType,
         }}
         name="index"
-        options={{
-          headerShown: false,
-        }}
       />
     </StackLayout>
   )
@@ -154,6 +152,7 @@ function StackLayout({ children }: PropsWithChildren) {
   const router = useRouter()
 
   const t = useTranslations('screen')
+  const a11y = useTranslations('a11y')
 
   const { addPost } = useHistory()
 
@@ -168,9 +167,28 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         name="communities/[name]/index"
-        options={{
-          headerShown: false,
-        }}
+        options={({ route }) => ({
+          headerRight: () => (
+            <IconButton
+              icon={{
+                name: 'Info',
+                weight: 'duotone',
+              }}
+              label={a11y('aboutCommunity', {
+                community: (route.params as CommunityParams).name,
+              })}
+              onPress={() => {
+                router.push({
+                  params: {
+                    name: (route.params as CommunityParams).name,
+                  },
+                  pathname: '/communities/[name]/about',
+                })
+              }}
+            />
+          ),
+          title: (route.params as CommunityParams).name,
+        })}
       />
 
       <Stack.Screen
@@ -204,9 +222,9 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         name="users/[name]/[type]"
-        options={{
-          headerShown: false,
-        }}
+        options={({ route }) => ({
+          title: t(`profile.${(route.params as UserPostsParams).type}`),
+        })}
       />
 
       <Stack.Screen

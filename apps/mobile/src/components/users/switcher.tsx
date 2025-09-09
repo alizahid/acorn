@@ -1,18 +1,14 @@
 import { useRouter } from 'expo-router'
-import mitt from 'mitt'
 import { useEffect, useRef } from 'react'
 import ReorderableList, { reorderItems } from 'react-native-reorderable-list'
 import { useTranslations } from 'use-intl'
 
+import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 
 import { IconButton } from '../common/icon/button'
 import { Sheet } from '../common/sheet'
 import { AccountCard } from './account'
-
-export const switcher = mitt<{
-  open?: unknown
-}>()
 
 export function AccountSwitcher() {
   const router = useRouter()
@@ -25,12 +21,12 @@ export function AccountSwitcher() {
   const sheet = useRef<Sheet>(null)
 
   useEffect(() => {
-    switcher.on('open', () => {
+    mitter.on('switch-account', () => {
       sheet.current?.present()
     })
 
     return () => {
-      switcher.off('open')
+      mitter.off('switch-account')
     }
   }, [])
 

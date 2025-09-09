@@ -6,8 +6,8 @@ import { useTranslations } from 'use-intl'
 
 import { TabBar } from '~/components/navigation/tab-bar'
 import { Tabs } from '~/components/navigation/tabs'
-import { switcher } from '~/components/users/switcher'
 import { useUnread } from '~/hooks/queries/user/unread'
+import { mitter } from '~/lib/mitt'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 
@@ -67,7 +67,7 @@ export default function Layout() {
       <Tabs.Screen
         listeners={{
           tabLongPress() {
-            switcher.emit('open')
+            mitter.emit('switch-account')
           },
         }}
         name="(profile)"

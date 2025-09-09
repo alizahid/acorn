@@ -1,11 +1,15 @@
 import { useRouter } from 'expo-router'
-import { type ReactNode } from 'react'
+import { type ReactNode, useEffect, useState } from 'react'
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { tintDark, tintLight } from '~/lib/common'
+import { mitter } from '~/lib/mitt'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
+import { space } from '~/styles/tokens'
 
 import { IconButton } from '../common/icon/button'
 import { Text } from '../common/text'
@@ -31,6 +35,8 @@ export function Header({
   sticky = true,
   title,
 }: HeaderProps) {
+  const insets = useSafeAreaInsets()
+
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -45,55 +51,86 @@ export function Header({
     tint: themeTint,
   })
 
+  const [visible, setVisible] = useState(true)
+
+  useEffect(() => {
+    function onShow() {
+      setVisible(true)
+    }
+
+    function onHide() {
+      setVisible(false)
+    }
+
+    mitter.on('show-nav', onShow)
+    mitter.on('hide-nav', onHide)
+
+    return () => {
+      mitter.off('show-nav', onShow)
+      mitter.off('hide-nav', onHide)
+    }
+  }, [])
+
+  const style = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: withTiming(visible ? 0 : 0 - space[8] - insets.top),
+      },
+    ],
+    zIndex: 1,
+  }))
+
   const Component = blurNavigation ? BlurView : View
 
   return (
-    <Component
-      intensity={themeOled ? 25 : 75}
-      style={styles.main}
-      uniProps={(theme) => ({
-        tint: theme.variant === 'dark' ? tintDark : tintLight,
-      })}
-    >
-      <View align="center" height="8" justify="center">
-        {(left ?? back) ? (
-          <View direction="row" style={[styles.actions, styles.left]}>
-            {back ? (
-              <IconButton
-                icon={{
-                  name: modal ? 'X' : 'ArrowLeft',
-                  weight: 'bold',
-                }}
-                label={a11y(modal ? 'close' : 'goBack')}
-                onPress={() => {
-                  router.back()
-                }}
-              />
-            ) : null}
+    <Animated.View style={style}>
+      <Component
+        intensity={themeOled ? 25 : 75}
+        style={styles.main}
+        uniProps={(theme) => ({
+          tint: theme.variant === 'dark' ? tintDark : tintLight,
+        })}
+      >
+        <View align="center" height="8" justify="center">
+          {(left ?? back) ? (
+            <View direction="row" style={[styles.actions, styles.left]}>
+              {back ? (
+                <IconButton
+                  icon={{
+                    name: modal ? 'X' : 'ArrowLeft',
+                    weight: 'bold',
+                  }}
+                  label={a11y(modal ? 'close' : 'goBack')}
+                  onPress={() => {
+                    router.back()
+                  }}
+                />
+              ) : null}
 
-            {left}
-          </View>
-        ) : null}
+              {left}
+            </View>
+          ) : null}
 
-        {typeof title === 'string' ? (
-          <Text lines={1} style={styles.title} weight="bold">
-            {title}
-          </Text>
-        ) : (
-          <View direction="row" gap="2">
-            {title}
-          </View>
-        )}
+          {typeof title === 'string' ? (
+            <Text lines={1} style={styles.title} weight="bold">
+              {title}
+            </Text>
+          ) : (
+            <View direction="row" gap="2">
+              {title}
+            </View>
+          )}
 
-        {right ? (
-          <View direction="row" style={[styles.actions, styles.right]}>
-            {right}
-          </View>
-        ) : null}
-      </View>
+          {right ? (
+            <View direction="row" style={[styles.actions, styles.right]}>
+              {right}
+            </View>
+          ) : null}
+        </View>
 
-      {children}
-    </Component>
+        {children}
+      </Component>
+    </Animated.View>
   )
 }
 

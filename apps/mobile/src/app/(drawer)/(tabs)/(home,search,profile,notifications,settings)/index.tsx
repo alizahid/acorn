@@ -1,6 +1,6 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { useLocalSearchParams } from 'expo-router'
-import { useCallback, useMemo } from 'react'
+import { useCallback } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -8,7 +8,6 @@ import { z } from 'zod'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
-import { type HeaderProps } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
@@ -48,6 +47,22 @@ export default function Screen() {
   useFocusEffect(
     useCallback(() => {
       navigation.setOptions({
+        headerLeft:
+          iPad && stickyDrawer
+            ? null
+            : () => (
+                <IconButton
+                  icon={{
+                    name: 'Sidebar',
+                    weight: 'duotone',
+                  }}
+                  label={a11y('toggleSidebar')}
+                  onPress={() => {
+                    // @ts-expect-error
+                    navigation.toggleDrawer()
+                  }}
+                />
+              ),
         headerRight: () => (
           <SortIntervalMenu
             interval={sorting.interval}
@@ -58,54 +73,26 @@ export default function Screen() {
             type={type}
           />
         ),
+        headerTitle: params.feed
+          ? null
+          : () => (
+              <>
+                <Icon
+                  name={FeedTypeIcons[params.type]}
+                  uniProps={(theme) => ({
+                    color: theme.colors[FeedTypeColors[params.type]].accent,
+                  })}
+                  weight="duotone"
+                />
+
+                <Text weight="bold">{tType(params.type)}</Text>
+              </>
+            ),
+        title: params.feed,
       })
-    }, [navigation, sorting.interval, sorting.sort, type, update]),
-  )
-
-  const sticky = useMemo<HeaderProps>(
-    () => ({
-      left:
-        iPad && stickyDrawer ? null : (
-          <IconButton
-            icon={{
-              name: 'Sidebar',
-              weight: 'duotone',
-            }}
-            label={a11y('toggleSidebar')}
-            onPress={() => {
-              // @ts-expect-error
-              navigation.toggleDrawer()
-            }}
-          />
-        ),
-      right: (
-        <SortIntervalMenu
-          interval={sorting.interval}
-          onChange={(next) => {
-            update(next)
-          }}
-          sort={sorting.sort}
-          type={type}
-        />
-      ),
-      title: params.feed ? (
-        <Text weight="bold">{params.feed}</Text>
-      ) : (
-        <>
-          <Icon
-            name={FeedTypeIcons[params.type]}
-            uniProps={(theme) => ({
-              color: theme.colors[FeedTypeColors[params.type]].accent,
-            })}
-            weight="duotone"
-          />
-
-          <Text weight="bold">{tType(params.type)}</Text>
-        </>
-      ),
-    }),
-    [
+    }, [
       a11y,
+      navigation.setOptions,
       // @ts-expect-error
       navigation.toggleDrawer,
       params.feed,
@@ -116,7 +103,7 @@ export default function Screen() {
       tType,
       type,
       update,
-    ],
+    ]),
   )
 
   return (
@@ -126,7 +113,6 @@ export default function Screen() {
       interval={sorting.interval}
       listProps={listProps}
       sort={sorting.sort}
-      sticky={sticky}
       style={styles.list}
     />
   )

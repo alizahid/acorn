@@ -4,6 +4,7 @@
 
 - added: auto themes
 - added: bottom tabs reordering
+- added: hide header and tab bar on scroll
 - fixed: videos jumping
 - removed: hide seen posts
 - removed: messages
