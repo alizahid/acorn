@@ -19,7 +19,7 @@ export function StackHeader({ options, ...props }: Props) {
       right={options.headerRight?.({
         canGoBack: back,
       })}
-      sticky={options.headerTransparent !== false}
+      sticky={!modal && options.headerTransparent !== false}
       title={
         typeof options.headerTitle === 'function'
           ? options.headerTitle({
