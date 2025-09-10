@@ -36,13 +36,7 @@ export function FloatingButton({
   })
 
   return (
-    <BlurView
-      intensity={100}
-      style={[styles.main, style]}
-      uniProps={(theme) => ({
-        tint: theme.variant,
-      })}
-    >
+    <BlurView intensity={100} style={[styles.main, style]}>
       <IconButton
         hitSlop={space[4]}
         icon={{
