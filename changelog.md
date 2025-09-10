@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: rich text editor for posts
 - added: auto themes
 - added: bottom tabs reordering
 - added: hide header and tab bar on scroll

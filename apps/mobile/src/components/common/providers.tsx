@@ -1,3 +1,4 @@
+import { PortalProvider } from '@gorhom/portal'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { StatusBar } from 'expo-status-bar'
 import { type ReactNode } from 'react'
@@ -43,7 +44,7 @@ export function Providers({ children }: Props) {
               />
 
               <FocusProvider>
-                {children}
+                <PortalProvider>{children}</PortalProvider>
 
                 <Gallery.Root />
 

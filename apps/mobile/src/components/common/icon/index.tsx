@@ -48,6 +48,8 @@ import { ImageIcon } from 'phosphor-react-native/src/icons/Image'
 import { InfinityIcon } from 'phosphor-react-native/src/icons/Infinity'
 import { InfoIcon } from 'phosphor-react-native/src/icons/Info'
 import { LinkIcon } from 'phosphor-react-native/src/icons/Link'
+import { ListDashesIcon } from 'phosphor-react-native/src/icons/ListDashes'
+import { ListNumbersIcon } from 'phosphor-react-native/src/icons/ListNumbers'
 import { MagnifyingGlassIcon } from 'phosphor-react-native/src/icons/MagnifyingGlass'
 import { MedalIcon } from 'phosphor-react-native/src/icons/Medal'
 import { MegaphoneSimpleIcon } from 'phosphor-react-native/src/icons/MegaphoneSimple'
@@ -88,6 +90,9 @@ import { TelevisionSimpleIcon } from 'phosphor-react-native/src/icons/Television
 import { TextAlignLeftIcon } from 'phosphor-react-native/src/icons/TextAlignLeft'
 import { TextBIcon } from 'phosphor-react-native/src/icons/TextB'
 import { TextboxIcon } from 'phosphor-react-native/src/icons/Textbox'
+import { TextItalicIcon } from 'phosphor-react-native/src/icons/TextItalic'
+import { TextStrikethroughIcon } from 'phosphor-react-native/src/icons/TextStrikethrough'
+import { TextUnderlineIcon } from 'phosphor-react-native/src/icons/TextUnderline'
 import { TrashIcon } from 'phosphor-react-native/src/icons/Trash'
 import { TreeViewIcon } from 'phosphor-react-native/src/icons/TreeView'
 import { UserIcon } from 'phosphor-react-native/src/icons/User'
@@ -181,6 +186,8 @@ const icons = {
   Infinity: InfinityIcon,
   Info: InfoIcon,
   Link: LinkIcon,
+  ListDashes: ListDashesIcon,
+  ListNumbers: ListNumbersIcon,
   MagnifyingGlass: MagnifyingGlassIcon,
   Medal: MedalIcon,
   MegaphoneSimple: MegaphoneSimpleIcon,
@@ -221,6 +228,9 @@ const icons = {
   TextAlignLeft: TextAlignLeftIcon,
   TextB: TextBIcon,
   Textbox: TextboxIcon,
+  TextItalic: TextItalicIcon,
+  TextStrikethrough: TextStrikethroughIcon,
+  TextUnderline: TextUnderlineIcon,
   Trash: TrashIcon,
   TreeView: TreeViewIcon,
   User: UserIcon,

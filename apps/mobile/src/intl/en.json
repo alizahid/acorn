@@ -294,7 +294,15 @@
           "min": "Min {min, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
           "required": "Required words: {list}"
         },
-        "placeholder": "Body"
+        "placeholder": "Body",
+        "tool": {
+          "bold": "Toggle bold",
+          "italic": "Toggle italic",
+          "orderedList": "Toggle ordered list",
+          "strikethrough": "Toggle strikethrough",
+          "underline": "Toggle underline",
+          "unorderedList": "Toggle unordered list"
+        }
       },
       "title": {
         "error": {
