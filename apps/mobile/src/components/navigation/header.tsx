@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { tintDark, tintLight } from '~/lib/common'
+import { tints } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -93,7 +93,7 @@ export function Header({
         intensity={themeOled ? 25 : 75}
         style={styles.main}
         uniProps={(theme) => ({
-          tint: theme.variant === 'dark' ? tintDark : tintLight,
+          tint: tints[theme.variant],
         })}
       >
         <View align="center" height="8" justify="center">

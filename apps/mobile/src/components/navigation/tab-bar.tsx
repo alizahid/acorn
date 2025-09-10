@@ -11,7 +11,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Icon, type IconName } from '~/components/common/icon'
-import { iPad, tintDark, tintLight } from '~/lib/common'
+import { iPad, tints } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
@@ -91,7 +91,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
           intensity={themeOled ? 25 : 75}
           style={styles.main}
           uniProps={(theme) => ({
-            tint: theme.variant === 'dark' ? tintDark : tintLight,
+            tint: tints[theme.variant],
           })}
         >
           {tabs

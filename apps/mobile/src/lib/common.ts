@@ -1,4 +1,3 @@
-import { type BlurTint } from 'expo-blur'
 import { Platform, StyleSheet } from 'react-native'
 
 export const cardMaxWidth = 700
@@ -11,8 +10,10 @@ export const swipeActionThreshold = {
   short: iPad ? 0.1 : 0.2,
 } as const
 
-export const tintDark: BlurTint = 'systemThickMaterialDark'
-export const tintLight: BlurTint = 'systemThickMaterialLight'
+export const tints = {
+  dark: 'systemThickMaterialDark',
+  light: 'systemThickMaterialLight',
+} as const
 
 export const heights = {
   floatingButton: 80,

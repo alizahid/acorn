@@ -2,7 +2,7 @@ import { TrueSheet } from '@lodev09/react-native-true-sheet'
 import { type ReactNode, type Ref } from 'react'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 
-import { tintDark, tintLight } from '~/lib/common'
+import { tints } from '~/lib/common'
 
 type Props = {
   children: ReactNode
@@ -15,7 +15,7 @@ export function Root({ children, onClose, ref }: Props) {
 
   return (
     <TrueSheet
-      blurTint={theme.variant === 'dark' ? tintDark : tintLight}
+      blurTint={tints[theme.variant]}
       contentContainerStyle={styles.content}
       cornerRadius={theme.radius[6]}
       grabber={false}
