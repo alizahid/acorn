@@ -99,12 +99,18 @@ export default function Screen() {
 const styles = StyleSheet.create((theme) => ({
   header: {
     backgroundColor: theme.colors.gray.bg,
+    borderBottomColor: theme.colors.gray.border,
+    borderBottomWidth: StyleSheet.hairlineWidth,
     variants: {
+      iPad: {
+        true: {
+          marginBottom: theme.space[4],
+          marginHorizontal: -theme.space[4],
+        },
+      },
       oled: {
         true: {
           backgroundColor: oledTheme[theme.variant].bgAlpha,
-          borderBottomColor: theme.colors.gray.border,
-          borderBottomWidth: StyleSheet.hairlineWidth,
         },
       },
       tint: {
@@ -121,7 +127,6 @@ const styles = StyleSheet.create((theme) => ({
         true: {
           paddingBottom: heights.floatingButton + theme.space[4],
           paddingHorizontal: theme.space[4],
-          paddingTop: theme.space[4],
         },
       },
     },
