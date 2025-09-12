@@ -38,7 +38,7 @@ export function GalleryItem({ image, onTap }: Props) {
         minScale={0.5}
         onSingleTap={onTap}
       >
-        <ImageMenu image={image}>
+        <ImageMenu url={image.url}>
           <Image
             {...placeholder}
             accessibilityIgnoresInvertColors

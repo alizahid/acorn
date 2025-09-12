@@ -72,10 +72,10 @@ export function PostGalleryCard({
   if (compact) {
     return (
       <ImageMenu
-        image={first}
         onPress={() => {
           onPress()
         }}
+        url={first.url}
       >
         <Pressable
           label={a11y('viewImage')}

@@ -39,10 +39,10 @@ export function ImageGrid({
 
     return (
       <ImageMenu
-        image={image}
         onPress={() => {
           onPress(0)
         }}
+        url={image.url}
       >
         <Pressable
           label={a11y('viewImage')}
@@ -89,10 +89,10 @@ export function ImageGrid({
         maxItemsPerColumn={2}
         renderItem={({ index, item }: { index: number; item: PostMedia }) => (
           <ImageMenu
-            image={item}
             onPress={() => {
               onPress(index)
             }}
+            url={item.url}
           >
             <Pressable
               label={a11y('viewImage')}
