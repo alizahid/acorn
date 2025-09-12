@@ -18,6 +18,7 @@ type Props = {
   thumbnail?: string
   video: PostMedia
   viewing: boolean
+  visible?: boolean
 }
 
 export function PostVideoCard({
@@ -31,6 +32,7 @@ export function PostVideoCard({
   thumbnail,
   video,
   viewing,
+  visible,
 }: Props) {
   if (video.provider === 'red-gifs') {
     return (
@@ -44,6 +46,7 @@ export function PostVideoCard({
         thumbnail={thumbnail}
         video={video}
         viewing={viewing}
+        visible={visible}
       />
     )
   }
@@ -58,7 +61,7 @@ export function PostVideoCard({
         thumbnail={thumbnail}
         video={video}
       >
-        {viewing ? (
+        {visible ? (
           <VideoPlayer
             compact={compact}
             large={large}

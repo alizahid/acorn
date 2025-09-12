@@ -19,6 +19,7 @@ type Props = {
   thumbnail?: string
   video: PostMedia
   viewing: boolean
+  visible?: boolean
 }
 
 export function RedGifsVideo({
@@ -31,6 +32,7 @@ export function RedGifsVideo({
   thumbnail,
   video,
   viewing,
+  visible,
 }: Props) {
   styles.useVariants({
     compact,
@@ -49,7 +51,7 @@ export function RedGifsVideo({
         thumbnail={thumbnail}
         video={video}
       >
-        {viewing ? (
+        {visible ? (
           <VideoPlayer
             compact={compact}
             large={large}

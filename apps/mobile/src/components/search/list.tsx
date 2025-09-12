@@ -82,6 +82,7 @@ export function SearchList({
   })
 
   const [viewing, setViewing] = useState<Array<string>>([])
+  const [visible, setVisible] = useState<Array<string>>([])
 
   const sticky = useStickyNav()
 
@@ -99,10 +100,11 @@ export function SearchList({
         <PostCard
           post={item as Post}
           viewing={focused ? viewing.includes(item.id) : false}
+          visible={focused ? visible.includes(item.id) : false}
         />
       )
     },
-    [focused, type, viewing],
+    [focused, type, viewing, visible],
   )
 
   return (
@@ -142,17 +144,31 @@ export function SearchList({
       onScrollBeginDrag={() => {
         history.save(query)
       }}
-      onViewableItemsChanged={({ viewableItems }) => {
-        setViewing(() => viewableItems.map((item) => item.key))
-      }}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={renderItem}
-      viewabilityConfig={{
-        minimumViewTime: 0,
-        viewAreaCoveragePercentThreshold: 60,
-        waitForInteraction: false,
-      }}
+      viewabilityConfigCallbackPairs={[
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            setVisible(() => viewableItems.map((item) => item.key))
+          },
+          viewabilityConfig: {
+            itemVisiblePercentThreshold: 10,
+            minimumViewTime: 0,
+            waitForInteraction: false,
+          },
+        },
+        {
+          onViewableItemsChanged({ viewableItems }) {
+            setViewing(() => viewableItems.map((item) => item.key))
+          },
+          viewabilityConfig: {
+            minimumViewTime: 0,
+            viewAreaCoveragePercentThreshold: 60,
+            waitForInteraction: false,
+          },
+        },
+      ]}
     />
   )
 }

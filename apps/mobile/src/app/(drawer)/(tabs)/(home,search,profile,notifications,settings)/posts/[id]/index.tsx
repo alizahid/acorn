@@ -130,7 +130,7 @@ export default function Screen() {
     () => (
       <View mb="2">
         {post ? (
-          <PostCard expanded post={post} viewing={playing} />
+          <PostCard expanded post={post} viewing={playing} visible />
         ) : (
           <Spinner m="4" size="large" />
         )}
@@ -244,7 +244,7 @@ export default function Screen() {
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
-        scrollEventThrottle={250}
+        scrollEventThrottle={1000}
         viewabilityConfig={{
           waitForInteraction: false,
         }}
