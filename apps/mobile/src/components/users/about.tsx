@@ -9,8 +9,8 @@ import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
 
 import { Button } from '../common/button'
+import { Html } from '../common/html'
 import { Loading } from '../common/loading'
-import { Markdown } from '../common/markdown'
 import { RefreshControl } from '../common/refresh-control'
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -70,14 +70,9 @@ export function UserAbout({ listProps, name }: Props) {
       <ProfileCard profile={profile} />
 
       {profile.description ? (
-        <Markdown
-          recyclingKey={profile.id}
-          size="2"
-          style={styles.description}
-          variant="post"
-        >
+        <Html size="2" style={styles.description} type="about">
           {profile.description}
-        </Markdown>
+        </Html>
       ) : null}
 
       <View direction="row" gap="4" mx="4">

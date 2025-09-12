@@ -15,6 +15,7 @@ import { ColorTokens } from '~/styles/tokens'
 
 type Props = TextStyleProps & {
   children: ReactNode
+  label?: string
   lines?: number
   onPress?: () => void
   selectable?: boolean
@@ -27,6 +28,7 @@ export function Text({
   color = 'gray',
   contrast,
   highContrast = color === 'gray',
+  label,
   lines,
   onPress,
   selectable,
@@ -44,6 +46,7 @@ export function Text({
 
   return (
     <Component
+      accessibilityLabel={label}
       allowFontScaling={systemScaling}
       ellipsizeMode={lines ? 'tail' : undefined}
       numberOfLines={lines}

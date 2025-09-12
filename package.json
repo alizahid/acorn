@@ -29,8 +29,6 @@
   },
   "packageManager": "bun@1.2.21",
   "patchedDependencies": {
-    "devlop@1.1.0": "patches/devlop@1.1.0.patch",
-    "unist-util-visit-parents@6.0.1": "patches/unist-util-visit-parents@6.0.1.patch",
     "@bacons/apple-targets@3.0.2": "patches/@bacons%2Fapple-targets@3.0.2.patch"
   }
 }

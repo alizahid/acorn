@@ -15,7 +15,7 @@ import { oledTheme } from '~/styles/oled'
 import { type Post } from '~/types/post'
 
 import { type GestureAction, Gestures } from '../common/gestures'
-import { Markdown } from '../common/markdown'
+import { Html } from '../common/html'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -273,15 +273,14 @@ export function PostCard({ expanded, post, style, viewing }: Props) {
         ) : null}
 
         {expanded && post.body ? (
-          <Markdown
+          <Html
             meta={post.media.meta}
-            recyclingKey={post.id}
             size={fontSizePostBody}
             style={styles.body}
-            variant="post"
+            type="post"
           >
             {post.body}
-          </Markdown>
+          </Html>
         ) : null}
 
         <PostFooter

@@ -19,4 +19,5 @@ export const Editor = withUnistyles(EnrichedTextInput, (theme) => ({
     },
   },
   placeholderTextColor: theme.colors.gray.accent,
+  selectionColor: theme.colors.accent.accent,
 }))

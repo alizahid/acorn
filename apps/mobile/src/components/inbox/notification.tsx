@@ -8,8 +8,8 @@ import { oledTheme } from '~/styles/oled'
 import { type ColorToken, ColorTokens } from '~/styles/tokens'
 import { type Notification, type NotificationType } from '~/types/inbox'
 
+import { Html } from '../common/html'
 import { Icon, type IconName } from '../common/icon'
-import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -79,9 +79,7 @@ export function NotificationCard({ notification }: Props) {
           {body}
         </Text>
 
-        <Markdown recyclingKey={notification.id} size="2" variant="comment">
-          {notification.body}
-        </Markdown>
+        <Html size="2">{notification.body}</Html>
 
         <View direction="row" gap="4">
           <Text highContrast={false} size="2">

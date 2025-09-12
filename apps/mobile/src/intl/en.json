@@ -32,6 +32,7 @@
     "menu": "Menu",
     "mute": "Mute",
     "pause": "Pause",
+    "revealSpoiler": "Reveal spoiler",
     "play": "Play",
     "postMenu": "Post menu",
     "removeAccount": "Remove {account}",

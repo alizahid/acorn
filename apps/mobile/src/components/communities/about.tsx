@@ -5,7 +5,6 @@ import { useFormatter, useTranslations } from 'use-intl'
 
 import { Button } from '~/components/common/button'
 import { Loading } from '~/components/common/loading'
-import { Markdown } from '~/components/common/markdown'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { TimeAgo } from '~/components/common/time'
@@ -15,6 +14,8 @@ import { type ListProps } from '~/hooks/list'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
+
+import { Html } from '../common/html'
 
 type Props = {
   listProps?: ListProps
@@ -110,14 +111,9 @@ export function CommunityAbout({ listProps, name }: Props) {
       </View>
 
       {community.description ? (
-        <Markdown
-          recyclingKey={community.id}
-          size="2"
-          style={styles.description}
-          variant="post"
-        >
+        <Html size="2" style={styles.description} type="about">
           {community.description}
-        </Markdown>
+        </Html>
       ) : null}
 
       <View direction="row" gap="4" mx="4">

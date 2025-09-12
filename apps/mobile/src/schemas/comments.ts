@@ -7,7 +7,7 @@ export const CommentDataSchema = z.object({
   author: z.string(),
   author_flair_richtext: FlairSchema.nullish(),
   author_fullname: z.string().optional(),
-  body: z.string(),
+  body_html: z.string(),
   created_utc: z.number(),
   depth: z.number().nullish(),
   edited: z.union([z.boolean(), z.number()]).optional(),

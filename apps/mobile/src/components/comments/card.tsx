@@ -15,8 +15,8 @@ import { type Undefined } from '~/types'
 import { type CommentReply } from '~/types/comment'
 
 import { Gestures } from '../common/gestures'
+import { Html } from '../common/html'
 import { Icon } from '../common/icon'
-import { Markdown } from '../common/markdown'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -171,15 +171,15 @@ export function CommentCard({
           ) : null}
 
           {collapsed ? null : (
-            <Markdown
+            <Html
+              depth={comment.depth}
               meta={comment.media.meta}
-              recyclingKey={comment.id}
               size={fontSizeComment}
               style={styles.body}
-              variant="comment"
+              type="comment"
             >
               {comment.body}
-            </Markdown>
+            </Html>
           )}
 
           {comment.post.title ? (

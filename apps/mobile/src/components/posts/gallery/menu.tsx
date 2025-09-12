@@ -4,16 +4,15 @@ import { useTranslations } from 'use-intl'
 
 import { ContextMenu } from '~/components/common/context-menu'
 import { useCopyImage, useDownloadImage, useShareImage } from '~/hooks/image'
-import { type PostMedia } from '~/types/post'
 
 type Props = {
   children: ReactNode
-  image: PostMedia
   onPress?: () => void
   style?: StyleProp<ViewStyle>
+  url: string
 }
 
-export function ImageMenu({ children, image, onPress, style }: Props) {
+export function ImageMenu({ children, onPress, style, url }: Props) {
   const t = useTranslations('component.posts.link')
   const a11y = useTranslations('a11y')
 
@@ -29,7 +28,7 @@ export function ImageMenu({ children, image, onPress, style }: Props) {
         {
           action() {
             copy({
-              url: image.url,
+              url,
             })
           },
           icon: {
@@ -42,7 +41,7 @@ export function ImageMenu({ children, image, onPress, style }: Props) {
         {
           action() {
             share({
-              url: image.url,
+              url,
             })
           },
           icon: {
@@ -55,7 +54,7 @@ export function ImageMenu({ children, image, onPress, style }: Props) {
         {
           action() {
             download({
-              url: image.url,
+              url,
             })
           },
           icon: {
