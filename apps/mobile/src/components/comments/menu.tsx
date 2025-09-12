@@ -14,6 +14,7 @@ import { type ReportReason, useReport } from '~/hooks/moderation/report'
 import { useCommentRemove } from '~/hooks/mutations/comments/remove'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
+import { htmlToMarkdown } from '~/lib/editor'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
@@ -189,7 +190,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
           options: compact([
             {
               action() {
-                copy(comment.body).then(() => {
+                copy(htmlToMarkdown(comment.body)).then(() => {
                   toast.success(t('toast.textCopied'))
                 })
               },

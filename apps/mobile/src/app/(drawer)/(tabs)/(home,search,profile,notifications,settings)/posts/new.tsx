@@ -24,6 +24,7 @@ import { useLink } from '~/hooks/link'
 import { useCreatePost } from '~/hooks/mutations/posts/create'
 import { useSubmission } from '~/hooks/queries/communities/submission'
 import { heights } from '~/lib/common'
+import { htmlToMarkdown } from '~/lib/editor'
 import { type Submission } from '~/types/submission'
 
 const schema = z.object({
@@ -33,9 +34,9 @@ const schema = z.object({
 export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
-  const { refetch, submission } = useSubmission(params.name)
+  const { refetch, isLoading, submission } = useSubmission(params.name)
 
-  if (!submission) {
+  if (!submission || isLoading) {
     return <Loading />
   }
 
@@ -62,6 +63,10 @@ function Content({ refetch, submission }: Props) {
   const onSubmit = form.handleSubmit(async (data) => {
     if (isPending) {
       return
+    }
+
+    if (data.type === 'text') {
+      data.text = htmlToMarkdown(data.text)
     }
 
     const response = await createPost(data)

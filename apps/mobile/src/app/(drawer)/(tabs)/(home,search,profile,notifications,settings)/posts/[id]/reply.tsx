@@ -17,6 +17,7 @@ import { TextInput } from '~/components/native/text-input'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
 import { iPhone } from '~/lib/common'
+import { htmlToMarkdown } from '~/lib/editor'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
@@ -44,7 +45,9 @@ export default function Screen() {
   const reply = usePostReply()
   const edit = useCommentEdit()
 
-  const [text, setText] = useState(params.body ?? '')
+  const [text, setText] = useState(
+    params.body ? htmlToMarkdown(params.body) : '',
+  )
 
   const style = useAnimatedStyle(() => ({
     paddingBottom: keyboard.height.get(),

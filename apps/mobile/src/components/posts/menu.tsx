@@ -15,6 +15,7 @@ import { type ReportReason, useReport } from '~/hooks/moderation/report'
 import { usePostRemove } from '~/hooks/mutations/posts/remove'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
+import { htmlToMarkdown } from '~/lib/editor'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
@@ -174,7 +175,7 @@ export function PostMenu({ children, onPress, post }: Props) {
             post.body?.length && {
               action() {
                 if (post.body) {
-                  copy(post.body).then(() => {
+                  copy(htmlToMarkdown(post.body)).then(() => {
                     toast.success(t('toast.textCopied'))
                   })
                 }

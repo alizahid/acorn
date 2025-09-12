@@ -32,7 +32,6 @@
     "menu": "Menu",
     "mute": "Mute",
     "pause": "Pause",
-    "revealSpoiler": "Reveal spoiler",
     "play": "Play",
     "postMenu": "Post menu",
     "removeAccount": "Remove {account}",
@@ -41,11 +40,18 @@
     "removeImage": "Remove image",
     "removeQuery": "Remove {query}",
     "removeUpvote": "Remove upvote",
+    "revealSpoiler": "Reveal spoiler",
     "saveFilters": "Save filters",
     "shareImage": "Share image",
     "skipComment": "Skip comment",
     "switchAccount": "Switch account",
+    "toggleBold": "Toggle bold",
+    "toggleHeading": "Toggle heading",
+    "toggleItalic": "Toggle italic",
+    "toggleOrderedList": "Toggle ordered list",
     "toggleSidebar": "Toggle sidebar",
+    "toggleStrikethrough": "Toggle strikethrough",
+    "toggleUnorderedList": "Toggle unordered list",
     "unmute": "Unmute",
     "upvote": "Upvote",
     "viewComment": "View comment",
@@ -295,15 +301,7 @@
           "min": "Min {min, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
           "required": "Required words: {list}"
         },
-        "placeholder": "Body",
-        "tool": {
-          "bold": "Toggle bold",
-          "italic": "Toggle italic",
-          "orderedList": "Toggle ordered list",
-          "strikethrough": "Toggle strikethrough",
-          "underline": "Toggle underline",
-          "unorderedList": "Toggle unordered list"
-        }
+        "placeholder": "Body"
       },
       "title": {
         "error": {

@@ -9,10 +9,10 @@ export const Editor = withUnistyles(EnrichedTextInput, (theme) => ({
     ol: {
       gapWidth: theme.space[3],
       marginLeft: theme.space[2],
-      markerColor: theme.colors.gray.accent,
+      markerColor: theme.colors.accent.textLow,
     },
     ul: {
-      bulletColor: theme.colors.gray.accent,
+      bulletColor: theme.colors.accent.textLow,
       bulletSize: theme.space[2],
       gapWidth: theme.space[3],
       marginLeft: theme.space[2],

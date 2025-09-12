@@ -90,9 +90,9 @@ import { TelevisionSimpleIcon } from 'phosphor-react-native/src/icons/Television
 import { TextAlignLeftIcon } from 'phosphor-react-native/src/icons/TextAlignLeft'
 import { TextBIcon } from 'phosphor-react-native/src/icons/TextB'
 import { TextboxIcon } from 'phosphor-react-native/src/icons/Textbox'
+import { TextHOneIcon } from 'phosphor-react-native/src/icons/TextHOne'
 import { TextItalicIcon } from 'phosphor-react-native/src/icons/TextItalic'
 import { TextStrikethroughIcon } from 'phosphor-react-native/src/icons/TextStrikethrough'
-import { TextUnderlineIcon } from 'phosphor-react-native/src/icons/TextUnderline'
 import { TrashIcon } from 'phosphor-react-native/src/icons/Trash'
 import { TreeViewIcon } from 'phosphor-react-native/src/icons/TreeView'
 import { UserIcon } from 'phosphor-react-native/src/icons/User'
@@ -228,9 +228,9 @@ const icons = {
   TextAlignLeft: TextAlignLeftIcon,
   TextB: TextBIcon,
   Textbox: TextboxIcon,
+  TextHOne: TextHOneIcon,
   TextItalic: TextItalicIcon,
   TextStrikethrough: TextStrikethroughIcon,
-  TextUnderline: TextUnderlineIcon,
   Trash: TrashIcon,
   TreeView: TreeViewIcon,
   User: UserIcon,

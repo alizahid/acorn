@@ -1,7 +1,4 @@
 import { Portal } from '@gorhom/portal'
-import { fromHtml } from 'hast-util-from-html'
-import { toMdast } from 'hast-util-to-mdast'
-import { toMarkdown } from 'mdast-util-to-markdown'
 import { useRef, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import {
@@ -34,6 +31,7 @@ export function SubmissionText() {
   const { font, fontScaling } = usePreferences()
 
   const t = useTranslations('component.submission.text')
+  const a11y = useTranslations('a11y')
 
   const { control } = useFormContext<CreatePostForm>()
 
@@ -67,16 +65,7 @@ export function SubmissionText() {
           <Animated.View style={editorStyle}>
             <Editor
               onChangeHtml={(event) => {
-                const html = event.nativeEvent.value.replaceAll('<br>', '')
-
-                const hast = fromHtml(html, {
-                  fragment: true,
-                })
-
-                const mdast = toMdast(hast)
-                const markdown = toMarkdown(mdast)
-
-                field.onChange(markdown)
+                field.onChange(event.nativeEvent.value)
               }}
               onChangeState={(event) => {
                 setState(event.nativeEvent)
@@ -93,13 +82,25 @@ export function SubmissionText() {
               <View direction="row">
                 <IconButton
                   icon={{
+                    color: state?.isH1 ? 'accent' : 'gray',
+                    name: 'TextHOne',
+                    weight: state?.isH1 ? 'bold' : 'regular',
+                  }}
+                  label={a11y('toggleHeading')}
+                  onPress={() => {
+                    editor?.current?.toggleH1()
+                  }}
+                />
+
+                <IconButton
+                  icon={{
                     color: state?.isBold ? 'accent' : 'gray',
                     name: 'TextB',
                     weight: state?.isBold ? 'bold' : 'regular',
                   }}
-                  label={t('tool.bold')}
+                  label={a11y('toggleBold')}
                   onPress={() => {
-                    editor.current?.toggleBold()
+                    editor?.current?.toggleBold()
                   }}
                 />
 
@@ -109,21 +110,9 @@ export function SubmissionText() {
                     name: 'TextItalic',
                     weight: state?.isItalic ? 'bold' : 'regular',
                   }}
-                  label={t('tool.italic')}
+                  label={a11y('toggleItalic')}
                   onPress={() => {
-                    editor.current?.toggleItalic()
-                  }}
-                />
-
-                <IconButton
-                  icon={{
-                    color: state?.isUnderline ? 'accent' : 'gray',
-                    name: 'TextUnderline',
-                    weight: state?.isUnderline ? 'bold' : 'regular',
-                  }}
-                  label={t('tool.underline')}
-                  onPress={() => {
-                    editor.current?.toggleUnderline()
+                    editor?.current?.toggleItalic()
                   }}
                 />
 
@@ -133,9 +122,9 @@ export function SubmissionText() {
                     name: 'TextStrikethrough',
                     weight: state?.isStrikeThrough ? 'bold' : 'regular',
                   }}
-                  label={t('tool.strikethrough')}
+                  label={a11y('toggleStrikethrough')}
                   onPress={() => {
-                    editor.current?.toggleStrikeThrough()
+                    editor?.current?.toggleStrikeThrough()
                   }}
                 />
               </View>
@@ -147,9 +136,9 @@ export function SubmissionText() {
                     name: 'ListDashes',
                     weight: state?.isUnorderedList ? 'bold' : 'regular',
                   }}
-                  label={t('tool.unorderedList')}
+                  label={a11y('toggleUnorderedList')}
                   onPress={() => {
-                    editor.current?.toggleUnorderedList()
+                    editor?.current?.toggleUnorderedList()
                   }}
                 />
 
@@ -159,9 +148,9 @@ export function SubmissionText() {
                     name: 'ListNumbers',
                     weight: state?.isOrderedList ? 'bold' : 'regular',
                   }}
-                  label={t('tool.orderedList')}
+                  label={a11y('toggleOrderedList')}
                   onPress={() => {
-                    editor.current?.toggleOrderedList()
+                    editor?.current?.toggleOrderedList()
                   }}
                 />
               </View>
@@ -186,7 +175,7 @@ const styles = StyleSheet.create((theme) => ({
     padding: theme.space[4],
   }),
   toolbar: {
-    backgroundColor: theme.colors.gray.bg,
+    backgroundColor: theme.colors.gray.bgAlt,
     flexDirection: 'row',
     justifyContent: 'space-between',
     left: 0,
