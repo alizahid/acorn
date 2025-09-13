@@ -253,7 +253,7 @@ export default function Screen() {
       {replyPost && post ? (
         <FloatingButton
           color="blue"
-          icon="ArrowBendUpLeft"
+          icon="arrowshape.turn.up.backward"
           label={a11y('createComment')}
           onPress={() => {
             router.push({
@@ -269,7 +269,7 @@ export default function Screen() {
 
       {skipComment && comments.length > 0 ? (
         <FloatingButton
-          icon="ArrowDown"
+          icon="arrow.down"
           label={a11y('skipComment')}
           onLongPress={() => {
             const next = comments.findLastIndex(

@@ -34,9 +34,8 @@ export default function Screen() {
               <Icon
                 name={FeedTypeIcons[item]}
                 uniProps={(theme) => ({
-                  color: theme.colors[FeedTypeColors[item]].accent,
+                  tintColor: theme.colors[FeedTypeColors[item]].accent,
                 })}
-                weight="duotone"
               />
             }
             label={t(`feedType.${item}`)}

@@ -58,9 +58,7 @@ export default function Screen() {
       navigation.setOptions({
         headerRight: () => (
           <IconButton
-            icon={{
-              name: 'PaperPlaneTilt',
-            }}
+            icon="paperplane.fill"
             label={a11y('createComment')}
             loading={reply.isPending || edit.isPending}
             onPress={async () => {

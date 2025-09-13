@@ -1,5 +1,6 @@
 import { type BottomTabBarProps } from '@bottom-tabs/react-navigation'
 import { usePathname, useRouter } from 'expo-router'
+import { type SFSymbol } from 'expo-symbols'
 import { useEffect, useState } from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
@@ -10,7 +11,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { Icon, type IconName } from '~/components/common/icon'
+import { Icon } from '~/components/common/icon'
 import { iPad, tints } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useDefaults } from '~/stores/defaults'
@@ -142,10 +143,9 @@ export function TabBar({ descriptors, navigation, state }: Props) {
                     <Icon
                       name={icon}
                       uniProps={(theme) => ({
-                        color:
+                        tintColor:
                           theme.colors[focused ? 'accent' : 'gray'].accentAlpha,
                       })}
-                      weight="duotone"
                     />
                   ) : null}
 
@@ -238,10 +238,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
 }))
 
-const icons: Record<BottomTab, IconName> = {
-  '(home)': 'House',
-  '(notifications)': 'Bell',
-  '(profile)': 'UserCircle',
-  '(search)': 'MagnifyingGlass',
-  '(settings)': 'GearSix',
+const icons: Record<BottomTab, SFSymbol> = {
+  '(home)': 'house',
+  '(notifications)': 'bell',
+  '(profile)': 'person.crop.circle',
+  '(search)': 'magnifyingglass',
+  '(settings)': 'gearshape',
 }

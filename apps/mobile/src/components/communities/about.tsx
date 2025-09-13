@@ -119,9 +119,11 @@ export function CommunityAbout({ listProps, name }: Props) {
       <View direction="row" gap="4" mx="4">
         <Button
           color={community.subscribed ? 'red' : 'accent'}
-          icon={{
-            name: community.subscribed ? 'UserCircleMinus' : 'UserCirclePlus',
-          }}
+          icon={
+            community.subscribed
+              ? 'person.crop.circle.badge.minus'
+              : 'person.crop.circle.badge.plus'
+          }
           justify="start"
           label={t(community.subscribed ? 'leave' : 'join')}
           onPress={() => {
@@ -136,10 +138,7 @@ export function CommunityAbout({ listProps, name }: Props) {
 
         <Button
           color={community.favorite ? 'amber' : 'gray'}
-          icon={{
-            name: 'Star',
-            weight: community.favorite ? 'fill' : 'regular',
-          }}
+          icon={community.favorite ? 'star.fill' : 'star'}
           justify="start"
           label={t(community.favorite ? 'unfavorite' : 'favorite')}
           onPress={() => {

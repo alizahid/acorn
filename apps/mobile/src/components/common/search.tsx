@@ -36,10 +36,10 @@ export function SearchBox({
       autoCorrect={false}
       left={
         <Icon
-          name="MagnifyingGlass"
+          name="magnifyingglass"
           style={styles.icon}
           uniProps={(theme) => ({
-            color: theme.colors.gray.accent,
+            tintColor: theme.colors.gray.accent,
           })}
         />
       }
@@ -50,11 +50,8 @@ export function SearchBox({
       right={
         value?.length ? (
           <IconButton
-            icon={{
-              color: 'gray',
-              name: 'XCircle',
-              weight: 'fill',
-            }}
+            color="gray"
+            icon="xmark.circle.fill"
             label={a11y('clearQuery')}
             onPress={() => {
               onChange?.('')

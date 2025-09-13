@@ -77,9 +77,7 @@ export default function Layout({ segment }: Props) {
           options={{
             headerRight: () => (
               <IconButton
-                icon={{
-                  name: 'UserSwitch',
-                }}
+                icon="person.crop.circle.badge.plus"
                 label={a11y('switchAccount')}
                 onPress={() => {
                   mitter.emit('switch-account')
@@ -167,10 +165,7 @@ function StackLayout({ children }: PropsWithChildren) {
         options={({ route }) => ({
           headerRight: () => (
             <IconButton
-              icon={{
-                name: 'Info',
-                weight: 'duotone',
-              }}
+              icon="info.circle"
               label={a11y('aboutCommunity', {
                 community: (route.params as CommunityParams).name,
               })}

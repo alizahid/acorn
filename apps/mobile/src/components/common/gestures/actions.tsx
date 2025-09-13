@@ -1,3 +1,4 @@
+import { type SFSymbol } from 'expo-symbols'
 import { useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import Animated, {
@@ -8,7 +9,7 @@ import Animated, {
 } from 'react-native-reanimated'
 import { useUnistyles } from 'react-native-unistyles'
 
-import { Icon, type IconName, type IconWeight } from '~/components/common/icon'
+import { Icon } from '~/components/common/icon'
 import { swipeActionThreshold } from '~/lib/common'
 import { triggerFeedback } from '~/lib/feedback'
 import { type ColorToken } from '~/styles/tokens'
@@ -28,8 +29,7 @@ type Props = {
 export function Actions({ action, data, long, progress, short, style }: Props) {
   const { theme } = useUnistyles()
 
-  const [icon, setIcon] = useState<IconName>(icons[short])
-  const [weight, setWeight] = useState<IconWeight>('fill')
+  const [icon, setIcon] = useState<SFSymbol>(icons[short])
 
   const background = useAnimatedStyle(() => {
     const color =
@@ -60,16 +60,10 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
 
       action.set(() => nextAction)
 
-      const nextIcon = nextAction ? icons[nextAction] : null
+      const next = getIcon(nextAction ?? short, data)
 
-      if (nextIcon && nextIcon !== icon) {
-        runOnJS(setIcon)(nextIcon)
-      }
-
-      const nextWeight = getWeight(nextAction ?? short, data)
-
-      if (nextWeight !== weight) {
-        runOnJS(setWeight)(nextWeight)
+      if (next !== icon) {
+        runOnJS(setIcon)(next)
       }
     },
   )
@@ -80,10 +74,9 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
         <Icon
           name={icon}
           uniProps={($theme) => ({
-            color: $theme.colors.accent.contrast,
             size: $theme.space[6],
+            tintColor: $theme.colors.accent.contrast,
           })}
-          weight={weight}
         />
       </Animated.View>
     </Animated.View>
@@ -99,36 +92,33 @@ export const colors: Record<GestureAction, ColorToken> = {
   upvote: 'orange',
 }
 
-export const icons: Record<GestureAction, IconName> = {
-  downvote: 'ArrowFatDown',
-  hide: 'EyeClosed',
-  reply: 'ArrowBendUpLeft',
-  save: 'BookmarkSimple',
-  share: 'Share',
-  upvote: 'ArrowFatUp',
-}
+export const icons = {
+  downvote: 'arrowshape.down',
+  hide: 'eye.slash',
+  reply: 'arrowshape.turn.up.backward',
+  save: 'bookmark',
+  share: 'square.and.arrow.up',
+  upvote: 'arrowshape.up',
+} as const satisfies Record<GestureAction, SFSymbol>
 
-export function getWeight(
-  action: GestureAction,
-  data: GestureData,
-): IconWeight {
+export function getIcon(action: GestureAction, data: GestureData): SFSymbol {
   'worklet'
 
-  if (action === 'upvote' && data.liked) {
-    return 'regular'
+  if (action === 'upvote') {
+    return data.liked ? icons.upvote : `${icons.upvote}.fill`
   }
 
-  if (action === 'downvote' && data.liked === false) {
-    return 'regular'
+  if (action === 'downvote') {
+    return data.liked === false ? icons.downvote : `${icons.downvote}.fill`
   }
 
-  if (action === 'save' && data.saved) {
-    return 'regular'
+  if (action === 'save') {
+    return data.saved ? icons.save : `${icons.save}.fill`
   }
 
-  if (action === 'hide' && data.hidden) {
-    return 'regular'
+  if (action === 'hide') {
+    return data.hidden ? icons.hide : `${icons.hide}.fill`
   }
 
-  return 'fill'
+  return `${icons[action]}.fill`
 }

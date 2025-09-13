@@ -27,10 +27,7 @@ export function PostHeader({ onPress, parentId }: Props) {
   return (
     <View direction="row" mt={themeOled ? '1' : '2'} style={styles.main}>
       <IconButton
-        icon={{
-          name: 'ArrowArcLeft',
-          weight: 'bold',
-        }}
+        icon="arrow.uturn.left"
         label={a11y('viewFullThread')}
         onPress={() => {
           onPress?.()
@@ -38,10 +35,7 @@ export function PostHeader({ onPress, parentId }: Props) {
       />
 
       <IconButton
-        icon={{
-          name: 'ArrowElbowLeft',
-          weight: 'bold',
-        }}
+        icon="arrow.up.left"
         label={a11y('viewParentThread')}
         onPress={() => {
           onPress?.(parentId)

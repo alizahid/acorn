@@ -1,17 +1,23 @@
+import { type SFSymbol } from 'expo-symbols'
 import { useTranslations } from 'use-intl'
 
-import { Icon, type IconName, type IconWeight } from './icon'
+import { type ColorToken } from '~/styles/tokens'
+
+import { Icon } from './icon'
 import { Text } from './text'
 import { View } from './view'
 
 type Props = {
-  color?: string
-  icon?: IconName
+  color?: ColorToken
+  icon?: SFSymbol
   message?: string
-  weight?: IconWeight
 }
 
-export function Empty({ color, icon = 'SmileySad', message, weight }: Props) {
+export function Empty({
+  color = 'accent',
+  icon = 'face.dashed.fill',
+  message,
+}: Props) {
   const t = useTranslations('component.common.empty')
 
   return (
@@ -19,9 +25,8 @@ export function Empty({ color, icon = 'SmileySad', message, weight }: Props) {
       <Icon
         name={icon}
         uniProps={(theme) => ({
-          color: color ?? theme.colors.accent.accent,
           size: theme.space[9],
-          weight: weight ?? (theme.variant === 'dark' ? 'fill' : 'regular'),
+          tintColor: theme.colors[color].accent,
         })}
       />
 

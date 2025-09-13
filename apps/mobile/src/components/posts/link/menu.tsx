@@ -30,8 +30,7 @@ export function LinkMenu({ children, style, url }: Props) {
             handleLink(url)
           },
           icon: {
-            name: 'compass-duotone',
-            type: 'icon',
+            name: 'safari',
           },
           id: 'open',
           title: t('open'),
@@ -43,8 +42,7 @@ export function LinkMenu({ children, style, url }: Props) {
             })
           },
           icon: {
-            name: 'copy-duotone',
-            type: 'icon',
+            name: 'square.on.square',
           },
           id: 'copy',
           title: t('copy'),
@@ -56,8 +54,7 @@ export function LinkMenu({ children, style, url }: Props) {
             })
           },
           icon: {
-            name: 'share-duotone',
-            type: 'icon',
+            name: 'square.and.arrow.up',
           },
           id: 'share',
           title: t('share'),

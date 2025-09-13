@@ -33,9 +33,9 @@ export function usePostRemove() {
       toast.success(t('deleted'), {
         icon: (
           <Icon
-            name="Trash"
+            name="trash"
             uniProps={(theme) => ({
-              color: theme.colors.green.accent,
+              tintColor: theme.colors.green.accent,
             })}
           />
         ),

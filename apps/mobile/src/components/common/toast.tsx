@@ -22,11 +22,25 @@ export function Toast() {
     <Toaster
       autoWiggleOnUpdate="always"
       icons={{
-        error: <Icon color={theme.colors.red.accent} name="Warning" />,
-        info: <Icon color={theme.colors.accent.accent} name="Info" />,
+        error: (
+          <Icon
+            name="exclamationmark.triangle.fill"
+            tintColor={theme.colors.red.accent}
+          />
+        ),
+        info: (
+          <Icon name="info.circle" tintColor={theme.colors.accent.accent} />
+        ),
         loading: <ActivityIndicator size={theme.typography[3].lineHeight} />,
-        success: <Icon color={theme.colors.green.accent} name="CheckCircle" />,
-        warning: <Icon color={theme.colors.orange.accent} name="Warning" />,
+        success: (
+          <Icon name="checkmark.circle" tintColor={theme.colors.green.accent} />
+        ),
+        warning: (
+          <Icon
+            name="exclamationmark.circle.fill"
+            tintColor={theme.colors.orange.accent}
+          />
+        ),
       }}
       theme={theme.variant}
       toastOptions={{

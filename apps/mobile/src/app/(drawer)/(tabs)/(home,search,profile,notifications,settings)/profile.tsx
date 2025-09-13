@@ -1,9 +1,10 @@
 import { useRouter } from 'expo-router'
+import { type SFSymbol } from 'expo-symbols'
 import { ScrollView } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { FloatingButton } from '~/components/common/floating-button'
-import { Icon, type IconName } from '~/components/common/icon'
+import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { ProfileCard } from '~/components/users/profile'
@@ -41,7 +42,7 @@ export default function Screen() {
                 <Icon
                   name={icons[type]}
                   uniProps={(theme) => ({
-                    color: theme.colors[colors[type]].accent,
+                    tintColor: theme.colors[colors[type]].accent,
                   })}
                 />
               }
@@ -67,7 +68,7 @@ export default function Screen() {
 
       {profile ? (
         <FloatingButton
-          icon="Plus"
+          icon="plus"
           label={a11y('createPost')}
           onPress={() => {
             router.push({
@@ -83,13 +84,13 @@ export default function Screen() {
   )
 }
 
-const icons: Record<UserFeedType, IconName> = {
-  comments: 'ChatCircle',
-  downvoted: 'ArrowFatDown',
-  hidden: 'EyeClosed',
-  saved: 'BookmarkSimple',
-  submitted: 'PaperPlaneTilt',
-  upvoted: 'ArrowFatUp',
+const icons: Record<UserFeedType, SFSymbol> = {
+  comments: 'bubble',
+  downvoted: 'arrowshape.down',
+  hidden: 'eye.slash',
+  saved: 'bookmark',
+  submitted: 'paperplane',
+  upvoted: 'arrowshape.up',
 }
 
 const colors: Record<UserFeedType, ColorToken> = {

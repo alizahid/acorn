@@ -68,8 +68,7 @@ export function PostMenu({ children, onPress, post }: Props) {
               },
               icon: {
                 color: theme.colors.orange.accent,
-                name: 'arrow-fat-up-duotone',
-                type: 'icon',
+                name: post.liked ? 'arrowshape.up' : 'arrowshape.up.fill',
               },
               id: 'upvote',
               title: t(post.liked ? 'removeUpvote' : 'upvote'),
@@ -83,8 +82,10 @@ export function PostMenu({ children, onPress, post }: Props) {
               },
               icon: {
                 color: theme.colors.violet.accent,
-                name: 'arrow-fat-down-duotone',
-                type: 'icon',
+                name:
+                  post.liked === false
+                    ? 'arrowshape.down'
+                    : 'arrowshape.down.fill',
               },
               id: 'downvote',
               title: t(post.liked === false ? 'removeDownvote' : 'downvote'),
@@ -98,8 +99,7 @@ export function PostMenu({ children, onPress, post }: Props) {
               },
               icon: {
                 color: theme.colors.green.accent,
-                name: 'bookmark-simple-duotone',
-                type: 'icon',
+                name: post.saved ? 'bookmark' : 'bookmark.fill',
               },
               id: 'save',
               title: t(post.saved ? 'unsave' : 'save'),
@@ -115,8 +115,7 @@ export function PostMenu({ children, onPress, post }: Props) {
               },
               icon: {
                 color: theme.colors.blue.accent,
-                name: 'arrow-bend-up-left-duotone',
-                type: 'icon',
+                name: 'arrow.turn.up.left',
               },
               id: 'reply',
               title: t('reply'),
@@ -149,8 +148,7 @@ export function PostMenu({ children, onPress, post }: Props) {
           destructive: true,
           icon: {
             color: theme.colors.red.accent,
-            name: 'trash-duotone',
-            type: 'icon',
+            name: 'trash',
           },
           id: 'delete',
           title: t('deletePost.title'),
@@ -166,8 +164,7 @@ export function PostMenu({ children, onPress, post }: Props) {
                 })
               },
               icon: {
-                name: 'copy-duotone',
-                type: 'icon',
+                name: 'square.on.square',
               },
               id: 'copyTitle',
               title: t('copyTitle'),
@@ -181,8 +178,7 @@ export function PostMenu({ children, onPress, post }: Props) {
                 }
               },
               icon: {
-                name: 'copy-duotone',
-                type: 'icon',
+                name: 'square.on.square',
               },
               id: 'copyText',
               title: t('copyText'),
@@ -201,8 +197,7 @@ export function PostMenu({ children, onPress, post }: Props) {
                 })
               },
               icon: {
-                name: 'copy-duotone',
-                type: 'icon',
+                name: 'square.on.square',
               },
               id: 'copyPermalink',
               title: t('copyPermalink'),
@@ -221,8 +216,7 @@ export function PostMenu({ children, onPress, post }: Props) {
                 })
               },
               icon: {
-                name: 'share-duotone',
-                type: 'icon',
+                name: 'square.and.arrow.up',
               },
               id: 'sharePermalink',
               title: t('sharePermalink'),
@@ -236,8 +230,7 @@ export function PostMenu({ children, onPress, post }: Props) {
                 }
               },
               icon: {
-                name: 'box-arrow-down-duotone',
-                type: 'icon',
+                name: 'square.and.arrow.down',
               },
               id: 'downloadGallery',
               title: t('downloadGallery'),
@@ -255,7 +248,6 @@ export function PostMenu({ children, onPress, post }: Props) {
               },
               icon: {
                 image: acorn,
-                type: 'image',
               },
               id: 'openApp',
               title: t('openApp'),
@@ -272,8 +264,7 @@ export function PostMenu({ children, onPress, post }: Props) {
                 openInBrowser(url.toString())
               },
               icon: {
-                name: 'compass-duotone',
-                type: 'icon',
+                name: 'safari',
               },
               id: 'openBrowser',
               title: t('openBrowser'),
@@ -295,8 +286,7 @@ export function PostMenu({ children, onPress, post }: Props) {
                 })
               },
               icon: {
-                name: 'user-duotone',
-                type: 'icon',
+                name: 'person',
               },
               id: 'openUser',
               title: t('openUser', {
@@ -313,8 +303,7 @@ export function PostMenu({ children, onPress, post }: Props) {
                 })
               },
               icon: {
-                name: 'users-four-duotone',
-                type: 'icon',
+                name: 'person.2',
               },
               id: 'openCommunity',
               title: t('openCommunity', {
@@ -339,8 +328,7 @@ export function PostMenu({ children, onPress, post }: Props) {
               destructive: true,
               icon: {
                 color: theme.colors.red.accent,
-                name: 'eye-closed-duotone',
-                type: 'icon',
+                name: 'eye.slash',
               },
               id: 'hidePost',
               title: t('hidePost'),
@@ -359,8 +347,7 @@ export function PostMenu({ children, onPress, post }: Props) {
               destructive: true,
               icon: {
                 color: theme.colors.red.accent,
-                name: 'user-duotone',
-                type: 'icon',
+                name: 'person',
               },
               id: 'hideUser',
               title: t('hideUser', {
@@ -379,8 +366,7 @@ export function PostMenu({ children, onPress, post }: Props) {
               destructive: true,
               icon: {
                 color: theme.colors.red.accent,
-                name: 'users-four-duotone',
-                type: 'icon',
+                name: 'person.2',
               },
               id: 'hideCommunity',
               title: t('hideCommunity', {

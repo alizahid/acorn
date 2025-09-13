@@ -74,9 +74,9 @@ export function PostLinkCard({
 
           <View align="center" justify="center" style={styles.compactIcon}>
             <Icon
-              name="Compass"
+              name="safari"
               uniProps={(theme) => ({
-                color: theme.colors.accent.accent,
+                tintColor: theme.colors.accent.accent,
               })}
             />
           </View>
@@ -113,7 +113,7 @@ export function PostLinkCard({
 
         <View align="center" direction="row" gap="3" p="3">
           <Icon
-            name="Compass"
+            name="safari"
             uniProps={(theme) => ({
               size: theme.typography[2].lineHeight,
             })}

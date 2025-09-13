@@ -32,8 +32,7 @@ export function ImageMenu({ children, onPress, style, url }: Props) {
             })
           },
           icon: {
-            name: 'copy-duotone',
-            type: 'icon',
+            name: 'square.on.square',
           },
           id: 'copy',
           title: t('copy'),
@@ -45,8 +44,7 @@ export function ImageMenu({ children, onPress, style, url }: Props) {
             })
           },
           icon: {
-            name: 'share-duotone',
-            type: 'icon',
+            name: 'square.and.arrow.up',
           },
           id: 'share',
           title: t('share'),
@@ -58,8 +56,7 @@ export function ImageMenu({ children, onPress, style, url }: Props) {
             })
           },
           icon: {
-            name: 'download-duotone',
-            type: 'icon',
+            name: 'square.and.arrow.down',
           },
           id: 'download',
           title: t('download'),

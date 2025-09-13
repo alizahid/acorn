@@ -2,7 +2,6 @@ import { ScrollView } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
-import { SymbolIcon } from '~/components/common/icon/symbol'
 import { Menu } from '~/components/common/menu'
 import { Slider } from '~/components/common/slider'
 import { View } from '~/components/common/view'
@@ -47,7 +46,7 @@ export default function Screen() {
         <Menu.Label>{t('preferences.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="TelevisionSimple" />}
+          icon={<Icon name="tv" />}
           label={t('preferences.themeOled')}
           onChange={(next) => {
             const payload: Partial<PreferencesPayload> = {
@@ -64,7 +63,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="PaintRoller" />}
+          icon={<Icon name="paintbrush.pointed" />}
           label={t('preferences.themeTint')}
           onChange={(next) => {
             const payload: Partial<PreferencesPayload> = {
@@ -81,7 +80,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="Drop" />}
+          icon={<Icon name="drop" />}
           label={t('preferences.blurNavigation')}
           onChange={(next) => {
             update({
@@ -92,7 +91,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="PaintBrush" />}
+          icon={<Icon name="rainbow" />}
           label={t('preferences.colorfulComments')}
           onChange={(next) => {
             update({
@@ -107,7 +106,7 @@ export default function Screen() {
         <Menu.Label>{t('compact.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="Rows" />}
+          icon={<Icon name="list.bullet.rectangle" />}
           label={t('compact.feedCompact')}
           onChange={(next) => {
             update({
@@ -118,7 +117,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="ArrowsOut" />}
+          icon={<Icon name="widget.large" />}
           label={t('compact.largeThumbnails')}
           onChange={(next) => {
             update({
@@ -129,7 +128,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="Image" />}
+          icon={<Icon name="photo.on.rectangle.angled" />}
           label={t('compact.mediaOnRight')}
           onChange={(next) => {
             update({
@@ -206,9 +205,7 @@ export default function Screen() {
           options={Object.keys(typography).map((token) => ({
             hideRight: true,
             label: token,
-            right: (
-              <SymbolIcon name={`${token as TypographyToken}.circle.fill`} />
-            ),
+            right: <Icon name={`${token as TypographyToken}.circle.fill`} />,
             value: token,
           }))}
           value={sizes[item]}

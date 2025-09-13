@@ -1,3 +1,4 @@
+import { type SFSymbol } from 'expo-symbols'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useNow, useTranslations } from 'use-intl'
 
@@ -9,7 +10,7 @@ import { type ColorToken, ColorTokens } from '~/styles/tokens'
 import { type Notification, type NotificationType } from '~/types/inbox'
 
 import { Html } from '../common/html'
-import { Icon, type IconName } from '../common/icon'
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
@@ -64,11 +65,10 @@ export function NotificationCard({ notification }: Props) {
       <Icon
         name={icons[notification.type]}
         uniProps={(theme) => ({
-          color:
+          tintColor:
             theme.colors[notification.new ? colors[notification.type] : 'gray']
               .accent,
         })}
-        weight={notification.new ? 'fill' : 'bold'}
       />
 
       <View flexShrink={1} gap="2">
@@ -119,11 +119,11 @@ const styles = StyleSheet.create((theme) => ({
   },
 }))
 
-const icons: Record<NotificationType, IconName> = {
-  comment_reply: 'ChatCircle',
-  post_reply: 'ArrowBendUpLeft',
-  username_mention: 'User',
-}
+const icons = {
+  comment_reply: 'bubble',
+  post_reply: 'arrow.turn.up.left',
+  username_mention: 'person',
+} as const satisfies Record<NotificationType, SFSymbol>
 
 const colors: Record<NotificationType, ColorToken> = {
   comment_reply: 'plum',

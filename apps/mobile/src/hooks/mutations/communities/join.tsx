@@ -50,11 +50,11 @@ export function useJoin() {
             <Icon
               name={
                 variables.action === 'join'
-                  ? 'UserCirclePlus'
-                  : 'UserCircleMinus'
+                  ? 'person.crop.circle.badge.plus'
+                  : 'person.crop.circle.badge.minus'
               }
               uniProps={(theme) => ({
-                color:
+                tintColor:
                   variables.action === 'join'
                     ? theme.colors.green.accent
                     : theme.colors.red.accent,

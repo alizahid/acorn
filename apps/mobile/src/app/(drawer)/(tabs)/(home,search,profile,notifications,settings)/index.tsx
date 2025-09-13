@@ -52,10 +52,7 @@ export default function Screen() {
             ? null
             : () => (
                 <IconButton
-                  icon={{
-                    name: 'Sidebar',
-                    weight: 'duotone',
-                  }}
+                  icon="sidebar.leading"
                   label={a11y('toggleSidebar')}
                   onPress={() => {
                     // @ts-expect-error
@@ -80,9 +77,8 @@ export default function Screen() {
                 <Icon
                   name={FeedTypeIcons[params.type]}
                   uniProps={(theme) => ({
-                    color: theme.colors[FeedTypeColors[params.type]].accent,
+                    tintColor: theme.colors[FeedTypeColors[params.type]].accent,
                   })}
-                  weight="duotone"
                 />
 
                 <Text weight="bold">{tType(params.type)}</Text>

@@ -22,9 +22,9 @@ export default function Screen() {
           description={t('data.query.description')}
           icon={
             <Icon
-              name="HardDrives"
+              name="server.rack"
               uniProps={(theme) => ({
-                color: theme.colors.red.accent,
+                tintColor: theme.colors.red.accent,
               })}
             />
           }
@@ -41,9 +41,9 @@ export default function Screen() {
         <Menu.Button
           icon={
             <Icon
-              name="Image"
+              name="photo"
               uniProps={(theme) => ({
-                color: theme.colors.red.accent,
+                tintColor: theme.colors.red.accent,
               })}
             />
           }
@@ -64,9 +64,9 @@ export default function Screen() {
           description={t('history.history.description')}
           icon={
             <Icon
-              name="Eye"
+              name="eye"
               uniProps={(theme) => ({
-                color: theme.colors.red.accent,
+                tintColor: theme.colors.red.accent,
               })}
             />
           }
@@ -79,9 +79,9 @@ export default function Screen() {
         <Menu.Button
           icon={
             <Icon
-              name="TreeView"
+              name="list.bullet.indent"
               uniProps={(theme) => ({
-                color: theme.colors.red.accent,
+                tintColor: theme.colors.red.accent,
               })}
             />
           }
@@ -94,9 +94,9 @@ export default function Screen() {
         <Menu.Button
           icon={
             <Icon
-              name="SortAscending"
+              name="triangle"
               uniProps={(theme) => ({
-                color: theme.colors.red.accent,
+                tintColor: theme.colors.red.accent,
               })}
             />
           }

@@ -5,10 +5,10 @@ import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useLink } from '~/hooks/link'
-import { space } from '~/styles/tokens'
 
 import { Button } from '../common/button'
-import { IconButton } from '../common/icon/button'
+import { Icon } from '../common/icon'
+import { PhosphorIcon } from '../common/icon/phosphor'
 
 export function AboutCard() {
   const t = useTranslations('screen.settings.about')
@@ -18,21 +18,58 @@ export function AboutCard() {
   const links = [
     {
       href: 'https://acorn.blue',
-      icon: 'Compass',
+      icon: (
+        <PhosphorIcon
+          name="Compass"
+          uniProps={(theme) => ({
+            color: theme.colors.accent.contrast,
+          })}
+          weight="fill"
+        />
+      ),
       key: 'web',
       label: t('links.web'),
     },
     {
       href: 'https://discord.gg/sWzw5GU5RV',
-      icon: 'DiscordLogo',
+      icon: (
+        <PhosphorIcon
+          name="DiscordLogo"
+          uniProps={(theme) => ({
+            color: theme.colors.accent.contrast,
+          })}
+          weight="fill"
+        />
+      ),
       key: 'discord',
       label: t('links.discord'),
     },
     {
       href: 'https://github.com/alizahid/acorn',
-      icon: 'GithubLogo',
+      icon: (
+        <PhosphorIcon
+          name="GithubLogo"
+          uniProps={(theme) => ({
+            color: theme.colors.accent.contrast,
+          })}
+          weight="fill"
+        />
+      ),
       key: 'github',
       label: t('links.github'),
+    },
+    {
+      href: 'https://buymeacoffee.com/acornblue',
+      icon: (
+        <Icon
+          name="cup.and.saucer.fill"
+          uniProps={(theme) => ({
+            tintColor: theme.colors.accent.contrast,
+          })}
+        />
+      ),
+      key: 'coffee',
+      label: t('links.coffee'),
     },
   ] as const
 
@@ -59,15 +96,10 @@ export function AboutCard() {
           wrap="wrap"
         >
           {links.map((link) => (
-            <IconButton
-              contrast
-              hitSlop={space[4]}
-              icon={{
-                name: link.icon,
-                weight: 'fill',
-              }}
+            <Button
               key={link.key}
               label={link.label}
+              left={link.icon}
               onPress={() => {
                 handleLink(link.href)
               }}
@@ -75,17 +107,6 @@ export function AboutCard() {
             />
           ))}
         </View>
-
-        <Button
-          icon={{
-            name: 'Coffee',
-            weight: 'duotone',
-          }}
-          label={t('links.coffee')}
-          onPress={() => {
-            handleLink('https://buymeacoffee.com/acornblue')
-          }}
-        />
       </View>
     </View>
   )

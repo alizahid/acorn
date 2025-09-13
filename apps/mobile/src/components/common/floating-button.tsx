@@ -1,10 +1,10 @@
+import { type SFSymbol } from 'expo-symbols'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { type ColorToken, ColorTokens, space } from '~/styles/tokens'
 
 import { BlurView } from '../native/blur-view'
-import { type IconName } from './icon'
 import { IconButton } from './icon/button'
 
 export const FloatingButtonSide = ['left', 'center', 'right', 'hide'] as const
@@ -13,7 +13,7 @@ export type FloatingButtonSide = (typeof FloatingButtonSide)[number]
 
 type Props = {
   color?: ColorToken
-  icon: IconName
+  icon: SFSymbol
   label: string
   onLongPress?: () => void
   onPress?: () => void
@@ -38,12 +38,9 @@ export function FloatingButton({
   return (
     <BlurView intensity={100} style={[styles.main, style]}>
       <IconButton
+        color={color}
         hitSlop={space[4]}
-        icon={{
-          color,
-          name: icon,
-          weight: 'bold',
-        }}
+        icon={icon}
         label={label}
         onLongPress={onLongPress}
         onPress={onPress}

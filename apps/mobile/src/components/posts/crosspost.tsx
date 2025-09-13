@@ -70,7 +70,7 @@ export function CrossPostCard({
         ) : null}
 
         <View align="center" justify="center" style={styles.compactIcon}>
-          <Icon name="ArrowsSplit" style={styles.crossPost} />
+          <Icon name="arrow.trianglehead.branch" style={styles.crossPost} />
         </View>
       </Pressable>
     )
@@ -78,14 +78,14 @@ export function CrossPostCard({
 
   const footer = [
     {
-      icon: 'ArrowFatUp',
+      icon: 'arrowshape.up',
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'ChatCircle',
+      icon: 'bubble',
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
@@ -161,7 +161,7 @@ export function CrossPostCard({
             }}
           >
             <Icon
-              name="ArrowsSplit"
+              name="arrow.trianglehead.branch"
               style={styles.crossPost}
               uniProps={(theme) => ({
                 size: theme.typography[1].lineHeight,
@@ -178,8 +178,8 @@ export function CrossPostCard({
               <Icon
                 name={item.icon}
                 uniProps={(theme) => ({
-                  color: theme.colors.gray.textLow,
                   size: theme.typography[1].lineHeight,
+                  tintColor: theme.colors.gray.textLow,
                 })}
               />
 

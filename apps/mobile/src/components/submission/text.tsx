@@ -20,7 +20,8 @@ import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
-import { IconButton } from '../common/icon/button'
+import { PhosphorIcon } from '../common/icon/phosphor'
+import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { Editor } from '../native/editor'
@@ -80,79 +81,109 @@ export function SubmissionText() {
           <Portal>
             <Sticky style={[styles.toolbar, stickyStyle]}>
               <View direction="row">
-                <IconButton
-                  icon={{
-                    color: state?.isH1 ? 'accent' : 'gray',
-                    name: 'TextHOne',
-                    weight: state?.isH1 ? 'bold' : 'regular',
-                  }}
+                <Pressable
+                  align="center"
+                  height="8"
+                  justify="center"
                   label={a11y('toggleHeading')}
                   onPress={() => {
                     editor?.current?.toggleH1()
                   }}
-                />
+                  width="8"
+                >
+                  <PhosphorIcon
+                    color={state?.isH1 ? 'accent' : 'gray'}
+                    name="TextHOne"
+                    weight={state?.isH1 ? 'bold' : 'regular'}
+                  />
+                </Pressable>
 
-                <IconButton
-                  icon={{
-                    color: state?.isBold ? 'accent' : 'gray',
-                    name: 'TextB',
-                    weight: state?.isBold ? 'bold' : 'regular',
-                  }}
+                <Pressable
+                  align="center"
+                  height="8"
+                  justify="center"
                   label={a11y('toggleBold')}
                   onPress={() => {
                     editor?.current?.toggleBold()
                   }}
-                />
+                  width="8"
+                >
+                  <PhosphorIcon
+                    color={state?.isBold ? 'accent' : 'gray'}
+                    name="TextB"
+                    weight={state?.isBold ? 'bold' : 'regular'}
+                  />
+                </Pressable>
 
-                <IconButton
-                  icon={{
-                    color: state?.isItalic ? 'accent' : 'gray',
-                    name: 'TextItalic',
-                    weight: state?.isItalic ? 'bold' : 'regular',
-                  }}
+                <Pressable
+                  align="center"
+                  height="8"
+                  justify="center"
                   label={a11y('toggleItalic')}
                   onPress={() => {
                     editor?.current?.toggleItalic()
                   }}
-                />
+                  width="8"
+                >
+                  <PhosphorIcon
+                    color={state?.isItalic ? 'accent' : 'gray'}
+                    name="TextItalic"
+                    weight={state?.isItalic ? 'bold' : 'regular'}
+                  />
+                </Pressable>
 
-                <IconButton
-                  icon={{
-                    color: state?.isStrikeThrough ? 'accent' : 'gray',
-                    name: 'TextStrikethrough',
-                    weight: state?.isStrikeThrough ? 'bold' : 'regular',
-                  }}
+                <Pressable
+                  align="center"
+                  height="8"
+                  justify="center"
                   label={a11y('toggleStrikethrough')}
                   onPress={() => {
                     editor?.current?.toggleStrikeThrough()
                   }}
-                />
+                  width="8"
+                >
+                  <PhosphorIcon
+                    color={state?.isStrikeThrough ? 'accent' : 'gray'}
+                    name="TextStrikethrough"
+                    weight={state?.isStrikeThrough ? 'bold' : 'regular'}
+                  />
+                </Pressable>
               </View>
 
               <View direction="row">
-                <IconButton
-                  icon={{
-                    color: state?.isUnorderedList ? 'accent' : 'gray',
-                    name: 'ListDashes',
-                    weight: state?.isUnorderedList ? 'bold' : 'regular',
-                  }}
+                <Pressable
+                  align="center"
+                  height="8"
+                  justify="center"
                   label={a11y('toggleUnorderedList')}
                   onPress={() => {
                     editor?.current?.toggleUnorderedList()
                   }}
-                />
+                  width="8"
+                >
+                  <PhosphorIcon
+                    color={state?.isUnorderedList ? 'accent' : 'gray'}
+                    name="ListDashes"
+                    weight={state?.isUnorderedList ? 'bold' : 'regular'}
+                  />
+                </Pressable>
 
-                <IconButton
-                  icon={{
-                    color: state?.isOrderedList ? 'accent' : 'gray',
-                    name: 'ListNumbers',
-                    weight: state?.isOrderedList ? 'bold' : 'regular',
-                  }}
+                <Pressable
+                  align="center"
+                  height="8"
+                  justify="center"
                   label={a11y('toggleOrderedList')}
                   onPress={() => {
                     editor?.current?.toggleOrderedList()
                   }}
-                />
+                  width="8"
+                >
+                  <PhosphorIcon
+                    color={state?.isOrderedList ? 'accent' : 'gray'}
+                    name="ListNumbers"
+                    weight={state?.isOrderedList ? 'bold' : 'regular'}
+                  />
+                </Pressable>
               </View>
             </Sticky>
           </Portal>

@@ -2,6 +2,7 @@ import { ScrollView } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { type GestureAction } from '~/components/common/gestures'
+import { icons } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { type MenuItemOption } from '~/components/common/menu/item/options'
@@ -34,11 +35,10 @@ export default function Screen() {
       label: t('options.upvote'),
       right: (
         <Icon
-          name="ArrowFatUp"
+          name={icons.upvote}
           uniProps={(theme) => ({
-            color: theme.colors.orange.accent,
+            tintColor: theme.colors.orange.accent,
           })}
-          weight="duotone"
         />
       ),
       value: 'upvote',
@@ -47,11 +47,10 @@ export default function Screen() {
       label: t('options.downvote'),
       right: (
         <Icon
-          name="ArrowFatDown"
+          name={icons.downvote}
           uniProps={(theme) => ({
-            color: theme.colors.violet.accent,
+            tintColor: theme.colors.violet.accent,
           })}
-          weight="duotone"
         />
       ),
       value: 'downvote',
@@ -60,11 +59,10 @@ export default function Screen() {
       label: t('options.reply'),
       right: (
         <Icon
-          name="ArrowBendUpLeft"
+          name={icons.reply}
           uniProps={(theme) => ({
-            color: theme.colors.blue.accent,
+            tintColor: theme.colors.blue.accent,
           })}
-          weight="duotone"
         />
       ),
       value: 'reply',
@@ -73,11 +71,10 @@ export default function Screen() {
       label: t('options.save'),
       right: (
         <Icon
-          name="BookmarkSimple"
+          name={icons.save}
           uniProps={(theme) => ({
-            color: theme.colors.green.accent,
+            tintColor: theme.colors.green.accent,
           })}
-          weight="duotone"
         />
       ),
       value: 'save',
@@ -86,11 +83,10 @@ export default function Screen() {
       label: t('options.hide'),
       right: (
         <Icon
-          name="EyeClosed"
+          name={icons.hide}
           uniProps={(theme) => ({
-            color: theme.colors.red.accent,
+            tintColor: theme.colors.red.accent,
           })}
-          weight="duotone"
         />
       ),
       value: 'hide',
@@ -99,11 +95,10 @@ export default function Screen() {
       label: t('options.share'),
       right: (
         <Icon
-          name="Share"
+          name={icons.share}
           uniProps={(theme) => ({
-            color: theme.colors.accent.accent,
+            tintColor: theme.colors.accent.accent,
           })}
-          weight="duotone"
         />
       ),
       value: 'share',
@@ -116,7 +111,7 @@ export default function Screen() {
         <Menu.Label>{t('menu.posts')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="ArrowArcLeft" />}
+          icon={<Icon name="hand.point.left" />}
           label={t('menu.left')}
           onChange={(next) => {
             update({
@@ -153,7 +148,7 @@ export default function Screen() {
         ) : null}
 
         <Menu.Switch
-          icon={<Icon name="ArrowArcRight" />}
+          icon={<Icon name="hand.point.right" />}
           label={t('menu.right')}
           onChange={(next) => {
             update({
@@ -194,7 +189,7 @@ export default function Screen() {
         <Menu.Label>{t('menu.comments')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="ArrowArcLeft" />}
+          icon={<Icon name="hand.point.left" />}
           label={t('menu.left')}
           onChange={(next) => {
             update({
@@ -231,7 +226,7 @@ export default function Screen() {
         ) : null}
 
         <Menu.Switch
-          icon={<Icon name="ArrowArcRight" />}
+          icon={<Icon name="hand.point.right" />}
           label={t('menu.right')}
           onChange={(next) => {
             update({

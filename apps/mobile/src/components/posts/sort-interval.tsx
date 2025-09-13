@@ -13,7 +13,6 @@ import {
 } from '~/types/sort'
 
 import { Icon } from '../common/icon'
-import { SymbolIcon } from '../common/icon/symbol'
 import { Pressable } from '../common/pressable'
 import { Sheet } from '../common/sheet'
 
@@ -74,30 +73,28 @@ export function SortIntervalMenu<Type extends SortType>({
       >
         <Icon
           name={SortIcons[sort]}
-          uniProps={($theme) => ({
-            color: $theme.colors[SortColors[sort]].accent,
-            size: $theme.space[5],
+          uniProps={(theme) => ({
+            size: theme.space[5],
+            tintColor: theme.colors[SortColors[sort]].accent,
           })}
-          weight="duotone"
         />
 
         {sort === 'top' && interval ? (
-          <SymbolIcon
+          <Icon
             name={IntervalIcons[interval]}
             size={20}
-            uniProps={($theme) => ({
-              tintColor: $theme.colors.gold.accent,
+            uniProps={(theme) => ({
+              tintColor: theme.colors.gold.accent,
             })}
           />
         ) : null}
 
         <Icon
-          name="CaretDown"
-          uniProps={($theme) => ({
-            color: $theme.colors.gray.textLow,
-            size: $theme.space[4],
+          name="chevron.down"
+          uniProps={(theme) => ({
+            size: theme.space[4],
+            tintColor: theme.colors.gray.textLow,
           })}
-          weight="bold"
         />
       </Pressable>
 
@@ -111,7 +108,7 @@ export function SortIntervalMenu<Type extends SortType>({
               <Icon
                 name={SortIcons[item]}
                 uniProps={(theme) => ({
-                  color: theme.colors[SortColors[item]].accent,
+                  tintColor: theme.colors[SortColors[item]].accent,
                 })}
               />
             }
@@ -131,10 +128,10 @@ export function SortIntervalMenu<Type extends SortType>({
             right={
               item === 'top' ? (
                 <Icon
-                  name="CaretRight"
+                  name="chevron.right"
                   uniProps={(theme) => ({
-                    color: theme.colors.gray.accent,
                     size: theme.space[4],
+                    tintColor: theme.colors.gray.accent,
                   })}
                 />
               ) : undefined
@@ -151,10 +148,10 @@ export function SortIntervalMenu<Type extends SortType>({
               key={item}
               label={t(`interval.${item}`)}
               left={
-                <SymbolIcon
+                <Icon
                   name={IntervalIcons[item]}
-                  uniProps={($theme) => ({
-                    tintColor: $theme.colors.gold.accent,
+                  uniProps={(theme) => ({
+                    tintColor: theme.colors.gold.accent,
                   })}
                 />
               }

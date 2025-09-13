@@ -120,11 +120,8 @@ export default function Screen() {
               right={
                 query.length > 0 ? (
                   <IconButton
-                    icon={{
-                      color: 'gray',
-                      name: 'XCircle',
-                      weight: 'fill',
-                    }}
+                    color="gray"
+                    icon="xmark.circle.fill"
                     label={a11y('clearQuery')}
                     onPress={() => {
                       setQuery('')

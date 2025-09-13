@@ -81,11 +81,8 @@ export function SubmissionImage() {
               ) : null}
 
               <IconButton
-                icon={{
-                  color: 'red',
-                  name: 'Trash',
-                  weight: 'bold',
-                }}
+                color="red"
+                icon="trash"
                 label={a11y('removeImage')}
                 onPress={() => {
                   setImage(undefined)
@@ -96,11 +93,10 @@ export function SubmissionImage() {
           ) : (
             <View align="center" flex={1} gap="4" justify="center">
               <Icon
-                name="Image"
+                name="photo"
                 uniProps={(theme) => ({
                   size: theme.space[9],
                 })}
-                weight="duotone"
               />
 
               <Text weight="medium">{t('placeholder')}</Text>

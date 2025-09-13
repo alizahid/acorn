@@ -46,10 +46,7 @@ export default function Screen() {
       navigation.setOptions({
         headerRight: () => (
           <IconButton
-            icon={{
-              name: 'FloppyDisk',
-              weight: 'duotone',
-            }}
+            icon="checkmark.circle.fill"
             label={a11y('saveFilters')}
             loading={isPending}
             onPress={() => {
@@ -107,21 +104,20 @@ export default function Screen() {
                 <Icon
                   name={
                     rule.type === 'yes'
-                      ? 'CheckCircle'
+                      ? 'checkmark.circle'
                       : rule.type === 'no'
-                        ? 'XCircle'
-                        : 'Info'
+                        ? 'xmark.circle'
+                        : 'info.circle'
                   }
                   uniProps={(theme) => ({
-                    color:
+                    size: theme.typography[2].lineHeight,
+                    tintColor:
                       rule.type === 'yes'
                         ? theme.colors.green.accent
                         : rule.type === 'no'
                           ? theme.colors.red.accent
                           : theme.colors.blue.accent,
-                    size: theme.typography[2].lineHeight,
                   })}
-                  weight="fill"
                 />
 
                 <Text size="2" style={styles.rule}>
@@ -145,7 +141,7 @@ export default function Screen() {
 
       <FloatingButton
         color="red"
-        icon="X"
+        icon="xmark"
         label={a11y('clearFilters')}
         onPress={() => {
           form.setValue('filters', [])
@@ -159,7 +155,7 @@ export default function Screen() {
 
       <FloatingButton
         color="green"
-        icon="Plus"
+        icon="plus"
         label={a11y('addFilter')}
         onPress={() => {
           filters.append({

@@ -12,12 +12,11 @@ export function GalleryBlur({ label }: Props) {
   return (
     <BlurView intensity={100} pointerEvents="none" style={styles.main}>
       <Icon
-        name="Warning"
+        name="exclamationmark.circle.fill"
         uniProps={(theme) => ({
-          color: theme.colors.gray.text,
           size: theme.space[5],
+          tintColor: theme.colors.gray.text,
         })}
-        weight="fill"
       />
 
       {label ? (

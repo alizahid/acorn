@@ -2,7 +2,6 @@ import { useRef } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { CheckIcon } from '~/components/common/icon/check'
 import { Pressable } from '~/components/common/pressable'
 import { Sheet } from '~/components/common/sheet'
 import { Text } from '~/components/common/text'
@@ -31,10 +30,10 @@ export function Themes({ onChange, value }: Props) {
           <Icon
             name={
               value.endsWith('-dark')
-                ? 'Moon'
+                ? 'moon'
                 : value.endsWith('-light')
-                  ? 'Sun'
-                  : 'DeviceMobileCamera'
+                  ? 'sun.max'
+                  : 'iphone'
             }
           />
         }
@@ -176,9 +175,11 @@ function Item({ color, item, label, onPress, value }: ItemProps) {
       width="8"
     >
       {item === value ? (
-        <CheckIcon
+        <Icon
+          name="checkmark"
           uniProps={(theme) => ({
-            color: theme.colors.accent.contrast,
+            size: theme.space[4],
+            tintColor: theme.colors.accent.contrast,
           })}
         />
       ) : null}

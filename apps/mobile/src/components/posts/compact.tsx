@@ -99,7 +99,7 @@ export function PostCompactCard({
 
       {post.type === 'text' ? (
         <View align="center" justify="center" style={styles.text}>
-          <Icon name="TextAlignLeft" />
+          <Icon name="text.alignleft" />
         </View>
       ) : null}
 

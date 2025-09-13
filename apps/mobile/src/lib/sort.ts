@@ -1,20 +1,19 @@
 import { type SFSymbol } from 'expo-symbols'
 
-import { type IconName } from '~/components/common/icon'
 import { type ColorToken } from '~/styles/tokens'
 import { type FeedType, type PostSort, type TopInterval } from '~/types/sort'
 
-export const SortIcons: Record<PostSort, IconName> = {
-  best: 'Medal',
-  comments: 'ChatCircle',
-  confidence: 'Medal',
-  controversial: 'Sword',
-  hot: 'Flame',
-  new: 'Clock',
-  old: 'Package',
-  relevance: 'Target',
-  rising: 'ChartLineUp',
-  top: 'Ranking',
+export const SortIcons: Record<PostSort, SFSymbol> = {
+  best: 'medal',
+  comments: 'bubble',
+  confidence: 'medal',
+  controversial: 'star',
+  hot: 'flame',
+  new: 'clock',
+  old: 'shippingbox',
+  relevance: 'target',
+  rising: 'chart.line.uptrend.xyaxis',
+  top: '1.circle',
 }
 
 export const SortColors: Record<PostSort, ColorToken> = {
@@ -39,10 +38,10 @@ export const IntervalIcons: Record<TopInterval, SFSymbol> = {
   year: '12.circle.fill',
 }
 
-export const FeedTypeIcons: Record<FeedType, IconName> = {
-  all: 'Balloon',
-  home: 'House',
-  popular: 'ChartLineUp',
+export const FeedTypeIcons: Record<FeedType, SFSymbol> = {
+  all: 'balloon',
+  home: 'house',
+  popular: 'chart.line.uptrend.xyaxis',
 }
 
 export const FeedTypeColors: Record<FeedType, ColorToken> = {

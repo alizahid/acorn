@@ -54,10 +54,10 @@ export function MenuItemContent({
 
       {arrow ? (
         <Icon
-          name="CaretRight"
+          name="chevron.right"
           uniProps={(theme) => ({
-            color: theme.colors.gray.accent,
             size: theme.space[4],
+            tintColor: theme.colors.gray.accent,
           })}
         />
       ) : null}

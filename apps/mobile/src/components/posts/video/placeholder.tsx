@@ -46,7 +46,7 @@ export function VideoPlaceholder({
       >
         {children ?? (
           <View align="center" justify="center" style={styles.compactIcon}>
-            <Icon name="Play" weight="fill" />
+            <Icon name="play.fill" />
 
             {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
               <GalleryBlur />
@@ -70,11 +70,10 @@ export function VideoPlaceholder({
           style={styles.video(video.width / video.height)}
         >
           <Icon
-            name="Play"
+            name="play.fill"
             uniProps={(theme) => ({
               size: theme.space[9],
             })}
-            weight="fill"
           />
 
           {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (

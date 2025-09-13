@@ -1,7 +1,7 @@
-import { SymbolView as Component } from 'expo-symbols'
+import { SymbolView } from 'expo-symbols'
 import { withUnistyles } from 'react-native-unistyles'
 
-export const SymbolIcon = withUnistyles(Component, (theme) => ({
+export const Icon = withUnistyles(SymbolView, (theme) => ({
   size: theme.space[5],
   tintColor: theme.colors.accent.accent,
 }))

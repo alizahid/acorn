@@ -49,13 +49,12 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
     >
       {comment.sticky ? (
         <Icon
-          name="PushPin"
+          name="pin.fill"
           style={styles.sticky}
           uniProps={(theme) => ({
-            color: theme.colors.red.accent,
             size: theme.typography[1].lineHeight,
+            tintColor: theme.colors.red.accent,
           })}
-          weight="fill"
         />
       ) : null}
 
@@ -95,24 +94,22 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
 
         {comment.edited ? (
           <Icon
-            name="Pencil"
+            name="pencil"
             uniProps={(theme) => ({
-              color: theme.colors.orange.accent,
               size: theme.typography[1].lineHeight,
+              tintColor: theme.colors.orange.accent,
             })}
-            weight="duotone"
           />
         ) : null}
 
         {baby ? (
           <View align="center" direction="row" gap="1">
             <Icon
-              name="Baby"
+              name="figure.child"
               uniProps={(theme) => ({
-                color: theme.colors.orange.accent,
                 size: theme.typography[1].lineHeight,
+                tintColor: theme.colors.orange.accent,
               })}
-              weight="fill"
             />
 
             <Text highContrast={false} size="1">
@@ -130,7 +127,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         <FooterButton
           color={comment.liked === true ? 'orange' : undefined}
           compact
-          icon="ArrowFatUp"
+          icon={comment.liked === true ? 'arrowshape.up.fill' : 'arrowshape.up'}
           label={a11y(comment.liked ? 'removeUpvote' : 'upvote')}
           onPress={() => {
             vote({
@@ -139,7 +136,6 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
               postId: comment.post.id,
             })
           }}
-          weight={comment.liked === true ? 'fill' : 'bold'}
         />
 
         <Text size="1" tabular>
@@ -151,7 +147,9 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         <FooterButton
           color={comment.liked === false ? 'violet' : undefined}
           compact
-          icon="ArrowFatDown"
+          icon={
+            comment.liked === false ? 'arrowshape.down.fill' : 'arrowshape.down'
+          }
           label={a11y(comment.liked === false ? 'removeDownvote' : 'downvote')}
           onPress={() => {
             vote({
@@ -160,7 +158,6 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
               postId: comment.post.id,
             })
           }}
-          weight={comment.liked === false ? 'fill' : 'bold'}
         />
       </View>
 

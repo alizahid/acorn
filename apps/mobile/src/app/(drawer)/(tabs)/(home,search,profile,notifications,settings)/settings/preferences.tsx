@@ -3,7 +3,7 @@ import { useFormatter, useTranslations } from 'use-intl'
 
 import { FloatingButtonSide } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
-import { SymbolIcon } from '~/components/common/icon/symbol'
+import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
 import { useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
@@ -55,7 +55,7 @@ export default function Screen() {
         <Menu.Label>{t('browsing.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="Medal" />}
+          icon={<Icon name="medal" />}
           label={t('browsing.showFlair')}
           onChange={(next) => {
             update({
@@ -66,7 +66,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="ArrowUp" />}
+          icon={<Icon name="arrow.up" />}
           label={t('browsing.communityOnTop')}
           onChange={(next) => {
             update({
@@ -77,7 +77,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="Infinity" />}
+          icon={<Icon name="infinity" />}
           label={t('browsing.infiniteScrolling')}
           onChange={(next) => {
             update({
@@ -88,7 +88,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="TextB" />}
+          icon={<Icon name="bold" />}
           label={t('browsing.boldTitle')}
           onChange={(next) => {
             update({
@@ -99,7 +99,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="BookmarkSimple" />}
+          icon={<Icon name="bookmark" />}
           label={t('browsing.hidePostActions')}
           onChange={(next) => {
             update({
@@ -111,7 +111,7 @@ export default function Screen() {
 
         <Menu.Options
           description={t('browsing.refreshInterval.description')}
-          icon={<Icon name="Clock" />}
+          icon={<Icon name="clock" />}
           label={t('browsing.refreshInterval.label')}
           onChange={(next) => {
             update({
@@ -121,7 +121,7 @@ export default function Screen() {
           options={[
             {
               label: t('refreshInterval.instant'),
-              right: <SymbolIcon name="0.circle.fill" />,
+              right: <Icon name="0.circle.fill" />,
               value: 0,
             },
             {
@@ -129,7 +129,7 @@ export default function Screen() {
                 style: 'unit',
                 unit: 'minute',
               }),
-              right: <SymbolIcon name="5.circle.fill" />,
+              right: <Icon name="5.circle.fill" />,
               value: 5,
             },
             {
@@ -137,7 +137,7 @@ export default function Screen() {
                 style: 'unit',
                 unit: 'minute',
               }),
-              right: <SymbolIcon name="10.circle.fill" />,
+              right: <Icon name="10.circle.fill" />,
               value: 10,
             },
             {
@@ -145,7 +145,7 @@ export default function Screen() {
                 style: 'unit',
                 unit: 'minute',
               }),
-              right: <SymbolIcon name="15.circle.fill" />,
+              right: <Icon name="15.circle.fill" />,
               value: 15,
             },
             {
@@ -153,12 +153,12 @@ export default function Screen() {
                 style: 'unit',
                 unit: 'minute',
               }),
-              right: <SymbolIcon name="30.circle.fill" />,
+              right: <Icon name="30.circle.fill" />,
               value: 30,
             },
             {
               label: t('refreshInterval.never'),
-              right: <SymbolIcon name="infinity.circle.fill" />,
+              right: <Icon name="infinity.circle.fill" />,
               value: Number.POSITIVE_INFINITY,
             },
           ]}
@@ -166,7 +166,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="Alien" />}
+          icon={<Icon />}
           label={t('browsing.oldReddit')}
           onChange={(next) => {
             update({
@@ -177,7 +177,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="ArrowUp" />}
+          icon={<Icon name="arrowshape.up" />}
           label={t('browsing.upvoteOnSave')}
           onChange={(next) => {
             update({
@@ -189,7 +189,7 @@ export default function Screen() {
 
         {iPad ? (
           <Menu.Switch
-            icon={<Icon name="Sidebar" />}
+            icon={<Icon name="sidebar.leading" />}
             label={t('browsing.stickyDrawer')}
             onChange={(next) => {
               update({
@@ -205,7 +205,7 @@ export default function Screen() {
         <Menu.Label>{t('comments.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="PushPin" />}
+          icon={<Icon name="pin" />}
           label={t('comments.collapseAutoModerator')}
           onChange={(next) => {
             update({
@@ -216,7 +216,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="ArrowsInLineVertical" />}
+          icon={<Icon name="arrow.down.and.line.horizontal.and.arrow.up" />}
           label={t('comments.collapsibleComments')}
           onChange={(next) => {
             update({
@@ -227,7 +227,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="ArrowUp" />}
+          icon={<Icon name="arrow.up" />}
           label={t('comments.userOnTop')}
           onChange={(next) => {
             update({
@@ -238,7 +238,7 @@ export default function Screen() {
         />
 
         <Menu.Options
-          icon={<Icon name="ArrowDown" />}
+          icon={<Icon name="arrow.down" />}
           label={t('comments.skipComment')}
           onChange={(next) => {
             const payload: Partial<PreferencesPayload> = {
@@ -257,14 +257,13 @@ export default function Screen() {
               <Icon
                 name={
                   item === 'left'
-                    ? 'ArrowLeft'
+                    ? 'arrow.left'
                     : item === 'center'
-                      ? 'ArrowDown'
+                      ? 'arrow.down'
                       : item === 'right'
-                        ? 'ArrowRight'
-                        : 'EyeClosed'
+                        ? 'arrow.right'
+                        : 'eye.slash'
                 }
-                weight="bold"
               />
             ),
             value: item,
@@ -273,7 +272,7 @@ export default function Screen() {
         />
 
         <Menu.Options
-          icon={<Icon name="ArrowBendUpLeft" />}
+          icon={<Icon name="arrow.turn.up.left" />}
           label={t('comments.replyPost')}
           onChange={(next) => {
             const payload: Partial<PreferencesPayload> = {
@@ -292,14 +291,13 @@ export default function Screen() {
               <Icon
                 name={
                   item === 'left'
-                    ? 'ArrowLeft'
+                    ? 'arrow.left'
                     : item === 'center'
-                      ? 'ArrowDown'
+                      ? 'arrow.down'
                       : item === 'right'
-                        ? 'ArrowRight'
-                        : 'EyeClosed'
+                        ? 'arrow.right'
+                        : 'eye.slash'
                 }
-                weight="bold"
               />
             ),
             value: item,
@@ -312,7 +310,7 @@ export default function Screen() {
         <Menu.Label>{t('history.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="ArrowFatUp" />}
+          icon={<Icon name="arrowshape.up" />}
           label={t('history.seenOnVote')}
           onChange={(next) => {
             update({
@@ -323,7 +321,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="Image" />}
+          icon={<Icon name="photo" />}
           label={t('history.seenOnMedia')}
           onChange={(next) => {
             update({
@@ -335,7 +333,7 @@ export default function Screen() {
 
         <Menu.Switch
           description={t('history.seenOnScroll.description')}
-          icon={<Icon name="MouseScroll" />}
+          icon={<Icon name="iphone" />}
           label={t('history.seenOnScroll.label')}
           onChange={(next) => {
             update({
@@ -347,7 +345,7 @@ export default function Screen() {
 
         <Menu.Options
           description={t('history.seenOnScrollDelay.description')}
-          icon={<Icon name="Clock" />}
+          icon={<Icon name="clock" />}
           label={t('history.seenOnScrollDelay.label')}
           onChange={(next) => {
             update({
@@ -357,7 +355,7 @@ export default function Screen() {
           options={[
             {
               label: t('refreshInterval.instant'),
-              right: <SymbolIcon name="0.circle.fill" />,
+              right: <Icon name="0.circle.fill" />,
               value: 0,
             },
             {
@@ -365,7 +363,7 @@ export default function Screen() {
                 style: 'unit',
                 unit: 'second',
               }),
-              right: <SymbolIcon name="1.circle.fill" />,
+              right: <Icon name="1.circle.fill" />,
               value: 1,
             },
             {
@@ -373,7 +371,7 @@ export default function Screen() {
                 style: 'unit',
                 unit: 'second',
               }),
-              right: <SymbolIcon name="2.circle.fill" />,
+              right: <Icon name="2.circle.fill" />,
               value: 2,
             },
             {
@@ -381,7 +379,7 @@ export default function Screen() {
                 style: 'unit',
                 unit: 'second',
               }),
-              right: <SymbolIcon name="3.circle.fill" />,
+              right: <Icon name="3.circle.fill" />,
               value: 3,
             },
             {
@@ -389,7 +387,7 @@ export default function Screen() {
                 style: 'unit',
                 unit: 'second',
               }),
-              right: <SymbolIcon name="5.circle.fill" />,
+              right: <Icon name="5.circle.fill" />,
               value: 5,
             },
             {
@@ -397,7 +395,7 @@ export default function Screen() {
                 style: 'unit',
                 unit: 'second',
               }),
-              right: <SymbolIcon name="10.circle.fill" />,
+              right: <Icon name="10.circle.fill" />,
               value: 10,
             },
           ]}
@@ -405,7 +403,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="SunDim" />}
+          icon={<Icon name="sun.min" />}
           label={t('history.dimSeen')}
           onChange={(next) => {
             update({
@@ -420,7 +418,7 @@ export default function Screen() {
         <Menu.Label>{t('media.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="Play" />}
+          icon={<Icon name="play" />}
           label={t('media.autoPlay')}
           onChange={(next) => {
             update({
@@ -431,7 +429,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="SpeakerSimpleX" />}
+          icon={<Icon name="speaker.slash" />}
           label={t('media.feedMuted')}
           onChange={(next) => {
             update({
@@ -442,7 +440,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="SpeakerSimpleHigh" />}
+          icon={<Icon name="speaker.2" />}
           label={t('media.unmuteFullscreen')}
           onChange={(next) => {
             update({
@@ -453,7 +451,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="PictureInPicture" />}
+          icon={<Icon name="pip" />}
           label={t('media.pictureInPicture')}
           onChange={(next) => {
             update({
@@ -464,7 +462,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="EyeClosed" />}
+          icon={<Icon name="eye.slash" />}
           label={t('media.blurNsfw')}
           onChange={(next) => {
             update({
@@ -475,7 +473,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="EyeClosed" />}
+          icon={<Icon name="eye.slash" />}
           label={t('media.blurSpoiler')}
           onChange={(next) => {
             update({
@@ -486,7 +484,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="Image" />}
+          icon={<Logo size={24} />}
           label={t('media.saveToAlbum')}
           onChange={(next) => {
             update({
@@ -500,7 +498,7 @@ export default function Screen() {
         <Menu.Label>{t('system.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="Browser" />}
+          icon={<Icon name="safari" />}
           label={t('system.linkBrowser')}
           onChange={(next) => {
             update({
@@ -514,7 +512,7 @@ export default function Screen() {
         <Menu.Label>{t('feedback.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="Vibrate" />}
+          icon={<Icon name="hand.tap" />}
           label={t('feedback.feedbackHaptics')}
           onChange={(next) => {
             update({
@@ -525,7 +523,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="MegaphoneSimple" />}
+          icon={<Icon name="megaphone" />}
           label={t('feedback.hapticsLoud')}
           onChange={(next) => {
             update({
@@ -536,7 +534,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="SpeakerSimpleHigh" />}
+          icon={<Icon name="speaker.2" />}
           label={t('feedback.feedbackSounds')}
           onChange={(next) => {
             update({

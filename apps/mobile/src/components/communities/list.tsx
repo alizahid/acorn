@@ -235,7 +235,7 @@ export function CommunitiesList({
                 <Icon
                   name={FeedTypeIcons[item.data]}
                   uniProps={(theme) => ({
-                    color: theme.colors[FeedTypeColors[item.data]].accent,
+                    tintColor: theme.colors[FeedTypeColors[item.data]].accent,
                   })}
                 />
               }
@@ -253,10 +253,10 @@ export function CommunitiesList({
               right={
                 chevron ? (
                   <Icon
-                    name="CaretRight"
-                    uniProps={($theme) => ({
-                      color: $theme.colors.gray.accent,
-                      size: $theme.space[4],
+                    name="chevron.right"
+                    uniProps={(theme) => ({
+                      size: theme.space[4],
+                      tintColor: theme.colors.gray.accent,
                     })}
                   />
                 ) : null
@@ -289,10 +289,11 @@ export function CommunitiesList({
                 }}
                 right={
                   <IconButton
-                    icon={{
-                      name: expanded.get(item.key) ? 'CaretDown' : 'CaretUp',
-                      weight: 'fill',
-                    }}
+                    icon={
+                      expanded.get(item.key)
+                        ? 'chevron.down.circle.fill'
+                        : 'chevron.up.circle.fill'
+                    }
                     label={a11y(
                       expanded.get(item.key) ? 'collapseFeed' : 'expandFeed',
                     )}
@@ -383,20 +384,19 @@ export function CommunitiesList({
               <>
                 {'favorite' in item.data && item.data.favorite ? (
                   <Icon
-                    name="Star"
-                    uniProps={($theme) => ({
-                      color: $theme.colors.amber.accent,
+                    name="star.fill"
+                    uniProps={(theme) => ({
+                      tintColor: theme.colors.amber.accent,
                     })}
-                    weight="fill"
                   />
                 ) : null}
 
                 {chevron ? (
                   <Icon
-                    name="CaretRight"
-                    uniProps={($theme) => ({
-                      color: $theme.colors.gray.accent,
-                      size: $theme.space[4],
+                    name="chevron.right"
+                    uniProps={(theme) => ({
+                      size: theme.space[4],
+                      tintColor: theme.colors.gray.accent,
                     })}
                   />
                 ) : null}
@@ -453,11 +453,9 @@ export function CommunitiesList({
                     hitSlop={{
                       left: 300,
                     }}
-                    icon={{
-                      name: collapsed.get(section.key)
-                        ? 'CaretUp'
-                        : 'CaretDown',
-                    }}
+                    icon={
+                      collapsed.get(section.key) ? 'chevron.up' : 'chevron.down'
+                    }
                     label={a11y(
                       collapsed.get(section.key)
                         ? 'collapseSection'
@@ -491,6 +489,7 @@ const styles = StyleSheet.create((theme) => ({
   feedCommunity: {
     height: theme.space[7],
     paddingLeft: theme.space[8],
+    paddingRight: theme.space[4],
   },
   feedCommunityImage: {
     height: theme.typography[2].lineHeight,
@@ -511,7 +510,7 @@ const styles = StyleSheet.create((theme) => ({
     width: theme.typography[3].lineHeight,
   },
   item: {
-    marginRight: theme.space[6],
+    marginRight: theme.space[5],
   },
   right: {
     marginRight: -theme.space[3],

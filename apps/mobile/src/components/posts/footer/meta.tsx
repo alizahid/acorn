@@ -1,4 +1,3 @@
-import { useUnistyles } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -14,16 +13,14 @@ type Props = {
 export function PostMeta({ post }: Props) {
   const f = useFormatter()
 
-  const { theme } = useUnistyles()
-
   const items = [
     {
       color: post.liked
-        ? theme.colors.orange.accent
+        ? 'orange'
         : post.liked === false
-          ? theme.colors.violet.accent
+          ? 'violet'
           : undefined,
-      icon: post.liked === false ? 'ArrowFatDown' : 'ArrowFatUp',
+      icon: post.liked === false ? 'arrowshape.down' : 'arrowshape.up',
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
@@ -31,21 +28,21 @@ export function PostMeta({ post }: Props) {
       weight: post.liked !== null ? 'fill' : undefined,
     },
     {
-      icon: 'Smiley',
+      icon: 'face.smiling.inverse',
       key: 'ratio',
       label: f.number(post.ratio, {
         style: 'percent',
       }),
     },
     {
-      icon: 'ChatCircle',
+      icon: 'bubble',
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'Clock',
+      icon: 'clock',
       key: 'created',
       label: <TimeAgo>{post.createdAt}</TimeAgo>,
     },
@@ -55,12 +52,11 @@ export function PostMeta({ post }: Props) {
     <View align="center" direction="row" gap="2">
       {post.sticky ? (
         <Icon
-          name="PushPin"
-          uniProps={($theme) => ({
-            color: $theme.colors.green.accent,
-            size: $theme.typography[1].fontSize,
+          name="pin"
+          uniProps={(theme) => ({
+            size: theme.typography[1].fontSize,
+            tintColor: theme.colors.green.accent,
           })}
-          weight="fill"
         />
       ) : null}
 
@@ -68,14 +64,13 @@ export function PostMeta({ post }: Props) {
         <View align="center" direction="row" gap="1" key={item.key}>
           <Icon
             name={item.icon}
-            uniProps={($theme) => ({
-              color:
+            uniProps={(theme) => ({
+              size: theme.typography[1].fontSize,
+              tintColor:
                 'color' in item && item.color
-                  ? item.color
-                  : $theme.colors.gray.text,
-              size: $theme.typography[1].fontSize,
+                  ? theme.colors[item.color].accent
+                  : theme.colors.gray.text,
             })}
-            weight={'weight' in item ? item.weight : undefined}
           />
 
           <Text size="1" tabular>

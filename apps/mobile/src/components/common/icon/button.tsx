@@ -1,20 +1,17 @@
+import { type SFSymbol } from 'expo-symbols'
 import { type Insets, type StyleProp, type ViewStyle } from 'react-native'
 
 import { type ColorToken, type SpaceToken } from '~/styles/tokens'
 
 import { Pressable } from '../pressable'
 import { Spinner } from '../spinner'
-import { Icon, type IconName, type IconWeight } from '.'
+import { Icon } from '.'
 
 type Props = {
+  color?: ColorToken
   contrast?: boolean
   hitSlop?: number | Insets
-  icon: {
-    color?: ColorToken
-    name: IconName
-    size?: number
-    weight?: IconWeight
-  }
+  icon: SFSymbol
   label: string
   loading?: boolean
   onLongPress?: () => void
@@ -24,6 +21,7 @@ type Props = {
 }
 
 export function IconButton({
+  color = 'accent',
   contrast,
   hitSlop,
   icon,
@@ -50,21 +48,17 @@ export function IconButton({
       {loading ? (
         <Spinner
           uniProps={(theme) => ({
-            color: icon.color
-              ? theme.colors[icon.color].accent
-              : theme.colors.accent[contrast ? 'contrast' : 'accent'],
+            color: theme.colors[color][contrast ? 'contrast' : 'accent'],
+            size: theme.space[5],
           })}
         />
       ) : (
         <Icon
-          name={icon.name}
+          name={icon}
           uniProps={(theme) => ({
-            color: icon.color
-              ? theme.colors[icon.color].accent
-              : theme.colors.accent[contrast ? 'contrast' : 'accent'],
-            size: icon.size ?? theme.space[5],
+            size: theme.space[5],
+            tintColor: theme.colors[color][contrast ? 'contrast' : 'accent'],
           })}
-          weight={icon.weight}
         />
       )}
     </Pressable>

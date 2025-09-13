@@ -66,8 +66,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
               },
               icon: {
                 color: theme.colors.orange.accent,
-                name: 'arrow-fat-up-duotone',
-                type: 'icon',
+                name: comment.liked ? 'arrowshape.up' : 'arrowshape.up.fill',
               },
               id: 'upvote',
               title: t(comment.liked ? 'removeUpvote' : 'upvote'),
@@ -82,8 +81,10 @@ export function CommentMenu({ children, comment, onPress }: Props) {
               },
               icon: {
                 color: theme.colors.violet.accent,
-                name: 'arrow-fat-down-duotone',
-                type: 'icon',
+                name:
+                  comment.liked === false
+                    ? 'arrowshape.down'
+                    : 'arrowshape.down.fill',
               },
               id: 'downvote',
               title: t(comment.liked === false ? 'removeDownvote' : 'downvote'),
@@ -98,8 +99,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
               },
               icon: {
                 color: theme.colors.green.accent,
-                name: 'bookmark-simple-duotone',
-                type: 'icon',
+                name: comment.saved ? 'bookmark' : 'bookmark.fill',
               },
               id: 'save',
               title: t(comment.saved ? 'unsave' : 'save'),
@@ -117,8 +117,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
               },
               icon: {
                 color: theme.colors.blue.accent,
-                name: 'arrow-bend-up-left-duotone',
-                type: 'icon',
+                name: 'arrow.turn.up.left',
               },
               id: 'reply',
               title: t('reply'),
@@ -143,8 +142,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                name: 'pencil-duotone',
-                type: 'icon',
+                name: 'square.and.pencil',
               },
               id: 'edit',
               title: t('editComment'),
@@ -175,8 +173,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
               destructive: true,
               icon: {
                 color: theme.colors.red.accent,
-                name: 'trash-duotone',
-                type: 'icon',
+                name: 'trash',
               },
               id: 'delete',
               title: t('deleteComment.title'),
@@ -195,8 +192,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                name: 'copy-duotone',
-                type: 'icon',
+                name: 'square.on.square',
               },
               id: 'copyText',
               title: t('copyText'),
@@ -215,8 +211,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                name: 'copy-duotone',
-                type: 'icon',
+                name: 'square.on.square',
               },
               id: 'copyPermalink',
               title: t('copyPermalink'),
@@ -235,8 +230,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                name: 'share-duotone',
-                type: 'icon',
+                name: 'square.and.arrow.up',
               },
               id: 'sharePermalink',
               title: t('sharePermalink'),
@@ -254,7 +248,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
               },
               icon: {
                 image: acorn,
-                type: 'image',
               },
               id: 'openApp',
               title: t('openApp'),
@@ -271,8 +264,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 openInBrowser(url.toString())
               },
               icon: {
-                name: 'compass-duotone',
-                type: 'icon',
+                name: 'safari',
               },
               id: 'openBrowser',
               title: t('openBrowser'),
@@ -294,8 +286,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                name: 'user-duotone',
-                type: 'icon',
+                name: 'person',
               },
               id: 'openUser',
               title: t('openUser', {
@@ -312,8 +303,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 })
               },
               icon: {
-                name: 'users-four-duotone',
-                type: 'icon',
+                name: 'person.2',
               },
               id: 'openCommunity',
               title: t('openCommunity', {
@@ -339,8 +329,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
               destructive: true,
               icon: {
                 color: theme.colors.red.accent,
-                name: 'eye-closed-duotone',
-                type: 'icon',
+                name: 'eye.slash',
               },
               id: 'hideComment',
               title: t('hideComment'),
@@ -359,8 +348,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
               destructive: true,
               icon: {
                 color: theme.colors.red.accent,
-                name: 'user-duotone',
-                type: 'icon',
+                name: 'person',
               },
               id: 'hideUser',
               title: t('hideUser', {

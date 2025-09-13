@@ -8,7 +8,6 @@ import { type Account } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
-import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
 import { Text } from '../common/text'
 
@@ -45,9 +44,7 @@ export function AccountCard({
       renderLeftActions={() => (
         <IconButton
           contrast
-          icon={{
-            name: 'Trash',
-          }}
+          icon="trash"
           label={a11y('removeAccount', {
             account: account.id,
           })}
@@ -69,15 +66,6 @@ export function AccountCard({
         }}
         style={[styles.main, account.id === selected && styles.selected]}
       >
-        <Icon
-          name="DotsSixVertical"
-          uniProps={(theme) => ({
-            color: theme.colors.gray.accent,
-            size: theme.space[4],
-          })}
-          weight="bold"
-        />
-
         <Text weight="medium">{account.id}</Text>
       </Pressable>
     </Swipeable>

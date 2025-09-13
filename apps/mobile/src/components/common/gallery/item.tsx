@@ -76,12 +76,11 @@ export function GalleryItem({ image, onTap }: Props) {
             style={styles.play}
           >
             <Icon
-              name={playing ? 'Pause' : 'Play'}
+              name={playing ? 'pause.fill' : 'play.fill'}
               uniProps={(theme) => ({
-                color: theme.colors.gray.contrast,
                 size: theme.space[4],
+                tintColor: theme.colors.gray.contrast,
               })}
-              weight="fill"
             />
           </Pressable>
         </View>

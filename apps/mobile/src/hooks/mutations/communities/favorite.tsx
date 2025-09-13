@@ -45,13 +45,12 @@ export function useFavorite() {
         {
           icon: (
             <Icon
-              name="Star"
+              name={variables.favorite ? 'star.fill' : 'star'}
               uniProps={(theme) => ({
-                color: variables.favorite
+                tintColor: variables.favorite
                   ? theme.colors.amber.accent
                   : theme.colors.gray.accent,
               })}
-              weight={variables.favorite ? 'fill' : 'regular'}
             />
           ),
         },

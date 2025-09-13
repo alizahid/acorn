@@ -37,9 +37,9 @@ export function SearchHistory({ history, onChange }: Props) {
           }}
         >
           <Icon
-            name="MagnifyingGlass"
+            name="magnifyingglass"
             uniProps={(theme) => ({
-              color: theme.colors.gray.text,
+              tintColor: theme.colors.gray.text,
             })}
           />
 
@@ -55,11 +55,10 @@ export function SearchHistory({ history, onChange }: Props) {
             }}
           >
             <Icon
-              name="X"
+              name="xmark"
               uniProps={(theme) => ({
-                color: theme.colors.red.accent,
+                tintColor: theme.colors.red.accent,
               })}
-              weight="bold"
             />
           </Pressable>
         </Pressable>
@@ -76,11 +75,10 @@ export function SearchHistory({ history, onChange }: Props) {
         }}
       >
         <Icon
-          name="X"
+          name="xmark"
           uniProps={(theme) => ({
-            color: theme.colors.red.accent,
+            tintColor: theme.colors.red.accent,
           })}
-          weight="bold"
         />
 
         <Text>{t('clear')}</Text>

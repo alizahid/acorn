@@ -123,7 +123,7 @@ export function VideoPlayer({
         />
 
         <View align="center" justify="center" style={styles.compactIcon}>
-          <Icon name="Play" weight="fill" />
+          <Icon name="play.fill" />
         </View>
 
         <VideoView
@@ -193,10 +193,10 @@ export function VideoPlayer({
           style={styles.volume}
         >
           <Icon
-            name={muted ? 'SpeakerSimpleX' : 'SpeakerSimpleHigh'}
+            name={muted ? 'speaker.slash' : 'speaker.2'}
             uniProps={(theme) => ({
-              color: theme.colors.gray.contrast,
               size: theme.space[4],
+              tintColor: theme.colors.gray.contrast,
             })}
           />
         </Pressable>

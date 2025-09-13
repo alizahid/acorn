@@ -101,10 +101,7 @@ export function Header({
             <View direction="row" style={[styles.actions, styles.left]}>
               {back ? (
                 <IconButton
-                  icon={{
-                    name: modal ? 'X' : 'ArrowLeft',
-                    weight: 'bold',
-                  }}
+                  icon={modal ? 'xmark' : 'arrow.left'}
                   label={a11y(modal ? 'close' : 'goBack')}
                   onPress={() => {
                     router.back()

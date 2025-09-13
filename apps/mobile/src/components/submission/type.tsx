@@ -45,10 +45,10 @@ export function SubmissionType({ submission }: Props) {
             icon: {
               name:
                 item === 'image'
-                  ? 'image-duotone'
+                  ? 'photo'
                   : item === 'link'
-                    ? 'link-duotone'
-                    : 'textbox-duotone',
+                    ? 'link'
+                    : 'character.cursor.ibeam',
               type: 'icon',
             },
             id: item,
@@ -67,24 +67,22 @@ export function SubmissionType({ submission }: Props) {
             <Icon
               name={
                 field.value === 'image'
-                  ? 'Image'
+                  ? 'photo'
                   : field.value === 'link'
-                    ? 'Link'
-                    : 'Textbox'
+                    ? 'link'
+                    : 'character.cursor.ibeam'
               }
               uniProps={(theme) => ({
-                color: theme.colors.gray.text,
+                tintColor: theme.colors.gray.text,
               })}
-              weight="duotone"
             />
 
             <Icon
-              name="CaretDown"
+              name="chevron.down"
               uniProps={(theme) => ({
-                color: theme.colors.gray.textLow,
                 size: theme.space[4],
+                tintColor: theme.colors.gray.textLow,
               })}
-              weight="bold"
             />
           </View>
         </ContextMenu>

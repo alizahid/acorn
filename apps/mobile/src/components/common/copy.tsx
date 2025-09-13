@@ -31,10 +31,8 @@ export function Copy({ code = true, style, value }: Props) {
       </Text>
 
       <IconButton
-        icon={{
-          color: copied ? 'green' : 'accent',
-          name: copied ? 'CheckCircle' : 'Copy',
-        }}
+        color={copied ? 'green' : 'accent'}
+        icon={copied ? 'checkmark.circle' : 'square.on.square'}
         label={a11y(copied ? 'copied' : 'copy')}
         onPress={() => {
           copy(value)

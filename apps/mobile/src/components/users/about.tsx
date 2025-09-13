@@ -78,9 +78,11 @@ export function UserAbout({ listProps, name }: Props) {
       <View direction="row" gap="4" mx="4">
         <Button
           color={profile.subscribed ? 'red' : 'accent'}
-          icon={{
-            name: profile.subscribed ? 'UserCircleMinus' : 'UserCirclePlus',
-          }}
+          icon={
+            profile.subscribed
+              ? 'person.crop.circle.badge.minus'
+              : 'person.crop.circle.badge.plus'
+          }
           label={t(profile.subscribed ? 'unfollow' : 'follow')}
           onPress={() => {
             follow({

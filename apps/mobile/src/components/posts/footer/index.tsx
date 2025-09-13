@@ -60,7 +60,7 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
           <FooterButton
             color={post.liked === true ? 'orange' : undefined}
             fill={post.liked === true}
-            icon="ArrowUp"
+            icon="arrowshape.up.fill"
             label={a11y(post.liked ? 'removeUpvote' : 'upvote')}
             onPress={() => {
               vote({
@@ -68,13 +68,12 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
                 postId: post.id,
               })
             }}
-            weight="bold"
           />
 
           <FooterButton
             color={post.liked === false ? 'violet' : undefined}
             fill={post.liked === false}
-            icon="ArrowDown"
+            icon="arrowshape.down.fill"
             label={a11y(post.liked === false ? 'removeDownvote' : 'downvote')}
             onPress={() => {
               vote({
@@ -82,7 +81,6 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
                 postId: post.id,
               })
             }}
-            weight="bold"
           />
         </View>
       )}

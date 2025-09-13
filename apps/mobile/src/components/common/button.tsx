@@ -1,10 +1,12 @@
+import { type SFSymbol } from 'expo-symbols'
+import { type ReactNode } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { type ColorToken, ColorTokens } from '~/styles/tokens'
 import { type ViewStyleProps } from '~/styles/view'
 
-import { Icon, type IconName, type IconWeight } from './icon'
+import { Icon } from './icon'
 import { Pressable } from './pressable'
 import { Spinner } from './spinner'
 import { Text } from './text'
@@ -12,12 +14,10 @@ import { Text } from './text'
 type Props = {
   color?: ColorToken
   disabled?: boolean
-  icon?: {
-    name: IconName
-    weight?: IconWeight
-  }
+  icon?: SFSymbol
   justify?: ViewStyleProps['justify']
   label: string
+  left?: ReactNode
   loading?: boolean
   onPress?: () => void
   style?: StyleProp<ViewStyle>
@@ -29,6 +29,7 @@ export function Button({
   icon,
   justify = 'center',
   label,
+  left,
   loading = false,
   onPress,
   style,
@@ -50,6 +51,8 @@ export function Button({
       px="4"
       style={[styles.main, style]}
     >
+      {left}
+
       {icon && loading ? (
         <Spinner
           uniProps={(theme) => ({
@@ -59,11 +62,10 @@ export function Button({
         />
       ) : icon ? (
         <Icon
-          name={icon.name}
+          name={icon}
           uniProps={(theme) => ({
-            color: theme.colors[color].contrast,
+            tintColor: theme.colors[color].contrast,
           })}
-          weight={icon.weight}
         />
       ) : null}
 

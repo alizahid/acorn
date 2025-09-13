@@ -203,11 +203,10 @@ export function CommentCard({
               style={styles.post}
             >
               <Icon
-                name="NoteBlank"
+                name="paperclip"
                 uniProps={(theme) => ({
-                  color: theme.colors.gray.accent,
+                  tintColor: theme.colors.gray.accent,
                 })}
-                weight="duotone"
               />
 
               <View flex={1} gap="1">

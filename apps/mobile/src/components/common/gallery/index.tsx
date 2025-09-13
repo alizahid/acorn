@@ -173,10 +173,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
         ) : null}
 
         <IconButton
-          icon={{
-            name: 'X',
-            weight: 'bold',
-          }}
+          icon="xmark"
           label={a11y('close')}
           onPress={() => {
             translate.set(() => withSpring(frame.height))
@@ -194,10 +191,7 @@ export const Gallery = createCallable<Props>(({ call, images, initial }) => {
           style={[styles.footer, controls]}
         >
           <IconButton
-            icon={{
-              name: 'Download',
-              weight: 'duotone',
-            }}
+            icon="square.and.arrow.down"
             label={a11y('downloadGallery')}
             loading={download.isPending}
             onPress={() => {

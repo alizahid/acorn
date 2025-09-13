@@ -81,7 +81,7 @@ export default function Screen() {
       />
 
       <FloatingButton
-        icon="Plus"
+        icon="plus"
         label={a11y('createPost')}
         onPress={() => {
           router.push({

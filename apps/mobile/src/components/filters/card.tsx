@@ -44,10 +44,10 @@ export function FilterCard({ index, onRemove }: Props) {
                 icon: {
                   name:
                     item === 'community'
-                      ? 'users-four-duotone'
+                      ? 'person.2'
                       : item === 'user'
-                        ? 'user-duotone'
-                        : 'tag-duotone',
+                        ? 'person'
+                        : 'tag',
                   type: 'icon',
                 },
                 id: item,
@@ -61,25 +61,23 @@ export function FilterCard({ index, onRemove }: Props) {
               <Icon
                 name={
                   field.value === 'community'
-                    ? 'UsersFour'
+                    ? 'person.2'
                     : field.value === 'user'
-                      ? 'User'
-                      : 'Tag'
+                      ? 'person'
+                      : 'tag'
                 }
                 uniProps={(theme) => ({
-                  color: theme.colors.gray.text,
                   size: theme.typography[2].lineHeight,
+                  tintColor: theme.colors.gray.text,
                 })}
-                weight="duotone"
               />
 
               <Icon
-                name="CaretDown"
+                name="chevron.down"
                 uniProps={(theme) => ({
-                  color: theme.colors.gray.textLow,
                   size: theme.space[4],
+                  tintColor: theme.colors.gray.textLow,
                 })}
-                weight="bold"
               />
             </View>
           </ContextMenu>
@@ -105,11 +103,8 @@ export function FilterCard({ index, onRemove }: Props) {
       />
 
       <IconButton
-        icon={{
-          color: 'red',
-          name: 'Trash',
-          weight: 'duotone',
-        }}
+        color="red"
+        icon="trash"
         label={a11y('removeFilter')}
         onPress={() => {
           onRemove(index)

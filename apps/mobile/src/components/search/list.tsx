@@ -130,11 +130,11 @@ export function SearchList({
         isLoading ? (
           <Loading />
         ) : query.length > 1 ? (
-          <Empty icon="SmileySad" message={t('notFound')} />
+          <Empty message={t('notFound')} />
         ) : history.history.length > 0 ? (
           <SearchHistory history={history} onChange={onChangeQuery} />
         ) : (
-          <Empty icon="MagnifyingGlass" message={t('empty')} weight="duotone" />
+          <Empty icon="magnifyingglass" message={t('empty')} />
         )
       }
       ListHeaderComponent={header}

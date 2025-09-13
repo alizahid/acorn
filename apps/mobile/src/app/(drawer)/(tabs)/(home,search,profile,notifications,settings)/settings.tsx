@@ -22,7 +22,7 @@ export default function Screen() {
       <Menu.Root>
         <Menu.Button
           arrow
-          icon={<Icon name="GearSix" />}
+          icon={<Icon name="gearshape" />}
           label={t('preferences')}
           onPress={() => {
             router.push({
@@ -33,7 +33,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="HandSwipeLeft" />}
+          icon={<Icon name="hand.tap" />}
           label={t('gestures')}
           onPress={() => {
             router.push({
@@ -44,7 +44,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="Palette" />}
+          icon={<Icon name="paintpalette" />}
           label={t('appearance')}
           onPress={() => {
             router.push({
@@ -55,7 +55,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="SlidersHorizontal" />}
+          icon={<Icon name="slider.horizontal.3" />}
           label={t('defaults')}
           onPress={() => {
             router.push({
@@ -66,7 +66,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="Funnel" />}
+          icon={<Icon name="line.3.horizontal.decrease" />}
           label={t('filters')}
           onPress={() => {
             router.push({
@@ -77,7 +77,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="SortAscending" />}
+          icon={<Icon name="triangle" />}
           label={t('sort')}
           onPress={() => {
             router.push({
@@ -88,7 +88,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="HardDrives" />}
+          icon={<Icon name="externaldrive" />}
           label={t('cache')}
           onPress={() => {
             router.push({

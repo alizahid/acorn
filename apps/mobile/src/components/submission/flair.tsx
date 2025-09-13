@@ -63,26 +63,24 @@ export function SubmissionFlair({ submission }: Props) {
                   }}
                 >
                   <Icon
-                    name="X"
+                    name="xmark"
                     uniProps={(theme) => ({
-                      color:
+                      tintColor:
                         theme.colors.red[
                           fieldState.error ? 'contrast' : 'accent'
                         ],
                     })}
-                    weight="bold"
                   />
                 </Pressable>
               ) : (
                 <Icon
-                  name="SmileyWink"
+                  name="tag"
                   uniProps={(theme) => ({
-                    color:
+                    tintColor:
                       theme.colors.red[
                         fieldState.error ? 'contrast' : 'accent'
                       ],
                   })}
-                  weight="bold"
                 />
               )}
 

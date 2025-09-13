@@ -35,10 +35,8 @@ export function AccountSwitcher() {
       <Sheet.Header
         right={
           <IconButton
-            icon={{
-              color: 'green',
-              name: 'PlusCircle',
-            }}
+            color="green"
+            icon="plus.circle"
             label={a11y('addAccount')}
             onPress={() => {
               router.push({

@@ -90,9 +90,7 @@ function Content({ refetch, submission }: Props) {
       navigation.setOptions({
         headerRight: () => (
           <IconButton
-            icon={{
-              name: 'PaperPlaneTilt',
-            }}
+            icon="paperplane.fill"
             label={a11y('createPost')}
             loading={isPending}
             onPress={() => {

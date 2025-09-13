@@ -140,10 +140,7 @@ export default function Screen() {
           back
           right={
             <IconButton
-              icon={{
-                name: 'Info',
-                weight: 'duotone',
-              }}
+              icon="info.circle"
               label={a11y('aboutCommunity', {
                 community: params.name,
               })}
