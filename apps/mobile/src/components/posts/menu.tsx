@@ -68,7 +68,7 @@ export function PostMenu({ children, onPress, post }: Props) {
               },
               icon: {
                 color: theme.colors.orange.accent,
-                name: post.liked ? 'arrowshape.up' : 'arrowshape.up.fill',
+                name: post.liked ? 'arrowshape.up.fill' : 'arrowshape.up',
               },
               id: 'upvote',
               title: t(post.liked ? 'removeUpvote' : 'upvote'),
@@ -84,8 +84,8 @@ export function PostMenu({ children, onPress, post }: Props) {
                 color: theme.colors.violet.accent,
                 name:
                   post.liked === false
-                    ? 'arrowshape.down'
-                    : 'arrowshape.down.fill',
+                    ? 'arrowshape.down.fill'
+                    : 'arrowshape.down',
               },
               id: 'downvote',
               title: t(post.liked === false ? 'removeDownvote' : 'downvote'),
@@ -99,7 +99,7 @@ export function PostMenu({ children, onPress, post }: Props) {
               },
               icon: {
                 color: theme.colors.green.accent,
-                name: post.saved ? 'bookmark' : 'bookmark.fill',
+                name: post.saved ? 'bookmark.fill' : 'bookmark',
               },
               id: 'save',
               title: t(post.saved ? 'unsave' : 'save'),
