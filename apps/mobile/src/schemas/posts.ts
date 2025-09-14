@@ -27,7 +27,7 @@ const PostBaseSchema = z.object({
   num_comments: z.number(),
   over_18: z.boolean(),
   permalink: z.string(),
-  poll_data: z.object({}).nullish(),
+  poll_data: z.any().nullish(),
   post_hint: z.string().nullish(),
   preview: PostPreviewSchema,
   saved: z.boolean(),
