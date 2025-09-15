@@ -82,8 +82,6 @@
         "react-native-enriched": "^0.1.1",
         "react-native-flexible-grid": "^0.2.4",
         "react-native-gesture-handler": "~2.24.0",
-        "react-native-ios-context-menu": "3.1.3",
-        "react-native-ios-utilities": "^5.1.8",
         "react-native-keyboard-controller": "^1.18.6",
         "react-native-mmkv": "^3.3.0",
         "react-native-nitro-modules": "0.29.2",
@@ -372,8 +370,6 @@
     "@commander-js/extra-typings": ["@commander-js/extra-typings@13.1.0", "", { "peerDependencies": { "commander": "~13.1.0" } }, "sha512-q5P52BYb1hwVWE6dtID7VvuJWrlfbCv4klj7BjUUOqMz4jbSZD4C9fJ9lRjL2jnBGTg+gDDlaXN51rkWcLk4fg=="],
 
     "@date-fns/tz": ["@date-fns/tz@1.4.1", "", {}, "sha512-P5LUNhtbj6YfI3iJjw5EL9eUAG6OitD0W3fWQcpQjDRc/QIsL0tRNuO1PcDvPccWL1fSTXXdE1ds+l95DV/OFA=="],
-
-    "@dominicstop/ts-event-emitter": ["@dominicstop/ts-event-emitter@1.1.0", "", {}, "sha512-CcxmJIvUb1vsFheuGGVSQf4KdPZC44XolpUT34+vlal+LyQoBUOn31pjFET5M9ctOxEpt8xa0M3/2M7uUiAoJw=="],
 
     "@drizzle-team/brocli": ["@drizzle-team/brocli@0.10.2", "", {}, "sha512-z33Il7l5dKjUgGULTqBsQBQwckHh5AbIuxhdsIxDDiZAzBOrZO6q9ogcWC65kU382AfynTfgNumVcNIjuIua6w=="],
 
@@ -1684,10 +1680,6 @@
     "react-native-flexible-grid": ["react-native-flexible-grid@0.2.4", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-iZ3csxv5mqERZ/1dRoXW6gHgHdBjWFC2zYS1+ZYmEhsEUoEx2Q2BeDIt/4FznSq+D2arlnDHHQWswHJWfAX43w=="],
 
     "react-native-gesture-handler": ["react-native-gesture-handler@2.24.0", "", { "dependencies": { "@egjs/hammerjs": "^2.0.17", "hoist-non-react-statics": "^3.3.0", "invariant": "^2.2.4" }, "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-ZdWyOd1C8axKJHIfYxjJKCcxjWEpUtUWgTOVY2wynbiveSQDm8X/PDyAKXSer/GOtIpjudUbACOndZXCN3vHsw=="],
-
-    "react-native-ios-context-menu": ["react-native-ios-context-menu@3.1.3", "", { "dependencies": { "@dominicstop/ts-event-emitter": "^1.1.0" }, "peerDependencies": { "react": "*", "react-native": "*", "react-native-ios-utilities": "*" } }, "sha512-p65JTOxL0D8TOgTgq3A7nVhr/hQuRTtlmsH/aQ7vaOgxY4Na/QVcEF9s4wHc7y+Rcmv84bi6V6DhqxGkFFLPmA=="],
-
-    "react-native-ios-utilities": ["react-native-ios-utilities@5.1.8", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-2lWerAkd0Kn18kUAc/RaBzHnOGG1VjbKVfTR4eEXvwYFYqCS709gOg0tGUaVLsm6CAyMe7/jA+AvKMMztzHf4g=="],
 
     "react-native-is-edge-to-edge": ["react-native-is-edge-to-edge@1.2.1", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-FLbPWl/MyYQWz+KwqOZsSyj2JmLKglHatd3xLZWskXOpRaio4LfEDEz8E/A6uD8QoTHW6Aobw1jbEwK7KMgR7Q=="],
 

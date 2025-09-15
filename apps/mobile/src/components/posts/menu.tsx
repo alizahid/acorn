@@ -1,12 +1,13 @@
 import { usePathname, useRouter } from 'expo-router'
 import { compact } from 'lodash'
-import { type ReactNode } from 'react'
+import { type ReactNode, useEffect, useRef } from 'react'
 import { Alert, Share } from 'react-native'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import acorn from '~/assets/images/acorn.png'
+import { ContextMenu, type ContextMenuRef } from '@/context-menu'
+// import acorn from '~/assets/images/acorn.png'
 import { useCopy } from '~/hooks/copy'
 import { useDownloadImages } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
@@ -19,8 +20,6 @@ import { htmlToMarkdown } from '~/lib/editor'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
-
-import { ContextMenu } from '../common/context-menu'
 
 type Props = {
   children: ReactNode
@@ -40,6 +39,8 @@ export function PostMenu({ children, onPress, post }: Props) {
 
   const { theme } = useUnistyles()
 
+  const menu = useRef<ContextMenuRef>(null)
+
   const { vote } = usePostVote()
   const { save } = usePostSave()
   const { report } = useReport()
@@ -50,62 +51,65 @@ export function PostMenu({ children, onPress, post }: Props) {
   const { handleLink, openInBrowser } = useLink()
   const { download } = useDownloadImages()
 
+  useEffect(() => {
+    if (path) {
+      menu.current?.hide()
+    }
+  }, [path])
+
   return (
     <ContextMenu
-      label={a11y('postMenu')}
-      onPress={onPress}
+      accessibilityLabel={a11y('postMenu')}
+      onPressPreview={onPress}
       options={compact([
         {
           id: 'main',
           inline: true,
           options: [
             {
-              action() {
+              color: theme.colors.orange.accent,
+              icon: post.liked ? 'arrowshape.up.fill' : 'arrowshape.up',
+              id: 'upvote',
+              onPress() {
                 vote({
                   direction: post.liked ? 0 : 1,
                   postId: post.id,
                 })
               },
-              icon: {
-                color: theme.colors.orange.accent,
-                name: post.liked ? 'arrowshape.up.fill' : 'arrowshape.up',
-              },
-              id: 'upvote',
               title: t(post.liked ? 'removeUpvote' : 'upvote'),
             },
             {
-              action() {
+              color: theme.colors.violet.accent,
+              icon:
+                post.liked === false
+                  ? 'arrowshape.down.fill'
+                  : 'arrowshape.down',
+              id: 'downvote',
+              onPress() {
                 vote({
                   direction: post.liked === false ? 0 : -1,
                   postId: post.id,
                 })
               },
-              icon: {
-                color: theme.colors.violet.accent,
-                name:
-                  post.liked === false
-                    ? 'arrowshape.down.fill'
-                    : 'arrowshape.down',
-              },
-              id: 'downvote',
               title: t(post.liked === false ? 'removeDownvote' : 'downvote'),
             },
             {
-              action() {
+              color: theme.colors.green.accent,
+              icon: post.saved ? 'bookmark.fill' : 'bookmark',
+              id: 'save',
+              onPress() {
                 save({
                   action: post.saved ? 'unsave' : 'save',
                   postId: post.id,
                 })
               },
-              icon: {
-                color: theme.colors.green.accent,
-                name: post.saved ? 'bookmark.fill' : 'bookmark',
-              },
-              id: 'save',
               title: t(post.saved ? 'unsave' : 'save'),
             },
             {
-              action() {
+              color: theme.colors.blue.accent,
+              icon: 'arrow.turn.up.left',
+              id: 'reply',
+              onPress() {
                 router.push({
                   params: {
                     id: post.id,
@@ -113,18 +117,17 @@ export function PostMenu({ children, onPress, post }: Props) {
                   pathname: '/posts/[id]/reply',
                 })
               },
-              icon: {
-                color: theme.colors.blue.accent,
-                name: 'arrow.turn.up.left',
-              },
-              id: 'reply',
               title: t('reply'),
             },
           ],
           title: '',
         },
         post.user.name === accountId && {
-          action() {
+          color: theme.colors.red.accent,
+          destructive: true,
+          icon: 'trash',
+          id: 'delete',
+          onPress() {
             Alert.alert(t('deletePost.title'), t('deletePost.description'), [
               {
                 style: 'cancel',
@@ -145,12 +148,6 @@ export function PostMenu({ children, onPress, post }: Props) {
               },
             ])
           },
-          destructive: true,
-          icon: {
-            color: theme.colors.red.accent,
-            name: 'trash',
-          },
-          id: 'delete',
           title: t('deletePost.title'),
         },
         {
@@ -158,33 +155,31 @@ export function PostMenu({ children, onPress, post }: Props) {
           inline: true,
           options: compact([
             {
-              action() {
+              icon: 'square.on.square',
+              id: 'copyTitle',
+              onPress() {
                 copy(post.title).then(() => {
                   toast.success(t('toast.titleCopied'))
                 })
               },
-              icon: {
-                name: 'square.on.square',
-              },
-              id: 'copyTitle',
               title: t('copyTitle'),
             },
             post.body?.length && {
-              action() {
+              icon: 'square.on.square',
+              id: 'copyText',
+              onPress() {
                 if (post.body) {
                   copy(htmlToMarkdown(post.body)).then(() => {
                     toast.success(t('toast.textCopied'))
                   })
                 }
               },
-              icon: {
-                name: 'square.on.square',
-              },
-              id: 'copyText',
               title: t('copyText'),
             },
             {
-              action() {
+              icon: 'square.on.square',
+              id: 'copyPermalink',
+              onPress() {
                 const url = new URL(
                   post.permalink,
                   oldReddit
@@ -196,14 +191,12 @@ export function PostMenu({ children, onPress, post }: Props) {
                   toast.success(t('toast.linkCopied'))
                 })
               },
-              icon: {
-                name: 'square.on.square',
-              },
-              id: 'copyPermalink',
               title: t('copyPermalink'),
             },
             {
-              action() {
+              icon: 'square.and.arrow.up',
+              id: 'sharePermalink',
+              onPress() {
                 const url = new URL(
                   post.permalink,
                   oldReddit
@@ -215,24 +208,18 @@ export function PostMenu({ children, onPress, post }: Props) {
                   url: url.toString(),
                 })
               },
-              icon: {
-                name: 'square.and.arrow.up',
-              },
-              id: 'sharePermalink',
               title: t('sharePermalink'),
             },
             (post.media.images?.length ?? 0) > 1 && {
-              action() {
+              icon: 'square.and.arrow.down',
+              id: 'downloadGallery',
+              onPress() {
                 if (post.media.images?.length) {
                   download({
                     urls: post.media.images.map((image) => image.url),
                   })
                 }
               },
-              icon: {
-                name: 'square.and.arrow.down',
-              },
-              id: 'downloadGallery',
               title: t('downloadGallery'),
             },
           ]),
@@ -243,17 +230,17 @@ export function PostMenu({ children, onPress, post }: Props) {
           inline: true,
           options: [
             {
-              action() {
+              id: 'openApp',
+              // image: acorn,
+              onPress() {
                 handleLink(post.permalink)
               },
-              icon: {
-                image: acorn,
-              },
-              id: 'openApp',
               title: t('openApp'),
             },
             {
-              action() {
+              icon: 'safari',
+              id: 'openBrowser',
+              onPress() {
                 const url = new URL(
                   post.permalink,
                   oldReddit
@@ -263,10 +250,6 @@ export function PostMenu({ children, onPress, post }: Props) {
 
                 openInBrowser(url.toString())
               },
-              icon: {
-                name: 'safari',
-              },
-              id: 'openBrowser',
               title: t('openBrowser'),
             },
           ],
@@ -277,7 +260,9 @@ export function PostMenu({ children, onPress, post }: Props) {
           inline: true,
           options: compact([
             {
-              action() {
+              icon: 'person',
+              id: 'openUser',
+              onPress() {
                 router.push({
                   params: {
                     name: post.user.name,
@@ -285,16 +270,14 @@ export function PostMenu({ children, onPress, post }: Props) {
                   pathname: '/users/[name]',
                 })
               },
-              icon: {
-                name: 'person',
-              },
-              id: 'openUser',
               title: t('openUser', {
                 user: post.user.name,
               }),
             },
             !post.community.name.startsWith('u/') && {
-              action() {
+              icon: 'person.2',
+              id: 'openCommunity',
+              onPress() {
                 router.push({
                   params: {
                     name: post.community.name,
@@ -302,10 +285,6 @@ export function PostMenu({ children, onPress, post }: Props) {
                   pathname: '/communities/[name]',
                 })
               },
-              icon: {
-                name: 'person.2',
-              },
-              id: 'openCommunity',
               title: t('openCommunity', {
                 community: post.community.name,
               }),
@@ -318,23 +297,25 @@ export function PostMenu({ children, onPress, post }: Props) {
           inline: true,
           options: compact([
             {
-              action() {
+              color: theme.colors.red.accent,
+              destructive: true,
+              icon: 'eye.slash',
+              id: 'hidePost',
+              onPress() {
                 hide({
                   action: post.hidden ? 'unhide' : 'hide',
                   id: post.id,
                   type: 'post',
                 })
               },
-              destructive: true,
-              icon: {
-                color: theme.colors.red.accent,
-                name: 'eye.slash',
-              },
-              id: 'hidePost',
               title: t('hidePost'),
             },
             {
-              action() {
+              color: theme.colors.red.accent,
+              destructive: true,
+              icon: 'person',
+              id: 'hideUser',
+              onPress() {
                 if (post.user.id) {
                   hide({
                     action: 'hide',
@@ -344,18 +325,16 @@ export function PostMenu({ children, onPress, post }: Props) {
                   })
                 }
               },
-              destructive: true,
-              icon: {
-                color: theme.colors.red.accent,
-                name: 'person',
-              },
-              id: 'hideUser',
               title: t('hideUser', {
                 user: post.user.name,
               }),
             },
             !post.community.name.startsWith('u/') && {
-              action() {
+              color: theme.colors.red.accent,
+              destructive: true,
+              icon: 'person.2',
+              id: 'hideCommunity',
+              onPress() {
                 hide({
                   action: 'hide',
                   id: post.community.id,
@@ -363,12 +342,6 @@ export function PostMenu({ children, onPress, post }: Props) {
                   type: 'community',
                 })
               },
-              destructive: true,
-              icon: {
-                color: theme.colors.red.accent,
-                name: 'person.2',
-              },
-              id: 'hideCommunity',
               title: t('hideCommunity', {
                 community: post.community.name,
               }),
@@ -386,14 +359,14 @@ export function PostMenu({ children, onPress, post }: Props) {
                 : true,
             )
             .map((item) => ({
-              action() {
+              id: `report.${item}`,
+              onPress() {
                 report({
                   id: post.id,
                   reason: item,
                   type: 'post',
                 })
               },
-              id: `report.${item}`,
               title: t(`report.${item}`, {
                 community: post.community.name,
               }),
@@ -401,6 +374,7 @@ export function PostMenu({ children, onPress, post }: Props) {
           title: t('report.title'),
         },
       ])}
+      ref={menu}
     >
       {children}
     </ContextMenu>

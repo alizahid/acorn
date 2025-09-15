@@ -106,6 +106,7 @@ export function Header({
                   onPress={() => {
                     router.back()
                   }}
+                  weight="bold"
                 />
               ) : null}
 

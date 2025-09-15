@@ -1,4 +1,4 @@
-import { type SFSymbol } from 'expo-symbols'
+import { type SFSymbol, type SymbolWeight } from 'expo-symbols'
 import { type Insets, type StyleProp, type ViewStyle } from 'react-native'
 
 import { type ColorToken, type SpaceToken } from '~/styles/tokens'
@@ -18,6 +18,7 @@ type Props = {
   onPress?: () => void
   size?: SpaceToken
   style?: StyleProp<ViewStyle>
+  weight?: SymbolWeight
 }
 
 export function IconButton({
@@ -26,6 +27,7 @@ export function IconButton({
   hitSlop,
   icon,
   label,
+  weight,
   loading,
   onLongPress,
   onPress,
@@ -59,6 +61,7 @@ export function IconButton({
             size: theme.space[5],
             tintColor: theme.colors[color][contrast ? 'contrast' : 'accent'],
           })}
+          weight={weight}
         />
       )}
     </Pressable>

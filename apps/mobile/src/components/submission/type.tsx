@@ -3,11 +3,10 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { ContextMenu } from '@/context-menu'
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
-import { space } from '~/styles/tokens'
 import { type Submission } from '~/types/submission'
 
-import { ContextMenu } from '../common/context-menu'
 import { Icon } from '../common/icon'
 import { View } from '../common/view'
 
@@ -32,29 +31,25 @@ export function SubmissionType({ submission }: Props) {
       name="type"
       render={({ field }) => (
         <ContextMenu
-          hitSlop={space[4]}
-          label={t('title')}
+          accessibilityLabel={t('title')}
           options={types.map((item) => ({
-            action() {
+            icon:
+              item === 'image'
+                ? 'photo'
+                : item === 'link'
+                  ? 'link'
+                  : 'character.cursor.ibeam',
+            id: item,
+            onPress() {
               if (item !== field.value) {
                 setValue('url', '')
               }
 
               field.onChange(item)
             },
-            icon: {
-              name:
-                item === 'image'
-                  ? 'photo'
-                  : item === 'link'
-                    ? 'link'
-                    : 'character.cursor.ibeam',
-              type: 'icon',
-            },
-            id: item,
             title: t(item),
           }))}
-          tap
+          tappable
         >
           <View
             align="center"

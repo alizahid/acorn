@@ -1,12 +1,13 @@
-import { useRouter } from 'expo-router'
+import { usePathname, useRouter } from 'expo-router'
 import { compact } from 'lodash'
-import { type ReactNode } from 'react'
+import { type ReactNode, useEffect, useRef } from 'react'
 import { Alert, Share } from 'react-native'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import acorn from '~/assets/images/acorn.png'
+import { ContextMenu, type ContextMenuRef } from '@/context-menu'
+// import acorn from '~/assets/images/acorn.png'
 import { useCopy } from '~/hooks/copy'
 import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
@@ -19,8 +20,6 @@ import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
 
-import { ContextMenu } from '../common/context-menu'
-
 type Props = {
   children: ReactNode
   comment: CommentReply
@@ -29,6 +28,7 @@ type Props = {
 
 export function CommentMenu({ children, comment, onPress }: Props) {
   const router = useRouter()
+  const path = usePathname()
 
   const { accountId } = useAuth()
   const { oldReddit } = usePreferences()
@@ -37,6 +37,8 @@ export function CommentMenu({ children, comment, onPress }: Props) {
   const a11y = useTranslations('a11y')
 
   const { theme } = useUnistyles()
+
+  const menu = useRef<ContextMenuRef>(null)
 
   const { vote } = useCommentVote()
   const { save } = useCommentSave()
@@ -47,65 +49,68 @@ export function CommentMenu({ children, comment, onPress }: Props) {
   const { hide } = useHide()
   const { handleLink, openInBrowser } = useLink()
 
+  useEffect(() => {
+    if (path) {
+      menu.current?.hide()
+    }
+  }, [path])
+
   return (
     <ContextMenu
-      label={a11y('commentMenu')}
-      onPress={onPress}
+      accessibilityLabel={a11y('commentMenu')}
+      onPressPreview={onPress}
       options={compact([
         {
           id: 'main',
           inline: true,
           options: [
             {
-              action() {
+              color: theme.colors.orange.accent,
+              icon: comment.liked ? 'arrowshape.up.fill' : 'arrowshape.up',
+              id: 'upvote',
+              onPress() {
                 vote({
                   commentId: comment.id,
                   direction: comment.liked ? 0 : 1,
                   postId: comment.post.id,
                 })
               },
-              icon: {
-                color: theme.colors.orange.accent,
-                name: comment.liked ? 'arrowshape.up.fill' : 'arrowshape.up',
-              },
-              id: 'upvote',
               title: t(comment.liked ? 'removeUpvote' : 'upvote'),
             },
             {
-              action() {
+              color: theme.colors.violet.accent,
+              icon:
+                comment.liked === false
+                  ? 'arrowshape.down.fill'
+                  : 'arrowshape.down',
+              id: 'downvote',
+              onPress() {
                 vote({
                   commentId: comment.id,
                   direction: comment.liked === false ? 0 : -1,
                   postId: comment.post.id,
                 })
               },
-              icon: {
-                color: theme.colors.violet.accent,
-                name:
-                  comment.liked === false
-                    ? 'arrowshape.down.fill'
-                    : 'arrowshape.down',
-              },
-              id: 'downvote',
               title: t(comment.liked === false ? 'removeDownvote' : 'downvote'),
             },
             {
-              action() {
+              color: theme.colors.green.accent,
+              icon: comment.saved ? 'bookmark.fill' : 'bookmark',
+              id: 'save',
+              onPress() {
                 save({
                   action: comment.saved ? 'unsave' : 'save',
                   commentId: comment.id,
                   postId: comment.post.id,
                 })
               },
-              icon: {
-                color: theme.colors.green.accent,
-                name: comment.saved ? 'bookmark.fill' : 'bookmark',
-              },
-              id: 'save',
               title: t(comment.saved ? 'unsave' : 'save'),
             },
             {
-              action() {
+              color: theme.colors.blue.accent,
+              icon: 'arrow.turn.up.left',
+              id: 'reply',
+              onPress() {
                 router.push({
                   params: {
                     commentId: comment.id,
@@ -115,11 +120,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                   pathname: '/posts/[id]/reply',
                 })
               },
-              icon: {
-                color: theme.colors.blue.accent,
-                name: 'arrow.turn.up.left',
-              },
-              id: 'reply',
               title: t('reply'),
             },
           ],
@@ -130,7 +130,9 @@ export function CommentMenu({ children, comment, onPress }: Props) {
           inline: true,
           options: [
             {
-              action() {
+              icon: 'square.and.pencil',
+              id: 'edit',
+              onPress() {
                 router.push({
                   params: {
                     body: comment.body,
@@ -141,14 +143,14 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                   pathname: '/posts/[id]/reply',
                 })
               },
-              icon: {
-                name: 'square.and.pencil',
-              },
-              id: 'edit',
               title: t('editComment'),
             },
             {
-              action() {
+              color: theme.colors.red.accent,
+              destructive: true,
+              icon: 'trash',
+              id: 'delete',
+              onPress() {
                 Alert.alert(
                   t('deleteComment.title'),
                   t('deleteComment.description'),
@@ -170,12 +172,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                   ],
                 )
               },
-              destructive: true,
-              icon: {
-                color: theme.colors.red.accent,
-                name: 'trash',
-              },
-              id: 'delete',
               title: t('deleteComment.title'),
             },
           ],
@@ -186,19 +182,19 @@ export function CommentMenu({ children, comment, onPress }: Props) {
           inline: true,
           options: compact([
             {
-              action() {
+              icon: 'square.on.square',
+              id: 'copyText',
+              onPress() {
                 copy(htmlToMarkdown(comment.body)).then(() => {
                   toast.success(t('toast.textCopied'))
                 })
               },
-              icon: {
-                name: 'square.on.square',
-              },
-              id: 'copyText',
               title: t('copyText'),
             },
             {
-              action() {
+              icon: 'square.on.square',
+              id: 'copyPermalink',
+              onPress() {
                 const url = new URL(
                   comment.permalink,
                   oldReddit
@@ -210,14 +206,12 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                   toast.success(t('toast.linkCopied'))
                 })
               },
-              icon: {
-                name: 'square.on.square',
-              },
-              id: 'copyPermalink',
               title: t('copyPermalink'),
             },
             {
-              action() {
+              icon: 'square.and.arrow.up',
+              id: 'sharePermalink',
+              onPress() {
                 const url = new URL(
                   comment.permalink,
                   oldReddit
@@ -229,10 +223,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                   url: url.toString(),
                 })
               },
-              icon: {
-                name: 'square.and.arrow.up',
-              },
-              id: 'sharePermalink',
               title: t('sharePermalink'),
             },
           ]),
@@ -243,17 +233,17 @@ export function CommentMenu({ children, comment, onPress }: Props) {
           inline: true,
           options: [
             {
-              action() {
+              id: 'openApp',
+              // image: acorn,
+              onPress() {
                 handleLink(comment.permalink)
               },
-              icon: {
-                image: acorn,
-              },
-              id: 'openApp',
               title: t('openApp'),
             },
             {
-              action() {
+              icon: 'safari',
+              id: 'openBrowser',
+              onPress() {
                 const url = new URL(
                   comment.permalink,
                   oldReddit
@@ -263,10 +253,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
 
                 openInBrowser(url.toString())
               },
-              icon: {
-                name: 'safari',
-              },
-              id: 'openBrowser',
               title: t('openBrowser'),
             },
           ],
@@ -277,7 +263,9 @@ export function CommentMenu({ children, comment, onPress }: Props) {
           inline: true,
           options: compact([
             {
-              action() {
+              icon: 'person',
+              id: 'openUser',
+              onPress() {
                 router.push({
                   params: {
                     name: comment.user.name,
@@ -285,16 +273,14 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                   pathname: '/users/[name]',
                 })
               },
-              icon: {
-                name: 'person',
-              },
-              id: 'openUser',
               title: t('openUser', {
                 user: comment.user.name,
               }),
             },
             !comment.community.name.startsWith('u/') && {
-              action() {
+              icon: 'person.2',
+              id: 'openCommunity',
+              onPress() {
                 router.push({
                   params: {
                     name: comment.community.name,
@@ -302,10 +288,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                   pathname: '/communities/[name]',
                 })
               },
-              icon: {
-                name: 'person.2',
-              },
-              id: 'openCommunity',
               title: t('openCommunity', {
                 community: comment.community.name,
               }),
@@ -318,7 +300,11 @@ export function CommentMenu({ children, comment, onPress }: Props) {
           inline: true,
           options: compact([
             {
-              action() {
+              color: theme.colors.red.accent,
+              destructive: true,
+              icon: 'eye.slash',
+              id: 'hideComment',
+              onPress() {
                 hide({
                   action: 'hide',
                   id: comment.id,
@@ -326,16 +312,14 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                   type: 'comment',
                 })
               },
-              destructive: true,
-              icon: {
-                color: theme.colors.red.accent,
-                name: 'eye.slash',
-              },
-              id: 'hideComment',
               title: t('hideComment'),
             },
             {
-              action() {
+              color: theme.colors.red.accent,
+              destructive: true,
+              icon: 'person',
+              id: 'hideUser',
+              onPress() {
                 if (comment.user.id) {
                   hide({
                     action: 'hide',
@@ -345,12 +329,6 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                   })
                 }
               },
-              destructive: true,
-              icon: {
-                color: theme.colors.red.accent,
-                name: 'person',
-              },
-              id: 'hideUser',
               title: t('hideUser', {
                 user: comment.user.name,
               }),
@@ -368,14 +346,14 @@ export function CommentMenu({ children, comment, onPress }: Props) {
                 : true,
             )
             .map((item) => ({
-              action() {
+              id: `report.${item}`,
+              onPress() {
                 report({
                   id: comment.id,
                   reason: item,
                   type: 'post',
                 })
               },
-              id: `report.${item}`,
               title: t(`report.${item}`, {
                 community: comment.community.name,
               }),
@@ -383,6 +361,7 @@ export function CommentMenu({ children, comment, onPress }: Props) {
           title: t('report.title'),
         },
       ])}
+      ref={menu}
     >
       {children}
     </ContextMenu>

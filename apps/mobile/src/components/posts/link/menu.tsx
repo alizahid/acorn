@@ -3,7 +3,7 @@ import { Share, type StyleProp, type ViewStyle } from 'react-native'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import { ContextMenu } from '~/components/common/context-menu'
+import { ContextMenu } from '@/context-menu'
 import { useCopy } from '~/hooks/copy'
 import { useLink } from '~/hooks/link'
 
@@ -23,40 +23,34 @@ export function LinkMenu({ children, style, url }: Props) {
 
   return (
     <ContextMenu
-      label={a11y('viewLink')}
+      accessibilityLabel={a11y('viewLink')}
       options={[
         {
-          action() {
+          icon: 'safari',
+          id: 'open',
+          onPress() {
             handleLink(url)
           },
-          icon: {
-            name: 'safari',
-          },
-          id: 'open',
           title: t('open'),
         },
         {
-          action() {
+          icon: 'square.on.square',
+          id: 'copy',
+          onPress() {
             copy(url).then(() => {
               toast.success(toasts('link.copied'))
             })
           },
-          icon: {
-            name: 'square.on.square',
-          },
-          id: 'copy',
           title: t('copy'),
         },
         {
-          action() {
+          icon: 'square.and.arrow.up',
+          id: 'share',
+          onPress() {
             Share.share({
               url,
             })
           },
-          icon: {
-            name: 'square.and.arrow.up',
-          },
-          id: 'share',
           title: t('share'),
         },
       ]}

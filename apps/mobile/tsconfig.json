@@ -8,7 +8,8 @@
       "react-native-ios-context-menu": [
         "../../node_modules/react-native-ios-context-menu/src/index.tsx"
       ],
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "@/context-menu": ["./modules/context-menu"]
     },
     "strict": true,
     "strictNullChecks": true
@@ -16,6 +17,7 @@
   "extends": "expo/tsconfig.base",
   "include": [
     "src",
+    "modules",
     "typings",
     "app.config.ts",
     "drizzle.config.ts",

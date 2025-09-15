@@ -3,14 +3,12 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { ContextMenu } from '@/context-menu'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
 import { type FiltersForm } from '~/hooks/filters'
-import { space } from '~/styles/tokens'
-
-import { ContextMenu } from '../common/context-menu'
 
 type Props = {
   index: number
@@ -32,30 +30,26 @@ export function FilterCard({ index, onRemove }: Props) {
         name={`filters.${index}.type`}
         render={({ field }) => (
           <ContextMenu
-            hitSlop={space[4]}
-            label={field.value}
+            accessibilityLabel={field.value}
             options={(['keyword', 'community', 'user'] as const).map(
               (item) => ({
-                action() {
+                icon:
+                  item === 'community'
+                    ? 'person.2'
+                    : item === 'user'
+                      ? 'person'
+                      : 'tag',
+                id: item,
+                onPress() {
                   field.onChange(item)
 
                   setType(item)
                 },
-                icon: {
-                  name:
-                    item === 'community'
-                      ? 'person.2'
-                      : item === 'user'
-                        ? 'person'
-                        : 'tag',
-                  type: 'icon',
-                },
-                id: item,
                 state: item === field.value ? 'on' : undefined,
                 title: t(`type.${item}.label`),
               }),
             )}
-            tap
+            tappable
           >
             <View align="center" direction="row" gap="2" height="7" px="2">
               <Icon

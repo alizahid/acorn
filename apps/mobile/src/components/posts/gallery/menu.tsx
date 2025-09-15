@@ -2,7 +2,7 @@ import { type ReactNode } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { useTranslations } from 'use-intl'
 
-import { ContextMenu } from '~/components/common/context-menu'
+import { ContextMenu } from '@/context-menu'
 import { useCopyImage, useDownloadImage, useShareImage } from '~/hooks/image'
 
 type Props = {
@@ -22,43 +22,37 @@ export function ImageMenu({ children, onPress, style, url }: Props) {
 
   return (
     <ContextMenu
-      label={a11y('imageMenu')}
-      onPress={onPress}
+      accessibilityLabel={a11y('imageMenu')}
+      onPressPreview={onPress}
       options={[
         {
-          action() {
+          icon: 'square.on.square',
+          id: 'copy',
+          onPress() {
             copy({
               url,
             })
           },
-          icon: {
-            name: 'square.on.square',
-          },
-          id: 'copy',
           title: t('copy'),
         },
         {
-          action() {
+          icon: 'square.and.arrow.up',
+          id: 'share',
+          onPress() {
             share({
               url,
             })
           },
-          icon: {
-            name: 'square.and.arrow.up',
-          },
-          id: 'share',
           title: t('share'),
         },
         {
-          action() {
+          icon: 'square.and.arrow.down',
+          id: 'download',
+          onPress() {
             download({
               url,
             })
           },
-          icon: {
-            name: 'square.and.arrow.down',
-          },
-          id: 'download',
           title: t('download'),
         },
       ]}
