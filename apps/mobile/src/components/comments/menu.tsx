@@ -1,6 +1,6 @@
-import { usePathname, useRouter } from 'expo-router'
+import { useFocusEffect, useRouter } from 'expo-router'
 import { compact } from 'lodash'
-import { type ReactNode, useEffect, useRef } from 'react'
+import { type ReactNode, useCallback, useRef } from 'react'
 import { Alert, Share } from 'react-native'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
@@ -28,7 +28,6 @@ type Props = {
 
 export function CommentMenu({ children, comment, onPress }: Props) {
   const router = useRouter()
-  const path = usePathname()
 
   const { accountId } = useAuth()
   const { oldReddit } = usePreferences()
@@ -49,11 +48,13 @@ export function CommentMenu({ children, comment, onPress }: Props) {
   const { hide } = useHide()
   const { handleLink, openInBrowser } = useLink()
 
-  useEffect(() => {
-    if (path) {
-      menu.current?.hide()
-    }
-  }, [path])
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        menu.current?.hide()
+      }
+    }, []),
+  )
 
   return (
     <ContextMenu

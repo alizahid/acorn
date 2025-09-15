@@ -1,6 +1,6 @@
-import { usePathname, useRouter } from 'expo-router'
+import { useFocusEffect, usePathname, useRouter } from 'expo-router'
 import { compact } from 'lodash'
-import { type ReactNode, useEffect, useRef } from 'react'
+import { type ReactNode, useCallback, useRef } from 'react'
 import { Alert, Share } from 'react-native'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
@@ -51,11 +51,13 @@ export function PostMenu({ children, onPress, post }: Props) {
   const { handleLink, openInBrowser } = useLink()
   const { download } = useDownloadImages()
 
-  useEffect(() => {
-    if (path) {
-      menu.current?.hide()
-    }
-  }, [path])
+  useFocusEffect(
+    useCallback(() => {
+      return () => {
+        menu.current?.hide()
+      }
+    }, []),
+  )
 
   return (
     <ContextMenu
