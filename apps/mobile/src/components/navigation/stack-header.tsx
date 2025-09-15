@@ -7,7 +7,9 @@ type Props = NativeStackHeaderProps | BottomTabHeaderProps
 
 export function StackHeader({ options, ...props }: Props) {
   const back = 'back' in props ? Boolean(props.back?.title) : false
-  const modal = 'presentation' in options && options.presentation === 'modal'
+  const modal =
+    'presentation' in options &&
+    (options.presentation === 'modal' || options.presentation === 'formSheet')
 
   return (
     <Header

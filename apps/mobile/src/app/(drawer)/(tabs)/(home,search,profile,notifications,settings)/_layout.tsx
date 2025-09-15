@@ -5,6 +5,7 @@ import { useTranslations } from 'use-intl'
 import { IconButton } from '~/components/common/icon/button'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { useHistory } from '~/hooks/history'
+import { iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 import { useDefaults } from '~/stores/defaults'
@@ -243,7 +244,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="posts/[id]/reply"
         options={{
-          presentation: 'modal',
+          presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
         }}
       />
@@ -302,7 +303,7 @@ function StackLayout({ children }: PropsWithChildren) {
         options={({ route }) => ({
           gestureEnabled: (route.params as SignInParams).mode === 'dismissible',
           headerShown: false,
-          presentation: 'modal',
+          presentation: iPad ? 'formSheet' : 'modal',
         })}
       />
     </Stack>
