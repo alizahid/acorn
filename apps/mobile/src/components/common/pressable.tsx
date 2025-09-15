@@ -46,10 +46,11 @@ export function Pressable({
       accessibilityLabel={label}
       accessibilityRole={role}
       accessibilityState={state}
+      delayLongPress={200}
       disabled={disabled}
       hitSlop={hitSlop}
       onLayout={onLayout}
-      onLongPress={onLongPress}
+      onLongPress={onLongPress ?? (() => null)}
       onPress={onPress}
       style={[styles.main(props) as ViewStyle, style]}
     >
