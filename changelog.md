@@ -2,10 +2,14 @@
 
 ## Upcoming
 
-- added: rich text editor for posts
 - added: auto themes
 - added: bottom tabs reordering
+- added: glass icon
 - added: hide header and tab bar on scroll
+- added: new content engine
+- added: rich text editor for posts
+- changed: icons
+- fixed: tinted icon
 - fixed: videos jumping
 - removed: hide seen posts
 - removed: messages
