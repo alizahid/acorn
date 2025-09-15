@@ -128,9 +128,11 @@ export function VideoPlayer({
 
         <VideoView
           accessibilityIgnoresInvertColors
-          allowsFullscreen={false}
           allowsPictureInPicture={pictureInPicture}
           contentFit="cover"
+          fullscreenOptions={{
+            enable: false,
+          }}
           onFullscreenEnter={onFullscreenEnter}
           onFullscreenExit={onFullscreenExit}
           player={player}
@@ -168,9 +170,11 @@ export function VideoPlayer({
 
       <VideoView
         accessibilityIgnoresInvertColors
-        allowsFullscreen={false}
         allowsPictureInPicture={pictureInPicture}
         contentFit="cover"
+        fullscreenOptions={{
+          enable: false,
+        }}
         onFullscreenEnter={onFullscreenEnter}
         onFullscreenExit={onFullscreenExit}
         player={player}
