@@ -16,7 +16,7 @@ import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
-import { iPhone } from '~/lib/common'
+import { iPhone, isGlass } from '~/lib/common'
 import { AuthCodeSchema } from '~/reddit/auth'
 import { REDIRECT_URI } from '~/reddit/config'
 import { useAuth } from '~/stores/auth'
@@ -63,7 +63,7 @@ export default function Screen() {
       keyboardDismissMode="on-drag"
       keyboardShouldPersistTaps="handled"
     >
-      {iPhone ? <StatusBar style="light" /> : null}
+      {iPhone && !isGlass ? <StatusBar style="light" /> : null}
 
       <View align="center">
         <Logo />
