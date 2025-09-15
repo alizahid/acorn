@@ -66,8 +66,8 @@ export function Gestures({
     <Swipeable
       childrenContainerStyle={style}
       containerStyle={containerStyle}
-      dragOffsetFromLeftEdge={left.enabled ? 10 : frame.width}
-      dragOffsetFromRightEdge={right.enabled ? 10 : frame.width}
+      dragOffsetFromLeftEdge={left.enabled ? 12 : frame.width}
+      dragOffsetFromRightEdge={right.enabled ? 12 : frame.width}
       hitSlop={
         iPhone
           ? {
