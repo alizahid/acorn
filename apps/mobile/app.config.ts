@@ -13,13 +13,13 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
   }
 
   const plugins: ExpoConfig['plugins'] = [
+    '@bacons/apple-targets',
     'expo-router',
     'expo-localization',
     'expo-secure-store',
     'expo-sqlite',
     'expo-web-browser',
     'react-native-bottom-tabs',
-    '@bacons/apple-targets',
     [
       'expo-video',
       {
@@ -115,14 +115,11 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         'aps-environment': 'development',
         'com.apple.developer.kernel.increased-memory-limit': true,
       },
-      icon: {
-        dark: './assets/artwork/icon.png',
-        light: './assets/artwork/icon.png',
-        tinted: './assets/artwork/icon.png',
-      },
+      icon: './assets/artwork/AppIcon.icon',
       supportsTablet: true,
     },
     name,
+    newArchEnabled: true,
     plugins,
     runtimeVersion: {
       policy: 'appVersion',

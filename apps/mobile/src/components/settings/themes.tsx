@@ -181,6 +181,7 @@ function Item({ color, item, label, onPress, value }: ItemProps) {
             size: theme.space[4],
             tintColor: theme.colors.accent.contrast,
           })}
+          weight="black"
         />
       ) : null}
     </Pressable>

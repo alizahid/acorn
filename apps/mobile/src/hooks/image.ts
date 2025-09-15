@@ -2,7 +2,7 @@ import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as Clipboard from 'expo-clipboard'
-import { Directory, File, Paths } from 'expo-file-system/next'
+import { Directory, File, Paths } from 'expo-file-system'
 import { type ImageProps } from 'expo-image'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as MediaLibrary from 'expo-media-library'
