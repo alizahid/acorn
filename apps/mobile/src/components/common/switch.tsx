@@ -2,6 +2,8 @@ import { type Ref } from 'react'
 import { Switch as ReactNativeSwitch } from 'react-native'
 import { withUnistyles } from 'react-native-unistyles'
 
+import { View } from './view'
+
 const Component = withUnistyles(ReactNativeSwitch, (theme) => ({
   ios_backgroundColor: theme.colors.gray.uiActive,
   thumbColor: theme.colors.gray.contrast,
@@ -20,11 +22,13 @@ type Props = {
 
 export function Switch({ disabled, onChange, ref, value }: Props) {
   return (
-    <Component
-      disabled={disabled}
-      onValueChange={onChange}
-      ref={ref}
-      value={value}
-    />
+    <View>
+      <Component
+        disabled={disabled}
+        onValueChange={onChange}
+        ref={ref}
+        value={value}
+      />
+    </View>
   )
 }
