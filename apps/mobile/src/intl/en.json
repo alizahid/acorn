@@ -591,6 +591,10 @@
         },
         "history": {
           "dimSeen": "Dim seen posts",
+          "hideSeen": {
+            "description": "Posts will disappear after you refresh",
+            "label": "Hide seen posts"
+          },
           "seenOnMedia": "Mark as seen when opening media",
           "seenOnScroll": {
             "description": "Requires app restart",
