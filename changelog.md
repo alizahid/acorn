@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 60
 
 - added: auto themes
 - added: bottom tabs reordering
