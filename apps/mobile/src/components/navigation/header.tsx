@@ -63,12 +63,12 @@ export function Header({
       setVisible(false)
     }
 
-    mitter.on('show-nav', onShow)
-    mitter.on('hide-nav', onHide)
+    mitter.on('show-header', onShow)
+    mitter.on('hide-header', onHide)
 
     return () => {
-      mitter.off('show-nav', onShow)
-      mitter.off('hide-nav', onHide)
+      mitter.off('show-header', onShow)
+      mitter.off('hide-header', onHide)
     }
   }, [])
 

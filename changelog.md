@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- added: option to hide header and tab bar on scroll
+
 ## Build 60
 
 - added: auto themes

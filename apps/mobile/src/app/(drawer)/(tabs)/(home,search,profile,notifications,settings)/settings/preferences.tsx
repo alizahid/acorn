@@ -25,6 +25,8 @@ export default function Screen() {
     feedbackHaptics,
     feedbackSounds,
     feedMuted,
+    hideHeaderOnScroll,
+    hideTabBarOnScroll,
     hapticsLoud,
     hidePostActions,
     hideSeen,
@@ -67,7 +69,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="arrow.up" />}
+          icon={<Icon name="chevron.up" />}
           label={t('browsing.communityOnTop')}
           onChange={(next) => {
             update({
@@ -167,7 +169,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon />}
+          icon={<Icon name="link" />}
           label={t('browsing.oldReddit')}
           onChange={(next) => {
             update({
@@ -201,6 +203,28 @@ export default function Screen() {
           />
         ) : null}
 
+        <Menu.Switch
+          icon={<Icon name="inset.filled.topthird.rectangle.portrait" />}
+          label={t('browsing.hideHeaderOnScroll')}
+          onChange={(next) => {
+            update({
+              hideHeaderOnScroll: next,
+            })
+          }}
+          value={hideHeaderOnScroll}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="inset.filled.bottomthird.rectangle.portrait" />}
+          label={t('browsing.hideTabBarOnScroll')}
+          onChange={(next) => {
+            update({
+              hideTabBarOnScroll: next,
+            })
+          }}
+          value={hideTabBarOnScroll}
+        />
+
         <Menu.Separator />
 
         <Menu.Label>{t('comments.title')}</Menu.Label>
@@ -228,7 +252,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="arrow.up" />}
+          icon={<Icon name="chevron.up" />}
           label={t('comments.userOnTop')}
           onChange={(next) => {
             update({
@@ -239,7 +263,7 @@ export default function Screen() {
         />
 
         <Menu.Options
-          icon={<Icon name="arrow.down" />}
+          icon={<Icon name="chevron.down" />}
           label={t('comments.skipComment')}
           onChange={(next) => {
             const payload: Partial<PreferencesPayload> = {
@@ -258,11 +282,11 @@ export default function Screen() {
               <Icon
                 name={
                   item === 'left'
-                    ? 'arrow.left'
+                    ? 'chevron.left'
                     : item === 'center'
-                      ? 'arrow.down'
+                      ? 'chevron.down'
                       : item === 'right'
-                        ? 'arrow.right'
+                        ? 'chevron.right'
                         : 'eye.slash'
                 }
               />
@@ -292,11 +316,11 @@ export default function Screen() {
               <Icon
                 name={
                   item === 'left'
-                    ? 'arrow.left'
+                    ? 'chevron.left'
                     : item === 'center'
-                      ? 'arrow.down'
+                      ? 'chevron.down'
                       : item === 'right'
-                        ? 'arrow.right'
+                        ? 'chevron.right'
                         : 'eye.slash'
                 }
               />

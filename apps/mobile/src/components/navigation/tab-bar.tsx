@@ -60,12 +60,12 @@ export function TabBar({ descriptors, navigation, state }: Props) {
       setVisible(false)
     }
 
-    mitter.on('show-nav', onShow)
-    mitter.on('hide-nav', onHide)
+    mitter.on('show-tab-bar', onShow)
+    mitter.on('hide-tab-bar', onHide)
 
     return () => {
-      mitter.off('show-nav', onShow)
-      mitter.off('hide-nav', onHide)
+      mitter.off('show-tab-bar', onShow)
+      mitter.off('hide-tab-bar', onHide)
     }
   }, [])
 

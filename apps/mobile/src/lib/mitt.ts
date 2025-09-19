@@ -1,8 +1,10 @@
 import mitt from 'mitt'
 
 export type Events = {
-  'hide-nav'?: never
-  'show-nav'?: never
+  'hide-header'?: never
+  'hide-tab-bar'?: never
+  'show-header'?: never
+  'show-tab-bar'?: never
   'switch-account'?: never
 }
 

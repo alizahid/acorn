@@ -563,7 +563,9 @@
         "browsing": {
           "boldTitle": "Bold titles",
           "communityOnTop": "Show community on top",
+          "hideHeaderOnScroll": "Hide header when scrolling",
           "hidePostActions": "Hide post actions",
+          "hideTabBarOnScroll": "Hide tab bar when scrolling",
           "infiniteScrolling": "Infinite scrolling",
           "oldReddit": "Use old Reddit links",
           "refreshInterval": {
