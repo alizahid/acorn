@@ -13,7 +13,6 @@ export const ProfileSchema = z.object({
       banner_img: z.string(),
       icon_img: z.string(),
       name: z.string(),
-      public_description: z.string(),
       user_is_subscriber: z.boolean(),
     }),
     total_karma: z.number(),

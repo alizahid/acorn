@@ -8,7 +8,7 @@ export const CommunityDataSchema = z.object({
   icon_img: z.string().nullish(),
   mobile_banner_image: z.string().nullish(),
   name: z.string(),
-  public_description: z.string().nullish(),
+  public_description_html: z.string().nullish(),
   subreddit_type: z.string(),
   subscribers: z.number().nullish(),
   title: z.string().nullish(),

@@ -1,7 +1,6 @@
 export type Profile = {
   banner?: string
   createdAt: Date
-  description?: string
   id: string
   image?: string
   karma: {

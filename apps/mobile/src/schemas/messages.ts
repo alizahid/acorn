@@ -2,7 +2,7 @@ import { z } from 'zod'
 
 const MessageBaseSchema = z.object({
   author: z.string().nullable(),
-  body: z.string(),
+  body_html: z.string(),
   created_utc: z.number(),
   dest: z.string(),
   id: z.string(),

@@ -1,6 +1,6 @@
 import { fromUnixTime } from 'date-fns'
-import { decode } from 'entities'
 
+import { decodeHtml } from '~/lib/html'
 import { removePrefix } from '~/lib/reddit'
 import { type MessagesSchema } from '~/schemas/messages'
 import { type Message } from '~/types/message'
@@ -10,7 +10,7 @@ export function transformMessage(
 ): Message {
   return {
     author: data.data.author ?? 'Unknown',
-    body: decode(data.data.body),
+    body: decodeHtml(data.data.body_html)!,
     createdAt: fromUnixTime(data.data.created_utc),
     id: removePrefix(data.data.id),
     new: data.data.new,
