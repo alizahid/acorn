@@ -4,8 +4,14 @@ export const cardMaxWidth = 700
 
 export const isGlass = Number(Platform.Version) > 26
 
-export const iPhone = Platform.OS === 'ios' && !Platform.isPad
-export const iPad = Platform.OS === 'ios' && Platform.isPad
+export const iPhone =
+  Platform.OS === 'ios' &&
+  !Platform.isPad &&
+  !Platform.isTV &&
+  !Platform.isVision &&
+  !Platform.isMacCatalyst
+export const iPad =
+  Platform.OS === 'ios' && (Platform.isPad || Platform.isMacCatalyst)
 
 export const swipeActionThreshold = {
   long: iPad ? 0.2 : 0.4,
