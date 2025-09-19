@@ -83,6 +83,13 @@ const styles = StyleSheet.create((theme) => ({
       ...getMargin(props),
       compoundVariants: ColorTokens.flatMap((token) => [
         {
+          color: token,
+          highContrast: true,
+          styles: {
+            color: theme.colors[token].text,
+          },
+        },
+        {
           accent: true,
           color: token,
           styles: {
@@ -96,13 +103,6 @@ const styles = StyleSheet.create((theme) => ({
             color: theme.colors[token].contrast,
           },
         },
-        {
-          color: token,
-          highContrast: true,
-          styles: {
-            color: theme.colors[token].text,
-          },
-        },
       ]),
       fontFamily: variant === 'mono' ? fonts.mono : fonts[font],
       fontSize: theme.typography[size].fontSize * scaling,
@@ -113,9 +113,7 @@ const styles = StyleSheet.create((theme) => ({
       textAlign: align,
       variants: {
         accent: {
-          true: {
-            color: theme.colors.accent.accent,
-          },
+          true: {},
         },
         color: Object.fromEntries(
           ColorTokens.map((token) => [
@@ -126,14 +124,10 @@ const styles = StyleSheet.create((theme) => ({
           ]),
         ),
         contrast: {
-          true: {
-            color: theme.colors.accent.contrast,
-          },
+          true: {},
         },
         highContrast: {
-          true: {
-            color: theme.colors.accent.text,
-          },
+          true: {},
         },
       },
     }
