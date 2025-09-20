@@ -95,7 +95,6 @@ export function FilterCard({ index, onRemove }: Props) {
             placeholder={t(`type.${type}.placeholder`)}
             ref={field.ref}
             style={styles.input}
-            styleInput={styles.inputContent}
             value={field.value}
           />
         )}
@@ -116,12 +115,10 @@ export function FilterCard({ index, onRemove }: Props) {
 
 const styles = StyleSheet.create((theme) => ({
   input: {
-    flex: 1,
-  },
-  inputContent: {
     backgroundColor: 'transparent',
     borderRadius: 0,
     borderWidth: 0,
+    flex: 1,
   },
   main: {
     backgroundColor: theme.colors.gray.ui,

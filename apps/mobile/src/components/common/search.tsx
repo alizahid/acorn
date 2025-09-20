@@ -61,7 +61,6 @@ export function SearchBox({
         ) : null
       }
       style={[styles.main, style]}
-      styleInput={styles.content}
       value={value}
     />
   )
@@ -72,14 +71,12 @@ const styles = StyleSheet.create((theme) => ({
     height: theme.space[7],
     width: theme.space[7],
   },
-  content: {
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-  },
   icon: {
     marginLeft: theme.space[3],
   },
   main: {
+    backgroundColor: 'transparent',
+    borderWidth: 0,
     flexGrow: 1,
     height: theme.space[8],
   },
