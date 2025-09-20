@@ -1,7 +1,7 @@
 import { MenuView } from '@react-native-menu/menu'
 import { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
-import { StyleSheet } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -20,6 +20,8 @@ type Props = {
 export function FilterCard({ index, onRemove }: Props) {
   const t = useTranslations('component.filters.card')
   const a11y = useTranslations('a11y')
+
+  const { theme } = useUnistyles()
 
   const { control } = useFormContext<FiltersForm>()
 
@@ -41,8 +43,10 @@ export function FilterCard({ index, onRemove }: Props) {
                     : item === 'user'
                       ? 'person'
                       : 'tag',
+                imageColor: theme.colors.gray.text,
                 state: item === field.value ? 'on' : undefined,
                 title: t(`type.${item}.label`),
+                titleColor: theme.colors.gray.text,
               }),
             )}
             onPressAction={(event) => {
@@ -61,17 +65,17 @@ export function FilterCard({ index, onRemove }: Props) {
                       ? 'person'
                       : 'tag'
                 }
-                uniProps={(theme) => ({
-                  size: theme.typography[2].lineHeight,
-                  tintColor: theme.colors.gray.text,
+                uniProps={($theme) => ({
+                  size: $theme.typography[2].lineHeight,
+                  tintColor: $theme.colors.gray.text,
                 })}
               />
 
               <Icon
                 name="chevron.down"
-                uniProps={(theme) => ({
-                  size: theme.space[4],
-                  tintColor: theme.colors.gray.textLow,
+                uniProps={($theme) => ({
+                  size: $theme.space[4],
+                  tintColor: $theme.colors.gray.textLow,
                 })}
               />
             </View>

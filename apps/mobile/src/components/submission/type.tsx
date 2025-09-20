@@ -1,7 +1,7 @@
 import { MenuView } from '@react-native-menu/menu'
 import { compact } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
-import { StyleSheet } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
@@ -16,6 +16,8 @@ type Props = {
 
 export function SubmissionType({ submission }: Props) {
   const t = useTranslations('component.submission.type')
+
+  const { theme } = useUnistyles()
 
   const types = compact([
     submission.media.text && 'text',
@@ -39,7 +41,9 @@ export function SubmissionType({ submission }: Props) {
                 : item === 'link'
                   ? 'link'
                   : 'character.cursor.ibeam',
+            imageColor: theme.colors.gray.text,
             title: t(item),
+            titleColor: theme.colors.gray.text,
           }))}
           onPressAction={(event) => {
             if (event.nativeEvent.event !== field.value) {
@@ -66,16 +70,16 @@ export function SubmissionType({ submission }: Props) {
                     ? 'link'
                     : 'character.cursor.ibeam'
               }
-              uniProps={(theme) => ({
-                tintColor: theme.colors.gray.text,
+              uniProps={($theme) => ({
+                tintColor: $theme.colors.gray.text,
               })}
             />
 
             <Icon
               name="chevron.down"
-              uniProps={(theme) => ({
-                size: theme.space[4],
-                tintColor: theme.colors.gray.textLow,
+              uniProps={($theme) => ({
+                size: $theme.space[4],
+                tintColor: $theme.colors.gray.textLow,
               })}
             />
           </View>
