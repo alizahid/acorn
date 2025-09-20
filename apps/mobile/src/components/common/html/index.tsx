@@ -1,5 +1,4 @@
 import { useMemo } from 'react'
-import { type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { RenderHtml } from '~/components/native/html'
@@ -21,7 +20,6 @@ type Props = {
   depth?: number
   meta?: PostMediaMeta
   size?: TypographyToken
-  style?: ViewStyle
   type?: ContentWidthType
 }
 
@@ -29,7 +27,6 @@ export function Html({
   children,
   meta,
   size = '3',
-  style,
   type = 'full',
   depth,
 }: Props) {
@@ -45,7 +42,7 @@ export function Html({
   const html = useMemo(() => mergeHtmlMeta(children, meta), [children, meta])
 
   return (
-    <View style={style}>
+    <View>
       <RenderHtml
         contentWidth={width}
         customHTMLElementModels={models}
@@ -102,7 +99,7 @@ export function Html({
               blockquote: {
                 borderLeftColor: theme.colors.gray.border,
                 borderLeftWidth: theme.space[1],
-                marginVertical: theme.space[2],
+                marginVertical: theme.space[3] / 2,
                 paddingLeft: theme.space[3],
               },
               body: {
@@ -111,7 +108,7 @@ export function Html({
                 fontSize: theme.typography[size].fontSize * fontScaling,
                 fontVariant: ['no-contextual', 'stylistic-four'],
                 lineHeight: theme.typography[size].lineHeight * fontScaling,
-                paddingVertical: -theme.space[2],
+                marginVertical: -(theme.space[3] / 2),
               },
               code: {
                 fontFamily: fonts.mono,
@@ -133,20 +130,20 @@ export function Html({
                 fontSize: theme.typography[h1].fontSize * fontScaling,
                 fontWeight: 'bold',
                 lineHeight: theme.typography[h1].lineHeight * fontScaling,
-                marginVertical: theme.space[2],
+                marginVertical: theme.space[3] / 2,
               },
               ol: {
-                marginVertical: theme.space[2],
+                marginVertical: theme.space[3] / 2,
               },
               p: {
-                marginVertical: theme.space[2],
+                marginVertical: theme.space[3] / 2,
               },
               pre: {
                 backgroundColor: theme.colors.gray.bgAltAlpha,
                 borderRadius: theme.radius[4],
                 fontSize: theme.typography[pre].fontSize * fontScaling,
                 lineHeight: theme.typography[pre].lineHeight * fontScaling,
-                marginVertical: theme.space[2],
+                marginVertical: theme.space[3] / 2,
                 paddingHorizontal: theme.space[3],
                 paddingVertical: theme.space[2],
                 whiteSpace: 'pre',
@@ -163,7 +160,7 @@ export function Html({
                 backgroundColor: theme.colors.gray.bgAltAlpha,
                 borderColor: theme.colors.gray.border,
                 borderWidth: StyleSheet.hairlineWidth,
-                marginVertical: theme.space[2],
+                marginVertical: theme.space[3] / 2,
               },
               td: {
                 borderColor: theme.colors.gray.border,
@@ -178,7 +175,7 @@ export function Html({
                 paddingVertical: theme.space[1],
               },
               ul: {
-                marginVertical: theme.space[2],
+                marginVertical: theme.space[3] / 2,
               },
             },
           }

@@ -111,9 +111,11 @@ export function CommunityAbout({ listProps, name }: Props) {
       </View>
 
       {community.description ? (
-        <Html size="2" style={styles.description} type="about">
-          {community.description}
-        </Html>
+        <View mx="4">
+          <Html size="2" type="about">
+            {community.description}
+          </Html>
+        </View>
       ) : null}
 
       <View direction="row" gap="4" mx="4">
@@ -164,9 +166,6 @@ const styles = StyleSheet.create((theme) => ({
   },
   content: {
     gap: theme.space[4],
-  },
-  description: {
-    marginHorizontal: theme.space[4],
   },
   image: {
     backgroundColor: theme.colors.gray.ui,
