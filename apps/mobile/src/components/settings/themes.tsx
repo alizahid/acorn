@@ -6,9 +6,10 @@ import { Pressable } from '~/components/common/pressable'
 import { Sheet } from '~/components/common/sheet'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { mapColors } from '~/lib/styles'
 import { getThemeName } from '~/lib/theme'
 import { type Theme } from '~/styles/themes'
-import { type ColorToken, ColorTokens } from '~/styles/tokens'
+import { type ColorToken } from '~/styles/tokens'
 
 import { Icon } from '../common/icon'
 import { Menu } from '../common/menu'
@@ -193,14 +194,9 @@ const styles = StyleSheet.create((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.space[5],
     variants: {
-      color: Object.fromEntries(
-        ColorTokens.map((token) => [
-          token,
-          {
-            backgroundColor: theme.colors[token].accent,
-          },
-        ]),
-      ),
+      color: mapColors((token) => ({
+        backgroundColor: theme.colors[token].accent,
+      })),
     },
   },
 }))

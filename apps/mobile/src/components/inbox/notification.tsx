@@ -4,9 +4,10 @@ import { useFormatter, useNow, useTranslations } from 'use-intl'
 
 import { useLink } from '~/hooks/link'
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
+import { mapColors } from '~/lib/styles'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
-import { type ColorToken, ColorTokens } from '~/styles/tokens'
+import { type ColorToken, colors } from '~/styles/tokens'
 import { type Notification, type NotificationType } from '~/types/inbox'
 
 import { Html } from '../common/html'
@@ -29,7 +30,7 @@ export function NotificationCard({ notification }: Props) {
   const { themeOled } = usePreferences()
 
   styles.useVariants({
-    color: colors[notification.type],
+    color: tints[notification.type],
     oled: themeOled,
     unread: notification.new,
   })
@@ -66,7 +67,7 @@ export function NotificationCard({ notification }: Props) {
         name={icons[notification.type]}
         uniProps={(theme) => ({
           tintColor:
-            theme.colors[notification.new ? colors[notification.type] : 'gray']
+            theme.colors[notification.new ? tints[notification.type] : 'gray']
               .accent,
         })}
       />
@@ -98,7 +99,7 @@ export function NotificationCard({ notification }: Props) {
 const styles = StyleSheet.create((theme) => ({
   main: {
     backgroundColor: theme.colors.gray.bgAltAlpha,
-    compoundVariants: ColorTokens.map((token) => ({
+    compoundVariants: colors.map((token) => ({
       color: token,
       styles: {
         backgroundColor: theme.colors[token].uiAlpha,
@@ -106,7 +107,7 @@ const styles = StyleSheet.create((theme) => ({
       unread: true,
     })),
     variants: {
-      color: Object.fromEntries(ColorTokens.map((token) => [token, {}])),
+      color: mapColors(() => ({})),
       oled: {
         true: {
           backgroundColor: oledTheme[theme.variant].bgAlpha,
@@ -125,7 +126,7 @@ const icons = {
   username_mention: 'person',
 } as const satisfies Record<NotificationType, SFSymbol>
 
-const colors: Record<NotificationType, ColorToken> = {
+const tints: Record<NotificationType, ColorToken> = {
   comment_reply: 'plum',
   post_reply: 'jade',
   username_mention: 'ruby',

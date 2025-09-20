@@ -73,7 +73,7 @@ export const radius = {
 
 export type RadiusToken = keyof typeof radius
 
-export const ColorTokens = [
+export const colors = [
   'accent',
   'gray',
 
@@ -95,4 +95,4 @@ export const ColorTokens = [
   'violet',
 ] as const
 
-export type ColorToken = (typeof ColorTokens)[number]
+export type ColorToken = (typeof colors)[number]

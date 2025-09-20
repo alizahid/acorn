@@ -3,7 +3,8 @@ import { type ReactNode } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { type ColorToken, ColorTokens } from '~/styles/tokens'
+import { mapColors } from '~/lib/styles'
+import { type ColorToken } from '~/styles/tokens'
 import { type ViewStyleProps } from '~/styles/view'
 
 import { Icon } from './icon'
@@ -91,14 +92,9 @@ const styles = StyleSheet.create((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     variants: {
-      color: Object.fromEntries(
-        ColorTokens.map((token) => [
-          token,
-          {
-            backgroundColor: theme.colors[token].accent,
-          },
-        ]),
-      ),
+      color: mapColors((token) => ({
+        backgroundColor: theme.colors[token].accent,
+      })),
     },
   },
 }))

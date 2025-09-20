@@ -8,10 +8,11 @@ import {
 import { StyleSheet } from 'react-native-unistyles'
 
 import { type Font, fonts } from '~/lib/fonts'
+import { mapColors } from '~/lib/styles'
 import { usePreferences } from '~/stores/preferences'
 import { getMargin } from '~/styles/space'
 import { type TextStyleProps, weights } from '~/styles/text'
-import { ColorTokens } from '~/styles/tokens'
+import { colors } from '~/styles/tokens'
 
 type Props = TextStyleProps & {
   children: ReactNode
@@ -102,7 +103,7 @@ const styles = StyleSheet.create((theme) => ({
 
     return {
       ...getMargin(props),
-      compoundVariants: ColorTokens.flatMap((token) => [
+      compoundVariants: colors.flatMap((token) => [
         {
           color: token,
           highContrast: true,
@@ -137,14 +138,9 @@ const styles = StyleSheet.create((theme) => ({
         accent: {
           true: {},
         },
-        color: Object.fromEntries(
-          ColorTokens.map((token) => [
-            token,
-            {
-              color: theme.colors[token].textLow,
-            },
-          ]),
-        ),
+        color: mapColors((token) => ({
+          color: theme.colors[token].textLow,
+        })),
         contrast: {
           true: {},
         },

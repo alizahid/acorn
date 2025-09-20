@@ -2,7 +2,8 @@ import { type SFSymbol } from 'expo-symbols'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { type ColorToken, ColorTokens, space } from '~/styles/tokens'
+import { mapColors } from '~/lib/styles'
+import { type ColorToken, space } from '~/styles/tokens'
 
 import { BlurView } from '../native/blur-view'
 import { IconButton } from './icon/button'
@@ -57,14 +58,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
     overflow: 'hidden',
     position: 'absolute',
     variants: {
-      color: Object.fromEntries(
-        ColorTokens.map((token) => [
-          token,
-          {
-            backgroundColor: theme.colors[token].uiActiveAlpha,
-          },
-        ]),
-      ),
+      color: mapColors((token) => ({
+        backgroundColor: theme.colors[token].uiActiveAlpha,
+      })),
       side: {
         center: {
           left: runtime.screen.width / 2 - theme.space[8] / 2,

@@ -3,7 +3,8 @@ import { StyleSheet } from 'react-native-unistyles'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
-import { type ColorToken, ColorTokens, space } from '~/styles/tokens'
+import { mapColors } from '~/lib/styles'
+import { type ColorToken, colors, space } from '~/styles/tokens'
 
 type Props = {
   color?: ColorToken
@@ -58,7 +59,7 @@ const styles = StyleSheet.create((theme) => ({
   main: {
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
-    compoundVariants: ColorTokens.map((token) => ({
+    compoundVariants: colors.map((token) => ({
       color: token,
       fill: true,
       styles: {
@@ -66,7 +67,7 @@ const styles = StyleSheet.create((theme) => ({
       },
     })),
     variants: {
-      color: Object.fromEntries(ColorTokens.map((token) => [token, {}])),
+      color: mapColors(() => ({})),
       fill: {
         true: {},
       },
