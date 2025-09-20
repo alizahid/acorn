@@ -1,8 +1,9 @@
-import { type StyleProp, type ViewStyle } from 'react-native'
 import {
   Pressable as Component,
   type PressableProps,
-} from 'react-native-gesture-handler'
+  type StyleProp,
+  type ViewStyle,
+} from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { stripProps } from '~/lib/styles'
