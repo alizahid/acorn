@@ -34,13 +34,7 @@ export function Header({ left, onPress, right, style, title }: Props) {
         </View>
       ) : null}
 
-      <Text
-        align="center"
-        contrast
-        lines={1}
-        style={styles.title}
-        weight="bold"
-      >
+      <Text align="center" lines={1} style={styles.title} weight="bold">
         {title}
       </Text>
 
