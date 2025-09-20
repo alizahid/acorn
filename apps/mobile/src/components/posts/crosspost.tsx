@@ -1,18 +1,17 @@
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
-import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import { useFormatter, useTranslations } from 'use-intl'
+import { useTranslations } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
-import { space } from '~/styles/tokens'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
+import { CrossPostFooter } from './footer/crosspost'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
@@ -22,7 +21,6 @@ type Props = {
   large?: boolean
   post: Post
   recyclingKey?: string
-  style?: StyleProp<ViewStyle>
   viewing: boolean
 }
 
@@ -31,13 +29,11 @@ export function CrossPostCard({
   large,
   post,
   recyclingKey,
-  style,
   viewing,
 }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
-  const f = useFormatter()
 
   const { themeOled } = usePreferences()
 
@@ -59,45 +55,27 @@ export function CrossPostCard({
             pathname: '/posts/[id]',
           })
         }}
-        style={styles.compact}
+        style={styles.main}
       >
         {post.media.images?.[0] ? (
           <Image
             accessibilityIgnoresInvertColors
             source={post.media.images[0].thumbnail}
-            style={styles.compactImage}
+            style={styles.image}
           />
         ) : null}
 
-        <View align="center" justify="center" style={styles.compactIcon}>
+        <View align="center" justify="center" style={styles.icon}>
           <Icon name="arrow.trianglehead.branch" style={styles.crossPost} />
         </View>
       </Pressable>
     )
   }
 
-  const footer = [
-    {
-      icon: 'arrowshape.up',
-      key: 'votes',
-      label: f.number(post.votes, {
-        notation: 'compact',
-      }),
-    },
-    {
-      icon: 'bubble',
-      key: 'comments',
-      label: f.number(post.comments, {
-        notation: 'compact',
-      }),
-    },
-  ] as const
-
   return (
     <Pressable
       hint={a11y('viewPost')}
       label={post.title}
-      mx="3"
       onPress={() => {
         router.push({
           params: {
@@ -106,7 +84,7 @@ export function CrossPostCard({
           pathname: '/posts/[id]',
         })
       }}
-      style={[styles.main, style]}
+      style={styles.main}
     >
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
@@ -130,12 +108,14 @@ export function CrossPostCard({
       ) : null}
 
       {post.type === 'link' && post.url ? (
-        <PostLinkCard
-          crossPost
-          media={post.media.images?.[0]}
-          recyclingKey={recyclingKey}
-          url={post.url}
-        />
+        <View mx="3">
+          <PostLinkCard
+            crossPost
+            media={post.media.images?.[0]}
+            recyclingKey={recyclingKey}
+            url={post.url}
+          />
+        </View>
       ) : null}
 
       <View gap="3" p="3">
@@ -143,61 +123,31 @@ export function CrossPostCard({
           {post.title}
         </Text>
 
-        <View align="center" direction="row" gap="4">
-          <Pressable
-            align="center"
-            direction="row"
-            gap="2"
-            hint={a11y('viewCommunity')}
-            hitSlop={space[4]}
-            label={post.community.name}
-            onPress={() => {
-              router.push({
-                params: {
-                  name: post.community.name,
-                },
-                pathname: '/communities/[name]',
-              })
-            }}
-          >
-            <Icon
-              name="arrow.trianglehead.branch"
-              style={styles.crossPost}
-              uniProps={(theme) => ({
-                size: theme.typography[1].lineHeight,
-              })}
-            />
-
-            <Text size="1" weight="medium">
-              {post.community.name}
-            </Text>
-          </Pressable>
-
-          {footer.map((item) => (
-            <View align="center" direction="row" gap="1" key={item.key}>
-              <Icon
-                name={item.icon}
-                uniProps={(theme) => ({
-                  size: theme.typography[1].lineHeight,
-                  tintColor: theme.colors.gray.textLow,
-                })}
-              />
-
-              <Text highContrast={false} size="1" tabular>
-                {item.label}
-              </Text>
-            </View>
-          ))}
-        </View>
+        <CrossPostFooter post={post} />
       </View>
     </Pressable>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  compact: {
-    backgroundColor: theme.colors.gray.uiActive,
+  crossPost: {
+    transform: [
+      {
+        rotate: '-90deg',
+      },
+    ],
+  },
+  icon: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: theme.colors.black.accentAlpha,
+  },
+  image: {
+    flex: 1,
+  },
+  main: {
+    backgroundColor: theme.colors.gray.uiHover,
     borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
     overflow: 'hidden',
     variants: {
       large: {
@@ -212,28 +162,6 @@ const styles = StyleSheet.create((theme) => ({
           width: theme.space[8] * 2,
         },
       },
-    },
-  },
-  compactIcon: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.black.accentAlpha,
-  },
-  compactImage: {
-    flex: 1,
-  },
-  crossPost: {
-    transform: [
-      {
-        rotate: '-90deg',
-      },
-    ],
-  },
-  main: {
-    backgroundColor: theme.colors.gray.uiHover,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
-    overflow: 'hidden',
-    variants: {
       oled: {
         true: {
           backgroundColor: theme.colors.gray.bg,

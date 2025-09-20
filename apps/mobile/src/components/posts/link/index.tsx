@@ -1,5 +1,4 @@
 import { Image } from 'expo-image'
-import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -21,7 +20,6 @@ type Props = {
   large?: boolean
   media?: PostMedia
   recyclingKey?: string
-  style?: StyleProp<ViewStyle>
   url: string
 }
 
@@ -31,7 +29,6 @@ export function PostLinkCard({
   large,
   media,
   recyclingKey,
-  style,
   url,
 }: Props) {
   const a11y = useTranslations('a11y')
@@ -41,6 +38,7 @@ export function PostLinkCard({
   const { addPost } = useHistory()
 
   styles.useVariants({
+    compact,
     crossPost,
     large,
     oled: themeOled,
@@ -48,31 +46,33 @@ export function PostLinkCard({
 
   const placeholder = useImagePlaceholder()
 
+  function onPress() {
+    handleLink(url)
+
+    if (recyclingKey && seenOnMedia) {
+      addPost({
+        id: recyclingKey,
+      })
+    }
+  }
+
   if (compact) {
     return (
       <LinkMenu url={url}>
         <Pressable
           label={a11y('viewLink')}
-          onPress={() => {
-            handleLink(url)
-
-            if (recyclingKey && seenOnMedia) {
-              addPost({
-                id: recyclingKey,
-              })
-            }
-          }}
-          style={styles.compact}
+          onPress={onPress}
+          style={styles.main}
         >
           {media?.thumbnail ? (
             <Image
               accessibilityIgnoresInvertColors
               source={media.thumbnail}
-              style={styles.compactImage}
+              style={styles.image}
             />
           ) : null}
 
-          <View align="center" justify="center" style={styles.compactIcon}>
+          <View align="center" justify="center" style={styles.icon}>
             <Icon
               name="safari"
               uniProps={(theme) => ({
@@ -87,20 +87,7 @@ export function PostLinkCard({
 
   return (
     <LinkMenu url={url}>
-      <Pressable
-        label={a11y('viewLink')}
-        mx="3"
-        onPress={() => {
-          handleLink(url)
-
-          if (recyclingKey && seenOnMedia) {
-            addPost({
-              id: recyclingKey,
-            })
-          }
-        }}
-        style={[styles.main, style]}
-      >
+      <Pressable label={a11y('viewLink')} onPress={onPress} style={styles.main}>
         {media ? (
           <Image
             {...placeholder}
@@ -129,32 +116,19 @@ export function PostLinkCard({
 }
 
 const styles = StyleSheet.create((theme) => ({
-  compact: {
-    backgroundColor: theme.colors.gray.uiActive,
-    borderCurve: 'continuous',
-    borderRadius: theme.space[1],
-    height: theme.space[8],
-    overflow: 'hidden',
-    variants: {
-      large: {
-        true: {
-          borderRadius: theme.space[2],
-          height: theme.space[8] * 2,
-          width: theme.space[8] * 2,
-        },
-      },
-    },
-    width: theme.space[8],
-  },
-  compactIcon: {
+  icon: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.black.accentAlpha,
   },
-  compactImage: {
-    flex: 1,
-  },
   image: {
     aspectRatio: 2,
+    variants: {
+      compact: {
+        true: {
+          flex: 1,
+        },
+      },
+    },
   },
   main: {
     backgroundColor: theme.colors.gray.uiActive,
@@ -165,6 +139,18 @@ const styles = StyleSheet.create((theme) => ({
       crossPost: {
         true: {
           marginTop: theme.space[3],
+        },
+      },
+      large: {
+        false: {
+          borderRadius: theme.space[1],
+          height: theme.space[8],
+          width: theme.space[8],
+        },
+        true: {
+          borderRadius: theme.space[2],
+          height: theme.space[8] * 2,
+          width: theme.space[8] * 2,
         },
       },
       oled: {

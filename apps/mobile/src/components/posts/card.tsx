@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router'
 import { useCallback } from 'react'
-import { Share, type StyleProp, type ViewStyle } from 'react-native'
+import { Share } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -8,7 +8,6 @@ import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { cardMaxWidth, iPad } from '~/lib/common'
-import { removePrefix } from '~/lib/reddit'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -32,12 +31,11 @@ import { PostVideoCard } from './video'
 type Props = {
   expanded?: boolean
   post: Post
-  style?: StyleProp<ViewStyle>
   viewing: boolean
   visible?: boolean
 }
 
-export function PostCard({ expanded, post, style, viewing, visible }: Props) {
+export function PostCard({ expanded, post, viewing, visible }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -133,62 +131,9 @@ export function PostCard({ expanded, post, style, viewing, visible }: Props) {
     [hide, oldReddit, post.hidden, post.id, post.permalink, router, save, vote],
   )
 
-  const body = Boolean(expanded) && Boolean(post.body)
-  const compact = feedCompact && !expanded
-  const media =
-    (post.type === 'crosspost' && Boolean(post.crossPost)) ||
-    (post.type === 'video' && Boolean(post.media.video)) ||
-    (post.type === 'image' && Boolean(post.media.images?.length)) ||
-    (post.type === 'link' && Boolean(post.url)) ||
-    (expanded && post.body)
-
-  function onPress() {
-    router.push({
-      params: {
-        id: removePrefix(post.id),
-      },
-      pathname: '/posts/[id]',
-    })
-  }
-
-  if (compact) {
+  if (feedCompact && !expanded) {
     return (
-      <PostMenu onPress={onPress} post={post}>
-        <Gestures
-          containerStyle={styles.container}
-          data={post}
-          left={{
-            enabled: postLeft,
-            long: postLeftLong,
-            short: postLeftShort,
-          }}
-          onAction={(action) => {
-            onAction(post, action)
-          }}
-          right={{
-            enabled: postRight,
-            long: postRightLong,
-            short: postRightShort,
-          }}
-          style={[styles.main, style]}
-        >
-          <PostCompactCard
-            expanded={expanded}
-            onPress={onPress}
-            post={post}
-            side={mediaOnRight ? 'right' : 'left'}
-            style={styles.dimmed}
-            viewing={viewing}
-          />
-        </Gestures>
-      </PostMenu>
-    )
-  }
-
-  return (
-    <PostMenu onPress={onPress} post={post}>
       <Gestures
-        containerStyle={styles.container}
         data={post}
         left={{
           enabled: postLeft,
@@ -203,111 +148,136 @@ export function PostCard({ expanded, post, style, viewing, visible }: Props) {
           long: postRightLong,
           short: postRightShort,
         }}
-        style={[styles.main, style]}
       >
+        <PostMenu post={post}>
+          <Pressable
+            disabled={expanded}
+            hint={a11y('viewPost')}
+            label={post.title}
+            style={styles.main}
+          >
+            <PostCompactCard
+              post={post}
+              side={mediaOnRight ? 'right' : 'left'}
+              style={styles.dimmed}
+              viewing={viewing}
+            />
+          </Pressable>
+        </PostMenu>
+      </Gestures>
+    )
+  }
+
+  return (
+    <Gestures
+      data={post}
+      left={{
+        enabled: postLeft,
+        long: postLeftLong,
+        short: postLeftShort,
+      }}
+      onAction={(action) => {
+        onAction(post, action)
+      }}
+      right={{
+        enabled: postRight,
+        long: postRightLong,
+        short: postRightShort,
+      }}
+      style={styles.container}
+    >
+      <PostMenu post={post}>
         <Pressable
           disabled={expanded}
-          gap="2"
           hint={a11y('viewPost')}
           label={post.title}
-          onPress={onPress}
-          pb={media ? '3' : undefined}
-          pt="3"
-          px="3"
-          style={styles.dimmed}
+          style={styles.main}
         >
-          {communityOnTop ? <PostCommunity post={post} /> : null}
+          <View gap="1" style={styles.dimmed}>
+            {communityOnTop ? <PostCommunity post={post} /> : null}
 
-          <Text
-            size={fontSizePostTitle}
-            weight={boldTitle ? 'bold' : undefined}
-          >
-            {post.title}
-          </Text>
+            <Text
+              size={fontSizePostTitle}
+              weight={boldTitle ? 'bold' : undefined}
+            >
+              {post.title}
+            </Text>
 
-          <FlairCard
-            flair={post.flair}
-            nsfw={post.nsfw}
-            spoiler={post.spoiler}
+            <FlairCard
+              flair={post.flair}
+              nsfw={post.nsfw}
+              spoiler={post.spoiler}
+            />
+          </View>
+
+          {post.type === 'crosspost' && post.crossPost ? (
+            <CrossPostCard
+              post={post.crossPost}
+              recyclingKey={post.id}
+              viewing={viewing}
+            />
+          ) : null}
+
+          {post.type === 'video' && post.media.video ? (
+            <PostVideoCard
+              nsfw={post.nsfw}
+              recyclingKey={post.id}
+              spoiler={post.spoiler}
+              thumbnail={post.media.images?.[0]?.url}
+              video={post.media.video}
+              viewing={viewing}
+              visible={visible}
+            />
+          ) : null}
+
+          {post.type === 'image' && post.media.images ? (
+            <PostGalleryCard
+              images={post.media.images}
+              nsfw={post.nsfw}
+              recyclingKey={post.id}
+              spoiler={post.spoiler}
+              viewing={viewing}
+            />
+          ) : null}
+
+          {post.type === 'link' && post.url ? (
+            <View>
+              <PostLinkCard
+                media={post.media.images?.[0]}
+                recyclingKey={post.id}
+                url={post.url}
+              />
+            </View>
+          ) : null}
+
+          {expanded && post.body ? (
+            <Html meta={post.media.meta} size={fontSizePostBody} type="post">
+              {post.body}
+            </Html>
+          ) : null}
+
+          <PostFooter
+            community={!communityOnTop}
+            post={post}
+            style={styles.dimmed}
           />
+
+          {post.saved ? (
+            <View pointerEvents="none" style={styles.saved} />
+          ) : null}
         </Pressable>
-
-        {post.type === 'crosspost' && post.crossPost ? (
-          <CrossPostCard
-            post={post.crossPost}
-            recyclingKey={post.id}
-            style={body ? styles.expanded : null}
-            viewing={viewing}
-          />
-        ) : null}
-
-        {post.type === 'video' && post.media.video ? (
-          <PostVideoCard
-            nsfw={post.nsfw}
-            recyclingKey={post.id}
-            spoiler={post.spoiler}
-            style={body ? styles.expanded : null}
-            thumbnail={post.media.images?.[0]?.url}
-            video={post.media.video}
-            viewing={viewing}
-            visible={visible}
-          />
-        ) : null}
-
-        {post.type === 'image' && post.media.images ? (
-          <PostGalleryCard
-            images={post.media.images}
-            nsfw={post.nsfw}
-            recyclingKey={post.id}
-            spoiler={post.spoiler}
-            style={body ? styles.expanded : null}
-            viewing={viewing}
-          />
-        ) : null}
-
-        {post.type === 'link' && post.url ? (
-          <PostLinkCard
-            media={post.media.images?.[0]}
-            recyclingKey={post.id}
-            style={body ? styles.expanded : null}
-            url={post.url}
-          />
-        ) : null}
-
-        {expanded && post.body ? (
-          <Html
-            meta={post.media.meta}
-            size={fontSizePostBody}
-            style={styles.body}
-            type="post"
-          >
-            {post.body}
-          </Html>
-        ) : null}
-
-        <PostFooter
-          community={!communityOnTop}
-          expanded={expanded}
-          post={post}
-          style={styles.dimmed}
-        />
-
-        {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
-      </Gestures>
-    </PostMenu>
+      </PostMenu>
+    </Gestures>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  body: {
-    marginHorizontal: theme.space[3],
-  },
   container: {
-    alignSelf: 'center',
-    borderCurve: 'continuous',
     variants: {
       iPad: {
         true: {
+          alignSelf: 'center',
+          borderCurve: 'continuous',
           borderRadius: theme.radius[4],
           maxWidth: cardMaxWidth,
         },
@@ -324,12 +294,8 @@ const styles = StyleSheet.create((theme) => ({
       },
     },
   },
-  expanded: {
-    marginBottom: theme.space[3],
-  },
   main: {
     backgroundColor: theme.colors.gray.ui,
-    borderCurve: 'continuous',
     compoundVariants: [
       {
         oled: true,
@@ -339,13 +305,9 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
     ],
-    overflow: 'hidden',
+    gap: theme.space[3],
+    padding: theme.space[3],
     variants: {
-      iPad: {
-        true: {
-          borderRadius: theme.radius[3],
-        },
-      },
       oled: {
         true: {
           backgroundColor: oledTheme[theme.variant].bg,

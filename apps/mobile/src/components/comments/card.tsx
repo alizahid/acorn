@@ -1,5 +1,5 @@
-import { useRouter } from 'expo-router'
-import { Share, type StyleProp, type ViewStyle } from 'react-native'
+import { Link, useRouter } from 'expo-router'
+import { Share } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -30,7 +30,6 @@ type Props = {
   disabled?: boolean
   dull?: boolean
   onPress: () => void
-  style?: StyleProp<ViewStyle>
 }
 
 export function CommentCard({
@@ -39,7 +38,6 @@ export function CommentCard({
   disabled,
   dull,
   onPress,
-  style,
 }: Props) {
   const router = useRouter()
 
@@ -80,86 +78,85 @@ export function CommentCard({
   }, undefined)
 
   return (
-    <CommentMenu comment={comment} onPress={onPress}>
-      <Gestures
-        containerStyle={styles.container(comment.depth) as ViewStyle}
-        data={comment}
-        left={{
-          enabled: commentLeft,
-          long: commentLeftLong,
-          short: commentLeftShort,
-        }}
-        onAction={(action) => {
-          if (action === 'upvote') {
-            vote({
+    <Gestures
+      data={comment}
+      left={{
+        enabled: commentLeft,
+        long: commentLeftLong,
+        short: commentLeftShort,
+      }}
+      onAction={(action) => {
+        if (action === 'upvote') {
+          vote({
+            commentId: comment.id,
+            direction: comment.liked ? 0 : 1,
+            postId: comment.post.id,
+          })
+        }
+
+        if (action === 'downvote') {
+          vote({
+            commentId: comment.id,
+            direction: comment.liked === false ? 0 : -1,
+            postId: comment.post.id,
+          })
+        }
+
+        if (action === 'save') {
+          save({
+            action: comment.saved ? 'unsave' : 'save',
+            commentId: comment.id,
+            postId: comment.post.id,
+          })
+        }
+
+        if (action === 'reply') {
+          router.push({
+            params: {
               commentId: comment.id,
-              direction: comment.liked ? 0 : 1,
-              postId: comment.post.id,
-            })
-          }
+              id: comment.post.id,
+              user: comment.user.name,
+            },
+            pathname: '/posts/[id]/reply',
+          })
+        }
 
-          if (action === 'downvote') {
-            vote({
-              commentId: comment.id,
-              direction: comment.liked === false ? 0 : -1,
-              postId: comment.post.id,
-            })
-          }
+        if (action === 'share') {
+          const url = new URL(comment.permalink, 'https://www.reddit.com')
 
-          if (action === 'save') {
-            save({
-              action: comment.saved ? 'unsave' : 'save',
-              commentId: comment.id,
-              postId: comment.post.id,
-            })
-          }
+          Share.share({
+            url: url.toString(),
+          })
+        }
 
-          if (action === 'reply') {
-            router.push({
-              params: {
-                commentId: comment.id,
-                id: comment.post.id,
-                user: comment.user.name,
-              },
-              pathname: '/posts/[id]/reply',
-            })
-          }
-
-          if (action === 'share') {
-            const url = new URL(comment.permalink, 'https://www.reddit.com')
-
-            Share.share({
-              url: url.toString(),
-            })
-          }
-
-          if (action === 'hide') {
-            hide({
-              action: 'hide',
-              id: comment.id,
-              postId: comment.post.id,
-              type: 'comment',
-            })
-          }
-        }}
-        right={{
-          enabled: commentRight,
-          long: commentRightLong,
-          short: commentRightShort,
-        }}
-        style={[styles.main(comment.depth, dull), style]}
-      >
+        if (action === 'hide') {
+          hide({
+            action: 'hide',
+            id: comment.id,
+            postId: comment.post.id,
+            type: 'comment',
+          })
+        }
+      }}
+      right={{
+        enabled: commentRight,
+        long: commentRightLong,
+        short: commentRightShort,
+      }}
+      style={styles.container(comment.depth)}
+    >
+      <CommentMenu comment={comment}>
         <Pressable
           disabled={disabled}
-          hint={a11y(
+          label={a11y(
             dull
               ? 'viewComment'
               : collapsed
                 ? 'expandComment'
                 : 'collapseComment',
           )}
-          label={comment.body}
           onPress={onPress}
+          style={styles.main(comment.depth, dull)}
         >
           {userOnTop ? (
             <CommentMeta
@@ -171,54 +168,56 @@ export function CommentCard({
           ) : null}
 
           {collapsed ? null : (
-            <Html
-              depth={comment.depth}
-              meta={comment.media.meta}
-              size={fontSizeComment}
-              style={styles.body}
-              type="comment"
-            >
-              {comment.body}
-            </Html>
+            <View p="3">
+              <Html
+                depth={comment.depth}
+                meta={comment.media.meta}
+                size={fontSizeComment}
+                type="comment"
+              >
+                {comment.body}
+              </Html>
+            </View>
           )}
 
           {comment.post.title ? (
-            <Pressable
-              align="center"
-              direction="row"
-              gap="2"
-              hint={a11y('viewPost')}
-              label={comment.post.title}
-              mb="3"
-              mx="3"
-              onPress={() => {
-                router.push({
-                  params: {
-                    id: comment.post.id,
-                  },
-                  pathname: '/posts/[id]',
-                })
+            <Link
+              accessibilityHint={a11y('viewPost')}
+              accessibilityLabel={comment.post.title}
+              href={{
+                params: {
+                  id: comment.post.id,
+                },
+                pathname: '/posts/[id]',
               }}
-              p="2"
-              style={styles.post}
             >
-              <Icon
-                name="paperclip"
-                uniProps={(theme) => ({
-                  tintColor: theme.colors.gray.accent,
-                })}
-              />
+              <View
+                align="center"
+                direction="row"
+                gap="2"
+                mb="3"
+                mx="3"
+                p="2"
+                style={styles.post}
+              >
+                <Icon
+                  name="paperclip"
+                  uniProps={(theme) => ({
+                    tintColor: theme.colors.gray.accent,
+                  })}
+                />
 
-              <View flex={1} gap="1">
-                <Text size="1" weight="medium">
-                  {comment.post.title}
-                </Text>
+                <View flex={1} gap="1">
+                  <Text size="1" weight="medium">
+                    {comment.post.title}
+                  </Text>
 
-                <Text highContrast={false} size="1">
-                  r/{comment.community.name}
-                </Text>
+                  <Text highContrast={false} size="1">
+                    r/{comment.community.name}
+                  </Text>
+                </View>
               </View>
-            </Pressable>
+            </Link>
           ) : null}
 
           {userOnTop ? null : (
@@ -236,13 +235,13 @@ export function CommentCard({
               type={flair}
             />
           ) : null}
-        </Pressable>
 
-        {comment.saved ? (
-          <View pointerEvents="none" style={styles.saved} />
-        ) : null}
-      </Gestures>
-    </CommentMenu>
+          {comment.saved ? (
+            <View pointerEvents="none" style={styles.saved} />
+          ) : null}
+        </Pressable>
+      </CommentMenu>
+    </Gestures>
   )
 }
 
@@ -262,7 +261,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
             borderCurve: 'continuous',
             borderRadius: theme.radius[3],
             maxWidth: cardMaxWidth - marginLeft,
-            width: '100%',
           },
         },
       },
@@ -275,8 +273,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   main: (depth: number, dull?: boolean) => {
     const color = dull ? 'gray' : getDepthColor(depth)
+    const marginLeft = theme.space[2] * depth
 
     return {
+      alignSelf: 'center',
       backgroundColor: theme.colors.gray.bgAlt,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
@@ -312,6 +312,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
           true: {
             borderCurve: 'continuous',
             borderRadius: theme.radius[3],
+            maxWidth: cardMaxWidth - marginLeft,
           },
         },
         oled: {
@@ -320,6 +321,8 @@ const styles = StyleSheet.create((theme, runtime) => ({
           },
         },
       },
+      // width: runtime.screen.width - marginLeft,
+      width: '100%',
     }
   },
   post: {

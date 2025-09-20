@@ -38,12 +38,7 @@ export function ImageGrid({
     const image = images[0]!
 
     return (
-      <ImageMenu
-        onPress={() => {
-          onPress(0)
-        }}
-        url={image.url}
-      >
+      <ImageMenu url={image.url}>
         <Pressable
           label={a11y('viewImage')}
           onPress={() => {
@@ -51,26 +46,28 @@ export function ImageGrid({
           }}
           style={styles.one(image.width / image.height)}
         >
-          <Image
-            {...placeholder}
-            accessibilityIgnoresInvertColors
-            priority={viewing ? 'high' : 'normal'}
-            recyclingKey={recyclingKey}
-            source={image.thumbnail}
-            style={styles.image}
-          />
+          <View>
+            <Image
+              {...placeholder}
+              accessibilityIgnoresInvertColors
+              priority={viewing ? 'high' : 'normal'}
+              recyclingKey={recyclingKey}
+              source={image.thumbnail}
+              style={styles.image}
+            />
 
-          {nsfw || spoiler ? (
-            <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
-          ) : null}
+            {nsfw || spoiler ? (
+              <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+            ) : null}
 
-          {image.type === 'gif' ? (
-            <View style={[styles.label, styles.gif]}>
-              <Text contrast size="1" weight="medium">
-                {t('gif')}
-              </Text>
-            </View>
-          ) : null}
+            {image.type === 'gif' ? (
+              <View style={[styles.label, styles.gif]}>
+                <Text contrast size="1" weight="medium">
+                  {t('gif')}
+                </Text>
+              </View>
+            ) : null}
+          </View>
         </Pressable>
       </ImageMenu>
     )
@@ -79,7 +76,7 @@ export function ImageGrid({
   const data = images.slice(0, 4)
 
   return (
-    <>
+    <View>
       <ResponsiveGrid
         data={data.map((image, index) => ({
           ...image,
@@ -88,12 +85,7 @@ export function ImageGrid({
         keyExtractor={(item: PostMedia) => item.url}
         maxItemsPerColumn={2}
         renderItem={({ index, item }: { index: number; item: PostMedia }) => (
-          <ImageMenu
-            onPress={() => {
-              onPress(index)
-            }}
-            url={item.url}
-          >
+          <ImageMenu url={item.url}>
             <Pressable
               label={a11y('viewImage')}
               onPress={() => {
@@ -135,7 +127,7 @@ export function ImageGrid({
           </Text>
         </View>
       ) : null}
-    </>
+    </View>
   )
 }
 

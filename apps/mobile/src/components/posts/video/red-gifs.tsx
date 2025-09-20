@@ -47,6 +47,7 @@ export function RedGifsVideo({
         compact={compact}
         large={large}
         nsfw={nsfw}
+        source={gif.source}
         spoiler={spoiler}
         thumbnail={thumbnail}
         video={video}

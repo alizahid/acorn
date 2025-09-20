@@ -1,62 +1,63 @@
+import { Link } from 'expo-router'
 import { type ReactNode } from 'react'
-import { Share, type StyleProp, type ViewStyle } from 'react-native'
+import { Share } from 'react-native'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import { ContextMenu } from '@/context-menu'
 import { useCopy } from '~/hooks/copy'
 import { useLink } from '~/hooks/link'
 
 type Props = {
   children: ReactNode
-  style?: StyleProp<ViewStyle>
   url: string
 }
 
-export function LinkMenu({ children, style, url }: Props) {
+export function LinkMenu({ children, url }: Props) {
   const t = useTranslations('component.posts.link')
   const toasts = useTranslations('toasts')
-  const a11y = useTranslations('a11y')
 
   const { handleLink } = useLink()
   const { copy } = useCopy()
 
   return (
-    <ContextMenu
-      accessibilityLabel={a11y('viewLink')}
-      options={[
-        {
-          icon: 'safari',
-          id: 'open',
-          onPress() {
+    <Link
+      asChild
+      href="/"
+      onPress={(event) => {
+        event.preventDefault()
+      }}
+    >
+      <Link.Trigger>{children}</Link.Trigger>
+
+      <Link.Menu>
+        <Link.MenuAction
+          icon="safari"
+          onPress={() => {
             handleLink(url)
-          },
-          title: t('open'),
-        },
-        {
-          icon: 'square.on.square',
-          id: 'copy',
-          onPress() {
+          }}
+          title={t('open')}
+        />
+
+        <Link.MenuAction
+          icon="square.on.square"
+          onPress={() => {
             copy(url).then(() => {
               toast.success(toasts('link.copied'))
             })
-          },
-          title: t('copy'),
-        },
-        {
-          icon: 'square.and.arrow.up',
-          id: 'share',
-          onPress() {
+          }}
+          title={t('copy')}
+        />
+
+        <Link.MenuAction
+          icon="square.and.arrow.up"
+          onPress={() => {
             Share.share({
               url,
             })
-          },
-          title: t('share'),
-        },
-      ]}
-      style={style}
-    >
-      {children}
-    </ContextMenu>
+          }}
+          title={t('share')}
+        />
+      </Link.Menu>
+    </Link>
   )
 }

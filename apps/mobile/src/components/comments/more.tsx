@@ -89,7 +89,6 @@ export function CommentMoreCard({
 const styles = StyleSheet.create((theme) => ({
   main: (depth: number) => {
     const color = getDepthColor(depth)
-
     const marginLeft = theme.space[2] * depth
 
     return {
@@ -106,6 +105,7 @@ const styles = StyleSheet.create((theme) => ({
         },
       ],
       marginLeft,
+      overflow: 'hidden',
       variants: {
         colorful: {
           true: {
@@ -118,7 +118,6 @@ const styles = StyleSheet.create((theme) => ({
             borderCurve: 'continuous',
             borderRadius: theme.radius[3],
             maxWidth: cardMaxWidth - marginLeft,
-            width: '100%',
           },
         },
         oled: {
@@ -127,6 +126,7 @@ const styles = StyleSheet.create((theme) => ({
           },
         },
       },
+      width: '100%',
     }
   },
 }))

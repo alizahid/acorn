@@ -1,10 +1,12 @@
 import { ImageBackground } from 'expo-image'
+import { type VideoSource } from 'expo-video'
 import { type ReactNode } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
-import { View } from '~/components/common/view'
+import { Pressable } from '~/components/common/pressable'
+import { previewVideo } from '~/lib/preview'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -15,6 +17,7 @@ type Props = {
   compact?: boolean
   large?: boolean
   nsfw?: boolean
+  source?: VideoSource
   spoiler?: boolean
   thumbnail?: string
   video: PostMedia
@@ -25,33 +28,49 @@ export function VideoPlaceholder({
   compact,
   large,
   nsfw,
+  source,
   spoiler,
   thumbnail,
   video,
 }: Props) {
   const t = useTranslations('component.posts.video')
+  const a11y = useTranslations('a11y')
 
   const { blurNsfw, blurSpoiler } = usePreferences()
 
   styles.useVariants({
+    compact,
     large,
   })
+
+  function onPress() {
+    previewVideo({
+      ...video,
+      url: (typeof source === 'object' ? source?.uri : undefined) ?? video.url,
+    })
+  }
 
   if (compact) {
     return (
       <ImageBackground
         accessibilityIgnoresInvertColors
         source={thumbnail ?? video.thumbnail}
-        style={styles.compact}
+        style={styles.main}
       >
         {children ?? (
-          <View align="center" justify="center" style={styles.compactIcon}>
+          <Pressable
+            align="center"
+            justify="center"
+            label={a11y('play')}
+            onPress={onPress}
+            style={styles.icon}
+          >
             <Icon name="play.fill" />
 
             {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
               <GalleryBlur />
             ) : null}
-          </View>
+          </Pressable>
         )}
       </ImageBackground>
     )
@@ -64,9 +83,11 @@ export function VideoPlaceholder({
       style={styles.main}
     >
       {children ?? (
-        <View
+        <Pressable
           align="center"
           justify="center"
+          label={a11y('play')}
+          onPress={onPress}
           style={styles.video(video.width / video.height)}
         >
           <Icon
@@ -79,18 +100,37 @@ export function VideoPlaceholder({
           {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
             <GalleryBlur label={t(nsfw ? 'nsfw' : 'spoiler')} />
           ) : null}
-        </View>
+        </Pressable>
       )}
     </ImageBackground>
   )
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  compact: {
-    backgroundColor: theme.colors.gray.uiActive,
-    borderCurve: 'continuous',
+  icon: {
+    ...StyleSheet.absoluteFillObject,
+    variants: {
+      compact: {
+        true: {
+          backgroundColor: theme.colors.black.accentAlpha,
+        },
+      },
+    },
+  },
+  main: {
+    justifyContent: 'center',
+    maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
     variants: {
+      compact: {
+        default: {
+          marginHorizontal: -theme.space[3],
+        },
+        true: {
+          backgroundColor: theme.colors.gray.uiActive,
+          borderCurve: 'continuous',
+        },
+      },
       large: {
         false: {
           borderRadius: theme.space[1],
@@ -104,18 +144,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
         },
       },
     },
-  },
-  compactIcon: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.black.accentAlpha,
-  },
-  icon: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  main: {
-    justifyContent: 'center',
-    maxHeight: runtime.screen.height * 0.6,
-    overflow: 'hidden',
   },
   video: (aspectRatio: number) => ({
     aspectRatio,

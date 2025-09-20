@@ -1,11 +1,8 @@
-import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { useTranslations } from 'use-intl'
 
-import { Pressable } from '~/components/common/pressable'
 import { View } from '~/components/common/view'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
-import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -15,14 +12,11 @@ import { PostMeta } from './meta'
 
 type Props = {
   community?: boolean
-  expanded?: boolean
   post: Post
   style?: StyleProp<ViewStyle>
 }
 
-export function PostFooter({ community = true, expanded, post, style }: Props) {
-  const router = useRouter()
-
+export function PostFooter({ community = true, post, style }: Props) {
   const a11y = useTranslations('a11y')
 
   const { hidePostActions } = usePreferences()
@@ -30,22 +24,12 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
   const { vote } = usePostVote()
 
   return (
-    <Pressable
+    <View
       align={community ? 'center' : 'end'}
       direction="row"
-      disabled={expanded}
       gap="4"
-      hint={a11y('viewPost')}
       justify="between"
-      label={post.title}
-      onPress={() => {
-        router.push({
-          params: {
-            id: removePrefix(post.id),
-          },
-          pathname: '/posts/[id]',
-        })
-      }}
+      m="-3"
       p="3"
       style={style}
     >
@@ -84,6 +68,6 @@ export function PostFooter({ community = true, expanded, post, style }: Props) {
           />
         </View>
       )}
-    </Pressable>
+    </View>
   )
 }

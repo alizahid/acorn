@@ -13,6 +13,7 @@ import {
 export type ViewStyleProps = {
   align?: 'baseline' | 'center' | 'end' | 'start' | 'stretch'
   direction?: 'row' | 'column' | 'row-reverse' | 'column-reverse'
+  display?: 'flex' | 'none'
   flex?: number
   flexBasis?: number
   flexGrow?: number
@@ -31,6 +32,7 @@ export type ViewStyleProps = {
 export function getViewStyles({
   align,
   direction,
+  display,
   flex,
   flexBasis,
   flexGrow,
@@ -86,6 +88,7 @@ export function getViewStyles({
     alignItems,
     alignSelf,
     columnGap: getSpace(gapY),
+    display,
     flex,
     flexBasis,
     flexDirection: direction,

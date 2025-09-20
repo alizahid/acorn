@@ -1,12 +1,10 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
 
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
-import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { CrossPostCard } from './crosspost'
@@ -17,8 +15,6 @@ import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
 type Props = {
-  expanded?: boolean
-  onPress: () => void
   post: Post
   side?: 'left' | 'right'
   style?: StyleProp<ViewStyle>
@@ -26,95 +22,91 @@ type Props = {
 }
 
 export function PostCompactCard({
-  expanded,
-  onPress,
   post,
   side = 'left',
   style,
   viewing,
 }: Props) {
-  const a11y = useTranslations('a11y')
-
-  const { fontSizePostTitle, largeThumbnails } = usePreferences()
+  const { communityOnTop, fontSizePostTitle, largeThumbnails } =
+    usePreferences()
 
   styles.useVariants({
     large: largeThumbnails,
   })
 
   return (
-    <Pressable
+    <View
       align="start"
       direction={side === 'right' ? 'row-reverse' : 'row'}
-      disabled={expanded}
       gap="3"
-      hint={a11y('viewPost')}
-      label={post.title}
-      onPress={onPress}
-      p="3"
       style={[styles.main, style]}
     >
-      {post.type === 'crosspost' && post.crossPost ? (
-        <CrossPostCard
-          compact
-          large={largeThumbnails}
-          post={post.crossPost}
-          recyclingKey={post.id}
-          viewing={false}
-        />
-      ) : null}
+      <View>
+        {post.type === 'crosspost' && post.crossPost ? (
+          <CrossPostCard
+            compact
+            large={largeThumbnails}
+            post={post.crossPost}
+            recyclingKey={post.id}
+            viewing={false}
+          />
+        ) : null}
 
-      {post.type === 'video' && post.media.video ? (
-        <PostVideoCard
-          compact
-          large={largeThumbnails}
-          nsfw={post.nsfw}
-          recyclingKey={post.id}
-          thumbnail={post.media.images?.[0]?.url}
-          video={post.media.video}
-          viewing={false}
-        />
-      ) : null}
+        {post.type === 'video' && post.media.video ? (
+          <PostVideoCard
+            compact
+            large={largeThumbnails}
+            nsfw={post.nsfw}
+            recyclingKey={post.id}
+            thumbnail={post.media.images?.[0]?.url}
+            video={post.media.video}
+            viewing={false}
+          />
+        ) : null}
 
-      {post.type === 'image' && post.media.images ? (
-        <PostGalleryCard
-          compact
-          images={post.media.images}
-          large={largeThumbnails}
-          nsfw={post.nsfw}
-          recyclingKey={post.id}
-          spoiler={post.spoiler}
-          viewing={viewing}
-        />
-      ) : null}
+        {post.type === 'image' && post.media.images ? (
+          <PostGalleryCard
+            compact
+            images={post.media.images}
+            large={largeThumbnails}
+            nsfw={post.nsfw}
+            recyclingKey={post.id}
+            spoiler={post.spoiler}
+            viewing={viewing}
+          />
+        ) : null}
 
-      {post.type === 'link' && post.url ? (
-        <PostLinkCard
-          compact
-          large={largeThumbnails}
-          media={post.media.images?.[0]}
-          recyclingKey={post.id}
-          url={post.url}
-        />
-      ) : null}
+        {post.type === 'link' && post.url ? (
+          <PostLinkCard
+            compact
+            large={largeThumbnails}
+            media={post.media.images?.[0]}
+            recyclingKey={post.id}
+            url={post.url}
+          />
+        ) : null}
 
-      {post.type === 'text' ? (
-        <View align="center" justify="center" style={styles.text}>
-          <Icon name="text.alignleft" />
-        </View>
-      ) : null}
+        {post.type === 'text' ? (
+          <View align="center" justify="center" style={styles.text}>
+            <Icon name="text.alignleft" />
+          </View>
+        ) : null}
+      </View>
 
       <View align="start" flex={1} gap="2">
-        <PostCommunity post={post} />
+        {communityOnTop ? <PostCommunity post={post} /> : null}
 
         <Text size={fontSizePostTitle} weight="bold">
           {post.title}
         </Text>
 
+        {communityOnTop ? null : <PostCommunity post={post} />}
+
         <PostMeta post={post} />
       </View>
 
       {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
-    </Pressable>
+    </View>
   )
 }
 

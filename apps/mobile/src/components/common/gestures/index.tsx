@@ -35,7 +35,6 @@ export type Gestures = {
 
 type Props = {
   children: ReactNode
-  containerStyle?: StyleProp<ViewStyle>
   data: GestureData
   left: Gestures
   onAction: (action: Undefined<GestureAction>) => void
@@ -45,7 +44,7 @@ type Props = {
 
 export function Gestures({
   children,
-  containerStyle,
+  // containerStyle,
   data,
   left,
   onAction,
@@ -59,13 +58,12 @@ export function Gestures({
   const action = useSharedValue<Undefined<GestureAction>>(undefined)
 
   if (!(left.enabled || right.enabled)) {
-    return <View style={[containerStyle, style]}>{children}</View>
+    return <View style={style}>{children}</View>
   }
 
   return (
     <Swipeable
-      childrenContainerStyle={style}
-      containerStyle={containerStyle}
+      containerStyle={style}
       dragOffsetFromLeftEdge={left.enabled ? 12 : frame.width}
       dragOffsetFromRightEdge={right.enabled ? 12 : frame.width}
       hitSlop={

@@ -1,5 +1,3 @@
-import { type StyleProp, type ViewStyle } from 'react-native'
-
 import { type PostMedia } from '~/types/post'
 
 import { PostLinkCard } from '../link'
@@ -14,7 +12,6 @@ type Props = {
   nsfw?: boolean
   recyclingKey?: string
   spoiler?: boolean
-  style?: StyleProp<ViewStyle>
   thumbnail?: string
   video: PostMedia
   viewing: boolean
@@ -28,7 +25,6 @@ export function PostVideoCard({
   nsfw,
   recyclingKey,
   spoiler,
-  style,
   thumbnail,
   video,
   viewing,
@@ -42,7 +38,6 @@ export function PostVideoCard({
         nsfw={nsfw}
         recyclingKey={recyclingKey}
         spoiler={spoiler}
-        style={style}
         thumbnail={thumbnail}
         video={video}
         viewing={viewing}
@@ -69,7 +64,6 @@ export function PostVideoCard({
             recyclingKey={recyclingKey}
             source={video.url}
             spoiler={spoiler}
-            style={style}
             thumbnail={thumbnail}
             video={video}
             viewing={viewing}
@@ -93,7 +87,6 @@ export function PostVideoCard({
       large={large}
       media={media}
       recyclingKey={recyclingKey}
-      style={style}
       url={video.url}
     />
   )

@@ -9,7 +9,6 @@ import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
 
 import { Button } from '../common/button'
-import { Html } from '../common/html'
 import { Loading } from '../common/loading'
 import { RefreshControl } from '../common/refresh-control'
 import { Text } from '../common/text'
@@ -68,12 +67,6 @@ export function UserAbout({ listProps, name }: Props) {
       </View>
 
       <ProfileCard profile={profile} />
-
-      {profile.description ? (
-        <Html size="2" style={styles.description} type="about">
-          {profile.description}
-        </Html>
-      ) : null}
 
       <View direction="row" gap="4" mx="4">
         <Button

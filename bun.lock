@@ -17,6 +17,7 @@
       "version": "0.0.0",
       "dependencies": {
         "@bacons/apple-targets": "^3.0.2",
+        "@baronha/react-native-multiple-image-picker": "^2.2.4",
         "@bottom-tabs/react-navigation": "^0.11.2",
         "@date-fns/tz": "^1.4.1",
         "@formatjs/intl-getcanonicallocales": "^2.5.5",
@@ -342,6 +343,8 @@
     "@bacons/apple-targets": ["@bacons/apple-targets@3.0.2", "", { "dependencies": { "@bacons/xcode": "1.0.0-alpha.24", "@react-native/normalize-colors": "^0.79.2", "debug": "^4.3.4", "glob": "^10.4.2" } }, "sha512-F9WD7Qsx+XGQ/sJF1BEwBtgxb4RQ5tEk2SNj0BpQ/W3Uq7G75X+4Gnzzwoqz4oNErMcrD4/LiR3i3SKs6e5MCg=="],
 
     "@bacons/xcode": ["@bacons/xcode@1.0.0-alpha.24", "", { "dependencies": { "@expo/plist": "^0.0.18", "debug": "^4.3.4", "uuid": "^8.3.2" } }, "sha512-RaYUNsGBJVp0t2vgXaT4L668WIvbhtdl1JFJHedPkebIPR6h/+E2Kq32O49t+8f4LUPW9UF4CfXBrDc+XdXUUQ=="],
+
+    "@baronha/react-native-multiple-image-picker": ["@baronha/react-native-multiple-image-picker@2.2.4", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-5LLey7W0kMkhGm7cBpMwAcPKdqFeHREHj6mqEZZbRPFYPWmq5Up5fJIFYjy+boJgUqfQwWuWuR5aM75mCcB0lA=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.2.4", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.2.4", "@biomejs/cli-darwin-x64": "2.2.4", "@biomejs/cli-linux-arm64": "2.2.4", "@biomejs/cli-linux-arm64-musl": "2.2.4", "@biomejs/cli-linux-x64": "2.2.4", "@biomejs/cli-linux-x64-musl": "2.2.4", "@biomejs/cli-win32-arm64": "2.2.4", "@biomejs/cli-win32-x64": "2.2.4" }, "bin": { "biome": "bin/biome" } }, "sha512-TBHU5bUy/Ok6m8c0y3pZiuO/BZoY/OcGxoLlrfQof5s8ISVwbVBdFINPQZyFfKwil8XibYWb7JMwnT8wT4WVPg=="],
 

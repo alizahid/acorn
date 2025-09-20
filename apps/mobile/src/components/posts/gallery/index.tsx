@@ -1,13 +1,13 @@
 import { Image } from 'expo-image'
 import { useCallback } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Gallery } from '~/components/common/gallery'
 import { Pressable } from '~/components/common/pressable'
+import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
+import { previewImages } from '~/lib/preview'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -22,7 +22,6 @@ type Props = {
   nsfw?: boolean
   recyclingKey?: string
   spoiler?: boolean
-  style?: StyleProp<ViewStyle>
   viewing?: boolean
 }
 
@@ -33,15 +32,15 @@ export function PostGalleryCard({
   nsfw,
   recyclingKey,
   spoiler,
-  style,
   viewing,
 }: Props) {
-  const a11y = useTranslations('a11y')
-
   const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences()
   const { addPost } = useHistory()
 
+  const a11y = useTranslations('a11y')
+
   styles.useVariants({
+    compact,
     large,
   })
 
@@ -51,10 +50,7 @@ export function PostGalleryCard({
 
   const onPress = useCallback(
     (initial?: number) => {
-      Gallery.call({
-        images,
-        initial,
-      })
+      previewImages(images, initial)
 
       if (recyclingKey && seenOnMedia) {
         addPost({
@@ -71,18 +67,13 @@ export function PostGalleryCard({
 
   if (compact) {
     return (
-      <ImageMenu
-        onPress={() => {
-          onPress()
-        }}
-        url={first.url}
-      >
+      <ImageMenu url={first.url}>
         <Pressable
           label={a11y('viewImage')}
           onPress={() => {
             onPress()
           }}
-          style={[styles.compact, style]}
+          style={styles.main}
         >
           <Image
             {...placeholder}
@@ -90,7 +81,7 @@ export function PostGalleryCard({
             priority={viewing ? 'high' : 'normal'}
             recyclingKey={recyclingKey}
             source={first.thumbnail}
-            style={styles.compactImage}
+            style={styles.image}
           />
 
           {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
@@ -102,7 +93,7 @@ export function PostGalleryCard({
   }
 
   return (
-    <Pressable label={a11y('viewImage')} style={[styles.main, style]}>
+    <View style={styles.main}>
       <ImageGrid
         images={images}
         nsfw={Boolean(nsfw && blurNsfw)}
@@ -113,22 +104,26 @@ export function PostGalleryCard({
         spoiler={Boolean(spoiler && blurSpoiler)}
         viewing={viewing}
       />
-    </Pressable>
+    </View>
   )
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  blur: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    gap: theme.space[4],
-    justifyContent: 'center',
+  image: {
+    flex: 1,
   },
-  compact: {
-    backgroundColor: theme.colors.gray.uiActive,
-    borderCurve: 'continuous',
+  main: {
+    maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
     variants: {
+      compact: {
+        default: {
+          marginHorizontal: -theme.space[3],
+        },
+        true: {
+          backgroundColor: theme.colors.gray.uiActive,
+        },
+      },
       large: {
         false: {
           borderRadius: theme.space[1],
@@ -142,16 +137,5 @@ const styles = StyleSheet.create((theme, runtime) => ({
         },
       },
     },
-  },
-  compactIcon: {
-    backgroundColor: theme.colors.black.accentAlpha,
-  },
-  compactImage: {
-    flex: 1,
-  },
-  main: {
-    justifyContent: 'center',
-    maxHeight: runtime.screen.height * 0.6,
-    overflow: 'hidden',
   },
 }))
