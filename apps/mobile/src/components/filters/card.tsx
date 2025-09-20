@@ -1,14 +1,16 @@
+import { MenuView } from '@react-native-menu/menu'
 import { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { ContextMenu } from '@/context-menu'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { TextBox } from '~/components/common/text-box'
 import { View } from '~/components/common/view'
 import { type FiltersForm } from '~/hooks/filters'
+
+type Item = 'community' | 'keyword' | 'user'
 
 type Props = {
   index: number
@@ -21,7 +23,7 @@ export function FilterCard({ index, onRemove }: Props) {
 
   const { control } = useFormContext<FiltersForm>()
 
-  const [type, setType] = useState<'community' | 'keyword' | 'user'>('keyword')
+  const [type, setType] = useState<Item>('keyword')
 
   return (
     <View direction="row" style={styles.main}>
@@ -29,27 +31,26 @@ export function FilterCard({ index, onRemove }: Props) {
         control={control}
         name={`filters.${index}.type`}
         render={({ field }) => (
-          <ContextMenu
-            accessibilityLabel={field.value}
-            options={(['keyword', 'community', 'user'] as const).map(
+          <MenuView
+            actions={(['keyword', 'community', 'user'] as const).map(
               (item) => ({
-                icon:
+                id: item,
+                image:
                   item === 'community'
                     ? 'person.2'
                     : item === 'user'
                       ? 'person'
                       : 'tag',
-                id: item,
-                onPress() {
-                  field.onChange(item)
-
-                  setType(item)
-                },
                 state: item === field.value ? 'on' : undefined,
                 title: t(`type.${item}.label`),
               }),
             )}
-            tappable
+            onPressAction={(event) => {
+              field.onChange(event.nativeEvent.event)
+
+              setType(event.nativeEvent.event as Item)
+            }}
+            shouldOpenOnLongPress={false}
           >
             <View align="center" direction="row" gap="2" height="7" px="2">
               <Icon
@@ -74,7 +75,7 @@ export function FilterCard({ index, onRemove }: Props) {
                 })}
               />
             </View>
-          </ContextMenu>
+          </MenuView>
         )}
       />
 

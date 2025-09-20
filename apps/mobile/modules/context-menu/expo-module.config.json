@@ -1,6 +1,0 @@
-{
-  "apple": {
-    "modules": ["ContextMenuModule"]
-  },
-  "platforms": ["apple"]
-}

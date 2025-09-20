@@ -1,9 +1,9 @@
+import { MenuView } from '@react-native-menu/menu'
 import { compact } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { ContextMenu } from '@/context-menu'
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { type Submission } from '~/types/submission'
 
@@ -30,26 +30,25 @@ export function SubmissionType({ submission }: Props) {
       control={control}
       name="type"
       render={({ field }) => (
-        <ContextMenu
-          accessibilityLabel={t('title')}
-          options={types.map((item) => ({
-            icon:
+        <MenuView
+          actions={types.map((item) => ({
+            id: item,
+            image:
               item === 'image'
                 ? 'photo'
                 : item === 'link'
                   ? 'link'
                   : 'character.cursor.ibeam',
-            id: item,
-            onPress() {
-              if (item !== field.value) {
-                setValue('url', '')
-              }
-
-              field.onChange(item)
-            },
             title: t(item),
           }))}
-          tappable
+          onPressAction={(event) => {
+            if (event.nativeEvent.event !== field.value) {
+              setValue('url', '')
+            }
+
+            field.onChange(event.nativeEvent.event)
+          }}
+          shouldOpenOnLongPress={false}
         >
           <View
             align="center"
@@ -80,7 +79,7 @@ export function SubmissionType({ submission }: Props) {
               })}
             />
           </View>
-        </ContextMenu>
+        </MenuView>
       )}
     />
   )
