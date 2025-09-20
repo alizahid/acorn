@@ -155,7 +155,6 @@ function StackLayout({ children }: PropsWithChildren) {
   return (
     <Stack
       screenOptions={{
-        fullScreenGestureEnabled: true,
         header: (props) => <StackHeader {...props} />,
       }}
     >
