@@ -11,7 +11,6 @@ import { z } from 'zod'
 
 import { Button } from '~/components/common/button'
 import { Copy } from '~/components/common/copy'
-import { Field } from '~/components/common/field'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { TextBox } from '~/components/common/text-box'
@@ -82,26 +81,20 @@ export default function Screen() {
         <Controller
           control={control}
           name="clientId"
-          render={({ field, fieldState }) => (
-            <Field
-              error={
-                fieldState.error ? t('form.field.clientId.error') : undefined
-              }
-            >
-              <TextBox
-                {...field}
-                autoCapitalize="none"
-                autoCorrect={false}
-                onChangeText={field.onChange}
-                onSubmitEditing={() => {
-                  onSubmit()
-                }}
-                placeholder={t('form.field.clientId.placeholder')}
-                returnKeyType="go"
-                style={styles.clientId}
-                variant="mono"
-              />
-            </Field>
+          render={({ field }) => (
+            <TextBox
+              {...field}
+              autoCapitalize="none"
+              autoCorrect={false}
+              onChangeText={field.onChange}
+              onSubmitEditing={() => {
+                onSubmit()
+              }}
+              placeholder={t('form.field.clientId.placeholder')}
+              returnKeyType="go"
+              style={styles.clientId}
+              variant="mono"
+            />
           )}
         />
 

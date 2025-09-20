@@ -8,6 +8,7 @@ import {
 import { StyleSheet } from 'react-native-unistyles'
 
 import { type Font, fonts } from '~/lib/fonts'
+import { stripProps } from '~/lib/styles'
 import { usePreferences } from '~/stores/preferences'
 import { type MarginProps } from '~/styles/space'
 import { type TextStyleProps } from '~/styles/text'
@@ -37,6 +38,7 @@ export function TextBox({
   style,
   styleInput,
   variant = 'sans',
+  ...props
 }: Props) {
   const { font, fontScaling, systemScaling } = usePreferences()
 
@@ -53,6 +55,7 @@ export function TextBox({
       {left}
 
       <TextInput
+        {...stripProps(props)}
         allowFontScaling={systemScaling}
         onBlur={(event) => {
           onBlur?.(event)
@@ -76,7 +79,8 @@ export function TextBox({
 const styles = StyleSheet.create((theme) => ({
   input: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
-    flex: 1,
+    flexGrow: 1,
+    flexShrink: 1,
     fontSize: theme.typography[3].fontSize * scaling,
     paddingHorizontal: theme.space[3],
     variants: {
