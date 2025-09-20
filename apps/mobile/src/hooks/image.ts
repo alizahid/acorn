@@ -74,8 +74,10 @@ export function useDownloadImage() {
 
       directory.delete()
     },
-    onError() {
+    onError(error) {
       toast.dismiss(id.current)
+
+      toast.error(error.message)
     },
     onSuccess() {
       toast.success(
@@ -152,8 +154,10 @@ export function useDownloadImages() {
 
       directory.delete()
     },
-    onError() {
+    onError(error) {
       toast.dismiss(id.current)
+
+      toast.error(error.message)
     },
     onSuccess(_data, variables) {
       toast.success(
@@ -204,8 +208,10 @@ export function useCopyImage() {
 
       directory.delete()
     },
-    onError() {
+    onError(error) {
       toast.dismiss(id.current)
+
+      toast.error(error.message)
     },
     onSuccess() {
       toast.success(t('copied'), {
@@ -255,8 +261,10 @@ export function useShareImage() {
 
       return result.action === 'sharedAction'
     },
-    onError() {
+    onError(error) {
       toast.dismiss(id.current)
+
+      toast.error(error.message)
     },
     onSuccess(data) {
       toast.success(t(data ? 'shared' : 'canceled'), {
