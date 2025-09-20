@@ -563,6 +563,7 @@
         "browsing": {
           "boldTitle": "Bold titles",
           "communityOnTop": "Show community on top",
+          "fullscreenSwipe": "Swipe from anywhere to go back",
           "hideHeaderOnScroll": "Hide header when scrolling",
           "hidePostActions": "Hide post actions",
           "hideTabBarOnScroll": "Hide tab bar when scrolling",

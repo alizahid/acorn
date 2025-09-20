@@ -25,11 +25,12 @@ export default function Screen() {
     feedbackHaptics,
     feedbackSounds,
     feedMuted,
-    hideHeaderOnScroll,
-    hideTabBarOnScroll,
+    fullscreenSwipe,
     hapticsLoud,
+    hideHeaderOnScroll,
     hidePostActions,
     hideSeen,
+    hideTabBarOnScroll,
     infiniteScrolling,
     linkBrowser,
     oldReddit,
@@ -202,6 +203,17 @@ export default function Screen() {
             value={stickyDrawer}
           />
         ) : null}
+
+        <Menu.Switch
+          icon={<Icon name="hand.draw" />}
+          label={t('browsing.fullscreenSwipe')}
+          onChange={(next) => {
+            update({
+              fullscreenSwipe: next,
+            })
+          }}
+          value={fullscreenSwipe}
+        />
 
         <Menu.Switch
           icon={<Icon name="inset.filled.topthird.rectangle.portrait" />}
