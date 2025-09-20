@@ -18,12 +18,12 @@ type Props = {
 export function Header({ left, onPress, right, style, title }: Props) {
   return (
     <Pressable
+      accessibilityLabel={title}
       align="center"
       direction="row"
       disabled={!onPress}
       gap="3"
       height="8"
-      label={title}
       onPress={onPress}
       px="3"
       style={style}
@@ -34,7 +34,7 @@ export function Header({ left, onPress, right, style, title }: Props) {
         </View>
       ) : null}
 
-      <Text align="center" lines={1} style={styles.title} weight="bold">
+      <Text align="center" numberOfLines={1} style={styles.title} weight="bold">
         {title}
       </Text>
 

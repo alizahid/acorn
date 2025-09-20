@@ -20,10 +20,10 @@ export function UserCard({ style, user }: Props) {
 
   return (
     <Pressable
+      accessibilityLabel={user.name}
       align="center"
       direction="row"
       gap="4"
-      label={user.name}
       onPress={() => {
         router.push({
           params: {

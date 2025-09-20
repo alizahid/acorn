@@ -39,12 +39,12 @@ export function CrossPostFooter({ post }: Props) {
   return (
     <View align="center" direction="row" gap="4">
       <Pressable
+        accessibilityHint={a11y('viewCommunity')}
+        accessibilityLabel={post.community.name}
         align="center"
         direction="row"
         gap="2"
-        hint={a11y('viewCommunity')}
         hitSlop={space[4]}
-        label={post.community.name}
         onPress={() => {
           router.push({
             params: {

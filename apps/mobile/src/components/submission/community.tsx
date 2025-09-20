@@ -23,7 +23,7 @@ export function SubmissionCommunityCard({ community }: Props) {
         style={styles.image}
       />
 
-      <Text lines={1} style={styles.name} weight="medium">
+      <Text numberOfLines={1} style={styles.name} weight="medium">
         {name}
       </Text>
     </View>

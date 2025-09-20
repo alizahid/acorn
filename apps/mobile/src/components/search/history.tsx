@@ -26,12 +26,12 @@ export function SearchHistory({ history, onChange }: Props) {
 
       {history.history.map((query) => (
         <Pressable
+          accessibilityLabel={query}
           align="center"
           direction="row"
           gap="3"
           hitSlop={space[4]}
           key={query}
-          label={query}
           onPress={() => {
             onChange(query)
           }}
@@ -46,10 +46,10 @@ export function SearchHistory({ history, onChange }: Props) {
           <Text style={styles.query}>{query}</Text>
 
           <Pressable
-            hitSlop={space[4]}
-            label={a11y('removeQuery', {
+            accessibilityLabel={a11y('removeQuery', {
               query,
             })}
+            hitSlop={space[4]}
             onPress={() => {
               history.remove(query)
             }}
@@ -65,11 +65,11 @@ export function SearchHistory({ history, onChange }: Props) {
       ))}
 
       <Pressable
+        accessibilityLabel={t('clear')}
         align="center"
         direction="row"
         gap="3"
         hitSlop={space[4]}
-        label={t('clear')}
         onPress={() => {
           history.clear()
         }}

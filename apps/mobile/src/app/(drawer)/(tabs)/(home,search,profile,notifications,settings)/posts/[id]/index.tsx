@@ -95,9 +95,9 @@ export default function Screen() {
         headerTitle: () =>
           post ? (
             <Pressable
+              accessibilityLabel={post.community.name}
               height="8"
               justify="center"
-              label={post.community.name}
               onPress={() => {
                 if (post.community.name.startsWith('u/')) {
                   router.push({

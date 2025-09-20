@@ -77,7 +77,7 @@ export function FlairCard({
 
             return (
               <View key={item.id} style={styles.text}>
-                <Text lines={1} size="1">
+                <Text numberOfLines={1} size="1">
                   {item.value}
                 </Text>
               </View>

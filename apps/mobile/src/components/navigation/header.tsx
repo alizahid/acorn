@@ -115,7 +115,7 @@ export function Header({
           ) : null}
 
           {typeof title === 'string' ? (
-            <Text lines={1} style={styles.title} weight="bold">
+            <Text numberOfLines={1} style={styles.title} weight="bold">
               {title}
             </Text>
           ) : (

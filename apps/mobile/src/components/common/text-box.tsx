@@ -9,64 +9,33 @@ import { StyleSheet } from 'react-native-unistyles'
 
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
+import { type MarginProps } from '~/styles/space'
+import { type TextStyleProps } from '~/styles/text'
+import { type TypographyToken } from '~/styles/tokens'
 
 import { TextInput } from '../native/text-input'
-import { Text } from './text'
 import { View } from './view'
 
-type Props = Pick<
-  TextInputProps,
-  | 'autoCapitalize'
-  | 'autoComplete'
-  | 'autoCorrect'
-  | 'editable'
-  | 'keyboardType'
-  | 'multiline'
-  | 'onBlur'
-  | 'onChangeText'
-  | 'onFocus'
-  | 'onSubmitEditing'
-  | 'placeholder'
-  | 'returnKeyType'
-  | 'secureTextEntry'
-  | 'value'
-> & {
-  error?: string
-  hint?: string
-  label?: string
+type Props = {
   left?: ReactNode
   ref?: Ref<TextInput>
   right?: ReactNode
+  size?: TypographyToken
   style?: StyleProp<ViewStyle>
-  styleContent?: StyleProp<ViewStyle>
   styleInput?: StyleProp<TextStyle>
   variant?: 'sans' | 'mono'
-}
+} & Omit<TextInputProps, 'style'> &
+  TextStyleProps &
+  MarginProps
 
 export function TextBox({
-  autoCapitalize,
-  autoComplete,
-  autoCorrect,
-  editable = true,
-  error,
-  hint,
-  keyboardType,
-  label,
   left,
   multiline,
   onBlur,
-  onChangeText,
   onFocus,
-  onSubmitEditing,
-  placeholder,
-  ref,
-  returnKeyType,
   right,
-  secureTextEntry,
   style,
-  styleContent,
   styleInput,
-  value,
   variant = 'sans',
 }: Props) {
   const { font, fontScaling, systemScaling } = usePreferences()
@@ -74,104 +43,37 @@ export function TextBox({
   const [focused, setFocused] = useState(false)
 
   styles.useVariants({
-    error: Boolean(error),
     focused,
     multiline,
     variant,
   })
 
   return (
-    <View style={[styles.main, style]}>
-      {label ? (
-        <Text color="gray" size="2" weight="medium">
-          {label}
-        </Text>
-      ) : null}
+    <View align="center" direction="row" gap="1" style={[styles.main, style]}>
+      {left}
 
-      <View
-        align="center"
-        direction="row"
-        style={[styles.content, styleContent]}
-      >
-        {left}
+      <TextInput
+        allowFontScaling={systemScaling}
+        onBlur={(event) => {
+          onBlur?.(event)
 
-        <TextInput
-          allowFontScaling={systemScaling}
-          autoCapitalize={autoCapitalize}
-          autoComplete={autoComplete}
-          autoCorrect={autoCorrect}
-          editable={editable}
-          keyboardType={keyboardType}
-          multiline={multiline}
-          onBlur={(event) => {
-            setFocused(false)
+          setFocused(false)
+        }}
+        onFocus={(event) => {
+          onFocus?.(event)
 
-            onBlur?.(event)
-          }}
-          onChangeText={onChangeText}
-          onFocus={(event) => {
-            setFocused(true)
+          setFocused(true)
+        }}
+        style={[styles.input(font, fontScaling), styleInput]}
+        textAlignVertical="center"
+      />
 
-            onFocus?.(event)
-          }}
-          onSubmitEditing={onSubmitEditing}
-          placeholder={placeholder}
-          ref={ref}
-          returnKeyType={returnKeyType}
-          secureTextEntry={secureTextEntry}
-          style={[styles.input(font, fontScaling), styleInput]}
-          textAlignVertical="center"
-          value={value}
-        />
-
-        {right}
-      </View>
-
-      {hint ? (
-        <Text color="gray" size="2">
-          {hint}
-        </Text>
-      ) : null}
-
-      {error ? (
-        <Text color="red" size="2">
-          {error}
-        </Text>
-      ) : null}
+      {right}
     </View>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  content: {
-    backgroundColor: theme.colors.gray.ui,
-    borderColor: theme.colors.gray.borderUi,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
-    borderWidth: StyleSheet.hairlineWidth,
-    compoundVariants: [
-      {
-        error: true,
-        focused: true,
-        styles: {
-          borderColor: theme.colors.red.accent,
-        },
-      },
-    ],
-    flexGrow: 1,
-    variants: {
-      error: {
-        true: {
-          borderColor: theme.colors.red.borderUi,
-        },
-      },
-      focused: {
-        true: {
-          borderColor: theme.colors.accent.accent,
-        },
-      },
-    },
-  },
   input: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
     flex: 1,
@@ -200,6 +102,17 @@ const styles = StyleSheet.create((theme) => ({
     },
   }),
   main: {
-    gap: theme.space[1],
+    backgroundColor: theme.colors.gray.ui,
+    borderColor: theme.colors.gray.borderUi,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
+    borderWidth: StyleSheet.hairlineWidth,
+    variants: {
+      focused: {
+        true: {
+          borderColor: theme.colors.accent.accent,
+        },
+      },
+    },
   },
 }))

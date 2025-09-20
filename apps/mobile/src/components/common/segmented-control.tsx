@@ -45,12 +45,12 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
 
       {items.map((item, index) => (
         <Pressable
+          accessibilityLabel={item}
           align="center"
           flex={1}
           height="7"
           justify="center"
           key={item}
-          label={item}
           onPress={() => {
             onChange(index)
           }}

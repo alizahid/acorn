@@ -34,12 +34,12 @@ export function ListItem({
 }: Props) {
   return (
     <Pressable
+      accessibilityLabel={label}
       align="center"
       direction="row"
       disabled={!onPress}
       gap="3"
       height="8"
-      label={label}
       onPress={onPress}
       px="3"
       style={[selected ? styles.selected : undefined, style]}
@@ -47,7 +47,7 @@ export function ListItem({
       {icon ?? left}
 
       <Text
-        lines={1}
+        numberOfLines={1}
         size={size}
         style={[styles.label, labelStyle]}
         weight="medium"

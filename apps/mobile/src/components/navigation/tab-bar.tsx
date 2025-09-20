@@ -107,8 +107,11 @@ export function TabBar({ descriptors, navigation, state }: Props) {
 
               return (
                 <Pressable
+                  accessibilityLabel={options?.title ?? 'Tab'}
+                  accessibilityState={{
+                    selected: focused,
+                  }}
                   key={tab.key}
-                  label={options?.title ?? 'Tab'}
                   onLongPress={() => {
                     if (!item) {
                       return
@@ -133,9 +136,6 @@ export function TabBar({ descriptors, navigation, state }: Props) {
                     if (!(focused || event.defaultPrevented)) {
                       navigation.navigate(item.name, item.params)
                     }
-                  }}
-                  state={{
-                    selected: focused,
                   }}
                   style={styles.tab}
                 >

@@ -59,9 +59,9 @@ export function SubmissionImage() {
       name="url"
       render={({ field }) => (
         <Pressable
+          accessibilityLabel={a11y('chooseImage')}
           disabled={isPending}
           flex={1}
-          label={a11y('chooseImage')}
           onPress={onPress}
         >
           <Focusable onFocus={onPress} ref={field.ref} />

@@ -69,7 +69,7 @@ export function PostGalleryCard({
     return (
       <ImageMenu url={first.url}>
         <Pressable
-          label={a11y('viewImage')}
+          accessibilityLabel={a11y('viewImage')}
           onPress={() => {
             onPress()
           }}

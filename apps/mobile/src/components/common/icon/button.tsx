@@ -36,12 +36,12 @@ export function IconButton({
 }: Props) {
   return (
     <Pressable
+      accessibilityLabel={label}
       align="center"
       disabled={loading}
       height={size}
       hitSlop={hitSlop}
       justify="center"
-      label={label}
       onLongPress={onLongPress}
       onPress={onPress}
       style={style}

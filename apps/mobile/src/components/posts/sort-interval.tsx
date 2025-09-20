@@ -60,11 +60,11 @@ export function SortIntervalMenu<Type extends SortType>({
   return (
     <>
       <Pressable
+        accessibilityLabel={a11y('changeSorting')}
         align="center"
         direction="row"
         gap="2"
         height="8"
-        label={a11y('changeSorting')}
         onPress={() => {
           sheetSort.current?.present()
         }}

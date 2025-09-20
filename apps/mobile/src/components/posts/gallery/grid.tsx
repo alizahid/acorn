@@ -40,7 +40,7 @@ export function ImageGrid({
     return (
       <ImageMenu url={image.url}>
         <Pressable
-          label={a11y('viewImage')}
+          accessibilityLabel={a11y('viewImage')}
           onPress={() => {
             onPress(0)
           }}
@@ -87,7 +87,7 @@ export function ImageGrid({
         renderItem={({ index, item }: { index: number; item: PostMedia }) => (
           <ImageMenu url={item.url}>
             <Pressable
-              label={a11y('viewImage')}
+              accessibilityLabel={a11y('viewImage')}
               onPress={() => {
                 onPress(index)
               }}

@@ -24,10 +24,10 @@ export function CommunityCard({ community, style }: Props) {
 
   return (
     <Pressable
+      accessibilityLabel={community.name}
       align="center"
       direction="row"
       gap="4"
-      label={community.name}
       onPress={() => {
         if (community.user) {
           router.push({

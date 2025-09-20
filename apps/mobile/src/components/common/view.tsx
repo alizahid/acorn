@@ -1,46 +1,15 @@
-import { type ReactNode, type Ref } from 'react'
-import {
-  View as Component,
-  type LayoutChangeEvent,
-  type StyleProp,
-  type ViewProps,
-  type ViewStyle,
-} from 'react-native'
+import { View as Component, type ViewProps } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
+import { stripProps } from '~/lib/styles'
+import { type MarginProps, type PaddingProps } from '~/styles/space'
 import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
-export type View = Component
+type Props = ViewProps & ViewStyleProps & MarginProps & PaddingProps
 
-type Props = ViewStyleProps & {
-  children?: ReactNode
-  collapsable?: boolean
-  onLayout?: (event: LayoutChangeEvent) => void
-  pointerEvents?: ViewProps['pointerEvents']
-  ref?: Ref<Component>
-  responder?: boolean
-  style?: StyleProp<ViewStyle>
-}
-
-export function View({
-  children,
-  collapsable,
-  onLayout,
-  pointerEvents,
-  ref,
-  responder,
-  style,
-  ...props
-}: Props) {
+export function View({ children, style, ...props }: Props) {
   return (
-    <Component
-      collapsable={collapsable}
-      onLayout={onLayout}
-      onStartShouldSetResponder={responder ? () => true : undefined}
-      pointerEvents={pointerEvents}
-      ref={ref}
-      style={[styles.main(props), style]}
-    >
+    <Component {...stripProps(props)} style={[styles.main(props), style]}>
       {children}
     </Component>
   )

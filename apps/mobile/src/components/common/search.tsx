@@ -61,7 +61,7 @@ export function SearchBox({
         ) : null
       }
       style={[styles.main, style]}
-      styleContent={styles.content}
+      styleInput={styles.content}
       value={value}
     />
   )

@@ -61,8 +61,8 @@ export function GalleryItem({ image, onTap }: Props) {
           </View>
 
           <Pressable
+            accessibilityLabel={a11y(playing ? 'pause' : 'play')}
             hitSlop={space[2]}
-            label={a11y(playing ? 'pause' : 'play')}
             onPress={() => {
               if (playing) {
                 ref.current?.stopAnimating()

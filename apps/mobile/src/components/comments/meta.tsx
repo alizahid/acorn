@@ -59,11 +59,11 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
       ) : null}
 
       <Pressable
+        accessibilityLabel={comment.user.name}
         align="center"
         direction="row"
         gap="2"
         hitSlop={space[3]}
-        label={comment.user.name}
         onPress={() => {
           router.push({
             params: {
@@ -85,7 +85,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         <Text
           color={comment.op ? 'accent' : 'gray'}
           highContrast={!comment.op}
-          lines={1}
+          numberOfLines={1}
           size="1"
           weight="medium"
         >

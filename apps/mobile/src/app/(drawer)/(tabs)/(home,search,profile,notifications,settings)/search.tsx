@@ -130,7 +130,7 @@ export default function Screen() {
                   />
                 ) : null
               }
-              styleContent={styles.query}
+              styleInput={styles.query}
               value={query}
             />
 

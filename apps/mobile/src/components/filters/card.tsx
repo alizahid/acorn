@@ -95,7 +95,7 @@ export function FilterCard({ index, onRemove }: Props) {
             placeholder={t(`type.${type}.placeholder`)}
             ref={field.ref}
             style={styles.input}
-            styleContent={styles.inputContent}
+            styleInput={styles.inputContent}
             value={field.value}
           />
         )}

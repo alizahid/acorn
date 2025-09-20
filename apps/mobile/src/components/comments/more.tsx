@@ -46,14 +46,14 @@ export function CommentMoreCard({
 
   return (
     <Pressable
+      accessibilityLabel={t('label', {
+        count: comment.children.length,
+      })}
       align="center"
       direction="row"
       disabled={isPending}
       gap="4"
       justify="center"
-      label={t('label', {
-        count: comment.children.length,
-      })}
       onPress={() => {
         if (!post) {
           return

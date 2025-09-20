@@ -60,11 +60,11 @@ export function MenuItemOptions<Type extends string | number>({
   return (
     <>
       <Pressable
+        accessibilityLabel={label}
         align="center"
         direction="row"
         gap="3"
         height="8"
-        label={label}
         onPress={() => {
           sheet.current?.present()
         }}

@@ -167,10 +167,10 @@ function Item({ color, item, label, onPress, value }: ItemProps) {
 
   return (
     <Pressable
+      accessibilityLabel={label}
       align="center"
       height="8"
       justify="center"
-      label={label}
       onPress={onPress}
       style={styles.theme}
       width="8"

@@ -22,11 +22,11 @@ export function PostCommunity({ post }: Props) {
   return (
     <View direction="row" flexShrink={1} gap="1">
       <Pressable
+        accessibilityLabel={post.community.name}
         align="center"
         direction="row"
         gap="2"
         hitSlop={space[3]}
-        label={post.community.name}
         onPress={() => {
           if (post.community.name.startsWith('u/')) {
             router.push({
@@ -55,7 +55,7 @@ export function PostCommunity({ post }: Props) {
           />
         ) : null}
 
-        <Text lines={1} size="2" weight="medium">
+        <Text numberOfLines={1} size="2" weight="medium">
           {post.community.name}
         </Text>
       </Pressable>
@@ -65,12 +65,12 @@ export function PostCommunity({ post }: Props) {
       </Text>
 
       <Pressable
+        accessibilityLabel={post.user.name}
         align="center"
         direction="row"
         flexShrink={1}
         gap="2"
         hitSlop={space[3]}
-        label={post.user.name}
         onPress={() => {
           router.push({
             params: {
@@ -80,7 +80,7 @@ export function PostCommunity({ post }: Props) {
           })
         }}
       >
-        <Text lines={1} size="2" weight="medium">
+        <Text numberOfLines={1} size="2" weight="medium">
           {post.user.name}
         </Text>
       </Pressable>

@@ -82,10 +82,10 @@ export function SubmissionText() {
             <Sticky style={[styles.toolbar, stickyStyle]}>
               <View direction="row">
                 <Pressable
+                  accessibilityLabel={a11y('toggleHeading')}
                   align="center"
                   height="8"
                   justify="center"
-                  label={a11y('toggleHeading')}
                   onPress={() => {
                     editor?.current?.toggleH1()
                   }}
@@ -99,10 +99,10 @@ export function SubmissionText() {
                 </Pressable>
 
                 <Pressable
+                  accessibilityLabel={a11y('toggleBold')}
                   align="center"
                   height="8"
                   justify="center"
-                  label={a11y('toggleBold')}
                   onPress={() => {
                     editor?.current?.toggleBold()
                   }}
@@ -116,10 +116,10 @@ export function SubmissionText() {
                 </Pressable>
 
                 <Pressable
+                  accessibilityLabel={a11y('toggleItalic')}
                   align="center"
                   height="8"
                   justify="center"
-                  label={a11y('toggleItalic')}
                   onPress={() => {
                     editor?.current?.toggleItalic()
                   }}
@@ -133,10 +133,10 @@ export function SubmissionText() {
                 </Pressable>
 
                 <Pressable
+                  accessibilityLabel={a11y('toggleStrikethrough')}
                   align="center"
                   height="8"
                   justify="center"
-                  label={a11y('toggleStrikethrough')}
                   onPress={() => {
                     editor?.current?.toggleStrikeThrough()
                   }}
@@ -152,10 +152,10 @@ export function SubmissionText() {
 
               <View direction="row">
                 <Pressable
+                  accessibilityLabel={a11y('toggleUnorderedList')}
                   align="center"
                   height="8"
                   justify="center"
-                  label={a11y('toggleUnorderedList')}
                   onPress={() => {
                     editor?.current?.toggleUnorderedList()
                   }}
@@ -169,10 +169,10 @@ export function SubmissionText() {
                 </Pressable>
 
                 <Pressable
+                  accessibilityLabel={a11y('toggleOrderedList')}
                   align="center"
                   height="8"
                   justify="center"
-                  label={a11y('toggleOrderedList')}
                   onPress={() => {
                     editor?.current?.toggleOrderedList()
                   }}

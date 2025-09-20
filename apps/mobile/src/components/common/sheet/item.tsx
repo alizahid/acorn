@@ -21,19 +21,19 @@ export function Item({ label, left, onPress, right, selected, style }: Props) {
 
   return (
     <Pressable
+      accessibilityLabel={label}
       align="center"
       direction="row"
       disabled={!onPress}
       gap="3"
       height="8"
-      label={label}
       onPress={onPress}
       px="3"
       style={[styles.main, style]}
     >
       {left}
 
-      <Text lines={1} style={styles.label} weight="medium">
+      <Text numberOfLines={1} style={styles.label} weight="medium">
         {label}
       </Text>
 

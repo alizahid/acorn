@@ -46,10 +46,10 @@ export function NotificationCard({ notification }: Props) {
 
   return (
     <Pressable
+      accessibilityLabel={body}
       align="center"
       direction="row"
       gap="4"
-      label={body}
       onPress={() => {
         handleLink(notification.context)
 

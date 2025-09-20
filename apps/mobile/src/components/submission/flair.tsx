@@ -42,11 +42,11 @@ export function SubmissionFlair({ submission }: Props) {
         return (
           <>
             <Pressable
+              accessibilityLabel={t('label')}
               align="center"
               direction="row"
               gap="2"
               height="8"
-              label={t('label')}
               mx="-4"
               onPress={() => {
                 sheet.current?.present()
@@ -56,8 +56,8 @@ export function SubmissionFlair({ submission }: Props) {
             >
               {selected ? (
                 <Pressable
+                  accessibilityLabel={a11y('clearFlair')}
                   hitSlop={space[4]}
-                  label={a11y('clearFlair')}
                   onPress={() => {
                     field.onChange()
                   }}
@@ -102,15 +102,15 @@ export function SubmissionFlair({ submission }: Props) {
 
               {submission.flair.map((item) => (
                 <Pressable
-                  align="center"
-                  direction="row"
-                  gap="3"
-                  key={item.id}
-                  label={
+                  accessibilityLabel={
                     item.type === 'text'
                       ? item.text
                       : item.flair.map((flair) => flair.value).join(' ')
                   }
+                  align="center"
+                  direction="row"
+                  gap="3"
+                  key={item.id}
                   onPress={() => {
                     setValue('flairId', item.id)
 

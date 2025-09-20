@@ -30,11 +30,11 @@ export function FooterButton({
 
   return (
     <Pressable
+      accessibilityLabel={label}
       align="center"
       height={compact ? undefined : '6'}
       hitSlop={space[2]}
       justify="center"
-      label={label}
       onPress={onPress}
       style={styles.main}
       width={compact ? undefined : '6'}

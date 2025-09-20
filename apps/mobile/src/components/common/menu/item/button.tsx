@@ -33,11 +33,11 @@ export function MenuItemButton({
 
   return (
     <Pressable
+      accessibilityLabel={label}
       align="center"
       direction="row"
       gap="3"
       height="8"
-      label={label}
       onPress={() => {
         mutate()
       }}

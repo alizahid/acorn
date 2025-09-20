@@ -104,7 +104,7 @@ export function VideoPlayer({
   if (compact) {
     return (
       <Pressable
-        label={a11y('viewVideo')}
+        accessibilityLabel={a11y('viewVideo')}
         onPress={() => {
           ref.current?.enterFullscreen()
 
@@ -150,7 +150,7 @@ export function VideoPlayer({
 
   return (
     <Pressable
-      label={a11y('viewVideo')}
+      accessibilityLabel={a11y('viewVideo')}
       onPress={() => {
         ref.current?.enterFullscreen()
 
@@ -188,8 +188,8 @@ export function VideoPlayer({
         <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
       ) : (
         <Pressable
+          accessibilityLabel={a11y(muted ? 'unmute' : 'mute')}
           hitSlop={space[2]}
-          label={a11y(muted ? 'unmute' : 'mute')}
           onPress={() => {
             player.muted = !muted
           }}

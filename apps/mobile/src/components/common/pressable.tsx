@@ -1,58 +1,32 @@
-import { type ReactNode } from 'react'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import {
-  type AccessibilityRole,
-  type AccessibilityState,
   Pressable as Component,
-  type Insets,
-  type LayoutChangeEvent,
-  type StyleProp,
-  type ViewStyle,
-} from 'react-native'
+  type PressableProps,
+} from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 
+import { stripProps } from '~/lib/styles'
+import { type MarginProps, type PaddingProps } from '~/styles/space'
 import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
 type Props = {
-  children?: ReactNode
-  disabled?: boolean
-  hint?: string
-  hitSlop?: number | Insets
-  label: string
-  onLayout?: (event: LayoutChangeEvent) => void
-  onLongPress?: () => void
-  onPress?: () => void
-  role?: AccessibilityRole
-  state?: AccessibilityState
   style?: StyleProp<ViewStyle>
-} & ViewStyleProps
+} & Omit<PressableProps, 'style'> &
+  ViewStyleProps &
+  MarginProps &
+  PaddingProps
 
 export function Pressable({
+  accessibilityRole = 'button',
   children,
-  disabled,
-  hint,
-  hitSlop,
-  label,
-  onLayout,
-  onLongPress,
-  onPress,
-  role = 'button',
-  state,
   style,
   ...props
 }: Props) {
   return (
     <Component
-      accessibilityHint={hint}
-      accessibilityLabel={label}
-      accessibilityRole={role}
-      accessibilityState={state}
-      delayLongPress={200}
-      disabled={disabled}
-      hitSlop={hitSlop}
-      onLayout={onLayout}
-      onLongPress={onLongPress ?? (() => null)}
-      onPress={onPress}
-      style={[styles.main(props) as ViewStyle, style]}
+      {...stripProps(props)}
+      accessibilityRole={accessibilityRole}
+      style={[styles.main(props), style]}
     >
       {children}
     </Component>

@@ -60,7 +60,7 @@ export function PostLinkCard({
     return (
       <LinkMenu url={url}>
         <Pressable
-          label={a11y('viewLink')}
+          accessibilityLabel={a11y('viewLink')}
           onPress={onPress}
           style={styles.main}
         >
@@ -87,7 +87,11 @@ export function PostLinkCard({
 
   return (
     <LinkMenu url={url}>
-      <Pressable label={a11y('viewLink')} onPress={onPress} style={styles.main}>
+      <Pressable
+        accessibilityLabel={a11y('viewLink')}
+        onPress={onPress}
+        style={styles.main}
+      >
         {media ? (
           <Image
             {...placeholder}
@@ -106,7 +110,7 @@ export function PostLinkCard({
             })}
           />
 
-          <Text lines={1} size="2" style={styles.url}>
+          <Text numberOfLines={1} size="2" style={styles.url}>
             {url}
           </Text>
         </View>

@@ -41,13 +41,13 @@ export function Button({
 
   return (
     <Pressable
+      accessibilityLabel={label}
       align="center"
       direction="row"
       disabled={disabled || loading}
       gap="2"
       height="7"
       justify={justify}
-      label={label}
       onPress={onPress}
       px="4"
       style={[styles.main, style]}

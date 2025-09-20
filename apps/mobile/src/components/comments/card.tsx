@@ -147,14 +147,14 @@ export function CommentCard({
     >
       <CommentMenu comment={comment}>
         <Pressable
-          disabled={disabled}
-          label={a11y(
+          accessibilityLabel={a11y(
             dull
               ? 'viewComment'
               : collapsed
                 ? 'expandComment'
                 : 'collapseComment',
           )}
+          disabled={disabled}
           onPress={onPress}
           style={styles.main(comment.depth, dull)}
         >

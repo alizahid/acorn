@@ -45,8 +45,8 @@ export function CrossPostCard({
   if (compact) {
     return (
       <Pressable
-        hint={a11y('viewPost')}
-        label={post.title}
+        accessibilityHint={a11y('viewPost')}
+        accessibilityLabel={post.title}
         onPress={() => {
           router.push({
             params: {
@@ -74,8 +74,8 @@ export function CrossPostCard({
 
   return (
     <Pressable
-      hint={a11y('viewPost')}
-      label={post.title}
+      accessibilityHint={a11y('viewPost')}
+      accessibilityLabel={post.title}
       onPress={() => {
         router.push({
           params: {
@@ -119,7 +119,7 @@ export function CrossPostCard({
       ) : null}
 
       <View gap="3" p="3">
-        <Text lines={2} size="2" weight="medium">
+        <Text numberOfLines={2} size="2" weight="medium">
           {post.title}
         </Text>
 

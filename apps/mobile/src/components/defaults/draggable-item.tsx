@@ -16,11 +16,11 @@ export function DraggableItem({ label, onChange, value }: Props) {
 
   return (
     <Pressable
+      accessibilityLabel={label}
       align="center"
       direction="row"
       gap="3"
       height="8"
-      label={label}
       onLongPress={drag}
       px="3"
     >

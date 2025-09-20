@@ -1,38 +1,26 @@
-import { type ReactNode, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import {
   Text as Component,
   type FontVariant,
-  type StyleProp,
-  type TextStyle,
+  type TextProps,
 } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { type Font, fonts } from '~/lib/fonts'
-import { mapColors } from '~/lib/styles'
+import { mapColors, stripProps } from '~/lib/styles'
 import { usePreferences } from '~/stores/preferences'
-import { getMargin } from '~/styles/space'
+import { getMargin, type MarginProps } from '~/styles/space'
 import { type TextStyleProps, weights } from '~/styles/text'
 import { colors } from '~/styles/tokens'
 
-type Props = TextStyleProps & {
-  children: ReactNode
-  label?: string
-  lines?: number
-  onPress?: () => void
-  selectable?: boolean
-  style?: StyleProp<TextStyle>
-}
+type Props = TextProps & TextStyleProps & MarginProps
 
 export function Text({
   accent,
   children,
   color = 'gray',
   contrast,
-  highContrast = color === 'gray',
-  label,
-  lines,
-  onPress,
-  selectable,
+  highContrast,
   style,
   ...props
 }: Props) {
@@ -51,11 +39,11 @@ export function Text({
 
   return (
     <Component
-      accessibilityLabel={label}
+      {...stripProps(props)}
       allowFontScaling={systemScaling}
-      ellipsizeMode={lines ? 'tail' : undefined}
-      numberOfLines={lines}
       onLayout={(event) => {
+        props.onLayout?.(event)
+
         if (fixed.current) {
           return
         }
@@ -68,8 +56,6 @@ export function Text({
           fixed.current = true
         }
       }}
-      onPress={onPress}
-      selectable={selectable}
       style={[
         styles.main(props, font, systemScaling ? 1 : fontScaling, height),
         style,

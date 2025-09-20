@@ -151,9 +151,9 @@ export function PostCard({ expanded, post, viewing, visible }: Props) {
       >
         <PostMenu post={post}>
           <Pressable
+            accessibilityHint={a11y('viewPost')}
+            accessibilityLabel={post.title}
             disabled={expanded}
-            hint={a11y('viewPost')}
-            label={post.title}
             style={styles.main}
           >
             <PostCompactCard
@@ -188,9 +188,9 @@ export function PostCard({ expanded, post, viewing, visible }: Props) {
     >
       <PostMenu post={post}>
         <Pressable
+          accessibilityHint={a11y('viewPost')}
+          accessibilityLabel={post.title}
           disabled={expanded}
-          hint={a11y('viewPost')}
-          label={post.title}
           style={styles.main}
         >
           <View gap="1" style={styles.dimmed}>
