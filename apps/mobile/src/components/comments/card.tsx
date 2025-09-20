@@ -321,7 +321,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
           },
         },
       },
-      // width: runtime.screen.width - marginLeft,
       width: '100%',
     }
   },

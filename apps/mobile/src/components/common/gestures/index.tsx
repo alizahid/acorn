@@ -44,7 +44,6 @@ type Props = {
 
 export function Gestures({
   children,
-  // containerStyle,
   data,
   left,
   onAction,

@@ -97,10 +97,7 @@ export function SubmissionFlair({ submission }: Props) {
               ) : null}
             </Pressable>
 
-            <Sheet.Root
-              // container="scroll"
-              ref={sheet}
-            >
+            <Sheet.Root ref={sheet}>
               <Sheet.Header title={t('title')} />
 
               {submission.flair.map((item) => (
