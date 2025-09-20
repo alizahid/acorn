@@ -51,9 +51,6 @@ export function PostMenu({ children, post }: Props) {
         },
         pathname: '/posts/[id]',
       }}
-      onPress={(event) => {
-        event.preventDefault()
-      }}
     >
       <Link.Trigger>{children}</Link.Trigger>
 
