@@ -192,7 +192,6 @@ export function PostList({
           },
           viewabilityConfig: {
             itemVisiblePercentThreshold: 10,
-            minimumViewTime: 0,
             waitForInteraction: false,
           },
         },
@@ -201,7 +200,6 @@ export function PostList({
             setViewing(() => viewableItems.map((item) => item.key))
           },
           viewabilityConfig: {
-            minimumViewTime: 0,
             viewAreaCoveragePercentThreshold: 60,
             waitForInteraction: false,
           },
