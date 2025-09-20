@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react'
+import { type ReactNode, useRef, useState } from 'react'
 import {
   Text as Component,
   type FontVariant,
@@ -37,6 +37,10 @@ export function Text({
 }: Props) {
   const { font, fontScaling, systemScaling } = usePreferences()
 
+  const fixed = useRef(false)
+
+  const [height, setHeight] = useState<number>()
+
   styles.useVariants({
     accent,
     color,
@@ -50,9 +54,25 @@ export function Text({
       allowFontScaling={systemScaling}
       ellipsizeMode={lines ? 'tail' : undefined}
       numberOfLines={lines}
+      onLayout={(event) => {
+        if (fixed.current) {
+          return
+        }
+
+        const next = Math.round(event.nativeEvent.layout.height)
+
+        if (next !== event.nativeEvent.layout.height) {
+          setHeight(next + 1)
+
+          fixed.current = true
+        }
+      }}
       onPress={onPress}
       selectable={selectable}
-      style={[styles.main(props, font, systemScaling ? 1 : fontScaling), style]}
+      style={[
+        styles.main(props, font, systemScaling ? 1 : fontScaling, height),
+        style,
+      ]}
     >
       {children}
     </Component>
@@ -72,6 +92,7 @@ const styles = StyleSheet.create((theme) => ({
     }: TextStyleProps,
     font: Font,
     scaling: number,
+    height?: number,
   ) => {
     const fontVariant: Array<FontVariant> = ['no-contextual', 'stylistic-four']
 
@@ -109,6 +130,7 @@ const styles = StyleSheet.create((theme) => ({
       fontStyle: italic ? 'italic' : 'normal',
       fontVariant,
       fontWeight: weights[weight],
+      height,
       lineHeight: theme.typography[size].lineHeight * scaling,
       textAlign: align,
       variants: {
