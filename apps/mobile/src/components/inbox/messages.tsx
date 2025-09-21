@@ -5,32 +5,32 @@ import { StyleSheet } from 'react-native-unistyles'
 import { type ListProps } from '~/hooks/list'
 import { useScrollToTop } from '~/hooks/scroll-top'
 import { usePreferences } from '~/stores/preferences'
-import { type InboxNotification } from '~/types/inbox'
+import { type InboxMessage } from '~/types/inbox'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { RefreshControl } from '../common/refresh-control'
 import { Spinner } from '../common/spinner'
 import { View } from '../common/view'
-import { NotificationCard } from './notification'
+import { MessageCard } from './message'
 
 type Props = {
   fetchNextPage: () => Promise<unknown>
   hasNextPage: boolean
   isFetchingNextPage: boolean
   isLoading: boolean
-  listProps?: ListProps<InboxNotification>
-  notifications: Array<InboxNotification>
+  listProps?: ListProps<InboxMessage>
+  messages: Array<InboxMessage>
   refetch: () => Promise<unknown>
 }
 
-export function NotificationsList({
+export function MessagesList({
   fetchNextPage,
   hasNextPage,
   isFetchingNextPage,
   isLoading,
   listProps,
-  notifications,
+  messages,
   refetch,
 }: Props) {
   const { themeOled } = usePreferences()
@@ -39,14 +39,14 @@ export function NotificationsList({
     oled: themeOled,
   })
 
-  const list = useRef<FlashListRef<InboxNotification>>(null)
+  const list = useRef<FlashListRef<InboxMessage>>(null)
 
   useScrollToTop(list, listProps)
 
   return (
     <FlashList
       {...listProps}
-      data={notifications}
+      data={messages}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       keyExtractor={(item) => item.id}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
@@ -60,7 +60,7 @@ export function NotificationsList({
       }}
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
-      renderItem={({ item }) => <NotificationCard notification={item} />}
+      renderItem={({ item }) => <MessageCard message={item} />}
     />
   )
 }

@@ -37,7 +37,7 @@ export function useMarkAsRead() {
     },
     onMutate(variables) {
       updateNotification(variables.id, (draft) => {
-        draft.new = false
+        draft.data.new = false
       })
 
       queryClient.setQueryData<number, UnreadQueryKey>(
@@ -72,7 +72,7 @@ export function useMarkAllAsRead() {
     },
     onMutate() {
       updateInbox((item) => {
-        item.new = false
+        item.data.new = false
       }, accountId)
 
       queryClient.setQueryData<number, UnreadQueryKey>(

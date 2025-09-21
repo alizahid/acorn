@@ -8,7 +8,7 @@ import { mapColors } from '~/lib/styles'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type ColorToken, colors } from '~/styles/tokens'
-import { type Notification, type NotificationType } from '~/types/inbox'
+import { type InboxNotification, type NotificationType } from '~/types/inbox'
 
 import { Html } from '../common/html'
 import { Icon } from '../common/icon'
@@ -17,7 +17,7 @@ import { Text } from '../common/text'
 import { View } from '../common/view'
 
 type Props = {
-  notification: Notification
+  notification: InboxNotification
 }
 
 export function NotificationCard({ notification }: Props) {

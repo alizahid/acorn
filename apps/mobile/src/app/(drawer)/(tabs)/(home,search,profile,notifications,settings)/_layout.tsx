@@ -3,6 +3,8 @@ import { type PropsWithChildren } from 'react'
 import { useTranslations } from 'use-intl'
 
 import { IconButton } from '~/components/common/icon/button'
+import { Pressable } from '~/components/common/pressable'
+import { Text } from '~/components/common/text'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { useHistory } from '~/hooks/history'
 import { iPad } from '~/lib/common'
@@ -14,6 +16,7 @@ import { type Undefined } from '~/types'
 
 import { type HomeParams } from '.'
 import { type CommunityParams } from './communities/[name]'
+import { type MessageParams } from './messages/[id]'
 import { type PostParams } from './posts/[id]'
 import { type SignInParams } from './sign-in'
 import { type UserParams } from './users/[name]'
@@ -106,7 +109,7 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="notifications"
           options={{
-            title: t('notifications.title'),
+            headerShown: false,
           }}
         />
 
@@ -249,6 +252,36 @@ function StackLayout({ children }: PropsWithChildren) {
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
         }}
+      />
+
+      <Stack.Screen
+        name="messages/[id]"
+        options={({ route }) => ({
+          headerTitle: () => {
+            const { user } = route.params as MessageParams
+
+            if (user) {
+              return (
+                <Pressable
+                  accessibilityLabel={user}
+                  height="8"
+                  justify="center"
+                  onPress={() => {
+                    router.push({
+                      params: {
+                        name: user,
+                      },
+                      pathname: '/users/[name]',
+                    })
+                  }}
+                  px="3"
+                >
+                  <Text weight="bold">{user}</Text>
+                </Pressable>
+              )
+            }
+          },
+        })}
       />
 
       <Stack.Screen

@@ -50,7 +50,7 @@ export function useReply() {
           return [
             {
               author: accountId!,
-              body: variables.text,
+              body: `<p>${variables.text}</p>`,
               createdAt: new Date(),
               id: createId(),
               new: false,

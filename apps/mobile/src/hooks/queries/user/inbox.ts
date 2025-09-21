@@ -7,13 +7,13 @@ import { REDDIT_URI } from '~/reddit/config'
 import { InboxSchema } from '~/schemas/inbox'
 import { useAuth } from '~/stores/auth'
 import { transformInboxItem } from '~/transformers/inbox'
-import { type Notification } from '~/types/inbox'
+import { type InboxItem } from '~/types/inbox'
 
 type Param = string | undefined | null
 
 type Page = {
   cursor: Param
-  items: Array<Notification>
+  items: Array<InboxItem>
 }
 
 export type InboxQueryKey = [
@@ -70,20 +70,31 @@ export function useInbox() {
     ],
   })
 
+  const items = data?.pages.flatMap((page) => page.items) ?? []
+
+  const notifications = items
+    .filter((item) => item.type === 'notification')
+    .map((item) => item.data)
+
+  const messages = items
+    .filter((item) => item.type === 'message')
+    .map((item) => item.data)
+
   return {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
     isLoading,
     isRefreshing: isStale && isFetching && !isLoading,
-    notifications: data?.pages.flatMap((page) => page.items) ?? [],
+    messages,
+    notifications,
     refetch,
   }
 }
 
 export function updateNotification(
   id: string,
-  updater: (draft: Draft<Notification>) => void,
+  updater: (draft: Draft<InboxItem>) => void,
 ) {
   const cache = queryClient.getQueryCache()
 
@@ -100,7 +111,7 @@ export function updateNotification(
       return create(previous, (draft) => {
         loop: for (const page of draft.pages) {
           for (const item of page.items) {
-            if (item.id === id) {
+            if (item.data.id === id) {
               updater(item)
 
               break loop
@@ -113,7 +124,7 @@ export function updateNotification(
 }
 
 export function updateInbox(
-  updater: (draft: Draft<Notification>) => void,
+  updater: (draft: Draft<InboxItem>) => void,
   accountId?: string,
 ) {
   queryClient.setQueryData<InboxQueryData, InboxQueryKey>(
