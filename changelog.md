@@ -8,6 +8,7 @@
 - added: option to hide header and tab bar on scroll
 - added: unhide post
 - fixed: context menus
+- fixed: download / share / copy images
 - fixed: text cutoff
 
 ## Build 60

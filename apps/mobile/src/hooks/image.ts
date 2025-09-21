@@ -1,8 +1,7 @@
-import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as Clipboard from 'expo-clipboard'
-import { Directory, File, Paths } from 'expo-file-system'
+import { File, Paths } from 'expo-file-system'
 import { type ImageProps } from 'expo-image'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as MediaLibrary from 'expo-media-library'
@@ -16,7 +15,6 @@ import { useTranslations } from 'use-intl'
 import placeholderDark from '~/assets/images/placeholder-dark.png'
 import placeholderLight from '~/assets/images/placeholder-light.png'
 import { usePreferences } from '~/stores/preferences'
-import { type Nullable } from '~/types'
 
 export function useImagePlaceholder() {
   const { theme } = useUnistyles()
@@ -56,11 +54,7 @@ export function useDownloadImage() {
         throw new Error('Permission not granted')
       }
 
-      const directory = new Directory(Paths.cache, createId())
-
-      directory.create()
-
-      const file = await File.downloadFileAsync(variables.url, directory)
+      const file = await File.downloadFileAsync(variables.url, Paths.cache)
 
       if (saveToAlbum) {
         const album = await getAlbum()
@@ -72,7 +66,7 @@ export function useDownloadImage() {
         await MediaLibrary.saveToLibraryAsync(file.uri)
       }
 
-      directory.delete()
+      file.delete()
     },
     onError(error) {
       toast.dismiss(id.current)
@@ -128,31 +122,27 @@ export function useDownloadImages() {
         throw new Error('Permission not granted')
       }
 
-      const directory = new Directory(Paths.cache, createId())
-
-      directory.create()
-
-      const assets = await Promise.all(
-        variables.urls.map(async (url) => {
-          const file = await File.downloadFileAsync(url, directory)
-
-          if (saveToAlbum) {
-            const asset = await MediaLibrary.createAssetAsync(file.uri)
-
-            return asset
-          }
-
-          await MediaLibrary.saveToLibraryAsync(file.uri)
-        }),
+      const files = await Promise.all(
+        variables.urls.map((url) => File.downloadFileAsync(url, Paths.cache)),
       )
 
       if (saveToAlbum) {
+        const assets = await Promise.all(
+          files.map((file) => MediaLibrary.createAssetAsync(file.uri)),
+        )
+
         const album = await getAlbum()
 
         await MediaLibrary.addAssetsToAlbumAsync(compact(assets), album)
+      } else {
+        await Promise.all(
+          files.map((file) => MediaLibrary.saveToLibraryAsync(file.uri)),
+        )
       }
 
-      directory.delete()
+      for (const file of files) {
+        file.delete()
+      }
     },
     onError(error) {
       toast.dismiss(id.current)
@@ -198,15 +188,11 @@ export function useCopyImage() {
         duration: Number.POSITIVE_INFINITY,
       })
 
-      const directory = new Directory(Paths.cache, createId())
+      const file = await File.downloadFileAsync(variables.url, Paths.cache)
 
-      directory.create()
+      await Clipboard.setImageAsync(await file.base64())
 
-      const file = await File.downloadFileAsync(variables.url, directory)
-
-      await Clipboard.setImageAsync(file.base64())
-
-      directory.delete()
+      file.delete()
     },
     onError(error) {
       toast.dismiss(id.current)
@@ -249,17 +235,13 @@ export function useShareImage() {
         duration: Number.POSITIVE_INFINITY,
       })
 
-      const directory = new Directory(Paths.cache, createId())
-
-      directory.create()
-
-      const file = await File.downloadFileAsync(variables.url, directory)
+      const file = await File.downloadFileAsync(variables.url, Paths.cache)
 
       const result = await Share.share({
         url: file.uri,
       })
 
-      directory.delete()
+      file.delete()
 
       return result.action === 'sharedAction'
     },
@@ -286,9 +268,7 @@ export function useShareImage() {
 async function getAlbum() {
   const name = 'Acorn'
 
-  const exists = (await MediaLibrary.getAlbumAsync(
-    name,
-  )) as Nullable<MediaLibrary.Album>
+  const exists = await MediaLibrary.getAlbumAsync(name)
 
   if (exists) {
     return exists
