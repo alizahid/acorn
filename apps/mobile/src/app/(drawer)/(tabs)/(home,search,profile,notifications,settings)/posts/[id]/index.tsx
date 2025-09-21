@@ -6,6 +6,7 @@ import {
 } from '@shopify/flash-list'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -28,6 +29,7 @@ import { usePost } from '~/hooks/queries/posts/post'
 import { heights, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
+import { space } from '~/styles/tokens'
 import { type Comment } from '~/types/comment'
 
 const schema = z.object({
@@ -38,6 +40,8 @@ const schema = z.object({
 export type PostParams = z.infer<typeof schema>
 
 export default function Screen() {
+  const insets = useSafeAreaInsets()
+
   const router = useRouter()
   const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
@@ -287,6 +291,7 @@ export default function Screen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
+              viewOffset: insets.top + space[8],
             })
           }}
           onPress={() => {
@@ -297,6 +302,7 @@ export default function Screen() {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 0,
+                viewOffset: insets.top + space[8],
               })
 
               return
@@ -313,6 +319,7 @@ export default function Screen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
+              viewOffset: insets.top + space[8],
             })
           }}
           side={skipComment}
