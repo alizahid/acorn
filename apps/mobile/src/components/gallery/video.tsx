@@ -10,6 +10,7 @@ import { type PostMedia } from '~/types/post'
 
 import { IconButton } from '../common/icon/button'
 import { View } from '../common/view'
+import { VideoStatus } from '../posts/video/status'
 
 type Props = {
   item: PostMedia
@@ -26,6 +27,7 @@ export function GalleryVideo({ item }: Props) {
     instance.loop = true
     instance.audioMixingMode = 'mixWithOthers'
     instance.muted = !unmuteFullscreen
+    instance.timeUpdateEventInterval = 1000 / 1000 / 60
 
     instance.play()
   })
@@ -52,6 +54,8 @@ export function GalleryVideo({ item }: Props) {
             ref={ref}
             style={styles.video}
           />
+
+          <VideoStatus player={player} />
         </Zoomable>
       </View>
 

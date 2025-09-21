@@ -57,7 +57,7 @@ export function PostVideoCard({
         thumbnail={thumbnail}
         video={video}
       >
-        {visible ? (
+        {!compact && visible ? (
           <VideoPlayer
             compact={compact}
             large={large}
