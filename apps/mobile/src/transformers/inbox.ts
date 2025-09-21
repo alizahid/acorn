@@ -1,6 +1,6 @@
 import { fromUnixTime } from 'date-fns'
-import { decode } from 'entities'
 
+import { decodeHtml } from '~/lib/html'
 import { removePrefix } from '~/lib/reddit'
 import { type InboxSchema } from '~/schemas/inbox'
 import { type InboxItem } from '~/types/inbox'
@@ -12,7 +12,7 @@ export function transformInboxItem(
     return {
       data: {
         author: data.data.author,
-        body: decode(data.data.body),
+        body: decodeHtml(data.data.body_html)!,
         context: data.data.context,
         createdAt: fromUnixTime(data.data.created_utc),
         id: removePrefix(data.data.id),
@@ -27,7 +27,7 @@ export function transformInboxItem(
   return {
     data: {
       author: data.data.author ?? 'Unknown',
-      body: decode(data.data.body),
+      body: decodeHtml(data.data.body_html)!,
       createdAt: fromUnixTime(data.data.created_utc),
       id: removePrefix(data.data.id),
       new: data.data.new,
