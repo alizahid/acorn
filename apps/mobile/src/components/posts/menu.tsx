@@ -274,8 +274,8 @@ export function PostMenu({ children, post }: Props) {
 
         <Link.Menu displayInline>
           <Link.MenuAction
-            destructive
-            icon="eye.slash"
+            destructive={!post.hidden}
+            icon={post.hidden ? 'eye' : 'eye.slash'}
             onPress={() => {
               hide({
                 action: post.hidden ? 'unhide' : 'hide',
@@ -283,7 +283,7 @@ export function PostMenu({ children, post }: Props) {
                 type: 'post',
               })
             }}
-            title={t('hidePost')}
+            title={t(post.hidden ? 'unhidePost' : 'hidePost')}
           />
 
           <Link.MenuAction
