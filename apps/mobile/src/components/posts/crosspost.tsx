@@ -99,12 +99,14 @@ export function CrossPostCard({
       ) : null}
 
       {post.type === 'image' && post.media.images ? (
-        <PostGalleryCard
-          images={post.media.images}
-          nsfw={post.nsfw}
-          recyclingKey={recyclingKey}
-          spoiler={post.spoiler}
-        />
+        <View mx="3">
+          <PostGalleryCard
+            images={post.media.images}
+            nsfw={post.nsfw}
+            recyclingKey={recyclingKey}
+            spoiler={post.spoiler}
+          />
+        </View>
       ) : null}
 
       {post.type === 'link' && post.url ? (
