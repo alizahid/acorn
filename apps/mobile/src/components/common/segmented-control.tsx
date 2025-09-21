@@ -1,7 +1,9 @@
 import MaskedView from '@react-native-masked-view/masked-view'
 import { useState } from 'react'
 import { Animated, type ViewStyle } from 'react-native'
-import { StyleSheet, useUnistyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
+
+import { space } from '~/styles/tokens'
 
 import { Pressable } from './pressable'
 import { Text } from './text'
@@ -14,8 +16,6 @@ type Props = {
 }
 
 export function SegmentedControl({ items, offset, onChange }: Props) {
-  const { theme } = useUnistyles()
-
   const [width, setWidth] = useState(0)
 
   const style: ViewStyle = {
@@ -24,7 +24,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
         translateX: offset.interpolate({
           inputRange: items.map((_item, index) => index),
           outputRange: items.map(
-            (_item, index) => index * width + theme.space[1] / 2,
+            (_item, index) => index * width + space[1] / 2,
           ),
         }),
       },
@@ -35,9 +35,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
     <View
       direction="row"
       onLayout={(event) => {
-        setWidth(
-          (event.nativeEvent.layout.width - theme.space[1]) / items.length,
-        )
+        setWidth((event.nativeEvent.layout.width - space[1]) / items.length)
       }}
       style={styles.main}
     >

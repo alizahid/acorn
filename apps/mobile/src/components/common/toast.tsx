@@ -1,11 +1,12 @@
 import { ActivityIndicator } from 'react-native'
-import { StyleSheet, useUnistyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { Toaster } from 'sonner-native'
 
 import { iPad } from '~/lib/common'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 import { weights } from '~/styles/text'
+import { space } from '~/styles/tokens'
 
 import { Icon } from './icon'
 
@@ -16,8 +17,6 @@ export function Toast() {
     iPad,
   })
 
-  const { theme } = useUnistyles()
-
   return (
     <Toaster
       autoWiggleOnUpdate="always"
@@ -25,24 +24,37 @@ export function Toast() {
         error: (
           <Icon
             name="exclamationmark.triangle.fill"
-            tintColor={theme.colors.red.accent}
+            uniProps={(theme) => ({
+              tintColor: theme.colors.red.accent,
+            })}
           />
         ),
         info: (
-          <Icon name="info.circle" tintColor={theme.colors.accent.accent} />
+          <Icon
+            name="info.circle"
+            uniProps={(theme) => ({
+              tintColor: theme.colors.accent.accent,
+            })}
+          />
         ),
-        loading: <ActivityIndicator size={theme.typography[3].lineHeight} />,
+        loading: <ActivityIndicator size={space[5]} />,
         success: (
-          <Icon name="checkmark.circle" tintColor={theme.colors.green.accent} />
+          <Icon
+            name="checkmark.circle"
+            uniProps={(theme) => ({
+              tintColor: theme.colors.green.accent,
+            })}
+          />
         ),
         warning: (
           <Icon
             name="exclamationmark.circle.fill"
-            tintColor={theme.colors.orange.accent}
+            uniProps={(theme) => ({
+              tintColor: theme.colors.orange.accent,
+            })}
           />
         ),
       }}
-      theme={theme.variant}
       toastOptions={{
         closeButtonStyle: styles.close,
         descriptionStyle: styles.description(font, fontScaling),
@@ -85,7 +97,7 @@ const styles = StyleSheet.create((theme) => ({
     marginTop: theme.space[1],
   }),
   main: {
-    backgroundColor: theme.colors.gray.ui,
+    backgroundColor: theme.colors.gray.bgAlt,
     borderCurve: 'continuous',
     borderRadius: theme.radius[5],
     marginHorizontal: theme.space[4],

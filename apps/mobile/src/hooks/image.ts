@@ -211,7 +211,9 @@ export function useCopyImage() {
     onError(error) {
       toast.dismiss(id.current)
 
-      toast.error(error.message)
+      toast.error(error.message, {
+        duration: Number.POSITIVE_INFINITY,
+      })
     },
     onSuccess() {
       toast.success(t('copied'), {
