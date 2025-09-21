@@ -561,11 +561,8 @@
       },
       "preferences": {
         "browsing": {
-          "boldTitle": "Bold titles",
-          "communityOnTop": "Show community on top",
           "fullscreenSwipe": "Swipe from anywhere to go back",
           "hideHeaderOnScroll": "Hide header when scrolling",
-          "hidePostActions": "Hide post actions",
           "hideTabBarOnScroll": "Hide tab bar when scrolling",
           "infiniteScrolling": "Infinite scrolling",
           "oldReddit": "Use old Reddit links",
@@ -573,10 +570,8 @@
             "description": "Requires app restart",
             "label": "Auto refresh interval"
           },
-          "showFlair": "Show flair",
           "stickyDrawer": "Sticky drawer",
-          "title": "Browsing",
-          "upvoteOnSave": "Upvote on save"
+          "title": "Browsing"
         },
         "comments": {
           "collapseAutoModerator": "Collapse AutoModerator",
@@ -619,6 +614,14 @@
           "saveToAlbum": "Save to Acorn album",
           "title": "Media",
           "unmuteFullscreen": "Unmute on full screen"
+        },
+        "posts": {
+          "boldTitle": "Bold titles",
+          "communityOnTop": "Show community on top",
+          "hidePostActions": "Hide post actions",
+          "showFlair": "Show flair",
+          "title": "Posts",
+          "upvoteOnSave": "Upvote on save"
         },
         "refreshInterval": {
           "instant": "Instant",

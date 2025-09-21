@@ -59,28 +59,6 @@ export default function Screen() {
         <Menu.Label>{t('browsing.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="medal" />}
-          label={t('browsing.showFlair')}
-          onChange={(next) => {
-            update({
-              showFlair: next,
-            })
-          }}
-          value={showFlair}
-        />
-
-        <Menu.Switch
-          icon={<Icon name="chevron.up" />}
-          label={t('browsing.communityOnTop')}
-          onChange={(next) => {
-            update({
-              communityOnTop: next,
-            })
-          }}
-          value={communityOnTop}
-        />
-
-        <Menu.Switch
           icon={<Icon name="infinity" />}
           label={t('browsing.infiniteScrolling')}
           onChange={(next) => {
@@ -89,28 +67,6 @@ export default function Screen() {
             })
           }}
           value={infiniteScrolling}
-        />
-
-        <Menu.Switch
-          icon={<Icon name="bold" />}
-          label={t('browsing.boldTitle')}
-          onChange={(next) => {
-            update({
-              boldTitle: next,
-            })
-          }}
-          value={boldTitle}
-        />
-
-        <Menu.Switch
-          icon={<Icon name="bookmark" />}
-          label={t('browsing.hidePostActions')}
-          onChange={(next) => {
-            update({
-              hidePostActions: next,
-            })
-          }}
-          value={hidePostActions}
         />
 
         <Menu.Options
@@ -180,17 +136,6 @@ export default function Screen() {
           value={oldReddit}
         />
 
-        <Menu.Switch
-          icon={<Icon name="arrowshape.up" />}
-          label={t('browsing.upvoteOnSave')}
-          onChange={(next) => {
-            update({
-              upvoteOnSave: next,
-            })
-          }}
-          value={upvoteOnSave}
-        />
-
         {iPad ? (
           <Menu.Switch
             icon={<Icon name="sidebar.leading" />}
@@ -235,6 +180,65 @@ export default function Screen() {
             })
           }}
           value={hideTabBarOnScroll}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('posts.title')}</Menu.Label>
+
+        <Menu.Switch
+          icon={<Icon name="medal" />}
+          label={t('posts.showFlair')}
+          onChange={(next) => {
+            update({
+              showFlair: next,
+            })
+          }}
+          value={showFlair}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="chevron.up" />}
+          label={t('posts.communityOnTop')}
+          onChange={(next) => {
+            update({
+              communityOnTop: next,
+            })
+          }}
+          value={communityOnTop}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="bold" />}
+          label={t('posts.boldTitle')}
+          onChange={(next) => {
+            update({
+              boldTitle: next,
+            })
+          }}
+          value={boldTitle}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="bookmark" />}
+          label={t('posts.hidePostActions')}
+          onChange={(next) => {
+            update({
+              hidePostActions: next,
+            })
+          }}
+          value={hidePostActions}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="arrowshape.up" />}
+          label={t('posts.upvoteOnSave')}
+          onChange={(next) => {
+            update({
+              upvoteOnSave: next,
+            })
+          }}
+          value={upvoteOnSave}
         />
 
         <Menu.Separator />
