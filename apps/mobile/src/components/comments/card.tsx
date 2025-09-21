@@ -182,32 +182,42 @@ export function CommentCard({
 
           {comment.post.title ? (
             <Link
-              accessibilityHint={a11y('viewPost')}
-              accessibilityLabel={comment.post.title}
+              asChild
               href={{
                 params: {
                   id: comment.post.id,
                 },
                 pathname: '/posts/[id]',
               }}
-              style={styles.post}
             >
-              <Icon
-                name="paperclip"
-                uniProps={(theme) => ({
-                  tintColor: theme.colors.gray.accent,
-                })}
-              />
+              <Pressable
+                accessibilityHint={a11y('viewPost')}
+                accessibilityLabel={comment.post.title}
+                align="center"
+                direction="row"
+                gap="2"
+                mb="3"
+                mx="3"
+                p="2"
+                style={styles.post}
+              >
+                <Icon
+                  name="paperclip"
+                  uniProps={(theme) => ({
+                    tintColor: theme.colors.gray.accent,
+                  })}
+                />
 
-              <View flex={1} gap="1">
-                <Text size="1" weight="medium">
-                  {comment.post.title}
-                </Text>
+                <View flex={1} gap="1">
+                  <Text size="1" weight="medium">
+                    {comment.post.title}
+                  </Text>
 
-                <Text highContrast={false} size="1">
-                  r/{comment.community.name}
-                </Text>
-              </View>
+                  <Text highContrast={false} size="1">
+                    r/{comment.community.name}
+                  </Text>
+                </View>
+              </Pressable>
             </Link>
           ) : null}
 
@@ -316,15 +326,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
     }
   },
   post: {
-    alignItems: 'center',
     backgroundColor: theme.colors.gray.uiAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    flexDirection: 'row',
-    gap: theme.space[2],
-    marginBottom: theme.space[3],
-    marginHorizontal: theme.space[3],
-    padding: theme.space[2],
   },
   saved: {
     backgroundColor: theme.colors.green.accent,
