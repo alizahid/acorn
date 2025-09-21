@@ -291,7 +291,7 @@ export default function Screen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
-              viewOffset: insets.top + space[8],
+              viewOffset: insets.top + space[8] - (iPad ? space[2] : 0),
             })
           }}
           onPress={() => {
@@ -302,7 +302,7 @@ export default function Screen() {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 0,
-                viewOffset: insets.top + space[8],
+                viewOffset: insets.top + space[8] - (iPad ? space[2] : 0),
               })
 
               return
@@ -319,7 +319,7 @@ export default function Screen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
-              viewOffset: insets.top + space[8],
+              viewOffset: insets.top + space[8] - (iPad ? space[2] : 0),
             })
           }}
           side={skipComment}
