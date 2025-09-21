@@ -111,7 +111,7 @@ export const usePreferences = create<State>()(
       fontSizeComment: '2',
       fontSizePostBody: '2',
       fontSizePostTitle: '3',
-      fullscreenSwipe: true,
+      fullscreenSwipe: false,
       hapticsLoud: false,
       hideHeaderOnScroll: true,
       hidePostActions: false,
