@@ -55,7 +55,8 @@
           "options": {
             "style": "inlineType"
           }
-        }
+        },
+        "useNamingConvention": "off"
       },
       "suspicious": {
         "noRedeclare": "off",
