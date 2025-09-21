@@ -29,7 +29,7 @@ export function Html({
   type = 'full',
   depth,
 }: Props) {
-  const { fontScaling, font } = usePreferences()
+  const { fontScaling, font, systemScaling } = usePreferences()
 
   const { handleLink } = useLink()
 
@@ -39,6 +39,8 @@ export function Html({
   })
 
   const html = useMemo(() => mergeHtmlMeta(children, meta), [children, meta])
+
+  const scaling = systemScaling ? 1 : fontScaling
 
   return (
     <RenderHtml
@@ -68,10 +70,10 @@ export function Html({
               },
               markerTextStyle: {
                 color: theme.colors.accent.textLow,
-                fontSize: theme.typography[size].fontSize * fontScaling,
+                fontSize: theme.typography[size].fontSize * scaling,
                 fontVariant: ['tabular-nums'],
                 fontWeight: 'medium',
-                lineHeight: theme.typography[size].lineHeight * fontScaling,
+                lineHeight: theme.typography[size].lineHeight * scaling,
               },
             },
             table: {
@@ -85,8 +87,8 @@ export function Html({
               },
               markerTextStyle: {
                 color: theme.colors.accent.textLow,
-                fontSize: theme.space[5] * fontScaling,
-                lineHeight: theme.space[5] * fontScaling,
+                fontSize: theme.space[5] * scaling,
+                lineHeight: theme.space[5] * scaling,
               },
             },
           },
@@ -103,9 +105,9 @@ export function Html({
             body: {
               color: theme.colors.gray.text,
               fontFamily: fonts[font],
-              fontSize: theme.typography[size].fontSize * fontScaling,
+              fontSize: theme.typography[size].fontSize * scaling,
               fontVariant: ['no-contextual', 'stylistic-four'],
-              lineHeight: theme.typography[size].lineHeight * fontScaling,
+              lineHeight: theme.typography[size].lineHeight * scaling,
               marginVertical: -(theme.space[3] / 2),
             },
             code: {
@@ -119,15 +121,15 @@ export function Html({
             },
             figcaption: {
               color: theme.colors.gray.textLow,
-              fontSize: theme.typography[pre].fontSize * fontScaling,
-              lineHeight: theme.typography[pre].lineHeight * fontScaling,
+              fontSize: theme.typography[pre].fontSize * scaling,
+              lineHeight: theme.typography[pre].lineHeight * scaling,
               marginTop: theme.space[3],
               textAlign: 'center',
             },
             h1: {
-              fontSize: theme.typography[h1].fontSize * fontScaling,
+              fontSize: theme.typography[h1].fontSize * scaling,
               fontWeight: 'bold',
-              lineHeight: theme.typography[h1].lineHeight * fontScaling,
+              lineHeight: theme.typography[h1].lineHeight * scaling,
               marginVertical: theme.space[3] / 2,
             },
             ol: {
@@ -139,8 +141,8 @@ export function Html({
             pre: {
               backgroundColor: theme.colors.gray.bgAltAlpha,
               borderRadius: theme.radius[4],
-              fontSize: theme.typography[pre].fontSize * fontScaling,
-              lineHeight: theme.typography[pre].lineHeight * fontScaling,
+              fontSize: theme.typography[pre].fontSize * scaling,
+              lineHeight: theme.typography[pre].lineHeight * scaling,
               marginVertical: theme.space[3] / 2,
               paddingHorizontal: theme.space[3],
               paddingVertical: theme.space[2],
@@ -150,9 +152,8 @@ export function Html({
               fontWeight: 'bold',
             },
             sup: {
-              fontSize: theme.typography[size].fontSize * fontScaling * 0.75,
-              lineHeight:
-                theme.typography[size].lineHeight * fontScaling * 0.75,
+              fontSize: theme.typography[size].fontSize * scaling * 0.75,
+              lineHeight: theme.typography[size].lineHeight * scaling * 0.75,
             },
             table: {
               backgroundColor: theme.colors.gray.bgAltAlpha,
