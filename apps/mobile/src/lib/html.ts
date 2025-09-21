@@ -21,8 +21,8 @@ export function decodeHtml(html?: string | null) {
     .replaceAll('<!-- SC_OFF -->', '')
     .replaceAll('href="/r/', 'href="https://www.reddit.com/r/')
     .replaceAll('href="r/', 'href="https://www.reddit.com/r/')
-    .replaceAll('href="/u/', 'href="https://www.reddit.com/u/')
-    .replaceAll('href="u/', 'href="https://www.reddit.com/u/')
+    .replaceAll('href="/u/', 'href="https://www.reddit.com/user/')
+    .replaceAll('href="u/', 'href="https://www.reddit.com/user/')
     .replaceAll(
       /<span class="md-spoiler-text">(.*?)<\/span>/g,
       '<spoiler>$1</spoiler>',
