@@ -1,3 +1,4 @@
+import { View } from '~/components/common/view'
 import { type PostMedia } from '~/types/post'
 
 import { PostLinkCard } from '../link'
@@ -81,13 +82,15 @@ export function PostVideoCard({
     : undefined
 
   return (
-    <PostLinkCard
-      compact={compact}
-      crossPost={crossPost}
-      large={large}
-      media={media}
-      recyclingKey={recyclingKey}
-      url={video.url}
-    />
+    <View mx={crossPost ? '3' : undefined}>
+      <PostLinkCard
+        compact={compact}
+        crossPost={crossPost}
+        large={large}
+        media={media}
+        recyclingKey={recyclingKey}
+        url={video.url}
+      />
+    </View>
   )
 }
