@@ -14,7 +14,6 @@ import { persistOptions, queryClient } from '~/lib/query'
 import { usePreferences } from '~/stores/preferences'
 
 import { ThemeProvider } from '../navigation/theme'
-import { Gallery } from './gallery'
 import { Toast } from './toast'
 
 type Props = {
@@ -45,8 +44,6 @@ export function Providers({ children }: Props) {
 
               <FocusProvider>
                 <PortalProvider>{children}</PortalProvider>
-
-                <Gallery.Root />
 
                 <AccountSwitcher />
 
