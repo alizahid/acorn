@@ -13,6 +13,7 @@ import en from '~/intl/en.json'
 import { persistOptions, queryClient } from '~/lib/query'
 import { usePreferences } from '~/stores/preferences'
 
+import { Gallery } from '../gallery'
 import { ThemeProvider } from '../navigation/theme'
 import { Toast } from './toast'
 
@@ -46,7 +47,7 @@ export function Providers({ children }: Props) {
                 <PortalProvider>{children}</PortalProvider>
 
                 <AccountSwitcher />
-
+                <Gallery.Root />
                 <Toast />
               </FocusProvider>
             </PersistQueryClientProvider>

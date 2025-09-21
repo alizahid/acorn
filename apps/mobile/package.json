@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@bacons/apple-targets": "^3.0.2",
-    "@baronha/react-native-multiple-image-picker": "^2.2.4",
     "@bottom-tabs/react-navigation": "^0.11.2",
     "@date-fns/tz": "^1.4.1",
     "@formatjs/intl-getcanonicallocales": "^2.5.5",
