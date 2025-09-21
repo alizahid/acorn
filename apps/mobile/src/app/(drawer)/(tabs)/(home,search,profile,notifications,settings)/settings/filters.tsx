@@ -103,10 +103,10 @@ export default function Screen() {
                 <Icon
                   name={
                     rule.type === 'yes'
-                      ? 'checkmark.circle'
+                      ? 'checkmark.circle.fill'
                       : rule.type === 'no'
-                        ? 'xmark.circle'
-                        : 'info.circle'
+                        ? 'xmark.circle.fill'
+                        : 'info.circle.fill'
                   }
                   uniProps={(theme) => ({
                     size: theme.typography[2].lineHeight,

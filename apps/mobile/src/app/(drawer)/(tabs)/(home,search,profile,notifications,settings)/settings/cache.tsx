@@ -79,7 +79,7 @@ export default function Screen() {
         <Menu.Button
           icon={
             <Icon
-              name="list.bullet.indent"
+              name="arrow.down.and.line.horizontal.and.arrow.up"
               uniProps={(theme) => ({
                 tintColor: theme.colors.red.accent,
               })}

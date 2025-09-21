@@ -137,93 +137,93 @@ export default function Screen() {
           }}
           value={mediaOnRight}
         />
-      </Menu.Root>
 
-      <Menu.Separator />
+        <Menu.Separator />
 
-      <Menu.Label>{t('fonts.title')}</Menu.Label>
+        <Menu.Label>{t('fonts.title')}</Menu.Label>
 
-      <Menu.Options
-        hideSelected
-        label={t(`fonts.${font}`)}
-        onChange={(next) => {
-          update({
-            font: next as Font,
-          })
-        }}
-        options={(['basis', 'apercu', 'fold', 'system'] as const).map(
-          (item) => ({
-            label: t(`fonts.${item}`),
-            labelStyle: {
-              fontFamily: fonts[item],
-            },
-            value: item,
-          }),
-        )}
-        title={t('fonts.title')}
-        value={font}
-      />
-
-      <Menu.Switch
-        label={t('fonts.systemScaling')}
-        onChange={(next) => {
-          update({
-            systemScaling: next,
-          })
-        }}
-        value={systemScaling}
-      />
-
-      {systemScaling ? null : (
-        <View height="8" justify="center" mx="3">
-          <Slider
-            disabled={systemScaling}
-            max={1.2}
-            min={0.8}
-            onChange={(next) => {
-              update({
-                fontScaling: next,
-              })
-            }}
-            step={0.1}
-            value={fontScaling}
-          />
-        </View>
-      )}
-
-      {(
-        ['fontSizePostTitle', 'fontSizePostBody', 'fontSizeComment'] as const
-      ).map((item) => (
         <Menu.Options
-          key={item}
-          label={t(`fonts.${item}`)}
+          hideSelected
+          label={t(`fonts.${font}`)}
           onChange={(next) => {
             update({
-              [item]: next as TypographyToken,
+              font: next as Font,
             })
           }}
-          options={Object.keys(typography).map((token) => ({
-            hideRight: true,
-            label: token,
-            right: <Icon name={`${token as TypographyToken}.circle.fill`} />,
-            value: token,
-          }))}
-          value={sizes[item]}
+          options={(['basis', 'apercu', 'fold', 'system'] as const).map(
+            (item) => ({
+              label: t(`fonts.${item}`),
+              labelStyle: {
+                fontFamily: fonts[item],
+              },
+              value: item,
+            }),
+          )}
+          title={t('fonts.title')}
+          value={font}
         />
-      ))}
 
-      <Menu.Separator />
+        <Menu.Switch
+          label={t('fonts.systemScaling')}
+          onChange={(next) => {
+            update({
+              systemScaling: next,
+            })
+          }}
+          value={systemScaling}
+        />
 
-      <Menu.Label>{t('themes.title')}</Menu.Label>
+        {systemScaling ? null : (
+          <View height="8" justify="center" mx="3">
+            <Slider
+              disabled={systemScaling}
+              max={1.2}
+              min={0.8}
+              onChange={(next) => {
+                update({
+                  fontScaling: next,
+                })
+              }}
+              step={0.1}
+              value={fontScaling}
+            />
+          </View>
+        )}
 
-      <Themes
-        onChange={(next) => {
-          update({
-            theme: next,
-          })
-        }}
-        value={theme}
-      />
+        {(
+          ['fontSizePostTitle', 'fontSizePostBody', 'fontSizeComment'] as const
+        ).map((item) => (
+          <Menu.Options
+            key={item}
+            label={t(`fonts.${item}`)}
+            onChange={(next) => {
+              update({
+                [item]: next as TypographyToken,
+              })
+            }}
+            options={Object.keys(typography).map((token) => ({
+              hideRight: true,
+              label: token,
+              right: <Icon name={`${token as TypographyToken}.circle.fill`} />,
+              value: token,
+            }))}
+            value={sizes[item]}
+          />
+        ))}
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('themes.title')}</Menu.Label>
+
+        <Themes
+          onChange={(next) => {
+            update({
+              theme: next,
+            })
+          }}
+          value={theme}
+        />
+      </Menu.Root>
     </ScrollView>
   )
 }

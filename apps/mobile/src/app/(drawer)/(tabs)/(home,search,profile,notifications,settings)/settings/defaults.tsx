@@ -23,7 +23,7 @@ export default function Screen() {
   const listProps = useList()
 
   return (
-    <ScrollView {...listProps}>
+    <ScrollView {...listProps} contentContainerStyle={styles.content}>
       <Menu.Label>{t('feedType.title')}</Menu.Label>
 
       <FlatList
@@ -176,11 +176,15 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  content: {
+    paddingBottom: theme.space[4],
+    paddingHorizontal: theme.space[4],
+    paddingTop: theme.space[1],
+  },
   list: {
     backgroundColor: theme.colors.gray.uiAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     flexGrow: 0,
-    marginHorizontal: theme.space[3],
   },
 }))
