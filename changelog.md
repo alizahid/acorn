@@ -2,7 +2,13 @@
 
 ## Upcoming
 
+- added: fullscreen swipe gesture option
+- added: hide seen posts
+- added: messages
 - added: option to hide header and tab bar on scroll
+- added: unhide post
+- fixed: context menus
+- fixed: text cutoff
 
 ## Build 60
 
