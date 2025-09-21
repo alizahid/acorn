@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 61
 
 - added: fullscreen swipe gesture option
 - added: hide seen posts

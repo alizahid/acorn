@@ -106,7 +106,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     },
     ios: {
       appleTeamId: String(process.env.APPLE_TEAM_ID),
-      buildNumber: '60',
+      buildNumber: '61',
       bundleIdentifier,
       config: {
         usesNonExemptEncryption: false,
