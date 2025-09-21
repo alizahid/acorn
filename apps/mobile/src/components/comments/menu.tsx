@@ -48,59 +48,63 @@ export function CommentMenu({ children, comment }: Props) {
     >
       <Link.Trigger>{children}</Link.Trigger>
 
-      <Link.Menu displayAsPalette displayInline>
-        <Link.MenuAction
-          icon={comment.liked ? 'arrowshape.up.fill' : 'arrowshape.up'}
-          onPress={() => {
-            vote({
-              commentId: comment.id,
-              direction: comment.liked ? 0 : 1,
-              postId: comment.post.id,
-            })
-          }}
-          title={t(comment.liked ? 'removeUpvote' : 'upvote')}
-        />
-
-        <Link.MenuAction
-          icon={
-            comment.liked === false ? 'arrowshape.down.fill' : 'arrowshape.down'
-          }
-          onPress={() => {
-            vote({
-              commentId: comment.id,
-              direction: comment.liked === false ? 0 : -1,
-              postId: comment.post.id,
-            })
-          }}
-          title={t(comment.liked === false ? 'removeDownvote' : 'downvote')}
-        />
-
-        <Link.MenuAction
-          icon={comment.saved ? 'bookmark.fill' : 'bookmark'}
-          onPress={() => {
-            save({
-              action: comment.saved ? 'unsave' : 'save',
-              commentId: comment.id,
-              postId: comment.post.id,
-            })
-          }}
-          title={t(comment.saved ? 'unsave' : 'save')}
-        />
-
-        <Link.MenuAction
-          icon="arrow.turn.up.left"
-          onPress={() => {
-            router.push({
-              params: {
+      <Link.Menu>
+        <Link.Menu displayAsPalette displayInline>
+          <Link.MenuAction
+            icon={comment.liked ? 'arrowshape.up.fill' : 'arrowshape.up'}
+            onPress={() => {
+              vote({
                 commentId: comment.id,
-                id: comment.post.id,
-                user: comment.user.name,
-              },
-              pathname: '/posts/[id]/reply',
-            })
-          }}
-          title={t('reply')}
-        />
+                direction: comment.liked ? 0 : 1,
+                postId: comment.post.id,
+              })
+            }}
+            title={t(comment.liked ? 'removeUpvote' : 'upvote')}
+          />
+
+          <Link.MenuAction
+            icon={
+              comment.liked === false
+                ? 'arrowshape.down.fill'
+                : 'arrowshape.down'
+            }
+            onPress={() => {
+              vote({
+                commentId: comment.id,
+                direction: comment.liked === false ? 0 : -1,
+                postId: comment.post.id,
+              })
+            }}
+            title={t(comment.liked === false ? 'removeDownvote' : 'downvote')}
+          />
+
+          <Link.MenuAction
+            icon={comment.saved ? 'bookmark.fill' : 'bookmark'}
+            onPress={() => {
+              save({
+                action: comment.saved ? 'unsave' : 'save',
+                commentId: comment.id,
+                postId: comment.post.id,
+              })
+            }}
+            title={t(comment.saved ? 'unsave' : 'save')}
+          />
+
+          <Link.MenuAction
+            icon="arrow.turn.up.left"
+            onPress={() => {
+              router.push({
+                params: {
+                  commentId: comment.id,
+                  id: comment.post.id,
+                  user: comment.user.name,
+                },
+                pathname: '/posts/[id]/reply',
+              })
+            }}
+            title={t('reply')}
+          />
+        </Link.Menu>
 
         {comment.user.name === accountId ? (
           <Link.Menu displayInline>
