@@ -91,7 +91,7 @@ export function CommentMenu({ children, comment }: Props) {
           />
 
           <Link.MenuAction
-            icon="arrow.turn.up.left"
+            icon="arrowshape.turn.up.backward"
             onPress={() => {
               router.push({
                 params: {

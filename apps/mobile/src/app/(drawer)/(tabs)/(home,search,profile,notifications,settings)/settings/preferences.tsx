@@ -275,7 +275,7 @@ export default function Screen() {
         />
 
         <Menu.Options
-          icon={<Icon name="chevron.down" />}
+          icon={<Icon name="arrow.down" />}
           label={t('comments.skipComment')}
           onChange={(next) => {
             const payload: Partial<PreferencesPayload> = {
@@ -309,7 +309,7 @@ export default function Screen() {
         />
 
         <Menu.Options
-          icon={<Icon name="arrow.turn.up.left" />}
+          icon={<Icon name="arrowshape.turn.up.backward" />}
           label={t('comments.replyPost')}
           onChange={(next) => {
             const payload: Partial<PreferencesPayload> = {

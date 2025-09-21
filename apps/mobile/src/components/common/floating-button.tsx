@@ -45,6 +45,7 @@ export function FloatingButton({
         label={label}
         onLongPress={onLongPress}
         onPress={onPress}
+        weight="bold"
       />
     </BlurView>
   )

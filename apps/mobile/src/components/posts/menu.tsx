@@ -92,7 +92,7 @@ export function PostMenu({ children, post }: Props) {
           />
 
           <Link.MenuAction
-            icon="arrow.turn.up.left"
+            icon="arrowshape.turn.up.backward"
             onPress={() => {
               router.push({
                 params: {
