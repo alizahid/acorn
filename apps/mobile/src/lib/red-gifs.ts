@@ -20,6 +20,7 @@ type GifPayload = z.infer<typeof GifSchema>
 export type Gif = {
   expiresAt: Date
   source: VideoSource
+  url: string
 }
 
 export async function getGif(id: string): Promise<Gif> {
@@ -59,6 +60,7 @@ export async function getGif(id: string): Promise<Gif> {
       },
       uri: uri.toString(),
     },
+    url: uri.toString(),
   }
 }
 

@@ -58,11 +58,13 @@ export function RedGifsVideo({
             large={large}
             nsfw={nsfw}
             recyclingKey={recyclingKey}
-            source={gif.source}
             spoiler={spoiler}
             style={style}
             thumbnail={thumbnail}
-            video={video}
+            video={{
+              ...video,
+              url: gif.url,
+            }}
             viewing={viewing}
           />
         ) : null}

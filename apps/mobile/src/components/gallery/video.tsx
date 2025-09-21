@@ -1,10 +1,11 @@
 import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { useEvent } from 'expo'
-import { useVideoPlayer, VideoView } from 'expo-video'
+import { VideoView } from 'expo-video'
 import { useRef } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { useVideo } from '~/hooks/video'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -23,7 +24,7 @@ export function GalleryVideo({ item }: Props) {
 
   const ref = useRef<VideoView>(null)
 
-  const player = useVideoPlayer(item.url, (instance) => {
+  const player = useVideo(item.url, (instance) => {
     instance.loop = true
     instance.audioMixingMode = 'mixWithOthers'
     instance.muted = !unmuteFullscreen

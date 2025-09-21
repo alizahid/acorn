@@ -586,6 +586,9 @@
           "title": "Comments",
           "userOnTop": "Show user on top"
         },
+        "experimental": {
+          "title": "Experimental (require app restart)"
+        },
         "feedback": {
           "feedbackHaptics": "Haptics",
           "feedbackSounds": "Sounds",

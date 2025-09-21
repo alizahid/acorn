@@ -1,6 +1,6 @@
 import { useEvent } from 'expo'
 import { Image } from 'expo-image'
-import { useVideoPlayer, type VideoSource, VideoView } from 'expo-video'
+import { VideoView } from 'expo-video'
 import { useCallback, useEffect, useRef } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -10,6 +10,7 @@ import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
+import { useVideo } from '~/hooks/video'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
 import { type PostMedia } from '~/types/post'
@@ -22,7 +23,6 @@ type Props = {
   large?: boolean
   nsfw?: boolean
   recyclingKey?: string
-  source: VideoSource
   spoiler?: boolean
   style?: StyleProp<ViewStyle>
   thumbnail?: string
@@ -35,7 +35,6 @@ export function VideoPlayer({
   large,
   nsfw,
   recyclingKey,
-  source,
   spoiler,
   style,
   thumbnail,
@@ -62,7 +61,7 @@ export function VideoPlayer({
 
   const ref = useRef<VideoView>(null)
 
-  const player = useVideoPlayer(source, (instance) => {
+  const player = useVideo(video.url, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
     instance.muted = feedMuted
     instance.loop = true

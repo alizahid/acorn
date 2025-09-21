@@ -63,7 +63,6 @@ export function PostVideoCard({
             large={large}
             nsfw={nsfw}
             recyclingKey={recyclingKey}
-            source={video.url}
             spoiler={spoiler}
             thumbnail={thumbnail}
             video={video}

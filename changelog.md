@@ -10,6 +10,7 @@
 - fixed: context menus
 - fixed: download / share / copy images
 - fixed: text cutoff
+- experimental: shared video instances
 
 ## Build 60
 

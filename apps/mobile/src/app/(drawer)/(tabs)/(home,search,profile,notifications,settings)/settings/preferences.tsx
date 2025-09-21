@@ -14,6 +14,7 @@ export default function Screen() {
   const f = useFormatter()
 
   const {
+    _experimental_video,
     autoPlay,
     blurNsfw,
     blurSpoiler,
@@ -595,6 +596,20 @@ export default function Screen() {
             })
           }}
           value={feedbackSounds}
+        />
+
+        <Menu.Separator />
+
+        <Menu.Label>{t('experimental.title')}</Menu.Label>
+
+        <Menu.Switch
+          label="Shared video instances"
+          onChange={(next) => {
+            update({
+              _experimental_video: next,
+            })
+          }}
+          value={_experimental_video}
         />
       </Menu.Root>
     </ScrollView>
