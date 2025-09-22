@@ -2,9 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 
 import { db } from '~/db'
 import { isPost } from '~/lib/guards'
-import { usePreferences } from '~/stores/preferences'
 
-import { useHide } from './moderation/hide'
 import { updatePost } from './queries/posts/post'
 import { updatePosts } from './queries/posts/posts'
 import { updateSearch } from './queries/search/search'
@@ -14,10 +12,6 @@ type Variables = {
 }
 
 export function useHistory() {
-  const { hideSeen } = usePreferences()
-
-  const { hide } = useHide()
-
   const { mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       await db
@@ -28,14 +22,6 @@ export function useHistory() {
         .onConflictDoNothing()
     },
     onMutate(variables) {
-      if (hideSeen) {
-        hide({
-          action: 'hide',
-          id: variables.id,
-          type: 'post',
-        })
-      }
-
       updatePost(variables.id, (draft) => {
         draft.post.seen = true
       })
