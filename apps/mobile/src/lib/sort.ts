@@ -1,11 +1,12 @@
 import { type SFSymbol } from 'expo-symbols'
+import { Platform } from 'react-native'
 
 import { type ColorToken } from '~/styles/tokens'
 import { type FeedType, type PostSort, type TopInterval } from '~/types/sort'
 
 export const SortIcons: Record<PostSort, SFSymbol> = {
   best: 'medal',
-  comments: 'bubble',
+  comments: (Number(Platform.Version) >= 17) ? 'bubble' : 'bubble.right',
   confidence: 'medal',
   controversial: 'star',
   hot: 'flame',

@@ -4,6 +4,7 @@ import { Alert, Share } from 'react-native'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
+import { icons } from '~/components/common/gestures/actions'
 import { useCopy } from '~/hooks/copy'
 import { useLink } from '~/hooks/link'
 import { useHide } from '~/hooks/moderation/hide'
@@ -51,7 +52,9 @@ export function CommentMenu({ children, comment }: Props) {
       <Link.Menu>
         <Link.Menu displayAsPalette displayInline>
           <Link.MenuAction
-            icon={comment.liked ? 'arrowshape.up.fill' : 'arrowshape.up'}
+            icon={
+              comment.liked ? `${icons.upvote}.fill` :  icons.upvote
+            }
             onPress={() => {
               vote({
                 commentId: comment.id,
@@ -64,9 +67,7 @@ export function CommentMenu({ children, comment }: Props) {
 
           <Link.MenuAction
             icon={
-              comment.liked === false
-                ? 'arrowshape.down.fill'
-                : 'arrowshape.down'
+              comment.liked === false ? `${icons.downvote}.fill` :  icons.downvote
             }
             onPress={() => {
               vote({

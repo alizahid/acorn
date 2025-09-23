@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router'
+import { Platform } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
@@ -21,14 +22,14 @@ export function CrossPostFooter({ post }: Props) {
 
   const footer = [
     {
-      icon: 'arrowshape.up',
+      icon: (Number(Platform.Version) >= 17) ? 'arrowshape.up' : 'arrow.up',
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'bubble',
+      icon: (Number(Platform.Version) >= 17) ? 'bubble' : 'bubble.right',
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',

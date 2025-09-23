@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
+import { icons } from '~/components/common/gestures/actions'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { removePrefix } from '~/lib/reddit'
 import { space } from '~/styles/tokens'
@@ -127,7 +128,9 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         <FooterButton
           color={comment.liked === true ? 'orange' : undefined}
           compact
-          icon={comment.liked === true ? 'arrowshape.up.fill' : 'arrowshape.up'}
+          icon={
+            comment.liked === true ? `${icons.upvote}.fill` :  icons.upvote
+          }          
           label={a11y(comment.liked ? 'removeUpvote' : 'upvote')}
           onPress={() => {
             vote({
@@ -148,7 +151,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
           color={comment.liked === false ? 'violet' : undefined}
           compact
           icon={
-            comment.liked === false ? 'arrowshape.down.fill' : 'arrowshape.down'
+            comment.liked === false ? `${icons.downvote}.fill` :  icons.downvote
           }
           label={a11y(comment.liked === false ? 'removeDownvote' : 'downvote')}
           onPress={() => {

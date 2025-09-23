@@ -6,6 +6,7 @@ import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
+import { icons } from '~/components/common/gestures/actions'
 import { FooterButton } from './button'
 import { PostCommunity } from './community'
 import { PostMeta } from './meta'
@@ -44,7 +45,7 @@ export function PostFooter({ community = true, post, style }: Props) {
           <FooterButton
             color={post.liked === true ? 'orange' : undefined}
             fill={post.liked === true}
-            icon="arrowshape.up.fill"
+            icon={`${icons.upvote}.fill`}
             label={a11y(post.liked ? 'removeUpvote' : 'upvote')}
             onPress={() => {
               vote({
@@ -57,7 +58,7 @@ export function PostFooter({ community = true, post, style }: Props) {
           <FooterButton
             color={post.liked === false ? 'violet' : undefined}
             fill={post.liked === false}
-            icon="arrowshape.down.fill"
+            icon={`${icons.downvote}.fill`}
             label={a11y(post.liked === false ? 'removeDownvote' : 'downvote')}
             onPress={() => {
               vote({

@@ -15,6 +15,7 @@ import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
+import { Platform } from 'react-native'
 
 type Props = {
   notification: InboxNotification
@@ -121,7 +122,7 @@ const styles = StyleSheet.create((theme) => ({
 }))
 
 const icons = {
-  comment_reply: 'bubble',
+  comment_reply: (Number(Platform.Version) >= 17) ? 'bubble' : 'bubble.right',
   post_reply: 'arrowshape.turn.up.backward',
   username_mention: 'person',
 } as const satisfies Record<NotificationType, SFSymbol>

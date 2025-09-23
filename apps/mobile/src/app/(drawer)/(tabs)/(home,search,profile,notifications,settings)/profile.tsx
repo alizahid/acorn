@@ -1,3 +1,4 @@
+import { Platform } from 'react-native'
 import { useRouter } from 'expo-router'
 import { type SFSymbol } from 'expo-symbols'
 import { ScrollView } from 'react-native'
@@ -85,12 +86,12 @@ export default function Screen() {
 }
 
 const icons: Record<UserFeedType, SFSymbol> = {
-  comments: 'bubble',
-  downvoted: 'arrowshape.down',
+  comments: (Number(Platform.Version) >= 17) ? 'bubble' : 'bubble.right',
+  downvoted: (Number(Platform.Version) >= 17) ? 'arrowshape.down' : 'arrow.down',
   hidden: 'eye.slash',
   saved: 'bookmark',
   submitted: 'paperplane',
-  upvoted: 'arrowshape.up',
+  upvoted: (Number(Platform.Version) >= 17) ? 'arrowshape.up' : 'arrow.up',
 }
 
 const colors: Record<UserFeedType, ColorToken> = {

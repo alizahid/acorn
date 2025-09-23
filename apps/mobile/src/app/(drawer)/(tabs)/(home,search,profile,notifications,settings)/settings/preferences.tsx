@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native'
+import { Platform, ScrollView } from 'react-native'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { FloatingButtonSide } from '~/components/common/floating-button'
@@ -232,7 +232,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="arrowshape.up" />}
+          icon={<Icon name= {(Number(Platform.Version) >= 17) ? 'arrowshape.up' : 'arrow.up'} />}
           label={t('posts.upvoteOnSave')}
           onChange={(next) => {
             update({
@@ -352,7 +352,7 @@ export default function Screen() {
         <Menu.Label>{t('history.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="arrowshape.up" />}
+          icon={<Icon name= {(Number(Platform.Version) >= 17) ? 'arrowshape.up' : 'arrow.up'} />}
           label={t('history.seenOnVote')}
           onChange={(next) => {
             update({

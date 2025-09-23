@@ -1,6 +1,6 @@
 import { type SFSymbol } from 'expo-symbols'
 import { useState } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { Platform, type StyleProp, type ViewStyle } from 'react-native'
 import Animated, {
   runOnJS,
   type SharedValue,
@@ -93,12 +93,12 @@ export const colors: Record<GestureAction, ColorToken> = {
 }
 
 export const icons = {
-  downvote: 'arrowshape.down',
+  downvote: (Number(Platform.Version) >= 17) ? 'arrowshape.down' : 'arrow.down.circle',
   hide: 'eye.slash',
   reply: 'arrowshape.turn.up.backward',
   save: 'bookmark',
   share: 'square.and.arrow.up',
-  upvote: 'arrowshape.up',
+  upvote: (Number(Platform.Version) >= 17) ? 'arrowshape.up' : 'arrow.up.circle',
 } as const satisfies Record<GestureAction, SFSymbol>
 
 export function getIcon(action: GestureAction, data: GestureData): SFSymbol {

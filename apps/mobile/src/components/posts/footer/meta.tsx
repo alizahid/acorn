@@ -1,5 +1,7 @@
 import { useFormatter } from 'use-intl'
+import { Platform } from 'react-native'
 
+import { icons } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Text } from '~/components/common/text'
 import { TimeAgo } from '~/components/common/time'
@@ -20,7 +22,7 @@ export function PostMeta({ post }: Props) {
         : post.liked === false
           ? 'violet'
           : undefined,
-      icon: post.liked === false ? 'arrowshape.down' : 'arrowshape.up',
+      icon: post.liked === false ? icons.downvote : icons.upvote,
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
@@ -35,7 +37,7 @@ export function PostMeta({ post }: Props) {
       }),
     },
     {
-      icon: 'bubble',
+      icon: (Number(Platform.Version) >= 17) ? 'bubble' : 'bubble.right',
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',

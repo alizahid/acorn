@@ -4,6 +4,7 @@ import { Alert, Share } from 'react-native'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
+import { icons } from '~/components/common/gestures/actions'
 import { useCopy } from '~/hooks/copy'
 import { useDownloadImages } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
@@ -57,7 +58,9 @@ export function PostMenu({ children, post }: Props) {
       <Link.Menu>
         <Link.Menu displayAsPalette displayInline>
           <Link.MenuAction
-            icon={post.liked ? 'arrowshape.up.fill' : 'arrowshape.up'}
+            icon={
+              post.liked ? `${icons.upvote}.fill` :  icons.upvote
+            }
             onPress={() => {
               vote({
                 direction: post.liked ? 0 : 1,
@@ -69,7 +72,7 @@ export function PostMenu({ children, post }: Props) {
 
           <Link.MenuAction
             icon={
-              post.liked === false ? 'arrowshape.down.fill' : 'arrowshape.down'
+              post.liked === false ? `${icons.downvote}.fill` :  icons.downvote
             }
             onPress={() => {
               vote({
