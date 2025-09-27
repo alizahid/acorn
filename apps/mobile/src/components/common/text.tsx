@@ -81,7 +81,7 @@ const styles = StyleSheet.create((theme) => ({
     scaling: number,
     height?: number,
   ) => {
-    const fontVariant: Array<FontVariant> = ['no-contextual', 'stylistic-four']
+    const fontVariant: Array<FontVariant> = ['stylistic-four']
 
     if (tabular) {
       fontVariant.push('tabular-nums')

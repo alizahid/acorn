@@ -106,7 +106,7 @@ export function Html({
               color: theme.colors.gray.text,
               fontFamily: fonts[font],
               fontSize: theme.typography[size].fontSize * scaling,
-              fontVariant: ['no-contextual', 'stylistic-four'],
+              fontVariant: ['stylistic-four'],
               lineHeight: theme.typography[size].lineHeight * scaling,
               marginVertical: -(theme.space[3] / 2),
             },
