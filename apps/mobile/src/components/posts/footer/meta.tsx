@@ -1,3 +1,4 @@
+import { type SFSymbol } from 'expo-symbols'
 import { useFormatter } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -20,7 +21,11 @@ export function PostMeta({ post }: Props) {
         : post.liked === false
           ? 'violet'
           : undefined,
-      icon: post.liked === false ? 'arrowshape.down' : 'arrowshape.up',
+      icon: (post.liked
+        ? 'arrowshape.up.fill'
+        : post.liked === false
+          ? 'arrowshape.down.fill'
+          : 'arrowshape.up') satisfies SFSymbol,
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
@@ -28,21 +33,21 @@ export function PostMeta({ post }: Props) {
       weight: post.liked !== null ? 'fill' : undefined,
     },
     {
-      icon: 'face.smiling.inverse',
+      icon: 'face.smiling.inverse' satisfies SFSymbol,
       key: 'ratio',
       label: f.number(post.ratio, {
         style: 'percent',
       }),
     },
     {
-      icon: 'bubble',
+      icon: 'bubble' satisfies SFSymbol,
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'clock',
+      icon: 'clock' satisfies SFSymbol,
       key: 'created',
       label: <TimeAgo>{post.createdAt}</TimeAgo>,
     },

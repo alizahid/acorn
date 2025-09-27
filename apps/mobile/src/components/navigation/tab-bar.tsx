@@ -238,10 +238,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
 }))
 
-const icons: Record<BottomTab, SFSymbol> = {
+const icons = {
   '(home)': 'house',
   '(notifications)': 'bell',
   '(profile)': 'person.crop.circle',
   '(search)': 'magnifyingglass',
   '(settings)': 'gearshape',
-}
+} as const satisfies Record<BottomTab, SFSymbol>

@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router'
+import { type SFSymbol } from 'expo-symbols'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
@@ -21,14 +22,14 @@ export function CrossPostFooter({ post }: Props) {
 
   const footer = [
     {
-      icon: 'arrowshape.up',
+      icon: 'arrowshape.up' satisfies SFSymbol,
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'bubble',
+      icon: 'bubble' satisfies SFSymbol,
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',

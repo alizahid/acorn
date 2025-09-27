@@ -83,14 +83,14 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
   )
 }
 
-export const colors: Record<GestureAction, ColorToken> = {
+export const colors = {
   downvote: 'violet',
   hide: 'red',
   reply: 'blue',
   save: 'green',
   share: 'accent',
   upvote: 'orange',
-}
+} as const satisfies Record<GestureAction, ColorToken>
 
 export const icons = {
   downvote: 'arrowshape.down',

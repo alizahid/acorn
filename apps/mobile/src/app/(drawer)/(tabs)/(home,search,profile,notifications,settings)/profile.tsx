@@ -84,20 +84,20 @@ export default function Screen() {
   )
 }
 
-const icons: Record<UserFeedType, SFSymbol> = {
+const icons = {
   comments: 'bubble',
   downvoted: 'arrowshape.down',
   hidden: 'eye.slash',
   saved: 'bookmark',
   submitted: 'paperplane',
   upvoted: 'arrowshape.up',
-}
+} as const satisfies Record<UserFeedType, SFSymbol>
 
-const colors: Record<UserFeedType, ColorToken> = {
+const colors = {
   comments: 'accent',
   downvoted: 'violet',
   hidden: 'gray',
   saved: 'green',
   submitted: 'accent',
   upvoted: 'orange',
-}
+} as const satisfies Record<UserFeedType, ColorToken>

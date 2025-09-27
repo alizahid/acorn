@@ -48,11 +48,11 @@ export function triggerHaptic(type: keyof Feedback) {
   }
 }
 
-const assets: Record<keyof Feedback, number> = {
+const assets = {
   down: error_06,
   refresh: woosh_09,
   save: woosh_04,
   soft: pop_10,
   undo: click_01,
   up: pop_06,
-} as const
+} as const satisfies Record<keyof Feedback, number>

@@ -126,8 +126,8 @@ const icons = {
   username_mention: 'person',
 } as const satisfies Record<NotificationType, SFSymbol>
 
-const tints: Record<NotificationType, ColorToken> = {
+const tints = {
   comment_reply: 'plum',
   post_reply: 'jade',
   username_mention: 'ruby',
-}
+} as const satisfies Record<NotificationType, ColorToken>
