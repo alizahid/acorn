@@ -59,7 +59,7 @@ export function ListItem({
         <Icon
           name="chevron.right"
           uniProps={(theme) => ({
-            size: theme.typography[size === '2' ? '1' : '2'].lineHeight,
+            size: theme.space[3],
             tintColor: theme.colors.gray.textLow,
           })}
         />
