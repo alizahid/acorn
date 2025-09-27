@@ -5,11 +5,15 @@ import { type TextStyle } from 'react-native'
 import {
   type CustomMixedRenderer,
   type CustomTextualRenderer,
+  type TBlock,
   useContentWidth,
 } from 'react-native-render-html'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { ImageMenu } from '~/components/posts/gallery/menu'
+import { previewImages } from '~/lib/preview'
+
+import { Pressable } from '../pressable'
 
 export const spoiler: CustomTextualRenderer = ({
   TDefaultRenderer,
@@ -32,25 +36,60 @@ export const spoiler: CustomTextualRenderer = ({
   )
 }
 
-export const img: CustomMixedRenderer = ({ tnode }) => {
-  const width = useContentWidth()
+export const Img: CustomMixedRenderer = ({ tnode }) => {
+  const maxWidth = useContentWidth()
 
-  const uri = tnode.attributes.src as string
+  const url = tnode.attributes.src as string
+
+  const height = Number(tnode.attributes.height)
+  const width = Number(tnode.attributes.width)
 
   return (
-    <ImageMenu url={uri}>
-      <Image
-        source={uri}
-        style={styles.image(width, {
-          height: Number(tnode.attributes.height),
-          width: Number(tnode.attributes.width),
+    <ImageMenu url={url}>
+      <Pressable
+        onPress={() => {
+          previewImages([
+            {
+              height,
+              type: 'image',
+              url,
+              width,
+            },
+          ])
+        }}
+        style={styles.image(maxWidth, {
+          height,
+          width,
         })}
-      />
+      >
+        <Image source={url} style={styles.full} />
+      </Pressable>
     </ImageMenu>
   )
 }
 
+export const a: CustomMixedRenderer = ({
+  TDefaultRenderer,
+  tnode,
+  ...props
+}) => {
+  if (tnode.children[0]?.tagName === 'img') {
+    return (
+      <Img
+        TDefaultRenderer={TDefaultRenderer}
+        {...props}
+        tnode={tnode.children[0] as TBlock}
+      />
+    )
+  }
+
+  return <TDefaultRenderer tnode={tnode} {...props} />
+}
+
 const styles = StyleSheet.create((theme) => ({
+  full: {
+    flex: 1,
+  },
   image: (
     maxWidth: number,
     dimensions: {
@@ -58,18 +97,18 @@ const styles = StyleSheet.create((theme) => ({
       width: number
     },
   ) => {
-    if (dimensions.width <= maxWidth) {
+    if (dimensions.width > maxWidth) {
+      const scale = maxWidth / dimensions.width
+
       return {
-        height: dimensions.height,
-        width: dimensions.width,
+        height: Math.round(dimensions.height * scale),
+        width: maxWidth,
       }
     }
 
-    const scale = maxWidth / dimensions.width
-
     return {
-      height: Math.round(dimensions.height * scale),
-      width: maxWidth,
+      height: dimensions.height,
+      width: dimensions.width,
     }
   },
   spoiler: (visible: boolean) => ({
@@ -81,6 +120,7 @@ const styles = StyleSheet.create((theme) => ({
 
 export const renderers = {
   ...table,
-  img,
+  a,
+  img: Img,
   spoiler,
 }
