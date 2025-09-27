@@ -1,5 +1,5 @@
 import { type ReactNode } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
@@ -7,6 +7,7 @@ import { Text } from '~/components/common/text'
 
 type Props = {
   label: string
+  labelStyle?: StyleProp<TextStyle>
   left?: ReactNode
   onPress?: () => void
   right?: ReactNode
@@ -14,7 +15,15 @@ type Props = {
   style?: StyleProp<ViewStyle>
 }
 
-export function Item({ label, left, onPress, right, selected, style }: Props) {
+export function Item({
+  label,
+  labelStyle,
+  left,
+  onPress,
+  right,
+  selected,
+  style,
+}: Props) {
   styles.useVariants({
     selected,
   })
@@ -33,7 +42,11 @@ export function Item({ label, left, onPress, right, selected, style }: Props) {
     >
       {left}
 
-      <Text numberOfLines={1} style={styles.label} weight="medium">
+      <Text
+        numberOfLines={1}
+        style={[styles.label, labelStyle]}
+        weight="medium"
+      >
         {label}
       </Text>
 

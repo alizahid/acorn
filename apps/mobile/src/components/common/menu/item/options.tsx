@@ -105,6 +105,7 @@ export function MenuItemOptions<Type extends string | number>({
             <Sheet.Item
               key={option.value}
               label={option.label}
+              labelStyle={option.labelStyle}
               left={option.icon ?? option.left}
               onPress={() => {
                 onChange(option.value)
