@@ -94,7 +94,7 @@ export default function Screen() {
         <Menu.Button
           icon={
             <Icon
-              name="triangle"
+              name="arrow.up.arrow.down"
               uniProps={(theme) => ({
                 tintColor: theme.colors.red.accent,
               })}

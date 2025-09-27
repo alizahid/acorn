@@ -2,7 +2,7 @@ import { ScrollView } from 'react-native'
 import { useTranslations } from 'use-intl'
 
 import { type GestureAction } from '~/components/common/gestures'
-import { icons } from '~/components/common/gestures/actions'
+import { GestureIcons } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { type MenuItemOption } from '~/components/common/menu/item/options'
@@ -35,7 +35,7 @@ export default function Screen() {
       label: t('options.upvote'),
       right: (
         <Icon
-          name={icons.upvote}
+          name={GestureIcons.upvote}
           uniProps={(theme) => ({
             tintColor: theme.colors.orange.accent,
           })}
@@ -47,7 +47,7 @@ export default function Screen() {
       label: t('options.downvote'),
       right: (
         <Icon
-          name={icons.downvote}
+          name={GestureIcons.downvote}
           uniProps={(theme) => ({
             tintColor: theme.colors.violet.accent,
           })}
@@ -59,7 +59,7 @@ export default function Screen() {
       label: t('options.reply'),
       right: (
         <Icon
-          name={icons.reply}
+          name={GestureIcons.reply}
           uniProps={(theme) => ({
             tintColor: theme.colors.blue.accent,
           })}
@@ -71,7 +71,7 @@ export default function Screen() {
       label: t('options.save'),
       right: (
         <Icon
-          name={icons.save}
+          name={GestureIcons.save}
           uniProps={(theme) => ({
             tintColor: theme.colors.green.accent,
           })}
@@ -83,7 +83,7 @@ export default function Screen() {
       label: t('options.hide'),
       right: (
         <Icon
-          name={icons.hide}
+          name={GestureIcons.hide}
           uniProps={(theme) => ({
             tintColor: theme.colors.red.accent,
           })}
@@ -95,7 +95,7 @@ export default function Screen() {
       label: t('options.share'),
       right: (
         <Icon
-          name={icons.share}
+          name={GestureIcons.share}
           uniProps={(theme) => ({
             tintColor: theme.colors.accent.accent,
           })}

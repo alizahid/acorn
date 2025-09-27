@@ -91,7 +91,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="rainbow" />}
+          icon={<Icon name="paintpalette" />}
           label={t('preferences.colorfulComments')}
           onChange={(next) => {
             update({
@@ -106,7 +106,7 @@ export default function Screen() {
         <Menu.Label>{t('compact.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="list.bullet.rectangle" />}
+          icon={<Icon name="rectangle.split.1x2" />}
           label={t('compact.feedCompact')}
           onChange={(next) => {
             update({
@@ -117,7 +117,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="widget.large" />}
+          icon={<Icon name="mosaic" />}
           label={t('compact.largeThumbnails')}
           onChange={(next) => {
             update({

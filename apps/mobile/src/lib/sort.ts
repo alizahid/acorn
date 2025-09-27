@@ -4,16 +4,16 @@ import { type ColorToken } from '~/styles/tokens'
 import { type FeedType, type PostSort, type TopInterval } from '~/types/sort'
 
 export const SortIcons = {
-  best: 'medal',
-  comments: 'bubble.left',
-  confidence: 'medal',
-  controversial: 'star',
-  hot: 'flame',
-  new: 'clock',
-  old: 'shippingbox',
+  best: 'medal.fill',
+  comments: 'bubble.left.fill',
+  confidence: 'medal.fill',
+  controversial: 'star.fill',
+  hot: 'flame.fill',
+  new: 'clock.fill',
+  old: 'shippingbox.fill',
   relevance: 'target',
   rising: 'chart.line.uptrend.xyaxis',
-  top: '1.circle',
+  top: '1.circle.fill',
 } as const satisfies Record<PostSort, SFSymbol>
 
 export const SortColors = {

@@ -42,7 +42,7 @@ export function SortItem<Type extends PostSort>({
 
   return (
     <Menu.Options<Type>
-      icon={<Icon name="triangle" />}
+      icon={<Icon name="arrow.up.arrow.down" />}
       label={label}
       onChange={onChange}
       options={items.map((item) => ({

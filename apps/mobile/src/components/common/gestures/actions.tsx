@@ -30,11 +30,11 @@ type Props = {
 export function Actions({ action, data, long, progress, short, style }: Props) {
   const { theme } = useUnistyles()
 
-  const [icon, setIcon] = useState<SFSymbol>(icons[short])
+  const [icon, setIcon] = useState<SFSymbol>(GestureIcons[short])
 
   const background = useAnimatedStyle(() => {
     const color =
-      colors[progress.get() > swipeActionThreshold.long ? long : short]
+      GestureColors[progress.get() > swipeActionThreshold.long ? long : short]
 
     return {
       backgroundColor: theme.colors[color].accent,
@@ -84,7 +84,7 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
   )
 }
 
-export const colors = {
+export const GestureColors = {
   downvote: 'violet',
   hide: 'red',
   reply: 'blue',
@@ -93,7 +93,7 @@ export const colors = {
   upvote: 'orange',
 } as const satisfies Record<GestureAction, ColorToken>
 
-export const icons = {
+export const GestureIcons = {
   downvote: getIcon('downvote'),
   hide: 'eye.slash',
   reply: 'arrowshape.turn.up.backward',
@@ -102,27 +102,26 @@ export const icons = {
   upvote: getIcon('upvote'),
 } as const satisfies Record<GestureAction, SFSymbol>
 
-export function getNextIcon(
-  action: GestureAction,
-  data: GestureData,
-): SFSymbol {
+function getNextIcon(action: GestureAction, data: GestureData): SFSymbol {
   'worklet'
 
   if (action === 'upvote') {
-    return data.liked ? icons.upvote : `${icons.upvote}.fill`
+    return data.liked ? GestureIcons.upvote : `${GestureIcons.upvote}.fill`
   }
 
   if (action === 'downvote') {
-    return data.liked === false ? icons.downvote : `${icons.downvote}.fill`
+    return data.liked === false
+      ? GestureIcons.downvote
+      : `${GestureIcons.downvote}.fill`
   }
 
   if (action === 'save') {
-    return data.saved ? icons.save : `${icons.save}.fill`
+    return data.saved ? GestureIcons.save : `${GestureIcons.save}.fill`
   }
 
   if (action === 'hide') {
-    return data.hidden ? icons.hide : `${icons.hide}.fill`
+    return data.hidden ? GestureIcons.hide : `${GestureIcons.hide}.fill`
   }
 
-  return `${icons[action]}.fill`
+  return `${GestureIcons[action]}.fill`
 }

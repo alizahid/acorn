@@ -44,7 +44,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="paintpalette" />}
+          icon={<Icon name="swatchpalette" />}
           label={t('appearance')}
           onPress={() => {
             router.push({
@@ -77,7 +77,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="triangle" />}
+          icon={<Icon name="arrow.up.arrow.down" />}
           label={t('sort')}
           onPress={() => {
             router.push({

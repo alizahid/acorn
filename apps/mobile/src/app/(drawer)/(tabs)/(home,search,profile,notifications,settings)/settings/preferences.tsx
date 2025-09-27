@@ -375,7 +375,7 @@ export default function Screen() {
 
         <Menu.Switch
           description={t('history.seenOnScroll.description')}
-          icon={<Icon name="iphone" />}
+          icon={<Icon name="arrow.up.and.down" />}
           label={t('history.seenOnScroll.label')}
           onChange={(next) => {
             update({

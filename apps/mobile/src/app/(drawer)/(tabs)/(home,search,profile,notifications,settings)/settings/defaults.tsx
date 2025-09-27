@@ -182,7 +182,7 @@ const styles = StyleSheet.create((theme) => ({
     paddingTop: theme.space[1],
   },
   list: {
-    backgroundColor: theme.colors.gray.uiAlpha,
+    backgroundColor: theme.colors.gray.bgAltAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     flexGrow: 0,
