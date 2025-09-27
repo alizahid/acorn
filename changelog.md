@@ -2,8 +2,10 @@
 
 ## Upcoming
 
+- added: comment image gallery
 - added: video downloads
 - fixed: editing comments
+- removed: shared video instances
 
 ## Build 61
 
