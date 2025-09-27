@@ -14,7 +14,7 @@ export const iPad =
 
 export const iOS = Number(Platform.Version)
 
-export const isGlass = iOS > 26
+export const isGlass = iOS >= 26
 
 export const swipeActionThreshold = {
   long: iPad ? 0.2 : 0.4,
