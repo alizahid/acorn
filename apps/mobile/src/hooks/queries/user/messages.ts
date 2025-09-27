@@ -78,7 +78,7 @@ export function useMessages(id: string) {
 
     return Object.entries(groups).flatMap(([day, items]) => [
       setDayOfYear(new Date(), Number(day)),
-      ...orderBy(items, 'createdAt', 'desc'),
+      ...orderBy(items, 'createdAt', 'asc'),
     ])
   }, [data])
 
