@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- added: video downloads
+
 ## Build 61
 
 - added: fullscreen swipe gesture option

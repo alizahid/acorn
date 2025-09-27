@@ -8,18 +8,16 @@ import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
-import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
 import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from '../gallery/blur'
+import { VideoMenu } from './menu'
 import { VideoStatus } from './status'
 
 type Props = {
-  compact?: boolean
-  large?: boolean
   nsfw?: boolean
   recyclingKey?: string
   spoiler?: boolean
@@ -30,8 +28,6 @@ type Props = {
 }
 
 export function VideoPlayer({
-  compact,
-  large,
   nsfw,
   recyclingKey,
   spoiler,
@@ -53,10 +49,6 @@ export function VideoPlayer({
     unmuteFullscreen,
   } = usePreferences()
   const { addPost } = useHistory()
-
-  styles.useVariants({
-    large,
-  })
 
   const ref = useRef<VideoView>(null)
 
@@ -99,8 +91,8 @@ export function VideoPlayer({
     }
   }, [autoPlay, player])
 
-  if (compact) {
-    return (
+  return (
+    <VideoMenu url={video.url}>
       <Pressable
         accessibilityLabel={a11y('viewVideo')}
         onPress={() => {
@@ -112,17 +104,14 @@ export function VideoPlayer({
             })
           }
         }}
-        style={styles.compact}
+        style={[styles.main, style]}
       >
         <Image
           accessibilityIgnoresInvertColors
+          pointerEvents="none"
           source={thumbnail ?? video.thumbnail}
-          style={styles.compactImage}
+          style={styles.thumbnail}
         />
-
-        <View align="center" justify="center" style={styles.compactIcon}>
-          <Icon name="play.fill" />
-        </View>
 
         <VideoView
           accessibilityIgnoresInvertColors
@@ -134,116 +123,39 @@ export function VideoPlayer({
           onFullscreenEnter={onFullscreenEnter}
           onFullscreenExit={onFullscreenExit}
           player={player}
-          pointerEvents="none"
           ref={ref}
-          style={styles.compactVideo}
+          style={styles.video(video.width / video.height)}
         />
 
+        <VideoStatus player={player} />
+
         {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
-          <GalleryBlur />
-        ) : null}
+          <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+        ) : (
+          <Pressable
+            accessibilityLabel={a11y(muted ? 'unmute' : 'mute')}
+            hitSlop={space[2]}
+            onPress={() => {
+              player.muted = !muted
+            }}
+            p="2"
+            style={styles.volume}
+          >
+            <Icon
+              name={muted ? 'speaker.slash' : 'speaker.2'}
+              uniProps={(theme) => ({
+                size: theme.space[4],
+                tintColor: theme.colors.gray.contrast,
+              })}
+            />
+          </Pressable>
+        )}
       </Pressable>
-    )
-  }
-
-  return (
-    <Pressable
-      accessibilityLabel={a11y('viewVideo')}
-      onPress={() => {
-        ref.current?.enterFullscreen()
-
-        if (recyclingKey && seenOnMedia) {
-          addPost({
-            id: recyclingKey,
-          })
-        }
-      }}
-      style={[styles.main, style]}
-    >
-      <Image
-        accessibilityIgnoresInvertColors
-        source={thumbnail ?? video.thumbnail}
-        style={styles.thumbnail}
-      />
-
-      <VideoView
-        accessibilityIgnoresInvertColors
-        allowsPictureInPicture={pictureInPicture}
-        contentFit="cover"
-        fullscreenOptions={{
-          enable: false,
-        }}
-        onFullscreenEnter={onFullscreenEnter}
-        onFullscreenExit={onFullscreenExit}
-        player={player}
-        ref={ref}
-        style={styles.video(video.width / video.height)}
-      />
-
-      <VideoStatus player={player} />
-
-      {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
-        <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
-      ) : (
-        <Pressable
-          accessibilityLabel={a11y(muted ? 'unmute' : 'mute')}
-          hitSlop={space[2]}
-          onPress={() => {
-            player.muted = !muted
-          }}
-          p="2"
-          style={styles.volume}
-        >
-          <Icon
-            name={muted ? 'speaker.slash' : 'speaker.2'}
-            uniProps={(theme) => ({
-              size: theme.space[4],
-              tintColor: theme.colors.gray.contrast,
-            })}
-          />
-        </Pressable>
-      )}
-    </Pressable>
+    </VideoMenu>
   )
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  blur: {
-    ...StyleSheet.absoluteFillObject,
-    alignItems: 'center',
-    gap: theme.space[4],
-    justifyContent: 'center',
-  },
-  compact: {
-    backgroundColor: theme.colors.gray.uiActive,
-    borderCurve: 'continuous',
-    overflow: 'hidden',
-    variants: {
-      large: {
-        false: {
-          borderRadius: theme.space[1],
-          height: theme.space[8],
-          width: theme.space[8],
-        },
-        true: {
-          borderRadius: theme.space[2],
-          height: theme.space[8] * 2,
-          width: theme.space[8] * 2,
-        },
-      },
-    },
-  },
-  compactIcon: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.black.accentAlpha,
-  },
-  compactImage: {
-    flex: 1,
-  },
-  compactVideo: {
-    ...StyleSheet.absoluteFillObject,
-    opacity: 0,
-  },
   main: {
     justifyContent: 'center',
     maxHeight: runtime.screen.height * 0.6,

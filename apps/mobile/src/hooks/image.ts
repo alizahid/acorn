@@ -265,7 +265,7 @@ export function useShareImage() {
   }
 }
 
-async function getAlbum() {
+export async function getAlbum() {
   const name = 'Acorn'
 
   const exists = await MediaLibrary.getAlbumAsync(name)

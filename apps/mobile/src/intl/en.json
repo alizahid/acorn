@@ -746,6 +746,10 @@
     "users": {
       "followed": "Followed {user}",
       "unfollowed": "Unfollowed {user}"
+    },
+    "video": {
+      "downloaded": "Video downloaded",
+      "downloading": "Downloading video"
     }
   }
 }

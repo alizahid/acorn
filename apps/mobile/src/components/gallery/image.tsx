@@ -27,6 +27,7 @@ export function GalleryImage({ item }: Props) {
           <Image
             accessibilityIgnoresInvertColors
             priority="high"
+            recyclingKey={item.url}
             source={item.url}
             style={styles.image}
           />

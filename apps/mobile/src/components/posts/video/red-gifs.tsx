@@ -54,8 +54,6 @@ export function RedGifsVideo({
       >
         {!compact && visible ? (
           <VideoPlayer
-            compact={compact}
-            large={large}
             nsfw={nsfw}
             recyclingKey={recyclingKey}
             spoiler={spoiler}

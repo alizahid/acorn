@@ -67,6 +67,7 @@
     "expo-updates": "~29.0.11",
     "expo-video": "~3.0.11",
     "expo-web-browser": "~15.0.7",
+    "ffmpeg-kit-react-native": "^6.0.2",
     "fuzzysort": "^3.1.0",
     "lodash": "^4.17.21",
     "mitt": "^3.0.1",

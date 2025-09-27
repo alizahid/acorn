@@ -5,6 +5,7 @@ import { useRef } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { useDownloadVideo } from '~/hooks/video'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -40,6 +41,8 @@ export function GalleryVideo({ item }: Props) {
     muted: player.muted,
   })
 
+  const download = useDownloadVideo()
+
   return (
     <View style={styles.main}>
       <View style={styles.item(item.width, item.height)}>
@@ -60,6 +63,18 @@ export function GalleryVideo({ item }: Props) {
       </View>
 
       <View direction="row" justify="center" px="2" style={styles.controls}>
+        <IconButton
+          icon="square.and.arrow.down"
+          label={a11y('download')}
+          loading={download.isPending}
+          onPress={() => {
+            download.download({
+              url: item.url,
+            })
+          }}
+          weight="bold"
+        />
+
         <IconButton
           icon="10.arrow.trianglehead.counterclockwise"
           label={a11y('rewind')}

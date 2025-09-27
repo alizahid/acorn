@@ -135,6 +135,12 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
 
   return withBuildProperties(config, {
     ios: {
+      extraPods: [
+        {
+          name: 'ffmpeg-kit-ios-full-gpl',
+          podspec: 'https://acorn.blue/ffmpeg-kit-ios-full-gpl.podspec',
+        },
+      ],
       useFrameworks: 'static',
     },
   })

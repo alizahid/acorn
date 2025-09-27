@@ -1,0 +1,13 @@
+diff --git a/ffmpeg-kit-react-native.podspec b/ffmpeg-kit-react-native.podspec
+index 889d3e8f308f94a338869afedc8c25d8b1ebb53a..a265d7a074054a1b3f66f43117f8db561f05a589 100644
+--- a/ffmpeg-kit-react-native.podspec
++++ b/ffmpeg-kit-react-native.podspec
+@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
+ 
+   s.source       = { :git => "https://github.com/arthenica/ffmpeg-kit.git", :tag => "react.native.v#{s.version}" }
+ 
+-  s.default_subspec   = 'https'
++  s.default_subspec   = 'full-gpl'
+ 
+   s.dependency "React-Core"
+ 
