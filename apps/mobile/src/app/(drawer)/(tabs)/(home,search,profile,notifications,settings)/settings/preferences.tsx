@@ -7,6 +7,7 @@ import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
 import { useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
+import { getIcon } from '~/lib/icons'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 
 export default function Screen() {
@@ -231,7 +232,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="arrowshape.up" />}
+          icon={<Icon name={getIcon('upvote')} />}
           label={t('posts.upvoteOnSave')}
           onChange={(next) => {
             update({
@@ -351,7 +352,7 @@ export default function Screen() {
         <Menu.Label>{t('history.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="arrowshape.up" />}
+          icon={<Icon name={getIcon('upvote')} />}
           label={t('history.seenOnVote')}
           onChange={(next) => {
             update({

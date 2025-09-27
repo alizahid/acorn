@@ -12,6 +12,7 @@ import { useCommentRemove } from '~/hooks/mutations/comments/remove'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { htmlToMarkdown } from '~/lib/editor'
+import { getIcon } from '~/lib/icons'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
@@ -57,7 +58,7 @@ export function CommentMenu({ children, comment }: Props) {
       <Link.Menu>
         <Link.Menu displayAsPalette displayInline>
           <Link.MenuAction
-            icon={comment.liked ? 'arrowshape.up.fill' : 'arrowshape.up'}
+            icon={getIcon(comment.liked ? 'upvote.fill' : 'upvote')}
             onPress={() => {
               vote({
                 commentId: comment.id,
@@ -69,11 +70,9 @@ export function CommentMenu({ children, comment }: Props) {
           />
 
           <Link.MenuAction
-            icon={
-              comment.liked === false
-                ? 'arrowshape.down.fill'
-                : 'arrowshape.down'
-            }
+            icon={getIcon(
+              comment.liked === false ? 'downvote.fill' : 'downvote',
+            )}
             onPress={() => {
               vote({
                 commentId: comment.id,

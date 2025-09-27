@@ -6,6 +6,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useDownloadVideo } from '~/hooks/video'
+import { getIcon } from '~/lib/icons'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -76,7 +77,7 @@ export function GalleryVideo({ item }: Props) {
         />
 
         <IconButton
-          icon="10.arrow.trianglehead.counterclockwise"
+          icon={getIcon('minus10')}
           label={a11y('rewind')}
           onPress={() => {
             player.seekBy(-10)
@@ -97,7 +98,7 @@ export function GalleryVideo({ item }: Props) {
         />
 
         <IconButton
-          icon="10.arrow.trianglehead.clockwise"
+          icon={getIcon('plus10')}
           label={a11y('fastForward')}
           onPress={() => {
             player.seekBy(10)

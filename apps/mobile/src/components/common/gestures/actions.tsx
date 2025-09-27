@@ -12,6 +12,7 @@ import { useUnistyles } from 'react-native-unistyles'
 import { Icon } from '~/components/common/icon'
 import { swipeActionThreshold } from '~/lib/common'
 import { triggerFeedback } from '~/lib/feedback'
+import { getIcon } from '~/lib/icons'
 import { type ColorToken } from '~/styles/tokens'
 import { type Undefined } from '~/types'
 
@@ -60,7 +61,7 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
 
       action.set(() => nextAction)
 
-      const next = getIcon(nextAction ?? short, data)
+      const next = getNextIcon(nextAction ?? short, data)
 
       if (next !== icon) {
         runOnJS(setIcon)(next)
@@ -93,15 +94,18 @@ export const colors = {
 } as const satisfies Record<GestureAction, ColorToken>
 
 export const icons = {
-  downvote: 'arrowshape.down',
+  downvote: getIcon('downvote'),
   hide: 'eye.slash',
   reply: 'arrowshape.turn.up.backward',
   save: 'bookmark',
   share: 'square.and.arrow.up',
-  upvote: 'arrowshape.up',
+  upvote: getIcon('upvote'),
 } as const satisfies Record<GestureAction, SFSymbol>
 
-export function getIcon(action: GestureAction, data: GestureData): SFSymbol {
+export function getNextIcon(
+  action: GestureAction,
+  data: GestureData,
+): SFSymbol {
   'worklet'
 
   if (action === 'upvote') {

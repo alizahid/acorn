@@ -10,6 +10,7 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { ProfileCard } from '~/components/users/profile'
 import { useList } from '~/hooks/list'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { getIcon } from '~/lib/icons'
 import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 import { type ColorToken } from '~/styles/tokens'
@@ -85,12 +86,12 @@ export default function Screen() {
 }
 
 const icons = {
-  comments: 'bubble',
-  downvoted: 'arrowshape.down',
+  comments: 'bubble.left',
+  downvoted: getIcon('downvote'),
   hidden: 'eye.slash',
   saved: 'bookmark',
   submitted: 'paperplane',
-  upvoted: 'arrowshape.up',
+  upvoted: getIcon('upvote'),
 } as const satisfies Record<UserFeedType, SFSymbol>
 
 const colors = {

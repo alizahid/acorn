@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
+import { getIcon } from '~/lib/icons'
 import { removePrefix } from '~/lib/reddit'
 import { space } from '~/styles/tokens'
 import { type CommentReply } from '~/types/comment'
@@ -127,7 +128,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         <FooterButton
           color={comment.liked === true ? 'orange' : undefined}
           compact
-          icon={comment.liked === true ? 'arrowshape.up.fill' : 'arrowshape.up'}
+          icon={getIcon(comment.liked === true ? 'upvote.fill' : 'upvote')}
           label={a11y(comment.liked ? 'removeUpvote' : 'upvote')}
           onPress={() => {
             vote({
@@ -147,9 +148,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         <FooterButton
           color={comment.liked === false ? 'violet' : undefined}
           compact
-          icon={
-            comment.liked === false ? 'arrowshape.down.fill' : 'arrowshape.down'
-          }
+          icon={getIcon(comment.liked === false ? 'downvote.fill' : 'downvote')}
           label={a11y(comment.liked === false ? 'removeDownvote' : 'downvote')}
           onPress={() => {
             vote({

@@ -261,7 +261,7 @@ export default function Screen() {
       {replyPost && post ? (
         <FloatingButton
           color="blue"
-          icon="arrowshape.turn.up.backward"
+          icon="arrowshape.turn.up.backward.fill"
           label={a11y('createComment')}
           onPress={() => {
             router.push({

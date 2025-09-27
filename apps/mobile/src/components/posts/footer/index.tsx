@@ -3,6 +3,7 @@ import { useTranslations } from 'use-intl'
 
 import { View } from '~/components/common/view'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
+import { getIcon } from '~/lib/icons'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -44,7 +45,7 @@ export function PostFooter({ community = true, post, style }: Props) {
           <FooterButton
             color={post.liked === true ? 'orange' : undefined}
             fill={post.liked === true}
-            icon="arrowshape.up.fill"
+            icon={getIcon('upvote.fill')}
             label={a11y(post.liked ? 'removeUpvote' : 'upvote')}
             onPress={() => {
               vote({
@@ -57,7 +58,7 @@ export function PostFooter({ community = true, post, style }: Props) {
           <FooterButton
             color={post.liked === false ? 'violet' : undefined}
             fill={post.liked === false}
-            icon="arrowshape.down.fill"
+            icon={getIcon('downvote.fill')}
             label={a11y(post.liked === false ? 'removeDownvote' : 'downvote')}
             onPress={() => {
               vote({

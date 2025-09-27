@@ -13,6 +13,7 @@ import { usePostRemove } from '~/hooks/mutations/posts/remove'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { htmlToMarkdown } from '~/lib/editor'
+import { getIcon } from '~/lib/icons'
 import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
@@ -57,7 +58,7 @@ export function PostMenu({ children, post }: Props) {
       <Link.Menu>
         <Link.Menu displayAsPalette displayInline>
           <Link.MenuAction
-            icon={post.liked ? 'arrowshape.up.fill' : 'arrowshape.up'}
+            icon={getIcon(post.liked ? 'upvote.fill' : 'upvote')}
             onPress={() => {
               vote({
                 direction: post.liked ? 0 : 1,
@@ -68,9 +69,7 @@ export function PostMenu({ children, post }: Props) {
           />
 
           <Link.MenuAction
-            icon={
-              post.liked === false ? 'arrowshape.down.fill' : 'arrowshape.down'
-            }
+            icon={getIcon(post.liked === false ? 'downvote.fill' : 'downvote')}
             onPress={() => {
               vote({
                 direction: post.liked === false ? 0 : -1,

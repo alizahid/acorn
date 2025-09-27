@@ -5,7 +5,7 @@ import { type FeedType, type PostSort, type TopInterval } from '~/types/sort'
 
 export const SortIcons = {
   best: 'medal',
-  comments: 'bubble',
+  comments: 'bubble.left',
   confidence: 'medal',
   controversial: 'star',
   hot: 'flame',

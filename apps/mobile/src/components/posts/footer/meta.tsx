@@ -5,6 +5,7 @@ import { Icon } from '~/components/common/icon'
 import { Text } from '~/components/common/text'
 import { TimeAgo } from '~/components/common/time'
 import { View } from '~/components/common/view'
+import { getIcon } from '~/lib/icons'
 import { type Post } from '~/types/post'
 
 type Props = {
@@ -21,11 +22,13 @@ export function PostMeta({ post }: Props) {
         : post.liked === false
           ? 'violet'
           : undefined,
-      icon: (post.liked
-        ? 'arrowshape.up.fill'
-        : post.liked === false
-          ? 'arrowshape.down.fill'
-          : 'arrowshape.up') satisfies SFSymbol,
+      icon: getIcon(
+        post.liked
+          ? 'upvote.fill'
+          : post.liked === false
+            ? 'downvote.fill'
+            : 'upvote',
+      ) satisfies SFSymbol,
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
@@ -40,7 +43,7 @@ export function PostMeta({ post }: Props) {
       }),
     },
     {
-      icon: 'bubble' satisfies SFSymbol,
+      icon: 'bubble.left' satisfies SFSymbol,
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',

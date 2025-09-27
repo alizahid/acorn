@@ -121,7 +121,7 @@ const styles = StyleSheet.create((theme) => ({
 }))
 
 const icons = {
-  comment_reply: 'bubble',
+  comment_reply: 'bubble.left',
   post_reply: 'arrowshape.turn.up.backward',
   username_mention: 'person',
 } as const satisfies Record<NotificationType, SFSymbol>

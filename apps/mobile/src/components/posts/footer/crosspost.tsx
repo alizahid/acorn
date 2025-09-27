@@ -7,6 +7,7 @@ import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
+import { getIcon } from '~/lib/icons'
 import { space } from '~/styles/tokens'
 import { type Post } from '~/types/post'
 
@@ -22,14 +23,20 @@ export function CrossPostFooter({ post }: Props) {
 
   const footer = [
     {
-      icon: 'arrowshape.up' satisfies SFSymbol,
+      icon: getIcon(
+        post.liked
+          ? 'upvote.fill'
+          : post.liked === false
+            ? 'downvote.fill'
+            : 'upvote',
+      ) satisfies SFSymbol,
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'bubble' satisfies SFSymbol,
+      icon: 'bubble.left' satisfies SFSymbol,
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
