@@ -4,7 +4,11 @@
 
 - added: comment image gallery
 - added: video downloads
+- changed: feed icons
 - fixed: editing comments
+- fixed: high contrast text
+- fixed: icons for older iOS versions
+- fixed: status bar color for modal screens on iOS 26
 - removed: shared video instances
 
 ## Build 61
