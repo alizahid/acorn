@@ -1,7 +1,7 @@
 import { useEvent } from 'expo'
 import { Image } from 'expo-image'
 import { useVideoPlayer, VideoView } from 'expo-video'
-import { useCallback, useEffect, useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -76,28 +76,6 @@ export function VideoPlayer({
     muted: feedMuted,
   })
 
-  useEffect(() => {
-    if (viewing && autoPlay) {
-      player.play()
-    } else {
-      player.pause()
-    }
-  }, [autoPlay, player, viewing])
-
-  const onFullscreenEnter = useCallback(() => {
-    player.play()
-
-    if (unmuteFullscreen && muted) {
-      player.muted = false
-    }
-  }, [muted, player, unmuteFullscreen])
-
-  const onFullscreenExit = useCallback(() => {
-    if (!autoPlay) {
-      player.pause()
-    }
-  }, [autoPlay, player])
-
   return (
     <VideoMenu url={video.url}>
       <Pressable
@@ -127,8 +105,18 @@ export function VideoPlayer({
           fullscreenOptions={{
             enable: false,
           }}
-          onFullscreenEnter={onFullscreenEnter}
-          onFullscreenExit={onFullscreenExit}
+          onFullscreenEnter={() => {
+            player.play()
+
+            if (unmuteFullscreen && muted) {
+              player.muted = false
+            }
+          }}
+          onFullscreenExit={() => {
+            if (!autoPlay) {
+              player.pause()
+            }
+          }}
           player={player}
           ref={ref}
           style={styles.video(video.width / video.height)}
