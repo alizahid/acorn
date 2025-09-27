@@ -39,13 +39,13 @@ export const IntervalIcons = {
 } as const satisfies Record<TopInterval, SFSymbol>
 
 export const FeedTypeIcons = {
-  all: 'balloon',
+  all: 'infinity',
   home: 'house',
   popular: 'chart.line.uptrend.xyaxis',
 } as const satisfies Record<FeedType, SFSymbol>
 
 export const FeedTypeColors = {
   all: 'green',
-  home: 'accent',
+  home: 'blue',
   popular: 'red',
 } as const satisfies Record<FeedType, ColorToken>
