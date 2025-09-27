@@ -19,7 +19,7 @@ export function Text({
   children,
   color = 'gray',
   contrast,
-  highContrast,
+  highContrast = color === 'gray',
   style,
   ...props
 }: Props) {
