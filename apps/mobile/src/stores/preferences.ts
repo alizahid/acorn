@@ -21,7 +21,6 @@ import {
 export const PREFERENCES_KEY = 'preferences-storage'
 
 export type PreferencesPayload = {
-  _experimental_video: boolean
   autoPlay: boolean
   blurNavigation: boolean
   blurNsfw: boolean
@@ -92,7 +91,6 @@ type State = PreferencesPayload & {
 export const usePreferences = create<State>()(
   persist(
     (set) => ({
-      _experimental_video: false,
       autoPlay: true,
       blurNavigation: true,
       blurNsfw: true,
