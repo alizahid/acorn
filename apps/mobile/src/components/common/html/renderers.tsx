@@ -11,6 +11,7 @@ import {
 import { StyleSheet } from 'react-native-unistyles'
 
 import { ImageMenu } from '~/components/posts/gallery/menu'
+import { useLink } from '~/hooks/link'
 import { previewImages } from '~/lib/preview'
 
 import { Pressable } from '../pressable'
@@ -73,6 +74,8 @@ export const a: CustomMixedRenderer = ({
   tnode,
   ...props
 }) => {
+  const { handleLink } = useLink()
+
   if (tnode.children[0]?.tagName === 'img') {
     return (
       <Img
@@ -83,7 +86,17 @@ export const a: CustomMixedRenderer = ({
     )
   }
 
-  return <TDefaultRenderer tnode={tnode} {...props} />
+  return (
+    <TDefaultRenderer
+      tnode={tnode}
+      {...props}
+      onPress={() => {
+        if (typeof tnode.attributes.href === 'string') {
+          handleLink(tnode.attributes.href)
+        }
+      }}
+    />
+  )
 }
 
 const styles = StyleSheet.create((theme) => ({

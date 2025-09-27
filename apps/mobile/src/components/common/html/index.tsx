@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native-unistyles'
 
 import { RenderHtml } from '~/components/native/html'
 import { type ContentWidthType, useContentWidth } from '~/hooks/content-width'
-import { useLink } from '~/hooks/link'
 import { fonts } from '~/lib/fonts'
 import { mergeHtmlMeta } from '~/lib/html'
 import { usePreferences } from '~/stores/preferences'
@@ -31,8 +30,6 @@ export function Html({
 }: Props) {
   const { fontScaling, font, systemScaling } = usePreferences()
 
-  const { handleLink } = useLink()
-
   const width = useContentWidth({
     depth,
     type,
@@ -57,11 +54,6 @@ export function Html({
 
         return {
           renderersProps: {
-            a: {
-              onPress(_event, href) {
-                handleLink(href)
-              },
-            },
             ol: {
               enableRemoveBottomMarginIfNested: false,
               enableRemoveTopMarginIfNested: false,
