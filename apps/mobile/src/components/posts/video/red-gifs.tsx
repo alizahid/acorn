@@ -1,4 +1,3 @@
-import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Spinner } from '~/components/common/spinner'
@@ -15,11 +14,9 @@ type Props = {
   nsfw?: boolean
   recyclingKey?: string
   spoiler?: boolean
-  style?: StyleProp<ViewStyle>
   thumbnail?: string
   video: PostMedia
   viewing: boolean
-  visible?: boolean
 }
 
 export function RedGifsVideo({
@@ -28,11 +25,9 @@ export function RedGifsVideo({
   nsfw,
   recyclingKey,
   spoiler,
-  style,
   thumbnail,
   video,
   viewing,
-  visible,
 }: Props) {
   styles.useVariants({
     compact,
@@ -52,12 +47,11 @@ export function RedGifsVideo({
         thumbnail={thumbnail}
         video={video}
       >
-        {!compact && visible ? (
+        {compact ? null : (
           <VideoPlayer
             nsfw={nsfw}
             recyclingKey={recyclingKey}
             spoiler={spoiler}
-            style={style}
             thumbnail={thumbnail}
             video={{
               ...video,
@@ -65,7 +59,7 @@ export function RedGifsVideo({
             }}
             viewing={viewing}
           />
-        ) : null}
+        )}
       </VideoPlaceholder>
     )
   }
@@ -83,7 +77,7 @@ export function RedGifsVideo({
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   main: {
     compoundVariants: [
       {
@@ -96,9 +90,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
         },
       },
     ],
-    justifyContent: 'center',
-    maxHeight: runtime.screen.height * 0.6,
-    overflow: 'hidden',
     variants: {
       compact: {
         true: {

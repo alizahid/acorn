@@ -134,7 +134,7 @@ export default function Screen() {
     () => (
       <View mb="2">
         {post ? (
-          <PostCard expanded post={post} viewing={playing} visible />
+          <PostCard expanded post={post} viewing={playing} />
         ) : (
           <Spinner m="4" size="large" />
         )}
@@ -227,11 +227,14 @@ export default function Screen() {
           disabled: true,
         }}
         onScroll={(event) => {
-          setPlaying(
+          const next =
             focused &&
-              (list.current?.getFirstItemOffset() ?? 0) >
-                event.nativeEvent.contentOffset.y,
-          )
+            (list.current?.getFirstItemOffset() ?? 0) >
+              event.nativeEvent.contentOffset.y
+
+          if (next !== playing) {
+            setPlaying(next)
+          }
         }}
         onViewableItemsChanged={({ viewableItems }) => {
           const next = viewableItems.find(
@@ -250,6 +253,7 @@ export default function Screen() {
         renderItem={renderItem}
         scrollEventThrottle={1000}
         viewabilityConfig={{
+          minimumViewTime: 0,
           waitForInteraction: false,
         }}
       />

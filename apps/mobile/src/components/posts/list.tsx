@@ -89,7 +89,6 @@ export function PostList({
   })
 
   const [viewing, setViewing] = useState<Array<string>>([])
-  const [visible, setVisible] = useState<Array<string>>([])
 
   const sticky = useStickyNav()
 
@@ -121,11 +120,10 @@ export function PostList({
         <PostCard
           post={item}
           viewing={focused ? viewing.includes(item.id) : false}
-          visible={focused ? visible.includes(item.id) : false}
         />
       )
     },
-    [focused, router, viewing, visible],
+    [focused, router, viewing],
   )
 
   return (
@@ -134,6 +132,9 @@ export function PostList({
       {...sticky}
       contentContainerStyle={style}
       data={posts}
+      extraData={{
+        hello: 'world',
+      }}
       getItemType={(item) => item.type}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       keyExtractor={(item) => {
@@ -188,18 +189,10 @@ export function PostList({
       viewabilityConfigCallbackPairs={[
         {
           onViewableItemsChanged({ viewableItems }) {
-            setVisible(() => viewableItems.map((item) => item.key))
-          },
-          viewabilityConfig: {
-            itemVisiblePercentThreshold: 10,
-            waitForInteraction: false,
-          },
-        },
-        {
-          onViewableItemsChanged({ viewableItems }) {
             setViewing(() => viewableItems.map((item) => item.key))
           },
           viewabilityConfig: {
+            minimumViewTime: 0,
             viewAreaCoveragePercentThreshold: 60,
             waitForInteraction: false,
           },

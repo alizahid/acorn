@@ -2,7 +2,6 @@ import { useEvent } from 'expo'
 import { Image } from 'expo-image'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { useCallback, useEffect, useRef } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -21,7 +20,6 @@ type Props = {
   nsfw?: boolean
   recyclingKey?: string
   spoiler?: boolean
-  style?: StyleProp<ViewStyle>
   thumbnail?: string
   video: PostMedia
   viewing: boolean
@@ -31,7 +29,6 @@ export function VideoPlayer({
   nsfw,
   recyclingKey,
   spoiler,
-  style,
   thumbnail,
   video,
   viewing,
@@ -52,18 +49,28 @@ export function VideoPlayer({
 
   const ref = useRef<VideoView>(null)
 
-  const player = useVideoPlayer(video.url, (instance) => {
+  const player = useVideoPlayer(null, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
     instance.muted = feedMuted
     instance.loop = true
     instance.timeUpdateEventInterval = 1000 / 1000 / 60
 
-    if (viewing && autoPlay) {
-      instance.play()
-    } else {
-      instance.pause()
-    }
+    instance.pause()
   })
+
+  useEffect(() => {
+    ;(async () => {
+      await player.replaceAsync(video.url)
+    })()
+  }, [player, video.url])
+
+  useEffect(() => {
+    if (viewing && autoPlay) {
+      player.play()
+    } else {
+      player.pause()
+    }
+  }, [autoPlay, player, viewing])
 
   const { muted } = useEvent(player, 'mutedChange', {
     muted: feedMuted,
@@ -104,7 +111,7 @@ export function VideoPlayer({
             })
           }
         }}
-        style={[styles.main, style]}
+        style={styles.main}
       >
         <Image
           accessibilityIgnoresInvertColors
@@ -157,8 +164,7 @@ export function VideoPlayer({
 
 const styles = StyleSheet.create((theme, runtime) => ({
   main: {
-    justifyContent: 'center',
-    maxHeight: runtime.screen.height * 0.6,
+    height: runtime.screen.height * 0.6,
     overflow: 'hidden',
   },
   thumbnail: {

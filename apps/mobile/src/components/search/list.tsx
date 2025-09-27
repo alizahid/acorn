@@ -82,7 +82,6 @@ export function SearchList({
   })
 
   const [viewing, setViewing] = useState<Array<string>>([])
-  const [visible, setVisible] = useState<Array<string>>([])
 
   const sticky = useStickyNav()
 
@@ -100,11 +99,10 @@ export function SearchList({
         <PostCard
           post={item as Post}
           viewing={focused ? viewing.includes(item.id) : false}
-          visible={focused ? visible.includes(item.id) : false}
         />
       )
     },
-    [focused, type, viewing, visible],
+    [focused, type, viewing],
   )
 
   return (
@@ -150,18 +148,10 @@ export function SearchList({
       viewabilityConfigCallbackPairs={[
         {
           onViewableItemsChanged({ viewableItems }) {
-            setVisible(() => viewableItems.map((item) => item.key))
-          },
-          viewabilityConfig: {
-            itemVisiblePercentThreshold: 10,
-            waitForInteraction: false,
-          },
-        },
-        {
-          onViewableItemsChanged({ viewableItems }) {
             setViewing(() => viewableItems.map((item) => item.key))
           },
           viewabilityConfig: {
+            minimumViewTime: 0,
             viewAreaCoveragePercentThreshold: 60,
             waitForInteraction: false,
           },

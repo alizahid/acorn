@@ -32,10 +32,9 @@ type Props = {
   expanded?: boolean
   post: Post
   viewing: boolean
-  visible?: boolean
 }
 
-export function PostCard({ expanded, post, viewing, visible }: Props) {
+export function PostCard({ expanded, post, viewing }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -226,7 +225,6 @@ export function PostCard({ expanded, post, viewing, visible }: Props) {
               thumbnail={post.media.images?.[0]?.url}
               video={post.media.video}
               viewing={viewing}
-              visible={visible}
             />
           ) : null}
 
