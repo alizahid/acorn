@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: video downloads
+- fixed: editing comments
 
 ## Build 61
 

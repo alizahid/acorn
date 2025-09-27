@@ -95,7 +95,6 @@ export function CommentMenu({ children, comment }: Props) {
             onPress={() => {
               router.push({
                 params: {
-                  body: comment.body,
                   commentId: comment.id,
                   id: comment.post.id,
                   user: comment.user.name,
@@ -114,6 +113,7 @@ export function CommentMenu({ children, comment }: Props) {
               onPress={() => {
                 router.push({
                   params: {
+                    body: comment.body,
                     commentId: comment.id,
                     id: comment.post.id,
                     user: comment.user.name,
