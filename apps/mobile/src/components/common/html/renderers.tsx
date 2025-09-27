@@ -40,9 +40,7 @@ export const img: CustomMixedRenderer = ({ tnode }) => {
   return (
     <ImageMenu url={uri}>
       <Image
-        source={{
-          uri,
-        }}
+        source={uri}
         style={styles.image(width, {
           height: Number(tnode.attributes.height),
           width: Number(tnode.attributes.width),

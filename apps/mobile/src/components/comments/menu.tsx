@@ -41,7 +41,13 @@ export function CommentMenu({ children, comment }: Props) {
   return (
     <Link
       asChild
-      href="/"
+      href={{
+        params: {
+          commentId: comment.id,
+          id: comment.post.id,
+        },
+        pathname: '/posts/[id]',
+      }}
       onPress={(event) => {
         event.preventDefault()
       }}

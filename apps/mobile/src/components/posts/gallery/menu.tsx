@@ -1,4 +1,4 @@
-import { Link } from 'expo-router'
+import { type ExternalPathString, Link } from 'expo-router'
 import { type ReactNode } from 'react'
 import { useTranslations } from 'use-intl'
 
@@ -19,7 +19,7 @@ export function ImageMenu({ children, url }: Props) {
   return (
     <Link
       asChild
-      href="/"
+      href={url as ExternalPathString}
       onPress={(event) => {
         event.preventDefault()
       }}
