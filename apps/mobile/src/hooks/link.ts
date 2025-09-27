@@ -84,6 +84,7 @@ export function useLink() {
 
           const response = await fetch(url, {
             method: 'trace',
+            redirect: 'follow',
           })
 
           toast.dismiss(id)
