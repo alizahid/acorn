@@ -26,10 +26,10 @@
   "devDependencies": {
     "@biomejs/biome": "2.2.4",
     "husky": "^9.1.7",
-    "lint-staged": "^16.1.6",
+    "lint-staged": "^16.2.1",
     "rimraf": "^6.0.1",
-    "turbo": "2.5.6",
-    "ultracite": "5.4.1"
+    "turbo": "2.5.8",
+    "ultracite": "5.4.5"
   },
   "packageManager": "bun@1.2.22",
   "patchedDependencies": {
