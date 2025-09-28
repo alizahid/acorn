@@ -1,7 +1,6 @@
 import { FlashList, type FlashListRef } from '@shopify/flash-list'
 import { useRef } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
 
 import { type ListProps } from '~/hooks/list'
 import { useScrollToTop } from '~/hooks/scroll-top'
@@ -12,7 +11,6 @@ import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { RefreshControl } from '../common/refresh-control'
 import { Spinner } from '../common/spinner'
-import { Text } from '../common/text'
 import { View } from '../common/view'
 import { MessageCard } from './message'
 
@@ -35,8 +33,6 @@ export function MessagesList({
   messages,
   refetch,
 }: Props) {
-  const t = useTranslations('component.inbox.messages')
-
   const { themeOled } = usePreferences()
 
   styles.useVariants({
@@ -56,13 +52,6 @@ export function MessagesList({
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? <Spinner m="6" /> : null
-      }
-      ListHeaderComponent={
-        <View m="4">
-          <Text align="center" highContrast={false} size="1">
-            {t('notice')}
-          </Text>
-        </View>
       }
       onEndReached={() => {
         if (hasNextPage) {

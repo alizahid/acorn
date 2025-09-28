@@ -152,9 +152,6 @@
       }
     },
     "inbox": {
-      "messages": {
-        "notice": "Messages are read-only now."
-      },
       "notification": {
         "comment_reply": "{user} replied to your comment",
         "post_reply": "{user} replied to your post",
