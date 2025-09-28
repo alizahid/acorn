@@ -3,8 +3,6 @@ import { type PropsWithChildren } from 'react'
 import { useTranslations } from 'use-intl'
 
 import { IconButton } from '~/components/common/icon/button'
-import { Pressable } from '~/components/common/pressable'
-import { Text } from '~/components/common/text'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { useHistory } from '~/hooks/history'
 import { iPad } from '~/lib/common'
@@ -257,15 +255,14 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="messages/[id]"
         options={({ route }) => ({
-          headerTitle: () => {
+          headerRight: () => {
             const { user } = route.params as MessageParams
 
             if (user) {
               return (
-                <Pressable
-                  accessibilityLabel={user}
-                  height="8"
-                  justify="center"
+                <IconButton
+                  icon="info.circle"
+                  label={user}
                   onPress={() => {
                     router.push({
                       params: {
@@ -274,13 +271,12 @@ function StackLayout({ children }: PropsWithChildren) {
                       pathname: '/users/[name]',
                     })
                   }}
-                  px="3"
-                >
-                  <Text weight="bold">{user}</Text>
-                </Pressable>
+                />
               )
             }
           },
+          headerTransparent: false,
+          title: (route.params as MessageParams).user,
         })}
       />
 

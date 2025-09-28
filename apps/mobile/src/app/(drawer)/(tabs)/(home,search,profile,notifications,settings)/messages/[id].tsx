@@ -11,7 +11,6 @@ import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { MessageCard } from '~/components/messages/card'
 import { ReplyCard } from '~/components/messages/reply'
-import { ListFlags, useList } from '~/hooks/list'
 import { useThread } from '~/hooks/queries/user/thread'
 import { heights } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
@@ -32,13 +31,10 @@ export default function Screen() {
 
   const { messages } = useThread(params.id)
 
-  const { contentInset, ...listProps } = useList(ListFlags.TOP)
-
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.main}>
       <FlashList
-        {...listProps}
-        contentContainerStyle={styles.content(contentInset.top ?? 0)}
+        contentContainerStyle={styles.content}
         data={messages}
         ItemSeparatorComponent={() => <View height="4" />}
         keyboardDismissMode="interactive"
@@ -71,10 +67,9 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  content: (top: number) => ({
+  content: {
     padding: theme.space[4],
-    paddingTop: theme.space[4] + top,
-  }),
+  },
   header: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
