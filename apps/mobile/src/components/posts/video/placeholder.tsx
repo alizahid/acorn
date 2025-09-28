@@ -15,6 +15,7 @@ import { GalleryBlur } from '../gallery/blur'
 type Props = {
   children?: ReactNode
   compact?: boolean
+  crossPost?: boolean
   large?: boolean
   nsfw?: boolean
   source?: VideoSource
@@ -26,6 +27,7 @@ type Props = {
 export function VideoPlaceholder({
   children,
   compact,
+  crossPost,
   large,
   nsfw,
   source,
@@ -40,6 +42,7 @@ export function VideoPlaceholder({
 
   styles.useVariants({
     compact,
+    crossPost,
     large,
   })
 
@@ -126,6 +129,11 @@ const styles = StyleSheet.create((theme) => ({
         true: {
           backgroundColor: theme.colors.gray.uiActive,
           borderCurve: 'continuous',
+        },
+      },
+      crossPost: {
+        true: {
+          marginHorizontal: 0,
         },
       },
       large: {
