@@ -11,7 +11,7 @@ import { type MessagesQueryData, type MessagesQueryKey } from './messages'
 export function useThread(id: string) {
   const { accountId } = useAuth()
 
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     enabled: Boolean(accountId),
     networkMode: 'offlineFirst',
     queryFn() {
@@ -59,5 +59,6 @@ export function useThread(id: string) {
 
   return {
     messages,
+    refetch,
   }
 }

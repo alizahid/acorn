@@ -48,11 +48,10 @@ export function useReply() {
             loop: for (const page of draft?.pages ?? []) {
               for (const item of page.items) {
                 if (item.id === variables.threadId) {
-                  const body = `<p>${variables.text}</p>`
                   const now = new Date()
 
                   const next: Message = {
-                    body,
+                    body: `<p>${variables.text}</p>`,
                     createdAt: now,
                     from: accountId!,
                     id: createId(),
@@ -62,12 +61,11 @@ export function useReply() {
                   }
 
                   if (item.replies) {
-                    item.replies.unshift(next)
+                    item.replies.push(next)
                   } else {
                     item.replies = [next]
                   }
 
-                  item.body = body
                   item.updatedAt = now
 
                   break loop

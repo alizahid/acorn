@@ -7,6 +7,7 @@ import { useFormatter } from 'use-intl'
 import { z } from 'zod'
 
 import { Empty } from '~/components/common/empty'
+import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { MessageCard } from '~/components/messages/card'
@@ -29,7 +30,7 @@ export default function Screen() {
 
   const { accountId } = useAuth()
 
-  const { messages } = useThread(params.id)
+  const { messages, refetch } = useThread(params.id)
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.main}>
@@ -44,6 +45,7 @@ export default function Screen() {
           autoscrollToBottomThreshold: 0.5,
           startRenderingFromBottom: true,
         }}
+        refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={({ item }) => {
           if (isDate(item)) {
             return (

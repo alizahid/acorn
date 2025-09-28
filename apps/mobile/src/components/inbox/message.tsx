@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router'
+import { last } from 'lodash'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useNow, useTranslations } from 'use-intl'
 
@@ -40,6 +41,8 @@ export function MessageCard({ message }: Props) {
   const { mark } = useMarkAsRead()
 
   const user = message.from === accountId ? message.to : message.from
+
+  const body = (last(message.replies) ?? message).body
 
   return (
     <Pressable
@@ -91,7 +94,7 @@ export function MessageCard({ message }: Props) {
           </Text>
         </View>
 
-        <Html size="2">{message.body}</Html>
+        <Html size="2">{body}</Html>
       </View>
 
       <Icon
