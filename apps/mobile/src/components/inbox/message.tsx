@@ -1,27 +1,32 @@
 import { useRouter } from 'expo-router'
 import { StyleSheet } from 'react-native-unistyles'
-import { useFormatter, useNow } from 'use-intl'
+import { useFormatter, useNow, useTranslations } from 'use-intl'
 
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
+import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { space } from '~/styles/tokens'
-import { type InboxMessage } from '~/types/inbox'
+import { type Message } from '~/types/message'
 
+import { Html } from '../common/html'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 
 type Props = {
-  message: InboxMessage
+  message: Message
 }
 
 export function MessageCard({ message }: Props) {
   const router = useRouter()
 
+  const { accountId } = useAuth()
+
   const { themeOled } = usePreferences()
 
+  const a11y = useTranslations('a11y')
   const f = useFormatter()
   const now = useNow({
     updateInterval: 1000 * 60,
@@ -34,9 +39,11 @@ export function MessageCard({ message }: Props) {
 
   const { mark } = useMarkAsRead()
 
+  const user = message.from === accountId ? message.to : message.from
+
   return (
     <Pressable
-      accessibilityLabel={message.subject}
+      accessibilityLabel={a11y('viewThread')}
       align="center"
       direction="row"
       gap="4"
@@ -44,7 +51,7 @@ export function MessageCard({ message }: Props) {
         router.push({
           params: {
             id: message.id,
-            user: message.author,
+            user,
           },
           pathname: '/messages/[id]',
         })
@@ -60,30 +67,30 @@ export function MessageCard({ message }: Props) {
       style={styles.main}
     >
       <View flex={1} gap="2">
-        <Text>{message.subject}</Text>
-
         <View direction="row" gap="4">
           <Pressable
-            accessibilityLabel={message.author}
+            accessibilityLabel={user}
             hitSlop={space[4]}
             onPress={() => {
               router.push({
                 params: {
-                  name: message.author,
+                  name: user,
                 },
                 pathname: '/users/[name]',
               })
             }}
           >
             <Text color="accent" size="2" weight="medium">
-              {message.author}
+              {user}
             </Text>
           </Pressable>
 
           <Text highContrast={false} size="2">
-            {f.relativeTime(message.createdAt, now)}
+            {f.relativeTime(message.updatedAt, now)}
           </Text>
         </View>
+
+        <Html size="2">{message.body}</Html>
       </View>
 
       <Icon

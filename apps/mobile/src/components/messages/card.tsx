@@ -17,7 +17,7 @@ type Props = {
 export function MessageCard({ message, style, userId }: Props) {
   const f = useFormatter()
 
-  const self = message.author === userId
+  const self = message.from === userId
 
   return (
     <View

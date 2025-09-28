@@ -12,7 +12,6 @@ import { NotificationsList } from '~/components/inbox/notifications'
 import { Header } from '~/components/navigation/header'
 import { ListFlags, useList } from '~/hooks/list'
 import { useMarkAllAsRead } from '~/hooks/mutations/users/notifications'
-import { useInbox } from '~/hooks/queries/user/inbox'
 import { heights } from '~/lib/common'
 import { InboxTab } from '~/types/inbox'
 
@@ -26,16 +25,6 @@ export default function Screen() {
 
   const t = useTranslations('screen.notifications')
   const a11y = useTranslations('a11y')
-
-  const {
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    messages,
-    notifications,
-    refetch,
-  } = useInbox()
 
   const { isPending, markAll } = useMarkAllAsRead()
 
@@ -61,15 +50,6 @@ export default function Screen() {
   )
   const [index, setIndex] = useState(0)
 
-  const props = {
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    listProps,
-    refetch,
-  } as const
-
   return (
     <TabView
       lazy
@@ -81,10 +61,10 @@ export default function Screen() {
       renderLazyPlaceholder={() => <Loading />}
       renderScene={({ route }) => {
         if (route.key === 'notifications') {
-          return <NotificationsList {...props} notifications={notifications} />
+          return <NotificationsList listProps={listProps} />
         }
 
-        return <MessagesList {...props} messages={messages} />
+        return <MessagesList listProps={listProps} />
       }}
       renderTabBar={({ position }) => (
         <Header

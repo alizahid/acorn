@@ -3,9 +3,10 @@ import { useRef } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { type ListProps } from '~/hooks/list'
+import { useNotifications } from '~/hooks/queries/user/notifications'
 import { useScrollToTop } from '~/hooks/scroll-top'
 import { usePreferences } from '~/stores/preferences'
-import { type InboxNotification } from '~/types/inbox'
+import { type Notification } from '~/types/notification'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -15,31 +16,26 @@ import { View } from '../common/view'
 import { NotificationCard } from './notification'
 
 type Props = {
-  fetchNextPage: () => Promise<unknown>
-  hasNextPage: boolean
-  isFetchingNextPage: boolean
-  isLoading: boolean
-  listProps?: ListProps<InboxNotification>
-  notifications: Array<InboxNotification>
-  refetch: () => Promise<unknown>
+  listProps?: ListProps<Notification>
 }
 
-export function NotificationsList({
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  isLoading,
-  listProps,
-  notifications,
-  refetch,
-}: Props) {
+export function NotificationsList({ listProps }: Props) {
   const { themeOled } = usePreferences()
 
   styles.useVariants({
     oled: themeOled,
   })
 
-  const list = useRef<FlashListRef<InboxNotification>>(null)
+  const list = useRef<FlashListRef<Notification>>(null)
+
+  const {
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    notifications,
+    refetch,
+  } = useNotifications()
 
   useScrollToTop(list, listProps)
 

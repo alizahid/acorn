@@ -3,9 +3,10 @@ import { useRef } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { type ListProps } from '~/hooks/list'
+import { useMessages } from '~/hooks/queries/user/messages'
 import { useScrollToTop } from '~/hooks/scroll-top'
 import { usePreferences } from '~/stores/preferences'
-import { type InboxMessage } from '~/types/inbox'
+import { type Message } from '~/types/message'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -15,31 +16,26 @@ import { View } from '../common/view'
 import { MessageCard } from './message'
 
 type Props = {
-  fetchNextPage: () => Promise<unknown>
-  hasNextPage: boolean
-  isFetchingNextPage: boolean
-  isLoading: boolean
-  listProps?: ListProps<InboxMessage>
-  messages: Array<InboxMessage>
-  refetch: () => Promise<unknown>
+  listProps?: ListProps<Message>
 }
 
-export function MessagesList({
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  isLoading,
-  listProps,
-  messages,
-  refetch,
-}: Props) {
+export function MessagesList({ listProps }: Props) {
   const { themeOled } = usePreferences()
 
   styles.useVariants({
     oled: themeOled,
   })
 
-  const list = useRef<FlashListRef<InboxMessage>>(null)
+  const list = useRef<FlashListRef<Message>>(null)
+
+  const {
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    messages,
+    refetch,
+  } = useMessages()
 
   useScrollToTop(list, listProps)
 

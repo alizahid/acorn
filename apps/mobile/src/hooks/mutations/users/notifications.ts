@@ -2,7 +2,8 @@ import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import { updateInbox, updateNotification } from '~/hooks/queries/user/inbox'
+import { updateMessage } from '~/hooks/queries/user/messages'
+import { updateNotification } from '~/hooks/queries/user/notifications'
 import { type UnreadQueryKey } from '~/hooks/queries/user/unread'
 import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
@@ -36,9 +37,15 @@ export function useMarkAsRead() {
       })
     },
     onMutate(variables) {
-      updateNotification(variables.id, (draft) => {
-        draft.data.new = false
-      })
+      if (variables.type === 'message') {
+        updateMessage(variables.id, (draft) => {
+          draft.new = false
+        })
+      } else {
+        updateNotification(variables.id, (draft) => {
+          draft.new = false
+        })
+      }
 
       queryClient.setQueryData<number, UnreadQueryKey>(
         [
@@ -47,7 +54,7 @@ export function useMarkAsRead() {
             accountId,
           },
         ],
-        (previous) => (previous ?? 0) - 1,
+        (previous) => Math.max((previous ?? 0) - 1, 0),
       )
     },
   })
@@ -71,10 +78,6 @@ export function useMarkAllAsRead() {
       })
     },
     onMutate() {
-      updateInbox((item) => {
-        item.data.new = false
-      }, accountId)
-
       queryClient.setQueryData<number, UnreadQueryKey>(
         [
           'unread',
@@ -86,6 +89,14 @@ export function useMarkAllAsRead() {
       )
     },
     onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ['notifications'],
+      })
+
+      queryClient.invalidateQueries({
+        queryKey: ['messages'],
+      })
+
       toast.success(t('markAllAsRead'))
     },
   })

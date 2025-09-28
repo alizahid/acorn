@@ -1,5 +1,6 @@
 import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
+import { create } from 'mutative'
 
 import {
   type MessagesQueryData,
@@ -9,9 +10,10 @@ import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
+import { type Message } from '~/types/message'
 
 type Variables = {
-  id: string
+  threadId: string
   text: string
   user: string
 }
@@ -24,7 +26,7 @@ export function useReply() {
       const body = new FormData()
 
       body.append('api_type', 'json')
-      body.append('thing_id', addPrefix(variables.id, 'message'))
+      body.append('thing_id', addPrefix(variables.threadId, 'message'))
       body.append('text', variables.text)
 
       await reddit({
@@ -39,27 +41,48 @@ export function useReply() {
           'messages',
           {
             accountId,
-            id: variables.id,
           },
         ],
-        (previous) => {
-          if (!previous) {
-            return previous
-          }
+        (previous) =>
+          create(previous, (draft) => {
+            loop: for (const page of draft?.pages ?? []) {
+              for (const item of page.items) {
+                if (item.id === variables.threadId) {
+                  const now = new Date()
 
-          return [
-            {
-              author: accountId!,
-              body: `<p>${variables.text}</p>`,
-              createdAt: new Date(),
-              id: createId(),
-              new: false,
-              subject: variables.text,
-            },
-            ...previous,
-          ] satisfies MessagesQueryData
-        },
+                  const next: Message = {
+                    body: `<p>${variables.text}</p>`,
+                    createdAt: now,
+                    from: accountId!,
+                    id: createId(),
+                    new: false,
+                    to: variables.user,
+                    updatedAt: now,
+                  }
+
+                  if (item.replies) {
+                    item.replies.unshift(next)
+                  } else {
+                    item.replies = [next]
+                  }
+
+                  item.updatedAt = now
+
+                  break loop
+                }
+              }
+            }
+          }),
       )
+
+      queryClient.invalidateQueries({
+        queryKey: [
+          'thread',
+          {
+            id: variables.threadId,
+          },
+        ],
+      })
     },
   })
 

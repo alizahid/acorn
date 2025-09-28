@@ -9,11 +9,11 @@ import { TextBox } from '../common/text-box'
 import { View } from '../common/view'
 
 type Props = {
-  id: string
+  threadId: string
   user: string
 }
 
-export function ReplyCard({ id, user }: Props) {
+export function ReplyCard({ threadId, user }: Props) {
   const t = useTranslations('component.messages.reply')
   const a11y = useTranslations('a11y')
 
@@ -41,8 +41,8 @@ export function ReplyCard({ id, user }: Props) {
           }
 
           createReply({
-            id,
             text,
+            threadId,
             user,
           })
 

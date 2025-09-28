@@ -1,9 +1,10 @@
 export type Message = {
-  author: string
   body: string
   createdAt: Date
+  from: string
   id: string
   new: boolean
   replies?: Array<Message>
-  subject: string
+  to: string
+  updatedAt: Date
 }

@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const InboxSchema = z.object({
+export const NotificationsSchema = z.object({
   data: z.object({
     after: z.string().nullish(),
     children: z.array(
@@ -19,14 +19,6 @@ export const InboxSchema = z.object({
           kind: z.literal('t1'),
         }),
         z.object({
-          data: z.object({
-            author: z.string().nullable(),
-            body_html: z.string(),
-            created_utc: z.number(),
-            id: z.string(),
-            new: z.boolean(),
-            subject: z.string(),
-          }),
           kind: z.literal('t4'),
         }),
       ]),
@@ -34,4 +26,4 @@ export const InboxSchema = z.object({
   }),
 })
 
-export type InboxSchema = z.infer<typeof InboxSchema>
+export type NotificationsSchema = z.infer<typeof NotificationsSchema>

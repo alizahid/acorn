@@ -1,4 +1,5 @@
 import { fromUnixTime } from 'date-fns'
+import { last } from 'lodash'
 
 import { decodeHtml } from '~/lib/html'
 import { removePrefix } from '~/lib/reddit'
@@ -8,16 +9,19 @@ import { type Message } from '~/types/message'
 export function transformMessage(
   data: MessagesSchema['data']['children'][number],
 ): Message {
+  const replies =
+    typeof data.data.replies === 'object'
+      ? data.data.replies.data.children.map((item) => transformMessage(item))
+      : undefined
+
   return {
-    author: data.data.author ?? 'Unknown',
     body: decodeHtml(data.data.body_html)!,
     createdAt: fromUnixTime(data.data.created_utc),
+    from: data.data.author,
     id: removePrefix(data.data.id),
     new: data.data.new,
-    replies:
-      typeof data.data.replies === 'object'
-        ? data.data.replies.data.children.map((item) => transformMessage(item))
-        : undefined,
-    subject: data.data.subject,
+    replies,
+    to: data.data.dest,
+    updatedAt: last(replies)?.createdAt ?? fromUnixTime(data.data.created_utc),
   }
 }

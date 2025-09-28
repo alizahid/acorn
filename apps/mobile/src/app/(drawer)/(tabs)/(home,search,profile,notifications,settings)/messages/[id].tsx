@@ -7,14 +7,12 @@ import { useFormatter } from 'use-intl'
 import { z } from 'zod'
 
 import { Empty } from '~/components/common/empty'
-import { Loading } from '~/components/common/loading'
-import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { MessageCard } from '~/components/messages/card'
 import { ReplyCard } from '~/components/messages/reply'
 import { ListFlags, useList } from '~/hooks/list'
-import { useMessages } from '~/hooks/queries/user/messages'
+import { useThread } from '~/hooks/queries/user/thread'
 import { heights } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 
@@ -32,25 +30,24 @@ export default function Screen() {
 
   const { accountId } = useAuth()
 
-  const { isLoading, messages, refetch } = useMessages(params.id)
+  const { messages } = useThread(params.id)
 
-  const listProps = useList(ListFlags.TOP)
+  const { contentInset, ...listProps } = useList(ListFlags.TOP)
 
   return (
     <KeyboardAvoidingView behavior="padding" style={styles.main}>
       <FlashList
         {...listProps}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={styles.content(contentInset.top ?? 0)}
         data={messages}
         ItemSeparatorComponent={() => <View height="4" />}
         keyboardDismissMode="interactive"
         keyExtractor={(item) => (isDate(item) ? formatISO(item) : item.id)}
-        ListEmptyComponent={() => (isLoading ? <Loading /> : <Empty />)}
+        ListEmptyComponent={() => <Empty />}
         maintainVisibleContentPosition={{
           autoscrollToBottomThreshold: 0.5,
           startRenderingFromBottom: true,
         }}
-        refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={({ item }) => {
           if (isDate(item)) {
             return (
@@ -68,15 +65,16 @@ export default function Screen() {
         }}
       />
 
-      <ReplyCard id={params.id} user={params.user} />
+      <ReplyCard threadId={params.id} user={params.user} />
     </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  content: {
+  content: (top: number) => ({
     padding: theme.space[4],
-  },
+    paddingTop: theme.space[4] + top,
+  }),
   header: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',

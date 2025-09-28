@@ -4,6 +4,7 @@
 
 - added: comment image gallery
 - added: video downloads
+- changed: chat support improved
 - changed: feed icons
 - fixed: editing comments
 - fixed: high contrast text

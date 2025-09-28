@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
-import { type InboxSchema } from '~/schemas/inbox'
+import { type NotificationsSchema } from '~/schemas/notifications'
 import { useAuth } from '~/stores/auth'
 
 export type UnreadQueryKey = [
@@ -24,7 +24,7 @@ export function useUnread() {
 
       url.searchParams.set('max_replies', '300')
 
-      const payload = await reddit<InboxSchema>({
+      const payload = await reddit<NotificationsSchema>({
         url,
       })
 

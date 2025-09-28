@@ -1,9 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
-import { getDayOfYear, setDayOfYear } from 'date-fns'
-import { compact, groupBy, orderBy } from 'lodash'
-import { useMemo } from 'react'
+import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import { create, type Draft } from 'mutative'
 
-import { addPrefix } from '~/lib/reddit'
+import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
 import { MessagesSchema } from '~/schemas/messages'
@@ -11,80 +9,106 @@ import { useAuth } from '~/stores/auth'
 import { transformMessage } from '~/transformers/message'
 import { type Message } from '~/types/message'
 
+type Param = string | undefined | null
+
+type Page = {
+  cursor: Param
+  items: Array<Message>
+}
+
 export type MessagesQueryKey = [
   'messages',
   {
     accountId?: string
-    id: string
   },
 ]
 
-export type MessagesQueryData = Array<Message>
+export type MessagesQueryData = InfiniteData<Page, Param>
 
-export function useMessages(id: string) {
+export function useMessages() {
   const { accountId } = useAuth()
 
-  const { data, isLoading, refetch } = useQuery<
-    MessagesQueryData,
-    Error,
-    MessagesQueryData,
-    MessagesQueryKey
-  >({
-    enabled: Boolean(accountId),
-    async queryFn() {
-      const url = new URL('/message/messages', REDDIT_URI)
-
-      url.searchParams.set('after', addPrefix(id, 'message'))
-
-      const payload = await reddit({
-        url,
-      })
-
-      const response = MessagesSchema.parse(payload)
-
-      const message = response.data.children.find((item) => {
-        if (item.data.id === id) {
-          return true
-        }
-
-        if (typeof item.data.replies === 'object') {
-          return item.data.replies.data.children.find(
-            (reply) => reply.data.id === id,
-          )
-        }
-
-        return false
-      })
-
-      if (message) {
-        const first = transformMessage(message)
-
-        return compact([first, ...(first.replies ? first.replies : [])])
-      }
-
-      return []
-    },
-    queryKey: [
-      'messages',
-      {
-        accountId,
-        id,
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    refetch,
+  } = useInfiniteQuery<Page, Error, MessagesQueryData, MessagesQueryKey, Param>(
+    {
+      enabled: Boolean(accountId),
+      getNextPageParam(page) {
+        return page.cursor
       },
-    ],
-  })
+      initialPageParam: null,
+      networkMode: 'offlineFirst',
+      async queryFn({ pageParam }) {
+        const url = new URL('/message/messages', REDDIT_URI)
 
-  const messages = useMemo(() => {
-    const groups = groupBy(data, (item) => getDayOfYear(item.createdAt))
+        if (pageParam) {
+          url.searchParams.set('after', pageParam)
+        }
 
-    return Object.entries(groups).flatMap(([day, items]) => [
-      setDayOfYear(new Date(), Number(day)),
-      ...orderBy(items, 'createdAt', 'desc'),
-    ])
-  }, [data])
+        const payload = await reddit({
+          url,
+        })
+
+        const response = MessagesSchema.parse(payload)
+
+        return {
+          cursor: response.data.after,
+          items: response.data.children
+            .filter((item) => item.kind === 't4')
+            .map((item) => transformMessage(item)),
+        }
+      },
+      queryKey: [
+        'messages',
+        {
+          accountId,
+        },
+      ],
+    },
+  )
 
   return {
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
-    messages,
+    messages: data?.pages.flatMap((page) => page.items) ?? [],
     refetch,
+  }
+}
+
+export function updateMessage(
+  id: string,
+  updater: (draft: Draft<Message>) => void,
+) {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: ['messages', {}] satisfies MessagesQueryKey,
+  })
+
+  for (const query of queries) {
+    queryClient.setQueryData<MessagesQueryData>(query.queryKey, (previous) => {
+      if (!previous) {
+        return previous
+      }
+
+      return create(previous, (draft) => {
+        loop: for (const page of draft.pages) {
+          for (const item of page.items) {
+            if (item.id === id) {
+              updater(item)
+
+              break loop
+            }
+          }
+        }
+      })
+    })
   }
 }

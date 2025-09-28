@@ -1,41 +1,32 @@
 import { z } from 'zod'
 
-const MessageBaseSchema = z.object({
-  author: z.string().nullable(),
-  body_html: z.string(),
-  created_utc: z.number(),
-  dest: z.string(),
-  id: z.string(),
-  new: z.boolean(),
-  subject: z.string(),
-})
-
-const MessageSchema = MessageBaseSchema.extend({
-  replies: z
-    .union([
-      z.literal(''),
-      z.object({
-        data: z.object({
-          children: z.array(
-            z.object({
-              data: MessageBaseSchema,
-            }),
-          ),
+const MessageSchema = z.object({
+  data: z.object({
+    author: z.string(),
+    body_html: z.string(),
+    created_utc: z.number(),
+    dest: z.string(),
+    id: z.string(),
+    new: z.boolean(),
+    get replies() {
+      return z.union([
+        z.literal(''),
+        z.object({
+          data: z.object({
+            after: z.string().nullish(),
+            children: z.array(MessageSchema),
+          }),
         }),
-      }),
-    ])
-    .optional(),
+      ])
+    },
+  }),
+  kind: z.literal('t4'),
 })
-
-export type Message = z.infer<typeof MessageSchema>
 
 export const MessagesSchema = z.object({
   data: z.object({
-    children: z.array(
-      z.object({
-        data: MessageSchema,
-      }),
-    ),
+    after: z.string().nullish(),
+    children: z.array(MessageSchema),
   }),
 })
 
