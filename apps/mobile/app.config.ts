@@ -4,13 +4,7 @@ import { withBuildProperties } from 'expo-build-properties'
 export default function getConfig(context: ConfigContext): ExpoConfig {
   const projectId = '8d7d5acc-3688-4cd2-b93f-52391f665348'
 
-  let name = 'Acorn'
-  let bundleIdentifier = 'blue.acorn'
-
-  if (process.env.CHANNEL === 'development') {
-    name = 'Devcorn'
-    bundleIdentifier += '.dev'
-  }
+  const name = 'Acorn'
 
   const plugins: ExpoConfig['plugins'] = [
     '@bacons/apple-targets',
@@ -105,9 +99,9 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
       },
     },
     ios: {
-      appleTeamId: String(process.env.APPLE_TEAM_ID),
+      appleTeamId: process.env.APPLE_TEAM_ID,
       buildNumber: '62',
-      bundleIdentifier,
+      bundleIdentifier: 'blue.acorn',
       config: {
         usesNonExemptEncryption: false,
       },

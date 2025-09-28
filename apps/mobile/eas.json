@@ -1,13 +1,5 @@
 {
   "build": {
-    "development": {
-      "channel": "development",
-      "developmentClient": true,
-      "distribution": "internal",
-      "env": {
-        "CHANNEL": "development"
-      }
-    },
     "preview": {
       "channel": "preview",
       "distribution": "internal"
@@ -20,10 +12,8 @@
       "distribution": "store"
     },
     "simulator": {
-      "env": {
-        "CHANNEL": "simulator"
-      },
-      "extends": "development",
+      "developmentClient": true,
+      "distribution": "internal",
       "ios": {
         "simulator": true
       }
