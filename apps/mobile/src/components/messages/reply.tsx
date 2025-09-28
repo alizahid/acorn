@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -21,12 +21,29 @@ export function ReplyCard({ threadId, user }: Props) {
 
   const [text, setText] = useState('')
 
+  const onSubmit = useCallback(() => {
+    if (text.length === 0) {
+      return
+    }
+
+    createReply({
+      text,
+      threadId,
+      user,
+    })
+
+    setText('')
+  }, [createReply, text, threadId, user])
+
   return (
     <View direction="row" style={styles.main}>
       <TextBox
-        multiline
         onChangeText={setText}
+        onSubmitEditing={() => {
+          onSubmit()
+        }}
         placeholder={t('placeholder')}
+        returnKeyType="send"
         style={styles.input}
         value={text}
       />
@@ -36,17 +53,7 @@ export function ReplyCard({ threadId, user }: Props) {
         label={a11y('createReply')}
         loading={isPending}
         onPress={() => {
-          if (text.length === 0) {
-            return
-          }
-
-          createReply({
-            text,
-            threadId,
-            user,
-          })
-
-          setText('')
+          onSubmit()
         }}
         style={styles.submit}
       />
@@ -60,7 +67,6 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: 0,
     borderWidth: 0,
     flex: 1,
-    maxHeight: 300,
   },
   main: {
     backgroundColor: theme.colors.gray.ui,

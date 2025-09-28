@@ -14,14 +14,16 @@ export function transformMessage(
       ? data.data.replies.data.children.map((item) => transformMessage(item))
       : undefined
 
+  const latest = last(replies)
+
   return {
-    body: decodeHtml(data.data.body_html)!,
+    body: latest?.body ?? decodeHtml(data.data.body_html)!,
     createdAt: fromUnixTime(data.data.created_utc),
     from: data.data.author,
     id: removePrefix(data.data.id),
     new: data.data.new,
     replies,
     to: data.data.dest,
-    updatedAt: last(replies)?.createdAt ?? fromUnixTime(data.data.created_utc),
+    updatedAt: latest?.createdAt ?? fromUnixTime(data.data.created_utc),
   }
 }
