@@ -26,7 +26,9 @@ export function SearchHistory({ history, onChange }: Props) {
 
       {history.history.map((query) => (
         <Pressable
-          accessibilityLabel={query}
+          accessibilityLabel={a11y('searchQuery', {
+            query,
+          })}
           align="center"
           direction="row"
           gap="3"
@@ -65,7 +67,7 @@ export function SearchHistory({ history, onChange }: Props) {
       ))}
 
       <Pressable
-        accessibilityLabel={t('clear')}
+        accessibilityLabel={a11y('clearQueries')}
         align="center"
         direction="row"
         gap="3"

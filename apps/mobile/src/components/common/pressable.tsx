@@ -11,8 +11,9 @@ import { type MarginProps, type PaddingProps } from '~/styles/space'
 import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
 type Props = {
+  accessibilityLabel: string
   style?: StyleProp<ViewStyle>
-} & Omit<PressableProps, 'style'> &
+} & Omit<PressableProps, 'accessibilityLabel' | 'style'> &
   ViewStyleProps &
   MarginProps &
   PaddingProps

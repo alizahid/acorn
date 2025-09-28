@@ -2,9 +2,10 @@
 
 ## Upcoming
 
+- added: accessibility improvements
 - added: comment image gallery
+- added: improved chat support
 - added: video downloads
-- changed: chat support improved
 - changed: feed icons
 - fixed: editing comments
 - fixed: high contrast text

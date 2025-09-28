@@ -137,7 +137,7 @@ export function Themes({ onChange, value }: Props) {
                   color={item.color}
                   item={item.key}
                   key={item.key}
-                  label={t(`themes.${getThemeName(item.key)}`)}
+                  name={t(`themes.${getThemeName(item.key)}`)}
                   onPress={() => {
                     onChange?.(item.key)
                   }}
@@ -155,19 +155,26 @@ export function Themes({ onChange, value }: Props) {
 type ItemProps = {
   color: ColorToken
   item: Theme
-  label: string
+  name: string
   onPress?: () => void
   value?: Theme
 }
 
-function Item({ color, item, label, onPress, value }: ItemProps) {
+function Item({ color, item, name, onPress, value }: ItemProps) {
+  const a11y = useTranslations('a11y')
+
   styles.useVariants({
     color,
   })
 
   return (
     <Pressable
-      accessibilityLabel={label}
+      accessibilityLabel={a11y('switchTheme', {
+        theme: name,
+      })}
+      accessibilityState={{
+        selected: item === value,
+      }}
       align="center"
       height="8"
       justify="center"

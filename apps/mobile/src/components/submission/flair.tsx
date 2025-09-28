@@ -102,6 +102,7 @@ export function SubmissionFlair({ submission }: Props) {
 
               {submission.flair.map((item) => (
                 <Pressable
+                  accessibilityHint={a11y('selectFlair')}
                   accessibilityLabel={
                     item.type === 'text'
                       ? item.text

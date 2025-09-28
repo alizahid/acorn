@@ -20,7 +20,7 @@ export function SubmissionMeta() {
         <Controller
           control={control}
           name="nsfw"
-          render={({ field }) => <Switch {...field} />}
+          render={({ field }) => <Switch {...field} label={t('nsfw')} />}
         />
       </View>
 
@@ -30,7 +30,7 @@ export function SubmissionMeta() {
         <Controller
           control={control}
           name="spoiler"
-          render={({ field }) => <Switch {...field} />}
+          render={({ field }) => <Switch {...field} label={t('spoiler')} />}
         />
       </View>
     </View>

@@ -44,11 +44,13 @@ export function CommentMoreCard({
 
   const color = getDepthColor(comment.depth)
 
+  const label = t('label', {
+    count: comment.children.length,
+  })
+
   return (
     <Pressable
-      accessibilityLabel={t('label', {
-        count: comment.children.length,
-      })}
+      accessibilityLabel={label}
       align="center"
       direction="row"
       disabled={isPending}
@@ -77,9 +79,7 @@ export function CommentMoreCard({
         <Spinner color={color} />
       ) : (
         <Text color={color} size="2" weight="medium">
-          {t('label', {
-            count: comment.children.length,
-          })}
+          {label}
         </Text>
       )}
     </Pressable>

@@ -60,6 +60,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
       ) : null}
 
       <Pressable
+        accessibilityHint={a11y('viewUser')}
         accessibilityLabel={comment.user.name}
         align="center"
         direction="row"

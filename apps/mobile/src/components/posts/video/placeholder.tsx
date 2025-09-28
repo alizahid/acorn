@@ -59,7 +59,7 @@ export function VideoPlaceholder({
       >
         {children ?? (
           <Pressable
-            accessibilityLabel={a11y('play')}
+            accessibilityLabel={a11y('viewVideo')}
             align="center"
             justify="center"
             onPress={onPress}
@@ -84,7 +84,7 @@ export function VideoPlaceholder({
     >
       {children ?? (
         <Pressable
-          accessibilityLabel={a11y('play')}
+          accessibilityLabel={a11y('viewVideo')}
           align="center"
           justify="center"
           onPress={onPress}

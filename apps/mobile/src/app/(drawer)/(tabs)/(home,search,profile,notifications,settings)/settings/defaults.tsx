@@ -42,6 +42,7 @@ export default function Screen() {
             onPress={() => null}
             right={
               <Switch
+                label={t(`feedType.${item}`)}
                 onChange={() => {
                   update({
                     feedType: item,

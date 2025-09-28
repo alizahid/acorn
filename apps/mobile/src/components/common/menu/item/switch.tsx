@@ -42,7 +42,7 @@ export function MenuItemSwitch({
         label={label}
         labelStyle={labelStyle}
         left={icon}
-        right={<Switch onChange={onChange} value={value} />}
+        right={<Switch label={label} onChange={onChange} value={value} />}
       />
     </View>
   )

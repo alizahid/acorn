@@ -81,11 +81,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
           </View>
         }
         pointerEvents="none"
-        style={{
-          height: '100%',
-          position: 'absolute',
-          width: '100%',
-        }}
+        style={styles.masked}
       >
         <Animated.View style={[styles.mask(width), style]} />
       </MaskedView>
@@ -108,6 +104,11 @@ const styles = StyleSheet.create((theme) => ({
     top: theme.space[1] / 2,
     width,
   }),
+  masked: {
+    height: '100%',
+    position: 'absolute',
+    width: '100%',
+  },
   selected: (width: number) => ({
     backgroundColor: theme.colors.accent.accent,
     borderCurve: 'continuous',

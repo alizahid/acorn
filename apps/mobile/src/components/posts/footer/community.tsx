@@ -18,10 +18,12 @@ export function PostCommunity({ post }: Props) {
   const router = useRouter()
 
   const t = useTranslations('component.posts.community')
+  const a11y = useTranslations('a11y')
 
   return (
     <View direction="row" flexShrink={1} gap="1">
       <Pressable
+        accessibilityHint={a11y('viewCommunity')}
         accessibilityLabel={post.community.name}
         align="center"
         direction="row"
@@ -65,6 +67,7 @@ export function PostCommunity({ post }: Props) {
       </Text>
 
       <Pressable
+        accessibilityHint={a11y('viewUser')}
         accessibilityLabel={post.user.name}
         align="center"
         direction="row"

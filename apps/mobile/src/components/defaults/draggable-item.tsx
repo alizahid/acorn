@@ -1,5 +1,6 @@
 import { useReorderableDrag } from 'react-native-reorderable-list'
 import { StyleSheet } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { Pressable } from '../common/pressable'
 import { Switch } from '../common/switch'
@@ -12,10 +13,13 @@ type Props = {
 }
 
 export function DraggableItem({ label, onChange, value }: Props) {
+  const a11y = useTranslations('a11y')
+
   const drag = useReorderableDrag()
 
   return (
     <Pressable
+      accessibilityHint={a11y('drag')}
       accessibilityLabel={label}
       align="center"
       direction="row"
@@ -30,6 +34,7 @@ export function DraggableItem({ label, onChange, value }: Props) {
 
       {onChange ? (
         <Switch
+          label={label}
           onChange={(next) => {
             onChange(next)
           }}

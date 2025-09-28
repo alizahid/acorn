@@ -9,6 +9,7 @@ import {
   useContentWidth,
 } from 'react-native-render-html'
 import { StyleSheet } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { ImageMenu } from '~/components/posts/gallery/menu'
 import { useLink } from '~/hooks/link'
@@ -38,6 +39,8 @@ export const spoiler: CustomTextualRenderer = ({
 }
 
 export const Img: CustomMixedRenderer = ({ tnode }) => {
+  const a11y = useTranslations('a11y')
+
   const maxWidth = useContentWidth()
 
   const url = tnode.attributes.src as string
@@ -48,6 +51,7 @@ export const Img: CustomMixedRenderer = ({ tnode }) => {
   return (
     <ImageMenu url={url}>
       <Pressable
+        accessibilityLabel={a11y('viewImage')}
         onPress={() => {
           previewImages([
             {

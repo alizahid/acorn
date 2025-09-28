@@ -2,6 +2,7 @@ import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
 import { type User } from '~/types/user'
@@ -16,10 +17,13 @@ type Props = {
 }
 
 export function UserCard({ style, user }: Props) {
+  const a11y = useTranslations('a11y')
+
   const router = useRouter()
 
   return (
     <Pressable
+      accessibilityHint={a11y('viewUser')}
       accessibilityLabel={user.name}
       align="center"
       direction="row"

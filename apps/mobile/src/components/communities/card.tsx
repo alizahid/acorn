@@ -2,7 +2,7 @@ import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import { useFormatter } from 'use-intl'
+import { useFormatter, useTranslations } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
 import { type Community } from '~/types/community'
@@ -20,10 +20,12 @@ type Props = {
 export function CommunityCard({ community, style }: Props) {
   const router = useRouter()
 
+  const a11y = useTranslations('a11y')
   const f = useFormatter()
 
   return (
     <Pressable
+      accessibilityHint={a11y('viewCommunity')}
       accessibilityLabel={community.name}
       align="center"
       direction="row"

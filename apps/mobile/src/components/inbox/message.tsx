@@ -69,6 +69,7 @@ export function MessageCard({ message }: Props) {
       <View flex={1} gap="2">
         <View direction="row" gap="4">
           <Pressable
+            accessibilityHint={a11y('viewUser')}
             accessibilityLabel={user}
             hitSlop={space[4]}
             onPress={() => {

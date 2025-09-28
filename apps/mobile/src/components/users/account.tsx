@@ -56,6 +56,11 @@ export function AccountCard({
       renderRightActions={() => null}
     >
       <Pressable
+        accessibilityHint={a11y('swipeAccount')}
+        accessibilityLabel={account.id}
+        accessibilityState={{
+          selected: account.id === selected,
+        }}
         onLongPress={drag}
         onPress={() => {
           if (account.id !== selected) {

@@ -99,6 +99,7 @@ export default function Screen() {
         headerTitle: () =>
           post ? (
             <Pressable
+              accessibilityHint={a11y('viewCommunity')}
               accessibilityLabel={post.community.name}
               height="8"
               justify="center"
@@ -127,7 +128,7 @@ export default function Screen() {
             </Pressable>
           ) : undefined,
       })
-    }, [navigation, post, router, sort]),
+    }, [a11y, navigation, post, router, sort]),
   )
 
   const header = useMemo(
