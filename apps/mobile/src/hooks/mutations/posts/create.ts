@@ -85,6 +85,14 @@ export function useCreatePost(submission: Submission) {
 
       const { json } = SubmissionResponseSchema.parse(response)
 
+      if ('errors' in json) {
+        throw new Error(
+          json.errors[0]
+            ? `${json.errors[0][1]}: ${json.errors[0][2]}`
+            : undefined,
+        )
+      }
+
       if ('id' in json.data) {
         return {
           id: json.data.id,
@@ -214,20 +222,19 @@ function generateSchema(
           ),
         type: z.literal('text'),
       })
-      .merge(base),
+      .extend(base.shape),
     z
       .object({
         type: z.literal('link'),
         url: z
-          .string()
           .url(t('link.error.url'))
           .min(1, t('link.error.url'))
           .refine(
             (value) => {
-              const host = getHost(value)
-
               if (submission.rules.domains.whitelist.length > 0) {
-                return submission.rules.domains.whitelist.includes(host)
+                return submission.rules.domains.whitelist.includes(
+                  getHost(value),
+                )
               }
 
               return true
@@ -238,10 +245,10 @@ function generateSchema(
           )
           .refine(
             (value) => {
-              const host = getHost(value)
-
               if (submission.rules.domains.blacklist.length > 0) {
-                return !submission.rules.domains.blacklist.includes(host)
+                return !submission.rules.domains.blacklist.includes(
+                  getHost(value),
+                )
               }
 
               return true
@@ -251,22 +258,20 @@ function generateSchema(
             }),
           ),
       })
-      .merge(base),
+      .extend(base.shape),
     z
       .object({
         type: z.literal('image'),
-        url: z
-          .string()
-          .url()
-          .refine((value) => {
-            const host = getHost(value)
-
-            return host === 'reddit-uploaded-media.s3-accelerate.amazonaws.com'
-          }, t('image.error.url')),
+        url: z.url({
+          error: t('image.error.url'),
+          hostname: imageHostRegex,
+        }),
       })
-      .merge(base),
+      .extend(base.shape),
   ])
 }
+
+const imageHostRegex = /reddit-uploaded-media.s3-accelerate.amazonaws.com/
 
 function getHost(link: string) {
   try {

@@ -10,6 +10,7 @@
 - fixed: editing comments
 - fixed: high contrast text
 - fixed: icons for older iOS versions
+- fixed: post creation
 - fixed: status bar color for modal screens on iOS 26
 - removed: shared video instances
 

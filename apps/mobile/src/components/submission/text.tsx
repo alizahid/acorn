@@ -71,7 +71,6 @@ export function SubmissionText() {
               onChangeState={(event) => {
                 setState(event.nativeEvent)
               }}
-              onChangeText={field.onChange}
               placeholder={t('placeholder')}
               ref={editor}
               style={styles.input(font, fontScaling)}

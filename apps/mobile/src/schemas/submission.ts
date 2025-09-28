@@ -62,20 +62,25 @@ export type SubmissionRequirementsSchema = z.infer<
 >
 
 export const SubmissionResponseSchema = z.object({
-  json: z.object({
-    data: z.union([
-      z.object({
-        id: z.string(),
-      }),
-      z.object({
-        websocket_url: z.string(),
-      }),
-    ]),
-  }),
+  json: z.union([
+    z.object({
+      data: z.union([
+        z.object({
+          id: z.string(),
+        }),
+        z.object({
+          websocket_url: z.string(),
+        }),
+      ]),
+    }),
+    z.object({
+      errors: z.array(z.tuple([z.string(), z.string(), z.string()])),
+    }),
+  ]),
 })
 
 export const SubmissionSocketSchema = z.object({
   payload: z.object({
-    redirect: z.string().url(),
+    redirect: z.url(),
   }),
 })
