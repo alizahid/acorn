@@ -109,7 +109,7 @@ export function VideoPlaceholder({
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   icon: {
     ...StyleSheet.absoluteFillObject,
     variants: {
@@ -121,6 +121,9 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   main: {
+    justifyContent: 'center',
+    maxHeight: runtime.screen.height * 0.6,
+    overflow: 'hidden',
     variants: {
       compact: {
         default: {

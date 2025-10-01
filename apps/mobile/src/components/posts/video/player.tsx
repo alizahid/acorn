@@ -150,6 +150,7 @@ export function VideoPlayer({
 
 const styles = StyleSheet.create((theme, runtime) => ({
   main: {
+    justifyContent: 'center',
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
   },
