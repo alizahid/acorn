@@ -1,5 +1,5 @@
 import { Zoomable } from '@likashefqet/react-native-image-zoom'
-import { Image } from 'expo-image'
+import { Image, useImage } from 'expo-image'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -20,6 +20,8 @@ export function GalleryImage({ item }: Props) {
   const download = useDownloadImage()
   const share = useShareImage()
 
+  const image = useImage(item.url)
+
   return (
     <View style={styles.main}>
       <View style={styles.item(item.width, item.height)}>
@@ -28,7 +30,7 @@ export function GalleryImage({ item }: Props) {
             accessibilityIgnoresInvertColors
             priority="high"
             recyclingKey={item.url}
-            source={item.url}
+            source={image ?? item.thumbnail}
             style={styles.image}
           />
         </Zoomable>
