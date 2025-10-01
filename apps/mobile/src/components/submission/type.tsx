@@ -40,7 +40,7 @@ export function SubmissionType({ submission }: Props) {
                 ? 'photo'
                 : item === 'link'
                   ? 'link'
-                  : 'character.cursor.ibeam',
+                  : 'textformat.abc',
             imageColor: theme.colors.gray.text,
             title: t(item),
             titleColor: theme.colors.gray.text,
@@ -68,7 +68,7 @@ export function SubmissionType({ submission }: Props) {
                   ? 'photo'
                   : field.value === 'link'
                     ? 'link'
-                    : 'character.cursor.ibeam'
+                    : 'textformat.abc'
               }
               uniProps={($theme) => ({
                 tintColor: $theme.colors.gray.text,
