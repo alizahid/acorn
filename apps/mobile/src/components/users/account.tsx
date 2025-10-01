@@ -9,6 +9,7 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
 import { IconButton } from '../common/icon/button'
+import { PhosphorIcon } from '../common/icon/phosphor'
 import { Text } from '../common/text'
 
 type Props = {
@@ -71,6 +72,14 @@ export function AccountCard({
         }}
         style={[styles.main, account.id === selected && styles.selected]}
       >
+        <PhosphorIcon
+          name="DotsSixVertical"
+          uniProps={(theme) => ({
+            color: theme.colors.gray.accent,
+            size: theme.space[4],
+          })}
+        />
+
         <Text weight="medium">{account.id}</Text>
       </Pressable>
     </Swipeable>
@@ -86,7 +95,8 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: theme.colors.gray.bg,
     flexDirection: 'row',
     gap: theme.space[3],
-    padding: theme.space[3],
+    height: theme.space[8],
+    paddingHorizontal: theme.space[3],
     variants: {
       oled: {
         true: {

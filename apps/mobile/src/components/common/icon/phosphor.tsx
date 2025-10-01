@@ -1,5 +1,6 @@
 import { CompassIcon } from 'phosphor-react-native/src/icons/Compass'
 import { DiscordLogoIcon } from 'phosphor-react-native/src/icons/DiscordLogo'
+import { DotsSixVerticalIcon } from 'phosphor-react-native/src/icons/DotsSixVertical'
 import { GithubLogoIcon } from 'phosphor-react-native/src/icons/GithubLogo'
 import { ListDashesIcon } from 'phosphor-react-native/src/icons/ListDashes'
 import { ListNumbersIcon } from 'phosphor-react-native/src/icons/ListNumbers'
@@ -40,6 +41,7 @@ export const PhosphorIcon = withUnistyles(
 const icons = {
   Compass: CompassIcon,
   DiscordLogo: DiscordLogoIcon,
+  DotsSixVertical: DotsSixVerticalIcon,
   GithubLogo: GithubLogoIcon,
   ListDashes: ListDashesIcon,
   ListNumbers: ListNumbersIcon,

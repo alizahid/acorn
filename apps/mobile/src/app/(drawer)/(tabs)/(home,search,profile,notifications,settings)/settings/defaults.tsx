@@ -1,6 +1,10 @@
 import { create } from 'mutative'
-import { FlatList, ScrollView } from 'react-native'
-import ReorderableList, { reorderItems } from 'react-native-reorderable-list'
+import { FlatList } from 'react-native'
+import {
+  NestedReorderableList,
+  reorderItems,
+  ScrollViewContainer,
+} from 'react-native-reorderable-list'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -23,8 +27,8 @@ export default function Screen() {
   const listProps = useList()
 
   return (
-    <ScrollView {...listProps} contentContainerStyle={styles.content}>
-      <Menu.Label>{t('feedType.title')}</Menu.Label>
+    <ScrollViewContainer {...listProps} contentContainerStyle={styles.content}>
+      <Menu.Label mt="0">{t('feedType.title')}</Menu.Label>
 
       <FlatList
         data={FeedType}
@@ -59,7 +63,7 @@ export default function Screen() {
 
       <Menu.Label mt="6">{t('tabs.title')}</Menu.Label>
 
-      <ReorderableList
+      <NestedReorderableList
         data={tabs}
         keyExtractor={(item) => item.key}
         onReorder={(event) => {
@@ -98,7 +102,7 @@ export default function Screen() {
 
       <Menu.Label mt="6">{t('searchTabs.title')}</Menu.Label>
 
-      <ReorderableList
+      <NestedReorderableList
         data={searchTabs}
         keyExtractor={(item) => item.key}
         onReorder={(event) => {
@@ -142,7 +146,7 @@ export default function Screen() {
 
       <Menu.Label mt="6">{t('drawerSections.title')}</Menu.Label>
 
-      <ReorderableList
+      <NestedReorderableList
         data={drawerSections}
         keyExtractor={(item) => item.key}
         onReorder={(event) => {
@@ -172,20 +176,17 @@ export default function Screen() {
         scrollEnabled={false}
         style={styles.list}
       />
-    </ScrollView>
+    </ScrollViewContainer>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
   content: {
-    paddingBottom: theme.space[4],
-    paddingHorizontal: theme.space[4],
-    paddingTop: theme.space[1],
+    padding: theme.space[4],
   },
   list: {
     backgroundColor: theme.colors.gray.bgAltAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    flexGrow: 0,
   },
 }))
