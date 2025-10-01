@@ -73,7 +73,7 @@ export function useList<Type>(
       x: 0,
       y: -top,
     },
-    drawDistance: frame.height * 3,
+    drawDistance: frame.height * 2,
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',
     scrollIndicatorInsets: {

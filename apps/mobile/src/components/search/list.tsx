@@ -81,12 +81,12 @@ export function SearchList({
     type,
   })
 
-  const [viewing, setViewing] = useState<Array<string>>([])
+  const [viewing, setViewing] = useState<string>()
 
   const sticky = useStickyNav()
 
   const renderItem: ListRenderItem<Item> = useCallback(
-    ({ item }) => {
+    ({ item, extraData }) => {
       if (type === 'community') {
         return <CommunityCard community={item as Community} />
       }
@@ -98,11 +98,11 @@ export function SearchList({
       return (
         <PostCard
           post={item as Post}
-          viewing={focused ? viewing.includes(item.id) : false}
+          viewing={focused ? item.id === extraData : false}
         />
       )
     },
-    [focused, type, viewing],
+    [focused, type],
   )
 
   return (
@@ -114,9 +114,7 @@ export function SearchList({
         style,
       ])}
       data={results}
-      extraData={{
-        viewing,
-      }}
+      extraData={viewing}
       getItemType={(item) => (type === 'post' ? (item as Post).type : type)}
       ItemSeparatorComponent={() =>
         type === 'post' ? <View style={styles.separator} /> : null
@@ -148,7 +146,7 @@ export function SearchList({
       viewabilityConfigCallbackPairs={[
         {
           onViewableItemsChanged({ viewableItems }) {
-            setViewing(() => viewableItems.map((item) => item.key))
+            setViewing(viewableItems?.[0]?.key)
           },
           viewabilityConfig: {
             minimumViewTime: 0,

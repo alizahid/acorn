@@ -88,12 +88,12 @@ export function PostList({
     userType,
   })
 
-  const [viewing, setViewing] = useState<Array<string>>([])
+  const [viewing, setViewing] = useState<string>()
 
   const sticky = useStickyNav()
 
   const renderItem: ListRenderItem<Item> = useCallback(
-    ({ item }) => {
+    ({ item, extraData }) => {
       if (item.type === 'reply') {
         return (
           <CommentCard
@@ -119,11 +119,11 @@ export function PostList({
       return (
         <PostCard
           post={item}
-          viewing={focused ? viewing.includes(item.id) : false}
+          viewing={focused ? item.id === extraData : false}
         />
       )
     },
-    [focused, router, viewing],
+    [focused, router],
   )
 
   return (
@@ -132,9 +132,7 @@ export function PostList({
       {...sticky}
       contentContainerStyle={style}
       data={posts}
-      extraData={{
-        hello: 'world',
-      }}
+      extraData={viewing}
       getItemType={(item) => item.type}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       keyExtractor={(item) => {
@@ -189,7 +187,7 @@ export function PostList({
       viewabilityConfigCallbackPairs={[
         {
           onViewableItemsChanged({ viewableItems }) {
-            setViewing(() => viewableItems.map((item) => item.key))
+            setViewing(viewableItems?.[0]?.key)
           },
           viewabilityConfig: {
             minimumViewTime: 0,

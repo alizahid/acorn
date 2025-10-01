@@ -59,9 +59,7 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    ;(async () => {
-      await player.replaceAsync(video.url)
-    })()
+    player.replaceAsync(video.url)
   }, [player, video.url])
 
   useEffect(() => {
