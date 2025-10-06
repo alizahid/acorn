@@ -1,8 +1,16 @@
+import { osVersion } from 'expo-device'
 import { type SFSymbol } from 'expo-symbols'
+import semver from 'semver'
 
-import { iOS } from './common'
+const version = semver.coerce(osVersion) ?? '0'
 
-export const symbolVersion = iOS >= 18 ? 6 : iOS >= 17 ? 5 : iOS >= 16 ? 4 : 3
+export const symbolVersion = semver.gte(version, '18.0.0')
+  ? 6
+  : semver.gte(version, '17.0.0')
+    ? 5
+    : semver.gte(version, '16.0.0')
+      ? 4
+      : 3
 
 type Name =
   | 'upvote'
