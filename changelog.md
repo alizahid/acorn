@@ -1,5 +1,10 @@
 # Changelog
 
+## Upcoming
+
+- fixed: music pausing when app opens
+- added: glass effect for floating buttons on iOS 26
+
 ## Build 62
 
 - added: accessibility improvements
