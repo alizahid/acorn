@@ -11,7 +11,7 @@ import { space } from '~/styles/tokens'
 import { Icon } from './icon'
 
 export function Toast() {
-  const { font, fontScaling } = usePreferences()
+  const { font } = usePreferences()
 
   styles.useVariants({
     iPad,
@@ -57,9 +57,9 @@ export function Toast() {
       }}
       toastOptions={{
         closeButtonStyle: styles.close,
-        descriptionStyle: styles.description(font, fontScaling),
+        descriptionStyle: styles.description(font),
         style: styles.main,
-        titleStyle: styles.title(font, fontScaling),
+        titleStyle: styles.title(font),
         toastContainerStyle: styles.container,
         toastContentStyle: styles.content,
         unstyled: true,
@@ -89,11 +89,11 @@ const styles = StyleSheet.create((theme) => ({
     gap: theme.space[2],
     padding: theme.space[3],
   },
-  description: (font: Font, scaling: number) => ({
+  description: (font: Font) => ({
     color: theme.colors.gray.textLow,
     fontFamily: fonts[font],
-    fontSize: theme.typography[2].fontSize * scaling,
-    lineHeight: theme.typography[2].lineHeight * scaling,
+    fontSize: theme.typography[2].fontSize,
+    lineHeight: theme.typography[2].lineHeight,
     marginTop: theme.space[1],
   }),
   main: {
@@ -103,11 +103,11 @@ const styles = StyleSheet.create((theme) => ({
     marginHorizontal: theme.space[4],
     marginVertical: theme.space[2],
   },
-  title: (font: Font, scaling: number) => ({
+  title: (font: Font) => ({
     color: theme.colors.gray.text,
     fontFamily: fonts[font],
-    fontSize: theme.typography[3].fontSize * scaling,
+    fontSize: theme.typography[3].fontSize,
     fontWeight: weights.medium,
-    lineHeight: theme.typography[3].lineHeight * scaling,
+    lineHeight: theme.typography[3].lineHeight,
   }),
 }))
