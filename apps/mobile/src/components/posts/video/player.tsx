@@ -48,6 +48,7 @@ export function VideoPlayer({
   const { addPost } = useHistory()
 
   const ref = useRef<VideoView>(null)
+  const current = useRef<string>(video.url)
 
   const player = useVideoPlayer(null, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
@@ -59,7 +60,11 @@ export function VideoPlayer({
   })
 
   useEffect(() => {
-    player.replaceAsync(video.url)
+    if (current.current !== video.url) {
+      current.current = video.url
+
+      player.replaceAsync(video.url)
+    }
   }, [player, video.url])
 
   useEffect(() => {
