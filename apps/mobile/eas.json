@@ -1,5 +1,9 @@
 {
   "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal"
+    },
     "preview": {
       "channel": "preview",
       "distribution": "internal"

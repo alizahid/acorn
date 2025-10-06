@@ -6,6 +6,7 @@
   "scripts": {
     "android": "expo run:android",
     "build": "env-cmd -f .env.production.local eas build --profile production --platform ios --local",
+    "build:dev": "env-cmd -f .env.local eas build --profile development --platform ios --local",
     "build:preview": "env-cmd -f .env.local eas build --profile preview --platform ios --local",
     "build:sim": "env-cmd -f .env.local eas build --profile simulator --platform ios --local",
     "dev": "expo start --ios",
