@@ -51,7 +51,7 @@ export function MessageCard({ message }: Props) {
       direction="row"
       gap="4"
       onPress={() => {
-        router.push({
+        router.navigate({
           params: {
             id: message.id,
             user,
@@ -76,7 +76,7 @@ export function MessageCard({ message }: Props) {
             accessibilityLabel={user}
             hitSlop={space[4]}
             onPress={() => {
-              router.push({
+              router.navigate({
                 params: {
                   name: user,
                 },

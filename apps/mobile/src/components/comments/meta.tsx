@@ -67,7 +67,7 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         gap="2"
         hitSlop={space[3]}
         onPress={() => {
-          router.push({
+          router.navigate({
             params: {
               name: removePrefix(comment.user.name),
             },

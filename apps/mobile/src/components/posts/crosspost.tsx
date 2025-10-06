@@ -41,7 +41,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
         accessibilityHint={a11y('viewPost')}
         accessibilityLabel={post.title}
         onPress={() => {
-          router.push({
+          router.navigate({
             params: {
               id: removePrefix(post.id),
             },
@@ -70,7 +70,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
       accessibilityHint={a11y('viewPost')}
       accessibilityLabel={post.title}
       onPress={() => {
-        router.push({
+        router.navigate({
           params: {
             id: removePrefix(post.id),
           },

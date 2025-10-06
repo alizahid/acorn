@@ -25,7 +25,7 @@ export default function Screen() {
           icon={<Icon name="gearshape" />}
           label={t('preferences')}
           onPress={() => {
-            router.push({
+            router.navigate({
               pathname: '/settings/preferences',
             })
           }}
@@ -36,7 +36,7 @@ export default function Screen() {
           icon={<Icon name="hand.tap" />}
           label={t('gestures')}
           onPress={() => {
-            router.push({
+            router.navigate({
               pathname: '/settings/gestures',
             })
           }}
@@ -47,7 +47,7 @@ export default function Screen() {
           icon={<Icon name="swatchpalette" />}
           label={t('appearance')}
           onPress={() => {
-            router.push({
+            router.navigate({
               pathname: '/settings/appearance',
             })
           }}
@@ -58,7 +58,7 @@ export default function Screen() {
           icon={<Icon name="slider.horizontal.3" />}
           label={t('defaults')}
           onPress={() => {
-            router.push({
+            router.navigate({
               pathname: '/settings/defaults',
             })
           }}
@@ -69,7 +69,7 @@ export default function Screen() {
           icon={<Icon name="line.3.horizontal.decrease" />}
           label={t('filters')}
           onPress={() => {
-            router.push({
+            router.navigate({
               pathname: '/settings/filters',
             })
           }}
@@ -80,7 +80,7 @@ export default function Screen() {
           icon={<Icon name="arrow.up.arrow.down" />}
           label={t('sort')}
           onPress={() => {
-            router.push({
+            router.navigate({
               pathname: '/settings/sort',
             })
           }}
@@ -91,7 +91,7 @@ export default function Screen() {
           icon={<Icon name="externaldrive" />}
           label={t('cache')}
           onPress={() => {
-            router.push({
+            router.navigate({
               pathname: '/settings/cache',
             })
           }}

@@ -95,7 +95,7 @@ export function useLink() {
         }
 
         if (parts?.postId) {
-          router.push({
+          router.navigate({
             params: {
               commentId: parts.commentId,
               id: parts.postId,
@@ -107,7 +107,7 @@ export function useLink() {
         }
 
         if (parts?.feed) {
-          router.push({
+          router.navigate({
             params: {
               feed: parts.feed,
             },
@@ -118,7 +118,7 @@ export function useLink() {
         }
 
         if (parts?.user) {
-          router.push({
+          router.navigate({
             params: {
               name: parts.user,
             },
@@ -129,7 +129,7 @@ export function useLink() {
         }
 
         if (parts?.community) {
-          router.push({
+          router.navigate({
             params: {
               name: parts.community,
             },

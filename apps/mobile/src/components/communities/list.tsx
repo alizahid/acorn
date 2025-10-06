@@ -332,7 +332,7 @@ export function CommunitiesList({
                         onPress={() => {
                           onPress?.()
 
-                          router.push({
+                          router.navigate({
                             params: {
                               name: community,
                             },
@@ -363,7 +363,7 @@ export function CommunitiesList({
               onPress?.()
 
               if (item.type === 'community') {
-                router.push({
+                router.navigate({
                   params: {
                     name: item.data.name,
                   },
@@ -373,7 +373,7 @@ export function CommunitiesList({
                 return
               }
 
-              router.push({
+              router.navigate({
                 params: {
                   name: removePrefix(item.data.name),
                 },

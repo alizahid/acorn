@@ -99,7 +99,7 @@ export function PostCard({ expanded, post }: Props) {
       }
 
       if (action === 'reply') {
-        router.push({
+        router.navigate({
           params: {
             id: item.id,
           },

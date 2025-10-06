@@ -31,7 +31,7 @@ export function PostCommunity({ post }: Props) {
         hitSlop={space[3]}
         onPress={() => {
           if (post.community.name.startsWith('u/')) {
-            router.push({
+            router.navigate({
               params: {
                 name: removePrefix(post.community.name),
               },
@@ -41,7 +41,7 @@ export function PostCommunity({ post }: Props) {
             return
           }
 
-          router.push({
+          router.navigate({
             params: {
               name: removePrefix(post.community.name),
             },
@@ -75,7 +75,7 @@ export function PostCommunity({ post }: Props) {
         gap="2"
         hitSlop={space[3]}
         onPress={() => {
-          router.push({
+          router.navigate({
             params: {
               name: removePrefix(post.user.name),
             },

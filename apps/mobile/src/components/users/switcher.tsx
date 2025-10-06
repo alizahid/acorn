@@ -39,7 +39,7 @@ export function AccountSwitcher() {
             icon="plus.circle"
             label={a11y('addAccount')}
             onPress={() => {
-              router.push({
+              router.navigate({
                 params: {
                   mode: 'dismissible',
                 },

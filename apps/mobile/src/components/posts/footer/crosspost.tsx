@@ -54,7 +54,7 @@ export function CrossPostFooter({ post }: Props) {
         gap="2"
         hitSlop={space[4]}
         onPress={() => {
-          router.push({
+          router.navigate({
             params: {
               name: post.community.name,
             },

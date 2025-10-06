@@ -174,7 +174,7 @@ function StackLayout({ children }: PropsWithChildren) {
                 community: (route.params as CommunityParams).name,
               })}
               onPress={() => {
-                router.push({
+                router.navigate({
                   params: {
                     name: (route.params as CommunityParams).name,
                   },
@@ -264,7 +264,7 @@ function StackLayout({ children }: PropsWithChildren) {
                   icon="info.circle"
                   label={user}
                   onPress={() => {
-                    router.push({
+                    router.navigate({
                       params: {
                         name: user,
                       },

@@ -54,7 +54,7 @@ export default function Screen() {
                   return
                 }
 
-                router.push({
+                router.navigate({
                   params: {
                     name: removePrefix(profile.name),
                     type,
@@ -72,7 +72,7 @@ export default function Screen() {
           icon="plus"
           label={a11y('createPost')}
           onPress={() => {
-            router.push({
+            router.navigate({
               params: {
                 name: `u_${profile.name}`,
               },

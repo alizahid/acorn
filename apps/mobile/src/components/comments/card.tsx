@@ -111,7 +111,7 @@ export function CommentCard({
         }
 
         if (action === 'reply') {
-          router.push({
+          router.navigate({
             params: {
               commentId: comment.id,
               id: comment.post.id,

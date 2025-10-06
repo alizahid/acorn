@@ -98,7 +98,7 @@ export function CommentMenu({ children, comment }: Props) {
           <Link.MenuAction
             icon="arrowshape.turn.up.backward"
             onPress={() => {
-              router.push({
+              router.navigate({
                 params: {
                   commentId: comment.id,
                   id: comment.post.id,
@@ -116,7 +116,7 @@ export function CommentMenu({ children, comment }: Props) {
             <Link.MenuAction
               icon="square.and.pencil"
               onPress={() => {
-                router.push({
+                router.navigate({
                   params: {
                     body: comment.body,
                     commentId: comment.id,
@@ -229,7 +229,7 @@ export function CommentMenu({ children, comment }: Props) {
           <Link.MenuAction
             icon="person"
             onPress={() => {
-              router.push({
+              router.navigate({
                 params: {
                   name: comment.user.name,
                 },
@@ -247,7 +247,7 @@ export function CommentMenu({ children, comment }: Props) {
             <Link.MenuAction
               icon="person.2"
               onPress={() => {
-                router.push({
+                router.navigate({
                   params: {
                     name: comment.community.name,
                   },

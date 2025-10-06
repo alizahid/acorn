@@ -145,7 +145,7 @@ export default function Screen() {
                 community: params.name,
               })}
               onPress={() => {
-                router.push({
+                router.navigate({
                   params: {
                     name: params.name,
                   },

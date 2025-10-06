@@ -101,7 +101,7 @@ export default function Screen() {
               justify="center"
               onPress={() => {
                 if (post.community.name.startsWith('u/')) {
-                  router.push({
+                  router.navigate({
                     params: {
                       name: removePrefix(post.community.name),
                     },
@@ -111,7 +111,7 @@ export default function Screen() {
                   return
                 }
 
-                router.push({
+                router.navigate({
                   params: {
                     name: removePrefix(post.community.name),
                   },
@@ -249,7 +249,7 @@ export default function Screen() {
           icon="arrowshape.turn.up.backward.fill"
           label={a11y('createComment')}
           onPress={() => {
-            router.push({
+            router.navigate({
               params: {
                 id: params.id,
               },

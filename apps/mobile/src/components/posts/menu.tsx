@@ -93,7 +93,7 @@ export function PostMenu({ children, post }: Props) {
           <Link.MenuAction
             icon="arrowshape.turn.up.backward"
             onPress={() => {
-              router.push({
+              router.navigate({
                 params: {
                   id: post.id,
                 },
@@ -239,7 +239,7 @@ export function PostMenu({ children, post }: Props) {
           <Link.MenuAction
             icon="person"
             onPress={() => {
-              router.push({
+              router.navigate({
                 params: {
                   name: post.user.name,
                 },
@@ -257,7 +257,7 @@ export function PostMenu({ children, post }: Props) {
             <Link.MenuAction
               icon="person.2"
               onPress={() => {
-                router.push({
+                router.navigate({
                   params: {
                     name: post.community.name,
                   },

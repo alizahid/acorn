@@ -49,7 +49,7 @@ export default function Screen() {
                 const query = event.nativeEvent.text
 
                 if (query.length > 2) {
-                  router.push({
+                  router.navigate({
                     params: {
                       name: params.name,
                       query,
@@ -84,7 +84,7 @@ export default function Screen() {
         icon="plus"
         label={a11y('createPost')}
         onPress={() => {
-          router.push({
+          router.navigate({
             params: {
               name: params.name,
             },
