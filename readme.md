@@ -15,12 +15,25 @@ Acorn is built using React Native, but it's only designed with iOS in mind. And 
 
 This [guide](https://reactnative.dev/docs/set-up-your-environment) should cover the basic setup for React Native development, which includes [Xcode](https://developer.apple.com/xcode), [Node.js](https://nodejs.org), and [Watchman](https://facebook.github.io/watchman).
 
-Then you need these two dependencies;
+Then you need these four dependencies;
+
+> You can install EAS CLI using [NPM](https://www.npmjs.com) and the rest using [Homebrew](https://brew.sh).
 
 - [Bun](https://bun.sh)
 - [EAS CLI](https://github.com/expo/eas-cli)
+- [Fastlane](https://fastlane.tools)
+- [CocoaPods](https://cocoapods.org)
 
 And finally, an [Expo](https://expo.dev) account.
+
+#### Installing
+
+Once you download Xcode from App Store, open Terminal and install the rest of the dependencies;
+
+```bash
+brew install fastlane cocoapods watchman node oven-sh/bun/bun
+npm i -g eas-cli
+```
 
 ### Environment variables
 
