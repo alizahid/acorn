@@ -3,7 +3,7 @@ import {
   type FlashListRef,
   type ListRenderItem,
 } from '@shopify/flash-list'
-import { type ReactElement, useCallback, useRef, useState } from 'react'
+import { type ReactElement, useCallback, useRef } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -34,7 +34,6 @@ type Item = Post | Community | User
 
 type Props = {
   community?: string
-  focused?: boolean
   header?: ReactElement
   interval?: TopInterval
   listProps?: ListProps<Item>
@@ -47,7 +46,6 @@ type Props = {
 
 export function SearchList({
   community,
-  focused,
   header,
   interval,
   listProps,
@@ -81,12 +79,10 @@ export function SearchList({
     type,
   })
 
-  const [viewing, setViewing] = useState<string>()
-
   const sticky = useStickyNav()
 
   const renderItem: ListRenderItem<Item> = useCallback(
-    ({ item, extraData }) => {
+    ({ item }) => {
       if (type === 'community') {
         return <CommunityCard community={item as Community} />
       }
@@ -95,14 +91,9 @@ export function SearchList({
         return <UserCard user={item as User} />
       }
 
-      return (
-        <PostCard
-          post={item as Post}
-          viewing={focused ? item.id === extraData : false}
-        />
-      )
+      return <PostCard post={item as Post} />
     },
-    [focused, type],
+    [type],
   )
 
   return (
@@ -114,7 +105,6 @@ export function SearchList({
         style,
       ])}
       data={results}
-      extraData={viewing}
       getItemType={(item) => (type === 'post' ? (item as Post).type : type)}
       ItemSeparatorComponent={() =>
         type === 'post' ? <View style={styles.separator} /> : null
@@ -143,18 +133,6 @@ export function SearchList({
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={renderItem}
-      viewabilityConfigCallbackPairs={[
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            setViewing(viewableItems?.[0]?.key)
-          },
-          viewabilityConfig: {
-            minimumViewTime: 0,
-            viewAreaCoveragePercentThreshold: 60,
-            waitForInteraction: false,
-          },
-        },
-      ]}
     />
   )
 }

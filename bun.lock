@@ -24,6 +24,7 @@
         "@formatjs/intl-numberformat": "^8.15.5",
         "@formatjs/intl-pluralrules": "^5.4.5",
         "@formatjs/intl-relativetimeformat": "^11.4.12",
+        "@futurejj/react-native-visibility-sensor": "^1.4.4",
         "@gorhom/portal": "^1.0.14",
         "@hookform/resolvers": "^5.2.2",
         "@likashefqet/react-native-image-zoom": "^4.3.0",
@@ -519,6 +520,8 @@
     "@formatjs/intl-pluralrules": ["@formatjs/intl-pluralrules@5.4.5", "", { "dependencies": { "@formatjs/ecma402-abstract": "2.3.5", "@formatjs/intl-localematcher": "0.6.2", "decimal.js": "^10.4.3", "tslib": "^2.8.0" } }, "sha512-pMRun+x3eVKLe44cxLq8XwUEhj/Pkjl95ArGM+G/VyLMSMqIyXySwpafuioa0/6BnkTO/NFNhER/SyDO7SAd7w=="],
 
     "@formatjs/intl-relativetimeformat": ["@formatjs/intl-relativetimeformat@11.4.12", "", { "dependencies": { "@formatjs/ecma402-abstract": "2.3.5", "@formatjs/intl-localematcher": "0.6.2", "tslib": "^2.8.0" } }, "sha512-CCzn6iqKfgjJgeiaPkZaw0KeC1GY/g9joL5b5d4H6Mck+nR+Ale0i7/bhXpTEkN1EpUUe/hi6L4+j0BxP2P7HA=="],
+
+    "@futurejj/react-native-visibility-sensor": ["@futurejj/react-native-visibility-sensor@1.4.4", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-PTGJZ0bUe5JOfGzI7MOrk0JZYJfj8XZhyTz5WbAZ0JDGTpIAjnG12gUeed+9MvZm1SzQVKHcRYsamloBtKZwNw=="],
 
     "@gorhom/portal": ["@gorhom/portal@1.0.14", "", { "dependencies": { "nanoid": "^3.3.1" }, "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-MXyL4xvCjmgaORr/rtryDNFy3kU4qUbKlwtQqqsygd0xX3mhKjOLn6mQK8wfu0RkoE0pBE0nAasRoHua+/QZ7A=="],
 

@@ -22,7 +22,6 @@ type Props = {
   nsfw?: boolean
   recyclingKey?: string
   spoiler?: boolean
-  viewing?: boolean
 }
 
 export function PostGalleryCard({
@@ -32,7 +31,6 @@ export function PostGalleryCard({
   nsfw,
   recyclingKey,
   spoiler,
-  viewing,
 }: Props) {
   const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences()
   const { addPost } = useHistory()
@@ -78,7 +76,6 @@ export function PostGalleryCard({
           <Image
             {...placeholder}
             accessibilityIgnoresInvertColors
-            priority={viewing ? 'high' : 'normal'}
             recyclingKey={recyclingKey}
             source={first.thumbnail}
             style={styles.image}
@@ -102,7 +99,6 @@ export function PostGalleryCard({
         }}
         recyclingKey={recyclingKey}
         spoiler={Boolean(spoiler && blurSpoiler)}
-        viewing={viewing}
       />
     </View>
   )

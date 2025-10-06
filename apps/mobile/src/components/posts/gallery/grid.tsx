@@ -1,4 +1,6 @@
+import { VisibilitySensor } from '@futurejj/react-native-visibility-sensor'
 import { Image } from 'expo-image'
+import { useState } from 'react'
 import { ResponsiveGrid } from 'react-native-flexible-grid'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -18,7 +20,6 @@ type Props = {
   onPress: (index: number) => void
   recyclingKey?: string
   spoiler?: boolean
-  viewing?: boolean
 }
 
 export function ImageGrid({
@@ -27,12 +28,13 @@ export function ImageGrid({
   onPress,
   recyclingKey,
   spoiler = false,
-  viewing,
 }: Props) {
   const t = useTranslations('component.posts.gallery')
   const a11y = useTranslations('a11y')
 
   const placeholder = useImagePlaceholder()
+
+  const [visible, setVisible] = useState(false)
 
   if (images.length === 1) {
     const image = images[0]!
@@ -46,11 +48,15 @@ export function ImageGrid({
           }}
           style={styles.one(image.width / image.height)}
         >
-          <View>
+          <VisibilitySensor
+            onChange={(next) => {
+              setVisible(next)
+            }}
+          >
             <Image
               {...placeholder}
               accessibilityIgnoresInvertColors
-              priority={viewing ? 'high' : 'normal'}
+              priority={visible ? 'high' : 'low'}
               recyclingKey={recyclingKey}
               source={image.thumbnail}
               style={styles.image}
@@ -67,7 +73,7 @@ export function ImageGrid({
                 </Text>
               </View>
             ) : null}
-          </View>
+          </VisibilitySensor>
         </Pressable>
       </ImageMenu>
     )
@@ -76,7 +82,11 @@ export function ImageGrid({
   const data = images.slice(0, 4)
 
   return (
-    <View>
+    <VisibilitySensor
+      onChange={(next) => {
+        setVisible(next)
+      }}
+    >
       <ResponsiveGrid
         data={data.map((image, index) => ({
           ...image,
@@ -96,7 +106,7 @@ export function ImageGrid({
               <Image
                 {...placeholder}
                 accessibilityIgnoresInvertColors
-                priority={viewing ? 'high' : 'normal'}
+                priority={visible ? 'high' : 'low'}
                 recyclingKey={recyclingKey}
                 source={item.thumbnail}
                 style={styles.image}
@@ -127,7 +137,7 @@ export function ImageGrid({
           </Text>
         </View>
       ) : null}
-    </View>
+    </VisibilitySensor>
   )
 }
 

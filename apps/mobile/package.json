@@ -23,6 +23,7 @@
     "@formatjs/intl-numberformat": "^8.15.5",
     "@formatjs/intl-pluralrules": "^5.4.5",
     "@formatjs/intl-relativetimeformat": "^11.4.12",
+    "@futurejj/react-native-visibility-sensor": "^1.4.4",
     "@gorhom/portal": "^1.0.14",
     "@hookform/resolvers": "^5.2.2",
     "@likashefqet/react-native-image-zoom": "^4.3.0",

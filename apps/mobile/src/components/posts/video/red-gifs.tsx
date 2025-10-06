@@ -17,7 +17,6 @@ type Props = {
   spoiler?: boolean
   thumbnail?: string
   video: PostMedia
-  viewing: boolean
 }
 
 export function RedGifsVideo({
@@ -29,7 +28,6 @@ export function RedGifsVideo({
   spoiler,
   thumbnail,
   video,
-  viewing,
 }: Props) {
   styles.useVariants({
     compact,
@@ -59,7 +57,6 @@ export function RedGifsVideo({
               ...video,
               url: gif.url,
             }}
-            viewing={viewing}
           />
         )}
       </VideoPlaceholder>

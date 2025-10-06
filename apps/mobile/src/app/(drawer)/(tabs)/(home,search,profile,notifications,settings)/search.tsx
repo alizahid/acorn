@@ -13,7 +13,6 @@ import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
-import { useFocused } from '~/hooks/focus'
 import { ListFlags, useList } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
 import { heights } from '~/lib/common'
@@ -33,8 +32,6 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences()
-
-  const { focused } = useFocused()
 
   const listProps = useList(ListFlags.ALL, {
     top: heights.search,
@@ -78,7 +75,6 @@ export default function Screen() {
           return (
             <SearchList
               {...props}
-              focused={focused ? index === 0 : false}
               header={
                 <SortIntervalMenu
                   interval={interval}

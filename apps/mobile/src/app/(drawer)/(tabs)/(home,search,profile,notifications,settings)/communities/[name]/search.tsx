@@ -11,7 +11,6 @@ import { View } from '~/components/common/view'
 import { Header } from '~/components/navigation/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
-import { useFocused } from '~/hooks/focus'
 import { ListFlags, useList } from '~/hooks/list'
 import { heights, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -38,8 +37,6 @@ export default function Screen() {
     oled: themeOled,
     tint: themeTint,
   })
-
-  const { focused } = useFocused()
 
   const listProps = useList(ListFlags.ALL, {
     top: heights.notifications,
@@ -82,7 +79,6 @@ export default function Screen() {
 
       <SearchList
         community={params.name}
-        focused={focused}
         header={
           <View style={styles.header}>
             <SortIntervalMenu

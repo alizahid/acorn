@@ -18,15 +18,9 @@ type Props = {
   post: Post
   side?: 'left' | 'right'
   style?: StyleProp<ViewStyle>
-  viewing?: boolean
 }
 
-export function PostCompactCard({
-  post,
-  side = 'left',
-  style,
-  viewing,
-}: Props) {
+export function PostCompactCard({ post, side = 'left', style }: Props) {
   const { communityOnTop, fontSizePostTitle, largeThumbnails } =
     usePreferences()
 
@@ -48,7 +42,6 @@ export function PostCompactCard({
             large={largeThumbnails}
             post={post.crossPost}
             recyclingKey={post.id}
-            viewing={false}
           />
         ) : null}
 
@@ -60,7 +53,6 @@ export function PostCompactCard({
             recyclingKey={post.id}
             thumbnail={post.media.images?.[0]?.url}
             video={post.media.video}
-            viewing={false}
           />
         ) : null}
 
@@ -72,7 +64,6 @@ export function PostCompactCard({
             nsfw={post.nsfw}
             recyclingKey={post.id}
             spoiler={post.spoiler}
-            viewing={viewing}
           />
         ) : null}
 

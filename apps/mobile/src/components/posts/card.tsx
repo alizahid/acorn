@@ -31,10 +31,9 @@ import { PostVideoCard } from './video'
 type Props = {
   expanded?: boolean
   post: Post
-  viewing: boolean
 }
 
-export function PostCard({ expanded, post, viewing }: Props) {
+export function PostCard({ expanded, post }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -159,7 +158,6 @@ export function PostCard({ expanded, post, viewing }: Props) {
               post={post}
               side={mediaOnRight ? 'right' : 'left'}
               style={styles.dimmed}
-              viewing={viewing}
             />
           </Pressable>
         </PostMenu>
@@ -210,11 +208,7 @@ export function PostCard({ expanded, post, viewing }: Props) {
           </View>
 
           {post.type === 'crosspost' && post.crossPost ? (
-            <CrossPostCard
-              post={post.crossPost}
-              recyclingKey={post.id}
-              viewing={viewing}
-            />
+            <CrossPostCard post={post.crossPost} recyclingKey={post.id} />
           ) : null}
 
           {post.type === 'video' && post.media.video ? (
@@ -224,7 +218,6 @@ export function PostCard({ expanded, post, viewing }: Props) {
               spoiler={post.spoiler}
               thumbnail={post.media.images?.[0]?.url}
               video={post.media.video}
-              viewing={viewing}
             />
           ) : null}
 
@@ -234,7 +227,6 @@ export function PostCard({ expanded, post, viewing }: Props) {
               nsfw={post.nsfw}
               recyclingKey={post.id}
               spoiler={post.spoiler}
-              viewing={viewing}
             />
           ) : null}
 

@@ -23,7 +23,6 @@ import { View } from '~/components/common/view'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useFocused } from '~/hooks/focus'
 import { ListFlags, useList } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
 import { heights, iPad } from '~/lib/common'
@@ -55,12 +54,9 @@ export default function Screen() {
     iPad,
   })
 
-  const { focused } = useFocused()
-
   const list = useRef<FlashListRef<Comment>>(null)
 
   const [sort, setSort] = useState(sortPostComments)
-  const [playing, setPlaying] = useState(focused)
 
   const listProps = useList(ListFlags.BOTTOM)
 
@@ -135,7 +131,7 @@ export default function Screen() {
     () => (
       <View mb="2">
         {post ? (
-          <PostCard expanded post={post} viewing={playing} />
+          <PostCard expanded post={post} />
         ) : (
           <Spinner m="4" size="large" />
         )}
@@ -157,7 +153,7 @@ export default function Screen() {
         ) : null}
       </View>
     ),
-    [comments, params.commentId, playing, post, router],
+    [comments, params.commentId, post, router],
   )
 
   const renderItem: ListRenderItem<Comment> = useCallback(
@@ -209,7 +205,6 @@ export default function Screen() {
         data={comments}
         extraData={{
           commentId: params.commentId,
-          playing,
         }}
         ItemSeparatorComponent={() => <View height="2" />}
         initialScrollIndex={params.commentId ? 0 : undefined}
@@ -227,16 +222,6 @@ export default function Screen() {
         maintainVisibleContentPosition={{
           disabled: true,
         }}
-        onScroll={(event) => {
-          const next =
-            focused &&
-            (list.current?.getFirstItemOffset() ?? 0) >
-              event.nativeEvent.contentOffset.y
-
-          if (next !== playing) {
-            setPlaying(next)
-          }
-        }}
         onViewableItemsChanged={({ viewableItems }) => {
           const next = viewableItems.find(
             (item) =>
@@ -252,7 +237,6 @@ export default function Screen() {
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
-        scrollEventThrottle={1000}
         viewabilityConfig={{
           minimumViewTime: 0,
           waitForInteraction: false,

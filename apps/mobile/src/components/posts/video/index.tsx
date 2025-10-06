@@ -15,7 +15,6 @@ type Props = {
   spoiler?: boolean
   thumbnail?: string
   video: PostMedia
-  viewing: boolean
 }
 
 export function PostVideoCard({
@@ -27,7 +26,6 @@ export function PostVideoCard({
   spoiler,
   thumbnail,
   video,
-  viewing,
 }: Props) {
   if (video.provider === 'red-gifs') {
     return (
@@ -40,7 +38,6 @@ export function PostVideoCard({
         spoiler={spoiler}
         thumbnail={thumbnail}
         video={video}
-        viewing={viewing}
       />
     )
   }
@@ -62,7 +59,6 @@ export function PostVideoCard({
             recyclingKey={recyclingKey}
             spoiler={spoiler}
             video={video}
-            viewing={viewing}
           />
         )}
       </VideoPlaceholder>

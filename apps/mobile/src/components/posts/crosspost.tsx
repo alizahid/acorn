@@ -21,16 +21,9 @@ type Props = {
   large?: boolean
   post: Post
   recyclingKey?: string
-  viewing: boolean
 }
 
-export function CrossPostCard({
-  compact,
-  large,
-  post,
-  recyclingKey,
-  viewing,
-}: Props) {
+export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -94,7 +87,6 @@ export function CrossPostCard({
           spoiler={post.spoiler}
           thumbnail={post.media.images?.[0]?.url}
           video={post.media.video}
-          viewing={viewing}
         />
       ) : null}
 

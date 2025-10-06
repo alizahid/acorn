@@ -1,11 +1,14 @@
+import { VisibilitySensor } from '@futurejj/react-native-visibility-sensor'
 import { useEvent } from 'expo'
 import { useVideoPlayer, VideoView } from 'expo-video'
-import { useEffect, useRef } from 'react'
+import { noop } from 'lodash'
+import { useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
+import { useFocused } from '~/hooks/focus'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
@@ -20,16 +23,9 @@ type Props = {
   recyclingKey?: string
   spoiler?: boolean
   video: PostMedia
-  viewing: boolean
 }
 
-export function VideoPlayer({
-  nsfw,
-  recyclingKey,
-  spoiler,
-  video,
-  viewing,
-}: Props) {
+export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
   const t = useTranslations('component.posts.video')
   const a11y = useTranslations('a11y')
 
@@ -44,8 +40,12 @@ export function VideoPlayer({
   } = usePreferences()
   const { addPost } = useHistory()
 
+  const { focused } = useFocused()
+
   const ref = useRef<VideoView>(null)
   const current = useRef<string>(null)
+
+  const [visible, setVisible] = useState(false)
 
   const player = useVideoPlayer(null, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
@@ -65,12 +65,12 @@ export function VideoPlayer({
   }, [player, video.url])
 
   useEffect(() => {
-    if (viewing && autoPlay) {
+    if (focused && visible && autoPlay) {
       player.play()
     } else {
       player.pause()
     }
-  }, [autoPlay, player, viewing])
+  }, [autoPlay, player, visible, focused])
 
   const { muted } = useEvent(player, 'mutedChange', {
     muted: feedMuted,
@@ -91,29 +91,41 @@ export function VideoPlayer({
         }}
         style={styles.main}
       >
-        <VideoView
-          accessibilityIgnoresInvertColors
-          allowsPictureInPicture={pictureInPicture}
-          contentFit="cover"
-          fullscreenOptions={{
-            enable: false,
-          }}
-          onFullscreenEnter={() => {
-            player.play()
+        <VisibilitySensor
+          onChange={noop}
+          onPercentChange={(percent) => {
+            const next = percent > 80
 
-            if (unmuteFullscreen && muted) {
-              player.muted = false
+            if (next !== visible) {
+              setVisible(next)
             }
           }}
-          onFullscreenExit={() => {
-            if (!autoPlay) {
-              player.pause()
-            }
-          }}
-          player={player}
-          ref={ref}
-          style={styles.video(video.width / video.height)}
-        />
+          style={styles.sensor(video.width / video.height)}
+        >
+          <VideoView
+            accessibilityIgnoresInvertColors
+            allowsPictureInPicture={pictureInPicture}
+            contentFit="cover"
+            fullscreenOptions={{
+              enable: false,
+            }}
+            onFullscreenEnter={() => {
+              player.play()
+
+              if (unmuteFullscreen && muted) {
+                player.muted = false
+              }
+            }}
+            onFullscreenExit={() => {
+              if (!autoPlay) {
+                player.pause()
+              }
+            }}
+            player={player}
+            ref={ref}
+            style={styles.video}
+          />
+        </VisibilitySensor>
 
         <VideoStatus player={player} />
 
@@ -149,12 +161,15 @@ const styles = StyleSheet.create((theme, runtime) => ({
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
   },
+  sensor: (aspectRatio: number) => ({
+    aspectRatio,
+  }),
   thumbnail: {
     ...StyleSheet.absoluteFillObject,
   },
-  video: (aspectRatio: number) => ({
-    aspectRatio,
-  }),
+  video: {
+    flex: 1,
+  },
   volume: {
     backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',

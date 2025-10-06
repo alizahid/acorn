@@ -4,7 +4,7 @@ import {
   type ListRenderItem,
 } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
-import { type ReactElement, useCallback, useRef, useState } from 'react'
+import { type ReactElement, useCallback, useRef } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -12,7 +12,6 @@ import { useTranslations } from 'use-intl'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
-import { useFocused } from '~/hooks/focus'
 import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
@@ -28,6 +27,12 @@ import { Button } from '../common/button'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { View } from '../common/view'
+
+const viewabilityConfig = {
+  minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
+  viewAreaCoveragePercentThreshold: 60,
+  waitForInteraction: false,
+}
 
 type Item = Post | Comment
 
@@ -52,8 +57,6 @@ export function PostList({
   userType,
 }: Props) {
   const router = useRouter()
-
-  const { focused } = useFocused()
 
   const t = useTranslations('component.posts.list')
 
@@ -88,12 +91,10 @@ export function PostList({
     userType,
   })
 
-  const [viewing, setViewing] = useState<string>()
-
   const sticky = useStickyNav()
 
   const renderItem: ListRenderItem<Item> = useCallback(
-    ({ item, extraData }) => {
+    ({ item }) => {
       if (item.type === 'reply') {
         return (
           <CommentCard
@@ -116,14 +117,9 @@ export function PostList({
         return null
       }
 
-      return (
-        <PostCard
-          post={item}
-          viewing={focused ? item.id === extraData : false}
-        />
-      )
+      return <PostCard post={item} />
     },
-    [focused, router],
+    [router],
   )
 
   return (
@@ -132,7 +128,6 @@ export function PostList({
       {...sticky}
       contentContainerStyle={style}
       data={posts}
-      extraData={viewing}
       getItemType={(item) => item.type}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       keyExtractor={(item) => {
@@ -173,6 +168,21 @@ export function PostList({
           fetchNextPage()
         }
       }}
+      onViewableItemsChanged={({ viewableItems }) => {
+        if (!seenOnScroll) {
+          return
+        }
+
+        const items = viewableItems.filter(
+          (item) => item.item.type !== 'reply' && item.item.type !== 'more',
+        )
+
+        for (const item of items) {
+          addPost({
+            id: (item.item as Post).id,
+          })
+        }
+      }}
       ref={list}
       refreshControl={
         <RefreshControl
@@ -184,40 +194,7 @@ export function PostList({
         />
       }
       renderItem={renderItem}
-      viewabilityConfigCallbackPairs={[
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            setViewing(viewableItems?.[0]?.key)
-          },
-          viewabilityConfig: {
-            minimumViewTime: 0,
-            viewAreaCoveragePercentThreshold: 60,
-            waitForInteraction: false,
-          },
-        },
-        {
-          onViewableItemsChanged({ viewableItems }) {
-            if (!seenOnScroll) {
-              return
-            }
-
-            const items = viewableItems.filter(
-              (item) => item.item.type !== 'reply' && item.item.type !== 'more',
-            )
-
-            for (const item of items) {
-              addPost({
-                id: (item.item as Post).id,
-              })
-            }
-          },
-          viewabilityConfig: {
-            minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
-            viewAreaCoveragePercentThreshold: 60,
-            waitForInteraction: false,
-          },
-        },
-      ]}
+      viewabilityConfig={viewabilityConfig}
     />
   )
 }
