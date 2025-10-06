@@ -89,10 +89,18 @@ const styles = StyleSheet.create((theme, runtime) => ({
   image: {
     flex: 1,
   },
-  item: (width: number, height: number) => ({
-    height: (height / width) * runtime.screen.width,
-    width: runtime.screen.width,
-  }),
+  item: (width: number, height: number) => {
+    const widthRatio = runtime.screen.width / width
+    const heightRatio = runtime.screen.height / height
+
+    const scale = Math.min(widthRatio, heightRatio)
+
+    return {
+      alignSelf: 'center',
+      height: height * scale,
+      width: width * scale,
+    }
+  },
   main: {
     height: runtime.screen.height,
     justifyContent: 'center',

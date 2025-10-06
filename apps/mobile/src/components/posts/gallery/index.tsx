@@ -109,6 +109,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     flex: 1,
   },
   main: {
+    justifyContent: 'center',
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
     variants: {
