@@ -1,3 +1,4 @@
+import { isPictureInPictureSupported } from 'expo-video'
 import { ScrollView } from 'react-native'
 import { useFormatter, useTranslations } from 'use-intl'
 
@@ -504,16 +505,18 @@ export default function Screen() {
           value={unmuteFullscreen}
         />
 
-        <Menu.Switch
-          icon={<Icon name="pip" />}
-          label={t('media.pictureInPicture')}
-          onChange={(next) => {
-            update({
-              pictureInPicture: next,
-            })
-          }}
-          value={pictureInPicture}
-        />
+        {isPictureInPictureSupported() ? (
+          <Menu.Switch
+            icon={<Icon name="pip" />}
+            label={t('media.pictureInPicture')}
+            onChange={(next) => {
+              update({
+                pictureInPicture: next,
+              })
+            }}
+            value={pictureInPicture}
+          />
+        ) : null}
 
         <Menu.Switch
           icon={<Icon name="eye.slash" />}
