@@ -22,9 +22,7 @@ export function FocusProvider({ children }: Props) {
     <FocusContext
       value={{
         focused,
-        setFocused(next) {
-          setFocused(next)
-        },
+        setFocused,
       }}
     >
       {children}
@@ -38,7 +36,7 @@ export function useFocused() {
   const isFocused = useIsFocused()
 
   return {
-    focused: focused && isFocused,
+    focused: isFocused && focused,
     setFocused,
   }
 }
