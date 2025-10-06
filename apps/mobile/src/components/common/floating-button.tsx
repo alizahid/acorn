@@ -2,10 +2,12 @@ import { type SFSymbol } from 'expo-symbols'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
+import { isGlass } from '~/lib/common'
 import { mapColors } from '~/lib/styles'
 import { type ColorToken, space } from '~/styles/tokens'
 
 import { BlurView } from '../native/blur-view'
+import { GlassView } from '../native/glass-view'
 import { IconButton } from './icon/button'
 
 export const FloatingButtonSide = ['left', 'center', 'right', 'hide'] as const
@@ -36,8 +38,10 @@ export function FloatingButton({
     side,
   })
 
+  const Component = isGlass ? GlassView : BlurView
+
   return (
-    <BlurView intensity={100} style={[styles.main, style]}>
+    <Component intensity={100} isInteractive style={[styles.main, style]}>
       <IconButton
         color={color}
         hitSlop={space[4]}
@@ -47,7 +51,7 @@ export function FloatingButton({
         onPress={onPress}
         weight="bold"
       />
-    </BlurView>
+    </Component>
   )
 }
 
@@ -60,7 +64,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
     position: 'absolute',
     variants: {
       color: mapColors((token) => ({
-        backgroundColor: theme.colors[token].uiActiveAlpha,
+        backgroundColor: isGlass
+          ? undefined
+          : theme.colors[token].uiActiveAlpha,
       })),
       side: {
         center: {

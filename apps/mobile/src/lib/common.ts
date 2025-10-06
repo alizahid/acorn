@@ -1,6 +1,5 @@
-import { osVersion } from 'expo-device'
+import { isLiquidGlassAvailable } from 'expo-glass-effect'
 import { Platform, StyleSheet } from 'react-native'
-import semver from 'semver'
 
 export const cardMaxWidth = 700
 
@@ -14,7 +13,7 @@ export const iPhone =
 export const iPad =
   Platform.OS === 'ios' && (Platform.isPad || Platform.isMacCatalyst)
 
-export const isGlass = semver.gte(semver.coerce(osVersion) ?? '0', '26.0.0')
+export const isGlass = isLiquidGlassAvailable()
 
 export const swipeActionThreshold = {
   long: iPad ? 0.2 : 0.4,
