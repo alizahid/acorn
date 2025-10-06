@@ -32,6 +32,10 @@ export function ListItem({
   size,
   style,
 }: Props) {
+  styles.useVariants({
+    selected,
+  })
+
   return (
     <Pressable
       accessibilityLabel={label}
@@ -42,7 +46,7 @@ export function ListItem({
       height="8"
       onPress={onPress}
       px="3"
-      style={[selected ? styles.selected : undefined, style]}
+      style={[styles.main, style]}
     >
       {icon ?? left}
 
@@ -74,7 +78,13 @@ const styles = StyleSheet.create((theme) => ({
   label: {
     flex: 1,
   },
-  selected: {
-    backgroundColor: theme.colors.accent.uiActive,
+  main: {
+    variants: {
+      selected: {
+        true: {
+          backgroundColor: theme.colors.accent.uiActive,
+        },
+      },
+    },
   },
 }))
