@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Button } from '~/components/common/button'
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
@@ -117,18 +116,6 @@ export function VideoPlayer({
         />
 
         <VideoStatus player={player} />
-
-        <Button
-          label="Play"
-          onPress={() => {
-            player.play()
-          }}
-          style={{
-            left: 100,
-            position: 'absolute',
-            top: 100,
-          }}
-        />
 
         {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
           <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
