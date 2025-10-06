@@ -36,6 +36,7 @@
   "packageManager": "bun@1.2.23",
   "patchedDependencies": {
     "@bacons/apple-targets@3.0.2": "patches/@bacons%2Fapple-targets@3.0.2.patch",
+    "expo-video@3.0.11": "patches/expo-video@3.0.11.patch",
     "ffmpeg-kit-react-native@6.0.2": "patches/ffmpeg-kit-react-native@6.0.2.patch"
   }
 }

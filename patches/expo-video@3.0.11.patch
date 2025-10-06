@@ -1,0 +1,13 @@
+diff --git a/ios/VideoManager.swift b/ios/VideoManager.swift
+index 8ef093e7a0a7ca502e11c9cc36e41a1df500f1f1..d14930cf5f41521bf4172a5066bc678b62ae67cb 100644
+--- a/ios/VideoManager.swift
++++ b/ios/VideoManager.swift
+@@ -104,7 +104,7 @@ class VideoManager {
+ 
+     if audioSession.categoryOptions != audioSessionCategoryOptions || audioSession.category != .playback || audioSession.mode != .moviePlayback {
+       do {
+-        try audioSession.setCategory(.playback, mode: .moviePlayback, options: audioSessionCategoryOptions)
++        try audioSession.setCategory(.playback, options: audioSessionCategoryOptions)
+       } catch {
+         log.warn("Failed to set audio session category. This might cause issues with audio playback and Picture in Picture. \(error.localizedDescription)")
+       }
