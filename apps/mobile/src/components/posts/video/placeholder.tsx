@@ -82,7 +82,7 @@ export function VideoPlaceholder({
   return (
     <ImageBackground
       accessibilityIgnoresInvertColors
-      source={thumbnail ?? video.thumbnail}
+      // source={thumbnail ?? video.thumbnail}
       style={styles.main}
     >
       {children ?? (

@@ -61,7 +61,6 @@ export function PostVideoCard({
             nsfw={nsfw}
             recyclingKey={recyclingKey}
             spoiler={spoiler}
-            thumbnail={thumbnail}
             video={video}
             viewing={viewing}
           />

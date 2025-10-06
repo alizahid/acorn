@@ -55,7 +55,6 @@ export function RedGifsVideo({
             nsfw={nsfw}
             recyclingKey={recyclingKey}
             spoiler={spoiler}
-            thumbnail={thumbnail}
             video={{
               ...video,
               url: gif.url,

@@ -1,10 +1,10 @@
 import { useEvent } from 'expo'
-import { Image } from 'expo-image'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { useEffect, useRef } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Button } from '~/components/common/button'
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
@@ -20,7 +20,6 @@ type Props = {
   nsfw?: boolean
   recyclingKey?: string
   spoiler?: boolean
-  thumbnail?: string
   video: PostMedia
   viewing: boolean
 }
@@ -29,7 +28,6 @@ export function VideoPlayer({
   nsfw,
   recyclingKey,
   spoiler,
-  thumbnail,
   video,
   viewing,
 }: Props) {
@@ -48,7 +46,7 @@ export function VideoPlayer({
   const { addPost } = useHistory()
 
   const ref = useRef<VideoView>(null)
-  const current = useRef<string>(video.url)
+  const current = useRef<string>(null)
 
   const player = useVideoPlayer(null, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
@@ -94,13 +92,6 @@ export function VideoPlayer({
         }}
         style={styles.main}
       >
-        <Image
-          accessibilityIgnoresInvertColors
-          pointerEvents="none"
-          source={thumbnail ?? video.thumbnail}
-          style={styles.thumbnail}
-        />
-
         <VideoView
           accessibilityIgnoresInvertColors
           allowsPictureInPicture={pictureInPicture}
@@ -126,6 +117,18 @@ export function VideoPlayer({
         />
 
         <VideoStatus player={player} />
+
+        <Button
+          label="Play"
+          onPress={() => {
+            player.play()
+          }}
+          style={{
+            left: 100,
+            position: 'absolute',
+            top: 100,
+          }}
+        />
 
         {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
           <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
