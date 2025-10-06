@@ -26,9 +26,9 @@ export function GalleryVideo({ item }: Props) {
   const ref = useRef<VideoView>(null)
 
   const player = useVideoPlayer(item.url, (instance) => {
-    instance.loop = true
     instance.audioMixingMode = 'mixWithOthers'
     instance.muted = !unmuteFullscreen
+    instance.loop = true
     instance.timeUpdateEventInterval = 1000 / 1000 / 60
 
     instance.play()
