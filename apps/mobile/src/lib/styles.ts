@@ -2,7 +2,7 @@ import { omit } from 'lodash'
 import { type TextStyle, type ViewStyle } from 'react-native'
 
 import { type MarginProps, type PaddingProps } from '~/styles/space'
-import { type TextStyleProps } from '~/styles/text'
+import { type FontWeight, type TextStyleProps, weights } from '~/styles/text'
 import {
   type ColorToken,
   colors,
@@ -10,6 +10,8 @@ import {
   typography,
 } from '~/styles/tokens'
 import { type ViewStyleProps } from '~/styles/view'
+
+import { type Font, fonts } from './fonts'
 
 export function stripProps<Type extends object>(
   props: Type | TextStyleProps | ViewStyleProps | MarginProps | PaddingProps,
@@ -64,6 +66,28 @@ export function mapTypography<Type extends TextStyle>(
     Object.keys(typography).map((token) => [
       token,
       mapper(token as TypographyToken),
+    ]),
+  )
+}
+
+export function mapFonts<Type extends TextStyle | ViewStyle>(
+  mapper: (token: Font, fontFamily: string) => Type,
+) {
+  return Object.fromEntries(
+    Object.entries(fonts).map(([token, fontFamily]) => [
+      token,
+      mapper(token as Font, fontFamily),
+    ]),
+  )
+}
+
+export function mapWeights<Type extends TextStyle | ViewStyle>(
+  mapper: (token: FontWeight, fontWeight: TextStyle['fontWeight']) => Type,
+) {
+  return Object.fromEntries(
+    Object.entries(weights).map(([token, fontWeight]) => [
+      token,
+      mapper(token as FontWeight, fontWeight),
     ]),
   )
 }
