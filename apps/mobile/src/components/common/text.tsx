@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import { Text as Component, type TextProps } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
@@ -45,11 +46,34 @@ export function Text({
     weight,
   })
 
+  const fixed = useRef(false)
+
+  const [height, setHeight] = useState<number>()
+
   return (
     <Component
       {...stripProps(props)}
       allowFontScaling={systemScaling}
-      style={[styles.main(props, systemScaling ? 1 : fontScaling), style]}
+      onLayout={({ nativeEvent }) => {
+        if (fixed.current) {
+          return
+        }
+
+        const next = Math.round(nativeEvent.layout.height)
+
+        if (nativeEvent.layout.height !== next) {
+          setHeight(next)
+
+          fixed.current = true
+        }
+      }}
+      style={[
+        styles.main(props, systemScaling ? 1 : fontScaling),
+        style,
+        {
+          height,
+        },
+      ]}
     >
       {children}
     </Component>

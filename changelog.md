@@ -4,6 +4,7 @@
 
 - added: swipe to open drawer from anywhere
 - fixed: bold titles on compact mode
+- fixed: comment text clipping
 - fixed: gallery animation
 - fixed: mark as seen on scroll
 - fixed: video performance
