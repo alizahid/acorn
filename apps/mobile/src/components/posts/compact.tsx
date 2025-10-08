@@ -21,7 +21,7 @@ type Props = {
 }
 
 export function PostCompactCard({ post, side = 'left', style }: Props) {
-  const { communityOnTop, fontSizePostTitle, largeThumbnails } =
+  const { boldTitle, communityOnTop, fontSizePostTitle, largeThumbnails } =
     usePreferences()
 
   styles.useVariants({
@@ -87,7 +87,7 @@ export function PostCompactCard({ post, side = 'left', style }: Props) {
       <View align="start" flex={1} gap="2">
         {communityOnTop ? <PostCommunity post={post} /> : null}
 
-        <Text size={fontSizePostTitle} weight="bold">
+        <Text size={fontSizePostTitle} weight={boldTitle ? 'bold' : undefined}>
           {post.title}
         </Text>
 
