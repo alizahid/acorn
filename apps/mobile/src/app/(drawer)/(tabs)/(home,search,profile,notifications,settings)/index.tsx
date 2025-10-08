@@ -8,6 +8,7 @@ import { z } from 'zod'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
+import { View } from '~/components/common/view'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
@@ -73,7 +74,7 @@ export default function Screen() {
         headerTitle: params.feed
           ? null
           : () => (
-              <>
+              <View align="center" direction="row" gap="2">
                 <Icon
                   name={FeedTypeIcons[params.type]}
                   uniProps={(theme) => ({
@@ -82,7 +83,7 @@ export default function Screen() {
                 />
 
                 <Text weight="bold">{tType(params.type)}</Text>
-              </>
+              </View>
             ),
         title: params.feed,
       })
