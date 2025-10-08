@@ -4,6 +4,7 @@
 
 - fixed: bold titles on compact mode
 - fixed: gallery animation
+- fixed: mark as seen on scroll
 - fixed: video performance
 
 ## Build 63

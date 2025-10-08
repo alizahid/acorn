@@ -30,7 +30,6 @@ import { View } from '../common/view'
 
 const viewabilityConfig = {
   minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
-  viewAreaCoveragePercentThreshold: 60,
   waitForInteraction: false,
 }
 
