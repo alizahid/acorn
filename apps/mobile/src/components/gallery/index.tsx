@@ -61,7 +61,7 @@ export const Gallery = createCallable<Props>(({ call, media, initial }) => {
   useEffect(() => {
     translate.set(
       withTiming(0, {
-        duration: 100,
+        duration: 250,
       }),
     )
   }, [translate.set])
@@ -80,7 +80,7 @@ export const Gallery = createCallable<Props>(({ call, media, initial }) => {
           withTiming(
             event.translationY > 0 ? frame.height : -frame.height,
             {
-              duration: 100,
+              duration: 250,
             },
             () => {
               scheduleOnRN(call.end)
@@ -90,7 +90,7 @@ export const Gallery = createCallable<Props>(({ call, media, initial }) => {
       } else {
         translate.set(
           withTiming(0, {
-            duration: 100,
+            duration: 250,
           }),
         )
       }
@@ -149,7 +149,7 @@ export const Gallery = createCallable<Props>(({ call, media, initial }) => {
                 withTiming(
                   frame.height,
                   {
-                    duration: 100,
+                    duration: 250,
                   },
                   () => {
                     scheduleOnRN(call.end)
@@ -163,7 +163,7 @@ export const Gallery = createCallable<Props>(({ call, media, initial }) => {
       </Animated.View>
     </GestureDetector>
   )
-})
+}, 250)
 
 const styles = StyleSheet.create((theme, runtime) => ({
   close: {

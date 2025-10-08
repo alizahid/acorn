@@ -137,6 +137,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     width: runtime.screen.width,
   },
   video: {
+    backgroundColor: '#000',
     flex: 1,
   },
 }))

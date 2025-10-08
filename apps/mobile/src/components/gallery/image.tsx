@@ -87,6 +87,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     position: 'absolute',
   },
   image: {
+    backgroundColor: '#000',
     flex: 1,
   },
   item: (width: number, height: number) => {
