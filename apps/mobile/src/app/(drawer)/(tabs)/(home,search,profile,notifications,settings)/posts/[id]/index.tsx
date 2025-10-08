@@ -67,7 +67,6 @@ export default function Screen() {
   })
 
   const previous = useRef(params.id)
-  const viewing = useRef(0)
 
   useEffect(() => {
     if (previous.current !== params.id) {
@@ -222,25 +221,9 @@ export default function Screen() {
         maintainVisibleContentPosition={{
           disabled: true,
         }}
-        onViewableItemsChanged={({ viewableItems }) => {
-          const next = viewableItems.find(
-            (item) =>
-              item.item.type === 'reply' &&
-              !item.item.data.collapsed &&
-              item.item.data.depth === 0,
-          )
-
-          if (next?.index) {
-            viewing.current = next.index
-          }
-        }}
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
-        viewabilityConfig={{
-          minimumViewTime: 0,
-          waitForInteraction: false,
-        }}
       />
 
       {replyPost && post ? (
@@ -265,9 +248,11 @@ export default function Screen() {
           icon="arrow.down"
           label={a11y('skipComment')}
           onLongPress={() => {
+            const current = list.current?.getFirstVisibleIndex() ?? 0
+
             const next = comments.findLastIndex(
               (item, index) =>
-                index < viewing.current &&
+                index < current &&
                 item.data.depth === 0 &&
                 item.type === 'reply' &&
                 !item.data.collapsed,
@@ -297,9 +282,11 @@ export default function Screen() {
               return
             }
 
+            const current = list.current?.getFirstVisibleIndex() ?? 0
+
             const next = comments.findIndex(
               (item, index) =>
-                index > viewing.current &&
+                index > current &&
                 item.data.depth === 0 &&
                 item.type === 'reply' &&
                 !item.data.collapsed,
