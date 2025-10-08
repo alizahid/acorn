@@ -14,6 +14,7 @@ import Animated, {
 import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 import { scheduleOnRN } from 'react-native-worklets'
+import { useTranslations } from 'use-intl'
 
 import { type PostMedia } from '~/types/post'
 
@@ -29,6 +30,8 @@ type Props = {
 
 export const Gallery = createCallable<Props>(({ call, media, initial }) => {
   const frame = useSafeAreaFrame()
+
+  const a11y = useTranslations('a11y')
 
   const translate = useSharedValue(frame.height)
 
@@ -143,7 +146,7 @@ export const Gallery = createCallable<Props>(({ call, media, initial }) => {
 
           <IconButton
             icon="xmark"
-            label=""
+            label={a11y('close')}
             onPress={() => {
               translate.set(
                 withTiming(
@@ -158,6 +161,7 @@ export const Gallery = createCallable<Props>(({ call, media, initial }) => {
               )
             }}
             style={styles.close}
+            weight="bold"
           />
         </Animated.View>
       </Animated.View>
@@ -185,6 +189,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
     borderRadius: theme.space[2],
     height: theme.space[2],
     opacity: active ? 1 : 0.25,
-    width: theme.space[2],
+    width: theme.space[active ? 4 : 2],
   }),
 }))
