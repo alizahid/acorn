@@ -20,6 +20,7 @@
         "kind": "neutral",
         "opacity": 0.5
       },
+      "specular": false,
       "translucency": {
         "enabled": false,
         "value": 0.5
