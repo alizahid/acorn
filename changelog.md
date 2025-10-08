@@ -2,6 +2,12 @@
 
 ## Upcoming
 
+- fixed: bold titles on compact mode
+- fixed: gallery animation
+- fixed: video performance
+
+## Build 63
+
 - fixed: music pausing when app opens
 - added: glass effect for floating buttons on iOS 26
 
