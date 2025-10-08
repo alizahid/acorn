@@ -1,23 +1,26 @@
+import { VisibilitySensor } from '@futurejj/react-native-visibility-sensor'
 import { ImageBackground } from 'expo-image'
 import { type VideoSource } from 'expo-video'
-import { type ReactNode } from 'react'
+import { useState } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
+import { useFocused } from '~/hooks/focus'
 import { previewVideo } from '~/lib/preview'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from '../gallery/blur'
+import { VideoPlayer } from './player'
 
 type Props = {
-  children?: ReactNode
   compact?: boolean
   crossPost?: boolean
   large?: boolean
   nsfw?: boolean
+  recyclingKey?: string
   source?: VideoSource
   spoiler?: boolean
   thumbnail?: string
@@ -25,11 +28,11 @@ type Props = {
 }
 
 export function VideoPlaceholder({
-  children,
   compact,
   crossPost,
   large,
   nsfw,
+  recyclingKey,
   source,
   spoiler,
   thumbnail,
@@ -40,11 +43,15 @@ export function VideoPlaceholder({
 
   const { blurNsfw, blurSpoiler } = usePreferences()
 
+  const { focused } = useFocused()
+
   styles.useVariants({
     compact,
     crossPost,
     large,
   })
+
+  const [visible, setVisible] = useState(false)
 
   function onPress() {
     previewVideo({
@@ -60,52 +67,63 @@ export function VideoPlaceholder({
         source={thumbnail ?? video.thumbnail}
         style={styles.main}
       >
-        {children ?? (
-          <Pressable
-            accessibilityLabel={a11y('viewVideo')}
-            align="center"
-            justify="center"
-            onPress={onPress}
-            style={styles.icon}
-          >
-            <Icon name="play.fill" />
-
-            {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
-              <GalleryBlur />
-            ) : null}
-          </Pressable>
-        )}
-      </ImageBackground>
-    )
-  }
-
-  return (
-    <ImageBackground
-      accessibilityIgnoresInvertColors
-      // source={thumbnail ?? video.thumbnail}
-      style={styles.main}
-    >
-      {children ?? (
         <Pressable
           accessibilityLabel={a11y('viewVideo')}
           align="center"
           justify="center"
           onPress={onPress}
-          style={styles.video(video.width / video.height)}
+          style={styles.icon}
         >
-          <Icon
-            name="play.fill"
-            uniProps={(theme) => ({
-              size: theme.space[9],
-            })}
-          />
+          <Icon name="play.fill" />
 
           {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
-            <GalleryBlur label={t(nsfw ? 'nsfw' : 'spoiler')} />
+            <GalleryBlur />
           ) : null}
         </Pressable>
-      )}
-    </ImageBackground>
+      </ImageBackground>
+    )
+  }
+
+  return (
+    <VisibilitySensor
+      onChange={(next) => {
+        setVisible(next)
+      }}
+    >
+      <ImageBackground
+        accessibilityIgnoresInvertColors
+        source={thumbnail ?? video.thumbnail}
+        style={styles.main}
+      >
+        {focused && visible ? (
+          <VideoPlayer
+            nsfw={nsfw}
+            recyclingKey={recyclingKey}
+            spoiler={spoiler}
+            video={video}
+          />
+        ) : (
+          <Pressable
+            accessibilityLabel={a11y('viewVideo')}
+            align="center"
+            justify="center"
+            onPress={onPress}
+            style={styles.video(video.width / video.height)}
+          >
+            <Icon
+              name="play.fill"
+              uniProps={(theme) => ({
+                size: theme.space[9],
+              })}
+            />
+
+            {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+              <GalleryBlur label={t(nsfw ? 'nsfw' : 'spoiler')} />
+            ) : null}
+          </Pressable>
+        )}
+      </ImageBackground>
+    </VisibilitySensor>
   )
 }
 
@@ -121,6 +139,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     },
   },
   main: {
+    backgroundColor: theme.colors.black.accentAlpha,
     justifyContent: 'center',
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
@@ -155,6 +174,5 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   video: (aspectRatio: number) => ({
     aspectRatio,
-    backgroundColor: theme.colors.black.accentAlpha,
   }),
 }))

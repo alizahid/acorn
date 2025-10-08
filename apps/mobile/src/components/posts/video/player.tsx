@@ -43,11 +43,10 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
   const { focused } = useFocused()
 
   const ref = useRef<VideoView>(null)
-  const current = useRef<string>(null)
 
   const [visible, setVisible] = useState(false)
 
-  const player = useVideoPlayer(null, (instance) => {
+  const player = useVideoPlayer(video.url, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
     instance.muted = feedMuted
     instance.loop = true
@@ -55,14 +54,6 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
 
     instance.pause()
   })
-
-  useEffect(() => {
-    if (current.current !== video.url) {
-      current.current = video.url
-
-      player.replaceAsync(video.url)
-    }
-  }, [player, video.url])
 
   useEffect(() => {
     if (focused && visible && autoPlay) {

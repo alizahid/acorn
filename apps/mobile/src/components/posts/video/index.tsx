@@ -3,7 +3,6 @@ import { type PostMedia } from '~/types/post'
 
 import { PostLinkCard } from '../link'
 import { VideoPlaceholder } from './placeholder'
-import { VideoPlayer } from './player'
 import { RedGifsVideo } from './red-gifs'
 
 type Props = {
@@ -49,19 +48,11 @@ export function PostVideoCard({
         crossPost={crossPost}
         large={large}
         nsfw={nsfw}
+        recyclingKey={recyclingKey}
         spoiler={spoiler}
         thumbnail={thumbnail}
         video={video}
-      >
-        {compact ? null : (
-          <VideoPlayer
-            nsfw={nsfw}
-            recyclingKey={recyclingKey}
-            spoiler={spoiler}
-            video={video}
-          />
-        )}
-      </VideoPlaceholder>
+      />
     )
   }
 

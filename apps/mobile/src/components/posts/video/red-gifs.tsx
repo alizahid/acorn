@@ -6,7 +6,6 @@ import { useRedGifs } from '~/hooks/red-gifs'
 import { type PostMedia } from '~/types/post'
 
 import { VideoPlaceholder } from './placeholder'
-import { VideoPlayer } from './player'
 
 type Props = {
   compact?: boolean
@@ -43,23 +42,15 @@ export function RedGifsVideo({
         crossPost={crossPost}
         large={large}
         nsfw={nsfw}
+        recyclingKey={recyclingKey}
         source={gif.source}
         spoiler={spoiler}
         thumbnail={thumbnail}
-        video={video}
-      >
-        {compact ? null : (
-          <VideoPlayer
-            nsfw={nsfw}
-            recyclingKey={recyclingKey}
-            spoiler={spoiler}
-            video={{
-              ...video,
-              url: gif.url,
-            }}
-          />
-        )}
-      </VideoPlaceholder>
+        video={{
+          ...video,
+          url: gif.url,
+        }}
+      />
     )
   }
 
