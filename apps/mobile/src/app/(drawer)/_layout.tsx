@@ -11,7 +11,8 @@ import { oledTheme } from '~/styles/oled'
 export default function Layout() {
   const segments = useSegments()
 
-  const { stickyDrawer, themeOled, themeTint } = usePreferences()
+  const { fullscreenDrawer, stickyDrawer, themeOled, themeTint } =
+    usePreferences()
 
   styles.useVariants({
     iPad,
@@ -24,11 +25,20 @@ export default function Layout() {
     <Drawer
       drawerContent={(props) => <HomeDrawer {...props} />}
       screenOptions={{
+        configureGestureHandler(gesture) {
+          if (fullscreenDrawer) {
+            return gesture.hitSlop({ left: 1000 })
+          }
+
+          return gesture
+        },
         drawerStyle: styles.drawer,
         drawerType: iPad && stickyDrawer ? 'permanent' : 'slide',
         headerShown: false,
         overlayColor: styles.overlay.backgroundColor,
-        swipeEnabled: last(segments) === '(home)',
+        swipeEnabled: fullscreenDrawer
+          ? segments.includes('(home)' as never)
+          : last(segments) === '(home)',
       }}
     >
       <Drawer.Screen name="(tabs)" />

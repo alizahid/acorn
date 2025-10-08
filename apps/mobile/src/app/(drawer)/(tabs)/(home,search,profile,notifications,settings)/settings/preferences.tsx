@@ -27,6 +27,7 @@ export default function Screen() {
     feedbackHaptics,
     feedbackSounds,
     feedMuted,
+    fullscreenDrawer,
     fullscreenSwipe,
     hapticsLoud,
     hideHeaderOnScroll,
@@ -48,9 +49,9 @@ export default function Screen() {
     skipComment,
     stickyDrawer,
     unmuteFullscreen,
-    update,
     upvoteOnSave,
     userOnTop,
+    update,
   } = usePreferences()
 
   const listProps = useList()
@@ -156,10 +157,23 @@ export default function Screen() {
           label={t('browsing.fullscreenSwipe')}
           onChange={(next) => {
             update({
+              fullscreenDrawer: next ? false : fullscreenDrawer,
               fullscreenSwipe: next,
             })
           }}
           value={fullscreenSwipe}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="hand.draw" />}
+          label={t('browsing.fullscreenDrawer')}
+          onChange={(next) => {
+            update({
+              fullscreenDrawer: next,
+              fullscreenSwipe: next ? false : fullscreenSwipe,
+            })
+          }}
+          value={fullscreenDrawer}
         />
 
         <Menu.Switch

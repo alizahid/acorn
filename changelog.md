@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: swipe to open drawer from anywhere
 - fixed: bold titles on compact mode
 - fixed: gallery animation
 - fixed: mark as seen on scroll

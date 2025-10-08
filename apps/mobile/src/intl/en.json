@@ -575,6 +575,7 @@
       },
       "preferences": {
         "browsing": {
+          "fullscreenDrawer": "Swipe from anywhere to open drawer",
           "fullscreenSwipe": "Swipe from anywhere to go back",
           "hideHeaderOnScroll": "Hide header when scrolling",
           "hideTabBarOnScroll": "Hide tab bar when scrolling",

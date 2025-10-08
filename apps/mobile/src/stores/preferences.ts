@@ -41,6 +41,7 @@ export type PreferencesPayload = {
   fontSizeComment: TypographyToken
   fontSizePostBody: TypographyToken
   fontSizePostTitle: TypographyToken
+  fullscreenDrawer: boolean
   fullscreenSwipe: boolean
   hapticsLoud: boolean
   hideHeaderOnScroll: boolean
@@ -111,6 +112,7 @@ export const usePreferences = create<State>()(
       fontSizeComment: '2',
       fontSizePostBody: '2',
       fontSizePostTitle: '3',
+      fullscreenDrawer: false,
       fullscreenSwipe: false,
       hapticsLoud: false,
       hideHeaderOnScroll: true,
