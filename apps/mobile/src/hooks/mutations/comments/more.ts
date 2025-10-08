@@ -1,12 +1,19 @@
 import { useMutation } from '@tanstack/react-query'
+import { compact } from 'lodash'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { REDDIT_URI } from '~/reddit/config'
+import { fetchUserData, type UserProfiles } from '~/reddit/users'
 import { MoreCommentsSchema } from '~/schemas/comments'
 import { transformComment } from '~/transformers/comment'
 import { type CommentSort } from '~/types/sort'
+
+type Data = {
+  comments: MoreCommentsSchema
+  users: UserProfiles
+}
 
 type Variables = {
   children: Array<string>
@@ -16,11 +23,7 @@ type Variables = {
 }
 
 export function useLoadMoreComments() {
-  const { isPending, mutate } = useMutation<
-    MoreCommentsSchema,
-    Error,
-    Variables
-  >({
+  const { isPending, mutate } = useMutation<Data, Error, Variables>({
     async mutationFn(variables) {
       const url = new URL('/api/morechildren', REDDIT_URI)
 
@@ -37,7 +40,20 @@ export function useLoadMoreComments() {
         url,
       })
 
-      return MoreCommentsSchema.parse(response)
+      const comments = MoreCommentsSchema.parse(response)
+
+      const users = await fetchUserData(
+        ...compact(
+          comments.json.data.things
+            .filter((item) => item.kind === 't1')
+            .map((item) => item.data.author_fullname),
+        ),
+      )
+
+      return {
+        comments,
+        users,
+      }
     },
     onSuccess(data, variables) {
       updatePost(variables.postId, (draft) => {
@@ -46,8 +62,10 @@ export function useLoadMoreComments() {
         )
 
         if (index >= 0) {
-          const comments = data.json.data.things.map((item) =>
-            transformComment(item),
+          const comments = data.comments.json.data.things.map((item) =>
+            transformComment(item, {
+              users: data.users,
+            }),
           )
 
           const more = draft.comments[index]
