@@ -31,7 +31,7 @@
     "lint-staged": "^16.2.3",
     "rimraf": "^6.0.1",
     "turbo": "2.5.8",
-    "ultracite": "5.5.0"
+    "ultracite": "5.6.1"
   },
   "packageManager": "bun@1.2.23",
   "patchedDependencies": {
