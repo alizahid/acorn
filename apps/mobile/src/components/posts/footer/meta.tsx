@@ -57,10 +57,10 @@ export function PostMeta({ post }: Props) {
   ] as const
 
   return (
-    <View align="center" direction="row" gap="2">
+    <View align="center" direction="row" gap="2" mt="auto">
       {post.sticky ? (
         <Icon
-          name="pin"
+          name="pin.fill"
           uniProps={(theme) => ({
             size: theme.typography[1].fontSize,
             tintColor: theme.colors.green.accent,

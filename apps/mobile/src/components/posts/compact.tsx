@@ -30,7 +30,6 @@ export function PostCompactCard({ post, side = 'left', style }: Props) {
 
   return (
     <View
-      align="start"
       direction={side === 'right' ? 'row-reverse' : 'row'}
       gap="3"
       style={[styles.main, style]}
