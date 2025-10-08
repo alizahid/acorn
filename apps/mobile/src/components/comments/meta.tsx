@@ -115,14 +115,14 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
             />
 
             <Text highContrast={false} size="1">
-              <TimeAgo unit="days">{baby}</TimeAgo>
+              <TimeAgo date={baby} unit="days" />
             </Text>
           </View>
         ) : null}
       </Pressable>
 
       <Text highContrast={false} size="1">
-        <TimeAgo>{comment.createdAt}</TimeAgo>
+        <TimeAgo date={comment.createdAt} />
       </Text>
 
       <View align="center" direction="row" gap="1">

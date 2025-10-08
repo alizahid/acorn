@@ -52,7 +52,7 @@ export function PostMeta({ post }: Props) {
     {
       icon: 'clock' satisfies SFSymbol,
       key: 'created',
-      label: <TimeAgo>{post.createdAt}</TimeAgo>,
+      label: <TimeAgo date={post.createdAt} />,
     },
   ] as const
 

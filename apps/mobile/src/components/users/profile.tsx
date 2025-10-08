@@ -36,7 +36,7 @@ export function ProfileCard({ profile }: Props) {
     },
     {
       key: 'age',
-      value: <TimeAgo>{profile?.createdAt ?? new Date()}</TimeAgo>,
+      value: <TimeAgo date={profile?.createdAt ?? new Date()} />,
     },
   ] as const
 

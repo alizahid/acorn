@@ -1,18 +1,18 @@
 import { useFormatter, useNow } from 'use-intl'
 
 type Props = {
-  children: Date
+  date: Date
   unit?: Intl.RelativeTimeFormatUnit
 }
 
-export function TimeAgo({ children, unit }: Props) {
+export function TimeAgo({ date, unit }: Props) {
   const f = useFormatter()
 
   const now = useNow({
     updateInterval: 1000 * 60,
   })
 
-  const time = f.relativeTime(children, {
+  const time = f.relativeTime(date, {
     now,
     style: 'narrow',
     unit,

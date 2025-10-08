@@ -46,7 +46,7 @@ export function CommunityAbout({ listProps, name }: Props) {
     },
     {
       key: 'age',
-      value: <TimeAgo>{community.createdAt}</TimeAgo>,
+      value: <TimeAgo date={community.createdAt} />,
     },
   ] as const
 
