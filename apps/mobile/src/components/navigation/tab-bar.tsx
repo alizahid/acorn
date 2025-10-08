@@ -228,7 +228,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
           flexGrow: 1,
         },
         true: {
-          paddingHorizontal: theme.space[6],
+          paddingHorizontal: theme.space[4],
         },
       },
     },

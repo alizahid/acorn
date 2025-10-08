@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { ListFlags, useList } from '~/hooks/list'
+import { useStageManager } from '~/hooks/stage-manager'
 
 import { SearchBox } from '../common/search'
 import { View } from '../common/view'
@@ -12,6 +13,12 @@ type Props = DrawerContentComponentProps
 
 export function HomeDrawer({ navigation }: Props) {
   const listProps = useList(ListFlags.BOTTOM_INSET)
+
+  const stageManager = useStageManager()
+
+  styles.useVariants({
+    stageManager,
+  })
 
   const [query, setQuery] = useState('')
 
@@ -34,6 +41,15 @@ export function HomeDrawer({ navigation }: Props) {
 
 const styles = StyleSheet.create((_theme, runtime) => ({
   search: {
-    marginTop: runtime.insets.top,
+    variants: {
+      stageManager: {
+        false: {
+          marginTop: runtime.insets.top,
+        },
+        true: {
+          marginTop: 64,
+        },
+      },
+    },
   },
 }))

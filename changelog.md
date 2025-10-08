@@ -6,6 +6,7 @@
 - fixed: bold titles on compact mode
 - fixed: comment text clipping
 - fixed: gallery animation
+- fixed: iPad + stage manager fixes
 - fixed: mark as seen on scroll
 - fixed: video performance
 

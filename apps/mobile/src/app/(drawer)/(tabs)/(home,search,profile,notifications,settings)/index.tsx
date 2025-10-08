@@ -13,6 +13,7 @@ import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
+import { useStageManager } from '~/hooks/stage-manager'
 import { iPad } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
@@ -35,6 +36,8 @@ export default function Screen() {
 
   const { stickyDrawer } = usePreferences()
 
+  const stageManager = useStageManager()
+
   const listProps = useList()
 
   styles.useVariants({
@@ -49,7 +52,7 @@ export default function Screen() {
     useCallback(() => {
       navigation.setOptions({
         headerLeft:
-          iPad && stickyDrawer
+          iPad && !stageManager && stickyDrawer
             ? null
             : () => (
                 <IconButton
@@ -100,6 +103,7 @@ export default function Screen() {
       tType,
       type,
       update,
+      stageManager,
     ]),
   )
 

@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { useStageManager } from '~/hooks/stage-manager'
 import { tints } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { usePreferences } from '~/stores/preferences'
@@ -44,10 +45,13 @@ export function Header({
 
   const { blurNavigation, themeOled, themeTint } = usePreferences()
 
+  const stageManager = useStageManager()
+
   styles.useVariants({
     blur: blurNavigation,
     modal: Boolean(modal),
     oled: themeOled,
+    stageManager,
     sticky,
     tint: themeTint,
   })
@@ -98,7 +102,7 @@ export function Header({
       >
         <View align="center" height="8" justify="center">
           {(left ?? back) ? (
-            <View direction="row" style={[styles.actions, styles.left]}>
+            <View style={[styles.actions, styles.left]}>
               {back ? (
                 <IconButton
                   icon={modal ? 'xmark' : 'arrow.left'}
@@ -125,9 +129,7 @@ export function Header({
           )}
 
           {right ? (
-            <View direction="row" style={[styles.actions, styles.right]}>
-              {right}
-            </View>
+            <View style={[styles.actions, styles.right]}>{right}</View>
           ) : null}
         </View>
 
@@ -140,10 +142,18 @@ export function Header({
 const styles = StyleSheet.create((theme, runtime) => ({
   actions: {
     bottom: 0,
+    flexDirection: 'row',
     position: 'absolute',
   },
   left: {
     left: 0,
+    variants: {
+      stageManager: {
+        true: {
+          left: 68,
+        },
+      },
+    },
   },
   main: {
     backgroundColor: theme.colors.gray.bg,
