@@ -2,12 +2,12 @@ import { type SFSymbol } from 'expo-symbols'
 import { useState } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import Animated, {
-  runOnJS,
   type SharedValue,
   useAnimatedReaction,
   useAnimatedStyle,
 } from 'react-native-reanimated'
 import { useUnistyles } from 'react-native-unistyles'
+import { scheduleOnRN } from 'react-native-worklets'
 
 import { Icon } from '~/components/common/icon'
 import { swipeActionThreshold } from '~/lib/common'
@@ -56,7 +56,7 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
             : undefined
 
       if (nextAction && nextAction !== action.get()) {
-        runOnJS(triggerFeedback)('soft')
+        scheduleOnRN(triggerFeedback, 'soft')
       }
 
       action.set(() => nextAction)
@@ -64,7 +64,7 @@ export function Actions({ action, data, long, progress, short, style }: Props) {
       const next = getNextIcon(nextAction ?? short, data)
 
       if (next !== icon) {
-        runOnJS(setIcon)(next)
+        scheduleOnRN(setIcon, next)
       }
     },
   )

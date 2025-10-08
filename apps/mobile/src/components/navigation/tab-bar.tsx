@@ -3,13 +3,10 @@ import { usePathname, useRouter } from 'expo-router'
 import { type SFSymbol } from 'expo-symbols'
 import { useEffect, useState } from 'react'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
-import Animated, {
-  runOnJS,
-  useAnimatedStyle,
-  withTiming,
-} from 'react-native-reanimated'
+import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
+import { scheduleOnRN } from 'react-native-worklets'
 
 import { Icon } from '~/components/common/icon'
 import { iPad, tints } from '~/lib/common'
@@ -47,7 +44,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
 
   const gesture = Gesture.Pan().onEnd((event) => {
     if (event.translationX > 100) {
-      runOnJS(router.back)()
+      scheduleOnRN(router.back)
     }
   })
 
