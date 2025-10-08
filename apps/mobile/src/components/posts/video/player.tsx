@@ -2,15 +2,15 @@ import { VisibilitySensor } from '@futurejj/react-native-visibility-sensor'
 import { useEvent } from 'expo'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { noop } from 'lodash'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
-import { useFocused } from '~/hooks/focus'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
+import { useVideos } from '~/stores/video'
 import { space } from '~/styles/tokens'
 import { type PostMedia } from '~/types/post'
 
@@ -40,11 +40,9 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
   } = usePreferences()
   const { addPost } = useHistory()
 
-  const { focused } = useFocused()
-
   const ref = useRef<VideoView>(null)
 
-  const [visible, setVisible] = useState(false)
+  const { add, remove, urls } = useVideos()
 
   const player = useVideoPlayer(video.url, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
@@ -55,13 +53,15 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
     instance.pause()
   })
 
+  const visible = urls[0] === video.url
+
   useEffect(() => {
-    if (focused && visible && autoPlay) {
+    if (visible && autoPlay) {
       player.play()
     } else {
       player.pause()
     }
-  }, [autoPlay, player, visible, focused])
+  }, [autoPlay, player, visible])
 
   const { muted } = useEvent(player, 'mutedChange', {
     muted: feedMuted,
@@ -85,10 +85,10 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
         <VisibilitySensor
           onChange={noop}
           onPercentChange={(percent) => {
-            const next = percent > 80
-
-            if (next !== visible) {
-              setVisible(next)
+            if (percent > 80) {
+              add(video.url)
+            } else {
+              remove(video.url)
             }
           }}
           style={styles.sensor(video.width / video.height)}
