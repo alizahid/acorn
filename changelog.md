@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 64
 
 - added: swipe to open drawer from anywhere
 - fixed: bold titles on compact mode
