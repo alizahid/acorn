@@ -2,7 +2,8 @@ import { VisibilitySensor } from '@futurejj/react-native-visibility-sensor'
 import { useEvent } from 'expo'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { noop } from 'lodash'
-import { useEffect, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -10,7 +11,7 @@ import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
-import { useVideos } from '~/stores/video'
+import { getActiveVideo, useVideos } from '~/stores/videos'
 import { space } from '~/styles/tokens'
 import { type PostMedia } from '~/types/post'
 
@@ -26,6 +27,8 @@ type Props = {
 }
 
 export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
+  const frame = useSafeAreaFrame()
+
   const t = useTranslations('component.posts.video')
   const a11y = useTranslations('a11y')
 
@@ -42,8 +45,6 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
 
   const ref = useRef<VideoView>(null)
 
-  const { add, remove, urls } = useVideos()
-
   const player = useVideoPlayer(video.url, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
     instance.muted = feedMuted
@@ -53,7 +54,13 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
     instance.pause()
   })
 
-  const visible = urls[0] === video.url
+  const { addVideo, removeVideo, videos } = useVideos()
+
+  const visible = useMemo(() => {
+    const active = getActiveVideo(videos)
+
+    return video.url === active?.url
+  }, [video.url, videos])
 
   useEffect(() => {
     if (visible && autoPlay) {
@@ -85,13 +92,17 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
         <VisibilitySensor
           onChange={noop}
           onPercentChange={(percent) => {
-            if (percent > 80) {
-              add(video.url)
+            if (percent > 60) {
+              addVideo(video.url, percent)
             } else {
-              remove(video.url)
+              removeVideo(video.url)
             }
           }}
           style={styles.sensor(video.width / video.height)}
+          threshold={{
+            left: -frame.width,
+            right: -frame.width,
+          }}
         >
           <VideoView
             accessibilityIgnoresInvertColors
