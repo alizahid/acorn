@@ -16,7 +16,7 @@ import { View } from '~/components/common/view'
 import { TextInput } from '~/components/native/text-input'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
-import { iPhone, isGlass } from '~/lib/common'
+import { glass, iPhone } from '~/lib/common'
 import { htmlToMarkdown } from '~/lib/editor'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
@@ -107,7 +107,7 @@ export default function Screen() {
 
   return (
     <Animated.View style={[styles.main, style]}>
-      {iPhone && !isGlass ? <StatusBar style="light" /> : null}
+      {iPhone && !glass ? <StatusBar style="light" /> : null}
 
       {params.user ? (
         <View p="4" style={styles.user}>

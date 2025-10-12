@@ -2,7 +2,7 @@ import { type SFSymbol } from 'expo-symbols'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { isGlass } from '~/lib/common'
+import { glass } from '~/lib/common'
 import { mapColors } from '~/lib/styles'
 import { type ColorToken, space } from '~/styles/tokens'
 
@@ -38,7 +38,7 @@ export function FloatingButton({
     side,
   })
 
-  const Component = isGlass ? GlassView : BlurView
+  const Component = glass ? GlassView : BlurView
 
   return (
     <Component intensity={100} isInteractive style={[styles.main, style]}>
@@ -64,9 +64,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     position: 'absolute',
     variants: {
       color: mapColors((token) => ({
-        backgroundColor: isGlass
-          ? undefined
-          : theme.colors[token].uiActiveAlpha,
+        backgroundColor: glass ? undefined : theme.colors[token].uiActiveAlpha,
       })),
       side: {
         center: {

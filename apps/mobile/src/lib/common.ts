@@ -13,7 +13,7 @@ export const iPhone =
 export const iPad =
   Platform.OS === 'ios' && (Platform.isPad || Platform.isMacCatalyst)
 
-export const isGlass = isLiquidGlassAvailable()
+export const glass = isLiquidGlassAvailable()
 
 export const swipeActionThreshold = {
   long: iPad ? 0.2 : 0.4,
