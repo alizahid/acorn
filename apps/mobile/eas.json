@@ -1,5 +1,15 @@
 {
   "build": {
+    "app-store": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "channel": "production",
+      "distribution": "store",
+      "env": {
+        "EXPO_PUBLIC_TEST_FLIGHT": "false"
+      }
+    },
     "development": {
       "developmentClient": true,
       "distribution": "internal"
@@ -8,18 +18,21 @@
       "channel": "preview",
       "distribution": "internal"
     },
-    "production": {
-      "android": {
-        "buildType": "app-bundle"
-      },
-      "channel": "production",
-      "distribution": "store"
-    },
     "simulator": {
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
         "simulator": true
+      }
+    },
+    "test-flight": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "channel": "production",
+      "distribution": "store",
+      "env": {
+        "EXPO_PUBLIC_TEST_FLIGHT": "true"
       }
     }
   },
@@ -27,6 +40,7 @@
     "appVersionSource": "local"
   },
   "submit": {
-    "production": {}
+    "app-store": {},
+    "test-flight": {}
   }
 }

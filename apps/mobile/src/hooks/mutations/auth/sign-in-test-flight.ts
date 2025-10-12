@@ -1,8 +1,8 @@
 import { useMutation } from '@tanstack/react-query'
 import { useUnistyles } from 'react-native-unistyles'
 
-import { type AuthCodeForm, getAuthCode } from '~/reddit/auth'
-import { getAccessToken } from '~/reddit/token'
+import { type AuthCodeForm, getAuthCode } from '~/reddit/auth-test-flight'
+import { getAccessToken } from '~/reddit/token-test-flight'
 import { useAuth } from '~/stores/auth'
 
 export function useSignIn() {

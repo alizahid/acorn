@@ -1,10 +1,18 @@
 {
+  "api": {
+    "auth": {
+      "apiError": "Reddit API error: {error}",
+      "codeNotFound": "Code missing",
+      "idNotFound": "Couldn't fetch your profile",
+      "tokenNotFound": "Token missing"
+    }
+  },
   "page": {
     "landing": {
       "action": {
+        "coffee": "Buy Me a Coffee",
         "discord": "Discord",
         "github": "GitHub",
-        "coffee": "Buy Me a Coffee",
         "testFlight": "TestFlight"
       },
       "header": {

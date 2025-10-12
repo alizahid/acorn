@@ -1,19 +1,11 @@
 import { addSeconds } from 'date-fns'
-import { z } from 'zod'
 
+import { TokenSchema } from '~/schemas/token'
 import { type Account } from '~/stores/auth'
 import { type Nullable } from '~/types'
 
 import { REDIRECT_URI } from './config'
 import { getAccountName } from './name'
-
-export const TokenSchema = z.object({
-  access_token: z.string(),
-  expires_in: z.number(),
-  refresh_token: z.string(),
-})
-
-export type TokenSchema = z.infer<typeof TokenSchema>
 
 export async function getAccessToken(
   clientId: string,
@@ -42,6 +34,7 @@ export async function getAccessToken(
   if (!result.success) {
     return null
   }
+
   const id = await getAccountName(result.data.access_token)
 
   if (!id) {

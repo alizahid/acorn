@@ -4,6 +4,7 @@ import { DotsSixVerticalIcon } from 'phosphor-react-native/src/icons/DotsSixVert
 import { GithubLogoIcon } from 'phosphor-react-native/src/icons/GithubLogo'
 import { ListDashesIcon } from 'phosphor-react-native/src/icons/ListDashes'
 import { ListNumbersIcon } from 'phosphor-react-native/src/icons/ListNumbers'
+import { RedditLogoIcon } from 'phosphor-react-native/src/icons/RedditLogo'
 import { TextBIcon } from 'phosphor-react-native/src/icons/TextB'
 import { TextHOneIcon } from 'phosphor-react-native/src/icons/TextHOne'
 import { TextItalicIcon } from 'phosphor-react-native/src/icons/TextItalic'
@@ -45,6 +46,7 @@ const icons = {
   GithubLogo: GithubLogoIcon,
   ListDashes: ListDashesIcon,
   ListNumbers: ListNumbersIcon,
+  RedditLogo: RedditLogoIcon,
   TextB: TextBIcon,
   TextHOne: TextHOneIcon,
   TextItalic: TextItalicIcon,

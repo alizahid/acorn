@@ -1,7 +1,9 @@
+import { testFlight } from '~/lib/common'
 import { getAccount, updateAccounts, useAuth } from '~/stores/auth'
 
 import { REDDIT_URI, USER_AGENT } from './config'
-import { refreshAccessToken } from './token'
+import { refreshAccessToken as refreshAppStore } from './token-app-store'
+import { refreshAccessToken as refreshTestFlight } from './token-test-flight'
 
 type Props = {
   accessToken?: string
@@ -92,11 +94,13 @@ function checkExpiry(skip?: boolean) {
 async function refresh() {
   const { clientId, refreshToken } = useAuth.getState()
 
-  if (!(clientId && refreshToken)) {
-    return
-  }
-
-  const payload = await refreshAccessToken(clientId, refreshToken)
+  const payload = testFlight
+    ? !!clientId && !!refreshToken
+      ? await refreshTestFlight(clientId, refreshToken)
+      : refreshToken
+        ? await refreshAppStore(refreshToken)
+        : null
+    : null
 
   if (!payload) {
     return

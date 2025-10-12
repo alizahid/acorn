@@ -362,6 +362,7 @@
         "description": "Reddit for mobile",
         "form": {
           "action": {
+            "reddit": "Sign in with Reddit",
             "submit": "Sign in"
           },
           "field": {

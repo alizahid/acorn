@@ -12,7 +12,8 @@
     "lint": "bunx ultracite fix",
     "lint:types": "turbo lint:types",
     "nuke": "bun clean '**/node_modules' bun.lock",
-    "prepare": "husky"
+    "prepare": "husky",
+    "tunnel": "ngrok http --url=e9edd5b7510d.ngrok-free.app 3000"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [

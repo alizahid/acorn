@@ -2,12 +2,9 @@
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
   "globalEnv": [
-    "EXPO_PUBLIC_SENTRY_DSN",
-    "APPLE_TEAM_ID",
-    "CHANNEL",
-    "SENTRY_AUTH_TOKEN",
-    "SENTRY_ORG",
-    "SENTRY_PROJECT"
+    "REDDIT_CLIENT_ID",
+    "REDDIT_CLIENT_SECRET",
+    "REDDIT_REDIRECT_URL"
   ],
   "tasks": {
     "build": {
