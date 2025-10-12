@@ -1,6 +1,7 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
+import { cardMaxWidth } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -102,6 +103,8 @@ export function PostCompactCard({ post, side = 'left', style }: Props) {
 
 const styles = StyleSheet.create((theme) => ({
   main: {
+    alignSelf: 'center',
+    maxWidth: cardMaxWidth,
     overflow: 'hidden',
   },
   saved: {
