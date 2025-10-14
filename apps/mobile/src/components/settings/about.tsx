@@ -1,3 +1,4 @@
+import { compact } from 'lodash'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -5,6 +6,7 @@ import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useLink } from '~/hooks/link'
+import { testFlight } from '~/lib/common'
 
 import { Button } from '../common/button'
 import { Icon } from '../common/icon'
@@ -15,7 +17,7 @@ export function AboutCard() {
 
   const { handleLink } = useLink()
 
-  const links = [
+  const links = compact([
     {
       href: 'https://acorn.blue',
       icon: (
@@ -27,7 +29,6 @@ export function AboutCard() {
           weight="fill"
         />
       ),
-      key: 'web',
       label: t('links.web'),
     },
     {
@@ -41,7 +42,6 @@ export function AboutCard() {
           weight="fill"
         />
       ),
-      key: 'discord',
       label: t('links.discord'),
     },
     {
@@ -55,23 +55,23 @@ export function AboutCard() {
           weight="fill"
         />
       ),
-      key: 'github',
       label: t('links.github'),
     },
-    {
-      href: 'https://buymeacoffee.com/acornblue',
-      icon: (
-        <Icon
-          name="cup.and.saucer.fill"
-          uniProps={(theme) => ({
-            tintColor: theme.colors.accent.contrast,
-          })}
-        />
-      ),
-      key: 'coffee',
-      label: t('links.coffee'),
-    },
-  ] as const
+    testFlight
+      ? {
+          href: 'https://buymeacoffee.com/acornblue',
+          icon: (
+            <Icon
+              name="cup.and.saucer.fill"
+              uniProps={(theme) => ({
+                tintColor: theme.colors.accent.contrast,
+              })}
+            />
+          ),
+          label: t('links.coffee'),
+        }
+      : null,
+  ])
 
   return (
     <View align="center" gap="6" mx="4" my="9">
@@ -97,7 +97,7 @@ export function AboutCard() {
         >
           {links.map((link) => (
             <Button
-              key={link.key}
+              key={link.href}
               label={link.label}
               left={link.icon}
               onPress={() => {
