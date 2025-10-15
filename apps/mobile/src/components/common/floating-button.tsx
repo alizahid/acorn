@@ -60,7 +60,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
     bottom: runtime.insets.bottom + 64,
-    overflow: 'hidden',
+    overflow: glass ? undefined : 'hidden',
     position: 'absolute',
     variants: {
       color: mapColors((token) => ({
