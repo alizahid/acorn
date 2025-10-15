@@ -1,5 +1,13 @@
 # Changelog
 
+## Build 65
+
+- added: App Store auth
+- fixed: compact mode width on iPad
+- fixed: title clipping
+- fixed: floating button clipping
+- changed: remove Buy Me a Coffee button for App Store
+
 ## Build 64
 
 - added: swipe to open drawer from anywhere
