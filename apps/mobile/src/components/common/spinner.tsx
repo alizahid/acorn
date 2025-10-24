@@ -17,7 +17,7 @@ export const Spinner = withUnistyles(
   ({ color = 'accent', contrast, size = 'small', style, ...props }: Props) => (
     <Indicator
       size={size}
-      style={[styles.main(props) as ViewStyle, style]}
+      style={[styles.main(props), style]}
       uniProps={(theme) => ({
         color: colors.includes(color as ColorToken)
           ? theme.colors[color as ColorToken][contrast ? 'contrast' : 'accent']

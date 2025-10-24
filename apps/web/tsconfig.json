@@ -4,7 +4,7 @@
     "esModuleInterop": true,
     "incremental": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "lib": ["dom", "dom.iterable", "esnext"],
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -23,5 +23,11 @@
     "target": "ES2017"
   },
   "exclude": ["node_modules"],
-  "include": ["src", "typings", ".next/types/**/*.ts", "next-env.d.ts"]
+  "include": [
+    "src",
+    "typings",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "next-env.d.ts"
+  ]
 }

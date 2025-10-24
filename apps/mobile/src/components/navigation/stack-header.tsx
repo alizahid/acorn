@@ -1,9 +1,8 @@
-import { type BottomTabHeaderProps } from '@react-navigation/bottom-tabs'
 import { type NativeStackHeaderProps } from '@react-navigation/native-stack'
 
 import { Header } from './header'
 
-type Props = NativeStackHeaderProps | BottomTabHeaderProps
+type Props = NativeStackHeaderProps
 
 export function StackHeader({ options, ...props }: Props) {
   const back = 'back' in props ? Boolean(props.back?.title) : false

@@ -1,7 +1,7 @@
 import { createId } from '@paralleldrive/cuid2'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as SecureStore from 'expo-secure-store'
-import { MMKV } from 'react-native-mmkv'
+import { createMMKV, type MMKV } from 'react-native-mmkv'
 import { parse, stringify } from 'superjson'
 import { type StateStorage } from 'zustand/middleware'
 
@@ -11,7 +11,7 @@ export class Store implements StateStorage {
   client: MMKV
 
   constructor(id: string) {
-    this.client = new MMKV({
+    this.client = createMMKV({
       encryptionKey: this.encryptionKey,
       id,
     })
@@ -28,7 +28,7 @@ export class Store implements StateStorage {
   }
 
   removeItem(key: string) {
-    this.client.delete(key)
+    this.client.remove(key)
   }
 
   setItem(key: string, value: unknown) {
