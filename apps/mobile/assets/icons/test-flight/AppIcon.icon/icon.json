@@ -1,0 +1,60 @@
+{
+  "color-space-for-untagged-svg-colors": "display-p3",
+  "fill": {
+    "solid": "extended-gray:1.00000,1.00000"
+  },
+  "groups": [
+    {
+      "layers": [
+        {
+          "image-name": "acorn-mono.svg",
+          "name": "acorn-mono",
+          "opacity-specializations": [
+            {
+              "appearance": "light",
+              "value": 0
+            },
+            {
+              "appearance": "dark",
+              "value": 0
+            }
+          ],
+          "position": {
+            "scale": 8,
+            "translation-in-points": [0, 0]
+          }
+        },
+        {
+          "blend-mode": "normal",
+          "fill": "automatic",
+          "image-name": "acorn-test-flight.svg",
+          "name": "acorn-test-flight",
+          "opacity-specializations": [
+            {
+              "appearance": "tinted",
+              "value": 0
+            }
+          ],
+          "position": {
+            "scale": 8,
+            "translation-in-points": [0, 0]
+          }
+        }
+      ],
+      "lighting": "individual",
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "specular": false,
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    }
+  ],
+  "supported-platforms": {
+    "circles": ["watchOS"],
+    "squares": "shared"
+  }
+}

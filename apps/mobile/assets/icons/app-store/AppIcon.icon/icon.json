@@ -7,6 +7,24 @@
     {
       "layers": [
         {
+          "image-name": "acorn-mono.svg",
+          "name": "acorn-mono",
+          "opacity-specializations": [
+            {
+              "appearance": "light",
+              "value": 0
+            },
+            {
+              "appearance": "dark",
+              "value": 0
+            }
+          ],
+          "position": {
+            "scale": 8,
+            "translation-in-points": [0, 0]
+          }
+        },
+        {
           "image-name": "acorn.svg",
           "name": "acorn",
           "position": {

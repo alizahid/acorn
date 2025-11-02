@@ -27,7 +27,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         dark: {
           backgroundColor: '#101211',
         },
-        image: './assets/artwork/splash-icon.png',
+        image: './assets/icons/splash.png',
         imageWidth: 200,
       },
     ],
@@ -77,14 +77,14 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     ])
   }
 
+  let icon = './assets/icons/test-flight/AppIcon.icon'
+
+  if (process.env.EXPO_PUBLIC_TEST_FLIGHT === 'false') {
+    icon = './assets/icons/app-store/AppIcon.icon'
+  }
+
   const config: ExpoConfig = {
     ...context.config,
-    android: {
-      adaptiveIcon: {
-        backgroundColor: '#fbfdfc',
-        foregroundImage: './assets/artwork/adaptive-icon.png',
-      },
-    },
     experiments: {
       reactCompiler: true,
       tsconfigPaths: true,
@@ -109,7 +109,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         'aps-environment': 'development',
         'com.apple.developer.kernel.increased-memory-limit': true,
       },
-      icon: './assets/artwork/AppIcon.icon',
+      icon,
       supportsTablet: true,
     },
     name,
