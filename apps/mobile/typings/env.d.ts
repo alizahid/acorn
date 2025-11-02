@@ -1,6 +1,6 @@
 // biome-ignore lint/style/noNamespace: go away
 declare namespace NodeJS {
-  // biome-ignore lint/nursery/useConsistentTypeDefinitions: go away
+  // biome-ignore lint/style/useConsistentTypeDefinitions: go away
   export interface ProcessEnv {
     EXPO_PUBLIC_TEST_FLIGHT: string
     EXPO_PUBLIC_WEB_URL: string
