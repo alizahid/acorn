@@ -1,6 +1,6 @@
 # Changelog
 
-## Build 65
+## Build 65-66
 
 - added: App Store auth
 - fixed: compact mode width on iPad
