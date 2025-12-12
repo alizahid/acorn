@@ -25,6 +25,7 @@
   },
   "extends": ["ultracite/core", "ultracite/react", "ultracite/next"],
   "javascript": {
+    "globals": ["__DEV__"],
     "formatter": {
       "quoteStyle": "single",
       "semicolons": "asNeeded",
@@ -38,6 +39,9 @@
       },
       "correctness": {
         "useJsonImportAttributes": "off"
+      },
+      "nursery": {
+        "noLeakedRender": "off"
       },
       "style": {
         "noMagicNumbers": "off",

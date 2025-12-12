@@ -54,9 +54,7 @@ export async function reddit<Response>({
 
   input.searchParams.set('g', 'GLOBAL')
 
-  // biome-ignore lint/correctness/noUndeclaredVariables: go away
   if (__DEV__) {
-    // biome-ignore lint/suspicious/noConsole: go away
     console.log('reddit', input.toString(), request)
   }
 

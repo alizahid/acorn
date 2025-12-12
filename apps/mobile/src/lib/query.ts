@@ -13,9 +13,7 @@ export const queryClient = new QueryClient({
   defaultOptions: {
     mutations: {
       throwOnError(error) {
-        // biome-ignore lint/correctness/noUndeclaredVariables: go away
         if (__DEV__) {
-          // biome-ignore lint/suspicious/noConsole: go away
           console.log(error)
         }
 
@@ -29,9 +27,7 @@ export const queryClient = new QueryClient({
       retry: false,
       staleTime: usePreferences.getState().refreshInterval * 60 * 1000,
       throwOnError(error) {
-        // biome-ignore lint/correctness/noUndeclaredVariables: go away
         if (__DEV__) {
-          // biome-ignore lint/suspicious/noConsole: go away
           console.log(error)
         }
 

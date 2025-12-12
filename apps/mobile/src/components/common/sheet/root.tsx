@@ -1,8 +1,7 @@
 import { TrueSheet } from '@lodev09/react-native-true-sheet'
 import { type ReactNode, type Ref } from 'react'
+import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
-
-import { tints } from '~/lib/common'
 
 type Props = {
   children: ReactNode
@@ -15,24 +14,22 @@ export function Root({ children, onClose, ref }: Props) {
 
   return (
     <TrueSheet
-      blurTint={tints[theme.variant]}
-      contentContainerStyle={styles.content}
+      blurTint={theme.variant}
       cornerRadius={theme.radius[6]}
+      detents={['auto']}
       grabber={false}
-      onDismiss={onClose}
+      onWillDismiss={onClose}
       ref={ref}
-      sizes={['auto']}
     >
-      {children}
+      <GestureHandlerRootView style={styles.content}>
+        {children}
+      </GestureHandlerRootView>
     </TrueSheet>
   )
 }
 
-const styles = StyleSheet.create((_theme, runtime) => ({
+const styles = StyleSheet.create({
   content: {
-    paddingBottom: runtime.insets.bottom,
+    flexGrow: 1,
   },
-  header: {
-    backgroundColor: 'transparent',
-  },
-}))
+})
