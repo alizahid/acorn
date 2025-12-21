@@ -10,8 +10,8 @@
   },
   "dependencies": {
     "@phosphor-icons/react": "^2.1.10",
-    "next": "16.0.10",
-    "next-intl": "^4.6.0",
+    "next": "16.1.0",
+    "next-intl": "^4.6.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "tailwind-merge": "^3.4.0"
@@ -19,7 +19,7 @@
   "devDependencies": {
     "@radix-ui/colors": "^3.0.0",
     "@tailwindcss/postcss": "^4.1.18",
-    "@types/node": "^25.0.1",
+    "@types/node": "^25.0.3",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "postcss": "^8.5.6",
