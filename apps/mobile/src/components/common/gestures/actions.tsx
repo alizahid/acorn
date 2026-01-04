@@ -67,8 +67,6 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
         return
       }
 
-      console.log('translationX', translationX)
-
       translate.set(event.translationX)
 
       const side = event.translationX > 0 ? 'left' : 'right'

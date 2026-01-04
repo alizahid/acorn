@@ -65,8 +65,6 @@ export function VisibilitySensor({ children, id, onChange }: Props) {
       if (!isEqual(next, previous.current)) {
         onChange(next)
 
-        console.log(id, next)
-
         previous.current = next
       }
     })
