@@ -5,10 +5,7 @@
         "buildType": "app-bundle"
       },
       "channel": "production",
-      "distribution": "store",
-      "env": {
-        "EXPO_PUBLIC_TEST_FLIGHT": "false"
-      }
+      "distribution": "store"
     },
     "development": {
       "developmentClient": true,
@@ -30,17 +27,11 @@
         "buildType": "app-bundle"
       },
       "channel": "production",
-      "distribution": "store",
-      "env": {
-        "EXPO_PUBLIC_TEST_FLIGHT": "true"
-      }
+      "distribution": "store"
     }
   },
   "cli": {
     "appVersionSource": "local"
   },
-  "submit": {
-    "app-store": {},
-    "test-flight": {}
-  }
+  "submit": {}
 }

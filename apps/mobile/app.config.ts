@@ -71,16 +71,10 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     plugins.push([
       '@sentry/react-native/expo',
       {
-        organization: String(process.env.SENTRY_ORG),
-        project: String(process.env.SENTRY_PROJECT),
+        organization: process.env.SENTRY_ORG,
+        project: process.env.SENTRY_PROJECT,
       },
     ])
-  }
-
-  let icon = './assets/icons/test-flight/AppIcon.icon'
-
-  if (process.env.EXPO_PUBLIC_TEST_FLIGHT === 'false') {
-    icon = './assets/icons/app-store/AppIcon.icon'
   }
 
   const config: ExpoConfig = {
@@ -109,7 +103,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         'aps-environment': 'development',
         'com.apple.developer.kernel.increased-memory-limit': true,
       },
-      icon,
+      icon: './assets/icons/app-store/AppIcon.icon',
       supportsTablet: true,
     },
     name,

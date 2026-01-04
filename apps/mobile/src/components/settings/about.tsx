@@ -1,4 +1,3 @@
-import { compact } from 'lodash'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -6,10 +5,8 @@ import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useLink } from '~/hooks/link'
-import { testFlight } from '~/lib/common'
 
 import { Button } from '../common/button'
-import { Icon } from '../common/icon'
 import { PhosphorIcon } from '../common/icon/phosphor'
 
 export function AboutCard() {
@@ -17,7 +14,7 @@ export function AboutCard() {
 
   const { handleLink } = useLink()
 
-  const links = compact([
+  const links = [
     {
       href: 'https://acorn.blue',
       icon: (
@@ -57,21 +54,7 @@ export function AboutCard() {
       ),
       label: t('links.github'),
     },
-    testFlight
-      ? {
-          href: 'https://buymeacoffee.com/acornblue',
-          icon: (
-            <Icon
-              name="cup.and.saucer.fill"
-              uniProps={(theme) => ({
-                tintColor: theme.colors.accent.contrast,
-              })}
-            />
-          ),
-          label: t('links.coffee'),
-        }
-      : null,
-  ])
+  ]
 
   return (
     <View align="center" gap="6" mx="4" my="9">
