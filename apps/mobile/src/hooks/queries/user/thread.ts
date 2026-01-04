@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
-import { getDayOfYear, setDayOfYear } from 'date-fns'
+import { formatISO, parseISO } from 'date-fns'
 import { groupBy, orderBy } from 'lodash'
 import { useMemo } from 'react'
 
@@ -49,10 +49,14 @@ export function useThread(id: string) {
   })
 
   const messages = useMemo(() => {
-    const groups = groupBy(data ?? [], (item) => getDayOfYear(item.createdAt))
+    const groups = groupBy(data ?? [], (item) =>
+      formatISO(item.createdAt, {
+        representation: 'date',
+      }),
+    )
 
-    return Object.entries(groups).flatMap(([day, items]) => [
-      setDayOfYear(new Date(), Number(day)),
+    return Object.entries(groups).flatMap(([date, items]) => [
+      parseISO(date),
       ...orderBy(items, 'createdAt', 'asc'),
     ])
   }, [data])
