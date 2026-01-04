@@ -1,8 +1,4 @@
-import {
-  FlashList,
-  type FlashListRef,
-  type ListRenderItem,
-} from '@shopify/flash-list'
+import { type FlashListRef, type ListRenderItem } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
@@ -26,6 +22,7 @@ import { CommentCard } from '../comments/card'
 import { Button } from '../common/button'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
+import { SensorList } from '../common/sensor/list'
 import { View } from '../common/view'
 
 const viewabilityConfig = {
@@ -122,7 +119,7 @@ export function PostList({
   )
 
   return (
-    <FlashList
+    <SensorList
       {...listProps}
       {...sticky}
       contentContainerStyle={style}

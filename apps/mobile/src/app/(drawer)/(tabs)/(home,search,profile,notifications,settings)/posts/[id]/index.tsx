@@ -1,9 +1,5 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import {
-  FlashList,
-  type FlashListRef,
-  type ListRenderItem,
-} from '@shopify/flash-list'
+import { type FlashListRef, type ListRenderItem } from '@shopify/flash-list'
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
@@ -17,6 +13,7 @@ import { Empty } from '~/components/common/empty'
 import { FloatingButton } from '~/components/common/floating-button'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
+import { SensorList } from '~/components/common/sensor/list'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
@@ -198,7 +195,7 @@ export default function Screen() {
 
   return (
     <>
-      <FlashList
+      <SensorList
         {...listProps}
         contentContainerStyle={styles.content}
         data={comments}

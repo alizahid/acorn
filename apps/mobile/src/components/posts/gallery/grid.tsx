@@ -1,4 +1,3 @@
-import { VisibilitySensor } from '@futurejj/react-native-visibility-sensor'
 import { Image } from 'expo-image'
 import { useState } from 'react'
 import { ResponsiveGrid } from 'react-native-flexible-grid'
@@ -6,6 +5,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
+import { VisibilitySensor } from '~/components/common/sensor/visibility'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useImagePlaceholder } from '~/hooks/image'
@@ -50,7 +50,7 @@ export function ImageGrid({
         >
           <VisibilitySensor
             onChange={(next) => {
-              setVisible(next)
+              setVisible(next.visible)
             }}
           >
             <Image
@@ -84,7 +84,7 @@ export function ImageGrid({
   return (
     <VisibilitySensor
       onChange={(next) => {
-        setVisible(next)
+        setVisible(next.visible)
       }}
     >
       <ResponsiveGrid

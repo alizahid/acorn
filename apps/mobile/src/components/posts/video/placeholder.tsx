@@ -1,4 +1,3 @@
-import { VisibilitySensor } from '@futurejj/react-native-visibility-sensor'
 import { ImageBackground } from 'expo-image'
 import { type VideoSource } from 'expo-video'
 import { useState } from 'react'
@@ -7,6 +6,7 @@ import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
+import { VisibilitySensor } from '~/components/common/sensor/visibility'
 import { useFocused } from '~/hooks/focus'
 import { previewVideo } from '~/lib/preview'
 import { usePreferences } from '~/stores/preferences'
@@ -86,8 +86,9 @@ export function VideoPlaceholder({
 
   return (
     <VisibilitySensor
+      id={video.url}
       onChange={(next) => {
-        setVisible(next)
+        setVisible(next.visible)
       }}
     >
       <ImageBackground

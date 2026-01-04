@@ -1,17 +1,14 @@
-import { VisibilitySensor } from '@futurejj/react-native-visibility-sensor'
 import { useEvent } from 'expo'
 import { useVideoPlayer, VideoView } from 'expo-video'
-import { noop } from 'lodash'
-import { useEffect, useMemo, useRef } from 'react'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
+import { useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
+import { VisibilitySensor } from '~/components/common/sensor/visibility'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
-import { getActiveVideo, useVideos } from '~/stores/videos'
 import { space } from '~/styles/tokens'
 import { type PostMedia } from '~/types/post'
 
@@ -27,8 +24,6 @@ type Props = {
 }
 
 export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
-  const frame = useSafeAreaFrame()
-
   const t = useTranslations('component.posts.video')
   const a11y = useTranslations('a11y')
 
@@ -54,13 +49,7 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
     instance.pause()
   })
 
-  const { addVideo, removeVideo, videos } = useVideos()
-
-  const visible = useMemo(() => {
-    const active = getActiveVideo(videos)
-
-    return video.url === active?.url
-  }, [video.url, videos])
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     if (visible && autoPlay) {
@@ -90,18 +79,9 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
         style={styles.main}
       >
         <VisibilitySensor
-          onChange={noop}
-          onPercentChange={(percent) => {
-            if (percent > 60) {
-              addVideo(video.url, percent)
-            } else {
-              removeVideo(video.url)
-            }
-          }}
-          style={styles.sensor(video.width / video.height)}
-          threshold={{
-            left: -frame.width,
-            right: -frame.width,
+          id={video.url}
+          onChange={(next) => {
+            setVisible(next.full)
           }}
         >
           <VideoView
@@ -125,7 +105,7 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
             }}
             player={player}
             ref={ref}
-            style={styles.video}
+            style={styles.video(video.width / video.height)}
           />
         </VisibilitySensor>
 
@@ -163,15 +143,12 @@ const styles = StyleSheet.create((theme, runtime) => ({
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
   },
-  sensor: (aspectRatio: number) => ({
-    aspectRatio,
-  }),
   thumbnail: {
     ...StyleSheet.absoluteFillObject,
   },
-  video: {
-    flex: 1,
-  },
+  video: (aspectRatio: number) => ({
+    aspectRatio,
+  }),
   volume: {
     backgroundColor: theme.colors.black.accentAlpha,
     borderCurve: 'continuous',
