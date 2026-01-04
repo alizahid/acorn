@@ -1,5 +1,4 @@
 import { type CustomPressableProps, PressableOpacity } from 'pressto'
-import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { stripProps } from '~/lib/styles'
@@ -7,10 +6,8 @@ import { type MarginProps, type PaddingProps } from '~/styles/space'
 import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
 type Props = {
-  accessibilityLabel: string
   disabled?: boolean
-  style?: StyleProp<ViewStyle>
-} & Omit<CustomPressableProps, 'accessibilityLabel' | 'enabled' | 'style'> &
+} & Omit<CustomPressableProps, 'enabled'> &
   ViewStyleProps &
   MarginProps &
   PaddingProps

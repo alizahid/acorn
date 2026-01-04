@@ -44,6 +44,7 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
       {items.map((item, index) => (
         <Pressable
           accessibilityLabel={item}
+          accessibilityRole="tab"
           align="center"
           flex={1}
           height="7"
@@ -53,7 +54,6 @@ export function SegmentedControl({ items, offset, onChange }: Props) {
             onChange(index)
           }}
           px="2"
-          role="tab"
         >
           <Text highContrast={false} size="2" weight="bold">
             {item}
