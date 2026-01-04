@@ -75,27 +75,27 @@ export default function Screen() {
           <View gap="2" mb="4">
             {[
               {
-                label: t('rules.yes.one'),
+                label: t('rules.yes.1'),
                 type: 'yes',
               },
               {
-                label: t('rules.yes.two'),
+                label: t('rules.yes.2'),
                 type: 'yes',
               },
               {
-                label: t('rules.no.one'),
+                label: t('rules.no.1'),
                 type: 'no',
               },
               {
-                label: t('rules.no.two'),
+                label: t('rules.no.2'),
                 type: 'no',
               },
               {
-                label: t('rules.no.three'),
+                label: t('rules.no.3'),
                 type: 'no',
               },
               {
-                label: t('rules.info.one'),
+                label: t('rules.info.1'),
                 type: 'info',
               },
             ].map((rule) => (

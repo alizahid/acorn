@@ -551,16 +551,16 @@
       "filters": {
         "rules": {
           "info": {
-            "one": "Community and user names are case sensitive"
+            "1": "Community and user names are case sensitive"
           },
           "no": {
-            "one": "Community and user feeds",
-            "three": "User and post comments",
-            "two": "Your own posts and comments"
+            "1": "Community and user feeds",
+            "2": "Your own posts and comments",
+            "3": "User and post comments"
           },
           "yes": {
-            "one": "Posts in /home, /popular, /all feeds",
-            "two": "Posts, communities, and users in search"
+            "1": "Posts in /home, /popular, /all feeds",
+            "2": "Posts, communities, and users in search"
           }
         },
         "save": "Save",
