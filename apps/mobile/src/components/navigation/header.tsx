@@ -198,6 +198,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
       modal: {
         true: {
           backgroundColor: theme.colors.gray.bg,
+          paddingTop: theme.space[4],
         },
       },
       oled: {

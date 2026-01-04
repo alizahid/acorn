@@ -15,7 +15,7 @@ import { usePlan } from '~/hooks/purchases/plan'
 import { useRestore } from '~/hooks/purchases/restore'
 import { useSubscribe } from '~/hooks/purchases/subscribe'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
-import { glass, iPhone } from '~/lib/common'
+import { glass, iPad, iPhone } from '~/lib/common'
 import { fonts } from '~/lib/fonts'
 
 export default function Screen() {
@@ -37,59 +37,66 @@ export default function Screen() {
   }, [router.dismiss, subscribed])
 
   return (
-    <View flex={1}>
+    <View flex={1} gap="8" justify="center" py="8" style={styles.main}>
       {iPhone && !glass ? <StatusBar style="light" /> : null}
 
-      <View flex={1} gap="8" justify="center">
-        <View align="center" gap="4">
-          <Logo />
+      <View align="center" gap="4">
+        <Logo />
 
-          <Text accent color="accent" size="8" weight="bold">
-            {t('title')}
-          </Text>
-        </View>
-
-        <View align="center" justify="center" style={styles.price}>
-          {plan ? (
-            <>
-              <Text
-                mt="2"
-                size="9"
-                style={{
-                  fontFamily: fonts.apercu,
-                }}
-                tabular
-                weight="bold"
-              >
-                {f.number(plan.product.price, {
-                  currency: plan.product.currencyCode,
-                  style: 'currency',
-                })}
-              </Text>
-
-              <Text highContrast={false} weight="medium">
-                {t('price.description')}
-              </Text>
-            </>
-          ) : (
-            <Spinner />
-          )}
-        </View>
-
-        <View gap="4" px="8">
-          {([1, 2, 3, 4, 5, 6] as const).map((key) => (
-            <View direction="row" gap="4" key={key}>
-              <Icon name={icons[key]} />
-
-              <View flex={1}>
-                <Text weight="medium">{t(`feature.${key}`)}</Text>
-              </View>
-            </View>
-          ))}
-        </View>
+        <Text accent color="accent" size="8" weight="bold">
+          {t('title')}
+        </Text>
       </View>
 
-      <View gap="4" mx="6" style={styles.footer}>
+      <View align="center" justify="center" style={styles.price}>
+        {plan ? (
+          <>
+            <Text
+              mt="2"
+              size="8"
+              style={{
+                fontFamily: fonts.apercu,
+              }}
+              tabular
+              weight="bold"
+            >
+              {f.number(plan.product.price, {
+                currency: plan.product.currencyCode,
+                style: 'currency',
+              })}
+            </Text>
+
+            <Text highContrast={false} weight="medium">
+              {t('price.description')}
+            </Text>
+          </>
+        ) : (
+          <Spinner />
+        )}
+      </View>
+
+      <View direction="row" gap="4" px={iPad ? '8' : '4'}>
+        {(
+          [
+            [1, 2, 3],
+            [4, 5, 6],
+          ] as const
+        ).map((section) => (
+          <View flex={1} gap="4" key={String(section)}>
+            {section.map((key) => (
+              <View direction="row" gap="4" key={key}>
+                <Icon name={icons[key]} />
+
+                <View flex={1}>
+                  <Text weight="medium">{t(`feature.${key}`)}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
+        ))}
+      </View>
+
+      <View gap="4" mx={iPad ? '8' : '4'}>
         <Button
           label={t('subscribe')}
           loading={subscribing}
@@ -115,12 +122,12 @@ const styles = StyleSheet.create((theme, runtime) => ({
   features: {
     width: '100%',
   },
-  footer: {
-    marginBottom: theme.space[6] + runtime.insets.bottom,
+  main: {
+    marginBottom: runtime.insets.bottom,
   },
   price: {
     backgroundColor: theme.colors.accent.ui,
-    height: theme.space[9] * 2,
+    height: theme.space[8] * 2,
   },
   subscribe: {
     alignSelf: 'center',

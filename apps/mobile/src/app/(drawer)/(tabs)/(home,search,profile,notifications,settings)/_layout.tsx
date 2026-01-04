@@ -333,6 +333,10 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="sign-in"
         options={({ route }) => ({
+          contentStyle: {
+            height: '100%',
+            width: '100%',
+          },
           gestureEnabled: (route.params as SignInParams).mode === 'dismissible',
           headerShown: false,
           presentation: iPad ? 'formSheet' : 'modal',
