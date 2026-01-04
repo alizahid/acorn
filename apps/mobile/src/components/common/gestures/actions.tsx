@@ -1,88 +1,211 @@
-import { type SFSymbol } from 'expo-symbols'
-import { useState } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type SFSymbol, SymbolView, type SymbolViewProps } from 'expo-symbols'
+import { type ReactNode } from 'react'
+import { type ViewStyle } from 'react-native'
+import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
-  type SharedValue,
-  useAnimatedReaction,
+  useAnimatedProps,
   useAnimatedStyle,
+  useSharedValue,
+  withTiming,
 } from 'react-native-reanimated'
-import { useUnistyles } from 'react-native-unistyles'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { scheduleOnRN } from 'react-native-worklets'
 
-import { Icon } from '~/components/common/icon'
-import { swipeActionThreshold } from '~/lib/common'
-import { triggerFeedback } from '~/lib/feedback'
+import { cardMaxWidth, iPad, iPhone } from '~/lib/common'
 import { getIcon } from '~/lib/icons'
 import { type ColorToken } from '~/styles/tokens'
 import { type Undefined } from '~/types'
 
-import { type GestureAction, type GestureData } from '.'
+import { type GestureAction, type GestureData, type Gestures } from '.'
+
+const Icon = Animated.createAnimatedComponent(SymbolView)
 
 type Props = {
-  action: SharedValue<Undefined<GestureAction>>
+  children: ReactNode
   data: GestureData
-  long: GestureAction
-  progress: SharedValue<number>
-  short: GestureAction
-  style: StyleProp<ViewStyle>
+  gestures: {
+    left: Gestures
+    right: Gestures
+  }
+  onAction: (action: Undefined<GestureAction>) => void
+  style?: ViewStyle
 }
 
-export function Actions({ action, data, long, progress, short, style }: Props) {
+export function Actions({ children, data, gestures, onAction, style }: Props) {
+  const frame = useSafeAreaFrame()
+
+  const translate = useSharedValue(0)
+  const height = useSharedValue(0)
+
   const { theme } = useUnistyles()
 
-  const [icon, setIcon] = useState<SFSymbol>(GestureIcons[short])
+  const action = useSharedValue<GestureAction | null>(null)
+  const color = useSharedValue(theme.colors.gray.accent)
+  const icon = useSharedValue<SFSymbol>('questionmark')
+  const opacity = useSharedValue(0)
 
-  const background = useAnimatedStyle(() => {
-    const color =
-      GestureColors[progress.get() > swipeActionThreshold.long ? long : short]
+  const width = iPad
+    ? style?.maxWidth
+      ? Number(style.maxWidth)
+      : cardMaxWidth
+    : frame.width
+
+  const gesture = Gesture.Pan()
+    .activeOffsetX([-10, 10])
+    .hitSlop(
+      iPhone
+        ? {
+            left: -24,
+          }
+        : undefined,
+    )
+    .onUpdate((event) => {
+      const translationX = Math.abs(event.translationX)
+
+      if (translationX >= width) {
+        return
+      }
+
+      console.log('translationX', translationX)
+
+      translate.set(event.translationX)
+
+      const side = event.translationX > 0 ? 'left' : 'right'
+      const swipe =
+        translationX >= width * 0.4
+          ? 'long'
+          : translationX >= width * 0.2
+            ? 'short'
+            : null
+
+      const gesture = gestures[side][swipe ?? 'short']
+
+      color.set(theme.colors[GestureColors[gesture]].accent)
+      icon.set(getNextIcon(gesture, data))
+
+      action.set(swipe ? gesture : null)
+
+      opacity.set(
+        withTiming(swipe ? 1 : 0.5, {
+          duration: 100,
+        }),
+      )
+    })
+    .onEnd(() => {
+      translate.set(withTiming(0))
+
+      const name = action.get()
+
+      if (name) {
+        scheduleOnRN(onAction, name)
+
+        action.set(null)
+      }
+
+      setTimeout(() => {
+        opacity.set(0)
+      }, 250)
+    })
+
+  const left = useAnimatedStyle<ViewStyle>(() => {
+    const x = translate.get()
+
+    if (x <= 0) {
+      return {
+        opacity: 0,
+      }
+    }
 
     return {
-      backgroundColor: theme.colors[color].accent,
+      backgroundColor: color.get(),
+      display: 'flex',
+      height: height.get(),
+      left: 0,
+      opacity: 1,
+      width: Math.abs(x),
     }
   })
 
-  const foreground = useAnimatedStyle(() => ({
-    opacity: progress.get() > swipeActionThreshold.short ? 1 : 0.25,
+  const right = useAnimatedStyle<ViewStyle>(() => {
+    const x = translate.get()
+
+    if (x > 0) {
+      return {
+        opacity: 0,
+      }
+    }
+
+    return {
+      backgroundColor: color.get(),
+      display: 'flex',
+      height: height.get(),
+      left: width + x,
+      opacity: 1,
+      width: Math.abs(x),
+    }
+  })
+
+  const child = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateX: translate.get(),
+      },
+    ],
   }))
 
-  useAnimatedReaction(
-    () => progress.get(),
-    (value) => {
-      const nextAction =
-        value > swipeActionThreshold.long
-          ? long
-          : value > swipeActionThreshold.short
-            ? short
-            : undefined
+  const iconProps = useAnimatedProps<SymbolViewProps>(() => ({
+    name: icon.get(),
+  }))
 
-      if (nextAction && nextAction !== action.get()) {
-        scheduleOnRN(triggerFeedback, 'soft')
-      }
-
-      action.set(() => nextAction)
-
-      const next = getNextIcon(nextAction ?? short, data)
-
-      if (next !== icon) {
-        scheduleOnRN(setIcon, next)
-      }
-    },
-  )
+  const iconStyle = useAnimatedStyle(() => ({
+    opacity: opacity.get(),
+  }))
 
   return (
-    <Animated.View style={[style, background]}>
-      <Animated.View style={foreground}>
-        <Icon
-          name={icon}
-          uniProps={($theme) => ({
-            size: $theme.space[6],
-            tintColor: $theme.colors.accent.contrast,
-          })}
-        />
+    <GestureDetector gesture={gesture}>
+      <Animated.View style={style}>
+        <Animated.View pointerEvents="none" style={[styles.action, left]}>
+          <Icon
+            animatedProps={iconProps}
+            name="questionmark"
+            size={32}
+            style={iconStyle}
+            tintColor="#fff"
+          />
+        </Animated.View>
+
+        <Animated.View pointerEvents="none" style={[styles.action, right]}>
+          <Icon
+            animatedProps={iconProps}
+            name="questionmark"
+            size={32}
+            style={iconStyle}
+            tintColor="#fff"
+          />
+        </Animated.View>
+
+        <Animated.View
+          onLayout={(event) => {
+            height.set(event.nativeEvent.layout.height)
+          }}
+          style={child}
+        >
+          {children}
+        </Animated.View>
       </Animated.View>
-    </Animated.View>
+    </GestureDetector>
   )
 }
+
+const styles = StyleSheet.create({
+  action: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    top: 0,
+  },
+})
 
 export const GestureColors = {
   downvote: 'violet',

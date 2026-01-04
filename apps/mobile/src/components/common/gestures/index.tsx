@@ -1,14 +1,7 @@
-import { type ReactNode, useRef } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
-import Swipeable, {
-  type SwipeableMethods,
-} from 'react-native-gesture-handler/ReanimatedSwipeable'
-import { useSharedValue } from 'react-native-reanimated'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
-import { StyleSheet } from 'react-native-unistyles'
+import { type ReactNode } from 'react'
+import { type ViewStyle } from 'react-native'
 
 import { View } from '~/components/common/view'
-import { iPhone } from '~/lib/common'
 import { type Nullable, type Undefined } from '~/types'
 
 import { Actions } from './actions'
@@ -39,7 +32,7 @@ type Props = {
   left: Gestures
   onAction: (action: Undefined<GestureAction>) => void
   right: Gestures
-  style?: StyleProp<ViewStyle>
+  style?: ViewStyle
 }
 
 export function Gestures({
@@ -50,80 +43,21 @@ export function Gestures({
   right,
   style,
 }: Props) {
-  const frame = useSafeAreaFrame()
-
-  const swipeable = useRef<SwipeableMethods>(null)
-
-  const action = useSharedValue<Undefined<GestureAction>>(undefined)
-
   if (!(left.enabled || right.enabled)) {
     return <View style={style}>{children}</View>
   }
 
   return (
-    <Swipeable
-      containerStyle={style}
-      dragOffsetFromLeftEdge={left.enabled ? 12 : frame.width}
-      dragOffsetFromRightEdge={right.enabled ? 12 : frame.width}
-      hitSlop={
-        iPhone
-          ? {
-              left: -24,
-            }
-          : undefined
-      }
-      leftThreshold={Number.POSITIVE_INFINITY}
-      onSwipeableWillClose={() => {
-        const next = action.get()
-
-        onAction(next)
+    <Actions
+      data={data}
+      gestures={{
+        left,
+        right,
       }}
-      onSwipeableWillOpen={() => {
-        swipeable.current?.close()
-      }}
-      ref={swipeable}
-      renderLeftActions={(progress) =>
-        left.enabled ? (
-          <Actions
-            action={action}
-            data={data}
-            long={left.long}
-            progress={progress}
-            short={left.short}
-            style={styles.left}
-          />
-        ) : null
-      }
-      renderRightActions={(progress) =>
-        right.enabled ? (
-          <Actions
-            action={action}
-            data={data}
-            long={right.long}
-            progress={progress}
-            short={right.short}
-            style={styles.right}
-          />
-        ) : null
-      }
-      rightThreshold={Number.POSITIVE_INFINITY}
+      onAction={onAction}
+      style={style}
     >
       {children}
-    </Swipeable>
+    </Actions>
   )
 }
-
-const styles = StyleSheet.create((theme) => ({
-  left: {
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    padding: theme.space[4],
-    width: '90%',
-  },
-  right: {
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    padding: theme.space[4],
-    width: '90%',
-  },
-}))

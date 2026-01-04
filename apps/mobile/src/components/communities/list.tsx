@@ -9,7 +9,7 @@ import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { View } from '~/components/common/view'
-import { type ListProps } from '~/hooks/list'
+import { type ListProps, renderScrollComponent } from '~/hooks/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/communities/feeds'
 import { removePrefix } from '~/lib/reddit'
@@ -412,6 +412,7 @@ export function CommunitiesList({
           />
         )
       }}
+      renderScrollComponent={renderScrollComponent}
       renderSectionHeader={({ section }) => {
         if (!section.title) {
           return null

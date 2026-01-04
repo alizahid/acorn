@@ -15,11 +15,6 @@ export const iPad =
 
 export const glass = isLiquidGlassAvailable()
 
-export const swipeActionThreshold = {
-  long: iPad ? 0.2 : 0.4,
-  short: iPad ? 0.1 : 0.2,
-} as const
-
 export const tints = {
   dark: 'systemThickMaterialDark',
   light: 'systemThickMaterialLight',

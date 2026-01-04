@@ -255,6 +255,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
 
     return {
       marginLeft,
+      overflow: 'hidden',
       variants: {
         iPad: {
           true: {

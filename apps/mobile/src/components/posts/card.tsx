@@ -263,6 +263,7 @@ export function PostCard({ expanded, post }: Props) {
 
 const styles = StyleSheet.create((theme) => ({
   container: {
+    overflow: 'hidden',
     variants: {
       iPad: {
         true: {

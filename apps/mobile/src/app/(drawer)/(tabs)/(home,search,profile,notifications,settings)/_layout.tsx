@@ -10,7 +10,6 @@ import { iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 import { useDefaults } from '~/stores/defaults'
-import { usePreferences } from '~/stores/preferences'
 import { type Undefined } from '~/types'
 
 import { type HomeParams } from '.'
@@ -154,14 +153,13 @@ function StackLayout({ children }: PropsWithChildren) {
   const a11y = useTranslations('a11y')
 
   const { addPost } = useHistory()
-  const { fullscreenSwipe } = usePreferences()
 
   const { subscribed } = useSubscribed()
 
   return (
     <Stack
       screenOptions={{
-        fullScreenGestureEnabled: fullscreenSwipe,
+        fullScreenGestureEnabled: true,
         header: (props) => <StackHeader {...props} />,
       }}
     >

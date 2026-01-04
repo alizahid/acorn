@@ -1,5 +1,5 @@
 import { create } from 'mutative'
-import { FlatList } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 import {
   NestedReorderableList,
   reorderItems,
