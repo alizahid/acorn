@@ -12,7 +12,6 @@ import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { useScrollToTop } from '~/hooks/scroll-top'
-import { useStickyNav } from '~/hooks/sticky-nav'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -87,8 +86,6 @@ export function PostList({
     userType,
   })
 
-  const sticky = useStickyNav()
-
   const renderItem: ListRenderItem<Item> = useCallback(
     ({ item }) => {
       if (item.type === 'reply') {
@@ -121,7 +118,6 @@ export function PostList({
   return (
     <SensorList
       {...listProps}
-      {...sticky}
       contentContainerStyle={style}
       data={posts}
       getItemType={(item) => item.type}

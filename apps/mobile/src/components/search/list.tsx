@@ -13,7 +13,6 @@ import { type ListProps } from '~/hooks/list'
 import { useSearch } from '~/hooks/queries/search/search'
 import { useScrollToTop } from '~/hooks/scroll-top'
 import { useSearchHistory } from '~/hooks/search'
-import { useStickyNav } from '~/hooks/sticky-nav'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Community } from '~/types/community'
@@ -76,8 +75,6 @@ export function SearchList({
     type,
   })
 
-  const sticky = useStickyNav()
-
   const renderItem: ListRenderItem<Item> = useCallback(
     ({ item }) => {
       if (type === 'community') {
@@ -96,7 +93,6 @@ export function SearchList({
   return (
     <SensorList
       {...listProps}
-      {...sticky}
       contentContainerStyle={StyleSheet.flatten([
         type !== 'post' && styles.content,
         style,

@@ -1,22 +1,25 @@
 import { clamp } from 'lodash'
 import { useRef } from 'react'
-import { type NativeScrollEvent, type NativeSyntheticEvent } from 'react-native'
 
 import { mitter } from '~/lib/mitt'
 import { usePreferences } from '~/stores/preferences'
 
-export function useStickyNav() {
+type Props = {
+  disabled?: boolean
+}
+
+export function useStickyNav({ disabled = false }: Props) {
   const { hideHeaderOnScroll, hideTabBarOnScroll } = usePreferences()
 
   const previous = useRef(0)
   const last = useRef<'show' | 'hide' | undefined>(undefined)
 
-  function onScroll(event: NativeSyntheticEvent<NativeScrollEvent>) {
-    const y = clamp(
-      event.nativeEvent.contentOffset.y,
-      0,
-      event.nativeEvent.contentOffset.y,
-    )
+  function onScroll(offset: number) {
+    if (disabled) {
+      return
+    }
+
+    const y = clamp(offset, 0, offset)
 
     const delta = y - previous.current
 
@@ -38,6 +41,5 @@ export function useStickyNav() {
 
   return {
     onScroll,
-    scrollEventThrottle: 1000,
   }
 }
