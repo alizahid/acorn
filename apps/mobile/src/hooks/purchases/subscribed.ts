@@ -6,6 +6,10 @@ export function useSubscribed() {
   const { isLoading, data } = useQuery({
     networkMode: 'offlineFirst',
     async queryFn() {
+      if (__DEV__) {
+        return true
+      }
+
       const offerings = await purchases.getOfferings()
 
       const item = offerings.current?.availablePackages[0]
