@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
-import ReorderableList, { reorderItems } from 'react-native-reorderable-list'
+import { FlatList } from 'react-native-gesture-handler'
 import { useTranslations } from 'use-intl'
 
 import { mitter } from '~/lib/mitt'
@@ -16,7 +16,7 @@ export function AccountSwitcher() {
   const t = useTranslations('component.users.switcher')
   const a11y = useTranslations('a11y')
 
-  const { accountId, accounts, removeAccount, reorder, setAccount } = useAuth()
+  const { accountId, accounts, remove, set } = useAuth()
 
   const sheet = useRef<Sheet>(null)
 
@@ -51,25 +51,20 @@ export function AccountSwitcher() {
         title={t('title')}
       />
 
-      <ReorderableList
+      <FlatList
         data={accounts}
-        onReorder={(event) => {
-          const next = reorderItems(accounts, event.from, event.to)
-
-          reorder(next)
-        }}
         renderItem={({ item }) => (
           <AccountCard
             account={item}
             key={item.id}
             onChange={(id) => {
-              setAccount(id)
+              set(id)
             }}
             onClose={() => {
               sheet.current?.dismiss()
             }}
             onRemove={(id) => {
-              removeAccount(id)
+              remove(id)
             }}
             selected={accountId}
           />

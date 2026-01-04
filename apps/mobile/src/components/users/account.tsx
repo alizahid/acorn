@@ -1,6 +1,5 @@
-import { Pressable } from 'react-native'
+import { Pressable } from 'react-native-gesture-handler'
 import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
-import { useReorderableDrag } from 'react-native-reorderable-list'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -9,7 +8,6 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
 import { IconButton } from '../common/icon/button'
-import { PhosphorIcon } from '../common/icon/phosphor'
 import { Text } from '../common/text'
 
 type Props = {
@@ -36,8 +34,6 @@ export function AccountCard({
     tint: themeTint,
   })
 
-  const drag = useReorderableDrag()
-
   return (
     <Swipeable
       containerStyle={styles.delete}
@@ -62,7 +58,6 @@ export function AccountCard({
         accessibilityState={{
           selected: account.id === selected,
         }}
-        onLongPress={drag}
         onPress={() => {
           if (account.id !== selected) {
             onChange(account.id)
@@ -72,14 +67,6 @@ export function AccountCard({
         }}
         style={[styles.main, account.id === selected && styles.selected]}
       >
-        <PhosphorIcon
-          name="DotsSixVertical"
-          uniProps={(theme) => ({
-            color: theme.colors.gray.accent,
-            size: theme.space[4],
-          })}
-        />
-
         <Text weight="medium">{account.id}</Text>
       </Pressable>
     </Swipeable>

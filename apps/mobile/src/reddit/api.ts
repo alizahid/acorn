@@ -1,33 +1,31 @@
-import { testFlight } from '~/lib/common'
-import { getAccount, updateAccounts, useAuth } from '~/stores/auth'
+import { type Account, updateAccounts, useAuth } from '~/stores/auth'
 
 import { REDDIT_URI, USER_AGENT } from './config'
-import { refreshAccessToken as refreshAppStore } from './token-app-store'
-import { refreshAccessToken as refreshTestFlight } from './token-test-flight'
+import { refreshAccessToken } from './token'
 
 type Props = {
-  accessToken?: string
   body?: FormData
   method?: 'get' | 'post'
   url: string | URL
 }
 
-export async function reddit<Response>({
-  accessToken,
-  body,
-  method = 'get',
-  url,
-}: Props) {
-  let token = accessToken ?? useAuth.getState().accessToken
+export async function reddit<Response>({ body, method = 'get', url }: Props) {
+  const { accountId, accounts } = useAuth.getState()
 
-  if (!token) {
+  if (!accountId) {
     return
   }
 
-  const expired = checkExpiry(Boolean(accessToken))
+  const account = accounts.find((item) => item.id === accountId)
 
-  if (expired) {
-    token = await refresh()
+  if (!account) {
+    return
+  }
+
+  let token: string | undefined = account.accessToken
+
+  if (new Date() > account.expiresAt) {
+    token = await refresh(account)
   }
 
   if (!token) {
@@ -36,7 +34,7 @@ export async function reddit<Response>({
 
   const headers = new Headers()
 
-  headers.set('authorization', `Bearer ${String(token)}`)
+  headers.set('authorization', `Bearer ${token}`)
   headers.set('user-agent', USER_AGENT)
 
   const request: RequestInit = {
@@ -75,37 +73,15 @@ export async function reddit<Response>({
   return (await response.json()) as Response
 }
 
-function checkExpiry(skip?: boolean) {
-  if (skip) {
-    return false
-  }
-
-  const { accessToken, expiresAt, refreshToken } = useAuth.getState()
-
-  if (!(accessToken && refreshToken && expiresAt)) {
-    return true
-  }
-
-  return new Date() > expiresAt
-}
-
-async function refresh() {
-  const { clientId, refreshToken } = useAuth.getState()
-
-  const payload = testFlight
-    ? !!clientId && !!refreshToken
-      ? await refreshTestFlight(clientId, refreshToken)
-      : refreshToken
-        ? await refreshAppStore(refreshToken)
-        : null
-    : null
+async function refresh({ refreshToken }: Account) {
+  const payload = await refreshAccessToken(refreshToken)
 
   if (!payload) {
     return
   }
 
   useAuth.setState({
-    ...getAccount(payload),
+    accountId: payload.id,
     accounts: updateAccounts(useAuth.getState().accounts, payload),
   })
 

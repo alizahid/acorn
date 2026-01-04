@@ -1,4 +1,3 @@
-import { parseISO } from 'date-fns'
 import { create as mutative } from 'mutative'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
@@ -15,43 +14,36 @@ export type Account = {
   refreshToken: string
 }
 
-export type AuthPayload = Omit<Account, 'id'> & {
-  clientId: string
-}
-
-export type State = Partial<AuthPayload> & {
+export type State = {
   accountId?: string
   accounts: Array<Account>
-  addAccount: (account: Account) => void
-  removeAccount: (id: string) => void
+  add: (account: Account) => void
+  remove: (id: string) => void
   reorder: (accounts: Array<Account>) => void
-  setAccount: (id: string) => void
-  setClientId: (clientId: string) => void
+  set: (id: string) => void
 }
 
 export const useAuth = create<State>()(
   persist(
     (set, get) => ({
       accounts: [],
-      addAccount(account) {
+      add(account) {
         set({
-          ...getAccount(account),
+          accountId: account.id,
           accounts: updateAccounts(get().accounts, account),
         })
       },
-      removeAccount(id) {
+      remove(id) {
         const accounts = get().accounts.filter((item) => item.id !== id)
 
         if (accounts.length === 0) {
           set({
-            ...getAccount(),
+            accountId: undefined,
             accounts,
           })
         } else if (get().accountId === id) {
-          const next = accounts[0]
-
           set({
-            ...getAccount(next),
+            accountId: accounts[0]?.id,
             accounts,
           })
         } else {
@@ -65,21 +57,16 @@ export const useAuth = create<State>()(
           accounts,
         })
       },
-      setAccount(id) {
+      set(id) {
         const account = get().accounts.find((item) => item.id === id)
 
         if (account) {
           set({
-            ...getAccount(account),
+            accountId: account.id,
           })
 
           queryClient.clear()
         }
-      },
-      setClientId(clientId) {
-        set({
-          clientId,
-        })
       },
     }),
     {
@@ -94,35 +81,9 @@ export function updateAccounts(accounts: Array<Account>, account: Account) {
     const index = accounts.findIndex((item) => item.id === account.id)
 
     if (index >= 0) {
-      draft[index] = {
-        ...account,
-        expiresAt:
-          typeof account.expiresAt === 'string'
-            ? parseISO(account.expiresAt)
-            : account.expiresAt,
-      }
+      draft[index] = account
     } else {
-      draft.push({
-        ...account,
-        expiresAt:
-          typeof account.expiresAt === 'string'
-            ? parseISO(account.expiresAt)
-            : account.expiresAt,
-      })
+      draft.push(account)
     }
   })
-}
-
-export function getAccount(account?: Account) {
-  const expiresAt =
-    typeof account?.expiresAt === 'string'
-      ? parseISO(account.expiresAt)
-      : account?.expiresAt
-
-  return {
-    accessToken: account?.accessToken,
-    accountId: account?.id,
-    expiresAt,
-    refreshToken: account?.refreshToken,
-  }
 }

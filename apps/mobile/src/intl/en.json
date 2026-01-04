@@ -356,23 +356,18 @@
       }
     }
   },
+  "hook": {
+    "auth": {
+      "signIn": {
+        "error": "Something went wrong"
+      }
+    }
+  },
   "screen": {
     "auth": {
       "signIn": {
         "description": "Reddit for mobile",
-        "form": {
-          "action": {
-            "reddit": "Sign in with Reddit",
-            "submit": "Sign in"
-          },
-          "field": {
-            "clientId": {
-              "error": "Client id is required",
-              "placeholder": "Client id"
-            }
-          }
-        },
-        "instructions": "Head over to <link>Reddit</link> to create an app and grab the client id. Select installed app as the type and use the following redirect uri.",
+        "signIn": "Sign in with Reddit",
         "title": "Acorn"
       }
     },
