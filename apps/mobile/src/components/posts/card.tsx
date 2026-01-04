@@ -146,6 +146,7 @@ export function PostCard({ expanded, post }: Props) {
           long: postRightLong,
           short: postRightShort,
         }}
+        style={styles.container}
       >
         <PostMenu post={post}>
           <Pressable
