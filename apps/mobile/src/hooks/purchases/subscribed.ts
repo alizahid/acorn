@@ -1,12 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
 
 import { purchases } from '~/lib/purchases'
+import { useAuth } from '~/stores/auth'
 
 export function useSubscribed() {
   const { isLoading, data } = useQuery({
     networkMode: 'offlineFirst',
     async queryFn() {
       if (__DEV__) {
+        return true
+      }
+
+      if (useAuth.getState().accounts.length > 0) {
         return true
       }
 

@@ -51,6 +51,10 @@ export const useAuth = create<State>()(
             accounts,
           })
         }
+
+        queryClient.invalidateQueries({
+          queryKey: ['purchases', 'subscribed'],
+        })
       },
       reorder(accounts) {
         set({
