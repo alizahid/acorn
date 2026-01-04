@@ -1,5 +1,16 @@
 # Changelog
 
+## Upcoming
+
+- added: feedback on pressable
+- added: paywall
+- added: rebuilt gestures
+- added: rebuilt sensors (better video performance)
+- fixed: chat message grouping
+- fixed: full screen swipe
+- fixed: header not fully hiding on scroll
+- reverted: blue app icon
+
 ## Build 65-66
 
 - added: App Store auth
