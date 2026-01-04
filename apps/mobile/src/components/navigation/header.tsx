@@ -1,7 +1,10 @@
 import { usePathname, useRouter } from 'expo-router'
-import { type ReactNode, useEffect, useState } from 'react'
-import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated'
-import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { type ReactNode, useEffect } from 'react'
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -10,7 +13,6 @@ import { tints } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
-import { space } from '~/styles/tokens'
 
 import { IconButton } from '../common/icon/button'
 import { Text } from '../common/text'
@@ -36,8 +38,6 @@ export function Header({
   sticky = true,
   title,
 }: HeaderProps) {
-  const insets = useSafeAreaInsets()
-
   const router = useRouter()
   const path = usePathname()
 
@@ -56,15 +56,16 @@ export function Header({
     tint: themeTint,
   })
 
-  const [visible, setVisible] = useState(true)
+  const height = useSharedValue(0)
+  const translate = useSharedValue<`${number}%` | number>(0)
 
   useEffect(() => {
     function onShow() {
-      setVisible(true)
+      translate.set(withTiming(0))
     }
 
     function onHide() {
-      setVisible(false)
+      translate.set(withTiming(-height.get()))
     }
 
     mitter.on('show-header', onShow)
@@ -74,16 +75,17 @@ export function Header({
       mitter.off('show-header', onShow)
       mitter.off('hide-header', onHide)
     }
-  }, [])
+  }, [translate.set, height.get])
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: go away
   useEffect(() => {
-    setVisible(Boolean(path))
-  }, [path])
+    translate.set(withTiming(0))
+  }, [path, translate.set])
 
   const style = useAnimatedStyle(() => ({
     transform: [
       {
-        translateY: withTiming(visible ? 0 : 0 - space[8] - insets.top),
+        translateY: translate.get(),
       },
     ],
     zIndex: 1,
@@ -95,6 +97,9 @@ export function Header({
     <Animated.View style={style}>
       <Component
         intensity={themeOled ? 25 : 75}
+        onLayout={(event) => {
+          height.set(event.nativeEvent.layout.height)
+        }}
         style={styles.main}
         uniProps={(theme) => ({
           tint: tints[theme.variant],
