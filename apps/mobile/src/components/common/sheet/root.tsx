@@ -3,6 +3,8 @@ import { type ReactNode, type Ref } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 
+import { glass } from '~/lib/common'
+
 type Props = {
   children: ReactNode
   dismissible?: boolean
@@ -22,7 +24,7 @@ export function Root({
 
   return (
     <TrueSheet
-      blurTint={theme.variant}
+      backgroundBlur={glass ? undefined : theme.variant}
       cornerRadius={theme.radius[6]}
       detents={detents}
       dismissible={dismissible}
