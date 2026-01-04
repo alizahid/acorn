@@ -8,6 +8,8 @@ import { useAuth } from '~/stores/auth'
 
 import { IconButton } from '../common/icon/button'
 import { Sheet } from '../common/sheet'
+import { Text } from '../common/text'
+import { View } from '../common/view'
 import { AccountCard } from './account'
 
 export function AccountSwitcher() {
@@ -53,6 +55,13 @@ export function AccountSwitcher() {
 
       <FlatList
         data={accounts}
+        ListFooterComponent={
+          <View p="4">
+            <Text align="center" size="2">
+              {t('description')}
+            </Text>
+          </View>
+        }
         renderItem={({ item }) => (
           <AccountCard
             account={item}

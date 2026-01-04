@@ -352,6 +352,7 @@
         "placeholder": "Filter"
       },
       "switcher": {
+        "description": "Swipe right to delete an account",
         "title": "Switch account"
       }
     }
@@ -588,7 +589,6 @@
       "preferences": {
         "browsing": {
           "fullscreenDrawer": "Swipe from anywhere to open drawer",
-          "fullscreenSwipe": "Swipe from anywhere to go back",
           "hideHeaderOnScroll": "Hide header when scrolling",
           "hideTabBarOnScroll": "Hide tab bar when scrolling",
           "infiniteScrolling": "Infinite scrolling",
