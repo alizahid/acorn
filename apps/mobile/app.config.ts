@@ -103,7 +103,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         'aps-environment': 'development',
         'com.apple.developer.kernel.increased-memory-limit': true,
       },
-      icon: './assets/icons/app-store/AppIcon.icon',
+      icon: './assets/icons/AppIcon.icon',
       supportsTablet: true,
     },
     name,
