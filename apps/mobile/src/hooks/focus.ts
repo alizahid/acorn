@@ -1,5 +1,11 @@
 import { useIsFocused } from '@react-navigation/native'
-import { createContext, type ReactNode, useContext, useState } from 'react'
+import {
+  createContext,
+  createElement,
+  type ReactNode,
+  useContext,
+  useState,
+} from 'react'
 
 type FocusContext = {
   focused: boolean
@@ -18,15 +24,15 @@ type Props = {
 export function FocusProvider({ children }: Props) {
   const [focused, setFocused] = useState(true)
 
-  return (
-    <FocusContext
-      value={{
+  return createElement(
+    FocusContext,
+    {
+      value: {
         focused,
         setFocused,
-      }}
-    >
-      {children}
-    </FocusContext>
+      },
+    },
+    children,
   )
 }
 
