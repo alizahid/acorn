@@ -1,12 +1,5 @@
 {
   "build": {
-    "app-store": {
-      "android": {
-        "buildType": "app-bundle"
-      },
-      "channel": "production",
-      "distribution": "store"
-    },
     "development": {
       "developmentClient": true,
       "distribution": "internal"
@@ -15,19 +8,19 @@
       "channel": "preview",
       "distribution": "internal"
     },
+    "production": {
+      "android": {
+        "buildType": "app-bundle"
+      },
+      "channel": "production",
+      "distribution": "store"
+    },
     "simulator": {
       "developmentClient": true,
       "distribution": "internal",
       "ios": {
         "simulator": true
       }
-    },
-    "test-flight": {
-      "android": {
-        "buildType": "app-bundle"
-      },
-      "channel": "production",
-      "distribution": "store"
     }
   },
   "cli": {

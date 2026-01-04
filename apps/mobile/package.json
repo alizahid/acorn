@@ -5,16 +5,14 @@
   "main": "index.js",
   "scripts": {
     "android": "expo run:android",
-    "build": "eas build --profile app-store --platform ios --local",
+    "build": "eas build --profile production --platform ios --local",
     "build:dev": "eas build --profile development --platform ios --local",
     "build:preview": "eas build --profile preview --platform ios --local",
     "build:sim": "eas build --profile simulator --platform ios --local",
-    "build:test-flight": "eas build --profile test-flight --platform ios --local",
     "dev": "expo start --ios",
     "ios": "expo run:ios",
     "lint:types": "tsc --noEmit",
-    "publish": "eas build --profile app-store --platform ios --auto-submit",
-    "publish:test-flight": "eas build --profile test-flight --platform ios --auto-submit"
+    "publish": "eas build --profile production --platform ios --auto-submit"
   },
   "dependencies": {
     "@bacons/apple-targets": "^3.0.6",
