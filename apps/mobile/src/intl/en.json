@@ -369,6 +369,22 @@
         "description": "Reddit for mobile",
         "signIn": "Sign in with Reddit",
         "title": "Acorn"
+      },
+      "subscribe": {
+        "feature": {
+          "1": "Unlimited usage",
+          "2": "Beautifully designed",
+          "3": "No ads",
+          "4": "Privacy focused",
+          "5": "Actively developed",
+          "6": "Open source"
+        },
+        "price": {
+          "description": "per month"
+        },
+        "restore": "Restore purchases",
+        "subscribe": "Subscribe",
+        "title": "Acorn"
       }
     },
     "communities": {

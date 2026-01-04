@@ -92,6 +92,7 @@
     "react-native-mmkv": "^4.1.0",
     "react-native-nitro-modules": "0.32.0",
     "react-native-pager-view": "6.9.1",
+    "react-native-purchases": "^9.6.13",
     "react-native-reanimated": "~4.1.1",
     "react-native-render-html": "^6.3.4",
     "react-native-reorderable-list": "^0.18.0",

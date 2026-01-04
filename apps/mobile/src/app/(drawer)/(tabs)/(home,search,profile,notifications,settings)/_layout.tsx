@@ -5,6 +5,7 @@ import { useTranslations } from 'use-intl'
 import { IconButton } from '~/components/common/icon/button'
 import { StackHeader } from '~/components/navigation/stack-header'
 import { useHistory } from '~/hooks/history'
+import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
@@ -154,6 +155,8 @@ function StackLayout({ children }: PropsWithChildren) {
 
   const { addPost } = useHistory()
   const { fullscreenSwipe } = usePreferences()
+
+  const { subscribed } = useSubscribed()
 
   return (
     <Stack
@@ -336,6 +339,15 @@ function StackLayout({ children }: PropsWithChildren) {
           headerShown: false,
           presentation: iPad ? 'formSheet' : 'modal',
         })}
+      />
+
+      <Stack.Screen
+        name="subscribe"
+        options={{
+          gestureEnabled: subscribed,
+          headerShown: false,
+          presentation: iPad ? 'formSheet' : 'modal',
+        }}
       />
     </Stack>
   )

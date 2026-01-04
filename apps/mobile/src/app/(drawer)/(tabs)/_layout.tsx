@@ -6,6 +6,7 @@ import { useTranslations } from 'use-intl'
 
 import { TabBar } from '~/components/navigation/tab-bar'
 import { Tabs } from '~/components/navigation/tabs'
+import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
 import { mitter } from '~/lib/mitt'
 import { Sentry } from '~/lib/sentry'
@@ -18,6 +19,7 @@ export default function Layout() {
 
   const { accountId } = useAuth()
   const { unread } = useUnread()
+  const { subscribed } = useSubscribed()
 
   useEffect(() => {
     if (accountId) {
@@ -32,6 +34,12 @@ export default function Layout() {
 
     router.navigate('/sign-in')
   }, [accountId, router])
+
+  useEffect(() => {
+    if (subscribed === false) {
+      router.navigate('/subscribe')
+    }
+  }, [subscribed, router.navigate])
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (status) => {
