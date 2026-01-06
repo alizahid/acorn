@@ -1,12 +1,13 @@
 import { useQuery } from '@tanstack/react-query'
 
+import { testFlight } from '~/lib/common'
 import { purchases } from '~/lib/purchases'
 import { useAuth } from '~/stores/auth'
 
 export function useSubscribed() {
   const { isLoading, data } = useQuery({
     async queryFn() {
-      if (__DEV__) {
+      if (__DEV__ || testFlight) {
         return true
       }
 
