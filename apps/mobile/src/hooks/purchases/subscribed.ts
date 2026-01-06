@@ -5,7 +5,6 @@ import { useAuth } from '~/stores/auth'
 
 export function useSubscribed() {
   const { isLoading, data } = useQuery({
-    networkMode: 'offlineFirst',
     async queryFn() {
       if (__DEV__) {
         return true

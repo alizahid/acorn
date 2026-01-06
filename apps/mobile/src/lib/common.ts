@@ -1,6 +1,8 @@
 import { isLiquidGlassAvailable } from 'expo-glass-effect'
 import { Platform, StyleSheet } from 'react-native'
 
+export const testFlight = process.env.EXPO_PUBLIC_TEST_FLIGHT === 'true'
+
 export const cardMaxWidth = 700
 
 export const iPhone =

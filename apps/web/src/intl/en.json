@@ -4,7 +4,9 @@
       "apiError": "Reddit API error: {error}",
       "codeNotFound": "Code missing",
       "idNotFound": "Couldn't fetch your profile",
-      "tokenNotFound": "Token missing"
+      "invalidInput": "Invalid input",
+      "tokenNotFound": "Token missing",
+      "unknownError": "Something went wrong"
     }
   },
   "page": {

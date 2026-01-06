@@ -3,11 +3,14 @@ import { useMutation } from '@tanstack/react-query'
 import { addSeconds } from 'date-fns'
 import { useRouter } from 'expo-router'
 // biome-ignore lint/performance/noNamespaceImport: go away
+import * as SecureStore from 'expo-secure-store'
+// biome-ignore lint/performance/noNamespaceImport: go away
 import * as WebBrowser from 'expo-web-browser'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
+import { CLIENT_ID_KEY } from '~/components/auth/client-id'
 import { REDIRECT_URI } from '~/reddit/config'
 import { useAuth } from '~/stores/auth'
 
@@ -28,12 +31,18 @@ export function useSignIn() {
 
       oauth.searchParams.set('state', state)
 
+      const clientId = await SecureStore.getItemAsync(CLIENT_ID_KEY)
+
+      if (clientId) {
+        oauth.searchParams.set('clientId', clientId)
+      }
+
       const result = await WebBrowser.openAuthSessionAsync(
         oauth.toString(),
         REDIRECT_URI,
         {
           controlsColor: theme.colors.accent.accent,
-          preferEphemeralSession: true,
+          // preferEphemeralSession: true,
           presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
           toolbarColor: theme.colors.gray.bg,
         },
@@ -55,6 +64,19 @@ export function useSignIn() {
         throw new Error(t('error'))
       }
 
+      if (clientId) {
+        const code = url.searchParams.get('code')
+
+        if (!code) {
+          throw new Error(t('error'))
+        }
+
+        return getAccount({
+          clientId,
+          code,
+        })
+      }
+
       const id = url.searchParams.get('id')
       const accessToken = url.searchParams.get('accessToken')
       const refreshToken = url.searchParams.get('refreshToken')
@@ -64,18 +86,23 @@ export function useSignIn() {
         throw new Error(t('error'))
       }
 
-      add({
+      return {
         accessToken,
-        expiresAt: addSeconds(new Date(), Number(expiresAt) - 60),
+        expiresAt,
         id,
         refreshToken,
-      })
+      }
     },
     onError(error) {
       toast.error(error.message)
     },
-    onSuccess() {
+    onSuccess(data) {
       router.dismiss()
+
+      add({
+        ...data,
+        expiresAt: addSeconds(new Date(), Number(data.expiresAt) - 60),
+      })
     },
   })
 
@@ -83,4 +110,39 @@ export function useSignIn() {
     isPending,
     signIn: mutateAsync,
   }
+}
+
+async function getAccount({
+  clientId,
+  code,
+}: {
+  clientId: string
+  code: string
+}) {
+  const url = new URL('/api/auth/token', process.env.EXPO_PUBLIC_WEB_URL)
+
+  const response = await fetch(url, {
+    body: JSON.stringify({
+      clientId,
+      code,
+    }),
+    method: 'post',
+  })
+
+  const data = (await response.json()) as
+    | {
+        accessToken: string
+        expiresAt: string
+        id: string
+        refreshToken: string
+      }
+    | {
+        error: string
+      }
+
+  if ('error' in data) {
+    throw new Error(data.error)
+  }
+
+  return data
 }

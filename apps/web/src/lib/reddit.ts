@@ -20,8 +20,12 @@ export const REDDIT_SCOPES = [
   'wikiread',
 ].join(' ')
 
-export function getAuth() {
-  return `Basic ${Buffer.from(`${process.env.REDDIT_CLIENT_ID}:${process.env.REDDIT_CLIENT_SECRET}`).toString('base64')}`
+export function getAuth(clientId?: string) {
+  if (clientId) {
+    return `Basic ${btoa(`${clientId}:`)}`
+  }
+
+  return `Basic ${btoa(`${process.env.REDDIT_CLIENT_ID}:${process.env.REDDIT_CLIENT_SECRET}`)}`
 }
 
 export async function getId(accessToken: string) {

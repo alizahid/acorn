@@ -3,12 +3,13 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { ClientId } from '~/components/auth/client-id'
 import { Button } from '~/components/common/button'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
-import { glass, iPhone } from '~/lib/common'
+import { glass, iPhone, testFlight } from '~/lib/common'
 
 const schema = z.object({
   mode: z.enum(['dismissible', 'fixed']).catch('fixed'),
@@ -44,6 +45,8 @@ export default function Screen() {
           signIn()
         }}
       />
+
+      {testFlight ? <ClientId /> : null}
     </View>
   )
 }

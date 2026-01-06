@@ -1,10 +1,12 @@
 import { addSeconds } from 'date-fns'
+// biome-ignore lint/performance/noNamespaceImport: go away
+import * as SecureStore from 'expo-secure-store'
 
+import { CLIENT_ID_KEY } from '~/components/auth/client-id'
 import { TokenSchema } from '~/schemas/token'
 import { type Account } from '~/stores/auth'
 import { type Nullable } from '~/types'
 
-import { REDIRECT_URI } from './config'
 import { getAccountName } from './name'
 
 export async function refreshAccessToken(
@@ -14,9 +16,13 @@ export async function refreshAccessToken(
 
   const data = new FormData()
 
-  data.append('grant_type', 'refresh_token')
   data.append('refresh_token', token)
-  data.append('redirect_uri', REDIRECT_URI)
+
+  const clientId = await SecureStore.getItemAsync(CLIENT_ID_KEY)
+
+  if (clientId) {
+    data.append('clientId', clientId)
+  }
 
   const response = await fetch(url, {
     body: data,

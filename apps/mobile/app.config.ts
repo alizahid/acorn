@@ -77,6 +77,11 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     ])
   }
 
+  const icon =
+    process.env.EXPO_PUBLIC_TEST_FLIGHT === 'false'
+      ? './assets/icons/app-store/AppIcon.icon'
+      : './assets/icons/test-flight/AppIcon.icon'
+
   const config: ExpoConfig = {
     ...context.config,
     experiments: {
@@ -103,7 +108,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         'aps-environment': 'development',
         'com.apple.developer.kernel.increased-memory-limit': true,
       },
-      icon: './assets/icons/AppIcon.icon',
+      icon,
       supportsTablet: true,
     },
     name,

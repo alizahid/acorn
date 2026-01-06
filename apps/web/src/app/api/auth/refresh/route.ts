@@ -1,31 +1,41 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { getTranslations } from 'next-intl/server'
+import z from 'zod'
 
-import { getAuth, REDDIT_URL } from '~/lib/reddit'
+import { buildError } from '~/lib/api'
+import { getAuth, REDDIT_URL, REDIRECT_URI, USER_AGENT } from '~/lib/reddit'
+
+const schema = z.object({
+  clientId: z.string().optional(),
+  token: z.string(),
+})
 
 export async function POST(request: NextRequest) {
   const t = await getTranslations('api.auth')
 
-  const { token } = (await request.json()) as {
-    token: string
-  }
+  const result = schema.safeParse(await request.json())
 
-  if (!token) {
+  if (!result.success) {
     return buildError(400, t('tokenNotFound'))
   }
 
-  const oauth = new URL('/api/v1/access_token', REDDIT_URL)
+  const { token, clientId } = result.data
+
+  const redirect = clientId ? REDIRECT_URI : process.env.REDDIT_REDIRECT_URL
+
+  const url = new URL('/api/v1/access_token', REDDIT_URL)
 
   const data = new FormData()
 
   data.append('grant_type', 'refresh_token')
   data.append('refresh_token', token)
-  data.append('redirect_uri', process.env.REDDIT_REDIRECT_URL)
+  data.append('redirect_uri', redirect)
 
-  const response = await fetch(oauth, {
+  const response = await fetch(url, {
     body: data,
     headers: {
-      authorization: getAuth(),
+      authorization: getAuth(clientId),
+      'user-agent': USER_AGENT,
     },
     method: 'post',
   })
@@ -51,15 +61,4 @@ export async function POST(request: NextRequest) {
   }
 
   return NextResponse.json(json)
-}
-
-function buildError(status: number, error: string) {
-  return NextResponse.json(
-    {
-      error,
-    },
-    {
-      status,
-    },
-  )
 }

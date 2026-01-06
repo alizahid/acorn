@@ -78,6 +78,30 @@
     "viewVideo": "View video"
   },
   "component": {
+    "auth": {
+      "clientId": {
+        "no": {
+          "add": "Add",
+          "title": "Client id missing"
+        },
+        "sheet": {
+          "clientId": {
+            "placeholder": "AC3gfHbJGqU6g6LsbNs9lE"
+          },
+          "copy": "Copy redirect uri",
+          "instructions": {
+            "1": "Head over to <link>Reddit</link> to create an app and grab the client id. Select <highlight>installed app</highlight> as the type and use the redirect uri below",
+            "2": "Enter the generated client id below"
+          },
+          "save": "Save",
+          "title": "Client id"
+        },
+        "yes": {
+          "edit": "Edit",
+          "title": "Client id added"
+        }
+      }
+    },
     "comments": {
       "more": {
         "label": "{count, plural, =0 {More replies} =1 {1 more reply} other {# more replies}}"
