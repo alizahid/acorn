@@ -104,6 +104,7 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
               }
             }}
             player={player}
+            pointerEvents="none"
             ref={ref}
             style={styles.video(video.width / video.height)}
           />
