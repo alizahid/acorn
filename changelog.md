@@ -1,5 +1,10 @@
 # Changelog
 
+## Build 68
+
+- fixed: video fullscreen
+- reverted: personal auth
+
 ## Build 67
 
 - added: feedback on pressable
