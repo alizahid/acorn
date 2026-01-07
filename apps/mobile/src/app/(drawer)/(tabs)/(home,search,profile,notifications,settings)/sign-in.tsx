@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -9,7 +8,7 @@ import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
-import { glass, iPhone, testFlight } from '~/lib/common'
+import { testFlight } from '~/lib/common'
 
 const schema = z.object({
   mode: z.enum(['dismissible', 'fixed']).catch('fixed'),
@@ -24,8 +23,6 @@ export default function Screen() {
 
   return (
     <View align="center" flex={1} gap="8" justify="center">
-      {iPhone && !glass ? <StatusBar style="light" /> : null}
-
       <View align="center">
         <Logo />
 

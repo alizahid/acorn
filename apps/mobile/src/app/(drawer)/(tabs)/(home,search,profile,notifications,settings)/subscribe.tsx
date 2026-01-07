@@ -1,5 +1,4 @@
 import { useRouter } from 'expo-router'
-import { StatusBar } from 'expo-status-bar'
 import { type SFSymbol } from 'expo-symbols'
 import { useEffect } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
@@ -15,7 +14,7 @@ import { usePlan } from '~/hooks/purchases/plan'
 import { useRestore } from '~/hooks/purchases/restore'
 import { useSubscribe } from '~/hooks/purchases/subscribe'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
-import { glass, iPad, iPhone } from '~/lib/common'
+import { iPad } from '~/lib/common'
 import { fonts } from '~/lib/fonts'
 
 export default function Screen() {
@@ -38,8 +37,6 @@ export default function Screen() {
 
   return (
     <View flex={1} gap="8" justify="center" py="8" style={styles.main}>
-      {iPhone && !glass ? <StatusBar style="light" /> : null}
-
       <View align="center" gap="4">
         <Logo />
 

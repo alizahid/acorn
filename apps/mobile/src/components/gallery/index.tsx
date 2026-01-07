@@ -1,5 +1,4 @@
 import { FlashList } from '@shopify/flash-list'
-import { StatusBar } from 'expo-status-bar'
 import { range } from 'lodash'
 import { useEffect, useState } from 'react'
 import { createCallable } from 'react-call'
@@ -102,8 +101,6 @@ export const Gallery = createCallable<Props>(({ call, media, initial }) => {
   return (
     <GestureDetector gesture={pan}>
       <Animated.View style={[styles.main, overlay]}>
-        <StatusBar style="light" />
-
         <Animated.View style={list}>
           <FlashList
             data={media}
