@@ -75,6 +75,10 @@ export function FlairCard({
               )
             }
 
+            if (whitespace.test(item.value)) {
+              return null
+            }
+
             return (
               <View key={item.id} style={styles.text}>
                 <Text numberOfLines={1} size="1">
@@ -87,6 +91,8 @@ export function FlairCard({
     </View>
   )
 }
+
+const whitespace = /^\s*$/
 
 const styles = StyleSheet.create((theme) => ({
   emoji: {
