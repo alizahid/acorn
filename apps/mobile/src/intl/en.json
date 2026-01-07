@@ -93,6 +93,7 @@
             "1": "Head over to <link>Reddit</link> to create an app and grab the client id. Select <highlight>installed app</highlight> as the type and use the redirect uri below",
             "2": "Enter the generated client id below"
           },
+          "remove": "Remove",
           "save": "Save",
           "title": "Client id"
         },

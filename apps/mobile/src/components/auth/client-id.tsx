@@ -11,6 +11,7 @@ import { REDIRECT_URI } from '~/reddit/config'
 import { Button } from '../common/button'
 import { Copy } from '../common/copy'
 import { Icon } from '../common/icon'
+import { IconButton } from '../common/icon/button'
 import { Sheet } from '../common/sheet'
 import { Spinner } from '../common/spinner'
 import { Text } from '../common/text'
@@ -29,15 +30,19 @@ export function ClientId() {
     queryKey: ['auth', 'clientId'],
   })
 
-  const { mutate } = useMutation<
+  const { isPending, mutateAsync } = useMutation<
     unknown,
     Error,
     {
-      clientId: string
+      clientId: string | null
     }
   >({
     async mutationFn(variables, context) {
-      await SecureStore.setItemAsync(CLIENT_ID_KEY, variables.clientId)
+      if (variables.clientId) {
+        await SecureStore.setItemAsync(CLIENT_ID_KEY, variables.clientId)
+      } else {
+        await SecureStore.deleteItemAsync(CLIENT_ID_KEY)
+      }
 
       await context.client.invalidateQueries({
         queryKey: ['auth', 'clientId'],
@@ -148,6 +153,23 @@ export function ClientId() {
               autoCorrect={false}
               onChangeText={setClientId}
               placeholder={t('sheet.clientId.placeholder')}
+              right={
+                data ? (
+                  <IconButton
+                    color="red"
+                    icon="trash"
+                    label={t('sheet.remove')}
+                    loading={isPending}
+                    onPress={async () => {
+                      await mutateAsync({
+                        clientId: null,
+                      })
+
+                      setClientId('')
+                    }}
+                  />
+                ) : null
+              }
               style={styles.clientId}
               value={clientId}
               variant="mono"
@@ -157,8 +179,9 @@ export function ClientId() {
           <Button
             disabled={clientId.length === 0}
             label={t('sheet.save')}
+            loading={isPending}
             onPress={() => {
-              mutate({
+              mutateAsync({
                 clientId,
               })
             }}
