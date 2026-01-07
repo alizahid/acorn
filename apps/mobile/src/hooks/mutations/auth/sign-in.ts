@@ -10,7 +10,7 @@ import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import { CLIENT_ID_KEY } from '~/components/auth/client-id'
+import { CLIENT_ID_KEY } from '~/hooks/purchases/client-id'
 import { testFlight } from '~/lib/common'
 import { REDIRECT_URI } from '~/reddit/config'
 import { useAuth } from '~/stores/auth'

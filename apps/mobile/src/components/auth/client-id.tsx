@@ -1,11 +1,9 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
-// biome-ignore lint/performance/noNamespaceImport: go away
-import * as SecureStore from 'expo-secure-store'
 import { useEffect, useRef, useState } from 'react'
 import { Linking } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { useClientId } from '~/hooks/purchases/client-id'
 import { REDIRECT_URI } from '~/reddit/config'
 
 import { Button } from '../common/button'
@@ -18,40 +16,10 @@ import { Text } from '../common/text'
 import { TextBox } from '../common/text-box'
 import { View } from '../common/view'
 
-export const CLIENT_ID_KEY = 'client-id'
-
 export function ClientId() {
   const t = useTranslations('component.auth.clientId')
 
-  const { data } = useQuery({
-    queryFn() {
-      return SecureStore.getItemAsync(CLIENT_ID_KEY)
-    },
-    queryKey: ['auth', 'clientId'],
-  })
-
-  const { isPending, mutateAsync } = useMutation<
-    unknown,
-    Error,
-    {
-      clientId: string | null
-    }
-  >({
-    async mutationFn(variables, context) {
-      if (variables.clientId) {
-        await SecureStore.setItemAsync(CLIENT_ID_KEY, variables.clientId)
-      } else {
-        await SecureStore.deleteItemAsync(CLIENT_ID_KEY)
-      }
-
-      await context.client.invalidateQueries({
-        queryKey: ['auth', 'clientId'],
-      })
-    },
-    onSuccess() {
-      sheet.current?.dismiss()
-    },
-  })
+  const { clientId: data, isPending, updateClientId } = useClientId()
 
   const sheet = useRef<Sheet>(null)
 
@@ -161,7 +129,7 @@ export function ClientId() {
                     label={t('sheet.remove')}
                     loading={isPending}
                     onPress={async () => {
-                      await mutateAsync({
+                      await updateClientId({
                         clientId: null,
                       })
 
@@ -180,10 +148,12 @@ export function ClientId() {
             disabled={clientId.length === 0}
             label={t('sheet.save')}
             loading={isPending}
-            onPress={() => {
-              mutateAsync({
+            onPress={async () => {
+              await updateClientId({
                 clientId,
               })
+
+              sheet.current?.dismiss()
             }}
           />
         </View>

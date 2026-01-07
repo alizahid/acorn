@@ -2,7 +2,7 @@ import { addSeconds } from 'date-fns'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as SecureStore from 'expo-secure-store'
 
-import { CLIENT_ID_KEY } from '~/components/auth/client-id'
+import { CLIENT_ID_KEY } from '~/hooks/purchases/client-id'
 import { testFlight } from '~/lib/common'
 import { TokenSchema } from '~/schemas/token'
 import { type Account } from '~/stores/auth'

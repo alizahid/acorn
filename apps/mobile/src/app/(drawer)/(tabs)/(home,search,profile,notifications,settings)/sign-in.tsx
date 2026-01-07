@@ -8,6 +8,8 @@ import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { View } from '~/components/common/view'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
+import { useClientId } from '~/hooks/purchases/client-id'
+import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { testFlight } from '~/lib/common'
 
 const schema = z.object({
@@ -20,6 +22,8 @@ export default function Screen() {
   const t = useTranslations('screen.auth.signIn')
 
   const { isPending, signIn } = useSignIn()
+  const { subscribed } = useSubscribed()
+  const { clientId } = useClientId()
 
   return (
     <View align="center" flex={1} gap="8" justify="center">
@@ -36,6 +40,7 @@ export default function Screen() {
       </View>
 
       <Button
+        disabled={!(testFlight || subscribed) || (testFlight && !clientId)}
         label={t('signIn')}
         loading={isPending}
         onPress={() => {
