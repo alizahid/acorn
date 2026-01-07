@@ -80,7 +80,7 @@ export function NotificationCard({ notification }: Props) {
           {body}
         </Text>
 
-        <Html size="2">{notification.body}</Html>
+        <Html>{notification.body}</Html>
 
         <View direction="row" gap="4">
           <Text highContrast={false} size="2">

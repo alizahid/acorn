@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- changed: font sizes merged
 - fixed: partial disabled gestures
 - fixed: video fullscreen
 - reverted: personal auth

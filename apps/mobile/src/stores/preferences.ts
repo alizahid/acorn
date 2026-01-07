@@ -38,9 +38,8 @@ export type PreferencesPayload = {
   feedType: FeedType
   font: Font
   fontScaling: number
-  fontSizeComment: TypographyToken
-  fontSizePostBody: TypographyToken
-  fontSizePostTitle: TypographyToken
+  fontSizeBody: TypographyToken
+  fontSizeTitle: TypographyToken
   fullscreenDrawer: boolean
   hapticsLoud: boolean
   hideHeaderOnScroll: boolean
@@ -108,9 +107,8 @@ export const usePreferences = create<State>()(
       feedType: 'home',
       font: 'basis',
       fontScaling: 1,
-      fontSizeComment: '2',
-      fontSizePostBody: '2',
-      fontSizePostTitle: '3',
+      fontSizeBody: '2',
+      fontSizeTitle: '3',
       fullscreenDrawer: false,
       hapticsLoud: false,
       hideHeaderOnScroll: true,
@@ -181,8 +179,8 @@ export const usePreferences = create<State>()(
             fontSizePost: TypographyToken
           }
 
-          state.fontSizePostTitle = fontSizePost
-          state.fontSizePostBody = addTextSize(fontSizePost, -1)
+          state.fontSizeTitle = fontSizePost
+          state.fontSizeBody = addTextSize(fontSizePost, -1)
         }
 
         if (version === 5) {
@@ -193,6 +191,16 @@ export const usePreferences = create<State>()(
 
           state.replyPost = replyPost ? replyPost : 'hide'
           state.skipComment = skipComment ? skipComment : 'hide'
+        }
+
+        if (version === 6) {
+          const { fontSizePostBody, fontSizePostTitle } = persisted as {
+            fontSizePostBody: TypographyToken
+            fontSizePostTitle: TypographyToken
+          }
+
+          state.fontSizeBody = fontSizePostBody
+          state.fontSizeTitle = fontSizePostTitle
         }
 
         return state

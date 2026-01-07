@@ -43,8 +43,7 @@ export function CommentCard({
 
   const a11y = useTranslations('a11y')
 
-  const { colorfulComments, fontSizeComment, themeOled, userOnTop } =
-    usePreferences()
+  const { colorfulComments, themeOled, userOnTop } = usePreferences()
   const {
     commentLeft,
     commentLeftLong,
@@ -172,7 +171,6 @@ export function CommentCard({
               <Html
                 depth={comment.depth}
                 meta={comment.media.meta}
-                size={fontSizeComment}
                 type="comment"
               >
                 {comment.body}

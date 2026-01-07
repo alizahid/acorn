@@ -112,9 +112,7 @@ export function CommunityAbout({ listProps, name }: Props) {
 
       {community.description ? (
         <View mx="4">
-          <Html size="2" type="about">
-            {community.description}
-          </Html>
+          <Html type="about">{community.description}</Html>
         </View>
       ) : null}
 

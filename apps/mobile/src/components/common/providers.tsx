@@ -15,6 +15,7 @@ import { usePreferences } from '~/stores/preferences'
 
 import { Gallery } from '../gallery'
 import { ThemeProvider } from '../navigation/theme'
+import { HtmlProvider } from './html/provider'
 import { Toast } from './toast'
 
 type Props = {
@@ -43,13 +44,15 @@ export function Providers({ children }: Props) {
                 }
               />
 
-              <FocusProvider>
-                <PortalProvider>{children}</PortalProvider>
+              <PortalProvider>
+                <FocusProvider>
+                  <HtmlProvider>{children}</HtmlProvider>
 
-                <AccountSwitcher />
-                <Gallery.Root />
-                <Toast />
-              </FocusProvider>
+                  <AccountSwitcher />
+                  <Gallery.Root />
+                  <Toast />
+                </FocusProvider>
+              </PortalProvider>
             </PersistQueryClientProvider>
           </ThemeProvider>
         </KeyboardProvider>

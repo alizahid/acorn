@@ -94,7 +94,7 @@ export function MessageCard({ message }: Props) {
           </Text>
         </View>
 
-        <Html size="2">{body}</Html>
+        <Html>{body}</Html>
       </View>
 
       <Icon

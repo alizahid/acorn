@@ -43,8 +43,7 @@ export function PostCard({ expanded, post }: Props) {
     communityOnTop,
     dimSeen,
     feedCompact,
-    fontSizePostBody,
-    fontSizePostTitle,
+    fontSizeTitle,
     mediaOnRight,
     oldReddit,
     themeOled,
@@ -194,10 +193,7 @@ export function PostCard({ expanded, post }: Props) {
           <View gap="1" style={styles.dimmed}>
             {communityOnTop ? <PostCommunity post={post} /> : null}
 
-            <Text
-              size={fontSizePostTitle}
-              weight={boldTitle ? 'bold' : undefined}
-            >
+            <Text size={fontSizeTitle} weight={boldTitle ? 'bold' : undefined}>
               {post.title}
             </Text>
 
@@ -242,7 +238,7 @@ export function PostCard({ expanded, post }: Props) {
           ) : null}
 
           {expanded && post.body ? (
-            <Html meta={post.media.meta} size={fontSizePostBody} type="post">
+            <Html meta={post.media.meta} type="post">
               {post.body}
             </Html>
           ) : null}

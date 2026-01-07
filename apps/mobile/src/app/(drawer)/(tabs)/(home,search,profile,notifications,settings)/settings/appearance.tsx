@@ -20,9 +20,8 @@ export default function Screen() {
     feedCompact,
     font,
     fontScaling,
-    fontSizeComment,
-    fontSizePostBody,
-    fontSizePostTitle,
+    fontSizeBody,
+    fontSizeTitle,
     largeThumbnails,
     mediaOnRight,
     systemScaling,
@@ -35,9 +34,8 @@ export default function Screen() {
   const listProps = useList()
 
   const sizes = {
-    fontSizeComment,
-    fontSizePostBody,
-    fontSizePostTitle,
+    fontSizeBody,
+    fontSizeTitle,
   }
 
   return (
@@ -190,9 +188,7 @@ export default function Screen() {
           </View>
         )}
 
-        {(
-          ['fontSizePostTitle', 'fontSizePostBody', 'fontSizeComment'] as const
-        ).map((item) => (
+        {(['fontSizeTitle', 'fontSizeBody'] as const).map((item) => (
           <Menu.Options
             key={item}
             label={t(`fonts.${item}`)}

@@ -490,9 +490,8 @@
           "apercu": "Apercu",
           "basis": "Basis",
           "fold": "Fold",
-          "fontSizeComment": "Comment body size",
-          "fontSizePostBody": "Post body size",
-          "fontSizePostTitle": "Post title size",
+          "fontSizeBody": "Body size",
+          "fontSizeTitle": "Title size",
           "system": "San Francisco",
           "systemScaling": "Use system scaling",
           "title": "Font"
