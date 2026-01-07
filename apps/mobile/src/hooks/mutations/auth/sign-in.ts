@@ -11,6 +11,7 @@ import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
 import { CLIENT_ID_KEY } from '~/components/auth/client-id'
+import { testFlight } from '~/lib/common'
 import { REDIRECT_URI } from '~/reddit/config'
 import { useAuth } from '~/stores/auth'
 
@@ -33,7 +34,7 @@ export function useSignIn() {
 
       const clientId = await SecureStore.getItemAsync(CLIENT_ID_KEY)
 
-      if (clientId) {
+      if (testFlight && clientId) {
         oauth.searchParams.set('clientId', clientId)
       }
 
@@ -42,7 +43,7 @@ export function useSignIn() {
         REDIRECT_URI,
         {
           controlsColor: theme.colors.accent.accent,
-          // preferEphemeralSession: true,
+          preferEphemeralSession: true,
           presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
           toolbarColor: theme.colors.gray.bg,
         },
@@ -64,7 +65,7 @@ export function useSignIn() {
         throw new Error(t('error'))
       }
 
-      if (clientId) {
+      if (testFlight && clientId) {
         const code = url.searchParams.get('code')
 
         if (!code) {

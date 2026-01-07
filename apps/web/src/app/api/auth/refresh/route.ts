@@ -6,7 +6,7 @@ import { buildError } from '~/lib/api'
 import { getAuth, REDDIT_URL, REDIRECT_URI, USER_AGENT } from '~/lib/reddit'
 
 const schema = z.object({
-  clientId: z.string().optional(),
+  clientId: z.string().nullish(),
   token: z.string(),
 })
 

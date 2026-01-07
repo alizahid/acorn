@@ -3,6 +3,7 @@ import { addSeconds } from 'date-fns'
 import * as SecureStore from 'expo-secure-store'
 
 import { CLIENT_ID_KEY } from '~/components/auth/client-id'
+import { testFlight } from '~/lib/common'
 import { TokenSchema } from '~/schemas/token'
 import { type Account } from '~/stores/auth'
 import { type Nullable } from '~/types'
@@ -18,10 +19,12 @@ export async function refreshAccessToken(
 
   data.append('refresh_token', token)
 
-  const clientId = await SecureStore.getItemAsync(CLIENT_ID_KEY)
+  if (testFlight) {
+    const clientId = await SecureStore.getItemAsync(CLIENT_ID_KEY)
 
-  if (clientId) {
-    data.append('clientId', clientId)
+    if (clientId) {
+      data.append('clientId', clientId)
+    }
   }
 
   const response = await fetch(url, {
