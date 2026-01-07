@@ -1,22 +1,19 @@
 # Changelog
 
-## Upcoming
-
-- changed: font sizes merged
-- fixed: partial disabled gestures
-- fixed: video fullscreen
-- reverted: personal auth
-
-## Build 67
+## Build 67-68
 
 - added: feedback on pressable
 - added: paywall
 - added: rebuilt gestures
 - added: rebuilt sensors (better video performance)
+- changed: font sizes merged
 - fixed: chat message grouping
 - fixed: full screen swipe
 - fixed: header not fully hiding on scroll
+- fixed: partial disabled gestures
+- fixed: video fullscreen
 - reverted: blue app icon
+- reverted: personal auth
 
 ## Build 65-66
 
