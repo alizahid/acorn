@@ -12,7 +12,7 @@ import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { scheduleOnRN } from 'react-native-worklets'
 
-import { cardMaxWidth, iPad, iPhone } from '~/lib/common'
+import { cardMaxWidth, iPad } from '~/lib/common'
 import { getIcon } from '~/lib/icons'
 import { type ColorToken } from '~/styles/tokens'
 import { type Undefined } from '~/types'
@@ -51,16 +51,31 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
       : cardMaxWidth
     : frame.width
 
+  const active: number | [number, number] =
+    gestures.left.enabled && gestures.right.enabled
+      ? [-10, 10]
+      : gestures.left.enabled
+        ? 10
+        : gestures.right.enabled
+          ? -10
+          : Number.POSITIVE_INFINITY
+
   const gesture = Gesture.Pan()
-    .activeOffsetX([-10, 10])
-    .hitSlop(
-      iPhone
-        ? {
-            left: -24,
-          }
-        : undefined,
-    )
+    .activeOffsetX(active)
+    .hitSlop({
+      left: -24,
+      right: -24,
+    })
     .onUpdate((event) => {
+      if (
+        (!gestures.left.enabled && event.translationX >= 0) ||
+        (!gestures.right.enabled && event.translationX <= 0)
+      ) {
+        translate.set(0)
+
+        return
+      }
+
       const translationX = Math.abs(event.translationX)
 
       if (translationX >= width) {

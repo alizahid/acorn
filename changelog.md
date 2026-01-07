@@ -1,7 +1,8 @@
 # Changelog
 
-## Build 68
+## Upcoming
 
+- fixed: partial disabled gestures
 - fixed: video fullscreen
 - reverted: personal auth
 
