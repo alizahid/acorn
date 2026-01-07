@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
   const response = await fetch(url, {
     body: data,
     headers: {
-      authorization: getAuth(clientId),
+      authorization: getAuth(clientId ?? undefined),
       'user-agent': USER_AGENT,
     },
     method: 'post',
