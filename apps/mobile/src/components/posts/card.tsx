@@ -152,13 +152,14 @@ export function PostCard({ expanded, post }: Props) {
             accessibilityHint={a11y('viewPost')}
             accessibilityLabel={post.title}
             disabled={expanded}
-            style={styles.main}
           >
-            <PostCompactCard
-              post={post}
-              side={mediaOnRight ? 'right' : 'left'}
-              style={styles.dimmed}
-            />
+            <View style={styles.main}>
+              <PostCompactCard
+                post={post}
+                side={mediaOnRight ? 'right' : 'left'}
+                style={styles.dimmed}
+              />
+            </View>
           </Pressable>
         </PostMenu>
       </Gestures>
@@ -188,70 +189,74 @@ export function PostCard({ expanded, post }: Props) {
           accessibilityHint={a11y('viewPost')}
           accessibilityLabel={post.title}
           disabled={expanded}
-          style={styles.main}
         >
-          <View gap="1" style={styles.dimmed}>
-            {communityOnTop ? <PostCommunity post={post} /> : null}
+          <View style={styles.main}>
+            <View gap="1" style={styles.dimmed}>
+              {communityOnTop ? <PostCommunity post={post} /> : null}
 
-            <Text size={fontSizeTitle} weight={boldTitle ? 'bold' : undefined}>
-              {post.title}
-            </Text>
+              <Text
+                size={fontSizeTitle}
+                weight={boldTitle ? 'bold' : undefined}
+              >
+                {post.title}
+              </Text>
 
-            <FlairCard
-              flair={post.flair}
-              nsfw={post.nsfw}
-              spoiler={post.spoiler}
-            />
-          </View>
-
-          {post.type === 'crosspost' && post.crossPost ? (
-            <CrossPostCard post={post.crossPost} recyclingKey={post.id} />
-          ) : null}
-
-          {post.type === 'video' && post.media.video ? (
-            <PostVideoCard
-              nsfw={post.nsfw}
-              recyclingKey={post.id}
-              spoiler={post.spoiler}
-              thumbnail={post.media.images?.[0]?.url}
-              video={post.media.video}
-            />
-          ) : null}
-
-          {post.type === 'image' && post.media.images ? (
-            <PostGalleryCard
-              images={post.media.images}
-              nsfw={post.nsfw}
-              recyclingKey={post.id}
-              spoiler={post.spoiler}
-            />
-          ) : null}
-
-          {post.type === 'link' && post.url ? (
-            <View>
-              <PostLinkCard
-                media={post.media.images?.[0]}
-                recyclingKey={post.id}
-                url={post.url}
+              <FlairCard
+                flair={post.flair}
+                nsfw={post.nsfw}
+                spoiler={post.spoiler}
               />
             </View>
-          ) : null}
 
-          {expanded && post.body ? (
-            <Html meta={post.media.meta} type="post">
-              {post.body}
-            </Html>
-          ) : null}
+            {post.type === 'crosspost' && post.crossPost ? (
+              <CrossPostCard post={post.crossPost} recyclingKey={post.id} />
+            ) : null}
 
-          <PostFooter
-            community={!communityOnTop}
-            post={post}
-            style={styles.dimmed}
-          />
+            {post.type === 'video' && post.media.video ? (
+              <PostVideoCard
+                nsfw={post.nsfw}
+                recyclingKey={post.id}
+                spoiler={post.spoiler}
+                thumbnail={post.media.images?.[0]?.url}
+                video={post.media.video}
+              />
+            ) : null}
 
-          {post.saved ? (
-            <View pointerEvents="none" style={styles.saved} />
-          ) : null}
+            {post.type === 'image' && post.media.images ? (
+              <PostGalleryCard
+                images={post.media.images}
+                nsfw={post.nsfw}
+                recyclingKey={post.id}
+                spoiler={post.spoiler}
+              />
+            ) : null}
+
+            {post.type === 'link' && post.url ? (
+              <View>
+                <PostLinkCard
+                  media={post.media.images?.[0]}
+                  recyclingKey={post.id}
+                  url={post.url}
+                />
+              </View>
+            ) : null}
+
+            {expanded && post.body ? (
+              <Html meta={post.media.meta} type="post">
+                {post.body}
+              </Html>
+            ) : null}
+
+            <PostFooter
+              community={!communityOnTop}
+              post={post}
+              style={styles.dimmed}
+            />
+
+            {post.saved ? (
+              <View pointerEvents="none" style={styles.saved} />
+            ) : null}
+          </View>
         </Pressable>
       </PostMenu>
     </Gestures>
