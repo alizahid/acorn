@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: mark posts as seen
 - added: action bounce in swipe menu
 - added: haptics and sounds in swipe menu
 - fixed: liquid glass in post menu

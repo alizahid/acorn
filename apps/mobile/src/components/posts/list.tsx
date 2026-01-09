@@ -1,7 +1,11 @@
 import { type FlashListRef, type ListRenderItem } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import {
+  type StyleProp,
+  type ViewabilityConfig,
+  type ViewStyle,
+} from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -24,7 +28,7 @@ import { Loading } from '../common/loading'
 import { SensorList } from '../common/sensor/list'
 import { View } from '../common/view'
 
-const viewabilityConfig = {
+const viewabilityConfig: ViewabilityConfig = {
   minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
   waitForInteraction: false,
 }
@@ -160,13 +164,16 @@ export function PostList({
           fetchNextPage()
         }
       }}
-      onViewableItemsChanged={({ viewableItems }) => {
+      onViewableItemsChanged={({ changed }) => {
         if (!seenOnScroll) {
           return
         }
 
-        const items = viewableItems.filter(
-          (item) => item.item.type !== 'reply' && item.item.type !== 'more',
+        const items = changed.filter(
+          (item) =>
+            !item.isViewable &&
+            item.item.type !== 'reply' &&
+            item.item.type !== 'more',
         )
 
         for (const item of items) {
