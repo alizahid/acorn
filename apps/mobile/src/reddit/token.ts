@@ -17,7 +17,7 @@ export async function refreshAccessToken(
 
   const data = new FormData()
 
-  data.append('refresh_token', token)
+  data.append('token', token)
 
   if (testFlight) {
     const clientId = await SecureStore.getItemAsync(CLIENT_ID_KEY)

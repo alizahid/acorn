@@ -13,7 +13,12 @@ const schema = z.object({
 export async function POST(request: NextRequest) {
   const t = await getTranslations('api.auth')
 
-  const result = schema.safeParse(await request.json())
+  const form = await request.formData()
+
+  const result = schema.safeParse({
+    clientId: form.get('clientId'),
+    token: form.get('token') ?? form.get('refresh_token'),
+  })
 
   if (!result.success) {
     return buildError(400, t('tokenNotFound'))
