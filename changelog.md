@@ -1,5 +1,12 @@
 # Changelog
 
+## Upcoming
+
+- added: action bounce in swipe menu
+- added: haptics and sounds in swipe menu
+- fixed: liquid glass in post menu
+- fixed: refresh token
+
 ## Build 67-68
 
 - added: feedback on pressable
