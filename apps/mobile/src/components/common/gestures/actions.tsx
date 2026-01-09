@@ -13,6 +13,7 @@ import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { scheduleOnRN } from 'react-native-worklets'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
+import { triggerFeedback } from '~/lib/feedback'
 import { getIcon } from '~/lib/icons'
 import { type ColorToken } from '~/styles/tokens'
 import { type Undefined } from '~/types'
@@ -44,6 +45,7 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
   const color = useSharedValue(theme.colors.gray.accent)
   const icon = useSharedValue<SFSymbol>('questionmark')
   const opacity = useSharedValue(0)
+  const scale = useSharedValue(1)
 
   const width = iPad
     ? style?.maxWidth
@@ -94,6 +96,26 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
 
       const gesture = gestures[side][swipe ?? 'short']
 
+      if (swipe && gesture !== action.get()) {
+        scale.set(
+          withTiming(
+            1.5,
+            {
+              duration: 100,
+            },
+            () => {
+              scale.set(
+                withTiming(1, {
+                  duration: 100,
+                }),
+              )
+            },
+          ),
+        )
+
+        scheduleOnRN(triggerFeedback, 'soft')
+      }
+
       color.set(theme.colors[GestureColors[gesture]].accent)
       icon.set(getNextIcon(gesture, data))
 
@@ -136,6 +158,11 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
       height: height.get(),
       left: 0,
       opacity: 1,
+      transform: [
+        {
+          scale: scale.get(),
+        },
+      ],
       width: Math.abs(x),
     }
   })
@@ -155,6 +182,11 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
       height: height.get(),
       left: width + x,
       opacity: 1,
+      transform: [
+        {
+          scale: scale.get(),
+        },
+      ],
       width: Math.abs(x),
     }
   })
