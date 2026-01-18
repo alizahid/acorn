@@ -2,9 +2,10 @@
 
 ## Upcoming
 
-- added: mark posts as seen
 - added: action bounce in swipe menu
 - added: haptics and sounds in swipe menu
+- added: iCloud sync
+- added: mark posts as seen
 - fixed: liquid glass in post menu
 - fixed: refresh token
 
