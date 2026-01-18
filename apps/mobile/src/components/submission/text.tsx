@@ -17,6 +17,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
+import { glass } from '~/lib/common'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
@@ -25,6 +26,7 @@ import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { View } from '../common/view'
 import { Editor } from '../native/editor'
+import { GlassView } from '../native/glass-view'
 
 const Sticky = Animated.createAnimatedComponent(KeyboardStickyView)
 
@@ -44,7 +46,7 @@ export function SubmissionText() {
 
   const editorStyle = useAnimatedStyle(() => ({
     flexGrow: 1,
-    marginBottom: interpolate(progress.get(), [0, 1], [0, 48]),
+    marginBottom: interpolate(progress.get(), [0, 1], [0, glass ? 64 : 48]),
   }))
 
   const stickyStyle = useAnimatedStyle(() => ({
@@ -78,112 +80,138 @@ export function SubmissionText() {
           </Animated.View>
 
           <Portal>
-            <Sticky style={[styles.toolbar, stickyStyle]}>
-              <View direction="row">
-                <Pressable
-                  accessibilityLabel={a11y('toggleHeading')}
-                  align="center"
-                  height="8"
-                  justify="center"
-                  onPress={() => {
-                    editor?.current?.toggleH1()
-                  }}
-                  width="8"
-                >
-                  <PhosphorIcon
-                    color={state?.isH1 ? 'accent' : 'gray'}
-                    name="TextHOne"
-                    weight={state?.isH1 ? 'bold' : 'regular'}
-                  />
-                </Pressable>
+            <Sticky style={[styles.sticky, stickyStyle]}>
+              <GlassView style={styles.tools}>
+                <View direction="row">
+                  <Pressable
+                    accessibilityLabel={a11y('toggleHeading')}
+                    align="center"
+                    height="8"
+                    justify="center"
+                    onPress={() => {
+                      editor?.current?.toggleH1()
+                    }}
+                    width="8"
+                  >
+                    <PhosphorIcon
+                      name="TextHOne"
+                      uniProps={(theme) => ({
+                        color: state?.isH1
+                          ? theme.colors.accent.accent
+                          : theme.colors.gray.accent,
+                      })}
+                      weight={state?.isH1 ? 'bold' : 'regular'}
+                    />
+                  </Pressable>
 
-                <Pressable
-                  accessibilityLabel={a11y('toggleBold')}
-                  align="center"
-                  height="8"
-                  justify="center"
-                  onPress={() => {
-                    editor?.current?.toggleBold()
-                  }}
-                  width="8"
-                >
-                  <PhosphorIcon
-                    color={state?.isBold ? 'accent' : 'gray'}
-                    name="TextB"
-                    weight={state?.isBold ? 'bold' : 'regular'}
-                  />
-                </Pressable>
+                  <Pressable
+                    accessibilityLabel={a11y('toggleBold')}
+                    align="center"
+                    height="8"
+                    justify="center"
+                    onPress={() => {
+                      editor?.current?.toggleBold()
+                    }}
+                    width="8"
+                  >
+                    <PhosphorIcon
+                      name="TextB"
+                      uniProps={(theme) => ({
+                        color: state?.isBold
+                          ? theme.colors.accent.accent
+                          : theme.colors.gray.accent,
+                      })}
+                      weight={state?.isBold ? 'bold' : 'regular'}
+                    />
+                  </Pressable>
 
-                <Pressable
-                  accessibilityLabel={a11y('toggleItalic')}
-                  align="center"
-                  height="8"
-                  justify="center"
-                  onPress={() => {
-                    editor?.current?.toggleItalic()
-                  }}
-                  width="8"
-                >
-                  <PhosphorIcon
-                    color={state?.isItalic ? 'accent' : 'gray'}
-                    name="TextItalic"
-                    weight={state?.isItalic ? 'bold' : 'regular'}
-                  />
-                </Pressable>
+                  <Pressable
+                    accessibilityLabel={a11y('toggleItalic')}
+                    align="center"
+                    height="8"
+                    justify="center"
+                    onPress={() => {
+                      editor?.current?.toggleItalic()
+                    }}
+                    width="8"
+                  >
+                    <PhosphorIcon
+                      name="TextItalic"
+                      uniProps={(theme) => ({
+                        color: state?.isItalic
+                          ? theme.colors.accent.accent
+                          : theme.colors.gray.accent,
+                      })}
+                      weight={state?.isItalic ? 'bold' : 'regular'}
+                    />
+                  </Pressable>
 
-                <Pressable
-                  accessibilityLabel={a11y('toggleStrikethrough')}
-                  align="center"
-                  height="8"
-                  justify="center"
-                  onPress={() => {
-                    editor?.current?.toggleStrikeThrough()
-                  }}
-                  width="8"
-                >
-                  <PhosphorIcon
-                    color={state?.isStrikeThrough ? 'accent' : 'gray'}
-                    name="TextStrikethrough"
-                    weight={state?.isStrikeThrough ? 'bold' : 'regular'}
-                  />
-                </Pressable>
-              </View>
+                  <Pressable
+                    accessibilityLabel={a11y('toggleStrikethrough')}
+                    align="center"
+                    height="8"
+                    justify="center"
+                    onPress={() => {
+                      editor?.current?.toggleStrikeThrough()
+                    }}
+                    width="8"
+                  >
+                    <PhosphorIcon
+                      name="TextStrikethrough"
+                      uniProps={(theme) => ({
+                        color: state?.isStrikeThrough
+                          ? theme.colors.accent.accent
+                          : theme.colors.gray.accent,
+                      })}
+                      weight={state?.isStrikeThrough ? 'bold' : 'regular'}
+                    />
+                  </Pressable>
+                </View>
 
-              <View direction="row">
-                <Pressable
-                  accessibilityLabel={a11y('toggleUnorderedList')}
-                  align="center"
-                  height="8"
-                  justify="center"
-                  onPress={() => {
-                    editor?.current?.toggleUnorderedList()
-                  }}
-                  width="8"
-                >
-                  <PhosphorIcon
-                    color={state?.isUnorderedList ? 'accent' : 'gray'}
-                    name="ListDashes"
-                    weight={state?.isUnorderedList ? 'bold' : 'regular'}
-                  />
-                </Pressable>
+                <View direction="row">
+                  <Pressable
+                    accessibilityLabel={a11y('toggleUnorderedList')}
+                    align="center"
+                    height="8"
+                    justify="center"
+                    onPress={() => {
+                      editor?.current?.toggleUnorderedList()
+                    }}
+                    width="8"
+                  >
+                    <PhosphorIcon
+                      name="ListDashes"
+                      uniProps={(theme) => ({
+                        color: state?.isUnorderedList
+                          ? theme.colors.accent.accent
+                          : theme.colors.gray.accent,
+                      })}
+                      weight={state?.isUnorderedList ? 'bold' : 'regular'}
+                    />
+                  </Pressable>
 
-                <Pressable
-                  accessibilityLabel={a11y('toggleOrderedList')}
-                  align="center"
-                  height="8"
-                  justify="center"
-                  onPress={() => {
-                    editor?.current?.toggleOrderedList()
-                  }}
-                  width="8"
-                >
-                  <PhosphorIcon
-                    color={state?.isOrderedList ? 'accent' : 'gray'}
-                    name="ListNumbers"
-                    weight={state?.isOrderedList ? 'bold' : 'regular'}
-                  />
-                </Pressable>
-              </View>
+                  <Pressable
+                    accessibilityLabel={a11y('toggleOrderedList')}
+                    align="center"
+                    height="8"
+                    justify="center"
+                    onPress={() => {
+                      editor?.current?.toggleOrderedList()
+                    }}
+                    width="8"
+                  >
+                    <PhosphorIcon
+                      name="ListNumbers"
+                      uniProps={(theme) => ({
+                        color: state?.isOrderedList
+                          ? theme.colors.accent.accent
+                          : theme.colors.gray.accent,
+                      })}
+                      weight={state?.isOrderedList ? 'bold' : 'regular'}
+                    />
+                  </Pressable>
+                </View>
+              </GlassView>
             </Sticky>
           </Portal>
         </View>
@@ -204,12 +232,17 @@ const styles = StyleSheet.create((theme) => ({
     lineHeight: theme.typography[3].lineHeight * scaling,
     padding: theme.space[4],
   }),
-  toolbar: {
-    backgroundColor: theme.colors.gray.bgAlt,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  sticky: {
     left: 0,
     position: 'absolute',
     right: 0,
+  },
+  tools: {
+    backgroundColor: glass ? undefined : theme.colors.gray.ui,
+    borderCurve: 'continuous',
+    borderRadius: glass ? theme.radius[4] : undefined,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    margin: glass ? theme.space[4] : undefined,
   },
 }))
