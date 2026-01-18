@@ -25,7 +25,6 @@ export function Root({
   return (
     <TrueSheet
       backgroundBlur={glass ? undefined : theme.variant}
-      cornerRadius={theme.radius[6]}
       detents={detents}
       dismissible={dismissible}
       grabber={false}

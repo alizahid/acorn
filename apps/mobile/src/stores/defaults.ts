@@ -86,7 +86,7 @@ export const useDefaults = create<State>()(
     }),
     {
       name: DEFAULTS_KEY,
-      storage: new Store(DEFAULTS_KEY),
+      storage: new Store(),
     },
   ),
 )

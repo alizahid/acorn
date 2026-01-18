@@ -4,10 +4,8 @@ import { persist } from 'zustand/middleware'
 import { type FloatingButtonSide } from '~/components/common/floating-button'
 import { type Font } from '~/lib/fonts'
 import { Store } from '~/lib/store'
-import { addTextSize } from '~/styles/text'
 import { type Theme } from '~/styles/themes'
 import { type TypographyToken } from '~/styles/tokens'
-import { type Nullable } from '~/types'
 import {
   type CommentSort,
   type CommunityFeedSort,
@@ -155,59 +153,8 @@ export const usePreferences = create<State>()(
       userOnTop: false,
     }),
     {
-      migrate(persisted, version) {
-        const state = persisted as PreferencesPayload
-
-        if (version === 0) {
-          state.theme = 'acorn'
-        }
-
-        if (version === 2) {
-          state.fontScaling = 1
-        }
-
-        if (version === 3) {
-          const { coloredComments } = persisted as {
-            coloredComments: boolean
-          }
-
-          state.colorfulComments = coloredComments
-        }
-
-        if (version === 4) {
-          const { fontSizePost } = persisted as {
-            fontSizePost: TypographyToken
-          }
-
-          state.fontSizeTitle = fontSizePost
-          state.fontSizeBody = addTextSize(fontSizePost, -1)
-        }
-
-        if (version === 5) {
-          const { replyPost, skipComment } = persisted as {
-            replyPost: Nullable<FloatingButtonSide>
-            skipComment: Nullable<FloatingButtonSide>
-          }
-
-          state.replyPost = replyPost ? replyPost : 'hide'
-          state.skipComment = skipComment ? skipComment : 'hide'
-        }
-
-        if (version === 6) {
-          const { fontSizePostBody, fontSizePostTitle } = persisted as {
-            fontSizePostBody: TypographyToken
-            fontSizePostTitle: TypographyToken
-          }
-
-          state.fontSizeBody = fontSizePostBody
-          state.fontSizeTitle = fontSizePostTitle
-        }
-
-        return state
-      },
       name: PREFERENCES_KEY,
-      storage: new Store(PREFERENCES_KEY),
-      version: 6,
+      storage: new Store(),
     },
   ),
 )

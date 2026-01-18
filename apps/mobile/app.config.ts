@@ -107,6 +107,8 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
       entitlements: {
         'aps-environment': 'development',
         'com.apple.developer.kernel.increased-memory-limit': true,
+        'com.apple.developer.ubiquity-kvstore-identifier':
+          '$(TeamIdentifierPrefix)$(CFBundleIdentifier)',
       },
       icon,
       supportsTablet: true,

@@ -75,7 +75,7 @@ export const useAuth = create<State>()(
     }),
     {
       name: AUTH_KEY,
-      storage: new Store(AUTH_KEY),
+      storage: new Store(),
     },
   ),
 )

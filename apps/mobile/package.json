@@ -56,6 +56,7 @@
     "expo-font": "~14.0.10",
     "expo-glass-effect": "~0.1.8",
     "expo-haptics": "~15.0.8",
+    "expo-icloud-storage": "^0.1.1",
     "expo-image": "~3.0.11",
     "expo-image-picker": "~17.0.10",
     "expo-linking": "~8.0.11",

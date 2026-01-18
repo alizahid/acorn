@@ -46,7 +46,7 @@ export const useGestures = create<State>()(
     }),
     {
       name: GESTURES_KEY,
-      storage: new Store(GESTURES_KEY),
+      storage: new Store(),
       version: 4,
     },
   ),
