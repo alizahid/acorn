@@ -18,8 +18,6 @@ export async function GET(request: NextRequest) {
     state: request.nextUrl.searchParams.get('state'),
   })
 
-  console.log('result', result)
-
   if (!result.success) {
     return buildError(400, t('invalidInput'))
   }
@@ -36,8 +34,6 @@ export async function GET(request: NextRequest) {
   url.searchParams.set('response_type', 'code')
   url.searchParams.set('duration', 'permanent')
   url.searchParams.set('scope', REDDIT_SCOPES)
-
-  console.log('url', url.toString())
 
   return NextResponse.redirect(url)
 }
