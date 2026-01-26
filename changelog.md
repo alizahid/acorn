@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 69
 
 - added: action bounce in swipe menu
 - added: haptics and sounds in swipe menu
