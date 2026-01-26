@@ -1,0 +1,34 @@
+diff --git a/src/renderTextualContent.tsx b/src/renderTextualContent.tsx
+index e5f2508f10292a7cb702ebe57a3f761dc73736a5..39736cafba001d18632d9cb0968b4fe68c658c79 100644
+--- a/src/renderTextualContent.tsx
++++ b/src/renderTextualContent.tsx
+@@ -3,11 +3,28 @@ import { Text } from 'react-native';
+ import { TPhrasing, TText } from '@native-html/transient-render-engine';
+ import { TDefaultRendererProps } from './shared-types';
+ import getNativePropsForTNode from './helpers/getNativePropsForTNode';
++import { Gesture, GestureDetector } from 'react-native-gesture-handler'
+ 
+ const renderTextualContent = (
+   props: TDefaultRendererProps<TPhrasing | TText>
+ ) => {
+-  return React.createElement(Text, getNativePropsForTNode(props));
++  const text = React.createElement(Text, getNativePropsForTNode(props))
++
++  if (hasPressable(props.tnode)) {
++    return (
++      <GestureDetector gesture={Gesture.Native().runOnJS(true)}>
++        {text}
++      </GestureDetector>
++    )
++  }
++
++  return text
+ };
+ 
++function hasPressable(node: TPhrasing | TText) {
++  return node.children.some(
++    (child) => child.tagName === 'a' || child.tagName === 'spoiler',
++  )
++}
++
+ export default renderTextualContent;
