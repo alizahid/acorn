@@ -14,6 +14,7 @@ import {
 
 const GetSchema = z.object({
   code: z.string(),
+  state: z.string(),
 })
 
 export async function GET(request: NextRequest) {
@@ -27,13 +28,14 @@ export async function GET(request: NextRequest) {
     return buildError(400, t('codeNotFound'), false)
   }
 
-  const { code } = result.data
+  const { code, state } = result.data
 
   try {
     const account = await getAccount(t, code)
 
     const url = new URL(REDIRECT_URI)
 
+    url.searchParams.set('state', state)
     url.searchParams.set('id', account.id)
     url.searchParams.set('accessToken', account.accessToken)
     url.searchParams.set('refreshToken', account.refreshToken)
