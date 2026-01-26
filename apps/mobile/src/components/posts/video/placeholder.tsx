@@ -1,18 +1,12 @@
 import { ImageBackground } from 'expo-image'
-import { type VideoSource } from 'expo-video'
 import { useState } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
 
-import { Icon } from '~/components/common/icon'
-import { Pressable } from '~/components/common/pressable'
 import { VisibilitySensor } from '~/components/common/sensor/visibility'
+import { View } from '~/components/common/view'
 import { useFocused } from '~/hooks/focus'
-import { previewVideo } from '~/lib/preview'
-import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
-import { GalleryBlur } from '../gallery/blur'
 import { VideoPlayer } from './player'
 
 type Props = {
@@ -21,7 +15,6 @@ type Props = {
   large?: boolean
   nsfw?: boolean
   recyclingKey?: string
-  source?: VideoSource
   spoiler?: boolean
   thumbnail?: string
   video: PostMedia
@@ -33,16 +26,10 @@ export function VideoPlaceholder({
   large,
   nsfw,
   recyclingKey,
-  source,
   spoiler,
   thumbnail,
   video,
 }: Props) {
-  const t = useTranslations('component.posts.video')
-  const a11y = useTranslations('a11y')
-
-  const { blurNsfw, blurSpoiler } = usePreferences()
-
   const { focused } = useFocused()
 
   styles.useVariants({
@@ -52,37 +39,6 @@ export function VideoPlaceholder({
   })
 
   const [visible, setVisible] = useState(false)
-
-  function onPress() {
-    previewVideo({
-      ...video,
-      url: (typeof source === 'object' ? source?.uri : undefined) ?? video.url,
-    })
-  }
-
-  if (compact) {
-    return (
-      <ImageBackground
-        accessibilityIgnoresInvertColors
-        source={thumbnail ?? video.thumbnail}
-        style={styles.main}
-      >
-        <Pressable
-          accessibilityLabel={a11y('viewVideo')}
-          align="center"
-          justify="center"
-          onPress={onPress}
-          style={styles.icon}
-        >
-          <Icon name="play.fill" />
-
-          {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
-            <GalleryBlur />
-          ) : null}
-        </Pressable>
-      </ImageBackground>
-    )
-  }
 
   return (
     <VisibilitySensor
@@ -98,30 +54,14 @@ export function VideoPlaceholder({
       >
         {focused && visible ? (
           <VideoPlayer
+            compact={compact}
             nsfw={nsfw}
             recyclingKey={recyclingKey}
             spoiler={spoiler}
             video={video}
           />
         ) : (
-          <Pressable
-            accessibilityLabel={a11y('viewVideo')}
-            align="center"
-            justify="center"
-            onPress={onPress}
-            style={styles.video(video.width / video.height)}
-          >
-            <Icon
-              name="play.fill"
-              uniProps={(theme) => ({
-                size: theme.space[9],
-              })}
-            />
-
-            {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
-              <GalleryBlur label={t(nsfw ? 'nsfw' : 'spoiler')} />
-            ) : null}
-          </Pressable>
+          <View style={styles.video(video.width / video.height)} />
         )}
       </ImageBackground>
     </VisibilitySensor>

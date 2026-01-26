@@ -17,13 +17,20 @@ import { VideoMenu } from './menu'
 import { VideoStatus } from './status'
 
 type Props = {
+  compact?: boolean
   nsfw?: boolean
   recyclingKey?: string
   spoiler?: boolean
   video: PostMedia
 }
 
-export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
+export function VideoPlayer({
+  compact,
+  nsfw,
+  recyclingKey,
+  spoiler,
+  video,
+}: Props) {
   const t = useTranslations('component.posts.video')
   const a11y = useTranslations('a11y')
 
@@ -52,30 +59,32 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
-    if (visible && autoPlay) {
+    if (!compact && visible && autoPlay) {
       player.play()
     } else {
       player.pause()
     }
-  }, [autoPlay, player, visible])
+  }, [autoPlay, player, visible, compact])
 
   const { muted } = useEvent(player, 'mutedChange', {
     muted: feedMuted,
   })
 
+  function onPress() {
+    ref.current?.enterFullscreen()
+
+    if (recyclingKey && seenOnMedia) {
+      addPost({
+        id: recyclingKey,
+      })
+    }
+  }
+
   return (
     <VideoMenu url={video.url}>
       <Pressable
         accessibilityLabel={a11y('viewVideo')}
-        onPress={() => {
-          ref.current?.enterFullscreen()
-
-          if (recyclingKey && seenOnMedia) {
-            addPost({
-              id: recyclingKey,
-            })
-          }
-        }}
+        onPress={onPress}
         style={styles.main}
       >
         <VisibilitySensor
@@ -99,7 +108,7 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
               }
             }}
             onFullscreenExit={() => {
-              if (!autoPlay) {
+              if (compact || !autoPlay) {
                 player.pause()
               }
             }}
@@ -110,9 +119,23 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
           />
         </VisibilitySensor>
 
-        <VideoStatus player={player} />
+        {compact ? null : <VideoStatus player={player} />}
 
-        {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+        {compact ? (
+          <Pressable
+            accessibilityLabel={a11y('viewVideo')}
+            align="center"
+            justify="center"
+            onPress={onPress}
+            style={styles.compact}
+          >
+            <Icon name="play.fill" />
+
+            {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+              <GalleryBlur />
+            ) : null}
+          </Pressable>
+        ) : Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
           <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
         ) : (
           <Pressable
@@ -139,13 +162,14 @@ export function VideoPlayer({ nsfw, recyclingKey, spoiler, video }: Props) {
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
+  compact: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: theme.colors.black.accentAlpha,
+  },
   main: {
     justifyContent: 'center',
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
-  },
-  thumbnail: {
-    ...StyleSheet.absoluteFillObject,
   },
   video: (aspectRatio: number) => ({
     aspectRatio,

@@ -6,6 +6,7 @@
 - added: haptics and sounds in swipe menu
 - added: iCloud sync
 - added: mark posts as seen
+- changed: native video player for compact mode
 - fixed: liquid glass in post menu
 - fixed: pressable links and spoilers
 - fixed: refresh token
