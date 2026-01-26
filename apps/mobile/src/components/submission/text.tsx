@@ -96,11 +96,11 @@ export function SubmissionText() {
                     <PhosphorIcon
                       name="TextHOne"
                       uniProps={(theme) => ({
-                        color: state?.isH1
+                        color: state?.h1.isActive
                           ? theme.colors.accent.accent
                           : theme.colors.gray.accent,
                       })}
-                      weight={state?.isH1 ? 'bold' : 'regular'}
+                      weight={state?.h1.isActive ? 'bold' : 'regular'}
                     />
                   </Pressable>
 
@@ -117,11 +117,11 @@ export function SubmissionText() {
                     <PhosphorIcon
                       name="TextB"
                       uniProps={(theme) => ({
-                        color: state?.isBold
+                        color: state?.bold.isActive
                           ? theme.colors.accent.accent
                           : theme.colors.gray.accent,
                       })}
-                      weight={state?.isBold ? 'bold' : 'regular'}
+                      weight={state?.bold.isActive ? 'bold' : 'regular'}
                     />
                   </Pressable>
 
@@ -138,11 +138,11 @@ export function SubmissionText() {
                     <PhosphorIcon
                       name="TextItalic"
                       uniProps={(theme) => ({
-                        color: state?.isItalic
+                        color: state?.bold.isActive
                           ? theme.colors.accent.accent
                           : theme.colors.gray.accent,
                       })}
-                      weight={state?.isItalic ? 'bold' : 'regular'}
+                      weight={state?.bold.isActive ? 'bold' : 'regular'}
                     />
                   </Pressable>
 
@@ -159,11 +159,13 @@ export function SubmissionText() {
                     <PhosphorIcon
                       name="TextStrikethrough"
                       uniProps={(theme) => ({
-                        color: state?.isStrikeThrough
+                        color: state?.strikeThrough.isActive
                           ? theme.colors.accent.accent
                           : theme.colors.gray.accent,
                       })}
-                      weight={state?.isStrikeThrough ? 'bold' : 'regular'}
+                      weight={
+                        state?.strikeThrough.isActive ? 'bold' : 'regular'
+                      }
                     />
                   </Pressable>
                 </View>
@@ -182,11 +184,13 @@ export function SubmissionText() {
                     <PhosphorIcon
                       name="ListDashes"
                       uniProps={(theme) => ({
-                        color: state?.isUnorderedList
+                        color: state?.unorderedList.isActive
                           ? theme.colors.accent.accent
                           : theme.colors.gray.accent,
                       })}
-                      weight={state?.isUnorderedList ? 'bold' : 'regular'}
+                      weight={
+                        state?.unorderedList.isActive ? 'bold' : 'regular'
+                      }
                     />
                   </Pressable>
 
@@ -203,11 +207,11 @@ export function SubmissionText() {
                     <PhosphorIcon
                       name="ListNumbers"
                       uniProps={(theme) => ({
-                        color: state?.isOrderedList
+                        color: state?.orderedList.isActive
                           ? theme.colors.accent.accent
                           : theme.colors.gray.accent,
                       })}
-                      weight={state?.isOrderedList ? 'bold' : 'regular'}
+                      weight={state?.orderedList.isActive ? 'bold' : 'regular'}
                     />
                   </Pressable>
                 </View>
