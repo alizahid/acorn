@@ -7,6 +7,7 @@
 - added: iCloud sync
 - added: mark posts as seen
 - fixed: liquid glass in post menu
+- fixed: pressable links and spoilers
 - fixed: refresh token
 
 ## Build 67-68

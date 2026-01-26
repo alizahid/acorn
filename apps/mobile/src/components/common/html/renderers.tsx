@@ -2,6 +2,7 @@ import table from '@native-html/heuristic-table-plugin'
 import { Image } from 'expo-image'
 import { useState } from 'react'
 import { type TextStyle } from 'react-native'
+import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import {
   type CustomMixedRenderer,
   type CustomTextualRenderer,
@@ -24,17 +25,19 @@ export const spoiler: CustomTextualRenderer = ({
   const [visible, setVisible] = useState(false)
 
   return (
-    <TDefaultRenderer
-      {...props}
-      onPress={
-        visible
-          ? undefined
-          : () => {
-              setVisible(true)
-            }
-      }
-      style={[props.style as TextStyle, styles.spoiler(visible)]}
-    />
+    <GestureDetector gesture={Gesture.Native().runOnJS(true)}>
+      <TDefaultRenderer
+        {...props}
+        onPress={
+          visible
+            ? undefined
+            : () => {
+                setVisible(true)
+              }
+        }
+        style={[props.style as TextStyle, styles.spoiler(visible)]}
+      />
+    </GestureDetector>
   )
 }
 
@@ -91,15 +94,17 @@ export const a: CustomMixedRenderer = ({
   }
 
   return (
-    <TDefaultRenderer
-      tnode={tnode}
-      {...props}
-      onPress={() => {
-        if (typeof tnode.attributes.href === 'string') {
-          handleLink(tnode.attributes.href)
-        }
-      }}
-    />
+    <GestureDetector gesture={Gesture.Native().runOnJS(true)}>
+      <TDefaultRenderer
+        tnode={tnode}
+        {...props}
+        onPress={() => {
+          if (typeof tnode.attributes.href === 'string') {
+            handleLink(tnode.attributes.href)
+          }
+        }}
+      />
+    </GestureDetector>
   )
 }
 
