@@ -123,6 +123,9 @@ export function HtmlProvider({ children }: Props) {
       <RenderHtmlConfigProvider
         renderers={renderers}
         uniProps={(theme) => ({
+          defaultTextProps: {
+            allowFontScaling: systemScaling,
+          },
           renderersProps: {
             ol: {
               enableRemoveBottomMarginIfNested: false,
