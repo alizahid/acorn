@@ -59,7 +59,7 @@ export function SensorList<Type>({ stickyNav = true, ...props }: Props<Type>) {
         values,
       }}
     >
-      <List {...props} onScroll={onScroll} scrollEventThrottle={100} />
+      <List {...props} onScroll={onScroll} scrollEventThrottle={250} />
     </Context>
   )
 }

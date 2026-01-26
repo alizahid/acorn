@@ -68,7 +68,7 @@ export function VisibilitySensor({ children, id, onChange }: Props) {
         previous.current = next
       }
     })
-  }, 100)
+  }, 250)
 
   useAnimatedReaction(
     () => sensor.offset.get(),
@@ -77,7 +77,16 @@ export function VisibilitySensor({ children, id, onChange }: Props) {
     },
   )
 
-  return <Animated.View ref={ref}>{children}</Animated.View>
+  return (
+    <Animated.View
+      onLayout={() => {
+        measure()
+      }}
+      ref={ref}
+    >
+      {children}
+    </Animated.View>
+  )
 }
 
 function getPercent({
