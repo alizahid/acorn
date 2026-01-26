@@ -22,6 +22,7 @@ export async function GET(request: NextRequest) {
 
   const result = GetSchema.safeParse({
     code: request.nextUrl.searchParams.get('code'),
+    state: request.nextUrl.searchParams.get('state'),
   })
 
   if (!result.success) {
