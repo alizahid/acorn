@@ -16,7 +16,7 @@ import {
   type UserFeedSort,
 } from '~/types/sort'
 
-export const PREFERENCES_KEY = 'preferences-storage'
+export const PREFERENCES_KEY = 'preferences'
 
 export type PreferencesPayload = {
   autoPlay: boolean

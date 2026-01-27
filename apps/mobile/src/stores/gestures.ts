@@ -4,7 +4,7 @@ import { persist } from 'zustand/middleware'
 import { type GestureAction } from '~/components/common/gestures'
 import { Store } from '~/lib/store'
 
-export const GESTURES_KEY = 'gestures-storage'
+export const GESTURES_KEY = 'gestures'
 
 export type GesturesPayload = {
   commentLeft: boolean

@@ -9,7 +9,7 @@ import {
 } from '~/types/defaults'
 import { type FeedType } from '~/types/sort'
 
-export const DEFAULTS_KEY = 'defaults-storage-v2'
+export const DEFAULTS_KEY = 'defaults'
 
 export type DefaultsPayload = {
   drawerSections: DrawerSections
