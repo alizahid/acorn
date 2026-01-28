@@ -28,6 +28,7 @@ export function DraggableItem({ label, onChange, value }: Props) {
       height="8"
       onLongPress={drag}
       px="3"
+      variant="plain"
     >
       <PhosphorIcon
         name="DotsSixVertical"
@@ -35,6 +36,7 @@ export function DraggableItem({ label, onChange, value }: Props) {
           color: theme.colors.gray.accent,
           size: theme.space[4],
         })}
+        weight="bold"
       />
 
       <Text style={styles.label} weight="medium">

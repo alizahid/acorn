@@ -13,6 +13,7 @@ import { ListItem } from '~/components/common/list/item'
 import { Menu } from '~/components/common/menu'
 import { Switch } from '~/components/common/switch'
 import { Text } from '~/components/common/text'
+import { View } from '~/components/common/view'
 import { DraggableItem } from '~/components/defaults/draggable-item'
 import { useList } from '~/hooks/list'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
@@ -28,154 +29,162 @@ export default function Screen() {
 
   return (
     <ScrollViewContainer {...listProps} contentContainerStyle={styles.content}>
-      <Menu.Label mt="0">{t('feedType.title')}</Menu.Label>
+      <View style={styles.item}>
+        <Menu.Label mt="2">{t('feedType.title')}</Menu.Label>
 
-      <FlatList
-        data={FeedType}
-        renderItem={({ item }) => (
-          <ListItem
-            icon={
-              <Icon
-                name={FeedTypeIcons[item]}
-                uniProps={(theme) => ({
-                  tintColor: theme.colors[FeedTypeColors[item]].accent,
-                })}
-              />
-            }
-            label={t(`feedType.${item}`)}
-            onPress={() => null}
-            right={
-              <Switch
-                label={t(`feedType.${item}`)}
-                onChange={() => {
-                  update({
-                    feedType: item,
-                  })
-                }}
-                value={item === feedType}
-              />
-            }
-          />
-        )}
-        scrollEnabled={false}
-        style={styles.list}
-      />
-
-      <Menu.Label mt="6">{t('tabs.title')}</Menu.Label>
-
-      <NestedReorderableList
-        data={tabs}
-        keyExtractor={(item) => item.key}
-        onReorder={(event) => {
-          const next = reorderItems(tabs, event.from, event.to)
-
-          update({
-            tabs: next,
-          })
-        }}
-        renderItem={({ index, item }) => (
-          <DraggableItem
-            label={t(`tabs.${item.key}`)}
-            onChange={(value) => {
-              const next = create(tabs, (draft) => {
-                if (draft[index]) {
-                  draft[index].disabled = !value
-                }
-              })
-
-              const disabled = next.filter(($item) => $item.disabled)
-
-              if (disabled.length === tabs.length) {
-                return
+        <FlatList
+          data={FeedType}
+          renderItem={({ item }) => (
+            <ListItem
+              icon={
+                <Icon
+                  name={FeedTypeIcons[item]}
+                  uniProps={(theme) => ({
+                    tintColor: theme.colors[FeedTypeColors[item]].accent,
+                  })}
+                />
               }
-
-              update({
-                tabs: next,
-              })
-            }}
-            value={!item.disabled}
-          />
-        )}
-        scrollEnabled={false}
-        style={styles.list}
-      />
-
-      <Menu.Label mt="6">{t('searchTabs.title')}</Menu.Label>
-
-      <NestedReorderableList
-        data={searchTabs}
-        keyExtractor={(item) => item.key}
-        onReorder={(event) => {
-          const next = reorderItems(searchTabs, event.from, event.to)
-
-          update({
-            searchTabs: next,
-          })
-        }}
-        renderItem={({ index, item }) => (
-          <DraggableItem
-            label={t(`searchTabs.${item.key}`)}
-            onChange={(value) => {
-              if (
-                !value &&
-                searchTabs.filter((tab) => tab.disabled).length >= 1
-              ) {
-                return
+              label={t(`feedType.${item}`)}
+              onPress={() => null}
+              right={
+                <Switch
+                  label={t(`feedType.${item}`)}
+                  onChange={() => {
+                    update({
+                      feedType: item,
+                    })
+                  }}
+                  value={item === feedType}
+                />
               }
+            />
+          )}
+          scrollEnabled={false}
+          style={styles.list}
+        />
+      </View>
 
-              const next = create(searchTabs, (draft) => {
-                if (draft[index]) {
-                  draft[index].disabled = !value
+      <View mt="4" style={styles.item}>
+        <Menu.Label mt="2">{t('tabs.title')}</Menu.Label>
+
+        <NestedReorderableList
+          data={tabs}
+          keyExtractor={(item) => item.key}
+          onReorder={(event) => {
+            const next = reorderItems(tabs, event.from, event.to)
+
+            update({
+              tabs: next,
+            })
+          }}
+          renderItem={({ index, item }) => (
+            <DraggableItem
+              label={t(`tabs.${item.key}`)}
+              onChange={(value) => {
+                const next = create(tabs, (draft) => {
+                  if (draft[index]) {
+                    draft[index].disabled = !value
+                  }
+                })
+
+                const disabled = next.filter(($item) => $item.disabled)
+
+                if (disabled.length === tabs.length) {
+                  return
                 }
-              })
 
-              update({
-                searchTabs: next,
-              })
-            }}
-            value={!item.disabled}
-          />
-        )}
-        scrollEnabled={false}
-        style={styles.list}
-      />
+                update({
+                  tabs: next,
+                })
+              }}
+              value={!item.disabled}
+            />
+          )}
+          scrollEnabled={false}
+          style={styles.list}
+        />
+      </View>
 
-      <Text highContrast={false} mt="2" mx="3" size="2">
-        {t('searchTabs.hint')}
-      </Text>
+      <View mt="4" style={styles.item}>
+        <Menu.Label mt="2">{t('searchTabs.title')}</Menu.Label>
 
-      <Menu.Label mt="6">{t('drawerSections.title')}</Menu.Label>
+        <NestedReorderableList
+          data={searchTabs}
+          keyExtractor={(item) => item.key}
+          onReorder={(event) => {
+            const next = reorderItems(searchTabs, event.from, event.to)
 
-      <NestedReorderableList
-        data={drawerSections}
-        keyExtractor={(item) => item.key}
-        onReorder={(event) => {
-          const next = reorderItems(drawerSections, event.from, event.to)
-
-          update({
-            drawerSections: next,
-          })
-        }}
-        renderItem={({ index, item }) => (
-          <DraggableItem
-            label={t(`drawerSections.${item.key}`)}
-            onChange={(value) => {
-              const next = create(drawerSections, (draft) => {
-                if (draft[index]) {
-                  draft[index].disabled = !value
+            update({
+              searchTabs: next,
+            })
+          }}
+          renderItem={({ index, item }) => (
+            <DraggableItem
+              label={t(`searchTabs.${item.key}`)}
+              onChange={(value) => {
+                if (
+                  !value &&
+                  searchTabs.filter((tab) => tab.disabled).length >= 1
+                ) {
+                  return
                 }
-              })
 
-              update({
-                drawerSections: next,
-              })
-            }}
-            value={!item.disabled}
-          />
-        )}
-        scrollEnabled={false}
-        style={styles.list}
-      />
+                const next = create(searchTabs, (draft) => {
+                  if (draft[index]) {
+                    draft[index].disabled = !value
+                  }
+                })
+
+                update({
+                  searchTabs: next,
+                })
+              }}
+              value={!item.disabled}
+            />
+          )}
+          scrollEnabled={false}
+          style={styles.list}
+        />
+
+        <Text align="center" highContrast={false} m="2" size="2">
+          {t('searchTabs.hint')}
+        </Text>
+      </View>
+
+      <View mt="4" style={styles.item}>
+        <Menu.Label mt="2">{t('drawerSections.title')}</Menu.Label>
+
+        <NestedReorderableList
+          data={drawerSections}
+          keyExtractor={(item) => item.key}
+          onReorder={(event) => {
+            const next = reorderItems(drawerSections, event.from, event.to)
+
+            update({
+              drawerSections: next,
+            })
+          }}
+          renderItem={({ index, item }) => (
+            <DraggableItem
+              label={t(`drawerSections.${item.key}`)}
+              onChange={(value) => {
+                const next = create(drawerSections, (draft) => {
+                  if (draft[index]) {
+                    draft[index].disabled = !value
+                  }
+                })
+
+                update({
+                  drawerSections: next,
+                })
+              }}
+              value={!item.disabled}
+            />
+          )}
+          scrollEnabled={false}
+          style={styles.list}
+        />
+      </View>
     </ScrollViewContainer>
   )
 }
@@ -183,6 +192,11 @@ export default function Screen() {
 const styles = StyleSheet.create((theme) => ({
   content: {
     padding: theme.space[4],
+  },
+  item: {
+    backgroundColor: theme.colors.gray.bgAltAlpha,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
   },
   list: {
     backgroundColor: theme.colors.gray.bgAltAlpha,

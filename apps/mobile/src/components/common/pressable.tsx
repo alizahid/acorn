@@ -1,4 +1,8 @@
-import { type CustomPressableProps, PressableOpacity } from 'pressto'
+import {
+  type CustomPressableProps,
+  PressableOpacity,
+  PressableWithoutFeedback,
+} from 'pressto'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { stripProps } from '~/lib/styles'
@@ -7,6 +11,7 @@ import { getViewStyles, type ViewStyleProps } from '~/styles/view'
 
 type Props = {
   disabled?: boolean
+  variant?: 'opacity' | 'plain'
 } & Omit<CustomPressableProps, 'enabled'> &
   ViewStyleProps &
   MarginProps &
@@ -17,17 +22,20 @@ export function Pressable({
   children,
   disabled = false,
   style,
+  variant = 'opacity',
   ...props
 }: Props) {
+  const Main = variant === 'plain' ? PressableWithoutFeedback : PressableOpacity
+
   return (
-    <PressableOpacity
+    <Main
       {...stripProps(props)}
       accessibilityRole={accessibilityRole}
       enabled={!disabled}
       style={[styles.main(props), style]}
     >
       {children}
-    </PressableOpacity>
+    </Main>
   )
 }
 
