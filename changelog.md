@@ -1,6 +1,10 @@
 # Changelog
 
-## Build 69
+## Upcoming
+
+- fixed: draggable defaults
+
+## Build 69-70
 
 - added: action bounce in swipe menu
 - added: haptics and sounds in swipe menu
