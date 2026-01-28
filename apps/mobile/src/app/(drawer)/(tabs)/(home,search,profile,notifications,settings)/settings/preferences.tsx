@@ -1,5 +1,5 @@
 import { isPictureInPictureSupported } from 'expo-video'
-import { ScrollView } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { FloatingButtonSide } from '~/components/common/floating-button'

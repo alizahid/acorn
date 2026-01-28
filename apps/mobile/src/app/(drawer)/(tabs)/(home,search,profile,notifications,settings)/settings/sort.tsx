@@ -1,4 +1,4 @@
-import { ScrollView } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { useTranslations } from 'use-intl'
 
 import { Menu } from '~/components/common/menu'

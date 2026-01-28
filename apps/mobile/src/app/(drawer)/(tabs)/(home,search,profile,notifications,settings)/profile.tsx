@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router'
 import { type SFSymbol } from 'expo-symbols'
-import { ScrollView } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { useTranslations } from 'use-intl'
 
 import { FloatingButton } from '~/components/common/floating-button'
