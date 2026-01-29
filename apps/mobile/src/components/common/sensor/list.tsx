@@ -59,7 +59,14 @@ export function SensorList<Type>({ stickyNav = true, ...props }: Props<Type>) {
         values,
       }}
     >
-      <List {...props} onScroll={onScroll} scrollEventThrottle={250} />
+      <List
+        {...props}
+        onLayout={(event) => {
+          height.set(event.nativeEvent.layout.height)
+        }}
+        onScroll={onScroll}
+        scrollEventThrottle={250}
+      />
     </Context>
   )
 }

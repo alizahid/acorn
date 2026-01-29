@@ -5,6 +5,7 @@
 - added: settings tab always available
 - fixed: compact video thumbnail
 - fixed: draggable defaults
+- fixed: video auto play
 
 ## Build 69-70
 
