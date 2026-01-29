@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: settings tab always available
+- fixed: compact video thumbnail
 - fixed: draggable defaults
 
 ## Build 69-70

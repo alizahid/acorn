@@ -45,6 +45,10 @@ export function VideoPlayer({
   } = usePreferences()
   const { addPost } = useHistory()
 
+  styles.useVariants({
+    compact,
+  })
+
   const ref = useRef<VideoView>(null)
 
   const player = useVideoPlayer(video.url, (instance) => {
@@ -172,7 +176,16 @@ const styles = StyleSheet.create((theme, runtime) => ({
     overflow: 'hidden',
   },
   video: (aspectRatio: number) => ({
-    aspectRatio,
+    variants: {
+      compact: {
+        default: {
+          aspectRatio,
+        },
+        true: {
+          aspectRatio: 1,
+        },
+      },
+    },
   }),
   volume: {
     backgroundColor: theme.colors.black.accentAlpha,

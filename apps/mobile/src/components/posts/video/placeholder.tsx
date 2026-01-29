@@ -69,16 +69,6 @@ export function VideoPlaceholder({
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  icon: {
-    ...StyleSheet.absoluteFillObject,
-    variants: {
-      compact: {
-        true: {
-          backgroundColor: theme.colors.black.accentAlpha,
-        },
-      },
-    },
-  },
   main: {
     backgroundColor: theme.colors.black.accentAlpha,
     justifyContent: 'center',
@@ -106,7 +96,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
           width: theme.space[8],
         },
         true: {
-          borderRadius: theme.space[2],
+          borderRadius: theme.space[1] * 2,
           height: theme.space[8] * 2,
           width: theme.space[8] * 2,
         },
@@ -114,6 +104,16 @@ const styles = StyleSheet.create((theme, runtime) => ({
     },
   },
   video: (aspectRatio: number) => ({
-    aspectRatio,
+    variants: {
+      compact: {
+        default: {
+          aspectRatio,
+        },
+        true: {
+          ...StyleSheet.absoluteFillObject,
+          backgroundColor: theme.colors.black.accentAlpha,
+        },
+      },
+    },
   }),
 }))
