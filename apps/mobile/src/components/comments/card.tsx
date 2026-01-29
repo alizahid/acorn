@@ -155,89 +155,90 @@ export function CommentCard({
           )}
           disabled={disabled}
           onPress={onPress}
-          style={styles.main(comment.depth, dull)}
         >
-          {userOnTop ? (
-            <CommentMeta
-              collapsed={collapsed}
-              comment={comment}
-              flair={flair}
-              top
-            />
-          ) : null}
+          <View style={styles.main(comment.depth, dull)}>
+            {userOnTop ? (
+              <CommentMeta
+                collapsed={collapsed}
+                comment={comment}
+                flair={flair}
+                top
+              />
+            ) : null}
 
-          {collapsed ? null : (
-            <View p="3">
-              <Html
-                depth={comment.depth}
-                meta={comment.media.meta}
-                type="comment"
+            {collapsed ? null : (
+              <View p="3">
+                <Html
+                  depth={comment.depth}
+                  meta={comment.media.meta}
+                  type="comment"
+                >
+                  {comment.body}
+                </Html>
+              </View>
+            )}
+
+            {comment.post.title ? (
+              <Link
+                asChild
+                href={{
+                  params: {
+                    id: comment.post.id,
+                  },
+                  pathname: '/posts/[id]',
+                }}
               >
-                {comment.body}
-              </Html>
-            </View>
-          )}
+                <Pressable
+                  accessibilityHint={a11y('viewPost')}
+                  accessibilityLabel={comment.post.title}
+                  align="center"
+                  direction="row"
+                  gap="2"
+                  mb="3"
+                  mx="3"
+                  p="2"
+                  style={styles.post}
+                >
+                  <Icon
+                    name="paperclip"
+                    uniProps={(theme) => ({
+                      tintColor: theme.colors.gray.accent,
+                    })}
+                  />
 
-          {comment.post.title ? (
-            <Link
-              asChild
-              href={{
-                params: {
-                  id: comment.post.id,
-                },
-                pathname: '/posts/[id]',
-              }}
-            >
-              <Pressable
-                accessibilityHint={a11y('viewPost')}
-                accessibilityLabel={comment.post.title}
-                align="center"
-                direction="row"
-                gap="2"
-                mb="3"
-                mx="3"
-                p="2"
-                style={styles.post}
-              >
-                <Icon
-                  name="paperclip"
-                  uniProps={(theme) => ({
-                    tintColor: theme.colors.gray.accent,
-                  })}
-                />
+                  <View flex={1} gap="1">
+                    <Text size="1" weight="medium">
+                      {comment.post.title}
+                    </Text>
 
-                <View flex={1} gap="1">
-                  <Text size="1" weight="medium">
-                    {comment.post.title}
-                  </Text>
+                    <Text highContrast={false} size="1">
+                      r/{comment.community.name}
+                    </Text>
+                  </View>
+                </Pressable>
+              </Link>
+            ) : null}
 
-                  <Text highContrast={false} size="1">
-                    r/{comment.community.name}
-                  </Text>
-                </View>
-              </Pressable>
-            </Link>
-          ) : null}
+            {userOnTop ? null : (
+              <CommentMeta
+                collapsed={collapsed}
+                comment={comment}
+                flair={flair}
+              />
+            )}
 
-          {userOnTop ? null : (
-            <CommentMeta
-              collapsed={collapsed}
-              comment={comment}
-              flair={flair}
-            />
-          )}
+            {!collapsed && (flair === 'both' || flair === 'text') ? (
+              <FlairCard
+                flair={comment.flair}
+                style={styles.flair}
+                type={flair}
+              />
+            ) : null}
 
-          {!collapsed && (flair === 'both' || flair === 'text') ? (
-            <FlairCard
-              flair={comment.flair}
-              style={styles.flair}
-              type={flair}
-            />
-          ) : null}
-
-          {comment.saved ? (
-            <View pointerEvents="none" style={styles.saved} />
-          ) : null}
+            {comment.saved ? (
+              <View pointerEvents="none" style={styles.saved} />
+            ) : null}
+          </View>
         </Pressable>
       </CommentMenu>
     </Gestures>
