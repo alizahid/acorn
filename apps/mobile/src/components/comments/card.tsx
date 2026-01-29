@@ -253,19 +253,22 @@ const styles = StyleSheet.create((theme, runtime) => ({
     const marginLeft = theme.space[2] * depth
 
     return {
+      alignSelf: 'center',
       marginLeft,
       overflow: 'hidden',
       variants: {
         iPad: {
+          false: {
+            maxWidth: runtime.screen.width - marginLeft,
+          },
           true: {
-            alignSelf: 'center',
             borderCurve: 'continuous',
             borderRadius: theme.radius[3],
             maxWidth: cardMaxWidth - marginLeft,
           },
         },
       },
-      width: runtime.screen.width - marginLeft,
+      width: '100%',
     }
   },
   flair: {
@@ -310,9 +313,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
           },
         },
         iPad: {
+          false: {
+            maxWidth: runtime.screen.width - marginLeft,
+          },
           true: {
-            borderCurve: 'continuous',
-            borderRadius: theme.radius[3],
             maxWidth: cardMaxWidth - marginLeft,
           },
         },

@@ -263,13 +263,16 @@ export function PostCard({ expanded, post }: Props) {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   container: {
+    alignSelf: 'center',
     overflow: 'hidden',
     variants: {
       iPad: {
+        false: {
+          maxWidth: runtime.screen.width,
+        },
         true: {
-          alignSelf: 'center',
           borderCurve: 'continuous',
           borderRadius: theme.radius[4],
           maxWidth: cardMaxWidth,

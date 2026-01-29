@@ -8,11 +8,9 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
-import { useSafeAreaFrame } from 'react-native-safe-area-context'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { scheduleOnRN } from 'react-native-worklets'
 
-import { cardMaxWidth, iPad } from '~/lib/common'
 import { triggerFeedback } from '~/lib/feedback'
 import { getIcon } from '~/lib/icons'
 import { type ColorToken } from '~/styles/tokens'
@@ -34,8 +32,6 @@ type Props = {
 }
 
 export function Actions({ children, data, gestures, onAction, style }: Props) {
-  const frame = useSafeAreaFrame()
-
   const translate = useSharedValue(0)
   const height = useSharedValue(0)
 
@@ -47,11 +43,7 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
   const opacity = useSharedValue(0)
   const scale = useSharedValue(1)
 
-  const width = iPad
-    ? style?.maxWidth
-      ? Number(style.maxWidth)
-      : cardMaxWidth
-    : frame.width
+  const width = style?.maxWidth ? Number(style.maxWidth) : 0
 
   const active: number | [number, number] =
     gestures.left.enabled && gestures.right.enabled
