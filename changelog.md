@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: settings tab always available
 - fixed: draggable defaults
 
 ## Build 69-70

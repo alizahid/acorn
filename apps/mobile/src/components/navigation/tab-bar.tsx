@@ -93,7 +93,7 @@ export function TabBar({ descriptors, navigation, state }: Props) {
           })}
         >
           {tabs
-            .filter((tab) => !tab.disabled)
+            .filter((tab) => tab.key === '(settings)' || !tab.disabled)
             .map((tab) => {
               const item = state.routes.find((route) => route.name === tab.key)
 

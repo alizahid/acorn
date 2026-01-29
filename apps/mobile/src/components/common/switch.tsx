@@ -8,10 +8,6 @@ import { View } from './view'
 const Component = withUnistyles(ReactNativeSwitch, (theme) => ({
   ios_backgroundColor: theme.colors.gray.uiActive,
   thumbColor: theme.colors.gray.contrast,
-  trackColor: {
-    false: theme.colors.gray.uiActive,
-    true: theme.colors.accent.accent,
-  },
 }))
 
 type Props = {
@@ -36,6 +32,14 @@ export function Switch({ disabled, label, onChange, ref, value }: Props) {
         disabled={disabled}
         onValueChange={onChange}
         ref={ref}
+        uniProps={(theme) => ({
+          trackColor: {
+            false: theme.colors.gray.uiActive,
+            true: disabled
+              ? theme.colors.gray.accent
+              : theme.colors.accent.accent,
+          },
+        })}
         value={value}
       />
     </View>

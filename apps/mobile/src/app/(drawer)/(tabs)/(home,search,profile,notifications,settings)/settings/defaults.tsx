@@ -79,6 +79,7 @@ export default function Screen() {
           }}
           renderItem={({ index, item }) => (
             <DraggableItem
+              disabled={item.key === '(settings)'}
               label={t(`tabs.${item.key}`)}
               onChange={(value) => {
                 const next = create(tabs, (draft) => {

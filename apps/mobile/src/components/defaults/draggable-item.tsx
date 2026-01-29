@@ -8,12 +8,13 @@ import { Switch } from '../common/switch'
 import { Text } from '../common/text'
 
 type Props = {
+  disabled?: boolean
   label: string
   onChange?: (value: boolean) => void
   value?: boolean
 }
 
-export function DraggableItem({ label, onChange, value }: Props) {
+export function DraggableItem({ disabled, label, onChange, value }: Props) {
   const a11y = useTranslations('a11y')
 
   const drag = useReorderableDrag()
@@ -45,6 +46,7 @@ export function DraggableItem({ label, onChange, value }: Props) {
 
       {onChange ? (
         <Switch
+          disabled={disabled}
           label={label}
           onChange={(next) => {
             onChange(next)
