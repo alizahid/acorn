@@ -5,8 +5,10 @@ import { StyleSheet } from 'react-native-unistyles'
 import { VisibilitySensor } from '~/components/common/sensor/visibility'
 import { View } from '~/components/common/view'
 import { useFocused } from '~/hooks/focus'
+import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
+import { GalleryBlur } from '../gallery/blur'
 import { VideoPlayer } from './player'
 
 type Props = {
@@ -30,6 +32,8 @@ export function VideoPlaceholder({
   thumbnail,
   video,
 }: Props) {
+  const { blurNsfw, blurSpoiler } = usePreferences()
+
   const { focused } = useFocused()
 
   styles.useVariants({
@@ -61,7 +65,11 @@ export function VideoPlaceholder({
             video={video}
           />
         ) : (
-          <View style={styles.video(video.width / video.height)} />
+          <View style={styles.video(video.width / video.height)}>
+            {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+              <GalleryBlur />
+            ) : null}
+          </View>
         )}
       </ImageBackground>
     </VisibilitySensor>

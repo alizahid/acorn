@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: settings tab always available
+- fixed: blur nsfw
 - fixed: compact video thumbnail
 - fixed: draggable defaults
 - fixed: video auto play
