@@ -1,8 +1,8 @@
 export const fonts = {
-  apercu: 'Apercu Pro',
-  basis: 'Basis Grotesque Pro',
+  apercu: 'Apercu Pro Var',
+  basis: 'Basis Grotesque Pro Var',
   fold: 'Fold Grotesque Pro',
-  mono: 'Basis Grotesque Mono Pro',
+  mono: 'SF Mono',
   system: 'San Francisco',
 } as const
 
