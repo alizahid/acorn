@@ -7,6 +7,7 @@
 - fixed: compact video thumbnail
 - fixed: draggable defaults
 - fixed: feed switch crash
+- fixed: text clipping
 - fixed: video auto play
 
 ## Build 69-70
