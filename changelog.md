@@ -6,6 +6,7 @@
 - fixed: blur nsfw
 - fixed: compact video thumbnail
 - fixed: draggable defaults
+- fixed: feed switch crash
 - fixed: video auto play
 
 ## Build 69-70

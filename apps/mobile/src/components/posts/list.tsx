@@ -172,6 +172,7 @@ export function PostList({
         const items = changed.filter(
           (item) =>
             !item.isViewable &&
+            item.item &&
             item.item.type !== 'reply' &&
             item.item.type !== 'more',
         )
