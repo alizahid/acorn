@@ -47,7 +47,7 @@ const styles = StyleSheet.create((_theme, runtime) => ({
           marginTop: runtime.insets.top,
         },
         true: {
-          marginTop: 64,
+          marginTop: 80,
         },
       },
     },

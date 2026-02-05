@@ -14,11 +14,12 @@ export function useStageManager() {
 
   const frame = useSafeAreaFrame()
 
+  const [height] = useDebounce(frame.height, 1000)
   const [width] = useDebounce(frame.width, 1000)
 
   return useMemo(() => {
     const dimensions = Dimensions.get('screen')
 
-    return width < dimensions.width
-  }, [width])
+    return width < dimensions.width || height < dimensions.height
+  }, [height, width])
 }
