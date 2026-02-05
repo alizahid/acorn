@@ -66,7 +66,7 @@ export const Gallery = createCallable<Props>(({ call, media, initial }) => {
         duration: 250,
       }),
     )
-  }, [translate.set])
+  }, [translate])
 
   const pan = Gesture.Pan()
     .onUpdate((event) => {

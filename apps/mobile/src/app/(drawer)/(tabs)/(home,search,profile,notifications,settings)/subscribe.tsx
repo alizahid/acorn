@@ -33,7 +33,7 @@ export default function Screen() {
     if (subscribed) {
       router.dismiss()
     }
-  }, [router.dismiss, subscribed])
+  }, [subscribed, router])
 
   return (
     <View flex={1} gap="8" justify="center" py="8" style={styles.main}>

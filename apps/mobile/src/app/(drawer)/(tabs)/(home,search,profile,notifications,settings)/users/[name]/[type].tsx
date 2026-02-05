@@ -64,7 +64,7 @@ export default function Screen() {
           />
         ),
       })
-    }, [interval, navigation.setOptions, sort]),
+    }, [interval, sort, navigation]),
   )
 
   return (

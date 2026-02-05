@@ -39,7 +39,7 @@ export default function Layout() {
     if (subscribed === false) {
       router.navigate('/subscribe')
     }
-  }, [subscribed, router.navigate])
+  }, [subscribed, router])
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (status) => {

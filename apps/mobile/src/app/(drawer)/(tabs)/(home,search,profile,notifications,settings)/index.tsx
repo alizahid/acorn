@@ -1,5 +1,8 @@
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
-import { useLocalSearchParams } from 'expo-router'
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+} from 'expo-router'
 import { useCallback } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -92,9 +95,6 @@ export default function Screen() {
       })
     }, [
       a11y,
-      navigation.setOptions,
-      // @ts-expect-error
-      navigation.toggleDrawer,
       params.feed,
       params.type,
       sorting.interval,
@@ -104,6 +104,7 @@ export default function Screen() {
       type,
       update,
       stageManager,
+      navigation,
     ]),
   )
 

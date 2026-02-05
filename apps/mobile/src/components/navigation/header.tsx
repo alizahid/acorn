@@ -75,7 +75,7 @@ export function Header({
       mitter.off('show-header', onShow)
       mitter.off('hide-header', onHide)
     }
-  }, [translate.set, height.get])
+  }, [translate, height])
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: go away
   useEffect(() => {

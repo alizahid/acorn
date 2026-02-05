@@ -1,5 +1,5 @@
 import { createId } from '@paralleldrive/cuid2'
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from 'expo-router'
 import { useCallback } from 'react'
 import { FormProvider, useFieldArray } from 'react-hook-form'
 import { FlatList } from 'react-native'

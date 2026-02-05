@@ -1,6 +1,10 @@
-import { useFocusEffect, useNavigation } from '@react-navigation/native'
 import { type FlashListRef, type ListRenderItem } from '@shopify/flash-list'
-import { useLocalSearchParams, useRouter } from 'expo-router'
+import {
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+  useRouter,
+} from 'expo-router'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'

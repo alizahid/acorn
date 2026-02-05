@@ -46,7 +46,7 @@ export default function Screen() {
           />
         ),
       })
-    }, [a11y, isPending, markAll, navigation.setOptions]),
+    }, [a11y, isPending, markAll, navigation]),
   )
   const [index, setIndex] = useState(0)
 
