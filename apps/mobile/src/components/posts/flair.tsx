@@ -1,4 +1,5 @@
 import { Image } from 'expo-image'
+import { isEmpty, trim } from 'lodash'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -75,7 +76,8 @@ export function FlairCard({
               )
             }
 
-            if (whitespace.test(item.value)) {
+            // ​zero width space; some community flairs are crazy
+            if (item.value === '​' || isEmpty(trim(item.value))) {
               return null
             }
 
@@ -91,8 +93,6 @@ export function FlairCard({
     </View>
   )
 }
-
-const whitespace = /^\s*$/
 
 const styles = StyleSheet.create((theme) => ({
   emoji: {
