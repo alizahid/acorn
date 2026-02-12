@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 71-72
 
 - added: settings tab always available
 - fixed: blur nsfw
