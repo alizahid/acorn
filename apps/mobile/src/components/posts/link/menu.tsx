@@ -23,7 +23,7 @@ export function LinkMenu({ children, url }: Props) {
     <Link
       asChild
       // @ts-expect-error
-      href=""
+      href={'' as HrefObject}
     >
       <Link.Trigger>{children}</Link.Trigger>
 

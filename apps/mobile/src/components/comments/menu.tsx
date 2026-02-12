@@ -1,4 +1,4 @@
-import { Link, useRouter } from 'expo-router'
+import { type HrefObject, Link, useRouter } from 'expo-router'
 import { Fragment, type ReactNode } from 'react'
 import { Alert, Share } from 'react-native'
 import { toast } from 'sonner-native'
@@ -43,7 +43,7 @@ export function CommentMenu({ children, comment }: Props) {
     <Link
       asChild
       // @ts-expect-error
-      href=""
+      href={'' as HrefObject}
     >
       <Link.Trigger>{children}</Link.Trigger>
 

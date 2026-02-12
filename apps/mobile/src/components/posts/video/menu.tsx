@@ -18,7 +18,7 @@ export function VideoMenu({ children, url }: Props) {
     <Link
       asChild
       // @ts-expect-error
-      href=""
+      href={'' as HrefObject}
     >
       <Link.Trigger>{children}</Link.Trigger>
 
