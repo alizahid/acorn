@@ -1,19 +1,16 @@
 import { uniq } from 'lodash'
 import { create } from 'mutative'
 import { useCallback, useMemo } from 'react'
-import { useMMKVString } from 'react-native-mmkv'
+import { useMMKVObject } from 'react-native-mmkv'
 
 export type SearchHistoryData = ReturnType<typeof useSearchHistory>
 
 export function useSearchHistory(community?: string) {
-  const [data, setData] = useMMKVString(
+  const [data, setData] = useMMKVObject<Array<string>>(
     community ? `search_history_${community}` : 'search_history',
   )
 
-  const history = useMemo(
-    () => (JSON.parse(data ?? '[]') as Array<string>).slice(-5),
-    [data],
-  )
+  const history = useMemo(() => (data ?? []).slice(-5), [data])
 
   const save = useCallback(
     (query: string) => {
@@ -21,7 +18,7 @@ export function useSearchHistory(community?: string) {
         return
       }
 
-      setData(JSON.stringify(uniq([...history, query])))
+      setData(uniq([...history, query]))
     },
     [history, setData],
   )
@@ -38,13 +35,13 @@ export function useSearchHistory(community?: string) {
         draft.splice(index, 1)
       })
 
-      setData(JSON.stringify(next))
+      setData(next)
     },
     [history, setData],
   )
 
   const clear = useCallback(() => {
-    setData(JSON.stringify([]))
+    setData([])
   }, [setData])
 
   return {
