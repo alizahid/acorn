@@ -57,13 +57,7 @@ export const PostMediaMetadataSchema = z
         y: z.number(),
       }),
       z.object({
-        status: z.literal('invalid'),
-      }),
-      z.object({
-        status: z.literal('failed'),
-      }),
-      z.object({
-        status: z.literal('unprocessed'),
+        status: z.string(),
       }),
     ]),
   )
