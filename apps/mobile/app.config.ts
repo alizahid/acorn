@@ -118,7 +118,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
       supportsTablet: true,
     },
     name,
-    newArchEnabled: true,
     plugins,
     runtimeVersion: {
       policy: 'appVersion',

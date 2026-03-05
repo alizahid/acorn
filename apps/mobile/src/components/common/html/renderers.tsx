@@ -1,14 +1,16 @@
 import table from '@native-html/heuristic-table-plugin'
+import {
+  type CustomBlockRenderer,
+  type CustomMixedRenderer,
+  type CustomTagRendererRecord,
+  type CustomTextualRenderer,
+  type TBlock,
+  useContentWidth,
+} from '@native-html/render'
 import { Image } from 'expo-image'
 import { useState } from 'react'
 import { type TextStyle } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
-import {
-  type CustomMixedRenderer,
-  type CustomTextualRenderer,
-  type TBlock,
-  useContentWidth,
-} from 'react-native-render-html'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -140,8 +142,8 @@ const styles = StyleSheet.create((theme) => ({
   }),
 }))
 
-export const renderers = {
-  ...table,
+export const renderers: CustomTagRendererRecord = {
+  ...(table as unknown as Record<'table' | 'td' | 'th', CustomBlockRenderer>),
   a,
   img: Img,
   spoiler,

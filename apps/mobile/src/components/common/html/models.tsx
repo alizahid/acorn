@@ -2,7 +2,7 @@ import {
   defaultHTMLElementModels,
   HTMLContentModel,
   HTMLElementModel,
-} from 'react-native-render-html'
+} from '@native-html/render'
 
 const spoiler = HTMLElementModel.fromCustomModel({
   contentModel: HTMLContentModel.textual,
