@@ -1,4 +1,3 @@
-import { useRef, useState } from 'react'
 import { Text as Component, type TextProps } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
@@ -31,11 +30,7 @@ export function Text({
   weight = 'regular',
   ...props
 }: Props) {
-  const fixed = useRef(false)
-
   const { font, fontScaling, systemScaling } = usePreferences()
-
-  const [height, setHeight] = useState<number>()
 
   styles.useVariants({
     accent,
@@ -54,26 +49,7 @@ export function Text({
     <Component
       {...stripProps(props)}
       allowFontScaling={systemScaling}
-      onLayout={(event) => {
-        if (fixed.current) {
-          return
-        }
-
-        const height = event.nativeEvent.layout.height
-
-        const rounded = Math.round(height)
-
-        if (height !== rounded) {
-          setHeight(rounded + 1)
-
-          fixed.current = true
-        }
-      }}
-      style={[
-        styles.main(props, systemScaling ? 1 : fontScaling),
-        style,
-        styles.fix(height),
-      ]}
+      style={[styles.main(props, systemScaling ? 1 : fontScaling), style]}
     >
       {children}
     </Component>
