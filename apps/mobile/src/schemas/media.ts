@@ -56,9 +56,7 @@ export const PostMediaMetadataSchema = z
         x: z.number(),
         y: z.number(),
       }),
-      z.object({
-        status: z.string(),
-      }),
+      z.object(),
     ]),
   )
   .nullish()
