@@ -50,15 +50,18 @@ export function VisibilitySensor({ children, id, onChange }: Props) {
         }
       }
 
+      const max = maxBy(
+        Array.from(sensor.values.current.entries())
+          .map(([id, percent]) => ({
+            id,
+            percent,
+          }))
+          .filter((item) => item.percent > 50),
+        'percent',
+      )
+
       const next: OnChangePayload = {
-        full:
-          !!id &&
-          visible &&
-          id ===
-            maxBy(
-              Array.from(sensor.values.current.entries()),
-              (item) => item[1],
-            )?.[0],
+        full: !!id && !!max && visible && id === max.id,
         visible,
       }
 
