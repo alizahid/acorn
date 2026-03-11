@@ -23,9 +23,9 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.6",
     "husky": "^9.1.7",
-    "lint-staged": "^16.3.2",
+    "lint-staged": "^16.3.3",
     "rimraf": "^6.1.3",
-    "turbo": "2.8.14",
+    "turbo": "2.8.16",
     "ultracite": "7.2.5"
   },
   "packageManager": "bun@1.3.10",
