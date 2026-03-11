@@ -118,6 +118,8 @@ export function MenuItemOptions<Type extends string | number>({
             />
           )
         })}
+
+        <Sheet.BottomInset />
       </Sheet.Root>
     </>
   )

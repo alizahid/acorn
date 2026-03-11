@@ -28,6 +28,7 @@ export function Root({
       detents={detents}
       dismissible={dismissible}
       grabber={false}
+      maxContentWidth={600}
       onWillDismiss={onClose}
       ref={ref}
     >

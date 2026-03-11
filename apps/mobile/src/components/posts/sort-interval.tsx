@@ -100,6 +100,7 @@ export function SortIntervalMenu<Type extends SortType>({
 
       <Sheet.Root ref={sheetSort}>
         <Sheet.Header title={t('sort.title')} />
+
         {items.map((item) => (
           <Sheet.Item
             key={item}
@@ -140,6 +141,8 @@ export function SortIntervalMenu<Type extends SortType>({
           />
         ))}
 
+        <Sheet.BottomInset />
+
         <Sheet.Root ref={sheetInterval}>
           <Sheet.Header title={t('interval.title')} />
 
@@ -167,6 +170,8 @@ export function SortIntervalMenu<Type extends SortType>({
               selected={sort === 'top' && item === interval}
             />
           ))}
+
+          <Sheet.BottomInset />
         </Sheet.Root>
       </Sheet.Root>
     </>

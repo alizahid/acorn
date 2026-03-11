@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router'
 import { useEffect, useRef } from 'react'
 import { FlatList } from 'react-native-gesture-handler'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { mitter } from '~/lib/mitt'
@@ -54,6 +55,7 @@ export function AccountSwitcher() {
       />
 
       <FlatList
+        contentContainerStyle={styles.content}
         data={accounts}
         ListFooterComponent={
           <View p="4">
@@ -83,3 +85,9 @@ export function AccountSwitcher() {
     </Sheet.Root>
   )
 }
+
+const styles = StyleSheet.create(() => ({
+  content: {
+    paddingHorizontal: 1,
+  },
+}))

@@ -123,6 +123,8 @@ export function SubmissionFlair({ submission }: Props) {
                   <FlairCard flair={item} />
                 </Pressable>
               ))}
+
+              <Sheet.BottomInset />
             </Sheet.Root>
           </>
         )

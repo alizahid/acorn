@@ -157,6 +157,8 @@ export function ClientId() {
             }}
           />
         </View>
+
+        <Sheet.BottomInset />
       </Sheet.Root>
     </>
   )
