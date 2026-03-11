@@ -10,7 +10,7 @@
     "build:preview": "eas build --profile preview --platform ios --local",
     "build:sim": "eas build --profile simulator --platform ios --local",
     "build:test-flight": "eas build --profile test-flight --platform ios --local",
-    "dev": "expo start --ios",
+    "dev": "expo start --ios --clear",
     "ios": "expo run:ios",
     "lint:types": "tsc --noEmit",
     "publish": "eas build --profile app-store --platform ios --auto-submit",
