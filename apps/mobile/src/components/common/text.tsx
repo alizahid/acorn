@@ -57,9 +57,6 @@ export function Text({
 }
 
 const styles = StyleSheet.create((theme) => ({
-  fix: (height?: number) => ({
-    height,
-  }),
   main: (props: MarginProps, scaling: number) => ({
     ...getMargin(props),
     compoundVariants: colors.flatMap((token) => [

@@ -5,13 +5,6 @@ export const testFlight = process.env.EXPO_PUBLIC_TEST_FLIGHT === 'true'
 
 export const cardMaxWidth = 700
 
-export const iPhone =
-  Platform.OS === 'ios' &&
-  !Platform.isPad &&
-  !Platform.isTV &&
-  !Platform.isVision &&
-  !Platform.isMacCatalyst
-
 export const iPad =
   Platform.OS === 'ios' && (Platform.isPad || Platform.isMacCatalyst)
 
