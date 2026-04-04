@@ -9,6 +9,7 @@ import { useTranslations } from 'use-intl'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
 import { iPad } from '~/lib/common'
+import { mitter } from '~/lib/mitt'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 
@@ -21,7 +22,8 @@ export default function Layout() {
   const { unread } = useUnread()
   const { subscribed } = useSubscribed()
 
-  const [visible, setVisible] = useState(false)
+  const [visible, setVisible] = useState(true)
+  const [isProfile, setIsProfile] = useState(false)
 
   useEffect(() => {
     if (accountId) {
@@ -53,10 +55,30 @@ export default function Layout() {
     }
   }, [])
 
+  useEffect(() => {
+    mitter.on('hide-tab-bar', () => {
+      setVisible(false)
+    })
+
+    mitter.on('show-tab-bar', () => {
+      setVisible(true)
+    })
+
+    return () => {
+      mitter.off('hide-tab-bar')
+      mitter.off('show-tab-bar')
+    }
+  }, [])
+
   return (
-    <NativeTabs tintColor={styles.main.color}>
+    <NativeTabs hidden={!visible} tintColor={styles.main.color}>
       <NativeTabs.Trigger name="(home)">
-        <NativeTabs.Trigger.Icon sf="house" />
+        <NativeTabs.Trigger.Icon
+          sf={{
+            default: 'house',
+            selected: 'house.fill',
+          }}
+        />
         <NativeTabs.Trigger.Label hidden>
           {t('home.title')}
         </NativeTabs.Trigger.Label>
@@ -72,22 +94,32 @@ export default function Layout() {
       <NativeTabs.Trigger
         listeners={{
           blur() {
-            setVisible(false)
+            setIsProfile(false)
           },
           focus() {
-            setVisible(true)
+            setIsProfile(true)
           },
         }}
         name="(profile)"
       >
-        <NativeTabs.Trigger.Icon sf="person.crop.circle" />
-        <NativeTabs.Trigger.Label hidden={iPad ? !visible : true}>
+        <NativeTabs.Trigger.Icon
+          sf={{
+            default: 'person.crop.circle',
+            selected: 'person.crop.circle.fill',
+          }}
+        />
+        <NativeTabs.Trigger.Label hidden={iPad ? !isProfile : true}>
           {accountId ?? t('profile.title')}
         </NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="(notifications)">
-        <NativeTabs.Trigger.Icon sf="bell" />
+        <NativeTabs.Trigger.Icon
+          sf={{
+            default: 'bell',
+            selected: 'bell.fill',
+          }}
+        />
         <NativeTabs.Trigger.Label hidden>
           {t('notifications.title')}
         </NativeTabs.Trigger.Label>
@@ -97,7 +129,12 @@ export default function Layout() {
       </NativeTabs.Trigger>
 
       <NativeTabs.Trigger name="(settings)">
-        <NativeTabs.Trigger.Icon sf="gearshape" />
+        <NativeTabs.Trigger.Icon
+          sf={{
+            default: 'gearshape',
+            selected: 'gearshape.fill',
+          }}
+        />
         <NativeTabs.Trigger.Label hidden>
           {t('settings.title')}
         </NativeTabs.Trigger.Label>
