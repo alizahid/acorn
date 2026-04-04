@@ -83,6 +83,7 @@ export default function Layout() {
             selected: 'house.fill',
           }}
         />
+
         <NativeTabs.Trigger.Label hidden>
           {t('home.title')}
         </NativeTabs.Trigger.Label>
@@ -90,6 +91,7 @@ export default function Layout() {
 
       <NativeTabs.Trigger name="(search)" role="search">
         <NativeTabs.Trigger.Icon sf="magnifyingglass" />
+
         <NativeTabs.Trigger.Label hidden>
           {t('search.title')}
         </NativeTabs.Trigger.Label>
@@ -112,6 +114,7 @@ export default function Layout() {
             selected: 'person.crop.circle.fill',
           }}
         />
+
         <NativeTabs.Trigger.Label hidden={iPad ? !isProfile : true}>
           {accountId ?? t('profile.title')}
         </NativeTabs.Trigger.Label>
@@ -124,6 +127,7 @@ export default function Layout() {
             selected: 'bell.fill',
           }}
         />
+
         <NativeTabs.Trigger.Label hidden>
           {t('notifications.title')}
         </NativeTabs.Trigger.Label>
@@ -139,6 +143,7 @@ export default function Layout() {
             selected: 'gearshape.fill',
           }}
         />
+
         <NativeTabs.Trigger.Label hidden>
           {t('settings.title')}
         </NativeTabs.Trigger.Label>
