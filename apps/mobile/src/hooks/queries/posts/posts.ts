@@ -147,7 +147,7 @@ export function usePosts({
           Boolean(user) || Boolean(userType)
             ? false
             : community
-              ? community === 'all' || community === 'popular'
+              ? community === 'popular'
               : true,
         ),
       }

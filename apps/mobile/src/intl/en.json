@@ -146,7 +146,6 @@
           "title": "Custom feeds"
         },
         "type": {
-          "all": "All",
           "home": "Home",
           "popular": "Popular",
           "title": "Feeds"
@@ -552,7 +551,6 @@
           "users": "Users"
         },
         "feedType": {
-          "all": "All",
           "home": "Home",
           "popular": "Popular",
           "title": "Default feed"
