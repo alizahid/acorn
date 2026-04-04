@@ -71,7 +71,11 @@ export default function Layout() {
   }, [])
 
   return (
-    <NativeTabs hidden={!visible} tintColor={styles.main.color}>
+    <NativeTabs
+      hidden={!visible}
+      shadowColor="transparent"
+      tintColor={styles.main.color}
+    >
       <NativeTabs.Trigger name="(home)">
         <NativeTabs.Trigger.Icon
           sf={{
