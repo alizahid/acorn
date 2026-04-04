@@ -3,10 +3,9 @@ import { type PropsWithChildren } from 'react'
 import { useTranslations } from 'use-intl'
 
 import { IconButton } from '~/components/common/icon/button'
-import { StackHeader } from '~/components/navigation/stack-header'
 import { useHistory } from '~/hooks/history'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
-import { iPad } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 import { useDefaults } from '~/stores/defaults'
@@ -58,7 +57,8 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="search"
           options={{
-            headerShown: false,
+            headerTransparent: false,
+            title: t('search.title'),
           }}
         />
 
@@ -85,6 +85,7 @@ export default function Layout({ segment }: Props) {
                 onPress={() => {
                   mitter.emit('switch-account')
                 }}
+                size="6"
               />
             ),
             title: accountId,
@@ -107,7 +108,8 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="notifications"
           options={{
-            headerShown: false,
+            headerTransparent: false,
+            title: t('notifications.title'),
           }}
         />
 
@@ -160,7 +162,10 @@ function StackLayout({ children }: PropsWithChildren) {
     <Stack
       screenOptions={{
         fullScreenGestureEnabled: true,
-        header: (props) => <StackHeader {...props} />,
+        headerBackButtonDisplayMode: 'minimal',
+        headerBackButtonMenuEnabled: false,
+        headerShadowVisible: false,
+        headerTransparent: glass,
       }}
     >
       {children}
@@ -182,6 +187,7 @@ function StackLayout({ children }: PropsWithChildren) {
                   pathname: '/communities/[name]/about',
                 })
               }}
+              size="6"
             />
           ),
           title: (route.params as CommunityParams).name,
@@ -197,15 +203,32 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         name="communities/[name]/search"
-        options={{
-          headerShown: false,
-        }}
+        options={({ route }) => ({
+          title: (route.params as CommunityParams).name,
+        })}
       />
 
       <Stack.Screen
         name="users/[name]/index"
         options={({ route }) => ({
-          headerShown: false,
+          headerRight: () => (
+            <IconButton
+              icon="info.circle"
+              label={a11y('aboutCommunity', {
+                community: (route.params as CommunityParams).name,
+              })}
+              onPress={() => {
+                router.navigate({
+                  params: {
+                    name: (route.params as CommunityParams).name,
+                  },
+                  pathname: '/users/[name]/about',
+                })
+              }}
+              size="6"
+            />
+          ),
+          // headerShown: false,
           title: (route.params as CommunityParams).name,
         })}
       />
@@ -240,14 +263,12 @@ function StackLayout({ children }: PropsWithChildren) {
           },
         })}
         name="posts/[id]/index"
-        options={{
-          headerTransparent: false,
-        }}
       />
 
       <Stack.Screen
         name="posts/[id]/reply"
         options={{
+          headerTransparent: false,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
         }}
@@ -272,11 +293,11 @@ function StackLayout({ children }: PropsWithChildren) {
                       pathname: '/users/[name]',
                     })
                   }}
+                  size="6"
                 />
               )
             }
           },
-          headerTransparent: false,
           title: (route.params as MessageParams).user,
         })}
       />

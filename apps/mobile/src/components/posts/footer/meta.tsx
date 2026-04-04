@@ -1,10 +1,11 @@
 import { type SFSymbol } from 'expo-symbols'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Text } from '~/components/common/text'
 import { TimeAgo } from '~/components/common/time'
-import { View } from '~/components/common/view'
 import { getIcon } from '~/lib/icons'
 import { type Post } from '~/types/post'
 
@@ -33,7 +34,7 @@ export function PostMeta({ post }: Props) {
       label: f.number(post.votes, {
         notation: 'compact',
       }),
-      weight: post.liked !== null ? 'fill' : undefined,
+      weight: post.liked === null ? undefined : 'fill',
     },
     {
       icon: 'face.smiling.inverse' satisfies SFSymbol,
@@ -57,7 +58,7 @@ export function PostMeta({ post }: Props) {
   ] as const
 
   return (
-    <View align="center" direction="row" gap="2" mt="auto">
+    <View style={styles.main}>
       {post.sticky ? (
         <Icon
           name="pin.fill"
@@ -69,7 +70,7 @@ export function PostMeta({ post }: Props) {
       ) : null}
 
       {items.map((item) => (
-        <View align="center" direction="row" gap="1" key={item.key}>
+        <View key={item.key} style={styles.item}>
           <Icon
             name={item.icon}
             uniProps={(theme) => ({
@@ -89,3 +90,17 @@ export function PostMeta({ post }: Props) {
     </View>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  item: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[1],
+  },
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[2],
+    marginTop: 'auto',
+  },
+}))

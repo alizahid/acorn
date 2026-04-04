@@ -10,7 +10,6 @@ import { useAuth } from '~/stores/auth'
 import { IconButton } from '../common/icon/button'
 import { Sheet } from '../common/sheet'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 import { AccountCard } from './account'
 
 export function AccountSwitcher() {
@@ -58,11 +57,9 @@ export function AccountSwitcher() {
         contentContainerStyle={styles.content}
         data={accounts}
         ListFooterComponent={
-          <View p="4">
-            <Text align="center" size="2">
-              {t('description')}
-            </Text>
-          </View>
+          <Text align="center" m="4" size="2">
+            {t('description')}
+          </Text>
         }
         renderItem={({ item }) => (
           <AccountCard

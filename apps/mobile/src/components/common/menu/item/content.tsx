@@ -1,10 +1,10 @@
 import { type ReactNode } from 'react'
-import { type StyleProp, type TextStyle } from 'react-native'
+import { type StyleProp, type TextStyle, View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Icon } from '~/components/common/icon'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 
 type Props = {
   arrow?: boolean
@@ -38,7 +38,7 @@ export function MenuItemContent({
         left
       )}
 
-      <View flex={1}>
+      <View style={styles.main}>
         <Text style={labelStyle} weight="medium">
           {label}
         </Text>
@@ -64,3 +64,9 @@ export function MenuItemContent({
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  main: {
+    flex: 1,
+  },
+})

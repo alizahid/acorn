@@ -2,6 +2,7 @@ import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { useEvent } from 'expo'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { useRef } from 'react'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -11,7 +12,6 @@ import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
 import { IconButton } from '../common/icon/button'
-import { View } from '../common/view'
 import { VideoStatus } from '../posts/video/status'
 
 type Props = {
@@ -63,7 +63,7 @@ export function GalleryVideo({ item }: Props) {
         </Zoomable>
       </View>
 
-      <View direction="row" justify="center" px="2" style={styles.controls}>
+      <View style={styles.controls}>
         <IconButton
           icon="square.and.arrow.down"
           label={a11y('download')}
@@ -125,6 +125,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
     bottom: theme.space[4] + runtime.insets.bottom,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingHorizontal: theme.space[2],
     position: 'absolute',
   },
   item: (width: number, height: number) => ({

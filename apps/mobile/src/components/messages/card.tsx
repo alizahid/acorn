@@ -1,4 +1,4 @@
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
@@ -6,7 +6,6 @@ import { type Message } from '~/types/message'
 
 import { Html } from '../common/html'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 type Props = {
   message: Message
@@ -20,13 +19,8 @@ export function MessageCard({ message, style, userId }: Props) {
   const self = message.from === userId
 
   return (
-    <View
-      align={self ? 'end' : 'start'}
-      gap="1"
-      self={self ? 'end' : 'start'}
-      style={style}
-    >
-      <View px="2" py="1" style={styles.content(self)}>
+    <View style={[styles.main(self), style]}>
+      <View style={styles.content(self)}>
         <Html>{message.body}</Html>
       </View>
 
@@ -45,5 +39,12 @@ const styles = StyleSheet.create((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.space[2],
     maxWidth: '90%',
+    paddingHorizontal: theme.space[2],
+    paddingVertical: theme.space[1],
+  }),
+  main: (self: boolean) => ({
+    alignItems: self ? 'flex-end' : 'flex-start',
+    alignSelf: self ? 'flex-end' : 'flex-start',
+    gap: theme.space[1],
   }),
 }))

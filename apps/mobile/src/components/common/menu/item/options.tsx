@@ -1,5 +1,6 @@
 import { type ReactElement, type ReactNode, useMemo, useRef } from 'react'
 import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
@@ -61,15 +62,10 @@ export function MenuItemOptions<Type extends string | number>({
     <>
       <Pressable
         accessibilityLabel={label}
-        align="center"
-        direction="row"
-        gap="3"
-        height="8"
         onPress={() => {
           sheet.current?.present()
         }}
-        px="3"
-        style={style}
+        style={[styles.main, style]}
       >
         <MenuItemContent
           arrow={arrow}
@@ -124,3 +120,13 @@ export function MenuItemOptions<Type extends string | number>({
     </>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[3],
+    height: theme.space[8],
+    paddingHorizontal: theme.space[3],
+  },
+}))

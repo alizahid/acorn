@@ -2,7 +2,6 @@ import { useLocalSearchParams } from 'expo-router'
 import { z } from 'zod'
 
 import { CommunityAbout } from '~/components/communities/about'
-import { useList } from '~/hooks/list'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -11,7 +10,5 @@ const schema = z.object({
 export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
-  const listProps = useList()
-
-  return <CommunityAbout listProps={listProps} name={params.name} />
+  return <CommunityAbout name={params.name} />
 }

@@ -66,14 +66,14 @@ export function transformSubmission({
     },
     rules: {
       body: {
-        blacklist: requirements.body_blacklisted_strings,
+        blacklist: requirements.body_blacklisted_strings ?? [],
         max: requirements.body_text_max_length ?? undefined,
         min: requirements.body_text_min_length ?? undefined,
-        required: requirements.body_required_strings,
+        required: requirements.body_required_strings ?? [],
       },
       domains: {
-        blacklist: requirements.domain_blacklist,
-        whitelist: requirements.domain_whitelist,
+        blacklist: requirements.domain_blacklist ?? [],
+        whitelist: requirements.domain_whitelist ?? [],
       },
       flair: {
         required: requirements.is_flair_required,
@@ -83,10 +83,10 @@ export function transformSubmission({
         min: requirements.gallery_min_items ?? undefined,
       },
       title: {
-        blacklist: requirements.title_blacklisted_strings,
+        blacklist: requirements.title_blacklisted_strings ?? [],
         max: requirements.title_text_max_length ?? undefined,
         min: requirements.title_text_min_length ?? undefined,
-        required: requirements.title_required_strings,
+        required: requirements.title_required_strings ?? [],
       },
     },
   }

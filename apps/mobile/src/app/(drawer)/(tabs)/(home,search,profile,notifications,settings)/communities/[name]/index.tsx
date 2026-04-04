@@ -1,14 +1,13 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { FloatingButton } from '~/components/common/floating-button'
 import { SearchBox } from '~/components/common/search'
-import { View } from '~/components/common/view'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { heights, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -34,8 +33,6 @@ export default function Screen() {
     tint: themeTint,
   })
 
-  const listProps = useList()
-
   const { sorting, update } = useSorting('community', params.name)
 
   return (
@@ -43,7 +40,7 @@ export default function Screen() {
       <PostList
         community={params.name}
         header={
-          <View direction="row" style={styles.header}>
+          <View style={styles.header}>
             <SearchBox
               onSubmitEditing={(event) => {
                 const query = event.nativeEvent.text
@@ -75,7 +72,6 @@ export default function Screen() {
           </View>
         }
         interval={sorting.interval}
-        listProps={listProps}
         sort={sorting.sort}
         style={styles.list}
       />
@@ -101,6 +97,7 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: theme.colors.gray.bg,
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row',
     variants: {
       iPad: {
         true: {

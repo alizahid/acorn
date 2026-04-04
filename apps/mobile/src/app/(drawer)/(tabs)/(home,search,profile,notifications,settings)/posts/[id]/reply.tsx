@@ -5,6 +5,7 @@ import {
   useRouter,
 } from 'expo-router'
 import { useCallback, useState } from 'react'
+import { View } from 'react-native'
 import Animated, {
   useAnimatedKeyboard,
   useAnimatedStyle,
@@ -15,7 +16,6 @@ import { z } from 'zod'
 
 import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 import { TextInput } from '~/components/native/text-input'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
@@ -90,6 +90,7 @@ export default function Screen() {
 
               router.back()
             }}
+            size="6"
           />
         ),
       })
@@ -110,7 +111,7 @@ export default function Screen() {
   return (
     <Animated.View style={[styles.main, style]}>
       {params.user ? (
-        <View p="4" style={styles.user}>
+        <View style={styles.user}>
           <Text weight="medium">
             {t('user', {
               user: params.user,
@@ -146,5 +147,6 @@ const styles = StyleSheet.create((theme) => ({
   },
   user: {
     backgroundColor: theme.colors.gray.ui,
+    padding: theme.space[4],
   },
 }))

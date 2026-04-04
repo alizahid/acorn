@@ -1,4 +1,5 @@
 import { Image } from 'expo-image'
+import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
@@ -8,9 +9,7 @@ import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { TimeAgo } from '~/components/common/time'
-import { View } from '~/components/common/view'
 import { useImagePlaceholder } from '~/hooks/image'
-import { type ListProps } from '~/hooks/list'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
@@ -18,11 +17,10 @@ import { useCommunity } from '~/hooks/queries/communities/community'
 import { Html } from '../common/html'
 
 type Props = {
-  listProps?: ListProps
   name: string
 }
 
-export function CommunityAbout({ listProps, name }: Props) {
+export function CommunityAbout({ name }: Props) {
   const t = useTranslations('component.communities.about')
   const f = useFormatter()
 
@@ -52,22 +50,20 @@ export function CommunityAbout({ listProps, name }: Props) {
 
   return (
     <ScrollView
-      {...listProps}
       contentContainerStyle={styles.content}
+      contentInsetAdjustmentBehavior="always"
       refreshControl={<RefreshControl onRefresh={refetch} />}
     >
       {community.banner ? (
-        <View mb="-4">
-          <Image
-            {...placeholder}
-            accessibilityIgnoresInvertColors
-            source={community.banner}
-            style={styles.banner}
-          />
-        </View>
+        <Image
+          {...placeholder}
+          accessibilityIgnoresInvertColors
+          source={community.banner}
+          style={styles.banner}
+        />
       ) : null}
 
-      <View align="center" direction="row" gap="4" mt="4" mx="4">
+      <View style={styles.header}>
         {community.image ? (
           <Image
             accessibilityIgnoresInvertColors
@@ -76,7 +72,7 @@ export function CommunityAbout({ listProps, name }: Props) {
           />
         ) : null}
 
-        <View flex={1} gap="2">
+        <View style={styles.name}>
           <Text size="6" weight="bold">
             r/{community.name}
           </Text>
@@ -89,16 +85,9 @@ export function CommunityAbout({ listProps, name }: Props) {
         </View>
       </View>
 
-      <View
-        align="center"
-        direction="row"
-        gap="6"
-        justify="center"
-        p="4"
-        style={styles.info}
-      >
+      <View style={styles.info}>
         {items.map((item) => (
-          <View gap="1" key={item.key}>
+          <View key={item.key} style={styles.item}>
             <Text align="center" highContrast={false} size="1" weight="medium">
               {t(item.key)}
             </Text>
@@ -111,12 +100,12 @@ export function CommunityAbout({ listProps, name }: Props) {
       </View>
 
       {community.description ? (
-        <View mx="4">
+        <View style={styles.description}>
           <Html type="about">{community.description}</Html>
         </View>
       ) : null}
 
-      <View direction="row" gap="4" mx="4">
+      <View style={styles.footer}>
         <Button
           color={community.subscribed ? 'red' : 'accent'}
           icon={
@@ -124,7 +113,6 @@ export function CommunityAbout({ listProps, name }: Props) {
               ? 'person.crop.circle.badge.minus'
               : 'person.crop.circle.badge.plus'
           }
-          justify="start"
           label={t(community.subscribed ? 'leave' : 'join')}
           onPress={() => {
             join({
@@ -139,7 +127,6 @@ export function CommunityAbout({ listProps, name }: Props) {
         <Button
           color={community.favorite ? 'amber' : 'gray'}
           icon={community.favorite ? 'star.fill' : 'star'}
-          justify="start"
           label={t(community.favorite ? 'unfavorite' : 'favorite')}
           onPress={() => {
             favorite({
@@ -158,12 +145,29 @@ const styles = StyleSheet.create((theme) => ({
   banner: {
     aspectRatio: 1280 / 384,
     backgroundColor: theme.colors.gray.ui,
+    marginBottom: -theme.space[4],
   },
   button: {
     flex: 1,
+    justifyContent: 'flex-start',
   },
   content: {
     gap: theme.space[4],
+  },
+  description: {
+    marginHorizontal: theme.space[4],
+  },
+  footer: {
+    flexDirection: 'row',
+    gap: theme.space[4],
+    marginHorizontal: theme.space[4],
+  },
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[4],
+    marginHorizontal: theme.space[5],
+    marginTop: theme.space[4],
   },
   image: {
     backgroundColor: theme.colors.gray.ui,
@@ -173,6 +177,18 @@ const styles = StyleSheet.create((theme) => ({
     width: theme.space[8],
   },
   info: {
+    alignItems: 'center',
     backgroundColor: theme.colors.accent.ui,
+    flexDirection: 'row',
+    gap: theme.space[6],
+    justifyContent: 'center',
+    padding: theme.space[4],
+  },
+  item: {
+    gap: theme.space[1],
+  },
+  name: {
+    flex: 1,
+    gap: theme.space[2],
   },
 }))

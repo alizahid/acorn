@@ -128,8 +128,6 @@ export function VideoPlayer({
         {compact ? (
           <Pressable
             accessibilityLabel={a11y('viewVideo')}
-            align="center"
-            justify="center"
             onPress={onPress}
             style={styles.compact}
           >
@@ -148,7 +146,6 @@ export function VideoPlayer({
             onPress={() => {
               player.muted = !muted
             }}
-            p="2"
             style={styles.volume}
           >
             <Icon
@@ -168,7 +165,9 @@ export function VideoPlayer({
 const styles = StyleSheet.create((theme, runtime) => ({
   compact: {
     ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
     backgroundColor: theme.colors.black.accentAlpha,
+    justifyContent: 'center',
   },
   main: {
     justifyContent: 'center',
@@ -192,6 +191,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     borderCurve: 'continuous',
     borderRadius: theme.space[4],
     bottom: theme.space[3],
+    padding: theme.space[2],
     position: 'absolute',
     right: theme.space[2],
   },

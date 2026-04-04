@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router'
 import { last } from 'lodash'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useNow, useTranslations } from 'use-intl'
 
@@ -14,7 +15,6 @@ import { Html } from '../common/html'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 type Props = {
   message: Message
@@ -47,9 +47,6 @@ export function MessageCard({ message }: Props) {
   return (
     <Pressable
       accessibilityLabel={a11y('viewThread')}
-      align="center"
-      direction="row"
-      gap="4"
       onPress={() => {
         router.navigate({
           params: {
@@ -66,11 +63,10 @@ export function MessageCard({ message }: Props) {
           })
         }
       }}
-      p="4"
       style={styles.main}
     >
-      <View flex={1} gap="2">
-        <View direction="row" gap="4">
+      <View style={styles.content}>
+        <View style={styles.meta}>
           <Pressable
             accessibilityHint={a11y('viewUser')}
             accessibilityLabel={user}
@@ -112,8 +108,16 @@ const styles = StyleSheet.create((theme) => ({
   body: {
     marginVertical: theme.space[4],
   },
+  content: {
+    flex: 1,
+    gap: theme.space[2],
+  },
   main: {
+    alignItems: 'center',
     backgroundColor: theme.colors.gray.bgAltAlpha,
+    flexDirection: 'row',
+    gap: theme.space[4],
+    padding: theme.space[4],
     variants: {
       oled: {
         true: {
@@ -126,5 +130,9 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
     },
+  },
+  meta: {
+    flexDirection: 'row',
+    gap: theme.space[4],
   },
 }))

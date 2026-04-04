@@ -1,6 +1,7 @@
 import { Image } from 'expo-image'
 import { useRef } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -12,7 +13,6 @@ import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Sheet } from '../common/sheet'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 type Props = {
   submission: Submission
@@ -43,15 +43,9 @@ export function SubmissionFlair({ submission }: Props) {
           <>
             <Pressable
               accessibilityLabel={t('label')}
-              align="center"
-              direction="row"
-              gap="2"
-              height="8"
-              mx="-4"
               onPress={() => {
                 sheet.current?.present()
               }}
-              px="4"
               style={styles.main(Boolean(fieldState.error))}
             >
               {selected ? (
@@ -108,17 +102,13 @@ export function SubmissionFlair({ submission }: Props) {
                       ? item.text
                       : item.flair.map((flair) => flair.value).join(' ')
                   }
-                  align="center"
-                  direction="row"
-                  gap="3"
                   key={item.id}
                   onPress={() => {
                     setValue('flairId', item.id)
 
                     sheet.current?.dismiss()
                   }}
-                  p="3"
-                  style={item.id === field.value && styles.selected}
+                  style={styles.flair(item.id === field.value)}
                 >
                   <FlairCard flair={item} />
                 </Pressable>
@@ -145,11 +135,7 @@ function FlairCard({ flair }: FlairProps) {
   if (flair.type === 'richtext') {
     return (
       <View
-        direction="row"
-        gap="2"
-        px="2"
-        py="1"
-        style={styles.item(flair.color, flair.background)}
+        style={[styles.item(flair.color, flair.background), styles.richText]}
       >
         {flair.flair.map((item) => {
           if (item.type === 'emoji') {
@@ -176,7 +162,7 @@ function FlairCard({ flair }: FlairProps) {
   }
 
   return (
-    <View px="2" py="1" style={styles.item(flair.color, flair.background)}>
+    <View style={[styles.item(flair.color, flair.background), styles.text]}>
       <Text size="1" style={styles.label(flair.color)}>
         {flair.text}
       </Text>
@@ -189,6 +175,13 @@ const styles = StyleSheet.create((theme) => ({
     height: theme.typography[1].lineHeight,
     width: theme.typography[1].lineHeight,
   },
+  flair: (selected: boolean) => ({
+    alignItems: 'center',
+    backgroundColor: selected ? theme.colors.accent.uiActive : undefined,
+    flexDirection: 'row',
+    gap: theme.space[3],
+    padding: theme.space[3],
+  }),
   item: (color: 'dark' | 'light', bg?: string) => ({
     backgroundColor: bg ?? (color === 'light' ? '#000' : '#fff'),
     borderCurve: 'continuous',
@@ -198,13 +191,26 @@ const styles = StyleSheet.create((theme) => ({
     color: color === 'dark' ? '#000' : '#fff',
   }),
   main: (error: boolean) => ({
+    alignItems: 'center',
     backgroundColor:
       theme.colors[error ? 'red' : 'accent'][error ? 'accent' : 'ui'],
+    flexDirection: 'row',
+    gap: theme.space[2],
+    height: theme.space[8],
+    marginHorizontal: -theme.space[4],
+    paddingHorizontal: theme.space[4],
   }),
   required: {
     marginLeft: 'auto',
   },
-  selected: {
-    backgroundColor: theme.colors.accent.uiActive,
+  richText: {
+    flexDirection: 'row',
+    gap: theme.space[2],
+    paddingHorizontal: theme.space[2],
+    paddingVertical: theme.space[1],
+  },
+  text: {
+    paddingHorizontal: theme.space[2],
+    paddingVertical: theme.space[1],
   },
 }))

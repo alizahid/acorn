@@ -1,5 +1,5 @@
 import { isLiquidGlassAvailable } from 'expo-glass-effect'
-import { Platform, StyleSheet } from 'react-native'
+import { Platform } from 'react-native'
 
 export const testFlight = process.env.EXPO_PUBLIC_TEST_FLIGHT === 'true'
 
@@ -10,6 +10,9 @@ export const iPad =
 
 export const glass = isLiquidGlassAvailable()
 
+export const iOS26 =
+  Platform.OS === 'ios' && Number.parseInt(String(Platform.Version), 10) >= 26
+
 export const tints = {
   dark: 'systemThickMaterialDark',
   light: 'systemThickMaterialLight',
@@ -17,8 +20,8 @@ export const tints = {
 
 export const heights = {
   floatingButton: 80,
-  header: 48 + StyleSheet.hairlineWidth,
+  header: 48,
   notifications: 56,
   search: 112,
-  tabBar: 48 + StyleSheet.hairlineWidth,
+  tabBar: 48,
 } as const

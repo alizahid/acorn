@@ -2,25 +2,26 @@ import Constants from 'expo-constants'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as Updates from 'expo-updates'
 import { useRef, useState } from 'react'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Button } from '~/components/common/button'
 
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 export function Updater() {
   const t = useTranslations('component.settings.updater')
 
   const updates = Updates.useUpdates()
 
-  const timer = useRef<NodeJS.Timeout>(null)
+  const timer = useRef<number>(null)
 
   const [nothing, setNothing] = useState<boolean>()
 
   return (
-    <View align="center" gap="4" m="6">
-      <View direction="row" gap="4">
+    <View style={styles.main}>
+      <View style={styles.content}>
         <Text highContrast={false} variant="mono" weight="medium">
           {Updates.runtimeVersion}
         </Text>
@@ -80,3 +81,15 @@ export function Updater() {
     </View>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  content: {
+    flexDirection: 'row',
+    gap: theme.space[4],
+  },
+  main: {
+    alignItems: 'center',
+    gap: theme.space[4],
+    margin: theme.space[6],
+  },
+}))

@@ -3,15 +3,14 @@ import { useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
 import { compact } from 'lodash'
 import { useMemo, useRef, useState } from 'react'
-import { SectionList, type SectionListData } from 'react-native'
+import { SectionList, type SectionListData, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
-import { View } from '~/components/common/view'
-import { type ListProps, renderScrollComponent } from '~/hooks/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/communities/feeds'
+import { renderScrollComponent } from '~/lib/list'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
@@ -59,17 +58,11 @@ type Item =
 
 type Props = {
   chevron?: boolean
-  listProps?: ListProps<Item>
   onPress?: () => void
   query?: string
 }
 
-export function CommunitiesList({
-  chevron,
-  listProps,
-  onPress,
-  query = '',
-}: Props) {
+export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
   const router = useRouter()
 
   const t = useTranslations('component.common.type')
@@ -210,7 +203,6 @@ export function CommunitiesList({
 
   return (
     <SectionList
-      {...listProps}
       extraData={{
         collapsed,
         expanded,
@@ -443,7 +435,7 @@ export function CommunitiesList({
             <ListHeader
               left={
                 section.loading ? (
-                  <View align="center" height="8" justify="center" width="8">
+                  <View style={styles.loading}>
                     <Spinner />
                   </View>
                 ) : null
@@ -512,6 +504,12 @@ const styles = StyleSheet.create((theme) => ({
   },
   item: {
     marginRight: theme.space[5],
+  },
+  loading: {
+    alignItems: 'center',
+    height: theme.space[8],
+    justifyContent: 'center',
+    width: theme.space[8],
   },
   right: {
     marginRight: -theme.space[3],

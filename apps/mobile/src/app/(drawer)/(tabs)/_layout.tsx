@@ -1,14 +1,13 @@
 import { focusManager } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
+import { NativeTabs } from 'expo-router/unstable-native-tabs'
 import { useEffect } from 'react'
 import { AppState } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { TabBar } from '~/components/navigation/tab-bar'
-import { Tabs } from '~/components/navigation/tabs'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
-import { mitter } from '~/lib/mitt'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 
@@ -52,52 +51,50 @@ export default function Layout() {
   }, [])
 
   return (
-    <Tabs
-      screenOptions={{
-        lazy: true,
-      }}
-      tabBar={(props) => <TabBar {...props} />}
-    >
-      <Tabs.Screen
-        name="(home)"
-        options={{
-          title: t('home.title'),
-        }}
-      />
+    <NativeTabs tintColor={styles.main.color}>
+      <NativeTabs.Trigger name="(home)">
+        <NativeTabs.Trigger.Icon sf="house" />
+        <NativeTabs.Trigger.Label hidden>
+          {t('home.title')}
+        </NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
 
-      <Tabs.Screen
-        name="(search)"
-        options={{
-          title: t('search.title'),
-        }}
-      />
+      <NativeTabs.Trigger name="(search)">
+        <NativeTabs.Trigger.Icon sf="magnifyingglass" />
+        <NativeTabs.Trigger.Label hidden>
+          {t('search.title')}
+        </NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
 
-      <Tabs.Screen
-        listeners={{
-          tabLongPress() {
-            mitter.emit('switch-account')
-          },
-        }}
-        name="(profile)"
-        options={{
-          title: t('profile.title'),
-        }}
-      />
+      <NativeTabs.Trigger name="(profile)">
+        <NativeTabs.Trigger.Icon sf="person.crop.circle" />
+        <NativeTabs.Trigger.Label hidden>
+          {t('profile.title')}
+        </NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
 
-      <Tabs.Screen
-        name="(notifications)"
-        options={{
-          tabBarBadge: unread,
-          title: t('notifications.title'),
-        }}
-      />
+      <NativeTabs.Trigger name="(notifications)">
+        <NativeTabs.Trigger.Icon sf="bell" />
+        <NativeTabs.Trigger.Label hidden>
+          {t('notifications.title')}
+        </NativeTabs.Trigger.Label>
+        {unread ? (
+          <NativeTabs.Trigger.Badge>{unread}</NativeTabs.Trigger.Badge>
+        ) : null}
+      </NativeTabs.Trigger>
 
-      <Tabs.Screen
-        name="(settings)"
-        options={{
-          title: t('settings.title'),
-        }}
-      />
-    </Tabs>
+      <NativeTabs.Trigger name="(settings)">
+        <NativeTabs.Trigger.Icon sf="gearshape" />
+        <NativeTabs.Trigger.Label hidden>
+          {t('settings.title')}
+        </NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
+    </NativeTabs>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    color: theme.colors.accent.accent,
+  },
+}))

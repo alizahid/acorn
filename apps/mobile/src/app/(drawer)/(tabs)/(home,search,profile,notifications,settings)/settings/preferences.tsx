@@ -6,7 +6,6 @@ import { FloatingButtonSide } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
-import { useList } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { getIcon } from '~/lib/icons'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
@@ -53,10 +52,8 @@ export default function Screen() {
     update,
   } = usePreferences()
 
-  const listProps = useList()
-
   return (
-    <ScrollView {...listProps}>
+    <ScrollView>
       <Menu.Root>
         <Menu.Label>{t('browsing.title')}</Menu.Label>
 

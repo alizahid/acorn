@@ -1,11 +1,11 @@
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 import { removePrefix } from '~/lib/reddit'
 import { space } from '~/styles/tokens'
 import { type Post } from '~/types/post'
@@ -21,13 +21,10 @@ export function PostCommunity({ post }: Props) {
   const a11y = useTranslations('a11y')
 
   return (
-    <View direction="row" flexShrink={1} gap="1">
+    <View style={styles.main}>
       <Pressable
         accessibilityHint={a11y('viewCommunity')}
         accessibilityLabel={post.community.name}
-        align="center"
-        direction="row"
-        gap="2"
         hitSlop={space[3]}
         onPress={() => {
           if (post.community.name.startsWith('u/')) {
@@ -48,6 +45,7 @@ export function PostCommunity({ post }: Props) {
             pathname: '/communities/[name]',
           })
         }}
+        style={styles.header}
       >
         {post.community.image ? (
           <Image
@@ -69,10 +67,6 @@ export function PostCommunity({ post }: Props) {
       <Pressable
         accessibilityHint={a11y('viewUser')}
         accessibilityLabel={post.user.name}
-        align="center"
-        direction="row"
-        flexShrink={1}
-        gap="2"
         hitSlop={space[3]}
         onPress={() => {
           router.navigate({
@@ -92,11 +86,27 @@ export function PostCommunity({ post }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  footer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexShrink: 1,
+    gap: theme.space[2],
+  },
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[2],
+  },
   image: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.space[4],
     height: theme.space[4],
     width: theme.space[4],
+  },
+  main: {
+    flexDirection: 'row',
+    flexShrink: 1,
+    gap: theme.space[1],
   },
 }))

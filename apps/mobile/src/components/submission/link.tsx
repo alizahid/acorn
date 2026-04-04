@@ -1,4 +1,5 @@
 import { Controller, useFormContext } from 'react-hook-form'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -7,7 +8,6 @@ import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
-import { View } from '../common/view'
 import { TextInput } from '../native/text-input'
 
 export function SubmissionLink() {

@@ -1,6 +1,6 @@
 import { Image } from 'expo-image'
 import { isEmpty, trim } from 'lodash'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -8,7 +8,6 @@ import { usePreferences } from '~/stores/preferences'
 import { type Flair } from '~/types/flair'
 
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 export type FlairType = 'text' | 'emoji' | 'both'
 
@@ -40,13 +39,7 @@ export function FlairCard({
   }
 
   return (
-    <View
-      align="center"
-      direction="row"
-      gap="2"
-      pointerEvents="none"
-      style={style}
-    >
+    <View pointerEvents="none" style={[styles.main, style]}>
       {nsfw ? (
         <View style={[styles.text, styles.nsfw]}>
           <Text contrast size="1" weight="bold">
@@ -98,6 +91,11 @@ const styles = StyleSheet.create((theme) => ({
   emoji: {
     height: theme.typography[1].lineHeight + theme.space[1],
     width: theme.typography[1].lineHeight + theme.space[1],
+  },
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[2],
   },
   nsfw: {
     backgroundColor: theme.colors.red.accent,

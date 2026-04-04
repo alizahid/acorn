@@ -5,7 +5,6 @@ import { StyleSheet } from 'react-native-unistyles'
 
 import { mapColors } from '~/lib/styles'
 import { type ColorToken } from '~/styles/tokens'
-import { type ViewStyleProps } from '~/styles/view'
 
 import { Icon } from './icon'
 import { Pressable } from './pressable'
@@ -16,7 +15,6 @@ type Props = {
   color?: ColorToken
   disabled?: boolean
   icon?: SFSymbol
-  justify?: ViewStyleProps['justify']
   label: string
   left?: ReactNode
   loading?: boolean
@@ -28,7 +26,6 @@ export function Button({
   color = 'accent',
   disabled = false,
   icon,
-  justify = 'center',
   label,
   left,
   loading = false,
@@ -42,14 +39,8 @@ export function Button({
   return (
     <Pressable
       accessibilityLabel={label}
-      align="center"
-      direction="row"
       disabled={disabled || loading}
-      gap="2"
-      height="7"
-      justify={justify}
       onPress={onPress}
-      px="4"
       style={[styles.main, style]}
     >
       {left}
@@ -89,8 +80,13 @@ export function Button({
 
 const styles = StyleSheet.create((theme) => ({
   main: {
+    alignItems: 'center',
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
+    flexDirection: 'row',
+    gap: theme.space[2],
+    height: theme.space[7],
+    paddingHorizontal: theme.space[4],
     variants: {
       color: mapColors((token) => ({
         backgroundColor: theme.colors[token].accent,

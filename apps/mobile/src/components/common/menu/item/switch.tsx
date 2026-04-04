@@ -1,7 +1,11 @@
 import { type ReactNode } from 'react'
-import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
-
-import { View } from '~/components/common/view'
+import {
+  type StyleProp,
+  type TextStyle,
+  View,
+  type ViewStyle,
+} from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Switch } from '../../switch'
 import { MenuItemContent } from './content'
@@ -28,14 +32,7 @@ export function MenuItemSwitch({
   value,
 }: Props) {
   return (
-    <View
-      align="center"
-      direction="row"
-      gap="3"
-      height="8"
-      px="3"
-      style={style}
-    >
+    <View style={[styles.main, style]}>
       <MenuItemContent
         arrow={arrow}
         description={description}
@@ -47,3 +44,13 @@ export function MenuItemSwitch({
     </View>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[3],
+    height: theme.space[8],
+    paddingHorizontal: theme.space[3],
+  },
+}))

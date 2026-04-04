@@ -1,11 +1,11 @@
 import { useRef } from 'react'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
 import { Sheet } from '~/components/common/sheet'
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 import { mapColors } from '~/lib/styles'
 import { getThemeName } from '~/lib/theme'
 import { type Theme } from '~/styles/themes'
@@ -126,12 +126,12 @@ export function Themes({ onChange, value }: Props) {
             },
           ] as const
         ).map((section) => (
-          <View gap="4" key={section.label} p="4">
+          <View key={section.label} style={styles.section}>
             <Text size="2" weight="medium">
               {section.label}
             </Text>
 
-            <View direction="row" gap="4">
+            <View style={styles.item}>
               {section.items.map((item) => (
                 <Item
                   color={item.color}
@@ -175,12 +175,8 @@ function Item({ color, item, name, onPress, value }: ItemProps) {
       accessibilityState={{
         selected: item === value,
       }}
-      align="center"
-      height="8"
-      justify="center"
       onPress={onPress}
       style={styles.theme}
-      width="8"
     >
       {item === value ? (
         <Icon
@@ -197,13 +193,25 @@ function Item({ color, item, name, onPress, value }: ItemProps) {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  item: {
+    flexDirection: 'row',
+    gap: theme.space[4],
+  },
+  section: {
+    gap: theme.space[4],
+    padding: theme.space[4],
+  },
   theme: {
+    alignItems: 'center',
     borderCurve: 'continuous',
     borderRadius: theme.space[5],
+    height: theme.space[8],
+    justifyContent: 'center',
     variants: {
       color: mapColors((token) => ({
         backgroundColor: theme.colors[token].accent,
       })),
     },
+    width: theme.space[8],
   },
 }))

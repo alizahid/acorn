@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router'
 import { type SFSymbol } from 'expo-symbols'
 import { useEffect } from 'react'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
@@ -9,7 +10,6 @@ import { Icon } from '~/components/common/icon'
 import { Logo } from '~/components/common/logo'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 import { usePlan } from '~/hooks/purchases/plan'
 import { useRestore } from '~/hooks/purchases/restore'
 import { useSubscribe } from '~/hooks/purchases/subscribe'
@@ -36,8 +36,8 @@ export default function Screen() {
   }, [subscribed, router])
 
   return (
-    <View flex={1} gap="8" justify="center" py="8" style={styles.main}>
-      <View align="center" gap="4">
+    <View style={styles.main}>
+      <View style={styles.header}>
         <Logo />
 
         <Text accent color="accent" size="8" weight="bold">
@@ -45,7 +45,7 @@ export default function Screen() {
         </Text>
       </View>
 
-      <View align="center" justify="center" style={styles.price}>
+      <View style={styles.price}>
         {plan ? (
           <>
             <Text
@@ -72,28 +72,28 @@ export default function Screen() {
         )}
       </View>
 
-      <View direction="row" gap="4" px={iPad ? '8' : '4'}>
+      <View style={styles.content}>
         {(
           [
             [1, 2, 3],
             [4, 5, 6],
           ] as const
         ).map((section) => (
-          <View flex={1} gap="4" key={String(section)}>
+          <View key={String(section)} style={styles.section}>
             {section.map((key) => (
-              <View direction="row" gap="4" key={key}>
+              <View key={key} style={styles.item}>
                 <Icon name={icons[key]} />
 
-                <View flex={1}>
-                  <Text weight="medium">{t(`feature.${key}`)}</Text>
-                </View>
+                <Text style={styles.label} weight="medium">
+                  {t(`feature.${key}`)}
+                </Text>
               </View>
             ))}
           </View>
         ))}
       </View>
 
-      <View gap="4" mx={iPad ? '8' : '4'}>
+      <View style={styles.footer}>
         <Button
           label={t('subscribe')}
           loading={subscribing}
@@ -116,15 +116,45 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
+  content: {
+    flexDirection: 'row',
+    gap: theme.space[4],
+    paddingHorizontal: theme.space[iPad ? 8 : 4],
+  },
   features: {
     width: '100%',
   },
+  footer: {
+    gap: theme.space[4],
+    marginHorizontal: theme.space[iPad ? 8 : 4],
+  },
+  header: {
+    alignItems: 'center',
+    gap: theme.space[4],
+  },
+  item: {
+    flexDirection: 'row',
+    gap: theme.space[4],
+  },
+  label: {
+    flex: 1,
+  },
   main: {
+    flex: 1,
+    gap: theme.space[8],
+    justifyContent: 'center',
     marginBottom: runtime.insets.bottom,
+    paddingVertical: theme.space[8],
   },
   price: {
+    alignItems: 'center',
     backgroundColor: theme.colors.accent.ui,
     height: theme.space[8] * 2,
+    justifyContent: 'center',
+  },
+  section: {
+    flex: 1,
+    gap: theme.space[4],
   },
   subscribe: {
     alignSelf: 'center',

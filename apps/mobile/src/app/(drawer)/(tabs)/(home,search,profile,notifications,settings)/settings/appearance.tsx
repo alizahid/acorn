@@ -1,12 +1,10 @@
+import { Host, Slider } from '@expo/ui/swift-ui'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
-import { Slider } from '~/components/common/slider'
-import { View } from '~/components/common/view'
 import { Themes } from '~/components/settings/themes'
-import { useList } from '~/hooks/list'
 import { type Font, fonts } from '~/lib/fonts'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 import { type TypographyToken, typography } from '~/styles/tokens'
@@ -15,7 +13,6 @@ export default function Screen() {
   const t = useTranslations('screen.settings.appearance')
 
   const {
-    blurNavigation,
     colorfulComments,
     feedCompact,
     font,
@@ -31,15 +28,13 @@ export default function Screen() {
     update,
   } = usePreferences()
 
-  const listProps = useList()
-
   const sizes = {
     fontSizeBody,
     fontSizeTitle,
   }
 
   return (
-    <ScrollView {...listProps}>
+    <ScrollView>
       <Menu.Root>
         <Menu.Label>{t('preferences.title')}</Menu.Label>
 
@@ -75,17 +70,6 @@ export default function Screen() {
             update(payload)
           }}
           value={themeTint}
-        />
-
-        <Menu.Switch
-          icon={<Icon name="drop" />}
-          label={t('preferences.blurNavigation')}
-          onChange={(next) => {
-            update({
-              blurNavigation: next,
-            })
-          }}
-          value={blurNavigation}
         />
 
         <Menu.Switch
@@ -172,12 +156,17 @@ export default function Screen() {
         />
 
         {systemScaling ? null : (
-          <View height="8" justify="center" mx="3">
+          <Host
+            style={{
+              height: 48,
+              justifyContent: 'center',
+              marginHorizontal: 12,
+            }}
+          >
             <Slider
-              disabled={systemScaling}
               max={1.2}
               min={0.8}
-              onChange={(next) => {
+              onValueChange={(next) => {
                 update({
                   fontScaling: next,
                 })
@@ -185,7 +174,7 @@ export default function Screen() {
               step={0.1}
               value={fontScaling}
             />
-          </View>
+          </Host>
         )}
 
         {(['fontSizeTitle', 'fontSizeBody'] as const).map((item) => (

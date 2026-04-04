@@ -91,7 +91,7 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
       if (swipe && gesture !== action.get()) {
         scale.set(
           withTiming(
-            1.5,
+            1.75,
             {
               duration: 100,
             },

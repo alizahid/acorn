@@ -1,4 +1,5 @@
 import { create } from 'mutative'
+import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import {
   NestedReorderableList,
@@ -13,9 +14,7 @@ import { ListItem } from '~/components/common/list/item'
 import { Menu } from '~/components/common/menu'
 import { Switch } from '~/components/common/switch'
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 import { DraggableItem } from '~/components/defaults/draggable-item'
-import { useList } from '~/hooks/list'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
 import { FeedType } from '~/types/sort'
@@ -25,10 +24,8 @@ export default function Screen() {
 
   const { drawerSections, feedType, searchTabs, tabs, update } = useDefaults()
 
-  const listProps = useList()
-
   return (
-    <ScrollViewContainer {...listProps} contentContainerStyle={styles.content}>
+    <ScrollViewContainer contentContainerStyle={styles.content}>
       <View style={styles.item}>
         <Menu.Label mt="2">{t('feedType.title')}</Menu.Label>
 
@@ -64,7 +61,7 @@ export default function Screen() {
         />
       </View>
 
-      <View mt="4" style={styles.item}>
+      <View style={styles.item}>
         <Menu.Label mt="2">{t('tabs.title')}</Menu.Label>
 
         <NestedReorderableList
@@ -106,7 +103,7 @@ export default function Screen() {
         />
       </View>
 
-      <View mt="4" style={styles.item}>
+      <View style={styles.item}>
         <Menu.Label mt="2">{t('searchTabs.title')}</Menu.Label>
 
         <NestedReorderableList
@@ -152,7 +149,7 @@ export default function Screen() {
         </Text>
       </View>
 
-      <View mt="4" style={styles.item}>
+      <View style={styles.item}>
         <Menu.Label mt="2">{t('drawerSections.title')}</Menu.Label>
 
         <NestedReorderableList
@@ -198,6 +195,7 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: theme.colors.gray.bgAltAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
+    marginTop: theme.space[4],
   },
   list: {
     backgroundColor: theme.colors.gray.bgAltAlpha,

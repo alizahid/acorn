@@ -1,9 +1,9 @@
 import { ImageBackground } from 'expo-image'
 import { useState } from 'react'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { VisibilitySensor } from '~/components/common/sensor/visibility'
-import { View } from '~/components/common/view'
 import { useFocused } from '~/hooks/focus'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'

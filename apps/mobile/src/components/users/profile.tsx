@@ -1,3 +1,4 @@
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
@@ -5,7 +6,6 @@ import { Text } from '~/components/common/text'
 import { type Profile } from '~/types/user'
 
 import { TimeAgo } from '../common/time'
-import { View } from '../common/view'
 
 type Props = {
   profile?: Profile
@@ -41,16 +41,9 @@ export function ProfileCard({ profile }: Props) {
   ] as const
 
   return (
-    <View
-      align="center"
-      direction="row"
-      gap="6"
-      justify="center"
-      p="4"
-      style={styles.main}
-    >
+    <View style={styles.main}>
       {items.map((item) => (
-        <View gap="1" key={item.key}>
+        <View key={item.key} style={styles.item}>
           <Text align="center" highContrast={false} size="1" weight="medium">
             {t(item.key)}
           </Text>
@@ -65,7 +58,15 @@ export function ProfileCard({ profile }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  item: {
+    gap: theme.space[1],
+  },
   main: {
+    alignItems: 'center',
     backgroundColor: theme.colors.accent.ui,
+    flexDirection: 'row',
+    gap: theme.space[6],
+    justifyContent: 'center',
+    padding: theme.space[4],
   },
 }))

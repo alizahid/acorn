@@ -1,6 +1,8 @@
-import { MenuView } from '@react-native-menu/menu'
+import { Button, Host, Menu } from '@expo/ui/swift-ui'
+import { labelStyle, tint } from '@expo/ui/swift-ui/modifiers'
 import { compact } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
+import { View } from 'react-native'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -8,7 +10,6 @@ import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { type Submission } from '~/types/submission'
 
 import { Icon } from '../common/icon'
-import { View } from '../common/view'
 
 type Props = {
   submission: Submission
@@ -32,58 +33,62 @@ export function SubmissionType({ submission }: Props) {
       control={control}
       name="type"
       render={({ field }) => (
-        <MenuView
-          actions={types.map((item) => ({
-            id: item,
-            image:
-              item === 'image'
-                ? 'photo'
-                : item === 'link'
-                  ? 'link'
-                  : 'textformat.abc',
-            imageColor: theme.colors.gray.text,
-            title: t(item),
-            titleColor: theme.colors.gray.text,
-          }))}
-          onPressAction={(event) => {
-            if (event.nativeEvent.event !== field.value) {
-              setValue('url', '')
+        <Host matchContents>
+          <Menu
+            label={
+              <View style={styles.main}>
+                <Icon
+                  name={
+                    field.value === 'image'
+                      ? 'photo'
+                      : field.value === 'link'
+                        ? 'link'
+                        : 'textformat.abc'
+                  }
+                  tintColor={theme.colors.gray.text}
+                />
+
+                <Icon
+                  name="chevron.down"
+                  size={theme.space[3]}
+                  tintColor={theme.colors.gray.textLow}
+                />
+              </View>
             }
-
-            field.onChange(event.nativeEvent.event)
-          }}
-          shouldOpenOnLongPress={false}
-        >
-          <View
-            align="center"
-            direction="row"
-            gap="2"
-            px="2"
-            py="1"
-            style={styles.main}
+            modifiers={[labelStyle('iconOnly')]}
+            systemImage={
+              field.value === 'image'
+                ? 'photo'
+                : field.value === 'link'
+                  ? 'link'
+                  : 'textformat.abc'
+            }
           >
-            <Icon
-              name={
-                field.value === 'image'
-                  ? 'photo'
-                  : field.value === 'link'
-                    ? 'link'
-                    : 'textformat.abc'
-              }
-              uniProps={($theme) => ({
-                tintColor: $theme.colors.gray.text,
-              })}
-            />
+            {types.map((item) => (
+              <Button
+                key={item}
+                label={t(item)}
+                modifiers={compact([
+                  item === field.value && tint(theme.colors.accent.accent),
+                ])}
+                onPress={() => {
+                  if (item !== field.value) {
+                    setValue('url', '')
+                  }
 
-            <Icon
-              name="chevron.down"
-              uniProps={($theme) => ({
-                size: $theme.space[4],
-                tintColor: $theme.colors.gray.textLow,
-              })}
-            />
-          </View>
-        </MenuView>
+                  field.onChange(item)
+                }}
+                systemImage={
+                  item === 'image'
+                    ? 'photo'
+                    : item === 'link'
+                      ? 'link'
+                      : 'textformat.abc'
+                }
+              />
+            ))}
+          </Menu>
+        </Host>
       )}
     />
   )
@@ -91,8 +96,14 @@ export function SubmissionType({ submission }: Props) {
 
 const styles = StyleSheet.create((theme) => ({
   main: {
+    alignItems: 'center',
     backgroundColor: theme.colors.accent.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
+    flexDirection: 'row',
+    gap: theme.space[1],
+    height: theme.space[6],
+    justifyContent: 'center',
+    paddingHorizontal: theme.space[2],
   },
 }))

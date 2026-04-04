@@ -61,7 +61,7 @@ export function VisibilitySensor({ children, id, onChange }: Props) {
       )
 
       const next: OnChangePayload = {
-        full: !!id && !!max && visible && id === max.id,
+        full: Boolean(id) && !!max && visible && id === max.id,
         visible,
       }
 

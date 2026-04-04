@@ -11,12 +11,10 @@ import { z } from 'zod'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
+import { GlassView } from '~/components/native/glass-view'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useList } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
-import { useStageManager } from '~/hooks/stage-manager'
 import { iPad } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
@@ -39,10 +37,6 @@ export default function Screen() {
 
   const { stickyDrawer } = usePreferences()
 
-  const stageManager = useStageManager()
-
-  const listProps = useList()
-
   styles.useVariants({
     iPad,
   })
@@ -55,7 +49,7 @@ export default function Screen() {
     useCallback(() => {
       navigation.setOptions({
         headerLeft:
-          iPad && !stageManager && stickyDrawer
+          iPad && stickyDrawer
             ? null
             : () => (
                 <IconButton
@@ -65,6 +59,7 @@ export default function Screen() {
                     // @ts-expect-error
                     navigation.toggleDrawer()
                   }}
+                  size="6"
                 />
               ),
         headerRight: () => (
@@ -80,7 +75,7 @@ export default function Screen() {
         headerTitle: params.feed
           ? null
           : () => (
-              <View align="center" direction="row" gap="2">
+              <GlassView style={styles.title}>
                 <Icon
                   name={FeedTypeIcons[params.type]}
                   uniProps={(theme) => ({
@@ -89,7 +84,7 @@ export default function Screen() {
                 />
 
                 <Text weight="bold">{tType(params.type)}</Text>
-              </View>
+              </GlassView>
             ),
         title: params.feed,
       })
@@ -103,7 +98,6 @@ export default function Screen() {
       tType,
       type,
       update,
-      stageManager,
       navigation,
     ]),
   )
@@ -113,7 +107,6 @@ export default function Screen() {
       community={params.type === 'home' ? undefined : params.type}
       feed={params.feed}
       interval={sorting.interval}
-      listProps={listProps}
       sort={sorting.sort}
       style={styles.list}
     />
@@ -129,5 +122,15 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
     },
+  },
+  title: {
+    alignItems: 'center',
+    borderCurve: 'continuous',
+    borderRadius: 44,
+    flexDirection: 'row',
+    gap: theme.space[2],
+    height: 44,
+    paddingLeft: theme.space[3],
+    paddingRight: theme.space[4],
   },
 }))

@@ -1,7 +1,7 @@
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { View } from '~/components/common/view'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { getIcon } from '~/lib/icons'
 import { usePreferences } from '~/stores/preferences'
@@ -25,23 +25,15 @@ export function PostFooter({ community = true, post, style }: Props) {
   const { vote } = usePostVote()
 
   return (
-    <View
-      align={community ? 'center' : 'end'}
-      direction="row"
-      gap="4"
-      justify="between"
-      m="-3"
-      p="3"
-      style={style}
-    >
-      <View flexShrink={1} gap="2">
+    <View style={[styles.main(community), style]}>
+      <View style={styles.header}>
         {community ? <PostCommunity post={post} /> : null}
 
         <PostMeta post={post} />
       </View>
 
       {hidePostActions ? null : (
-        <View align="center" direction="row" gap="2">
+        <View style={styles.footer}>
           <FooterButton
             color={post.liked === true ? 'orange' : undefined}
             fill={post.liked === true}
@@ -72,3 +64,23 @@ export function PostFooter({ community = true, post, style }: Props) {
     </View>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  footer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[2],
+  },
+  header: {
+    flexShrink: 1,
+    gap: theme.space[2],
+  },
+  main: (community: boolean) => ({
+    alignItems: community ? 'center' : 'flex-end',
+    flexDirection: 'row',
+    gap: theme.space[4],
+    justifyContent: 'space-between',
+    margin: -theme.space[3],
+    padding: theme.space[3],
+  }),
+}))

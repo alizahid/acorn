@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { IntervalIcons, SortColors, SortIcons } from '~/lib/sort'
@@ -61,15 +62,10 @@ export function SortIntervalMenu<Type extends SortType>({
     <>
       <Pressable
         accessibilityLabel={a11y('changeSorting')}
-        align="center"
-        direction="row"
-        gap="2"
-        height="8"
         onPress={() => {
           sheetSort.current?.present()
         }}
-        px="3"
-        self="end"
+        style={styles.main}
       >
         <Icon
           name={SortIcons[sort]}
@@ -177,3 +173,14 @@ export function SortIntervalMenu<Type extends SortType>({
     </>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    alignItems: 'center',
+    alignSelf: 'flex-end',
+    flexDirection: 'row',
+    gap: theme.space[2],
+    height: theme.space[8],
+    paddingHorizontal: theme.space[3],
+  },
+}))

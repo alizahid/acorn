@@ -1,12 +1,12 @@
 import { useRouter } from 'expo-router'
 import { type SFSymbol } from 'expo-symbols'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 import { getIcon } from '~/lib/icons'
 import { space } from '~/styles/tokens'
 import { type Post } from '~/types/post'
@@ -45,13 +45,10 @@ export function CrossPostFooter({ post }: Props) {
   ] as const
 
   return (
-    <View align="center" direction="row" gap="4">
+    <View style={styles.main}>
       <Pressable
         accessibilityHint={a11y('viewCommunity')}
         accessibilityLabel={post.community.name}
-        align="center"
-        direction="row"
-        gap="2"
         hitSlop={space[4]}
         onPress={() => {
           router.navigate({
@@ -61,6 +58,7 @@ export function CrossPostFooter({ post }: Props) {
             pathname: '/communities/[name]',
           })
         }}
+        style={styles.header}
       >
         <Icon
           name="arrow.trianglehead.branch"
@@ -76,7 +74,7 @@ export function CrossPostFooter({ post }: Props) {
       </Pressable>
 
       {footer.map((item) => (
-        <View align="center" direction="row" gap="1" key={item.key}>
+        <View key={item.key} style={styles.item}>
           <Icon
             name={item.icon}
             uniProps={(theme) => ({
@@ -94,7 +92,7 @@ export function CrossPostFooter({ post }: Props) {
   )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
   crossPost: {
     transform: [
       {
@@ -102,4 +100,19 @@ const styles = StyleSheet.create({
       },
     ],
   },
-})
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[2],
+  },
+  item: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[1],
+  },
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[4],
+  },
+}))

@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router'
 import { useCallback } from 'react'
-import { Share } from 'react-native'
+import { Share, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -17,7 +17,6 @@ import { type GestureAction, Gestures } from '../common/gestures'
 import { Html } from '../common/html'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
@@ -191,7 +190,7 @@ export function PostCard({ expanded, post }: Props) {
           disabled={expanded}
         >
           <View style={styles.main}>
-            <View gap="1" style={styles.dimmed}>
+            <View style={styles.dimmed}>
               {communityOnTop ? <PostCommunity post={post} /> : null}
 
               <Text
@@ -282,6 +281,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     width: '100%',
   },
   dimmed: {
+    gap: theme.space[1],
     variants: {
       dimmed: {
         true: {

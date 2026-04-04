@@ -1,5 +1,5 @@
 import { Link, useRouter } from 'expo-router'
-import { Share } from 'react-native'
+import { Share, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -19,7 +19,6 @@ import { Html } from '../common/html'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 import { FlairCard, type FlairType } from '../posts/flair'
 import { CommentMenu } from './menu'
 import { CommentMeta } from './meta'
@@ -167,7 +166,7 @@ export function CommentCard({
             ) : null}
 
             {collapsed ? null : (
-              <View p="3">
+              <View style={styles.body}>
                 <Html
                   depth={comment.depth}
                   meta={comment.media.meta}
@@ -191,12 +190,6 @@ export function CommentCard({
                 <Pressable
                   accessibilityHint={a11y('viewPost')}
                   accessibilityLabel={comment.post.title}
-                  align="center"
-                  direction="row"
-                  gap="2"
-                  mb="3"
-                  mx="3"
-                  p="2"
                   style={styles.post}
                 >
                   <Icon
@@ -206,7 +199,7 @@ export function CommentCard({
                     })}
                   />
 
-                  <View flex={1} gap="1">
+                  <View style={styles.title}>
                     <Text size="1" weight="medium">
                       {comment.post.title}
                     </Text>
@@ -247,7 +240,7 @@ export function CommentCard({
 
 const styles = StyleSheet.create((theme, runtime) => ({
   body: {
-    margin: theme.space[3],
+    padding: theme.space[3],
   },
   container: (depth: number) => {
     const marginLeft = theme.space[2] * depth
@@ -330,9 +323,15 @@ const styles = StyleSheet.create((theme, runtime) => ({
     }
   },
   post: {
+    alignItems: 'center',
     backgroundColor: theme.colors.gray.uiAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
+    flexDirection: 'row',
+    gap: theme.space[2],
+    marginBottom: theme.space[3],
+    marginHorizontal: theme.space[3],
+    padding: theme.space[2],
   },
   saved: {
     backgroundColor: theme.colors.green.accent,
@@ -346,5 +345,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
       },
     ],
     width: theme.space[8],
+  },
+  title: {
+    flex: 1,
+    gap: theme.space[1],
   },
 }))

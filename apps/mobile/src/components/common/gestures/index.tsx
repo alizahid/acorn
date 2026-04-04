@@ -1,7 +1,6 @@
 import { type ReactNode } from 'react'
-import { type ViewStyle } from 'react-native'
+import { View, type ViewStyle } from 'react-native'
 
-import { View } from '~/components/common/view'
 import { type Nullable, type Undefined } from '~/types'
 
 import { Actions } from './actions'

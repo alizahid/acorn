@@ -1,8 +1,7 @@
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { iPad } from '~/lib/common'
-
-import { View } from '../view'
 
 export function BottomInset() {
   return <View style={styles.main} />

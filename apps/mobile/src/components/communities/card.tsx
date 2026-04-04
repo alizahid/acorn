@@ -1,6 +1,6 @@
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
@@ -10,7 +10,6 @@ import { type Community } from '~/types/community'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 type Props = {
   community: Community
@@ -27,9 +26,6 @@ export function CommunityCard({ community, style }: Props) {
     <Pressable
       accessibilityHint={a11y('viewCommunity')}
       accessibilityLabel={community.name}
-      align="center"
-      direction="row"
-      gap="4"
       onPress={() => {
         if (community.user) {
           router.navigate({
@@ -49,8 +45,7 @@ export function CommunityCard({ community, style }: Props) {
           pathname: '/communities/[name]',
         })
       }}
-      px="4"
-      style={style}
+      style={[styles.main, style]}
     >
       <Image
         accessibilityIgnoresInvertColors
@@ -59,7 +54,7 @@ export function CommunityCard({ community, style }: Props) {
         style={styles.image}
       />
 
-      <View align="center" direction="row" flex={1} gap="2" my="4">
+      <View style={styles.content}>
         <Text weight="medium">{community.name}</Text>
 
         <Text highContrast={false} size="1" tabular>
@@ -81,12 +76,25 @@ export function CommunityCard({ community, style }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  content: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    gap: theme.space[2],
+    marginVertical: theme.space[4],
+  },
   image: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.space[7],
     height: theme.space[7],
     width: theme.space[7],
+  },
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[4],
+    paddingHorizontal: theme.space[4],
   },
   name: {
     flex: 1,

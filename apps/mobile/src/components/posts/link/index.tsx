@@ -1,11 +1,11 @@
 import { Image } from 'expo-image'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
@@ -72,7 +72,7 @@ export function PostLinkCard({
             />
           ) : null}
 
-          <View align="center" justify="center" style={styles.icon}>
+          <View style={styles.icon}>
             <Icon
               name="safari"
               uniProps={(theme) => ({
@@ -102,7 +102,7 @@ export function PostLinkCard({
           />
         ) : null}
 
-        <View align="center" direction="row" gap="3" p="3">
+        <View style={styles.link}>
           <Icon
             name="safari"
             uniProps={(theme) => ({
@@ -122,7 +122,9 @@ export function PostLinkCard({
 const styles = StyleSheet.create((theme) => ({
   icon: {
     ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
     backgroundColor: theme.colors.black.accentAlpha,
+    justifyContent: 'center',
   },
   image: {
     aspectRatio: 2,
@@ -133,6 +135,12 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
     },
+  },
+  link: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[3],
+    padding: theme.space[3],
   },
   main: {
     backgroundColor: theme.colors.gray.uiActive,

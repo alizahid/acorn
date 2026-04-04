@@ -1,3 +1,4 @@
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -6,7 +7,6 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
 import { IconButton } from '../common/icon/button'
-import { View } from '../common/view'
 
 type Props = {
   onPress?: (commentId?: string) => void
@@ -25,7 +25,7 @@ export function PostHeader({ onPress, parentId }: Props) {
   })
 
   return (
-    <View direction="row" mt={themeOled ? '1' : '2'} style={styles.main}>
+    <View style={styles.main}>
       <IconButton
         icon="arrow.uturn.left"
         label={a11y('viewFullThread')}
@@ -48,6 +48,7 @@ export function PostHeader({ onPress, parentId }: Props) {
 const styles = StyleSheet.create((theme) => ({
   main: {
     backgroundColor: theme.colors.gray.ui,
+    flexDirection: 'row',
     variants: {
       iPad: {
         true: {
@@ -59,8 +60,12 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
       oled: {
+        false: {
+          marginTop: theme.space[2],
+        },
         true: {
           backgroundColor: oledTheme[theme.variant].bg,
+          marginTop: theme.space[1],
         },
       },
       tint: {

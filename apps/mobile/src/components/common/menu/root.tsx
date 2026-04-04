@@ -1,17 +1,18 @@
 import { type ReactNode } from 'react'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
-import { type ViewStyleProps } from '~/styles/view'
-
-import { View } from '../view'
-
-type Props = ViewStyleProps & {
+type Props = {
   children: ReactNode
+  style?: StyleProp<ViewStyle>
 }
 
-export function MenuRoot({ children, ...props }: Props) {
-  return (
-    <View py="1" {...props}>
-      {children}
-    </View>
-  )
+export function MenuRoot({ children, style }: Props) {
+  return <View style={[styles.main, style]}>{children}</View>
 }
+
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    paddingVertical: theme.space[1],
+  },
+}))

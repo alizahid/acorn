@@ -25,9 +25,6 @@ export function UserCard({ style, user }: Props) {
     <Pressable
       accessibilityHint={a11y('viewUser')}
       accessibilityLabel={user.name}
-      align="center"
-      direction="row"
-      gap="4"
       onPress={() => {
         router.navigate({
           params: {
@@ -36,8 +33,7 @@ export function UserCard({ style, user }: Props) {
           pathname: '/users/[name]',
         })
       }}
-      px="4"
-      style={style}
+      style={[styles.main, style]}
     >
       <Image
         accessibilityIgnoresInvertColors
@@ -68,6 +64,12 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.space[7],
     height: theme.space[7],
     width: theme.space[7],
+  },
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[4],
+    paddingHorizontal: theme.space[4],
   },
   name: {
     flex: 1,

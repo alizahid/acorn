@@ -13,7 +13,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     'expo-secure-store',
     'expo-sqlite',
     'expo-web-browser',
-    'react-native-bottom-tabs',
     [
       'expo-video',
       {

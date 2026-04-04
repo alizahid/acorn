@@ -1,4 +1,5 @@
 import { type SFSymbol } from 'expo-symbols'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useNow, useTranslations } from 'use-intl'
 
@@ -14,7 +15,6 @@ import { Html } from '../common/html'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 type Props = {
   notification: Notification
@@ -47,9 +47,6 @@ export function NotificationCard({ notification }: Props) {
   return (
     <Pressable
       accessibilityLabel={body}
-      align="center"
-      direction="row"
-      gap="4"
       onPress={() => {
         handleLink(notification.context)
 
@@ -60,7 +57,6 @@ export function NotificationCard({ notification }: Props) {
           })
         }
       }}
-      p="4"
       style={styles.main}
     >
       <Icon
@@ -72,7 +68,7 @@ export function NotificationCard({ notification }: Props) {
         })}
       />
 
-      <View flexShrink={1} gap="2">
+      <View style={styles.content}>
         <Text
           highContrast={notification.new}
           weight={notification.new ? 'medium' : undefined}
@@ -82,7 +78,7 @@ export function NotificationCard({ notification }: Props) {
 
         <Html>{notification.body}</Html>
 
-        <View direction="row" gap="4">
+        <View style={styles.meta}>
           <Text highContrast={false} size="2">
             {f.relativeTime(notification.createdAt, now)}
           </Text>
@@ -97,7 +93,12 @@ export function NotificationCard({ notification }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  content: {
+    flexShrink: 1,
+    gap: theme.space[2],
+  },
   main: {
+    alignItems: 'center',
     backgroundColor: theme.colors.gray.bgAltAlpha,
     compoundVariants: colors.map((token) => ({
       color: token,
@@ -106,6 +107,9 @@ const styles = StyleSheet.create((theme) => ({
       },
       unread: true,
     })),
+    flexDirection: 'row',
+    gap: theme.space[4],
+    padding: theme.space[4],
     variants: {
       color: mapColors(() => ({})),
       oled: {
@@ -117,6 +121,10 @@ const styles = StyleSheet.create((theme) => ({
         true: {},
       },
     },
+  },
+  meta: {
+    flexDirection: 'row',
+    gap: theme.space[4],
   },
 }))
 

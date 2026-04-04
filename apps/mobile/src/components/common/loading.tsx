@@ -1,15 +1,25 @@
-import { type MarginProps, type PaddingProps } from '~/styles/space'
-import { type ViewStyleProps } from '~/styles/view'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Spinner } from './spinner'
-import { View } from './view'
 
-type Props = ViewStyleProps & MarginProps & PaddingProps
+type Props = {
+  style?: StyleProp<ViewStyle>
+}
 
-export function Loading(props: Props) {
+export function Loading({ style }: Props) {
   return (
-    <View align="center" justify="center" my="9" {...props}>
+    <View style={[styles.main, style]}>
       <Spinner size="large" />
     </View>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    marginVertical: theme.space[9],
+  },
+}))

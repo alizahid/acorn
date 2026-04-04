@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Linking } from 'react-native'
+import { Linking, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -14,7 +14,6 @@ import { Sheet } from '../common/sheet'
 import { Spinner } from '../common/spinner'
 import { Text } from '../common/text'
 import { TextBox } from '../common/text-box'
-import { View } from '../common/view'
 
 export function ClientId() {
   const t = useTranslations('component.auth.clientId')
@@ -36,8 +35,8 @@ export function ClientId() {
       {data === undefined ? (
         <Spinner />
       ) : data ? (
-        <View align="center" direction="row" gap="4">
-          <View align="center" direction="row" gap="2">
+        <View style={styles.main}>
+          <View style={styles.content}>
             <Icon
               name="checkmark.circle.fill"
               uniProps={(theme) => ({
@@ -60,8 +59,8 @@ export function ClientId() {
           />
         </View>
       ) : (
-        <View align="center" direction="row" gap="4">
-          <View align="center" direction="row" gap="2">
+        <View style={styles.main}>
+          <View style={styles.content}>
             <Icon
               name="xmark.circle.fill"
               uniProps={(theme) => ({
@@ -88,7 +87,7 @@ export function ClientId() {
       <Sheet.Root ref={sheet}>
         <Sheet.Header title={t('sheet.title')} />
 
-        <View gap="4" p="4">
+        <View style={styles.sheetContent}>
           <Text>
             {t.rich('sheet.instructions.1', {
               highlight: (text) => (
@@ -112,7 +111,7 @@ export function ClientId() {
 
           <Copy style={styles.uri} value={REDIRECT_URI} />
 
-          <View gap="2">
+          <View style={styles.instructions}>
             <Text>{t('sheet.instructions.2')}</Text>
 
             <TextBox
@@ -171,6 +170,23 @@ const styles = StyleSheet.create((theme) => ({
   },
   clientId: {
     backgroundColor: theme.colors.gray.uiAlpha,
+  },
+  content: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[2],
+  },
+  instructions: {
+    gap: theme.space[2],
+  },
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[4],
+  },
+  sheetContent: {
+    gap: theme.space[4],
+    padding: theme.space[4],
   },
   uri: {
     backgroundColor: theme.colors.accent.uiAlpha,

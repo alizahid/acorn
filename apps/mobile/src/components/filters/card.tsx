@@ -1,14 +1,17 @@
-import { MenuView } from '@react-native-menu/menu'
+import { Button, Host, Menu } from '@expo/ui/swift-ui'
+import { labelStyle, tint } from '@expo/ui/swift-ui/modifiers'
+import { compact } from 'lodash'
 import { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
+import { View } from 'react-native'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { TextBox } from '~/components/common/text-box'
-import { View } from '~/components/common/view'
 import { type FiltersForm } from '~/hooks/filters'
+
+import { Icon } from '../common/icon'
 
 type Item = 'community' | 'keyword' | 'user'
 
@@ -28,58 +31,66 @@ export function FilterCard({ index, onRemove }: Props) {
   const [type, setType] = useState<Item>('keyword')
 
   return (
-    <View direction="row" style={styles.main}>
+    <View style={styles.main}>
       <Controller
         control={control}
         name={`filters.${index}.type`}
         render={({ field }) => (
-          <MenuView
-            actions={(['keyword', 'community', 'user'] as const).map(
-              (item) => ({
-                id: item,
-                image:
-                  item === 'community'
-                    ? 'person.2'
-                    : item === 'user'
-                      ? 'person'
-                      : 'tag',
-                imageColor: theme.colors.gray.text,
-                state: item === field.value ? 'on' : undefined,
-                title: t(`type.${item}.label`),
-                titleColor: theme.colors.gray.text,
-              }),
-            )}
-            onPressAction={(event) => {
-              field.onChange(event.nativeEvent.event)
+          <Host matchContents>
+            <Menu
+              label={
+                <View style={styles.item}>
+                  <Icon
+                    name={
+                      field.value === 'community'
+                        ? 'person.2'
+                        : field.value === 'user'
+                          ? 'person'
+                          : 'tag'
+                    }
+                    size={theme.typography[2].lineHeight}
+                    tintColor={theme.colors.gray.text}
+                  />
 
-              setType(event.nativeEvent.event as Item)
-            }}
-            shouldOpenOnLongPress={false}
-          >
-            <View align="center" direction="row" gap="2" height="7" px="2">
-              <Icon
-                name={
-                  field.value === 'community'
-                    ? 'person.2'
-                    : field.value === 'user'
-                      ? 'person'
-                      : 'tag'
-                }
-                uniProps={($theme) => ({
-                  size: $theme.typography[2].lineHeight,
-                  tintColor: $theme.colors.gray.text,
-                })}
-              />
+                  <Icon
+                    name="chevron.down"
+                    size={theme.space[3]}
+                    tintColor={theme.colors.gray.textLow}
+                  />
+                </View>
+              }
+              modifiers={[labelStyle('iconOnly')]}
+              systemImage={
+                field.value === 'community'
+                  ? 'person.2'
+                  : field.value === 'user'
+                    ? 'person'
+                    : 'tag'
+              }
+            >
+              {(['keyword', 'community', 'user'] as const).map((item) => (
+                <Button
+                  key={item}
+                  label={t(`type.${item}.label`)}
+                  modifiers={compact([
+                    item === field.value && tint(theme.colors.accent.accent),
+                  ])}
+                  onPress={() => {
+                    field.onChange(item)
 
-              <Icon
-                name="chevron.down"
-                uniProps={($theme) => ({
-                  size: $theme.space[4],
-                  tintColor: $theme.colors.gray.textLow,
-                })}
-              />
-            </View>
-          </MenuView>
+                    setType(item)
+                  }}
+                  systemImage={
+                    item === 'community'
+                      ? 'person.2'
+                      : item === 'user'
+                        ? 'person'
+                        : 'tag'
+                  }
+                />
+              ))}
+            </Menu>
+          </Host>
         )}
       />
 
@@ -120,9 +131,18 @@ const styles = StyleSheet.create((theme) => ({
     borderWidth: 0,
     flex: 1,
   },
+  item: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[1],
+    height: theme.space[7],
+    justifyContent: 'center',
+    paddingHorizontal: theme.space[2],
+  },
   main: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
+    flexDirection: 'row',
   },
 }))

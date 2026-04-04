@@ -1,10 +1,10 @@
 import { Image } from 'expo-image'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { type Submission } from '~/types/submission'
 
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 type Props = {
   community: Submission['community']
@@ -16,7 +16,7 @@ export function SubmissionCommunityCard({ community }: Props) {
     : `r/${community.name}`
 
   return (
-    <View align="center" direction="row" flex={1} gap="2">
+    <View style={styles.main}>
       <Image
         accessibilityIgnoresInvertColors
         source={community.image}
@@ -37,6 +37,12 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.typography[3].lineHeight,
     height: theme.typography[3].lineHeight,
     width: theme.typography[3].lineHeight,
+  },
+  main: {
+    alignItems: 'center',
+    flex: 1,
+    flexDirection: 'row',
+    gap: theme.space[2],
   },
   name: {
     flex: 1,

@@ -1,23 +1,21 @@
-import { useLocalSearchParams, useRouter } from 'expo-router'
+import { useHeaderHeight } from '@react-navigation/elements'
+import { useLocalSearchParams } from 'expo-router'
 import { useState } from 'react'
+import { View } from 'react-native'
 import { TabView } from 'react-native-tab-view'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { IconButton } from '~/components/common/icon/button'
 import { Loading } from '~/components/common/loading'
 import { SearchBox } from '~/components/common/search'
 import { SegmentedControl } from '~/components/common/segmented-control'
-import { View } from '~/components/common/view'
-import { Header } from '~/components/navigation/header'
 import { PostList } from '~/components/posts/list'
 import {
   SortIntervalMenu,
   type SortIntervalMenuData,
 } from '~/components/posts/sort-interval'
-import { ListFlags, useList } from '~/hooks/list'
-import { heights, iPad } from '~/lib/common'
+import { iOS26, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { UserTab } from '~/types/user'
@@ -34,7 +32,8 @@ const routes = UserTab.map((key) => ({
 }))
 
 export default function Screen() {
-  const router = useRouter()
+  const headerHeight = useHeaderHeight()
+
   const params = schema.parse(useLocalSearchParams())
 
   const {
@@ -47,16 +46,11 @@ export default function Screen() {
   } = usePreferences()
 
   const t = useTranslations('screen.users.user')
-  const a11y = useTranslations('a11y')
 
   styles.useVariants({
     iPad,
     oled: themeOled,
     tint: themeTint,
-  })
-
-  const listProps = useList(ListFlags.ALL, {
-    top: heights.notifications,
   })
 
   const [index, setIndex] = useState(0)
@@ -85,7 +79,7 @@ export default function Screen() {
           return (
             <PostList
               header={
-                <View direction="row" style={styles.header}>
+                <View style={styles.header}>
                   <SearchBox onChange={setQuery} value={query} />
 
                   <SortIntervalMenu
@@ -99,7 +93,6 @@ export default function Screen() {
                 </View>
               }
               interval={posts.interval}
-              listProps={listProps}
               query={query}
               sort={posts.sort}
               style={styles.list}
@@ -112,7 +105,7 @@ export default function Screen() {
         return (
           <PostList
             header={
-              <View direction="row" style={styles.header}>
+              <View style={styles.header}>
                 <SearchBox onChange={setQuery} value={query} />
 
                 <SortIntervalMenu
@@ -126,7 +119,6 @@ export default function Screen() {
               </View>
             }
             interval={comments.interval}
-            listProps={listProps}
             query={query}
             sort={comments.sort}
             style={styles.list}
@@ -135,38 +127,21 @@ export default function Screen() {
           />
         )
       }}
-      renderTabBar={({ position }) => (
-        <Header
-          back
-          right={
-            <IconButton
-              icon="info.circle"
-              label={a11y('aboutCommunity', {
-                community: params.name,
-              })}
-              onPress={() => {
-                router.navigate({
-                  params: {
-                    name: params.name,
-                  },
-                  pathname: '/users/[name]/about',
-                })
-              }}
-            />
-          }
-          title={params.name}
-        >
-          <View gap="4" pb="4" px="3">
-            <SegmentedControl
-              items={routes.map(({ key }) => t(`tabs.${key}`))}
-              offset={position}
-              onChange={(next) => {
-                setIndex(next)
-              }}
-            />
-          </View>
-        </Header>
+      renderTabBar={({ jumpTo, navigationState }) => (
+        <View style={styles.tabBar}>
+          <SegmentedControl
+            items={routes.map(({ key }) => ({
+              key,
+              label: t(`tabs.${key}`),
+            }))}
+            onChange={(next) => {
+              jumpTo(next)
+            }}
+            value={navigationState.routes[navigationState.index]?.key}
+          />
+        </View>
       )}
+      style={styles.main(headerHeight)}
     />
   )
 }
@@ -176,6 +151,7 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: theme.colors.gray.bg,
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row',
     variants: {
       iPad: {
         true: {
@@ -204,5 +180,14 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
     },
+  },
+  main: (headerHeight) => ({
+    // marginBottom: runtime.insets.bottom + theme.space[9],
+    marginTop: iOS26 ? headerHeight : undefined,
+  }),
+  tabBar: {
+    marginBottom: theme.space[2],
+    marginHorizontal: theme.space[2],
+    marginTop: iOS26 ? undefined : theme.space[2],
   },
 }))

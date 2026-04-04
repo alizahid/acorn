@@ -1,3 +1,4 @@
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -6,7 +7,6 @@ import { ClientId } from '~/components/auth/client-id'
 import { Button } from '~/components/common/button'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
 import { useClientId } from '~/hooks/purchases/client-id'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
@@ -26,8 +26,8 @@ export default function Screen() {
   const { clientId } = useClientId()
 
   return (
-    <View align="center" flex={1} gap="8" justify="center">
-      <View align="center">
+    <View style={styles.main}>
+      <View style={styles.content}>
         <Logo />
 
         <Text mt="4" size="8" style={styles.title} weight="bold">
@@ -54,6 +54,15 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  content: {
+    alignItems: 'center',
+  },
+  main: {
+    alignItems: 'center',
+    flex: 1,
+    gap: theme.space[8],
+    justifyContent: 'center',
+  },
   title: {
     color: theme.colors.accent.accent,
   },

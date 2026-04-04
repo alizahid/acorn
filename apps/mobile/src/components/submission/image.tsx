@@ -4,6 +4,7 @@ import { Image } from 'expo-image'
 import * as ImagePicker from 'expo-image-picker'
 import { useCallback, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -17,7 +18,6 @@ import { IconButton } from '../common/icon/button'
 import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 export function SubmissionImage() {
   const t = useTranslations('component.submission.image')
@@ -61,8 +61,8 @@ export function SubmissionImage() {
         <Pressable
           accessibilityLabel={a11y('chooseImage')}
           disabled={isPending}
-          flex={1}
           onPress={onPress}
+          style={styles.main}
         >
           <Focusable onFocus={onPress} ref={field.ref} />
 
@@ -75,7 +75,7 @@ export function SubmissionImage() {
               />
 
               {isPending ? (
-                <View align="center" justify="center" style={styles.loading}>
+                <View style={styles.loading}>
                   <Spinner size="large" />
                 </View>
               ) : null}
@@ -91,7 +91,7 @@ export function SubmissionImage() {
               />
             </>
           ) : (
-            <View align="center" flex={1} gap="4" justify="center">
+            <View style={styles.placeholder}>
               <Icon
                 name="photo"
                 uniProps={(theme) => ({
@@ -124,5 +124,16 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   loading: {
     ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  main: {
+    flex: 1,
+  },
+  placeholder: {
+    alignItems: 'center',
+    flex: 1,
+    gap: theme.space[4],
+    justifyContent: 'center',
   },
 }))

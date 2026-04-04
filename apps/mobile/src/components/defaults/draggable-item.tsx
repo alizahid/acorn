@@ -23,12 +23,8 @@ export function DraggableItem({ disabled, label, onChange, value }: Props) {
     <Pressable
       accessibilityHint={a11y('drag')}
       accessibilityLabel={label}
-      align="center"
-      direction="row"
-      gap="3"
-      height="8"
       onLongPress={drag}
-      px="3"
+      style={styles.main}
       variant="plain"
     >
       <PhosphorIcon
@@ -58,8 +54,15 @@ export function DraggableItem({ disabled, label, onChange, value }: Props) {
   )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
   label: {
     flex: 1,
   },
-})
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[3],
+    height: theme.space[8],
+    paddingHorizontal: theme.space[3],
+  },
+}))

@@ -20,7 +20,6 @@ export const PREFERENCES_KEY = 'preferences'
 
 export type PreferencesPayload = {
   autoPlay: boolean
-  blurNavigation: boolean
   blurNsfw: boolean
   blurSpoiler: boolean
   boldTitle: boolean
@@ -89,7 +88,6 @@ export const usePreferences = create<State>()(
   persist(
     (set) => ({
       autoPlay: true,
-      blurNavigation: true,
       blurNsfw: true,
       blurSpoiler: true,
       boldTitle: true,

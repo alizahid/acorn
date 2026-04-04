@@ -3,6 +3,7 @@ import {
   type StyleProp,
   type TextInputProps,
   type TextStyle,
+  View,
   type ViewStyle,
 } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -15,7 +16,6 @@ import { type TextStyleProps } from '~/styles/text'
 import { type TypographyToken } from '~/styles/tokens'
 
 import { TextInput } from '../native/text-input'
-import { View } from './view'
 
 type Props = {
   left?: ReactNode
@@ -51,7 +51,7 @@ export function TextBox({
   })
 
   return (
-    <View align="center" direction="row" gap="1" style={[styles.main, style]}>
+    <View style={[styles.main, style]}>
       {left}
 
       <TextInput
@@ -106,11 +106,14 @@ const styles = StyleSheet.create((theme) => ({
     },
   }),
   main: {
+    alignItems: 'center',
     backgroundColor: theme.colors.gray.ui,
     borderColor: theme.colors.gray.borderUi,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     borderWidth: StyleSheet.hairlineWidth,
+    flexDirection: 'row',
+    gap: theme.space[1],
     variants: {
       focused: {
         true: {

@@ -1,3 +1,4 @@
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -7,7 +8,6 @@ import { space } from '~/styles/tokens'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 type Props = {
   history: SearchHistoryData
@@ -19,7 +19,7 @@ export function SearchHistory({ history, onChange }: Props) {
   const a11y = useTranslations('a11y')
 
   return (
-    <View gap="4" px="3" py="4">
+    <View style={styles.main}>
       <Text size="2" weight="medium">
         {t('title')}
       </Text>
@@ -29,14 +29,12 @@ export function SearchHistory({ history, onChange }: Props) {
           accessibilityLabel={a11y('searchQuery', {
             query,
           })}
-          align="center"
-          direction="row"
-          gap="3"
           hitSlop={space[4]}
           key={query}
           onPress={() => {
             onChange(query)
           }}
+          style={styles.item}
         >
           <Icon
             name="magnifyingglass"
@@ -68,13 +66,11 @@ export function SearchHistory({ history, onChange }: Props) {
 
       <Pressable
         accessibilityLabel={a11y('clearQueries')}
-        align="center"
-        direction="row"
-        gap="3"
         hitSlop={space[4]}
         onPress={() => {
           history.clear()
         }}
+        style={styles.item}
       >
         <Icon
           name="xmark"
@@ -89,8 +85,18 @@ export function SearchHistory({ history, onChange }: Props) {
   )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
+  item: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[3],
+  },
+  main: {
+    gap: theme.space[4],
+    paddingHorizontal: theme.space[3],
+    paddingVertical: theme.space[4],
+  },
   query: {
     flex: 1,
   },
-})
+}))

@@ -1,11 +1,12 @@
 import { Controller, useFormContext } from 'react-hook-form'
+import { View } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 
 import { Switch } from '../common/switch'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 
 export function SubmissionMeta() {
   const t = useTranslations('component.submission.meta')
@@ -13,8 +14,8 @@ export function SubmissionMeta() {
   const { control } = useFormContext<CreatePostForm>()
 
   return (
-    <View direction="row" gap="4" justify="between">
-      <View align="center" direction="row" gap="2">
+    <View style={styles.main}>
+      <View style={styles.item}>
         <Text weight="medium">{t('nsfw')}</Text>
 
         <Controller
@@ -24,7 +25,7 @@ export function SubmissionMeta() {
         />
       </View>
 
-      <View align="center" direction="row" gap="2">
+      <View style={styles.item}>
         <Text weight="medium">{t('spoiler')}</Text>
 
         <Controller
@@ -36,3 +37,16 @@ export function SubmissionMeta() {
     </View>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  item: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[2],
+  },
+  main: {
+    flexDirection: 'row',
+    gap: theme.space[4],
+    justifyContent: 'space-between',
+  },
+}))

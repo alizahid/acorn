@@ -1,9 +1,13 @@
 import { type ReactNode } from 'react'
-import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
+import {
+  type StyleProp,
+  type TextStyle,
+  View,
+  type ViewStyle,
+} from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Text } from '~/components/common/text'
-import { View } from '~/components/common/view'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
@@ -24,12 +28,7 @@ export function ListHeader({ left, right, style, title, titleStyle }: Props) {
   })
 
   return (
-    <View
-      align="center"
-      height="8"
-      justify="center"
-      style={[styles.main, style]}
-    >
+    <View style={[styles.main, style]}>
       {left ? <View style={styles.left}>{left}</View> : null}
 
       <Text style={titleStyle} weight="bold">
@@ -48,7 +47,10 @@ const styles = StyleSheet.create((theme) => ({
     position: 'absolute',
   },
   main: {
+    alignItems: 'center',
     backgroundColor: theme.colors.gray.bgAlt,
+    height: theme.space[8],
+    justifyContent: 'center',
     variants: {
       oled: {
         true: {

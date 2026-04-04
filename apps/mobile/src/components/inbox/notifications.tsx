@@ -1,10 +1,10 @@
+import { useScrollToTop } from '@react-navigation/native'
 import { FlashList, type FlashListRef } from '@shopify/flash-list'
 import { useRef } from 'react'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { type ListProps } from '~/hooks/list'
 import { useNotifications } from '~/hooks/queries/user/notifications'
-import { useScrollToTop } from '~/hooks/scroll-top'
 import { usePreferences } from '~/stores/preferences'
 import { type Notification } from '~/types/notification'
 
@@ -12,14 +12,9 @@ import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 import { RefreshControl } from '../common/refresh-control'
 import { Spinner } from '../common/spinner'
-import { View } from '../common/view'
 import { NotificationCard } from './notification'
 
-type Props = {
-  listProps?: ListProps<Notification>
-}
-
-export function NotificationsList({ listProps }: Props) {
+export function NotificationsList() {
   const { themeOled } = usePreferences()
 
   styles.useVariants({
@@ -37,17 +32,16 @@ export function NotificationsList({ listProps }: Props) {
     refetch,
   } = useNotifications()
 
-  useScrollToTop(list, listProps)
+  useScrollToTop(list)
 
   return (
     <FlashList
-      {...listProps}
       data={notifications}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       keyExtractor={(item) => item.id}
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
-        isFetchingNextPage ? <Spinner m="6" /> : null
+        isFetchingNextPage ? <Spinner style={styles.spinner} /> : null
       }
       onEndReached={() => {
         if (hasNextPage) {
@@ -72,5 +66,8 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
     },
+  },
+  spinner: {
+    margin: theme.space[6],
   },
 }))

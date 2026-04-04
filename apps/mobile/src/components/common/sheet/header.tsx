@@ -1,11 +1,9 @@
 import { type ReactNode } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
-
-import { View } from '../view'
 
 type Props = {
   left?: ReactNode
@@ -19,41 +17,37 @@ export function Header({ left, onPress, right, style, title }: Props) {
   return (
     <Pressable
       accessibilityLabel={title}
-      align="center"
-      direction="row"
       disabled={!onPress}
-      gap="3"
-      height="8"
       onPress={onPress}
-      px="3"
-      style={style}
+      style={[styles.main, style]}
     >
-      {left ? (
-        <View direction="row" style={styles.left}>
-          {left}
-        </View>
-      ) : null}
+      {left ? <View style={styles.left}>{left}</View> : null}
 
       <Text align="center" numberOfLines={1} style={styles.title} weight="bold">
         {title}
       </Text>
 
-      {right ? (
-        <View direction="row" style={styles.right}>
-          {right}
-        </View>
-      ) : null}
+      {right ? <View style={styles.right}>{right}</View> : null}
     </Pressable>
   )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
   left: {
+    flexDirection: 'row',
     left: 0,
     position: 'absolute',
     top: 0,
   },
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[3],
+    height: theme.space[8],
+    paddingHorizontal: theme.space[3],
+  },
   right: {
+    flexDirection: 'row',
     position: 'absolute',
     right: 0,
     top: 0,
@@ -61,4 +55,4 @@ const styles = StyleSheet.create({
   title: {
     flex: 1,
   },
-})
+}))

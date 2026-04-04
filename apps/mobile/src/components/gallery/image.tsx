@@ -1,5 +1,6 @@
 import { Zoomable } from '@likashefqet/react-native-image-zoom'
 import { Image, useImage } from 'expo-image'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -7,7 +8,6 @@ import { useCopyImage, useDownloadImage, useShareImage } from '~/hooks/image'
 import { type PostMedia } from '~/types/post'
 
 import { IconButton } from '../common/icon/button'
-import { View } from '../common/view'
 
 type Props = {
   item: PostMedia
@@ -36,7 +36,7 @@ export function GalleryImage({ item }: Props) {
         </Zoomable>
       </View>
 
-      <View direction="row" justify="center" px="2" style={styles.controls}>
+      <View style={styles.controls}>
         <IconButton
           icon="square.on.square"
           label={a11y('copy')}
@@ -84,6 +84,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
     bottom: theme.space[4] + runtime.insets.bottom,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    paddingHorizontal: theme.space[2],
     position: 'absolute',
   },
   image: {

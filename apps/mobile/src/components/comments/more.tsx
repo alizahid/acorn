@@ -51,11 +51,7 @@ export function CommentMoreCard({
   return (
     <Pressable
       accessibilityLabel={label}
-      align="center"
-      direction="row"
       disabled={isPending}
-      gap="4"
-      justify="center"
       onPress={() => {
         if (!post) {
           return
@@ -72,7 +68,6 @@ export function CommentMoreCard({
           })
         }
       }}
-      py="2"
       style={[styles.main(comment.depth), style]}
     >
       {isPending ? (
@@ -92,6 +87,7 @@ const styles = StyleSheet.create((theme) => ({
     const marginLeft = theme.space[2] * depth
 
     return {
+      alignItems: 'center',
       backgroundColor: theme.colors.gray.bgAlt,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
@@ -104,8 +100,12 @@ const styles = StyleSheet.create((theme) => ({
           },
         },
       ],
+      flexDirection: 'row',
+      gap: theme.space[4],
+      justifyContent: 'center',
       marginLeft,
       overflow: 'hidden',
+      paddingVertical: theme.space[2],
       variants: {
         colorful: {
           true: {

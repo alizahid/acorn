@@ -1,13 +1,12 @@
 import { useEventListener } from 'expo'
 import { type VideoPlayer } from 'expo-video'
+import { View } from 'react-native'
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
-
-import { View } from '~/components/common/view'
 
 type Props = {
   player: VideoPlayer

@@ -31,13 +31,9 @@ export function FooterButton({
   return (
     <Pressable
       accessibilityLabel={label}
-      align="center"
-      height={compact ? undefined : '6'}
       hitSlop={space[2]}
-      justify="center"
       onPress={onPress}
-      style={styles.main}
-      width={compact ? undefined : '6'}
+      style={styles.main(compact)}
     >
       <Icon
         name={icon}
@@ -56,7 +52,8 @@ export function FooterButton({
 }
 
 const styles = StyleSheet.create((theme) => ({
-  main: {
+  main: (compact?: boolean) => ({
+    alignItems: 'center',
     borderCurve: 'continuous',
     borderRadius: theme.radius[3],
     compoundVariants: colors.map((token) => ({
@@ -66,11 +63,14 @@ const styles = StyleSheet.create((theme) => ({
         backgroundColor: theme.colors[token].accent,
       },
     })),
+    height: compact ? undefined : theme.space[6],
+    justifyContent: 'center',
     variants: {
       color: mapColors(() => ({})),
       fill: {
         true: {},
       },
     },
-  },
+    width: compact ? undefined : theme.space[6],
+  }),
 }))

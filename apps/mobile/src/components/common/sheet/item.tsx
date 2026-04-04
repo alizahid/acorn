@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
+import { glass } from '~/lib/common'
 
 type Props = {
   label: string
@@ -31,13 +32,8 @@ export function Item({
   return (
     <Pressable
       accessibilityLabel={label}
-      align="center"
-      direction="row"
       disabled={!onPress}
-      gap="3"
-      height="8"
       onPress={onPress}
-      px="3"
       style={[styles.main, style]}
     >
       {left}
@@ -60,6 +56,12 @@ const styles = StyleSheet.create((theme) => ({
     flex: 1,
   },
   main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[3],
+    height: theme.space[8],
+    marginHorizontal: glass ? 1 : undefined,
+    paddingHorizontal: theme.space[3],
     variants: {
       selected: {
         true: {

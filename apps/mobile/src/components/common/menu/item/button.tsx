@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { type ReactNode } from 'react'
 import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
+import { StyleSheet } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
 
@@ -34,15 +35,10 @@ export function MenuItemButton({
   return (
     <Pressable
       accessibilityLabel={label}
-      align="center"
-      direction="row"
-      gap="3"
-      height="8"
       onPress={() => {
         mutate()
       }}
-      px="3"
-      style={style}
+      style={[styles.main, style]}
     >
       <MenuItemContent
         arrow={arrow}
@@ -55,3 +51,13 @@ export function MenuItemButton({
     </Pressable>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[3],
+    height: theme.space[8],
+    paddingHorizontal: theme.space[3],
+  },
+}))

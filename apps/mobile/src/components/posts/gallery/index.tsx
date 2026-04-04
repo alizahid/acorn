@@ -1,10 +1,10 @@
 import { Image } from 'expo-image'
 import { useCallback } from 'react'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
-import { View } from '~/components/common/view'
 import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
 import { previewImages } from '~/lib/preview'

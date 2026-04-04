@@ -2,6 +2,7 @@ import { FlashList } from '@shopify/flash-list'
 import { range } from 'lodash'
 import { useEffect, useState } from 'react'
 import { createCallable } from 'react-call'
+import { View } from 'react-native'
 import { Gesture, GestureDetector } from 'react-native-gesture-handler'
 import Animated, {
   interpolate,
@@ -18,7 +19,6 @@ import { useTranslations } from 'use-intl'
 import { type PostMedia } from '~/types/post'
 
 import { IconButton } from '../common/icon/button'
-import { View } from '../common/view'
 import { GalleryImage } from './image'
 import { GalleryVideo } from './video'
 
@@ -128,13 +128,7 @@ export const Gallery = createCallable<Props>(({ call, media, initial }) => {
 
         <Animated.View style={[styles.controls, controls]}>
           {media.length > 1 ? (
-            <View
-              align="center"
-              direction="row"
-              gap="1"
-              height="8"
-              justify="center"
-            >
+            <View style={styles.pages}>
               {range(0, media.length).map((item) => (
                 <View key={item} style={styles.page(item === index)} />
               ))}
@@ -188,4 +182,11 @@ const styles = StyleSheet.create((theme, runtime) => ({
     opacity: active ? 1 : 0.25,
     width: theme.space[active ? 4 : 2],
   }),
+  pages: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[1],
+    height: theme.space[8],
+    justifyContent: 'center',
+  },
 }))

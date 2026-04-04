@@ -4,7 +4,6 @@ import { last } from 'lodash'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { HomeDrawer } from '~/components/home/drawer'
-import { useStageManager } from '~/hooks/stage-manager'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -18,26 +17,24 @@ export default function Layout() {
   styles.useVariants({
     iPad,
     oled: themeOled,
-    sticky: stickyDrawer,
     tint: themeTint,
   })
 
-  const stageManager = useStageManager()
-
   return (
     <Drawer
-      drawerContent={(props) => <HomeDrawer {...props} />}
+      drawerContent={HomeDrawer}
       screenOptions={{
         configureGestureHandler(gesture) {
           if (fullscreenDrawer) {
-            return gesture.hitSlop({ left: 1000 })
+            return gesture.hitSlop({
+              left: 1000,
+            })
           }
 
           return gesture
         },
         drawerStyle: styles.drawer,
-        drawerType:
-          iPad && !stageManager && stickyDrawer ? 'permanent' : 'slide',
+        drawerType: iPad && stickyDrawer ? 'permanent' : 'slide',
         headerShown: false,
         overlayColor: styles.overlay.backgroundColor,
         swipeEnabled: fullscreenDrawer
@@ -58,15 +55,13 @@ const styles = StyleSheet.create((theme, runtime) => ({
       iPad: {
         true: {
           borderRightWidth: StyleSheet.hairlineWidth,
+          width: runtime.screen.width * 0.3,
         },
       },
       oled: {
         true: {
           backgroundColor: oledTheme[theme.variant].bg,
         },
-      },
-      sticky: {
-        true: {},
       },
       tint: {
         true: {

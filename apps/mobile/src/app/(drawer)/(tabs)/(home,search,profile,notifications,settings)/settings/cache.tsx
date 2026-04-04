@@ -5,16 +5,13 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { db } from '~/db'
-import { useList } from '~/hooks/list'
 import { queryClient } from '~/lib/query'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.cache')
 
-  const listProps = useList()
-
   return (
-    <ScrollView {...listProps}>
+    <ScrollView>
       <Menu.Root>
         <Menu.Label>{t('data.title')}</Menu.Label>
 

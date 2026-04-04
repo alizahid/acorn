@@ -1,5 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
-import { type TextInput } from 'react-native'
+import { type TextInput, View } from 'react-native'
 import { TabView } from 'react-native-tab-view'
 import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
@@ -9,13 +9,9 @@ import { IconButton } from '~/components/common/icon/button'
 import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { TextBox } from '~/components/common/text-box'
-import { View } from '~/components/common/view'
-import { Header } from '~/components/navigation/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
-import { ListFlags, useList } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
-import { heights } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
@@ -32,10 +28,6 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences()
-
-  const listProps = useList(ListFlags.ALL, {
-    top: heights.search,
-  })
 
   const search = useRef<TextInput>(null)
 
@@ -56,7 +48,6 @@ export default function Screen() {
   }, [])
 
   const props = {
-    listProps,
     onChangeQuery,
     query: debounced,
   } as const
@@ -102,43 +93,44 @@ export default function Screen() {
 
         return <SearchList {...props} type="user" />
       }}
-      renderTabBar={({ position }) => (
-        <Header title={t('title')}>
-          <View gap="4" pb="4" px="3">
-            <TextBox
-              autoCapitalize="none"
-              autoComplete="off"
-              autoCorrect={false}
-              onChangeText={setQuery}
-              placeholder={t('title')}
-              ref={search}
-              returnKeyType="search"
-              right={
-                query.length > 0 ? (
-                  <IconButton
-                    color="gray"
-                    icon="xmark.circle.fill"
-                    label={a11y('clearQuery')}
-                    onPress={() => {
-                      setQuery('')
-                    }}
-                    style={styles.clear}
-                  />
-                ) : null
-              }
-              style={styles.query}
-              value={query}
-            />
+      renderTabBar={({ jumpTo, navigationState }) => (
+        <View style={styles.tabBar}>
+          <TextBox
+            autoCapitalize="none"
+            autoComplete="off"
+            autoCorrect={false}
+            onChangeText={setQuery}
+            placeholder={t('title')}
+            ref={search}
+            returnKeyType="search"
+            right={
+              query.length > 0 ? (
+                <IconButton
+                  color="gray"
+                  icon="xmark.circle.fill"
+                  label={a11y('clearQuery')}
+                  onPress={() => {
+                    setQuery('')
+                  }}
+                  style={styles.clear}
+                />
+              ) : null
+            }
+            style={styles.query}
+            value={query}
+          />
 
-            <SegmentedControl
-              items={routes.map(({ key }) => t(`tabs.${key}`))}
-              offset={position}
-              onChange={(next) => {
-                setIndex(next)
-              }}
-            />
-          </View>
-        </Header>
+          <SegmentedControl
+            items={routes.map(({ key }) => ({
+              key,
+              label: t(`tabs.${key}`),
+            }))}
+            onChange={(next) => {
+              jumpTo(next)
+            }}
+            value={navigationState.routes[navigationState.index]?.key}
+          />
+        </View>
       )}
     />
   )
@@ -152,5 +144,9 @@ const styles = StyleSheet.create((theme) => ({
   query: {
     backgroundColor: theme.colors.gray.uiActiveAlpha,
     borderWidth: 0,
+  },
+  tabBar: {
+    gap: theme.space[4],
+    padding: theme.space[4],
   },
 }))

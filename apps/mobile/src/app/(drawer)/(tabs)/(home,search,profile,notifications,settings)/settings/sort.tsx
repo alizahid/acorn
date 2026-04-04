@@ -4,7 +4,6 @@ import { useTranslations } from 'use-intl'
 import { Menu } from '~/components/common/menu'
 import { IntervalItem } from '~/components/settings/interval'
 import { SortItem } from '~/components/settings/sort'
-import { useList } from '~/hooks/list'
 import { usePreferences } from '~/stores/preferences'
 
 export default function Screen() {
@@ -26,10 +25,8 @@ export default function Screen() {
     update,
   } = usePreferences()
 
-  const listProps = useList()
-
   return (
-    <ScrollView {...listProps}>
+    <ScrollView>
       <Menu.Root>
         <Menu.Switch
           label={t('remember')}

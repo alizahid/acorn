@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -6,7 +7,6 @@ import { useReply } from '~/hooks/mutations/messages/reply'
 
 import { IconButton } from '../common/icon/button'
 import { TextBox } from '../common/text-box'
-import { View } from '../common/view'
 
 type Props = {
   threadId: string
@@ -36,7 +36,7 @@ export function ReplyCard({ threadId, user }: Props) {
   }, [createReply, text, threadId, user])
 
   return (
-    <View direction="row" style={styles.main}>
+    <View style={styles.main}>
       <TextBox
         onChangeText={setText}
         onSubmitEditing={() => {
@@ -70,6 +70,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   main: {
     backgroundColor: theme.colors.gray.ui,
+    flexDirection: 'row',
   },
   submit: {
     alignSelf: 'flex-end',

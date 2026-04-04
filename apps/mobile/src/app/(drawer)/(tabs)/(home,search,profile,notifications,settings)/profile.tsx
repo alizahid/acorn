@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router'
 import { type SFSymbol } from 'expo-symbols'
 import { ScrollView } from 'react-native-gesture-handler'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { FloatingButton } from '~/components/common/floating-button'
@@ -8,7 +9,6 @@ import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { ProfileCard } from '~/components/users/profile'
-import { useList } from '~/hooks/list'
 import { useProfile } from '~/hooks/queries/user/profile'
 import { getIcon } from '~/lib/icons'
 import { removePrefix } from '~/lib/reddit'
@@ -25,15 +25,13 @@ export default function Screen() {
   const { accountId } = useAuth()
   const { profile, refetch } = useProfile(accountId)
 
-  const listProps = useList()
-
   return (
     <>
       <ScrollView
-        {...listProps}
+        contentInsetAdjustmentBehavior="always"
         refreshControl={<RefreshControl onRefresh={refetch} />}
       >
-        <Menu.Root py="0">
+        <Menu.Root style={styles.main}>
           <ProfileCard profile={profile} />
 
           {UserFeedType.map((type) => (
@@ -84,6 +82,12 @@ export default function Screen() {
     </>
   )
 }
+
+const styles = StyleSheet.create({
+  main: {
+    paddingVertical: 0,
+  },
+})
 
 const icons = {
   comments: 'bubble.left',

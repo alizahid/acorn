@@ -6,17 +6,14 @@ import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { AboutCard } from '~/components/settings/about'
 import { Updater } from '~/components/settings/updater'
-import { useList } from '~/hooks/list'
 
 export default function Screen() {
   const router = useRouter()
 
   const t = useTranslations('screen.settings.settings')
 
-  const listProps = useList()
-
   return (
-    <ScrollView {...listProps}>
+    <ScrollView contentInsetAdjustmentBehavior="always">
       <AboutCard />
 
       <Menu.Root>

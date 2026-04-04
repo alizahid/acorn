@@ -6,7 +6,6 @@ import { GestureIcons } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { type MenuItemOption } from '~/components/common/menu/item/options'
-import { useList } from '~/hooks/list'
 import { useGestures } from '~/stores/gestures'
 
 export default function Screen() {
@@ -27,8 +26,6 @@ export default function Screen() {
     postRightShort,
     update,
   } = useGestures()
-
-  const listProps = useList()
 
   const options: Array<MenuItemOption<GestureAction>> = [
     {
@@ -106,7 +103,7 @@ export default function Screen() {
   ]
 
   return (
-    <ScrollView {...listProps}>
+    <ScrollView>
       <Menu.Root>
         <Menu.Label>{t('menu.posts')}</Menu.Label>
 

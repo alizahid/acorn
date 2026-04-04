@@ -168,6 +168,7 @@
     },
     "filters": {
       "card": {
+        "title": "Type",
         "type": {
           "community": {
             "label": "Community",
@@ -498,7 +499,6 @@
           "title": "Font"
         },
         "preferences": {
-          "blurNavigation": "Use blur effect",
           "colorfulComments": "Colorful comments",
           "themeOled": "OLED mode",
           "themeTint": "Background tint",

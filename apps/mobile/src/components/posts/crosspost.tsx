@@ -1,5 +1,6 @@
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -10,7 +11,6 @@ import { type Post } from '~/types/post'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { View } from '../common/view'
 import { CrossPostFooter } from './footer/crosspost'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
@@ -58,7 +58,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
           />
         ) : null}
 
-        <View align="center" justify="center" style={styles.icon}>
+        <View style={styles.icon}>
           <Icon name="arrow.trianglehead.branch" style={styles.crossPost} />
         </View>
       </Pressable>
@@ -91,7 +91,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
       ) : null}
 
       {post.type === 'image' && post.media.images ? (
-        <View mx="3">
+        <View style={styles.card}>
           <PostGalleryCard
             images={post.media.images}
             nsfw={post.nsfw}
@@ -102,7 +102,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
       ) : null}
 
       {post.type === 'link' && post.url ? (
-        <View mx="3">
+        <View style={styles.card}>
           <PostLinkCard
             crossPost
             media={post.media.images?.[0]}
@@ -112,7 +112,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
         </View>
       ) : null}
 
-      <View gap="3" p="3">
+      <View style={styles.footer}>
         <Text numberOfLines={2} size="2" weight="medium">
           {post.title}
         </Text>
@@ -124,6 +124,9 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  card: {
+    marginHorizontal: theme.space[3],
+  },
   crossPost: {
     transform: [
       {
@@ -131,9 +134,15 @@ const styles = StyleSheet.create((theme) => ({
       },
     ],
   },
+  footer: {
+    gap: theme.space[3],
+    padding: theme.space[3],
+  },
   icon: {
     ...StyleSheet.absoluteFillObject,
+    alignItems: 'center',
     backgroundColor: theme.colors.black.accentAlpha,
+    justifyContent: 'center',
   },
   image: {
     flex: 1,

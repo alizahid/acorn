@@ -1,123 +1,34 @@
-import MaskedView from '@react-native-masked-view/masked-view'
-import { useState } from 'react'
-import { Animated, type ViewStyle } from 'react-native'
-import { StyleSheet } from 'react-native-unistyles'
-
-import { space } from '~/styles/tokens'
-
-import { Pressable } from './pressable'
-import { Text } from './text'
-import { View } from './view'
+import { Button, Host, Picker } from '@expo/ui/swift-ui'
+import { pickerStyle, tag } from '@expo/ui/swift-ui/modifiers'
 
 type Props = {
-  items: Array<string>
-  offset: Animated.AnimatedInterpolation<number>
-  onChange: (index: number) => void
+  items: Array<{
+    key: string
+    label: string
+  }>
+  onChange: (key: string) => void
+  value?: string
 }
 
-export function SegmentedControl({ items, offset, onChange }: Props) {
-  const [width, setWidth] = useState(0)
-
-  const style: ViewStyle = {
-    transform: [
-      {
-        translateX: offset.interpolate({
-          inputRange: items.map((_item, index) => index),
-          outputRange: items.map(
-            (_item, index) => index * width + space[1] / 2,
-          ),
-        }),
-      },
-    ],
-  }
-
+export function SegmentedControl({ items, onChange, value }: Props) {
   return (
-    <View
-      direction="row"
-      onLayout={(event) => {
-        setWidth((event.nativeEvent.layout.width - space[1]) / items.length)
-      }}
-      style={styles.main}
-    >
-      <Animated.View style={[styles.selected(width), style]} />
-
-      {items.map((item, index) => (
-        <Pressable
-          accessibilityLabel={item}
-          accessibilityRole="tab"
-          align="center"
-          flex={1}
-          height="7"
-          justify="center"
-          key={item}
-          onPress={() => {
-            onChange(index)
-          }}
-          px="2"
-        >
-          <Text highContrast={false} size="2" weight="bold">
-            {item}
-          </Text>
-        </Pressable>
-      ))}
-
-      <MaskedView
-        maskElement={
-          <View direction="row">
-            {items.map((item) => (
-              <View
-                align="center"
-                flex={1}
-                height="7"
-                justify="center"
-                key={item}
-                px="2"
-              >
-                <Text color="blue" size="2" weight="bold">
-                  {item}
-                </Text>
-              </View>
-            ))}
-          </View>
-        }
-        pointerEvents="none"
-        style={styles.masked}
+    <Host matchContents>
+      <Picker
+        label="Select a fruit"
+        modifiers={[pickerStyle('segmented')]}
+        onSelectionChange={(selection) => {
+          onChange(selection)
+        }}
+        selection={value}
       >
-        <Animated.View style={[styles.mask(width), style]} />
-      </MaskedView>
-    </View>
+        {items.map((item) => (
+          <Button
+            key={item.key}
+            label={item.label}
+            modifiers={[tag(item.key)]}
+          />
+        ))}
+      </Picker>
+    </Host>
   )
 }
-
-const styles = StyleSheet.create((theme) => ({
-  main: {
-    backgroundColor: theme.colors.gray.uiAlpha,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
-  },
-  mask: (width: number) => ({
-    backgroundColor: theme.colors.accent.contrast,
-    bottom: theme.space[1] / 2,
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: theme.space[1] / 2,
-    width,
-  }),
-  masked: {
-    height: '100%',
-    position: 'absolute',
-    width: '100%',
-  },
-  selected: (width: number) => ({
-    backgroundColor: theme.colors.accent.accent,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[3],
-    bottom: theme.space[1] / 2,
-    left: 0,
-    position: 'absolute',
-    right: 0,
-    top: theme.space[1] / 2,
-    width,
-  }),
-}))
