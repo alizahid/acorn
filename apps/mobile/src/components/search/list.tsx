@@ -123,6 +123,7 @@ export function SearchList({
       ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={renderItem}
+      stickyNav={false}
     />
   )
 }
