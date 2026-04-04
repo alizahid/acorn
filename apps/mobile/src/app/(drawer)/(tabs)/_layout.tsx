@@ -62,7 +62,7 @@ export default function Layout() {
         </NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="(search)">
+      <NativeTabs.Trigger name="(search)" role="search">
         <NativeTabs.Trigger.Icon sf="magnifyingglass" />
         <NativeTabs.Trigger.Label hidden>
           {t('search.title')}
