@@ -21,17 +21,17 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.8",
+    "@biomejs/biome": "2.4.10",
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "rimraf": "^6.1.3",
-    "turbo": "2.8.20",
-    "ultracite": "7.3.2"
+    "turbo": "2.9.3",
+    "ultracite": "7.4.3"
   },
   "packageManager": "bun@1.3.11",
   "patchedDependencies": {
     "@native-html/render@1.0.2": "patches/@native-html%2Frender@1.0.2.patch",
-    "expo-video@3.0.15": "patches/expo-video@3.0.15.patch",
+    "expo-video@55.0.13": "patches/expo-video@55.0.13.patch",
     "ffmpeg-kit-react-native@6.0.2": "patches/ffmpeg-kit-react-native@6.0.2.patch"
   }
 }

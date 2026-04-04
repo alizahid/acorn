@@ -1,5 +1,5 @@
 diff --git a/ios/VideoManager.swift b/ios/VideoManager.swift
-index 8ef093e7a0a7ca502e11c9cc36e41a1df500f1f1..d14930cf5f41521bf4172a5066bc678b62ae67cb 100644
+index 0b82a77c4c2d895ab5c92342935ed1407361222b..d40c715b55e2ab1d313d8c18daa41b540424c91b 100644
 --- a/ios/VideoManager.swift
 +++ b/ios/VideoManager.swift
 @@ -104,7 +104,7 @@ class VideoManager {
@@ -9,5 +9,5 @@ index 8ef093e7a0a7ca502e11c9cc36e41a1df500f1f1..d14930cf5f41521bf4172a5066bc678b
 -        try audioSession.setCategory(.playback, mode: .moviePlayback, options: audioSessionCategoryOptions)
 +        try audioSession.setCategory(.playback, options: audioSessionCategoryOptions)
        } catch {
-         log.warn("Failed to set audio session category. This might cause issues with audio playback and Picture in Picture. \(error.localizedDescription)")
+         log.warn("[expo-video] Failed to set audio session category. This might cause issues with audio playback and Picture in Picture. \(error.localizedDescription)")
        }
