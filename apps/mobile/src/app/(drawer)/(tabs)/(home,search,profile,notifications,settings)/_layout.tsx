@@ -263,6 +263,9 @@ function StackLayout({ children }: PropsWithChildren) {
           },
         })}
         name="posts/[id]/index"
+        options={{
+          headerTransparent: false,
+        }}
       />
 
       <Stack.Screen

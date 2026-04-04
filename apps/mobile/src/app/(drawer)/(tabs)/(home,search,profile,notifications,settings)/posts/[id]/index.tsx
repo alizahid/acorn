@@ -291,6 +291,7 @@ export default function Screen() {
             list.current?.scrollToIndex({
               animated: true,
               index: next,
+              viewOffset: 1,
             })
           }}
           side={skipComment}
