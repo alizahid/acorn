@@ -2,7 +2,7 @@ import { FlashList } from '@shopify/flash-list'
 import { formatISO, isDate } from 'date-fns'
 import { useLocalSearchParams } from 'expo-router'
 import { View } from 'react-native'
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
+import { KeyboardChatScrollView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 import { z } from 'zod'
@@ -13,7 +13,7 @@ import { Text } from '~/components/common/text'
 import { MessageCard } from '~/components/messages/card'
 import { ReplyCard } from '~/components/messages/reply'
 import { useThread } from '~/hooks/queries/user/thread'
-import { heights } from '~/lib/common'
+import { listProps } from '~/lib/list'
 import { useAuth } from '~/stores/auth'
 
 const schema = z.object({
@@ -33,8 +33,9 @@ export default function Screen() {
   const { messages, refetch } = useThread(params.id)
 
   return (
-    <KeyboardAvoidingView behavior="padding" style={styles.main}>
+    <>
       <FlashList
+        {...listProps}
         contentContainerStyle={styles.content}
         data={messages}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -42,7 +43,6 @@ export default function Screen() {
         keyExtractor={(item) => (isDate(item) ? formatISO(item) : item.id)}
         ListEmptyComponent={() => <Empty />}
         maintainVisibleContentPosition={{
-          autoscrollToBottomThreshold: 0.5,
           startRenderingFromBottom: true,
         }}
         refreshControl={<RefreshControl onRefresh={refetch} />}
@@ -61,10 +61,11 @@ export default function Screen() {
 
           return <MessageCard message={item} userId={accountId} />
         }}
+        renderScrollComponent={KeyboardChatScrollView}
       />
 
       <ReplyCard threadId={params.id} user={params.user} />
-    </KeyboardAvoidingView>
+    </>
   )
 }
 
@@ -82,7 +83,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   main: {
     flex: 1,
-    marginBottom: heights.tabBar + runtime.insets.bottom,
+    marginBottom: runtime.insets.bottom,
   },
   separator: {
     height: theme.space[4],

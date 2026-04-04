@@ -2,6 +2,7 @@ import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
+import { iPad } from '~/lib/common'
 import { type Message } from '~/types/message'
 
 import { Html } from '../common/html'
@@ -37,10 +38,11 @@ const styles = StyleSheet.create((theme) => ({
   content: (self: boolean) => ({
     backgroundColor: self ? theme.colors.accent.ui : theme.colors.gray.ui,
     borderCurve: 'continuous',
-    borderRadius: theme.space[2],
-    maxWidth: '90%',
-    paddingHorizontal: theme.space[2],
-    paddingVertical: theme.space[1],
+    borderRadius: theme.space[3],
+    maxWidth: iPad ? 600 : 300,
+    paddingHorizontal: theme.space[3],
+    paddingVertical: theme.space[2],
+    width: '80%',
   }),
   main: (self: boolean) => ({
     alignItems: self ? 'flex-end' : 'flex-start',
