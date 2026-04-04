@@ -20,6 +20,7 @@
     "@bacons/apple-targets": "^4.0.6",
     "@bottom-tabs/react-navigation": "^1.1.0",
     "@date-fns/tz": "^1.4.1",
+    "@expo/ui": "~55.0.8",
     "@formatjs/intl-getcanonicallocales": "^3.2.2",
     "@formatjs/intl-locale": "^5.3.1",
     "@formatjs/intl-numberformat": "^9.3.1",
