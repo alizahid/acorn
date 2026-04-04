@@ -34,7 +34,7 @@ export default function Layout() {
           return gesture
         },
         drawerStyle: styles.drawer,
-        drawerType: iPad && stickyDrawer ? 'permanent' : 'slide',
+        drawerType: iPad && stickyDrawer ? 'permanent' : 'front',
         headerShown: false,
         overlayColor: styles.overlay.backgroundColor,
         swipeEnabled: fullscreenDrawer

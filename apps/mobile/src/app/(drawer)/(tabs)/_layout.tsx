@@ -1,13 +1,14 @@
 import { focusManager } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { NativeTabs } from 'expo-router/unstable-native-tabs'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { AppState } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
+import { iPad } from '~/lib/common'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 
@@ -19,6 +20,8 @@ export default function Layout() {
   const { accountId } = useAuth()
   const { unread } = useUnread()
   const { subscribed } = useSubscribed()
+
+  const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     if (accountId) {
@@ -66,10 +69,20 @@ export default function Layout() {
         </NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
 
-      <NativeTabs.Trigger name="(profile)">
+      <NativeTabs.Trigger
+        listeners={{
+          blur() {
+            setVisible(false)
+          },
+          focus() {
+            setVisible(true)
+          },
+        }}
+        name="(profile)"
+      >
         <NativeTabs.Trigger.Icon sf="person.crop.circle" />
-        <NativeTabs.Trigger.Label hidden>
-          {t('profile.title')}
+        <NativeTabs.Trigger.Label hidden={iPad ? !visible : true}>
+          {accountId ?? t('profile.title')}
         </NativeTabs.Trigger.Label>
       </NativeTabs.Trigger>
 
