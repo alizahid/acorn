@@ -22,7 +22,7 @@ import { FeedType } from '~/types/sort'
 export default function Screen() {
   const t = useTranslations('screen.settings.defaults')
 
-  const { drawerSections, feedType, searchTabs, tabs, update } = useDefaults()
+  const { drawerSections, feedType, searchTabs, update } = useDefaults()
 
   return (
     <ScrollViewContainer contentContainerStyle={styles.content}>
@@ -54,48 +54,6 @@ export default function Screen() {
                   value={item === feedType}
                 />
               }
-            />
-          )}
-          scrollEnabled={false}
-          style={styles.list}
-        />
-      </View>
-
-      <View style={styles.item}>
-        <Menu.Label mt="2">{t('tabs.title')}</Menu.Label>
-
-        <NestedReorderableList
-          data={tabs}
-          keyExtractor={(item) => item.key}
-          onReorder={(event) => {
-            const next = reorderItems(tabs, event.from, event.to)
-
-            update({
-              tabs: next,
-            })
-          }}
-          renderItem={({ index, item }) => (
-            <DraggableItem
-              disabled={item.key === '(settings)'}
-              label={t(`tabs.${item.key}`)}
-              onChange={(value) => {
-                const next = create(tabs, (draft) => {
-                  if (draft[index]) {
-                    draft[index].disabled = !value
-                  }
-                })
-
-                const disabled = next.filter(($item) => $item.disabled)
-
-                if (disabled.length === tabs.length) {
-                  return
-                }
-
-                update({
-                  tabs: next,
-                })
-              }}
-              value={!item.disabled}
             />
           )}
           scrollEnabled={false}

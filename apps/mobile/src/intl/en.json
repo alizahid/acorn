@@ -561,14 +561,6 @@
           "post": "Posts",
           "title": "Search tabs",
           "user": "Users"
-        },
-        "tabs": {
-          "(home)": "Home",
-          "(notifications)": "Notifications",
-          "(profile)": "Profile",
-          "(search)": "Search",
-          "(settings)": "Settings",
-          "title": "Bottom tabs"
         }
       },
       "filters": {

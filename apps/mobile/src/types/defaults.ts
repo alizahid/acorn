@@ -11,15 +11,3 @@ export type DrawerSections = Array<{
   disabled: boolean
   key: DrawerSection
 }>
-
-export type BottomTab =
-  | '(home)'
-  | '(search)'
-  | '(profile)'
-  | '(notifications)'
-  | '(settings)'
-
-export type BottomTabs = Array<{
-  disabled: boolean
-  key: BottomTab
-}>
