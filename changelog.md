@@ -1,5 +1,15 @@
 # Changelog
 
+## Upcoming
+
+- added: iOS 26 search bar
+- added: more Liquid Glass
+- added: new content engine
+- fixed: chat keyboard interaction
+- fixed: scroll to next / previous comments
+- removed: /r/all
+- removed: bottom tabs customization
+
 ## Build 71-72
 
 - added: settings tab always available
