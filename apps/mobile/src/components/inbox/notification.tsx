@@ -11,10 +11,10 @@ import { oledTheme } from '~/styles/oled'
 import { type ColorToken, colors } from '~/styles/tokens'
 import { type Notification, type NotificationType } from '~/types/notification'
 
-import { Html } from '../common/html'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { Markdown } from '../markdown'
 
 type Props = {
   notification: Notification
@@ -76,7 +76,7 @@ export function NotificationCard({ notification }: Props) {
           {body}
         </Text>
 
-        <Html>{notification.body}</Html>
+        <Markdown>{notification.body}</Markdown>
 
         <View style={styles.meta}>
           <Text highContrast={false} size="2">

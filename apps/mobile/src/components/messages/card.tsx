@@ -5,8 +5,8 @@ import { useFormatter } from 'use-intl'
 import { iPad } from '~/lib/common'
 import { type Message } from '~/types/message'
 
-import { Html } from '../common/html'
 import { Text } from '../common/text'
+import { Markdown } from '../markdown'
 
 type Props = {
   message: Message
@@ -22,7 +22,7 @@ export function MessageCard({ message, style, userId }: Props) {
   return (
     <View style={[styles.main(self), style]}>
       <View style={styles.content(self)}>
-        <Html>{message.body}</Html>
+        <Markdown>{message.body}</Markdown>
       </View>
 
       <Text highContrast={false} size="1" tabular>

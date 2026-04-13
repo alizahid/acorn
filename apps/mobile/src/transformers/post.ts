@@ -1,7 +1,7 @@
 import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
-import { decodeHtml } from '~/lib/html'
+import { markdownToEnriched } from '~/lib/markdown'
 import { getImages, getMeta, getVideo } from '~/lib/media'
 import { removePrefix } from '~/lib/reddit'
 import { type PostDataSchema } from '~/schemas/posts'
@@ -27,7 +27,7 @@ export function transformPost(
     : undefined
 
   return {
-    body: decodeHtml(data.selftext_html),
+    body: markdownToEnriched(data.selftext),
     comments: data.num_comments,
     community: transformCommunity(data.sr_detail),
     createdAt: fromUnixTime(data.created_utc),

@@ -62,7 +62,15 @@ export function usePostReply() {
       })
     },
     onSuccess(data, variables) {
-      const payload = data.json.data.things[0]
+      if (data.json.errors.length > 0) {
+        const error = data.json.errors[0]?.[1] ?? t('error')
+
+        toast.error(error)
+
+        throw new Error(error)
+      }
+
+      const payload = data.json.data?.things[0]
 
       if (!payload) {
         return

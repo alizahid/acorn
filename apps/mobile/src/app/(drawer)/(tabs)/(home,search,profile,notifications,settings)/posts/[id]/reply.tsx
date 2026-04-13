@@ -16,11 +16,11 @@ import { z } from 'zod'
 
 import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
-import { TextInput } from '~/components/native/text-input'
+import { MarkdownEditor } from '~/components/markdown/editor'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
-import { htmlToMarkdown } from '~/lib/editor'
 import { type Font, fonts } from '~/lib/fonts'
+import { enrichedToMarkdown } from '~/lib/markdown'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
@@ -37,7 +37,7 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { font, fontScaling, systemScaling } = usePreferences()
+  const { font, fontScaling } = usePreferences()
 
   const t = useTranslations('screen.posts.reply')
   const a11y = useTranslations('a11y')
@@ -47,9 +47,7 @@ export default function Screen() {
   const reply = usePostReply()
   const edit = useCommentEdit()
 
-  const [text, setText] = useState(
-    params.body ? htmlToMarkdown(params.body) : '',
-  )
+  const [text, setText] = useState(params.body)
 
   const style = useAnimatedStyle(() => ({
     paddingBottom: keyboard.height.get(),
@@ -64,14 +62,14 @@ export default function Screen() {
             label={a11y('createComment')}
             loading={reply.isPending || edit.isPending}
             onPress={async () => {
-              if (text.length === 0) {
+              if (!text) {
                 return
               }
 
               if (params.body && params.commentId) {
                 if (params.body !== text) {
                   await edit.edit({
-                    body: text,
+                    body: enrichedToMarkdown(text),
                     id: params.commentId,
                     postId: params.postId,
                   })
@@ -85,7 +83,7 @@ export default function Screen() {
               await reply.reply({
                 commentId: params.commentId,
                 postId: params.id,
-                text,
+                text: enrichedToMarkdown(text),
               })
 
               router.back()
@@ -110,7 +108,11 @@ export default function Screen() {
 
   return (
     <Animated.View style={[styles.main, style]}>
-      {params.user ? (
+      {params.commentId ? (
+        <View style={styles.user}>
+          <Text weight="medium">{t('editing')}</Text>
+        </View>
+      ) : params.user ? (
         <View style={styles.user}>
           <Text weight="medium">
             {t('user', {
@@ -120,11 +122,8 @@ export default function Screen() {
         </View>
       ) : null}
 
-      <TextInput
-        allowFontScaling={systemScaling}
-        autoFocus
-        multiline
-        onChangeText={setText}
+      <MarkdownEditor
+        onChange={setText}
         placeholder={t('placeholder')}
         style={styles.input(font, fontScaling)}
         value={text}
@@ -140,7 +139,7 @@ const styles = StyleSheet.create((theme) => ({
     fontFamily: fonts[font],
     fontSize: theme.typography[3].fontSize * scaling,
     lineHeight: theme.typography[3].lineHeight * scaling,
-    padding: theme.space[3],
+    padding: theme.space[4],
   }),
   main: {
     flex: 1,

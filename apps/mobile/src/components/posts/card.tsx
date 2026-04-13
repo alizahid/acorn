@@ -14,9 +14,9 @@ import { oledTheme } from '~/styles/oled'
 import { type Post } from '~/types/post'
 
 import { type GestureAction, Gestures } from '../common/gestures'
-import { Html } from '../common/html'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { Markdown } from '../markdown'
 import { PostCompactCard } from './compact'
 import { CrossPostCard } from './crosspost'
 import { FlairCard } from './flair'
@@ -241,9 +241,7 @@ export function PostCard({ expanded, post }: Props) {
             ) : null}
 
             {expanded && post.body ? (
-              <Html meta={post.media.meta} type="post">
-                {post.body}
-              </Html>
+              <Markdown meta={post.media.meta}>{post.body}</Markdown>
             ) : null}
 
             <PostFooter

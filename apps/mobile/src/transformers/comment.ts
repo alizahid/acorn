@@ -1,7 +1,7 @@
 import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
-import { decodeHtml } from '~/lib/html'
+import { markdownToEnriched } from '~/lib/markdown'
 import { getMeta } from '~/lib/media'
 import { removePrefix } from '~/lib/reddit'
 import { type CommentsSchema } from '~/schemas/comments'
@@ -48,7 +48,7 @@ export function transformComment(
 
   return {
     data: {
-      body: decodeHtml(data.data.body_html)!,
+      body: markdownToEnriched(data.data.body),
       collapsed,
       community: {
         id: removePrefix(data.data.subreddit_id),

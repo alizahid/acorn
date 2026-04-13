@@ -13,7 +13,6 @@ import { persistOptions, queryClient } from '~/lib/query'
 
 import { Gallery } from '../gallery'
 import { ThemeProvider } from '../navigation/theme'
-import { HtmlProvider } from './html/provider'
 import { Toast } from './toast'
 
 type Props = {
@@ -32,7 +31,7 @@ export function Providers({ children }: Props) {
             >
               <PortalProvider>
                 <FocusProvider>
-                  <HtmlProvider>{children}</HtmlProvider>
+                  {children}
 
                   <AccountSwitcher />
                   <Gallery.Root />

@@ -11,10 +11,10 @@ import { oledTheme } from '~/styles/oled'
 import { space } from '~/styles/tokens'
 import { type Message } from '~/types/message'
 
-import { Html } from '../common/html'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { Markdown } from '../markdown'
 
 type Props = {
   message: Message
@@ -90,7 +90,7 @@ export function MessageCard({ message }: Props) {
           </Text>
         </View>
 
-        <Html>{body}</Html>
+        <Markdown>{body}</Markdown>
       </View>
 
       <Icon

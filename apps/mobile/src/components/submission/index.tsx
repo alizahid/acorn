@@ -18,7 +18,6 @@ import { SubmissionType } from '~/components/submission/type'
 import { useLink } from '~/hooks/link'
 import { useCreatePost } from '~/hooks/mutations/posts/create'
 import { heights, iOS26 } from '~/lib/common'
-import { htmlToMarkdown } from '~/lib/editor'
 import { type Submission } from '~/types/submission'
 
 type Props = {
@@ -38,10 +37,6 @@ export function Submission({ submission }: Props) {
   const onSubmit = form.handleSubmit(async (data) => {
     if (isPending) {
       return
-    }
-
-    if (data.type === 'text') {
-      data.text = htmlToMarkdown(data.text)
     }
 
     const response = await createPost(data)

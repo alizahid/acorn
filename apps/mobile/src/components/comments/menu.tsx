@@ -11,7 +11,6 @@ import { type ReportReason, useReport } from '~/hooks/moderation/report'
 import { useCommentRemove } from '~/hooks/mutations/comments/remove'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
-import { htmlToMarkdown } from '~/lib/editor'
 import { getIcon } from '~/lib/icons'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
@@ -157,7 +156,7 @@ export function CommentMenu({ children, comment }: Props) {
           <Link.MenuAction
             icon="square.on.square"
             onPress={() => {
-              copy(htmlToMarkdown(comment.body)).then(() => {
+              copy(comment.body).then(() => {
                 toast.success(t('toast.textCopied'))
               })
             }}

@@ -3,7 +3,7 @@ import { z } from 'zod'
 const MessageSchema = z.object({
   data: z.object({
     author: z.string(),
-    body_html: z.string(),
+    body: z.string(),
     created_utc: z.number(),
     dest: z.string(),
     id: z.string(),

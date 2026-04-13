@@ -15,10 +15,10 @@ import { type Undefined } from '~/types'
 import { type CommentReply } from '~/types/comment'
 
 import { Gestures } from '../common/gestures'
-import { Html } from '../common/html'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
+import { Markdown } from '../markdown'
 import { FlairCard, type FlairType } from '../posts/flair'
 import { CommentMenu } from './menu'
 import { CommentMeta } from './meta'
@@ -167,13 +167,7 @@ export function CommentCard({
 
             {collapsed ? null : (
               <View style={styles.body}>
-                <Html
-                  depth={comment.depth}
-                  meta={comment.media.meta}
-                  type="comment"
-                >
-                  {comment.body}
-                </Html>
+                <Markdown meta={comment.media.meta}>{comment.body}</Markdown>
               </View>
             )}
 

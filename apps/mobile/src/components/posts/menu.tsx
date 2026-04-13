@@ -12,7 +12,6 @@ import { type ReportReason, useReport } from '~/hooks/moderation/report'
 import { usePostRemove } from '~/hooks/mutations/posts/remove'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
-import { htmlToMarkdown } from '~/lib/editor'
 import { getIcon } from '~/lib/icons'
 import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
@@ -155,7 +154,7 @@ export function PostMenu({ children, post }: Props) {
               icon="square.on.square"
               onPress={() => {
                 if (post.body) {
-                  copy(htmlToMarkdown(post.body)).then(() => {
+                  copy(post.body).then(() => {
                     toast.success(t('toast.textCopied'))
                   })
                 }

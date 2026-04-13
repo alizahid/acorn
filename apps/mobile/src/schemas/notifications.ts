@@ -8,7 +8,7 @@ export const NotificationsSchema = z.object({
         z.object({
           data: z.object({
             author: z.string(),
-            body_html: z.string(),
+            body: z.string(),
             context: z.string(),
             created_utc: z.number(),
             id: z.string(),

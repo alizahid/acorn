@@ -2,6 +2,7 @@
 declare namespace NodeJS {
   // biome-ignore lint/style/useConsistentTypeDefinitions: go away
   export interface ProcessEnv {
+    GIPHY_API_KEY: string
     REDDIT_CLIENT_ID: string
     REDDIT_CLIENT_SECRET: string
     REDDIT_REDIRECT_URL: string

@@ -14,7 +14,7 @@ import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
 
-import { Html } from '../common/html'
+import { Markdown } from '../markdown'
 
 type Props = {
   name: string
@@ -101,7 +101,7 @@ export function CommunityAbout({ name }: Props) {
 
       {community.description ? (
         <View style={styles.description}>
-          <Html type="about">{community.description}</Html>
+          <Markdown>{community.description}</Markdown>
         </View>
       ) : null}
 

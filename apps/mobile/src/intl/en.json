@@ -444,6 +444,7 @@
         "title": "New post"
       },
       "reply": {
+        "editing": "Editing comment",
         "placeholder": "Say something nice",
         "title": "Reply",
         "user": "Replying to {user}"
@@ -744,6 +745,7 @@
     "comments": {
       "created": "Comment added",
       "deleted": "Comment deleted",
+      "error": "Something went wrong",
       "saved": "Comment saved",
       "unsaved": "Comment unsaved",
       "updated": "Comment updated"

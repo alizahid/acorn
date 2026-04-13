@@ -31,7 +31,7 @@ const PostBaseSchema = z.object({
   post_hint: z.string().nullish(),
   preview: PostPreviewSchema,
   saved: z.boolean(),
-  selftext_html: z.string().nullable(),
+  selftext: z.string().nullable(),
   spoiler: z.boolean(),
   sr_detail: CommunityDataSchema,
   stickied: z.boolean(),
