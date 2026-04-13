@@ -93,6 +93,17 @@ export default function Screen() {
             })
           }}
         />
+
+        <Menu.Button
+          arrow
+          icon={<Icon name="info.circle" />}
+          label={t('about')}
+          onPress={() => {
+            router.navigate({
+              pathname: '/settings/about',
+            })
+          }}
+        />
       </Menu.Root>
 
       <Updater />

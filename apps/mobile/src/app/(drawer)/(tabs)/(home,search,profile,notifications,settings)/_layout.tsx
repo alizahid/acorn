@@ -324,6 +324,13 @@ function StackLayout({ children }: PropsWithChildren) {
       />
 
       <Stack.Screen
+        name="settings/about"
+        options={{
+          title: t('settings.about.title'),
+        }}
+      />
+
+      <Stack.Screen
         name="settings/cache"
         options={{
           title: t('settings.cache.title'),
