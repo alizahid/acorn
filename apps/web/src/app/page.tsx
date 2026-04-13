@@ -1,10 +1,11 @@
 import {
-  Coffee,
-  DiscordLogo,
-  Fan,
-  GithubLogo,
+  CoffeeIcon,
+  DiscordLogoIcon,
+  FanIcon,
+  GithubLogoIcon,
 } from '@phosphor-icons/react/dist/ssr'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useTranslations } from 'next-intl'
 
 import { Button } from '~/components/button'
@@ -16,22 +17,22 @@ export default function Page() {
   const actions = [
     {
       href: 'https://testflight.apple.com/join/uKWP3MFB',
-      icon: <Fan className="size-6" weight="fill" />,
+      icon: <FanIcon className="size-6" weight="fill" />,
       key: 'testFlight',
     },
     {
       href: 'https://discord.gg/sWzw5GU5RV',
-      icon: <DiscordLogo className="size-6" weight="fill" />,
+      icon: <DiscordLogoIcon className="size-6" weight="fill" />,
       key: 'discord',
     },
     {
       href: 'https://github.com/alizahid/acorn',
-      icon: <GithubLogo className="size-6" weight="fill" />,
+      icon: <GithubLogoIcon className="size-6" weight="fill" />,
       key: 'github',
     },
     {
       href: 'https://buymeacoffee.com/acornblue',
-      icon: <Coffee className="size-6" weight="fill" />,
+      icon: <CoffeeIcon className="size-6" weight="fill" />,
       key: 'coffee',
     },
   ] as const
@@ -73,6 +74,21 @@ export default function Page() {
           width={960 / 2}
         />
       </section>
+
+      <footer className="flex flex-col items-center gap-8 text-sm leading-tight lg:flex-row">
+        <p className="text-gray-11">
+          {t('footer.copyright', {
+            year: new Date(),
+          })}
+        </p>
+
+        <Link
+          className="rounded-full text-accent-11 outline-offset-4 focus-visible:outline-2 focus-visible:outline-accent-a7"
+          href="/privacy"
+        >
+          {t('footer.privacy')}
+        </Link>
+      </footer>
     </main>
   )
 }

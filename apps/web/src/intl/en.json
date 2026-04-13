@@ -17,6 +17,10 @@
         "github": "GitHub",
         "testFlight": "TestFlight"
       },
+      "footer": {
+        "copyright": "© {year, date, ::yyyy} Ali Zahid",
+        "privacy": "Privacy policy"
+      },
       "header": {
         "description": "Reddit for mobile",
         "title": "Acorn"
@@ -28,6 +32,20 @@
       "screenshot": {
         "dark": "Dark mode",
         "light": "Light mode"
+      }
+    },
+    "privacy": {
+      "app": {
+        "1": "Our app is open source and we don't collect any personally identifiable data like your real name or email address.",
+        "2": "We use Reddit to authenticate you with Acorn and never receive or store your password at any point.",
+        "3": "We collect your Reddit username and send it to Sentry, our error tracking provider. Refer to their <sentryLink>privacy policy</sentryLink>",
+        "4": "We use RevenueCat for in-app purchases. They may collect your device id or advertising id as part of their service. Refer to their <revenueCatLink>privacy policy</revenueCatLink>",
+        "title": "App"
+      },
+      "title": "Privacy policy",
+      "website": {
+        "1": "Our website doesn't use any cookies or collect any data",
+        "title": "Website"
       }
     }
   }
