@@ -12,7 +12,7 @@ import { transformSubmission } from '~/transformers/submission'
 export function useSubmission(name: string) {
   const { accountId } = useAuth()
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data, error, isLoading, refetch } = useQuery({
     enabled: Boolean(accountId),
     networkMode: 'offlineFirst',
     async queryFn() {
@@ -42,9 +42,11 @@ export function useSubmission(name: string) {
         name,
       },
     ],
+    retry: false,
   })
 
   return {
+    error,
     isLoading,
     refetch,
     submission: data,

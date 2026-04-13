@@ -48,10 +48,11 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
 
   if (response.status >= 400) {
     const json = (await response.json()) as {
+      explanation?: string
       message?: string
     }
 
-    throw new Error(json.message ?? response.statusText)
+    throw new Error(json.explanation ?? json.message ?? response.statusText)
   }
 
   return (await response.json()) as Response

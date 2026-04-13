@@ -1,5 +1,5 @@
 import { type SFSymbol } from 'expo-symbols'
-import { View } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -12,17 +12,19 @@ type Props = {
   color?: ColorToken
   icon?: SFSymbol
   message?: string
+  style?: StyleProp<ViewStyle>
 }
 
 export function Empty({
   color = 'accent',
   icon = 'face.dashed.fill',
   message,
+  style,
 }: Props) {
   const t = useTranslations('component.common.empty')
 
   return (
-    <View style={styles.main}>
+    <View style={[styles.main, style]}>
       <Icon
         name={icon}
         uniProps={(theme) => ({

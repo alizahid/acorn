@@ -20,7 +20,6 @@ import { MarkdownEditor } from '~/components/markdown/editor'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
 import { type Font, fonts } from '~/lib/fonts'
-import { enrichedToMarkdown } from '~/lib/markdown'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
@@ -69,7 +68,7 @@ export default function Screen() {
               if (params.body && params.commentId) {
                 if (params.body !== text) {
                   await edit.edit({
-                    body: enrichedToMarkdown(text),
+                    body: text,
                     id: params.commentId,
                     postId: params.postId,
                   })
@@ -83,7 +82,7 @@ export default function Screen() {
               await reply.reply({
                 commentId: params.commentId,
                 postId: params.id,
-                text: enrichedToMarkdown(text),
+                text,
               })
 
               router.back()

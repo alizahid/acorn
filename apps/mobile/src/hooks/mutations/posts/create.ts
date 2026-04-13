@@ -7,6 +7,7 @@ import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { enrichedToMarkdown } from '~/lib/markdown'
 import { reddit } from '~/reddit/api'
 import {
   SubmissionResponseSchema,
@@ -68,7 +69,7 @@ export function useCreatePost(submission: Submission) {
       )
 
       if (variables.type === 'text') {
-        body.append('text', variables.text)
+        body.append('text', enrichedToMarkdown(variables.text))
       } else {
         body.append('url', variables.url)
       }

@@ -6,6 +6,7 @@ import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { updateSearch } from '~/hooks/queries/search/search'
 import { isPost } from '~/lib/guards'
+import { enrichedToMarkdown } from '~/lib/markdown'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { CreateCommentSchema } from '~/schemas/comments'
@@ -29,7 +30,7 @@ export function usePostReply() {
       const body = new FormData()
 
       body.append('api_type', 'json')
-      body.append('text', variables.text)
+      body.append('text', enrichedToMarkdown(variables.text))
       body.append(
         'thing_id',
         addPrefix(

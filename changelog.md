@@ -6,6 +6,7 @@
 - added: more Liquid Glass
 - added: new content engine
 - fixed: chat keyboard interaction
+- fixed: post creation
 - fixed: scroll to next / previous comments
 - removed: /r/all
 - removed: bottom tabs customization

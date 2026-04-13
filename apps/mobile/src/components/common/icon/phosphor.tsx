@@ -1,6 +1,7 @@
 import { CompassIcon } from 'phosphor-react-native/src/icons/Compass'
 import { DiscordLogoIcon } from 'phosphor-react-native/src/icons/DiscordLogo'
 import { DotsSixVerticalIcon } from 'phosphor-react-native/src/icons/DotsSixVertical'
+import { EyeClosedIcon } from 'phosphor-react-native/src/icons/EyeClosed'
 import { GithubLogoIcon } from 'phosphor-react-native/src/icons/GithubLogo'
 import { ListDashesIcon } from 'phosphor-react-native/src/icons/ListDashes'
 import { ListNumbersIcon } from 'phosphor-react-native/src/icons/ListNumbers'
@@ -43,6 +44,7 @@ const icons = {
   Compass: CompassIcon,
   DiscordLogo: DiscordLogoIcon,
   DotsSixVertical: DotsSixVerticalIcon,
+  EyeClosed: EyeClosedIcon,
   GithubLogo: GithubLogoIcon,
   ListDashes: ListDashesIcon,
   ListNumbers: ListNumbersIcon,

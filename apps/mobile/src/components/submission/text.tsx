@@ -3,9 +3,9 @@ import { useRef, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
 import {
-  type EnrichedTextInputInstance,
-  type OnChangeStateEvent,
-} from 'react-native-enriched'
+  type EnrichedMarkdownInputInstance,
+  type StyleState,
+} from 'react-native-enriched-markdown'
 import {
   KeyboardController,
   KeyboardExtender,
@@ -27,7 +27,7 @@ import { IconButton } from '../common/icon/button'
 import { PhosphorIcon } from '../common/icon/phosphor'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
-import { Editor } from '../native/editor'
+import { MarkdownEditor } from '../markdown/editor'
 
 export function SubmissionText() {
   const focused = useIsFocused()
@@ -41,9 +41,9 @@ export function SubmissionText() {
 
   const { progress } = useReanimatedKeyboardAnimation()
 
-  const editor = useRef<EnrichedTextInputInstance>(null)
+  const editor = useRef<EnrichedMarkdownInputInstance>(null)
 
-  const [state, setState] = useState<OnChangeStateEvent>()
+  const [state, setState] = useState<StyleState>()
 
   const style = useAnimatedStyle(() => ({
     height: interpolate(progress.get(), [0, 1], [0, 48]),
@@ -61,13 +61,11 @@ export function SubmissionText() {
             </Text>
           ) : null}
 
-          <Editor
-            onChangeHtml={(event) => {
-              field.onChange(event.nativeEvent.value)
+          <MarkdownEditor
+            onChange={(markdown) => {
+              field.onChange(markdown)
             }}
-            onChangeState={(event) => {
-              setState(event.nativeEvent)
-            }}
+            onChangeState={setState}
             placeholder={t('placeholder')}
             ref={editor}
             style={styles.editor(font, fontScaling)}
@@ -76,24 +74,6 @@ export function SubmissionText() {
           <KeyboardExtender enabled={focused}>
             <Animated.View style={[styles.tools, style]}>
               <View style={styles.section}>
-                <Pressable
-                  accessibilityLabel={a11y('toggleHeading')}
-                  onPress={() => {
-                    editor?.current?.toggleH1()
-                  }}
-                  style={styles.item}
-                >
-                  <PhosphorIcon
-                    name="TextHOne"
-                    uniProps={(theme) => ({
-                      color: state?.h1.isActive
-                        ? theme.colors.accent.accent
-                        : theme.colors.gray.textLow,
-                    })}
-                    weight={state?.h1.isActive ? 'bold' : 'regular'}
-                  />
-                </Pressable>
-
                 <Pressable
                   accessibilityLabel={a11y('toggleBold')}
                   onPress={() => {
@@ -133,56 +113,36 @@ export function SubmissionText() {
                 <Pressable
                   accessibilityLabel={a11y('toggleStrikethrough')}
                   onPress={() => {
-                    editor?.current?.toggleStrikeThrough()
+                    editor?.current?.toggleStrikethrough()
                   }}
                   style={styles.item}
                 >
                   <PhosphorIcon
                     name="TextStrikethrough"
                     uniProps={(theme) => ({
-                      color: state?.strikeThrough.isActive
+                      color: state?.strikethrough.isActive
                         ? theme.colors.accent.accent
                         : theme.colors.gray.textLow,
                     })}
-                    weight={state?.strikeThrough.isActive ? 'bold' : 'regular'}
-                  />
-                </Pressable>
-              </View>
-
-              <View style={styles.section}>
-                <Pressable
-                  accessibilityLabel={a11y('toggleUnorderedList')}
-                  onPress={() => {
-                    editor?.current?.toggleUnorderedList()
-                  }}
-                  style={styles.item}
-                >
-                  <PhosphorIcon
-                    name="ListDashes"
-                    uniProps={(theme) => ({
-                      color: state?.unorderedList.isActive
-                        ? theme.colors.accent.accent
-                        : theme.colors.gray.textLow,
-                    })}
-                    weight={state?.unorderedList.isActive ? 'bold' : 'regular'}
+                    weight={state?.strikethrough.isActive ? 'bold' : 'regular'}
                   />
                 </Pressable>
 
                 <Pressable
-                  accessibilityLabel={a11y('toggleOrderedList')}
+                  accessibilityLabel={a11y('toggleSpoiler')}
                   onPress={() => {
-                    editor?.current?.toggleOrderedList()
+                    editor?.current?.toggleSpoiler()
                   }}
                   style={styles.item}
                 >
                   <PhosphorIcon
-                    name="ListNumbers"
+                    name="EyeClosed"
                     uniProps={(theme) => ({
-                      color: state?.orderedList.isActive
+                      color: state?.spoiler.isActive
                         ? theme.colors.accent.accent
                         : theme.colors.gray.textLow,
                     })}
-                    weight={state?.orderedList.isActive ? 'bold' : 'regular'}
+                    weight={state?.spoiler.isActive ? 'bold' : 'regular'}
                   />
                 </Pressable>
               </View>
