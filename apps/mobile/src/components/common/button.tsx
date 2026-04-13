@@ -86,6 +86,7 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
     gap: theme.space[2],
     height: theme.space[7],
+    justifyContent: 'center',
     paddingHorizontal: theme.space[4],
     variants: {
       color: mapColors((token) => ({

@@ -59,6 +59,7 @@ export default function Screen() {
             >
               {f.number(plan.product.price, {
                 currency: plan.product.currencyCode,
+                currencyDisplay: 'code',
                 style: 'currency',
               })}
             </Text>
