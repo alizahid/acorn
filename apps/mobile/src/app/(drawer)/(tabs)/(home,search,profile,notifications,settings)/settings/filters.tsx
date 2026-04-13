@@ -130,6 +130,7 @@ export default function Screen() {
           <KeyboardAwareScrollView
             {...props}
             bottomOffset={16}
+            // @ts-expect-error
             ScrollViewComponent={ScrollView}
           />
         )}
