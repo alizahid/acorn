@@ -15,7 +15,7 @@ import { GlassView } from '~/components/native/glass-view'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useSorting } from '~/hooks/sorting'
-import { iPad } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
@@ -61,6 +61,7 @@ export default function Screen() {
                     navigation.toggleDrawer()
                   }}
                   size="6"
+                  weight="medium"
                 />
               ),
         headerRight: () => (
@@ -70,6 +71,7 @@ export default function Screen() {
               update(next)
             }}
             sort={sorting.sort}
+            style={styles.sort}
             type={type}
           />
         ),
@@ -124,6 +126,9 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
     },
+  },
+  sort: {
+    paddingHorizontal: glass ? theme.space[2] : 0,
   },
   title: {
     alignItems: 'center',

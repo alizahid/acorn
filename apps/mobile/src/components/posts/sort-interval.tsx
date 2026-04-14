@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -33,6 +34,7 @@ export type SortIntervalMenuData<Type extends SortType> = {
 type Props<Type extends SortType> = SortIntervalMenuData<Type> & {
   onChange: (data: SortIntervalMenuData<Type>) => void
   type: Type
+  style?: StyleProp<ViewStyle>
 }
 
 export function SortIntervalMenu<Type extends SortType>({
@@ -40,6 +42,7 @@ export function SortIntervalMenu<Type extends SortType>({
   onChange,
   sort,
   type,
+  style,
 }: Props<Type>) {
   const t = useTranslations('component.common')
   const a11y = useTranslations('a11y')
@@ -65,7 +68,7 @@ export function SortIntervalMenu<Type extends SortType>({
         onPress={() => {
           sheetSort.current?.present()
         }}
-        style={styles.main}
+        style={[styles.main, style]}
       >
         <Icon
           name={SortIcons[sort]}
@@ -181,6 +184,6 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
     gap: theme.space[2],
     height: theme.space[8],
-    paddingHorizontal: theme.space[2],
+    paddingHorizontal: theme.space[3],
   },
 }))
