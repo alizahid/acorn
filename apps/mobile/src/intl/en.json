@@ -498,6 +498,7 @@
           "fold": "Fold",
           "fontSizeBody": "Body size",
           "fontSizeTitle": "Title size",
+          "restart": "Requires app restart",
           "system": "San Francisco",
           "systemScaling": "Use system scaling",
           "title": "Font"

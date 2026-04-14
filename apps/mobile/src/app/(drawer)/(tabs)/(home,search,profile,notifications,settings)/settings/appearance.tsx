@@ -179,6 +179,7 @@ export default function Screen() {
 
         {(['fontSizeTitle', 'fontSizeBody'] as const).map((item) => (
           <Menu.Options
+            description={t('fonts.restart')}
             key={item}
             label={t(`fonts.${item}`)}
             onChange={(next) => {
