@@ -182,7 +182,6 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   main: (headerHeight) => ({
-    // marginBottom: runtime.insets.bottom + theme.space[9],
     marginTop: iOS26 ? headerHeight : undefined,
   }),
   tabBar: {

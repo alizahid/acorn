@@ -241,7 +241,6 @@ function StackLayout({ children }: PropsWithChildren) {
               size="6"
             />
           ),
-          // headerShown: false,
           title: (route.params as CommunityParams).name,
         })}
       />
