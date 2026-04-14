@@ -56,7 +56,7 @@ export function UserAbout({ name }: Props) {
 
         <View style={styles.name}>
           <Text size="6" weight="bold">
-            r/{profile.name}
+            u/{profile.name}
           </Text>
         </View>
       </View>
