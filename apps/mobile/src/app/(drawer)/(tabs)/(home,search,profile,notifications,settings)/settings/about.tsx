@@ -28,6 +28,7 @@ const styles = StyleSheet.create((theme) => ({
     padding: theme.space[4],
   },
   giphy: {
-    aspectRatio: 641 / 167,
+    aspectRatio: theme.variant === 'dark' ? 641 / 167 : 640 / 225,
+    maxHeight: 100,
   },
 }))
