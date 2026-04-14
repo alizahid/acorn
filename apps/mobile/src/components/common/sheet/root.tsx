@@ -23,6 +23,7 @@ export function Root({
   return (
     <TrueSheet
       backgroundBlur={glass ? undefined : 'system-chrome-material'}
+      cornerRadius={glass ? undefined : styles.main.borderRadius}
       detents={detents}
       dismissible={dismissible}
       grabber={false}
@@ -37,8 +38,11 @@ export function Root({
   )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
   content: {
     flexGrow: 1,
   },
-})
+  main: {
+    borderRadius: theme.radius[6],
+  },
+}))
