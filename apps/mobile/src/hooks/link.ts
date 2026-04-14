@@ -75,7 +75,11 @@ export function useLink() {
               : 'https://www.reddit.com',
         )
 
-        const parts = parseLink(url.toString())
+        const uri = url.toString()
+
+        const parts = parseLink(
+          uri.includes('reddit.com') ? uri.replace('/u/', '/user/') : uri,
+        )
 
         if (parts?.shareId) {
           const id = toast.loading(t('loading'), {

@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 
+import { useLink } from '~/hooks/link'
 import { mergeMetaMarkdown } from '~/lib/markdown'
 import { type PostMediaMeta } from '~/types/post'
 
@@ -16,10 +17,15 @@ export function Markdown({ children, meta }: Props) {
     [children, meta],
   )
 
+  const { handleLink } = useLink()
+
   return (
     <EnrichedMarkdown
       flavor="github"
       markdown={markdown}
+      onLinkPress={(event) => {
+        handleLink(event.url)
+      }}
       spoilerOverlay="solid"
     />
   )
