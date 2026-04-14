@@ -119,14 +119,15 @@
     "babel-preset-expo": "^55.0.17",
     "drizzle-kit": "^0.31.10",
     "env-cmd": "^11.0.0",
-    "typescript": "~5.9.2"
+    "typescript": "^6.0.2"
   },
   "expo": {
     "install": {
       "exclude": [
         "@sentry/react-native@~7.11.0",
         "@shopify/flash-list@2.0.2",
-        "react-native-keyboard-controller@1.20.7"
+        "react-native-keyboard-controller@1.20.7",
+        "typescript@~5.9.2"
       ]
     }
   }
