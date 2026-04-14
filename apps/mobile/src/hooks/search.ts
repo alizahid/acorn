@@ -1,14 +1,18 @@
-import { uniq } from 'lodash'
+import { compact, uniq } from 'lodash'
 import { create } from 'mutative'
 import { useCallback, useMemo } from 'react'
 import { useMMKVObject } from 'react-native-mmkv'
 
+import { useAuth } from '~/stores/auth'
+
 export type SearchHistoryData = ReturnType<typeof useSearchHistory>
 
 export function useSearchHistory(community?: string) {
-  const [data, setData] = useMMKVObject<Array<string>>(
-    community ? `search_history_${community}` : 'search_history',
-  )
+  const { accountId } = useAuth()
+
+  const key = compact(['search_history', accountId, community]).join('_')
+
+  const [data, setData] = useMMKVObject<Array<string>>(key)
 
   const history = useMemo(() => (data ?? []).slice(-5), [data])
 

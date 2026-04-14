@@ -2,9 +2,11 @@
 
 ## Build 73-74
 
+- added: GIPHY integration
 - added: iOS 26 search bar
 - added: more Liquid Glass
 - added: new content engine
+- added: per-account search history
 - fixed: chat keyboard interaction
 - fixed: post creation
 - fixed: scroll to next / previous comments
