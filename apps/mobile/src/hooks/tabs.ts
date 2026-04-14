@@ -1,10 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { useEffect } from 'react'
 
-export function useTabPress(
-  name: 'tabPress' | 'tabLongPress',
-  callback: () => void,
-) {
+export function useTabPress(name: 'tabPress', callback: () => void) {
   const navigation = useNavigation()
 
   useEffect(() => {
