@@ -24,7 +24,7 @@ import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { usePost } from '~/hooks/queries/posts/post'
-import { heights, iPad } from '~/lib/common'
+import { glass, heights, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -82,6 +82,7 @@ export default function Screen() {
               setSort(next.sort)
             }}
             sort={sort}
+            style={styles.sort}
             type="comment"
           />
         ),
@@ -317,6 +318,9 @@ const styles = StyleSheet.create((theme) => ({
   },
   separator: {
     height: theme.space[2],
+  },
+  sort: {
+    paddingHorizontal: glass ? theme.space[2] : 0,
   },
   spinner: {
     margin: theme.space[4],
