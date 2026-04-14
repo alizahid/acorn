@@ -8,14 +8,24 @@ import { useTranslations } from 'use-intl'
 
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
-import { iPad } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 
 export default function Layout() {
   const router = useRouter()
 
   const t = useTranslations('screen')
+
+  const { themeOled, themeTint } = usePreferences()
+
+  styles.useVariants({
+    glass,
+    oled: themeOled,
+    tint: themeTint,
+  })
 
   const { accountId } = useAuth()
   const { unread } = useUnread()
@@ -55,9 +65,11 @@ export default function Layout() {
 
   return (
     <NativeTabs
+      backgroundColor={styles.main.backgroundColor}
+      blurEffect={glass || themeOled ? 'none' : 'systemChromeMaterial'}
       minimizeBehavior="onScrollDown"
       shadowColor="transparent"
-      tintColor={styles.main.color}
+      tintColor={styles.tint.color}
     >
       <NativeTabs.Trigger name="(home)">
         <NativeTabs.Trigger.Icon
@@ -137,6 +149,45 @@ export default function Layout() {
 
 const styles = StyleSheet.create((theme) => ({
   main: {
+    compoundVariants: [
+      {
+        glass: false,
+        oled: true,
+        styles: {
+          backgroundColor: oledTheme[theme.variant].bgAlpha,
+        },
+        tint: false,
+      },
+      {
+        glass: false,
+        oled: false,
+        styles: {
+          backgroundColor: theme.colors.accent.bgAlpha,
+        },
+        tint: true,
+      },
+      {
+        glass: false,
+        oled: false,
+        styles: {
+          backgroundColor: 'transparent',
+        },
+        tint: false,
+      },
+    ],
+    variants: {
+      glass: {
+        true: {},
+      },
+      oled: {
+        true: {},
+      },
+      tint: {
+        true: {},
+      },
+    },
+  },
+  tint: {
     color: theme.colors.accent.accent,
   },
 }))

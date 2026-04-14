@@ -1,5 +1,6 @@
 import { Stack, useRouter } from 'expo-router'
 import { type PropsWithChildren } from 'react'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { IconButton } from '~/components/common/icon/button'
@@ -9,6 +10,8 @@ import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 import { useDefaults } from '~/stores/defaults'
+import { usePreferences } from '~/stores/preferences'
+import { oledTheme } from '~/styles/oled'
 import { type Undefined } from '~/types'
 
 import { type HomeParams } from '.'
@@ -154,6 +157,14 @@ function StackLayout({ children }: PropsWithChildren) {
   const t = useTranslations('screen')
   const a11y = useTranslations('a11y')
 
+  const { themeOled, themeTint } = usePreferences()
+
+  styles.useVariants({
+    glass,
+    oled: themeOled,
+    tint: themeTint,
+  })
+
   const { addPost } = useHistory()
 
   const { subscribed } = useSubscribed()
@@ -164,8 +175,10 @@ function StackLayout({ children }: PropsWithChildren) {
         fullScreenGestureEnabled: true,
         headerBackButtonDisplayMode: 'minimal',
         headerBackButtonMenuEnabled: false,
+        headerBlurEffect: glass || themeOled ? 'none' : 'systemChromeMaterial',
         headerShadowVisible: false,
-        headerTransparent: glass,
+        headerStyle: styles.main,
+        headerTransparent: true,
       }}
     >
       {children}
@@ -386,3 +399,45 @@ function StackLayout({ children }: PropsWithChildren) {
     </Stack>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  main: {
+    compoundVariants: [
+      {
+        glass: false,
+        oled: true,
+        styles: {
+          backgroundColor: oledTheme[theme.variant].bgAlpha,
+        },
+        tint: false,
+      },
+      {
+        glass: false,
+        oled: false,
+        styles: {
+          backgroundColor: theme.colors.accent.bgAlpha,
+        },
+        tint: true,
+      },
+      {
+        glass: false,
+        oled: false,
+        styles: {
+          backgroundColor: 'transparent',
+        },
+        tint: false,
+      },
+    ],
+    variants: {
+      glass: {
+        true: {},
+      },
+      oled: {
+        true: {},
+      },
+      tint: {
+        true: {},
+      },
+    },
+  },
+}))

@@ -13,11 +13,6 @@ export const glass = isLiquidGlassAvailable()
 export const iOS26 =
   Platform.OS === 'ios' && Number.parseInt(String(Platform.Version), 10) >= 26
 
-export const tints = {
-  dark: 'systemThickMaterialDark',
-  light: 'systemThickMaterialLight',
-} as const
-
 export const heights = {
   floatingButton: 80,
   header: 48,
