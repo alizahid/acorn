@@ -1,12 +1,9 @@
-import { useScrollToTop } from '@react-navigation/native'
-import { FlashList, type FlashListRef } from '@shopify/flash-list'
-import { useRef } from 'react'
+import { FlashList } from '@shopify/flash-list'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { useMessages } from '~/hooks/queries/user/messages'
 import { usePreferences } from '~/stores/preferences'
-import { type Message } from '~/types/message'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -21,8 +18,6 @@ export function MessagesList() {
     oled: themeOled,
   })
 
-  const list = useRef<FlashListRef<Message>>(null)
-
   const {
     fetchNextPage,
     hasNextPage,
@@ -31,8 +26,6 @@ export function MessagesList() {
     messages,
     refetch,
   } = useMessages()
-
-  useScrollToTop(list)
 
   return (
     <FlashList
@@ -48,7 +41,6 @@ export function MessagesList() {
           fetchNextPage()
         }
       }}
-      ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => <MessageCard message={item} />}
     />

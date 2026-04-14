@@ -1,6 +1,5 @@
-import { useScrollToTop } from '@react-navigation/native'
-import { type FlashListRef, type ListRenderItem } from '@shopify/flash-list'
-import { type ReactElement, useCallback, useRef } from 'react'
+import { type ListRenderItem } from '@shopify/flash-list'
+import { type ReactElement, useCallback } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -49,10 +48,6 @@ export function SearchList({
   type,
 }: Props) {
   const t = useTranslations('component.search.list')
-
-  const list = useRef<FlashListRef<Item>>(null)
-
-  useScrollToTop(list)
 
   const { feedCompact, themeOled } = usePreferences()
 
@@ -120,7 +115,6 @@ export function SearchList({
       onScrollBeginDrag={() => {
         history.save(query)
       }}
-      ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={renderItem}
     />

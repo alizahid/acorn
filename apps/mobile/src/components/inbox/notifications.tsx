@@ -1,12 +1,9 @@
-import { useScrollToTop } from '@react-navigation/native'
-import { FlashList, type FlashListRef } from '@shopify/flash-list'
-import { useRef } from 'react'
+import { FlashList } from '@shopify/flash-list'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { useNotifications } from '~/hooks/queries/user/notifications'
 import { usePreferences } from '~/stores/preferences'
-import { type Notification } from '~/types/notification'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -21,8 +18,6 @@ export function NotificationsList() {
     oled: themeOled,
   })
 
-  const list = useRef<FlashListRef<Notification>>(null)
-
   const {
     fetchNextPage,
     hasNextPage,
@@ -31,8 +26,6 @@ export function NotificationsList() {
     notifications,
     refetch,
   } = useNotifications()
-
-  useScrollToTop(list)
 
   return (
     <FlashList
@@ -48,7 +41,6 @@ export function NotificationsList() {
           fetchNextPage()
         }
       }}
-      ref={list}
       refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={({ item }) => <NotificationCard notification={item} />}
     />

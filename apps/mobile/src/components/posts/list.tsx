@@ -1,4 +1,3 @@
-import { useScrollToTop } from '@react-navigation/native'
 import { type FlashListRef, type ListRenderItem } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef } from 'react'
@@ -58,8 +57,6 @@ export function PostList({
   const t = useTranslations('component.posts.list')
 
   const list = useRef<FlashListRef<Item>>(null)
-
-  useScrollToTop(list)
 
   const { feedCompact, infiniteScrolling, seenOnScroll, themeOled } =
     usePreferences()
