@@ -33,8 +33,9 @@ export function LinkMenu({ children, url }: Props) {
           onPress={() => {
             handleLink(url)
           }}
-          title={t('open')}
-        />
+        >
+          {t('open')}
+        </Link.MenuAction>
 
         <Link.MenuAction
           icon="square.on.square"
@@ -43,8 +44,9 @@ export function LinkMenu({ children, url }: Props) {
               toast.success(toasts('link.copied'))
             })
           }}
-          title={t('copy')}
-        />
+        >
+          {t('copy')}
+        </Link.MenuAction>
 
         <Link.MenuAction
           icon="square.and.arrow.up"
@@ -53,8 +55,9 @@ export function LinkMenu({ children, url }: Props) {
               url,
             })
           }}
-          title={t('share')}
-        />
+        >
+          {t('share')}
+        </Link.MenuAction>
       </Link.Menu>
     </Link>
   )

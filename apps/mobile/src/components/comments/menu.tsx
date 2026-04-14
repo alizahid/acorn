@@ -47,7 +47,7 @@ export function CommentMenu({ children, comment }: Props) {
       <Link.Trigger>{children}</Link.Trigger>
 
       <Link.Menu>
-        <Link.Menu displayAsPalette displayInline>
+        <Link.Menu inline palette>
           <Link.MenuAction
             icon={getIcon(comment.liked ? 'upvote.fill' : 'upvote')}
             onPress={() => {
@@ -57,8 +57,9 @@ export function CommentMenu({ children, comment }: Props) {
                 postId: comment.post.id,
               })
             }}
-            title={t(comment.liked ? 'removeUpvote' : 'upvote')}
-          />
+          >
+            {t(comment.liked ? 'removeUpvote' : 'upvote')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon={getIcon(
@@ -71,8 +72,9 @@ export function CommentMenu({ children, comment }: Props) {
                 postId: comment.post.id,
               })
             }}
-            title={t(comment.liked === false ? 'removeDownvote' : 'downvote')}
-          />
+          >
+            {t(comment.liked === false ? 'removeDownvote' : 'downvote')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon={comment.saved ? 'bookmark.fill' : 'bookmark'}
@@ -83,8 +85,9 @@ export function CommentMenu({ children, comment }: Props) {
                 postId: comment.post.id,
               })
             }}
-            title={t(comment.saved ? 'unsave' : 'save')}
-          />
+          >
+            {t(comment.saved ? 'unsave' : 'save')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon="arrowshape.turn.up.backward"
@@ -98,12 +101,13 @@ export function CommentMenu({ children, comment }: Props) {
                 pathname: '/posts/[id]/reply',
               })
             }}
-            title={t('reply')}
-          />
+          >
+            {t('reply')}
+          </Link.MenuAction>
         </Link.Menu>
 
         {comment.user.name === accountId ? (
-          <Link.Menu displayInline>
+          <Link.Menu inline>
             <Link.MenuAction
               icon="square.and.pencil"
               onPress={() => {
@@ -117,8 +121,9 @@ export function CommentMenu({ children, comment }: Props) {
                   pathname: '/posts/[id]/reply',
                 })
               }}
-              title={t('editComment')}
-            />
+            >
+              {t('editComment')}
+            </Link.MenuAction>
 
             <Link.MenuAction
               destructive
@@ -145,14 +150,15 @@ export function CommentMenu({ children, comment }: Props) {
                   ],
                 )
               }}
-              title={t('deleteComment.title')}
-            />
+            >
+              {t('deleteComment.title')}
+            </Link.MenuAction>
           </Link.Menu>
         ) : (
           <Fragment />
         )}
 
-        <Link.Menu displayInline>
+        <Link.Menu inline>
           <Link.MenuAction
             icon="square.on.square"
             onPress={() => {
@@ -160,8 +166,9 @@ export function CommentMenu({ children, comment }: Props) {
                 toast.success(t('toast.textCopied'))
               })
             }}
-            title={t('copyText')}
-          />
+          >
+            {t('copyText')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon="square.on.square"
@@ -175,8 +182,9 @@ export function CommentMenu({ children, comment }: Props) {
                 toast.success(t('toast.linkCopied'))
               })
             }}
-            title={t('copyPermalink')}
-          />
+          >
+            {t('copyPermalink')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon="square.and.arrow.up"
@@ -190,17 +198,19 @@ export function CommentMenu({ children, comment }: Props) {
                 url: url.toString(),
               })
             }}
-            title={t('sharePermalink')}
-          />
+          >
+            {t('sharePermalink')}
+          </Link.MenuAction>
         </Link.Menu>
 
-        <Link.Menu displayInline>
+        <Link.Menu inline>
           <Link.MenuAction
             onPress={() => {
               handleLink(comment.permalink)
             }}
-            title={t('openApp')}
-          />
+          >
+            {t('openApp')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon="safari"
@@ -212,11 +222,12 @@ export function CommentMenu({ children, comment }: Props) {
 
               openInBrowser(url.toString())
             }}
-            title={t('openBrowser')}
-          />
+          >
+            {t('openBrowser')}
+          </Link.MenuAction>
         </Link.Menu>
 
-        <Link.Menu displayInline>
+        <Link.Menu inline>
           <Link.MenuAction
             icon="person"
             onPress={() => {
@@ -227,10 +238,11 @@ export function CommentMenu({ children, comment }: Props) {
                 pathname: '/users/[name]',
               })
             }}
-            title={t('openUser', {
+          >
+            {t('openUser', {
               user: comment.user.name,
             })}
-          />
+          </Link.MenuAction>
 
           {comment.community.name.startsWith('u_') ? (
             <Fragment />
@@ -245,14 +257,15 @@ export function CommentMenu({ children, comment }: Props) {
                   pathname: '/communities/[name]',
                 })
               }}
-              title={t('openCommunity', {
+            >
+              {t('openCommunity', {
                 community: comment.community.name,
               })}
-            />
+            </Link.MenuAction>
           )}
         </Link.Menu>
 
-        <Link.Menu displayInline>
+        <Link.Menu inline>
           <Link.MenuAction
             destructive
             icon="eye.slash"
@@ -264,8 +277,9 @@ export function CommentMenu({ children, comment }: Props) {
                 type: 'comment',
               })
             }}
-            title={t('hideComment')}
-          />
+          >
+            {t('hideComment')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             destructive
@@ -280,10 +294,11 @@ export function CommentMenu({ children, comment }: Props) {
                 })
               }
             }}
-            title={t('hideUser', {
+          >
+            {t('hideUser', {
               user: comment.user.name,
             })}
-          />
+          </Link.MenuAction>
         </Link.Menu>
 
         <Link.Menu destructive title={t('report.title')}>
@@ -304,10 +319,11 @@ export function CommentMenu({ children, comment }: Props) {
                     type: 'post',
                   })
                 }}
-                title={t(`report.${item}`, {
+              >
+                {t(`report.${item}`, {
                   community: comment.community.name,
                 })}
-              />
+              </Link.MenuAction>
             ))}
         </Link.Menu>
       </Link.Menu>

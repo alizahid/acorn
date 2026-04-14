@@ -32,8 +32,9 @@ export function ImageMenu({ children, url }: Props) {
               url,
             })
           }}
-          title={t('copy')}
-        />
+        >
+          {t('copy')}
+        </Link.MenuAction>
 
         <Link.MenuAction
           icon="square.and.arrow.up"
@@ -42,8 +43,9 @@ export function ImageMenu({ children, url }: Props) {
               url,
             })
           }}
-          title={t('share')}
-        />
+        >
+          {t('share')}
+        </Link.MenuAction>
 
         <Link.MenuAction
           icon="square.and.arrow.down"
@@ -52,8 +54,9 @@ export function ImageMenu({ children, url }: Props) {
               url,
             })
           }}
-          title={t('download')}
-        />
+        >
+          {t('download')}
+        </Link.MenuAction>
       </Link.Menu>
     </Link>
   )

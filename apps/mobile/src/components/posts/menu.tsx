@@ -55,7 +55,7 @@ export function PostMenu({ children, post }: Props) {
       <Link.Trigger>{children}</Link.Trigger>
 
       <Link.Menu>
-        <Link.Menu displayAsPalette displayInline>
+        <Link.Menu inline palette>
           <Link.MenuAction
             icon={getIcon(post.liked ? 'upvote.fill' : 'upvote')}
             onPress={() => {
@@ -64,8 +64,9 @@ export function PostMenu({ children, post }: Props) {
                 postId: post.id,
               })
             }}
-            title={t(post.liked ? 'removeUpvote' : 'upvote')}
-          />
+          >
+            {t(post.liked ? 'removeUpvote' : 'upvote')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon={getIcon(post.liked === false ? 'downvote.fill' : 'downvote')}
@@ -75,8 +76,9 @@ export function PostMenu({ children, post }: Props) {
                 postId: post.id,
               })
             }}
-            title={t(post.liked === false ? 'removeDownvote' : 'downvote')}
-          />
+          >
+            {t(post.liked === false ? 'removeDownvote' : 'downvote')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon={post.saved ? 'bookmark.fill' : 'bookmark'}
@@ -86,8 +88,9 @@ export function PostMenu({ children, post }: Props) {
                 postId: post.id,
               })
             }}
-            title={t(post.saved ? 'unsave' : 'save')}
-          />
+          >
+            {t(post.saved ? 'unsave' : 'save')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon="arrowshape.turn.up.backward"
@@ -99,11 +102,12 @@ export function PostMenu({ children, post }: Props) {
                 pathname: '/posts/[id]/reply',
               })
             }}
-            title={t('reply')}
-          />
+          >
+            {t('reply')}
+          </Link.MenuAction>
         </Link.Menu>
 
-        <Link.Menu displayInline>
+        <Link.Menu inline>
           {post.user.name === accountId ? (
             <Link.MenuAction
               destructive
@@ -133,8 +137,9 @@ export function PostMenu({ children, post }: Props) {
                   ],
                 )
               }}
-              title={t('deletePost.title')}
-            />
+            >
+              {t('deletePost.title')}
+            </Link.MenuAction>
           ) : (
             <Fragment />
           )}
@@ -146,8 +151,9 @@ export function PostMenu({ children, post }: Props) {
                 toast.success(t('toast.titleCopied'))
               })
             }}
-            title={t('copyTitle')}
-          />
+          >
+            {t('copyTitle')}
+          </Link.MenuAction>
 
           {post.body?.length ? (
             <Link.MenuAction
@@ -159,8 +165,9 @@ export function PostMenu({ children, post }: Props) {
                   })
                 }
               }}
-              title={t('copyText')}
-            />
+            >
+              {t('copyText')}
+            </Link.MenuAction>
           ) : (
             <Fragment />
           )}
@@ -177,8 +184,9 @@ export function PostMenu({ children, post }: Props) {
                 toast.success(t('toast.linkCopied'))
               })
             }}
-            title={t('copyPermalink')}
-          />
+          >
+            {t('copyPermalink')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon="square.and.arrow.up"
@@ -192,8 +200,9 @@ export function PostMenu({ children, post }: Props) {
                 url: url.toString(),
               })
             }}
-            title={t('sharePermalink')}
-          />
+          >
+            {t('sharePermalink')}
+          </Link.MenuAction>
 
           {(post.media.images?.length ?? 0) > 1 ? (
             <Link.MenuAction
@@ -205,20 +214,22 @@ export function PostMenu({ children, post }: Props) {
                   })
                 }
               }}
-              title={t('downloadGallery')}
-            />
+            >
+              {t('downloadGallery')}
+            </Link.MenuAction>
           ) : (
             <Fragment />
           )}
         </Link.Menu>
 
-        <Link.Menu displayInline>
+        <Link.Menu inline>
           <Link.MenuAction
             onPress={() => {
               handleLink(post.permalink)
             }}
-            title={t('openApp')}
-          />
+          >
+            {t('openApp')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             icon="safari"
@@ -230,11 +241,12 @@ export function PostMenu({ children, post }: Props) {
 
               openInBrowser(url.toString())
             }}
-            title={t('openBrowser')}
-          />
+          >
+            {t('openBrowser')}
+          </Link.MenuAction>
         </Link.Menu>
 
-        <Link.Menu displayInline>
+        <Link.Menu inline>
           <Link.MenuAction
             icon="person"
             onPress={() => {
@@ -245,10 +257,11 @@ export function PostMenu({ children, post }: Props) {
                 pathname: '/users/[name]',
               })
             }}
-            title={t('openUser', {
+          >
+            {t('openUser', {
               user: post.user.name,
             })}
-          />
+          </Link.MenuAction>
 
           {post.community.name.startsWith('u/') ? (
             <Fragment />
@@ -263,14 +276,15 @@ export function PostMenu({ children, post }: Props) {
                   pathname: '/communities/[name]',
                 })
               }}
-              title={t('openCommunity', {
+            >
+              {t('openCommunity', {
                 community: post.community.name,
               })}
-            />
+            </Link.MenuAction>
           )}
         </Link.Menu>
 
-        <Link.Menu displayInline>
+        <Link.Menu inline>
           <Link.MenuAction
             destructive={!post.hidden}
             icon={post.hidden ? 'eye' : 'eye.slash'}
@@ -281,8 +295,9 @@ export function PostMenu({ children, post }: Props) {
                 type: 'post',
               })
             }}
-            title={t(post.hidden ? 'unhidePost' : 'hidePost')}
-          />
+          >
+            {t(post.hidden ? 'unhidePost' : 'hidePost')}
+          </Link.MenuAction>
 
           <Link.MenuAction
             destructive
@@ -297,10 +312,11 @@ export function PostMenu({ children, post }: Props) {
                 })
               }
             }}
-            title={t('hideUser', {
+          >
+            {t('hideUser', {
               user: post.user.name,
             })}
-          />
+          </Link.MenuAction>
 
           {post.community.name.startsWith('u/') ? (
             <Fragment />
@@ -316,10 +332,11 @@ export function PostMenu({ children, post }: Props) {
                   type: 'community',
                 })
               }}
-              title={t('hideCommunity', {
+            >
+              {t('hideCommunity', {
                 community: post.community.name,
               })}
-            />
+            </Link.MenuAction>
           )}
         </Link.Menu>
 
@@ -341,10 +358,11 @@ export function PostMenu({ children, post }: Props) {
                     type: 'post',
                   })
                 }}
-                title={t(`report.${item}`, {
+              >
+                {t(`report.${item}`, {
                   community: post.community.name,
                 })}
-              />
+              </Link.MenuAction>
             ))}
         </Link.Menu>
       </Link.Menu>

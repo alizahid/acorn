@@ -30,8 +30,9 @@ export function VideoMenu({ children, url }: Props) {
               url,
             })
           }}
-          title={t('download')}
-        />
+        >
+          {t('download')}
+        </Link.MenuAction>
       </Link.Menu>
     </Link>
   )
