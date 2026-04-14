@@ -181,6 +181,6 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
     gap: theme.space[2],
     height: theme.space[8],
-    paddingHorizontal: theme.space[3],
+    paddingHorizontal: theme.space[2],
   },
 }))
