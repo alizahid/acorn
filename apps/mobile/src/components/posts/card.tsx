@@ -279,7 +279,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
     width: '100%',
   },
   dimmed: {
-    gap: theme.space[1],
     variants: {
       dimmed: {
         true: {

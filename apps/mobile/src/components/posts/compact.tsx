@@ -98,7 +98,6 @@ export function PostCompactCard({ post, side = 'left', style }: Props) {
 
 const styles = StyleSheet.create((theme) => ({
   content: {
-    alignItems: 'center',
     flex: 1,
     gap: theme.space[2],
   },
