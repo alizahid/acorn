@@ -96,6 +96,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   button: {
     flex: 1,
+    justifyContent: 'flex-start',
   },
   content: {
     gap: theme.space[4],
