@@ -67,6 +67,7 @@ export default function Layout() {
     <NativeTabs
       backgroundColor={styles.main.backgroundColor}
       blurEffect={glass || themeOled ? 'none' : 'systemChromeMaterial'}
+      disableTransparentOnScrollEdge
       minimizeBehavior="onScrollDown"
       shadowColor="transparent"
       tintColor={styles.tint.color}
