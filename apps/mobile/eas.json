@@ -4,6 +4,7 @@
       "android": {
         "buildType": "app-bundle"
       },
+      "bun": "1.3.12",
       "channel": "production",
       "distribution": "store",
       "env": {
@@ -29,6 +30,7 @@
       "android": {
         "buildType": "app-bundle"
       },
+      "bun": "1.3.12",
       "channel": "production",
       "distribution": "store",
       "env": {
