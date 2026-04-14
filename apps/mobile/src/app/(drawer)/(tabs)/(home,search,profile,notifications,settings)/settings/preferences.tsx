@@ -28,10 +28,8 @@ export default function Screen() {
     feedMuted,
     fullscreenDrawer,
     hapticsLoud,
-    hideHeaderOnScroll,
     hidePostActions,
     hideSeen,
-    hideTabBarOnScroll,
     infiniteScrolling,
     linkBrowser,
     oldReddit,
@@ -157,28 +155,6 @@ export default function Screen() {
             })
           }}
           value={fullscreenDrawer}
-        />
-
-        <Menu.Switch
-          icon={<Icon name="inset.filled.topthird.rectangle.portrait" />}
-          label={t('browsing.hideHeaderOnScroll')}
-          onChange={(next) => {
-            update({
-              hideHeaderOnScroll: next,
-            })
-          }}
-          value={hideHeaderOnScroll}
-        />
-
-        <Menu.Switch
-          icon={<Icon name="inset.filled.bottomthird.rectangle.portrait" />}
-          label={t('browsing.hideTabBarOnScroll')}
-          onChange={(next) => {
-            update({
-              hideTabBarOnScroll: next,
-            })
-          }}
-          value={hideTabBarOnScroll}
         />
 
         <Menu.Separator />

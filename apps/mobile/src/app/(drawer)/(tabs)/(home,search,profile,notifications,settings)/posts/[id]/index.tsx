@@ -221,7 +221,6 @@ export default function Screen() {
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
-        stickyNav={false}
       />
 
       {replyPost && post ? (

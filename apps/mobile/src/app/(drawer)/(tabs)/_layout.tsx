@@ -9,7 +9,6 @@ import { useTranslations } from 'use-intl'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
 import { iPad } from '~/lib/common'
-import { mitter } from '~/lib/mitt'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 
@@ -22,7 +21,6 @@ export default function Layout() {
   const { unread } = useUnread()
   const { subscribed } = useSubscribed()
 
-  const [visible, setVisible] = useState(true)
   const [isProfile, setIsProfile] = useState(false)
 
   useEffect(() => {
@@ -55,24 +53,9 @@ export default function Layout() {
     }
   }, [])
 
-  useEffect(() => {
-    mitter.on('hide-tab-bar', () => {
-      setVisible(false)
-    })
-
-    mitter.on('show-tab-bar', () => {
-      setVisible(true)
-    })
-
-    return () => {
-      mitter.off('hide-tab-bar')
-      mitter.off('show-tab-bar')
-    }
-  }, [])
-
   return (
     <NativeTabs
-      hidden={!visible}
+      minimizeBehavior="onScrollDown"
       shadowColor="transparent"
       tintColor={styles.main.color}
     >

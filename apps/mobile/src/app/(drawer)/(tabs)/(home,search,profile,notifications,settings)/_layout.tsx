@@ -1,5 +1,5 @@
 import { Stack, useRouter } from 'expo-router'
-import { type PropsWithChildren, useEffect, useState } from 'react'
+import { type PropsWithChildren } from 'react'
 import { useTranslations } from 'use-intl'
 
 import { IconButton } from '~/components/common/icon/button'
@@ -158,23 +158,6 @@ function StackLayout({ children }: PropsWithChildren) {
 
   const { subscribed } = useSubscribed()
 
-  const [visible, setVisible] = useState(true)
-
-  useEffect(() => {
-    mitter.on('hide-header', () => {
-      setVisible(false)
-    })
-
-    mitter.on('show-header', () => {
-      setVisible(true)
-    })
-
-    return () => {
-      mitter.off('hide-header')
-      mitter.off('show-header')
-    }
-  }, [])
-
   return (
     <Stack
       screenOptions={{
@@ -182,7 +165,6 @@ function StackLayout({ children }: PropsWithChildren) {
         headerBackButtonDisplayMode: 'minimal',
         headerBackButtonMenuEnabled: false,
         headerShadowVisible: false,
-        headerShown: visible,
         headerTransparent: glass,
       }}
     >

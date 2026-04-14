@@ -15,9 +15,6 @@ import Animated, {
   useAnimatedScrollHandler,
   useSharedValue,
 } from 'react-native-reanimated'
-import { scheduleOnRN } from 'react-native-worklets'
-
-import { useStickyNav } from '~/hooks/sticky-nav'
 
 // biome-ignore lint/suspicious/noExplicitAny: go away
 const List = Animated.createAnimatedComponent(FlashList<any>)
@@ -31,24 +28,17 @@ const Context = createContext<{
 
 type Props<Type> = FlashListProps<Type> & {
   ref?: Ref<FlashListRef<Type>>
-  stickyNav?: boolean
 }
 
-export function SensorList<Type>({ stickyNav = true, ...props }: Props<Type>) {
+export function SensorList<Type>(props: Props<Type>) {
   const height = useSharedValue(0)
   const offset = useSharedValue(0)
 
   const values = useRef<Map<string, number>>(new Map())
 
-  const sticky = useStickyNav({
-    disabled: !stickyNav,
-  })
-
   const onScroll = useAnimatedScrollHandler((event) => {
     height.set(event.layoutMeasurement.height)
     offset.set(event.contentOffset.y)
-
-    scheduleOnRN(sticky.onScroll, event.contentOffset.y)
   })
 
   return (
