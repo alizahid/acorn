@@ -32,6 +32,7 @@ export default function Screen() {
   const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
 
+  const t = useTranslations('screen.home')
   const a11y = useTranslations('a11y')
   const tType = useTranslations('component.common.type.type')
 
@@ -86,7 +87,7 @@ export default function Screen() {
                 <Text weight="bold">{tType(params.type)}</Text>
               </GlassView>
             ),
-        title: params.feed,
+        title: params.feed ?? t('title'),
       })
     }, [
       a11y,
@@ -99,6 +100,7 @@ export default function Screen() {
       type,
       update,
       navigation,
+      t,
     ]),
   )
 
