@@ -265,6 +265,7 @@ function StackLayout({ children }: PropsWithChildren) {
         name="posts/[id]/index"
         options={{
           headerTransparent: false,
+          title: t('posts.post.title'),
         }}
       />
 

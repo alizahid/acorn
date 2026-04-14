@@ -444,6 +444,9 @@
       "new": {
         "title": "New post"
       },
+      "post": {
+        "title": "Loading"
+      },
       "reply": {
         "editing": "Editing comment",
         "placeholder": "Say something nice",
@@ -605,8 +608,6 @@
       "preferences": {
         "browsing": {
           "fullscreenDrawer": "Swipe from anywhere to open drawer",
-          "hideHeaderOnScroll": "Hide header when scrolling",
-          "hideTabBarOnScroll": "Hide tab bar when scrolling",
           "infiniteScrolling": "Infinite scrolling",
           "oldReddit": "Use old Reddit links",
           "refreshInterval": {
