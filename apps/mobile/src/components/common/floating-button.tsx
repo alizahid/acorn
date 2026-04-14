@@ -41,7 +41,12 @@ export function FloatingButton({
   const Component = glass ? GlassView : BlurView
 
   return (
-    <Component intensity={100} isInteractive style={[styles.main, style]}>
+    <Component
+      intensity={100}
+      isInteractive
+      style={[styles.main, style]}
+      tint="systemChromeMaterial"
+    >
       <IconButton
         color={color}
         hitSlop={space[4]}
