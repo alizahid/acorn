@@ -153,6 +153,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   content: {
     gap: theme.space[4],
+    paddingBottom: theme.space[4],
   },
   description: {
     marginHorizontal: theme.space[4],
