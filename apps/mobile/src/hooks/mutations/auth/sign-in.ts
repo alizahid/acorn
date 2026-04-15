@@ -1,97 +1,43 @@
-import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
-import { addSeconds } from 'date-fns'
 import { useRouter } from 'expo-router'
-// biome-ignore lint/performance/noNamespaceImport: go away
-import * as SecureStore from 'expo-secure-store'
-// biome-ignore lint/performance/noNamespaceImport: go away
-import * as WebBrowser from 'expo-web-browser'
-import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
-import { useTranslations } from 'use-intl'
+import { z } from 'zod'
 
-import { CLIENT_ID_KEY } from '~/hooks/purchases/client-id'
-import { testFlight } from '~/lib/common'
-import { REDIRECT_URI } from '~/reddit/config'
+import { getUserAgent } from '~/lib/user-agent'
+import { REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
+
+const schema = z.object({
+  data: z.object({
+    modhash: z.string(),
+    name: z.string(),
+  }),
+})
 
 export function useSignIn() {
   const router = useRouter()
 
-  const t = useTranslations('hook.auth.signIn')
-
   const { add } = useAuth()
 
-  const { theme } = useUnistyles()
-
   const { isPending, mutateAsync } = useMutation({
-    async mutationFn() {
-      const state = createId()
+    async mutationFn(cookie: string) {
+      const url = new URL('/api/me.json', REDDIT_URI)
 
-      const oauth = new URL('/api/auth/code', process.env.EXPO_PUBLIC_WEB_URL)
-
-      oauth.searchParams.set('state', state)
-
-      const clientId = await SecureStore.getItemAsync(CLIENT_ID_KEY)
-
-      if (testFlight && clientId) {
-        oauth.searchParams.set('clientId', clientId)
-      }
-
-      const result = await WebBrowser.openAuthSessionAsync(
-        oauth.toString(),
-        REDIRECT_URI,
-        {
-          controlsColor: theme.colors.accent.accent,
-          preferEphemeralSession: true,
-          presentationStyle: WebBrowser.WebBrowserPresentationStyle.FULL_SCREEN,
-          toolbarColor: theme.colors.gray.bg,
+      const response = await fetch(url, {
+        headers: {
+          cookie: `reddit_session=${cookie}`,
+          'user-agent': getUserAgent(),
         },
-      )
+      })
 
-      if (result.type !== 'success') {
-        throw new Error(t('error'))
-      }
+      const json = await response.json()
 
-      const url = new URL(result.url)
-
-      const error = url.searchParams.get('error')
-
-      if (error) {
-        throw new Error(error)
-      }
-
-      if (url.searchParams.get('state') !== state) {
-        throw new Error(t('error'))
-      }
-
-      if (testFlight && clientId) {
-        const code = url.searchParams.get('code')
-
-        if (!code) {
-          throw new Error(t('error'))
-        }
-
-        return getAccount({
-          clientId,
-          code,
-        })
-      }
-
-      const id = url.searchParams.get('id')
-      const accessToken = url.searchParams.get('accessToken')
-      const refreshToken = url.searchParams.get('refreshToken')
-      const expiresAt = url.searchParams.get('expiresAt')
-
-      if (!(id && accessToken && refreshToken && expiresAt)) {
-        throw new Error(t('error'))
-      }
+      const { data } = schema.parse(json)
 
       return {
-        accessToken,
-        expiresAt,
-        id,
-        refreshToken,
+        cookie,
+        id: data.name,
+        modHash: data.modhash,
       }
     },
     onError(error) {
@@ -100,10 +46,7 @@ export function useSignIn() {
     onSuccess(data) {
       router.dismiss()
 
-      add({
-        ...data,
-        expiresAt: addSeconds(new Date(), Number(data.expiresAt) - 60),
-      })
+      add(data)
     },
   })
 
@@ -111,39 +54,4 @@ export function useSignIn() {
     isPending,
     signIn: mutateAsync,
   }
-}
-
-async function getAccount({
-  clientId,
-  code,
-}: {
-  clientId: string
-  code: string
-}) {
-  const url = new URL('/api/auth/token', process.env.EXPO_PUBLIC_WEB_URL)
-
-  const response = await fetch(url, {
-    body: JSON.stringify({
-      clientId,
-      code,
-    }),
-    method: 'post',
-  })
-
-  const data = (await response.json()) as
-    | {
-        accessToken: string
-        expiresAt: string
-        id: string
-        refreshToken: string
-      }
-    | {
-        error: string
-      }
-
-  if ('error' in data) {
-    throw new Error(data.error)
-  }
-
-  return data
 }

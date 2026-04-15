@@ -1,7 +1,8 @@
-import { updateAccounts, useAuth } from '~/stores/auth'
+import { getUserAgent } from '~/lib/user-agent'
+import { useAuth } from '~/stores/auth'
 
-import { REDDIT_URI, USER_AGENT } from './config'
-import { refreshAccessToken } from './token'
+export const REDDIT_URI = 'https://www.reddit.com'
+export const REDDIT_OLD_URI = 'https://old.reddit.com'
 
 type Props = {
   body?: FormData
@@ -10,16 +11,20 @@ type Props = {
 }
 
 export async function reddit<Response>({ body, method = 'get', url }: Props) {
-  const token = await getToken()
+  const auth = getAuth()
 
-  if (!token) {
+  if (!auth) {
     return
   }
 
   const headers = new Headers()
 
-  headers.set('authorization', `Bearer ${token}`)
-  headers.set('user-agent', USER_AGENT)
+  headers.set('cookie', `reddit_session=${auth.cookie}`)
+  headers.set('user-agent', getUserAgent())
+
+  if (method === 'post') {
+    headers.set('x-modhash', auth.modHash)
+  }
 
   const request: RequestInit = {
     headers,
@@ -32,15 +37,19 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
     headers.set('content-type', 'multipart/form-data')
   }
 
-  const input = new URL(url, REDDIT_URI)
+  const uri = new URL(url, REDDIT_URI)
 
-  input.searchParams.set('g', 'GLOBAL')
-
-  if (__DEV__) {
-    console.log('reddit', input.toString(), request)
+  if (
+    method === 'get' &&
+    !uri.pathname.startsWith('/api/') &&
+    !uri.pathname.endsWith('.json')
+  ) {
+    uri.pathname += '.json'
   }
 
-  const response = await fetch(input, request)
+  uri.searchParams.set('raw_json', '1')
+
+  const response = await fetch(uri, request)
 
   if (url === '/api/read_all_messages') {
     return {} as Response
@@ -58,7 +67,7 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
   return (await response.json()) as Response
 }
 
-async function getToken() {
+function getAuth() {
   const { accountId, accounts } = useAuth.getState()
 
   if (!accountId) {
@@ -71,20 +80,8 @@ async function getToken() {
     return
   }
 
-  if (new Date() > account.expiresAt) {
-    const payload = await refreshAccessToken(account.refreshToken)
-
-    if (!payload) {
-      return
-    }
-
-    useAuth.setState({
-      accountId: payload.id,
-      accounts: updateAccounts(useAuth.getState().accounts, payload),
-    })
-
-    return payload.accessToken
+  return {
+    cookie: account.cookie,
+    modHash: account.modHash,
   }
-
-  return account.accessToken
 }

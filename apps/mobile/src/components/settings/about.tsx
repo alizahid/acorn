@@ -1,3 +1,4 @@
+import { isTestFlight } from 'expo-testflight'
 import { compact } from 'lodash'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -6,7 +7,6 @@ import { useTranslations } from 'use-intl'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { useLink } from '~/hooks/link'
-import { testFlight } from '~/lib/common'
 
 import { Button } from '../common/button'
 import { Icon } from '../common/icon'
@@ -57,7 +57,7 @@ export function AboutCard() {
       ),
       label: t('links.github'),
     },
-    testFlight
+    isTestFlight
       ? {
           href: 'https://buymeacoffee.com/acornblue',
           icon: (

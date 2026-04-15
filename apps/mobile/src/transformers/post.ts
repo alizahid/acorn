@@ -5,7 +5,6 @@ import { markdownToEnriched } from '~/lib/markdown'
 import { getImages, getMeta, getVideo } from '~/lib/media'
 import { removePrefix } from '~/lib/reddit'
 import { type PostDataSchema } from '~/schemas/posts'
-import { type UserDataSchema } from '~/schemas/users'
 import { type Post, type PostType } from '~/types/post'
 
 import { transformCommunity } from './community'
@@ -15,16 +14,11 @@ export function transformPost(
   data: PostDataSchema,
   extra?: {
     seen?: Array<string>
-    users?: UserDataSchema
   },
 ): Post {
   const crossPost = data.crosspost_parent_list?.[0]
 
   const id = removePrefix(data.id)
-
-  const user = data.author_fullname
-    ? extra?.users?.[data.author_fullname]
-    : undefined
 
   return {
     body: markdownToEnriched(data.selftext),
@@ -52,9 +46,7 @@ export function transformPost(
     type: getType(data),
     url: data.url ?? undefined,
     user: {
-      createdAt: user ? fromUnixTime(user.created_utc) : undefined,
       id: data.author_fullname,
-      image: user?.profile_img ? decode(user.profile_img) : undefined,
       name: data.author,
     },
     votes: data.ups,

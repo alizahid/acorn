@@ -1,18 +1,14 @@
 import { useMutation } from '@tanstack/react-query'
-import { compact } from 'lodash'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
-import { REDDIT_URI } from '~/reddit/config'
-import { fetchUserData, type UserProfiles } from '~/reddit/users'
+import { REDDIT_URI, reddit } from '~/reddit/api'
 import { MoreCommentsSchema } from '~/schemas/comments'
 import { transformComment } from '~/transformers/comment'
 import { type CommentSort } from '~/types/sort'
 
 type Data = {
   comments: MoreCommentsSchema
-  users: UserProfiles
 }
 
 type Variables = {
@@ -42,17 +38,8 @@ export function useLoadMoreComments() {
 
       const comments = MoreCommentsSchema.parse(response)
 
-      const users = await fetchUserData(
-        ...compact(
-          comments.json.data.things
-            .filter((item) => item.kind === 't1')
-            .map((item) => item.data.author_fullname),
-        ),
-      )
-
       return {
         comments,
-        users,
       }
     },
     onSuccess(data, variables) {
@@ -63,9 +50,7 @@ export function useLoadMoreComments() {
 
         if (index >= 0) {
           const comments = data.comments.json.data.things.map((item) =>
-            transformComment(item, {
-              users: data.users,
-            }),
+            transformComment(item),
           )
 
           const more = draft.comments[index]

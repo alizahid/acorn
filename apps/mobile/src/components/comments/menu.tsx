@@ -12,6 +12,7 @@ import { useCommentRemove } from '~/hooks/mutations/comments/remove'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { getIcon } from '~/lib/icons'
+import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
@@ -175,7 +176,7 @@ export function CommentMenu({ children, comment }: Props) {
             onPress={() => {
               const url = new URL(
                 comment.permalink,
-                oldReddit ? 'https://old.reddit.com' : 'https://www.reddit.com',
+                oldReddit ? REDDIT_OLD_URI : REDDIT_URI,
               )
 
               copy(url.toString()).then(() => {
@@ -191,7 +192,7 @@ export function CommentMenu({ children, comment }: Props) {
             onPress={() => {
               const url = new URL(
                 comment.permalink,
-                oldReddit ? 'https://old.reddit.com' : 'https://www.reddit.com',
+                oldReddit ? REDDIT_OLD_URI : REDDIT_URI,
               )
 
               Share.share({
@@ -217,7 +218,7 @@ export function CommentMenu({ children, comment }: Props) {
             onPress={() => {
               const url = new URL(
                 comment.permalink,
-                oldReddit ? 'https://old.reddit.com' : 'https://www.reddit.com',
+                oldReddit ? REDDIT_OLD_URI : REDDIT_URI,
               )
 
               openInBrowser(url.toString())

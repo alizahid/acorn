@@ -14,6 +14,7 @@ import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { getIcon } from '~/lib/icons'
 import { removePrefix } from '~/lib/reddit'
+import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
@@ -177,7 +178,7 @@ export function PostMenu({ children, post }: Props) {
             onPress={() => {
               const url = new URL(
                 post.permalink,
-                oldReddit ? 'https://old.reddit.com' : 'https://www.reddit.com',
+                oldReddit ? REDDIT_OLD_URI : REDDIT_URI,
               )
 
               copy(url.toString()).then(() => {
@@ -193,7 +194,7 @@ export function PostMenu({ children, post }: Props) {
             onPress={() => {
               const url = new URL(
                 post.permalink,
-                oldReddit ? 'https://old.reddit.com' : 'https://www.reddit.com',
+                oldReddit ? REDDIT_OLD_URI : REDDIT_URI,
               )
 
               Share.share({
@@ -236,7 +237,7 @@ export function PostMenu({ children, post }: Props) {
             onPress={() => {
               const url = new URL(
                 post.permalink,
-                oldReddit ? 'https://old.reddit.com' : 'https://www.reddit.com',
+                oldReddit ? REDDIT_OLD_URI : REDDIT_URI,
               )
 
               openInBrowser(url.toString())

@@ -1,6 +1,5 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { eq } from 'drizzle-orm'
-import { compact } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 
@@ -8,9 +7,7 @@ import { db } from '~/db'
 import { isComment, isPost } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
 import { removePrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
-import { REDDIT_URI } from '~/reddit/config'
-import { fetchUserData } from '~/reddit/users'
+import { REDDIT_URI, reddit } from '~/reddit/api'
 import { PostSchema } from '~/schemas/post'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
@@ -95,15 +92,6 @@ export function usePost({ commentId, id, sort }: Props) {
         throw new Error('Post not found')
       }
 
-      const users = await fetchUserData(
-        post.data.author_fullname,
-        ...compact(
-          response[1].data.children
-            .filter((item) => item.kind === 't1')
-            .map((item) => item.data.author_fullname),
-        ),
-      )
-
       const collapsed = await db
         .select({
           id: db.schema.collapsed.commentId,
@@ -116,12 +104,9 @@ export function usePost({ commentId, id, sort }: Props) {
           transformComment(item, {
             collapseAutoModerator,
             collapsed: collapsed.map((comment) => comment.id),
-            users,
           }),
         ),
-        post: transformPost(post.data, {
-          users,
-        }),
+        post: transformPost(post.data),
       }
     },
     queryKey: [

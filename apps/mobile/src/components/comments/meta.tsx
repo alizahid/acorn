@@ -1,5 +1,3 @@
-import { differenceInMonths } from 'date-fns'
-import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -33,12 +31,6 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
 
   const { vote } = useCommentVote()
 
-  const baby =
-    comment.user.createdAt &&
-    differenceInMonths(new Date(), comment.user.createdAt) < 1
-      ? comment.user.createdAt
-      : null
-
   return (
     <View style={styles.main(top || collapsed, !top || collapsed)}>
       {comment.sticky ? (
@@ -66,13 +58,13 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         }}
         style={styles.user}
       >
-        {comment.user.image ? (
+        {/* {comment.user.image ? (
           <Image
             accessibilityIgnoresInvertColors
             source={comment.user.image}
             style={styles.image}
           />
-        ) : null}
+        ) : null} */}
 
         <Text
           color={comment.op ? 'accent' : 'gray'}
@@ -92,22 +84,6 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
               tintColor: theme.colors.orange.accent,
             })}
           />
-        ) : null}
-
-        {baby ? (
-          <View style={styles.baby}>
-            <Icon
-              name="figure.child"
-              uniProps={(theme) => ({
-                size: theme.typography[1].lineHeight,
-                tintColor: theme.colors.orange.accent,
-              })}
-            />
-
-            <Text highContrast={false} size="1">
-              <TimeAgo date={baby} unit="days" />
-            </Text>
-          </View>
         ) : null}
       </Pressable>
 
