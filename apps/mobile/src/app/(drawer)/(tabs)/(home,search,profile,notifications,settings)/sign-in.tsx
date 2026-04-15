@@ -49,7 +49,9 @@ export default function Screen() {
           disabled={!(isTestFlight || subscribed)}
           label={t('signIn')}
           loading={isPending || isLoading}
-          onPress={() => {
+          onPress={async () => {
+            await cookies.clearAll()
+
             setOpen(true)
           }}
         />
