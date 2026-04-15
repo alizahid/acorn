@@ -1,7 +1,7 @@
 import { fromUnixTime } from 'date-fns'
 import { last } from 'lodash'
 
-import { markdownToEnriched } from '~/lib/markdown'
+import { transformMarkdown } from '~/lib/markdown'
 import { removePrefix } from '~/lib/reddit'
 import { type MessagesSchema } from '~/schemas/messages'
 import { type Message } from '~/types/message'
@@ -15,7 +15,7 @@ export function transformMessage(
       : undefined
 
   return {
-    body: markdownToEnriched(data.data.body),
+    body: transformMarkdown(data.data.body),
     createdAt: fromUnixTime(data.data.created_utc),
     from: data.data.author,
     id: removePrefix(data.data.id),

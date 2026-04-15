@@ -4,7 +4,6 @@ import { compact } from 'lodash'
 import {
   type SubmissionCommunitySchema,
   type SubmissionFlairSchema,
-  type SubmissionRequirementsSchema,
 } from '~/schemas/submission'
 import { type Submission } from '~/types/submission'
 
@@ -13,14 +12,9 @@ import { transformFlair } from './flair'
 type Props = {
   community: SubmissionCommunitySchema
   flair: SubmissionFlairSchema
-  requirements: SubmissionRequirementsSchema
 }
 
-export function transformSubmission({
-  community,
-  flair,
-  requirements,
-}: Props): Submission {
+export function transformSubmission({ community, flair }: Props): Submission {
   return {
     community: {
       id: community.data.name,
@@ -63,31 +57,6 @@ export function transformSubmission({
       spoiler: community.data.spoilers_enabled,
       text: ['any', self].includes(community.data.submission_type),
       video: community.data.allow_videos,
-    },
-    rules: {
-      body: {
-        blacklist: requirements.body_blacklisted_strings ?? [],
-        max: requirements.body_text_max_length ?? undefined,
-        min: requirements.body_text_min_length ?? undefined,
-        required: requirements.body_required_strings ?? [],
-      },
-      domains: {
-        blacklist: requirements.domain_blacklist ?? [],
-        whitelist: requirements.domain_whitelist ?? [],
-      },
-      flair: {
-        required: requirements.is_flair_required,
-      },
-      media: {
-        max: requirements.gallery_max_items ?? undefined,
-        min: requirements.gallery_min_items ?? undefined,
-      },
-      title: {
-        blacklist: requirements.title_blacklisted_strings ?? [],
-        max: requirements.title_text_max_length ?? undefined,
-        min: requirements.title_text_min_length ?? undefined,
-        required: requirements.title_required_strings ?? [],
-      },
     },
   }
 }

@@ -4,7 +4,6 @@ import { reddit } from '~/reddit/api'
 import {
   SubmissionCommunitySchema,
   SubmissionFlairSchema,
-  SubmissionRequirementsSchema,
 } from '~/schemas/submission'
 import { useAuth } from '~/stores/auth'
 import { transformSubmission } from '~/transformers/submission'
@@ -16,24 +15,18 @@ export function useSubmission(name: string) {
     enabled: Boolean(accountId),
     networkMode: 'offlineFirst',
     async queryFn() {
-      const community = SubmissionCommunitySchema.parse(
-        await reddit({
-          url: `/r/${name}/about`,
-        }),
-      )
-
-      const requirements = SubmissionRequirementsSchema.parse(
-        await reddit({
-          url: `/api/v1/${name}/post_requirements`,
-        }),
-      )
-
-      const flair = await fetchFlair(name)
+      const [community, flair] = await Promise.all([
+        SubmissionCommunitySchema.parse(
+          await reddit({
+            url: `/r/${name}/about`,
+          }),
+        ),
+        fetchFlair(name),
+      ])
 
       return transformSubmission({
         community,
         flair,
-        requirements,
       })
     },
     queryKey: [
@@ -57,7 +50,7 @@ async function fetchFlair(name: string) {
   try {
     return SubmissionFlairSchema.parse(
       await reddit({
-        url: `/r/${name}/api/link_flair_v2`,
+        url: `/r/${name}/api/link_flair_v2.json`,
       }),
     )
   } catch {

@@ -83,12 +83,6 @@ export function SubmissionFlair({ submission }: Props) {
               ) : (
                 <Text weight="medium">{t('label')}</Text>
               )}
-
-              {!selected && submission.rules.flair.required ? (
-                <Text size="1" style={styles.required} weight="medium">
-                  {t('required')}
-                </Text>
-              ) : null}
             </Pressable>
 
             <Sheet.Root ref={sheet}>

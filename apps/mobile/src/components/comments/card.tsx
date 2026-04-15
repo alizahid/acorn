@@ -168,7 +168,9 @@ export function CommentCard({
 
             {collapsed ? null : (
               <View style={styles.body}>
-                <Markdown meta={comment.media.meta}>{comment.body}</Markdown>
+                <Markdown meta={comment.media.meta} type="comment">
+                  {comment.body}
+                </Markdown>
               </View>
             )}
 

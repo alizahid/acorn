@@ -3,9 +3,9 @@ import { useRef, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
 import {
-  type EnrichedMarkdownInputInstance,
-  type StyleState,
-} from 'react-native-enriched-markdown'
+  type EditorStyleState,
+  type MarkdownEditorHandle,
+} from 'react-native-fast-markdown'
 import {
   KeyboardController,
   KeyboardExtender,
@@ -24,8 +24,6 @@ import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 import { IconButton } from '../common/icon/button'
-import { PhosphorIcon } from '../common/icon/phosphor'
-import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { MarkdownEditor } from '../markdown/editor'
 
@@ -33,7 +31,6 @@ export function SubmissionText() {
   const focused = useIsFocused()
 
   const t = useTranslations('component.submission.text')
-  const a11y = useTranslations('a11y')
 
   const { font, fontScaling } = usePreferences()
 
@@ -41,9 +38,9 @@ export function SubmissionText() {
 
   const { progress } = useReanimatedKeyboardAnimation()
 
-  const editor = useRef<EnrichedMarkdownInputInstance>(null)
+  const editor = useRef<MarkdownEditorHandle>(null)
 
-  const [state, setState] = useState<StyleState>()
+  const [state, setState] = useState<EditorStyleState>()
 
   const style = useAnimatedStyle(() => ({
     height: interpolate(progress.get(), [0, 1], [0, 48]),
@@ -61,7 +58,7 @@ export function SubmissionText() {
             </Text>
           ) : null}
 
-          <MarkdownEditor
+          <MarkdownEditor.Root
             onChange={(markdown) => {
               field.onChange(markdown)
             }}
@@ -73,79 +70,7 @@ export function SubmissionText() {
 
           <KeyboardExtender enabled={focused}>
             <Animated.View style={[styles.tools, style]}>
-              <View style={styles.section}>
-                <Pressable
-                  accessibilityLabel={a11y('toggleBold')}
-                  onPress={() => {
-                    editor?.current?.toggleBold()
-                  }}
-                  style={styles.item}
-                >
-                  <PhosphorIcon
-                    name="TextB"
-                    uniProps={(theme) => ({
-                      color: state?.bold.isActive
-                        ? theme.colors.accent.accent
-                        : theme.colors.gray.textLow,
-                    })}
-                    weight={state?.bold.isActive ? 'bold' : 'regular'}
-                  />
-                </Pressable>
-
-                <Pressable
-                  accessibilityLabel={a11y('toggleItalic')}
-                  onPress={() => {
-                    editor?.current?.toggleItalic()
-                  }}
-                  style={styles.item}
-                >
-                  <PhosphorIcon
-                    name="TextItalic"
-                    uniProps={(theme) => ({
-                      color: state?.italic.isActive
-                        ? theme.colors.accent.accent
-                        : theme.colors.gray.textLow,
-                    })}
-                    weight={state?.italic.isActive ? 'bold' : 'regular'}
-                  />
-                </Pressable>
-
-                <Pressable
-                  accessibilityLabel={a11y('toggleStrikethrough')}
-                  onPress={() => {
-                    editor?.current?.toggleStrikethrough()
-                  }}
-                  style={styles.item}
-                >
-                  <PhosphorIcon
-                    name="TextStrikethrough"
-                    uniProps={(theme) => ({
-                      color: state?.strikethrough.isActive
-                        ? theme.colors.accent.accent
-                        : theme.colors.gray.textLow,
-                    })}
-                    weight={state?.strikethrough.isActive ? 'bold' : 'regular'}
-                  />
-                </Pressable>
-
-                <Pressable
-                  accessibilityLabel={a11y('toggleSpoiler')}
-                  onPress={() => {
-                    editor?.current?.toggleSpoiler()
-                  }}
-                  style={styles.item}
-                >
-                  <PhosphorIcon
-                    name="EyeClosed"
-                    uniProps={(theme) => ({
-                      color: state?.spoiler.isActive
-                        ? theme.colors.accent.accent
-                        : theme.colors.gray.textLow,
-                    })}
-                    weight={state?.spoiler.isActive ? 'bold' : 'regular'}
-                  />
-                </Pressable>
-              </View>
+              <MarkdownEditor.ToolBar editor={editor} state={state} />
 
               <IconButton
                 color="gray"
@@ -176,17 +101,8 @@ const styles = StyleSheet.create((theme) => ({
   error: {
     color: theme.colors.red.accent,
   },
-  item: {
-    alignItems: 'center',
-    height: theme.space[8],
-    justifyContent: 'center',
-    width: theme.space[8],
-  },
   main: {
     flex: 1,
-  },
-  section: {
-    flexDirection: 'row',
   },
   tools: {
     flexDirection: 'row',

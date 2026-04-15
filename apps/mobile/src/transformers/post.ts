@@ -1,7 +1,7 @@
 import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
-import { markdownToEnriched } from '~/lib/markdown'
+import { transformMarkdown } from '~/lib/markdown'
 import { getImages, getMeta, getVideo } from '~/lib/media'
 import { removePrefix } from '~/lib/reddit'
 import { type PostDataSchema } from '~/schemas/posts'
@@ -21,7 +21,7 @@ export function transformPost(
   const id = removePrefix(data.id)
 
   return {
-    body: markdownToEnriched(data.selftext),
+    body: transformMarkdown(data.selftext),
     comments: data.num_comments,
     community: transformCommunity(data.sr_detail),
     createdAt: fromUnixTime(data.created_utc),

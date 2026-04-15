@@ -4,18 +4,18 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { useCallback, useState } from 'react'
-import { View } from 'react-native'
-import Animated, {
-  useAnimatedKeyboard,
-  useAnimatedStyle,
-} from 'react-native-reanimated'
+import { useCallback, useRef, useState } from 'react'
+import {
+  type EditorStyleState,
+  type MarkdownEditorHandle,
+} from 'react-native-fast-markdown'
+import { useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
+import Animated, { useAnimatedStyle } from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { IconButton } from '~/components/common/icon/button'
-import { Text } from '~/components/common/text'
 import { MarkdownEditor } from '~/components/markdown/editor'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
@@ -41,15 +41,18 @@ export default function Screen() {
   const t = useTranslations('screen.posts.reply')
   const a11y = useTranslations('a11y')
 
-  const keyboard = useAnimatedKeyboard()
+  const { height } = useReanimatedKeyboardAnimation()
 
   const reply = usePostReply()
   const edit = useCommentEdit()
 
+  const editor = useRef<MarkdownEditorHandle>(null)
+
+  const [state, setState] = useState<EditorStyleState>()
   const [text, setText] = useState(params.body)
 
   const style = useAnimatedStyle(() => ({
-    paddingBottom: keyboard.height.get(),
+    paddingBottom: height.get(),
   }))
 
   useFocusEffect(
@@ -90,40 +93,30 @@ export default function Screen() {
             size="6"
           />
         ),
+        title: params.user
+          ? t('user', {
+              user: params.user,
+            })
+          : params.commentId
+            ? t('editing')
+            : t('title'),
       })
-    }, [
-      a11y,
-      edit,
-      navigation,
-      params.body,
-      params.commentId,
-      params.id,
-      params.postId,
-      reply,
-      router,
-      text,
-    ]),
+    }, [a11y, edit, navigation, params, reply, router, text, t]),
   )
 
   return (
     <Animated.View style={[styles.main, style]}>
-      {params.commentId ? (
-        <View style={styles.user}>
-          <Text weight="medium">{t('editing')}</Text>
-        </View>
-      ) : params.user ? (
-        <View style={styles.user}>
-          <Text weight="medium">
-            {t('user', {
-              user: params.user,
-            })}
-          </Text>
-        </View>
-      ) : null}
+      <MarkdownEditor.ToolBar
+        editor={editor}
+        state={state}
+        style={styles.toolBar}
+      />
 
-      <MarkdownEditor
+      <MarkdownEditor.Root
         onChange={setText}
+        onChangeState={setState}
         placeholder={t('placeholder')}
+        ref={editor}
         style={styles.input(font, fontScaling)}
         value={text}
       />
@@ -143,8 +136,7 @@ const styles = StyleSheet.create((theme) => ({
   main: {
     flex: 1,
   },
-  user: {
+  toolBar: {
     backgroundColor: theme.colors.gray.ui,
-    padding: theme.space[4],
   },
 }))

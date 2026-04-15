@@ -7,8 +7,8 @@ import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { enrichedToMarkdown } from '~/lib/markdown'
-import { reddit } from '~/reddit/api'
+import { prepareMarkdown } from '~/lib/markdown'
+import { REDDIT_OLD_URI, reddit } from '~/reddit/api'
 import {
   SubmissionResponseSchema,
   SubmissionSocketSchema,
@@ -27,7 +27,7 @@ export function useCreatePost(submission: Submission) {
     submission.media.link && 'link',
   ] as const)
 
-  const schema = useMemo(() => generateSchema(t, submission), [submission, t])
+  const schema = useMemo(() => generateSchema(), [])
 
   const form = useForm({
     defaultValues: {
@@ -53,7 +53,6 @@ export function useCreatePost(submission: Submission) {
     async mutationFn(variables) {
       const body = new FormData()
 
-      body.append('api_type', 'json')
       body.append('sr', variables.community)
       body.append('title', variables.title)
       body.append('spoiler', String(variables.spoiler))
@@ -69,7 +68,7 @@ export function useCreatePost(submission: Submission) {
       )
 
       if (variables.type === 'text') {
-        body.append('text', enrichedToMarkdown(variables.text))
+        body.append('text', prepareMarkdown(variables.text))
       } else {
         body.append('url', variables.url)
       }
@@ -78,10 +77,14 @@ export function useCreatePost(submission: Submission) {
         body.append('flair_id', variables.flairId)
       }
 
+      const url = new URL('/api/submit', REDDIT_OLD_URI)
+
+      url.searchParams.append('api_type', 'json')
+
       const response = await reddit({
         body,
         method: 'post',
-        url: '/api/submit',
+        url,
       })
 
       const { json } = SubmissionResponseSchema.parse(response)
@@ -119,152 +122,32 @@ export function useCreatePost(submission: Submission) {
   }
 }
 
-function generateSchema(
-  t: ReturnType<typeof useTranslations<'component.submission'>>,
-  submission: Submission,
-) {
-  const flairId = submission.rules.flair.required
-    ? z.string()
-    : z.string().optional()
-
+function generateSchema() {
   const base = z.object({
     community: z.string(),
-    flairId,
+    flairId: z.string().optional(),
     nsfw: z.boolean(),
     spoiler: z.boolean(),
-    title: z
-      .string()
-      .min(
-        submission.rules.title.min ?? 1,
-        t('title.error.min', {
-          min: submission.rules.title.min ?? 1,
-        }),
-      )
-      .max(
-        submission.rules.title.max ?? 300,
-        t('title.error.max', {
-          max: submission.rules.title.max ?? 300,
-        }),
-      )
-      .refine(
-        (value) => {
-          if (submission.rules.title.required.length > 0) {
-            return submission.rules.title.required.every((word) =>
-              value.toLowerCase().includes(word.toLowerCase()),
-            )
-          }
-
-          return true
-        },
-        t('title.error.required', {
-          list: submission.rules.title.required.join(', '),
-        }),
-      )
-      .refine(
-        (value) => {
-          if (submission.rules.title.blacklist.length > 0) {
-            return submission.rules.body.blacklist.every(
-              (word) => !value.toLowerCase().includes(word.toLowerCase()),
-            )
-          }
-
-          return true
-        },
-        t('title.error.blacklist', {
-          list: submission.rules.title.blacklist.join(', '),
-        }),
-      ),
+    title: z.string().min(1),
   })
 
   return z.discriminatedUnion('type', [
     z
       .object({
-        text: z
-          .string()
-          .min(
-            submission.rules.body.min ?? 1,
-            t('text.error.min', {
-              min: submission.rules.body.min ?? 1,
-            }),
-          )
-          .max(
-            submission.rules.body.max ?? Number.POSITIVE_INFINITY,
-            t('text.error.max', {
-              max: submission.rules.body.max ?? Number.POSITIVE_INFINITY,
-            }),
-          )
-          .refine(
-            (value) => {
-              if (submission.rules.body.required.length > 0) {
-                return submission.rules.body.required.every((word) =>
-                  value.toLowerCase().includes(word.toLowerCase()),
-                )
-              }
-
-              return true
-            },
-            t('text.error.required', {
-              list: submission.rules.body.required.join(', '),
-            }),
-          )
-          .refine(
-            (value) => {
-              if (submission.rules.body.blacklist.length > 0) {
-                return submission.rules.body.blacklist.every(
-                  (word) => !value.toLowerCase().includes(word.toLowerCase()),
-                )
-              }
-
-              return true
-            },
-            t('text.error.blacklist', {
-              list: submission.rules.body.blacklist.join(', '),
-            }),
-          ),
+        text: z.string().min(1),
         type: z.literal('text'),
       })
       .extend(base.shape),
     z
       .object({
         type: z.literal('link'),
-        url: z
-          .url(t('link.error.url'))
-          .min(1, t('link.error.url'))
-          .refine(
-            (value) => {
-              if (submission.rules.domains.whitelist.length > 0) {
-                return submission.rules.domains.whitelist.includes(
-                  getHost(value),
-                )
-              }
-
-              return true
-            },
-            t('link.error.whitelist', {
-              list: submission.rules.domains.whitelist.join(', '),
-            }),
-          )
-          .refine(
-            (value) => {
-              if (submission.rules.domains.blacklist.length > 0) {
-                return !submission.rules.domains.blacklist.includes(
-                  getHost(value),
-                )
-              }
-
-              return true
-            },
-            t('link.error.blacklist', {
-              list: submission.rules.domains.blacklist.join(', '),
-            }),
-          ),
+        url: z.url().min(1),
       })
       .extend(base.shape),
     z
       .object({
         type: z.literal('image'),
         url: z.url({
-          error: t('image.error.url'),
           hostname: imageHostRegex,
         }),
       })
@@ -273,16 +156,6 @@ function generateSchema(
 }
 
 const imageHostRegex = /reddit-uploaded-media.s3-accelerate.amazonaws.com/
-
-function getHost(link: string) {
-  try {
-    const url = new URL(link)
-
-    return url.hostname
-  } catch {
-    return ''
-  }
-}
 
 function handleSocket(url: string) {
   return new Promise<{

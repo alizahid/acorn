@@ -87,7 +87,11 @@ export const CreateCommentSchema = z.object({
       .object({
         things: z.array(
           z.object({
-            data: CommentDataSchema,
+            data: z.object({
+              id: z.string(),
+              link: z.string(),
+              parent: z.string(),
+            }),
             kind: z.literal('t1'),
           }),
         ),

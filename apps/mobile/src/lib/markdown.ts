@@ -2,19 +2,17 @@ import { decode } from 'entities'
 
 import { type PostMediaMeta } from '~/types/post'
 
-const redditSpoilerRegex = />!(.*?)!</g
 const redditLinkRegex = /(?<!\S)\/?[ru]\/[A-Za-z0-9_-]+/g
 
 const enrichedSpoilerRegex = /\|\|(.*?)\|\|/g
 const giphyRegex = /!\[gif\]\(giphy\|([a-zA-Z0-9]+)(?:\|([a-zA-Z0-9]+))?\)/g
 
-export function markdownToEnriched(markdown: string | null) {
+export function transformMarkdown(markdown: string | null) {
   if (!markdown) {
     return ''
   }
 
   return decode(markdown)
-    .replace(redditSpoilerRegex, '||$1||')
     .replace(
       redditLinkRegex,
       (name) =>
@@ -23,7 +21,7 @@ export function markdownToEnriched(markdown: string | null) {
     .trim()
 }
 
-export function enrichedToMarkdown(markdown: string) {
+export function prepareMarkdown(markdown: string) {
   return markdown
     .replace(enrichedSpoilerRegex, '>!$1!<')
     .replace(
@@ -39,6 +37,8 @@ export function mergeMetaMarkdown(markdown: string, meta?: PostMediaMeta) {
   }
 
   let merged = markdown
+
+  merged = merged.replaceAll('![gif]', '![]')
 
   if (merged.includes('giphy')) {
     merged = merged.replace(giphyRegex, (_, id, type) => {

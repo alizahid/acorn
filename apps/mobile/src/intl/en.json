@@ -496,9 +496,9 @@
           "apercu": "Apercu",
           "basis": "Basis",
           "fold": "Fold",
-          "fontSizeBody": "Body size",
-          "fontSizeTitle": "Title size",
-          "restart": "Requires app restart",
+          "fontSizeCommentBody": "Comment text size",
+          "fontSizePostBody": "Post text size",
+          "fontSizeTitle": "Title text size",
           "system": "San Francisco",
           "systemScaling": "Use system scaling",
           "title": "Font"

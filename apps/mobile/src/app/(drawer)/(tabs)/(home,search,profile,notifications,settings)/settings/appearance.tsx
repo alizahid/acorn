@@ -17,7 +17,8 @@ export default function Screen() {
     feedCompact,
     font,
     fontScaling,
-    fontSizeBody,
+    fontSizeCommentBody,
+    fontSizePostBody,
     fontSizeTitle,
     largeThumbnails,
     mediaOnRight,
@@ -29,7 +30,8 @@ export default function Screen() {
   } = usePreferences()
 
   const sizes = {
-    fontSizeBody,
+    fontSizeCommentBody,
+    fontSizePostBody,
     fontSizeTitle,
   }
 
@@ -177,9 +179,10 @@ export default function Screen() {
           </Host>
         )}
 
-        {(['fontSizeTitle', 'fontSizeBody'] as const).map((item) => (
+        {(
+          ['fontSizeTitle', 'fontSizePostBody', 'fontSizeCommentBody'] as const
+        ).map((item) => (
           <Menu.Options
-            description={t('fonts.restart')}
             key={item}
             label={t(`fonts.${item}`)}
             onChange={(next) => {

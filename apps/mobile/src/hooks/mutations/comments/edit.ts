@@ -5,7 +5,7 @@ import { useTranslations } from 'use-intl'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { isComment } from '~/lib/guards'
-import { enrichedToMarkdown } from '~/lib/markdown'
+import { prepareMarkdown } from '~/lib/markdown'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { CreateCommentSchema } from '~/schemas/comments'
@@ -28,7 +28,7 @@ export function useCommentEdit() {
       const body = new FormData()
 
       body.append('api_type', 'json')
-      body.append('text', enrichedToMarkdown(variables.body))
+      body.append('text', prepareMarkdown(variables.body))
       body.append('thing_id', addPrefix(variables.id, 'comment'))
 
       const response = await reddit({

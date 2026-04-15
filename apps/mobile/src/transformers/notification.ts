@@ -1,6 +1,6 @@
 import { fromUnixTime } from 'date-fns'
 
-import { markdownToEnriched } from '~/lib/markdown'
+import { transformMarkdown } from '~/lib/markdown'
 import { removePrefix } from '~/lib/reddit'
 import { type NotificationsSchema } from '~/schemas/notifications'
 import { type Notification } from '~/types/notification'
@@ -14,7 +14,7 @@ export function transformNotification(
 
   return {
     author: data.data.author,
-    body: markdownToEnriched(data.data.body),
+    body: transformMarkdown(data.data.body),
     context: data.data.context,
     createdAt: fromUnixTime(data.data.created_utc),
     id: removePrefix(data.data.id),

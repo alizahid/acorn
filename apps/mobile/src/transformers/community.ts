@@ -1,7 +1,7 @@
 import { fromUnixTime } from 'date-fns'
 import { decode } from 'entities'
 
-import { markdownToEnriched } from '~/lib/markdown'
+import { transformMarkdown } from '~/lib/markdown'
 import { removePrefix } from '~/lib/reddit'
 import { type CommunityDataSchema } from '~/schemas/communities'
 import { type Community } from '~/types/community'
@@ -17,7 +17,7 @@ export function transformCommunity(data: CommunityDataSchema): Community {
         : undefined,
     createdAt: fromUnixTime(data.created_utc ?? 0),
     description: data.public_description
-      ? markdownToEnriched(data.public_description)
+      ? transformMarkdown(data.public_description)
       : undefined,
     favorite: Boolean(data.user_has_favorited),
     id: removePrefix(data.name),

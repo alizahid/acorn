@@ -29,6 +29,7 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
   const request: RequestInit = {
     headers,
     method,
+    redirect: 'follow',
   }
 
   if (body) {
