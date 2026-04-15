@@ -2,9 +2,8 @@ import { type ConfigContext, type ExpoConfig } from 'expo/config'
 import { withBuildProperties } from 'expo-build-properties'
 
 export default function getConfig(context: ConfigContext): ExpoConfig {
-  const projectId = '8d7d5acc-3688-4cd2-b93f-52391f665348'
-
   const name = 'Acorn'
+  const projectId = '8d7d5acc-3688-4cd2-b93f-52391f665348'
 
   const plugins: ExpoConfig['plugins'] = [
     '@bacons/apple-targets',
@@ -77,11 +76,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     ])
   }
 
-  const icon =
-    process.env.EXPO_PUBLIC_TEST_FLIGHT === 'false'
-      ? './assets/icons/app-store/AppIcon.icon'
-      : './assets/icons/test-flight/AppIcon.icon'
-
   const config: ExpoConfig = {
     ...context.config,
     experiments: {
@@ -113,7 +107,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         'com.apple.developer.ubiquity-kvstore-identifier':
           '$(TeamIdentifierPrefix)$(CFBundleIdentifier)',
       },
-      icon,
+      icon: './assets/icons/AppIcon.icon',
       supportsTablet: true,
     },
     name,

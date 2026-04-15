@@ -1,6 +1,8 @@
+import { getUserAgent } from '~/lib/user-agent'
 import { useAuth } from '~/stores/auth'
 
-import { REDDIT_URI, USER_AGENT } from './config'
+export const REDDIT_URI = 'https://www.reddit.com'
+export const REDDIT_OLD_URI = 'https://old.reddit.com'
 
 type Props = {
   body?: FormData
@@ -18,10 +20,10 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
   const headers = new Headers()
 
   headers.set('cookie', `reddit_session=${auth.cookie}`)
-  headers.set('user-agent', USER_AGENT)
+  headers.set('user-agent', getUserAgent())
 
   if (method === 'post') {
-    headers.set('x-modhash', auth.modhash)
+    headers.set('x-modhash', auth.modHash)
   }
 
   const request: RequestInit = {
@@ -35,23 +37,19 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
     headers.set('content-type', 'multipart/form-data')
   }
 
-  const input = new URL(url, REDDIT_URI)
+  const uri = new URL(url, REDDIT_URI)
 
   if (
     method === 'get' &&
-    !input.pathname.startsWith('/api/') &&
-    !input.pathname.endsWith('.json')
+    !uri.pathname.startsWith('/api/') &&
+    !uri.pathname.endsWith('.json')
   ) {
-    input.pathname += '.json'
+    uri.pathname += '.json'
   }
 
-  input.searchParams.set('raw_json', '1')
+  uri.searchParams.set('raw_json', '1')
 
-  if (__DEV__) {
-    console.log('reddit', input.toString(), request)
-  }
-
-  const response = await fetch(input, request)
+  const response = await fetch(uri, request)
 
   if (url === '/api/read_all_messages') {
     return {} as Response
@@ -84,6 +82,6 @@ function getAuth() {
 
   return {
     cookie: account.cookie,
-    modhash: account.modhash,
+    modHash: account.modHash,
   }
 }

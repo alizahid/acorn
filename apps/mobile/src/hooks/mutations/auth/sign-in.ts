@@ -1,15 +1,21 @@
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { toast } from 'sonner-native'
-import { useTranslations } from 'use-intl'
+import { z } from 'zod'
 
-import { REDDIT_URI, USER_AGENT } from '~/reddit/config'
+import { getUserAgent } from '~/lib/user-agent'
+import { REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
+
+const schema = z.object({
+  data: z.object({
+    modhash: z.string(),
+    name: z.string(),
+  }),
+})
 
 export function useSignIn() {
   const router = useRouter()
-
-  const t = useTranslations('hook.auth.signIn')
 
   const { add } = useAuth()
 
@@ -20,28 +26,18 @@ export function useSignIn() {
       const response = await fetch(url, {
         headers: {
           cookie: `reddit_session=${cookie}`,
-          'user-agent': USER_AGENT,
+          'user-agent': getUserAgent(),
         },
       })
 
-      const json = (await response.json()) as {
-        data?: {
-          modhash?: string
-          name?: string
-        }
-      }
+      const json = await response.json()
 
-      const name = json.data?.name
-      const modhash = json.data?.modhash
-
-      if (!name || !modhash) {
-        throw new Error(t('error'))
-      }
+      const { data } = schema.parse(json)
 
       return {
         cookie,
-        id: name,
-        modhash,
+        id: data.name,
+        modHash: data.modhash,
       }
     },
     onError(error) {

@@ -5,16 +5,14 @@
   "main": "index.js",
   "scripts": {
     "android": "expo run:android",
-    "build": "eas build --profile app-store --platform ios --local",
+    "build": "eas build --profile production --platform ios --local",
     "build:dev": "eas build --profile development --platform ios --local",
     "build:preview": "eas build --profile preview --platform ios --local",
     "build:sim": "eas build --profile simulator --platform ios --local",
-    "build:test-flight": "eas build --profile test-flight --platform ios --local",
     "dev": "expo start --ios --clear",
     "ios": "expo run:ios",
     "lint:types": "tsc --noEmit",
-    "publish": "eas build --profile app-store --platform ios --auto-submit",
-    "publish:test-flight": "eas build --profile test-flight --platform ios --auto-submit"
+    "publish": "eas build --profile production --platform ios --auto-submit"
   },
   "dependencies": {
     "@bacons/apple-targets": "^4.0.6",
@@ -70,6 +68,7 @@
     "expo-status-bar": "~55.0.5",
     "expo-symbols": "~55.0.7",
     "expo-system-ui": "~55.0.15",
+    "expo-testflight": "^0.3.0",
     "expo-updates": "~55.0.20",
     "expo-video": "~55.0.15",
     "expo-web-browser": "~55.0.14",
@@ -99,9 +98,9 @@
     "react-native-screens": "~4.23.0",
     "react-native-sound-player": "^0.14.5",
     "react-native-svg": "15.15.3",
-    "react-native-webview": "^13.13.5",
     "react-native-tab-view": "4.3.0",
     "react-native-unistyles": "^3.2.3",
+    "react-native-webview": "13.16.0",
     "react-native-worklets": "0.7.2",
     "semver": "^7.7.4",
     "sonner-native": "^0.24.0",

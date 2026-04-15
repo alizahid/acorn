@@ -8,6 +8,7 @@ import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
+import { REDDIT_URI } from '~/reddit/api'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -120,7 +121,7 @@ export function CommentCard({
         }
 
         if (action === 'share') {
-          const url = new URL(comment.permalink, 'https://www.reddit.com')
+          const url = new URL(comment.permalink, REDDIT_URI)
 
           Share.share({
             url: url.toString(),

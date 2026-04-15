@@ -1,16 +1,20 @@
-import { useCallback, useRef, useState } from 'react'
+import { isTestFlight } from 'expo-testflight'
+import { useState } from 'react'
 import { View } from 'react-native'
-import NitroCookies from 'react-native-nitro-cookies'
+import cookies from 'react-native-nitro-cookies'
+import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
-import { type WebViewNavigation } from 'react-native-webview'
 import WebView from 'react-native-webview'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { Button } from '~/components/common/button'
+import { Empty } from '~/components/common/empty'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
+import { useSubscribed } from '~/hooks/purchases/subscribed'
+import { REDDIT_URI } from '~/reddit/api'
 
 const schema = z.object({
   mode: z.enum(['dismissible', 'fixed']).catch('fixed'),
@@ -18,75 +22,70 @@ const schema = z.object({
 
 export type SignInParams = z.infer<typeof schema>
 
-const LOGIN_URL = 'https://www.reddit.com/login'
-
 export default function Screen() {
   const t = useTranslations('screen.auth.signIn')
 
-  const { isPending, signIn } = useSignIn()
+  const { signIn, isPending } = useSignIn()
+  const { subscribed, isLoading } = useSubscribed()
 
-  const [showWebView, setShowWebView] = useState(false)
-
-  const loggingIn = useRef(false)
-
-  const handleNavigationChange = useCallback(
-    async (event: WebViewNavigation) => {
-      if (loggingIn.current || event.loading) {
-        return
-      }
-
-      const cookies = await NitroCookies.get('https://www.reddit.com', true)
-
-      if (!cookies.reddit_session) {
-        return
-      }
-
-      loggingIn.current = true
-
-      setShowWebView(false)
-
-      await signIn(cookies.reddit_session.value)
-    },
-    [signIn],
-  )
-
-  if (showWebView) {
-    return (
-      <View style={styles.webView}>
-        <WebView
-          sharedCookiesEnabled
-          source={{ uri: LOGIN_URL }}
-          thirdPartyCookiesEnabled
-          onNavigationStateChange={handleNavigationChange}
-        />
-      </View>
-    )
-  }
+  const [open, setOpen] = useState(false)
 
   return (
-    <View style={styles.main}>
-      <View style={styles.content}>
-        <Logo />
+    <>
+      <View style={styles.main}>
+        <View style={styles.content}>
+          <Logo />
 
-        <Text mt="4" size="8" style={styles.title} weight="bold">
-          {t('title')}
-        </Text>
+          <Text mt="4" size="8" style={styles.title} weight="bold">
+            {t('title')}
+          </Text>
 
-        <Text highContrast={false} mt="2" size="2" weight="medium">
-          {t('description')}
-        </Text>
+          <Text highContrast={false} mt="2" size="2" weight="medium">
+            {t('description')}
+          </Text>
+        </View>
+
+        <Button
+          disabled={!(isTestFlight || subscribed)}
+          label={t('signIn')}
+          loading={isPending || isLoading}
+          onPress={() => {
+            setOpen(true)
+          }}
+        />
       </View>
 
-      <Button
-        label={t('signIn')}
-        loading={isPending}
-        onPress={() => {
-          loggingIn.current = false
+      {open ? (
+        <Animated.View
+          entering={SlideInDown}
+          exiting={SlideOutDown}
+          style={styles.webView}
+        >
+          <WebView
+            onNavigationStateChange={async (event) => {
+              if (isPending || event.loading) {
+                return
+              }
 
-          setShowWebView(true)
-        }}
-      />
-    </View>
+              const jar = await cookies.get(REDDIT_URI, true)
+
+              if (!jar.reddit_session) {
+                return
+              }
+
+              signIn(jar.reddit_session.value)
+
+              setOpen(false)
+            }}
+            renderLoading={() => <Empty />}
+            sharedCookiesEnabled
+            source={{
+              uri: `https://www.reddit.com/login/?dest=${encodeURI('/r/acornblue')}`,
+            }}
+          />
+        </Animated.View>
+      ) : null}
+    </>
   )
 }
 
@@ -104,6 +103,6 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.accent.accent,
   },
   webView: {
-    flex: 1,
+    ...StyleSheet.absoluteFillObject,
   },
 }))

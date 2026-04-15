@@ -8,6 +8,7 @@ import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { cardMaxWidth, iPad } from '~/lib/common'
+import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -108,7 +109,7 @@ export function PostCard({ expanded, post }: Props) {
       if (action === 'share') {
         const url = new URL(
           post.permalink,
-          oldReddit ? 'https://old.reddit.com' : 'https://www.reddit.com',
+          oldReddit ? REDDIT_OLD_URI : REDDIT_URI,
         )
 
         Share.share({

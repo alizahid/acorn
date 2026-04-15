@@ -1,3 +1,4 @@
+import { uniqBy } from 'lodash'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -9,7 +10,7 @@ export const AUTH_KEY = 'auth'
 export type Account = {
   cookie: string
   id: string
-  modhash: string
+  modHash: string
 }
 
 export type State = {
@@ -28,7 +29,7 @@ export const useAuth = create<State>()(
       add(account) {
         set({
           accountId: account.id,
-          accounts: updateAccounts(get().accounts, account),
+          accounts: uniqBy([...get().accounts, account], 'id'),
         })
       },
       remove(id) {
@@ -72,18 +73,19 @@ export const useAuth = create<State>()(
       },
     }),
     {
+      migrate(state, version) {
+        if (version < 1) {
+          const previous = state as State
+
+          previous.accountId = undefined
+          previous.accounts = []
+        }
+
+        return state
+      },
       name: AUTH_KEY,
       storage: new Store(),
+      version: 1,
     },
   ),
 )
-
-export function updateAccounts(accounts: Array<Account>, account: Account) {
-  const index = accounts.findIndex((item) => item.id === account.id)
-
-  if (index >= 0) {
-    return accounts.map((item, i) => (i === index ? account : item))
-  }
-
-  return [...accounts, account]
-}

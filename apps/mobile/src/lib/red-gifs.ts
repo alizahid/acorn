@@ -4,7 +4,7 @@ import * as SecureStore from 'expo-secure-store'
 import { type VideoSource } from 'expo-video'
 import { z } from 'zod'
 
-import { USER_AGENT } from '~/reddit/config'
+import { getUserAgent } from './user-agent'
 
 const GifSchema = z.object({
   gif: z.object({
@@ -31,7 +31,7 @@ export async function getGif(id: string): Promise<Gif> {
   const response = await fetch(url, {
     headers: {
       authorization: `Bearer ${token}`,
-      'user-agent': USER_AGENT,
+      'user-agent': getUserAgent(true),
     },
   })
 
@@ -56,7 +56,7 @@ export async function getGif(id: string): Promise<Gif> {
     source: {
       headers: {
         authorization: `Bearer ${token}`,
-        'user-agent': USER_AGENT,
+        'user-agent': getUserAgent(true),
       },
       uri: uri.toString(),
     },
@@ -104,7 +104,7 @@ async function generateToken() {
 
   const response = await fetch(url, {
     headers: {
-      'user-agent': USER_AGENT,
+      'user-agent': getUserAgent(true),
     },
   })
 

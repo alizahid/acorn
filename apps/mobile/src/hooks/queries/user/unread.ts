@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 
-import { reddit } from '~/reddit/api'
-import { REDDIT_URI } from '~/reddit/config'
+import { REDDIT_URI, reddit } from '~/reddit/api'
 import { type NotificationsSchema } from '~/schemas/notifications'
 import { useAuth } from '~/stores/auth'
 

@@ -10,6 +10,7 @@ import { useTranslations } from 'use-intl'
 
 import { lockOrientation, unlockOrientation } from '~/lib/orientation'
 import { Sentry } from '~/lib/sentry'
+import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
 import { type Nullable } from '~/types'
 
@@ -71,8 +72,8 @@ export function useLink() {
           href.startsWith('http')
             ? undefined
             : oldReddit
-              ? 'https://old.reddit.com'
-              : 'https://www.reddit.com',
+              ? REDDIT_OLD_URI
+              : REDDIT_URI,
         )
 
         const parts = parseLink(url.toString())
