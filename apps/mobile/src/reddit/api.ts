@@ -1,7 +1,6 @@
-import { updateAccounts, useAuth } from '~/stores/auth'
+import { useAuth } from '~/stores/auth'
 
 import { REDDIT_URI, USER_AGENT } from './config'
-import { refreshAccessToken } from './token'
 
 type Props = {
   body?: FormData
@@ -10,16 +9,20 @@ type Props = {
 }
 
 export async function reddit<Response>({ body, method = 'get', url }: Props) {
-  const token = await getToken()
+  const auth = getAuth()
 
-  if (!token) {
+  if (!auth) {
     return
   }
 
   const headers = new Headers()
 
-  headers.set('authorization', `Bearer ${token}`)
+  headers.set('cookie', `reddit_session=${auth.cookie}`)
   headers.set('user-agent', USER_AGENT)
+
+  if (method === 'post') {
+    headers.set('x-modhash', auth.modhash)
+  }
 
   const request: RequestInit = {
     headers,
@@ -34,7 +37,15 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
 
   const input = new URL(url, REDDIT_URI)
 
-  input.searchParams.set('g', 'GLOBAL')
+  if (
+    method === 'get' &&
+    !input.pathname.startsWith('/api/') &&
+    !input.pathname.endsWith('.json')
+  ) {
+    input.pathname += '.json'
+  }
+
+  input.searchParams.set('raw_json', '1')
 
   if (__DEV__) {
     console.log('reddit', input.toString(), request)
@@ -58,7 +69,7 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
   return (await response.json()) as Response
 }
 
-async function getToken() {
+function getAuth() {
   const { accountId, accounts } = useAuth.getState()
 
   if (!accountId) {
@@ -71,20 +82,8 @@ async function getToken() {
     return
   }
 
-  if (new Date() > account.expiresAt) {
-    const payload = await refreshAccessToken(account.refreshToken)
-
-    if (!payload) {
-      return
-    }
-
-    useAuth.setState({
-      accountId: payload.id,
-      accounts: updateAccounts(useAuth.getState().accounts, payload),
-    })
-
-    return payload.accessToken
+  return {
+    cookie: account.cookie,
+    modhash: account.modhash,
   }
-
-  return account.accessToken
 }

@@ -1,4 +1,3 @@
-import { create as mutative } from 'mutative'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -8,10 +7,9 @@ import { Store } from '~/lib/store'
 export const AUTH_KEY = 'auth'
 
 export type Account = {
-  accessToken: string
-  expiresAt: Date
+  cookie: string
   id: string
-  refreshToken: string
+  modhash: string
 }
 
 export type State = {
@@ -81,13 +79,11 @@ export const useAuth = create<State>()(
 )
 
 export function updateAccounts(accounts: Array<Account>, account: Account) {
-  return mutative(accounts, (draft) => {
-    const index = accounts.findIndex((item) => item.id === account.id)
+  const index = accounts.findIndex((item) => item.id === account.id)
 
-    if (index >= 0) {
-      draft[index] = account
-    } else {
-      draft.push(account)
-    }
-  })
+  if (index >= 0) {
+    return accounts.map((item, i) => (i === index ? account : item))
+  }
+
+  return [...accounts, account]
 }
