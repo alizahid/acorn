@@ -13,10 +13,10 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useTabPress } from '~/hooks/tabs'
 import { iPad } from '~/lib/common'
-import { useDefaults } from '~/stores/defaults'
+import { defaultsStore } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
-const routes = useDefaults
+const routes = defaultsStore
   .getState()
   .searchTabs.filter(({ disabled }) => !disabled)
   .map(({ key }) => ({
