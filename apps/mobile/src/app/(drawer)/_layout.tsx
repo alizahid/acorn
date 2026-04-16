@@ -1,6 +1,4 @@
-import { useSegments } from 'expo-router'
 import { Drawer } from 'expo-router/drawer'
-import { last } from 'lodash'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { HomeDrawer } from '~/components/home/drawer'
@@ -9,8 +7,6 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
 export default function Layout() {
-  const segments = useSegments()
-
   const { fullscreenDrawer, stickyDrawer, themeOled, themeTint } =
     usePreferences([
       'fullscreenDrawer',
@@ -29,22 +25,11 @@ export default function Layout() {
     <Drawer
       drawerContent={HomeDrawer}
       screenOptions={{
-        configureGestureHandler(gesture) {
-          if (fullscreenDrawer) {
-            return gesture.hitSlop({
-              left: 1000,
-            })
-          }
-
-          return gesture
-        },
         drawerStyle: styles.drawer,
         drawerType: iPad ? (stickyDrawer ? 'permanent' : 'slide') : 'front',
         headerShown: false,
         overlayColor: styles.overlay.backgroundColor,
-        swipeEnabled: fullscreenDrawer
-          ? segments.includes('(home)' as never)
-          : last(segments) === '(home)',
+        swipeEnabled: fullscreenDrawer,
       }}
     >
       <Drawer.Screen name="(tabs)" />
