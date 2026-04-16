@@ -1,45 +1,64 @@
 import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
-import { addPrefix } from '~/lib/reddit'
 import { REDDIT_URI, reddit } from '~/reddit/api'
-import { MoreCommentsSchema } from '~/schemas/comments'
+import { type CommentsSchema } from '~/schemas/comments'
+import { PostSchema } from '~/schemas/post'
 import { transformComment } from '~/transformers/comment'
 import { type CommentSort } from '~/types/sort'
 
 type Data = {
-  comments: MoreCommentsSchema
+  comments: CommentsSchema['data']['children']
+  remaining: Array<string>
 }
 
 type Variables = {
   children: Array<string>
+  depth: number
   id: string
+  parentId: string
   postId: string
   sort: CommentSort
 }
 
+const BATCH_SIZE = 10
+
 export function useLoadMoreComments() {
   const { isPending, mutate } = useMutation<Data, Error, Variables>({
     async mutationFn(variables) {
-      const url = new URL('/api/morechildren', REDDIT_URI)
+      if (variables.depth > 0) {
+        const response = await fetchSubtree({
+          comment: variables.parentId,
+          postId: variables.postId,
+          sort: variables.sort,
+        })
 
-      url.searchParams.set('api_type', 'json')
-      url.searchParams.set('link_id', addPrefix(variables.postId, 'link'))
-      url.searchParams.set('sort', variables.sort)
-      url.searchParams.set(
-        'children',
-        variables.children.slice(0, 50).join(','),
+        const descendants = response[1].data.children.filter(
+          (item) =>
+            !(item.kind === 't1' && item.data.id === variables.parentId),
+        )
+
+        return {
+          comments: descendants,
+          remaining: [],
+        }
+      }
+
+      const batch = variables.children.slice(0, BATCH_SIZE)
+
+      const responses = await Promise.all(
+        batch.map((comment) =>
+          fetchSubtree({
+            comment,
+            postId: variables.postId,
+            sort: variables.sort,
+          }),
+        ),
       )
-      url.searchParams.set('limit_children', 'true')
-
-      const response = await reddit({
-        url,
-      })
-
-      const comments = MoreCommentsSchema.parse(response)
 
       return {
-        comments,
+        comments: responses.flatMap((item) => item[1].data.children),
+        remaining: variables.children.slice(BATCH_SIZE),
       }
     },
     onSuccess(data, variables) {
@@ -48,25 +67,22 @@ export function useLoadMoreComments() {
           (item) => item.type === 'more' && item.data.id === variables.id,
         )
 
-        if (index >= 0) {
-          const comments = data.comments.json.data.things.map((item) =>
-            transformComment(item),
-          )
-
-          const more = draft.comments[index]
-
-          if (more?.type === 'more') {
-            more.data.children = more.data.children.slice(50)
-
-            if (more.data.children.length > 0) {
-              draft.comments.splice(index, 1, ...comments, more)
-
-              return
-            }
-          }
-
-          draft.comments.splice(index, 1, ...comments)
+        if (index < 0) {
+          return
         }
+
+        const comments = data.comments.map((item) => transformComment(item))
+
+        const more = draft.comments[index]
+
+        if (more?.type === 'more' && data.remaining.length > 0) {
+          more.data.children = data.remaining
+          draft.comments.splice(index, 1, ...comments, more)
+
+          return
+        }
+
+        draft.comments.splice(index, 1, ...comments)
       })
     },
   })
@@ -75,4 +91,28 @@ export function useLoadMoreComments() {
     isPending,
     loadMore: mutate,
   }
+}
+
+async function fetchSubtree({
+  comment,
+  postId,
+  sort,
+}: {
+  comment: string
+  postId: string
+  sort: CommentSort
+}) {
+  const url = new URL(`/comments/${postId}`, REDDIT_URI)
+
+  url.searchParams.set('comment', comment)
+  url.searchParams.set('limit', '500')
+  url.searchParams.set('threaded', 'false')
+  url.searchParams.set('sr_detail', 'true')
+  url.searchParams.set('sort', sort)
+
+  const response = await reddit({
+    url,
+  })
+
+  return PostSchema.parse(response)
 }

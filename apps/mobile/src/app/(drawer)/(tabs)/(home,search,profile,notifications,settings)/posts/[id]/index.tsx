@@ -158,11 +158,6 @@ export default function Screen() {
   const renderItem: ListRenderItem<Comment> = useCallback(
     ({ item }) => {
       if (item.type === 'more') {
-        // TODO: fix more comments
-        if (item.data) {
-          return null
-        }
-
         return (
           <CommentMoreCard
             comment={item.data}

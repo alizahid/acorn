@@ -65,7 +65,9 @@ export function CommentMoreCard({
         } else {
           loadMore({
             children: comment.children,
+            depth: comment.depth,
             id: comment.id,
+            parentId: comment.parentId,
             postId: post.id,
             sort,
           })
