@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { AppState } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
@@ -19,7 +20,12 @@ export default function Layout() {
 
   const t = useTranslations('screen')
 
-  const { themeOled, themeTint } = usePreferences()
+  const { themeOled, themeTint } = usePreferences(
+    useShallow((s) => ({
+      themeOled: s.themeOled,
+      themeTint: s.themeTint,
+    })),
+  )
 
   styles.useVariants({
     glass,
@@ -27,7 +33,7 @@ export default function Layout() {
     tint: themeTint,
   })
 
-  const { accountId } = useAuth()
+  const accountId = useAuth((s) => s.accountId)
   const { unread } = useUnread()
   const { subscribed } = useSubscribed()
 

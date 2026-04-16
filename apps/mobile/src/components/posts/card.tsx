@@ -3,6 +3,7 @@ import { useCallback } from 'react'
 import { Share, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
@@ -47,7 +48,18 @@ export function PostCard({ expanded, post }: Props) {
     mediaOnRight,
     oldReddit,
     themeOled,
-  } = usePreferences()
+  } = usePreferences(
+    useShallow((s) => ({
+      boldTitle: s.boldTitle,
+      communityOnTop: s.communityOnTop,
+      dimSeen: s.dimSeen,
+      feedCompact: s.feedCompact,
+      fontSizeTitle: s.fontSizeTitle,
+      mediaOnRight: s.mediaOnRight,
+      oldReddit: s.oldReddit,
+      themeOled: s.themeOled,
+    })),
+  )
   const {
     postLeft,
     postLeftLong,
@@ -55,7 +67,16 @@ export function PostCard({ expanded, post }: Props) {
     postRight,
     postRightLong,
     postRightShort,
-  } = useGestures()
+  } = useGestures(
+    useShallow((s) => ({
+      postLeft: s.postLeft,
+      postLeftLong: s.postLeftLong,
+      postLeftShort: s.postLeftShort,
+      postRight: s.postRight,
+      postRightLong: s.postRightLong,
+      postRightShort: s.postRightShort,
+    })),
+  )
 
   const dimmed = !expanded && dimSeen && post.seen
 

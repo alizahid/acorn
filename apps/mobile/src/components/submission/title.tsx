@@ -6,12 +6,19 @@ import { useTranslations } from 'use-intl'
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Text } from '../common/text'
 import { TextInput } from '../native/text-input'
 
 export function SubmissionTitle() {
-  const { font, fontScaling, systemScaling } = usePreferences()
+  const { font, fontScaling, systemScaling } = usePreferences(
+    useShallow((s) => ({
+      font: s.font,
+      fontScaling: s.fontScaling,
+      systemScaling: s.systemScaling,
+    })),
+  )
 
   const t = useTranslations('component.submission.title')
 

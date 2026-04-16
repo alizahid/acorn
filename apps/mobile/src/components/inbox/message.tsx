@@ -23,9 +23,9 @@ type Props = {
 export function MessageCard({ message }: Props) {
   const router = useRouter()
 
-  const { accountId } = useAuth()
+  const accountId = useAuth((s) => s.accountId)
 
-  const { themeOled } = usePreferences()
+  const themeOled = usePreferences((s) => s.themeOled)
 
   const a11y = useTranslations('a11y')
   const f = useFormatter()

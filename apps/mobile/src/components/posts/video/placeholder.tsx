@@ -2,6 +2,7 @@ import { ImageBackground } from 'expo-image'
 import { useState } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
+import { useShallow } from 'zustand/react/shallow'
 
 import { VisibilitySensor } from '~/components/common/sensor/visibility'
 import { useFocused } from '~/hooks/focus'
@@ -32,7 +33,12 @@ export function VideoPlaceholder({
   thumbnail,
   video,
 }: Props) {
-  const { blurNsfw, blurSpoiler } = usePreferences()
+  const { blurNsfw, blurSpoiler } = usePreferences(
+    useShallow((s) => ({
+      blurNsfw: s.blurNsfw,
+      blurSpoiler: s.blurSpoiler,
+    })),
+  )
 
   const { focused } = useFocused()
 

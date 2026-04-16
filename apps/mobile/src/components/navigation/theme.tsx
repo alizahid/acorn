@@ -1,6 +1,7 @@
 import { ThemeProvider as Provider } from '@react-navigation/native'
 import { type ReactNode } from 'react'
 import { withUnistyles } from 'react-native-unistyles'
+import { useShallow } from 'zustand/react/shallow'
 
 import { fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
@@ -13,7 +14,13 @@ type Props = {
 }
 
 export function ThemeProvider({ children }: Props) {
-  const { font, themeOled, themeTint } = usePreferences()
+  const { font, themeOled, themeTint } = usePreferences(
+    useShallow((s) => ({
+      font: s.font,
+      themeOled: s.themeOled,
+      themeTint: s.themeTint,
+    })),
+  )
 
   const fontFamily = fonts[font]
 

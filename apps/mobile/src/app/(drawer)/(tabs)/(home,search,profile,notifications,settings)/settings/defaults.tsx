@@ -15,6 +15,8 @@ import { Menu } from '~/components/common/menu'
 import { Switch } from '~/components/common/switch'
 import { Text } from '~/components/common/text'
 import { DraggableItem } from '~/components/defaults/draggable-item'
+import { useShallow } from 'zustand/react/shallow'
+
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
 import { FeedType } from '~/types/sort'
@@ -22,7 +24,14 @@ import { FeedType } from '~/types/sort'
 export default function Screen() {
   const t = useTranslations('screen.settings.defaults')
 
-  const { drawerSections, feedType, searchTabs, update } = useDefaults()
+  const { drawerSections, feedType, searchTabs, update } = useDefaults(
+    useShallow((s) => ({
+      drawerSections: s.drawerSections,
+      feedType: s.feedType,
+      searchTabs: s.searchTabs,
+      update: s.update,
+    })),
+  )
 
   return (
     <ScrollViewContainer contentContainerStyle={styles.content}>

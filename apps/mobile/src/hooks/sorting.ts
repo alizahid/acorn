@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { db } from '~/db'
 import { queryClient } from '~/lib/query'
 import { usePreferences } from '~/stores/preferences'
+import { useShallow } from 'zustand/react/shallow'
 import {
   type CommunityFeedSort,
   type FeedSort,
@@ -34,7 +35,15 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
     rememberSorting,
     sortCommunityPosts,
     sortFeedPosts,
-  } = usePreferences()
+  } = usePreferences(
+    useShallow((s) => ({
+      intervalCommunityPosts: s.intervalCommunityPosts,
+      intervalFeedPosts: s.intervalFeedPosts,
+      rememberSorting: s.rememberSorting,
+      sortCommunityPosts: s.sortCommunityPosts,
+      sortFeedPosts: s.sortFeedPosts,
+    })),
+  )
 
   const queryKey: SortingQueryKey<Type> = [
     'sorting',

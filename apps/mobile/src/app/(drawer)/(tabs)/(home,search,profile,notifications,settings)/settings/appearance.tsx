@@ -5,6 +5,8 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { Themes } from '~/components/settings/themes'
+import { useShallow } from 'zustand/react/shallow'
+
 import { type Font, fonts } from '~/lib/fonts'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 import { type TypographyToken, typography } from '~/styles/tokens'
@@ -27,7 +29,24 @@ export default function Screen() {
     themeOled,
     themeTint,
     update,
-  } = usePreferences()
+  } = usePreferences(
+    useShallow((s) => ({
+      colorfulComments: s.colorfulComments,
+      feedCompact: s.feedCompact,
+      font: s.font,
+      fontScaling: s.fontScaling,
+      fontSizeCommentBody: s.fontSizeCommentBody,
+      fontSizePostBody: s.fontSizePostBody,
+      fontSizeTitle: s.fontSizeTitle,
+      largeThumbnails: s.largeThumbnails,
+      mediaOnRight: s.mediaOnRight,
+      systemScaling: s.systemScaling,
+      theme: s.theme,
+      themeOled: s.themeOled,
+      themeTint: s.themeTint,
+      update: s.update,
+    })),
+  )
 
   const sizes = {
     fontSizeCommentBody,

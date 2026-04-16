@@ -12,6 +12,7 @@ import { lockOrientation, unlockOrientation } from '~/lib/orientation'
 import { Sentry } from '~/lib/sentry'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
+import { useShallow } from 'zustand/react/shallow'
 import { type Nullable } from '~/types'
 
 import { useFocused } from './focus'
@@ -21,7 +22,12 @@ export function useLink() {
 
   const t = useTranslations('toasts.link')
 
-  const { linkBrowser, oldReddit } = usePreferences()
+  const { linkBrowser, oldReddit } = usePreferences(
+    useShallow((s) => ({
+      linkBrowser: s.linkBrowser,
+      oldReddit: s.oldReddit,
+    })),
+  )
   const { setFocused } = useFocused()
 
   const { theme } = useUnistyles()

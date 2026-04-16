@@ -13,6 +13,8 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useTabPress } from '~/hooks/tabs'
 import { iPad } from '~/lib/common'
+import { useShallow } from 'zustand/react/shallow'
+
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
@@ -27,7 +29,12 @@ const routes = useDefaults
 export default function Screen() {
   const t = useTranslations('screen.search')
 
-  const { intervalSearchPosts, sortSearchPosts } = usePreferences()
+  const { intervalSearchPosts, sortSearchPosts } = usePreferences(
+    useShallow((s) => ({
+      intervalSearchPosts: s.intervalSearchPosts,
+      sortSearchPosts: s.sortSearchPosts,
+    })),
+  )
 
   const search = useRef<SearchBarCommands>(null)
 

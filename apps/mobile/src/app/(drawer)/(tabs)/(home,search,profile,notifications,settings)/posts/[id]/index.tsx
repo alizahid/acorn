@@ -26,6 +26,8 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { usePost } from '~/hooks/queries/posts/post'
 import { glass, heights, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
+import { useShallow } from 'zustand/react/shallow'
+
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 
@@ -44,7 +46,14 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
 
   const { collapsibleComments, replyPost, skipComment, sortPostComments } =
-    usePreferences()
+    usePreferences(
+      useShallow((s) => ({
+        collapsibleComments: s.collapsibleComments,
+        replyPost: s.replyPost,
+        skipComment: s.skipComment,
+        sortPostComments: s.sortPostComments,
+      })),
+    )
 
   styles.useVariants({
     iPad,

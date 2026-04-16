@@ -14,6 +14,7 @@ import { useSearchHistory } from '~/hooks/search'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { listProps } from '~/lib/list'
 import { usePreferences } from '~/stores/preferences'
+import { useShallow } from 'zustand/react/shallow'
 import { type Community } from '~/types/community'
 import { type SearchTab } from '~/types/defaults'
 import { type Post } from '~/types/post'
@@ -49,7 +50,12 @@ export function SearchList({
 }: Props) {
   const t = useTranslations('component.search.list')
 
-  const { feedCompact, themeOled } = usePreferences()
+  const { feedCompact, themeOled } = usePreferences(
+    useShallow((s) => ({
+      feedCompact: s.feedCompact,
+      themeOled: s.themeOled,
+    })),
+  )
 
   styles.useVariants({
     compact: feedCompact,

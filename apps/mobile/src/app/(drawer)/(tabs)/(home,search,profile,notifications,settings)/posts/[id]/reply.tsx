@@ -19,6 +19,8 @@ import { IconButton } from '~/components/common/icon/button'
 import { MarkdownEditor } from '~/components/markdown/editor'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
+import { useShallow } from 'zustand/react/shallow'
+
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
@@ -36,7 +38,12 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { font, fontScaling } = usePreferences()
+  const { font, fontScaling } = usePreferences(
+    useShallow((s) => ({
+      font: s.font,
+      fontScaling: s.fontScaling,
+    })),
+  )
 
   const t = useTranslations('screen.posts.reply')
   const a11y = useTranslations('a11y')

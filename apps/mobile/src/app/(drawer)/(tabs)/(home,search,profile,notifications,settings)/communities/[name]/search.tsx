@@ -11,6 +11,7 @@ import { TextBox } from '~/components/common/text-box'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { iPad } from '~/lib/common'
+import { useShallow } from 'zustand/react/shallow'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
@@ -28,7 +29,14 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
 
   const { intervalSearchPosts, sortSearchPosts, themeOled, themeTint } =
-    usePreferences()
+    usePreferences(
+      useShallow((s) => ({
+        intervalSearchPosts: s.intervalSearchPosts,
+        sortSearchPosts: s.sortSearchPosts,
+        themeOled: s.themeOled,
+        themeTint: s.themeTint,
+      })),
+    )
 
   styles.useVariants({
     iPad,

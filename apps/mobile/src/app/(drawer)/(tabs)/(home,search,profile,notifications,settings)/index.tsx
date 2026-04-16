@@ -36,7 +36,7 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
   const tType = useTranslations('component.common.type.type')
 
-  const { stickyDrawer } = usePreferences()
+  const stickyDrawer = usePreferences((s) => s.stickyDrawer)
 
   styles.useVariants({
     iPad,

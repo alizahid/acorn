@@ -3,6 +3,7 @@ import { useCallback } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
@@ -32,7 +33,13 @@ export function PostGalleryCard({
   recyclingKey,
   spoiler,
 }: Props) {
-  const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences()
+  const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences(
+    useShallow((s) => ({
+      blurNsfw: s.blurNsfw,
+      blurSpoiler: s.blurSpoiler,
+      seenOnMedia: s.seenOnMedia,
+    })),
+  )
   const { addPost } = useHistory()
 
   const a11y = useTranslations('a11y')

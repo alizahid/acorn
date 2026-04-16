@@ -2,6 +2,7 @@ import { useSegments } from 'expo-router'
 import { Drawer } from 'expo-router/drawer'
 import { last } from 'lodash'
 import { StyleSheet } from 'react-native-unistyles'
+import { useShallow } from 'zustand/react/shallow'
 
 import { HomeDrawer } from '~/components/home/drawer'
 import { iPad } from '~/lib/common'
@@ -12,7 +13,14 @@ export default function Layout() {
   const segments = useSegments()
 
   const { fullscreenDrawer, stickyDrawer, themeOled, themeTint } =
-    usePreferences()
+    usePreferences(
+      useShallow((s) => ({
+        fullscreenDrawer: s.fullscreenDrawer,
+        stickyDrawer: s.stickyDrawer,
+        themeOled: s.themeOled,
+        themeTint: s.themeTint,
+      })),
+    )
 
   styles.useVariants({
     iPad,

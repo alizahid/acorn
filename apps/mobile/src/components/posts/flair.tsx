@@ -28,7 +28,7 @@ export function FlairCard({
 }: Props) {
   const t = useTranslations('component.posts.flair')
 
-  const { showFlair } = usePreferences()
+  const showFlair = usePreferences((s) => s.showFlair)
 
   const items = flair.filter((item) =>
     type === 'both' ? true : item.type === type,
