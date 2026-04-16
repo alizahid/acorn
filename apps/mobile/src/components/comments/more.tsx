@@ -64,8 +64,8 @@ export function CommentMoreCard({
           onThread(comment.parentId)
         } else {
           loadMore({
-            children: comment.children,
             id: comment.id,
+            parentId: comment.parentId,
             postId: post.id,
             sort,
           })

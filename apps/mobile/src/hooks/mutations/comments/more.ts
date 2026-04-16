@@ -1,19 +1,18 @@
 import { useMutation } from '@tanstack/react-query'
 
 import { updatePost } from '~/hooks/queries/posts/post'
-import { addPrefix } from '~/lib/reddit'
 import { REDDIT_URI, reddit } from '~/reddit/api'
-import { MoreCommentsSchema } from '~/schemas/comments'
+import { PostSchema } from '~/schemas/post'
 import { transformComment } from '~/transformers/comment'
 import { type CommentSort } from '~/types/sort'
 
 type Data = {
-  comments: MoreCommentsSchema
+  comments: PostSchema[1]['data']['children']
 }
 
 type Variables = {
-  children: Array<string>
   id: string
+  parentId: string
   postId: string
   sort: CommentSort
 }
@@ -21,25 +20,24 @@ type Variables = {
 export function useLoadMoreComments() {
   const { isPending, mutate } = useMutation<Data, Error, Variables>({
     async mutationFn(variables) {
-      const url = new URL('/api/morechildren', REDDIT_URI)
+      const url = new URL(`/comments/${variables.postId}`, REDDIT_URI)
 
-      url.searchParams.set('api_type', 'json')
-      url.searchParams.set('link_id', addPrefix(variables.postId, 'link'))
       url.searchParams.set('sort', variables.sort)
-      url.searchParams.set(
-        'children',
-        variables.children.slice(0, 50).join(','),
-      )
-      url.searchParams.set('limit_children', 'true')
+      url.searchParams.set('threaded', 'false')
+      url.searchParams.set('sr_detail', 'true')
+
+      if (variables.parentId !== variables.postId) {
+        url.searchParams.set('comment', variables.parentId)
+      }
 
       const response = await reddit({
         url,
       })
 
-      const comments = MoreCommentsSchema.parse(response)
+      const parsed = PostSchema.parse(response)
 
       return {
-        comments,
+        comments: parsed[1].data.children,
       }
     },
     onSuccess(data, variables) {
@@ -49,21 +47,13 @@ export function useLoadMoreComments() {
         )
 
         if (index >= 0) {
-          const comments = data.comments.json.data.things.map((item) =>
-            transformComment(item),
+          const existingIds = new Set(
+            draft.comments.map((item) => item.data.id),
           )
 
-          const more = draft.comments[index]
-
-          if (more?.type === 'more') {
-            more.data.children = more.data.children.slice(50)
-
-            if (more.data.children.length > 0) {
-              draft.comments.splice(index, 1, ...comments, more)
-
-              return
-            }
-          }
+          const comments = data.comments
+            .map((item) => transformComment(item))
+            .filter((item) => !existingIds.has(item.data.id))
 
           draft.comments.splice(index, 1, ...comments)
         }
