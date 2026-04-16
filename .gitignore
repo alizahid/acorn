@@ -60,3 +60,7 @@ apps/mobile/android
 *.mobileprovision
 *.orig.*
 apps/mobile/targets/*/Assets.xcassets
+
+# next.js
+#
+next-env.d.ts
