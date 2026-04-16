@@ -19,9 +19,7 @@ type AuthPayload = {
   accounts: Array<Account>
 }
 
-export type State = {
-  accountId?: string
-  accounts: Array<Account>
+export type State = AuthPayload & {
   add: (account: Account) => void
   remove: (id: string) => void
   reorder: (accounts: Array<Account>) => void
