@@ -2,7 +2,6 @@ import { Link, useRouter } from 'expo-router'
 import { Share, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
-import { useShallow } from 'zustand/react/shallow'
 
 import { useHide } from '~/hooks/moderation/hide'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
@@ -44,13 +43,7 @@ export function CommentCard({
 
   const a11y = useTranslations('a11y')
 
-  const { colorfulComments, themeOled, userOnTop } = usePreferences(
-    useShallow((s) => ({
-      colorfulComments: s.colorfulComments,
-      themeOled: s.themeOled,
-      userOnTop: s.userOnTop,
-    })),
-  )
+  const { colorfulComments, themeOled, userOnTop } = usePreferences(['colorfulComments', 'themeOled', 'userOnTop'])
   const {
     commentLeft,
     commentLeftLong,
@@ -58,16 +51,7 @@ export function CommentCard({
     commentRight,
     commentRightLong,
     commentRightShort,
-  } = useGestures(
-    useShallow((s) => ({
-      commentLeft: s.commentLeft,
-      commentLeftLong: s.commentLeftLong,
-      commentLeftShort: s.commentLeftShort,
-      commentRight: s.commentRight,
-      commentRightLong: s.commentRightLong,
-      commentRightShort: s.commentRightShort,
-    })),
-  )
+  } = useGestures(['commentLeft', 'commentLeftLong', 'commentLeftShort', 'commentRight', 'commentRightLong', 'commentRightShort'])
 
   styles.useVariants({
     colorful: colorfulComments,

@@ -1,7 +1,6 @@
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
-import { useShallow } from 'zustand/react/shallow'
 
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { getDepthColor } from '~/lib/colors'
@@ -33,12 +32,7 @@ export function CommentMoreCard({
 }: Props) {
   const t = useTranslations('component.comments.more')
 
-  const { colorfulComments, themeOled } = usePreferences(
-    useShallow((s) => ({
-      colorfulComments: s.colorfulComments,
-      themeOled: s.themeOled,
-    })),
-  )
+  const { colorfulComments, themeOled } = usePreferences(['colorfulComments', 'themeOled'])
 
   styles.useVariants({
     colorful: colorfulComments,

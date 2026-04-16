@@ -25,8 +25,8 @@ type Props = {
 export function CommentMenu({ children, comment }: Props) {
   const router = useRouter()
 
-  const accountId = useAuth((state) => state.accountId)
-  const oldReddit = usePreferences((state) => state.oldReddit)
+  const { accountId } = useAuth(['accountId'])
+  const { oldReddit } = usePreferences(['oldReddit'])
 
   const t = useTranslations('component.posts.menu')
 

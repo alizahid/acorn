@@ -3,7 +3,6 @@ import { useVideoPlayer, VideoView } from 'expo-video'
 import { useEffect, useRef, useState } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
-import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
@@ -43,17 +42,7 @@ export function VideoPlayer({
     pictureInPicture,
     seenOnMedia,
     unmuteFullscreen,
-  } = usePreferences(
-    useShallow((s) => ({
-      autoPlay: s.autoPlay,
-      blurNsfw: s.blurNsfw,
-      blurSpoiler: s.blurSpoiler,
-      feedMuted: s.feedMuted,
-      pictureInPicture: s.pictureInPicture,
-      seenOnMedia: s.seenOnMedia,
-      unmuteFullscreen: s.unmuteFullscreen,
-    })),
-  )
+  } = usePreferences(['autoPlay', 'blurNsfw', 'blurSpoiler', 'feedMuted', 'pictureInPicture', 'seenOnMedia', 'unmuteFullscreen'])
   const { addPost } = useHistory()
 
   styles.useVariants({

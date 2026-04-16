@@ -9,7 +9,6 @@ import {
 } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
-import { useShallow } from 'zustand/react/shallow'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -60,14 +59,7 @@ export function PostList({
   const list = useRef<FlashListRef<Item>>(null)
 
   const { feedCompact, infiniteScrolling, seenOnScroll, themeOled } =
-    usePreferences(
-      useShallow((s) => ({
-        feedCompact: s.feedCompact,
-        infiniteScrolling: s.infiniteScrolling,
-        seenOnScroll: s.seenOnScroll,
-        themeOled: s.themeOled,
-      })),
-    )
+    usePreferences(['feedCompact', 'infiniteScrolling', 'seenOnScroll', 'themeOled'])
   const { addPost } = useHistory()
 
   styles.useVariants({

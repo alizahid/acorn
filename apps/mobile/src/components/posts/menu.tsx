@@ -28,8 +28,8 @@ export function PostMenu({ children, post }: Props) {
   const router = useRouter()
   const path = usePathname()
 
-  const accountId = useAuth((state) => state.accountId)
-  const oldReddit = usePreferences((state) => state.oldReddit)
+  const { accountId } = useAuth(['accountId'])
+  const { oldReddit } = usePreferences(['oldReddit'])
 
   const t = useTranslations('component.posts.menu')
 

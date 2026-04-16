@@ -1,8 +1,6 @@
 import { ScrollView } from 'react-native-gesture-handler'
 import { useTranslations } from 'use-intl'
 
-import { useShallow } from 'zustand/react/shallow'
-
 import { Menu } from '~/components/common/menu'
 import { IntervalItem } from '~/components/settings/interval'
 import { SortItem } from '~/components/settings/sort'
@@ -25,23 +23,7 @@ export default function Screen() {
     sortUserComments,
     sortUserPosts,
     update,
-  } = usePreferences(
-    useShallow((s) => ({
-      intervalCommunityPosts: s.intervalCommunityPosts,
-      intervalFeedPosts: s.intervalFeedPosts,
-      intervalSearchPosts: s.intervalSearchPosts,
-      intervalUserComments: s.intervalUserComments,
-      intervalUserPosts: s.intervalUserPosts,
-      rememberSorting: s.rememberSorting,
-      sortCommunityPosts: s.sortCommunityPosts,
-      sortFeedPosts: s.sortFeedPosts,
-      sortPostComments: s.sortPostComments,
-      sortSearchPosts: s.sortSearchPosts,
-      sortUserComments: s.sortUserComments,
-      sortUserPosts: s.sortUserPosts,
-      update: s.update,
-    })),
-  )
+  } = usePreferences(['intervalCommunityPosts', 'intervalFeedPosts', 'intervalSearchPosts', 'intervalUserComments', 'intervalUserPosts', 'rememberSorting', 'sortCommunityPosts', 'sortFeedPosts', 'sortPostComments', 'sortSearchPosts', 'sortUserComments', 'sortUserPosts', 'update'])
 
   return (
     <ScrollView>

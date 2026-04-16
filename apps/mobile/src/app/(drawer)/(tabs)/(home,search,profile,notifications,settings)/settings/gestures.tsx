@@ -6,8 +6,6 @@ import { GestureIcons } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { type MenuItemOption } from '~/components/common/menu/item/options'
-import { useShallow } from 'zustand/react/shallow'
-
 import { useGestures } from '~/stores/gestures'
 
 export default function Screen() {
@@ -27,23 +25,7 @@ export default function Screen() {
     postRightLong,
     postRightShort,
     update,
-  } = useGestures(
-    useShallow((s) => ({
-      commentLeft: s.commentLeft,
-      commentLeftLong: s.commentLeftLong,
-      commentLeftShort: s.commentLeftShort,
-      commentRight: s.commentRight,
-      commentRightLong: s.commentRightLong,
-      commentRightShort: s.commentRightShort,
-      postLeft: s.postLeft,
-      postLeftLong: s.postLeftLong,
-      postLeftShort: s.postLeftShort,
-      postRight: s.postRight,
-      postRightLong: s.postRightLong,
-      postRightShort: s.postRightShort,
-      update: s.update,
-    })),
-  )
+  } = useGestures(['commentLeft', 'commentLeftLong', 'commentLeftShort', 'commentRight', 'commentRightLong', 'commentRightShort', 'postLeft', 'postLeftLong', 'postLeftShort', 'postRight', 'postRightLong', 'postRightShort', 'update'])
 
   const options: Array<MenuItemOption<GestureAction>> = [
     {

@@ -5,8 +5,6 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { mitter } from '~/lib/mitt'
-import { useShallow } from 'zustand/react/shallow'
-
 import { useAuth } from '~/stores/auth'
 
 import { IconButton } from '../common/icon/button'
@@ -20,14 +18,7 @@ export function AccountSwitcher() {
   const t = useTranslations('component.users.switcher')
   const a11y = useTranslations('a11y')
 
-  const { accountId, accounts, remove, set } = useAuth(
-    useShallow((s) => ({
-      accountId: s.accountId,
-      accounts: s.accounts,
-      remove: s.remove,
-      set: s.set,
-    })),
-  )
+  const { accountId, accounts, remove, set } = useAuth(['accountId', 'accounts', 'remove', 'set'])
 
   const sheet = useRef<Sheet>(null)
 

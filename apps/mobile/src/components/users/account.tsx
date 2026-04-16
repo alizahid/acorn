@@ -3,8 +3,6 @@ import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { useShallow } from 'zustand/react/shallow'
-
 import { type Account } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
@@ -29,12 +27,7 @@ export function AccountCard({
 }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { themeOled, themeTint } = usePreferences(
-    useShallow((s) => ({
-      themeOled: s.themeOled,
-      themeTint: s.themeTint,
-    })),
-  )
+  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
 
   styles.useVariants({
     oled: themeOled,

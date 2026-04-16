@@ -27,24 +27,7 @@ export default function Screen() {
     themeOled,
     themeTint,
     update,
-  } = usePreferences(
-    useShallow((s) => ({
-      colorfulComments: s.colorfulComments,
-      feedCompact: s.feedCompact,
-      font: s.font,
-      fontScaling: s.fontScaling,
-      fontSizeCommentBody: s.fontSizeCommentBody,
-      fontSizePostBody: s.fontSizePostBody,
-      fontSizeTitle: s.fontSizeTitle,
-      largeThumbnails: s.largeThumbnails,
-      mediaOnRight: s.mediaOnRight,
-      systemScaling: s.systemScaling,
-      theme: s.theme,
-      themeOled: s.themeOled,
-      themeTint: s.themeTint,
-      update: s.update,
-    })),
-  )
+  } = usePreferences(['colorfulComments', 'feedCompact', 'font', 'fontScaling', 'fontSizeCommentBody', 'fontSizePostBody', 'fontSizeTitle', 'largeThumbnails', 'mediaOnRight', 'systemScaling', 'theme', 'themeOled', 'themeTint', 'update'])
 
   const sizes = {
     fontSizeCommentBody,

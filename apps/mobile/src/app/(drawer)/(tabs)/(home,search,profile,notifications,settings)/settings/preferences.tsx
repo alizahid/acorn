@@ -6,8 +6,6 @@ import { FloatingButtonSide } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
-import { useShallow } from 'zustand/react/shallow'
-
 import { iPad } from '~/lib/common'
 import { getIcon } from '~/lib/icons'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
@@ -50,43 +48,7 @@ export default function Screen() {
     upvoteOnSave,
     userOnTop,
     update,
-  } = usePreferences(
-    useShallow((s) => ({
-      autoPlay: s.autoPlay,
-      blurNsfw: s.blurNsfw,
-      blurSpoiler: s.blurSpoiler,
-      boldTitle: s.boldTitle,
-      collapseAutoModerator: s.collapseAutoModerator,
-      collapsibleComments: s.collapsibleComments,
-      communityOnTop: s.communityOnTop,
-      dimSeen: s.dimSeen,
-      feedbackHaptics: s.feedbackHaptics,
-      feedbackSounds: s.feedbackSounds,
-      feedMuted: s.feedMuted,
-      fullscreenDrawer: s.fullscreenDrawer,
-      hapticsLoud: s.hapticsLoud,
-      hidePostActions: s.hidePostActions,
-      hideSeen: s.hideSeen,
-      infiniteScrolling: s.infiniteScrolling,
-      linkBrowser: s.linkBrowser,
-      oldReddit: s.oldReddit,
-      pictureInPicture: s.pictureInPicture,
-      refreshInterval: s.refreshInterval,
-      replyPost: s.replyPost,
-      saveToAlbum: s.saveToAlbum,
-      seenOnMedia: s.seenOnMedia,
-      seenOnScroll: s.seenOnScroll,
-      seenOnScrollDelay: s.seenOnScrollDelay,
-      seenOnVote: s.seenOnVote,
-      showFlair: s.showFlair,
-      skipComment: s.skipComment,
-      stickyDrawer: s.stickyDrawer,
-      unmuteFullscreen: s.unmuteFullscreen,
-      upvoteOnSave: s.upvoteOnSave,
-      userOnTop: s.userOnTop,
-      update: s.update,
-    })),
-  )
+  } = usePreferences(['autoPlay', 'blurNsfw', 'blurSpoiler', 'boldTitle', 'collapseAutoModerator', 'collapsibleComments', 'communityOnTop', 'dimSeen', 'feedbackHaptics', 'feedbackSounds', 'feedMuted', 'fullscreenDrawer', 'hapticsLoud', 'hidePostActions', 'hideSeen', 'infiniteScrolling', 'linkBrowser', 'oldReddit', 'pictureInPicture', 'refreshInterval', 'replyPost', 'saveToAlbum', 'seenOnMedia', 'seenOnScroll', 'seenOnScrollDelay', 'seenOnVote', 'showFlair', 'skipComment', 'stickyDrawer', 'unmuteFullscreen', 'upvoteOnSave', 'userOnTop', 'update'])
 
   return (
     <ScrollView>

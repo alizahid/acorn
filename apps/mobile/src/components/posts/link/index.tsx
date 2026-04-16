@@ -2,7 +2,6 @@ import { Image } from 'expo-image'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
-import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
@@ -34,12 +33,7 @@ export function PostLinkCard({
 }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { seenOnMedia, themeOled } = usePreferences(
-    useShallow((s) => ({
-      seenOnMedia: s.seenOnMedia,
-      themeOled: s.themeOled,
-    })),
-  )
+  const { seenOnMedia, themeOled } = usePreferences(['seenOnMedia', 'themeOled'])
   const { handleLink } = useLink()
   const { addPost } = useHistory()
 
