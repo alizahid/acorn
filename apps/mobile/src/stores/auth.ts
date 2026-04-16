@@ -14,6 +14,11 @@ export type Account = {
   modHash: string
 }
 
+type AuthPayload = {
+  accountId?: string
+  accounts: Array<Account>
+}
+
 export type State = {
   accountId?: string
   accounts: Array<Account>
@@ -90,10 +95,5 @@ export const authStore = create<State>()(
     },
   ),
 )
-
-type AuthPayload = {
-  accountId?: string
-  accounts: Array<Account>
-}
 
 export const useAuth = createSelectorHook<AuthPayload, State>(authStore)
