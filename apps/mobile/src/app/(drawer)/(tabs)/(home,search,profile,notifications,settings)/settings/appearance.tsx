@@ -27,7 +27,7 @@ export default function Screen() {
     themeOled,
     themeTint,
     update,
-  } = usePreferences(['colorfulComments', 'feedCompact', 'font', 'fontScaling', 'fontSizeCommentBody', 'fontSizePostBody', 'fontSizeTitle', 'largeThumbnails', 'mediaOnRight', 'systemScaling', 'theme', 'themeOled', 'themeTint', 'update'])
+  } = usePreferences(['colorfulComments', 'feedCompact', 'font', 'fontScaling', 'fontSizeCommentBody', 'fontSizePostBody', 'fontSizeTitle', 'largeThumbnails', 'mediaOnRight', 'systemScaling', 'theme', 'themeOled', 'themeTint'])
 
   const sizes = {
     fontSizeCommentBody,

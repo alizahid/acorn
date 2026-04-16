@@ -65,4 +65,7 @@ export const defaultsStore = create<State>()(
   ),
 )
 
-export const useDefaults = createSelectorHook(defaultsStore)
+export const useDefaults = createSelectorHook<DefaultsPayload, State>(
+  defaultsStore,
+  ['update'],
+)

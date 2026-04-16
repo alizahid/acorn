@@ -53,4 +53,7 @@ export const gesturesStore = create<State>()(
   ),
 )
 
-export const useGestures = createSelectorHook(gesturesStore)
+export const useGestures = createSelectorHook<GesturesPayload, State>(
+  gesturesStore,
+  ['update'],
+)

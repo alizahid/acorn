@@ -91,4 +91,14 @@ export const authStore = create<State>()(
   ),
 )
 
-export const useAuth = createSelectorHook(authStore)
+type AuthPayload = {
+  accountId?: string
+  accounts: Array<Account>
+}
+
+export const useAuth = createSelectorHook<AuthPayload, State>(authStore, [
+  'add',
+  'remove',
+  'reorder',
+  'set',
+])

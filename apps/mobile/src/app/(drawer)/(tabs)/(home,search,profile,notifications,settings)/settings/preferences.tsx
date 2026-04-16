@@ -48,7 +48,7 @@ export default function Screen() {
     upvoteOnSave,
     userOnTop,
     update,
-  } = usePreferences(['autoPlay', 'blurNsfw', 'blurSpoiler', 'boldTitle', 'collapseAutoModerator', 'collapsibleComments', 'communityOnTop', 'dimSeen', 'feedbackHaptics', 'feedbackSounds', 'feedMuted', 'fullscreenDrawer', 'hapticsLoud', 'hidePostActions', 'hideSeen', 'infiniteScrolling', 'linkBrowser', 'oldReddit', 'pictureInPicture', 'refreshInterval', 'replyPost', 'saveToAlbum', 'seenOnMedia', 'seenOnScroll', 'seenOnScrollDelay', 'seenOnVote', 'showFlair', 'skipComment', 'stickyDrawer', 'unmuteFullscreen', 'upvoteOnSave', 'userOnTop', 'update'])
+  } = usePreferences(['autoPlay', 'blurNsfw', 'blurSpoiler', 'boldTitle', 'collapseAutoModerator', 'collapsibleComments', 'communityOnTop', 'dimSeen', 'feedbackHaptics', 'feedbackSounds', 'feedMuted', 'fullscreenDrawer', 'hapticsLoud', 'hidePostActions', 'hideSeen', 'infiniteScrolling', 'linkBrowser', 'oldReddit', 'pictureInPicture', 'refreshInterval', 'replyPost', 'saveToAlbum', 'seenOnMedia', 'seenOnScroll', 'seenOnScrollDelay', 'seenOnVote', 'showFlair', 'skipComment', 'stickyDrawer', 'unmuteFullscreen', 'upvoteOnSave', 'userOnTop'])
 
   return (
     <ScrollView>

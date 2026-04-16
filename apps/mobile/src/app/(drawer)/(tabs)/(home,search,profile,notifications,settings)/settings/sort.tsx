@@ -23,7 +23,7 @@ export default function Screen() {
     sortUserComments,
     sortUserPosts,
     update,
-  } = usePreferences(['intervalCommunityPosts', 'intervalFeedPosts', 'intervalSearchPosts', 'intervalUserComments', 'intervalUserPosts', 'rememberSorting', 'sortCommunityPosts', 'sortFeedPosts', 'sortPostComments', 'sortSearchPosts', 'sortUserComments', 'sortUserPosts', 'update'])
+  } = usePreferences(['intervalCommunityPosts', 'intervalFeedPosts', 'intervalSearchPosts', 'intervalUserComments', 'intervalUserPosts', 'rememberSorting', 'sortCommunityPosts', 'sortFeedPosts', 'sortPostComments', 'sortSearchPosts', 'sortUserComments', 'sortUserPosts'])
 
   return (
     <ScrollView>
