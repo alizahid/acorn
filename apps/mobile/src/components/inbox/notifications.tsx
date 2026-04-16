@@ -12,7 +12,7 @@ import { Spinner } from '../common/spinner'
 import { NotificationCard } from './notification'
 
 export function NotificationsList() {
-  const themeOled = usePreferences((s) => s.themeOled)
+  const themeOled = usePreferences((state) => state.themeOled)
 
   styles.useVariants({
     oled: themeOled,

@@ -33,7 +33,7 @@ export default function Layout() {
     tint: themeTint,
   })
 
-  const accountId = useAuth((s) => s.accountId)
+  const accountId = useAuth((state) => state.accountId)
   const { unread } = useUnread()
   const { subscribed } = useSubscribed()
 

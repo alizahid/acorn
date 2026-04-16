@@ -21,7 +21,7 @@ type DownloadVideoVariables = {
 export function useDownloadVideo() {
   const t = useTranslations('toasts.video')
 
-  const saveToAlbum = usePreferences((s) => s.saveToAlbum)
+  const saveToAlbum = usePreferences((state) => state.saveToAlbum)
 
   const id = useRef<string | number>(undefined)
 

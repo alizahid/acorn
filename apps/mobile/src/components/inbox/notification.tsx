@@ -27,7 +27,7 @@ export function NotificationCard({ notification }: Props) {
     updateInterval: 1000 * 60,
   })
 
-  const themeOled = usePreferences((s) => s.themeOled)
+  const themeOled = usePreferences((state) => state.themeOled)
 
   styles.useVariants({
     color: tints[notification.type],

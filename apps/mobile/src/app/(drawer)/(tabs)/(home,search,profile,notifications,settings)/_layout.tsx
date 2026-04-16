@@ -52,8 +52,8 @@ export default function Layout({ segment }: Props) {
   const t = useTranslations('screen')
   const a11y = useTranslations('a11y')
 
-  const accountId = useAuth((s) => s.accountId)
-  const feedType = useDefaults((s) => s.feedType)
+  const accountId = useAuth((state) => state.accountId)
+  const feedType = useDefaults((state) => state.feedType)
 
   if (segment === '(search)') {
     return (

@@ -11,7 +11,7 @@ import { space } from '~/styles/tokens'
 import { Icon } from './icon'
 
 export function Toast() {
-  const font = usePreferences((s) => s.font)
+  const font = usePreferences((state) => state.font)
 
   styles.useVariants({
     iPad,

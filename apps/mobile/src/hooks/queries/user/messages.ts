@@ -25,7 +25,7 @@ export type MessagesQueryKey = [
 export type MessagesQueryData = InfiniteData<Page, Param>
 
 export function useMessages() {
-  const accountId = useAuth((s) => s.accountId)
+  const accountId = useAuth((state) => state.accountId)
 
   const {
     data,

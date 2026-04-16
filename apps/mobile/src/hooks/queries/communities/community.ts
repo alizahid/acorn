@@ -25,7 +25,7 @@ export type CommunityQueryKey = [
 export type CommunityQueryData = Community
 
 export function useCommunity(name: string) {
-  const accountId = useAuth((s) => s.accountId)
+  const accountId = useAuth((state) => state.accountId)
 
   const { data, isLoading, refetch } = useQuery<
     Undefined<CommunityQueryData>,

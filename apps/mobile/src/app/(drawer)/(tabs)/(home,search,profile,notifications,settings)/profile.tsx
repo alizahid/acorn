@@ -22,7 +22,7 @@ export default function Screen() {
   const t = useTranslations('screen.profile')
   // const a11y = useTranslations('a11y')
 
-  const accountId = useAuth((s) => s.accountId)
+  const accountId = useAuth((state) => state.accountId)
   const { profile, refetch } = useProfile(accountId)
 
   return (
