@@ -32,6 +32,7 @@ export type PostQueryKey = [
 ]
 
 export type PostQueryData = {
+  after?: string | null
   comments: Array<Comment>
   post: Post
 }
@@ -100,6 +101,7 @@ export function usePost({ commentId, id, sort }: Props) {
         .where(eq(db.schema.collapsed.postId, id))
 
       return {
+        after: response[1].data.after,
         comments: comments.map((item) =>
           transformComment(item, {
             collapseAutoModerator,

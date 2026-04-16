@@ -1,16 +1,23 @@
 import { useMutation } from '@tanstack/react-query'
 
-import { updatePost } from '~/hooks/queries/posts/post'
+import {
+  updatePost,
+  type PostQueryData,
+  type PostQueryKey,
+} from '~/hooks/queries/posts/post'
+import { queryClient } from '~/lib/query'
 import { REDDIT_URI, reddit } from '~/reddit/api'
 import {
   CommentDataSchema,
   CommentMoreSchema,
   type CommentsSchema,
 } from '~/schemas/comments'
+import { PostSchema } from '~/schemas/post'
 import { transformComment } from '~/transformers/comment'
 import { type CommentSort } from '~/types/sort'
 
 type Data = {
+  after?: string | null
   comments: CommentsSchema['data']['children']
 }
 
@@ -63,17 +70,58 @@ function flattenComments(
   return result
 }
 
+function getPostQueryData(postId: string): PostQueryData | undefined {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: ['post', { id: postId }] satisfies PostQueryKey,
+  })
+
+  for (const query of queries) {
+    const data = query.state.data as PostQueryData | undefined
+
+    if (data) {
+      return data
+    }
+  }
+}
+
 export function useLoadMoreComments() {
   const { isPending, mutate } = useMutation<Data, Error, Variables>({
     async mutationFn(variables) {
+      const isRootLevel = variables.parentId === variables.postId
+
+      if (isRootLevel) {
+        const url = new URL(`/comments/${variables.postId}`, REDDIT_URI)
+
+        url.searchParams.set('sort', variables.sort)
+        url.searchParams.set('threaded', 'false')
+        url.searchParams.set('sr_detail', 'true')
+        url.searchParams.set('limit', '50')
+
+        const postData = getPostQueryData(variables.postId)
+
+        if (postData?.after) {
+          url.searchParams.set('after', postData.after)
+        }
+
+        const response = await reddit({
+          url,
+        })
+
+        const parsed = PostSchema.parse(response)
+
+        return {
+          after: parsed[1].data.after,
+          comments: parsed[1].data.children,
+        }
+      }
+
       const url = new URL(`/comments/${variables.postId}`, REDDIT_URI)
 
       url.searchParams.set('sort', variables.sort)
       url.searchParams.set('sr_detail', 'true')
-
-      if (variables.parentId !== variables.postId) {
-        url.searchParams.set('comment', variables.parentId)
-      }
+      url.searchParams.set('comment', variables.parentId)
 
       const response = await reddit({
         url,
@@ -108,7 +156,27 @@ export function useLoadMoreComments() {
             .map((item) => transformComment(item))
             .filter((item) => !existingIds.has(item.data.id))
 
-          draft.comments.splice(index, 1, ...comments)
+          const more = draft.comments[index]
+
+          if (more?.type === 'more') {
+            const loadedIds = new Set(comments.map((item) => item.data.id))
+
+            more.data.children = more.data.children.filter(
+              (id) => !loadedIds.has(id),
+            )
+
+            if (more.data.children.length > 0) {
+              draft.comments.splice(index, 0, ...comments)
+            } else {
+              draft.comments.splice(index, 1, ...comments)
+            }
+          } else {
+            draft.comments.splice(index, 1, ...comments)
+          }
+        }
+
+        if (data.after !== undefined) {
+          draft.after = data.after
         }
       })
     },
