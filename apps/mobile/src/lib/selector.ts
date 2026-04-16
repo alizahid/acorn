@@ -4,7 +4,7 @@ import { useShallow } from 'zustand/react/shallow'
 export function createSelectorHook<
   Payload extends object,
   State extends Payload,
->(store: UseBoundStore<StoreApi<State>>, methods: Array<keyof State>) {
+>(store: UseBoundStore<StoreApi<State>>) {
   return <Keys extends keyof Payload>(keys: Keys[]) =>
     store(
       useShallow((state) => {
@@ -14,8 +14,12 @@ export function createSelectorHook<
           result[key as keyof typeof result] = state[key as keyof State] as never
         }
 
-        for (const key of methods) {
-          result[key as keyof typeof result] = state[key] as never
+        for (const key of Object.keys(state as object)) {
+          if (typeof state[key as keyof State] === 'function') {
+            result[key as keyof typeof result] = state[
+              key as keyof State
+            ] as never
+          }
         }
 
         return result

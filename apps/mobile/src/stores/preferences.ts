@@ -158,5 +158,4 @@ export const preferencesStore = create<State>()(
 
 export const usePreferences = createSelectorHook<PreferencesPayload, State>(
   preferencesStore,
-  ['update'],
 )
