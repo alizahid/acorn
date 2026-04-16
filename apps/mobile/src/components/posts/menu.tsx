@@ -26,7 +26,6 @@ type Props = {
 
 export function PostMenu({ children, post }: Props) {
   const router = useRouter()
-  const path = usePathname()
 
   const { accountId } = useAuth(['accountId'])
   const { oldReddit } = usePreferences(['oldReddit'])
@@ -36,7 +35,6 @@ export function PostMenu({ children, post }: Props) {
   const { vote } = usePostVote()
   const { save } = usePostSave()
   const { report } = useReport()
-  const { remove } = usePostRemove()
 
   const { copy } = useCopy()
   const { hide } = useHide()
@@ -110,37 +108,7 @@ export function PostMenu({ children, post }: Props) {
 
         <Link.Menu inline>
           {post.user.name === accountId ? (
-            <Link.MenuAction
-              destructive
-              icon="trash"
-              onPress={() => {
-                Alert.alert(
-                  t('deletePost.title'),
-                  t('deletePost.description'),
-                  [
-                    {
-                      style: 'cancel',
-                      text: t('deletePost.no'),
-                    },
-                    {
-                      onPress() {
-                        remove({
-                          id: post.id,
-                        })
-
-                        if (path.startsWith('/posts/')) {
-                          router.back()
-                        }
-                      },
-                      style: 'destructive',
-                      text: t('deletePost.yes'),
-                    },
-                  ],
-                )
-              }}
-            >
-              {t('deletePost.title')}
-            </Link.MenuAction>
+            <PostDeleteAction post={post} />
           ) : (
             <Fragment />
           )}
@@ -368,6 +336,45 @@ export function PostMenu({ children, post }: Props) {
         </Link.Menu>
       </Link.Menu>
     </Link>
+  )
+}
+
+function PostDeleteAction({ post }: Pick<Props, 'post'>) {
+  const router = useRouter()
+  const path = usePathname()
+
+  const t = useTranslations('component.posts.menu')
+
+  const { remove } = usePostRemove()
+
+  return (
+    <Link.MenuAction
+      destructive
+      icon="trash"
+      onPress={() => {
+        Alert.alert(t('deletePost.title'), t('deletePost.description'), [
+          {
+            style: 'cancel',
+            text: t('deletePost.no'),
+          },
+          {
+            onPress() {
+              remove({
+                id: post.id,
+              })
+
+              if (path.startsWith('/posts/')) {
+                router.back()
+              }
+            },
+            style: 'destructive',
+            text: t('deletePost.yes'),
+          },
+        ])
+      }}
+    >
+      {t('deletePost.title')}
+    </Link.MenuAction>
   )
 }
 
