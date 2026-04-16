@@ -32,7 +32,11 @@ export function PostGalleryCard({
   recyclingKey,
   spoiler,
 }: Props) {
-  const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences(['blurNsfw', 'blurSpoiler', 'seenOnMedia'])
+  const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences([
+    'blurNsfw',
+    'blurSpoiler',
+    'seenOnMedia',
+  ])
   const { addPost } = useHistory()
 
   const a11y = useTranslations('a11y')

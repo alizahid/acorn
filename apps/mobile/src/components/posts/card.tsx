@@ -47,7 +47,16 @@ export function PostCard({ expanded, post }: Props) {
     mediaOnRight,
     oldReddit,
     themeOled,
-  } = usePreferences(['boldTitle', 'communityOnTop', 'dimSeen', 'feedCompact', 'fontSizeTitle', 'mediaOnRight', 'oldReddit', 'themeOled'])
+  } = usePreferences([
+    'boldTitle',
+    'communityOnTop',
+    'dimSeen',
+    'feedCompact',
+    'fontSizeTitle',
+    'mediaOnRight',
+    'oldReddit',
+    'themeOled',
+  ])
   const {
     postLeft,
     postLeftLong,
@@ -55,7 +64,14 @@ export function PostCard({ expanded, post }: Props) {
     postRight,
     postRightLong,
     postRightShort,
-  } = useGestures(['postLeft', 'postLeftLong', 'postLeftShort', 'postRight', 'postRightLong', 'postRightShort'])
+  } = useGestures([
+    'postLeft',
+    'postLeftLong',
+    'postLeftShort',
+    'postRight',
+    'postRightLong',
+    'postRightShort',
+  ])
 
   const dimmed = !expanded && dimSeen && post.seen
 

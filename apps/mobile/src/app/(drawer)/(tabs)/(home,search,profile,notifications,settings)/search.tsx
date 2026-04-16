@@ -27,7 +27,10 @@ const routes = useDefaults
 export default function Screen() {
   const t = useTranslations('screen.search')
 
-  const { intervalSearchPosts, sortSearchPosts } = usePreferences(['intervalSearchPosts', 'sortSearchPosts'])
+  const { intervalSearchPosts, sortSearchPosts } = usePreferences([
+    'intervalSearchPosts',
+    'sortSearchPosts',
+  ])
 
   const search = useRef<SearchBarCommands>(null)
 

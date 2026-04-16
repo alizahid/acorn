@@ -43,7 +43,11 @@ export function CommentCard({
 
   const a11y = useTranslations('a11y')
 
-  const { colorfulComments, themeOled, userOnTop } = usePreferences(['colorfulComments', 'themeOled', 'userOnTop'])
+  const { colorfulComments, themeOled, userOnTop } = usePreferences([
+    'colorfulComments',
+    'themeOled',
+    'userOnTop',
+  ])
   const {
     commentLeft,
     commentLeftLong,
@@ -51,7 +55,14 @@ export function CommentCard({
     commentRight,
     commentRightLong,
     commentRightShort,
-  } = useGestures(['commentLeft', 'commentLeftLong', 'commentLeftShort', 'commentRight', 'commentRightLong', 'commentRightShort'])
+  } = useGestures([
+    'commentLeft',
+    'commentLeftLong',
+    'commentLeftShort',
+    'commentRight',
+    'commentRightLong',
+    'commentRightShort',
+  ])
 
   styles.useVariants({
     colorful: colorfulComments,

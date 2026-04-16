@@ -49,7 +49,10 @@ export function SearchList({
 }: Props) {
   const t = useTranslations('component.search.list')
 
-  const { feedCompact, themeOled } = usePreferences(['feedCompact', 'themeOled'])
+  const { feedCompact, themeOled } = usePreferences([
+    'feedCompact',
+    'themeOled',
+  ])
 
   styles.useVariants({
     compact: feedCompact,

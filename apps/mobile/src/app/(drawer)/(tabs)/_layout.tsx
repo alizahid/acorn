@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react'
 import { AppState } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
 import { glass, iPad } from '~/lib/common'

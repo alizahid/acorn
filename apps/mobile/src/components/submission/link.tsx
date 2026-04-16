@@ -11,7 +11,11 @@ import { Text } from '../common/text'
 import { TextInput } from '../native/text-input'
 
 export function SubmissionLink() {
-  const { font, fontScaling, systemScaling } = usePreferences(['font', 'fontScaling', 'systemScaling'])
+  const { font, fontScaling, systemScaling } = usePreferences([
+    'font',
+    'fontScaling',
+    'systemScaling',
+  ])
 
   const t = useTranslations('component.submission.link')
 

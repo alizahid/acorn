@@ -22,7 +22,11 @@ import { FeedType } from '~/types/sort'
 export default function Screen() {
   const t = useTranslations('screen.settings.defaults')
 
-  const { drawerSections, feedType, searchTabs, update } = useDefaults(['drawerSections', 'feedType', 'searchTabs'])
+  const { drawerSections, feedType, searchTabs, update } = useDefaults([
+    'drawerSections',
+    'feedType',
+    'searchTabs',
+  ])
 
   return (
     <ScrollViewContainer contentContainerStyle={styles.content}>

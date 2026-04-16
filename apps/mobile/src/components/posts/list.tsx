@@ -59,7 +59,12 @@ export function PostList({
   const list = useRef<FlashListRef<Item>>(null)
 
   const { feedCompact, infiniteScrolling, seenOnScroll, themeOled } =
-    usePreferences(['feedCompact', 'infiniteScrolling', 'seenOnScroll', 'themeOled'])
+    usePreferences([
+      'feedCompact',
+      'infiniteScrolling',
+      'seenOnScroll',
+      'themeOled',
+    ])
   const { addPost } = useHistory()
 
   styles.useVariants({

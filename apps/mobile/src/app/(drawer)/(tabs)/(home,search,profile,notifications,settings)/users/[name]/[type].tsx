@@ -29,7 +29,12 @@ export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
   const { intervalUserPosts, sortUserPosts, themeOled, themeTint } =
-    usePreferences(['intervalUserPosts', 'sortUserPosts', 'themeOled', 'themeTint'])
+    usePreferences([
+      'intervalUserPosts',
+      'sortUserPosts',
+      'themeOled',
+      'themeTint',
+    ])
 
   styles.useVariants({
     iPad,

@@ -42,7 +42,15 @@ export function VideoPlayer({
     pictureInPicture,
     seenOnMedia,
     unmuteFullscreen,
-  } = usePreferences(['autoPlay', 'blurNsfw', 'blurSpoiler', 'feedMuted', 'pictureInPicture', 'seenOnMedia', 'unmuteFullscreen'])
+  } = usePreferences([
+    'autoPlay',
+    'blurNsfw',
+    'blurSpoiler',
+    'feedMuted',
+    'pictureInPicture',
+    'seenOnMedia',
+    'unmuteFullscreen',
+  ])
   const { addPost } = useHistory()
 
   styles.useVariants({
