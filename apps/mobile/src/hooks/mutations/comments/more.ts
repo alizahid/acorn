@@ -1,11 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 
-import {
-  updatePost,
-  type PostQueryData,
-  type PostQueryKey,
-} from '~/hooks/queries/posts/post'
-import { queryClient } from '~/lib/query'
+import { getPost, updatePost } from '~/hooks/queries/posts/post'
 import { REDDIT_URI, reddit } from '~/reddit/api'
 import {
   CommentDataSchema,
@@ -55,8 +50,10 @@ function flattenComments(
         typeof replies === 'object' &&
         (replies as Record<string, unknown>).data
       ) {
-        const listing = (replies as Record<string, unknown>)
-          .data as Record<string, unknown>
+        const listing = (replies as Record<string, unknown>).data as Record<
+          string,
+          unknown
+        >
 
         if (Array.isArray(listing.children)) {
           result.push(
@@ -81,22 +78,6 @@ function flattenComments(
   return result
 }
 
-function getPostQueryData(postId: string): PostQueryData | undefined {
-  const cache = queryClient.getQueryCache()
-
-  const queries = cache.findAll({
-    queryKey: ['post', { id: postId }] satisfies PostQueryKey,
-  })
-
-  for (const query of queries) {
-    const data = query.state.data as PostQueryData | undefined
-
-    if (data) {
-      return data
-    }
-  }
-}
-
 export function useLoadMoreComments() {
   const { isPending, mutate } = useMutation<Data, Error, Variables>({
     async mutationFn(variables) {
@@ -110,10 +91,10 @@ export function useLoadMoreComments() {
         url.searchParams.set('sr_detail', 'true')
         url.searchParams.set('limit', '50')
 
-        const postData = getPostQueryData(variables.postId)
+        const post = getPost(variables.postId)
 
-        if (postData?.after) {
-          url.searchParams.set('after', postData.after)
+        if (post?.after) {
+          url.searchParams.set('after', post.after)
         }
 
         const response = await reddit({
@@ -164,9 +145,7 @@ export function useLoadMoreComments() {
           return
         }
 
-        const existingIds = new Set(
-          draft.comments.map((item) => item.data.id),
-        )
+        const existingIds = new Set(draft.comments.map((item) => item.data.id))
 
         // Calculate depth offset for nested more nodes
         // The comment parameter makes Reddit return the focused comment
@@ -189,9 +168,7 @@ export function useLoadMoreComments() {
           )
 
           const responseParentDepth =
-            responseParent?.kind === 't1'
-              ? (responseParent.data.depth ?? 0)
-              : 0
+            responseParent?.kind === 't1' ? (responseParent.data.depth ?? 0) : 0
 
           depthOffset = actualParentDepth - responseParentDepth
         }

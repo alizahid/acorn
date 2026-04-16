@@ -179,7 +179,7 @@ export function usePost({ commentId, id, sort }: Props) {
   }
 }
 
-function getPost(id: string): Undefined<PostQueryData> {
+export function getPost(id: string): Undefined<PostQueryData> {
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
