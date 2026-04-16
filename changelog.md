@@ -1,6 +1,21 @@
 # Changelog
 
-## Build 73-74
+## Build 74
+
+- added: new content engine
+- added: Reddit auth without client id
+- added: separate font size option for posts / comments
+- fixed: compact mode
+- fixed: GIPHY integration
+- fixed: inline image sizing in posts / comments
+- fixed: links in posts / comments
+- fixed: search bar
+- fixed: tab bar issues on iOS older than 26
+- removed: hide header / tab bar on scroll
+- removed(temporary): create posts
+- removed(temporary): load more comments
+
+## Build 73
 
 - added: GIPHY integration
 - added: iOS 26 search bar
