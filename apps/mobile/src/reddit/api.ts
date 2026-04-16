@@ -50,6 +50,10 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
 
   uri.searchParams.set('raw_json', '1')
 
+  if (__DEV__) {
+    console.log('url', uri.toString())
+  }
+
   const response = await fetch(uri, request)
 
   if (url === '/api/read_all_messages') {
