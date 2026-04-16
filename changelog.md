@@ -4,8 +4,9 @@
 
 - added: new content engine
 - added: Reddit auth without client id
+- added: Reddit ^superscript support
 - added: separate font size option for posts / comments
-- fixed: compact mode
+- fixed: compact mode styling
 - fixed: GIPHY integration
 - fixed: inline image sizing in posts / comments
 - fixed: links in posts / comments
