@@ -32,7 +32,7 @@ type DownloadImageVariables = {
 export function useDownloadImage() {
   const t = useTranslations('toasts.image')
 
-  const { saveToAlbum } = usePreferences()
+  const { saveToAlbum } = usePreferences(['saveToAlbum'])
 
   const id = useRef<string | number>(undefined)
 
@@ -100,7 +100,7 @@ type DownloadImagesVariables = {
 export function useDownloadImages() {
   const t = useTranslations('toasts.image')
 
-  const { saveToAlbum } = usePreferences()
+  const { saveToAlbum } = usePreferences(['saveToAlbum'])
 
   const id = useRef<string | number>(undefined)
 

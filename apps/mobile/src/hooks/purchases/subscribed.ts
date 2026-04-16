@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { isTestFlight } from 'expo-testflight'
 
 import { purchases } from '~/lib/purchases'
-import { useAuth } from '~/stores/auth'
+import { authStore } from '~/stores/auth'
 
 export function useSubscribed() {
   const { isLoading, data } = useQuery({
@@ -11,7 +11,7 @@ export function useSubscribed() {
         return true
       }
 
-      if (useAuth.getState().accounts.length > 0) {
+      if (authStore.getState().accounts.length > 0) {
         return true
       }
 

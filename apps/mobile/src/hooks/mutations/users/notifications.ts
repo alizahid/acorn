@@ -16,7 +16,7 @@ type MarkReadVariables = {
 }
 
 export function useMarkAsRead() {
-  const { accountId } = useAuth()
+  const { accountId } = useAuth(['accountId'])
 
   const { isPending, mutate } = useMutation<unknown, Error, MarkReadVariables>({
     async mutationFn(variables) {
@@ -68,7 +68,7 @@ export function useMarkAsRead() {
 export function useMarkAllAsRead() {
   const t = useTranslations('toasts.notifications')
 
-  const { accountId } = useAuth()
+  const { accountId } = useAuth(['accountId'])
 
   const { isPending, mutate } = useMutation({
     async mutationFn() {

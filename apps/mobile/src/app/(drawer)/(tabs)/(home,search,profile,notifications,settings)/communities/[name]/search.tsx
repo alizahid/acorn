@@ -28,7 +28,12 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
 
   const { intervalSearchPosts, sortSearchPosts, themeOled, themeTint } =
-    usePreferences()
+    usePreferences([
+      'intervalSearchPosts',
+      'sortSearchPosts',
+      'themeOled',
+      'themeTint',
+    ])
 
   styles.useVariants({
     iPad,

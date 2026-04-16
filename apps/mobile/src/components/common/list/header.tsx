@@ -20,7 +20,7 @@ type Props = {
 }
 
 export function ListHeader({ left, right, style, title, titleStyle }: Props) {
-  const { themeOled, themeTint } = usePreferences()
+  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
 
   styles.useVariants({
     oled: themeOled,

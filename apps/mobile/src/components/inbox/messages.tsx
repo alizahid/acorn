@@ -12,7 +12,7 @@ import { Spinner } from '../common/spinner'
 import { MessageCard } from './message'
 
 export function MessagesList() {
-  const { themeOled } = usePreferences()
+  const { themeOled } = usePreferences(['themeOled'])
 
   styles.useVariants({
     oled: themeOled,

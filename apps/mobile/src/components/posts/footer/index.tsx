@@ -20,7 +20,7 @@ type Props = {
 export function PostFooter({ community = true, post, style }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { hidePostActions } = usePreferences()
+  const { hidePostActions } = usePreferences(['hidePostActions'])
 
   const { vote } = usePostVote()
 

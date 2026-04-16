@@ -19,7 +19,7 @@ export default function Layout() {
 
   const t = useTranslations('screen')
 
-  const { themeOled, themeTint } = usePreferences()
+  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
 
   styles.useVariants({
     glass,
@@ -27,7 +27,7 @@ export default function Layout() {
     tint: themeTint,
   })
 
-  const { accountId } = useAuth()
+  const { accountId } = useAuth(['accountId'])
   const { unread } = useUnread()
   const { subscribed } = useSubscribed()
 

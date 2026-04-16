@@ -44,7 +44,12 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
 
   const { collapsibleComments, replyPost, skipComment, sortPostComments } =
-    usePreferences()
+    usePreferences([
+      'collapsibleComments',
+      'replyPost',
+      'skipComment',
+      'sortPostComments',
+    ])
 
   styles.useVariants({
     iPad,

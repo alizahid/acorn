@@ -1,5 +1,5 @@
 import { getUserAgent } from '~/lib/user-agent'
-import { useAuth } from '~/stores/auth'
+import { authStore } from '~/stores/auth'
 
 export const REDDIT_URI = 'https://www.reddit.com'
 export const REDDIT_OLD_URI = 'https://old.reddit.com'
@@ -69,7 +69,7 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
 }
 
 function getAuth() {
-  const { accountId, accounts } = useAuth.getState()
+  const { accountId, accounts } = authStore.getState()
 
   if (!accountId) {
     return

@@ -30,7 +30,11 @@ export function Text({
   weight = 'regular',
   ...props
 }: Props) {
-  const { font, fontScaling, systemScaling } = usePreferences()
+  const { font, fontScaling, systemScaling } = usePreferences([
+    'font',
+    'fontScaling',
+    'systemScaling',
+  ])
 
   styles.useVariants({
     accent,

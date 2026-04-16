@@ -28,7 +28,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
 
   const a11y = useTranslations('a11y')
 
-  const { themeOled } = usePreferences()
+  const { themeOled } = usePreferences(['themeOled'])
 
   styles.useVariants({
     large,

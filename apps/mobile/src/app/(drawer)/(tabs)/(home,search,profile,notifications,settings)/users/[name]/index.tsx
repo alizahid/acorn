@@ -43,7 +43,14 @@ export default function Screen() {
     sortUserPosts,
     themeOled,
     themeTint,
-  } = usePreferences()
+  } = usePreferences([
+    'intervalUserComments',
+    'intervalUserPosts',
+    'sortUserComments',
+    'sortUserPosts',
+    'themeOled',
+    'themeTint',
+  ])
 
   const t = useTranslations('screen.users.user')
 

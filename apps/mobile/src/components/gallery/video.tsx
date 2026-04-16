@@ -21,7 +21,7 @@ type Props = {
 export function GalleryVideo({ item }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { unmuteFullscreen } = usePreferences()
+  const { unmuteFullscreen } = usePreferences(['unmuteFullscreen'])
 
   const ref = useRef<VideoView>(null)
 

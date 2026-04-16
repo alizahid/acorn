@@ -22,7 +22,7 @@ type Variables = {
 export function usePostSave() {
   const t = useTranslations('toasts.posts')
 
-  const { upvoteOnSave } = usePreferences()
+  const { upvoteOnSave } = usePreferences(['upvoteOnSave'])
 
   const { vote } = usePostVote()
 

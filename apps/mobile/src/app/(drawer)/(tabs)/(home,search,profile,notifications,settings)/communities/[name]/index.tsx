@@ -25,7 +25,7 @@ export default function Screen() {
 
   // const a11y = useTranslations('a11y')
 
-  const { themeOled, themeTint } = usePreferences()
+  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
 
   styles.useVariants({
     iPad,

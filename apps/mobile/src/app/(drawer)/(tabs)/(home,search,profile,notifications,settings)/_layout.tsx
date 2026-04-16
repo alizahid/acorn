@@ -51,8 +51,8 @@ export default function Layout({ segment }: Props) {
   const t = useTranslations('screen')
   const a11y = useTranslations('a11y')
 
-  const { accountId } = useAuth()
-  const { feedType } = useDefaults()
+  const { accountId } = useAuth(['accountId'])
+  const { feedType } = useDefaults(['feedType'])
 
   if (segment === '(search)') {
     return (
@@ -157,7 +157,7 @@ function StackLayout({ children }: PropsWithChildren) {
   const t = useTranslations('screen')
   const a11y = useTranslations('a11y')
 
-  const { themeOled, themeTint } = usePreferences()
+  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
 
   styles.useVariants({
     glass,

@@ -28,7 +28,7 @@ export default function Screen() {
 
   const f = useFormatter()
 
-  const { accountId } = useAuth()
+  const { accountId } = useAuth(['accountId'])
 
   const { messages, refetch } = useThread(params.id)
 

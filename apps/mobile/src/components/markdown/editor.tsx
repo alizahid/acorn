@@ -31,7 +31,7 @@ function Root({
   value,
   ref,
 }: RootProps) {
-  const { font, fontScaling } = usePreferences()
+  const { font, fontScaling } = usePreferences(['font', 'fontScaling'])
 
   return (
     <MarkdownInput

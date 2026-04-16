@@ -33,7 +33,10 @@ export function PostLinkCard({
 }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { seenOnMedia, themeOled } = usePreferences()
+  const { seenOnMedia, themeOled } = usePreferences([
+    'seenOnMedia',
+    'themeOled',
+  ])
   const { handleLink } = useLink()
   const { addPost } = useHistory()
 

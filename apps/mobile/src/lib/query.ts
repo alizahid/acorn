@@ -5,7 +5,7 @@ import storage from 'expo-sqlite/kv-store'
 import { parse, stringify } from 'superjson'
 
 import { Sentry } from '~/lib/sentry'
-import { usePreferences } from '~/stores/preferences'
+import { preferencesStore } from '~/stores/preferences'
 
 export const CACHE_KEY = 'cache-storage-7'
 
@@ -23,9 +23,9 @@ export const queryClient = new QueryClient({
       },
     },
     queries: {
-      gcTime: usePreferences.getState().refreshInterval * 60 * 1000,
+      gcTime: preferencesStore.getState().refreshInterval * 60 * 1000,
       retry: false,
-      staleTime: usePreferences.getState().refreshInterval * 60 * 1000,
+      staleTime: preferencesStore.getState().refreshInterval * 60 * 1000,
       throwOnError(error) {
         if (__DEV__) {
           console.log(error)

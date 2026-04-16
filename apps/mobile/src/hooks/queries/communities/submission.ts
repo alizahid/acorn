@@ -9,7 +9,7 @@ import { useAuth } from '~/stores/auth'
 import { transformSubmission } from '~/transformers/submission'
 
 export function useSubmission(name: string) {
-  const { accountId } = useAuth()
+  const { accountId } = useAuth(['accountId'])
 
   const { data, error, isLoading, refetch } = useQuery({
     enabled: Boolean(accountId),

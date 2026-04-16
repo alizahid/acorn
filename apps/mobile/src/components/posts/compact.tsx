@@ -22,7 +22,12 @@ type Props = {
 
 export function PostCompactCard({ post, side = 'left', style }: Props) {
   const { boldTitle, communityOnTop, fontSizeTitle, largeThumbnails } =
-    usePreferences()
+    usePreferences([
+      'boldTitle',
+      'communityOnTop',
+      'fontSizeTitle',
+      'largeThumbnails',
+    ])
 
   styles.useVariants({
     large: largeThumbnails,

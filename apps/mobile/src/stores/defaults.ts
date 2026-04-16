@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
+import { createSelectorHook } from '~/lib/selector'
 import { Store } from '~/lib/store'
 import { type DrawerSections, type SearchTabs } from '~/types/defaults'
 import { type FeedType } from '~/types/sort'
@@ -17,7 +18,7 @@ type State = DefaultsPayload & {
   update: (payload: Partial<DefaultsPayload>) => void
 }
 
-export const useDefaults = create<State>()(
+export const defaultsStore = create<State>()(
   persist(
     (set) => ({
       drawerSections: [
@@ -62,4 +63,8 @@ export const useDefaults = create<State>()(
       storage: new Store(),
     },
   ),
+)
+
+export const useDefaults = createSelectorHook<DefaultsPayload, State>(
+  defaultsStore,
 )

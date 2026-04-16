@@ -32,7 +32,7 @@ export function VideoPlaceholder({
   thumbnail,
   video,
 }: Props) {
-  const { blurNsfw, blurSpoiler } = usePreferences()
+  const { blurNsfw, blurSpoiler } = usePreferences(['blurNsfw', 'blurSpoiler'])
 
   const { focused } = useFocused()
 

@@ -21,7 +21,10 @@ export function useLink() {
 
   const t = useTranslations('toasts.link')
 
-  const { linkBrowser, oldReddit } = usePreferences()
+  const { linkBrowser, oldReddit } = usePreferences([
+    'linkBrowser',
+    'oldReddit',
+  ])
   const { setFocused } = useFocused()
 
   const { theme } = useUnistyles()

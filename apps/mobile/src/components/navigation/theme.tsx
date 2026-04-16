@@ -13,7 +13,11 @@ type Props = {
 }
 
 export function ThemeProvider({ children }: Props) {
-  const { font, themeOled, themeTint } = usePreferences()
+  const { font, themeOled, themeTint } = usePreferences([
+    'font',
+    'themeOled',
+    'themeTint',
+  ])
 
   const fontFamily = fonts[font]
 

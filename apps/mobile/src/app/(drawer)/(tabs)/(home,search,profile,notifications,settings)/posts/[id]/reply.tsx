@@ -36,7 +36,7 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { font, fontScaling } = usePreferences()
+  const { font, fontScaling } = usePreferences(['font', 'fontScaling'])
 
   const t = useTranslations('screen.posts.reply')
   const a11y = useTranslations('a11y')

@@ -68,7 +68,7 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
   const t = useTranslations('component.common.type')
   const a11y = useTranslations('a11y')
 
-  const { drawerSections } = useDefaults()
+  const { drawerSections } = useDefaults(['drawerSections'])
 
   const { feeds, isLoading: loadingFeeds } = useFeeds()
   const { communities, isLoading: loadingCommunities, users } = useCommunities()

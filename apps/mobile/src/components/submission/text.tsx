@@ -32,7 +32,7 @@ export function SubmissionText() {
 
   const t = useTranslations('component.submission.text')
 
-  const { font, fontScaling } = usePreferences()
+  const { font, fontScaling } = usePreferences(['font', 'fontScaling'])
 
   const { control } = useFormContext<CreatePostForm>()
 
