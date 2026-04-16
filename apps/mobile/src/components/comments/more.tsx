@@ -64,6 +64,7 @@ export function CommentMoreCard({
           onThread(comment.parentId)
         } else {
           loadMore({
+            depth: comment.depth,
             id: comment.id,
             parentId: comment.parentId,
             postId: post.id,

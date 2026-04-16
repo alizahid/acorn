@@ -22,6 +22,7 @@ type Data = {
 }
 
 type Variables = {
+  depth: number
   id: string
   parentId: string
   postId: string
@@ -122,6 +123,8 @@ export function useLoadMoreComments() {
       url.searchParams.set('sort', variables.sort)
       url.searchParams.set('sr_detail', 'true')
       url.searchParams.set('comment', variables.parentId)
+      url.searchParams.set('depth', '100')
+      url.searchParams.set('limit', '500')
 
       const response = await reddit({
         url,
@@ -147,32 +150,70 @@ export function useLoadMoreComments() {
           (item) => item.type === 'more' && item.data.id === variables.id,
         )
 
-        if (index >= 0) {
-          const existingIds = new Set(
-            draft.comments.map((item) => item.data.id),
+        if (index < 0) {
+          return
+        }
+
+        const existingIds = new Set(
+          draft.comments.map((item) => item.data.id),
+        )
+
+        // Calculate depth offset for nested more nodes
+        // The comment parameter makes Reddit return the focused comment
+        // at depth 0 (relative), but we need absolute depths
+        let depthOffset = 0
+
+        if (variables.parentId !== variables.postId) {
+          const existingParent = draft.comments.find(
+            (item) =>
+              item.type === 'reply' && item.data.id === variables.parentId,
           )
 
-          const comments = data.comments
-            .map((item) => transformComment(item))
-            .filter((item) => !existingIds.has(item.data.id))
+          const actualParentDepth =
+            existingParent?.type === 'reply'
+              ? existingParent.data.depth
+              : Math.max(0, variables.depth - 1)
 
-          const more = draft.comments[index]
+          const responseParent = data.comments.find(
+            (item) => item.kind === 't1' && item.data.id === variables.parentId,
+          )
 
-          if (more?.type === 'more') {
-            const loadedIds = new Set(comments.map((item) => item.data.id))
+          const responseParentDepth =
+            responseParent?.kind === 't1'
+              ? (responseParent.data.depth ?? 0)
+              : 0
 
-            more.data.children = more.data.children.filter(
-              (id) => !loadedIds.has(id),
-            )
+          depthOffset = actualParentDepth - responseParentDepth
+        }
 
-            if (more.data.children.length > 0) {
-              draft.comments.splice(index, 0, ...comments)
-            } else {
-              draft.comments.splice(index, 1, ...comments)
+        const comments = data.comments
+          .map((item) => {
+            const comment = transformComment(item)
+
+            if (depthOffset !== 0) {
+              comment.data.depth += depthOffset
             }
+
+            return comment
+          })
+          .filter((item) => !existingIds.has(item.data.id))
+
+        const more = draft.comments[index]
+
+        if (more?.type === 'more') {
+          const loadedIds = new Set(comments.map((item) => item.data.id))
+
+          more.data.children = more.data.children.filter(
+            (id) => !loadedIds.has(id),
+          )
+
+          if (more.data.children.length > 0) {
+            draft.comments.splice(index, 0, ...comments)
           } else {
             draft.comments.splice(index, 1, ...comments)
           }
+        } else {
+          draft.comments.splice(index, 1, ...comments)
         }
 
         if (data.after !== undefined) {
