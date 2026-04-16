@@ -158,6 +158,11 @@ export default function Screen() {
   const renderItem: ListRenderItem<Comment> = useCallback(
     ({ item }) => {
       if (item.type === 'more') {
+        // TODO: fix more comments
+        if (item.data) {
+          return null
+        }
+
         return (
           <CommentMoreCard
             comment={item.data}
@@ -306,9 +311,10 @@ export default function Screen() {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   content: {
-    paddingBottom: heights.floatingButton,
+    paddingBottom:
+      runtime.insets.bottom + heights.tabBar + heights.floatingButton,
     variants: {
       iPad: {
         true: {
