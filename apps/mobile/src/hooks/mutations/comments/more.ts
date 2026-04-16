@@ -39,11 +39,17 @@ function flattenComments(
       const data = item.data as Record<string, unknown>
       const { replies, ...rest } = data
 
-      result.push({
-        data: CommentDataSchema.parse(rest),
-        kind: 't1',
-      })
+      const parsed = CommentDataSchema.safeParse(rest)
 
+      if (parsed.success) {
+        result.push({
+          data: parsed.data,
+          kind: 't1',
+        })
+      }
+
+      // Always recurse into replies even if this comment failed
+      // validation, so we can still reach nested children
       if (
         replies &&
         typeof replies === 'object' &&
@@ -61,10 +67,14 @@ function flattenComments(
         }
       }
     } else if (item.kind === 'more') {
-      result.push({
-        data: CommentMoreSchema.parse(item.data),
-        kind: 'more',
-      })
+      const parsed = CommentMoreSchema.safeParse(item.data)
+
+      if (parsed.success) {
+        result.push({
+          data: parsed.data,
+          kind: 'more',
+        })
+      }
     }
   }
 
