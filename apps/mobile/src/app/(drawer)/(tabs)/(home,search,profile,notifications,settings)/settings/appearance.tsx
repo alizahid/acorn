@@ -5,8 +5,6 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { Themes } from '~/components/settings/themes'
-import { useShallow } from 'zustand/react/shallow'
-
 import { type Font, fonts } from '~/lib/fonts'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 import { type TypographyToken, typography } from '~/styles/tokens'

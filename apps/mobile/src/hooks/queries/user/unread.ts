@@ -12,7 +12,7 @@ export type UnreadQueryKey = [
 ]
 
 export function useUnread() {
-  const accountId = useAuth((state) => state.accountId)
+  const { accountId } = useAuth(['accountId'])
 
   const { data } = useQuery<number, Error, number, UnreadQueryKey>({
     enabled: Boolean(accountId),

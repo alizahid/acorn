@@ -5,7 +5,6 @@ import { useLink } from '~/hooks/link'
 import { type Font, fonts } from '~/lib/fonts'
 import { mergeMetaMarkdown } from '~/lib/markdown'
 import { usePreferences } from '~/stores/preferences'
-import { useShallow } from 'zustand/react/shallow'
 import { addTextSize } from '~/styles/text'
 import { type TypographyToken } from '~/styles/tokens'
 import { type PostMediaMeta } from '~/types/post'
@@ -20,14 +19,7 @@ type Props = {
 
 export function Markdown({ children, meta, type = 'post' }: Props) {
   const { font, fontScaling, fontSizePostBody, fontSizeCommentBody } =
-    usePreferences(
-      useShallow((s) => ({
-        font: s.font,
-        fontScaling: s.fontScaling,
-        fontSizeCommentBody: s.fontSizeCommentBody,
-        fontSizePostBody: s.fontSizePostBody,
-      })),
-    )
+    usePreferences(['font', 'fontScaling', 'fontSizeCommentBody', 'fontSizePostBody'])
 
   const size = type === 'post' ? fontSizePostBody : fontSizeCommentBody
 

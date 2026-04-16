@@ -3,6 +3,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { queryClient } from '~/lib/query'
+import { createSelectorHook } from '~/lib/selector'
 import { Store } from '~/lib/store'
 
 export const AUTH_KEY = 'auth'
@@ -22,7 +23,7 @@ export type State = {
   set: (id: string) => void
 }
 
-export const useAuth = create<State>()(
+export const authStore = create<State>()(
   persist(
     (set, get) => ({
       accounts: [],
@@ -89,3 +90,5 @@ export const useAuth = create<State>()(
     },
   ),
 )
+
+export const useAuth = createSelectorHook(authStore)

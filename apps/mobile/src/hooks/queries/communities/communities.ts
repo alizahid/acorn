@@ -19,7 +19,7 @@ export type CommunitiesQueryKey = [
 export type CommunitiesQueryData = Array<Community>
 
 export function useCommunities() {
-  const accountId = useAuth((state) => state.accountId)
+  const { accountId } = useAuth(['accountId'])
 
   const queryKey: CommunitiesQueryKey = [
     'communities',

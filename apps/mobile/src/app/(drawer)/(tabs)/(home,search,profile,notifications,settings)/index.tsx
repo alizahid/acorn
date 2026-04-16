@@ -17,13 +17,13 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useSorting } from '~/hooks/sorting'
 import { glass, iPad } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
-import { useDefaults } from '~/stores/defaults'
+import { defaultsStore } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 import { FeedType } from '~/types/sort'
 
 const schema = z.object({
   feed: z.string().optional(),
-  type: z.enum(FeedType).catch(useDefaults.getState().feedType),
+  type: z.enum(FeedType).catch(defaultsStore.getState().feedType),
 })
 
 export type HomeParams = z.infer<typeof schema>
@@ -36,7 +36,7 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
   const tType = useTranslations('component.common.type.type')
 
-  const stickyDrawer = usePreferences((state) => state.stickyDrawer)
+  const { stickyDrawer } = usePreferences(['stickyDrawer'])
 
   styles.useVariants({
     iPad,

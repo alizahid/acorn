@@ -22,7 +22,6 @@ import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { iOS26 } from '~/lib/common'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
-import { useShallow } from 'zustand/react/shallow'
 
 import { IconButton } from '../common/icon/button'
 import { Text } from '../common/text'
@@ -33,12 +32,7 @@ export function SubmissionText() {
 
   const t = useTranslations('component.submission.text')
 
-  const { font, fontScaling } = usePreferences(
-    useShallow((s) => ({
-      font: s.font,
-      fontScaling: s.fontScaling,
-    })),
-  )
+  const { font, fontScaling } = usePreferences(['font', 'fontScaling'])
 
   const { control } = useFormContext<CreatePostForm>()
 

@@ -17,7 +17,7 @@ const schema = z.object({
 export function useSignIn() {
   const router = useRouter()
 
-  const add = useAuth((state) => state.add)
+  const { add } = useAuth(['add'])
 
   const { isPending, mutateAsync } = useMutation({
     async mutationFn(cookie: string) {

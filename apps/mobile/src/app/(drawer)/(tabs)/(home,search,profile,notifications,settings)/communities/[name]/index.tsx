@@ -3,7 +3,6 @@ import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 // import { useTranslations } from 'use-intl'
 import { z } from 'zod'
-import { useShallow } from 'zustand/react/shallow'
 
 // import { FloatingButton } from '~/components/common/floating-button'
 import { SearchBox } from '~/components/common/search'
@@ -26,12 +25,7 @@ export default function Screen() {
 
   // const a11y = useTranslations('a11y')
 
-  const { themeOled, themeTint } = usePreferences(
-    useShallow((s) => ({
-      themeOled: s.themeOled,
-      themeTint: s.themeTint,
-    })),
-  )
+  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
 
   styles.useVariants({
     iPad,

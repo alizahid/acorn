@@ -18,7 +18,7 @@ import { useHistory } from '~/hooks/history'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { listProps } from '~/lib/list'
-import { usePreferences } from '~/stores/preferences'
+import { preferencesStore, usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 
@@ -29,7 +29,7 @@ import { Loading } from '../common/loading'
 import { SensorList } from '../common/sensor/list'
 
 const viewabilityConfig: ViewabilityConfig = {
-  minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
+  minimumViewTime: preferencesStore.getState().seenOnScrollDelay * 1000,
   waitForInteraction: false,
 }
 

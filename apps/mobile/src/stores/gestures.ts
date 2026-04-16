@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { type GestureAction } from '~/components/common/gestures'
+import { createSelectorHook } from '~/lib/selector'
 import { Store } from '~/lib/store'
 
 export const GESTURES_KEY = 'gestures'
@@ -25,7 +26,7 @@ type State = GesturesPayload & {
   update: (payload: Partial<GesturesPayload>) => void
 }
 
-export const useGestures = create<State>()(
+export const gesturesStore = create<State>()(
   persist(
     (set) => ({
       commentLeft: true,
@@ -51,3 +52,5 @@ export const useGestures = create<State>()(
     },
   ),
 )
+
+export const useGestures = createSelectorHook(gesturesStore)

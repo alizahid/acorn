@@ -2,8 +2,6 @@ import { Stack, useRouter } from 'expo-router'
 import { type PropsWithChildren } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
-import { useShallow } from 'zustand/react/shallow'
-
 import { IconButton } from '~/components/common/icon/button'
 import { useHistory } from '~/hooks/history'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
@@ -52,8 +50,8 @@ export default function Layout({ segment }: Props) {
   const t = useTranslations('screen')
   const a11y = useTranslations('a11y')
 
-  const accountId = useAuth((state) => state.accountId)
-  const feedType = useDefaults((state) => state.feedType)
+  const { accountId } = useAuth(['accountId'])
+  const { feedType } = useDefaults(['feedType'])
 
   if (segment === '(search)') {
     return (
@@ -158,12 +156,7 @@ function StackLayout({ children }: PropsWithChildren) {
   const t = useTranslations('screen')
   const a11y = useTranslations('a11y')
 
-  const { themeOled, themeTint } = usePreferences(
-    useShallow((s) => ({
-      themeOled: s.themeOled,
-      themeTint: s.themeTint,
-    })),
-  )
+  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
 
   styles.useVariants({
     glass,

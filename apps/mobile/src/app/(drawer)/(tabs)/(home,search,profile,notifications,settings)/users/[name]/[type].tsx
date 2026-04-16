@@ -13,7 +13,6 @@ import { SearchBox } from '~/components/common/search'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { iPad } from '~/lib/common'
-import { useShallow } from 'zustand/react/shallow'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { UserFeedType } from '~/types/user'
@@ -30,14 +29,7 @@ export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
   const { intervalUserPosts, sortUserPosts, themeOled, themeTint } =
-    usePreferences(
-      useShallow((s) => ({
-        intervalUserPosts: s.intervalUserPosts,
-        sortUserPosts: s.sortUserPosts,
-        themeOled: s.themeOled,
-        themeTint: s.themeTint,
-      })),
-    )
+    usePreferences(['intervalUserPosts', 'sortUserPosts', 'themeOled', 'themeTint'])
 
   styles.useVariants({
     iPad,

@@ -15,7 +15,7 @@ import { usePreferences } from '~/stores/preferences'
 SplashScreen.preventAutoHideAsync()
 
 function Acorn() {
-  const theme = usePreferences((state) => state.theme)
+  const { theme } = usePreferences(['theme'])
 
   const { error, success } = useMigrations(db, migrations)
 

@@ -5,7 +5,7 @@ import { db } from '~/db'
 import { type CommunitiesSchema } from '~/schemas/communities'
 import { type PostsSchema, type SavedPostsSchema } from '~/schemas/posts'
 import { type UsersSchema } from '~/schemas/users'
-import { usePreferences } from '~/stores/preferences'
+import { preferencesStore } from '~/stores/preferences'
 import { transformComment } from '~/transformers/comment'
 import { transformCommunity } from '~/transformers/community'
 import { transformPost } from '~/transformers/post'
@@ -19,7 +19,7 @@ export async function filterPosts(
   { data }: PostsSchema | SavedPostsSchema,
   apply = true,
 ): Promise<Array<Post | Comment>> {
-  const { hideSeen } = usePreferences.getState()
+  const { hideSeen } = preferencesStore.getState()
 
   const posts = data.children.filter((post) => post.kind === 't3')
 

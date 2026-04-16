@@ -6,7 +6,6 @@ import {
   type ViewStyle,
 } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import { useShallow } from 'zustand/react/shallow'
 
 import { Text } from '~/components/common/text'
 import { usePreferences } from '~/stores/preferences'
@@ -21,12 +20,7 @@ type Props = {
 }
 
 export function ListHeader({ left, right, style, title, titleStyle }: Props) {
-  const { themeOled, themeTint } = usePreferences(
-    useShallow((s) => ({
-      themeOled: s.themeOled,
-      themeTint: s.themeTint,
-    })),
-  )
+  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
 
   styles.useVariants({
     oled: themeOled,

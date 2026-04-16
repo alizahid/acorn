@@ -9,7 +9,6 @@ import { useTranslations } from 'use-intl'
 
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
-import { useShallow } from 'zustand/react/shallow'
 
 import { PhosphorIcon } from '../common/icon/phosphor'
 import { Pressable } from '../common/pressable'
@@ -32,12 +31,7 @@ function Root({
   value,
   ref,
 }: RootProps) {
-  const { font, fontScaling } = usePreferences(
-    useShallow((s) => ({
-      font: s.font,
-      fontScaling: s.fontScaling,
-    })),
-  )
+  const { font, fontScaling } = usePreferences(['font', 'fontScaling'])
 
   return (
     <MarkdownInput

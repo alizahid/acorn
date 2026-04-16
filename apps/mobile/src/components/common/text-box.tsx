@@ -7,7 +7,6 @@ import {
   type ViewStyle,
 } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import { useShallow } from 'zustand/react/shallow'
 
 import { type Font, fonts } from '~/lib/fonts'
 import { stripProps } from '~/lib/styles'
@@ -41,13 +40,7 @@ export function TextBox({
   variant = 'sans',
   ...props
 }: Props) {
-  const { font, fontScaling, systemScaling } = usePreferences(
-    useShallow((s) => ({
-      font: s.font,
-      fontScaling: s.fontScaling,
-      systemScaling: s.systemScaling,
-    })),
-  )
+  const { font, fontScaling, systemScaling } = usePreferences(['font', 'fontScaling', 'systemScaling'])
 
   const [focused, setFocused] = useState(false)
 

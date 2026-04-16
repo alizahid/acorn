@@ -19,7 +19,7 @@ type Variables = {
 }
 
 export function usePostVote() {
-  const seenOnVote = usePreferences((state) => state.seenOnVote)
+  const { seenOnVote } = usePreferences(['seenOnVote'])
   const { addPost } = useHistory()
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
