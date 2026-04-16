@@ -29,7 +29,7 @@ export const useAuth = create<State>()(
       add(account) {
         set({
           accountId: account.id,
-          accounts: uniqBy([...get().accounts, account], 'id'),
+          accounts: uniqBy([account, ...get().accounts], 'id'),
         })
       },
       remove(id) {
