@@ -1,3 +1,4 @@
+import { uniqBy } from 'lodash'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
@@ -26,17 +27,9 @@ export const useAuth = create<State>()(
     (set, get) => ({
       accounts: [],
       add(account) {
-        const accounts = get().accounts.map((item) =>
-          item.id === account.id ? account : item,
-        )
-
-        if (!accounts.some((item) => item.id === account.id)) {
-          accounts.push(account)
-        }
-
         set({
           accountId: account.id,
-          accounts,
+          accounts: uniqBy([account, ...get().accounts], 'id'),
         })
       },
       remove(id) {
