@@ -64,7 +64,6 @@ export default function Screen() {
           setQuery(event.nativeEvent.text)
         }}
         placeholder={t('title')}
-        placement="stacked"
         ref={search}
       />
 
