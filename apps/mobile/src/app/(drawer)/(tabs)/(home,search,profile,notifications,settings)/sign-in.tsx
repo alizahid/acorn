@@ -10,6 +10,7 @@ import { z } from 'zod'
 
 import { Button } from '~/components/common/button'
 import { Empty } from '~/components/common/empty'
+import { IconButton } from '~/components/common/icon/button'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
@@ -50,7 +51,7 @@ export default function Screen() {
           label={t('signIn')}
           loading={isPending || isLoading}
           onPress={async () => {
-            await cookies.clearAll()
+            await Promise.all([cookies.clearAll(), cookies.clearAll(true)])
 
             setOpen(true)
           }}
@@ -64,6 +65,8 @@ export default function Screen() {
           style={styles.webView}
         >
           <WebView
+            injectedJavaScript={injected}
+            onMessage={() => null}
             onNavigationStateChange={async (event) => {
               if (isPending || event.loading) {
                 return
@@ -85,6 +88,17 @@ export default function Screen() {
               uri: `https://www.reddit.com/login/?dest=${encodeURI('/r/acornblue')}`,
             }}
           />
+
+          <IconButton
+            disabled={isPending}
+            icon="xmark"
+            label={t('cancel')}
+            onPress={() => {
+              setOpen(false)
+            }}
+            style={styles.cancel}
+            weight="bold"
+          />
         </Animated.View>
       ) : null}
     </>
@@ -92,6 +106,13 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  cancel: {
+    backgroundColor: theme.colors.gray.bg,
+    borderRadius: theme.space[8],
+    position: 'absolute',
+    right: theme.space[4],
+    top: theme.space[4],
+  },
   content: {
     alignItems: 'center',
   },
@@ -108,3 +129,9 @@ const styles = StyleSheet.create((theme) => ({
     ...StyleSheet.absoluteFillObject,
   },
 }))
+
+const injected = `(function() {
+var style = document.createElement('style');
+style.innerHTML = "#data-protection-consent-dialog, [slot=closeButton] { display: none !important; }";
+document.head.appendChild(style);
+})();`

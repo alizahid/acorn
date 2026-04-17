@@ -11,6 +11,7 @@ import { Icon } from '.'
 type Props = {
   color?: ColorToken
   contrast?: boolean
+  disabled?: boolean
   hitSlop?: number | Insets
   icon: SFSymbol
   label: string
@@ -25,6 +26,7 @@ type Props = {
 export function IconButton({
   color = 'accent',
   contrast,
+  disabled,
   hitSlop,
   icon,
   label,
@@ -38,7 +40,7 @@ export function IconButton({
   return (
     <Pressable
       accessibilityLabel={label}
-      disabled={loading}
+      disabled={disabled || loading}
       hitSlop={hitSlop}
       onLongPress={onLongPress}
       onPress={onPress}

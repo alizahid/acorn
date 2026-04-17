@@ -393,6 +393,7 @@
   "screen": {
     "auth": {
       "signIn": {
+        "cancel": "Cancel",
         "description": "Reddit for mobile",
         "signIn": "Sign in with Reddit",
         "title": "Acorn"
