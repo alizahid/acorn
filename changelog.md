@@ -1,5 +1,11 @@
 # Changelog
 
+## Upcoming
+
+- added: show inline images in modal
+- fixed: multi account auth
+- fixed: Reddit cookie banner preventing auth
+
 ## Build 74
 
 - added: new content engine
