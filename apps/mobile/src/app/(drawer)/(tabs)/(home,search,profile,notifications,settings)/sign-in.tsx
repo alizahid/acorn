@@ -50,7 +50,7 @@ export default function Screen() {
           label={t('signIn')}
           loading={isPending || isLoading}
           onPress={async () => {
-            await cookies.clearAll()
+            await Promise.all([cookies.clearAll(), cookies.clearAll(true)])
 
             setOpen(true)
           }}
