@@ -114,6 +114,7 @@
       },
       "devDependencies": {
         "@babel/core": "^7.29.0",
+        "@sentry/cli": "2.58.4",
         "@types/lodash": "^4.17.24",
         "@types/node": "^25.6.0",
         "@types/react": "~19.2.14",
