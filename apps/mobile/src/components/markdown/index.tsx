@@ -80,8 +80,11 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
           link: {
             color: theme.colors.accent.accent,
           },
+          list: {
+            gap: theme.space[1],
+          },
           listBullet: {
-            color: theme.colors.gray.border,
+            color: theme.colors.gray.textLow,
           },
           spoiler: {
             backgroundColor: theme.colors.accent.accent,
