@@ -14,7 +14,6 @@
 - fixed: tab bar issues on iOS older than 26
 - removed: hide header / tab bar on scroll
 - removed(temporary): create posts
-- removed(temporary): load more comments
 
 ## Build 73
 

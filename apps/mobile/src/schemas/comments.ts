@@ -61,21 +61,13 @@ export const CommentsSchema = z.object({
 export type CommentsSchema = z.infer<typeof CommentsSchema>
 
 export const MoreCommentsSchema = z.object({
-  json: z.object({
-    data: z.object({
-      things: z.array(
-        z.discriminatedUnion('kind', [
-          z.object({
-            data: CommentDataSchema,
-            kind: z.literal('t1'),
-          }),
-          z.object({
-            data: CommentMoreSchema,
-            kind: z.literal('more'),
-          }),
-        ]),
-      ),
-    }),
+  data: z.object({
+    children: z.array(
+      z.object({
+        data: CommentDataSchema,
+        kind: z.literal('t1'),
+      }),
+    ),
   }),
 })
 

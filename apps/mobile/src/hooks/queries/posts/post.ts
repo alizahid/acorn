@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { type Query, useMutation, useQuery } from '@tanstack/react-query'
 import { eq } from 'drizzle-orm'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
@@ -62,12 +62,12 @@ export function usePost({ commentId, id, sort }: Props) {
         return previous
       }
 
-      return getPost(id)
+      return getPlaceholderPost(id)
     },
     async queryFn() {
       const url = new URL(`/comments/${id}`, REDDIT_URI)
 
-      url.searchParams.set('limit', '500')
+      url.searchParams.set('limit', '50')
       url.searchParams.set('threaded', 'false')
       url.searchParams.set('sr_detail', 'true')
 
@@ -177,7 +177,7 @@ export function usePost({ commentId, id, sort }: Props) {
   }
 }
 
-function getPost(id: string): Undefined<PostQueryData> {
+function getPlaceholderPost(id: string): Undefined<PostQueryData> {
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
@@ -229,6 +229,45 @@ function getPost(id: string): Undefined<PostQueryData> {
   }
 
   return getPostFromSearch(id)
+}
+
+export function getPost(
+  id: string,
+  sort?: CommentSort,
+): Undefined<PostQueryData> {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: [
+      'post',
+      {
+        id,
+      },
+    ] satisfies PostQueryKey,
+  })
+
+  for (const query of queries) {
+    const data = query as unknown as Query<
+      Undefined<PostQueryData>,
+      Error,
+      PostQueryData,
+      PostQueryKey
+    >
+
+    if (!data.state.data) {
+      continue
+    }
+
+    if (sort) {
+      if (data.queryKey[1].sort === sort) {
+        return data.state.data
+      }
+
+      continue
+    }
+
+    return data.state.data
+  }
 }
 
 export function updatePost(
