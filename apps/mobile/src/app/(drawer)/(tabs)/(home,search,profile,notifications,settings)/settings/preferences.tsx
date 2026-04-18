@@ -6,7 +6,8 @@ import { FloatingButtonSide } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
-import { iPad } from '~/lib/common'
+import { Text } from '~/components/common/text'
+import { iOS26, iPad } from '~/lib/common'
 import { getIcon } from '~/lib/icons'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 
@@ -38,6 +39,7 @@ export default function Screen() {
     replyPost,
     saveToAlbum,
     seenOnMedia,
+    tabBarMinimizeBehavior,
     seenOnScroll,
     seenOnScrollDelay,
     seenOnVote,
@@ -78,6 +80,7 @@ export default function Screen() {
     'showFlair',
     'skipComment',
     'stickyDrawer',
+    'tabBarMinimizeBehavior',
     'unmuteFullscreen',
     'upvoteOnSave',
     'userOnTop',
@@ -110,7 +113,7 @@ export default function Screen() {
           }}
           options={[
             {
-              label: t('refreshInterval.instant'),
+              label: t('browsing.refreshInterval.instant'),
               right: <Icon name="0.circle.fill" />,
               value: 0,
             },
@@ -147,7 +150,7 @@ export default function Screen() {
               value: 30,
             },
             {
-              label: t('refreshInterval.never'),
+              label: t('browsing.refreshInterval.never'),
               right: <Icon name="infinity.circle.fill" />,
               value: Number.POSITIVE_INFINITY,
             },
@@ -176,6 +179,61 @@ export default function Screen() {
               })
             }}
             value={stickyDrawer}
+          />
+        ) : null}
+
+        {iOS26 ? (
+          <Menu.Options
+            icon={<Icon name="clock" />}
+            label={t('browsing.tabBarMinimizeBehavior.label')}
+            onChange={(next) => {
+              update({
+                tabBarMinimizeBehavior: next,
+              })
+            }}
+            options={[
+              {
+                hideRight: true,
+                label: t('browsing.tabBarMinimizeBehavior.never'),
+                right: (
+                  <Text color="accent" weight="medium">
+                    {t('browsing.tabBarMinimizeBehavior.never')}
+                  </Text>
+                ),
+                value: 'never',
+              },
+              {
+                hideRight: true,
+                label: t('browsing.tabBarMinimizeBehavior.automatic'),
+                right: (
+                  <Text color="accent" weight="medium">
+                    {t('browsing.tabBarMinimizeBehavior.automatic')}
+                  </Text>
+                ),
+                value: 'automatic',
+              },
+              {
+                hideRight: true,
+                label: t('browsing.tabBarMinimizeBehavior.onScrollDown'),
+                right: (
+                  <Text color="accent" weight="medium">
+                    {t('browsing.tabBarMinimizeBehavior.onScrollDown')}
+                  </Text>
+                ),
+                value: 'onScrollDown',
+              },
+              {
+                hideRight: true,
+                label: t('browsing.tabBarMinimizeBehavior.onScrollUp'),
+                right: (
+                  <Text color="accent" weight="medium">
+                    {t('browsing.tabBarMinimizeBehavior.onScrollUp')}
+                  </Text>
+                ),
+                value: 'onScrollUp',
+              },
+            ]}
+            value={tabBarMinimizeBehavior}
           />
         ) : null}
 
@@ -403,7 +461,7 @@ export default function Screen() {
           }}
           options={[
             {
-              label: t('refreshInterval.instant'),
+              label: t('browsing.refreshInterval.instant'),
               right: <Icon name="0.circle.fill" />,
               value: 0,
             },

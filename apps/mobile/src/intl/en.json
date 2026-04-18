@@ -614,9 +614,18 @@
           "oldReddit": "Use old Reddit links",
           "refreshInterval": {
             "description": "Requires app restart",
-            "label": "Auto refresh interval"
+            "instant": "Instant",
+            "label": "Auto refresh interval",
+            "never": "Never"
           },
           "stickyDrawer": "Sticky drawer",
+          "tabBarMinimizeBehavior": {
+            "automatic": "Automatic",
+            "label": "Tab bar minimize behavior",
+            "never": "Never",
+            "onScrollDown": "On scroll down",
+            "onScrollUp": "On scroll up"
+          },
           "title": "Browsing"
         },
         "comments": {
@@ -671,10 +680,6 @@
           "showFlair": "Show flair",
           "title": "Posts",
           "upvoteOnSave": "Upvote on save"
-        },
-        "refreshInterval": {
-          "instant": "Instant",
-          "never": "Never"
         },
         "side": {
           "center": "Center",

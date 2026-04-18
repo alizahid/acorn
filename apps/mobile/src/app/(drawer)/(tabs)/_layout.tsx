@@ -19,7 +19,11 @@ export default function Layout() {
 
   const t = useTranslations('screen')
 
-  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
+  const { tabBarMinimizeBehavior, themeOled, themeTint } = usePreferences([
+    'tabBarMinimizeBehavior',
+    'themeOled',
+    'themeTint',
+  ])
 
   styles.useVariants({
     glass,
@@ -68,7 +72,7 @@ export default function Layout() {
       backgroundColor={styles.main.backgroundColor}
       blurEffect={glass || themeOled ? 'none' : 'systemChromeMaterial'}
       disableTransparentOnScrollEdge
-      minimizeBehavior="onScrollDown"
+      minimizeBehavior={tabBarMinimizeBehavior}
       shadowColor="transparent"
       tintColor={styles.tint.color}
     >

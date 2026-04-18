@@ -72,6 +72,7 @@ export type PreferencesPayload = {
   sortUserPosts: UserFeedSort
   stickyDrawer: boolean
   systemScaling: boolean
+  tabBarMinimizeBehavior: 'never' | 'automatic' | 'onScrollDown' | 'onScrollUp'
   theme: Theme
   themeOled: boolean
   themeTint: boolean
@@ -139,6 +140,7 @@ export const preferencesStore = create<State>()(
       sortUserPosts: 'new',
       stickyDrawer: true,
       systemScaling: false,
+      tabBarMinimizeBehavior: 'never',
       theme: 'acorn',
       themeOled: false,
       themeTint: true,
