@@ -4,7 +4,6 @@ import { StyleSheet } from 'react-native-unistyles'
 
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
-import { glass } from '~/lib/common'
 
 type Props = {
   label: string
@@ -60,7 +59,6 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
     gap: theme.space[3],
     height: theme.space[8],
-    marginHorizontal: glass ? 1 : undefined,
     paddingHorizontal: theme.space[3],
     variants: {
       selected: {

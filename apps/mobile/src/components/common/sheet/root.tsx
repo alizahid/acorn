@@ -1,7 +1,7 @@
 import { type SheetDetent, TrueSheet } from '@lodev09/react-native-true-sheet'
 import { type ReactNode, type Ref } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
-import { StyleSheet } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 
 import { glass } from '~/lib/common'
 
@@ -20,13 +20,20 @@ export function Root({
   detents = ['auto'],
   ref,
 }: Props) {
+  const { theme } = useUnistyles()
+
   return (
     <TrueSheet
-      backgroundBlur={glass ? undefined : 'system-chrome-material'}
+      backgroundBlur={
+        theme.variant === 'dark'
+          ? 'system-chrome-material-dark'
+          : 'system-chrome-material-light'
+      }
       cornerRadius={glass ? undefined : styles.main.borderRadius}
       detents={detents}
       dismissible={dismissible}
       grabber={false}
+      insetAdjustment="never"
       maxContentWidth={600}
       onWillDismiss={onClose}
       ref={ref}
