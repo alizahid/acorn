@@ -2,9 +2,12 @@
 
 ## Upcoming
 
+- added: iOS 26 tab bar minimize behavior option
 - added: show inline images in modal
 - fixed: multi account auth
 - fixed: Reddit cookie banner preventing auth
+- fixed: system / app theme clashes
+- fixed: text sizing
 
 ## Build 74
 
