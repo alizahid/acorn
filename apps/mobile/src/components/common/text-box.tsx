@@ -71,7 +71,10 @@ export function TextBox({
 
           setFocused(true)
         }}
-        style={[styles.input(font, fontScaling), styleInput]}
+        style={[
+          styles.input(font, systemScaling ? 1 : fontScaling),
+          styleInput,
+        ]}
         textAlignVertical="center"
       />
 

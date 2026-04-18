@@ -36,7 +36,11 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { font, fontScaling } = usePreferences(['font', 'fontScaling'])
+  const { font, fontScaling, systemScaling } = usePreferences([
+    'font',
+    'fontScaling',
+    'systemScaling',
+  ])
 
   const t = useTranslations('screen.posts.reply')
   const a11y = useTranslations('a11y')
@@ -117,7 +121,7 @@ export default function Screen() {
         onChangeState={setState}
         placeholder={t('placeholder')}
         ref={editor}
-        style={styles.input(font, fontScaling)}
+        style={styles.input(font, systemScaling ? 1 : fontScaling)}
         value={text}
       />
     </Animated.View>

@@ -32,7 +32,11 @@ export function SubmissionText() {
 
   const t = useTranslations('component.submission.text')
 
-  const { font, fontScaling } = usePreferences(['font', 'fontScaling'])
+  const { font, fontScaling, systemScaling } = usePreferences([
+    'font',
+    'fontScaling',
+    'systemScaling',
+  ])
 
   const { control } = useFormContext<CreatePostForm>()
 
@@ -65,7 +69,7 @@ export function SubmissionText() {
             onChangeState={setState}
             placeholder={t('placeholder')}
             ref={editor}
-            style={styles.editor(font, fontScaling)}
+            style={styles.editor(font, systemScaling ? 1 : fontScaling)}
           />
 
           <KeyboardExtender enabled={focused}>

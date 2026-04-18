@@ -38,7 +38,7 @@ export function SubmissionTitle() {
             allowFontScaling={systemScaling}
             onChangeText={field.onChange}
             placeholder={t('placeholder')}
-            style={styles.input(font, fontScaling)}
+            style={styles.input(font, systemScaling ? 1 : fontScaling)}
           />
         </View>
       )}

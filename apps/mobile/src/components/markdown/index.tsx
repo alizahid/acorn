@@ -19,13 +19,19 @@ type Props = {
 }
 
 export function Markdown({ children, meta, type = 'post' }: Props) {
-  const { font, fontScaling, fontSizePostBody, fontSizeCommentBody } =
-    usePreferences([
-      'font',
-      'fontScaling',
-      'fontSizeCommentBody',
-      'fontSizePostBody',
-    ])
+  const {
+    font,
+    fontScaling,
+    fontSizePostBody,
+    fontSizeCommentBody,
+    systemScaling,
+  } = usePreferences([
+    'font',
+    'fontScaling',
+    'fontSizeCommentBody',
+    'fontSizePostBody',
+    'systemScaling',
+  ])
 
   const size = type === 'post' ? fontSizePostBody : fontSizeCommentBody
 
@@ -53,7 +59,7 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
       onLinkPress={(event) => {
         handleLink(event.url)
       }}
-      style={styles.main(font, fontScaling, size)}
+      style={styles.main(font, systemScaling ? 1 : fontScaling, size)}
       uniProps={(theme) => ({
         styles: {
           blockquote: {

@@ -31,7 +31,11 @@ function Root({
   value,
   ref,
 }: RootProps) {
-  const { font, fontScaling } = usePreferences(['font', 'fontScaling'])
+  const { font, fontScaling, systemScaling } = usePreferences([
+    'font',
+    'fontScaling',
+    'systemScaling',
+  ])
 
   return (
     <MarkdownInput
@@ -42,7 +46,7 @@ function Root({
       onChangeState={onChangeState}
       placeholder={placeholder}
       ref={ref}
-      style={[styles.main(font, fontScaling), style]}
+      style={[styles.main(font, systemScaling ? 1 : fontScaling), style]}
     />
   )
 }

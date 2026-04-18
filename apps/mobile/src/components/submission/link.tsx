@@ -35,7 +35,7 @@ export function SubmissionLink() {
             autoCorrect={false}
             onChangeText={field.onChange}
             placeholder={t('placeholder')}
-            style={styles.input(font, fontScaling)}
+            style={styles.input(font, systemScaling ? 1 : fontScaling)}
           />
 
           {fieldState.error ? (
