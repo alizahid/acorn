@@ -33,7 +33,7 @@ export function SubmissionType({ submission }: Props) {
       control={control}
       name="type"
       render={({ field }) => (
-        <Host matchContents>
+        <Host colorScheme={theme.variant} matchContents>
           <Menu
             label={
               <View style={styles.main}>

@@ -13,7 +13,7 @@ export function Switch({ label, onChange, value }: Props) {
   const { theme } = useUnistyles()
 
   return (
-    <Host matchContents>
+    <Host colorScheme={theme.variant} matchContents>
       <Toggle
         isOn={value}
         label={label}

@@ -1,5 +1,6 @@
 import { Button, Host, Picker } from '@expo/ui/swift-ui'
 import { pickerStyle, tag } from '@expo/ui/swift-ui/modifiers'
+import { useUnistyles } from 'react-native-unistyles'
 
 type Props = {
   items: Array<{
@@ -11,8 +12,10 @@ type Props = {
 }
 
 export function SegmentedControl({ items, onChange, value }: Props) {
+  const { theme } = useUnistyles()
+
   return (
-    <Host matchContents>
+    <Host colorScheme={theme.variant} matchContents>
       <Picker
         label="Select a fruit"
         modifiers={[pickerStyle('segmented')]}

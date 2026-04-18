@@ -36,7 +36,7 @@ export function FilterCard({ index, onRemove }: Props) {
         control={control}
         name={`filters.${index}.type`}
         render={({ field }) => (
-          <Host matchContents>
+          <Host colorScheme={theme.variant} matchContents>
             <Menu
               label={
                 <View style={styles.item}>
