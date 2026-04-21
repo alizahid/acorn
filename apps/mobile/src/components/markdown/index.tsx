@@ -4,12 +4,12 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useLink } from '~/hooks/link'
 import { type Font, fonts } from '~/lib/fonts'
 import { mergeMetaMarkdown } from '~/lib/markdown'
+import { previewImages } from '~/lib/preview'
 import { usePreferences } from '~/stores/preferences'
 import { addTextSize } from '~/styles/text'
 import { type TypographyToken } from '~/styles/tokens'
 import { type PostMediaMeta } from '~/types/post'
 
-import { Gallery } from '../gallery'
 import { MarkdownViewer } from '../native/markdown'
 
 type Props = {
@@ -45,16 +45,14 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
   return (
     <MarkdownViewer
       onImagePress={(event) => {
-        Gallery.call({
-          media: [
-            {
-              height: event.height,
-              type: 'image',
-              url: event.url,
-              width: event.width,
-            },
-          ],
-        })
+        previewImages([
+          {
+            height: event.height,
+            type: 'image',
+            url: event.url,
+            width: event.width,
+          },
+        ])
       }}
       onLinkPress={(event) => {
         handleLink(event.url)
