@@ -129,9 +129,7 @@ function getParentDepth(comments: Array<Comment>, parentId?: string): number {
     return 0
   }
 
-  const parent = comments.find((item) => {
-    return item.data.id === parentId
-  })
+  const parent = comments.find((item) => item.data.id === parentId)
 
   if (parent?.data.parentId) {
     return 1 + getParentDepth(comments, parent.data.parentId)
