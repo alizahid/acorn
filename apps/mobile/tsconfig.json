@@ -4,6 +4,7 @@
     "moduleResolution": "bundler",
     "noUncheckedIndexedAccess": true,
     "paths": {
+      "@/gallery": ["./modules/gallery"],
       "~/*": ["./src/*"]
     },
     "strict": true,

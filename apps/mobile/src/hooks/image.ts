@@ -6,15 +6,17 @@ import { type ImageProps } from 'expo-image'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as MediaLibrary from 'expo-media-library'
 import { compact } from 'lodash'
-import { useRef } from 'react'
+import { useCallback, useRef } from 'react'
 import { Share } from 'react-native'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
+import { Gallery } from '@/gallery'
 import placeholderDark from '~/assets/images/placeholder-dark.png'
 import placeholderLight from '~/assets/images/placeholder-light.png'
 import { usePreferences } from '~/stores/preferences'
+import { type PostMedia } from '~/types/post'
 
 export function useImagePlaceholder() {
   const { theme } = useUnistyles()
@@ -262,6 +264,39 @@ export function useShareImage() {
     isPending,
     isSuccess,
     share: mutate,
+  }
+}
+
+export function useImagePreview() {
+  const { theme } = useUnistyles()
+
+  const preview = useCallback(
+    (images: Array<Pick<PostMedia, 'url'>>, index?: number) => {
+      Gallery.open({
+        actions: [
+          {
+            icon: 'square.and.arrow.up',
+            id: 'share',
+          },
+          {
+            icon: 'square.on.square',
+            id: 'copy',
+          },
+          {
+            icon: 'square.and.arrow.down',
+            id: 'download',
+          },
+        ],
+        images: images.map((image) => image.url),
+        index,
+        theme: theme.variant,
+      })
+    },
+    [theme.variant],
+  )
+
+  return {
+    preview,
   }
 }
 

@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: better image viewing
 - added: iOS 26 tab bar minimize behavior option
 - added: show inline images in modal
 - fixed: multi account auth

@@ -11,8 +11,8 @@ import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
 import { persistOptions, queryClient } from '~/lib/query'
 
-import { Gallery } from '../gallery'
-import { ThemeProvider } from '../navigation/theme'
+import { ImageProvider } from '../providers/image'
+import { ThemeProvider } from '../providers/theme'
 import { Toast } from './toast'
 
 type Props = {
@@ -31,10 +31,9 @@ export function Providers({ children }: Props) {
             >
               <PortalProvider>
                 <FocusProvider>
-                  {children}
+                  <ImageProvider>{children}</ImageProvider>
 
                   <AccountSwitcher />
-                  <Gallery.Root />
                   <Toast />
                 </FocusProvider>
               </PortalProvider>

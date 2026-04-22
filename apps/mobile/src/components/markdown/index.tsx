@@ -1,10 +1,10 @@
 import { useMemo } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 
+import { useImagePreview } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { type Font, fonts } from '~/lib/fonts'
 import { mergeMetaMarkdown } from '~/lib/markdown'
-import { previewImages } from '~/lib/preview'
 import { usePreferences } from '~/stores/preferences'
 import { addTextSize } from '~/styles/text'
 import { type TypographyToken } from '~/styles/tokens'
@@ -41,18 +41,12 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
   )
 
   const { handleLink } = useLink()
+  const { preview } = useImagePreview()
 
   return (
     <MarkdownViewer
-      onImagePress={(event) => {
-        previewImages([
-          {
-            height: event.height,
-            type: 'image',
-            url: event.url,
-            width: event.width,
-          },
-        ])
+      onImagePress={(image) => {
+        preview([image])
       }}
       onLinkPress={(event) => {
         handleLink(event.url)

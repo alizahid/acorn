@@ -6,8 +6,7 @@ import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
-import { useImagePlaceholder } from '~/hooks/image'
-import { previewImages } from '~/lib/preview'
+import { useImagePlaceholder, useImagePreview } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -47,12 +46,13 @@ export function PostGalleryCard({
   })
 
   const placeholder = useImagePlaceholder()
+  const { preview } = useImagePreview()
 
   const first = images[0]
 
   const onPress = useCallback(
     (initial?: number) => {
-      previewImages(images, initial)
+      preview(images, initial)
 
       if (recyclingKey && seenOnMedia) {
         addPost({
@@ -60,7 +60,7 @@ export function PostGalleryCard({
         })
       }
     },
-    [addPost, images, recyclingKey, seenOnMedia],
+    [addPost, images, recyclingKey, seenOnMedia, preview],
   )
 
   if (!first) {
