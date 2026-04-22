@@ -2,7 +2,7 @@ import { ActivityIndicator } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { Toaster } from 'sonner-native'
 
-import { iPad } from '~/lib/common'
+import { cardMaxWidth, iPad } from '~/lib/common'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 import { weights } from '~/styles/text'
@@ -79,7 +79,7 @@ const styles = StyleSheet.create((theme) => ({
     variants: {
       iPad: {
         true: {
-          maxWidth: 600,
+          maxWidth: cardMaxWidth,
         },
       },
     },
