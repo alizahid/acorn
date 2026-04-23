@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
+import cookies from 'react-native-nitro-cookies'
 import { toast } from 'sonner-native'
 import { z } from 'zod'
 
@@ -21,6 +22,8 @@ export function useSignIn() {
 
   const { isPending, mutateAsync } = useMutation({
     async mutationFn(cookie: string) {
+      await Promise.all([cookies.clearAll(), cookies.clearAll(true)])
+
       const url = new URL('/api/me.json', REDDIT_URI)
 
       const response = await fetch(url, {
