@@ -20,6 +20,6 @@ export function transformProfile({ data }: ProfileSchema): Profile {
     name: data.name,
     noFollow: Boolean(data.no_follow),
     subreddit: removePrefix(data.subreddit.name),
-    subscribed: data.subreddit.user_is_subscriber,
+    subscribed: data.subreddit.user_is_subscriber ?? false,
   }
 }
