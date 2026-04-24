@@ -23,7 +23,12 @@ import { FeedType } from '~/types/sort'
 
 const schema = z.object({
   feed: z.string().optional(),
-  type: z.enum(FeedType).catch(defaultsStore.getState().feedType),
+  type: z.enum(FeedType).catch(() => {
+    const stored = defaultsStore.getState().feedType
+    return FeedType.includes(stored as (typeof FeedType)[number])
+      ? stored
+      : 'home'
+  }),
 })
 
 export type HomeParams = z.infer<typeof schema>
