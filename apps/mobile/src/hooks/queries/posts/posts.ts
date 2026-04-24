@@ -133,7 +133,7 @@ export function usePosts({
           Boolean(user) || Boolean(userType)
             ? false
             : community
-              ? community === 'popular'
+              ? community === 'all' || community === 'popular'
               : true,
         ),
       }

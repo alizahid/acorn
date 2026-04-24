@@ -11,7 +11,7 @@ export type PostSort =
 
 // feed
 
-export const FeedType = ['home', 'popular'] as const
+export const FeedType = ['home', 'popular', 'all'] as const
 
 export type FeedType = (typeof FeedType)[number]
 
