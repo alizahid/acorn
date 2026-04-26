@@ -76,6 +76,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   main: {
     backgroundColor: 'transparent',
+    borderRadius: 0,
     borderWidth: 0,
     flexGrow: 1,
     height: theme.space[8],

@@ -5,9 +5,12 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
+import fuzzysort from 'fuzzysort'
+import { create } from 'mutative'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
+import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
@@ -17,6 +20,7 @@ import { Empty } from '~/components/common/empty'
 import { FloatingButton } from '~/components/common/floating-button'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
+import { SearchBox } from '~/components/common/search'
 import { SensorList } from '~/components/common/sensor/list'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
@@ -24,7 +28,7 @@ import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { usePost } from '~/hooks/queries/posts/post'
-import { glass, heights, iPad } from '~/lib/common'
+import { cardMaxWidth, glass, heights, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -58,14 +62,39 @@ export default function Screen() {
   const list = useRef<FlashListRef<Comment>>(null)
 
   const [sort, setSort] = useState(sortPostComments)
+  const [query, setQuery] = useState('')
 
-  const { collapse, comments, isFetching, post, refetch } = usePost({
+  const [queryText] = useDebounce(query, 500)
+
+  const {
+    collapse,
+    comments: data,
+    isFetching,
+    post,
+    refetch,
+  } = usePost({
     commentId: params.commentId,
     id: params.id,
     sort,
   })
 
   const previous = useRef(params.id)
+
+  const comments = useMemo(() => {
+    if (queryText.length === 0) {
+      return data
+    }
+
+    return fuzzysort
+      .go(queryText, data, {
+        key: 'data.body',
+      })
+      .map((item) =>
+        create(item.obj, (draft) => {
+          draft.data.depth = 0
+        }),
+      )
+  }, [data, queryText])
 
   useEffect(() => {
     if (previous.current !== params.id) {
@@ -129,6 +158,8 @@ export default function Screen() {
   const header = useMemo(
     () => (
       <View style={styles.header}>
+        <SearchBox onChange={setQuery} style={styles.search} value={query} />
+
         {post ? (
           <PostCard expanded post={post} />
         ) : (
@@ -152,7 +183,7 @@ export default function Screen() {
         ) : null}
       </View>
     ),
-    [comments, params.commentId, post, router],
+    [comments, params.commentId, post, router, query],
   )
 
   const renderItem: ListRenderItem<Comment> = useCallback(
@@ -330,6 +361,12 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   header: {
     marginBottom: theme.space[2],
+  },
+  search: {
+    alignSelf: 'center',
+    marginBottom: iPad ? theme.space[2] : undefined,
+    maxWidth: cardMaxWidth,
+    width: '100%',
   },
   separator: {
     height: theme.space[2],

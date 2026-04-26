@@ -4,6 +4,7 @@
 
 - added: gesture to collapse comments
 - added: r/all
+- added: search between post comments
 - changed: search now returns up to 100 results
 - fixed: drawer
 - fixed: text sizing with San Francisco
