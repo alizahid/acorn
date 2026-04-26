@@ -31,7 +31,7 @@ export default function Screen() {
       navigation.setOptions({
         headerRight: () => (
           <IconButton
-            icon="checkmark.circle.fill"
+            icon="checkmark"
             label={a11y('clearNotifications')}
             loading={isPending}
             onPress={() => {
