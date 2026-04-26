@@ -1,5 +1,8 @@
 import { Drawer } from 'expo-router/drawer'
-import { StyleSheet } from 'react-native-unistyles'
+import { useMemo } from 'react'
+import { type ViewStyle } from 'react-native'
+import { useSafeAreaFrame } from 'react-native-safe-area-context'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 
 import { HomeDrawer } from '~/components/home/drawer'
 import { iPad } from '~/lib/common'
@@ -7,28 +10,45 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
 export default function Layout() {
-  const { fullscreenDrawer, stickyDrawer, themeOled, themeTint } =
-    usePreferences([
-      'fullscreenDrawer',
-      'stickyDrawer',
-      'themeOled',
-      'themeTint',
-    ])
+  const frame = useSafeAreaFrame()
 
-  styles.useVariants({
-    iPad,
-    oled: themeOled,
-    tint: themeTint,
-  })
+  const { theme } = useUnistyles()
+
+  const { fullscreenDrawer, stickyDrawer, themeOled } = usePreferences([
+    'fullscreenDrawer',
+    'stickyDrawer',
+    'themeOled',
+  ])
+
+  const drawerStyle = useMemo<ViewStyle>(() => {
+    if (iPad && stickyDrawer) {
+      return {
+        borderRightColor: theme.colors.gray.border,
+        borderRightWidth: StyleSheet.hairlineWidth,
+        width: frame.width * 0.3,
+      }
+    }
+
+    return {}
+  }, [frame.width, stickyDrawer, theme.colors.gray.border])
+
+  const overlayColor = useMemo(() => {
+    if (themeOled) {
+      return oledTheme[theme.variant].overlay
+    }
+
+    return theme.colors.gray.borderAlpha
+  }, [theme.colors.gray.borderAlpha, theme.variant, themeOled])
 
   return (
     <Drawer
       drawerContent={HomeDrawer}
       screenOptions={{
-        drawerStyle: styles.drawer,
+        drawerStyle,
         drawerType: iPad ? (stickyDrawer ? 'permanent' : 'slide') : 'front',
         headerShown: false,
-        overlayColor: styles.overlay.backgroundColor,
+        overlayColor,
+        swipeEdgeWidth: fullscreenDrawer ? frame.width : undefined,
         swipeEnabled: fullscreenDrawer,
       }}
     >
@@ -36,41 +56,3 @@ export default function Layout() {
     </Drawer>
   )
 }
-
-const styles = StyleSheet.create((theme, runtime) => ({
-  drawer: {
-    backgroundColor: theme.colors.gray.bgAlt,
-    borderRightColor: theme.colors.gray.border,
-    variants: {
-      iPad: {
-        true: {
-          borderRightWidth: StyleSheet.hairlineWidth,
-          width: runtime.screen.width * 0.3,
-        },
-      },
-      oled: {
-        true: {
-          backgroundColor: oledTheme[theme.variant].bg,
-        },
-      },
-      tint: {
-        true: {
-          backgroundColor: theme.colors.accent.bgAlt,
-        },
-      },
-    },
-  },
-  overlay: {
-    backgroundColor: theme.colors.gray.borderAlpha,
-    variants: {
-      oled: {
-        true: {
-          backgroundColor: oledTheme[theme.variant].overlay,
-        },
-      },
-    },
-  },
-  search: {
-    marginTop: runtime.insets.top,
-  },
-}))

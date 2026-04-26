@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: r/all
+- fixed: drawer
 - fixed: text sizing with San Francisco
 
 ## Build 75
