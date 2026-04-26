@@ -130,7 +130,7 @@ export function usePosts({
         cursor: response.data.after,
         posts: await filterPosts(
           response,
-          Boolean(user) || Boolean(userType)
+          user || userType
             ? false
             : community
               ? community === 'all' || community === 'popular'

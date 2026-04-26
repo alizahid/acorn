@@ -141,11 +141,11 @@ export function VideoPlayer({
           >
             <Icon name="play.fill" />
 
-            {Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+            {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
               <GalleryBlur />
             ) : null}
           </Pressable>
-        ) : Boolean(nsfw && blurNsfw) || Boolean(spoiler && blurSpoiler) ? (
+        ) : (nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
           <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
         ) : (
           <Pressable

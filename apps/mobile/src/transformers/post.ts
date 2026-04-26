@@ -63,7 +63,7 @@ function getType(data: PostDataSchema): PostType {
   }
 
   if (
-    Boolean(data.is_video) ||
+    data.is_video ||
     data.post_hint === 'rich:video' ||
     (data.media &&
       'oembed' in data.media &&
