@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: r/all
+- changed: search now returns up to 100 results
 - fixed: drawer
 - fixed: text sizing with San Francisco
 
