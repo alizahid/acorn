@@ -29,6 +29,7 @@ type Props = {
   comment: CommentReply
   disabled?: boolean
   dull?: boolean
+  onCollapse?: () => void
   onPress: () => void
 }
 
@@ -37,6 +38,7 @@ export function CommentCard({
   comment,
   disabled,
   dull,
+  onCollapse,
   onPress,
 }: Props) {
   const router = useRouter()
@@ -89,7 +91,11 @@ export function CommentCard({
 
   return (
     <Gestures
-      data={comment}
+      data={{
+        collapsed,
+        liked: comment.liked,
+        saved: comment.saved,
+      }}
       left={{
         enabled: commentLeft,
         long: commentLeftLong,
@@ -146,6 +152,10 @@ export function CommentCard({
             postId: comment.post.id,
             type: 'comment',
           })
+        }
+
+        if (action === 'collapse') {
+          onCollapse?.()
         }
       }}
       right={{

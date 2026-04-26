@@ -181,6 +181,15 @@ export default function Screen() {
         <CommentCard
           collapsed={item.data.collapsed}
           comment={item.data}
+          onCollapse={() => {
+            if (!collapsibleComments) {
+              return
+            }
+
+            collapse({
+              commentId: item.data.id,
+            })
+          }}
           onPress={() => {
             if (!collapsibleComments) {
               return

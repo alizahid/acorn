@@ -245,6 +245,7 @@ const styles = StyleSheet.create({
 })
 
 export const GestureColors = {
+  collapse: 'accent',
   downvote: 'violet',
   hide: 'red',
   reply: 'blue',
@@ -254,6 +255,7 @@ export const GestureColors = {
 } as const satisfies Record<GestureAction, ColorToken>
 
 export const GestureIcons = {
+  collapse: 'arrow.down.and.line.horizontal.and.arrow.up',
   downvote: getIcon('downvote'),
   hide: 'eye.slash',
   reply: 'arrowshape.turn.up.backward',
@@ -264,6 +266,12 @@ export const GestureIcons = {
 
 function getNextIcon(action: GestureAction, data: GestureData): SFSymbol {
   'worklet'
+
+  if (action === 'collapse') {
+    return data.collapsed
+      ? 'arrow.up.and.line.horizontal.and.arrow.down'
+      : GestureIcons.collapse
+  }
 
   if (action === 'upvote') {
     return data.liked ? GestureIcons.upvote : `${GestureIcons.upvote}.fill`

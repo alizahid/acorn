@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: gesture to collapse comments
 - added: r/all
 - changed: search now returns up to 100 results
 - fixed: drawer

@@ -12,8 +12,10 @@ export type GestureAction =
   | 'reply'
   | 'share'
   | 'hide'
+  | 'collapse'
 
 export type GestureData = {
+  collapsed?: boolean
   hidden?: boolean
   liked: Nullable<boolean>
   saved: boolean
