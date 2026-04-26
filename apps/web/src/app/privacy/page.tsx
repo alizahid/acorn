@@ -33,7 +33,7 @@ export default function Page() {
             key: 'website',
           },
           {
-            items: ['app.1', 'app.2', 'app.3', 'app.4'],
+            items: ['app.1', 'app.2', 'app.3'],
             key: 'app',
           },
         ] as const
@@ -46,14 +46,6 @@ export default function Page() {
           {section.items.map((item) => (
             <p key={item}>
               {t.rich(item, {
-                revenueCatLink: (text) => (
-                  <Link
-                    className="text-accent-11 outline-none"
-                    href="https://www.revenuecat.com/privacy"
-                  >
-                    {text}
-                  </Link>
-                ),
                 sentryLink: (text) => (
                   <Link
                     className="text-accent-11 outline-none"

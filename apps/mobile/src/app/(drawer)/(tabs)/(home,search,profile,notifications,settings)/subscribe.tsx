@@ -15,7 +15,6 @@ import { useRestore } from '~/hooks/purchases/restore'
 import { useSubscribe } from '~/hooks/purchases/subscribe'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { iPad } from '~/lib/common'
-import { fonts } from '~/lib/fonts'
 
 export default function Screen() {
   const router = useRouter()
@@ -39,26 +38,14 @@ export default function Screen() {
     <View style={styles.main}>
       <View style={styles.header}>
         <Logo />
-
-        <Text accent color="accent" size="8" weight="bold">
-          {t('title')}
-        </Text>
       </View>
 
       <View style={styles.price}>
         {plan ? (
           <>
-            <Text
-              mt="2"
-              size="8"
-              style={{
-                fontFamily: fonts.apercu,
-              }}
-              tabular
-              weight="bold"
-            >
-              {f.number(plan.product.price, {
-                currency: plan.product.currencyCode,
+            <Text mt="1" size="7" tabular weight="bold">
+              {f.number(plan.price ?? 0, {
+                currency: plan.currency,
                 currencyDisplay: 'code',
                 style: 'currency',
               })}
@@ -73,39 +60,47 @@ export default function Screen() {
         )}
       </View>
 
-      <View style={styles.content}>
-        {(
-          [
-            [1, 2, 3],
-            [4, 5, 6],
-          ] as const
-        ).map((section) => (
-          <View key={String(section)} style={styles.section}>
-            {section.map((key) => (
-              <View key={key} style={styles.item}>
-                <Icon name={icons[key]} />
+      <View style={styles.features}>
+        {([1, 2, 3, 4, 5, 6] as const).map((key) => (
+          <View key={key} style={styles.feature}>
+            <Icon
+              name={icons[key]}
+              uniProps={(theme) => ({
+                tintColor: theme.colors.orange.accent,
+              })}
+            />
 
-                <Text style={styles.label} weight="medium">
-                  {t(`feature.${key}`)}
-                </Text>
-              </View>
-            ))}
+            <Text style={styles.label} weight="medium">
+              {t(`feature.${key}`)}
+            </Text>
           </View>
         ))}
       </View>
 
       <View style={styles.footer}>
         <Button
-          label={t('subscribe')}
+          color="orange"
+          disabled={!plan}
+          label={t(
+            plan?.subscriptionOffers?.length
+              ? 'footer.trial'
+              : 'footer.subscribe',
+          )}
           loading={subscribing}
           onPress={() => {
-            subscribe()
+            if (!plan) {
+              return
+            }
+
+            subscribe({
+              plan,
+            })
           }}
         />
 
         <Button
           color="blue"
-          label={t('restore')}
+          label={t('footer.restore')}
           loading={restoring}
           onPress={() => {
             restore()
@@ -117,13 +112,13 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  content: {
+  feature: {
     flexDirection: 'row',
     gap: theme.space[4],
-    paddingHorizontal: theme.space[iPad ? 8 : 4],
   },
   features: {
-    width: '100%',
+    gap: theme.space[4],
+    marginHorizontal: theme.space[iPad ? 8 : 4],
   },
   footer: {
     gap: theme.space[4],
@@ -132,10 +127,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   header: {
     alignItems: 'center',
     gap: theme.space[4],
-  },
-  item: {
-    flexDirection: 'row',
-    gap: theme.space[4],
+    marginHorizontal: theme.space[iPad ? 8 : 4],
   },
   label: {
     flex: 1,
@@ -149,7 +141,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   price: {
     alignItems: 'center',
-    backgroundColor: theme.colors.accent.ui,
+    backgroundColor: theme.colors.orange.ui,
     height: theme.space[8] * 2,
     justifyContent: 'center',
   },

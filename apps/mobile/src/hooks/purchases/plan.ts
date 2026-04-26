@@ -1,13 +1,23 @@
 import { useQuery } from '@tanstack/react-query'
-
-import { purchases } from '~/lib/purchases'
+import { fetchProducts } from 'expo-iap'
 
 export function usePlan() {
   const { isLoading, data } = useQuery({
     async queryFn() {
-      const offerings = await purchases.getOfferings()
+      const products = await fetchProducts({
+        skus: ['monthly'],
+        type: 'subs',
+      })
 
-      return offerings.current?.availablePackages[0]
+      const product = products?.[0]
+
+      if (!product) {
+        return
+      }
+
+      if (product.platform === 'ios' && product.type === 'subs') {
+        return product
+      }
     },
     queryKey: ['purchases', 'plan'],
   })

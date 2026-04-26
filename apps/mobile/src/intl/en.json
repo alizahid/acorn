@@ -389,6 +389,11 @@
       "signIn": {
         "error": "Something went wrong"
       }
+    },
+    "purchases": {
+      "subscribe": {
+        "error": "Something went wrong"
+      }
     }
   },
   "screen": {
@@ -401,19 +406,30 @@
       },
       "subscribe": {
         "feature": {
-          "1": "Unlimited usage",
+          "1": "Unlimited accounts & usage",
           "2": "Beautifully designed",
-          "3": "No ads",
+          "3": "No ads, ever",
           "4": "Privacy focused",
           "5": "Actively developed",
           "6": "Open source"
         },
+        "footer": {
+          "restore": "Restore purchases",
+          "subscribe": "Subscribe",
+          "trial": "Start free trial"
+        },
+        "header": {
+          "description": "Hello. You need to subscribe to use Acorn to use Reddit."
+        },
         "price": {
           "description": "per month"
         },
-        "restore": "Restore purchases",
-        "subscribe": "Subscribe",
-        "title": "Acorn"
+        "trial": {
+          "day": "{count, plural, =0 {None} =1 {# day} other {# days}} free trial",
+          "month": "{count, plural, =0 {None} =1 {# month} other {# months}} free trial",
+          "week": "{count, plural, =0 {None} =1 {# week} other {# weeks}} free trial",
+          "year": "{count, plural, =0 {None} =1 {# year} other {# years}} free trial"
+        }
       }
     },
     "communities": {
