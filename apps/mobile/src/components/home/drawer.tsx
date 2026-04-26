@@ -13,11 +13,15 @@ import { CommunitiesList } from '../communities/list'
 type Props = DrawerContentComponentProps
 
 export function HomeDrawer({ navigation }: Props) {
-  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
+  const { stickyDrawer, themeOled, themeTint } = usePreferences([
+    'stickyDrawer',
+    'themeOled',
+    'themeTint',
+  ])
 
   styles.useVariants({
-    iPad,
     oled: themeOled,
+    sticky: iPad && stickyDrawer,
     tint: themeTint,
   })
 
@@ -49,15 +53,15 @@ const styles = StyleSheet.create((theme, runtime) => ({
     borderRightColor: theme.colors.gray.border,
     flex: 1,
     variants: {
-      iPad: {
-        true: {
-          borderRightWidth: StyleSheet.hairlineWidth,
-          width: runtime.screen.width * 0.3,
-        },
-      },
       oled: {
         true: {
           backgroundColor: oledTheme[theme.variant].bg,
+        },
+      },
+      sticky: {
+        true: {
+          borderRightWidth: StyleSheet.hairlineWidth,
+          width: runtime.screen.width * 0.3,
         },
       },
       tint: {
