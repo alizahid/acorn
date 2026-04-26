@@ -3,7 +3,7 @@ export const fonts = {
   basis: 'Basis Grotesque Pro Var',
   fold: 'Fold Grotesque Pro',
   mono: 'SF Mono',
-  system: undefined,
+  system: 'System',
 } as const
 
 export type Font = Exclude<keyof typeof fonts, 'mono'>

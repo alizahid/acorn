@@ -71,7 +71,7 @@ export function mapTypography<Type extends TextStyle>(
 }
 
 export function mapFonts<Type extends TextStyle | ViewStyle>(
-  mapper: (token: Font, fontFamily: string | undefined) => Type,
+  mapper: (token: Font, fontFamily: string) => Type,
 ) {
   return Object.fromEntries(
     Object.entries(fonts).map(([token, fontFamily]) => [

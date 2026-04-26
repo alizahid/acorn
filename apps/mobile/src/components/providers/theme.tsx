@@ -13,7 +13,11 @@ type Props = {
 }
 
 export function ThemeProvider({ children }: Props) {
-  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
+  const { font, themeOled, themeTint } = usePreferences([
+    'font',
+    'themeOled',
+    'themeTint',
+  ])
 
   return (
     <Component
@@ -34,19 +38,19 @@ export function ThemeProvider({ children }: Props) {
           dark: theme.variant === 'dark',
           fonts: {
             bold: {
-              fontFamily: fonts.basis,
+              fontFamily: fonts[font],
               fontWeight: '700',
             },
             heavy: {
-              fontFamily: fonts.basis,
+              fontFamily: fonts[font],
               fontWeight: '800',
             },
             medium: {
-              fontFamily: fonts.basis,
+              fontFamily: fonts[font],
               fontWeight: '500',
             },
             regular: {
-              fontFamily: fonts.basis,
+              fontFamily: fonts[font],
               fontWeight: '400',
             },
           },
