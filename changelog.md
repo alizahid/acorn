@@ -2,9 +2,10 @@
 
 ## Upcoming
 
+- added: r/all
 - fixed: text sizing with San Francisco
 
-## Upcoming
+## Build 75
 
 - added: better image viewing
 - added: iOS 26 tab bar minimize behavior option
@@ -39,7 +40,7 @@
 - fixed: chat keyboard interaction
 - fixed: post creation
 - fixed: scroll to next / previous comments
-- removed: /r/all
+- removed: r/all
 - removed: bottom tabs customization
 
 ## Build 71-72
