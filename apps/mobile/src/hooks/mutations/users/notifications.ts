@@ -20,7 +20,7 @@ export function useMarkAsRead() {
 
   const { isPending, mutate } = useMutation<unknown, Error, MarkReadVariables>({
     async mutationFn(variables) {
-      const body = new FormData()
+      const body = new URLSearchParams()
 
       body.append(
         'id',

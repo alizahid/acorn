@@ -17,7 +17,7 @@ export function useFavorite() {
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new FormData()
+      const body = new URLSearchParams()
 
       body.append('sr_name', variables.name)
       body.append('make_favorite', String(variables.favorite))

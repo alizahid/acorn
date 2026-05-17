@@ -20,7 +20,7 @@ export function useJoin() {
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new FormData()
+      const body = new URLSearchParams()
 
       body.append('sr', addPrefix(variables.id, 'subreddit'))
       body.append('action', variables.action === 'join' ? 'sub' : 'unsub')

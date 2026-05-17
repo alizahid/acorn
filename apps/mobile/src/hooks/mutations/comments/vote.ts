@@ -18,7 +18,7 @@ type Variables = {
 export function useCommentVote() {
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new FormData()
+      const body = new URLSearchParams()
 
       body.append('id', addPrefix(variables.commentId, 'comment'))
       body.append('dir', String(variables.direction))

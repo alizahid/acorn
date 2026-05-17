@@ -25,7 +25,7 @@ export function useCommentEdit() {
     Variables
   >({
     async mutationFn(variables) {
-      const body = new FormData()
+      const body = new URLSearchParams()
 
       body.append('api_type', 'json')
       body.append('text', prepareMarkdown(variables.body))

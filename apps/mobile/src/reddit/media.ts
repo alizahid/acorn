@@ -37,7 +37,7 @@ export async function uploadFile(asset: ImagePickerAsset) {
 }
 
 async function prepareUpload(asset: ImagePickerAsset) {
-  const body = new FormData()
+  const body = new URLSearchParams()
 
   if (asset.fileName) {
     body.append('filepath', asset.fileName)

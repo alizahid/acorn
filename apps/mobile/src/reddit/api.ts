@@ -5,7 +5,7 @@ export const REDDIT_URI = 'https://www.reddit.com'
 export const REDDIT_OLD_URI = 'https://old.reddit.com'
 
 type Props = {
-  body?: FormData
+  body?: URLSearchParams
   method?: 'get' | 'post'
   url: string | URL
 }
@@ -34,9 +34,9 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
   }
 
   if (body) {
-    request.body = body
+    request.body = body.toString()
 
-    headers.set('content-type', 'multipart/form-data')
+    headers.set('content-type', 'application/x-www-form-urlencoded')
   }
 
   const uri = new URL(url, REDDIT_URI)

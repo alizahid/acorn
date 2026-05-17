@@ -51,7 +51,7 @@ export function useCreatePost(submission: Submission) {
     CreatePostForm
   >({
     async mutationFn(variables) {
-      const body = new FormData()
+      const body = new URLSearchParams()
 
       body.append('sr', variables.community)
       body.append('title', variables.title)

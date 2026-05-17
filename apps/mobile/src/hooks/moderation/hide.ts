@@ -31,7 +31,7 @@ export function useHide() {
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       if (variables.type === 'post') {
-        const body = new FormData()
+        const body = new URLSearchParams()
 
         body.append('id', addPrefix(variables.id, 'link'))
 

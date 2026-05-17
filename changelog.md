@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- fixed: upvote/downvote
+
 ## Build 76
 
 - added: gesture to collapse comments
