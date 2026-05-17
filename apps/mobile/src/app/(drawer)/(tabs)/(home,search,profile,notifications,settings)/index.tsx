@@ -4,6 +4,7 @@ import {
   useNavigation,
 } from 'expo-router'
 import { useCallback } from 'react'
+import { PlatformColor } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -78,7 +79,7 @@ export default function Screen() {
         headerTitle: params.feed
           ? null
           : () => (
-              <GlassView style={styles.title}>
+              <GlassView style={styles.header}>
                 <Icon
                   name={FeedTypeIcons[params.type]}
                   uniProps={(theme) => ({
@@ -86,7 +87,9 @@ export default function Screen() {
                   })}
                 />
 
-                <Text weight="bold">{tType(params.type)}</Text>
+                <Text style={styles.title} weight="bold">
+                  {tType(params.type)}
+                </Text>
               </GlassView>
             ),
         title: params.feed ?? t('title'),
@@ -118,6 +121,16 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  header: {
+    alignItems: 'center',
+    borderCurve: 'continuous',
+    borderRadius: 44,
+    flexDirection: 'row',
+    gap: theme.space[2],
+    height: 44,
+    paddingLeft: theme.space[3],
+    paddingRight: theme.space[4],
+  },
   list: {
     variants: {
       iPad: {
@@ -131,13 +144,6 @@ const styles = StyleSheet.create((theme) => ({
     paddingHorizontal: glass ? theme.space[2] : 0,
   },
   title: {
-    alignItems: 'center',
-    borderCurve: 'continuous',
-    borderRadius: 44,
-    flexDirection: 'row',
-    gap: theme.space[2],
-    height: 44,
-    paddingLeft: theme.space[3],
-    paddingRight: theme.space[4],
+    color: PlatformColor('labelColor'),
   },
 }))
