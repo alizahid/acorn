@@ -1,7 +1,12 @@
 import { type SFSymbol } from 'expo-symbols'
 
+export type GalleryImage = {
+  url: string
+  thumbnail?: string
+}
+
 export type GalleryOpenProps = {
-  images: Array<string>
+  images: Array<GalleryImage>
   index?: number
   theme?: 'light' | 'dark'
   actions?: Array<{

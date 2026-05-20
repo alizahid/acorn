@@ -12,11 +12,10 @@ import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
-import { Gallery } from '@/gallery'
+import { Gallery, type GalleryImage } from '@/gallery'
 import placeholderDark from '~/assets/images/placeholder-dark.png'
 import placeholderLight from '~/assets/images/placeholder-light.png'
 import { usePreferences } from '~/stores/preferences'
-import { type PostMedia } from '~/types/post'
 
 export function useImagePlaceholder() {
   const { theme } = useUnistyles()
@@ -271,7 +270,7 @@ export function useImagePreview() {
   const { theme } = useUnistyles()
 
   const preview = useCallback(
-    (images: Array<Pick<PostMedia, 'url'>>, index?: number) => {
+    (images: Array<GalleryImage>, index?: number) => {
       Gallery.open({
         actions: [
           {
@@ -287,7 +286,7 @@ export function useImagePreview() {
             id: 'download',
           },
         ],
-        images: images.map((image) => image.url),
+        images,
         index,
         theme: theme.variant,
       })

@@ -4,17 +4,21 @@ import UIKit
 enum GalleryPresenter {
   static func open(
     theme: String,
-    images: [String],
+    images: [GalleryImage],
     index: Int,
     actions: [GalleryAction],
     onAction: @escaping (String, String) -> Void
   ) {
-    let assets: [PhotoAsset] = images.compactMap { path -> PhotoAsset? in
-      let url = URL(string: path)
+    let assets: [PhotoAsset] = images.compactMap { image -> PhotoAsset? in
+      guard let url = URL(string: image.url) else {
+        return nil
+      }
+
+      let thumbnailURL = image.thumbnail.flatMap(URL.init(string:)) ?? url
 
       return PhotoAsset(
         NetworkImageAsset(
-          thumbnailURL: url,
+          thumbnailURL: thumbnailURL,
           originalURL: url
         ))
     }

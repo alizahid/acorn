@@ -6,8 +6,13 @@ struct GalleryAction: Record {
   @Field var icon: String = ""
 }
 
+struct GalleryImage: Record {
+  @Field var url: String = ""
+  @Field var thumbnail: String? = nil
+}
+
 struct GalleryOpenProps: Record {
-  @Field var images: [String] = []
+  @Field var images: [GalleryImage] = []
   @Field var index: Int? = nil
   @Field var actions: [GalleryAction]? = nil
   @Field var theme: String = ""
