@@ -15,7 +15,7 @@ Pod::Spec.new do |s|
   s.dependency 'ExpoModulesCore'
 
   s.dependency 'HXPhotoPicker/Picker'
-  s.dependency 'HXPhotoPicker/SDWebImage'
+  s.dependency 'HXPhotoPicker/SDImageView'
 
   # Swift/Objective-C compatibility
   s.pod_target_xcconfig = {
