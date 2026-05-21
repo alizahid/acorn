@@ -69,8 +69,10 @@ export function FlairCard({
               )
             }
 
-            // ​zero width space; some community flairs are crazy
-            if (item.value === '​' || isEmpty(trim(item.value))) {
+            if (
+              item.value === '​' || // ​zero width space; some community flairs are crazy
+              isEmpty(trim(item.value))
+            ) {
               return null
             }
 

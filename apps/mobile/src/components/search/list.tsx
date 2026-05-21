@@ -108,7 +108,7 @@ export function SearchList({
         ) : history.history.length > 0 ? (
           <SearchHistory history={history} onChange={onChangeQuery} />
         ) : (
-          <Empty icon="magnifyingglass" message={t('empty')} />
+          <Empty icon="magnifyingglass" message={t(`empty.${type}`)} />
         )
       }
       ListHeaderComponent={header}

@@ -1,0 +1,23 @@
+{
+  "m": {
+    "f": "phosphor",
+    "u": 1024,
+    "z": 1020,
+    "s": 59648,
+    "h": "d1425553c2bc1cbb53bb18edbe66664dcc42c700868ae94d938b5ceec343a0b1"
+  },
+  "i": {
+    "compass-fill": [1024, [[59648, "black"]]],
+    "discord-logo-fill": [1024, [[59649, "#000"]]],
+    "dots-six-vertical-bold": [1024, [[59650, "black"]]],
+    "eye-closed-bold": [1024, [[59651, "#000"]]],
+    "eye-closed": [1024, [[59652, "#000"]]],
+    "github-logo-fill": [1024, [[59653, "#000"]]],
+    "text-b-bold": [1024, [[59654, "#000"]]],
+    "text-b": [1024, [[59655, "#000"]]],
+    "text-italic-bold": [1024, [[59656, "black"]]],
+    "text-italic": [1024, [[59657, "black"]]],
+    "text-strikethrough-bold": [1024, [[59658, "#000"]]],
+    "text-strikethrough": [1024, [[59659, "#000"]]]
+  }
+}

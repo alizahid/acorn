@@ -1,4 +1,3 @@
-import { type DrawerContentComponentProps } from '@react-navigation/drawer'
 import { useState } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -10,9 +9,11 @@ import { oledTheme } from '~/styles/oled'
 import { SearchBox } from '../common/search'
 import { CommunitiesList } from '../communities/list'
 
-type Props = DrawerContentComponentProps
+type Props = {
+  onClose: () => void
+}
 
-export function HomeDrawer({ navigation }: Props) {
+export function HomeDrawer({ onClose }: Props) {
   const { stickyDrawer, themeOled, themeTint } = usePreferences([
     'stickyDrawer',
     'themeOled',
@@ -35,7 +36,7 @@ export function HomeDrawer({ navigation }: Props) {
 
       <CommunitiesList
         onPress={() => {
-          navigation.closeDrawer()
+          onClose()
         }}
         query={query}
       />

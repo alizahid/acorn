@@ -1,5 +1,5 @@
-import { useHeaderHeight } from '@react-navigation/elements'
 import { useLocalSearchParams } from 'expo-router'
+import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useState } from 'react'
 import { View } from 'react-native'
 import { TabView } from 'react-native-tab-view'

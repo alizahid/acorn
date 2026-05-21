@@ -17,7 +17,7 @@ type Props = {
 
 export function Empty({
   color = 'accent',
-  icon = 'face.dashed.fill',
+  icon = 'moon.stars',
   message,
   style,
 }: Props) {
@@ -28,7 +28,7 @@ export function Empty({
       <Icon
         name={icon}
         uniProps={(theme) => ({
-          size: theme.space[9],
+          size: theme.space[8] * 2,
           tintColor: theme.colors[color].accent,
         })}
       />

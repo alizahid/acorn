@@ -1,0 +1,8 @@
+{
+  "iconSets": [
+    {
+      "inputDir": "./assets/icons/phosphor",
+      "outputDir": "./src/assets/icons/phosphor"
+    }
+  ]
+}

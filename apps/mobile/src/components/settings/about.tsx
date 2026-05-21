@@ -22,11 +22,10 @@ export function AboutCard() {
       href: 'https://acorn.blue',
       icon: (
         <PhosphorIcon
-          name="Compass"
+          name="compass-fill"
           uniProps={(theme) => ({
             color: theme.colors.accent.contrast,
           })}
-          weight="fill"
         />
       ),
       label: t('links.web'),
@@ -35,11 +34,10 @@ export function AboutCard() {
       href: 'https://discord.gg/sWzw5GU5RV',
       icon: (
         <PhosphorIcon
-          name="DiscordLogo"
+          name="discord-logo-fill"
           uniProps={(theme) => ({
             color: theme.colors.accent.contrast,
           })}
-          weight="fill"
         />
       ),
       label: t('links.discord'),
@@ -48,11 +46,10 @@ export function AboutCard() {
       href: 'https://github.com/alizahid/acorn',
       icon: (
         <PhosphorIcon
-          name="GithubLogo"
+          name="github-logo-fill"
           uniProps={(theme) => ({
             color: theme.colors.accent.contrast,
           })}
-          weight="fill"
         />
       ),
       label: t('links.github'),

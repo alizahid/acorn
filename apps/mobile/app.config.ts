@@ -1,5 +1,18 @@
 import { type ConfigContext, type ExpoConfig } from 'expo/config'
 import { withBuildProperties } from 'expo-build-properties'
+import expoFont from 'expo-font/plugin'
+import expoImagePicker from 'expo-image-picker/plugin'
+import expoLocalization from 'expo-localization/plugin'
+import expoMediaLibrary from 'expo-media-library/plugin'
+import expoRouter from 'expo-router/plugin'
+import expoScreenOrientation from 'expo-screen-orientation/plugin'
+import expoSecureStore from 'expo-secure-store/plugin'
+import expoSplashScreen from 'expo-splash-screen/plugin'
+import expoSqlite from 'expo-sqlite/plugin'
+import expoVideo from 'expo-video/plugin'
+import expoWebBrowser from 'expo-web-browser/plugin'
+
+import withDeploymentTarget from './plugins/with-deployment-target'
 
 export default function getConfig(context: ConfigContext): ExpoConfig {
   const name = 'Acorn'
@@ -7,62 +20,55 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
 
   const plugins: ExpoConfig['plugins'] = [
     '@bacons/apple-targets',
-    'expo-router',
-    'expo-localization',
-    'expo-secure-store',
-    'expo-sqlite',
-    'expo-web-browser',
     'expo-iap',
-    [
-      'expo-video',
-      {
-        supportsPictureInPicture: true,
+    expoRouter(),
+    expoLocalization(),
+    expoSecureStore(),
+    expoSqlite(),
+    expoWebBrowser(),
+    expoVideo({
+      supportsPictureInPicture: true,
+    }),
+    expoSplashScreen({
+      backgroundColor: '#fbfdfc',
+      dark: {
+        backgroundColor: '#101211',
       },
-    ],
+      image: './assets/icons/splash.png',
+      imageWidth: 200,
+    }),
+    expoFont({
+      fonts: [
+        './assets/fonts/apercu-italic.ttf',
+        './assets/fonts/apercu-upright.ttf',
+        './assets/fonts/basis-italic.ttf',
+        './assets/fonts/basis-upright.ttf',
+        './assets/fonts/fold-italic.ttf',
+        './assets/fonts/fold-upright.ttf',
+        './assets/fonts/mono-regular.otf',
+        './assets/fonts/mono-medium.otf',
+        './assets/fonts/mono-bold.otf',
+      ],
+    }),
+    expoMediaLibrary({
+      photosPermission: `Allow ${name} to access your photo library.`,
+      savePhotosPermission: `Allow ${name} to save photos to your library.`,
+    }),
+    expoImagePicker({
+      photosPermission: `Allow ${name} to access your photo library`,
+    }),
+    expoScreenOrientation({
+      initialOrientation: 'PORTRAIT_UP',
+    }),
     [
-      'expo-splash-screen',
+      'react-native-nano-icons',
       {
-        backgroundColor: '#fbfdfc',
-        dark: {
-          backgroundColor: '#101211',
-        },
-        image: './assets/icons/splash.png',
-        imageWidth: 200,
-      },
-    ],
-    [
-      'expo-font',
-      {
-        fonts: [
-          './assets/fonts/apercu-italic.ttf',
-          './assets/fonts/apercu-upright.ttf',
-          './assets/fonts/basis-italic.ttf',
-          './assets/fonts/basis-upright.ttf',
-          './assets/fonts/fold-italic.ttf',
-          './assets/fonts/fold-upright.ttf',
-          './assets/fonts/mono-regular.otf',
-          './assets/fonts/mono-medium.otf',
-          './assets/fonts/mono-bold.otf',
+        iconSets: [
+          {
+            inputDir: './assets/icons/phosphor',
+            outputDir: './src/assets/icons/phosphor',
+          },
         ],
-      },
-    ],
-    [
-      'expo-media-library',
-      {
-        photosPermission: `Allow ${name} to access your photo library.`,
-        savePhotosPermission: `Allow ${name} to save photos to your library.`,
-      },
-    ],
-    [
-      'expo-image-picker',
-      {
-        photosPermission: `Allow ${name} to access your photo library`,
-      },
-    ],
-    [
-      'expo-screen-orientation',
-      {
-        initialOrientation: 'PORTRAIT_UP',
       },
     ],
   ]
@@ -77,7 +83,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     ])
   }
 
-  const config: ExpoConfig = {
+  const config = {
     ...context.config,
     experiments: {
       reactCompiler: true,
@@ -99,6 +105,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
       config: {
         usesNonExemptEncryption: false,
       },
+      deploymentTarget: '16.4',
       entitlements: {
         'aps-environment': 'development',
         'com.apple.developer.icloud-container-identifiers': [
@@ -123,17 +130,24 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     },
     userInterfaceStyle: 'automatic',
     version: '1.0.0',
-  }
+  } satisfies ExpoConfig
 
-  return withBuildProperties(config, {
-    ios: {
-      extraPods: [
-        {
-          name: 'ffmpeg-kit-ios-full-gpl',
-          podspec: 'https://acorn.blue/ffmpeg-kit-ios-full-gpl.podspec',
-        },
-      ],
-      useFrameworks: 'static',
+  return withDeploymentTarget(
+    withBuildProperties(config, {
+      ios: {
+        buildReactNativeFromSource: true,
+        extraPods: [
+          {
+            name: 'ffmpeg-kit-ios-full-gpl',
+            podspec: 'https://acorn.blue/ffmpeg-kit-ios-full-gpl.podspec',
+          },
+        ],
+        useHermesV1: true,
+        usePrecompiledModules: true,
+      },
+    }),
+    {
+      deploymentTarget: config.ios.deploymentTarget,
     },
-  })
+  )
 }

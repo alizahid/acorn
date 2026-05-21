@@ -1,3 +1,4 @@
+import { type ComponentProps } from 'react'
 import { ActivityIndicator, type StyleProp, type ViewStyle } from 'react-native'
 import { withUnistyles } from 'react-native-unistyles'
 
@@ -10,18 +11,25 @@ type Props = {
   contrast?: boolean
   size?: 'small' | 'large' | number
   style?: StyleProp<ViewStyle>
-}
+} & Pick<ComponentProps<typeof Indicator>, 'uniProps'>
 
-export const Spinner = withUnistyles(
-  ({ color = 'accent', contrast, size = 'small', style }: Props) => (
+export function Spinner({
+  color = 'accent',
+  contrast,
+  size = 'small',
+  style,
+  uniProps,
+}: Props) {
+  return (
     <Indicator
       size={size}
       style={style}
-      uniProps={(theme) => ({
+      uniProps={(theme, runtime) => ({
         color: colors.includes(color as ColorToken)
           ? theme.colors[color as ColorToken][contrast ? 'contrast' : 'accent']
           : color,
+        ...uniProps?.(theme, runtime),
       })}
     />
-  ),
-)
+  )
+}

@@ -3,8 +3,7 @@ import { useMutation } from '@tanstack/react-query'
 import * as Clipboard from 'expo-clipboard'
 import { File, Paths } from 'expo-file-system'
 import { type ImageProps } from 'expo-image'
-// biome-ignore lint/performance/noNamespaceImport: go away
-import * as MediaLibrary from 'expo-media-library'
+import { Album, Asset, requestPermissionsAsync } from 'expo-media-library'
 import { compact } from 'lodash'
 import { useCallback, useRef } from 'react'
 import { Share } from 'react-native'
@@ -47,9 +46,7 @@ export function useDownloadImage() {
         duration: Number.POSITIVE_INFINITY,
       })
 
-      const { granted } = await MediaLibrary.requestPermissionsAsync(
-        !saveToAlbum,
-      )
+      const { granted } = await requestPermissionsAsync()
 
       if (!granted) {
         throw new Error('Permission not granted')
@@ -60,11 +57,9 @@ export function useDownloadImage() {
       if (saveToAlbum) {
         const album = await getAlbum()
 
-        const asset = await MediaLibrary.createAssetAsync(file.uri)
-
-        await MediaLibrary.addAssetsToAlbumAsync([asset], album)
+        await Asset.create(file.uri, album)
       } else {
-        await MediaLibrary.saveToLibraryAsync(file.uri)
+        await Asset.create(file.uri)
       }
 
       file.delete()
@@ -115,9 +110,7 @@ export function useDownloadImages() {
         duration: Number.POSITIVE_INFINITY,
       })
 
-      const { granted } = await MediaLibrary.requestPermissionsAsync(
-        !saveToAlbum,
-      )
+      const { granted } = await requestPermissionsAsync()
 
       if (!granted) {
         throw new Error('Permission not granted')
@@ -129,16 +122,14 @@ export function useDownloadImages() {
 
       if (saveToAlbum) {
         const assets = await Promise.all(
-          files.map((file) => MediaLibrary.createAssetAsync(file.uri)),
+          files.map((file) => Asset.create(file.uri)),
         )
 
         const album = await getAlbum()
 
-        await MediaLibrary.addAssetsToAlbumAsync(compact(assets), album)
+        await album.add(compact(assets))
       } else {
-        await Promise.all(
-          files.map((file) => MediaLibrary.saveToLibraryAsync(file.uri)),
-        )
+        await Promise.all(files.map((file) => Asset.create(file.uri)))
       }
 
       for (const file of files) {
@@ -302,11 +293,11 @@ export function useImagePreview() {
 export async function getAlbum() {
   const name = 'Acorn'
 
-  const exists = await MediaLibrary.getAlbumAsync(name)
+  const exists = await Album.get(name)
 
   if (exists) {
     return exists
   }
 
-  return MediaLibrary.createAlbumAsync(name)
+  return Album.create(name, [])
 }

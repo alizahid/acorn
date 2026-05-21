@@ -70,13 +70,12 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         style={styles.tool}
       >
         <PhosphorIcon
-          name="TextB"
+          name={state?.bold ? 'text-b-bold' : 'text-b'}
           uniProps={(theme) => ({
             color: state?.bold
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
-          weight={state?.bold ? 'bold' : 'regular'}
         />
       </Pressable>
 
@@ -88,13 +87,12 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         style={styles.tool}
       >
         <PhosphorIcon
-          name="TextItalic"
+          name={state?.italic ? 'text-italic-bold' : 'text-italic'}
           uniProps={(theme) => ({
             color: state?.italic
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
-          weight={state?.italic ? 'bold' : 'regular'}
         />
       </Pressable>
 
@@ -106,13 +104,16 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         style={styles.tool}
       >
         <PhosphorIcon
-          name="TextStrikethrough"
+          name={
+            state?.strikethrough
+              ? 'text-strikethrough-bold'
+              : 'text-strikethrough'
+          }
           uniProps={(theme) => ({
             color: state?.strikethrough
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
-          weight={state?.strikethrough ? 'bold' : 'regular'}
         />
       </Pressable>
 
@@ -124,13 +125,12 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         style={styles.tool}
       >
         <PhosphorIcon
-          name="EyeClosed"
+          name={state?.spoiler ? 'eye-closed-bold' : 'eye-closed'}
           uniProps={(theme) => ({
             color: state?.spoiler
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
-          weight={state?.spoiler ? 'bold' : 'regular'}
         />
       </Pressable>
     </View>

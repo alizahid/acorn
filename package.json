@@ -13,7 +13,7 @@
     "lint:types": "turbo lint:types",
     "nuke": "bun clean '**/node_modules' bun.lock",
     "prepare": "husky",
-    "tunnel": "ngrok http --url=e9edd5b7510d.ngrok-free.app 3000"
+    "tunnel": "ngrok http --url=acorn-blue.ngrok.app 3000"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,json,jsonc,css,scss,md,mdx}": [
@@ -30,7 +30,7 @@
   },
   "packageManager": "bun@1.3.14",
   "patchedDependencies": {
-    "expo-video@55.0.17": "patches/expo-video@55.0.17.patch",
+    "expo-video@56.1.2": "patches/expo-video@56.1.2.patch",
     "ffmpeg-kit-react-native@6.0.2": "patches/ffmpeg-kit-react-native@6.0.2.patch"
   }
 }

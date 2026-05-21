@@ -20,7 +20,6 @@ export default function Screen() {
   const router = useRouter()
 
   const t = useTranslations('screen.profile')
-  // const a11y = useTranslations('a11y')
 
   const { accountId } = useAuth(['accountId'])
   const { profile, refetch } = useProfile(accountId)

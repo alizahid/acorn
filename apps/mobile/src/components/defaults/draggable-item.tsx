@@ -1,3 +1,4 @@
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { useReorderableDrag } from 'react-native-reorderable-list'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -11,10 +12,17 @@ type Props = {
   disabled?: boolean
   label: string
   onChange?: (value: boolean) => void
+  style?: StyleProp<ViewStyle>
   value?: boolean
 }
 
-export function DraggableItem({ disabled, label, onChange, value }: Props) {
+export function DraggableItem({
+  disabled,
+  label,
+  onChange,
+  style,
+  value,
+}: Props) {
   const a11y = useTranslations('a11y')
 
   const drag = useReorderableDrag()
@@ -24,16 +32,15 @@ export function DraggableItem({ disabled, label, onChange, value }: Props) {
       accessibilityHint={a11y('drag')}
       accessibilityLabel={label}
       onLongPress={drag}
-      style={styles.main}
+      style={style}
       variant="plain"
     >
       <PhosphorIcon
-        name="DotsSixVertical"
+        name="dots-six-vertical-bold"
         uniProps={(theme) => ({
           color: theme.colors.gray.accent,
           size: theme.space[4],
         })}
-        weight="bold"
       />
 
       <Text style={styles.label} weight="medium">
@@ -54,15 +61,8 @@ export function DraggableItem({ disabled, label, onChange, value }: Props) {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create({
   label: {
     flex: 1,
   },
-  main: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[3],
-    height: theme.space[8],
-    paddingHorizontal: theme.space[3],
-  },
-}))
+})

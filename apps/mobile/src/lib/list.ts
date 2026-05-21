@@ -6,7 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 const { height } = Dimensions.get('window')
 
 export const listProps = {
-  contentInsetAdjustmentBehavior: 'always',
+  contentInsetAdjustmentBehavior: 'automatic',
   drawDistance: height * 2,
   keyboardDismissMode: 'on-drag',
   keyboardShouldPersistTaps: 'handled',

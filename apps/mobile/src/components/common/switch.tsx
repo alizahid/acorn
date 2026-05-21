@@ -1,5 +1,5 @@
 import { Host, Toggle } from '@expo/ui/swift-ui'
-import { tint } from '@expo/ui/swift-ui/modifiers'
+import { labelsHidden, tint } from '@expo/ui/swift-ui/modifiers'
 import { useUnistyles } from 'react-native-unistyles'
 
 type Props = {
@@ -17,7 +17,7 @@ export function Switch({ label, onChange, value }: Props) {
       <Toggle
         isOn={value}
         label={label}
-        modifiers={[tint(theme.colors.accent.accent)]}
+        modifiers={[tint(theme.colors.accent.accent), labelsHidden()]}
         onIsOnChange={onChange}
       />
     </Host>

@@ -295,7 +295,11 @@
         "title": "Recent"
       },
       "list": {
-        "empty": "Search for something",
+        "empty": {
+          "community": "Search for communities",
+          "post": "Search for posts",
+          "user": "Search for users"
+        },
         "notFound": "Nothing here"
       }
     },
@@ -616,10 +620,10 @@
           "short": "Short swipe"
         },
         "options": {
+          "collapse": "Collapse",
           "downvote": "Downvote",
           "hide": "Hide",
           "reply": "Reply",
-          "collapse": "Collapse",
           "save": "Save",
           "share": "Share",
           "upvote": "Upvote"

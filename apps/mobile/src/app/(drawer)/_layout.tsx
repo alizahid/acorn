@@ -42,7 +42,9 @@ export default function Layout() {
 
   return (
     <Drawer
-      drawerContent={HomeDrawer}
+      drawerContent={({ navigation }) => (
+        <HomeDrawer onClose={navigation.closeDrawer} />
+      )}
       screenOptions={{
         drawerStyle,
         drawerType: iPad ? (stickyDrawer ? 'permanent' : 'slide') : 'front',

@@ -11,7 +11,6 @@ import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { ListItem } from '~/components/common/list/item'
-import { Menu } from '~/components/common/menu'
 import { Switch } from '~/components/common/switch'
 import { Text } from '~/components/common/text'
 import { DraggableItem } from '~/components/defaults/draggable-item'
@@ -30,8 +29,10 @@ export default function Screen() {
 
   return (
     <ScrollViewContainer contentContainerStyle={styles.content}>
-      <View style={styles.item}>
-        <Menu.Label mt="2">{t('feedType.title')}</Menu.Label>
+      <View>
+        <Text mb="2" size="2" weight="medium">
+          {t('feedType.title')}
+        </Text>
 
         <FlatList
           data={FeedType}
@@ -58,15 +59,17 @@ export default function Screen() {
                   value={item === feedType}
                 />
               }
+              style={styles.item}
             />
           )}
           scrollEnabled={false}
-          style={styles.list}
         />
       </View>
 
-      <View style={styles.item}>
-        <Menu.Label mt="2">{t('searchTabs.title')}</Menu.Label>
+      <View style={styles.section}>
+        <Text mb="2" size="2" weight="medium">
+          {t('searchTabs.title')}
+        </Text>
 
         <NestedReorderableList
           data={searchTabs}
@@ -99,20 +102,22 @@ export default function Screen() {
                   searchTabs: next,
                 })
               }}
+              style={styles.item}
               value={!item.disabled}
             />
           )}
           scrollEnabled={false}
-          style={styles.list}
         />
 
-        <Text align="center" highContrast={false} m="2" size="2">
+        <Text highContrast={false} mt="2" size="1">
           {t('searchTabs.hint')}
         </Text>
       </View>
 
-      <View style={styles.item}>
-        <Menu.Label mt="2">{t('drawerSections.title')}</Menu.Label>
+      <View style={styles.section}>
+        <Text mb="2" size="2" weight="medium">
+          {t('drawerSections.title')}
+        </Text>
 
         <NestedReorderableList
           data={drawerSections}
@@ -138,11 +143,11 @@ export default function Screen() {
                   drawerSections: next,
                 })
               }}
+              style={styles.item}
               value={!item.disabled}
             />
           )}
           scrollEnabled={false}
-          style={styles.list}
         />
       </View>
     </ScrollViewContainer>
@@ -154,14 +159,14 @@ const styles = StyleSheet.create((theme) => ({
     padding: theme.space[4],
   },
   item: {
-    backgroundColor: theme.colors.gray.bgAltAlpha,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
-    marginTop: theme.space[4],
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[3],
+    height: theme.space[8],
+    paddingLeft: 0,
+    paddingRight: theme.space[1],
   },
-  list: {
-    backgroundColor: theme.colors.gray.bgAltAlpha,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
+  section: {
+    marginTop: theme.space[6],
   },
 }))

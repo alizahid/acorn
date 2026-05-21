@@ -3,8 +3,7 @@
 import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
 import { File, Paths } from 'expo-file-system'
-// biome-ignore lint/performance/noNamespaceImport: go away
-import * as MediaLibrary from 'expo-media-library'
+import { Asset, requestPermissionsAsync } from 'expo-media-library'
 import { FFmpegKit } from 'ffmpeg-kit-react-native'
 import { useRef } from 'react'
 import { toast } from 'sonner-native'
@@ -35,9 +34,7 @@ export function useDownloadVideo() {
         duration: Number.POSITIVE_INFINITY,
       })
 
-      const { granted } = await MediaLibrary.requestPermissionsAsync(
-        !saveToAlbum,
-      )
+      const { granted } = await requestPermissionsAsync()
 
       if (!granted) {
         throw new Error('Permission not granted')
@@ -52,11 +49,9 @@ export function useDownloadVideo() {
       if (saveToAlbum) {
         const album = await getAlbum()
 
-        const asset = await MediaLibrary.createAssetAsync(file.uri)
-
-        await MediaLibrary.addAssetsToAlbumAsync([asset], album)
+        await Asset.create(file.uri, album)
       } else {
-        await MediaLibrary.saveToLibraryAsync(file.uri)
+        await Asset.create(file.uri)
       }
 
       file.delete()

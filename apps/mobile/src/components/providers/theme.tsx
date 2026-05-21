@@ -1,4 +1,4 @@
-import { ThemeProvider as Provider } from '@react-navigation/native'
+import { ThemeProvider as Provider } from 'expo-router/react-navigation'
 import { type ReactNode } from 'react'
 import { withUnistyles } from 'react-native-unistyles'
 

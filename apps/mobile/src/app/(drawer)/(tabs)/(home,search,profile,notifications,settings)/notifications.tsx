@@ -1,4 +1,5 @@
 import { useFocusEffect, useNavigation } from 'expo-router'
+import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { TabView } from 'react-native-tab-view'
@@ -20,6 +21,7 @@ const routes = InboxTab.map((key) => ({
 
 export default function Screen() {
   const navigation = useNavigation()
+  const headerHeight = useHeaderHeight()
 
   const t = useTranslations('screen.notifications')
   const a11y = useTranslations('a11y')
@@ -63,7 +65,7 @@ export default function Screen() {
         return <MessagesList />
       }}
       renderTabBar={({ jumpTo, navigationState }) => (
-        <View style={styles.tabBar}>
+        <View style={styles.tabBar(headerHeight)}>
           <SegmentedControl
             items={routes.map(({ key }) => ({
               key,
@@ -81,7 +83,8 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  tabBar: {
+  tabBar: (marginTop: number) => ({
+    marginTop,
     padding: theme.space[4],
-  },
+  }),
 }))

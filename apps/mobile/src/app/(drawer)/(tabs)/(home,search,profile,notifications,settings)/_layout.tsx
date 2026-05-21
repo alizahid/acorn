@@ -60,6 +60,7 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="search"
           options={{
+            headerStyle: styles.transparent,
             headerTransparent: false,
             title: t('search.title'),
           }}
@@ -111,7 +112,6 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="notifications"
           options={{
-            headerTransparent: false,
             title: t('notifications.title'),
           }}
         />
@@ -276,6 +276,7 @@ function StackLayout({ children }: PropsWithChildren) {
         })}
         name="posts/[id]/index"
         options={{
+          headerStyle: styles.transparent,
           headerTransparent: false,
           title: t('posts.post.title'),
         }}
@@ -284,6 +285,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="posts/[id]/reply"
         options={{
+          headerStyle: styles.transparent,
           headerTransparent: false,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
@@ -438,5 +440,8 @@ const styles = StyleSheet.create((theme) => ({
         true: {},
       },
     },
+  },
+  transparent: {
+    backgroundColor: 'transparent',
   },
 }))

@@ -1,6 +1,6 @@
-import { Host, Slider } from '@expo/ui/swift-ui'
+import Slider from '@expo/ui/community/slider'
 import { ScrollView } from 'react-native-gesture-handler'
-import { useUnistyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -12,10 +12,6 @@ import { type TypographyToken, typography } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.appearance')
-
-  const {
-    theme: { variant },
-  } = useUnistyles()
 
   const {
     colorfulComments,
@@ -177,26 +173,18 @@ export default function Screen() {
         />
 
         {systemScaling ? null : (
-          <Host
-            colorScheme={variant}
-            style={{
-              height: 48,
-              justifyContent: 'center',
-              marginHorizontal: 12,
+          <Slider
+            maximumValue={1.2}
+            minimumValue={0.8}
+            onValueChange={(next) => {
+              update({
+                fontScaling: next,
+              })
             }}
-          >
-            <Slider
-              max={1.2}
-              min={0.8}
-              onValueChange={(next) => {
-                update({
-                  fontScaling: next,
-                })
-              }}
-              step={0.1}
-              value={fontScaling}
-            />
-          </Host>
+            step={0.1}
+            style={styles.slider}
+            value={fontScaling}
+          />
         )}
 
         {(
@@ -236,3 +224,11 @@ export default function Screen() {
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  slider: {
+    height: theme.space[8],
+    justifyContent: 'center',
+    marginHorizontal: theme.space[3],
+  },
+}))

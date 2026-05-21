@@ -112,13 +112,12 @@ const styles = StyleSheet.create((theme, runtime) => ({
     },
   },
   video: (aspectRatio: number) => ({
+    aspectRatio,
     variants: {
       compact: {
-        default: {
-          aspectRatio,
-        },
         true: {
           ...StyleSheet.absoluteFillObject,
+          aspectRatio: 1,
           backgroundColor: theme.colors.black.accentAlpha,
         },
       },
