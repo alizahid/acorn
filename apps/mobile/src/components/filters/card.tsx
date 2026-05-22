@@ -1,4 +1,5 @@
-import MenuView from '@expo/ui/community/menu'
+import Menu from '@expo/ui/community/menu'
+import { type SFSymbol } from 'expo-symbols'
 import { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
@@ -30,23 +31,23 @@ export function FilterCard({ index, onRemove }: Props) {
         control={control}
         name={`filters.${index}.type`}
         render={({ field }) => (
-          <MenuView
+          <Menu
             actions={[
               {
                 id: 'keyword',
-                image: 'tag',
+                image: icons.keyword,
                 state: field.value === 'keyword' ? 'on' : 'off',
                 title: t('type.keyword.label'),
               },
               {
                 id: 'community',
-                image: 'person.2',
+                image: icons.community,
                 state: field.value === 'community' ? 'on' : 'off',
                 title: t('type.community.label'),
               },
               {
                 id: 'user',
-                image: 'person',
+                image: icons.user,
                 state: field.value === 'user' ? 'on' : 'off',
                 title: t('type.user.label'),
               },
@@ -60,17 +61,11 @@ export function FilterCard({ index, onRemove }: Props) {
             }}
           >
             <IconButton
-              icon={
-                field.value === 'community'
-                  ? 'person.2'
-                  : field.value === 'user'
-                    ? 'person'
-                    : 'tag'
-              }
+              icon={icons[field.value]}
               label={a11y('aboutCommunity')}
               size="7"
             />
-          </MenuView>
+          </Menu>
         )}
       />
 
@@ -118,3 +113,10 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
   },
 }))
+
+const icons = {
+  community: 'person.2',
+  keyword: 'tag',
+  post: 'text.bubble',
+  user: 'person',
+} as const satisfies Record<string, SFSymbol>
