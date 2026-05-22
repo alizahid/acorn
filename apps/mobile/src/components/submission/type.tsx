@@ -1,15 +1,14 @@
-import { Button, Host, Menu } from '@expo/ui/swift-ui'
-import { labelStyle, tint } from '@expo/ui/swift-ui/modifiers'
+import Menu from '@expo/ui/community/menu'
+import { type SFSymbol } from 'expo-symbols'
 import { compact } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
-import { View } from 'react-native'
-import { StyleSheet, useUnistyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { type Submission } from '~/types/submission'
 
-import { Icon } from '../common/icon'
+import { IconButton } from '../common/icon/button'
 
 type Props = {
   submission: Submission
@@ -17,8 +16,6 @@ type Props = {
 
 export function SubmissionType({ submission }: Props) {
   const t = useTranslations('component.submission.type')
-
-  const { theme } = useUnistyles()
 
   const types = compact([
     submission.media.text && 'text',
@@ -33,62 +30,31 @@ export function SubmissionType({ submission }: Props) {
       control={control}
       name="type"
       render={({ field }) => (
-        <Host colorScheme={theme.variant} matchContents>
-          <Menu
-            label={
-              <View style={styles.main}>
-                <Icon
-                  name={
-                    field.value === 'image'
-                      ? 'photo'
-                      : field.value === 'link'
-                        ? 'link'
-                        : 'textformat.abc'
-                  }
-                  tintColor={theme.colors.gray.text}
-                />
+        <Menu
+          actions={types.map((type) => ({
+            id: type,
+            image: icons[type],
+            state: type === field.value ? 'on' : 'off',
+            title: t(type),
+          }))}
+          onPressAction={(event) => {
+            const next = event.nativeEvent.event
 
-                <Icon
-                  name="chevron.down"
-                  size={theme.space[3]}
-                  tintColor={theme.colors.gray.textLow}
-                />
-              </View>
+            if (next !== field.value) {
+              setValue('url', '')
             }
-            modifiers={[labelStyle('iconOnly')]}
-            systemImage={
-              field.value === 'image'
-                ? 'photo'
-                : field.value === 'link'
-                  ? 'link'
-                  : 'textformat.abc'
-            }
-          >
-            {types.map((item) => (
-              <Button
-                key={item}
-                label={t(item)}
-                modifiers={compact([
-                  item === field.value && tint(theme.colors.accent.accent),
-                ])}
-                onPress={() => {
-                  if (item !== field.value) {
-                    setValue('url', '')
-                  }
 
-                  field.onChange(item)
-                }}
-                systemImage={
-                  item === 'image'
-                    ? 'photo'
-                    : item === 'link'
-                      ? 'link'
-                      : 'textformat.abc'
-                }
-              />
-            ))}
-          </Menu>
-        </Host>
+            field.onChange(next)
+          }}
+        >
+          <IconButton
+            contrast
+            icon={icons[field.value]}
+            label={t(field.value)}
+            size="7"
+            style={styles.main}
+          />
+        </Menu>
       )}
     />
   )
@@ -96,14 +62,15 @@ export function SubmissionType({ submission }: Props) {
 
 const styles = StyleSheet.create((theme) => ({
   main: {
-    alignItems: 'center',
     backgroundColor: theme.colors.accent.ui,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    flexDirection: 'row',
-    gap: theme.space[1],
-    height: theme.space[6],
-    justifyContent: 'center',
-    paddingHorizontal: theme.space[2],
   },
 }))
+
+const icons = {
+  image: 'photo',
+  link: 'link',
+  text: 'textformat.abc',
+  video: 'video',
+} as const satisfies Record<string, SFSymbol>
