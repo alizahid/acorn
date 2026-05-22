@@ -2,6 +2,7 @@ import { Image } from 'expo-image'
 import { useRef } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -85,30 +86,30 @@ export function SubmissionFlair({ submission }: Props) {
               )}
             </Pressable>
 
-            <Sheet.Root ref={sheet}>
+            <Sheet.Root ref={sheet} scrollable>
               <Sheet.Header title={t('title')} />
 
-              {submission.flair.map((item) => (
-                <Pressable
-                  accessibilityHint={a11y('selectFlair')}
-                  accessibilityLabel={
-                    item.type === 'text'
-                      ? item.text
-                      : item.flair.map((flair) => flair.value).join(' ')
-                  }
-                  key={item.id}
-                  onPress={() => {
-                    setValue('flairId', item.id)
+              <ScrollView contentContainerStyle={styles.content}>
+                {submission.flair.map((item) => (
+                  <Pressable
+                    accessibilityHint={a11y('selectFlair')}
+                    accessibilityLabel={
+                      item.type === 'text'
+                        ? item.text
+                        : item.flair.map((flair) => flair.value).join(' ')
+                    }
+                    key={item.id}
+                    onPress={() => {
+                      setValue('flairId', item.id)
 
-                    sheet.current?.dismiss()
-                  }}
-                  style={styles.flair(item.id === field.value)}
-                >
-                  <FlairCard flair={item} />
-                </Pressable>
-              ))}
-
-              <Sheet.BottomInset />
+                      sheet.current?.dismiss()
+                    }}
+                    style={styles.flair(item.id === field.value)}
+                  >
+                    <FlairCard flair={item} />
+                  </Pressable>
+                ))}
+              </ScrollView>
             </Sheet.Root>
           </>
         )
@@ -164,7 +165,10 @@ function FlairCard({ flair }: FlairProps) {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
+  content: {
+    paddingBottom: theme.space[4] + runtime.insets.bottom,
+  },
   emoji: {
     height: theme.typography[1].lineHeight,
     width: theme.typography[1].lineHeight,

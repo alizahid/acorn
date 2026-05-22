@@ -7,18 +7,20 @@ import { glass } from '~/lib/common'
 
 type Props = {
   children: ReactNode
-  dismissible?: boolean
   detents?: Array<SheetDetent>
+  dismissible?: boolean
   onClose?: () => void
   ref?: Ref<TrueSheet>
+  scrollable?: boolean
 }
 
 export function Root({
   children,
+  detents = ['auto'],
   dismissible,
   onClose,
-  detents = ['auto'],
   ref,
+  scrollable,
 }: Props) {
   const { theme } = useUnistyles()
 
@@ -37,6 +39,7 @@ export function Root({
       maxContentWidth={600}
       onWillDismiss={onClose}
       ref={ref}
+      scrollable={scrollable}
     >
       <GestureHandlerRootView style={styles.content}>
         {children}
