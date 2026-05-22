@@ -92,8 +92,8 @@ export function Submission({ submission }: Props) {
           control={form.control}
           name="type"
           render={({ field }) =>
-            field.value === 'image' ? (
-              <SubmissionImage />
+            field.value === 'image' || field.value === 'video' ? (
+              <SubmissionImage type={field.value} />
             ) : field.value === 'link' ? (
               <SubmissionLink />
             ) : (
@@ -123,6 +123,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     paddingTop: theme.space[4],
   },
   header: {
+    alignItems: 'flex-start',
     flexDirection: 'row',
     gap: theme.space[4],
     justifyContent: 'space-between',

@@ -23,7 +23,7 @@ export function useCreatePost(submission: Submission) {
   const types = compact([
     submission.media.text && 'text',
     submission.media.image && 'image',
-    // submission.media.video && 'video',
+    submission.media.video && 'video',
     submission.media.link && 'link',
   ] as const)
 
@@ -147,6 +147,14 @@ function generateSchema() {
     z
       .object({
         type: z.literal('image'),
+        url: z.url({
+          hostname: imageHostRegex,
+        }),
+      })
+      .extend(base.shape),
+    z
+      .object({
+        type: z.literal('video'),
         url: z.url({
           hostname: imageHostRegex,
         }),

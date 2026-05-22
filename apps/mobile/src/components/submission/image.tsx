@@ -1,16 +1,17 @@
 import { useMutation } from '@tanstack/react-query'
-import { Image } from 'expo-image'
+import { Image, type ImageSource } from 'expo-image'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as ImagePicker from 'expo-image-picker'
-import { useCallback, useState } from 'react'
+import { type VideoThumbnail } from 'expo-video'
+import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
+import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
-import { uploadFile } from '~/reddit/media'
-import { type Undefined } from '~/types'
+import { generateVideoThumbnail, uploadFile } from '~/reddit/media'
 
 import { Focusable } from '../common/focusable'
 import { Icon } from '../common/icon'
@@ -19,39 +20,63 @@ import { Pressable } from '../common/pressable'
 import { Spinner } from '../common/spinner'
 import { Text } from '../common/text'
 
-export function SubmissionImage() {
+type Props = {
+  type?: 'image' | 'video'
+}
+
+export function SubmissionImage({ type = 'image' }: Props) {
   const t = useTranslations('component.submission.image')
   const a11y = useTranslations('a11y')
 
   const { control, setValue } = useFormContext<CreatePostForm>()
 
-  const [image, setImage] = useState<ImagePicker.ImagePickerAsset>()
+  const [asset, setAsset] = useState<ImagePicker.ImagePickerAsset>()
+  const [preview, setPreview] = useState<VideoThumbnail | ImageSource>()
 
-  const { isPending, mutate } = useMutation<
-    Undefined<string>,
-    Error,
-    ImagePicker.ImagePickerAsset
-  >({
-    mutationFn(variables) {
-      return uploadFile(variables)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: reset
+  useEffect(() => {
+    setAsset(undefined)
+    setPreview(undefined)
+  }, [type])
+
+  const { isPending, mutate } = useMutation({
+    async mutationFn() {
+      const { assets } = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: type === 'video' ? 'videos' : 'images',
+      })
+
+      const asset = assets?.[0]
+
+      if (!asset) {
+        return
+      }
+
+      console.log('asset', asset)
+
+      if (asset.type === 'video') {
+        const thumbnail = await generateVideoThumbnail(asset.uri)
+
+        setPreview(thumbnail)
+      } else {
+        setPreview({
+          uri: asset.uri,
+        })
+      }
+
+      setAsset(asset)
+
+      return uploadFile(asset)
+    },
+    onError(error) {
+      console.log('error', error)
+      toast.error(error.message)
     },
     onSuccess(data) {
-      if (data) {
-        setValue('url', data)
+      if (data?.url) {
+        setValue('url', data.url)
       }
     },
   })
-
-  const onPress = useCallback(async () => {
-    const result = await ImagePicker.launchImageLibraryAsync()
-
-    if (!result.assets?.[0]) {
-      return
-    }
-
-    setImage(result.assets[0])
-    mutate(result.assets[0])
-  }, [mutate])
 
   return (
     <Controller
@@ -61,22 +86,26 @@ export function SubmissionImage() {
         <Pressable
           accessibilityLabel={a11y('chooseImage')}
           disabled={isPending}
-          onPress={onPress}
+          onPress={() => {
+            mutate()
+          }}
           style={styles.main}
         >
-          <Focusable onFocus={onPress} ref={field.ref} />
+          <Focusable onFocus={mutate} ref={field.ref} />
 
-          {image ? (
+          {asset ? (
             <>
               <Image
                 accessibilityIgnoresInvertColors
-                source={image.uri}
+                source={preview}
                 style={styles.image}
               />
 
               {isPending ? (
                 <View style={styles.loading}>
-                  <Spinner size="large" />
+                  <View style={styles.spinner}>
+                    <Spinner size="large" />
+                  </View>
                 </View>
               ) : null}
 
@@ -85,7 +114,7 @@ export function SubmissionImage() {
                 icon="trash"
                 label={a11y('removeImage')}
                 onPress={() => {
-                  setImage(undefined)
+                  setAsset(undefined)
                 }}
                 style={styles.delete}
               />
@@ -93,13 +122,21 @@ export function SubmissionImage() {
           ) : (
             <View style={styles.placeholder}>
               <Icon
-                name="photo"
+                name={type === 'video' ? 'video' : 'photo'}
                 uniProps={(theme) => ({
                   size: theme.space[9],
                 })}
               />
 
-              <Text weight="medium">{t('placeholder')}</Text>
+              <Text weight="medium">{t(`placeholder.${type}`)}</Text>
+
+              {isPending ? (
+                <View style={styles.loading}>
+                  <View style={styles.spinner}>
+                    <Spinner size="large" />
+                  </View>
+                </View>
+              ) : null}
             </View>
           )}
         </Pressable>
@@ -123,7 +160,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     width: runtime.screen.width / 3,
   },
   loading: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -135,5 +172,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
     flex: 1,
     gap: theme.space[4],
     justifyContent: 'center',
+  },
+  spinner: {
+    backgroundColor: theme.colors.gray.ui,
+    borderRadius: theme.space[9],
+    padding: theme.space[4],
   },
 }))

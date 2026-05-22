@@ -325,7 +325,10 @@
         },
         "max": "Max {max, number}",
         "min": "Min {min, number}",
-        "placeholder": "Select images to upload"
+        "placeholder": {
+          "image": "Select image",
+          "video": "Select video"
+        }
       },
       "link": {
         "error": {
@@ -365,7 +368,8 @@
         "image": "Image",
         "link": "Link",
         "text": "Text",
-        "title": "Post type"
+        "title": "Post type",
+        "video": "Video"
       }
     },
     "users": {

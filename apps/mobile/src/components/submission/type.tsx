@@ -20,6 +20,7 @@ export function SubmissionType({ submission }: Props) {
   const types = compact([
     submission.media.text && 'text',
     submission.media.image && 'image',
+    submission.media.video && 'video',
     submission.media.link && 'link',
   ] as const)
 

@@ -4,7 +4,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-// import { FloatingButton } from '~/components/common/floating-button'
+import { FloatingButton } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -20,6 +20,7 @@ export default function Screen() {
   const router = useRouter()
 
   const t = useTranslations('screen.profile')
+  const a11y = useTranslations('a11y')
 
   const { accountId } = useAuth(['accountId'])
   const { profile, refetch } = useProfile(accountId)
@@ -64,7 +65,7 @@ export default function Screen() {
         </Menu.Root>
       </ScrollView>
 
-      {/* {profile ? (
+      {profile ? (
         <FloatingButton
           icon="plus"
           label={a11y('createPost')}
@@ -77,7 +78,7 @@ export default function Screen() {
             })
           }}
         />
-      ) : null} */}
+      ) : null}
     </>
   )
 }

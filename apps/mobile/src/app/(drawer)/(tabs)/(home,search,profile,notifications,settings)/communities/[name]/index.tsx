@@ -1,9 +1,11 @@
 import { useLocalSearchParams, useRouter } from 'expo-router'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 // import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { FloatingButton } from '~/components/common/floating-button'
 // import { FloatingButton } from '~/components/common/floating-button'
 import { SearchBox } from '~/components/common/search'
 import { PostList } from '~/components/posts/list'
@@ -23,7 +25,7 @@ export default function Screen() {
   const router = useRouter()
   const params = schema.parse(useLocalSearchParams())
 
-  // const a11y = useTranslations('a11y')
+  const a11y = useTranslations('a11y')
 
   const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
 
@@ -76,7 +78,7 @@ export default function Screen() {
         style={styles.list}
       />
 
-      {/* <FloatingButton
+      <FloatingButton
         icon="plus"
         label={a11y('createPost')}
         onPress={() => {
@@ -87,7 +89,7 @@ export default function Screen() {
             pathname: '/posts/new',
           })
         }}
-      /> */}
+      />
     </>
   )
 }

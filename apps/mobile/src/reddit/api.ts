@@ -73,7 +73,7 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
   return (await response.json()) as Response
 }
 
-function getAuth() {
+export function getAuth() {
   const { accountId, accounts } = authStore.getState()
 
   if (!accountId) {
