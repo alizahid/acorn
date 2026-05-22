@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: post creation (text, link, image, video)
 - fixed: upvote/downvote
 
 ## Build 76
