@@ -172,7 +172,7 @@ export function VideoPlayer({
 
 const styles = StyleSheet.create((theme, runtime) => ({
   compact: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     alignItems: 'center',
     backgroundColor: theme.colors.black.accentAlpha,
     justifyContent: 'center',

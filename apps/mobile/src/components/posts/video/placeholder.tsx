@@ -116,7 +116,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     variants: {
       compact: {
         true: {
-          ...StyleSheet.absoluteFillObject,
+          ...StyleSheet.absoluteFill,
           aspectRatio: 1,
           backgroundColor: theme.colors.black.accentAlpha,
         },

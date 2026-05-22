@@ -139,7 +139,7 @@ const styles = StyleSheet.create((theme) => ({
     padding: theme.space[3],
   },
   icon: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     alignItems: 'center',
     backgroundColor: theme.colors.black.accentAlpha,
     justifyContent: 'center',

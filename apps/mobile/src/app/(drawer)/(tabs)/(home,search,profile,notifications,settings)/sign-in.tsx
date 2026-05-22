@@ -126,7 +126,7 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.accent.accent,
   },
   webView: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
   },
 }))
 

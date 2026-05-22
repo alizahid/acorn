@@ -143,7 +143,7 @@ export function ImageGrid({
 
 const styles = StyleSheet.create((theme) => ({
   blur: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     alignItems: 'center',
     gap: theme.space[4],
     justifyContent: 'center',
@@ -168,7 +168,7 @@ const styles = StyleSheet.create((theme) => ({
     position: 'absolute',
   },
   more: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: theme.colors.black.accentAlpha,
   },
   one: (aspectRatio: number) => ({

@@ -124,7 +124,7 @@ export function PostLinkCard({
 
 const styles = StyleSheet.create((theme) => ({
   icon: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     alignItems: 'center',
     backgroundColor: theme.colors.black.accentAlpha,
     justifyContent: 'center',
