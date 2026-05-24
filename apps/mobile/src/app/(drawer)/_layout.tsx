@@ -47,7 +47,7 @@ export default function Layout() {
       )}
       screenOptions={{
         drawerStyle,
-        drawerType: iPad ? (stickyDrawer ? 'permanent' : 'slide') : 'front',
+        drawerType: iPad ? (stickyDrawer ? 'permanent' : 'slide') : 'slide',
         headerShown: false,
         overlayColor,
         swipeEdgeWidth: fullscreenDrawer ? frame.width : undefined,
