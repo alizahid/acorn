@@ -27,9 +27,11 @@ export function Root({
   return (
     <TrueSheet
       backgroundBlur={
-        theme.variant === 'dark'
-          ? 'system-chrome-material-dark'
-          : 'system-chrome-material-light'
+        glass
+          ? undefined
+          : theme.variant === 'dark'
+            ? 'system-chrome-material-dark'
+            : 'system-chrome-material-light'
       }
       cornerRadius={glass ? undefined : styles.main.borderRadius}
       detents={detents}
@@ -51,6 +53,7 @@ export function Root({
 const styles = StyleSheet.create((theme) => ({
   content: {
     flexGrow: 1,
+    paddingHorizontal: glass ? StyleSheet.hairlineWidth : undefined,
   },
   main: {
     borderRadius: theme.radius[6],
