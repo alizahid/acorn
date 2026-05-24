@@ -9,6 +9,7 @@ const Nano = createNanoIconSet(glyphMap)
 export type IconName = ComponentProps<typeof Nano>['name']
 
 export const PhosphorIcon = withUnistyles(Nano, (theme) => ({
+  allowFontScaling: false,
   color: theme.colors.accent.accent,
   size: theme.space[5],
 }))
