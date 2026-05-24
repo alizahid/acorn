@@ -4,6 +4,7 @@ import { FlatList } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { glass } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 
@@ -51,19 +52,16 @@ export function AccountSwitcher() {
                 pathname: '/sign-in',
               })
             }}
+            size={glass ? '9' : '8'}
           />
         }
+        style={styles.header}
         title={t('title')}
       />
 
       <FlatList
         contentContainerStyle={styles.content}
         data={accounts}
-        ListFooterComponent={
-          <Text align="center" m="4" size="2">
-            {t('description')}
-          </Text>
-        }
         renderItem={({ item }) => (
           <AccountCard
             account={item}
@@ -82,12 +80,21 @@ export function AccountSwitcher() {
         )}
         scrollEnabled={false}
       />
+
+      <Text align="center" m="4" size="2">
+        {t('description')}
+      </Text>
+
+      <Sheet.BottomInset />
     </Sheet.Root>
   )
 }
 
-const styles = StyleSheet.create(() => ({
+const styles = StyleSheet.create((theme) => ({
   content: {
     paddingHorizontal: 1,
+  },
+  header: {
+    height: theme.space[glass ? 9 : 8],
   },
 }))
