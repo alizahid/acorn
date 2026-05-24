@@ -379,10 +379,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="sign-in"
         options={({ route }) => ({
-          contentStyle: {
-            height: '100%',
-            width: '100%',
-          },
+          contentStyle: styles.full,
           gestureEnabled: (route.params as SignInParams).mode === 'dismissible',
           headerShown: false,
           presentation: iPad ? 'formSheet' : 'modal',
@@ -402,6 +399,10 @@ function StackLayout({ children }: PropsWithChildren) {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  full: {
+    height: '100%',
+    width: '100%',
+  },
   main: {
     compoundVariants: [
       {
