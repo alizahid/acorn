@@ -16,7 +16,13 @@ export function SegmentedControl({ items, onChange, value }: Props) {
   return (
     <Component
       appearance={theme.variant}
-      onValueChange={onChange}
+      onValueChange={(key) => {
+        const item = items.find((item) => item.label === key)
+
+        if (item) {
+          onChange(item.key)
+        }
+      }}
       selectedIndex={items.findIndex((item) => item.key === value)}
       values={items.map((item) => item.label)}
     />
