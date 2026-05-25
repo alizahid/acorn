@@ -10,8 +10,7 @@ import {
   type EditorStyleState,
   type MarkdownEditorHandle,
 } from 'react-native-fast-markdown'
-import { useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
-import Animated, { useAnimatedStyle } from 'react-native-reanimated'
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -47,7 +46,6 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
 
   const headerHeight = useHeaderHeight()
-  const { height } = useReanimatedKeyboardAnimation()
 
   const reply = usePostReply()
   const edit = useCommentEdit()
@@ -56,10 +54,6 @@ export default function Screen() {
 
   const [state, setState] = useState<EditorStyleState>()
   const [text, setText] = useState(params.body)
-
-  const style = useAnimatedStyle(() => ({
-    paddingBottom: height.get(),
-  }))
 
   useFocusEffect(
     useCallback(() => {
@@ -111,7 +105,11 @@ export default function Screen() {
   )
 
   return (
-    <Animated.View style={[styles.main(headerHeight), style]}>
+    <KeyboardAvoidingView
+      behavior="height"
+      keyboardVerticalOffset={headerHeight}
+      style={styles.main(headerHeight)}
+    >
       <MarkdownEditor.ToolBar
         editor={editor}
         state={state}
@@ -126,7 +124,7 @@ export default function Screen() {
         style={styles.input(font, systemScaling ? 1 : fontScaling)}
         value={text}
       />
-    </Animated.View>
+    </KeyboardAvoidingView>
   )
 }
 
@@ -144,6 +142,6 @@ const styles = StyleSheet.create((theme) => ({
     marginTop,
   }),
   toolBar: {
-    backgroundColor: theme.colors.gray.ui,
+    backgroundColor: theme.colors.gray.uiAlpha,
   },
 }))

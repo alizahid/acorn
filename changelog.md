@@ -5,6 +5,7 @@
 - added: post creation (text, link, image, video)
 - changed: drawer now opens from the right
 - fixed: upvote/downvote
+- fixed: scrolling for long replies
 
 ## Build 76
 
