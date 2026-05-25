@@ -20,6 +20,9 @@
       "npx ultracite fix"
     ]
   },
+  "overrides": {
+    "expo-dev-launcher": "56.0.12"
+  },
   "devDependencies": {
     "@biomejs/biome": "2.4.15",
     "husky": "^9.1.7",
