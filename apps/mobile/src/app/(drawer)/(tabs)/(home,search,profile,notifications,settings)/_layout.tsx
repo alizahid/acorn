@@ -284,10 +284,21 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         name="posts/[id]/reply"
-        options={{
+        options={({ navigation }) => ({
+          headerLeft: () => (
+            <IconButton
+              color="gray"
+              icon="xmark"
+              label={a11y('close')}
+              onPress={() => {
+                navigation.goBack()
+              }}
+              size="6"
+            />
+          ),
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
-        }}
+        })}
       />
 
       <Stack.Screen
