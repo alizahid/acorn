@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: post creation (text, link, image, video)
+- changed: drawer now opens from the right
 - fixed: upvote/downvote
 
 ## Build 76

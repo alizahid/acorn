@@ -46,6 +46,12 @@ export default function Layout() {
         <HomeDrawer onClose={navigation.closeDrawer} />
       )}
       screenOptions={{
+        configureGestureHandler(gesture) {
+          return iPad
+            ? gesture
+            : gesture.activeOffsetX([-5, Number.MAX_SAFE_INTEGER])
+        },
+        drawerPosition: iPad ? 'left' : 'right',
         drawerStyle,
         drawerType: iPad ? (stickyDrawer ? 'permanent' : 'slide') : 'slide',
         headerShown: false,
