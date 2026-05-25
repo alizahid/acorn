@@ -207,7 +207,7 @@ export function PostCard({ expanded, post }: Props) {
           disabled={expanded}
         >
           <View style={styles.main}>
-            <View style={styles.dimmed}>
+            <View style={[styles.header, styles.dimmed]}>
               {communityOnTop ? <PostCommunity post={post} /> : null}
 
               <Text
@@ -303,6 +303,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
         },
       },
     },
+  },
+  header: {
+    gap: theme.space[1],
   },
   main: {
     backgroundColor: theme.colors.gray.ui,

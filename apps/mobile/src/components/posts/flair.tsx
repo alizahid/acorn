@@ -108,7 +108,7 @@ const styles = StyleSheet.create((theme) => ({
   text: {
     backgroundColor: theme.colors.accent.ui,
     borderCurve: 'continuous',
-    borderRadius: theme.radius[2],
+    borderRadius: theme.radius[6],
     paddingHorizontal: theme.space[1] * 1.25,
     paddingVertical: theme.space[1] / 2,
   },
