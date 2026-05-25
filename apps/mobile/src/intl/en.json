@@ -314,6 +314,9 @@
       }
     },
     "submission": {
+      "account": {
+        "error": "You're not logged in"
+      },
       "flair": {
         "label": "Select flair",
         "required": "Required",
@@ -362,7 +365,8 @@
       },
       "toast": {
         "created": "Post created",
-        "error": "Error creating post"
+        "error": "Error creating post",
+        "noId": "Post created but we couldn't find it. You might have to refresh the list"
       },
       "type": {
         "image": "Image",

@@ -1,8 +1,8 @@
 import { createId } from '@paralleldrive/cuid2'
 import { fetch } from 'expo/fetch'
-import { File } from 'expo-file-system'
+import { File, Paths } from 'expo-file-system'
 import { type ImagePickerAsset } from 'expo-image-picker'
-import { createVideoPlayer, type VideoThumbnail } from 'expo-video'
+import { FFmpegKit, ReturnCode } from 'ffmpeg-kit-react-native'
 import { z } from 'zod'
 
 import { getUserAgent } from '~/lib/user-agent'
@@ -100,59 +100,45 @@ async function fetchLease(asset: ImagePickerAsset) {
     method: 'post',
   })
 
-  const json = await response.json()
+  try {
+    const json = await response.json()
 
-  return LeaseSchema.parse(json).data.createMediaUploadLease
+    return LeaseSchema.parse(json).data.createMediaUploadLease
+  } catch {
+    throw new Error('File type not allowed')
+  }
 }
 
-export async function generateVideoThumbnail(uri: string) {
-  const player = createVideoPlayer(uri)
+export async function generateVideoThumbnail(
+  asset: ImagePickerAsset,
+): Promise<ImagePickerAsset> {
+  const file = new File(Paths.cache, `${createId()}.jpg`)
 
-  if (player.status === 'readyToPlay') {
-    const [thumbnail] = await player.generateThumbnailsAsync(0)
+  const session = await FFmpegKit.executeWithArguments([
+    '-y',
+    '-ss',
+    '0',
+    '-i',
+    asset.uri,
+    '-frames:v',
+    '1',
+    '-q:v',
+    '2',
+    file.uri,
+  ])
 
-    if (!thumbnail) {
-      player.release()
+  const returnCode = await session.getReturnCode()
 
-      return Promise.reject(new Error('Unable to generate thumbnail'))
-    }
-
-    return Promise.resolve(thumbnail)
+  if (!ReturnCode.isSuccess(returnCode)) {
+    throw new Error('Unable to generate video thumbnail')
   }
 
-  if (player.status === 'error') {
-    player.release()
-
-    return Promise.reject(new Error('Video failed to load'))
+  return {
+    fileName: file.name,
+    height: asset.height,
+    mimeType: 'image/jpeg',
+    type: 'image',
+    uri: file.uri,
+    width: asset.width,
   }
-
-  return new Promise<VideoThumbnail>((resolve, reject) => {
-    const subscription = player.addListener('statusChange', async (event) => {
-      if (event.status === 'readyToPlay') {
-        subscription.remove()
-
-        const [thumbnail] = await player.generateThumbnailsAsync(0)
-
-        if (!thumbnail) {
-          player.release()
-
-          reject(new Error('Unable to generate thumbnail'))
-
-          return
-        }
-
-        player.release()
-
-        resolve(thumbnail)
-      }
-
-      if (event.status === 'error') {
-        subscription.remove()
-
-        player.release()
-
-        reject(event.error ?? new Error('Video failed to load'))
-      }
-    })
-  })
 }

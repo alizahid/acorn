@@ -1,5 +1,7 @@
 import { type Flair } from './flair'
 
+export type SubmissionType = 'text' | 'image' | 'video' | 'link'
+
 export type Submission = {
   community: {
     id: string

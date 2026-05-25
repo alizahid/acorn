@@ -8,19 +8,23 @@ import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { prepareMarkdown } from '~/lib/markdown'
-import { REDDIT_OLD_URI, reddit } from '~/reddit/api'
-import {
-  SubmissionResponseSchema,
-  SubmissionSocketSchema,
-} from '~/schemas/submission'
-import { type Submission } from '~/types/submission'
+import { removePrefix } from '~/lib/reddit'
+import { sleep } from '~/lib/sleep'
+import { REDDIT_OLD_URI, REDDIT_URI, reddit } from '~/reddit/api'
+import { type PostsSchema } from '~/schemas/posts'
+import { SubmissionResponseSchema } from '~/schemas/submission'
+import { useAuth } from '~/stores/auth'
+import { type Undefined } from '~/types'
+import { type Submission, type SubmissionType } from '~/types/submission'
 
 export type CreatePostForm = z.infer<ReturnType<typeof generateSchema>>
 
 export function useCreatePost(submission: Submission) {
   const t = useTranslations('component.submission')
 
-  const types = compact([
+  const { accountId } = useAuth(['accountId'])
+
+  const types: Array<SubmissionType> = compact([
     submission.media.text && 'text',
     submission.media.image && 'image',
     submission.media.video && 'video',
@@ -41,31 +45,27 @@ export function useCreatePost(submission: Submission) {
   })
 
   const { isPending, mutateAsync } = useMutation<
-    | {
-        id: string
-      }
-    | {
-        url: string
-      },
+    Undefined<{
+      id: string
+    }>,
     Error,
     CreatePostForm
   >({
     async mutationFn(variables) {
+      if (!accountId) {
+        throw new Error(t('account.error'))
+      }
       const body = new URLSearchParams()
 
       body.append('sr', variables.community)
       body.append('title', variables.title)
       body.append('spoiler', String(variables.spoiler))
       body.append('nsfw', String(variables.nsfw))
+      body.append('kind', variables.type === 'text' ? 'self' : variables.type)
 
-      body.append(
-        'kind',
-        variables.type === 'image'
-          ? 'image'
-          : variables.type === 'link'
-            ? 'link'
-            : 'self',
-      )
+      if (variables.type === 'video') {
+        body.append('video_poster_url', variables.posterUrl)
+      }
 
       if (variables.type === 'text') {
         body.append('text', prepareMarkdown(variables.text))
@@ -103,15 +103,19 @@ export function useCreatePost(submission: Submission) {
         }
       }
 
-      return handleSocket(json.data.websocket_url)
+      return handleAsync(accountId, variables.title)
     },
     onError(error) {
       toast.error(t('toast.error'), {
         description: error.message,
       })
     },
-    onSuccess() {
-      toast.success(t('toast.created'))
+    onSuccess(data) {
+      if (data?.id) {
+        toast.success(t('toast.created'))
+      } else {
+        toast.success(t('toast.noId'))
+      }
     },
   })
 
@@ -119,6 +123,7 @@ export function useCreatePost(submission: Submission) {
     createPost: mutateAsync,
     form,
     isPending,
+    types,
   }
 }
 
@@ -154,9 +159,12 @@ function generateSchema() {
       .extend(base.shape),
     z
       .object({
+        posterUrl: z.url({
+          hostname: imageHostRegex,
+        }),
         type: z.literal('video'),
         url: z.url({
-          hostname: imageHostRegex,
+          hostname: videoHostRegex,
         }),
       })
       .extend(base.shape),
@@ -164,25 +172,29 @@ function generateSchema() {
 }
 
 const imageHostRegex = /reddit-uploaded-media.s3-accelerate.amazonaws.com/
+const videoHostRegex = /reddit-uploaded-video.s3-accelerate.amazonaws.com/
 
-function handleSocket(url: string) {
-  return new Promise<{
-    url: string
-  }>((resolve, reject) => {
-    const socket = new WebSocket(url)
+async function handleAsync(accountId: string, title: string, tries = 5) {
+  const url = new URL(`/user/${accountId}/submitted`, REDDIT_URI)
 
-    socket.onmessage = (event) => {
-      const { payload } = SubmissionSocketSchema.parse(
-        JSON.parse(event.data as string),
-      )
+  url.searchParams.set('limit', '5')
+  url.searchParams.set('sort', 'new')
 
-      resolve({
-        url: payload.redirect,
-      })
-    }
-
-    socket.onerror = () => {
-      reject(new Error('Error'))
-    }
+  const posts = await reddit<PostsSchema>({
+    url,
   })
+
+  for (const post of posts?.data.children ?? []) {
+    if (post.data.title === title) {
+      return {
+        id: removePrefix(post.data.id),
+      }
+    }
+  }
+
+  if (tries > 1) {
+    await sleep(3000)
+
+    return handleAsync(accountId, title, tries - 1)
+  }
 }

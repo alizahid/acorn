@@ -2,7 +2,6 @@ import { useMutation } from '@tanstack/react-query'
 import { Image, type ImageSource } from 'expo-image'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as ImagePicker from 'expo-image-picker'
-import { type VideoThumbnail } from 'expo-video'
 import { useEffect, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
@@ -12,6 +11,7 @@ import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { generateVideoThumbnail, uploadFile } from '~/reddit/media'
+import { oledTheme } from '~/styles/oled'
 
 import { Focusable } from '../common/focusable'
 import { Icon } from '../common/icon'
@@ -22,16 +22,17 @@ import { Text } from '../common/text'
 
 type Props = {
   type?: 'image' | 'video'
+  onStatusChange?: (loading: boolean) => void
 }
 
-export function SubmissionImage({ type = 'image' }: Props) {
+export function SubmissionImage({ onStatusChange, type = 'image' }: Props) {
   const t = useTranslations('component.submission.image')
   const a11y = useTranslations('a11y')
 
   const { control, setValue } = useFormContext<CreatePostForm>()
 
   const [asset, setAsset] = useState<ImagePicker.ImagePickerAsset>()
-  const [preview, setPreview] = useState<VideoThumbnail | ImageSource>()
+  const [preview, setPreview] = useState<ImageSource>()
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: reset
   useEffect(() => {
@@ -41,6 +42,8 @@ export function SubmissionImage({ type = 'image' }: Props) {
 
   const { isPending, mutate } = useMutation({
     async mutationFn() {
+      onStatusChange?.(true)
+
       const { assets } = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: type === 'video' ? 'videos' : 'images',
       })
@@ -51,29 +54,46 @@ export function SubmissionImage({ type = 'image' }: Props) {
         return
       }
 
-      console.log('asset', asset)
-
-      if (asset.type === 'video') {
-        const thumbnail = await generateVideoThumbnail(asset.uri)
-
-        setPreview(thumbnail)
-      } else {
-        setPreview({
-          uri: asset.uri,
-        })
-      }
-
       setAsset(asset)
 
-      return uploadFile(asset)
+      if (asset.type === 'video') {
+        const thumbnail = await generateVideoThumbnail(asset)
+
+        setPreview({
+          uri: thumbnail.uri,
+        })
+
+        return {
+          poster: await uploadFile(thumbnail),
+          video: await uploadFile(asset),
+        }
+      }
+
+      setPreview({
+        uri: asset.uri,
+      })
+
+      return {
+        image: await uploadFile(asset),
+      }
     },
     onError(error) {
-      console.log('error', error)
       toast.error(error.message)
+
+      setAsset(undefined)
+      setPreview(undefined)
+    },
+    onSettled() {
+      onStatusChange?.(false)
     },
     onSuccess(data) {
-      if (data?.url) {
-        setValue('url', data.url)
+      if (data?.image?.url) {
+        setValue('url', data.image.url)
+      }
+
+      if (data?.video?.url && data.poster.url) {
+        setValue('url', data.video.url)
+        setValue('posterUrl', data.poster.url)
       }
     },
   })
@@ -102,9 +122,9 @@ export function SubmissionImage({ type = 'image' }: Props) {
               />
 
               {isPending ? (
-                <View style={styles.loading}>
-                  <View style={styles.spinner}>
-                    <Spinner size="large" />
+                <View style={styles.overlay}>
+                  <View style={styles.loading}>
+                    <Spinner />
                   </View>
                 </View>
               ) : null}
@@ -130,13 +150,7 @@ export function SubmissionImage({ type = 'image' }: Props) {
 
               <Text weight="medium">{t(`placeholder.${type}`)}</Text>
 
-              {isPending ? (
-                <View style={styles.loading}>
-                  <View style={styles.spinner}>
-                    <Spinner size="large" />
-                  </View>
-                </View>
-              ) : null}
+              <Spinner style={styles.spinner(isPending)} />
             </View>
           )}
         </Pressable>
@@ -147,6 +161,8 @@ export function SubmissionImage({ type = 'image' }: Props) {
 
 const styles = StyleSheet.create((theme, runtime) => ({
   delete: {
+    backgroundColor: oledTheme[theme.variant].bgAlpha,
+    borderTopLeftRadius: theme.radius[6],
     bottom: 0,
     position: 'absolute',
     right: 0,
@@ -160,12 +176,17 @@ const styles = StyleSheet.create((theme, runtime) => ({
     width: runtime.screen.width / 3,
   },
   loading: {
-    ...StyleSheet.absoluteFill,
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: oledTheme[theme.variant].bgAlpha,
+    borderRadius: theme.space[9],
+    padding: theme.space[4],
   },
   main: {
     flex: 1,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFill,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   placeholder: {
     alignItems: 'center',
@@ -173,9 +194,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     gap: theme.space[4],
     justifyContent: 'center',
   },
-  spinner: {
-    backgroundColor: theme.colors.gray.ui,
-    borderRadius: theme.space[9],
-    padding: theme.space[4],
-  },
+  spinner: (loading: boolean) => ({
+    opacity: loading ? 1 : 0,
+  }),
 }))

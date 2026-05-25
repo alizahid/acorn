@@ -1,5 +1,5 @@
 import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { Controller, FormProvider } from 'react-hook-form'
 import { View } from 'react-native'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
@@ -14,11 +14,12 @@ import { SubmissionLink } from '~/components/submission/link'
 import { SubmissionMeta } from '~/components/submission/meta'
 import { SubmissionText } from '~/components/submission/text'
 import { SubmissionTitle } from '~/components/submission/title'
-import { SubmissionType } from '~/components/submission/type'
-import { useLink } from '~/hooks/link'
 import { useCreatePost } from '~/hooks/mutations/posts/create'
 import { heights, iOS26 } from '~/lib/common'
+import { useAuth } from '~/stores/auth'
 import { type Submission } from '~/types/submission'
+
+import { SubmissionType } from './type'
 
 type Props = {
   submission: Submission
@@ -30,9 +31,11 @@ export function Submission({ submission }: Props) {
 
   const a11y = useTranslations('a11y')
 
-  const { handleLink } = useLink()
+  const { accountId } = useAuth(['accountId'])
 
-  const { createPost, form, isPending } = useCreatePost(submission)
+  const { createPost, form, types, isPending } = useCreatePost(submission)
+
+  const [uploading, setUploading] = useState(false)
 
   const onSubmit = form.handleSubmit(async (data) => {
     if (isPending) {
@@ -41,15 +44,21 @@ export function Submission({ submission }: Props) {
 
     const response = await createPost(data)
 
-    if ('id' in response) {
+    if (response?.id) {
       router.replace({
         params: {
           id: response.id,
         },
         pathname: '/posts/[id]',
       })
-    } else {
-      handleLink(response.url)
+    } else if (accountId) {
+      router.replace({
+        params: {
+          name: accountId,
+          type: 'submitted',
+        },
+        pathname: '/users/[name]/[type]',
+      })
     }
 
     form.reset()
@@ -58,19 +67,20 @@ export function Submission({ submission }: Props) {
   useFocusEffect(
     useCallback(() => {
       navigation.setOptions({
-        headerRight: () => (
-          <IconButton
-            icon="paperplane.fill"
-            label={a11y('createPost')}
-            loading={isPending}
-            onPress={() => {
-              onSubmit()
-            }}
-            size="6"
-          />
-        ),
+        headerRight: () =>
+          uploading ? null : (
+            <IconButton
+              icon="paperplane.fill"
+              label={a11y('createPost')}
+              loading={isPending}
+              onPress={() => {
+                onSubmit()
+              }}
+              size="6"
+            />
+          ),
       })
-    }, [a11y, isPending, navigation, onSubmit]),
+    }, [a11y, isPending, navigation, onSubmit, uploading]),
   )
 
   return (
@@ -78,7 +88,7 @@ export function Submission({ submission }: Props) {
       <View style={styles.header}>
         <SubmissionCommunityCard community={submission.community} />
 
-        <SubmissionType submission={submission} />
+        <SubmissionType types={types} />
       </View>
 
       <SubmissionTitle />
@@ -93,7 +103,10 @@ export function Submission({ submission }: Props) {
           name="type"
           render={({ field }) =>
             field.value === 'image' || field.value === 'video' ? (
-              <SubmissionImage type={field.value} />
+              <SubmissionImage
+                onStatusChange={setUploading}
+                type={field.value}
+              />
             ) : field.value === 'link' ? (
               <SubmissionLink />
             ) : (

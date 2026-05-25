@@ -1,28 +1,19 @@
 import Menu from '@expo/ui/community/menu'
 import { type SFSymbol } from 'expo-symbols'
-import { compact } from 'lodash'
 import { Controller, useFormContext } from 'react-hook-form'
-import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
-import { type Submission } from '~/types/submission'
+import { type SubmissionType } from '~/types/submission'
 
-import { IconButton } from '../common/icon/button'
+import { Icon } from '../common/icon'
 
 type Props = {
-  submission: Submission
+  types: Array<SubmissionType>
 }
 
-export function SubmissionType({ submission }: Props) {
+export function SubmissionType({ types }: Props) {
   const t = useTranslations('component.submission.type')
-
-  const types = compact([
-    submission.media.text && 'text',
-    submission.media.image && 'image',
-    submission.media.video && 'video',
-    submission.media.link && 'link',
-  ] as const)
 
   const { control, setValue } = useFormContext<CreatePostForm>()
 
@@ -48,26 +39,18 @@ export function SubmissionType({ submission }: Props) {
             field.onChange(next)
           }}
         >
-          <IconButton
-            contrast
-            icon={icons[field.value]}
-            label={t(field.value)}
-            size="7"
-            style={styles.main}
+          <Icon
+            name={icons[field.value]}
+            uniProps={(theme) => ({
+              size: theme.space[6],
+            })}
+            weight={field.value === 'text' ? 'bold' : undefined}
           />
         </Menu>
       )}
     />
   )
 }
-
-const styles = StyleSheet.create((theme) => ({
-  main: {
-    backgroundColor: theme.colors.accent.ui,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
-  },
-}))
 
 const icons = {
   image: 'photo',
