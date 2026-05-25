@@ -44,7 +44,9 @@ export function AccountSwitcher() {
             color="green"
             icon="plus.circle"
             label={a11y('addAccount')}
-            onPress={() => {
+            onPress={async () => {
+              await sheet.current?.dismiss()
+
               router.navigate({
                 params: {
                   mode: 'dismissible',
