@@ -346,10 +346,9 @@ export default function Screen() {
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   content: {
-    paddingBottom:
-      runtime.insets.bottom + heights.tabBar + heights.floatingButton,
+    paddingBottom: heights.floatingButton,
     variants: {
       iPad: {
         true: {
