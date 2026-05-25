@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { useMessages } from '~/hooks/queries/user/messages'
+import { heights } from '~/lib/common'
 import { listProps } from '~/lib/list'
 import { usePreferences } from '~/stores/preferences'
 
@@ -52,7 +53,7 @@ export function MessagesList() {
 
 const styles = StyleSheet.create((theme, runtime) => ({
   content: {
-    paddingBottom: theme.space[9] + runtime.insets.bottom,
+    paddingBottom: heights.tabBar + runtime.insets.bottom,
   },
   separator: {
     height: theme.space[4],

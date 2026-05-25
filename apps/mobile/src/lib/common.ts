@@ -13,8 +13,8 @@ export const iOS26 =
 
 export const heights = {
   floatingButton: 80,
-  header: 48,
+  header: glass ? 54 : 48,
   notifications: 56,
   search: 112,
-  tabBar: 48,
+  tabBar: glass ? 64 : 54,
 } as const

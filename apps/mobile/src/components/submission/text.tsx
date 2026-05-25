@@ -78,7 +78,6 @@ export function SubmissionText() {
 
               <IconButton
                 color="gray"
-                contrast
                 icon="chevron.down"
                 label="Dismiss"
                 onPress={() => {

@@ -15,7 +15,7 @@ import { SubmissionMeta } from '~/components/submission/meta'
 import { SubmissionText } from '~/components/submission/text'
 import { SubmissionTitle } from '~/components/submission/title'
 import { useCreatePost } from '~/hooks/mutations/posts/create'
-import { heights, iOS26 } from '~/lib/common'
+import { heights, iPad } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 import { type Submission } from '~/types/submission'
 
@@ -95,7 +95,7 @@ export function Submission({ submission }: Props) {
 
       <KeyboardAvoidingView
         behavior="padding"
-        keyboardVerticalOffset={iOS26 ? -28 : 52}
+        keyboardVerticalOffset={-40}
         style={styles.content}
       >
         <Controller
@@ -142,8 +142,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
     justifyContent: 'space-between',
     paddingBottom: theme.space[4],
     paddingHorizontal: theme.space[4],
-    paddingTop: iOS26
-      ? heights.header + runtime.insets.top + theme.space[4]
-      : theme.space[4],
+    paddingTop:
+      (iPad ? heights.tabBar : 0) +
+      heights.header +
+      runtime.insets.top +
+      theme.space[4],
   },
 }))

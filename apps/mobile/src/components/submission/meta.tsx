@@ -16,23 +16,23 @@ export function SubmissionMeta() {
   return (
     <View style={styles.main}>
       <View style={styles.item}>
-        <Text weight="medium">{t('nsfw')}</Text>
-
         <Controller
           control={control}
           name="nsfw"
           render={({ field }) => <Switch {...field} label={t('nsfw')} />}
         />
+
+        <Text weight="medium">{t('nsfw')}</Text>
       </View>
 
       <View style={styles.item}>
-        <Text weight="medium">{t('spoiler')}</Text>
-
         <Controller
           control={control}
           name="spoiler"
           render={({ field }) => <Switch {...field} label={t('spoiler')} />}
         />
+
+        <Text weight="medium">{t('spoiler')}</Text>
       </View>
     </View>
   )
@@ -42,7 +42,7 @@ const styles = StyleSheet.create((theme) => ({
   item: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: theme.space[2],
+    gap: theme.space[3],
   },
   main: {
     flexDirection: 'row',

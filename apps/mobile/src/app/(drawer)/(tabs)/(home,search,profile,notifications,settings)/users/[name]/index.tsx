@@ -15,7 +15,7 @@ import {
   SortIntervalMenu,
   type SortIntervalMenuData,
 } from '~/components/posts/sort-interval'
-import { iOS26, iPad } from '~/lib/common'
+import { heights, iOS26, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { UserTab } from '~/types/user'
@@ -180,7 +180,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     },
   },
   list: {
-    paddingBottom: theme.space[9] + runtime.insets.bottom,
+    paddingBottom: heights.tabBar + runtime.insets.bottom,
     variants: {
       iPad: {
         true: {
@@ -190,7 +190,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     },
   },
   main: (headerHeight) => ({
-    marginTop: iOS26 ? headerHeight : undefined,
+    marginTop: headerHeight,
   }),
   tabBar: {
     marginBottom: theme.space[2],

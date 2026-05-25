@@ -12,7 +12,7 @@ import { SegmentedControl } from '~/components/common/segmented-control'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useTabPress } from '~/hooks/tabs'
-import { iPad } from '~/lib/common'
+import { glass, heights, iPad } from '~/lib/common'
 import { defaultsStore } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
@@ -133,15 +133,15 @@ const styles = StyleSheet.create((theme, runtime) => ({
     width: theme.space[7],
   },
   list: {
-    paddingBottom: theme.space[9] + runtime.insets.bottom,
+    paddingBottom: heights.tabBar + runtime.insets.bottom,
   },
   query: {
     backgroundColor: theme.colors.gray.uiActiveAlpha,
     borderWidth: 0,
   },
   tabBar: {
-    paddingBottom: theme.space[4],
-    paddingHorizontal: 20,
-    paddingTop: iPad ? undefined : theme.space[4],
+    marginBottom: theme.space[2],
+    marginHorizontal: theme.space[2],
+    paddingTop: iPad || glass ? undefined : theme.space[4],
   },
 }))
