@@ -27,6 +27,7 @@ export function useSignIn() {
       const url = new URL('/api/me.json', REDDIT_URI)
 
       const response = await fetch(url, {
+        credentials: 'omit',
         headers: {
           cookie: `reddit_session=${cookie}`,
           'user-agent': getUserAgent(),
