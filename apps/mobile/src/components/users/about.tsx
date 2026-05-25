@@ -34,6 +34,7 @@ export function UserAbout({ name }: Props) {
   return (
     <ScrollView
       contentContainerStyle={styles.content}
+      contentInsetAdjustmentBehavior="always"
       refreshControl={<RefreshControl onRefresh={refetch} />}
     >
       {profile.banner ? (
