@@ -55,6 +55,7 @@ export default function Screen() {
   const props = {
     onChangeQuery,
     query: debounced,
+    style: styles.list,
   } as const
 
   return (
@@ -126,10 +127,13 @@ export default function Screen() {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   clear: {
     height: theme.space[7],
     width: theme.space[7],
+  },
+  list: {
+    paddingBottom: theme.space[9] + runtime.insets.bottom,
   },
   query: {
     backgroundColor: theme.colors.gray.uiActiveAlpha,

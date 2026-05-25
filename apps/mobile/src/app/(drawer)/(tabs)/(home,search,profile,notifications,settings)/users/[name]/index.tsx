@@ -153,7 +153,7 @@ export default function Screen() {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   header: {
     backgroundColor: theme.colors.gray.bg,
     borderBottomColor: theme.colors.gray.border,
@@ -180,6 +180,7 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   list: {
+    paddingBottom: theme.space[9] + runtime.insets.bottom,
     variants: {
       iPad: {
         true: {

@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { useMessages } from '~/hooks/queries/user/messages'
+import { listProps } from '~/lib/list'
 import { usePreferences } from '~/stores/preferences'
 
 import { Empty } from '../common/empty'
@@ -29,6 +30,8 @@ export function MessagesList() {
 
   return (
     <FlashList
+      {...listProps}
+      contentContainerStyle={styles.content}
       data={messages}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       keyExtractor={(item) => item.id}
@@ -47,7 +50,10 @@ export function MessagesList() {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
+  content: {
+    paddingBottom: theme.space[9] + runtime.insets.bottom,
+  },
   separator: {
     height: theme.space[4],
     variants: {
