@@ -188,7 +188,7 @@ function StackLayout({ children }: PropsWithChildren) {
         options={({ route }) => ({
           headerRight: () => (
             <IconButton
-              icon="info.circle"
+              icon="info"
               label={a11y('aboutCommunity', {
                 community: (route.params as CommunityParams).name,
               })}
@@ -226,7 +226,7 @@ function StackLayout({ children }: PropsWithChildren) {
         options={({ route }) => ({
           headerRight: () => (
             <IconButton
-              icon="info.circle"
+              icon="info"
               label={a11y('aboutCommunity', {
                 community: (route.params as CommunityParams).name,
               })}
@@ -285,8 +285,6 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="posts/[id]/reply"
         options={{
-          headerStyle: styles.transparent,
-          headerTransparent: false,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
         }}
@@ -301,7 +299,7 @@ function StackLayout({ children }: PropsWithChildren) {
             if (user) {
               return (
                 <IconButton
-                  icon="info.circle"
+                  icon="info"
                   label={user}
                   onPress={() => {
                     router.navigate({
@@ -318,13 +316,6 @@ function StackLayout({ children }: PropsWithChildren) {
           },
           title: (route.params as MessageParams).user,
         })}
-      />
-
-      <Stack.Screen
-        name="settings/about"
-        options={{
-          title: t('settings.about.title'),
-        }}
       />
 
       <Stack.Screen

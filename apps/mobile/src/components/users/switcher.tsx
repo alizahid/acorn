@@ -42,7 +42,7 @@ export function AccountSwitcher() {
         right={
           <IconButton
             color="green"
-            icon="plus.circle"
+            icon="plus"
             label={a11y('addAccount')}
             onPress={async () => {
               await sheet.current?.dismiss()

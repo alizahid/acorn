@@ -31,7 +31,7 @@ export function Toast() {
         ),
         info: (
           <Icon
-            name="info.circle"
+            name="info.circle.fill"
             uniProps={(theme) => ({
               tintColor: theme.colors.accent.accent,
             })}
@@ -40,7 +40,7 @@ export function Toast() {
         loading: <ActivityIndicator size={space[5]} />,
         success: (
           <Icon
-            name="checkmark.circle"
+            name="checkmark.circle.fill"
             uniProps={(theme) => ({
               tintColor: theme.colors.green.accent,
             })}

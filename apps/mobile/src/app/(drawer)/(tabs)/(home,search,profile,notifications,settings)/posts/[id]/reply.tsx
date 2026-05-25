@@ -4,6 +4,7 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
+import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useRef, useState } from 'react'
 import {
   type EditorStyleState,
@@ -45,6 +46,7 @@ export default function Screen() {
   const t = useTranslations('screen.posts.reply')
   const a11y = useTranslations('a11y')
 
+  const headerHeight = useHeaderHeight()
   const { height } = useReanimatedKeyboardAnimation()
 
   const reply = usePostReply()
@@ -109,7 +111,7 @@ export default function Screen() {
   )
 
   return (
-    <Animated.View style={[styles.main, style]}>
+    <Animated.View style={[styles.main(headerHeight), style]}>
       <MarkdownEditor.ToolBar
         editor={editor}
         state={state}
@@ -137,9 +139,10 @@ const styles = StyleSheet.create((theme) => ({
     lineHeight: theme.typography[3].lineHeight * scaling,
     padding: theme.space[4],
   }),
-  main: {
+  main: (marginTop: number) => ({
     flex: 1,
-  },
+    marginTop,
+  }),
   toolBar: {
     backgroundColor: theme.colors.gray.ui,
   },
