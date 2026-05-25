@@ -76,7 +76,7 @@ const styles = StyleSheet.create((theme) => ({
     gap: theme.space[2],
   },
   main: (community: boolean) => ({
-    alignItems: community ? 'center' : 'flex-end',
+    alignItems: community ? 'center' : 'flex-start',
     flexDirection: 'row',
     gap: theme.space[4],
     justifyContent: 'space-between',
