@@ -259,6 +259,7 @@ export function CommentCard({
 const styles = StyleSheet.create((theme, runtime) => ({
   body: {
     padding: theme.space[3],
+    paddingTop: theme.space[3] * 0.75,
   },
   container: (depth: number) => {
     const marginLeft = theme.space[2] * depth
