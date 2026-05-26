@@ -23,7 +23,7 @@ export function UserAbout({ name }: Props) {
 
   const { profile, refetch } = useProfile(name)
 
-  const { follow } = useFollow()
+  const { follow, isPending } = useFollow()
 
   const placeholder = useImagePlaceholder()
 
@@ -73,6 +73,7 @@ export function UserAbout({ name }: Props) {
               : 'person.crop.circle.badge.plus'
           }
           label={t(profile.subscribed ? 'unfollow' : 'follow')}
+          loading={isPending}
           onPress={() => {
             follow({
               action: profile.subscribed ? 'unfollow' : 'follow',
