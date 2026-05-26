@@ -64,6 +64,7 @@
     "expo-symbols": "~56.0.5",
     "expo-system-ui": "~56.0.5",
     "expo-testflight": "^0.3.0",
+    "expo-translate-text": "^0.2.1",
     "expo-updates": "~56.0.16",
     "expo-video": "~56.1.2",
     "expo-web-browser": "~56.0.5",

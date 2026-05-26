@@ -4,6 +4,7 @@
 
 - added: post creation (text, link, image, video)
 - added: revamped post / comment menus
+- added: translate post / comment text
 - changed: drawer now opens from the right
 - fixed: scrolling for long replies
 - fixed: tab list bottom inset

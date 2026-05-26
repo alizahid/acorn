@@ -1,4 +1,5 @@
 import { useRouter } from 'expo-router'
+import { onTranslateSheet } from 'expo-translate-text'
 import { type ReactNode, type RefObject, useRef } from 'react'
 import { Share, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -158,6 +159,18 @@ export function CommentMenu({ ref, children, comment, onCollapse }: Props) {
 
               copy(comment.body).then(() => {
                 toast.success(t('toast.textCopied'))
+              })
+            }}
+          />
+
+          <Sheet.Item
+            label={t('translateText')}
+            left={<Icon name="translate" />}
+            onPress={() => {
+              ref.current?.dismiss()
+
+              onTranslateSheet({
+                input: comment.body,
               })
             }}
           />

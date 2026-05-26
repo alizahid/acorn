@@ -1,4 +1,5 @@
 import { usePathname, useRouter } from 'expo-router'
+import { onTranslateSheet } from 'expo-translate-text'
 import { type ReactNode, type RefObject, useRef } from 'react'
 import { Share, View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
@@ -161,6 +162,22 @@ export function PostMenu({ ref, children, post }: Props) {
                 if (post.body) {
                   copy(post.body).then(() => {
                     toast.success(t('toast.textCopied'))
+                  })
+                }
+              }}
+            />
+          ) : null}
+
+          {post.body?.length ? (
+            <Sheet.Item
+              label={t('translateText')}
+              left={<Icon name="translate" />}
+              onPress={() => {
+                ref.current?.dismiss()
+
+                if (post.body) {
+                  onTranslateSheet({
+                    input: post.body,
                   })
                 }
               }}
