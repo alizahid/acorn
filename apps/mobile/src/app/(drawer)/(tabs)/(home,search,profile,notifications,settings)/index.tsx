@@ -3,7 +3,7 @@ import {
   useLocalSearchParams,
   useNavigation,
 } from 'expo-router'
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { PlatformColor } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -15,16 +15,17 @@ import { Text } from '~/components/common/text'
 import { GlassView } from '~/components/native/glass-view'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useSorting } from '~/hooks/sorting'
+import { type SortingType, useSorting } from '~/hooks/sorting'
 import { glass, iPad } from '~/lib/common'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
-import { defaultsStore } from '~/stores/defaults'
+import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 import { FeedType } from '~/types/sort'
 
 const schema = z.object({
+  community: z.string().optional(),
   feed: z.string().optional(),
-  type: z.enum(FeedType).catch(defaultsStore.getState().feedType),
+  type: z.enum(FeedType).optional(),
 })
 
 export type HomeParams = z.infer<typeof schema>
@@ -38,14 +39,52 @@ export default function Screen() {
   const tType = useTranslations('component.common.type.type')
 
   const { stickyDrawer } = usePreferences(['stickyDrawer'])
+  const defaults = useDefaults(['community', 'feed', 'feedType'])
 
   styles.useVariants({
     iPad,
   })
 
-  const type = params.type === 'home' ? 'feed' : 'community'
+  const { community, feed, type } = useMemo(() => {
+    const data = {
+      community: params.community ?? defaults.community,
+      feed: params.feed ?? defaults.feed,
+      type: params.type ?? defaults.feedType,
+    } as const
 
-  const { sorting, update } = useSorting(type, params.feed ?? params.type)
+    const type: SortingType = data.community
+      ? 'community'
+      : data.feed
+        ? 'feed'
+        : data.type === 'home'
+          ? 'feed'
+          : 'community'
+
+    const feed = data.community ? undefined : data.feed ? data.feed : undefined
+
+    const community = data.community
+      ? data.community
+      : data.type === 'home'
+        ? undefined
+        : data.type
+
+    return {
+      community,
+      feed,
+      type,
+    }
+  }, [
+    defaults.community,
+    defaults.feed,
+    defaults.feedType,
+    params.community,
+    params.feed,
+    params.type,
+  ])
+
+  const name = community ?? feed ?? 'home'
+
+  const { sorting, update } = useSorting(type, name)
 
   useFocusEffect(
     useCallback(() => {
@@ -76,43 +115,42 @@ export default function Screen() {
             type={type}
           />
         ),
-        headerTitle: params.feed
-          ? null
-          : () => (
-              <GlassView style={styles.header}>
-                <Icon
-                  name={FeedTypeIcons[params.type]}
-                  uniProps={(theme) => ({
-                    tintColor: theme.colors[FeedTypeColors[params.type]].accent,
-                  })}
-                />
+        headerTitle: () =>
+          name === 'home' || name === 'all' || name === 'popular' ? (
+            <GlassView style={styles.header}>
+              <Icon
+                name={FeedTypeIcons[name]}
+                uniProps={(theme) => ({
+                  tintColor: theme.colors[FeedTypeColors[name!]].accent,
+                })}
+              />
 
-                <Text style={styles.title} weight="bold">
-                  {tType(params.type)}
-                </Text>
-              </GlassView>
-            ),
-        title: params.feed ?? t('title'),
+              <Text style={styles.title} weight="bold">
+                {tType(name)}
+              </Text>
+            </GlassView>
+          ) : null,
+        title: community ?? feed ?? t('title'),
       })
     }, [
       a11y,
-      params.feed,
-      params.type,
-      sorting.interval,
-      sorting.sort,
+      sorting,
       stickyDrawer,
       tType,
       type,
       update,
       navigation,
       t,
+      community,
+      feed,
+      name,
     ]),
   )
 
   return (
     <PostList
-      community={params.type === 'home' ? undefined : params.type}
-      feed={params.feed}
+      community={community}
+      feed={feed}
       interval={sorting.interval}
       sort={sorting.sort}
       style={styles.list}

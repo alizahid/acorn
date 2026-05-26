@@ -9,7 +9,9 @@ import { type FeedType } from '~/types/sort'
 export const DEFAULTS_KEY = 'defaults'
 
 export type DefaultsPayload = {
+  community?: string
   drawerSections: DrawerSections
+  feed?: string
   feedType: FeedType
   searchTabs: SearchTabs
 }

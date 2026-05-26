@@ -606,8 +606,13 @@
           "title": "Drawer sections",
           "users": "Users"
         },
+        "feed": {
+          "title": "Choose default feed"
+        },
         "feedType": {
           "all": "All",
+          "community": "Choose community",
+          "feed": "Choose feed",
           "home": "Home",
           "popular": "Popular",
           "title": "Default feed"

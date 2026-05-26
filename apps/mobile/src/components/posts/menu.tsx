@@ -388,8 +388,6 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                   onPress={() => {
                     ref.current?.dismiss()
 
-                    console.log('post.media.video', post.media.video)
-
                     if (post.media.video) {
                       downloadVideo({
                         provider: post.media.video?.provider,

@@ -8,6 +8,7 @@
 - added: revamped post / comment menus
 - added: screenshot posts / comments
 - added: translate post / comment text
+- added: use custom feeds and communities as default feed
 - changed: drawer now opens from the right
 - fixed: scrolling for long replies
 - fixed: tab list bottom inset

@@ -1,6 +1,6 @@
 import { create } from 'mutative'
+import { useRef } from 'react'
 import { View } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
 import {
   NestedReorderableList,
   reorderItems,
@@ -11,146 +11,188 @@ import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { ListItem } from '~/components/common/list/item'
-import { Switch } from '~/components/common/switch'
+import { Sheet } from '~/components/common/sheet'
 import { Text } from '~/components/common/text'
+import { CommunitiesList } from '~/components/communities/list'
 import { DraggableItem } from '~/components/defaults/draggable-item'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
-import { FeedType } from '~/types/sort'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.defaults')
 
-  const { drawerSections, feedType, searchTabs, update } = useDefaults([
-    'drawerSections',
-    'feedType',
-    'searchTabs',
-  ])
+  const { community, drawerSections, feed, feedType, searchTabs, update } =
+    useDefaults([
+      'community',
+      'drawerSections',
+      'feed',
+      'feedType',
+      'searchTabs',
+    ])
+
+  const sheet = useRef<Sheet>(null)
 
   return (
-    <ScrollViewContainer contentContainerStyle={styles.content}>
-      <View>
-        <Text mb="2" size="2" weight="medium">
-          {t('feedType.title')}
-        </Text>
+    <>
+      <ScrollViewContainer
+        contentContainerStyle={styles.content}
+        contentInsetAdjustmentBehavior="automatic"
+      >
+        <View>
+          <Text mb="2" size="2" weight="medium">
+            {t('feedType.title')}
+          </Text>
 
-        <FlatList
-          data={FeedType}
-          renderItem={({ item }) => (
-            <ListItem
-              icon={
-                <Icon
-                  name={FeedTypeIcons[item]}
-                  uniProps={(theme) => ({
-                    tintColor: theme.colors[FeedTypeColors[item]].accent,
-                  })}
-                />
-              }
-              label={t(`feedType.${item}`)}
-              onPress={() => null}
-              right={
-                <Switch
-                  label={t(`feedType.${item}`)}
-                  onChange={() => {
-                    update({
-                      feedType: item,
-                    })
-                  }}
-                  value={item === feedType}
-                />
-              }
-              style={styles.item}
-            />
-          )}
-          scrollEnabled={false}
-        />
-      </View>
-
-      <View style={styles.section}>
-        <Text mb="2" size="2" weight="medium">
-          {t('searchTabs.title')}
-        </Text>
-
-        <NestedReorderableList
-          data={searchTabs}
-          keyExtractor={(item) => item.key}
-          onReorder={(event) => {
-            const next = reorderItems(searchTabs, event.from, event.to)
-
-            update({
-              searchTabs: next,
-            })
-          }}
-          renderItem={({ index, item }) => (
-            <DraggableItem
-              label={t(`searchTabs.${item.key}`)}
-              onChange={(value) => {
-                if (
-                  !value &&
-                  searchTabs.filter((tab) => tab.disabled).length >= 1
-                ) {
-                  return
+          <ListItem
+            icon={
+              <Icon
+                name={
+                  community
+                    ? 'person.2'
+                    : feed
+                      ? 'newspaper'
+                      : FeedTypeIcons[feedType]
                 }
+                uniProps={(theme) => ({
+                  tintColor: community
+                    ? undefined
+                    : feed
+                      ? undefined
+                      : theme.colors[FeedTypeColors[feedType]].accent,
+                })}
+              />
+            }
+            label={community ?? feed ?? t(`feedType.${feedType}`)}
+            onPress={() => {
+              sheet.current?.present()
+            }}
+            style={styles.item}
+          />
+        </View>
 
-                const next = create(searchTabs, (draft) => {
-                  if (draft[index]) {
-                    draft[index].disabled = !value
+        <View style={styles.section}>
+          <Text mb="2" size="2" weight="medium">
+            {t('searchTabs.title')}
+          </Text>
+
+          <NestedReorderableList
+            data={searchTabs}
+            keyExtractor={(item) => item.key}
+            onReorder={(event) => {
+              const next = reorderItems(searchTabs, event.from, event.to)
+
+              update({
+                searchTabs: next,
+              })
+            }}
+            renderItem={({ index, item }) => (
+              <DraggableItem
+                label={t(`searchTabs.${item.key}`)}
+                onChange={(value) => {
+                  if (
+                    !value &&
+                    searchTabs.filter((tab) => tab.disabled).length >= 1
+                  ) {
+                    return
                   }
-                })
 
-                update({
-                  searchTabs: next,
-                })
-              }}
-              style={styles.item}
-              value={!item.disabled}
-            />
-          )}
-          scrollEnabled={false}
-        />
+                  const next = create(searchTabs, (draft) => {
+                    if (draft[index]) {
+                      draft[index].disabled = !value
+                    }
+                  })
 
-        <Text highContrast={false} mt="2" size="1">
-          {t('searchTabs.hint')}
-        </Text>
-      </View>
+                  update({
+                    searchTabs: next,
+                  })
+                }}
+                style={styles.item}
+                value={!item.disabled}
+              />
+            )}
+            scrollEnabled={false}
+          />
 
-      <View style={styles.section}>
-        <Text mb="2" size="2" weight="medium">
-          {t('drawerSections.title')}
-        </Text>
+          <Text highContrast={false} mt="2" size="1">
+            {t('searchTabs.hint')}
+          </Text>
+        </View>
 
-        <NestedReorderableList
-          data={drawerSections}
-          keyExtractor={(item) => item.key}
-          onReorder={(event) => {
-            const next = reorderItems(drawerSections, event.from, event.to)
+        <View style={styles.section}>
+          <Text mb="2" size="2" weight="medium">
+            {t('drawerSections.title')}
+          </Text>
 
-            update({
-              drawerSections: next,
-            })
+          <NestedReorderableList
+            data={drawerSections}
+            keyExtractor={(item) => item.key}
+            onReorder={(event) => {
+              const next = reorderItems(drawerSections, event.from, event.to)
+
+              update({
+                drawerSections: next,
+              })
+            }}
+            renderItem={({ index, item }) => (
+              <DraggableItem
+                label={t(`drawerSections.${item.key}`)}
+                onChange={(value) => {
+                  const next = create(drawerSections, (draft) => {
+                    if (draft[index]) {
+                      draft[index].disabled = !value
+                    }
+                  })
+
+                  update({
+                    drawerSections: next,
+                  })
+                }}
+                style={styles.item}
+                value={!item.disabled}
+              />
+            )}
+            scrollEnabled={false}
+          />
+        </View>
+      </ScrollViewContainer>
+
+      <Sheet.Root ref={sheet} scrollable>
+        <Sheet.Header style={styles.title} title={t('feed.title')} />
+
+        <CommunitiesList
+          onPress={(item) => {
+            sheet.current?.dismiss()
+
+            console.log('item', item)
+
+            if (item.type === 'community') {
+              update({
+                community: item.data.name,
+                feed: undefined,
+                feedType: undefined,
+              })
+            }
+
+            if (item.type === 'feed') {
+              update({
+                community: undefined,
+                feed: item.data.name,
+                feedType: undefined,
+              })
+            }
+
+            if (item.type === 'type') {
+              update({
+                community: undefined,
+                feed: undefined,
+                feedType: item.data,
+              })
+            }
           }}
-          renderItem={({ index, item }) => (
-            <DraggableItem
-              label={t(`drawerSections.${item.key}`)}
-              onChange={(value) => {
-                const next = create(drawerSections, (draft) => {
-                  if (draft[index]) {
-                    draft[index].disabled = !value
-                  }
-                })
-
-                update({
-                  drawerSections: next,
-                })
-              }}
-              style={styles.item}
-              value={!item.disabled}
-            />
-          )}
-          scrollEnabled={false}
+          show={['type', 'community', 'feed']}
         />
-      </View>
-    </ScrollViewContainer>
+      </Sheet.Root>
+    </>
   )
 }
 
@@ -168,5 +210,8 @@ const styles = StyleSheet.create((theme) => ({
   },
   section: {
     marginTop: theme.space[6],
+  },
+  title: {
+    marginTop: theme.space[2],
   },
 }))

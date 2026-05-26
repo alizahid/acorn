@@ -9,12 +9,9 @@ import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
-import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
-import { type Undefined } from '~/types'
 
-import { type HomeParams } from '.'
 import { type CommunityParams } from './communities/[name]'
 import { type MessageParams } from './messages/[id]'
 import { type PostParams } from './posts/[id]'
@@ -52,7 +49,6 @@ export default function Layout({ segment }: Props) {
   const a11y = useTranslations('a11y')
 
   const { accountId } = useAuth(['accountId'])
-  const { feedType } = useDefaults(['feedType'])
 
   if (segment === '(search)') {
     return (
@@ -66,12 +62,7 @@ export default function Layout({ segment }: Props) {
           }}
         />
 
-        <Stack.Screen
-          name="index"
-          options={({ route }) => ({
-            title: (route.params as Undefined<HomeParams>)?.feed,
-          })}
-        />
+        <Stack.Screen name="index" />
       </StackLayout>
     )
   }
@@ -96,12 +87,7 @@ export default function Layout({ segment }: Props) {
           }}
         />
 
-        <Stack.Screen
-          name="index"
-          options={({ route }) => ({
-            title: (route.params as Undefined<HomeParams>)?.feed,
-          })}
-        />
+        <Stack.Screen name="index" />
       </StackLayout>
     )
   }
@@ -116,12 +102,7 @@ export default function Layout({ segment }: Props) {
           }}
         />
 
-        <Stack.Screen
-          name="index"
-          options={({ route }) => ({
-            title: (route.params as Undefined<HomeParams>)?.feed,
-          })}
-        />
+        <Stack.Screen name="index" />
       </StackLayout>
     )
   }
@@ -141,12 +122,7 @@ export default function Layout({ segment }: Props) {
 
   return (
     <StackLayout>
-      <Stack.Screen
-        initialParams={{
-          type: feedType,
-        }}
-        name="index"
-      />
+      <Stack.Screen name="index" />
     </StackLayout>
   )
 }

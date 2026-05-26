@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
@@ -6,7 +5,6 @@ import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 
-import { SearchBox } from '../common/search'
 import { CommunitiesList } from '../communities/list'
 
 type Props = {
@@ -26,26 +24,21 @@ export function HomeDrawer({ onClose }: Props) {
     tint: themeTint,
   })
 
-  const [query, setQuery] = useState('')
-
   return (
     <View style={styles.main}>
-      <View style={styles.header}>
-        <SearchBox onChange={setQuery} value={query} />
-      </View>
-
       <CommunitiesList
+        drawer
         onPress={() => {
           onClose()
         }}
-        query={query}
+        style={styles.content}
       />
     </View>
   )
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  header: {
+  content: {
     marginTop: runtime.insets.top,
     paddingRight: theme.space[1],
   },
