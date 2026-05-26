@@ -661,7 +661,6 @@
       },
       "preferences": {
         "browsing": {
-          "fullscreenDrawer": "Swipe from anywhere to open drawer",
           "infiniteScrolling": "Infinite scrolling",
           "oldReddit": "Use old Reddit links",
           "privateScreenshots": "Hide interactions for screenshots",

@@ -14,8 +14,7 @@ export default function Layout() {
 
   const { theme } = useUnistyles()
 
-  const { fullscreenDrawer, stickyDrawer, themeOled } = usePreferences([
-    'fullscreenDrawer',
+  const { stickyDrawer, themeOled } = usePreferences([
     'stickyDrawer',
     'themeOled',
   ])
@@ -46,18 +45,12 @@ export default function Layout() {
         <HomeDrawer onClose={navigation.closeDrawer} />
       )}
       screenOptions={{
-        configureGestureHandler(gesture) {
-          return iPad
-            ? gesture
-            : gesture.activeOffsetX([-5, Number.MAX_SAFE_INTEGER])
-        },
         drawerPosition: iPad ? 'left' : 'right',
         drawerStyle,
         drawerType: iPad ? (stickyDrawer ? 'permanent' : 'slide') : 'slide',
         headerShown: false,
         overlayColor,
-        swipeEdgeWidth: fullscreenDrawer ? frame.width : undefined,
-        swipeEnabled: fullscreenDrawer,
+        swipeEdgeWidth: frame.width,
       }}
     >
       <Drawer.Screen name="(tabs)" />

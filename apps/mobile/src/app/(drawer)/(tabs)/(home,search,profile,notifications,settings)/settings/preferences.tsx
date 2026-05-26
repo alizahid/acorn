@@ -29,7 +29,6 @@ export default function Screen() {
     feedbackHaptics,
     feedbackSounds,
     feedMuted,
-    fullscreenDrawer,
     hapticsLoud,
     hidePostActions,
     hideSeen,
@@ -65,7 +64,6 @@ export default function Screen() {
     'feedbackHaptics',
     'feedbackSounds',
     'feedMuted',
-    'fullscreenDrawer',
     'hapticsLoud',
     'hidePostActions',
     'hideSeen',
@@ -240,17 +238,6 @@ export default function Screen() {
             value={tabBarMinimizeBehavior}
           />
         ) : null}
-
-        <Menu.Switch
-          icon={<Icon name="hand.draw" />}
-          label={t('browsing.fullscreenDrawer')}
-          onChange={(next) => {
-            update({
-              fullscreenDrawer: next,
-            })
-          }}
-          value={fullscreenDrawer}
-        />
 
         <Menu.Switch
           icon={<Icon name="hand.raised" />}
