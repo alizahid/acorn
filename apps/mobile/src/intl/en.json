@@ -232,6 +232,7 @@
       },
       "menu": {
         "collapseComment": "Collapse comment",
+        "collapseThread": "Collapse thread",
         "copyImage": "Copy image",
         "copyLink": "Copy link",
         "copyPermalink": "Copy permalink",
@@ -643,6 +644,7 @@
         },
         "options": {
           "collapse": "Collapse",
+          "collapseThread": "Collapse thread",
           "downvote": "Downvote",
           "hide": "Hide",
           "reply": "Reply",

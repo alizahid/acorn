@@ -68,6 +68,7 @@ export default function Screen() {
 
   const {
     collapse,
+    collapseThread,
     comments: data,
     isFetching,
     post,
@@ -221,6 +222,15 @@ export default function Screen() {
               commentId: item.data.id,
             })
           }}
+          onCollapseThread={() => {
+            if (!collapsibleComments) {
+              return
+            }
+
+            collapseThread({
+              commentId: item.data.id,
+            })
+          }}
           onPress={() => {
             if (!collapsibleComments) {
               return
@@ -233,7 +243,7 @@ export default function Screen() {
         />
       )
     },
-    [collapse, collapsibleComments, post, router, sort],
+    [collapse, collapseThread, collapsibleComments, post, router, sort],
   )
 
   return (

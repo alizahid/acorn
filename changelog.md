@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: collapse comment thread
 - added: post creation (text, link, image, video)
 - added: revamped post / comment menus
 - added: translate post / comment text

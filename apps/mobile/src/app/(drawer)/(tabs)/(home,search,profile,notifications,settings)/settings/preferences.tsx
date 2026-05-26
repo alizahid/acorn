@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { FloatingButtonSide } from '~/components/common/floating-button'
+import { GestureIcons } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
@@ -323,7 +324,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="arrow.down.and.line.horizontal.and.arrow.up" />}
+          icon={<Icon name={GestureIcons.collapse} />}
           label={t('comments.collapsibleComments')}
           onChange={(next) => {
             update({

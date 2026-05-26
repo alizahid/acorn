@@ -32,6 +32,7 @@ type Props = {
   disabled?: boolean
   dull?: boolean
   onCollapse?: () => void
+  onCollapseThread?: () => void
   onPress: () => void
 }
 
@@ -41,6 +42,7 @@ export function CommentCard({
   disabled,
   dull,
   onCollapse,
+  onCollapseThread,
   onPress,
 }: Props) {
   const router = useRouter()
@@ -161,6 +163,10 @@ export function CommentCard({
         if (action === 'collapse') {
           onCollapse?.()
         }
+
+        if (action === 'collapseThread') {
+          onCollapseThread?.()
+        }
       }}
       right={{
         enabled: commentRight,
@@ -169,7 +175,12 @@ export function CommentCard({
       }}
       style={styles.container(comment.depth)}
     >
-      <CommentMenu comment={comment} onCollapse={onCollapse} ref={menu}>
+      <CommentMenu
+        comment={comment}
+        onCollapse={onCollapse}
+        onCollapseThread={onCollapseThread}
+        ref={menu}
+      >
         <Pressable
           accessibilityLabel={a11y(
             dull

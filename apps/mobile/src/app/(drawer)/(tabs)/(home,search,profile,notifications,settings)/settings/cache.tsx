@@ -2,6 +2,7 @@ import { Image } from 'expo-image'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useTranslations } from 'use-intl'
 
+import { GestureIcons } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { db } from '~/db'
@@ -76,7 +77,7 @@ export default function Screen() {
         <Menu.Button
           icon={
             <Icon
-              name="arrow.down.and.line.horizontal.and.arrow.up"
+              name={GestureIcons.collapse}
               uniProps={(theme) => ({
                 tintColor: theme.colors.red.accent,
               })}

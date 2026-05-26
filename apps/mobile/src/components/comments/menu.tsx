@@ -24,14 +24,23 @@ import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentReply } from '~/types/comment'
 
+import { GestureIcons } from '../common/gestures/actions'
+
 type Props = {
   ref: RefObject<Sheet | null>
   children: ReactNode
   comment: CommentReply
   onCollapse?: () => void
+  onCollapseThread?: () => void
 }
 
-export function CommentMenu({ ref, children, comment, onCollapse }: Props) {
+export function CommentMenu({
+  ref,
+  children,
+  comment,
+  onCollapse,
+  onCollapseThread,
+}: Props) {
   const router = useRouter()
 
   const { accountId } = useAuth(['accountId'])
@@ -142,11 +151,23 @@ export function CommentMenu({ ref, children, comment, onCollapse }: Props) {
           {onCollapse ? (
             <Sheet.Item
               label={t('collapseComment')}
-              left={<Icon name="arrow.down.and.line.horizontal.and.arrow.up" />}
+              left={<Icon name={GestureIcons.collapse} />}
               onPress={() => {
                 ref.current?.dismiss()
 
                 onCollapse()
+              }}
+            />
+          ) : null}
+
+          {onCollapseThread ? (
+            <Sheet.Item
+              label={t('collapseThread')}
+              left={<Icon name={GestureIcons.collapseThread} />}
+              onPress={() => {
+                ref.current?.dismiss()
+
+                onCollapseThread()
               }}
             />
           ) : null}

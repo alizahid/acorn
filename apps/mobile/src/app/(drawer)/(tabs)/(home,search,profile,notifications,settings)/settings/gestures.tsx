@@ -132,6 +132,18 @@ export default function Screen() {
       ),
       value: 'collapse',
     },
+    {
+      label: t('options.collapseThread'),
+      right: (
+        <Icon
+          name={GestureIcons.collapseThread}
+          uniProps={(theme) => ({
+            tintColor: theme.colors[GestureColors.collapse].accent,
+          })}
+        />
+      ),
+      value: 'collapseThread',
+    },
   ]
 
   return (

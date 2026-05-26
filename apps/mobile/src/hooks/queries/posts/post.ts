@@ -1,7 +1,7 @@
 import { type Query, useMutation, useQuery } from '@tanstack/react-query'
 import { eq } from 'drizzle-orm'
 import { create, type Draft } from 'mutative'
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 
 import { db } from '~/db'
 import { isComment, isPost } from '~/lib/guards'
@@ -120,7 +120,7 @@ export function usePost({ commentId, id, sort }: Props) {
     ],
   })
 
-  const collapse = useMutation<unknown, Error, CollapseVariables>({
+  const { mutate: collapse } = useMutation<unknown, Error, CollapseVariables>({
     async mutationFn(variables) {
       const [exists] = await db
         .select()
@@ -162,6 +162,22 @@ export function usePost({ commentId, id, sort }: Props) {
     },
   })
 
+  const collapseThread = useCallback(
+    (variables: CollapseVariables) => {
+      const parentIds = getParentCommentIds(
+        query.data?.comments ?? [],
+        variables.commentId,
+      )
+
+      const commentId = parentIds.at(-1) ?? variables.commentId
+
+      collapse({
+        commentId,
+      })
+    },
+    [collapse, query.data?.comments],
+  )
+
   const comments = useMemo(() => {
     const items = query.data?.comments ?? []
 
@@ -169,7 +185,8 @@ export function usePost({ commentId, id, sort }: Props) {
   }, [query.data?.comments])
 
   return {
-    collapse: collapse.mutate,
+    collapse,
+    collapseThread,
     comments,
     isFetching: query.isFetching,
     post: query.data?.post,
@@ -296,6 +313,24 @@ export function updatePost(
       })
     })
   }
+}
+
+function getParentCommentIds(
+  comments: Array<Comment>,
+  commentId: string,
+): Array<string> {
+  const comment = comments.find(
+    (item) => item.type === 'reply' && item.data.id === commentId,
+  )
+
+  if (!comment?.data.parentId) {
+    return []
+  }
+
+  return [
+    comment.data.parentId,
+    ...getParentCommentIds(comments, comment.data.parentId),
+  ]
 }
 
 function isHidden(comments: Array<Comment>, commentId: string) {

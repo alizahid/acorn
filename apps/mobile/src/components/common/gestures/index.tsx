@@ -13,6 +13,7 @@ export type GestureAction =
   | 'share'
   | 'hide'
   | 'collapse'
+  | 'collapseThread'
 
 export type GestureData = {
   collapsed?: boolean
