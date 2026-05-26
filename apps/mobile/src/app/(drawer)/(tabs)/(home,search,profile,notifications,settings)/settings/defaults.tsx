@@ -163,8 +163,6 @@ export default function Screen() {
           onPress={(item) => {
             sheet.current?.dismiss()
 
-            console.log('item', item)
-
             if (item.type === 'community') {
               update({
                 community: item.data.name,
