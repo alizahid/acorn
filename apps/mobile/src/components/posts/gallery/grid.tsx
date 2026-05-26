@@ -12,12 +12,12 @@ import { useImagePlaceholder } from '~/hooks/image'
 import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from './blur'
-import { ImageMenu } from './menu'
 
 type Props = {
   images: Array<PostMedia>
   nsfw?: boolean
   onPress: (index: number) => void
+  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
 }
@@ -26,6 +26,7 @@ export function ImageGrid({
   images,
   nsfw = false,
   onPress,
+  onLongPress,
   recyclingKey,
   spoiler = false,
 }: Props) {
@@ -40,42 +41,41 @@ export function ImageGrid({
     const image = images[0]!
 
     return (
-      <ImageMenu url={image.url}>
-        <Pressable
-          accessibilityLabel={a11y('viewImage')}
-          onPress={() => {
-            onPress(0)
+      <Pressable
+        accessibilityLabel={a11y('viewImage')}
+        onLongPress={onLongPress}
+        onPress={() => {
+          onPress(0)
+        }}
+        style={styles.one(image.width / image.height)}
+      >
+        <VisibilitySensor
+          onChange={(next) => {
+            setVisible(next.visible)
           }}
-          style={styles.one(image.width / image.height)}
         >
-          <VisibilitySensor
-            onChange={(next) => {
-              setVisible(next.visible)
-            }}
-          >
-            <Image
-              {...placeholder}
-              accessibilityIgnoresInvertColors
-              priority={visible ? 'high' : 'low'}
-              recyclingKey={recyclingKey}
-              source={image.thumbnail}
-              style={styles.image}
-            />
+          <Image
+            {...placeholder}
+            accessibilityIgnoresInvertColors
+            priority={visible ? 'high' : 'low'}
+            recyclingKey={recyclingKey}
+            source={image.thumbnail}
+            style={styles.image}
+          />
 
-            {nsfw || spoiler ? (
-              <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
-            ) : null}
+          {nsfw || spoiler ? (
+            <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+          ) : null}
 
-            {image.type === 'gif' ? (
-              <View style={[styles.label, styles.gif]}>
-                <Text contrast size="1" weight="medium">
-                  {t('gif')}
-                </Text>
-              </View>
-            ) : null}
-          </VisibilitySensor>
-        </Pressable>
-      </ImageMenu>
+          {image.type === 'gif' ? (
+            <View style={[styles.label, styles.gif]}>
+              <Text contrast size="1" weight="medium">
+                {t('gif')}
+              </Text>
+            </View>
+          ) : null}
+        </VisibilitySensor>
+      </Pressable>
     )
   }
 
@@ -95,36 +95,35 @@ export function ImageGrid({
         keyExtractor={(item: PostMedia) => item.url}
         maxItemsPerColumn={2}
         renderItem={({ index, item }: { index: number; item: PostMedia }) => (
-          <ImageMenu url={item.url}>
-            <Pressable
-              accessibilityLabel={a11y('viewImage')}
-              onPress={() => {
-                onPress(index)
-              }}
+          <Pressable
+            accessibilityLabel={a11y('viewImage')}
+            onLongPress={onLongPress}
+            onPress={() => {
+              onPress(index)
+            }}
+            style={styles.image}
+          >
+            <Image
+              {...placeholder}
+              accessibilityIgnoresInvertColors
+              priority={visible ? 'high' : 'low'}
+              recyclingKey={recyclingKey}
+              source={item.thumbnail}
               style={styles.image}
-            >
-              <Image
-                {...placeholder}
-                accessibilityIgnoresInvertColors
-                priority={visible ? 'high' : 'low'}
-                recyclingKey={recyclingKey}
-                source={item.thumbnail}
-                style={styles.image}
-              />
+            />
 
-              {nsfw || spoiler ? (
-                <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
-              ) : null}
+            {nsfw || spoiler ? (
+              <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+            ) : null}
 
-              {item.type === 'gif' ? (
-                <View style={[styles.label, styles.gif]}>
-                  <Text contrast size="1" weight="medium">
-                    {t('gif')}
-                  </Text>
-                </View>
-              ) : null}
-            </Pressable>
-          </ImageMenu>
+            {item.type === 'gif' ? (
+              <View style={[styles.label, styles.gif]}>
+                <Text contrast size="1" weight="medium">
+                  {t('gif')}
+                </Text>
+              </View>
+            ) : null}
+          </Pressable>
         )}
       />
 

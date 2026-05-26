@@ -1,4 +1,5 @@
 import { Link, useRouter } from 'expo-router'
+import { useRef } from 'react'
 import { Share, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -18,6 +19,7 @@ import { type CommentReply } from '~/types/comment'
 import { Gestures } from '../common/gestures'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
+import { type Sheet } from '../common/sheet'
 import { Text } from '../common/text'
 import { Markdown } from '../markdown'
 import { FlairCard, type FlairType } from '../posts/flair'
@@ -65,6 +67,8 @@ export function CommentCard({
     'commentRightLong',
     'commentRightShort',
   ])
+
+  const menu = useRef<Sheet>(null)
 
   styles.useVariants({
     colorful: colorfulComments,
@@ -165,7 +169,7 @@ export function CommentCard({
       }}
       style={styles.container(comment.depth)}
     >
-      <CommentMenu comment={comment}>
+      <CommentMenu comment={comment} onCollapse={onCollapse} ref={menu}>
         <Pressable
           accessibilityLabel={a11y(
             dull
@@ -175,6 +179,9 @@ export function CommentCard({
                 : 'collapseComment',
           )}
           disabled={disabled}
+          onLongPress={() => {
+            menu.current?.present()
+          }}
           onPress={onPress}
         >
           <View style={styles.main(comment.depth, dull)}>
@@ -266,15 +273,17 @@ const styles = StyleSheet.create((theme, runtime) => ({
 
     return {
       alignSelf: 'center',
+      borderCurve: 'continuous',
       marginLeft,
       overflow: 'hidden',
       variants: {
         iPad: {
           false: {
+            borderBottomLeftRadius: depth > 0 ? theme.radius[3] : undefined,
+            borderTopLeftRadius: depth > 0 ? theme.radius[3] : undefined,
             maxWidth: runtime.screen.width - marginLeft,
           },
           true: {
-            borderCurve: 'continuous',
             borderRadius: theme.radius[3],
             maxWidth: cardMaxWidth - marginLeft,
           },

@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router'
-import { useCallback } from 'react'
+import { useCallback, useRef } from 'react'
 import { Share, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -8,6 +8,7 @@ import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { cardMaxWidth, iPad } from '~/lib/common'
+import { removePrefix } from '~/lib/reddit'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
@@ -16,6 +17,7 @@ import { type Post } from '~/types/post'
 
 import { type GestureAction, Gestures } from '../common/gestures'
 import { Pressable } from '../common/pressable'
+import { type Sheet } from '../common/sheet'
 import { Text } from '../common/text'
 import { Markdown } from '../markdown'
 import { PostCompactCard } from './compact'
@@ -72,6 +74,8 @@ export function PostCard({ expanded, post }: Props) {
     'postRightLong',
     'postRightShort',
   ])
+
+  const menu = useRef<Sheet>(null)
 
   const dimmed = !expanded && dimSeen && post.seen
 
@@ -144,6 +148,23 @@ export function PostCard({ expanded, post }: Props) {
     [hide, oldReddit, post.hidden, post.id, post.permalink, router, save, vote],
   )
 
+  function onPress() {
+    if (expanded) {
+      return
+    }
+
+    router.navigate({
+      params: {
+        id: removePrefix(post.id),
+      },
+      pathname: '/posts/[id]',
+    })
+  }
+
+  function onLongPress() {
+    menu.current?.present()
+  }
+
   if (feedCompact && !expanded) {
     return (
       <Gestures
@@ -163,11 +184,12 @@ export function PostCard({ expanded, post }: Props) {
         }}
         style={styles.container}
       >
-        <PostMenu post={post}>
+        <PostMenu post={post} ref={menu}>
           <Pressable
             accessibilityHint={a11y('viewPost')}
             accessibilityLabel={post.title}
-            disabled={expanded}
+            onLongPress={onLongPress}
+            onPress={onPress}
           >
             <View style={styles.main}>
               <PostCompactCard
@@ -200,11 +222,12 @@ export function PostCard({ expanded, post }: Props) {
       }}
       style={styles.container}
     >
-      <PostMenu post={post}>
+      <PostMenu post={post} ref={menu}>
         <Pressable
           accessibilityHint={a11y('viewPost')}
           accessibilityLabel={post.title}
-          disabled={expanded}
+          onLongPress={onLongPress}
+          onPress={onPress}
         >
           <View style={styles.main}>
             <View style={[styles.header, styles.dimmed]}>
@@ -225,12 +248,17 @@ export function PostCard({ expanded, post }: Props) {
             </View>
 
             {post.type === 'crosspost' && post.crossPost ? (
-              <CrossPostCard post={post.crossPost} recyclingKey={post.id} />
+              <CrossPostCard
+                onLongPress={onLongPress}
+                post={post.crossPost}
+                recyclingKey={post.id}
+              />
             ) : null}
 
             {post.type === 'video' && post.media.video ? (
               <PostVideoCard
                 nsfw={post.nsfw}
+                onLongPress={onLongPress}
                 recyclingKey={post.id}
                 spoiler={post.spoiler}
                 thumbnail={post.media.images?.[0]?.url}
@@ -242,19 +270,19 @@ export function PostCard({ expanded, post }: Props) {
               <PostGalleryCard
                 images={post.media.images}
                 nsfw={post.nsfw}
+                onLongPress={onLongPress}
                 recyclingKey={post.id}
                 spoiler={post.spoiler}
               />
             ) : null}
 
             {post.type === 'link' && post.url ? (
-              <View>
-                <PostLinkCard
-                  media={post.media.images?.[0]}
-                  recyclingKey={post.id}
-                  url={post.url}
-                />
-              </View>
+              <PostLinkCard
+                media={post.media.images?.[0]}
+                onLongPress={onLongPress}
+                recyclingKey={post.id}
+                url={post.url}
+              />
             ) : null}
 
             {expanded && post.body ? (

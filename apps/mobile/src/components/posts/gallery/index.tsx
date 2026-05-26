@@ -12,7 +12,6 @@ import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from './blur'
 import { ImageGrid } from './grid'
-import { ImageMenu } from './menu'
 
 type Props = {
   compact?: boolean
@@ -21,6 +20,7 @@ type Props = {
   nsfw?: boolean
   recyclingKey?: string
   spoiler?: boolean
+  onLongPress?: () => void
 }
 
 export function PostGalleryCard({
@@ -30,6 +30,7 @@ export function PostGalleryCard({
   nsfw,
   recyclingKey,
   spoiler,
+  onLongPress,
 }: Props) {
   const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences([
     'blurNsfw',
@@ -69,27 +70,26 @@ export function PostGalleryCard({
 
   if (compact) {
     return (
-      <ImageMenu url={first.url}>
-        <Pressable
-          accessibilityLabel={a11y('viewImage')}
-          onPress={() => {
-            onPress()
-          }}
-          style={styles.main}
-        >
-          <Image
-            {...placeholder}
-            accessibilityIgnoresInvertColors
-            recyclingKey={recyclingKey}
-            source={first.thumbnail}
-            style={styles.image}
-          />
+      <Pressable
+        accessibilityLabel={a11y('viewImage')}
+        onLongPress={onLongPress}
+        onPress={() => {
+          onPress()
+        }}
+        style={styles.main}
+      >
+        <Image
+          {...placeholder}
+          accessibilityIgnoresInvertColors
+          recyclingKey={recyclingKey}
+          source={first.thumbnail}
+          style={styles.image}
+        />
 
-          {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
-            <GalleryBlur />
-          ) : null}
-        </Pressable>
-      </ImageMenu>
+        {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
+          <GalleryBlur />
+        ) : null}
+      </Pressable>
     )
   }
 
@@ -98,6 +98,7 @@ export function PostGalleryCard({
       <ImageGrid
         images={images}
         nsfw={Boolean(nsfw && blurNsfw)}
+        onLongPress={onLongPress}
         onPress={(initial) => {
           onPress(initial)
         }}

@@ -20,6 +20,7 @@ type Props = {
   spoiler?: boolean
   thumbnail?: string
   video: PostMedia
+  onLongPress?: () => void
 }
 
 export function VideoPlaceholder({
@@ -31,6 +32,7 @@ export function VideoPlaceholder({
   spoiler,
   thumbnail,
   video,
+  onLongPress,
 }: Props) {
   const { blurNsfw, blurSpoiler } = usePreferences(['blurNsfw', 'blurSpoiler'])
 
@@ -60,6 +62,7 @@ export function VideoPlaceholder({
           <VideoPlayer
             compact={compact}
             nsfw={nsfw}
+            onLongPress={onLongPress}
             recyclingKey={recyclingKey}
             spoiler={spoiler}
             video={video}

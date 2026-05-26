@@ -16,6 +16,7 @@ type Props = {
   spoiler?: boolean
   thumbnail?: string
   video: PostMedia
+  onLongPress?: () => void
 }
 
 export function RedGifsVideo({
@@ -27,6 +28,7 @@ export function RedGifsVideo({
   spoiler,
   thumbnail,
   video,
+  onLongPress,
 }: Props) {
   styles.useVariants({
     compact,
@@ -42,6 +44,7 @@ export function RedGifsVideo({
         crossPost={crossPost}
         large={large}
         nsfw={nsfw}
+        onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         spoiler={spoiler}
         thumbnail={thumbnail}

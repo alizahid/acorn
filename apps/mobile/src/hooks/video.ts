@@ -9,12 +9,14 @@ import { useRef } from 'react'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
+import { getGif } from '~/lib/red-gifs'
 import { usePreferences } from '~/stores/preferences'
 
 import { getAlbum } from './image'
 
 type DownloadVideoVariables = {
   url: string
+  provider?: 'reddit' | 'red-gifs'
 }
 
 export function useDownloadVideo() {
@@ -40,11 +42,15 @@ export function useDownloadVideo() {
         throw new Error('Permission not granted')
       }
 
+      let url = variables.url
+
+      if (variables.provider === 'red-gifs') {
+        url = (await getGif(variables.url)).url
+      }
+
       const file = new File(Paths.cache, `${createId()}.mp4`)
 
-      await FFmpegKit.execute(
-        `-i "${variables.url}" -c:v copy -c:a aac ${file.uri}`,
-      )
+      await FFmpegKit.execute(`-i "${url}" -c:v copy -c:a aac ${file.uri}`)
 
       if (saveToAlbum) {
         const album = await getAlbum()

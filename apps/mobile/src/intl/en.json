@@ -126,6 +126,13 @@
         "filter": "Filter",
         "search": "Search"
       },
+      "sheet": {
+        "confirm": {
+          "no": "No",
+          "title": "Are you sure?",
+          "yes": "Yes"
+        }
+      },
       "sort": {
         "best": "Best",
         "comments": "Comment count",
@@ -224,24 +231,17 @@
         "more": "Load more"
       },
       "menu": {
+        "collapseComment": "Collapse comment",
         "copyImage": "Copy image",
+        "copyLink": "Copy link",
         "copyPermalink": "Copy permalink",
         "copyText": "Copy text",
         "copyTitle": "Copy title",
-        "deleteComment": {
-          "description": "Are you sure you want to delete this comment? This cannot be undone.",
-          "no": "No",
-          "title": "Delete comment",
-          "yes": "Yes"
-        },
-        "deletePost": {
-          "description": "Are you sure you want to delete this post? This cannot be undone.",
-          "no": "No",
-          "title": "Delete post",
-          "yes": "Yes"
-        },
+        "deleteComment": "Delete comment",
+        "deletePost": "Delete post",
         "downloadGallery": "Download gallery",
         "downloadImage": "Download image",
+        "downloadVideo": "Download video",
         "downvote": "Downvote",
         "editComment": "Edit comment",
         "hideComment": "Hide comment",
@@ -251,6 +251,7 @@
         "openApp": "Open in app",
         "openBrowser": "Open in browser",
         "openCommunity": "Go to r/{community}",
+        "openLink": "Open link",
         "openUser": "Go to u/{user}",
         "removeDownvote": "Remove downvote",
         "removeUpvote": "Remove upvote",
@@ -273,8 +274,20 @@
           "title": "Report"
         },
         "save": "Save",
+        "section": {
+          "actions": "Actions",
+          "comment": "Comment",
+          "gallery": "Gallery",
+          "image": "Image",
+          "link": "Link",
+          "navigation": "Navigation",
+          "post": "Post",
+          "video": "Video"
+        },
         "shareImage": "Share image",
+        "shareLink": "Share link",
         "sharePermalink": "Share permalink",
+        "title": "Post",
         "toast": {
           "linkCopied": "Link copied",
           "textCopied": "Text copied",

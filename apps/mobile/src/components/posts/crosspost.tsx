@@ -21,9 +21,16 @@ type Props = {
   large?: boolean
   post: Post
   recyclingKey?: string
+  onLongPress?: () => void
 }
 
-export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
+export function CrossPostCard({
+  compact,
+  large,
+  post,
+  recyclingKey,
+  onLongPress,
+}: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -40,6 +47,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
       <Pressable
         accessibilityHint={a11y('viewPost')}
         accessibilityLabel={post.title}
+        onLongPress={onLongPress}
         onPress={() => {
           router.navigate({
             params: {
@@ -69,6 +77,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
     <Pressable
       accessibilityHint={a11y('viewPost')}
       accessibilityLabel={post.title}
+      onLongPress={onLongPress}
       onPress={() => {
         router.navigate({
           params: {
@@ -83,6 +92,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
         <PostVideoCard
           crossPost
           nsfw={post.nsfw}
+          onLongPress={onLongPress}
           recyclingKey={recyclingKey}
           spoiler={post.spoiler}
           thumbnail={post.media.images?.[0]?.url}
@@ -95,6 +105,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
           <PostGalleryCard
             images={post.media.images}
             nsfw={post.nsfw}
+            onLongPress={onLongPress}
             recyclingKey={recyclingKey}
             spoiler={post.spoiler}
           />
@@ -106,6 +117,7 @@ export function CrossPostCard({ compact, large, post, recyclingKey }: Props) {
           <PostLinkCard
             crossPost
             media={post.media.images?.[0]}
+            onLongPress={onLongPress}
             recyclingKey={recyclingKey}
             url={post.url}
           />

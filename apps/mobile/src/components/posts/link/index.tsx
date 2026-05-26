@@ -12,8 +12,6 @@ import { useLink } from '~/hooks/link'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
-import { LinkMenu } from './menu'
-
 type Props = {
   compact?: boolean
   crossPost?: boolean
@@ -21,6 +19,7 @@ type Props = {
   media?: PostMedia
   recyclingKey?: string
   url: string
+  onLongPress?: () => void
 }
 
 export function PostLinkCard({
@@ -30,6 +29,7 @@ export function PostLinkCard({
   media,
   recyclingKey,
   url,
+  onLongPress,
 }: Props) {
   const a11y = useTranslations('a11y')
 
@@ -61,64 +61,62 @@ export function PostLinkCard({
 
   if (compact) {
     return (
-      <LinkMenu url={url}>
-        <Pressable
-          accessibilityLabel={a11y('viewLink')}
-          onPress={onPress}
-          style={styles.main}
-        >
-          {media?.thumbnail ? (
-            <Image
-              accessibilityIgnoresInvertColors
-              source={media.thumbnail}
-              style={styles.image}
-            />
-          ) : null}
-
-          <View style={styles.icon}>
-            <Icon
-              name="safari"
-              uniProps={(theme) => ({
-                tintColor: theme.colors.accent.accent,
-              })}
-            />
-          </View>
-        </Pressable>
-      </LinkMenu>
-    )
-  }
-
-  return (
-    <LinkMenu url={url}>
       <Pressable
         accessibilityLabel={a11y('viewLink')}
+        onLongPress={onLongPress}
         onPress={onPress}
         style={styles.main}
       >
-        {media ? (
+        {media?.thumbnail ? (
           <Image
-            {...placeholder}
             accessibilityIgnoresInvertColors
-            recyclingKey={recyclingKey}
-            source={media.url}
+            source={media.thumbnail}
             style={styles.image}
           />
         ) : null}
 
-        <View style={styles.link}>
+        <View style={styles.icon}>
           <Icon
             name="safari"
             uniProps={(theme) => ({
-              size: theme.typography[2].lineHeight,
+              tintColor: theme.colors.accent.accent,
             })}
           />
-
-          <Text numberOfLines={1} size="2" style={styles.url}>
-            {url}
-          </Text>
         </View>
       </Pressable>
-    </LinkMenu>
+    )
+  }
+
+  return (
+    <Pressable
+      accessibilityLabel={a11y('viewLink')}
+      onLongPress={onLongPress}
+      onPress={onPress}
+      style={styles.main}
+    >
+      {media ? (
+        <Image
+          {...placeholder}
+          accessibilityIgnoresInvertColors
+          recyclingKey={recyclingKey}
+          source={media.url}
+          style={styles.image}
+        />
+      ) : null}
+
+      <View style={styles.link}>
+        <Icon
+          name="safari"
+          uniProps={(theme) => ({
+            size: theme.typography[2].lineHeight,
+          })}
+        />
+
+        <Text numberOfLines={1} size="2" style={styles.url}>
+          {url}
+        </Text>
+      </View>
+    </Pressable>
   )
 }
 

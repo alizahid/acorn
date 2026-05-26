@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: post creation (text, link, image, video)
+- added: revamped post / comment menus
 - changed: drawer now opens from the right
 - fixed: scrolling for long replies
 - fixed: tab list bottom inset
