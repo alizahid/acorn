@@ -37,17 +37,18 @@ export default function Screen() {
     linkBrowser,
     oldReddit,
     pictureInPicture,
+    privateScreenshots,
     refreshInterval,
     replyPost,
     saveToAlbum,
     seenOnMedia,
-    tabBarMinimizeBehavior,
     seenOnScroll,
     seenOnScrollDelay,
     seenOnVote,
     showFlair,
     skipComment,
     stickyDrawer,
+    tabBarMinimizeBehavior,
     unmuteFullscreen,
     upvoteOnSave,
     userOnTop,
@@ -72,6 +73,7 @@ export default function Screen() {
     'linkBrowser',
     'oldReddit',
     'pictureInPicture',
+    'privateScreenshots',
     'refreshInterval',
     'replyPost',
     'saveToAlbum',
@@ -248,6 +250,17 @@ export default function Screen() {
             })
           }}
           value={fullscreenDrawer}
+        />
+
+        <Menu.Switch
+          icon={<Icon name="hand.raised" />}
+          label={t('browsing.privateScreenshots')}
+          onChange={(next) => {
+            update({
+              privateScreenshots: next,
+            })
+          }}
+          value={privateScreenshots}
         />
 
         <Menu.Separator />

@@ -54,6 +54,7 @@ export type PreferencesPayload = {
   mediaOnRight: boolean
   oldReddit: boolean
   pictureInPicture: boolean
+  privateScreenshots: boolean
   refreshInterval: number
   rememberSorting: boolean
   replyPost: FloatingButtonSide
@@ -122,6 +123,7 @@ export const preferencesStore = create<State>()(
       mediaOnRight: true,
       oldReddit: false,
       pictureInPicture: false,
+      privateScreenshots: true,
       refreshInterval: 10,
       rememberSorting: true,
       replyPost: 'left',

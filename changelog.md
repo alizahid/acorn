@@ -4,6 +4,7 @@
 
 - added: collapse comment thread
 - added: post creation (text, link, image, video)
+- added: privacy for screenshots
 - added: revamped post / comment menus
 - added: screenshot posts / comments
 - added: translate post / comment text

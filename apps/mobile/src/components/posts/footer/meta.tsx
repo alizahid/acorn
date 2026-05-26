@@ -11,24 +11,29 @@ import { type Post } from '~/types/post'
 
 type Props = {
   post: Post
+  privacy?: boolean
 }
 
-export function PostMeta({ post }: Props) {
+export function PostMeta({ post, privacy }: Props) {
   const f = useFormatter()
 
   const items = [
     {
-      color: post.liked
-        ? 'orange'
-        : post.liked === false
-          ? 'violet'
-          : undefined,
-      icon: getIcon(
-        post.liked
-          ? 'upvote.fill'
+      color: privacy
+        ? undefined
+        : post.liked
+          ? 'orange'
           : post.liked === false
-            ? 'downvote.fill'
-            : 'upvote',
+            ? 'violet'
+            : undefined,
+      icon: getIcon(
+        privacy
+          ? 'upvote'
+          : post.liked
+            ? 'upvote.fill'
+            : post.liked === false
+              ? 'downvote.fill'
+              : 'upvote',
       ) satisfies SFSymbol,
       key: 'votes',
       label: f.number(post.votes, {

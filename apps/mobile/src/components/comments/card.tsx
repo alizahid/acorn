@@ -50,11 +50,13 @@ export function CommentCard({
 
   const a11y = useTranslations('a11y')
 
-  const { colorfulComments, themeOled, userOnTop } = usePreferences([
-    'colorfulComments',
-    'themeOled',
-    'userOnTop',
-  ])
+  const { colorfulComments, privateScreenshots, themeOled, userOnTop } =
+    usePreferences([
+      'colorfulComments',
+      'privateScreenshots',
+      'themeOled',
+      'userOnTop',
+    ])
   const {
     commentLeft,
     commentLeftLong,
@@ -98,6 +100,8 @@ export function CommentCard({
 
     return 'both'
   }, undefined)
+
+  const privacy = privateScreenshots && capturing
 
   return (
     <Gestures
@@ -211,6 +215,7 @@ export function CommentCard({
                 collapsed={collapsed}
                 comment={comment}
                 flair={flair}
+                privacy={privacy}
                 top
               />
             ) : null}
@@ -263,6 +268,7 @@ export function CommentCard({
                 collapsed={collapsed}
                 comment={comment}
                 flair={flair}
+                privacy={privacy}
               />
             )}
 
@@ -276,7 +282,7 @@ export function CommentCard({
 
             {capturing ? <Banner /> : null}
 
-            {comment.saved ? (
+            {!privacy && comment.saved ? (
               <View pointerEvents="none" style={styles.saved} />
             ) : null}
           </View>

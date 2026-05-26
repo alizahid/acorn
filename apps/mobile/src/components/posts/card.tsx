@@ -49,6 +49,7 @@ export function PostCard({ expanded, post }: Props) {
     fontSizeTitle,
     mediaOnRight,
     oldReddit,
+    privateScreenshots,
     themeOled,
   } = usePreferences([
     'boldTitle',
@@ -58,6 +59,7 @@ export function PostCard({ expanded, post }: Props) {
     'fontSizeTitle',
     'mediaOnRight',
     'oldReddit',
+    'privateScreenshots',
     'themeOled',
   ])
   const {
@@ -170,6 +172,8 @@ export function PostCard({ expanded, post }: Props) {
     menu.current?.present()
   }
 
+  const privacy = privateScreenshots && capturing
+
   if (feedCompact && !expanded) {
     return (
       <Gestures
@@ -199,6 +203,7 @@ export function PostCard({ expanded, post }: Props) {
             <View collapsable={false} ref={card} style={styles.main}>
               <PostCompactCard
                 post={post}
+                privacy={privacy}
                 side={mediaOnRight ? 'right' : 'left'}
                 style={styles.dimmed}
               />
@@ -297,12 +302,13 @@ export function PostCard({ expanded, post }: Props) {
             <PostFooter
               community={!communityOnTop}
               post={post}
+              privacy={privacy}
               style={styles.dimmed}
             />
 
             {capturing ? <Banner style={styles.banner} /> : null}
 
-            {post.saved ? (
+            {!privacy && post.saved ? (
               <View pointerEvents="none" style={styles.saved} />
             ) : null}
           </View>

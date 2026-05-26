@@ -17,10 +17,16 @@ import { PostVideoCard } from './video'
 type Props = {
   post: Post
   side?: 'left' | 'right'
+  privacy?: boolean
   style?: StyleProp<ViewStyle>
 }
 
-export function PostCompactCard({ post, side = 'left', style }: Props) {
+export function PostCompactCard({
+  post,
+  side = 'left',
+  privacy,
+  style,
+}: Props) {
   const { boldTitle, communityOnTop, fontSizeTitle, largeThumbnails } =
     usePreferences([
       'boldTitle',
@@ -93,10 +99,12 @@ export function PostCompactCard({ post, side = 'left', style }: Props) {
 
         {communityOnTop ? null : <PostCommunity post={post} />}
 
-        <PostMeta post={post} />
+        <PostMeta post={post} privacy={privacy} />
       </View>
 
-      {post.saved ? <View pointerEvents="none" style={styles.saved} /> : null}
+      {!privacy && post.saved ? (
+        <View pointerEvents="none" style={styles.saved} />
+      ) : null}
     </View>
   )
 }

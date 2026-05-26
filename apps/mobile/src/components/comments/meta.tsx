@@ -20,10 +20,17 @@ type Props = {
   collapsed?: boolean
   comment: CommentReply
   flair?: FlairType
+  privacy?: boolean
   top?: boolean
 }
 
-export function CommentMeta({ collapsed, comment, flair, top }: Props) {
+export function CommentMeta({
+  collapsed,
+  comment,
+  flair,
+  privacy,
+  top,
+}: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -93,9 +100,11 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
 
       <View style={styles.footer}>
         <FooterButton
-          color={comment.liked === true ? 'orange' : undefined}
+          color={!privacy && comment.liked === true ? 'orange' : undefined}
           compact
-          icon={getIcon(comment.liked === true ? 'upvote.fill' : 'upvote')}
+          icon={getIcon(
+            !privacy && comment.liked === true ? 'upvote.fill' : 'upvote',
+          )}
           label={a11y(comment.liked ? 'removeUpvote' : 'upvote')}
           onPress={() => {
             vote({
@@ -113,9 +122,11 @@ export function CommentMeta({ collapsed, comment, flair, top }: Props) {
         </Text>
 
         <FooterButton
-          color={comment.liked === false ? 'violet' : undefined}
+          color={!privacy && comment.liked === false ? 'violet' : undefined}
           compact
-          icon={getIcon(comment.liked === false ? 'downvote.fill' : 'downvote')}
+          icon={getIcon(
+            !privacy && comment.liked === false ? 'downvote.fill' : 'downvote',
+          )}
           label={a11y(comment.liked === false ? 'removeDownvote' : 'downvote')}
           onPress={() => {
             vote({
