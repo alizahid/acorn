@@ -52,7 +52,7 @@ export function useDownloadImage() {
         throw new Error('Permission not granted')
       }
 
-      const file = await File.downloadFileAsync(variables.url, Paths.cache)
+      const file = await downloadImage(variables.url)
 
       if (saveToAlbum) {
         const album = await getAlbum()
@@ -117,7 +117,7 @@ export function useDownloadImages() {
       }
 
       const files = await Promise.all(
-        variables.urls.map((url) => File.downloadFileAsync(url, Paths.cache)),
+        variables.urls.map((url) => downloadImage(url)),
       )
 
       if (saveToAlbum) {
@@ -180,7 +180,7 @@ export function useCopyImage() {
         duration: Number.POSITIVE_INFINITY,
       })
 
-      const file = await File.downloadFileAsync(variables.url, Paths.cache)
+      const file = await downloadImage(variables.url)
 
       await Clipboard.setImageAsync(await file.base64())
 
@@ -227,7 +227,7 @@ export function useShareImage() {
         duration: Number.POSITIVE_INFINITY,
       })
 
-      const file = await File.downloadFileAsync(variables.url, Paths.cache)
+      const file = await downloadImage(variables.url)
 
       const result = await Share.share({
         url: file.uri,
@@ -288,6 +288,14 @@ export function useImagePreview() {
   return {
     preview,
   }
+}
+
+function downloadImage(url: string) {
+  if (url.startsWith('http')) {
+    return File.downloadFileAsync(url, Paths.cache)
+  }
+
+  return new File(url)
 }
 
 export async function getAlbum() {

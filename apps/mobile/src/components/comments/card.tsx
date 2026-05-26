@@ -1,5 +1,5 @@
 import { Link, useRouter } from 'expo-router'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import { Share, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -16,6 +16,7 @@ import { oledTheme } from '~/styles/oled'
 import { type Undefined } from '~/types'
 import { type CommentReply } from '~/types/comment'
 
+import { Banner } from '../common/banner'
 import { Gestures } from '../common/gestures'
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
@@ -70,7 +71,10 @@ export function CommentCard({
     'commentRightShort',
   ])
 
+  const card = useRef<View>(null)
   const menu = useRef<Sheet>(null)
+
+  const [capturing, setCapturing] = useState(false)
 
   styles.useVariants({
     colorful: colorfulComments,
@@ -176,7 +180,9 @@ export function CommentCard({
       style={styles.container(comment.depth)}
     >
       <CommentMenu
+        card={card}
         comment={comment}
+        onCapturing={setCapturing}
         onCollapse={onCollapse}
         onCollapseThread={onCollapseThread}
         ref={menu}
@@ -195,7 +201,11 @@ export function CommentCard({
           }}
           onPress={onPress}
         >
-          <View style={styles.main(comment.depth, dull)}>
+          <View
+            collapsable={false}
+            ref={card}
+            style={styles.main(comment.depth, dull)}
+          >
             {userOnTop ? (
               <CommentMeta
                 collapsed={collapsed}
@@ -264,6 +274,8 @@ export function CommentCard({
               />
             ) : null}
 
+            {capturing ? <Banner /> : null}
+
             {comment.saved ? (
               <View pointerEvents="none" style={styles.saved} />
             ) : null}
@@ -277,7 +289,6 @@ export function CommentCard({
 const styles = StyleSheet.create((theme, runtime) => ({
   body: {
     padding: theme.space[3],
-    paddingTop: theme.space[3] * 0.75,
   },
   container: (depth: number) => {
     const marginLeft = theme.space[2] * depth

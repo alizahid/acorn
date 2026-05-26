@@ -112,6 +112,7 @@ const styles = StyleSheet.create((theme) => ({
     gap: theme.space[3],
     maxWidth: cardMaxWidth,
     overflow: 'hidden',
+    padding: theme.space[3],
   }),
   saved: {
     backgroundColor: theme.colors.green.accent,

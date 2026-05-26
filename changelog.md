@@ -5,6 +5,7 @@
 - added: collapse comment thread
 - added: post creation (text, link, image, video)
 - added: revamped post / comment menus
+- added: screenshot posts / comments
 - added: translate post / comment text
 - changed: drawer now opens from the right
 - fixed: scrolling for long replies

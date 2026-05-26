@@ -1,5 +1,6 @@
 import { isPictureInPictureSupported } from 'expo-video'
 import { ScrollView } from 'react-native-gesture-handler'
+import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { FloatingButtonSide } from '~/components/common/floating-button'
@@ -606,7 +607,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Logo size={24} />}
+          icon={<Logo style={styles.logo} />}
           label={t('media.saveToAlbum')}
           onChange={(next) => {
             update({
@@ -669,3 +670,10 @@ export default function Screen() {
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  logo: {
+    height: theme.space[5],
+    width: theme.space[5],
+  },
+}))

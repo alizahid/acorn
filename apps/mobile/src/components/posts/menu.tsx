@@ -21,6 +21,7 @@ import { type ReportReason, useReport } from '~/hooks/moderation/report'
 import { usePostRemove } from '~/hooks/mutations/posts/remove'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
+import { useScreenshot } from '~/hooks/screenshot'
 import { useDownloadVideo } from '~/hooks/video'
 import { getIcon } from '~/lib/icons'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
@@ -34,20 +35,25 @@ import { Sheet } from '../common/sheet'
 
 type Props = {
   ref: RefObject<Sheet | null>
+  card?: RefObject<View | null>
   children: ReactNode
   post: Post
+  onCapturing?: (capturing: boolean) => void
 }
 
-export function PostMenu({ ref, children, post }: Props) {
+export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
   const router = useRouter()
 
   const { accountId } = useAuth(['accountId'])
   const { oldReddit } = usePreferences(['oldReddit'])
 
   const t = useTranslations('component.posts.menu')
-  const toasts = useTranslations('toasts')
 
   const reportRef = useRef<Sheet>(null)
+
+  const { screenshot } = useScreenshot({
+    onCapturing,
+  })
 
   const { vote } = usePostVote()
   const { save } = usePostSave()
@@ -220,7 +226,7 @@ export function PostMenu({ ref, children, post }: Props) {
 
           <Sheet.Item
             label={t('openApp')}
-            left={<Logo size={24} />}
+            left={<Logo style={styles.logo} />}
             onPress={() => {
               ref.current?.dismiss()
 
@@ -269,7 +275,7 @@ export function PostMenu({ ref, children, post }: Props) {
 
                   if (post.url) {
                     copy(post.url).then(() => {
-                      toast.success(toasts('link.copied'))
+                      toast.success(t('toast.linkCopied'))
                     })
                   }
                 }}
@@ -393,6 +399,56 @@ export function PostMenu({ ref, children, post }: Props) {
                   }}
                 />
               ) : null}
+            </>
+          ) : null}
+
+          {card ? (
+            <>
+              <Sheet.Separator />
+
+              <Sheet.Subtitle title={t('section.screenshot')} />
+
+              <Sheet.Item
+                label={t('copyScreenshot')}
+                left={<Icon name="square.on.square" />}
+                onPress={async () => {
+                  const url = await screenshot(card)
+
+                  ref.current?.dismiss()
+
+                  copyImage({
+                    url,
+                  })
+                }}
+              />
+
+              <Sheet.Item
+                label={t('shareScreenshot')}
+                left={<Icon name="square.and.arrow.up" />}
+                onPress={async () => {
+                  const url = await screenshot(card)
+
+                  ref.current?.dismiss()
+
+                  shareImage({
+                    url,
+                  })
+                }}
+              />
+
+              <Sheet.Item
+                label={t('downloadScreenshot')}
+                left={<Icon name="square.and.arrow.down" />}
+                onPress={async () => {
+                  const url = await screenshot(card)
+
+                  ref.current?.dismiss()
+
+                  downloadImage({
+                    url,
+                  })
+                }}
+              />
             </>
           ) : null}
 
@@ -643,6 +699,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   content: {
     paddingBottom: theme.space[4] + runtime.insets.bottom,
+  },
+  logo: {
+    height: theme.space[5],
+    width: theme.space[5],
   },
   palette: {
     flexDirection: 'row',

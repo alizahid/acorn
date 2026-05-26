@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router'
-import { useCallback, useRef } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { Share, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -15,6 +15,7 @@ import { usePreferences } from '~/stores/preferences'
 import { oledTheme } from '~/styles/oled'
 import { type Post } from '~/types/post'
 
+import { Banner } from '../common/banner'
 import { type GestureAction, Gestures } from '../common/gestures'
 import { Pressable } from '../common/pressable'
 import { type Sheet } from '../common/sheet'
@@ -75,11 +76,15 @@ export function PostCard({ expanded, post }: Props) {
     'postRightShort',
   ])
 
+  const card = useRef<View>(null)
   const menu = useRef<Sheet>(null)
+
+  const [capturing, setCapturing] = useState(false)
 
   const dimmed = !expanded && dimSeen && post.seen
 
   styles.useVariants({
+    compact: feedCompact && !expanded,
     dimmed,
     iPad,
     oled: themeOled,
@@ -184,14 +189,14 @@ export function PostCard({ expanded, post }: Props) {
         }}
         style={styles.container}
       >
-        <PostMenu post={post} ref={menu}>
+        <PostMenu card={card} onCapturing={setCapturing} post={post} ref={menu}>
           <Pressable
             accessibilityHint={a11y('viewPost')}
             accessibilityLabel={post.title}
             onLongPress={onLongPress}
             onPress={onPress}
           >
-            <View style={styles.main}>
+            <View collapsable={false} ref={card} style={styles.main}>
               <PostCompactCard
                 post={post}
                 side={mediaOnRight ? 'right' : 'left'}
@@ -222,14 +227,14 @@ export function PostCard({ expanded, post }: Props) {
       }}
       style={styles.container}
     >
-      <PostMenu post={post} ref={menu}>
+      <PostMenu card={card} onCapturing={setCapturing} post={post} ref={menu}>
         <Pressable
           accessibilityHint={a11y('viewPost')}
           accessibilityLabel={post.title}
           onLongPress={onLongPress}
           onPress={onPress}
         >
-          <View style={styles.main}>
+          <View collapsable={false} ref={card} style={styles.main}>
             <View style={[styles.header, styles.dimmed]}>
               {communityOnTop ? <PostCommunity post={post} /> : null}
 
@@ -295,6 +300,8 @@ export function PostCard({ expanded, post }: Props) {
               style={styles.dimmed}
             />
 
+            {capturing ? <Banner style={styles.banner} /> : null}
+
             {post.saved ? (
               <View pointerEvents="none" style={styles.saved} />
             ) : null}
@@ -306,6 +313,10 @@ export function PostCard({ expanded, post }: Props) {
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
+  banner: {
+    marginBottom: -theme.space[3],
+    marginHorizontal: -theme.space[3],
+  },
   container: {
     alignSelf: 'center',
     overflow: 'hidden',
@@ -347,8 +358,14 @@ const styles = StyleSheet.create((theme, runtime) => ({
       },
     ],
     gap: theme.space[3],
+    overflow: 'hidden',
     padding: theme.space[3],
     variants: {
+      compact: {
+        true: {
+          padding: 0,
+        },
+      },
       oled: {
         true: {
           backgroundColor: oledTheme[theme.variant].bg,
