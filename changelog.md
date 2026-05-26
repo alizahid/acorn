@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 77
 
 - added: collapse comment thread
 - added: post creation (text, link, image, video)
