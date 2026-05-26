@@ -27,13 +27,13 @@ export function Root({
   return (
     <TrueSheet
       backgroundBlur={
-        glass
+        !scrollable && glass
           ? undefined
           : theme.variant === 'dark'
             ? 'system-chrome-material-dark'
             : 'system-chrome-material-light'
       }
-      cornerRadius={glass ? undefined : styles.main.borderRadius}
+      cornerRadius={glass ? undefined : theme.radius[6]}
       detents={detents}
       dismissible={dismissible}
       grabber={false}
@@ -50,12 +50,9 @@ export function Root({
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     paddingHorizontal: glass ? StyleSheet.hairlineWidth : undefined,
   },
-  main: {
-    borderRadius: theme.radius[6],
-  },
-}))
+})
