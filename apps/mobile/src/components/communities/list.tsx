@@ -23,6 +23,7 @@ import { Empty } from '../common/empty'
 import { IconButton } from '../common/icon/button'
 import { ListHeader } from '../common/list/header'
 import { ListItem } from '../common/list/item'
+import { RefreshControl } from '../common/refresh-control'
 import { Spinner } from '../common/spinner'
 import { type AlphabetItem, AlphabetList } from './alphabet'
 
@@ -70,8 +71,8 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
 
   const { drawerSections } = useDefaults(['drawerSections'])
 
-  const { feeds, isLoading: loadingFeeds } = useFeeds()
-  const { communities, isLoading: loadingCommunities, users } = useCommunities()
+  const { feeds, isLoading: loadingFeeds, refetch: refetchFeeds } = useFeeds()
+  const { communities, isLoading, users, refetch } = useCommunities()
 
   const list = useRef<SectionList<Item, Section>>(null)
 
@@ -166,7 +167,7 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
               type: 'community',
             })),
             key: 'communities',
-            loading: loadingCommunities,
+            loading: isLoading,
             title: t('communities.title'),
           }
         }
@@ -181,7 +182,7 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
               type: 'user',
             })),
             key: 'users',
-            loading: loadingCommunities,
+            loading: isLoading,
             title: t('users.title'),
           }
         }
@@ -194,7 +195,7 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
     communities,
     drawerSections,
     feeds,
-    loadingCommunities,
+    isLoading,
     loadingFeeds,
     query,
     t,
@@ -215,6 +216,11 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
       keyExtractor={(item) => item.key}
       ListEmptyComponent={() => <Empty />}
       ref={list}
+      refreshControl={
+        <RefreshControl
+          onRefresh={() => Promise.all([refetch(), refetchFeeds()])}
+        />
+      }
       renderItem={({ item, section }) => {
         if (section.collapsed) {
           return null
@@ -259,7 +265,7 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
 
         if (item.type === 'feed') {
           return (
-            <>
+            <View style={styles.feed(expanded.get(item.key))}>
               <ListItem
                 label={item.data.name}
                 left={
@@ -287,7 +293,7 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
                         : 'chevron.up.circle.fill'
                     }
                     label={a11y(
-                      expanded.get(item.key) ? 'collapseFeed' : 'expandFeed',
+                      expanded.has(item.key) ? 'collapseFeed' : 'expandFeed',
                     )}
                     onPress={() => {
                       setExpanded((previous) => {
@@ -320,7 +326,6 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
                             style={[styles.image, styles.feedCommunityImage]}
                           />
                         }
-                        navigate
                         onPress={() => {
                           onPress?.()
 
@@ -337,7 +342,7 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
                     )
                   })
                 : null}
-            </>
+            </View>
           )
         }
 
@@ -479,10 +484,12 @@ export function CommunitiesList({ chevron, onPress, query = '' }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
+  feed: (open?: boolean) => ({
+    backgroundColor: open ? theme.colors.accent.bgAltAlpha : undefined,
+  }),
   feedCommunity: {
     height: theme.space[7],
-    paddingLeft: theme.space[8],
-    paddingRight: theme.space[4],
+    paddingLeft: theme.space[4],
   },
   feedCommunityImage: {
     height: theme.typography[2].lineHeight,
