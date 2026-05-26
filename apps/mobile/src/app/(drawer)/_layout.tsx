@@ -50,7 +50,6 @@ export default function Layout() {
         drawerType: iPad ? (stickyDrawer ? 'permanent' : 'slide') : 'slide',
         headerShown: false,
         overlayColor,
-        swipeEdgeWidth: frame.width,
       }}
     >
       <Drawer.Screen name="(tabs)" />
