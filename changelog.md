@@ -2,7 +2,9 @@
 
 ## Upcoming
 
+- added: tab bar minimize toggle
 - changed: sidebar button moved to the right
+- removed: tab bar minimize options
 
 ## Build 77
 

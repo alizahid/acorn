@@ -8,7 +8,6 @@ import { GestureIcons } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
-import { Text } from '~/components/common/text'
 import { iOS26, iPad } from '~/lib/common'
 import { getIcon } from '~/lib/icons'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
@@ -34,6 +33,7 @@ export default function Screen() {
     hideSeen,
     infiniteScrolling,
     linkBrowser,
+    minimizeTabBar,
     oldReddit,
     pictureInPicture,
     privateScreenshots,
@@ -47,7 +47,6 @@ export default function Screen() {
     showFlair,
     skipComment,
     stickyDrawer,
-    tabBarMinimizeBehavior,
     unmuteFullscreen,
     upvoteOnSave,
     userOnTop,
@@ -69,6 +68,7 @@ export default function Screen() {
     'hideSeen',
     'infiniteScrolling',
     'linkBrowser',
+    'minimizeTabBar',
     'oldReddit',
     'pictureInPicture',
     'privateScreenshots',
@@ -82,7 +82,6 @@ export default function Screen() {
     'showFlair',
     'skipComment',
     'stickyDrawer',
-    'tabBarMinimizeBehavior',
     'unmuteFullscreen',
     'upvoteOnSave',
     'userOnTop',
@@ -185,57 +184,15 @@ export default function Screen() {
         ) : null}
 
         {iOS26 ? (
-          <Menu.Options
+          <Menu.Switch
             icon={<Icon name="clock" />}
-            label={t('browsing.tabBarMinimizeBehavior.label')}
+            label={t('browsing.minimizeTabBar')}
             onChange={(next) => {
               update({
-                tabBarMinimizeBehavior: next,
+                minimizeTabBar: next,
               })
             }}
-            options={[
-              {
-                hideRight: true,
-                label: t('browsing.tabBarMinimizeBehavior.never'),
-                right: (
-                  <Text color="accent" weight="medium">
-                    {t('browsing.tabBarMinimizeBehavior.never')}
-                  </Text>
-                ),
-                value: 'never',
-              },
-              {
-                hideRight: true,
-                label: t('browsing.tabBarMinimizeBehavior.automatic'),
-                right: (
-                  <Text color="accent" weight="medium">
-                    {t('browsing.tabBarMinimizeBehavior.automatic')}
-                  </Text>
-                ),
-                value: 'automatic',
-              },
-              {
-                hideRight: true,
-                label: t('browsing.tabBarMinimizeBehavior.onScrollDown'),
-                right: (
-                  <Text color="accent" weight="medium">
-                    {t('browsing.tabBarMinimizeBehavior.onScrollDown')}
-                  </Text>
-                ),
-                value: 'onScrollDown',
-              },
-              {
-                hideRight: true,
-                label: t('browsing.tabBarMinimizeBehavior.onScrollUp'),
-                right: (
-                  <Text color="accent" weight="medium">
-                    {t('browsing.tabBarMinimizeBehavior.onScrollUp')}
-                  </Text>
-                ),
-                value: 'onScrollUp',
-              },
-            ]}
-            value={tabBarMinimizeBehavior}
+            value={minimizeTabBar}
           />
         ) : null}
 

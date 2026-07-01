@@ -667,6 +667,7 @@
       "preferences": {
         "browsing": {
           "infiniteScrolling": "Infinite scrolling",
+          "minimizeTabBar": "Minimize tab bar",
           "oldReddit": "Use old Reddit links",
           "privateScreenshots": "Hide interactions for screenshots",
           "refreshInterval": {
@@ -676,13 +677,6 @@
             "never": "Never"
           },
           "stickyDrawer": "Sticky drawer",
-          "tabBarMinimizeBehavior": {
-            "automatic": "Automatic",
-            "label": "Tab bar minimize behavior",
-            "never": "Never",
-            "onScrollDown": "On scroll down",
-            "onScrollUp": "On scroll up"
-          },
           "title": "Browsing"
         },
         "comments": {
