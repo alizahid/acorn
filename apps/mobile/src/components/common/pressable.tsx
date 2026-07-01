@@ -5,14 +5,12 @@ import {
 } from 'pressto'
 
 type Props = {
-  disabled?: boolean
   variant?: 'opacity' | 'plain'
-} & Omit<CustomPressableProps, 'enabled'>
+} & CustomPressableProps
 
 export function Pressable({
   accessibilityRole = 'button',
   children,
-  disabled = false,
   style,
   variant = 'opacity',
   ...props
@@ -20,12 +18,7 @@ export function Pressable({
   const Main = variant === 'plain' ? PressableWithoutFeedback : PressableOpacity
 
   return (
-    <Main
-      {...props}
-      accessibilityRole={accessibilityRole}
-      enabled={!disabled}
-      style={style}
-    >
+    <Main {...props} accessibilityRole={accessibilityRole} style={style}>
       {children}
     </Main>
   )

@@ -177,7 +177,11 @@ export function PostCard({ expanded, post }: Props) {
   if (feedCompact && !expanded) {
     return (
       <Gestures
-        data={post}
+        data={{
+          hidden: post.hidden,
+          liked: post.liked,
+          saved: post.saved,
+        }}
         left={{
           enabled: postLeft,
           long: postLeftLong,
@@ -216,7 +220,11 @@ export function PostCard({ expanded, post }: Props) {
 
   return (
     <Gestures
-      data={post}
+      data={{
+        hidden: post.hidden,
+        liked: post.liked,
+        saved: post.saved,
+      }}
       left={{
         enabled: postLeft,
         long: postLeftLong,

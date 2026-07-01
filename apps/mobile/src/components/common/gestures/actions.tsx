@@ -6,6 +6,7 @@ import Animated, {
   useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
+  withSequence,
   withTiming,
 } from 'react-native-reanimated'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
@@ -90,18 +91,13 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
 
       if (swipe && gesture !== action.get()) {
         scale.set(
-          withTiming(
-            1.75,
-            {
+          withSequence(
+            withTiming(1.75, {
               duration: 100,
-            },
-            () => {
-              scale.set(
-                withTiming(1, {
-                  duration: 100,
-                }),
-              )
-            },
+            }),
+            withTiming(1, {
+              duration: 100,
+            }),
           ),
         )
 
