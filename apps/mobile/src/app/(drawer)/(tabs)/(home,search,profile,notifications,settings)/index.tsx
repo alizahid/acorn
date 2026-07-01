@@ -89,7 +89,18 @@ export default function Screen() {
   useFocusEffect(
     useCallback(() => {
       navigation.setOptions({
-        headerLeft:
+        headerLeft: () => (
+          <SortIntervalMenu
+            interval={sorting.interval}
+            onChange={(next) => {
+              update(next)
+            }}
+            sort={sorting.sort}
+            style={styles.sort}
+            type={type}
+          />
+        ),
+        headerRight:
           iPad && stickyDrawer
             ? null
             : () => (
@@ -104,17 +115,6 @@ export default function Screen() {
                   weight="medium"
                 />
               ),
-        headerRight: () => (
-          <SortIntervalMenu
-            interval={sorting.interval}
-            onChange={(next) => {
-              update(next)
-            }}
-            sort={sorting.sort}
-            style={styles.sort}
-            type={type}
-          />
-        ),
         headerTitle: () =>
           name === 'home' || name === 'all' || name === 'popular' ? (
             <GlassView style={styles.header}>

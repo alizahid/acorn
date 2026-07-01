@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- changed: sidebar button moved to the right
+
 ## Build 77
 
 - added: collapse comment thread

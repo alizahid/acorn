@@ -45,7 +45,7 @@ export default function Layout() {
         <HomeDrawer onClose={navigation.closeDrawer} />
       )}
       screenOptions={{
-        drawerPosition: iPad ? 'left' : 'right',
+        drawerPosition: iPad && stickyDrawer ? 'left' : 'right',
         drawerStyle,
         drawerType: iPad ? (stickyDrawer ? 'permanent' : 'slide') : 'slide',
         headerShown: false,
