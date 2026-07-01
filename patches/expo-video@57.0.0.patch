@@ -1,8 +1,8 @@
 diff --git a/ios/VideoManager.swift b/ios/VideoManager.swift
-index 0b82a77c4c2d895ab5c92342935ed1407361222b..d40c715b55e2ab1d313d8c18daa41b540424c91b 100644
+index c2ebd04d3830c0fdfb51a0677f6df279d8420613..a98eeb6750d7ece818bd7d44e00722e51090cbef 100644
 --- a/ios/VideoManager.swift
 +++ b/ios/VideoManager.swift
-@@ -104,7 +104,7 @@ class VideoManager {
+@@ -149,7 +149,7 @@ class VideoManager {
  
      if audioSession.categoryOptions != audioSessionCategoryOptions || audioSession.category != .playback || audioSession.mode != .moviePlayback {
        do {

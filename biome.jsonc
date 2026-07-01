@@ -38,14 +38,14 @@
   },
   "linter": {
     "rules": {
+      "a11y": {
+        "noSvgWithoutTitle": "off"
+      },
       "complexity": {
         "noExcessiveCognitiveComplexity": "off"
       },
       "correctness": {
         "useJsonImportAttributes": "off"
-      },
-      "nursery": {
-        "noLeakedRender": "off"
       },
       "style": {
         "noMagicNumbers": "off",
@@ -73,6 +73,7 @@
         "useNamingConvention": "off"
       },
       "suspicious": {
+        "noLeakedRender": "off",
         "noRedeclare": "off",
         "noUnknownAtRules": "off"
       }

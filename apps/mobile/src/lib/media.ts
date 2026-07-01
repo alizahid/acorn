@@ -52,7 +52,7 @@ export function getImages(data: PostDataSchema): Undefined<Array<PostMedia>> {
       data.gallery_data.items.map((item) => {
         const media = data.media_metadata?.[item.media_id]
 
-        if (!media || media.status !== 'valid') {
+        if (media?.status !== 'valid') {
           return null
         }
 
