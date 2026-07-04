@@ -96,5 +96,5 @@ Acorn uses Biome to lint and format code.
 You can run the following command at the root of your repo to make sure things are how they should be;
 
 ```bash
-bun lint; bun lint:types
+bun lint; bun typecheck
 ```

@@ -10,7 +10,7 @@
     "clean": "rimraf --glob '**/.next' '**/.expo' '**/.turbo'",
     "dev": "bun clean; watchman shutdown-server; turbo dev",
     "lint": "bunx ultracite fix",
-    "lint:types": "turbo lint:types",
+    "typecheck": "turbo typecheck",
     "nuke": "bun clean '**/node_modules' bun.lock",
     "prepare": "husky",
     "tunnel": "ngrok http --url=acorn-blue.ngrok.app 3000"

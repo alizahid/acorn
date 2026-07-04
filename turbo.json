@@ -20,8 +20,8 @@
       "cache": false,
       "persistent": true
     },
-    "lint:types": {
-      "dependsOn": ["^lint:types"]
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
     }
   }
 }

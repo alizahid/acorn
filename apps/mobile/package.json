@@ -12,7 +12,7 @@
     "dev": "expo start --ios --clear",
     "generate:icons": "bunx react-native-nano-icons",
     "ios": "expo run:ios",
-    "lint:types": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "publish": "eas build --profile production --platform ios --auto-submit"
   },
   "dependencies": {
