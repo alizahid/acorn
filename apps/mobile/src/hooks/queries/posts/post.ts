@@ -85,7 +85,7 @@ export function usePost({ commentId, id, sort }: Props) {
 
       const response = PostSchema.parse(payload)
 
-      const post = response[0].data.children[0]
+      const [post] = response[0].data.children
       const comments = response[1].data.children
 
       if (!post) {
@@ -169,10 +169,10 @@ export function usePost({ commentId, id, sort }: Props) {
         variables.commentId,
       )
 
-      const commentId = parentIds.at(-1) ?? variables.commentId
+      const $commentId = parentIds.at(-1) ?? variables.commentId
 
       collapse({
-        commentId,
+        commentId: $commentId,
       })
     },
     [collapse, query.data?.comments],

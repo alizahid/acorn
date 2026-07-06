@@ -88,12 +88,12 @@ export function useLoadMoreComments() {
           const comments = items.map((item) => transformComment(item))
 
           const replies = comments.map((comment) =>
-            create(comment, (draft) => {
-              if (!draft.data.parentId) {
+            create(comment, (draftComment) => {
+              if (!draftComment.data.parentId) {
                 return
               }
 
-              draft.data.depth = getParentDepth(
+              draftComment.data.depth = getParentDepth(
                 [...comments, ...(post?.comments ?? [])],
                 comment.data.parentId,
               )

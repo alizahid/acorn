@@ -47,6 +47,9 @@
       "correctness": {
         "useJsonImportAttributes": "off"
       },
+      "performance": {
+        "noJsxPropsBind": "off" // FIXME
+      },
       "style": {
         "noMagicNumbers": "off",
         "noNestedTernary": "off",

@@ -42,11 +42,10 @@ export function useDownloadVideo() {
         throw new Error('Permission not granted')
       }
 
-      let url = variables.url
-
-      if (variables.provider === 'red-gifs') {
-        url = (await getGif(variables.url)).url
-      }
+      const { url } =
+        variables.provider === 'red-gifs'
+          ? await getGif(variables.url)
+          : variables
 
       const file = new File(Paths.cache, `${createId()}.mp4`)
 

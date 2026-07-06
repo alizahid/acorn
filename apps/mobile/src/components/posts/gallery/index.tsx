@@ -49,7 +49,7 @@ export function PostGalleryCard({
   const placeholder = useImagePlaceholder()
   const { preview } = useImagePreview()
 
-  const first = images[0]
+  const [first] = images
 
   const onPress = useCallback(
     (initial?: number) => {

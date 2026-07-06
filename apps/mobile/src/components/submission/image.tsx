@@ -48,16 +48,16 @@ export function SubmissionImage({ onStatusChange, type = 'image' }: Props) {
         mediaTypes: type === 'video' ? 'videos' : 'images',
       })
 
-      const asset = assets?.[0]
+      const $asset = assets?.[0]
 
-      if (!asset) {
+      if (!$asset) {
         return
       }
 
-      setAsset(asset)
+      setAsset($asset)
 
-      if (asset.type === 'video') {
-        const thumbnail = await generateVideoThumbnail(asset)
+      if ($asset.type === 'video') {
+        const thumbnail = await generateVideoThumbnail($asset)
 
         setPreview({
           uri: thumbnail.uri,
@@ -65,16 +65,16 @@ export function SubmissionImage({ onStatusChange, type = 'image' }: Props) {
 
         return {
           poster: await uploadFile(thumbnail),
-          video: await uploadFile(asset),
+          video: await uploadFile($asset),
         }
       }
 
       setPreview({
-        uri: asset.uri,
+        uri: $asset.uri,
       })
 
       return {
-        image: await uploadFile(asset),
+        image: await uploadFile($asset),
       }
     },
     onError(error) {

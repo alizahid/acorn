@@ -17,7 +17,7 @@ export function SegmentedControl({ items, onChange, value }: Props) {
     <Component
       appearance={theme.variant}
       onValueChange={(key) => {
-        const item = items.find((item) => item.label === key)
+        const item = items.find(({ label }) => label === key)
 
         if (item) {
           onChange(item.key)

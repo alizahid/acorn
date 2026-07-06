@@ -12,8 +12,6 @@ import expoSqlite from 'expo-sqlite/plugin'
 import expoVideo from 'expo-video/plugin'
 import expoWebBrowser from 'expo-web-browser/plugin'
 
-import withDeploymentTarget from './plugins/with-deployment-target'
-
 export default function getConfig(context: ConfigContext): ExpoConfig {
   const name = 'Acorn'
   const projectId = '8d7d5acc-3688-4cd2-b93f-52391f665348'
@@ -132,22 +130,17 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     version: '1.0.0',
   } satisfies ExpoConfig
 
-  return withDeploymentTarget(
-    withBuildProperties(config, {
-      ios: {
-        buildReactNativeFromSource: true,
-        extraPods: [
-          {
-            name: 'ffmpeg-kit-ios-full-gpl',
-            podspec: 'https://acorn.blue/ffmpeg-kit-ios-full-gpl.podspec',
-          },
-        ],
-        useHermesV1: true,
-        usePrecompiledModules: true,
-      },
-    }),
-    {
-      deploymentTarget: config.ios.deploymentTarget,
+  return withBuildProperties(config, {
+    ios: {
+      buildReactNativeFromSource: true,
+      extraPods: [
+        {
+          name: 'ffmpeg-kit-ios-full-gpl',
+          podspec: 'https://acorn.blue/ffmpeg-kit-ios-full-gpl.podspec',
+        },
+      ],
+      useHermesV1: true,
+      usePrecompiledModules: true,
     },
-  )
+  })
 }

@@ -30,11 +30,13 @@ export function useSubscribe() {
       }
 
       if (Array.isArray(purchases)) {
-        for (const purchase of purchases) {
-          await finishTransaction({
-            purchase,
-          })
-        }
+        await Promise.all(
+          purchases.map((purchase) =>
+            finishTransaction({
+              purchase,
+            }),
+          ),
+        )
       } else {
         await finishTransaction({
           purchase: purchases,

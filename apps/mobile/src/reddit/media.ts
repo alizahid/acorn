@@ -104,8 +104,10 @@ async function fetchLease(asset: ImagePickerAsset) {
     const json = await response.json()
 
     return LeaseSchema.parse(json).data.createMediaUploadLease
-  } catch {
-    throw new Error('File type not allowed')
+  } catch (error) {
+    throw new Error('File type not allowed', {
+      cause: error,
+    })
   }
 }
 

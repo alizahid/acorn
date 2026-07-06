@@ -78,22 +78,20 @@ export function AlphabetList({ data, onScroll }: Props) {
         PanGestureHandlerEventPayload | TapGestureHandlerEventPayload
       >,
     ) => {
-      const length = items.length
-
-      if (length === 1) {
+      if (items.length === 1) {
         onScroll(0)
 
         return
       }
 
-      const height = length * 18
-      const letters = range(length)
+      const height = items.length * 18
+      const letters = range(items.length)
 
       const y = clamp(event.y, 0, height)
 
       const value = interpolate(
         y,
-        letters.map((item) => item * (height / length)),
+        letters.map((item) => item * (height / items.length)),
         letters,
       )
 

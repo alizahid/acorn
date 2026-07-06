@@ -52,7 +52,7 @@ export default function Screen() {
       type: params.type ?? defaults.feedType,
     } as const
 
-    const type: SortingType = data.community
+    const $type: SortingType = data.community
       ? 'community'
       : data.feed
         ? 'feed'
@@ -60,18 +60,18 @@ export default function Screen() {
           ? 'feed'
           : 'community'
 
-    const feed = data.community ? undefined : data.feed ? data.feed : undefined
+    const $feed = data.community ? undefined : data.feed ? data.feed : undefined
 
-    const community = data.community
+    const $community = data.community
       ? data.community
       : data.type === 'home'
         ? undefined
         : data.type
 
     return {
-      community,
-      feed,
-      type,
+      community: $community,
+      feed: $feed,
+      type: $type,
     }
   }, [
     defaults.community,

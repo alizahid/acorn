@@ -303,13 +303,13 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
               <Sheet.Subtitle
                 title={t(
-                  (post.media.images?.length ?? 0) > 1
+                  post.media.images?.length
                     ? 'section.gallery'
                     : 'section.image',
                 )}
               />
 
-              {(post.media.images?.length ?? 0) === 1 ? (
+              {post.media.images?.length === 1 ? (
                 <Sheet.Item
                   label={t('copyImage')}
                   left={<Icon name="square.on.square" />}
@@ -325,7 +325,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 />
               ) : null}
 
-              {(post.media.images?.length ?? 0) === 1 ? (
+              {post.media.images?.length === 1 ? (
                 <Sheet.Item
                   label={t('shareImage')}
                   left={<Icon name="square.and.arrow.up" />}
@@ -341,7 +341,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 />
               ) : null}
 
-              {(post.media.images?.length ?? 0) === 1 ? (
+              {post.media.images?.length === 1 ? (
                 <Sheet.Item
                   label={t('downloadImage')}
                   left={<Icon name="square.and.arrow.down" />}
@@ -357,7 +357,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 />
               ) : null}
 
-              {(post.media.images?.length ?? 0) > 1 ? (
+              {post.media.images?.length ? (
                 <Sheet.Item
                   label={t('downloadGallery')}
                   left={<Icon name="square.and.arrow.down" />}

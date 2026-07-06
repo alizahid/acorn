@@ -42,7 +42,7 @@ export function MessageCard({ message }: Props) {
 
   const user = message.from === accountId ? message.to : message.from
 
-  const body = (last(message.replies) ?? message).body
+  const { body } = last(message.replies) ?? message
 
   return (
     <Pressable

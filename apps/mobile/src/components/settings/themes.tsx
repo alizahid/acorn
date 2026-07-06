@@ -139,7 +139,7 @@ export function Themes({ onChange, value }: Props) {
                   key={item.key}
                   name={t(`themes.${getThemeName(item.key)}`)}
                   onPress={() => {
-                    onChange?.(item.key)
+                    onChange(item.key)
                   }}
                   value={value}
                 />

@@ -87,9 +87,9 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
             ? 'short'
             : null
 
-      const gesture = gestures[side][swipe ?? 'short']
+      const $gesture = gestures[side][swipe ?? 'short']
 
-      if (swipe && gesture !== action.get()) {
+      if (swipe && $gesture !== action.get()) {
         scale.set(
           withSequence(
             withTiming(1.75, {
@@ -104,10 +104,10 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
         scheduleOnRN(triggerFeedback, 'soft')
       }
 
-      color.set(theme.colors[GestureColors[gesture]].accent)
-      icon.set(getNextIcon(gesture, data))
+      color.set(theme.colors[GestureColors[$gesture]].accent)
+      icon.set(getNextIcon($gesture, data))
 
-      action.set(swipe ? gesture : null)
+      action.set(swipe ? $gesture : null)
 
       opacity.set(
         withTiming(swipe ? 1 : 0.5, {
