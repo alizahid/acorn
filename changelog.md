@@ -3,9 +3,10 @@
 ## Upcoming
 
 - added: tab bar minimize toggle
-- changed: sidebar button moved to the right
 - changed: ask for permission when enabling save to Acorn album
+- changed: sidebar button moved to the right
 - fixed: following Reddit share links
+- fixed: prioritize community over feed in post list fetch
 - removed: tab bar minimize options
 
 ## Build 77

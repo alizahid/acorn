@@ -80,10 +80,10 @@ export function usePosts({
 
       const path = user
         ? `/user/${user}/${userType ?? 'submitted'}`
-        : feed
-          ? `/user/${accountId}/m/${feed}/${sort}`
-          : community
-            ? `/r/${community}/${sort}`
+        : community
+          ? `/r/${community}/${sort}`
+          : feed
+            ? `/user/${accountId}/m/${feed}/${sort}`
             : `/${sort}`
 
       const url = new URL(path, REDDIT_URI)
