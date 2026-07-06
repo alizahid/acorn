@@ -46,7 +46,7 @@ export function useDownloadImage() {
         duration: Number.POSITIVE_INFINITY,
       })
 
-      const { granted } = await requestPermissionsAsync()
+      const { granted } = await requestPermissionsAsync(!saveToAlbum)
 
       if (!granted) {
         throw new Error('Permission not granted')
@@ -110,7 +110,7 @@ export function useDownloadImages() {
         duration: Number.POSITIVE_INFINITY,
       })
 
-      const { granted } = await requestPermissionsAsync()
+      const { granted } = await requestPermissionsAsync(!saveToAlbum)
 
       if (!granted) {
         throw new Error('Permission not granted')

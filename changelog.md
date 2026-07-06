@@ -4,6 +4,7 @@
 
 - added: tab bar minimize toggle
 - changed: sidebar button moved to the right
+- changed: ask for permission when enabling save to Acorn album
 - fixed: following Reddit share links
 - removed: tab bar minimize options
 

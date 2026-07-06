@@ -36,7 +36,7 @@ export function useDownloadVideo() {
         duration: Number.POSITIVE_INFINITY,
       })
 
-      const { granted } = await requestPermissionsAsync()
+      const { granted } = await requestPermissionsAsync(!saveToAlbum)
 
       if (!granted) {
         throw new Error('Permission not granted')

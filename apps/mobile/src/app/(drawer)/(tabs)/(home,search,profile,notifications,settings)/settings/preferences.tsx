@@ -1,3 +1,4 @@
+import { requestPermissionsAsync } from 'expo-media-library'
 import { isPictureInPictureSupported } from 'expo-video'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
@@ -564,9 +565,18 @@ export default function Screen() {
         />
 
         <Menu.Switch
+          description={t('media.saveToAlbum.description')}
           icon={<Logo style={styles.logo} />}
-          label={t('media.saveToAlbum')}
-          onChange={(next) => {
+          label={t('media.saveToAlbum.label')}
+          onChange={async (next) => {
+            if (next) {
+              const { granted } = await requestPermissionsAsync(false)
+
+              if (!granted) {
+                return
+              }
+            }
+
             update({
               saveToAlbum: next,
             })
