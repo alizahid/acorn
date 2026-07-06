@@ -45,6 +45,8 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
 
   return (
     <MarkdownViewer
+      allowFontScaling={systemScaling}
+      markdown={markdown}
       onImagePress={(image) => {
         preview([image])
       }}
@@ -54,7 +56,7 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
       style={styles.main(font, systemScaling ? 1 : fontScaling, size)}
       uniProps={(theme) => ({
         styles: {
-          blockquote: {
+          blockQuote: {
             backgroundColor: theme.colors.accent.ui,
             borderColor: theme.colors.accent.border,
             borderLeftWidth: theme.space[1],
@@ -72,17 +74,19 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
             fontFamily: fonts.mono,
             padding: theme.space[3],
           },
-          heading1: {
-            ...theme.typography[addTextSize(size, 3)],
-            fontWeight: '600' as const,
-          },
-          heading2: {
-            ...theme.typography[addTextSize(size, 2)],
-            fontWeight: '600' as const,
-          },
-          heading3: {
-            ...theme.typography[addTextSize(size, 1)],
-            fontWeight: '600' as const,
+          headings: {
+            h1: {
+              ...theme.typography[addTextSize(size, 3)],
+              fontWeight: '600' as const,
+            },
+            h2: {
+              ...theme.typography[addTextSize(size, 2)],
+              fontWeight: '600' as const,
+            },
+            h3: {
+              ...theme.typography[addTextSize(size, 1)],
+              fontWeight: '600' as const,
+            },
           },
           image: {
             backgroundColor: theme.colors.gray.ui,
@@ -92,9 +96,9 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
             color: theme.colors.accent.accent,
           },
           list: {
-            gap: theme.space[1],
+            marginLeft: theme.space[1],
           },
-          listBullet: {
+          listMarker: {
             color: theme.colors.gray.textLow,
           },
           spoiler: {
@@ -104,17 +108,16 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
           strikethrough: {
             textDecorationColor: theme.colors.red.accent,
           },
+          table: {
+            backgroundColor: theme.colors.gray.bgAltAlpha,
+            borderCurve: 'continuous',
+            borderRadius: theme.radius[4],
+          },
           tableCell: {
             ...theme.typography[addTextSize(size, -1)],
             borderColor: theme.colors.gray.border,
             borderWidth: StyleSheet.hairlineWidth,
             padding: theme.space[2],
-          },
-          tableHeaderCell: {
-            fontWeight: '600' as const,
-          },
-          tableHeaderRow: {
-            backgroundColor: theme.colors.gray.ui,
           },
           thematicBreak: {
             backgroundColor: theme.colors.gray.border,
@@ -123,9 +126,7 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
           },
         },
       })}
-    >
-      {markdown}
-    </MarkdownViewer>
+    />
   )
 }
 

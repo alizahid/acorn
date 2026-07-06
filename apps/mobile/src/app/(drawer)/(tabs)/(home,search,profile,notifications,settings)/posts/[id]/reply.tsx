@@ -7,8 +7,8 @@ import {
 import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useRef, useState } from 'react'
 import {
-  type EditorStyleState,
-  type MarkdownEditorHandle,
+  type FastMarkdownEditorRef,
+  type MarkdownEditorState,
 } from 'react-native-fast-markdown'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
@@ -50,9 +50,9 @@ export default function Screen() {
   const reply = usePostReply()
   const edit = useCommentEdit()
 
-  const editor = useRef<MarkdownEditorHandle>(null)
+  const editor = useRef<FastMarkdownEditorRef>(null)
 
-  const [state, setState] = useState<EditorStyleState>()
+  const [state, setState] = useState<MarkdownEditorState>()
   const [text, setText] = useState(params.body)
 
   useFocusEffect(

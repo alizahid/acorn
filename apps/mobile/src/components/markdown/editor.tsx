@@ -1,8 +1,9 @@
 import { type Ref, type RefObject } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import {
-  type EditorStyleState,
-  type MarkdownEditorHandle,
+  type FastMarkdownEditorRef,
+  type MarkdownContainerStyle,
+  type MarkdownEditorState,
 } from 'react-native-fast-markdown'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -16,11 +17,11 @@ import { MarkdownInput } from '../native/markdown'
 
 type RootProps = {
   onChange?: (value: string) => void
-  onChangeState?: (state: EditorStyleState) => void
+  onChangeState?: (state: MarkdownEditorState) => void
   placeholder?: string
   value?: string
-  style?: StyleProp<ViewStyle>
-  ref?: Ref<MarkdownEditorHandle>
+  style?: MarkdownContainerStyle
+  ref?: Ref<FastMarkdownEditorRef>
 }
 
 function Root({
@@ -52,8 +53,8 @@ function Root({
 }
 
 type ToolBarProps = {
-  editor?: RefObject<MarkdownEditorHandle | null>
-  state?: EditorStyleState
+  editor?: RefObject<FastMarkdownEditorRef | null>
+  state?: MarkdownEditorState
   style?: StyleProp<ViewStyle>
 }
 
@@ -70,9 +71,9 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         style={styles.tool}
       >
         <PhosphorIcon
-          name={state?.bold ? 'text-b-bold' : 'text-b'}
+          name={state?.isBold ? 'text-b-bold' : 'text-b'}
           uniProps={(theme) => ({
-            color: state?.bold
+            color: state?.isBold
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
@@ -87,9 +88,9 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         style={styles.tool}
       >
         <PhosphorIcon
-          name={state?.italic ? 'text-italic-bold' : 'text-italic'}
+          name={state?.isItalic ? 'text-italic-bold' : 'text-italic'}
           uniProps={(theme) => ({
-            color: state?.italic
+            color: state?.isItalic
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
@@ -105,12 +106,12 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
       >
         <PhosphorIcon
           name={
-            state?.strikethrough
+            state?.isStrikethrough
               ? 'text-strikethrough-bold'
               : 'text-strikethrough'
           }
           uniProps={(theme) => ({
-            color: state?.strikethrough
+            color: state?.isStrikethrough
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
@@ -125,9 +126,9 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         style={styles.tool}
       >
         <PhosphorIcon
-          name={state?.spoiler ? 'eye-closed-bold' : 'eye-closed'}
+          name={state?.isSpoiler ? 'eye-closed-bold' : 'eye-closed'}
           uniProps={(theme) => ({
-            color: state?.spoiler
+            color: state?.isSpoiler
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}

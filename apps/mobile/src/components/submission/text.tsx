@@ -3,8 +3,8 @@ import { useRef, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
 import {
-  type EditorStyleState,
-  type MarkdownEditorHandle,
+  type FastMarkdownEditorRef,
+  type MarkdownEditorState,
 } from 'react-native-fast-markdown'
 import {
   KeyboardController,
@@ -42,9 +42,9 @@ export function SubmissionText() {
 
   const { progress } = useReanimatedKeyboardAnimation()
 
-  const editor = useRef<MarkdownEditorHandle>(null)
+  const editor = useRef<FastMarkdownEditorRef>(null)
 
-  const [state, setState] = useState<EditorStyleState>()
+  const [state, setState] = useState<MarkdownEditorState>()
 
   const style = useAnimatedStyle(() => ({
     height: interpolate(progress.get(), [0, 1], [0, 48]),

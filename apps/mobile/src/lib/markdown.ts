@@ -38,15 +38,13 @@ export function mergeMetaMarkdown(markdown: string, meta?: PostMediaMeta) {
 
   let merged = markdown
 
-  merged = merged.replaceAll('![gif]', '![]')
-
   if (merged.includes('giphy')) {
     merged = merged.replace(giphyRegex, (_, id, type) => {
       if (type) {
-        return `https://media.giphy.com/media/${id}/giphy-${type}.gif`
+        return `![](https://media.giphy.com/media/${id}/giphy-${type}.gif)`
       }
 
-      return `https://media.giphy.com/media/${id}/giphy.gif`
+      return `![](https://media.giphy.com/media/${id}/giphy.gif)`
     })
   }
 
