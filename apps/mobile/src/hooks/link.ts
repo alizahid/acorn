@@ -25,6 +25,7 @@ export function useLink() {
     'linkBrowser',
     'oldReddit',
   ])
+
   const { setFocused } = useFocused()
 
   const { theme } = useUnistyles()
@@ -91,7 +92,7 @@ export function useLink() {
           })
 
           const response = await fetch(url, {
-            method: 'trace',
+            credentials: 'omit',
             redirect: 'follow',
           })
 
