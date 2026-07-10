@@ -22,9 +22,9 @@
         "@expo/ui": "~57.0.4",
         "@formatjs/intl-getcanonicallocales": "^3.2.10",
         "@formatjs/intl-locale": "^5.3.9",
-        "@formatjs/intl-numberformat": "^9.3.11",
-        "@formatjs/intl-pluralrules": "^6.3.10",
-        "@formatjs/intl-relativetimeformat": "^12.3.10",
+        "@formatjs/intl-numberformat": "^9.3.12",
+        "@formatjs/intl-pluralrules": "^6.3.11",
+        "@formatjs/intl-relativetimeformat": "^12.3.11",
         "@hookform/resolvers": "^5.4.0",
         "@lodev09/react-native-true-sheet": "^3.11.3",
         "@paralleldrive/cuid2": "^3.3.0",
@@ -488,13 +488,13 @@
 
     "@formatjs/intl-locale": ["@formatjs/intl-locale@5.3.9", "", { "dependencies": { "@formatjs/intl-getcanonicallocales": "3.2.10", "@formatjs/intl-supportedvaluesof": "2.3.8" } }, "sha512-h8xk+FFg0R9jZmX2r+75BglH5Bd++7pnCn5veN4Fv9a+E6TiYgD0QnYXbYOzOskLPKaTnFrUFkQ7OYJUasuONw=="],
 
-    "@formatjs/intl-localematcher": ["@formatjs/intl-localematcher@0.8.10", "", { "dependencies": { "@formatjs/fast-memoize": "3.1.6" } }, "sha512-P/IC3qws3jH+1fEs+o0RIFgXKRaQlFehjS5W0FPAqdo6hgzawLl+eD0q0JjheQ3XtoOe5n8WSYfX06KQZI/QJA=="],
+    "@formatjs/intl-localematcher": ["@formatjs/intl-localematcher@0.8.11", "", { "dependencies": { "@formatjs/fast-memoize": "3.1.6" } }, "sha512-MzBbR9ifqgtzHwUl2PGEDtRVZGXF9nXPtrMyN6/iKbQaim1Ob7fnPJQMllVkHm3RK74o5VqnLrZIE9egWJhf5g=="],
 
-    "@formatjs/intl-numberformat": ["@formatjs/intl-numberformat@9.3.11", "", { "dependencies": { "@formatjs/bigdecimal": "0.2.6", "@formatjs/intl-localematcher": "0.8.10" } }, "sha512-AF7I2OIV/kSTvUBBV5nnP+SBA71DiSRcK5O9buEcHohqcg5ZhAcWmLf9FCpMya/saHahi2E0IOS2oSP+keRP5g=="],
+    "@formatjs/intl-numberformat": ["@formatjs/intl-numberformat@9.3.12", "", { "dependencies": { "@formatjs/bigdecimal": "0.2.6", "@formatjs/intl-localematcher": "0.8.11" } }, "sha512-bj3tg9fs/RtfcxoxroiHyfm+6mnodLpz6+ImF7PPKX79sO7JcqDjxc4cEhEdgMRzx6j+xCD8/RMP4aQqox4y0w=="],
 
-    "@formatjs/intl-pluralrules": ["@formatjs/intl-pluralrules@6.3.10", "", { "dependencies": { "@formatjs/bigdecimal": "0.2.6", "@formatjs/intl-localematcher": "0.8.10" } }, "sha512-pMoqKYhsfz2ostOQsh/5e66EJPiYWzy4yO7k9zcBLfw0pgOf15TRDYaT6lPghqUe9gdEEfP74QL7u6gwomxCTg=="],
+    "@formatjs/intl-pluralrules": ["@formatjs/intl-pluralrules@6.3.11", "", { "dependencies": { "@formatjs/bigdecimal": "0.2.6", "@formatjs/intl-localematcher": "0.8.11" } }, "sha512-ilZ+kkmLwisE+2Z6CZFV087UY5Ro74cSKEaQsOLBK0jy4WE2sea88E7xFjENQJWuHxTHbz/nDdpSp4U6ThQKbg=="],
 
-    "@formatjs/intl-relativetimeformat": ["@formatjs/intl-relativetimeformat@12.3.10", "", { "dependencies": { "@formatjs/intl-localematcher": "0.8.10" } }, "sha512-dAHd3MaS4Ffmxjhex5y9Z2a1dbuNBCLSI+kThvU1IUnmtv+NuUEBFxE89jGZngccXJJJHrxvEypkkbnf7Foaig=="],
+    "@formatjs/intl-relativetimeformat": ["@formatjs/intl-relativetimeformat@12.3.11", "", { "dependencies": { "@formatjs/intl-localematcher": "0.8.11" } }, "sha512-1E0R00USPYArBKNsewEZHeoHTU2iKEx0KXleTY6QwyxyXqczTMJ7mqZhYGS9RwEdV0j4fFiCfiBK8EdhVQG4Mg=="],
 
     "@formatjs/intl-supportedvaluesof": ["@formatjs/intl-supportedvaluesof@2.3.8", "", { "dependencies": { "@formatjs/fast-memoize": "3.1.6" } }, "sha512-webY7Ylc4CRRgxXFxZ4yRIr+9SKZyMLh+Hrsim4vG3HKSpD+T7d9XXvTdd6UDILyXf7BsqAa8l5/Nn2eENWCqw=="],
 
@@ -2115,6 +2115,8 @@
     "micromatch/picomatch": ["picomatch@2.3.2", "", {}, "sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA=="],
 
     "next/postcss": ["postcss@8.4.31", "", { "dependencies": { "nanoid": "^3.3.6", "picocolors": "^1.0.0", "source-map-js": "^1.0.2" } }, "sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ=="],
+
+    "next-intl/@formatjs/intl-localematcher": ["@formatjs/intl-localematcher@0.8.10", "", { "dependencies": { "@formatjs/fast-memoize": "3.1.6" } }, "sha512-P/IC3qws3jH+1fEs+o0RIFgXKRaQlFehjS5W0FPAqdo6hgzawLl+eD0q0JjheQ3XtoOe5n8WSYfX06KQZI/QJA=="],
 
     "ora/chalk": ["chalk@5.6.2", "", {}, "sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA=="],
 
