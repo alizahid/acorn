@@ -142,6 +142,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
   tabBar: {
     marginBottom: theme.space[2],
     marginHorizontal: theme.space[2],
-    paddingTop: iPad || glass ? undefined : theme.space[4],
+    paddingTop: iPad || glass ? undefined : theme.space[2],
   },
 }))
