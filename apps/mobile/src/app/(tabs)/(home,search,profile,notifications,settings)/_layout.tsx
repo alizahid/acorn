@@ -122,7 +122,14 @@ export default function Layout({ segment }: Props) {
 
   return (
     <StackLayout>
-      <Stack.Screen name="index" />
+      <Stack.Screen
+        listeners={{
+          blur() {
+            mitter.emit('drawer-close')
+          },
+        }}
+        name="index"
+      />
     </StackLayout>
   )
 }

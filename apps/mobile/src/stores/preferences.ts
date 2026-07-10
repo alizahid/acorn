@@ -71,7 +71,6 @@ export type PreferencesPayload = {
   sortSearchPosts: SearchSort
   sortUserComments: CommentSort
   sortUserPosts: UserFeedSort
-  stickyDrawer: boolean
   systemScaling: boolean
   theme: Theme
   themeOled: boolean
@@ -139,7 +138,6 @@ export const preferencesStore = create<State>()(
       sortSearchPosts: 'relevance',
       sortUserComments: 'new',
       sortUserPosts: 'new',
-      stickyDrawer: true,
       systemScaling: false,
       theme: 'acorn',
       themeOled: false,

@@ -24,6 +24,7 @@
     "@formatjs/intl-numberformat": "^9.3.12",
     "@formatjs/intl-pluralrules": "^6.3.11",
     "@formatjs/intl-relativetimeformat": "^12.3.11",
+    "@gorhom/portal": "^1.0.14",
     "@hookform/resolvers": "^5.4.0",
     "@lodev09/react-native-true-sheet": "^3.11.3",
     "@paralleldrive/cuid2": "^3.3.0",

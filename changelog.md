@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: new drawer
 - added: tab bar minimize toggle
 - changed: ask for permission when enabling save to Acorn album
 - changed: sidebar button moved to the right

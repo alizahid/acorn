@@ -13,13 +13,14 @@ import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
 import { GlassView } from '~/components/native/glass-view'
+import { Drawer } from '~/components/navigation/drawer'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { type SortingType, useSorting } from '~/hooks/sorting'
 import { glass, iPad } from '~/lib/common'
+import { mitter } from '~/lib/mitt'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
-import { usePreferences } from '~/stores/preferences'
 import { FeedType } from '~/types/sort'
 
 const schema = z.object({
@@ -38,7 +39,6 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
   const tType = useTranslations('component.common.type.type')
 
-  const { stickyDrawer } = usePreferences(['stickyDrawer'])
   const defaults = useDefaults(['community', 'feed', 'feedType'])
 
   styles.useVariants({
@@ -90,6 +90,17 @@ export default function Screen() {
     useCallback(() => {
       navigation.setOptions({
         headerLeft: () => (
+          <IconButton
+            icon="sidebar.leading"
+            label={a11y('toggleSidebar')}
+            onPress={() => {
+              mitter.emit('drawer-toggle')
+            }}
+            size="6"
+            weight="medium"
+          />
+        ),
+        headerRight: () => (
           <SortIntervalMenu
             interval={sorting.interval}
             onChange={(next) => {
@@ -100,21 +111,6 @@ export default function Screen() {
             type={type}
           />
         ),
-        headerRight:
-          iPad && stickyDrawer
-            ? null
-            : () => (
-                <IconButton
-                  icon="sidebar.leading"
-                  label={a11y('toggleSidebar')}
-                  onPress={() => {
-                    // @ts-expect-error
-                    navigation.toggleDrawer()
-                  }}
-                  size="6"
-                  weight="medium"
-                />
-              ),
         headerTitle: () =>
           name === 'home' || name === 'all' || name === 'popular' ? (
             <GlassView style={styles.header}>
@@ -135,7 +131,6 @@ export default function Screen() {
     }, [
       a11y,
       sorting,
-      stickyDrawer,
       tType,
       type,
       update,
@@ -148,13 +143,15 @@ export default function Screen() {
   )
 
   return (
-    <PostList
-      community={community}
-      feed={feed}
-      interval={sorting.interval}
-      sort={sorting.sort}
-      style={styles.list}
-    />
+    <Drawer>
+      <PostList
+        community={community}
+        feed={feed}
+        interval={sorting.interval}
+        sort={sorting.sort}
+        style={styles.list}
+      />
+    </Drawer>
   )
 }
 

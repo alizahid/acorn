@@ -1,3 +1,4 @@
+import { PortalProvider } from '@gorhom/portal'
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client'
 import { type ReactNode } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
@@ -29,7 +30,9 @@ export function Providers({ children }: Props) {
               persistOptions={persistOptions}
             >
               <FocusProvider>
-                <ImageProvider>{children}</ImageProvider>
+                <ImageProvider>
+                  <PortalProvider>{children}</PortalProvider>
+                </ImageProvider>
 
                 <AccountSwitcher />
                 <Toast />

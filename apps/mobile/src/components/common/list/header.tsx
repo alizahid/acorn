@@ -8,8 +8,6 @@ import {
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Text } from '~/components/common/text'
-import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
 
 type Props = {
   left?: ReactNode
@@ -20,13 +18,6 @@ type Props = {
 }
 
 export function ListHeader({ left, right, style, title, titleStyle }: Props) {
-  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
-
-  styles.useVariants({
-    oled: themeOled,
-    tint: themeTint,
-  })
-
   return (
     <View style={[styles.main, style]}>
       {left ? <View style={styles.left}>{left}</View> : null}
@@ -48,21 +39,8 @@ const styles = StyleSheet.create((theme) => ({
   },
   main: {
     alignItems: 'center',
-    backgroundColor: theme.colors.gray.bgAlt,
     height: theme.space[8],
     justifyContent: 'center',
-    variants: {
-      oled: {
-        true: {
-          backgroundColor: oledTheme[theme.variant].bg,
-        },
-      },
-      tint: {
-        true: {
-          backgroundColor: theme.colors.accent.bgAlt,
-        },
-      },
-    },
   },
   right: {
     bottom: 0,

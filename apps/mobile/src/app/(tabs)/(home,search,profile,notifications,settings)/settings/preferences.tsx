@@ -9,7 +9,7 @@ import { GestureIcons } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
-import { iOS26, iPad } from '~/lib/common'
+import { iOS26 } from '~/lib/common'
 import { getIcon } from '~/lib/icons'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 
@@ -47,7 +47,6 @@ export default function Screen() {
     seenOnVote,
     showFlair,
     skipComment,
-    stickyDrawer,
     unmuteFullscreen,
     upvoteOnSave,
     userOnTop,
@@ -82,7 +81,6 @@ export default function Screen() {
     'seenOnVote',
     'showFlair',
     'skipComment',
-    'stickyDrawer',
     'unmuteFullscreen',
     'upvoteOnSave',
     'userOnTop',
@@ -170,19 +168,6 @@ export default function Screen() {
           }}
           value={oldReddit}
         />
-
-        {iPad ? (
-          <Menu.Switch
-            icon={<Icon name="sidebar.leading" />}
-            label={t('browsing.stickyDrawer')}
-            onChange={(next) => {
-              update({
-                stickyDrawer: next,
-              })
-            }}
-            value={stickyDrawer}
-          />
-        ) : null}
 
         {iOS26 ? (
           <Menu.Switch

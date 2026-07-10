@@ -25,6 +25,7 @@
         "@formatjs/intl-numberformat": "^9.3.12",
         "@formatjs/intl-pluralrules": "^6.3.11",
         "@formatjs/intl-relativetimeformat": "^12.3.11",
+        "@gorhom/portal": "^1.0.14",
         "@hookform/resolvers": "^5.4.0",
         "@lodev09/react-native-true-sheet": "^3.11.3",
         "@paralleldrive/cuid2": "^3.3.0",
@@ -497,6 +498,8 @@
     "@formatjs/intl-relativetimeformat": ["@formatjs/intl-relativetimeformat@12.3.11", "", { "dependencies": { "@formatjs/intl-localematcher": "0.8.11" } }, "sha512-1E0R00USPYArBKNsewEZHeoHTU2iKEx0KXleTY6QwyxyXqczTMJ7mqZhYGS9RwEdV0j4fFiCfiBK8EdhVQG4Mg=="],
 
     "@formatjs/intl-supportedvaluesof": ["@formatjs/intl-supportedvaluesof@2.3.8", "", { "dependencies": { "@formatjs/fast-memoize": "3.1.6" } }, "sha512-webY7Ylc4CRRgxXFxZ4yRIr+9SKZyMLh+Hrsim4vG3HKSpD+T7d9XXvTdd6UDILyXf7BsqAa8l5/Nn2eENWCqw=="],
+
+    "@gorhom/portal": ["@gorhom/portal@1.0.14", "", { "dependencies": { "nanoid": "^3.3.1" }, "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-MXyL4xvCjmgaORr/rtryDNFy3kU4qUbKlwtQqqsygd0xX3mhKjOLn6mQK8wfu0RkoE0pBE0nAasRoHua+/QZ7A=="],
 
     "@hookform/resolvers": ["@hookform/resolvers@5.4.0", "", { "dependencies": { "@standard-schema/utils": "^0.3.0" }, "peerDependencies": { "react-hook-form": "^7.55.0" } }, "sha512-EIsqr/t/qbinPIhGjMdtvutIN1Kk4uwbROE9/UQ93CAVGR7GkA7Y92+fX80OzXi/OB67jVFYwKGO1WzkxmkFZw=="],
 

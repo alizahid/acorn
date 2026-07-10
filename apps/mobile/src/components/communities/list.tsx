@@ -251,7 +251,9 @@ export function CommunitiesList({
 
   return (
     <View style={style}>
-      <SearchBox onChange={setQuery} value={query} />
+      <View>
+        <SearchBox onChange={setQuery} value={query} />
+      </View>
 
       <SectionList
         contentContainerStyle={styles.content}
@@ -524,6 +526,7 @@ export function CommunitiesList({
           )
         }}
         sections={sections}
+        stickySectionHeadersEnabled={false}
       />
     </View>
   )

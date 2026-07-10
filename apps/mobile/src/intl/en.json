@@ -206,6 +206,11 @@
         "placeholder": "Say something nice"
       }
     },
+    "navigation": {
+      "drawer": {
+        "title": "Communities"
+      }
+    },
     "posts": {
       "community": {
         "by": "by"
@@ -676,7 +681,6 @@
             "label": "Auto refresh interval",
             "never": "Never"
           },
-          "stickyDrawer": "Sticky drawer",
           "title": "Browsing"
         },
         "comments": {
