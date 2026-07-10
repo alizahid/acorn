@@ -27,7 +27,7 @@ export function Drawer({ children }: Props) {
   const t = useTranslations('component.navigation.drawer')
   const a11y = useTranslations('a11y')
 
-  const translate = useSharedValue(0)
+  const translate = useSharedValue(1)
 
   const [open, setOpen] = useState(false)
 
