@@ -1,12 +1,12 @@
 import { useEvent } from 'expo'
 import { useVideoPlayer, VideoView } from 'expo-video'
 import { useEffect, useRef, useState } from 'react'
+import { InView } from 'react-native-intersection-observer'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
-import { VisibilitySensor } from '~/components/common/sensor/visibility'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
@@ -100,12 +100,7 @@ export function VideoPlayer({
       onPress={onPress}
       style={styles.main}
     >
-      <VisibilitySensor
-        id={video.url}
-        onChange={(next) => {
-          setVisible(next.full)
-        }}
-      >
+      <InView onChange={setVisible}>
         <VideoView
           accessibilityIgnoresInvertColors
           allowsPictureInPicture={pictureInPicture}
@@ -130,7 +125,7 @@ export function VideoPlayer({
           ref={ref}
           style={styles.video(video.width / video.height)}
         />
-      </VisibilitySensor>
+      </InView>
 
       {compact ? null : <VideoStatus player={player} />}
 

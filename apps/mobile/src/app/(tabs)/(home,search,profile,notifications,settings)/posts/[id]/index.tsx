@@ -1,4 +1,8 @@
-import { type FlashListRef, type ListRenderItem } from '@shopify/flash-list'
+import {
+  FlashList,
+  type FlashListRef,
+  type ListRenderItem,
+} from '@shopify/flash-list'
 import {
   useFocusEffect,
   useLocalSearchParams,
@@ -21,7 +25,6 @@ import { FloatingButton } from '~/components/common/floating-button'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { SearchBox } from '~/components/common/search'
-import { SensorList } from '~/components/common/sensor/list'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { PostCard } from '~/components/posts/card'
@@ -248,7 +251,7 @@ export default function Screen() {
 
   return (
     <>
-      <SensorList
+      <FlashList
         contentContainerStyle={styles.content}
         data={comments}
         extraData={{

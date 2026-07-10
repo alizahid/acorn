@@ -1,7 +1,7 @@
 import { type FlashListProps } from '@shopify/flash-list'
 import { createElement } from 'react'
 import { Dimensions, type ScrollViewProps } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler'
+import { IOScrollView } from 'react-native-intersection-observer'
 
 const { height } = Dimensions.get('window')
 
@@ -19,5 +19,12 @@ export const listProps = {
 } satisfies Omit<FlashListProps<unknown>, 'data' | 'renderItem'>
 
 export function renderScrollComponent({ children, ...props }: ScrollViewProps) {
-  return createElement(ScrollView, props, children)
+  return createElement(
+    IOScrollView,
+    {
+      ...props,
+      threshold: 1,
+    },
+    children,
+  )
 }

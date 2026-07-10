@@ -1,4 +1,4 @@
-import { type ListRenderItem } from '@shopify/flash-list'
+import { FlashList, type ListRenderItem } from '@shopify/flash-list'
 import { type ReactElement, useCallback } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -20,7 +20,6 @@ import { type Post } from '~/types/post'
 import { type SearchSort, type TopInterval } from '~/types/sort'
 import { type User } from '~/types/user'
 
-import { SensorList } from '../common/sensor/list'
 import { UserCard } from '../users/card'
 import { SearchHistory } from './history'
 
@@ -86,7 +85,7 @@ export function SearchList({
   )
 
   return (
-    <SensorList
+    <FlashList
       {...listProps}
       contentContainerStyle={StyleSheet.flatten([
         type !== 'post' && styles.content,

@@ -1,9 +1,9 @@
 import { ImageBackground } from 'expo-image'
 import { useState } from 'react'
 import { View } from 'react-native'
+import { InView } from 'react-native-intersection-observer'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { VisibilitySensor } from '~/components/common/sensor/visibility'
 import { useFocused } from '~/hooks/focus'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
@@ -47,12 +47,7 @@ export function VideoPlaceholder({
   const [visible, setVisible] = useState(false)
 
   return (
-    <VisibilitySensor
-      id={video.url}
-      onChange={(next) => {
-        setVisible(next.visible)
-      }}
-    >
+    <InView onChange={setVisible}>
       <ImageBackground
         accessibilityIgnoresInvertColors
         source={thumbnail ?? video.thumbnail}
@@ -75,7 +70,7 @@ export function VideoPlaceholder({
           </View>
         )}
       </ImageBackground>
-    </VisibilitySensor>
+    </InView>
   )
 }
 

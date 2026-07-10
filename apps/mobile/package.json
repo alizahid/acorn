@@ -80,6 +80,7 @@
     "react-native-fast-markdown": "^0.2.0-beta.4",
     "react-native-flexible-grid": "^0.2.5",
     "react-native-gesture-handler": "~2.32.0",
+    "react-native-intersection-observer": "^0.3.1",
     "react-native-keyboard-controller": "1.21.9",
     "react-native-mmkv": "^4.3.2",
     "react-native-nano-icons": "^0.2.1",

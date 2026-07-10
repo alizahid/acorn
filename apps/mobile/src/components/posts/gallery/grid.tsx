@@ -2,11 +2,11 @@ import { Image } from 'expo-image'
 import { useState } from 'react'
 import { View } from 'react-native'
 import { ResponsiveGrid } from 'react-native-flexible-grid'
+import { InView } from 'react-native-intersection-observer'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Pressable } from '~/components/common/pressable'
-import { VisibilitySensor } from '~/components/common/sensor/visibility'
 import { Text } from '~/components/common/text'
 import { useImagePlaceholder } from '~/hooks/image'
 import { type PostMedia } from '~/types/post'
@@ -49,11 +49,7 @@ export function ImageGrid({
         }}
         style={styles.one(image.width / image.height)}
       >
-        <VisibilitySensor
-          onChange={(next) => {
-            setVisible(next.visible)
-          }}
-        >
+        <InView onChange={setVisible}>
           <Image
             {...placeholder}
             accessibilityIgnoresInvertColors
@@ -74,7 +70,7 @@ export function ImageGrid({
               </Text>
             </View>
           ) : null}
-        </VisibilitySensor>
+        </InView>
       </Pressable>
     )
   }
@@ -82,11 +78,7 @@ export function ImageGrid({
   const data = images.slice(0, 4)
 
   return (
-    <VisibilitySensor
-      onChange={(next) => {
-        setVisible(next.visible)
-      }}
-    >
+    <InView onChange={setVisible}>
       <ResponsiveGrid
         data={data.map((image, index) => ({
           ...image,
@@ -136,7 +128,7 @@ export function ImageGrid({
           </Text>
         </View>
       ) : null}
-    </VisibilitySensor>
+    </InView>
   )
 }
 

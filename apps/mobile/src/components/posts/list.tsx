@@ -1,4 +1,8 @@
-import { type FlashListRef, type ListRenderItem } from '@shopify/flash-list'
+import {
+  FlashList,
+  type FlashListRef,
+  type ListRenderItem,
+} from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback, useRef } from 'react'
 import {
@@ -25,7 +29,6 @@ import { CommentCard } from '../comments/card'
 import { Button } from '../common/button'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
-import { SensorList } from '../common/sensor/list'
 
 const viewabilityConfig: ViewabilityConfig = {
   minimumViewTime: preferencesStore.getState().seenOnScrollDelay * 1000,
@@ -120,7 +123,7 @@ export function PostList({
   )
 
   return (
-    <SensorList
+    <FlashList
       {...listProps}
       contentContainerStyle={style}
       data={posts}

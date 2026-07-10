@@ -81,6 +81,7 @@
         "react-native-fast-markdown": "^0.2.0-beta.4",
         "react-native-flexible-grid": "^0.2.5",
         "react-native-gesture-handler": "~2.32.0",
+        "react-native-intersection-observer": "^0.3.1",
         "react-native-keyboard-controller": "1.21.9",
         "react-native-mmkv": "^4.3.2",
         "react-native-nano-icons": "^0.2.1",
@@ -1656,6 +1657,8 @@
     "react-native-flexible-grid": ["react-native-flexible-grid@0.2.5", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-Qn2MH2Dm61jKGnXHDxllo/dqypqfwAo5wXSoPMD+2E8gLt+UX2PWKDRmafsbhIQfNjJVKNwvWzZS8H78OuNVnw=="],
 
     "react-native-gesture-handler": ["react-native-gesture-handler@2.32.0", "", { "dependencies": { "@egjs/hammerjs": "^2.0.17", "@types/react-test-renderer": "^19.1.0", "hoist-non-react-statics": "^3.3.0", "invariant": "^2.2.4" }, "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-uYIMOKlKENORq2SABE+jIjbPU+h5I/sQKcq2v16zRq848nwEp1fWRVwML4QWqijc8UcXJC25o54S8GQd4Mf2OA=="],
+
+    "react-native-intersection-observer": ["react-native-intersection-observer@0.3.1", "", { "dependencies": { "lodash": "^4.0.0" } }, "sha512-4KReR9FJUMVKL8n8Opm5frnmEqmTeXbSgEb/wiVX3xMBebCVpRHaYq5MSD28dwyZnS0x7PoeTNJhRs2pusDjKA=="],
 
     "react-native-is-edge-to-edge": ["react-native-is-edge-to-edge@1.3.1", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-NIXU/iT5+ORyCc7p0z2nnlkouYKX425vuU1OEm6bMMtWWR9yvb+Xg5AZmImTKoF9abxCPqrKC3rOZsKzUYgYZA=="],
 
