@@ -5,6 +5,7 @@ import { InView } from 'react-native-intersection-observer'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { useFocused } from '~/hooks/focus'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -41,6 +42,7 @@ export function VideoPlaceholder({
   styles.useVariants({
     compact,
     crossPost,
+    iPad,
     large,
   })
 
@@ -93,6 +95,12 @@ const styles = StyleSheet.create((theme, runtime) => ({
       crossPost: {
         true: {
           marginHorizontal: 0,
+        },
+      },
+      iPad: {
+        true: {
+          borderCurve: 'continuous',
+          borderRadius: theme.radius[4],
         },
       },
       large: {

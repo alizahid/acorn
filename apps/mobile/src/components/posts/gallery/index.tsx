@@ -1,12 +1,12 @@
+import { Galeria } from '@nandorojo/galeria'
 import { Image } from 'expo-image'
 import { useCallback } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
-import { useImagePlaceholder, useImagePreview } from '~/hooks/image'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -18,9 +18,9 @@ type Props = {
   images: Array<PostMedia>
   large?: boolean
   nsfw?: boolean
+  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
-  onLongPress?: () => void
 }
 
 export function PostGalleryCard({
@@ -28,10 +28,12 @@ export function PostGalleryCard({
   images,
   large,
   nsfw,
+  onLongPress,
   recyclingKey,
   spoiler,
-  onLongPress,
 }: Props) {
+  const t = useTranslations('component.posts.gallery')
+
   const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences([
     'blurNsfw',
     'blurSpoiler',
@@ -39,57 +41,45 @@ export function PostGalleryCard({
   ])
   const { addPost } = useHistory()
 
-  const a11y = useTranslations('a11y')
-
   styles.useVariants({
     compact,
+    iPad,
     large,
   })
 
-  const placeholder = useImagePlaceholder()
-  const { preview } = useImagePreview()
-
-  const [first] = images
-
-  const onPress = useCallback(
-    (initial?: number) => {
-      preview(images, initial)
-
-      if (recyclingKey && seenOnMedia) {
-        addPost({
-          id: recyclingKey,
-        })
-      }
-    },
-    [addPost, images, recyclingKey, seenOnMedia, preview],
-  )
-
-  if (!first) {
-    return null
-  }
+  const onDismiss = useCallback(() => {
+    if (recyclingKey && seenOnMedia) {
+      addPost({
+        id: recyclingKey,
+      })
+    }
+  }, [addPost, recyclingKey, seenOnMedia])
 
   if (compact) {
     return (
-      <Pressable
-        accessibilityLabel={a11y('viewImage')}
-        onLongPress={onLongPress}
-        onPress={() => {
-          onPress()
-        }}
-        style={styles.main}
-      >
-        <Image
-          {...placeholder}
-          accessibilityIgnoresInvertColors
-          recyclingKey={recyclingKey}
-          source={first.thumbnail}
-          style={styles.image}
-        />
+      <Galeria closeIconName="xmark" urls={images.map((image) => image.url)}>
+        <View style={styles.main}>
+          {images.map((image, index) => (
+            <Galeria.Image
+              index={index}
+              key={image.url}
+              onDismiss={onDismiss}
+              onLongPress={onLongPress}
+            >
+              <Image
+                accessibilityIgnoresInvertColors
+                recyclingKey={recyclingKey}
+                source={image.thumbnail}
+                style={styles.image}
+              />
+            </Galeria.Image>
+          ))}
 
-        {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
-          <GalleryBlur />
-        ) : null}
-      </Pressable>
+          {nsfw || spoiler ? (
+            <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+          ) : null}
+        </View>
+      </Galeria>
     )
   }
 
@@ -98,10 +88,8 @@ export function PostGalleryCard({
       <ImageGrid
         images={images}
         nsfw={Boolean(nsfw && blurNsfw)}
+        onDismiss={onDismiss}
         onLongPress={onLongPress}
-        onPress={(initial) => {
-          onPress(initial)
-        }}
         recyclingKey={recyclingKey}
         spoiler={Boolean(spoiler && blurSpoiler)}
       />
@@ -111,10 +99,10 @@ export function PostGalleryCard({
 
 const styles = StyleSheet.create((theme, runtime) => ({
   image: {
-    flex: 1,
+    height: '100%',
+    width: '100%',
   },
   main: {
-    justifyContent: 'center',
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
     variants: {
@@ -122,8 +110,17 @@ const styles = StyleSheet.create((theme, runtime) => ({
         default: {
           marginHorizontal: -theme.space[3],
         },
+        false: {
+          justifyContent: 'center',
+        },
         true: {
           backgroundColor: theme.colors.gray.uiActive,
+        },
+      },
+      iPad: {
+        true: {
+          borderCurve: 'continuous',
+          borderRadius: theme.radius[4],
         },
       },
       large: {

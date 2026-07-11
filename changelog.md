@@ -6,6 +6,7 @@
 - added: new drawer
 - added: tab bar minimize toggle
 - changed: ask for permission when enabling save to Acorn album
+- changed: image viewer
 - changed: sidebar button moved to the right
 - fixed: following Reddit share links
 - fixed: prioritize community over feed in post list fetch

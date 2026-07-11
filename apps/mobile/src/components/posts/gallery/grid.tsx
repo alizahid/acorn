@@ -1,14 +1,14 @@
+import { Galeria } from '@nandorojo/galeria'
 import { Image } from 'expo-image'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { View } from 'react-native'
-import { ResponsiveGrid } from 'react-native-flexible-grid'
+import { FlatList } from 'react-native-gesture-handler'
 import { InView } from 'react-native-intersection-observer'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
-import { useImagePlaceholder } from '~/hooks/image'
+import { iPad } from '~/lib/common'
 import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from './blur'
@@ -16,7 +16,7 @@ import { GalleryBlur } from './blur'
 type Props = {
   images: Array<PostMedia>
   nsfw?: boolean
-  onPress: (index: number) => void
+  onDismiss?: () => void
   onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
@@ -25,122 +25,127 @@ type Props = {
 export function ImageGrid({
   images,
   nsfw = false,
-  onPress,
+  onDismiss,
   onLongPress,
   recyclingKey,
   spoiler = false,
 }: Props) {
   const t = useTranslations('component.posts.gallery')
-  const a11y = useTranslations('a11y')
 
-  const placeholder = useImagePlaceholder()
+  styles.useVariants({
+    iPad,
+  })
 
   const [visible, setVisible] = useState(false)
+
+  const data = useMemo(() => {
+    const sizes = images.map((image) => ({
+      height: styles.carousel.height,
+      width: Math.round((image.width / image.height) * styles.carousel.height),
+    }))
+
+    const offsets = sizes.map((_, index) =>
+      sizes
+        .slice(0, index)
+        .reduce((total, size) => total + size.width + styles.carousel.gap, 0),
+    )
+
+    return {
+      offsets,
+      sizes,
+    }
+  }, [images])
 
   if (images.length === 1) {
     const image = images[0]!
 
     return (
-      <Pressable
-        accessibilityLabel={a11y('viewImage')}
-        onLongPress={onLongPress}
-        onPress={() => {
-          onPress(0)
-        }}
-        style={styles.one(image.width / image.height)}
-      >
-        <InView onChange={setVisible}>
-          <Image
-            {...placeholder}
-            accessibilityIgnoresInvertColors
-            priority={visible ? 'high' : 'low'}
-            recyclingKey={recyclingKey}
-            source={image.thumbnail}
-            style={styles.image}
-          />
-
-          {nsfw || spoiler ? (
-            <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
-          ) : null}
-
-          {image.type === 'gif' ? (
-            <View style={[styles.label, styles.gif]}>
-              <Text contrast size="1" weight="medium">
-                {t('gif')}
-              </Text>
-            </View>
-          ) : null}
-        </InView>
-      </Pressable>
-    )
-  }
-
-  const data = images.slice(0, 4)
-
-  return (
-    <InView onChange={setVisible}>
-      <ResponsiveGrid
-        data={data.map((image, index) => ({
-          ...image,
-          widthRatio: data.length === 3 && index === 0 ? 2 : undefined,
-        }))}
-        keyExtractor={(item: PostMedia) => item.url}
-        maxItemsPerColumn={2}
-        renderItem={({ index, item }: { index: number; item: PostMedia }) => (
-          <Pressable
-            accessibilityLabel={a11y('viewImage')}
-            onLongPress={onLongPress}
-            onPress={() => {
-              onPress(index)
-            }}
-            style={styles.image}
-          >
-            <Image
-              {...placeholder}
-              accessibilityIgnoresInvertColors
-              priority={visible ? 'high' : 'low'}
-              recyclingKey={recyclingKey}
-              source={item.thumbnail}
-              style={styles.image}
-            />
+      <InView onChange={setVisible}>
+        <Galeria closeIconName="xmark" urls={[image.url]}>
+          <View style={styles.one(image.width / image.height)}>
+            <Galeria.Image onDismiss={onDismiss} onLongPress={onLongPress}>
+              <Image
+                accessibilityIgnoresInvertColors
+                priority={visible ? 'high' : 'low'}
+                recyclingKey={recyclingKey}
+                source={image.thumbnail}
+                style={styles.image}
+              />
+            </Galeria.Image>
 
             {nsfw || spoiler ? (
               <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
             ) : null}
 
-            {item.type === 'gif' ? (
+            {image.type === 'gif' ? (
               <View style={[styles.label, styles.gif]}>
                 <Text contrast size="1" weight="medium">
                   {t('gif')}
                 </Text>
               </View>
             ) : null}
-          </Pressable>
-        )}
-      />
+          </View>
+        </Galeria>
+      </InView>
+    )
+  }
 
-      {images.length > 4 ? (
-        <View style={[styles.label, styles.count]}>
-          <Text contrast size="1" weight="medium">
-            {t('items', {
-              count: images.length,
-            })}
-          </Text>
-        </View>
+  return (
+    <InView onChange={setVisible}>
+      <Galeria closeIconName="xmark" urls={images.map((image) => image.url)}>
+        <FlatList
+          contentContainerStyle={styles.carousel}
+          data={images}
+          decelerationRate="fast"
+          horizontal
+          keyExtractor={(item) => item.url}
+          renderItem={({ index, item }) => (
+            <View>
+              <Galeria.Image
+                index={index}
+                onDismiss={onDismiss}
+                onLongPress={onLongPress}
+              >
+                <Image
+                  source={item.thumbnail ?? item.url}
+                  style={[styles.slide, data.sizes[index]]}
+                />
+              </Galeria.Image>
+
+              {item.type === 'gif' ? (
+                <View style={[styles.label, styles.gif]}>
+                  <Text contrast size="1" weight="medium">
+                    {t('gif')}
+                  </Text>
+                </View>
+              ) : null}
+            </View>
+          )}
+          showsHorizontalScrollIndicator={false}
+          snapToOffsets={data.offsets}
+        />
+      </Galeria>
+
+      {nsfw || spoiler ? (
+        <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
       ) : null}
     </InView>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  blur: {
-    ...StyleSheet.absoluteFill,
-    alignItems: 'center',
-    gap: theme.space[4],
-    justifyContent: 'center',
-  },
-  count: {
-    right: theme.space[2],
+  carousel: {
+    gap: 16,
+    variants: {
+      iPad: {
+        false: {
+          height: 300,
+        },
+        true: {
+          height: 400,
+        },
+      },
+    },
   },
   gif: {
     left: theme.space[2],
@@ -165,4 +170,8 @@ const styles = StyleSheet.create((theme) => ({
   one: (aspectRatio: number) => ({
     aspectRatio,
   }),
+  slide: {
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
+  },
 }))
