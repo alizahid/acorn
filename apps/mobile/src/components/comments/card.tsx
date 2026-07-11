@@ -49,11 +49,14 @@ export function CommentCard({
 
   const a11y = useTranslations('a11y')
 
-  const { colorfulComments, privateScreenshots, userOnTop } = usePreferences([
-    'colorfulComments',
-    'privateScreenshots',
-    'userOnTop',
-  ])
+  const { colorfulComments, privateScreenshots, userOnTop } = usePreferences(
+    (state) => ({
+      colorfulComments: state.colorfulComments,
+      privateScreenshots: state.privateScreenshots,
+      userOnTop: state.userOnTop,
+    }),
+  )
+
   const {
     commentLeft,
     commentLeftLong,
@@ -61,14 +64,14 @@ export function CommentCard({
     commentRight,
     commentRightLong,
     commentRightShort,
-  } = useGestures([
-    'commentLeft',
-    'commentLeftLong',
-    'commentLeftShort',
-    'commentRight',
-    'commentRightLong',
-    'commentRightShort',
-  ])
+  } = useGestures((state) => ({
+    commentLeft: state.commentLeft,
+    commentLeftLong: state.commentLeftLong,
+    commentLeftShort: state.commentLeftShort,
+    commentRight: state.commentRight,
+    commentRightLong: state.commentRightLong,
+    commentRightShort: state.commentRightShort,
+  }))
 
   const card = useRef<View>(null)
   const menu = useRef<Sheet>(null)

@@ -20,7 +20,9 @@ type Props = {
 export function PostFooter({ community = true, post, privacy, style }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { hidePostActions } = usePreferences(['hidePostActions'])
+  const { hidePostActions } = usePreferences((state) => ({
+    hidePostActions: state.hidePostActions,
+  }))
 
   const { vote } = usePostVote()
 

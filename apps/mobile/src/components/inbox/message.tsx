@@ -21,8 +21,6 @@ type Props = {
 export function MessageCard({ message }: Props) {
   const router = useRouter()
 
-  const { accountId } = useAuth(['accountId'])
-
   const a11y = useTranslations('a11y')
   const f = useFormatter()
   const now = useNow({
@@ -32,6 +30,10 @@ export function MessageCard({ message }: Props) {
   styles.useVariants({
     unread: message.new,
   })
+
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   const { mark } = useMarkAsRead()
 

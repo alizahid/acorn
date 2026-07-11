@@ -25,7 +25,9 @@ export type NotificationsQueryKey = [
 export type NotificationsQueryData = InfiniteData<Page, Param>
 
 export function useNotifications() {
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   const {
     data,

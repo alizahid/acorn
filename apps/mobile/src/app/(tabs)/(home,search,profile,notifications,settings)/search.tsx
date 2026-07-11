@@ -14,10 +14,10 @@ import { SearchList } from '~/components/search/list'
 import { useListProps } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
 import { glass, heights } from '~/lib/common'
-import { defaultsStore } from '~/stores/defaults'
+import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
-const routes = defaultsStore
+const routes = useDefaults
   .getState()
   .searchTabs.filter(({ disabled }) => !disabled)
   .map(({ key }) => ({
@@ -32,10 +32,10 @@ export default function Screen() {
     glass,
   })
 
-  const { intervalSearchPosts, sortSearchPosts } = usePreferences([
-    'intervalSearchPosts',
-    'sortSearchPosts',
-  ])
+  const { intervalSearchPosts, sortSearchPosts } = usePreferences((state) => ({
+    intervalSearchPosts: state.intervalSearchPosts,
+    sortSearchPosts: state.sortSearchPosts,
+  }))
 
   const search = useRef<SearchBarCommands>(null)
 

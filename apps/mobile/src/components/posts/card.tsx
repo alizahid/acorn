@@ -49,16 +49,17 @@ export function PostCard({ expanded, post }: Props) {
     mediaOnRight,
     oldReddit,
     privateScreenshots,
-  } = usePreferences([
-    'boldTitle',
-    'communityOnTop',
-    'dimSeen',
-    'feedCompact',
-    'fontSizeTitle',
-    'mediaOnRight',
-    'oldReddit',
-    'privateScreenshots',
-  ])
+  } = usePreferences((state) => ({
+    boldTitle: state.boldTitle,
+    communityOnTop: state.communityOnTop,
+    dimSeen: state.dimSeen,
+    feedCompact: state.feedCompact,
+    fontSizeTitle: state.fontSizeTitle,
+    mediaOnRight: state.mediaOnRight,
+    oldReddit: state.oldReddit,
+    privateScreenshots: state.privateScreenshots,
+  }))
+
   const {
     postLeft,
     postLeftLong,
@@ -66,14 +67,14 @@ export function PostCard({ expanded, post }: Props) {
     postRight,
     postRightLong,
     postRightShort,
-  } = useGestures([
-    'postLeft',
-    'postLeftLong',
-    'postLeftShort',
-    'postRight',
-    'postRightLong',
-    'postRightShort',
-  ])
+  } = useGestures((state) => ({
+    postLeft: state.postLeft,
+    postLeftLong: state.postLeftLong,
+    postLeftShort: state.postLeftShort,
+    postRight: state.postRight,
+    postRightLong: state.postRightLong,
+    postRightShort: state.postRightShort,
+  }))
 
   const card = useRef<View>(null)
   const menu = useRef<Sheet>(null)

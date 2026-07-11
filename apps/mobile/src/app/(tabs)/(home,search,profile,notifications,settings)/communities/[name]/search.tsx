@@ -29,10 +29,10 @@ export default function Screen() {
   const t = useTranslations('screen.community.search')
   const a11y = useTranslations('a11y')
 
-  const { intervalSearchPosts, sortSearchPosts } = usePreferences([
-    'intervalSearchPosts',
-    'sortSearchPosts',
-  ])
+  const { intervalSearchPosts, sortSearchPosts } = usePreferences((state) => ({
+    intervalSearchPosts: state.intervalSearchPosts,
+    sortSearchPosts: state.sortSearchPosts,
+  }))
 
   styles.useVariants({
     iPad,

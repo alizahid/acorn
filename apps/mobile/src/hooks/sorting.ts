@@ -34,13 +34,13 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
     rememberSorting,
     sortCommunityPosts,
     sortFeedPosts,
-  } = usePreferences([
-    'intervalCommunityPosts',
-    'intervalFeedPosts',
-    'rememberSorting',
-    'sortCommunityPosts',
-    'sortFeedPosts',
-  ])
+  } = usePreferences((state) => ({
+    intervalCommunityPosts: state.intervalCommunityPosts,
+    intervalFeedPosts: state.intervalFeedPosts,
+    rememberSorting: state.rememberSorting,
+    sortCommunityPosts: state.sortCommunityPosts,
+    sortFeedPosts: state.sortFeedPosts,
+  }))
 
   const queryKey: SortingQueryKey<Type> = [
     'sorting',

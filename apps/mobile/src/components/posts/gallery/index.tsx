@@ -34,12 +34,13 @@ export function PostGalleryCard({
 }: Props) {
   const t = useTranslations('component.posts.gallery')
 
-  const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences([
-    'blurNsfw',
-    'blurSpoiler',
-    'seenOnMedia',
-  ])
   const { addPost } = useHistory()
+
+  const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences((state) => ({
+    blurNsfw: state.blurNsfw,
+    blurSpoiler: state.blurSpoiler,
+    seenOnMedia: state.seenOnMedia,
+  }))
 
   styles.useVariants({
     compact,

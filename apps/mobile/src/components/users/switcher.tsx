@@ -20,10 +20,12 @@ export function AccountSwitcher() {
   const t = useTranslations('component.users.switcher')
   const a11y = useTranslations('a11y')
 
-  const { accountId, accounts, remove, set } = useAuth([
-    'accountId',
-    'accounts',
-  ])
+  const { accountId, accounts, remove, set } = useAuth((state) => ({
+    accountId: state.accountId,
+    accounts: state.accounts,
+    remove: state.remove,
+    set: state.set,
+  }))
 
   const sheet = useRef<Sheet>(null)
 

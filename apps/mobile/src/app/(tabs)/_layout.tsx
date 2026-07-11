@@ -14,9 +14,12 @@ import { useAuth } from '~/stores/auth'
 export default function Layout() {
   const router = useRouter()
 
-  const { accountId } = useAuth(['accountId'])
   const { unread } = useUnread()
   const { subscribed } = useSubscribed()
+
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   useEffect(() => {
     if (accountId) {

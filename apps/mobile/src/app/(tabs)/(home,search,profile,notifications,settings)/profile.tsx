@@ -22,7 +22,10 @@ export default function Screen() {
   const t = useTranslations('screen.profile')
   const a11y = useTranslations('a11y')
 
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
+
   const { profile, refetch } = useProfile(accountId)
 
   const listProps = useListProps({

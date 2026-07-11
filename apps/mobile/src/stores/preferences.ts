@@ -3,7 +3,6 @@ import { persist } from 'zustand/middleware'
 
 import { type FloatingButtonSide } from '~/components/common/floating-button'
 import { type Font } from '~/lib/fonts'
-import { createSelectorHook } from '~/lib/selector'
 import { Store } from '~/lib/store'
 import { type Theme } from '~/styles/themes'
 import { type TypographyToken } from '~/styles/tokens'
@@ -82,7 +81,7 @@ type State = PreferencesPayload & {
   update: (payload: Partial<PreferencesPayload>) => void
 }
 
-export const preferencesStore = create<State>()(
+export const usePreferences = create<State>()(
   persist(
     (set) => ({
       autoPlay: true,
@@ -150,8 +149,4 @@ export const preferencesStore = create<State>()(
       storage: new Store(),
     },
   ),
-)
-
-export const usePreferences = createSelectorHook<PreferencesPayload, State>(
-  preferencesStore,
 )

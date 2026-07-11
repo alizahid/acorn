@@ -82,7 +82,9 @@ export function CommunitiesList({
   const t = useTranslations('component.common.type')
   const a11y = useTranslations('a11y')
 
-  const { drawerSections } = useDefaults(['drawerSections'])
+  const { drawerSections } = useDefaults((state) => ({
+    drawerSections: state.drawerSections,
+  }))
 
   const { feeds, isLoading: loadingFeeds, refetch: refetchFeeds } = useFeeds()
   const { communities, isLoading, users, refetch } = useCommunities()

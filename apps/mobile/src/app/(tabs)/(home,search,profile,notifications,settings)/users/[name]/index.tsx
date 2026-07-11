@@ -39,12 +39,12 @@ export default function Screen() {
     intervalUserPosts,
     sortUserComments,
     sortUserPosts,
-  } = usePreferences([
-    'intervalUserComments',
-    'intervalUserPosts',
-    'sortUserComments',
-    'sortUserPosts',
-  ])
+  } = usePreferences((state) => ({
+    intervalUserComments: state.intervalUserComments,
+    intervalUserPosts: state.intervalUserPosts,
+    sortUserComments: state.sortUserComments,
+    sortUserPosts: state.sortUserPosts,
+  }))
 
   const t = useTranslations('screen.users.user')
 

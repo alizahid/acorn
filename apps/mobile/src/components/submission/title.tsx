@@ -11,11 +11,11 @@ import { Text } from '../common/text'
 import { TextInput } from '../native/text-input'
 
 export function SubmissionTitle() {
-  const { font, fontScaling, systemScaling } = usePreferences([
-    'font',
-    'fontScaling',
-    'systemScaling',
-  ])
+  const { font, fontScaling, systemScaling } = usePreferences((state) => ({
+    font: state.font,
+    fontScaling: state.fontScaling,
+    systemScaling: state.systemScaling,
+  }))
 
   const t = useTranslations('component.submission.title')
 

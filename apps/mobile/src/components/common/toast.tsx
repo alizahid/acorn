@@ -11,7 +11,9 @@ import { Icon } from './icon'
 import { Spinner } from './spinner'
 
 export function Toast() {
-  const { font } = usePreferences(['font'])
+  const { font } = usePreferences((state) => ({
+    font: state.font,
+  }))
 
   styles.useVariants({
     iPad,

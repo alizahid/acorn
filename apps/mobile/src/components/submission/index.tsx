@@ -33,7 +33,9 @@ export function Submission({ submission }: Props) {
 
   const a11y = useTranslations('a11y')
 
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   const { createPost, form, types, isPending } = useCreatePost(submission)
 

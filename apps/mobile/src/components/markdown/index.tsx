@@ -25,13 +25,13 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
     fontSizePostBody,
     fontSizeCommentBody,
     systemScaling,
-  } = usePreferences([
-    'font',
-    'fontScaling',
-    'fontSizeCommentBody',
-    'fontSizePostBody',
-    'systemScaling',
-  ])
+  } = usePreferences((state) => ({
+    font: state.font,
+    fontScaling: state.fontScaling,
+    fontSizeCommentBody: state.fontSizeCommentBody,
+    fontSizePostBody: state.fontSizePostBody,
+    systemScaling: state.systemScaling,
+  }))
 
   const size = type === 'post' ? fontSizePostBody : fontSizeCommentBody
 

@@ -47,7 +47,9 @@ export function useSearch<Type extends SearchTab>({
   sort,
   type,
 }: SearchProps<Type>) {
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   const { data, isLoading, refetch } = useQuery<
     Undefined<SearchQueryData<Type>>,

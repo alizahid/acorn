@@ -22,7 +22,9 @@ export type CreatePostForm = z.infer<ReturnType<typeof generateSchema>>
 export function useCreatePost(submission: Submission) {
   const t = useTranslations('component.submission')
 
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   const types: Array<SubmissionType> = compact([
     submission.media.text && 'text',

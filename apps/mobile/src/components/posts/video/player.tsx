@@ -43,15 +43,16 @@ export function VideoPlayer({
     pictureInPicture,
     seenOnMedia,
     unmuteFullscreen,
-  } = usePreferences([
-    'autoPlay',
-    'blurNsfw',
-    'blurSpoiler',
-    'feedMuted',
-    'pictureInPicture',
-    'seenOnMedia',
-    'unmuteFullscreen',
-  ])
+  } = usePreferences((state) => ({
+    autoPlay: state.autoPlay,
+    blurNsfw: state.blurNsfw,
+    blurSpoiler: state.blurSpoiler,
+    feedMuted: state.feedMuted,
+    pictureInPicture: state.pictureInPicture,
+    seenOnMedia: state.seenOnMedia,
+    unmuteFullscreen: state.unmuteFullscreen,
+  }))
+
   const { addPost } = useHistory()
 
   styles.useVariants({

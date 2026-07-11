@@ -9,7 +9,9 @@ import { useAuth } from '~/stores/auth'
 import { type MessagesQueryData, type MessagesQueryKey } from './messages'
 
 export function useThread(id: string) {
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   const { data, refetch } = useQuery({
     enabled: Boolean(accountId),

@@ -31,7 +31,9 @@ export function CommentMoreCard({
 }: Props) {
   const t = useTranslations('component.comments.more')
 
-  const { colorfulComments } = usePreferences(['colorfulComments'])
+  const { colorfulComments } = usePreferences((state) => ({
+    colorfulComments: state.colorfulComments,
+  }))
 
   styles.useVariants({
     colorful: colorfulComments,

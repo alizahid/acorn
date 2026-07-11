@@ -17,7 +17,9 @@ export type ProfileQueryKey = [
 export type ProfileQueryData = Profile
 
 export function useProfile(name?: string) {
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   const { data, isLoading, refetch } = useQuery<
     Undefined<ProfileQueryData>,

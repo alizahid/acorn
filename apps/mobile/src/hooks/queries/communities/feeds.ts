@@ -17,7 +17,9 @@ export type FeedsQueryKey = [
 export type FeedsQueryData = Array<Feed>
 
 export function useFeeds() {
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   const queryKey: FeedsQueryKey = [
     'feeds',

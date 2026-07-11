@@ -24,13 +24,14 @@ export default function Screen() {
   const t = useTranslations('screen.settings.defaults')
 
   const { community, drawerSections, feed, feedType, searchTabs, update } =
-    useDefaults([
-      'community',
-      'drawerSections',
-      'feed',
-      'feedType',
-      'searchTabs',
-    ])
+    useDefaults((state) => ({
+      community: state.community,
+      drawerSections: state.drawerSections,
+      feed: state.feed,
+      feedType: state.feedType,
+      searchTabs: state.searchTabs,
+      update: state.update,
+    }))
 
   const sheet = useRef<Sheet>(null)
 

@@ -29,10 +29,10 @@ export default function Screen() {
   const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
 
-  const { intervalUserPosts, sortUserPosts } = usePreferences([
-    'intervalUserPosts',
-    'sortUserPosts',
-  ])
+  const { intervalUserPosts, sortUserPosts } = usePreferences((state) => ({
+    intervalUserPosts: state.intervalUserPosts,
+    sortUserPosts: state.sortUserPosts,
+  }))
 
   styles.useVariants({
     iPad,

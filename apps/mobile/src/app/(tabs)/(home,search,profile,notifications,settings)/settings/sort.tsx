@@ -25,20 +25,21 @@ export default function Screen() {
     sortUserComments,
     sortUserPosts,
     update,
-  } = usePreferences([
-    'intervalCommunityPosts',
-    'intervalFeedPosts',
-    'intervalSearchPosts',
-    'intervalUserComments',
-    'intervalUserPosts',
-    'rememberSorting',
-    'sortCommunityPosts',
-    'sortFeedPosts',
-    'sortPostComments',
-    'sortSearchPosts',
-    'sortUserComments',
-    'sortUserPosts',
-  ])
+  } = usePreferences((state) => ({
+    intervalCommunityPosts: state.intervalCommunityPosts,
+    intervalFeedPosts: state.intervalFeedPosts,
+    intervalSearchPosts: state.intervalSearchPosts,
+    intervalUserComments: state.intervalUserComments,
+    intervalUserPosts: state.intervalUserPosts,
+    rememberSorting: state.rememberSorting,
+    sortCommunityPosts: state.sortCommunityPosts,
+    sortFeedPosts: state.sortFeedPosts,
+    sortPostComments: state.sortPostComments,
+    sortSearchPosts: state.sortSearchPosts,
+    sortUserComments: state.sortUserComments,
+    sortUserPosts: state.sortUserPosts,
+    update: state.update,
+  }))
 
   const listProps = useListProps({
     extraBottom: space[4],

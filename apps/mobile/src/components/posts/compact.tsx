@@ -28,12 +28,12 @@ export function PostCompactCard({
   style,
 }: Props) {
   const { boldTitle, communityOnTop, fontSizeTitle, largeThumbnails } =
-    usePreferences([
-      'boldTitle',
-      'communityOnTop',
-      'fontSizeTitle',
-      'largeThumbnails',
-    ])
+    usePreferences((state) => ({
+      boldTitle: state.boldTitle,
+      communityOnTop: state.communityOnTop,
+      fontSizeTitle: state.fontSizeTitle,
+      largeThumbnails: state.largeThumbnails,
+    }))
 
   styles.useVariants({
     large: largeThumbnails,

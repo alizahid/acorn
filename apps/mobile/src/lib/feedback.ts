@@ -8,7 +8,7 @@ import pop_06 from '~/assets/sounds/pop_06.caf'
 import pop_10 from '~/assets/sounds/pop_10.caf'
 import woosh_04 from '~/assets/sounds/woosh_04.caf'
 import woosh_09 from '~/assets/sounds/woosh_09.caf'
-import { preferencesStore } from '~/stores/preferences'
+import { usePreferences } from '~/stores/preferences'
 
 export type Feedback = {
   down: undefined
@@ -25,7 +25,7 @@ export function triggerFeedback(type: keyof Feedback) {
 }
 
 export function triggerSound(type: keyof Feedback) {
-  const { feedbackSounds } = preferencesStore.getState()
+  const { feedbackSounds } = usePreferences.getState()
 
   if (feedbackSounds) {
     SoundPlayer.playAsset(assets[type])
@@ -33,7 +33,7 @@ export function triggerSound(type: keyof Feedback) {
 }
 
 export function triggerHaptic(type: keyof Feedback) {
-  const { feedbackHaptics, hapticsLoud } = preferencesStore.getState()
+  const { feedbackHaptics, hapticsLoud } = usePreferences.getState()
 
   if (feedbackHaptics) {
     Haptics.impactAsync(

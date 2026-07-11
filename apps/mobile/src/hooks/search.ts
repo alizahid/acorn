@@ -8,7 +8,9 @@ import { useAuth } from '~/stores/auth'
 export type SearchHistoryData = ReturnType<typeof useSearchHistory>
 
 export function useSearchHistory(community?: string) {
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   const key = compact(['search_history', accountId, community]).join('_')
 

@@ -21,10 +21,10 @@ export function useLink() {
 
   const t = useTranslations('toasts.link')
 
-  const { linkBrowser, oldReddit } = usePreferences([
-    'linkBrowser',
-    'oldReddit',
-  ])
+  const { linkBrowser, oldReddit } = usePreferences((state) => ({
+    linkBrowser: state.linkBrowser,
+    oldReddit: state.oldReddit,
+  }))
 
   const { setFocused } = useFocused()
 

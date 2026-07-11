@@ -12,7 +12,9 @@ type Props = {
 }
 
 export function ThemeProvider({ children }: Props) {
-  const { font } = usePreferences(['font'])
+  const { font } = usePreferences((state) => ({
+    font: state.font,
+  }))
 
   return (
     <Component

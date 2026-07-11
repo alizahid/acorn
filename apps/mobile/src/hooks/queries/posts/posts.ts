@@ -58,7 +58,9 @@ export function usePosts({
   user,
   userType,
 }: PostsProps) {
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   const {
     data,

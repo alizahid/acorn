@@ -40,7 +40,11 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
   const tType = useTranslations('component.common.type.type')
 
-  const defaults = useDefaults(['community', 'feed', 'feedType'])
+  const defaults = useDefaults((state) => ({
+    community: state.community,
+    feed: state.feed,
+    feedType: state.feedType,
+  }))
 
   styles.useVariants({
     iPad,

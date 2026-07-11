@@ -47,8 +47,13 @@ type Props = {
 }
 
 export function usePost({ commentId, id, sort }: Props) {
-  const { accountId } = useAuth(['accountId'])
-  const { collapseAutoModerator } = usePreferences(['collapseAutoModerator'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
+
+  const { collapseAutoModerator } = usePreferences((state) => ({
+    collapseAutoModerator: state.collapseAutoModerator,
+  }))
 
   const query = useQuery<
     Undefined<PostQueryData>,

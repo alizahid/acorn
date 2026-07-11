@@ -28,19 +28,20 @@ export default function Screen() {
     systemScaling,
     theme,
     update,
-  } = usePreferences([
-    'colorfulComments',
-    'feedCompact',
-    'font',
-    'fontScaling',
-    'fontSizeCommentBody',
-    'fontSizePostBody',
-    'fontSizeTitle',
-    'largeThumbnails',
-    'mediaOnRight',
-    'systemScaling',
-    'theme',
-  ])
+  } = usePreferences((state) => ({
+    colorfulComments: state.colorfulComments,
+    feedCompact: state.feedCompact,
+    font: state.font,
+    fontScaling: state.fontScaling,
+    fontSizeCommentBody: state.fontSizeCommentBody,
+    fontSizePostBody: state.fontSizePostBody,
+    fontSizeTitle: state.fontSizeTitle,
+    largeThumbnails: state.largeThumbnails,
+    mediaOnRight: state.mediaOnRight,
+    systemScaling: state.systemScaling,
+    theme: state.theme,
+    update: state.update,
+  }))
 
   const sizes = {
     fontSizeCommentBody,

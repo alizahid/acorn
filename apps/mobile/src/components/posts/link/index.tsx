@@ -33,9 +33,12 @@ export function PostLinkCard({
 }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { seenOnMedia } = usePreferences(['seenOnMedia'])
   const { handleLink } = useLink()
   const { addPost } = useHistory()
+
+  const { seenOnMedia } = usePreferences((state) => ({
+    seenOnMedia: state.seenOnMedia,
+  }))
 
   styles.useVariants({
     compact,

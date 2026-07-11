@@ -27,20 +27,21 @@ export default function Screen() {
     postRightLong,
     postRightShort,
     update,
-  } = useGestures([
-    'commentLeft',
-    'commentLeftLong',
-    'commentLeftShort',
-    'commentRight',
-    'commentRightLong',
-    'commentRightShort',
-    'postLeft',
-    'postLeftLong',
-    'postLeftShort',
-    'postRight',
-    'postRightLong',
-    'postRightShort',
-  ])
+  } = useGestures((state) => ({
+    commentLeft: state.commentLeft,
+    commentLeftLong: state.commentLeftLong,
+    commentLeftShort: state.commentLeftShort,
+    commentRight: state.commentRight,
+    commentRightLong: state.commentRightLong,
+    commentRightShort: state.commentRightShort,
+    postLeft: state.postLeft,
+    postLeftLong: state.postLeftLong,
+    postLeftShort: state.postLeftShort,
+    postRight: state.postRight,
+    postRightLong: state.postRightLong,
+    postRightShort: state.postRightShort,
+    update: state.update,
+  }))
 
   const postOptions: Array<MenuItemOption<GestureAction>> = [
     {

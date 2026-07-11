@@ -21,7 +21,7 @@ import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { cardMaxWidth, iPad } from '~/lib/common'
-import { preferencesStore, usePreferences } from '~/stores/preferences'
+import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
 
@@ -31,7 +31,7 @@ import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 
 const viewabilityConfig: ViewabilityConfig = {
-  minimumViewTime: preferencesStore.getState().seenOnScrollDelay * 1000,
+  minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
   waitForInteraction: false,
 }
 
@@ -64,10 +64,11 @@ export function PostList({
   const list = useRef<FlashListRef<Item>>(null)
 
   const { addPost } = useHistory()
-  const { infiniteScrolling, seenOnScroll } = usePreferences([
-    'infiniteScrolling',
-    'seenOnScroll',
-  ])
+
+  const { infiniteScrolling, seenOnScroll } = usePreferences((state) => ({
+    infiniteScrolling: state.infiniteScrolling,
+    seenOnScroll: state.seenOnScroll,
+  }))
 
   styles.useVariants({
     iPad,

@@ -35,7 +35,10 @@ export function VideoPlaceholder({
   video,
   onLongPress,
 }: Props) {
-  const { blurNsfw, blurSpoiler } = usePreferences(['blurNsfw', 'blurSpoiler'])
+  const { blurNsfw, blurSpoiler } = usePreferences((state) => ({
+    blurNsfw: state.blurNsfw,
+    blurSpoiler: state.blurSpoiler,
+  }))
 
   const { focused } = useFocused()
 

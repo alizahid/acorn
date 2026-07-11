@@ -48,7 +48,9 @@ export default function Layout({ segment }: Props) {
   const t = useTranslations('screen')
   const a11y = useTranslations('a11y')
 
-  const { accountId } = useAuth(['accountId'])
+  const { accountId } = useAuth((state) => ({
+    accountId: state.accountId,
+  }))
 
   if (segment === '(search)') {
     return (
