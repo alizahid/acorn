@@ -49,6 +49,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         './assets/fonts/mono-regular.otf',
         './assets/fonts/mono-medium.otf',
         './assets/fonts/mono-bold.otf',
+        './assets/fonts/redacted.ttf',
       ],
     }),
     expoMediaLibrary({
