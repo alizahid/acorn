@@ -1,7 +1,7 @@
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { cardMaxWidth, iPad } from '~/lib/common'
+import { cardMaxWidth } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -36,7 +36,6 @@ export function PostCompactCard({
     ])
 
   styles.useVariants({
-    iPad,
     large: largeThumbnails,
   })
 
@@ -121,16 +120,7 @@ const styles = StyleSheet.create((theme) => ({
     gap: theme.space[3],
     maxWidth: cardMaxWidth,
     overflow: 'hidden',
-    variants: {
-      iPad: {
-        false: {
-          padding: theme.space[3],
-        },
-        true: {
-          paddingVertical: theme.space[3],
-        },
-      },
-    },
+    padding: theme.space[3],
   }),
   saved: {
     backgroundColor: theme.colors.green.accent,

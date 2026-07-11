@@ -200,7 +200,7 @@ export function PostCard({ expanded, post }: Props) {
             onLongPress={onLongPress}
             onPress={onPress}
           >
-            <View collapsable={false} ref={card}>
+            <View collapsable={false} ref={card} style={styles.compact}>
               <PostCompactCard
                 post={post}
                 privacy={privacy}
@@ -336,6 +336,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
       },
     },
   },
+  compact: {
+    backgroundColor: theme.colors.ui.bg,
+  },
   container: {
     alignSelf: 'center',
     overflow: 'hidden',
@@ -369,15 +372,8 @@ const styles = StyleSheet.create((theme, runtime) => ({
     backgroundColor: theme.colors.ui.bg,
     gap: theme.space[3],
     overflow: 'hidden',
+    padding: theme.space[3],
     variants: {
-      iPad: {
-        false: {
-          padding: theme.space[3],
-        },
-        true: {
-          paddingVertical: theme.space[3],
-        },
-      },
       sticky: {
         true: {
           backgroundColor: theme.colors.green.ui,
