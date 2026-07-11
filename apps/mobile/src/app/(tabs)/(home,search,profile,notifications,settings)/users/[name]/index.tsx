@@ -1,5 +1,4 @@
 import { useLocalSearchParams } from 'expo-router'
-import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useState } from 'react'
 import { View } from 'react-native'
 import { TabView } from 'react-native-tab-view'
@@ -15,9 +14,10 @@ import {
   SortIntervalMenu,
   type SortIntervalMenuData,
 } from '~/components/posts/sort-interval'
-import { heights, iOS26, iPad } from '~/lib/common'
+import { useListProps } from '~/hooks/list'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
+import { space } from '~/styles/tokens'
 import { UserTab } from '~/types/user'
 
 const schema = z.object({
@@ -32,8 +32,6 @@ const routes = UserTab.map((key) => ({
 }))
 
 export default function Screen() {
-  const headerHeight = useHeaderHeight()
-
   const params = schema.parse(useLocalSearchParams())
 
   const {
@@ -41,23 +39,17 @@ export default function Screen() {
     intervalUserPosts,
     sortUserComments,
     sortUserPosts,
-    themeOled,
-    themeTint,
   } = usePreferences([
     'intervalUserComments',
     'intervalUserPosts',
     'sortUserComments',
     'sortUserPosts',
-    'themeOled',
-    'themeTint',
   ])
 
   const t = useTranslations('screen.users.user')
 
   styles.useVariants({
     iPad,
-    oled: themeOled,
-    tint: themeTint,
   })
 
   const [index, setIndex] = useState(0)
@@ -70,6 +62,13 @@ export default function Screen() {
   const [comments, setComments] = useState<SortIntervalMenuData<'comment'>>({
     interval: intervalUserComments,
     sort: sortUserComments,
+  })
+
+  const { contentInset } = useListProps({})
+  const listProps = useListProps({
+    extraBottom: space[4],
+    header: false,
+    top: false,
   })
 
   return (
@@ -100,6 +99,7 @@ export default function Screen() {
                 </View>
               }
               interval={posts.interval}
+              listProps={listProps}
               query={query}
               sort={posts.sort}
               style={styles.list}
@@ -126,6 +126,7 @@ export default function Screen() {
               </View>
             }
             interval={comments.interval}
+            listProps={listProps}
             query={query}
             sort={comments.sort}
             style={styles.list}
@@ -135,7 +136,7 @@ export default function Screen() {
         )
       }}
       renderTabBar={({ jumpTo, navigationState }) => (
-        <View style={styles.tabBar}>
+        <View style={styles.tabBar(contentInset.top)}>
           <SegmentedControl
             items={routes.map(({ key }) => ({
               key,
@@ -148,14 +149,12 @@ export default function Screen() {
           />
         </View>
       )}
-      style={styles.main(headerHeight)}
     />
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   header: {
-    backgroundColor: theme.colors.gray.bg,
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
@@ -164,37 +163,21 @@ const styles = StyleSheet.create((theme, runtime) => ({
         true: {
           marginBottom: theme.space[4],
           marginHorizontal: -theme.space[4],
-          marginTop: -theme.space[4],
-        },
-      },
-      oled: {
-        true: {
-          backgroundColor: oledTheme[theme.variant].bgAlpha,
-        },
-      },
-      tint: {
-        true: {
-          backgroundColor: theme.colors.accent.bg,
         },
       },
     },
   },
   list: {
-    paddingBottom: heights.tabBar + runtime.insets.bottom,
     variants: {
       iPad: {
         true: {
-          padding: theme.space[4],
+          paddingHorizontal: theme.space[4],
         },
       },
     },
   },
-  main: (headerHeight) => ({
-    marginTop: headerHeight,
+  tabBar: (marginTop: number) => ({
+    margin: theme.space[4],
+    marginTop: marginTop + theme.space[4],
   }),
-  tabBar: {
-    marginBottom: theme.space[2],
-    marginHorizontal: theme.space[2],
-    marginTop: iOS26 ? undefined : theme.space[2],
-  },
 }))

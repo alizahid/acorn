@@ -7,7 +7,9 @@ import { useKeyboard } from '~/hooks/keyboard'
 import { useReply } from '~/hooks/mutations/messages/reply'
 import { heights, iPad } from '~/lib/common'
 
+import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
+import { Spinner } from '../common/spinner'
 import { TextBox } from '../common/text-box'
 
 type Props = {
@@ -55,14 +57,15 @@ export function ReplyCard({ threadId, user }: Props) {
       />
 
       <IconButton
-        icon="paperplane"
+        disabled={isPending}
         label={a11y('createReply')}
-        loading={isPending}
         onPress={() => {
           onSubmit()
         }}
         style={styles.submit}
-      />
+      >
+        {isPending ? <Spinner /> : <Icon name="paper-plane-tilt" />}
+      </IconButton>
     </KeyboardStickyView>
   )
 }

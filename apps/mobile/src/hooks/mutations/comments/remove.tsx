@@ -45,7 +45,7 @@ export function useCommentRemove() {
           <Icon
             name="trash"
             uniProps={(theme) => ({
-              tintColor: theme.colors.green.accent,
+              color: theme.colors.green.accent,
             })}
           />
         ),

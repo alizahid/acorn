@@ -121,10 +121,10 @@ export function AlphabetList({ data, onScroll }: Props) {
           item.letter === 'favorite' ? (
             <View key={item.key} style={styles.letter}>
               <Icon
-                name="star.fill"
+                name="star-fill"
                 size={14}
                 uniProps={(theme) => ({
-                  tintColor: theme.colors.amber.accent,
+                  color: theme.colors.amber.accent,
                 })}
               />
             </View>

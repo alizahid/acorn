@@ -3,7 +3,7 @@ import { useReorderableDrag } from 'react-native-reorderable-list'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { PhosphorIcon } from '../common/icon/phosphor'
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Switch } from '../common/switch'
 import { Text } from '../common/text'
@@ -35,7 +35,7 @@ export function DraggableItem({
       style={style}
       variant="plain"
     >
-      <PhosphorIcon
+      <Icon
         name="dots-six-vertical-bold"
         uniProps={(theme) => ({
           color: theme.colors.gray.accent,

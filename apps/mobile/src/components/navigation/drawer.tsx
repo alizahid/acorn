@@ -13,6 +13,7 @@ import { useTranslations } from 'use-intl'
 import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 
+import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
 import { Text } from '../common/text'
 import { CommunitiesList } from '../communities/list'
@@ -67,7 +68,7 @@ export function Drawer({ children }: Props) {
     ],
   }))
 
-  const Main = glass ? GlassView : BlurView
+  const Component = glass ? GlassView : BlurView
 
   return (
     <View style={styles.main}>
@@ -82,18 +83,18 @@ export function Drawer({ children }: Props) {
             />
           ) : null}
 
-          <Main intensity={75} style={styles.drawer} tint="systemMaterial">
+          <Component style={styles.drawer}>
             <View style={styles.header}>
               <Text weight="bold">{t('title')}</Text>
 
               <IconButton
-                icon="sidebar.leading"
                 label={a11y('toggleSidebar')}
                 onPress={() => {
                   setOpen(false)
                 }}
-                weight="medium"
-              />
+              >
+                <Icon name="sidebar" />
+              </IconButton>
             </View>
 
             <CommunitiesList
@@ -103,7 +104,7 @@ export function Drawer({ children }: Props) {
               }}
               style={styles.content}
             />
-          </Main>
+          </Component>
         </Animated.View>
       </Portal>
 

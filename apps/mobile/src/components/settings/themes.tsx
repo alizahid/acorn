@@ -33,8 +33,8 @@ export function Themes({ onChange, value }: Props) {
               value.endsWith('-dark')
                 ? 'moon'
                 : value.endsWith('-light')
-                  ? 'sun.max'
-                  : 'iphone'
+                  ? 'sun'
+                  : 'device-mobile-camera'
             }
           />
         }
@@ -180,12 +180,10 @@ function Item({ color, item, name, onPress, value }: ItemProps) {
     >
       {item === value ? (
         <Icon
-          name="checkmark"
+          name="check-bold"
           uniProps={(theme) => ({
-            size: theme.space[4],
-            tintColor: theme.colors.accent.contrast,
+            color: theme.colors.accent.contrast,
           })}
-          weight="black"
         />
       ) : null}
     </Pressable>

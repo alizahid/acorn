@@ -42,7 +42,7 @@ export function SortItem<Type extends PostSort>({
 
   return (
     <Menu.Options<Type>
-      icon={<Icon name="arrow.up.arrow.down" />}
+      icon={<Icon name="arrows-down-up" />}
       label={label}
       onChange={onChange}
       options={items.map((item) => ({
@@ -51,7 +51,7 @@ export function SortItem<Type extends PostSort>({
           <Icon
             name={SortIcons[item]}
             uniProps={(theme) => ({
-              tintColor: theme.colors[SortColors[item]].accent,
+              color: theme.colors[SortColors[item]].accent,
             })}
           />
         ),

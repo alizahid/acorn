@@ -4,7 +4,7 @@ import {
   useNavigation,
 } from 'expo-router'
 import { useCallback, useMemo } from 'react'
-import { PlatformColor } from 'react-native'
+import { PlatformColor, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -12,15 +12,16 @@ import { z } from 'zod'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
-import { GlassView } from '~/components/native/glass-view'
 import { Drawer } from '~/components/navigation/drawer'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { useListProps } from '~/hooks/list'
 import { type SortingType, useSorting } from '~/hooks/sorting'
-import { glass, iPad } from '~/lib/common'
+import { iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
+import { space } from '~/styles/tokens'
 import { FeedType } from '~/types/sort'
 
 const schema = z.object({
@@ -91,14 +92,13 @@ export default function Screen() {
       navigation.setOptions({
         headerLeft: () => (
           <IconButton
-            icon="sidebar.leading"
             label={a11y('toggleSidebar')}
             onPress={() => {
               mitter.emit('drawer-toggle')
             }}
-            size="6"
-            weight="medium"
-          />
+          >
+            <Icon name="sidebar" />
+          </IconButton>
         ),
         headerRight: () => (
           <SortIntervalMenu
@@ -111,21 +111,23 @@ export default function Screen() {
             type={type}
           />
         ),
-        headerTitle: () =>
-          name === 'home' || name === 'all' || name === 'popular' ? (
-            <GlassView style={styles.header}>
-              <Icon
-                name={FeedTypeIcons[name]}
-                uniProps={(theme) => ({
-                  tintColor: theme.colors[FeedTypeColors[name!]].accent,
-                })}
-              />
+        headerTitle:
+          name === 'home' || name === 'all' || name === 'popular'
+            ? () => (
+                <View style={styles.header}>
+                  <Icon
+                    name={FeedTypeIcons[name]}
+                    uniProps={(theme) => ({
+                      color: theme.colors[FeedTypeColors[name]].accent,
+                    })}
+                  />
 
-              <Text style={styles.title} weight="bold">
-                {tType(name)}
-              </Text>
-            </GlassView>
-          ) : null,
+                  <Text style={styles.title} weight="bold">
+                    {tType(name)}
+                  </Text>
+                </View>
+              )
+            : null,
         title: community ?? feed ?? t('title'),
       })
     }, [
@@ -142,12 +144,18 @@ export default function Screen() {
     ]),
   )
 
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+  })
+
   return (
     <Drawer>
       <PostList
         community={community}
         feed={feed}
         interval={sorting.interval}
+        listProps={listProps}
         sort={sorting.sort}
         style={styles.list}
       />
@@ -158,13 +166,8 @@ export default function Screen() {
 const styles = StyleSheet.create((theme) => ({
   header: {
     alignItems: 'center',
-    borderCurve: 'continuous',
-    borderRadius: 44,
     flexDirection: 'row',
     gap: theme.space[2],
-    height: 44,
-    paddingLeft: theme.space[3],
-    paddingRight: theme.space[4],
   },
   list: {
     variants: {
@@ -176,7 +179,7 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   sort: {
-    paddingHorizontal: glass ? theme.space[2] : 0,
+    paddingHorizontal: theme.space[3],
   },
   title: {
     color: PlatformColor('labelColor'),

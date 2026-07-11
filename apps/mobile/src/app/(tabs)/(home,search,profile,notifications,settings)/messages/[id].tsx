@@ -12,8 +12,8 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { MessageCard } from '~/components/messages/card'
 import { ReplyCard } from '~/components/messages/reply'
+import { useListProps } from '~/hooks/list'
 import { useThread } from '~/hooks/queries/user/thread'
-import { listProps } from '~/lib/list'
 import { useAuth } from '~/stores/auth'
 
 const schema = z.object({
@@ -31,6 +31,8 @@ export default function Screen() {
   const { accountId } = useAuth(['accountId'])
 
   const { messages, refetch } = useThread(params.id)
+
+  const listProps = useListProps({})
 
   return (
     <>

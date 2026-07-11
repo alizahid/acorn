@@ -12,9 +12,10 @@ import { z } from 'zod'
 import { SearchBox } from '~/components/common/search'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { useListProps } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
+import { space } from '~/styles/tokens'
 import { UserFeedType } from '~/types/user'
 
 const schema = z.object({
@@ -28,18 +29,13 @@ export default function Screen() {
   const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
 
-  const { intervalUserPosts, sortUserPosts, themeOled, themeTint } =
-    usePreferences([
-      'intervalUserPosts',
-      'sortUserPosts',
-      'themeOled',
-      'themeTint',
-    ])
+  const { intervalUserPosts, sortUserPosts } = usePreferences([
+    'intervalUserPosts',
+    'sortUserPosts',
+  ])
 
   styles.useVariants({
     iPad,
-    oled: themeOled,
-    tint: themeTint,
   })
 
   const [sort, setSort] = useState(sortUserPosts)
@@ -69,6 +65,11 @@ export default function Screen() {
     }, [interval, sort, navigation]),
   )
 
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+  })
+
   return (
     <PostList
       header={
@@ -77,6 +78,7 @@ export default function Screen() {
         </View>
       }
       interval={interval}
+      listProps={listProps}
       query={debounced}
       sort={sort}
       style={styles.list}
@@ -88,25 +90,13 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme) => ({
   header: {
-    backgroundColor: theme.colors.gray.bg,
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    flexDirection: 'row',
     variants: {
       iPad: {
         true: {
           marginBottom: theme.space[4],
           marginHorizontal: -theme.space[4],
-        },
-      },
-      oled: {
-        true: {
-          backgroundColor: oledTheme[theme.variant].bgAlpha,
-        },
-      },
-      tint: {
-        true: {
-          backgroundColor: theme.colors.accent.bg,
         },
       },
     },
@@ -115,7 +105,6 @@ const styles = StyleSheet.create((theme) => ({
     variants: {
       iPad: {
         true: {
-          paddingBottom: theme.space[4],
           paddingHorizontal: theme.space[4],
         },
       },

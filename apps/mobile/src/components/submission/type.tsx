@@ -1,12 +1,13 @@
-import Menu from '@expo/ui/community/menu'
-import { type SFSymbol } from 'expo-symbols'
+import { useRef } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { type SubmissionType } from '~/types/submission'
 
-import { Icon } from '../common/icon'
+import { Icon, type IconName } from '../common/icon'
+import { IconButton } from '../common/icon/button'
+import { Sheet } from '../common/sheet'
 
 type Props = {
   types: Array<SubmissionType>
@@ -14,47 +15,64 @@ type Props = {
 
 export function SubmissionType({ types }: Props) {
   const t = useTranslations('component.submission.type')
+  const a11y = useTranslations('a11y')
 
   const { control, setValue } = useFormContext<CreatePostForm>()
+
+  const sheet = useRef<Sheet>(null)
 
   return (
     <Controller
       control={control}
       name="type"
       render={({ field }) => (
-        <Menu
-          actions={types.map((type) => ({
-            id: type,
-            image: icons[type],
-            state: type === field.value ? 'on' : 'off',
-            title: t(type),
-          }))}
-          onPressAction={(event) => {
-            const next = event.nativeEvent.event
+        <>
+          <IconButton
+            label={a11y('changePostType')}
+            onPress={() => {
+              sheet.current?.present()
+            }}
+          >
+            <Icon
+              name={icons[field.value]}
+              uniProps={(theme) => ({
+                size: theme.space[6],
+              })}
+            />
+          </IconButton>
 
-            if (next !== field.value) {
-              setValue('url', '')
-            }
+          <Sheet.Root ref={sheet}>
+            <Sheet.Header title={t('title')} />
 
-            field.onChange(next)
-          }}
-        >
-          <Icon
-            name={icons[field.value]}
-            uniProps={(theme) => ({
-              size: theme.space[6],
-            })}
-            weight={field.value === 'text' ? 'bold' : undefined}
-          />
-        </Menu>
+            {types.map((item) => (
+              <Sheet.Item
+                key={item}
+                label={t(item)}
+                left={<Icon name={icons[item]} />}
+                onPress={() => {
+                  sheet.current?.dismiss()
+
+                  if (item !== field.value) {
+                    setValue('url', '')
+                  }
+
+                  field.onChange(item)
+                }}
+                selected={item === field.value}
+              />
+            ))}
+
+            <Sheet.BottomInset />
+          </Sheet.Root>
+        </>
       )}
     />
   )
 }
 
 const icons = {
-  image: 'photo',
+  image: 'image',
   link: 'link',
-  text: 'textformat.abc',
+  text: 'text-aa',
   video: 'video',
-} as const satisfies Record<string, SFSymbol>
+} as const satisfies Record<string, IconName>

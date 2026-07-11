@@ -19,6 +19,8 @@ import { heights, iPad } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 import { type Submission } from '~/types/submission'
 
+import { Icon } from '../common/icon'
+import { Spinner } from '../common/spinner'
 import { SubmissionType } from './type'
 
 type Props = {
@@ -70,14 +72,14 @@ export function Submission({ submission }: Props) {
         headerRight: () =>
           uploading ? null : (
             <IconButton
-              icon="paperplane.fill"
+              disabled={isPending}
               label={a11y('createPost')}
-              loading={isPending}
               onPress={() => {
                 onSubmit()
               }}
-              size="6"
-            />
+            >
+              {isPending ? <Spinner /> : <Icon name="paper-plane-tilt" />}
+            </IconButton>
           ),
       })
     }, [a11y, isPending, navigation, onSubmit, uploading]),

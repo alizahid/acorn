@@ -3,14 +3,14 @@ import { type PropsWithChildren } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
+import { Header } from '~/components/navigation/header'
 import { useHistory } from '~/hooks/history'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
-import { glass, iPad } from '~/lib/common'
+import { iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
-import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
 
 import { type CommunityParams } from './communities/[name]'
 import { type MessageParams } from './messages/[id]'
@@ -56,8 +56,7 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="search"
           options={{
-            headerStyle: styles.transparent,
-            headerTransparent: false,
+            headerShown: false,
             title: t('search.title'),
           }}
         />
@@ -75,13 +74,13 @@ export default function Layout({ segment }: Props) {
           options={{
             headerRight: () => (
               <IconButton
-                icon="person.crop.circle.badge.plus"
                 label={a11y('switchAccount')}
                 onPress={() => {
                   mitter.emit('switch-account')
                 }}
-                size="6"
-              />
+              >
+                <Icon name="user-circle-plus" />
+              </IconButton>
             ),
             title: accountId,
           }}
@@ -113,6 +112,7 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="settings"
           options={{
+            headerShown: false,
             title: t('settings.settings.title'),
           }}
         />
@@ -140,14 +140,6 @@ function StackLayout({ children }: PropsWithChildren) {
   const t = useTranslations('screen')
   const a11y = useTranslations('a11y')
 
-  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
-
-  styles.useVariants({
-    glass,
-    oled: themeOled,
-    tint: themeTint,
-  })
-
   const { addPost } = useHistory()
 
   const { subscribed } = useSubscribed()
@@ -156,11 +148,7 @@ function StackLayout({ children }: PropsWithChildren) {
     <Stack
       screenOptions={{
         fullScreenGestureEnabled: true,
-        headerBackButtonDisplayMode: 'minimal',
-        headerBackButtonMenuEnabled: false,
-        headerBlurEffect: glass || themeOled ? 'none' : 'systemChromeMaterial',
-        headerShadowVisible: false,
-        headerStyle: styles.main,
+        header: (props) => <Header {...props} />,
         headerTransparent: true,
       }}
     >
@@ -171,7 +159,6 @@ function StackLayout({ children }: PropsWithChildren) {
         options={({ route }) => ({
           headerRight: () => (
             <IconButton
-              icon="info"
               label={a11y('aboutCommunity', {
                 community: (route.params as CommunityParams).name,
               })}
@@ -183,8 +170,9 @@ function StackLayout({ children }: PropsWithChildren) {
                   pathname: '/communities/[name]/about',
                 })
               }}
-              size="6"
-            />
+            >
+              <Icon name="info" />
+            </IconButton>
           ),
           title: (route.params as CommunityParams).name,
         })}
@@ -209,7 +197,6 @@ function StackLayout({ children }: PropsWithChildren) {
         options={({ route }) => ({
           headerRight: () => (
             <IconButton
-              icon="info"
               label={a11y('aboutCommunity', {
                 community: (route.params as CommunityParams).name,
               })}
@@ -221,8 +208,9 @@ function StackLayout({ children }: PropsWithChildren) {
                   pathname: '/users/[name]/about',
                 })
               }}
-              size="6"
-            />
+            >
+              <Icon name="info" />
+            </IconButton>
           ),
           title: (route.params as CommunityParams).name,
         })}
@@ -259,7 +247,6 @@ function StackLayout({ children }: PropsWithChildren) {
         })}
         name="posts/[id]/index"
         options={{
-          headerStyle: styles.transparent,
           headerTransparent: false,
           title: t('posts.post.title'),
         }}
@@ -267,21 +254,10 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         name="posts/[id]/reply"
-        options={({ navigation }) => ({
-          headerLeft: () => (
-            <IconButton
-              color="gray"
-              icon="xmark"
-              label={a11y('close')}
-              onPress={() => {
-                navigation.goBack()
-              }}
-              size="6"
-            />
-          ),
+        options={{
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
-        })}
+        }}
       />
 
       <Stack.Screen
@@ -293,7 +269,6 @@ function StackLayout({ children }: PropsWithChildren) {
             if (user) {
               return (
                 <IconButton
-                  icon="info"
                   label={user}
                   onPress={() => {
                     router.navigate({
@@ -303,8 +278,9 @@ function StackLayout({ children }: PropsWithChildren) {
                       pathname: '/users/[name]',
                     })
                   }}
-                  size="6"
-                />
+                >
+                  <Icon name="info" />
+                </IconButton>
               )
             }
           },
@@ -383,51 +359,9 @@ function StackLayout({ children }: PropsWithChildren) {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create(() => ({
   full: {
     height: '100%',
     width: '100%',
-  },
-  main: {
-    compoundVariants: [
-      {
-        glass: false,
-        oled: true,
-        styles: {
-          backgroundColor: oledTheme[theme.variant].bgAlpha,
-        },
-        tint: false,
-      },
-      {
-        glass: false,
-        oled: false,
-        styles: {
-          backgroundColor: theme.colors.accent.bgAlpha,
-        },
-        tint: true,
-      },
-      {
-        glass: false,
-        oled: false,
-        styles: {
-          backgroundColor: 'transparent',
-        },
-        tint: false,
-      },
-    ],
-    variants: {
-      glass: {
-        true: {},
-      },
-      oled: {
-        true: {},
-      },
-      tint: {
-        true: {},
-      },
-    },
-  },
-  transparent: {
-    backgroundColor: 'transparent',
   },
 }))

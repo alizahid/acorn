@@ -1,12 +1,11 @@
 import { useRouter } from 'expo-router'
-import { type SFSymbol } from 'expo-symbols'
 import { useEffect } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { Button } from '~/components/common/button'
-import { Icon } from '~/components/common/icon'
+import { Icon, type IconName } from '~/components/common/icon'
 import { Logo } from '~/components/common/logo'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
@@ -66,7 +65,7 @@ export default function Screen() {
             <Icon
               name={icons[key]}
               uniProps={(theme) => ({
-                tintColor: theme.colors.orange.accent,
+                color: theme.colors.orange.accent,
               })}
             />
 
@@ -156,9 +155,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
 
 const icons = {
   1: 'infinity',
-  2: 'swatchpalette',
-  3: 'nosign',
+  2: 'palette',
+  3: 'broadcast',
   4: 'lock',
-  5: 'figure.run',
-  6: 'theatermask.and.paintbrush',
-} as const satisfies Record<number, SFSymbol>
+  5: 'person-simple-run',
+  6: 'github-logo',
+} as const satisfies Record<number, IconName>

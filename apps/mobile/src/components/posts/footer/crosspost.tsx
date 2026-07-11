@@ -1,13 +1,11 @@
 import { useRouter } from 'expo-router'
-import { type SFSymbol } from 'expo-symbols'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
-import { Icon } from '~/components/common/icon'
+import { Icon, type IconName } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
-import { getIcon } from '~/lib/icons'
 import { space } from '~/styles/tokens'
 import { type Post } from '~/types/post'
 
@@ -23,20 +21,18 @@ export function CrossPostFooter({ post }: Props) {
 
   const footer = [
     {
-      icon: getIcon(
-        post.liked
-          ? 'upvote.fill'
-          : post.liked === false
-            ? 'downvote.fill'
-            : 'upvote',
-      ) satisfies SFSymbol,
+      icon: (post.liked
+        ? 'arrow-fat-up-fill'
+        : post.liked === false
+          ? 'arrow-fat-down-fill'
+          : 'arrow-fat-up') satisfies IconName,
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'bubble.left' satisfies SFSymbol,
+      icon: 'chat-centered' satisfies IconName,
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
@@ -61,7 +57,7 @@ export function CrossPostFooter({ post }: Props) {
         style={styles.header}
       >
         <Icon
-          name="arrow.trianglehead.branch"
+          name="shuffle"
           style={styles.crossPost}
           uniProps={(theme) => ({
             size: theme.typography[1].lineHeight,
@@ -78,8 +74,8 @@ export function CrossPostFooter({ post }: Props) {
           <Icon
             name={item.icon}
             uniProps={(theme) => ({
+              color: theme.colors.gray.textLow,
               size: theme.typography[1].lineHeight,
-              tintColor: theme.colors.gray.textLow,
             })}
           />
 

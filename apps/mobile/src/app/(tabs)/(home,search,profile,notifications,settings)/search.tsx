@@ -1,4 +1,3 @@
-import { Stack } from 'expo-router'
 import { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { type SearchBarCommands } from 'react-native-screens'
@@ -8,11 +7,13 @@ import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 
 import { Loading } from '~/components/common/loading'
+import { SearchBox } from '~/components/common/search'
 import { SegmentedControl } from '~/components/common/segmented-control'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
+import { useListProps } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
-import { glass, heights, iPad } from '~/lib/common'
+import { glass, heights } from '~/lib/common'
 import { defaultsStore } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 
@@ -26,6 +27,10 @@ const routes = defaultsStore
 
 export default function Screen() {
   const t = useTranslations('screen.search')
+
+  styles.useVariants({
+    glass,
+  })
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences([
     'intervalSearchPosts',
@@ -58,72 +63,74 @@ export default function Screen() {
     style: styles.list,
   } as const
 
+  const { contentInset } = useListProps({
+    header: false,
+  })
+
   return (
-    <>
-      <Stack.SearchBar
-        onChangeText={(event) => {
-          setQuery(event.nativeEvent.text)
-        }}
-        placeholder={t('title')}
-        ref={search}
-      />
+    <TabView
+      lazy
+      navigationState={{
+        index,
+        routes,
+      }}
+      onIndexChange={setIndex}
+      renderLazyPlaceholder={() => <Loading />}
+      renderScene={({ route }) => {
+        if (route.key === 'post') {
+          return (
+            <SearchList
+              {...props}
+              header={
+                <SortIntervalMenu
+                  interval={interval}
+                  onChange={(next) => {
+                    setSort(next.sort)
 
-      <TabView
-        lazy
-        navigationState={{
-          index,
-          routes,
-        }}
-        onIndexChange={setIndex}
-        renderLazyPlaceholder={() => <Loading />}
-        renderScene={({ route }) => {
-          if (route.key === 'post') {
-            return (
-              <SearchList
-                {...props}
-                header={
-                  <SortIntervalMenu
-                    interval={interval}
-                    onChange={(next) => {
-                      setSort(next.sort)
-
-                      if (next.interval) {
-                        setInterval(next.interval)
-                      }
-                    }}
-                    sort={sort}
-                    type="search"
-                  />
-                }
-                interval={interval}
-                sort={sort}
-                type="post"
-              />
-            )
-          }
-
-          if (route.key === 'community') {
-            return <SearchList {...props} type="community" />
-          }
-
-          return <SearchList {...props} type="user" />
-        }}
-        renderTabBar={({ jumpTo, navigationState }) => (
-          <View style={styles.tabBar}>
-            <SegmentedControl
-              items={routes.map(({ key }) => ({
-                key,
-                label: t(`tabs.${key}`),
-              }))}
-              onChange={(next) => {
-                jumpTo(next)
-              }}
-              value={navigationState.routes[navigationState.index]?.key}
+                    if (next.interval) {
+                      setInterval(next.interval)
+                    }
+                  }}
+                  sort={sort}
+                  type="search"
+                />
+              }
+              interval={interval}
+              sort={sort}
+              type="post"
             />
-          </View>
-        )}
-      />
-    </>
+          )
+        }
+
+        if (route.key === 'community') {
+          return <SearchList {...props} type="community" />
+        }
+
+        return <SearchList {...props} type="user" />
+      }}
+      renderTabBar={({ jumpTo, navigationState }) => (
+        <View style={styles.tabBar(contentInset.top)}>
+          <SearchBox
+            glass
+            onChange={setQuery}
+            placeholder="search"
+            style={styles.search}
+            value={query}
+          />
+
+          <SegmentedControl
+            items={routes.map(({ key }) => ({
+              key,
+              label: t(`tabs.${key}`),
+            }))}
+            onChange={(next) => {
+              jumpTo(next)
+            }}
+            value={navigationState.routes[navigationState.index]?.key}
+          />
+        </View>
+      )}
+    />
   )
 }
 
@@ -139,9 +146,20 @@ const styles = StyleSheet.create((theme, runtime) => ({
     backgroundColor: theme.colors.gray.uiActiveAlpha,
     borderWidth: 0,
   },
-  tabBar: {
-    marginBottom: theme.space[2],
-    marginHorizontal: theme.space[2],
-    paddingTop: iPad || glass ? undefined : theme.space[2],
+  search: {
+    borderCurve: 'continuous',
+    borderRadius: theme.space[8],
+    variants: {
+      glass: {
+        false: {
+          backgroundColor: theme.colors.gray.ui,
+        },
+      },
+    },
   },
+  tabBar: (marginTop: number) => ({
+    gap: theme.space[4],
+    margin: theme.space[4],
+    marginTop: marginTop + theme.space[4],
+  }),
 }))

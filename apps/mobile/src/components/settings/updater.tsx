@@ -90,6 +90,5 @@ const styles = StyleSheet.create((theme) => ({
   main: {
     alignItems: 'center',
     gap: theme.space[4],
-    margin: theme.space[6],
   },
 }))

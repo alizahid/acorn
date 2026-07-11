@@ -56,10 +56,10 @@ export function ListItem({
 
       {navigate ? (
         <Icon
-          name="chevron.right"
+          name="caret-right"
           uniProps={(theme) => ({
+            color: theme.colors.gray.textLow,
             size: theme.space[3],
-            tintColor: theme.colors.gray.textLow,
           })}
         />
       ) : (

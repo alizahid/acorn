@@ -58,6 +58,12 @@ export function createPalette(color: PaletteColor, dark?: boolean) {
     teal: getColors<Colors>(`teal${suffix}`, `teal${suffix}A`),
     tomato: getColors<Colors>(`tomato${suffix}`, `tomato${suffix}A`),
     violet: getColors<Colors>(`violet${suffix}`, `violet${suffix}A`),
+
+    ui: {
+      bg: dark ? '#000' : '#fff',
+      bgAlpha: dark ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+      overlay: dark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+    },
   }
 }
 

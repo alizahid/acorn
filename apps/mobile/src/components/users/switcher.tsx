@@ -8,6 +8,7 @@ import { glass } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 
+import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
 import { Sheet } from '../common/sheet'
 import { Text } from '../common/text'
@@ -41,8 +42,6 @@ export function AccountSwitcher() {
       <Sheet.Header
         right={
           <IconButton
-            color="green"
-            icon="plus"
             label={a11y('addAccount')}
             onPress={async () => {
               await sheet.current?.dismiss()
@@ -55,7 +54,14 @@ export function AccountSwitcher() {
               })
             }}
             size={glass ? '9' : '8'}
-          />
+          >
+            <Icon
+              name="plus-bold"
+              uniProps={(theme) => ({
+                color: theme.colors.green.accent,
+              })}
+            />
+          </IconButton>
         }
         style={styles.header}
         title={t('title')}

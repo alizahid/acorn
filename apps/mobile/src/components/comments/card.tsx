@@ -12,7 +12,6 @@ import { cardMaxWidth, iPad } from '~/lib/common'
 import { REDDIT_URI } from '~/reddit/api'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
 import { type Undefined } from '~/types'
 import { type CommentReply } from '~/types/comment'
 
@@ -50,13 +49,11 @@ export function CommentCard({
 
   const a11y = useTranslations('a11y')
 
-  const { colorfulComments, privateScreenshots, themeOled, userOnTop } =
-    usePreferences([
-      'colorfulComments',
-      'privateScreenshots',
-      'themeOled',
-      'userOnTop',
-    ])
+  const { colorfulComments, privateScreenshots, userOnTop } = usePreferences([
+    'colorfulComments',
+    'privateScreenshots',
+    'userOnTop',
+  ])
   const {
     commentLeft,
     commentLeftLong,
@@ -82,7 +79,6 @@ export function CommentCard({
     colorful: colorfulComments,
     dull,
     iPad,
-    oled: themeOled,
   })
 
   const { vote } = useCommentVote()
@@ -246,7 +242,7 @@ export function CommentCard({
                   <Icon
                     name="paperclip"
                     uniProps={(theme) => ({
-                      tintColor: theme.colors.gray.accent,
+                      color: theme.colors.gray.accent,
                     })}
                   />
 
@@ -330,35 +326,21 @@ const styles = StyleSheet.create((theme, runtime) => ({
 
     return {
       alignSelf: 'center',
-      backgroundColor: theme.colors.gray.bgAlt,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
-      compoundVariants: [
-        {
-          colorful: true,
-          oled: true,
-          styles: {
-            backgroundColor: theme.colors[color].bg,
-          },
-        },
-        {
-          dull: true,
-          oled: true,
-          styles: {
-            backgroundColor: oledTheme[theme.variant].bg,
-          },
-        },
-      ],
       overflow: 'hidden',
       variants: {
         colorful: {
+          false: {
+            backgroundColor: theme.colors.ui.bg,
+          },
           true: {
             backgroundColor: theme.colors[color].bgAlt,
           },
         },
         dull: {
           true: {
-            backgroundColor: theme.colors.gray.ui,
+            backgroundColor: theme.colors.ui.bg,
           },
         },
         iPad: {
@@ -367,11 +349,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
           },
           true: {
             maxWidth: cardMaxWidth - marginLeft,
-          },
-        },
-        oled: {
-          true: {
-            backgroundColor: oledTheme[theme.variant].bg,
           },
         },
       },

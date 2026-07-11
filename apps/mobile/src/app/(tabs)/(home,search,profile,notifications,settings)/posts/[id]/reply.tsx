@@ -15,7 +15,9 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
+import { Spinner } from '~/components/common/spinner'
 import { MarkdownEditor } from '~/components/markdown/editor'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
@@ -60,9 +62,8 @@ export default function Screen() {
       navigation.setOptions({
         headerRight: () => (
           <IconButton
-            icon="paperplane.fill"
+            disabled={reply.isPending || edit.isPending}
             label={a11y('createComment')}
-            loading={reply.isPending || edit.isPending}
             onPress={async () => {
               if (!text) {
                 return
@@ -90,8 +91,13 @@ export default function Screen() {
 
               router.back()
             }}
-            size="6"
-          />
+          >
+            {reply.isPending || edit.isPending ? (
+              <Spinner />
+            ) : (
+              <Icon name="paper-plane-tilt-fill" />
+            )}
+          </IconButton>
         ),
         title: params.user
           ? t('user', {

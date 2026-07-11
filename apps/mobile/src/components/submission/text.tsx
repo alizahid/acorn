@@ -23,6 +23,7 @@ import { iOS26 } from '~/lib/common'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
+import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
 import { Text } from '../common/text'
 import { MarkdownEditor } from '../markdown/editor'
@@ -77,13 +78,18 @@ export function SubmissionText() {
               <MarkdownEditor.ToolBar editor={editor} state={state} />
 
               <IconButton
-                color="gray"
-                icon="chevron.down"
-                label="Dismiss"
+                label={t('dismiss')}
                 onPress={() => {
                   KeyboardController.dismiss()
                 }}
-              />
+              >
+                <Icon
+                  name="caret-down"
+                  uniProps={(theme) => ({
+                    color: theme.colors.gray.accent,
+                  })}
+                />
+              </IconButton>
             </Animated.View>
           </KeyboardExtender>
         </View>

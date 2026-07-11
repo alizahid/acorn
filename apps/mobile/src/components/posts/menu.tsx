@@ -23,7 +23,6 @@ import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { useScreenshot } from '~/hooks/screenshot'
 import { useDownloadVideo } from '~/hooks/video'
-import { getIcon } from '~/lib/icons'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
@@ -82,8 +81,6 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
         >
           <View style={styles.palette}>
             <IconButton
-              color="orange"
-              icon={getIcon(post.liked ? 'upvote.fill' : 'upvote')}
               label={t(post.liked ? 'removeUpvote' : 'upvote')}
               onPress={() => {
                 ref.current?.dismiss()
@@ -93,13 +90,16 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                   postId: post.id,
                 })
               }}
-            />
+            >
+              <Icon
+                name={post.liked ? 'arrow-fat-up-fill' : 'arrow-fat-up'}
+                uniProps={(theme) => ({
+                  color: theme.colors.orange.accent,
+                })}
+              />
+            </IconButton>
 
             <IconButton
-              color="violet"
-              icon={getIcon(
-                post.liked === false ? 'downvote.fill' : 'downvote',
-              )}
               label={t(post.liked === false ? 'removeDownvote' : 'downvote')}
               onPress={() => {
                 ref.current?.dismiss()
@@ -109,11 +109,20 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                   postId: post.id,
                 })
               }}
-            />
+            >
+              <Icon
+                name={
+                  post.liked === false
+                    ? 'arrow-fat-down-fill'
+                    : 'arrow-fat-down'
+                }
+                uniProps={(theme) => ({
+                  color: theme.colors.violet.accent,
+                })}
+              />
+            </IconButton>
 
             <IconButton
-              color="green"
-              icon={post.saved ? 'bookmark.fill' : 'bookmark'}
               label={t(post.saved ? 'unsave' : 'save')}
               onPress={() => {
                 ref.current?.dismiss()
@@ -123,11 +132,16 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                   postId: post.id,
                 })
               }}
-            />
+            >
+              <Icon
+                name={post.saved ? 'bookmark-simple-fill' : 'bookmark-simple'}
+                uniProps={(theme) => ({
+                  color: theme.colors.green.accent,
+                })}
+              />
+            </IconButton>
 
             <IconButton
-              color="blue"
-              icon="arrowshape.turn.up.backward"
               label={t('reply')}
               onPress={() => {
                 ref.current?.dismiss()
@@ -139,7 +153,14 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                   pathname: '/posts/[id]/reply',
                 })
               }}
-            />
+            >
+              <Icon
+                name="arrow-bend-up-left-bold"
+                uniProps={(theme) => ({
+                  color: theme.colors.blue.accent,
+                })}
+              />
+            </IconButton>
           </View>
 
           <Sheet.Separator />
@@ -148,7 +169,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
           <Sheet.Item
             label={t('copyTitle')}
-            left={<Icon name="square.on.square" />}
+            left={<Icon name="copy" />}
             onPress={() => {
               ref.current?.dismiss()
 
@@ -161,7 +182,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
           {post.body?.length ? (
             <Sheet.Item
               label={t('copyText')}
-              left={<Icon name="square.on.square" />}
+              left={<Icon name="copy" />}
               onPress={() => {
                 ref.current?.dismiss()
 
@@ -192,7 +213,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
           <Sheet.Item
             label={t('copyPermalink')}
-            left={<Icon name="square.on.square" />}
+            left={<Icon name="copy" />}
             onPress={() => {
               ref.current?.dismiss()
 
@@ -209,7 +230,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
           <Sheet.Item
             label={t('sharePermalink')}
-            left={<Icon name="square.and.arrow.up" />}
+            left={<Icon name="export" />}
             onPress={() => {
               ref.current?.dismiss()
 
@@ -236,7 +257,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
           <Sheet.Item
             label={t('openBrowser')}
-            left={<Icon name="safari" />}
+            left={<Icon name="compass" />}
             onPress={() => {
               ref.current?.dismiss()
 
@@ -257,7 +278,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
               <Sheet.Item
                 label={t('openLink')}
-                left={<Icon name="safari" />}
+                left={<Icon name="compass" />}
                 onPress={() => {
                   ref.current?.dismiss()
 
@@ -269,7 +290,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
               <Sheet.Item
                 label={t('copyLink')}
-                left={<Icon name="square.on.square" />}
+                left={<Icon name="copy" />}
                 onPress={() => {
                   ref.current?.dismiss()
 
@@ -283,7 +304,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
               <Sheet.Item
                 label={t('shareLink')}
-                left={<Icon name="square.and.arrow.up" />}
+                left={<Icon name="export" />}
                 onPress={() => {
                   ref.current?.dismiss()
 
@@ -312,7 +333,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
               {post.media.images?.length === 1 ? (
                 <Sheet.Item
                   label={t('copyImage')}
-                  left={<Icon name="square.on.square" />}
+                  left={<Icon name="copy" />}
                   onPress={() => {
                     ref.current?.dismiss()
 
@@ -328,7 +349,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
               {post.media.images?.length === 1 ? (
                 <Sheet.Item
                   label={t('shareImage')}
-                  left={<Icon name="square.and.arrow.up" />}
+                  left={<Icon name="export" />}
                   onPress={() => {
                     ref.current?.dismiss()
 
@@ -344,7 +365,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
               {post.media.images?.length === 1 ? (
                 <Sheet.Item
                   label={t('downloadImage')}
-                  left={<Icon name="square.and.arrow.down" />}
+                  left={<Icon name="download" />}
                   onPress={() => {
                     ref.current?.dismiss()
 
@@ -360,7 +381,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
               {post.media.images?.length ? (
                 <Sheet.Item
                   label={t('downloadGallery')}
-                  left={<Icon name="square.and.arrow.down" />}
+                  left={<Icon name="download" />}
                   onPress={() => {
                     ref.current?.dismiss()
 
@@ -384,7 +405,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
               {post.media.video ? (
                 <Sheet.Item
                   label={t('downloadVideo')}
-                  left={<Icon name="square.on.square" />}
+                  left={<Icon name="copy" />}
                   onPress={() => {
                     ref.current?.dismiss()
 
@@ -408,7 +429,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
               <Sheet.Item
                 label={t('copyScreenshot')}
-                left={<Icon name="square.on.square" />}
+                left={<Icon name="copy" />}
                 onPress={async () => {
                   const url = await screenshot(card)
 
@@ -422,7 +443,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
               <Sheet.Item
                 label={t('shareScreenshot')}
-                left={<Icon name="square.and.arrow.up" />}
+                left={<Icon name="export" />}
                 onPress={async () => {
                   const url = await screenshot(card)
 
@@ -436,7 +457,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
               <Sheet.Item
                 label={t('downloadScreenshot')}
-                left={<Icon name="square.and.arrow.down" />}
+                left={<Icon name="download" />}
                 onPress={async () => {
                   const url = await screenshot(card)
 
@@ -458,7 +479,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             label={t('openUser', {
               user: post.user.name,
             })}
-            left={<Icon name="person" />}
+            left={<Icon name="user" />}
             onPress={() => {
               ref.current?.dismiss()
 
@@ -476,7 +497,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
               label={t('openCommunity', {
                 community: post.community.name,
               })}
-              left={<Icon name="person.2" />}
+              left={<Icon name="users-four" />}
               onPress={() => {
                 ref.current?.dismiss()
 
@@ -502,9 +523,9 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             label={t(post.hidden ? 'unhidePost' : 'hidePost')}
             left={
               <Icon
-                name={post.hidden ? 'eye' : 'eye.slash'}
+                name={post.hidden ? 'eye' : 'eye-slash'}
                 uniProps={(theme) => ({
-                  tintColor: post.hidden
+                  color: post.hidden
                     ? theme.colors.accent.accent
                     : theme.colors.red.accent,
                 })}
@@ -527,9 +548,9 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             })}
             left={
               <Icon
-                name="person"
+                name="user"
                 uniProps={(theme) => ({
-                  tintColor: theme.colors.red.accent,
+                  color: theme.colors.red.accent,
                 })}
               />
             }
@@ -554,9 +575,9 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
               })}
               left={
                 <Icon
-                  name="person.2"
+                  name="users-four"
                   uniProps={(theme) => ({
-                    tintColor: theme.colors.red.accent,
+                    color: theme.colors.red.accent,
                   })}
                 />
               }
@@ -579,7 +600,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
               <Icon
                 name="flag"
                 uniProps={(theme) => ({
-                  tintColor: theme.colors.red.accent,
+                  color: theme.colors.red.accent,
                 })}
               />
             }
@@ -588,10 +609,10 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             }}
             right={
               <Icon
-                name="chevron.right"
+                name="caret-right"
                 uniProps={(theme) => ({
+                  color: theme.colors.gray.accent,
                   size: theme.space[4],
-                  tintColor: theme.colors.gray.accent,
                 })}
               />
             }
@@ -655,7 +676,7 @@ function PostDeleteAction({ ref, post }: Pick<Props, 'ref' | 'post'>) {
         <Icon
           name="trash"
           uniProps={(theme) => ({
-            tintColor: theme.colors.red.accent,
+            color: theme.colors.red.accent,
           })}
         />
       }

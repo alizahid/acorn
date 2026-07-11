@@ -15,9 +15,9 @@ export const glass = isLiquidGlassAvailable()
 export const iOS26 = Platform.OS === 'ios' && semver.gte(version, '26.0.0')
 
 export const heights = {
-  floatingButton: 80,
-  header: glass ? 54 : 48,
+  floatingButton: 80, // 48 + 16 + 16
+  header: 48,
   notifications: 56,
   search: 112,
-  tabBar: glass ? 64 : 54,
+  tabBar: 48,
 } as const

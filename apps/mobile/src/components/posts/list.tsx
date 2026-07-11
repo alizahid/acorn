@@ -18,9 +18,9 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
 import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
+import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { cardMaxWidth, iPad } from '~/lib/common'
-import { listProps } from '~/lib/list'
 import { preferencesStore, usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
@@ -39,6 +39,7 @@ type Item = Post | Comment
 
 type Props = PostsProps & {
   header?: ReactElement
+  listProps?: ListProps
   onRefresh?: () => void
   style?: StyleProp<ViewStyle>
 }
@@ -48,6 +49,7 @@ export function PostList({
   feed,
   header,
   interval,
+  listProps,
   onRefresh,
   query,
   sort,
@@ -61,19 +63,14 @@ export function PostList({
 
   const list = useRef<FlashListRef<Item>>(null)
 
-  const { feedCompact, infiniteScrolling, seenOnScroll, themeOled } =
-    usePreferences([
-      'feedCompact',
-      'infiniteScrolling',
-      'seenOnScroll',
-      'themeOled',
-    ])
   const { addPost } = useHistory()
+  const { infiniteScrolling, seenOnScroll } = usePreferences([
+    'infiniteScrolling',
+    'seenOnScroll',
+  ])
 
   styles.useVariants({
-    compact: feedCompact,
     iPad,
-    oled: themeOled,
   })
 
   const {
@@ -143,7 +140,7 @@ export function PostList({
       ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
       ListFooterComponent={() =>
         isFetchingNextPage ? (
-          <Spinner style={styles.spinner} />
+          <Spinner size="large" style={styles.more} />
         ) : infiniteScrolling ? null : hasNextPage ? (
           <Button
             label={t('more')}
@@ -155,9 +152,6 @@ export function PostList({
         ) : null
       }
       ListHeaderComponent={header}
-      maintainVisibleContentPosition={{
-        disabled: true,
-      }}
       onEndReached={() => {
         if (!infiniteScrolling) {
           return
@@ -205,49 +199,19 @@ export function PostList({
 const styles = StyleSheet.create((theme) => ({
   more: {
     alignSelf: 'center',
-    marginBottom: theme.space[4] * 2,
-    marginTop: theme.space[4] * 2,
-    variants: {
-      iPad: {
-        true: {
-          marginBottom: theme.space[4],
-        },
-      },
-    },
+    marginTop: theme.space[4],
   },
   separator: {
     alignSelf: 'center',
-    height: theme.space[4],
+    backgroundColor: theme.colors.gray.border,
+    height: StyleSheet.hairlineWidth,
     variants: {
-      compact: {
-        true: {
-          height: theme.space[2],
-        },
-      },
       iPad: {
         true: {
           maxWidth: cardMaxWidth,
         },
       },
-      oled: {
-        true: {
-          backgroundColor: theme.colors.gray.border,
-          height: 1,
-        },
-      },
     },
     width: '100%',
-  },
-  spinner: {
-    height: theme.space[7],
-    marginBottom: theme.space[4] * 2,
-    marginTop: theme.space[4] * 2,
-    variants: {
-      iPad: {
-        true: {
-          marginBottom: theme.space[4],
-        },
-      },
-    },
   },
 }))

@@ -3,10 +3,9 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
-import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
 
-import { IconButton } from '../common/icon/button'
+import { Button } from '../common/button'
+import { Icon } from '../common/icon'
 
 type Props = {
   onPress?: (commentId?: string) => void
@@ -16,61 +15,66 @@ type Props = {
 export function PostHeader({ onPress, parentId }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
-
   styles.useVariants({
     iPad,
-    oled: themeOled,
-    tint: themeTint,
   })
 
   return (
     <View style={styles.main}>
-      <IconButton
-        icon="arrow.uturn.left"
+      <Button
         label={a11y('viewFullThread')}
+        left={
+          <Icon
+            name="arrow-u-up-left"
+            uniProps={(theme) => ({
+              color: theme.colors.accent.contrast,
+            })}
+          />
+        }
         onPress={() => {
           onPress?.()
         }}
+        style={styles.button}
       />
 
-      <IconButton
-        icon="arrow.up.left"
+      <Button
         label={a11y('viewParentThread')}
+        left={
+          <Icon
+            name="arrow-up-left"
+            uniProps={(theme) => ({
+              color: theme.colors.accent.contrast,
+            })}
+          />
+        }
         onPress={() => {
           onPress?.(parentId)
         }}
+        style={styles.button}
       />
     </View>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
+  button: {
+    flex: 1,
+  },
   main: {
-    backgroundColor: theme.colors.gray.ui,
     flexDirection: 'row',
+    gap: theme.space[3],
+    marginTop: theme.space[2],
     variants: {
       iPad: {
+        false: {
+          padding: theme.space[3],
+        },
         true: {
           alignSelf: 'center',
           borderCurve: 'continuous',
           borderRadius: theme.radius[3],
           maxWidth: cardMaxWidth,
           width: '100%',
-        },
-      },
-      oled: {
-        false: {
-          marginTop: theme.space[2],
-        },
-        true: {
-          backgroundColor: oledTheme[theme.variant].bg,
-          marginTop: theme.space[1],
-        },
-      },
-      tint: {
-        true: {
-          backgroundColor: theme.colors.accent.ui,
         },
       },
     },

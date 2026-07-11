@@ -1,10 +1,9 @@
-import { type SFSymbol } from 'expo-symbols'
+import { type ReactNode } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { glass, heights, iPad } from '~/lib/common'
-import { mapColors } from '~/lib/styles'
-import { type ColorToken, space } from '~/styles/tokens'
+import { glass, heights } from '~/lib/common'
+import { space } from '~/styles/tokens'
 
 import { BlurView } from '../native/blur-view'
 import { GlassView } from '../native/glass-view'
@@ -15,8 +14,7 @@ export const FloatingButtonSide = ['left', 'center', 'right', 'hide'] as const
 export type FloatingButtonSide = (typeof FloatingButtonSide)[number]
 
 type Props = {
-  color?: ColorToken
-  icon: SFSymbol
+  children: ReactNode
   label: string
   onLongPress?: () => void
   onPress?: () => void
@@ -25,8 +23,7 @@ type Props = {
 }
 
 export function FloatingButton({
-  color = 'accent',
-  icon,
+  children,
   label,
   onLongPress,
   onPress,
@@ -34,28 +31,22 @@ export function FloatingButton({
   style,
 }: Props) {
   styles.useVariants({
-    color,
+    glass,
     side,
   })
 
   const Component = glass ? GlassView : BlurView
 
   return (
-    <Component
-      intensity={100}
-      isInteractive
-      style={[styles.main, style]}
-      tint="systemChromeMaterial"
-    >
+    <Component intensity={100} isInteractive style={[styles.main, style]}>
       <IconButton
-        color={color}
         hitSlop={space[4]}
-        icon={icon}
         label={label}
         onLongPress={onLongPress}
         onPress={onPress}
-        weight="bold"
-      />
+      >
+        {children}
+      </IconButton>
     </Component>
   )
 }
@@ -64,13 +55,14 @@ const styles = StyleSheet.create((theme, runtime) => ({
   main: {
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
-    bottom: runtime.insets.bottom + (iPad ? theme.space[4] : heights.tabBar),
-    overflow: glass ? undefined : 'hidden',
+    bottom: runtime.insets.bottom + heights.tabBar + theme.space[4],
     position: 'absolute',
     variants: {
-      color: mapColors((token) => ({
-        backgroundColor: glass ? undefined : theme.colors[token].uiActiveAlpha,
-      })),
+      glass: {
+        false: {
+          overflow: 'hidden',
+        },
+      },
       side: {
         center: {
           left: runtime.screen.width / 2 - theme.space[8] / 2,

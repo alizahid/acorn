@@ -1,7 +1,6 @@
-import { type SFSymbol } from 'expo-symbols'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { Icon } from '~/components/common/icon'
+import { Icon, type IconName } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { mapColors } from '~/lib/styles'
 import { type ColorToken, colors, space } from '~/styles/tokens'
@@ -10,7 +9,7 @@ type Props = {
   color?: ColorToken
   compact?: boolean
   fill?: boolean
-  icon: SFSymbol
+  icon: IconName
   label: string
   onPress?: () => void
 }
@@ -38,13 +37,13 @@ export function FooterButton({
       <Icon
         name={icon}
         uniProps={(theme) => ({
-          size: compact ? theme.typography[1].fontSize : theme.space[5],
-          tintColor: fill
+          color: fill
             ? theme.colors.white.textAlpha
             : color
               ? theme.colors[color].accent
               : theme.colors[theme.variant === 'dark' ? 'white' : 'black']
                   .textAlpha,
+          size: compact ? theme.typography[1].fontSize : theme.space[5],
         })}
       />
     </Pressable>

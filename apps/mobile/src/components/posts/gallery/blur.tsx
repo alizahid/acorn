@@ -17,10 +17,10 @@ export function GalleryBlur({ label }: Props) {
       tint="systemThickMaterial"
     >
       <Icon
-        name="exclamationmark.circle.fill"
+        name="warning-circle-fill"
         uniProps={(theme) => ({
+          color: theme.colors.gray.text,
           size: theme.space[5],
-          tintColor: theme.colors.gray.text,
         })}
       />
 

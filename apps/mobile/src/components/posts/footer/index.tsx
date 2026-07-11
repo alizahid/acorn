@@ -3,7 +3,6 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { usePostVote } from '~/hooks/mutations/posts/vote'
-import { getIcon } from '~/lib/icons'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -38,7 +37,7 @@ export function PostFooter({ community = true, post, privacy, style }: Props) {
           <FooterButton
             color={!privacy && post.liked === true ? 'orange' : undefined}
             fill={!privacy && post.liked === true}
-            icon={getIcon('upvote.fill')}
+            icon="arrow-fat-up-fill"
             label={a11y(post.liked ? 'removeUpvote' : 'upvote')}
             onPress={() => {
               vote({
@@ -51,7 +50,7 @@ export function PostFooter({ community = true, post, privacy, style }: Props) {
           <FooterButton
             color={!privacy && post.liked === false ? 'violet' : undefined}
             fill={!privacy && post.liked === false}
-            icon={getIcon('downvote.fill')}
+            icon="arrow-fat-down-fill"
             label={a11y(post.liked === false ? 'removeDownvote' : 'downvote')}
             onPress={() => {
               vote({

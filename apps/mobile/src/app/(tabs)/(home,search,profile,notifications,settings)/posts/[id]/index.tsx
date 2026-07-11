@@ -22,6 +22,7 @@ import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
 import { FloatingButton } from '~/components/common/floating-button'
+import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { SearchBox } from '~/components/common/search'
@@ -30,8 +31,9 @@ import { Text } from '~/components/common/text'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { useListProps } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
-import { cardMaxWidth, glass, heights, iPad } from '~/lib/common'
+import { heights, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
@@ -124,37 +126,38 @@ export default function Screen() {
             type="comment"
           />
         ),
-        headerTitle: () =>
-          post ? (
-            <Pressable
-              accessibilityHint={a11y('viewCommunity')}
-              accessibilityLabel={post.community.name}
-              onPress={() => {
-                if (post.community.name.startsWith('u/')) {
+        headerTitle: post
+          ? () => (
+              <Pressable
+                accessibilityHint={a11y('viewCommunity')}
+                accessibilityLabel={post.community.name}
+                onPress={() => {
+                  if (post.community.name.startsWith('u/')) {
+                    router.navigate({
+                      params: {
+                        name: removePrefix(post.community.name),
+                      },
+                      pathname: '/users/[name]',
+                    })
+
+                    return
+                  }
+
                   router.navigate({
                     params: {
                       name: removePrefix(post.community.name),
                     },
-                    pathname: '/users/[name]',
+                    pathname: '/communities/[name]',
                   })
-
-                  return
-                }
-
-                router.navigate({
-                  params: {
-                    name: removePrefix(post.community.name),
-                  },
-                  pathname: '/communities/[name]',
-                })
-              }}
-              style={styles.title}
-            >
-              <Text numberOfLines={1} weight="bold">
-                {post.community.name}
-              </Text>
-            </Pressable>
-          ) : undefined,
+                }}
+                style={styles.title}
+              >
+                <Text numberOfLines={1} weight="bold">
+                  {post.community.name}
+                </Text>
+              </Pressable>
+            )
+          : null,
       })
     }, [a11y, navigation, post, router, sort]),
   )
@@ -162,20 +165,16 @@ export default function Screen() {
   const header = useMemo(
     () => (
       <View style={styles.header}>
-        <SearchBox onChange={setQuery} style={styles.search} value={query} />
+        <SearchBox onChange={setQuery} value={query} />
 
-        {post ? (
-          <PostCard expanded post={post} />
-        ) : (
-          <Spinner size="large" style={styles.spinner} />
-        )}
+        {post ? <PostCard expanded post={post} /> : null}
 
         {params.commentId ? (
           <PostHeader
             onPress={(next) => {
               list.current?.scrollToIndex({
                 animated: true,
-                index: 0,
+                index: 1,
               })
 
               router.setParams({
@@ -249,9 +248,16 @@ export default function Screen() {
     [collapse, collapseThread, collapsibleComments, post, router, sort],
   )
 
+  const listProps = useListProps({
+    extraBottom: heights.floatingButton,
+    header: false,
+    top: false,
+  })
+
   return (
     <>
       <FlashList
+        {...listProps}
         contentContainerStyle={styles.content}
         data={comments}
         extraData={{
@@ -274,9 +280,6 @@ export default function Screen() {
           )
         }
         ListHeaderComponent={header}
-        maintainVisibleContentPosition={{
-          disabled: true,
-        }}
         ref={list}
         refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
@@ -284,8 +287,6 @@ export default function Screen() {
 
       {replyPost && post ? (
         <FloatingButton
-          color="blue"
-          icon="arrowshape.turn.up.backward.fill"
           label={a11y('createComment')}
           onPress={() => {
             router.navigate({
@@ -296,12 +297,18 @@ export default function Screen() {
             })
           }}
           side={replyPost}
-        />
+        >
+          <Icon
+            name="arrow-bend-up-left-bold"
+            uniProps={(theme) => ({
+              color: theme.colors.blue.accent,
+            })}
+          />
+        </FloatingButton>
       ) : null}
 
       {skipComment && comments.length > 0 ? (
         <FloatingButton
-          icon="arrow.down"
           label={a11y('skipComment')}
           onLongPress={() => {
             const current = list.current?.getFirstVisibleIndex() ?? 0
@@ -327,7 +334,7 @@ export default function Screen() {
             const offset = list.current?.getAbsoluteLastScrollOffset() ?? 0
             const first = list.current?.getFirstItemOffset() ?? 100
 
-            if (offset < first) {
+            if (Math.round(offset) < Math.round(first)) {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 0,
@@ -353,7 +360,9 @@ export default function Screen() {
             })
           }}
           side={skipComment}
-        />
+        >
+          <Icon name="arrow-down-bold" />
+        </FloatingButton>
       ) : null}
     </>
   )
@@ -361,12 +370,10 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme) => ({
   content: {
-    paddingBottom: heights.floatingButton,
     variants: {
       iPad: {
         true: {
           paddingHorizontal: theme.space[4],
-          paddingTop: theme.space[4],
         },
       },
     },
@@ -374,17 +381,11 @@ const styles = StyleSheet.create((theme) => ({
   header: {
     marginBottom: theme.space[2],
   },
-  search: {
-    alignSelf: 'center',
-    marginBottom: iPad ? theme.space[2] : undefined,
-    maxWidth: cardMaxWidth,
-    width: '100%',
-  },
   separator: {
     height: theme.space[2],
   },
   sort: {
-    paddingHorizontal: glass ? theme.space[2] : 0,
+    paddingHorizontal: theme.space[3],
   },
   spinner: {
     margin: theme.space[4],
@@ -392,6 +393,5 @@ const styles = StyleSheet.create((theme) => ({
   title: {
     height: theme.space[8],
     justifyContent: 'center',
-    paddingHorizontal: theme.space[3],
   },
 }))

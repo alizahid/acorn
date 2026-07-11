@@ -11,7 +11,7 @@ import { useTranslations } from 'use-intl'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
-import { PhosphorIcon } from '../common/icon/phosphor'
+import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { MarkdownInput } from '../native/markdown'
 
@@ -70,7 +70,7 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         }}
         style={styles.tool}
       >
-        <PhosphorIcon
+        <Icon
           name={state?.isBold ? 'text-b-bold' : 'text-b'}
           uniProps={(theme) => ({
             color: state?.isBold
@@ -87,7 +87,7 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         }}
         style={styles.tool}
       >
-        <PhosphorIcon
+        <Icon
           name={state?.isItalic ? 'text-italic-bold' : 'text-italic'}
           uniProps={(theme) => ({
             color: state?.isItalic
@@ -104,7 +104,7 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         }}
         style={styles.tool}
       >
-        <PhosphorIcon
+        <Icon
           name={
             state?.isStrikethrough
               ? 'text-strikethrough-bold'
@@ -125,7 +125,7 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         }}
         style={styles.tool}
       >
-        <PhosphorIcon
+        <Icon
           name={state?.isSpoiler ? 'eye-closed-bold' : 'eye-closed'}
           uniProps={(theme) => ({
             color: state?.isSpoiler

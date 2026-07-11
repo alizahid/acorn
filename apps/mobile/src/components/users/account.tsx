@@ -4,9 +4,8 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type Account } from '~/stores/auth'
-import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
 
+import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
 import { Text } from '../common/text'
 
@@ -27,28 +26,26 @@ export function AccountCard({
 }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
-
-  styles.useVariants({
-    oled: themeOled,
-    tint: themeTint,
-  })
-
   return (
     <Swipeable
       containerStyle={styles.delete}
       key={account.id}
       renderLeftActions={() => (
         <IconButton
-          contrast
-          icon="trash"
           label={a11y('removeAccount', {
             account: account.id,
           })}
           onPress={() => {
             onRemove(account.id)
           }}
-        />
+        >
+          <Icon
+            name="trash"
+            uniProps={(theme) => ({
+              color: theme.colors.accent.contrast,
+            })}
+          />
+        </IconButton>
       )}
       renderRightActions={() => null}
     >
@@ -84,18 +81,6 @@ const styles = StyleSheet.create((theme) => ({
     gap: theme.space[3],
     height: theme.space[8],
     paddingHorizontal: theme.space[3],
-    variants: {
-      oled: {
-        true: {
-          backgroundColor: oledTheme[theme.variant].bg,
-        },
-      },
-      tint: {
-        true: {
-          backgroundColor: theme.colors.accent.bg,
-        },
-      },
-    },
   },
   selected: {
     backgroundColor: theme.colors.accent.uiActive,

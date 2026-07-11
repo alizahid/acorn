@@ -4,6 +4,7 @@ import { IntervalIcons } from '~/lib/sort'
 import { TopInterval } from '~/types/sort'
 
 import { Icon } from '../common/icon'
+import { SFSymbol } from '../common/icon/symbol'
 import { Menu } from '../common/menu'
 
 type Props = {
@@ -23,7 +24,7 @@ export function IntervalItem({ label, onChange, value }: Props) {
       options={TopInterval.map((item) => ({
         label: t(`interval.${item}`),
         right: (
-          <Icon
+          <SFSymbol
             name={IntervalIcons[item]}
             uniProps={(theme) => ({
               tintColor: theme.colors.gold.accent,

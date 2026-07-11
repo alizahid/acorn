@@ -4,8 +4,6 @@ import { StyleSheet } from 'react-native-unistyles'
 
 import { useNotifications } from '~/hooks/queries/user/notifications'
 import { heights } from '~/lib/common'
-import { listProps } from '~/lib/list'
-import { usePreferences } from '~/stores/preferences'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -14,12 +12,6 @@ import { Spinner } from '../common/spinner'
 import { NotificationCard } from './notification'
 
 export function NotificationsList() {
-  const { themeOled } = usePreferences(['themeOled'])
-
-  styles.useVariants({
-    oled: themeOled,
-  })
-
   const {
     fetchNextPage,
     hasNextPage,
@@ -31,7 +23,6 @@ export function NotificationsList() {
 
   return (
     <FlashList
-      {...listProps}
       contentContainerStyle={styles.content}
       data={notifications}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -56,15 +47,8 @@ const styles = StyleSheet.create((theme, runtime) => ({
     paddingBottom: heights.tabBar + runtime.insets.bottom,
   },
   separator: {
-    height: theme.space[4],
-    variants: {
-      oled: {
-        true: {
-          backgroundColor: theme.colors.gray.border,
-          height: 1,
-        },
-      },
-    },
+    backgroundColor: theme.colors.gray.border,
+    height: StyleSheet.hairlineWidth,
   },
   spinner: {
     margin: theme.space[6],

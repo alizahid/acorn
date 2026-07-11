@@ -33,10 +33,7 @@ export function PostLinkCard({
 }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { seenOnMedia, themeOled } = usePreferences([
-    'seenOnMedia',
-    'themeOled',
-  ])
+  const { seenOnMedia } = usePreferences(['seenOnMedia'])
   const { handleLink } = useLink()
   const { addPost } = useHistory()
 
@@ -44,7 +41,6 @@ export function PostLinkCard({
     compact,
     crossPost,
     large,
-    oled: themeOled,
   })
 
   const placeholder = useImagePlaceholder()
@@ -77,9 +73,9 @@ export function PostLinkCard({
 
         <View style={styles.icon}>
           <Icon
-            name="safari"
+            name="compass"
             uniProps={(theme) => ({
-              tintColor: theme.colors.accent.accent,
+              color: theme.colors.accent.accent,
             })}
           />
         </View>
@@ -106,7 +102,7 @@ export function PostLinkCard({
 
       <View style={styles.link}>
         <Icon
-          name="safari"
+          name="compass"
           uniProps={(theme) => ({
             size: theme.typography[2].lineHeight,
           })}
@@ -144,7 +140,7 @@ const styles = StyleSheet.create((theme) => ({
     padding: theme.space[3],
   },
   main: {
-    backgroundColor: theme.colors.gray.uiActive,
+    backgroundColor: theme.colors.gray.bgAlt,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     overflow: 'hidden',
@@ -164,11 +160,6 @@ const styles = StyleSheet.create((theme) => ({
           borderRadius: theme.space[2],
           height: theme.space[8] * 2,
           width: theme.space[8] * 2,
-        },
-      },
-      oled: {
-        true: {
-          backgroundColor: theme.colors.gray.bgAlt,
         },
       },
     },

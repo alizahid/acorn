@@ -1,4 +1,3 @@
-import { ActivityIndicator } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { Toaster } from 'sonner-native'
 
@@ -9,6 +8,7 @@ import { weights } from '~/styles/text'
 import { space } from '~/styles/tokens'
 
 import { Icon } from './icon'
+import { Spinner } from './spinner'
 
 export function Toast() {
   const { font } = usePreferences(['font'])
@@ -23,34 +23,34 @@ export function Toast() {
       icons={{
         error: (
           <Icon
-            name="exclamationmark.triangle.fill"
+            name="warning-fill"
             uniProps={(theme) => ({
-              tintColor: theme.colors.red.accent,
+              color: theme.colors.red.accent,
             })}
           />
         ),
         info: (
           <Icon
-            name="info.circle.fill"
+            name="info-fill"
             uniProps={(theme) => ({
-              tintColor: theme.colors.accent.accent,
+              color: theme.colors.accent.accent,
             })}
           />
         ),
-        loading: <ActivityIndicator size={space[5]} />,
+        loading: <Spinner size={space[5]} />,
         success: (
           <Icon
-            name="checkmark.circle.fill"
+            name="check-circle-fill"
             uniProps={(theme) => ({
-              tintColor: theme.colors.green.accent,
+              color: theme.colors.green.accent,
             })}
           />
         ),
         warning: (
           <Icon
-            name="exclamationmark.circle.fill"
+            name="warning-circle-fill"
             uniProps={(theme) => ({
-              tintColor: theme.colors.orange.accent,
+              color: theme.colors.orange.accent,
             })}
           />
         ),

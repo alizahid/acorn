@@ -1,16 +1,18 @@
 import { useFocusEffect, useNavigation } from 'expo-router'
-import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { TabView } from 'react-native-tab-view'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Loading } from '~/components/common/loading'
 import { SegmentedControl } from '~/components/common/segmented-control'
+import { Spinner } from '~/components/common/spinner'
 import { MessagesList } from '~/components/inbox/messages'
 import { NotificationsList } from '~/components/inbox/notifications'
+import { useListProps } from '~/hooks/list'
 import { useMarkAllAsRead } from '~/hooks/mutations/users/notifications'
 import { InboxTab } from '~/types/inbox'
 
@@ -21,7 +23,6 @@ const routes = InboxTab.map((key) => ({
 
 export default function Screen() {
   const navigation = useNavigation()
-  const headerHeight = useHeaderHeight()
 
   const t = useTranslations('screen.notifications')
   const a11y = useTranslations('a11y')
@@ -33,20 +34,22 @@ export default function Screen() {
       navigation.setOptions({
         headerRight: () => (
           <IconButton
-            icon="checkmark"
+            disabled={isPending}
             label={a11y('clearNotifications')}
-            loading={isPending}
             onPress={() => {
               markAll()
             }}
-            size="6"
-          />
+          >
+            {isPending ? <Spinner /> : <Icon name="checks-bold" />}
+          </IconButton>
         ),
       })
     }, [a11y, isPending, markAll, navigation]),
   )
 
   const [index, setIndex] = useState(0)
+
+  const { contentInset } = useListProps({})
 
   return (
     <TabView
@@ -65,7 +68,7 @@ export default function Screen() {
         return <MessagesList />
       }}
       renderTabBar={({ jumpTo, navigationState }) => (
-        <View style={styles.tabBar(headerHeight)}>
+        <View style={styles.tabBar(contentInset.top)}>
           <SegmentedControl
             items={routes.map(({ key }) => ({
               key,
@@ -84,7 +87,7 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme) => ({
   tabBar: (marginTop: number) => ({
-    marginTop,
-    padding: theme.space[4],
+    margin: theme.space[4],
+    marginTop: marginTop + theme.space[4],
   }),
 }))

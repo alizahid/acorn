@@ -14,9 +14,9 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
+import { renderScrollComponent } from '~/hooks/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/communities/feeds'
-import { renderScrollComponent } from '~/lib/list'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
@@ -286,7 +286,7 @@ export function CommunitiesList({
                   <Icon
                     name={FeedTypeIcons[item.data]}
                     uniProps={(theme) => ({
-                      tintColor: theme.colors[FeedTypeColors[item.data]].accent,
+                      color: theme.colors[FeedTypeColors[item.data]].accent,
                     })}
                   />
                 }
@@ -334,11 +334,6 @@ export function CommunitiesList({
                   right={
                     drawer ? (
                       <IconButton
-                        icon={
-                          open.get(item.key)
-                            ? 'chevron.down.circle.fill'
-                            : 'chevron.up.circle.fill'
-                        }
                         label={a11y(
                           open.has(item.key) ? 'collapseFeed' : 'expandFeed',
                         )}
@@ -352,7 +347,15 @@ export function CommunitiesList({
                           })
                         }}
                         style={styles.right}
-                      />
+                      >
+                        <Icon
+                          name={
+                            open.get(item.key)
+                              ? 'caret-circle-down-fill'
+                              : 'caret-circle-up-fill'
+                          }
+                        />
+                      </IconButton>
                     ) : null
                   }
                 />
@@ -434,9 +437,9 @@ export function CommunitiesList({
               right={
                 'favorite' in item.data && item.data.favorite ? (
                   <Icon
-                    name="star.fill"
+                    name="star-fill"
                     uniProps={(theme) => ({
-                      tintColor: theme.colors.amber.accent,
+                      color: theme.colors.amber.accent,
                     })}
                   />
                 ) : null
@@ -495,11 +498,6 @@ export function CommunitiesList({
                         hitSlop={{
                           left: 300,
                         }}
-                        icon={
-                          collapsed.get(section.key)
-                            ? 'chevron.up'
-                            : 'chevron.down'
-                        }
                         label={a11y(
                           collapsed.get(section.key)
                             ? 'collapseSection'
@@ -514,7 +512,15 @@ export function CommunitiesList({
                             return next
                           })
                         }}
-                      />
+                      >
+                        <Icon
+                          name={
+                            collapsed.get(section.key)
+                              ? 'caret-up'
+                              : 'caret-down'
+                          }
+                        />
+                      </IconButton>
                     ) : null
                   ) : null
                 }

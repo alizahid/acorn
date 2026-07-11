@@ -2,14 +2,13 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { useTranslations } from 'use-intl'
 
 import { type GestureAction } from '~/components/common/gestures'
-import {
-  GestureColors,
-  GestureIcons,
-} from '~/components/common/gestures/actions'
+import { GestureColors } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { type MenuItemOption } from '~/components/common/menu/item/options'
+import { useListProps } from '~/hooks/list'
 import { useGestures } from '~/stores/gestures'
+import { space } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.gestures')
@@ -48,9 +47,9 @@ export default function Screen() {
       label: t('options.upvote'),
       right: (
         <Icon
-          name={GestureIcons.upvote}
+          name="arrow-fat-up"
           uniProps={(theme) => ({
-            tintColor: theme.colors[GestureColors.upvote].accent,
+            color: theme.colors[GestureColors.upvote].accent,
           })}
         />
       ),
@@ -60,9 +59,9 @@ export default function Screen() {
       label: t('options.downvote'),
       right: (
         <Icon
-          name={GestureIcons.downvote}
+          name="arrow-fat-down"
           uniProps={(theme) => ({
-            tintColor: theme.colors[GestureColors.downvote].accent,
+            color: theme.colors[GestureColors.downvote].accent,
           })}
         />
       ),
@@ -72,9 +71,9 @@ export default function Screen() {
       label: t('options.reply'),
       right: (
         <Icon
-          name={GestureIcons.reply}
+          name="arrow-bend-up-left-bold"
           uniProps={(theme) => ({
-            tintColor: theme.colors[GestureColors.reply].accent,
+            color: theme.colors[GestureColors.reply].accent,
           })}
         />
       ),
@@ -84,9 +83,9 @@ export default function Screen() {
       label: t('options.save'),
       right: (
         <Icon
-          name={GestureIcons.save}
+          name="bookmark-simple"
           uniProps={(theme) => ({
-            tintColor: theme.colors[GestureColors.save].accent,
+            color: theme.colors[GestureColors.save].accent,
           })}
         />
       ),
@@ -96,9 +95,9 @@ export default function Screen() {
       label: t('options.hide'),
       right: (
         <Icon
-          name={GestureIcons.hide}
+          name="eye-slash"
           uniProps={(theme) => ({
-            tintColor: theme.colors[GestureColors.hide].accent,
+            color: theme.colors[GestureColors.hide].accent,
           })}
         />
       ),
@@ -108,9 +107,9 @@ export default function Screen() {
       label: t('options.share'),
       right: (
         <Icon
-          name={GestureIcons.share}
+          name="export"
           uniProps={(theme) => ({
-            tintColor: theme.colors[GestureColors.share].accent,
+            color: theme.colors[GestureColors.share].accent,
           })}
         />
       ),
@@ -124,9 +123,9 @@ export default function Screen() {
       label: t('options.collapse'),
       right: (
         <Icon
-          name={GestureIcons.collapse}
+          name="arrows-in-line-vertical"
           uniProps={(theme) => ({
-            tintColor: theme.colors[GestureColors.collapse].accent,
+            color: theme.colors[GestureColors.collapse].accent,
           })}
         />
       ),
@@ -136,9 +135,9 @@ export default function Screen() {
       label: t('options.collapseThread'),
       right: (
         <Icon
-          name={GestureIcons.collapseThread}
+          name="arrows-in-line-horizontal"
           uniProps={(theme) => ({
-            tintColor: theme.colors[GestureColors.collapse].accent,
+            color: theme.colors[GestureColors.collapse].accent,
           })}
         />
       ),
@@ -146,13 +145,18 @@ export default function Screen() {
     },
   ]
 
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+  })
+
   return (
-    <ScrollView>
+    <ScrollView {...listProps}>
       <Menu.Root>
         <Menu.Label>{t('menu.posts')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="hand.point.left" />}
+          icon={<Icon name="hand-swipe-left" />}
           label={t('menu.left')}
           onChange={(next) => {
             update({
@@ -189,7 +193,7 @@ export default function Screen() {
         ) : null}
 
         <Menu.Switch
-          icon={<Icon name="hand.point.right" />}
+          icon={<Icon name="hand-swipe-right" />}
           label={t('menu.right')}
           onChange={(next) => {
             update({
@@ -230,7 +234,7 @@ export default function Screen() {
         <Menu.Label>{t('menu.comments')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="hand.point.left" />}
+          icon={<Icon name="hand-swipe-left" />}
           label={t('menu.left')}
           onChange={(next) => {
             update({
@@ -267,7 +271,7 @@ export default function Screen() {
         ) : null}
 
         <Menu.Switch
-          icon={<Icon name="hand.point.right" />}
+          icon={<Icon name="hand-swipe-right" />}
           label={t('menu.right')}
           onChange={(next) => {
             update({

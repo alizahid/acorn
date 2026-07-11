@@ -1,4 +1,3 @@
-import { type SFSymbol } from 'expo-symbols'
 import { type ReactNode } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -6,7 +5,6 @@ import { StyleSheet } from 'react-native-unistyles'
 import { mapColors } from '~/lib/styles'
 import { type ColorToken } from '~/styles/tokens'
 
-import { Icon } from './icon'
 import { Pressable } from './pressable'
 import { Spinner } from './spinner'
 import { Text } from './text'
@@ -14,7 +12,6 @@ import { Text } from './text'
 type Props = {
   color?: ColorToken
   disabled?: boolean
-  icon?: SFSymbol
   label: string
   left?: ReactNode
   loading?: boolean
@@ -25,7 +22,6 @@ type Props = {
 export function Button({
   color = 'accent',
   disabled = false,
-  icon,
   label,
   left,
   loading = false,
@@ -45,27 +41,11 @@ export function Button({
     >
       {left}
 
-      {icon && loading ? (
-        <Spinner
-          uniProps={(theme) => ({
-            color: theme.colors[color].contrast,
-            size: theme.space[5],
-          })}
-        />
-      ) : icon ? (
-        <Icon
-          name={icon}
-          uniProps={(theme) => ({
-            tintColor: theme.colors[color].contrast,
-          })}
-        />
-      ) : null}
-
       <Text color={color} contrast weight="medium">
         {label}
       </Text>
 
-      {!icon && loading ? (
+      {loading ? (
         <Spinner
           color={color}
           contrast

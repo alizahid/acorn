@@ -15,9 +15,11 @@ import { type MarginProps } from '~/styles/space'
 import { type TextStyleProps } from '~/styles/text'
 import { type TypographyToken } from '~/styles/tokens'
 
+import { GlassView } from '../native/glass-view'
 import { TextInput } from '../native/text-input'
 
 type Props = {
+  glass?: boolean
   left?: ReactNode
   ref?: Ref<TextInput>
   right?: ReactNode
@@ -30,6 +32,7 @@ type Props = {
   MarginProps
 
 export function TextBox({
+  glass,
   left,
   multiline,
   onBlur,
@@ -54,8 +57,10 @@ export function TextBox({
     variant,
   })
 
+  const Component = glass ? GlassView : View
+
   return (
-    <View style={[styles.main, style]}>
+    <Component isInteractive style={[styles.main, style]}>
       {left}
 
       <TextInput
@@ -79,7 +84,7 @@ export function TextBox({
       />
 
       {right}
-    </View>
+    </Component>
   )
 }
 

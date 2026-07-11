@@ -1,25 +1,34 @@
 import { useRouter } from 'expo-router'
 import { ScrollView } from 'react-native-gesture-handler'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { AboutCard } from '~/components/settings/about'
 import { Updater } from '~/components/settings/updater'
+import { useListProps } from '~/hooks/list'
+import { space } from '~/styles/tokens'
 
 export default function Screen() {
   const router = useRouter()
 
   const t = useTranslations('screen.settings.settings')
 
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+    header: false,
+  })
+
   return (
-    <ScrollView contentInsetAdjustmentBehavior="always">
+    <ScrollView {...listProps} contentContainerStyle={styles.content}>
       <AboutCard />
 
       <Menu.Root>
         <Menu.Button
           arrow
-          icon={<Icon name="gearshape" />}
+          icon={<Icon name="gear-six" />}
           label={t('preferences')}
           onPress={() => {
             router.navigate({
@@ -30,7 +39,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="hand.tap" />}
+          icon={<Icon name="hand-tap" />}
           label={t('gestures')}
           onPress={() => {
             router.navigate({
@@ -41,7 +50,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="swatchpalette" />}
+          icon={<Icon name="swatches" />}
           label={t('appearance')}
           onPress={() => {
             router.navigate({
@@ -52,7 +61,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="slider.horizontal.3" />}
+          icon={<Icon name="sliders" />}
           label={t('defaults')}
           onPress={() => {
             router.navigate({
@@ -63,7 +72,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="line.3.horizontal.decrease" />}
+          icon={<Icon name="funnel" />}
           label={t('filters')}
           onPress={() => {
             router.navigate({
@@ -74,7 +83,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="arrow.up.arrow.down" />}
+          icon={<Icon name="arrows-down-up" />}
           label={t('sort')}
           onPress={() => {
             router.navigate({
@@ -85,7 +94,7 @@ export default function Screen() {
 
         <Menu.Button
           arrow
-          icon={<Icon name="externaldrive" />}
+          icon={<Icon name="hard-drives" />}
           label={t('cache')}
           onPress={() => {
             router.navigate({
@@ -99,3 +108,9 @@ export default function Screen() {
     </ScrollView>
   )
 }
+
+const styles = StyleSheet.create((theme) => ({
+  content: {
+    gap: theme.space[8],
+  },
+}))

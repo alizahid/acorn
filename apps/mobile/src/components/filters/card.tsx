@@ -1,6 +1,4 @@
-import Menu from '@expo/ui/community/menu'
-import { type SFSymbol } from 'expo-symbols'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -9,6 +7,9 @@ import { useTranslations } from 'use-intl'
 import { IconButton } from '~/components/common/icon/button'
 import { TextBox } from '~/components/common/text-box'
 import { type FiltersForm } from '~/hooks/filters'
+
+import { Icon, type IconName } from '../common/icon'
+import { Sheet } from '../common/sheet'
 
 type Item = 'community' | 'keyword' | 'user'
 
@@ -23,6 +24,8 @@ export function FilterCard({ index, onRemove }: Props) {
 
   const { control } = useFormContext<FiltersForm>()
 
+  const sheet = useRef<Sheet>(null)
+
   const [type, setType] = useState<Item>('keyword')
 
   return (
@@ -31,41 +34,39 @@ export function FilterCard({ index, onRemove }: Props) {
         control={control}
         name={`filters.${index}.type`}
         render={({ field }) => (
-          <Menu
-            actions={[
-              {
-                id: 'keyword',
-                image: icons.keyword,
-                state: field.value === 'keyword' ? 'on' : 'off',
-                title: t('type.keyword.label'),
-              },
-              {
-                id: 'community',
-                image: icons.community,
-                state: field.value === 'community' ? 'on' : 'off',
-                title: t('type.community.label'),
-              },
-              {
-                id: 'user',
-                image: icons.user,
-                state: field.value === 'user' ? 'on' : 'off',
-                title: t('type.user.label'),
-              },
-            ]}
-            onPressAction={(event) => {
-              const next = event.nativeEvent.event as Item
-
-              setType(next)
-
-              field.onChange(next)
-            }}
-          >
+          <>
             <IconButton
-              icon={icons[field.value]}
               label={a11y('aboutCommunity')}
+              onPress={() => {
+                sheet.current?.present()
+              }}
               size="7"
-            />
-          </Menu>
+            >
+              <Icon name={icons[field.value]} />
+            </IconButton>
+
+            <Sheet.Root ref={sheet}>
+              <Sheet.Header title={t('type.title')} />
+
+              {(['keyword', 'community', 'user'] as const).map((item) => (
+                <Sheet.Item
+                  key={item}
+                  label={t(`type.${item}.label`)}
+                  left={<Icon name={icons[item]} />}
+                  onPress={() => {
+                    sheet.current?.dismiss()
+
+                    setType(item)
+
+                    field.onChange(item)
+                  }}
+                  selected={item === field.value}
+                />
+              ))}
+
+              <Sheet.BottomInset />
+            </Sheet.Root>
+          </>
         )}
       />
 
@@ -87,14 +88,19 @@ export function FilterCard({ index, onRemove }: Props) {
       />
 
       <IconButton
-        color="red"
-        icon="trash"
         label={a11y('removeFilter')}
         onPress={() => {
           onRemove(index)
         }}
         size="7"
-      />
+      >
+        <Icon
+          name="trash"
+          uniProps={(theme) => ({
+            color: theme.colors.red.accent,
+          })}
+        />
+      </IconButton>
     </View>
   )
 }
@@ -115,8 +121,8 @@ const styles = StyleSheet.create((theme) => ({
 }))
 
 const icons = {
-  community: 'person.2',
+  community: 'users-four',
   keyword: 'tag',
-  post: 'text.bubble',
-  user: 'person',
-} as const satisfies Record<string, SFSymbol>
+  post: 'chat-centered',
+  user: 'user',
+} as const satisfies Record<string, IconName>

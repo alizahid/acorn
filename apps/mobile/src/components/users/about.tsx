@@ -5,10 +5,13 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useImagePlaceholder } from '~/hooks/image'
+import { useListProps } from '~/hooks/list'
 import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { space } from '~/styles/tokens'
 
 import { Button } from '../common/button'
+import { Icon } from '../common/icon'
 import { Loading } from '../common/loading'
 import { RefreshControl } from '../common/refresh-control'
 import { Text } from '../common/text'
@@ -27,14 +30,19 @@ export function UserAbout({ name }: Props) {
 
   const placeholder = useImagePlaceholder()
 
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+  })
+
   if (!profile) {
     return <Loading />
   }
 
   return (
     <ScrollView
+      {...listProps}
       contentContainerStyle={styles.content}
-      contentInsetAdjustmentBehavior="always"
       refreshControl={<RefreshControl onRefresh={refetch} />}
     >
       {profile.banner ? (
@@ -67,12 +75,17 @@ export function UserAbout({ name }: Props) {
       <View style={styles.footer}>
         <Button
           color={profile.subscribed ? 'red' : 'accent'}
-          icon={
-            profile.subscribed
-              ? 'person.crop.circle.badge.minus'
-              : 'person.crop.circle.badge.plus'
-          }
           label={t(profile.subscribed ? 'unfollow' : 'follow')}
+          left={
+            <Icon
+              name={
+                profile.subscribed ? 'user-circle-minus' : 'user-circle-plus'
+              }
+              uniProps={(theme) => ({
+                color: theme.colors.accent.contrast,
+              })}
+            />
+          }
           loading={isPending}
           onPress={() => {
             follow({
@@ -98,11 +111,9 @@ const styles = StyleSheet.create((theme) => ({
   },
   button: {
     flex: 1,
-    justifyContent: 'flex-start',
   },
   content: {
     gap: theme.space[4],
-    paddingBottom: theme.space[4],
   },
   description: {
     marginHorizontal: theme.space[4],

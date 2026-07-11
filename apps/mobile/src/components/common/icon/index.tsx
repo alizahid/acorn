@@ -1,7 +1,17 @@
-import { SymbolView } from 'expo-symbols'
+import { type ComponentProps } from 'react'
+import { createNanoIconSet } from 'react-native-nano-icons'
 import { withUnistyles } from 'react-native-unistyles'
 
-export const Icon = withUnistyles(SymbolView, (theme) => ({
+import glyphMap from '~/assets/icons/phosphor/phosphor.glyphmap.json'
+
+const Nano = createNanoIconSet(glyphMap)
+
+export type IconProps = ComponentProps<typeof Nano>
+
+export type IconName = IconProps['name']
+
+export const Icon = withUnistyles(Nano, (theme) => ({
+  allowFontScaling: false,
+  color: theme.colors.accent.accent,
   size: theme.space[5],
-  tintColor: theme.colors.accent.accent,
 }))

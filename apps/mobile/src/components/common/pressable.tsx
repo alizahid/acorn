@@ -15,11 +15,12 @@ export function Pressable({
   variant = 'opacity',
   ...props
 }: Props) {
-  const Main = variant === 'plain' ? PressableWithoutFeedback : PressableOpacity
+  const Component =
+    variant === 'plain' ? PressableWithoutFeedback : PressableOpacity
 
   return (
-    <Main {...props} accessibilityRole={accessibilityRole} style={style}>
+    <Component {...props} accessibilityRole={accessibilityRole} style={style}>
       {children}
-    </Main>
+    </Component>
   )
 }

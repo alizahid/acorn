@@ -5,7 +5,6 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
-import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
@@ -35,11 +34,8 @@ export function CrossPostCard({
 
   const a11y = useTranslations('a11y')
 
-  const { themeOled } = usePreferences(['themeOled'])
-
   styles.useVariants({
     large,
-    oled: themeOled,
   })
 
   if (compact) {
@@ -67,7 +63,7 @@ export function CrossPostCard({
         ) : null}
 
         <View style={styles.icon}>
-          <Icon name="arrow.trianglehead.branch" style={styles.crossPost} />
+          <Icon name="shuffle" />
         </View>
       </Pressable>
     )
@@ -139,13 +135,6 @@ const styles = StyleSheet.create((theme) => ({
   card: {
     marginHorizontal: theme.space[3],
   },
-  crossPost: {
-    transform: [
-      {
-        rotate: '-90deg',
-      },
-    ],
-  },
   footer: {
     gap: theme.space[3],
     padding: theme.space[3],
@@ -160,7 +149,7 @@ const styles = StyleSheet.create((theme) => ({
     flex: 1,
   },
   main: {
-    backgroundColor: theme.colors.gray.uiHover,
+    backgroundColor: theme.colors.gray.bgAlt,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     overflow: 'hidden',
@@ -175,11 +164,6 @@ const styles = StyleSheet.create((theme) => ({
           borderRadius: theme.space[2],
           height: theme.space[8] * 2,
           width: theme.space[8] * 2,
-        },
-      },
-      oled: {
-        true: {
-          backgroundColor: theme.colors.gray.bg,
         },
       },
     },

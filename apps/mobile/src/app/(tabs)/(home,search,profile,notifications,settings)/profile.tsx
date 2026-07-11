@@ -1,19 +1,19 @@
 import { useRouter } from 'expo-router'
-import { type SFSymbol } from 'expo-symbols'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { FloatingButton } from '~/components/common/floating-button'
-import { Icon } from '~/components/common/icon'
+import { Icon, type IconName } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { ProfileCard } from '~/components/users/profile'
+import { useListProps } from '~/hooks/list'
 import { useProfile } from '~/hooks/queries/user/profile'
-import { getIcon } from '~/lib/icons'
+import { heights } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
-import { type ColorToken } from '~/styles/tokens'
+import { type ColorToken, space } from '~/styles/tokens'
 import { UserFeedType } from '~/types/user'
 
 export default function Screen() {
@@ -25,10 +25,15 @@ export default function Screen() {
   const { accountId } = useAuth(['accountId'])
   const { profile, refetch } = useProfile(accountId)
 
+  const listProps = useListProps({
+    extraBottom: heights.floatingButton,
+    extraTop: space[4],
+  })
+
   return (
     <>
       <ScrollView
-        contentInsetAdjustmentBehavior="always"
+        {...listProps}
         refreshControl={<RefreshControl onRefresh={refetch} />}
       >
         <Menu.Root style={styles.main}>
@@ -41,7 +46,7 @@ export default function Screen() {
                 <Icon
                   name={icons[type]}
                   uniProps={(theme) => ({
-                    tintColor: theme.colors[colors[type]].accent,
+                    color: theme.colors[colors[type]].accent,
                   })}
                 />
               }
@@ -67,7 +72,6 @@ export default function Screen() {
 
       {profile ? (
         <FloatingButton
-          icon="plus"
           label={a11y('createPost')}
           onPress={() => {
             router.navigate({
@@ -77,7 +81,9 @@ export default function Screen() {
               pathname: '/posts/new',
             })
           }}
-        />
+        >
+          <Icon name="plus-bold" />
+        </FloatingButton>
       ) : null}
     </>
   )
@@ -90,13 +96,13 @@ const styles = StyleSheet.create({
 })
 
 const icons = {
-  comments: 'bubble.left',
-  downvoted: getIcon('downvote'),
-  hidden: 'eye.slash',
-  saved: 'bookmark',
-  submitted: 'paperplane',
-  upvoted: getIcon('upvote'),
-} as const satisfies Record<UserFeedType, SFSymbol>
+  comments: 'chat-centered',
+  downvoted: 'arrow-fat-down',
+  hidden: 'eye-slash',
+  saved: 'bookmark-simple',
+  submitted: 'paper-plane-tilt',
+  upvoted: 'arrow-fat-up',
+} as const satisfies Record<UserFeedType, IconName>
 
 const colors = {
   comments: 'accent',

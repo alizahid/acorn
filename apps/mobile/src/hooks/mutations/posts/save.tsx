@@ -66,9 +66,13 @@ export function usePostSave() {
       toast.success(t(variables.action === 'save' ? 'saved' : 'unsaved'), {
         icon: (
           <Icon
-            name={variables.action === 'save' ? 'bookmark.fill' : 'bookmark'}
+            name={
+              variables.action === 'save'
+                ? 'bookmark-simple-fill'
+                : 'bookmark-simple'
+            }
             uniProps={(theme) => ({
-              tintColor: theme.colors.green.accent,
+              color: theme.colors.green.accent,
             })}
           />
         ),

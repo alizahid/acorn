@@ -54,11 +54,11 @@ export function useFollow() {
             <Icon
               name={
                 variables.action === 'follow'
-                  ? 'person.crop.circle.badge.plus'
-                  : 'person.crop.circle.badge.minus'
+                  ? 'user-circle-plus'
+                  : 'user-circle-minus'
               }
               uniProps={(theme) => ({
-                tintColor:
+                color:
                   variables.action === 'follow'
                     ? theme.colors.green.accent
                     : theme.colors.red.accent,

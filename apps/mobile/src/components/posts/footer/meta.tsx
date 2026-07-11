@@ -1,12 +1,10 @@
-import { type SFSymbol } from 'expo-symbols'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
-import { Icon } from '~/components/common/icon'
+import { Icon, type IconName } from '~/components/common/icon'
 import { Text } from '~/components/common/text'
 import { TimeAgo } from '~/components/common/time'
-import { getIcon } from '~/lib/icons'
 import { type Post } from '~/types/post'
 
 type Props = {
@@ -26,15 +24,13 @@ export function PostMeta({ post, privacy }: Props) {
           : post.liked === false
             ? 'violet'
             : undefined,
-      icon: getIcon(
-        privacy
-          ? 'upvote'
-          : post.liked
-            ? 'upvote.fill'
-            : post.liked === false
-              ? 'downvote.fill'
-              : 'upvote',
-      ) satisfies SFSymbol,
+      icon: (privacy
+        ? 'arrow-fat-up'
+        : post.liked
+          ? 'arrow-fat-up-fill'
+          : post.liked === false
+            ? 'arrow-fat-down-fill'
+            : 'arrow-fat-up') satisfies IconName,
       key: 'votes',
       label: f.number(post.votes, {
         notation: 'compact',
@@ -42,21 +38,21 @@ export function PostMeta({ post, privacy }: Props) {
       weight: post.liked === null ? undefined : 'fill',
     },
     {
-      icon: 'face.smiling.inverse' satisfies SFSymbol,
+      icon: 'smiley' satisfies IconName,
       key: 'ratio',
       label: f.number(post.ratio, {
         style: 'percent',
       }),
     },
     {
-      icon: 'bubble.left' satisfies SFSymbol,
+      icon: 'chat-centered' satisfies IconName,
       key: 'comments',
       label: f.number(post.comments, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'clock' satisfies SFSymbol,
+      icon: 'clock' satisfies IconName,
       key: 'created',
       label: <TimeAgo date={post.createdAt} />,
     },
@@ -66,10 +62,10 @@ export function PostMeta({ post, privacy }: Props) {
     <View style={styles.main}>
       {post.sticky ? (
         <Icon
-          name="pin.fill"
+          name="push-pin"
           uniProps={(theme) => ({
+            color: theme.colors.green.accent,
             size: theme.typography[1].fontSize,
-            tintColor: theme.colors.green.accent,
           })}
         />
       ) : null}
@@ -79,11 +75,11 @@ export function PostMeta({ post, privacy }: Props) {
           <Icon
             name={item.icon}
             uniProps={(theme) => ({
-              size: theme.typography[1].fontSize,
-              tintColor:
+              color:
                 'color' in item && item.color
                   ? theme.colors[item.color].accent
                   : theme.colors.gray.text,
+              size: theme.typography[1].fontSize,
             })}
           />
 

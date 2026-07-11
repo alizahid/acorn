@@ -11,7 +11,6 @@ import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { generateVideoThumbnail, uploadFile } from '~/reddit/media'
-import { oledTheme } from '~/styles/oled'
 
 import { Focusable } from '../common/focusable'
 import { Icon } from '../common/icon'
@@ -130,19 +129,24 @@ export function SubmissionImage({ onStatusChange, type = 'image' }: Props) {
               ) : null}
 
               <IconButton
-                color="red"
-                icon="trash"
                 label={a11y('removeImage')}
                 onPress={() => {
                   setAsset(undefined)
                 }}
                 style={styles.delete}
-              />
+              >
+                <Icon
+                  name="trash"
+                  uniProps={(theme) => ({
+                    color: theme.colors.red.accent,
+                  })}
+                />
+              </IconButton>
             </>
           ) : (
             <View style={styles.placeholder}>
               <Icon
-                name={type === 'video' ? 'video' : 'photo'}
+                name={type === 'video' ? 'video' : 'image'}
                 uniProps={(theme) => ({
                   size: theme.space[9],
                 })}
@@ -161,7 +165,7 @@ export function SubmissionImage({ onStatusChange, type = 'image' }: Props) {
 
 const styles = StyleSheet.create((theme, runtime) => ({
   delete: {
-    backgroundColor: oledTheme[theme.variant].bgAlpha,
+    backgroundColor: theme.colors.ui.bgAlpha,
     borderTopLeftRadius: theme.radius[6],
     bottom: 0,
     position: 'absolute',
@@ -176,7 +180,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     width: runtime.screen.width / 3,
   },
   loading: {
-    backgroundColor: oledTheme[theme.variant].bgAlpha,
+    backgroundColor: theme.colors.ui.bgAlpha,
     borderRadius: theme.space[9],
     padding: theme.space[4],
   },

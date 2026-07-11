@@ -3,6 +3,7 @@
     "aboutCommunity": "About {community}",
     "addAccount": "Add account",
     "addFilter": "Add filter",
+    "changePostType": "Change post type",
     "changeSorting": "Change sorting",
     "chooseImage": "Choose image",
     "clearFilters": "Clear filters",
@@ -209,6 +210,9 @@
     "navigation": {
       "drawer": {
         "title": "Communities"
+      },
+      "header": {
+        "back": "Back"
       }
     },
     "posts": {
@@ -371,6 +375,7 @@
         "spoiler": "Spoiler"
       },
       "text": {
+        "dismiss": "Dismiss",
         "error": {
           "blacklist": "Not allowed: {list}",
           "max": "Max {max, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
@@ -560,8 +565,6 @@
         },
         "preferences": {
           "colorfulComments": "Colorful comments",
-          "themeOled": "OLED mode",
-          "themeTint": "Background tint",
           "title": "Preferences"
         },
         "themes": {

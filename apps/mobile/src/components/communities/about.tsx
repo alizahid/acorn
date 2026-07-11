@@ -10,10 +10,13 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { Text } from '~/components/common/text'
 import { TimeAgo } from '~/components/common/time'
 import { useImagePlaceholder } from '~/hooks/image'
+import { useListProps } from '~/hooks/list'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
+import { space } from '~/styles/tokens'
 
+import { Icon } from '../common/icon'
 import { Markdown } from '../markdown'
 
 type Props = {
@@ -30,6 +33,11 @@ export function CommunityAbout({ name }: Props) {
   const { favorite, isPending: favoriting } = useFavorite()
 
   const placeholder = useImagePlaceholder()
+
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+  })
 
   if (!community) {
     return <Loading />
@@ -50,8 +58,8 @@ export function CommunityAbout({ name }: Props) {
 
   return (
     <ScrollView
+      {...listProps}
       contentContainerStyle={styles.content}
-      contentInsetAdjustmentBehavior="always"
       refreshControl={<RefreshControl onRefresh={refetch} />}
     >
       {community.banner ? (
@@ -108,12 +116,17 @@ export function CommunityAbout({ name }: Props) {
       <View style={styles.footer}>
         <Button
           color={community.subscribed ? 'red' : 'accent'}
-          icon={
-            community.subscribed
-              ? 'person.crop.circle.badge.minus'
-              : 'person.crop.circle.badge.plus'
-          }
           label={t(community.subscribed ? 'leave' : 'join')}
+          left={
+            <Icon
+              name={
+                community.subscribed ? 'user-circle-minus' : 'user-circle-plus'
+              }
+              uniProps={(theme) => ({
+                color: theme.colors.accent.contrast,
+              })}
+            />
+          }
           loading={joining}
           onPress={() => {
             join({
@@ -127,8 +140,15 @@ export function CommunityAbout({ name }: Props) {
 
         <Button
           color={community.favorite ? 'amber' : 'gray'}
-          icon={community.favorite ? 'star.fill' : 'star'}
           label={t(community.favorite ? 'unfavorite' : 'favorite')}
+          left={
+            <Icon
+              name={community.favorite ? 'star-fill' : 'star'}
+              uniProps={(theme) => ({
+                color: theme.colors.accent.contrast,
+              })}
+            />
+          }
           loading={favoriting}
           onPress={() => {
             favorite({
@@ -151,11 +171,9 @@ const styles = StyleSheet.create((theme) => ({
   },
   button: {
     flex: 1,
-    justifyContent: 'flex-start',
   },
   content: {
     gap: theme.space[4],
-    paddingBottom: theme.space[4],
   },
   description: {
     marginHorizontal: theme.space[4],

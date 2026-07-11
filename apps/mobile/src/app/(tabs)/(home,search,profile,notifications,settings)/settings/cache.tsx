@@ -2,17 +2,23 @@ import { Image } from 'expo-image'
 import { ScrollView } from 'react-native-gesture-handler'
 import { useTranslations } from 'use-intl'
 
-import { GestureIcons } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { db } from '~/db'
+import { useListProps } from '~/hooks/list'
 import { queryClient } from '~/lib/query'
+import { space } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.cache')
 
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+  })
+
   return (
-    <ScrollView>
+    <ScrollView {...listProps}>
       <Menu.Root>
         <Menu.Label>{t('data.title')}</Menu.Label>
 
@@ -20,9 +26,9 @@ export default function Screen() {
           description={t('data.query.description')}
           icon={
             <Icon
-              name="server.rack"
+              name="database"
               uniProps={(theme) => ({
-                tintColor: theme.colors.red.accent,
+                color: theme.colors.red.accent,
               })}
             />
           }
@@ -39,9 +45,9 @@ export default function Screen() {
         <Menu.Button
           icon={
             <Icon
-              name="photo"
+              name="images"
               uniProps={(theme) => ({
-                tintColor: theme.colors.red.accent,
+                color: theme.colors.red.accent,
               })}
             />
           }
@@ -64,7 +70,7 @@ export default function Screen() {
             <Icon
               name="eye"
               uniProps={(theme) => ({
-                tintColor: theme.colors.red.accent,
+                color: theme.colors.red.accent,
               })}
             />
           }
@@ -77,9 +83,9 @@ export default function Screen() {
         <Menu.Button
           icon={
             <Icon
-              name={GestureIcons.collapse}
+              name="arrows-in-line-vertical"
               uniProps={(theme) => ({
-                tintColor: theme.colors.red.accent,
+                color: theme.colors.red.accent,
               })}
             />
           }
@@ -92,9 +98,9 @@ export default function Screen() {
         <Menu.Button
           icon={
             <Icon
-              name="arrow.up.arrow.down"
+              name="arrows-down-up"
               uniProps={(theme) => ({
-                tintColor: theme.colors.red.accent,
+                color: theme.colors.red.accent,
               })}
             />
           }

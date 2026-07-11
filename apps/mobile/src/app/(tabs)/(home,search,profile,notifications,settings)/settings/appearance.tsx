@@ -4,11 +4,13 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
+import { SFSymbol } from '~/components/common/icon/symbol'
 import { Menu } from '~/components/common/menu'
 import { Themes } from '~/components/settings/themes'
+import { useListProps } from '~/hooks/list'
 import { type Font, fonts } from '~/lib/fonts'
-import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
-import { type TypographyToken, typography } from '~/styles/tokens'
+import { usePreferences } from '~/stores/preferences'
+import { space, type TypographyToken, typography } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.appearance')
@@ -25,8 +27,6 @@ export default function Screen() {
     mediaOnRight,
     systemScaling,
     theme,
-    themeOled,
-    themeTint,
     update,
   } = usePreferences([
     'colorfulComments',
@@ -40,8 +40,6 @@ export default function Screen() {
     'mediaOnRight',
     'systemScaling',
     'theme',
-    'themeOled',
-    'themeTint',
   ])
 
   const sizes = {
@@ -50,47 +48,18 @@ export default function Screen() {
     fontSizeTitle,
   }
 
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+  })
+
   return (
-    <ScrollView>
+    <ScrollView {...listProps}>
       <Menu.Root>
         <Menu.Label>{t('preferences.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="tv" />}
-          label={t('preferences.themeOled')}
-          onChange={(next) => {
-            const payload: Partial<PreferencesPayload> = {
-              themeOled: next,
-            }
-
-            if (next) {
-              payload.themeTint = false
-            }
-
-            update(payload)
-          }}
-          value={themeOled}
-        />
-
-        <Menu.Switch
-          icon={<Icon name="paintbrush.pointed" />}
-          label={t('preferences.themeTint')}
-          onChange={(next) => {
-            const payload: Partial<PreferencesPayload> = {
-              themeTint: next,
-            }
-
-            if (next) {
-              payload.themeOled = false
-            }
-
-            update(payload)
-          }}
-          value={themeTint}
-        />
-
-        <Menu.Switch
-          icon={<Icon name="paintpalette" />}
+          icon={<Icon name="palette" />}
           label={t('preferences.colorfulComments')}
           onChange={(next) => {
             update({
@@ -105,7 +74,7 @@ export default function Screen() {
         <Menu.Label>{t('compact.title')}</Menu.Label>
 
         <Menu.Switch
-          icon={<Icon name="rectangle.split.1x2" />}
+          icon={<Icon name="rows" />}
           label={t('compact.feedCompact')}
           onChange={(next) => {
             update({
@@ -116,7 +85,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="mosaic" />}
+          icon={<Icon name="image-square" />}
           label={t('compact.largeThumbnails')}
           onChange={(next) => {
             update({
@@ -127,7 +96,7 @@ export default function Screen() {
         />
 
         <Menu.Switch
-          icon={<Icon name="photo.on.rectangle.angled" />}
+          icon={<Icon name="arrow-square-right" />}
           label={t('compact.mediaOnRight')}
           onChange={(next) => {
             update({
@@ -201,7 +170,9 @@ export default function Screen() {
             options={Object.keys(typography).map((token) => ({
               hideRight: true,
               label: token,
-              right: <Icon name={`${token as TypographyToken}.circle.fill`} />,
+              right: (
+                <SFSymbol name={`${token as TypographyToken}.circle.fill`} />
+              ),
               value: token,
             }))}
             value={sizes[item]}

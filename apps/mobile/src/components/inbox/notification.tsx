@@ -1,4 +1,3 @@
-import { type SFSymbol } from 'expo-symbols'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useNow, useTranslations } from 'use-intl'
@@ -6,12 +5,10 @@ import { useFormatter, useNow, useTranslations } from 'use-intl'
 import { useLink } from '~/hooks/link'
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
 import { mapColors } from '~/lib/styles'
-import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
 import { type ColorToken, colors } from '~/styles/tokens'
 import { type Notification, type NotificationType } from '~/types/notification'
 
-import { Icon } from '../common/icon'
+import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { Markdown } from '../markdown'
@@ -27,11 +24,8 @@ export function NotificationCard({ notification }: Props) {
     updateInterval: 1000 * 60,
   })
 
-  const { themeOled } = usePreferences(['themeOled'])
-
   styles.useVariants({
     color: tints[notification.type],
-    oled: themeOled,
     unread: notification.new,
   })
 
@@ -62,7 +56,7 @@ export function NotificationCard({ notification }: Props) {
       <Icon
         name={icons[notification.type]}
         uniProps={(theme) => ({
-          tintColor:
+          color:
             theme.colors[notification.new ? tints[notification.type] : 'gray']
               .accent,
         })}
@@ -99,7 +93,6 @@ const styles = StyleSheet.create((theme) => ({
   },
   main: {
     alignItems: 'center',
-    backgroundColor: theme.colors.gray.bgAltAlpha,
     compoundVariants: colors.map((token) => ({
       color: token,
       styles: {
@@ -112,11 +105,6 @@ const styles = StyleSheet.create((theme) => ({
     padding: theme.space[4],
     variants: {
       color: mapColors(() => ({})),
-      oled: {
-        true: {
-          backgroundColor: oledTheme[theme.variant].bgAlpha,
-        },
-      },
       unread: {
         true: {},
       },
@@ -129,10 +117,10 @@ const styles = StyleSheet.create((theme) => ({
 }))
 
 const icons = {
-  comment_reply: 'bubble.left',
-  post_reply: 'arrowshape.turn.up.backward',
-  username_mention: 'person',
-} as const satisfies Record<NotificationType, SFSymbol>
+  comment_reply: 'chat-centered',
+  post_reply: 'arrow-bend-up-left-bold',
+  username_mention: 'user',
+} as const satisfies Record<NotificationType, IconName>
 
 const tints = {
   comment_reply: 'plum',

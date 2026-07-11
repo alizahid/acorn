@@ -12,6 +12,7 @@ import { TextBox } from '~/components/common/text-box'
 import { IconButton } from './icon/button'
 
 type Props = {
+  glass?: boolean
   onChange?: (value: string) => void
   onSubmitEditing?: TextInputProps['onSubmitEditing']
   placeholder?: 'search' | 'filter'
@@ -20,6 +21,7 @@ type Props = {
 }
 
 export function SearchBox({
+  glass,
   onChange,
   onSubmitEditing,
   placeholder = 'filter',
@@ -34,12 +36,13 @@ export function SearchBox({
       autoCapitalize="none"
       autoComplete="off"
       autoCorrect={false}
+      glass={glass}
       left={
         <Icon
-          name="magnifyingglass"
+          name="magnifying-glass"
           style={styles.icon}
           uniProps={(theme) => ({
-            tintColor: theme.colors.gray.accent,
+            color: theme.colors.gray.textLow,
           })}
         />
       }
@@ -50,14 +53,19 @@ export function SearchBox({
       right={
         value?.length ? (
           <IconButton
-            color="gray"
-            icon="xmark.circle.fill"
             label={a11y('clearQuery')}
             onPress={() => {
               onChange?.('')
             }}
             style={styles.clear}
-          />
+          >
+            <Icon
+              name="x-circle-fill"
+              uniProps={(theme) => ({
+                color: theme.colors.gray.text,
+              })}
+            />
+          </IconButton>
         ) : null
       }
       style={[styles.main, style]}
@@ -68,8 +76,8 @@ export function SearchBox({
 
 const styles = StyleSheet.create((theme) => ({
   clear: {
-    height: theme.space[7],
-    width: theme.space[7],
+    height: theme.space[8],
+    width: theme.space[8],
   },
   icon: {
     marginLeft: theme.space[3],

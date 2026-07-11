@@ -10,7 +10,6 @@ import { useLink } from '~/hooks/link'
 
 import { Button } from '../common/button'
 import { Icon } from '../common/icon'
-import { PhosphorIcon } from '../common/icon/phosphor'
 
 export function AboutCard() {
   const t = useTranslations('screen.settings.about')
@@ -21,7 +20,7 @@ export function AboutCard() {
     {
       href: 'https://acorn.blue',
       icon: (
-        <PhosphorIcon
+        <Icon
           name="compass-fill"
           uniProps={(theme) => ({
             color: theme.colors.accent.contrast,
@@ -33,7 +32,7 @@ export function AboutCard() {
     {
       href: 'https://discord.gg/sWzw5GU5RV',
       icon: (
-        <PhosphorIcon
+        <Icon
           name="discord-logo-fill"
           uniProps={(theme) => ({
             color: theme.colors.accent.contrast,
@@ -45,7 +44,7 @@ export function AboutCard() {
     {
       href: 'https://github.com/alizahid/acorn',
       icon: (
-        <PhosphorIcon
+        <Icon
           name="github-logo-fill"
           uniProps={(theme) => ({
             color: theme.colors.accent.contrast,
@@ -59,9 +58,9 @@ export function AboutCard() {
           href: 'https://buymeacoffee.com/acornblue',
           icon: (
             <Icon
-              name="cup.and.saucer.fill"
+              name="coffee-fill"
               uniProps={(theme) => ({
-                tintColor: theme.colors.accent.contrast,
+                color: theme.colors.accent.contrast,
               })}
             />
           ),
@@ -120,8 +119,7 @@ const styles = StyleSheet.create((theme) => ({
   main: {
     alignItems: 'center',
     gap: theme.space[6],
-    marginHorizontal: theme.space[4],
-    marginVertical: theme.space[9],
+    paddingHorizontal: theme.space[4],
   },
   title: {
     color: theme.colors.accent.accent,

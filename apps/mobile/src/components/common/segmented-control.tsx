@@ -1,4 +1,5 @@
 import Component from '@expo/ui/community/segmented-control'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { useUnistyles } from 'react-native-unistyles'
 
 type Props = {
@@ -7,10 +8,11 @@ type Props = {
     label: string
   }>
   onChange: (key: string) => void
+  style?: StyleProp<ViewStyle>
   value?: string
 }
 
-export function SegmentedControl({ items, onChange, value }: Props) {
+export function SegmentedControl({ items, onChange, style, value }: Props) {
   const { theme } = useUnistyles()
 
   return (
@@ -24,6 +26,7 @@ export function SegmentedControl({ items, onChange, value }: Props) {
         }
       }}
       selectedIndex={items.findIndex((item) => item.key === value)}
+      style={style}
       values={items.map((item) => item.label)}
     />
   )

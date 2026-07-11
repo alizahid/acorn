@@ -4,7 +4,6 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
-import { getIcon } from '~/lib/icons'
 import { removePrefix } from '~/lib/reddit'
 import { space } from '~/styles/tokens'
 import { type CommentReply } from '~/types/comment'
@@ -42,11 +41,11 @@ export function CommentMeta({
     <View style={styles.main(top || collapsed, !top || collapsed)}>
       {comment.sticky ? (
         <Icon
-          name="pin.fill"
+          name="push-pin"
           style={styles.sticky}
           uniProps={(theme) => ({
+            color: theme.colors.red.accent,
             size: theme.typography[1].lineHeight,
-            tintColor: theme.colors.red.accent,
           })}
         />
       ) : null}
@@ -87,8 +86,8 @@ export function CommentMeta({
           <Icon
             name="pencil"
             uniProps={(theme) => ({
+              color: theme.colors.orange.accent,
               size: theme.typography[1].lineHeight,
-              tintColor: theme.colors.orange.accent,
             })}
           />
         ) : null}
@@ -102,9 +101,11 @@ export function CommentMeta({
         <FooterButton
           color={!privacy && comment.liked === true ? 'orange' : undefined}
           compact
-          icon={getIcon(
-            !privacy && comment.liked === true ? 'upvote.fill' : 'upvote',
-          )}
+          icon={
+            !privacy && comment.liked === true
+              ? 'arrow-fat-up-fill'
+              : 'arrow-fat-up'
+          }
           label={a11y(comment.liked ? 'removeUpvote' : 'upvote')}
           onPress={() => {
             vote({
@@ -124,9 +125,11 @@ export function CommentMeta({
         <FooterButton
           color={!privacy && comment.liked === false ? 'violet' : undefined}
           compact
-          icon={getIcon(
-            !privacy && comment.liked === false ? 'downvote.fill' : 'downvote',
-          )}
+          icon={
+            !privacy && comment.liked === false
+              ? 'arrow-fat-down-fill'
+              : 'arrow-fat-down'
+          }
           label={a11y(comment.liked === false ? 'removeDownvote' : 'downvote')}
           onPress={() => {
             vote({

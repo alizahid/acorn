@@ -11,11 +11,12 @@ import { z } from 'zod'
 import { FloatingButton } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
+import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { FilterCard } from '~/components/filters/card'
 import { useFilters } from '~/hooks/filters'
+import { useListProps } from '~/hooks/list'
 import { heights } from '~/lib/common'
-import { listProps } from '~/lib/list'
 
 const schema = z.object({
   filters: z.array(
@@ -42,14 +43,14 @@ export default function Screen() {
       navigation.setOptions({
         headerRight: () => (
           <IconButton
-            icon="checkmark"
+            disabled={isPending}
             label={a11y('saveFilters')}
-            loading={isPending}
             onPress={() => {
               onSubmit()
             }}
-            size="6"
-          />
+          >
+            {isPending ? <Spinner /> : <Icon name="check-bold" />}
+          </IconButton>
         ),
       })
     }, [a11y, isPending, navigation, onSubmit]),
@@ -60,6 +61,8 @@ export default function Screen() {
     keyName: 'key',
     name: 'filters',
   })
+
+  const listProps = useListProps({})
 
   return (
     <FormProvider {...form}>
@@ -107,19 +110,19 @@ export default function Screen() {
                   <Icon
                     name={
                       rule.type === 'yes'
-                        ? 'checkmark.circle.fill'
+                        ? 'check-circle-fill'
                         : rule.type === 'no'
-                          ? 'xmark.circle.fill'
-                          : 'info.circle.fill'
+                          ? 'x-circle-fill'
+                          : 'info-fill'
                     }
                     uniProps={(theme) => ({
-                      size: theme.typography[2].lineHeight,
-                      tintColor:
+                      color:
                         rule.type === 'yes'
                           ? theme.colors.green.accent
                           : rule.type === 'no'
                             ? theme.colors.red.accent
                             : theme.colors.blue.accent,
+                      size: theme.typography[2].lineHeight,
                     })}
                   />
 
@@ -137,8 +140,6 @@ export default function Screen() {
       </KeyboardAvoidingView>
 
       <FloatingButton
-        color="red"
-        icon="xmark"
         label={a11y('clearFilters')}
         onPress={() => {
           form.setValue('filters', [])
@@ -148,11 +149,16 @@ export default function Screen() {
           })
         }}
         side="left"
-      />
+      >
+        <Icon
+          name="x-bold"
+          uniProps={(theme) => ({
+            color: theme.colors.red.accent,
+          })}
+        />
+      </FloatingButton>
 
       <FloatingButton
-        color="green"
-        icon="plus"
         label={a11y('addFilter')}
         onPress={() => {
           filters.append({
@@ -162,7 +168,14 @@ export default function Screen() {
           })
         }}
         side="right"
-      />
+      >
+        <Icon
+          name="plus-bold"
+          uniProps={(theme) => ({
+            color: theme.colors.green.accent,
+          })}
+        />
+      </FloatingButton>
     </FormProvider>
   )
 }

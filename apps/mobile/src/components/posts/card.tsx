@@ -12,7 +12,6 @@ import { removePrefix } from '~/lib/reddit'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
 import { type Post } from '~/types/post'
 
 import { Banner } from '../common/banner'
@@ -50,7 +49,6 @@ export function PostCard({ expanded, post }: Props) {
     mediaOnRight,
     oldReddit,
     privateScreenshots,
-    themeOled,
   } = usePreferences([
     'boldTitle',
     'communityOnTop',
@@ -60,7 +58,6 @@ export function PostCard({ expanded, post }: Props) {
     'mediaOnRight',
     'oldReddit',
     'privateScreenshots',
-    'themeOled',
   ])
   const {
     postLeft,
@@ -89,7 +86,6 @@ export function PostCard({ expanded, post }: Props) {
     compact: feedCompact && !expanded,
     dimmed,
     iPad,
-    oled: themeOled,
     sticky: post.sticky,
   })
 
@@ -361,28 +357,21 @@ const styles = StyleSheet.create((theme, runtime) => ({
     gap: theme.space[1],
   },
   main: {
-    backgroundColor: theme.colors.gray.ui,
-    compoundVariants: [
-      {
-        oled: true,
-        sticky: true,
-        styles: {
-          backgroundColor: theme.colors.green.uiAlpha,
-        },
-      },
-    ],
+    backgroundColor: theme.colors.ui.bg,
     gap: theme.space[3],
     overflow: 'hidden',
-    padding: theme.space[3],
     variants: {
       compact: {
         true: {
           padding: 0,
         },
       },
-      oled: {
+      iPad: {
+        false: {
+          padding: theme.space[3],
+        },
         true: {
-          backgroundColor: oledTheme[theme.variant].bg,
+          paddingVertical: theme.space[3],
         },
       },
       sticky: {

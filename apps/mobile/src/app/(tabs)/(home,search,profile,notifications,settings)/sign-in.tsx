@@ -10,6 +10,7 @@ import { z } from 'zod'
 
 import { Button } from '~/components/common/button'
 import { Empty } from '~/components/common/empty'
+import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
@@ -91,14 +92,14 @@ export default function Screen() {
 
           <IconButton
             disabled={isPending}
-            icon="xmark"
             label={t('cancel')}
             onPress={() => {
               setOpen(false)
             }}
             style={styles.cancel}
-            weight="bold"
-          />
+          >
+            <Icon name="x-bold" />
+          </IconButton>
         </Animated.View>
       ) : null}
     </>

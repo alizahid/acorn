@@ -135,7 +135,7 @@ export function VideoPlayer({
           onPress={onPress}
           style={styles.compact}
         >
-          <Icon name="play.fill" />
+          <Icon name="play-fill" />
 
           {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
             <GalleryBlur />
@@ -153,10 +153,10 @@ export function VideoPlayer({
           style={styles.volume}
         >
           <Icon
-            name={muted ? 'speaker.slash' : 'speaker.2'}
+            name={muted ? 'speaker-x' : 'speaker-high'}
             uniProps={(theme) => ({
+              color: theme.colors.gray.contrast,
               size: theme.space[4],
-              tintColor: theme.colors.gray.contrast,
             })}
           />
         </Pressable>

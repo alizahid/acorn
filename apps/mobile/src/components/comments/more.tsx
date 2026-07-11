@@ -6,7 +6,6 @@ import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { getDepthColor } from '~/lib/colors'
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
 import { type CommentSort } from '~/types/sort'
@@ -32,15 +31,11 @@ export function CommentMoreCard({
 }: Props) {
   const t = useTranslations('component.comments.more')
 
-  const { colorfulComments, themeOled } = usePreferences([
-    'colorfulComments',
-    'themeOled',
-  ])
+  const { colorfulComments } = usePreferences(['colorfulComments'])
 
   styles.useVariants({
     colorful: colorfulComments,
     iPad,
-    oled: themeOled,
   })
 
   const { isPending, loadMore } = useLoadMoreComments()
@@ -85,25 +80,16 @@ export function CommentMoreCard({
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   main: (depth: number) => {
     const color = getDepthColor(depth)
     const marginLeft = theme.space[2] * depth
 
     return {
       alignItems: 'center',
-      backgroundColor: theme.colors.gray.bgAlt,
+      backgroundColor: theme.colors.ui.bg,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
-      compoundVariants: [
-        {
-          colorful: true,
-          oled: true,
-          styles: {
-            backgroundColor: theme.colors[color].bg,
-          },
-        },
-      ],
       flexDirection: 'row',
       gap: theme.space[4],
       justifyContent: 'center',
@@ -117,16 +103,16 @@ const styles = StyleSheet.create((theme) => ({
           },
         },
         iPad: {
+          false: {
+            borderBottomLeftRadius: depth > 0 ? theme.radius[3] : undefined,
+            borderTopLeftRadius: depth > 0 ? theme.radius[3] : undefined,
+            maxWidth: runtime.screen.width - marginLeft,
+          },
           true: {
             alignSelf: 'center',
             borderCurve: 'continuous',
             borderRadius: theme.radius[3],
             maxWidth: cardMaxWidth - marginLeft,
-          },
-        },
-        oled: {
-          true: {
-            backgroundColor: oledTheme[theme.variant].bg,
           },
         },
       },

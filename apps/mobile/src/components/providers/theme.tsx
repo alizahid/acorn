@@ -4,7 +4,6 @@ import { withUnistyles } from 'react-native-unistyles'
 
 import { fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
 
 const Component = withUnistyles(Provider)
 
@@ -13,24 +12,16 @@ type Props = {
 }
 
 export function ThemeProvider({ children }: Props) {
-  const { font, themeOled, themeTint } = usePreferences([
-    'font',
-    'themeOled',
-    'themeTint',
-  ])
+  const { font } = usePreferences(['font'])
 
   return (
     <Component
       uniProps={(theme) => ({
         value: {
           colors: {
-            background: themeOled
-              ? oledTheme[theme.variant].bg
-              : themeTint
-                ? theme.colors.accent.bg
-                : theme.colors.gray.bg,
+            background: theme.colors.ui.bg,
             border: theme.colors.gray.border,
-            card: theme.colors.gray.bgAlt,
+            card: theme.colors.gray.bg,
             notification: theme.colors.accent.accent,
             primary: theme.colors.accent.accent,
             text: theme.colors.gray.text,

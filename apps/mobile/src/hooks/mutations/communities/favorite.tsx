@@ -45,9 +45,9 @@ export function useFavorite() {
         {
           icon: (
             <Icon
-              name={variables.favorite ? 'star.fill' : 'star'}
+              name={variables.favorite ? 'star-fill' : 'star'}
               uniProps={(theme) => ({
-                tintColor: variables.favorite
+                color: variables.favorite
                   ? theme.colors.amber.accent
                   : theme.colors.gray.accent,
               })}

@@ -1,23 +1,22 @@
-import { type SFSymbol } from 'expo-symbols'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type ColorToken } from '~/styles/tokens'
 
-import { Icon } from './icon'
+import { Icon, type IconName } from './icon'
 import { Text } from './text'
 
 type Props = {
   color?: ColorToken
-  icon?: SFSymbol
+  icon?: IconName
   message?: string
   style?: StyleProp<ViewStyle>
 }
 
 export function Empty({
   color = 'accent',
-  icon = 'moon.stars',
+  icon = 'moon-stars',
   message,
   style,
 }: Props) {
@@ -28,8 +27,8 @@ export function Empty({
       <Icon
         name={icon}
         uniProps={(theme) => ({
+          color: theme.colors[color].accent,
           size: theme.space[8] * 2,
-          tintColor: theme.colors[color].accent,
         })}
       />
 

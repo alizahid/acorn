@@ -15,8 +15,10 @@ import { Sheet } from '~/components/common/sheet'
 import { Text } from '~/components/common/text'
 import { CommunitiesList } from '~/components/communities/list'
 import { DraggableItem } from '~/components/defaults/draggable-item'
+import { useListProps } from '~/hooks/list'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
+import { space } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.defaults')
@@ -32,12 +34,14 @@ export default function Screen() {
 
   const sheet = useRef<Sheet>(null)
 
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+  })
+
   return (
     <>
-      <ScrollViewContainer
-        contentContainerStyle={styles.content}
-        contentInsetAdjustmentBehavior="automatic"
-      >
+      <ScrollViewContainer {...listProps}>
         <View>
           <Text mb="2" size="2" weight="medium">
             {t('feedType.title')}
@@ -48,13 +52,13 @@ export default function Screen() {
               <Icon
                 name={
                   community
-                    ? 'person.2'
+                    ? 'users-four'
                     : feed
                       ? 'newspaper'
                       : FeedTypeIcons[feedType]
                 }
                 uniProps={(theme) => ({
-                  tintColor: community
+                  color: community
                     ? undefined
                     : feed
                       ? undefined

@@ -6,13 +6,15 @@ import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { TextBox } from '~/components/common/text-box'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
+import { useListProps } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
+import { space } from '~/styles/tokens'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -27,18 +29,13 @@ export default function Screen() {
   const t = useTranslations('screen.community.search')
   const a11y = useTranslations('a11y')
 
-  const { intervalSearchPosts, sortSearchPosts, themeOled, themeTint } =
-    usePreferences([
-      'intervalSearchPosts',
-      'sortSearchPosts',
-      'themeOled',
-      'themeTint',
-    ])
+  const { intervalSearchPosts, sortSearchPosts } = usePreferences([
+    'intervalSearchPosts',
+    'sortSearchPosts',
+  ])
 
   styles.useVariants({
     iPad,
-    oled: themeOled,
-    tint: themeTint,
   })
 
   const [sort, setSort] = useState(sortSearchPosts)
@@ -47,6 +44,11 @@ export default function Screen() {
   const [query, setQuery] = useState(params.query ?? '')
 
   const [debounced] = useDebounce(query, 500)
+
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+  })
 
   return (
     <SearchList
@@ -63,14 +65,19 @@ export default function Screen() {
             right={
               query.length > 0 ? (
                 <IconButton
-                  color="gray"
-                  icon="xmark.circle.fill"
                   label={a11y('clearQuery')}
                   onPress={() => {
                     setQuery('')
                   }}
-                  style={styles.clear}
-                />
+                  size="7"
+                >
+                  <Icon
+                    name="x-circle-fill"
+                    uniProps={(theme) => ({
+                      color: theme.colors.gray.accent,
+                    })}
+                  />
+                </IconButton>
               ) : null
             }
             style={styles.query}
@@ -92,6 +99,7 @@ export default function Screen() {
         </View>
       }
       interval={interval}
+      listProps={listProps}
       onChangeQuery={setQuery}
       query={debounced}
       sort={sort}
@@ -102,12 +110,7 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  clear: {
-    height: theme.space[7],
-    width: theme.space[7],
-  },
   header: {
-    backgroundColor: theme.colors.gray.bg,
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
@@ -118,23 +121,12 @@ const styles = StyleSheet.create((theme) => ({
           marginHorizontal: -theme.space[4],
         },
       },
-      oled: {
-        true: {
-          backgroundColor: oledTheme[theme.variant].bgAlpha,
-        },
-      },
-      tint: {
-        true: {
-          backgroundColor: theme.colors.accent.bg,
-        },
-      },
     },
   },
   list: {
     variants: {
       iPad: {
         true: {
-          paddingBottom: theme.space[4],
           paddingHorizontal: theme.space[4],
         },
       },

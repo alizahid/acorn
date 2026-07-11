@@ -2,18 +2,17 @@ import { useLocalSearchParams, useRouter } from 'expo-router'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
-// import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { FloatingButton } from '~/components/common/floating-button'
-// import { FloatingButton } from '~/components/common/floating-button'
+import { Icon } from '~/components/common/icon'
 import { SearchBox } from '~/components/common/search'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
+import { useListProps } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { heights, iPad } from '~/lib/common'
-import { usePreferences } from '~/stores/preferences'
-import { oledTheme } from '~/styles/oled'
+import { space } from '~/styles/tokens'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -27,15 +26,16 @@ export default function Screen() {
 
   const a11y = useTranslations('a11y')
 
-  const { themeOled, themeTint } = usePreferences(['themeOled', 'themeTint'])
-
   styles.useVariants({
     iPad,
-    oled: themeOled,
-    tint: themeTint,
   })
 
   const { sorting, update } = useSorting('community', params.name)
+
+  const listProps = useListProps({
+    extraBottom: heights.floatingButton,
+    extraTop: space[4],
+  })
 
   return (
     <>
@@ -74,12 +74,12 @@ export default function Screen() {
           </View>
         }
         interval={sorting.interval}
+        listProps={listProps}
         sort={sorting.sort}
         style={styles.list}
       />
 
       <FloatingButton
-        icon="plus"
         label={a11y('createPost')}
         onPress={() => {
           router.navigate({
@@ -89,14 +89,15 @@ export default function Screen() {
             pathname: '/posts/new',
           })
         }}
-      />
+      >
+        <Icon name="plus-bold" />
+      </FloatingButton>
     </>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
   header: {
-    backgroundColor: theme.colors.gray.bg,
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
@@ -107,24 +108,12 @@ const styles = StyleSheet.create((theme) => ({
           marginHorizontal: -theme.space[4],
         },
       },
-      oled: {
-        true: {
-          backgroundColor: oledTheme[theme.variant].bgAlpha,
-        },
-      },
-      tint: {
-        true: {
-          backgroundColor: theme.colors.accent.bg,
-        },
-      },
     },
   },
   list: {
-    paddingBottom: heights.floatingButton,
     variants: {
       iPad: {
         true: {
-          paddingBottom: heights.floatingButton + theme.space[4],
           paddingHorizontal: theme.space[4],
         },
       },

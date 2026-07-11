@@ -15,6 +15,7 @@ import Animated, {
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { Icon } from '../icon'
 import { IconButton } from '../icon/button'
 import { Item } from './item'
 
@@ -46,20 +47,27 @@ export function Confirm({ label, labelStyle, left, onPress, style }: Props) {
             right={
               <View style={styles.confirm}>
                 <IconButton
-                  color="blue"
-                  icon="xmark.circle.fill"
                   label={t('no')}
                   onPress={() => {
                     setOpen(false)
                   }}
-                />
+                >
+                  <Icon
+                    name="x-circle-fill"
+                    uniProps={(theme) => ({
+                      color: theme.colors.blue.accent,
+                    })}
+                  />
+                </IconButton>
 
-                <IconButton
-                  color="red"
-                  icon="checkmark.circle.fill"
-                  label={t('yes')}
-                  onPress={onPress}
-                />
+                <IconButton label={t('yes')} onPress={onPress}>
+                  <Icon
+                    name="check-circle-fill"
+                    uniProps={(theme) => ({
+                      color: theme.colors.red.accent,
+                    })}
+                  />
+                </IconButton>
               </View>
             }
           />
