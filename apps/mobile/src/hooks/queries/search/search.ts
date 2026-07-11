@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
+import { useShallow } from 'zustand/react/shallow'
 
 import { filterCommunities, filterPosts, filterUsers } from '~/lib/filtering'
 import { queryClient } from '~/lib/query'
@@ -47,9 +48,11 @@ export function useSearch<Type extends SearchTab>({
   sort,
   type,
 }: SearchProps<Type>) {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { data, isLoading, refetch } = useQuery<
     Undefined<SearchQueryData<Type>>,

@@ -3,6 +3,7 @@ import { last } from 'lodash'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useNow, useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
 import { useAuth } from '~/stores/auth'
@@ -31,9 +32,11 @@ export function MessageCard({ message }: Props) {
     unread: message.new,
   })
 
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { mark } = useMarkAsRead()
 

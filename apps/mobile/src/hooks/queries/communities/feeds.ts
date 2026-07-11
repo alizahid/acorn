@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useShallow } from 'zustand/react/shallow'
 
 import { reddit } from '~/reddit/api'
 import { FeedsSchema } from '~/schemas/feeds'
@@ -17,9 +18,11 @@ export type FeedsQueryKey = [
 export type FeedsQueryData = Array<Feed>
 
 export function useFeeds() {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const queryKey: FeedsQueryKey = [
     'feeds',

@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
@@ -29,10 +30,12 @@ export default function Screen() {
   const t = useTranslations('screen.community.search')
   const a11y = useTranslations('a11y')
 
-  const { intervalSearchPosts, sortSearchPosts } = usePreferences((state) => ({
-    intervalSearchPosts: state.intervalSearchPosts,
-    sortSearchPosts: state.sortSearchPosts,
-  }))
+  const { intervalSearchPosts, sortSearchPosts } = usePreferences(
+    useShallow((state) => ({
+      intervalSearchPosts: state.intervalSearchPosts,
+      sortSearchPosts: state.sortSearchPosts,
+    })),
+  )
 
   styles.useVariants({
     iPad,

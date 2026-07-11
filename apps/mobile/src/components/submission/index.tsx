@@ -5,6 +5,7 @@ import { View } from 'react-native'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { IconButton } from '~/components/common/icon/button'
 import { SubmissionCommunityCard } from '~/components/submission/community'
@@ -33,9 +34,11 @@ export function Submission({ submission }: Props) {
 
   const a11y = useTranslations('a11y')
 
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { createPost, form, types, isPending } = useCreatePost(submission)
 

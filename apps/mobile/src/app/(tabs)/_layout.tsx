@@ -2,6 +2,7 @@ import { focusManager } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { AppState } from 'react-native'
+import { useShallow } from 'zustand/react/shallow'
 
 import { TabBar } from '~/components/navigation/tab-bar'
 import { Tabs } from '~/components/navigation/tabs'
@@ -17,9 +18,11 @@ export default function Layout() {
   const { unread } = useUnread()
   const { subscribed } = useSubscribed()
 
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   useEffect(() => {
     if (accountId) {

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useShallow } from 'zustand/react/shallow'
 
 import { reddit } from '~/reddit/api'
 import {
@@ -9,9 +10,11 @@ import { useAuth } from '~/stores/auth'
 import { transformSubmission } from '~/transformers/submission'
 
 export function useSubmission(name: string) {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { data, error, isLoading, refetch } = useQuery({
     enabled: Boolean(accountId),

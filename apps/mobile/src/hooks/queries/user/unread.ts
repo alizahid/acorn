@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useShallow } from 'zustand/react/shallow'
 
 import { REDDIT_URI, reddit } from '~/reddit/api'
 import { type NotificationsSchema } from '~/schemas/notifications'
@@ -12,9 +13,11 @@ export type UnreadQueryKey = [
 ]
 
 export function useUnread() {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { data } = useQuery<number, Error, number, UnreadQueryKey>({
     enabled: Boolean(accountId),

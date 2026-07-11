@@ -2,6 +2,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { type Font, fonts } from '~/lib/fonts'
@@ -11,11 +12,13 @@ import { Text } from '../common/text'
 import { TextInput } from '../native/text-input'
 
 export function SubmissionTitle() {
-  const { font, fontScaling, systemScaling } = usePreferences((state) => ({
-    font: state.font,
-    fontScaling: state.fontScaling,
-    systemScaling: state.systemScaling,
-  }))
+  const { font, fontScaling, systemScaling } = usePreferences(
+    useShallow((state) => ({
+      font: state.font,
+      fontScaling: state.fontScaling,
+      systemScaling: state.systemScaling,
+    })),
+  )
 
   const t = useTranslations('component.submission.title')
 

@@ -6,6 +6,7 @@ import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
@@ -46,13 +47,17 @@ export function CommentMenu({
 }: Props) {
   const router = useRouter()
 
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
-  const { oldReddit } = usePreferences((state) => ({
-    oldReddit: state.oldReddit,
-  }))
+  const { oldReddit } = usePreferences(
+    useShallow((state) => ({
+      oldReddit: state.oldReddit,
+    })),
+  )
 
   const t = useTranslations('component.posts.menu')
 

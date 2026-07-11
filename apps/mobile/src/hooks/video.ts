@@ -8,6 +8,7 @@ import { FFmpegKit } from 'ffmpeg-kit-react-native'
 import { useRef } from 'react'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { getGif } from '~/lib/red-gifs'
 import { usePreferences } from '~/stores/preferences'
@@ -22,9 +23,11 @@ type DownloadVideoVariables = {
 export function useDownloadVideo() {
   const t = useTranslations('toasts.video')
 
-  const { saveToAlbum } = usePreferences((state) => ({
-    saveToAlbum: state.saveToAlbum,
-  }))
+  const { saveToAlbum } = usePreferences(
+    useShallow((state) => ({
+      saveToAlbum: state.saveToAlbum,
+    })),
+  )
 
   const id = useRef<string | number>(undefined)
 

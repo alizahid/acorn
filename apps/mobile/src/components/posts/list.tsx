@@ -13,6 +13,7 @@ import {
 } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { RefreshControl } from '~/components/common/refresh-control'
 import { Spinner } from '~/components/common/spinner'
@@ -65,10 +66,12 @@ export function PostList({
 
   const { addPost } = useHistory()
 
-  const { infiniteScrolling, seenOnScroll } = usePreferences((state) => ({
-    infiniteScrolling: state.infiniteScrolling,
-    seenOnScroll: state.seenOnScroll,
-  }))
+  const { infiniteScrolling, seenOnScroll } = usePreferences(
+    useShallow((state) => ({
+      infiniteScrolling: state.infiniteScrolling,
+      seenOnScroll: state.seenOnScroll,
+    })),
+  )
 
   styles.useVariants({
     iPad,

@@ -4,6 +4,7 @@ import { useCallback } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useHistory } from '~/hooks/history'
 import { iPad } from '~/lib/common'
@@ -36,11 +37,13 @@ export function PostGalleryCard({
 
   const { addPost } = useHistory()
 
-  const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences((state) => ({
-    blurNsfw: state.blurNsfw,
-    blurSpoiler: state.blurSpoiler,
-    seenOnMedia: state.seenOnMedia,
-  }))
+  const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences(
+    useShallow((state) => ({
+      blurNsfw: state.blurNsfw,
+      blurSpoiler: state.blurSpoiler,
+      seenOnMedia: state.seenOnMedia,
+    })),
+  )
 
   styles.useVariants({
     compact,

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { InView } from 'react-native-intersection-observer'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
@@ -43,15 +44,17 @@ export function VideoPlayer({
     pictureInPicture,
     seenOnMedia,
     unmuteFullscreen,
-  } = usePreferences((state) => ({
-    autoPlay: state.autoPlay,
-    blurNsfw: state.blurNsfw,
-    blurSpoiler: state.blurSpoiler,
-    feedMuted: state.feedMuted,
-    pictureInPicture: state.pictureInPicture,
-    seenOnMedia: state.seenOnMedia,
-    unmuteFullscreen: state.unmuteFullscreen,
-  }))
+  } = usePreferences(
+    useShallow((state) => ({
+      autoPlay: state.autoPlay,
+      blurNsfw: state.blurNsfw,
+      blurSpoiler: state.blurSpoiler,
+      feedMuted: state.feedMuted,
+      pictureInPicture: state.pictureInPicture,
+      seenOnMedia: state.seenOnMedia,
+      unmuteFullscreen: state.unmuteFullscreen,
+    })),
+  )
 
   const { addPost } = useHistory()
 

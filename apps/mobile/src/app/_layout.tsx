@@ -4,6 +4,7 @@ import { Slot } from 'expo-router'
 import * as SplashScreen from 'expo-splash-screen'
 import { useEffect } from 'react'
 import { UnistylesRuntime } from 'react-native-unistyles'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Providers } from '~/components/common/providers'
 import { db } from '~/db'
@@ -15,11 +16,13 @@ import { usePreferences } from '~/stores/preferences'
 SplashScreen.preventAutoHideAsync()
 
 function Acorn() {
-  const { theme } = usePreferences((state) => ({
-    theme: state.theme,
-  }))
-
   const { error, success } = useMigrations(db, migrations)
+
+  const { theme } = usePreferences(
+    useShallow((state) => ({
+      theme: state.theme,
+    })),
+  )
 
   useEffect(() => {
     if (success) {

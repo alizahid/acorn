@@ -11,6 +11,7 @@ import {
 } from 'react-native-enriched-markdown'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
@@ -36,11 +37,13 @@ function Root({
   value,
   ref,
 }: RootProps) {
-  const { font, fontScaling, systemScaling } = usePreferences((state) => ({
-    font: state.font,
-    fontScaling: state.fontScaling,
-    systemScaling: state.systemScaling,
-  }))
+  const { font, fontScaling, systemScaling } = usePreferences(
+    useShallow((state) => ({
+      font: state.font,
+      fontScaling: state.fontScaling,
+      systemScaling: state.systemScaling,
+    })),
+  )
 
   return (
     <MarkdownInput

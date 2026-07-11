@@ -1,6 +1,7 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { eq } from 'drizzle-orm'
 import { useState } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import { db } from '~/db'
 import { queryClient } from '~/lib/query'
@@ -34,13 +35,15 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
     rememberSorting,
     sortCommunityPosts,
     sortFeedPosts,
-  } = usePreferences((state) => ({
-    intervalCommunityPosts: state.intervalCommunityPosts,
-    intervalFeedPosts: state.intervalFeedPosts,
-    rememberSorting: state.rememberSorting,
-    sortCommunityPosts: state.sortCommunityPosts,
-    sortFeedPosts: state.sortFeedPosts,
-  }))
+  } = usePreferences(
+    useShallow((state) => ({
+      intervalCommunityPosts: state.intervalCommunityPosts,
+      intervalFeedPosts: state.intervalFeedPosts,
+      rememberSorting: state.rememberSorting,
+      sortCommunityPosts: state.sortCommunityPosts,
+      sortFeedPosts: state.sortFeedPosts,
+    })),
+  )
 
   const queryKey: SortingQueryKey<Type> = [
     'sorting',

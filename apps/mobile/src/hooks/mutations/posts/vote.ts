@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { type Draft } from 'mutative'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useHistory } from '~/hooks/history'
 import { updatePost } from '~/hooks/queries/posts/post'
@@ -19,9 +20,11 @@ type Variables = {
 }
 
 export function usePostVote() {
-  const { seenOnVote } = usePreferences((state) => ({
-    seenOnVote: state.seenOnVote,
-  }))
+  const { seenOnVote } = usePreferences(
+    useShallow((state) => ({
+      seenOnVote: state.seenOnVote,
+    })),
+  )
 
   const { addPost } = useHistory()
 

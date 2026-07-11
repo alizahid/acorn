@@ -2,6 +2,7 @@ import Slider from '@expo/ui/community/slider'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { SFSymbol } from '~/components/common/icon/symbol'
@@ -28,20 +29,22 @@ export default function Screen() {
     systemScaling,
     theme,
     update,
-  } = usePreferences((state) => ({
-    colorfulComments: state.colorfulComments,
-    feedCompact: state.feedCompact,
-    font: state.font,
-    fontScaling: state.fontScaling,
-    fontSizeCommentBody: state.fontSizeCommentBody,
-    fontSizePostBody: state.fontSizePostBody,
-    fontSizeTitle: state.fontSizeTitle,
-    largeThumbnails: state.largeThumbnails,
-    mediaOnRight: state.mediaOnRight,
-    systemScaling: state.systemScaling,
-    theme: state.theme,
-    update: state.update,
-  }))
+  } = usePreferences(
+    useShallow((state) => ({
+      colorfulComments: state.colorfulComments,
+      feedCompact: state.feedCompact,
+      font: state.font,
+      fontScaling: state.fontScaling,
+      fontSizeCommentBody: state.fontSizeCommentBody,
+      fontSizePostBody: state.fontSizePostBody,
+      fontSizeTitle: state.fontSizeTitle,
+      largeThumbnails: state.largeThumbnails,
+      mediaOnRight: state.mediaOnRight,
+      systemScaling: state.systemScaling,
+      theme: state.theme,
+      update: state.update,
+    })),
+  )
 
   const sizes = {
     fontSizeCommentBody,

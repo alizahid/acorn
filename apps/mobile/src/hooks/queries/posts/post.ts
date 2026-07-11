@@ -2,6 +2,7 @@ import { type Query, useMutation, useQuery } from '@tanstack/react-query'
 import { eq } from 'drizzle-orm'
 import { create, type Draft } from 'mutative'
 import { useCallback, useMemo } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import { db } from '~/db'
 import { isComment, isPost } from '~/lib/guards'
@@ -47,13 +48,17 @@ type Props = {
 }
 
 export function usePost({ commentId, id, sort }: Props) {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
-  const { collapseAutoModerator } = usePreferences((state) => ({
-    collapseAutoModerator: state.collapseAutoModerator,
-  }))
+  const { collapseAutoModerator } = usePreferences(
+    useShallow((state) => ({
+      collapseAutoModerator: state.collapseAutoModerator,
+    })),
+  )
 
   const query = useQuery<
     Undefined<PostQueryData>,

@@ -5,6 +5,7 @@ import { TabView } from 'react-native-tab-view'
 import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Loading } from '~/components/common/loading'
 import { SearchBox } from '~/components/common/search'
@@ -32,10 +33,12 @@ export default function Screen() {
     glass,
   })
 
-  const { intervalSearchPosts, sortSearchPosts } = usePreferences((state) => ({
-    intervalSearchPosts: state.intervalSearchPosts,
-    sortSearchPosts: state.sortSearchPosts,
-  }))
+  const { intervalSearchPosts, sortSearchPosts } = usePreferences(
+    useShallow((state) => ({
+      intervalSearchPosts: state.intervalSearchPosts,
+      sortSearchPosts: state.sortSearchPosts,
+    })),
+  )
 
   const search = useRef<SearchBarCommands>(null)
 

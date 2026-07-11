@@ -1,6 +1,7 @@
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { usePreferences } from '~/stores/preferences'
@@ -20,9 +21,11 @@ type Props = {
 export function PostFooter({ community = true, post, privacy, style }: Props) {
   const a11y = useTranslations('a11y')
 
-  const { hidePostActions } = usePreferences((state) => ({
-    hidePostActions: state.hidePostActions,
-  }))
+  const { hidePostActions } = usePreferences(
+    useShallow((state) => ({
+      hidePostActions: state.hidePostActions,
+    })),
+  )
 
   const { vote } = usePostVote()
 

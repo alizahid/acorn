@@ -12,6 +12,7 @@ import {
 } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { renderScrollComponent } from '~/hooks/list'
@@ -82,9 +83,11 @@ export function CommunitiesList({
   const t = useTranslations('component.common.type')
   const a11y = useTranslations('a11y')
 
-  const { drawerSections } = useDefaults((state) => ({
-    drawerSections: state.drawerSections,
-  }))
+  const { drawerSections } = useDefaults(
+    useShallow((state) => ({
+      drawerSections: state.drawerSections,
+    })),
+  )
 
   const { feeds, isLoading: loadingFeeds, refetch: refetchFeeds } = useFeeds()
   const { communities, isLoading, users, refetch } = useCommunities()

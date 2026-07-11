@@ -8,6 +8,7 @@ import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { z } from 'zod'
+import { useShallow } from 'zustand/react/shallow'
 
 import { SearchBox } from '~/components/common/search'
 import { PostList } from '~/components/posts/list'
@@ -29,10 +30,12 @@ export default function Screen() {
   const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
 
-  const { intervalUserPosts, sortUserPosts } = usePreferences((state) => ({
-    intervalUserPosts: state.intervalUserPosts,
-    sortUserPosts: state.sortUserPosts,
-  }))
+  const { intervalUserPosts, sortUserPosts } = usePreferences(
+    useShallow((state) => ({
+      intervalUserPosts: state.intervalUserPosts,
+      sortUserPosts: state.sortUserPosts,
+    })),
+  )
 
   styles.useVariants({
     iPad,

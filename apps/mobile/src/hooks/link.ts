@@ -7,6 +7,7 @@ import { useCallback } from 'react'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { lockOrientation, unlockOrientation } from '~/lib/orientation'
 import { Sentry } from '~/lib/sentry'
@@ -21,10 +22,12 @@ export function useLink() {
 
   const t = useTranslations('toasts.link')
 
-  const { linkBrowser, oldReddit } = usePreferences((state) => ({
-    linkBrowser: state.linkBrowser,
-    oldReddit: state.oldReddit,
-  }))
+  const { linkBrowser, oldReddit } = usePreferences(
+    useShallow((state) => ({
+      linkBrowser: state.linkBrowser,
+      oldReddit: state.oldReddit,
+    })),
+  )
 
   const { setFocused } = useFocused()
 

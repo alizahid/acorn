@@ -10,6 +10,7 @@ import { Share } from 'react-native'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Gallery, type GalleryImage } from '@/gallery'
 import placeholderDark from '~/assets/images/placeholder-dark.png'
@@ -32,9 +33,11 @@ type DownloadImageVariables = {
 export function useDownloadImage() {
   const t = useTranslations('toasts.image')
 
-  const { saveToAlbum } = usePreferences((state) => ({
-    saveToAlbum: state.saveToAlbum,
-  }))
+  const { saveToAlbum } = usePreferences(
+    useShallow((state) => ({
+      saveToAlbum: state.saveToAlbum,
+    })),
+  )
 
   const id = useRef<string | number>(undefined)
 
@@ -98,9 +101,11 @@ type DownloadImagesVariables = {
 export function useDownloadImages() {
   const t = useTranslations('toasts.image')
 
-  const { saveToAlbum } = usePreferences((state) => ({
-    saveToAlbum: state.saveToAlbum,
-  }))
+  const { saveToAlbum } = usePreferences(
+    useShallow((state) => ({
+      saveToAlbum: state.saveToAlbum,
+    })),
+  )
 
   const id = useRef<string | number>(undefined)
 

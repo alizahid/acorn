@@ -3,6 +3,7 @@ import fuzzysort from 'fuzzysort'
 import { uniqBy } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import { filterPosts } from '~/lib/filtering'
 import { isComment } from '~/lib/guards'
@@ -58,9 +59,11 @@ export function usePosts({
   user,
   userType,
 }: PostsProps) {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const {
     data,

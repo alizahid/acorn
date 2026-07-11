@@ -3,6 +3,7 @@ import { useCallback, useRef, useState } from 'react'
 import { Share, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
@@ -49,16 +50,18 @@ export function PostCard({ expanded, post }: Props) {
     mediaOnRight,
     oldReddit,
     privateScreenshots,
-  } = usePreferences((state) => ({
-    boldTitle: state.boldTitle,
-    communityOnTop: state.communityOnTop,
-    dimSeen: state.dimSeen,
-    feedCompact: state.feedCompact,
-    fontSizeTitle: state.fontSizeTitle,
-    mediaOnRight: state.mediaOnRight,
-    oldReddit: state.oldReddit,
-    privateScreenshots: state.privateScreenshots,
-  }))
+  } = usePreferences(
+    useShallow((state) => ({
+      boldTitle: state.boldTitle,
+      communityOnTop: state.communityOnTop,
+      dimSeen: state.dimSeen,
+      feedCompact: state.feedCompact,
+      fontSizeTitle: state.fontSizeTitle,
+      mediaOnRight: state.mediaOnRight,
+      oldReddit: state.oldReddit,
+      privateScreenshots: state.privateScreenshots,
+    })),
+  )
 
   const {
     postLeft,
@@ -67,14 +70,16 @@ export function PostCard({ expanded, post }: Props) {
     postRight,
     postRightLong,
     postRightShort,
-  } = useGestures((state) => ({
-    postLeft: state.postLeft,
-    postLeftLong: state.postLeftLong,
-    postLeftShort: state.postLeftShort,
-    postRight: state.postRight,
-    postRightLong: state.postRightLong,
-    postRightShort: state.postRightShort,
-  }))
+  } = useGestures(
+    useShallow((state) => ({
+      postLeft: state.postLeft,
+      postLeftLong: state.postLeftLong,
+      postLeftShort: state.postLeftShort,
+      postRight: state.postRight,
+      postRightLong: state.postRightLong,
+      postRightShort: state.postRightShort,
+    })),
+  )
 
   const card = useRef<View>(null)
   const menu = useRef<Sheet>(null)

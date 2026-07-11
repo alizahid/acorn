@@ -8,6 +8,7 @@ import { PlatformColor, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
@@ -40,11 +41,13 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
   const tType = useTranslations('component.common.type.type')
 
-  const defaults = useDefaults((state) => ({
-    community: state.community,
-    feed: state.feed,
-    feedType: state.feedType,
-  }))
+  const defaults = useDefaults(
+    useShallow((state) => ({
+      community: state.community,
+      feed: state.feed,
+      feedType: state.feedType,
+    })),
+  )
 
   styles.useVariants({
     iPad,

@@ -1,5 +1,6 @@
 import { ScrollView } from 'react-native-gesture-handler'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { type GestureAction } from '~/components/common/gestures'
 import { GestureColors } from '~/components/common/gestures/actions'
@@ -27,21 +28,23 @@ export default function Screen() {
     postRightLong,
     postRightShort,
     update,
-  } = useGestures((state) => ({
-    commentLeft: state.commentLeft,
-    commentLeftLong: state.commentLeftLong,
-    commentLeftShort: state.commentLeftShort,
-    commentRight: state.commentRight,
-    commentRightLong: state.commentRightLong,
-    commentRightShort: state.commentRightShort,
-    postLeft: state.postLeft,
-    postLeftLong: state.postLeftLong,
-    postLeftShort: state.postLeftShort,
-    postRight: state.postRight,
-    postRightLong: state.postRightLong,
-    postRightShort: state.postRightShort,
-    update: state.update,
-  }))
+  } = useGestures(
+    useShallow((state) => ({
+      commentLeft: state.commentLeft,
+      commentLeftLong: state.commentLeftLong,
+      commentLeftShort: state.commentLeftShort,
+      commentRight: state.commentRight,
+      commentRightLong: state.commentRightLong,
+      commentRightShort: state.commentRightShort,
+      postLeft: state.postLeft,
+      postLeftLong: state.postLeftLong,
+      postLeftShort: state.postLeftShort,
+      postRight: state.postRight,
+      postRightLong: state.postRightLong,
+      postRightShort: state.postRightShort,
+      update: state.update,
+    })),
+  )
 
   const postOptions: Array<MenuItemOption<GestureAction>> = [
     {

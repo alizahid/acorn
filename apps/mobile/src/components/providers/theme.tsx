@@ -1,6 +1,7 @@
 import { ThemeProvider as Provider } from 'expo-router/react-navigation'
 import { type ReactNode } from 'react'
 import { withUnistyles } from 'react-native-unistyles'
+import { useShallow } from 'zustand/react/shallow'
 
 import { fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
@@ -12,9 +13,11 @@ type Props = {
 }
 
 export function ThemeProvider({ children }: Props) {
-  const { font } = usePreferences((state) => ({
-    font: state.font,
-  }))
+  const { font } = usePreferences(
+    useShallow((state) => ({
+      font: state.font,
+    })),
+  )
 
   return (
     <Component

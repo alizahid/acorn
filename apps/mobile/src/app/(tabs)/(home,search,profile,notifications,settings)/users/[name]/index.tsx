@@ -5,6 +5,7 @@ import { TabView } from 'react-native-tab-view'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Loading } from '~/components/common/loading'
 import { SearchBox } from '~/components/common/search'
@@ -39,12 +40,14 @@ export default function Screen() {
     intervalUserPosts,
     sortUserComments,
     sortUserPosts,
-  } = usePreferences((state) => ({
-    intervalUserComments: state.intervalUserComments,
-    intervalUserPosts: state.intervalUserPosts,
-    sortUserComments: state.sortUserComments,
-    sortUserPosts: state.sortUserPosts,
-  }))
+  } = usePreferences(
+    useShallow((state) => ({
+      intervalUserComments: state.intervalUserComments,
+      intervalUserPosts: state.intervalUserPosts,
+      sortUserComments: state.sortUserComments,
+      sortUserPosts: state.sortUserPosts,
+    })),
+  )
 
   const t = useTranslations('screen.users.user')
 

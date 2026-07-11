@@ -17,6 +17,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
+import { useShallow } from 'zustand/react/shallow'
 
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
@@ -53,12 +54,14 @@ export default function Screen() {
   const a11y = useTranslations('a11y')
 
   const { collapsibleComments, replyPost, skipComment, sortPostComments } =
-    usePreferences((state) => ({
-      collapsibleComments: state.collapsibleComments,
-      replyPost: state.replyPost,
-      skipComment: state.skipComment,
-      sortPostComments: state.sortPostComments,
-    }))
+    usePreferences(
+      useShallow((state) => ({
+        collapsibleComments: state.collapsibleComments,
+        replyPost: state.replyPost,
+        skipComment: state.skipComment,
+        sortPostComments: state.sortPostComments,
+      })),
+    )
 
   styles.useVariants({
     iPad,

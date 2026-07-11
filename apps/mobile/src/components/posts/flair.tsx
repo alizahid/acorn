@@ -3,6 +3,7 @@ import { isEmpty, trim } from 'lodash'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { usePreferences } from '~/stores/preferences'
 import { type Flair } from '~/types/flair'
@@ -28,9 +29,11 @@ export function FlairCard({
 }: Props) {
   const t = useTranslations('component.posts.flair')
 
-  const { showFlair } = usePreferences((state) => ({
-    showFlair: state.showFlair,
-  }))
+  const { showFlair } = usePreferences(
+    useShallow((state) => ({
+      showFlair: state.showFlair,
+    })),
+  )
 
   const items = flair.filter((item) =>
     type === 'both' ? true : item.type === type,

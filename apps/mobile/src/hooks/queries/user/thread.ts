@@ -2,6 +2,7 @@ import { useQuery } from '@tanstack/react-query'
 import { formatISO, parseISO } from 'date-fns'
 import { groupBy, orderBy } from 'lodash'
 import { useMemo } from 'react'
+import { useShallow } from 'zustand/react/shallow'
 
 import { queryClient } from '~/lib/query'
 import { useAuth } from '~/stores/auth'
@@ -9,9 +10,11 @@ import { useAuth } from '~/stores/auth'
 import { type MessagesQueryData, type MessagesQueryKey } from './messages'
 
 export function useThread(id: string) {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { data, refetch } = useQuery({
     enabled: Boolean(accountId),

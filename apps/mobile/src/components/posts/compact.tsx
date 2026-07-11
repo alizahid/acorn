@@ -1,5 +1,6 @@
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
+import { useShallow } from 'zustand/react/shallow'
 
 import { cardMaxWidth } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -28,12 +29,14 @@ export function PostCompactCard({
   style,
 }: Props) {
   const { boldTitle, communityOnTop, fontSizeTitle, largeThumbnails } =
-    usePreferences((state) => ({
-      boldTitle: state.boldTitle,
-      communityOnTop: state.communityOnTop,
-      fontSizeTitle: state.fontSizeTitle,
-      largeThumbnails: state.largeThumbnails,
-    }))
+    usePreferences(
+      useShallow((state) => ({
+        boldTitle: state.boldTitle,
+        communityOnTop: state.communityOnTop,
+        fontSizeTitle: state.fontSizeTitle,
+        largeThumbnails: state.largeThumbnails,
+      })),
+    )
 
   styles.useVariants({
     large: largeThumbnails,

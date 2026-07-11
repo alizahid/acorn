@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { updateMessage } from '~/hooks/queries/user/messages'
 import { updateNotification } from '~/hooks/queries/user/notifications'
@@ -16,9 +17,11 @@ type MarkReadVariables = {
 }
 
 export function useMarkAsRead() {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { isPending, mutate } = useMutation<unknown, Error, MarkReadVariables>({
     async mutationFn(variables) {
@@ -70,9 +73,11 @@ export function useMarkAsRead() {
 export function useMarkAllAsRead() {
   const t = useTranslations('toasts.notifications')
 
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { isPending, mutate } = useMutation({
     async mutationFn() {

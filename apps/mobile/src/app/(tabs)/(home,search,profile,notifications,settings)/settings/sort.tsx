@@ -1,5 +1,6 @@
 import { ScrollView } from 'react-native-gesture-handler'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Menu } from '~/components/common/menu'
 import { IntervalItem } from '~/components/settings/interval'
@@ -25,21 +26,23 @@ export default function Screen() {
     sortUserComments,
     sortUserPosts,
     update,
-  } = usePreferences((state) => ({
-    intervalCommunityPosts: state.intervalCommunityPosts,
-    intervalFeedPosts: state.intervalFeedPosts,
-    intervalSearchPosts: state.intervalSearchPosts,
-    intervalUserComments: state.intervalUserComments,
-    intervalUserPosts: state.intervalUserPosts,
-    rememberSorting: state.rememberSorting,
-    sortCommunityPosts: state.sortCommunityPosts,
-    sortFeedPosts: state.sortFeedPosts,
-    sortPostComments: state.sortPostComments,
-    sortSearchPosts: state.sortSearchPosts,
-    sortUserComments: state.sortUserComments,
-    sortUserPosts: state.sortUserPosts,
-    update: state.update,
-  }))
+  } = usePreferences(
+    useShallow((state) => ({
+      intervalCommunityPosts: state.intervalCommunityPosts,
+      intervalFeedPosts: state.intervalFeedPosts,
+      intervalSearchPosts: state.intervalSearchPosts,
+      intervalUserComments: state.intervalUserComments,
+      intervalUserPosts: state.intervalUserPosts,
+      rememberSorting: state.rememberSorting,
+      sortCommunityPosts: state.sortCommunityPosts,
+      sortFeedPosts: state.sortFeedPosts,
+      sortPostComments: state.sortPostComments,
+      sortSearchPosts: state.sortSearchPosts,
+      sortUserComments: state.sortUserComments,
+      sortUserPosts: state.sortUserPosts,
+      update: state.update,
+    })),
+  )
 
   const listProps = useListProps({
     extraBottom: space[4],

@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query'
+import { useShallow } from 'zustand/react/shallow'
 
 import { reddit } from '~/reddit/api'
 import { ProfileSchema } from '~/schemas/profile'
@@ -17,9 +18,11 @@ export type ProfileQueryKey = [
 export type ProfileQueryData = Profile
 
 export function useProfile(name?: string) {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { data, isLoading, refetch } = useQuery<
     Undefined<ProfileQueryData>,

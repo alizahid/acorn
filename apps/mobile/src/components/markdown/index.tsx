@@ -1,5 +1,6 @@
 import { useMemo } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useImagePreview } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
@@ -25,13 +26,15 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
     fontSizePostBody,
     fontSizeCommentBody,
     systemScaling,
-  } = usePreferences((state) => ({
-    font: state.font,
-    fontScaling: state.fontScaling,
-    fontSizeCommentBody: state.fontSizeCommentBody,
-    fontSizePostBody: state.fontSizePostBody,
-    systemScaling: state.systemScaling,
-  }))
+  } = usePreferences(
+    useShallow((state) => ({
+      font: state.font,
+      fontScaling: state.fontScaling,
+      fontSizeCommentBody: state.fontSizeCommentBody,
+      fontSizePostBody: state.fontSizePostBody,
+      systemScaling: state.systemScaling,
+    })),
+  )
 
   const size = type === 'post' ? fontSizePostBody : fontSizeCommentBody
 

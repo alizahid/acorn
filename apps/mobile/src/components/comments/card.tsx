@@ -3,6 +3,7 @@ import { useRef, useState } from 'react'
 import { Share, View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useHide } from '~/hooks/moderation/hide'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
@@ -50,11 +51,11 @@ export function CommentCard({
   const a11y = useTranslations('a11y')
 
   const { colorfulComments, privateScreenshots, userOnTop } = usePreferences(
-    (state) => ({
+    useShallow((state) => ({
       colorfulComments: state.colorfulComments,
       privateScreenshots: state.privateScreenshots,
       userOnTop: state.userOnTop,
-    }),
+    })),
   )
 
   const {
@@ -64,14 +65,16 @@ export function CommentCard({
     commentRight,
     commentRightLong,
     commentRightShort,
-  } = useGestures((state) => ({
-    commentLeft: state.commentLeft,
-    commentLeftLong: state.commentLeftLong,
-    commentLeftShort: state.commentLeftShort,
-    commentRight: state.commentRight,
-    commentRightLong: state.commentRightLong,
-    commentRightShort: state.commentRightShort,
-  }))
+  } = useGestures(
+    useShallow((state) => ({
+      commentLeft: state.commentLeft,
+      commentLeftLong: state.commentLeftLong,
+      commentLeftShort: state.commentLeftShort,
+      commentRight: state.commentRight,
+      commentRightLong: state.commentRightLong,
+      commentRightShort: state.commentRightShort,
+    })),
+  )
 
   const card = useRef<View>(null)
   const menu = useRef<Sheet>(null)

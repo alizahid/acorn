@@ -8,6 +8,7 @@ import {
 } from 'react-native-reorderable-list'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { ListItem } from '~/components/common/list/item'
@@ -24,14 +25,16 @@ export default function Screen() {
   const t = useTranslations('screen.settings.defaults')
 
   const { community, drawerSections, feed, feedType, searchTabs, update } =
-    useDefaults((state) => ({
-      community: state.community,
-      drawerSections: state.drawerSections,
-      feed: state.feed,
-      feedType: state.feedType,
-      searchTabs: state.searchTabs,
-      update: state.update,
-    }))
+    useDefaults(
+      useShallow((state) => ({
+        community: state.community,
+        drawerSections: state.drawerSections,
+        feed: state.feed,
+        feedType: state.feedType,
+        searchTabs: state.searchTabs,
+        update: state.update,
+      })),
+    )
 
   const sheet = useRef<Sheet>(null)
 

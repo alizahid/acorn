@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native-unistyles'
 import { Toaster } from 'sonner-native'
+import { useShallow } from 'zustand/react/shallow'
 
 import { cardMaxWidth, iPad } from '~/lib/common'
 import { type Font, fonts } from '~/lib/fonts'
@@ -11,9 +12,11 @@ import { Icon } from './icon'
 import { Spinner } from './spinner'
 
 export function Toast() {
-  const { font } = usePreferences((state) => ({
-    font: state.font,
-  }))
+  const { font } = usePreferences(
+    useShallow((state) => ({
+      font: state.font,
+    })),
+  )
 
   styles.useVariants({
     iPad,

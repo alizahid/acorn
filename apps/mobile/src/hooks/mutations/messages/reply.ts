@@ -1,6 +1,7 @@
 import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
 import { create } from 'mutative'
+import { useShallow } from 'zustand/react/shallow'
 
 import {
   type MessagesQueryData,
@@ -19,9 +20,11 @@ type Variables = {
 }
 
 export function useReply() {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {

@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router'
 import cookies from 'react-native-nitro-cookies'
 import { toast } from 'sonner-native'
 import { z } from 'zod'
+import { useShallow } from 'zustand/react/shallow'
 
 import { getUserAgent } from '~/lib/user-agent'
 import { REDDIT_URI } from '~/reddit/api'
@@ -18,9 +19,11 @@ const schema = z.object({
 export function useSignIn() {
   const router = useRouter()
 
-  const { add } = useAuth((state) => ({
-    add: state.add,
-  }))
+  const { add } = useAuth(
+    useShallow((state) => ({
+      add: state.add,
+    })),
+  )
 
   const { isPending, mutateAsync } = useMutation({
     async mutationFn(cookie: string) {

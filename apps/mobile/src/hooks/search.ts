@@ -2,15 +2,18 @@ import { compact, uniq } from 'lodash'
 import { create } from 'mutative'
 import { useCallback, useMemo } from 'react'
 import { useMMKVObject } from 'react-native-mmkv'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useAuth } from '~/stores/auth'
 
 export type SearchHistoryData = ReturnType<typeof useSearchHistory>
 
 export function useSearchHistory(community?: string) {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const key = compact(['search_history', accountId, community]).join('_')
 

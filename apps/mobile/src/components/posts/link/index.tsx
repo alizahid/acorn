@@ -2,6 +2,7 @@ import { Image } from 'expo-image'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
@@ -36,9 +37,11 @@ export function PostLinkCard({
   const { handleLink } = useLink()
   const { addPost } = useHistory()
 
-  const { seenOnMedia } = usePreferences((state) => ({
-    seenOnMedia: state.seenOnMedia,
-  }))
+  const { seenOnMedia } = usePreferences(
+    useShallow((state) => ({
+      seenOnMedia: state.seenOnMedia,
+    })),
+  )
 
   styles.useVariants({
     compact,

@@ -2,6 +2,7 @@ import { Stack, useRouter } from 'expo-router'
 import { type PropsWithChildren } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
@@ -48,9 +49,11 @@ export default function Layout({ segment }: Props) {
   const t = useTranslations('screen')
   const a11y = useTranslations('a11y')
 
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   if (segment === '(search)') {
     return (

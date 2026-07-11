@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
+import { useShallow } from 'zustand/react/shallow'
 
 import { prepareMarkdown } from '~/lib/markdown'
 import { removePrefix } from '~/lib/reddit'
@@ -22,9 +23,11 @@ export type CreatePostForm = z.infer<ReturnType<typeof generateSchema>>
 export function useCreatePost(submission: Submission) {
   const t = useTranslations('component.submission')
 
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const types: Array<SubmissionType> = compact([
     submission.media.text && 'text',

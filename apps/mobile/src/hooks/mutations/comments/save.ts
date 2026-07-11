@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
@@ -21,9 +22,11 @@ type Variables = {
 export function useCommentSave() {
   const t = useTranslations('toasts.comments')
 
-  const { upvoteOnSave } = usePreferences((state) => ({
-    upvoteOnSave: state.upvoteOnSave,
-  }))
+  const { upvoteOnSave } = usePreferences(
+    useShallow((state) => ({
+      upvoteOnSave: state.upvoteOnSave,
+    })),
+  )
 
   const { vote } = useCommentVote()
 

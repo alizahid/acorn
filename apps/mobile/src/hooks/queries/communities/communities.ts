@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { orderBy } from 'lodash'
 import { create, type Draft } from 'mutative'
+import { useShallow } from 'zustand/react/shallow'
 
 import { queryClient } from '~/lib/query'
 import { REDDIT_URI, reddit } from '~/reddit/api'
@@ -19,9 +20,11 @@ export type CommunitiesQueryKey = [
 export type CommunitiesQueryData = Array<Community>
 
 export function useCommunities() {
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const queryKey: CommunitiesQueryKey = [
     'communities',

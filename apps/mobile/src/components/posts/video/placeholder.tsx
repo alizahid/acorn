@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { View } from 'react-native'
 import { InView } from 'react-native-intersection-observer'
 import { StyleSheet } from 'react-native-unistyles'
+import { useShallow } from 'zustand/react/shallow'
 
 import { useFocused } from '~/hooks/focus'
 import { iPad } from '~/lib/common'
@@ -35,10 +36,12 @@ export function VideoPlaceholder({
   video,
   onLongPress,
 }: Props) {
-  const { blurNsfw, blurSpoiler } = usePreferences((state) => ({
-    blurNsfw: state.blurNsfw,
-    blurSpoiler: state.blurSpoiler,
-  }))
+  const { blurNsfw, blurSpoiler } = usePreferences(
+    useShallow((state) => ({
+      blurNsfw: state.blurNsfw,
+      blurSpoiler: state.blurSpoiler,
+    })),
+  )
 
   const { focused } = useFocused()
 

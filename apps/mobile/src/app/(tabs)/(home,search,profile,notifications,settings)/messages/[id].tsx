@@ -6,6 +6,7 @@ import { KeyboardChatScrollView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 import { z } from 'zod'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Empty } from '~/components/common/empty'
 import { RefreshControl } from '~/components/common/refresh-control'
@@ -28,9 +29,11 @@ export default function Screen() {
 
   const f = useFormatter()
 
-  const { accountId } = useAuth((state) => ({
-    accountId: state.accountId,
-  }))
+  const { accountId } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+    })),
+  )
 
   const { messages, refetch } = useThread(params.id)
 
