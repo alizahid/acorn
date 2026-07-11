@@ -2,6 +2,7 @@ export const fonts = {
   apercu: 'Apercu Pro Var',
   basis: 'Basis Grotesque Pro Var',
   fold: 'Fold Grotesque Pro',
+  inter: 'Inter Variable',
   mono: 'SF Mono',
   system: 'System',
 } as const

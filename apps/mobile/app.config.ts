@@ -44,6 +44,8 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         './assets/fonts/basis-upright.ttf',
         './assets/fonts/fold-italic.ttf',
         './assets/fonts/fold-upright.ttf',
+        './assets/fonts/inter-italic.ttf',
+        './assets/fonts/inter-upright.ttf',
         './assets/fonts/mono-regular.otf',
         './assets/fonts/mono-medium.otf',
         './assets/fonts/mono-bold.otf',

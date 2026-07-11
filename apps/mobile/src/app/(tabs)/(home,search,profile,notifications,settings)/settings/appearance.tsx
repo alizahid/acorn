@@ -118,15 +118,15 @@ export default function Screen() {
               font: next as Font,
             })
           }}
-          options={(['basis', 'apercu', 'fold', 'system'] as const).map(
-            (item) => ({
-              label: t(`fonts.${item}`),
-              labelStyle: {
-                fontFamily: fonts[item],
-              },
-              value: item,
-            }),
-          )}
+          options={(
+            ['apercu', 'basis', 'fold', 'inter', 'system'] as const
+          ).map((item) => ({
+            label: t(`fonts.${item}`),
+            labelStyle: {
+              fontFamily: fonts[item],
+            },
+            value: item,
+          }))}
           title={t('fonts.title')}
           value={font}
         />
