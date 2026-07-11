@@ -4,12 +4,12 @@ import {
   useNavigation,
   useRouter,
 } from 'expo-router'
-import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useRef, useState } from 'react'
+import { View } from 'react-native'
 import {
-  type FastMarkdownEditorRef,
-  type MarkdownEditorState,
-} from 'react-native-fast-markdown'
+  type EnrichedMarkdownTextInputInstance,
+  type StyleState,
+} from 'react-native-enriched-markdown'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -21,8 +21,7 @@ import { Spinner } from '~/components/common/spinner'
 import { MarkdownEditor } from '~/components/markdown/editor'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
-import { type Font, fonts } from '~/lib/fonts'
-import { usePreferences } from '~/stores/preferences'
+import { heights } from '~/lib/common'
 
 const schema = z.object({
   body: z.string().optional(),
@@ -38,23 +37,15 @@ export default function Screen() {
 
   const params = schema.parse(useLocalSearchParams())
 
-  const { font, fontScaling, systemScaling } = usePreferences([
-    'font',
-    'fontScaling',
-    'systemScaling',
-  ])
-
   const t = useTranslations('screen.posts.reply')
   const a11y = useTranslations('a11y')
-
-  const headerHeight = useHeaderHeight()
 
   const reply = usePostReply()
   const edit = useCommentEdit()
 
-  const editor = useRef<FastMarkdownEditorRef>(null)
+  const editor = useRef<EnrichedMarkdownTextInputInstance>(null)
 
-  const [state, setState] = useState<MarkdownEditorState>()
+  const [state, setState] = useState<StyleState>()
   const [text, setText] = useState(params.body)
 
   useFocusEffect(
@@ -112,9 +103,9 @@ export default function Screen() {
 
   return (
     <KeyboardAvoidingView
-      behavior="height"
-      keyboardVerticalOffset={headerHeight}
-      style={styles.main(headerHeight)}
+      behavior="translate-with-padding"
+      keyboardVerticalOffset={heights.header}
+      style={styles.main}
     >
       <MarkdownEditor.ToolBar
         editor={editor}
@@ -122,31 +113,26 @@ export default function Screen() {
         style={styles.toolBar}
       />
 
-      <MarkdownEditor.Root
-        onChange={setText}
-        onChangeState={setState}
-        placeholder={t('placeholder')}
-        ref={editor}
-        style={styles.input(font, systemScaling ? 1 : fontScaling)}
-        value={text}
-      />
+      <View style={styles.editor}>
+        <MarkdownEditor.Root
+          onChange={setText}
+          onChangeState={setState}
+          placeholder={t('placeholder')}
+          ref={editor}
+          value={text}
+        />
+      </View>
     </KeyboardAvoidingView>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  input: (font: Font, scaling: number) => ({
-    color: theme.colors.gray.text,
+  editor: {
     flex: 1,
-    fontFamily: fonts[font],
-    fontSize: theme.typography[3].fontSize * scaling,
-    lineHeight: theme.typography[3].lineHeight * scaling,
-    padding: theme.space[4],
-  }),
-  main: (marginTop: number) => ({
+  },
+  main: {
     flex: 1,
-    marginTop,
-  }),
+  },
   toolBar: {
     backgroundColor: theme.colors.gray.uiAlpha,
   },

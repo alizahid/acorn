@@ -32,6 +32,7 @@ export function SubmissionType({ types }: Props) {
             onPress={() => {
               sheet.current?.present()
             }}
+            size="6"
           >
             <Icon
               name={icons[field.value]}

@@ -1,24 +1,22 @@
-import {
-  FastMarkdownEditor,
-  FastMarkdownView,
-} from 'react-native-fast-markdown'
+import { EnrichedMarkdownTextInput } from 'react-native-enriched-markdown'
+import { FastMarkdownView } from 'react-native-fast-markdown'
 import { withUnistyles } from 'react-native-unistyles'
 
 export const MarkdownViewer = withUnistyles(FastMarkdownView)
 
-export const MarkdownInput = withUnistyles(FastMarkdownEditor, (theme) => ({
-  cursorColor: theme.colors.accent.accent,
-  placeholderTextColor: theme.colors.gray.accent,
-  styles: {
-    link: {
-      color: theme.colors.accent.accent,
+export const MarkdownInput = withUnistyles(
+  EnrichedMarkdownTextInput,
+  (theme) => ({
+    cursorColor: theme.colors.accent.accent,
+    markdownStyle: {
+      link: {
+        color: theme.colors.accent.accent,
+      },
+      spoiler: {
+        backgroundColor: theme.colors.accent.border,
+        color: theme.colors.accent.text,
+      },
     },
-    spoiler: {
-      backgroundColor: theme.colors.accent.accent,
-      borderRadius: theme.radius[4],
-    },
-    strikethrough: {
-      textDecorationColor: theme.colors.red.accent,
-    },
-  },
-}))
+    placeholderTextColor: theme.colors.gray.accent,
+  }),
+)

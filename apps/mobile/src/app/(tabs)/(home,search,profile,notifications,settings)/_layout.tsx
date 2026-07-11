@@ -255,6 +255,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="posts/[id]/reply"
         options={{
+          headerTransparent: false,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
         }}

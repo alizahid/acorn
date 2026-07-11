@@ -1,121 +1,74 @@
-import { useIsFocused } from 'expo-router'
 import { useRef, useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { View } from 'react-native'
 import {
-  type FastMarkdownEditorRef,
-  type MarkdownEditorState,
-} from 'react-native-fast-markdown'
-import {
-  KeyboardController,
-  KeyboardExtender,
-  useReanimatedKeyboardAnimation,
-} from 'react-native-keyboard-controller'
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-} from 'react-native-reanimated'
+  type EnrichedMarkdownTextInputInstance,
+  type StyleState,
+} from 'react-native-enriched-markdown'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
-import { iOS26 } from '~/lib/common'
-import { type Font, fonts } from '~/lib/fonts'
-import { usePreferences } from '~/stores/preferences'
 
-import { Icon } from '../common/icon'
-import { IconButton } from '../common/icon/button'
 import { Text } from '../common/text'
 import { MarkdownEditor } from '../markdown/editor'
 
 export function SubmissionText() {
-  const focused = useIsFocused()
-
   const t = useTranslations('component.submission.text')
-
-  const { font, fontScaling, systemScaling } = usePreferences([
-    'font',
-    'fontScaling',
-    'systemScaling',
-  ])
 
   const { control } = useFormContext<CreatePostForm>()
 
-  const { progress } = useReanimatedKeyboardAnimation()
+  const editor = useRef<EnrichedMarkdownTextInputInstance>(null)
 
-  const editor = useRef<FastMarkdownEditorRef>(null)
-
-  const [state, setState] = useState<MarkdownEditorState>()
-
-  const style = useAnimatedStyle(() => ({
-    height: interpolate(progress.get(), [0, 1], [0, 48]),
-  }))
+  const [state, setState] = useState<StyleState>()
 
   return (
-    <Controller
-      control={control}
-      name="text"
-      render={({ field, fieldState }) => (
-        <View style={styles.main}>
-          {fieldState.error ? (
-            <Text mx="4" size="2" style={styles.error}>
-              {fieldState.error.message}
-            </Text>
-          ) : null}
+    <>
+      <MarkdownEditor.ToolBar
+        editor={editor}
+        state={state}
+        style={styles.toolBar}
+      />
 
-          <MarkdownEditor.Root
-            onChange={(markdown) => {
-              field.onChange(markdown)
-            }}
-            onChangeState={setState}
-            placeholder={t('placeholder')}
-            ref={editor}
-            style={styles.editor(font, systemScaling ? 1 : fontScaling)}
-          />
+      <Controller
+        control={control}
+        name="text"
+        render={({ field, fieldState }) => (
+          <View style={styles.main}>
+            {fieldState.error ? (
+              <Text mx="4" size="2" style={styles.error}>
+                {fieldState.error.message}
+              </Text>
+            ) : null}
 
-          <KeyboardExtender enabled={focused}>
-            <Animated.View style={[styles.tools, style]}>
-              <MarkdownEditor.ToolBar editor={editor} state={state} />
-
-              <IconButton
-                label={t('dismiss')}
-                onPress={() => {
-                  KeyboardController.dismiss()
+            <View style={styles.editor}>
+              <MarkdownEditor.Root
+                onChange={(markdown) => {
+                  field.onChange(markdown)
                 }}
-              >
-                <Icon
-                  name="caret-down"
-                  uniProps={(theme) => ({
-                    color: theme.colors.gray.accent,
-                  })}
-                />
-              </IconButton>
-            </Animated.View>
-          </KeyboardExtender>
-        </View>
-      )}
-    />
+                onChangeState={setState}
+                placeholder={t('placeholder')}
+                ref={editor}
+              />
+            </View>
+          </View>
+        )}
+      />
+    </>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  editor: (font: Font, scaling: number) => ({
-    color: theme.colors.gray.text,
+  editor: {
     flex: 1,
-    fontFamily: fonts[font],
-    fontSize: theme.typography[3].fontSize * scaling,
-    lineHeight: theme.typography[3].lineHeight * scaling,
-    padding: theme.space[4],
-  }),
+  },
   error: {
     color: theme.colors.red.accent,
   },
   main: {
     flex: 1,
   },
-  tools: {
-    flexDirection: 'row',
-    gap: theme.space[4],
-    justifyContent: iOS26 ? 'center' : 'space-between',
+  toolBar: {
+    backgroundColor: theme.colors.gray.uiAlpha,
   },
 }))

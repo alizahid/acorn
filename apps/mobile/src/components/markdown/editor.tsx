@@ -1,10 +1,14 @@
 import { type Ref, type RefObject } from 'react'
-import { type StyleProp, View, type ViewStyle } from 'react-native'
 import {
-  type FastMarkdownEditorRef,
-  type MarkdownContainerStyle,
-  type MarkdownEditorState,
-} from 'react-native-fast-markdown'
+  type StyleProp,
+  type TextStyle,
+  View,
+  type ViewStyle,
+} from 'react-native'
+import {
+  type EnrichedMarkdownTextInputInstance,
+  type StyleState,
+} from 'react-native-enriched-markdown'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -17,11 +21,11 @@ import { MarkdownInput } from '../native/markdown'
 
 type RootProps = {
   onChange?: (value: string) => void
-  onChangeState?: (state: MarkdownEditorState) => void
+  onChangeState?: (state: StyleState) => void
   placeholder?: string
   value?: string
-  style?: MarkdownContainerStyle
-  ref?: Ref<FastMarkdownEditorRef>
+  style?: ViewStyle | TextStyle
+  ref?: Ref<EnrichedMarkdownTextInputInstance>
 }
 
 function Root({
@@ -47,14 +51,17 @@ function Root({
       onChangeState={onChangeState}
       placeholder={placeholder}
       ref={ref}
-      style={[styles.main(font, systemScaling ? 1 : fontScaling), style]}
+      style={StyleSheet.flatten([
+        styles.main(font, systemScaling ? 1 : fontScaling),
+        style,
+      ])}
     />
   )
 }
 
 type ToolBarProps = {
-  editor?: RefObject<FastMarkdownEditorRef | null>
-  state?: MarkdownEditorState
+  editor?: RefObject<EnrichedMarkdownTextInputInstance | null>
+  state?: StyleState
   style?: StyleProp<ViewStyle>
 }
 
@@ -71,9 +78,9 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         style={styles.tool}
       >
         <Icon
-          name={state?.isBold ? 'text-b-bold' : 'text-b'}
+          name={state?.bold.isActive ? 'text-b-bold' : 'text-b'}
           uniProps={(theme) => ({
-            color: state?.isBold
+            color: state?.bold.isActive
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
@@ -88,9 +95,9 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         style={styles.tool}
       >
         <Icon
-          name={state?.isItalic ? 'text-italic-bold' : 'text-italic'}
+          name={state?.italic.isActive ? 'text-italic-bold' : 'text-italic'}
           uniProps={(theme) => ({
-            color: state?.isItalic
+            color: state?.italic.isActive
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
@@ -106,12 +113,12 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
       >
         <Icon
           name={
-            state?.isStrikethrough
+            state?.strikethrough.isActive
               ? 'text-strikethrough-bold'
               : 'text-strikethrough'
           }
           uniProps={(theme) => ({
-            color: state?.isStrikethrough
+            color: state?.strikethrough.isActive
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
@@ -126,9 +133,9 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
         style={styles.tool}
       >
         <Icon
-          name={state?.isSpoiler ? 'eye-closed-bold' : 'eye-closed'}
+          name={state?.spoiler.isActive ? 'eye-closed-bold' : 'eye-closed'}
           uniProps={(theme) => ({
-            color: state?.isSpoiler
+            color: state?.spoiler.isActive
               ? theme.colors.accent.accent
               : theme.colors.gray.textLow,
           })}
@@ -143,8 +150,8 @@ const styles = StyleSheet.create((theme) => ({
     color: theme.colors.gray.text,
     fontFamily: fonts[font],
     fontSize: theme.typography[3].fontSize * scaling,
-    gap: theme.space[1],
     lineHeight: theme.typography[3].lineHeight * scaling,
+    padding: theme.space[4],
   }),
   tool: {
     alignItems: 'center',
