@@ -200,13 +200,15 @@ export function PostCard({ expanded, post }: Props) {
             onLongPress={onLongPress}
             onPress={onPress}
           >
-            <View collapsable={false} ref={card} style={styles.main}>
+            <View collapsable={false} ref={card}>
               <PostCompactCard
                 post={post}
                 privacy={privacy}
                 side={mediaOnRight ? 'right' : 'left'}
                 style={styles.dimmed}
               />
+
+              {capturing ? <Banner style={styles.banner} /> : null}
             </View>
           </Pressable>
         </PostMenu>
@@ -324,8 +326,15 @@ export function PostCard({ expanded, post }: Props) {
 
 const styles = StyleSheet.create((theme, runtime) => ({
   banner: {
-    marginBottom: -theme.space[3],
-    marginHorizontal: -theme.space[3],
+    variants: {
+      compact: {
+        false: {
+          marginBottom: -theme.space[3],
+          marginHorizontal: -theme.space[3],
+        },
+        true: {},
+      },
+    },
   },
   container: {
     alignSelf: 'center',
@@ -361,11 +370,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
     gap: theme.space[3],
     overflow: 'hidden',
     variants: {
-      compact: {
-        true: {
-          padding: 0,
-        },
-      },
       iPad: {
         false: {
           padding: theme.space[3],
