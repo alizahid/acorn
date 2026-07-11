@@ -1,7 +1,8 @@
 # Changelog
 
-## Build 78
+## Build 79
 
+- added: long press to switch account
 - added: new design
 - added: new drawer
 - added: tab bar minimize toggle

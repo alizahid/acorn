@@ -1,4 +1,4 @@
-import { type BottomTabBarProps } from '@bottom-tabs/react-navigation'
+import { type BottomTabBarProps } from 'expo-router/tabs'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { glass } from '~/lib/common'

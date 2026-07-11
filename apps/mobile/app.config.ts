@@ -19,7 +19,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
   const plugins: ExpoConfig['plugins'] = [
     '@bacons/apple-targets',
     'expo-iap',
-    'react-native-bottom-tabs',
     expoRouter(),
     expoLocalization(),
     expoSecureStore(),
@@ -102,7 +101,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     },
     ios: {
       appleTeamId: process.env.APPLE_TEAM_ID,
-      buildNumber: '78',
+      buildNumber: '79',
       bundleIdentifier: 'blue.acorn',
       config: {
         usesNonExemptEncryption: false,

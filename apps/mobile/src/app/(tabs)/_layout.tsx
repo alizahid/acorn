@@ -1,11 +1,10 @@
 import { focusManager } from '@tanstack/react-query'
-import { useRouter } from 'expo-router'
+import { Tabs, useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { AppState } from 'react-native'
 import { useShallow } from 'zustand/react/shallow'
 
 import { TabBar } from '~/components/navigation/tab-bar'
-import { Tabs } from '~/components/navigation/tabs'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
 import { mitter } from '~/lib/mitt'
@@ -55,7 +54,13 @@ export default function Layout() {
   }, [])
 
   return (
-    <Tabs disablePageAnimations tabBar={(props) => <TabBar {...props} />}>
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        lazy: true,
+      }}
+      tabBar={(props) => <TabBar {...props} />}
+    >
       <Tabs.Screen name="(home)" />
 
       <Tabs.Screen name="(search)" />

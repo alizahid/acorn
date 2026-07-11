@@ -17,7 +17,6 @@
   },
   "dependencies": {
     "@bacons/apple-targets": "^4.0.7",
-    "@bottom-tabs/react-navigation": "^1.4.0",
     "@date-fns/tz": "^1.5.0",
     "@expo/ui": "~57.0.4",
     "@formatjs/intl-getcanonicallocales": "^3.2.11",
@@ -79,7 +78,6 @@
     "react": "19.2.3",
     "react-hook-form": "^7.81.0",
     "react-native": "0.86.0",
-    "react-native-bottom-tabs": "^1.4.0",
     "react-native-enriched-markdown": "^0.7.4",
     "react-native-fast-markdown": "^0.2.0-beta.4",
     "react-native-flexible-grid": "^0.2.5",
