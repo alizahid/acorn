@@ -1,10 +1,10 @@
 import { ImageBackground } from 'expo-image'
 import { useState } from 'react'
 import { View } from 'react-native'
-import { InView } from 'react-native-intersection-observer'
 import { StyleSheet } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
 
+import { InView } from '~/components/common/in-view'
 import { useFocused } from '~/hooks/focus'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'

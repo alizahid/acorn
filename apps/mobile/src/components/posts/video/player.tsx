@@ -1,12 +1,17 @@
-import { useEvent } from 'expo'
-import { useVideoPlayer, VideoView } from 'expo-video'
 import { useEffect, useRef, useState } from 'react'
-import { InView } from 'react-native-intersection-observer'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
+import {
+  useEvent,
+  useVideoPlayer,
+  VideoView,
+  type VideoViewRef,
+} from 'react-native-video'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
+import { InView } from '~/components/common/in-view'
 import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
@@ -62,18 +67,18 @@ export function VideoPlayer({
     compact,
   })
 
-  const ref = useRef<VideoView>(null)
+  const ref = useRef<VideoViewRef>(null)
 
   const player = useVideoPlayer(video.url, (instance) => {
-    instance.audioMixingMode = 'mixWithOthers'
+    instance.mixAudioMode = 'mixWithOthers'
     instance.muted = feedMuted
     instance.loop = true
-    instance.timeUpdateEventInterval = 1000 / 1000 / 60
 
     instance.pause()
   })
 
   const [visible, setVisible] = useState(false)
+  const [muted, setMuted] = useState(feedMuted)
 
   useEffect(() => {
     if (!compact && visible && autoPlay) {
@@ -83,8 +88,8 @@ export function VideoPlayer({
     }
   }, [autoPlay, player, visible, compact])
 
-  const { muted } = useEvent(player, 'mutedChange', {
-    muted: feedMuted,
+  useEvent(player, 'onVolumeChange', (event) => {
+    setMuted(event.muted)
   })
 
   function onPress() {
@@ -107,44 +112,37 @@ export function VideoPlayer({
       <InView onChange={setVisible}>
         <VideoView
           accessibilityIgnoresInvertColors
-          allowsPictureInPicture={pictureInPicture}
-          contentFit="cover"
-          fullscreenOptions={{
-            enable: false,
-          }}
-          onFullscreenEnter={() => {
+          controls
+          pictureInPicture={pictureInPicture}
+          player={player}
+          pointerEvents="none"
+          ref={ref}
+          style={styles.video(video.width / video.height)}
+          willEnterFullscreen={() => {
             player.play()
 
             if (unmuteFullscreen && muted) {
               player.muted = false
             }
           }}
-          onFullscreenExit={() => {
+          willExitFullscreen={() => {
             if (compact || !autoPlay) {
               player.pause()
             }
           }}
-          player={player}
-          pointerEvents="none"
-          ref={ref}
-          style={styles.video(video.width / video.height)}
         />
       </InView>
 
       {compact ? null : <VideoStatus player={player} />}
 
       {compact ? (
-        <Pressable
-          accessibilityLabel={a11y('viewVideo')}
-          onPress={onPress}
-          style={styles.compact}
-        >
+        <View style={styles.compact}>
           <Icon name="play-fill" />
 
           {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
             <GalleryBlur />
           ) : null}
-        </Pressable>
+        </View>
       ) : (nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
         <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
       ) : (

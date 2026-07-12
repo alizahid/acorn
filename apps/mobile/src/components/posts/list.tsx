@@ -1,5 +1,6 @@
 import {
   FlashList,
+  type FlashListProps,
   type FlashListRef,
   type ListRenderItem,
 } from '@shopify/flash-list'
@@ -123,6 +124,30 @@ export function PostList({
     [router],
   )
 
+  const onViewableItemsChanged: FlashListProps<Item>['onViewableItemsChanged'] =
+    useCallback(
+      ({ changed }) => {
+        if (!seenOnScroll) {
+          return
+        }
+
+        const items = changed.filter(
+          (item) =>
+            !item.isViewable &&
+            item.item &&
+            item.item.type !== 'reply' &&
+            item.item.type !== 'more',
+        )
+
+        for (const item of items) {
+          addPost({
+            id: (item.item as Post).id,
+          })
+        }
+      },
+      [addPost, seenOnScroll],
+    )
+
   return (
     <FlashList
       {...listProps}
@@ -165,25 +190,7 @@ export function PostList({
           fetchNextPage()
         }
       }}
-      onViewableItemsChanged={({ changed }) => {
-        if (!seenOnScroll) {
-          return
-        }
-
-        const items = changed.filter(
-          (item) =>
-            !item.isViewable &&
-            item.item &&
-            item.item.type !== 'reply' &&
-            item.item.type !== 'more',
-        )
-
-        for (const item of items) {
-          addPost({
-            id: (item.item as Post).id,
-          })
-        }
-      }}
+      onViewableItemsChanged={onViewableItemsChanged}
       ref={list}
       refreshControl={
         <RefreshControl

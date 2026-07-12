@@ -1,5 +1,4 @@
 import { requestPermissionsAsync } from 'expo-media-library'
-import { isPictureInPictureSupported } from 'expo-video'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
@@ -524,18 +523,16 @@ export default function Screen() {
           value={unmuteFullscreen}
         />
 
-        {isPictureInPictureSupported() ? (
-          <Menu.Switch
-            icon={<Icon name="picture-in-picture" />}
-            label={t('media.pictureInPicture')}
-            onChange={(next) => {
-              update({
-                pictureInPicture: next,
-              })
-            }}
-            value={pictureInPicture}
-          />
-        ) : null}
+        <Menu.Switch
+          icon={<Icon name="picture-in-picture" />}
+          label={t('media.pictureInPicture')}
+          onChange={(next) => {
+            update({
+              pictureInPicture: next,
+            })
+          }}
+          value={pictureInPicture}
+        />
 
         <Menu.Switch
           icon={<Icon name="eye-slash" />}

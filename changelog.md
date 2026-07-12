@@ -11,6 +11,7 @@
 - changed: sidebar button moved to the right
 - fixed: following Reddit share links
 - fixed: prioritize community over feed in post list fetch
+- fixed: video playing
 - removed: tab bar minimize options
 
 ## Build 77

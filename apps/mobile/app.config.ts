@@ -9,7 +9,6 @@ import expoScreenOrientation from 'expo-screen-orientation/plugin'
 import expoSecureStore from 'expo-secure-store/plugin'
 import expoSplashScreen from 'expo-splash-screen/plugin'
 import expoSqlite from 'expo-sqlite/plugin'
-import expoVideo from 'expo-video/plugin'
 import expoWebBrowser from 'expo-web-browser/plugin'
 
 export default function getConfig(context: ConfigContext): ExpoConfig {
@@ -24,9 +23,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     expoSecureStore(),
     expoSqlite(),
     expoWebBrowser(),
-    expoVideo({
-      supportsPictureInPicture: true,
-    }),
     expoSplashScreen({
       backgroundColor: '#fbfdfc',
       dark: {
@@ -70,6 +66,17 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
             outputDir: './src/assets/icons/phosphor',
           },
         ],
+      },
+    ],
+    [
+      'react-native-video',
+      {
+        androidExtensions: {
+          useExoplayerDash: true,
+          useExoplayerHls: true,
+        },
+        enableAndroidPictureInPicture: true,
+        enableBackgroundAudio: true,
       },
     ],
   ]
@@ -142,6 +149,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
           podspec: 'https://acorn.blue/ffmpeg-kit-ios-full-gpl.podspec',
         },
       ],
+      reactNativeReleaseLevel: 'canary',
       useHermesV1: true,
       usePrecompiledModules: true,
     },

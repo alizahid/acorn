@@ -1,7 +1,7 @@
 import { type FlashListProps } from '@shopify/flash-list'
 import { createElement } from 'react'
 import { Dimensions, type Insets, type ScrollViewProps } from 'react-native'
-import { IOScrollView } from 'react-native-intersection-observer'
+import { ScrollView } from 'react-native-gesture-handler'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 import { heights } from '~/lib/common'
@@ -85,12 +85,5 @@ export function useListProps({
 }
 
 export function renderScrollComponent({ children, ...props }: ScrollViewProps) {
-  return createElement(
-    IOScrollView,
-    {
-      ...props,
-      threshold: 1,
-    },
-    children,
-  )
+  return createElement(ScrollView, props, children)
 }
