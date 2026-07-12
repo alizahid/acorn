@@ -76,6 +76,10 @@ export function useListProps({
     automaticallyAdjustContentInsets: false,
     contentInset,
     contentInsetAdjustmentBehavior: 'never',
+    contentOffset: {
+      x: 0,
+      y: -contentInset.top,
+    },
     drawDistance: height / 2,
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',
