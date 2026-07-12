@@ -37,6 +37,7 @@ export function CommunityAbout({ name }: Props) {
   const listProps = useListProps({
     extraBottom: space[4],
     extraTop: space[4],
+    flash: false,
   })
 
   if (!community) {

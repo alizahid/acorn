@@ -93,6 +93,7 @@ export default function Screen() {
   const listProps = useListProps({
     extraBottom: space[4],
     extraTop: space[4],
+    flash: false,
   })
 
   return (

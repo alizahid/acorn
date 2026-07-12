@@ -34,6 +34,7 @@ export default function Screen() {
   const listProps = useListProps({
     extraBottom: heights.floatingButton,
     extraTop: space[4],
+    flash: false,
   })
 
   return (

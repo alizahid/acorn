@@ -2,7 +2,8 @@ import { createId } from '@paralleldrive/cuid2'
 import { useFocusEffect, useNavigation } from 'expo-router'
 import { useCallback } from 'react'
 import { FormProvider, useFieldArray } from 'react-hook-form'
-import { FlatList, View } from 'react-native'
+import { View } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
 import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -62,7 +63,9 @@ export default function Screen() {
     name: 'filters',
   })
 
-  const listProps = useListProps({})
+  const listProps = useListProps({
+    flash: false,
+  })
 
   return (
     <FormProvider {...form}>
