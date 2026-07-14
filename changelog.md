@@ -1,6 +1,6 @@
 # Changelog
 
-## Build 80
+## Build 81
 
 - added: long press to switch account
 - added: new design
