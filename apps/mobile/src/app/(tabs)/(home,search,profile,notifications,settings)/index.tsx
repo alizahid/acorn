@@ -13,7 +13,6 @@ import { useShallow } from 'zustand/react/shallow'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
-import { Drawer } from '~/components/navigation/drawer'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
@@ -98,16 +97,6 @@ export default function Screen() {
     useCallback(() => {
       navigation.setOptions({
         headerLeft: () => (
-          <IconButton
-            label={a11y('toggleSidebar')}
-            onPress={() => {
-              mitter.emit('drawer-toggle')
-            }}
-          >
-            <Icon name="sidebar" />
-          </IconButton>
-        ),
-        headerRight: () => (
           <SortIntervalMenu
             interval={sorting.interval}
             onChange={(next) => {
@@ -117,6 +106,16 @@ export default function Screen() {
             style={styles.sort}
             type={type}
           />
+        ),
+        headerRight: () => (
+          <IconButton
+            label={a11y('toggleSidebar')}
+            onPress={() => {
+              mitter.emit('drawer-toggle')
+            }}
+          >
+            <Icon name="sidebar" />
+          </IconButton>
         ),
         headerTitle:
           name === 'home' || name === 'all' || name === 'popular'
@@ -157,16 +156,14 @@ export default function Screen() {
   })
 
   return (
-    <Drawer>
-      <PostList
-        community={community}
-        feed={feed}
-        interval={sorting.interval}
-        listProps={listProps}
-        sort={sorting.sort}
-        style={styles.list}
-      />
-    </Drawer>
+    <PostList
+      community={community}
+      feed={feed}
+      interval={sorting.interval}
+      listProps={listProps}
+      sort={sorting.sort}
+      style={styles.list}
+    />
   )
 }
 

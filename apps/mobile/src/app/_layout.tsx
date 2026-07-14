@@ -7,6 +7,7 @@ import { UnistylesRuntime } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
 
 import { Providers } from '~/components/common/providers'
+import { Drawer } from '~/components/navigation/drawer'
 import { db } from '~/db'
 import migrations from '~/drizzle/migrations'
 import { Sentry } from '~/lib/sentry'
@@ -54,7 +55,9 @@ function Acorn() {
 
   return (
     <Providers>
-      <Slot />
+      <Drawer>
+        <Slot />
+      </Drawer>
     </Providers>
   )
 }

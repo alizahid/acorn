@@ -78,6 +78,7 @@
         "react": "19.2.3",
         "react-hook-form": "^7.81.0",
         "react-native": "0.86.0",
+        "react-native-drawer-layout": "^4.2.7",
         "react-native-enriched-markdown": "^0.7.4",
         "react-native-fast-markdown": "^0.2.0-beta.4",
         "react-native-flexible-grid": "^0.2.5",

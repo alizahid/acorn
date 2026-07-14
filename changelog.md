@@ -4,7 +4,6 @@
 
 - added: long press to switch account
 - added: new design
-- added: new drawer
 - added: tab bar minimize toggle
 - changed: ask for permission when enabling save to Acorn album
 - changed: image viewer

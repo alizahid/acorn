@@ -1,35 +1,16 @@
-import { Portal } from '@gorhom/portal'
 import { type ReactNode, useEffect, useState } from 'react'
-import { Pressable, View } from 'react-native'
-import Animated, {
-  cancelAnimation,
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from 'react-native-reanimated'
+import { Drawer as DrawerLayout } from 'react-native-drawer-layout'
 import { StyleSheet } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
 
-import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 
-import { Icon } from '../common/icon'
-import { IconButton } from '../common/icon/button'
-import { Text } from '../common/text'
 import { CommunitiesList } from '../communities/list'
-import { BlurView } from '../native/blur-view'
-import { GlassView } from '../native/glass-view'
 
 type Props = {
   children: ReactNode
 }
 
 export function Drawer({ children }: Props) {
-  const t = useTranslations('component.navigation.drawer')
-  const a11y = useTranslations('a11y')
-
-  const translate = useSharedValue(1)
-
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -52,98 +33,39 @@ export function Drawer({ children }: Props) {
     }
   }, [])
 
-  useEffect(() => {
-    cancelAnimation(translate)
-
-    translate.set(withTiming(open ? 0 : 1, {}))
-  }, [open, translate])
-
-  const style = useAnimatedStyle(() => ({
-    inset: 0,
-    position: 'absolute',
-    transform: [
-      {
-        translateX: `${translate.get() * 100 * -1.1}%`,
-      },
-    ],
-  }))
-
-  const Component = glass ? GlassView : BlurView
-
   return (
-    <View style={styles.main}>
-      <Portal>
-        <Animated.View pointerEvents="box-none" style={style}>
-          {open ? (
-            <Pressable
-              onPress={() => {
-                setOpen(false)
-              }}
-              style={styles.overlay}
-            />
-          ) : null}
-
-          <Component style={styles.drawer}>
-            <View style={styles.header}>
-              <Text weight="bold">{t('title')}</Text>
-
-              <IconButton
-                label={a11y('toggleSidebar')}
-                onPress={() => {
-                  setOpen(false)
-                }}
-              >
-                <Icon name="sidebar" />
-              </IconButton>
-            </View>
-
-            <CommunitiesList
-              drawer
-              onPress={() => {
-                setOpen(false)
-              }}
-              style={styles.content}
-            />
-          </Component>
-        </Animated.View>
-      </Portal>
-
+    <DrawerLayout
+      drawerPosition="right"
+      drawerStyle={styles.drawer}
+      drawerType="slide"
+      onClose={() => {
+        setOpen(false)
+      }}
+      onOpen={() => {
+        setOpen(true)
+      }}
+      open={open}
+      renderDrawerContent={() => (
+        <CommunitiesList
+          drawer
+          onPress={() => {
+            setOpen(false)
+          }}
+          style={styles.content}
+        />
+      )}
+    >
       {children}
-    </View>
+    </DrawerLayout>
   )
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
   content: {
     flex: 1,
+    marginTop: runtime.insets.top,
   },
-  drawer: iPad
-    ? {
-        borderCurve: 'continuous',
-        borderRadius: theme.radius[6] * 2,
-        inset: theme.space[4],
-        position: 'absolute',
-        width: 300,
-      }
-    : {
-        inset: -10,
-        padding: 10,
-        paddingTop: runtime.insets.top + 1,
-        position: 'absolute',
-      },
-  header: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginLeft: theme.space[4],
-    marginTop: iPad ? runtime.insets.top : undefined,
-  },
-  main: {
-    flex: 1,
-    flexDirection: 'row',
-  },
-  overlay: {
-    inset: 0,
-    position: 'absolute',
+  drawer: {
+    backgroundColor: theme.colors.gray.bg,
   },
 }))
