@@ -11,7 +11,6 @@ import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
-import { InView } from '~/components/common/in-view'
 import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
@@ -73,20 +72,17 @@ export function VideoPlayer({
     instance.mixAudioMode = 'mixWithOthers'
     instance.muted = feedMuted
     instance.loop = true
-
-    instance.pause()
   })
 
-  const [visible, setVisible] = useState(false)
   const [muted, setMuted] = useState(feedMuted)
 
   useEffect(() => {
-    if (!compact && visible && autoPlay) {
+    if (!compact && autoPlay) {
       player.play()
     } else {
       player.pause()
     }
-  }, [autoPlay, player, visible, compact])
+  }, [autoPlay, player, compact])
 
   useEvent(player, 'onVolumeChange', (event) => {
     setMuted(event.muted)
@@ -109,29 +105,36 @@ export function VideoPlayer({
       onPress={onPress}
       style={styles.main}
     >
-      <InView onChange={setVisible}>
-        <VideoView
-          accessibilityIgnoresInvertColors
-          controls
-          pictureInPicture={pictureInPicture}
-          player={player}
-          pointerEvents="none"
-          ref={ref}
-          style={styles.video(video.width / video.height)}
-          willEnterFullscreen={() => {
+      <VideoView
+        accessibilityIgnoresInvertColors
+        controls
+        onFullscreenChange={(fullscreen) => {
+          if (!(compact || fullscreen) && autoPlay) {
             player.play()
+          }
+        }}
+        pictureInPicture={pictureInPicture}
+        player={player}
+        pointerEvents="none"
+        ref={ref}
+        style={styles.video(video.width / video.height)}
+        willEnterFullscreen={() => {
+          player.play()
 
-            if (unmuteFullscreen && muted) {
-              player.muted = false
-            }
-          }}
-          willExitFullscreen={() => {
-            if (compact || !autoPlay) {
-              player.pause()
-            }
-          }}
-        />
-      </InView>
+          if (unmuteFullscreen && muted) {
+            player.muted = false
+          }
+        }}
+        willExitFullscreen={() => {
+          if (compact || !autoPlay) {
+            player.pause()
+          }
+
+          if (feedMuted && !muted) {
+            player.muted = true
+          }
+        }}
+      />
 
       {compact ? null : <VideoStatus player={player} />}
 
