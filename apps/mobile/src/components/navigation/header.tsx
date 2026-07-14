@@ -3,6 +3,7 @@ import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
+import { useCornerInsets } from '@/helpers'
 import { glass } from '~/lib/common'
 
 import { Icon } from '../common/icon'
@@ -15,6 +16,8 @@ type Props = NativeStackHeaderProps
 
 export function Header({ back, navigation, options }: Props) {
   const t = useTranslations('component.navigation.header')
+
+  const cornerInsets = useCornerInsets()
 
   const modal =
     options.presentation === 'modal' || options.presentation === 'formSheet'
@@ -29,7 +32,10 @@ export function Header({ back, navigation, options }: Props) {
   return (
     <View style={styles.main}>
       {back || options.headerLeft ? (
-        <Component isInteractive style={[styles.item, styles.left]}>
+        <Component
+          isInteractive
+          style={[styles.item, styles.left(modal ? 0 : cornerInsets.left)]}
+        >
           {back ? (
             <IconButton
               label={t('back')}
@@ -62,7 +68,10 @@ export function Header({ back, navigation, options }: Props) {
       ) : null}
 
       {options.headerRight ? (
-        <Component isInteractive style={[styles.item, styles.right]}>
+        <Component
+          isInteractive
+          style={[styles.item, styles.right(modal ? 0 : cornerInsets.right)]}
+        >
           {options.headerRight({})}
         </Component>
       ) : null}
@@ -85,11 +94,11 @@ const styles = StyleSheet.create((theme, runtime) => ({
       },
     },
   },
-  left: {
-    left: 0,
+  left: (cornerInset: number) => ({
+    left: Math.max(0, cornerInset - theme.space[3]),
     position: 'absolute',
     top: 0,
-  },
+  }),
   main: {
     borderCurve: 'continuous',
     borderRadius: theme.space[7],
@@ -107,11 +116,11 @@ const styles = StyleSheet.create((theme, runtime) => ({
       },
     },
   },
-  right: {
+  right: (cornerInset: number) => ({
     position: 'absolute',
-    right: 0,
+    right: Math.max(0, cornerInset - theme.space[3]),
     top: 0,
-  },
+  }),
   title: {
     alignSelf: 'center',
     justifyContent: 'center',

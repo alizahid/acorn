@@ -5,6 +5,7 @@
     "noUncheckedIndexedAccess": true,
     "paths": {
       "@/gallery": ["./modules/gallery"],
+      "@/helpers": ["./modules/helpers"],
       "~/*": ["./src/*"]
     },
     "strict": true,
