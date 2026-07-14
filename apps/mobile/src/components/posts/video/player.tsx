@@ -107,6 +107,7 @@ export function VideoPlayer({
       onLongPress={onLongPress}
       onPress={onPress}
       style={styles.main}
+      variant="plain"
     >
       <VideoView
         accessibilityIgnoresInvertColors
