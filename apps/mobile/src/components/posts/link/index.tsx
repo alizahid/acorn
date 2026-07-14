@@ -153,6 +153,7 @@ const styles = StyleSheet.create((theme) => ({
     variants: {
       crossPost: {
         true: {
+          backgroundColor: theme.colors.gray.ui,
           marginTop: theme.space[3],
         },
       },

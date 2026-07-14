@@ -58,7 +58,6 @@ export function CrossPostFooter({ post }: Props) {
       >
         <Icon
           name="shuffle"
-          style={styles.crossPost}
           uniProps={(theme) => ({
             size: theme.typography[1].lineHeight,
           })}
@@ -89,13 +88,6 @@ export function CrossPostFooter({ post }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  crossPost: {
-    transform: [
-      {
-        rotate: '-90deg',
-      },
-    ],
-  },
   header: {
     alignItems: 'center',
     flexDirection: 'row',
