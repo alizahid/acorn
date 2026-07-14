@@ -180,7 +180,7 @@ const styles = StyleSheet.create((theme) => ({
     variants: {
       iPad: {
         true: {
-          padding: theme.space[4],
+          paddingHorizontal: theme.space[4],
         },
       },
     },

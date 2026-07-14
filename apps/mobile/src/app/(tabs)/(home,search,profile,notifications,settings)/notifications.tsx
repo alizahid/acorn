@@ -49,7 +49,7 @@ export default function Screen() {
 
   const [index, setIndex] = useState(0)
 
-  const { contentInset } = useListProps({})
+  const { contentContainerStyle } = useListProps({})
 
   return (
     <TabView
@@ -68,7 +68,7 @@ export default function Screen() {
         return <MessagesList />
       }}
       renderTabBar={({ jumpTo, navigationState }) => (
-        <View style={styles.tabBar(contentInset.top)}>
+        <View style={styles.tabBar(contentContainerStyle.paddingTop)}>
           <SegmentedControl
             items={routes.map(({ key }) => ({
               key,

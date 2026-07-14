@@ -35,15 +35,11 @@ export function useListProps({
 
   const props = {
     automaticallyAdjustContentInsets: false,
-    contentInset: {
-      bottom: 0,
-      top: 0,
+    contentContainerStyle: {
+      paddingBottom: 0,
+      paddingTop: 0,
     },
     contentInsetAdjustmentBehavior: 'never',
-    contentOffset: {
-      x: 0,
-      y: 0,
-    },
     keyboardDismissMode: 'on-drag',
     keyboardShouldPersistTaps: 'handled',
     scrollIndicatorInsets: {
@@ -54,36 +50,34 @@ export function useListProps({
   } satisfies Omit<FlashListProps<unknown>, 'data' | 'renderItem'>
 
   if (modal) {
-    props.contentInset.top += 32
+    props.contentContainerStyle.paddingTop += 32
     props.scrollIndicatorInsets.top += 32
   } else if (top) {
-    props.contentInset.top += insets.top
+    props.contentContainerStyle.paddingTop += insets.top
     props.scrollIndicatorInsets.top += insets.top
   }
 
   if (header) {
-    props.contentInset.top += heights.header
+    props.contentContainerStyle.paddingTop += heights.header
     props.scrollIndicatorInsets.top += heights.header
   }
 
   if (extraTop) {
-    props.contentInset.top += extraTop
+    props.contentContainerStyle.paddingTop += extraTop
   }
 
   if (bottom) {
-    props.contentInset.bottom += insets.bottom
+    props.contentContainerStyle.paddingBottom += insets.bottom
   }
 
   if (tabBar) {
-    props.contentInset.bottom += heights.tabBar
     props.scrollIndicatorInsets.bottom += heights.tabBar
+    props.contentContainerStyle.paddingBottom += heights.tabBar
   }
 
   if (extraBottom) {
-    props.contentInset.bottom += extraBottom
+    props.contentContainerStyle.paddingBottom += extraBottom
   }
-
-  props.contentOffset.y = -props.contentInset.top
 
   if (flash) {
     return {

@@ -68,13 +68,16 @@ export function VideoPlayer({
 
   const ref = useRef<VideoViewRef>(null)
 
+  const defaultMuted =
+    feedMuted || (blurNsfw && !!nsfw) || (blurSpoiler && !!spoiler)
+
   const player = useVideoPlayer(video.url, (instance) => {
     instance.mixAudioMode = 'mixWithOthers'
-    instance.muted = feedMuted
+    instance.muted = defaultMuted
     instance.loop = true
   })
 
-  const [muted, setMuted] = useState(feedMuted)
+  const [muted, setMuted] = useState(defaultMuted)
 
   useEffect(() => {
     if (!compact && autoPlay) {
@@ -130,7 +133,7 @@ export function VideoPlayer({
             player.pause()
           }
 
-          if (feedMuted && !muted) {
+          if (defaultMuted && !muted) {
             player.muted = true
           }
         }}

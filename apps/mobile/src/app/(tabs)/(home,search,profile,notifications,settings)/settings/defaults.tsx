@@ -48,7 +48,10 @@ export default function Screen() {
     <>
       <ScrollViewContainer
         {...listProps}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          listProps.contentContainerStyle,
+          styles.content,
+        ]}
       >
         <View>
           <Text mb="2" size="2" weight="medium">
@@ -208,7 +211,7 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme) => ({
   content: {
-    padding: theme.space[4],
+    paddingHorizontal: theme.space[4],
   },
   item: {
     alignItems: 'center',

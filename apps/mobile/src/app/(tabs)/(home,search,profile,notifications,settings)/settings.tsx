@@ -23,7 +23,10 @@ export default function Screen() {
   })
 
   return (
-    <ScrollView {...listProps} contentContainerStyle={styles.content}>
+    <ScrollView
+      {...listProps}
+      contentContainerStyle={[listProps.contentContainerStyle, styles.content]}
+    >
       <AboutCard />
 
       <Menu.Root>

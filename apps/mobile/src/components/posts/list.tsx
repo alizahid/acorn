@@ -151,7 +151,7 @@ export function PostList({
   return (
     <FlashList
       {...listProps}
-      contentContainerStyle={style}
+      contentContainerStyle={[listProps?.contentContainerStyle, style]}
       data={posts}
       getItemType={(item) => item.type}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -194,6 +194,7 @@ export function PostList({
       ref={list}
       refreshControl={
         <RefreshControl
+          offset={listProps?.contentContainerStyle.paddingTop}
           onRefresh={() => {
             onRefresh?.()
 

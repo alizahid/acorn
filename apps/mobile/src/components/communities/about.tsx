@@ -60,8 +60,13 @@ export function CommunityAbout({ name }: Props) {
   return (
     <ScrollView
       {...listProps}
-      contentContainerStyle={styles.content}
-      refreshControl={<RefreshControl onRefresh={refetch} />}
+      contentContainerStyle={[listProps.contentContainerStyle, styles.content]}
+      refreshControl={
+        <RefreshControl
+          offset={listProps.contentContainerStyle.paddingTop}
+          onRefresh={refetch}
+        />
+      }
     >
       {community.banner ? (
         <Image

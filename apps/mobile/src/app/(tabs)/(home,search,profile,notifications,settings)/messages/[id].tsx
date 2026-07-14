@@ -16,6 +16,7 @@ import { ReplyCard } from '~/components/messages/reply'
 import { useListProps } from '~/hooks/list'
 import { useThread } from '~/hooks/queries/user/thread'
 import { useAuth } from '~/stores/auth'
+import { space } from '~/styles/tokens'
 
 const schema = z.object({
   id: z.string(),
@@ -37,13 +38,19 @@ export default function Screen() {
 
   const { messages, refetch } = useThread(params.id)
 
-  const listProps = useListProps({})
+  const listProps = useListProps({
+    extraBottom: space[4],
+    extraTop: space[4],
+  })
 
   return (
     <>
       <FlashList
         {...listProps}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          listProps.contentContainerStyle,
+          styles.content,
+        ]}
         data={messages}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         keyboardDismissMode="interactive"
@@ -52,7 +59,12 @@ export default function Screen() {
         maintainVisibleContentPosition={{
           startRenderingFromBottom: true,
         }}
-        refreshControl={<RefreshControl onRefresh={refetch} />}
+        refreshControl={
+          <RefreshControl
+            offset={listProps.contentContainerStyle.paddingTop}
+            onRefresh={refetch}
+          />
+        }
         renderItem={({ item }) => {
           if (isDate(item)) {
             return (
@@ -78,7 +90,7 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme, runtime) => ({
   content: {
-    padding: theme.space[4],
+    paddingHorizontal: theme.space[4],
   },
   header: {
     alignSelf: 'center',

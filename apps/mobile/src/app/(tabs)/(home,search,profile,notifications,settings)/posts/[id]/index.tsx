@@ -261,7 +261,10 @@ export default function Screen() {
     <>
       <FlashList
         {...listProps}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          listProps.contentContainerStyle,
+          styles.content,
+        ]}
         data={comments}
         extraData={{
           commentId: params.commentId,
@@ -284,7 +287,12 @@ export default function Screen() {
         }
         ListHeaderComponent={header}
         ref={list}
-        refreshControl={<RefreshControl onRefresh={refetch} />}
+        refreshControl={
+          <RefreshControl
+            offset={listProps.contentContainerStyle.paddingTop}
+            onRefresh={refetch}
+          />
+        }
         renderItem={renderItem}
       />
 

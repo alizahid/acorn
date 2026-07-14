@@ -14,9 +14,10 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useListProps } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
-import { glass, heights } from '~/lib/common'
+import { glass } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
+import { space } from '~/styles/tokens'
 
 const routes = useDefaults
   .getState()
@@ -60,13 +61,19 @@ export default function Screen() {
     setQuery(next)
   }, [])
 
+  const listProps = useListProps({
+    extraBottom: space[4],
+    header: false,
+    top: false,
+  })
+
   const props = {
+    listProps,
     onChangeQuery,
     query: debounced,
-    style: styles.list,
   } as const
 
-  const { contentInset } = useListProps({
+  const { contentContainerStyle } = useListProps({
     header: false,
   })
 
@@ -112,7 +119,7 @@ export default function Screen() {
         return <SearchList {...props} type="user" />
       }}
       renderTabBar={({ jumpTo, navigationState }) => (
-        <View style={styles.tabBar(contentInset.top)}>
+        <View style={styles.tabBar(contentContainerStyle.paddingTop)}>
           <SearchBox
             glass
             onChange={setQuery}
@@ -137,13 +144,10 @@ export default function Screen() {
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   clear: {
     height: theme.space[7],
     width: theme.space[7],
-  },
-  list: {
-    paddingBottom: heights.tabBar + runtime.insets.bottom,
   },
   query: {
     backgroundColor: theme.colors.gray.uiActiveAlpha,

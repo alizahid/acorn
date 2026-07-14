@@ -18,6 +18,7 @@ import { FilterCard } from '~/components/filters/card'
 import { useFilters } from '~/hooks/filters'
 import { useListProps } from '~/hooks/list'
 import { heights } from '~/lib/common'
+import { space } from '~/styles/tokens'
 
 const schema = z.object({
   filters: z.array(
@@ -64,6 +65,8 @@ export default function Screen() {
   })
 
   const listProps = useListProps({
+    extraBottom: heights.floatingButton,
+    extraTop: space[4],
     flash: false,
   })
 
@@ -77,7 +80,10 @@ export default function Screen() {
       >
         <FlatList
           {...listProps}
-          contentContainerStyle={styles.content}
+          contentContainerStyle={[
+            listProps.contentContainerStyle,
+            styles.content,
+          ]}
           data={filters.fields}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           keyExtractor={(item) => item.key}
@@ -185,8 +191,7 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme) => ({
   content: {
-    padding: theme.space[4],
-    paddingBottom: heights.floatingButton,
+    paddingHorizontal: theme.space[4],
   },
   header: {
     gap: theme.space[2],

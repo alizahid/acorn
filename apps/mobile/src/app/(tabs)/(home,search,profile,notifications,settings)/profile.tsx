@@ -41,7 +41,12 @@ export default function Screen() {
     <>
       <ScrollView
         {...listProps}
-        refreshControl={<RefreshControl onRefresh={refetch} />}
+        refreshControl={
+          <RefreshControl
+            offset={listProps.contentContainerStyle.paddingTop}
+            onRefresh={refetch}
+          />
+        }
       >
         <Menu.Root style={styles.main}>
           <ProfileCard profile={profile} />

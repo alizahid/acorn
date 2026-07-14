@@ -67,7 +67,7 @@ export default function Screen() {
     sort: sortUserComments,
   })
 
-  const { contentInset } = useListProps({})
+  const { contentContainerStyle } = useListProps({})
   const listProps = useListProps({
     extraBottom: space[4],
     header: false,
@@ -139,7 +139,7 @@ export default function Screen() {
         )
       }}
       renderTabBar={({ jumpTo, navigationState }) => (
-        <View style={styles.tabBar(contentInset.top)}>
+        <View style={styles.tabBar(contentContainerStyle.paddingTop)}>
           <SegmentedControl
             items={routes.map(({ key }) => ({
               key,
