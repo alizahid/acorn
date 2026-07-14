@@ -62,7 +62,7 @@ export function PostMeta({ post, privacy }: Props) {
     <View style={styles.main}>
       {post.sticky ? (
         <Icon
-          name="push-pin"
+          name="push-pin-fill"
           uniProps={(theme) => ({
             color: theme.colors.green.accent,
             size: theme.typography[1].fontSize,

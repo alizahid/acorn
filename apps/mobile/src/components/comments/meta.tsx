@@ -41,7 +41,7 @@ export function CommentMeta({
     <View style={styles.main(top || collapsed, !top || collapsed)}>
       {comment.sticky ? (
         <Icon
-          name="push-pin"
+          name="push-pin-fill"
           style={styles.sticky}
           uniProps={(theme) => ({
             color: theme.colors.red.accent,
