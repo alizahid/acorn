@@ -151,7 +151,11 @@ export function PostList({
   return (
     <FlashList
       {...listProps}
-      contentContainerStyle={[listProps?.contentContainerStyle, style]}
+      contentContainerStyle={[
+        listProps?.contentContainerStyle,
+        styles.content,
+        style,
+      ]}
       data={posts}
       getItemType={(item) => item.type}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -209,6 +213,9 @@ export function PostList({
 }
 
 const styles = StyleSheet.create((theme) => ({
+  content: {
+    flexGrow: 1,
+  },
   more: {
     alignSelf: 'center',
     marginTop: theme.space[4],

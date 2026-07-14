@@ -90,6 +90,7 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme, runtime) => ({
   content: {
+    flexGrow: 1,
     paddingHorizontal: theme.space[4],
   },
   header: {

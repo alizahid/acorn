@@ -44,6 +44,7 @@ export function NotificationsList() {
 
 const styles = StyleSheet.create((theme, runtime) => ({
   content: {
+    flexGrow: 1,
     paddingBottom: heights.tabBar + runtime.insets.bottom,
   },
   separator: {

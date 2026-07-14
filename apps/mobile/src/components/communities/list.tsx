@@ -545,6 +545,7 @@ export function CommunitiesList({
 
 const styles = StyleSheet.create((theme, runtime) => ({
   content: {
+    flexGrow: 1,
     paddingBottom: theme.space[4] + runtime.insets.bottom,
   },
   feed: (open?: boolean) => ({

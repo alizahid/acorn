@@ -40,9 +40,9 @@ export function Empty({
 const styles = StyleSheet.create((theme) => ({
   main: {
     alignItems: 'center',
+    flex: 1,
     gap: theme.space[4],
     justifyContent: 'center',
-    marginVertical: theme.space[9],
     padding: theme.space[4],
   },
 }))

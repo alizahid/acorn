@@ -1,5 +1,4 @@
 import { useLocalSearchParams } from 'expo-router'
-import { StyleSheet } from 'react-native'
 import { z } from 'zod'
 
 import { Empty } from '~/components/common/empty'
@@ -21,14 +20,8 @@ export default function Screen() {
   }
 
   if (error || !submission) {
-    return <Empty message={error?.message} style={styles.empty} />
+    return <Empty message={error?.message} />
   }
 
   return <Submission submission={submission} />
 }
-
-const styles = StyleSheet.create({
-  empty: {
-    flex: 1,
-  },
-})

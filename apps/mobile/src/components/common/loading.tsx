@@ -15,11 +15,10 @@ export function Loading({ style }: Props) {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create(() => ({
   main: {
     alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
-    marginVertical: theme.space[9],
   },
 }))

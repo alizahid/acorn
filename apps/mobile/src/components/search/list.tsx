@@ -81,7 +81,11 @@ export function SearchList({
   return (
     <FlashList
       {...listProps}
-      contentContainerStyle={[listProps?.contentContainerStyle, style]}
+      contentContainerStyle={[
+        listProps?.contentContainerStyle,
+        styles.content,
+        style,
+      ]}
       data={results}
       getItemType={(item) => (type === 'post' ? (item as Post).type : type)}
       ItemSeparatorComponent={() =>
@@ -117,6 +121,9 @@ export function SearchList({
 }
 
 const styles = StyleSheet.create((theme) => ({
+  content: {
+    flexGrow: 1,
+  },
   separator: {
     alignSelf: 'center',
     backgroundColor: theme.colors.gray.border,

@@ -167,6 +167,6 @@ const styles = StyleSheet.create((theme) => ({
   tabBar: (marginTop: number) => ({
     gap: theme.space[4],
     margin: theme.space[4],
-    marginTop: marginTop + theme.space[4],
+    marginTop,
   }),
 }))
