@@ -127,7 +127,7 @@ const styles = StyleSheet.create((theme) => ({
   separator: {
     alignSelf: 'center',
     backgroundColor: theme.colors.gray.border,
-    height: StyleSheet.hairlineWidth,
+    height: 1,
     variants: {
       iPad: {
         true: {

@@ -49,7 +49,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   separator: {
     backgroundColor: theme.colors.gray.border,
-    height: StyleSheet.hairlineWidth,
+    height: 1,
   },
   spinner: {
     margin: theme.space[6],

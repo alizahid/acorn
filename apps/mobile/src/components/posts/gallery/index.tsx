@@ -111,9 +111,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
     overflow: 'hidden',
     variants: {
       compact: {
-        default: {
-          marginHorizontal: -theme.space[3],
-        },
         false: {
           justifyContent: 'center',
         },

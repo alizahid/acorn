@@ -15,7 +15,6 @@ import { VideoPlayer } from './player'
 
 type Props = {
   compact?: boolean
-  crossPost?: boolean
   large?: boolean
   nsfw?: boolean
   recyclingKey?: string
@@ -27,7 +26,6 @@ type Props = {
 
 export function VideoPlaceholder({
   compact,
-  crossPost,
   large,
   nsfw,
   recyclingKey,
@@ -47,7 +45,6 @@ export function VideoPlaceholder({
 
   styles.useVariants({
     compact,
-    crossPost,
     iPad,
     large,
   })
@@ -84,25 +81,12 @@ export function VideoPlaceholder({
 
 const styles = StyleSheet.create((theme, runtime) => ({
   main: {
-    backgroundColor: theme.colors.black.accentAlpha,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
     justifyContent: 'center',
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
     variants: {
-      compact: {
-        default: {
-          marginHorizontal: -theme.space[3],
-        },
-        true: {
-          backgroundColor: theme.colors.gray.uiActive,
-          borderCurve: 'continuous',
-        },
-      },
-      crossPost: {
-        true: {
-          marginHorizontal: 0,
-        },
-      },
       iPad: {
         true: {
           borderCurve: 'continuous',

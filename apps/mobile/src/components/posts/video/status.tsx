@@ -1,6 +1,7 @@
 import { View } from 'react-native'
 import Animated, {
   cancelAnimation,
+  Easing,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -17,6 +18,8 @@ export function VideoStatus({ player }: Props) {
   const buffered = useSharedValue(0)
 
   useEvent(player, 'onProgress', (event) => {
+    const duration = 500
+
     const nextCurrent = (event.currentTime / player.duration) * 100
 
     if (current.get() !== nextCurrent) {
@@ -24,7 +27,8 @@ export function VideoStatus({ player }: Props) {
 
       current.set(() =>
         withTiming((event.currentTime / player.duration) * 100, {
-          duration: 1000 / 60,
+          duration,
+          easing: Easing.linear,
         }),
       )
     }
@@ -36,7 +40,8 @@ export function VideoStatus({ player }: Props) {
 
       buffered.set(() =>
         withTiming(nextBuffered, {
-          duration: 1000 / 60,
+          duration,
+          easing: Easing.linear,
         }),
       )
     }

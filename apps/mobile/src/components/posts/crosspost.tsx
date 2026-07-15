@@ -97,27 +97,23 @@ export function CrossPostCard({
       ) : null}
 
       {post.type === 'image' && post.media.images ? (
-        <View style={styles.card}>
-          <PostGalleryCard
-            images={post.media.images}
-            nsfw={post.nsfw}
-            onLongPress={onLongPress}
-            recyclingKey={recyclingKey}
-            spoiler={post.spoiler}
-          />
-        </View>
+        <PostGalleryCard
+          images={post.media.images}
+          nsfw={post.nsfw}
+          onLongPress={onLongPress}
+          recyclingKey={recyclingKey}
+          spoiler={post.spoiler}
+        />
       ) : null}
 
       {post.type === 'link' && post.url ? (
-        <View style={styles.card}>
-          <PostLinkCard
-            crossPost
-            media={post.media.images?.[0]}
-            onLongPress={onLongPress}
-            recyclingKey={recyclingKey}
-            url={post.url}
-          />
-        </View>
+        <PostLinkCard
+          crossPost
+          media={post.media.images?.[0]}
+          onLongPress={onLongPress}
+          recyclingKey={recyclingKey}
+          url={post.url}
+        />
       ) : null}
 
       <View style={styles.footer}>
@@ -132,9 +128,6 @@ export function CrossPostCard({
 }
 
 const styles = StyleSheet.create((theme) => ({
-  card: {
-    marginHorizontal: theme.space[3],
-  },
   footer: {
     gap: theme.space[3],
     padding: theme.space[3],

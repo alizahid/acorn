@@ -9,7 +9,6 @@ import { VideoPlaceholder } from './placeholder'
 
 type Props = {
   compact?: boolean
-  crossPost?: boolean
   large?: boolean
   nsfw?: boolean
   recyclingKey?: string
@@ -21,7 +20,6 @@ type Props = {
 
 export function RedGifsVideo({
   compact,
-  crossPost,
   large,
   nsfw,
   recyclingKey,
@@ -41,7 +39,6 @@ export function RedGifsVideo({
     return (
       <VideoPlaceholder
         compact={compact}
-        crossPost={crossPost}
         large={large}
         nsfw={nsfw}
         onLongPress={onLongPress}

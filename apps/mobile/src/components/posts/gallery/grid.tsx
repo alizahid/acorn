@@ -107,6 +107,7 @@ export function ImageGrid({
                 onLongPress={onLongPress}
               >
                 <Image
+                  priority={visible ? 'high' : 'low'}
                   source={item.thumbnail ?? item.url}
                   style={[styles.slide, data.sizes[index]]}
                 />
@@ -151,6 +152,8 @@ const styles = StyleSheet.create((theme) => ({
     left: theme.space[2],
   },
   image: {
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
     height: '100%',
     width: '100%',
   },
