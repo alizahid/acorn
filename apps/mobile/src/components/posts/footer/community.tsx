@@ -45,7 +45,6 @@ export function PostCommunity({ post }: Props) {
             pathname: '/communities/[name]',
           })
         }}
-        style={styles.header}
       >
         {post.community.image ? (
           <Image
@@ -54,59 +53,72 @@ export function PostCommunity({ post }: Props) {
             style={styles.image}
           />
         ) : null}
+      </Pressable>
 
-        <Text numberOfLines={1} size="2" weight="medium">
+      <Text numberOfLines={1} style={styles.text}>
+        <Text
+          onPress={() => {
+            if (post.community.name.startsWith('u/')) {
+              router.navigate({
+                params: {
+                  name: removePrefix(post.community.name),
+                },
+                pathname: '/users/[name]',
+              })
+
+              return
+            }
+
+            router.navigate({
+              params: {
+                name: removePrefix(post.community.name),
+              },
+              pathname: '/communities/[name]',
+            })
+          }}
+          size="2"
+          weight="medium"
+        >
           {post.community.name}
         </Text>
-      </Pressable>
 
-      <Text highContrast={false} size="2">
-        {t('by')}
-      </Text>
+        <Text highContrast={false} size="2">
+          {t('by')}
+        </Text>
 
-      <Pressable
-        accessibilityHint={a11y('viewUser')}
-        accessibilityLabel={post.user.name}
-        hitSlop={space[3]}
-        onPress={() => {
-          router.navigate({
-            params: {
-              name: removePrefix(post.user.name),
-            },
-            pathname: '/users/[name]',
-          })
-        }}
-      >
-        <Text numberOfLines={1} size="2" weight="medium">
+        <Text
+          onPress={() => {
+            router.navigate({
+              params: {
+                name: removePrefix(post.user.name),
+              },
+              pathname: '/users/[name]',
+            })
+          }}
+          size="2"
+          weight="medium"
+        >
           {post.user.name}
         </Text>
-      </Pressable>
+      </Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  footer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    flexShrink: 1,
-    gap: theme.space[2],
-  },
-  header: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[2],
-  },
   image: {
     backgroundColor: theme.colors.gray.ui,
     borderCurve: 'continuous',
-    borderRadius: theme.space[4],
-    height: theme.space[4],
-    width: theme.space[4],
+    borderRadius: theme.typography[2].lineHeight,
+    height: theme.typography[2].lineHeight,
+    width: theme.typography[2].lineHeight,
   },
   main: {
+    alignItems: 'center',
     flexDirection: 'row',
+    gap: theme.space[2],
+  },
+  text: {
     flexShrink: 1,
-    gap: theme.space[1],
   },
 }))
