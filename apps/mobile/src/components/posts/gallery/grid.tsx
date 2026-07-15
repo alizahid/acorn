@@ -1,12 +1,11 @@
 import { Galeria } from '@nandorojo/galeria'
 import { Image } from 'expo-image'
-import { useMemo, useState } from 'react'
+import { useMemo } from 'react'
 import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { InView } from '~/components/common/in-view'
 import { Text } from '~/components/common/text'
 import { iPad } from '~/lib/common'
 import { type PostMedia } from '~/types/post'
@@ -36,8 +35,6 @@ export function ImageGrid({
     iPad,
   })
 
-  const [visible, setVisible] = useState(false)
-
   const data = useMemo(() => {
     const sizes = images.map((image) => ({
       height: styles.carousel.height,
@@ -60,38 +57,35 @@ export function ImageGrid({
     const image = images[0]!
 
     return (
-      <InView onChange={setVisible}>
-        <Galeria closeIconName="xmark" urls={[image.url]}>
-          <View style={styles.one(image.width / image.height)}>
-            <Galeria.Image onDismiss={onDismiss} onLongPress={onLongPress}>
-              <Image
-                accessibilityIgnoresInvertColors
-                priority={visible ? 'high' : 'low'}
-                recyclingKey={recyclingKey}
-                source={image.thumbnail}
-                style={styles.image}
-              />
-            </Galeria.Image>
+      <Galeria closeIconName="xmark" urls={[image.url]}>
+        <View style={styles.one(image.width / image.height)}>
+          <Galeria.Image onDismiss={onDismiss} onLongPress={onLongPress}>
+            <Image
+              accessibilityIgnoresInvertColors
+              recyclingKey={recyclingKey}
+              source={image.thumbnail}
+              style={styles.image}
+            />
+          </Galeria.Image>
 
-            {nsfw || spoiler ? (
-              <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
-            ) : null}
+          {nsfw || spoiler ? (
+            <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+          ) : null}
 
-            {image.type === 'gif' ? (
-              <View pointerEvents="none" style={[styles.label, styles.gif]}>
-                <Text contrast size="1" weight="medium">
-                  {t('gif')}
-                </Text>
-              </View>
-            ) : null}
-          </View>
-        </Galeria>
-      </InView>
+          {image.type === 'gif' ? (
+            <View pointerEvents="none" style={[styles.label, styles.gif]}>
+              <Text contrast size="1" weight="medium">
+                {t('gif')}
+              </Text>
+            </View>
+          ) : null}
+        </View>
+      </Galeria>
     )
   }
 
   return (
-    <InView onChange={setVisible}>
+    <>
       <Galeria closeIconName="xmark" urls={images.map((image) => image.url)}>
         <FlatList
           contentContainerStyle={styles.carousel}
@@ -107,7 +101,6 @@ export function ImageGrid({
                 onLongPress={onLongPress}
               >
                 <Image
-                  priority={visible ? 'high' : 'low'}
                   source={item.thumbnail ?? item.url}
                   style={[styles.slide, data.sizes[index]]}
                 />
@@ -138,7 +131,7 @@ export function ImageGrid({
       {nsfw || spoiler ? (
         <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
       ) : null}
-    </InView>
+    </>
   )
 }
 
