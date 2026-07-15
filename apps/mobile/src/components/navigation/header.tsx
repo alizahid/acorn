@@ -102,7 +102,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   main: {
     borderCurve: 'continuous',
     borderRadius: theme.space[7],
-    marginHorizontal: theme.space[4],
+    marginHorizontal: theme.space[3],
     variants: {
       modal: {
         false: {

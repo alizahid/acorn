@@ -4,7 +4,7 @@ import {
   useNavigation,
 } from 'expo-router'
 import { useCallback, useMemo } from 'react'
-import { PlatformColor, View } from 'react-native'
+import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -128,9 +128,7 @@ export default function Screen() {
                     })}
                   />
 
-                  <Text style={styles.title} weight="bold">
-                    {tType(name)}
-                  </Text>
+                  <Text weight="bold">{tType(name)}</Text>
                 </View>
               )
             : null,
@@ -184,8 +182,5 @@ const styles = StyleSheet.create((theme) => ({
   },
   sort: {
     paddingHorizontal: theme.space[3],
-  },
-  title: {
-    color: PlatformColor('labelColor'),
   },
 }))
