@@ -78,7 +78,7 @@ export function ImageGrid({
             ) : null}
 
             {image.type === 'gif' ? (
-              <View style={[styles.label, styles.gif]}>
+              <View pointerEvents="none" style={[styles.label, styles.gif]}>
                 <Text contrast size="1" weight="medium">
                   {t('gif')}
                 </Text>
@@ -114,7 +114,7 @@ export function ImageGrid({
               </Galeria.Image>
 
               {item.type === 'gif' ? (
-                <View style={[styles.label, styles.gif]}>
+                <View pointerEvents="none" style={[styles.label, styles.gif]}>
                   <Text contrast size="1" weight="medium">
                     {t('gif')}
                   </Text>
@@ -126,6 +126,14 @@ export function ImageGrid({
           snapToOffsets={data.offsets}
         />
       </Galeria>
+
+      <View pointerEvents="none" style={[styles.label, styles.count]}>
+        <Text contrast size="1" weight="medium">
+          {t('items', {
+            count: images.length,
+          })}
+        </Text>
+      </View>
 
       {nsfw || spoiler ? (
         <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
@@ -148,6 +156,9 @@ const styles = StyleSheet.create((theme) => ({
       },
     },
   },
+  count: {
+    right: theme.space[2],
+  },
   gif: {
     left: theme.space[2],
   },
@@ -165,10 +176,6 @@ const styles = StyleSheet.create((theme) => ({
     paddingHorizontal: theme.space[1],
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
-  },
-  more: {
-    ...StyleSheet.absoluteFill,
-    backgroundColor: theme.colors.black.accentAlpha,
   },
   one: (aspectRatio: number) => ({
     aspectRatio,
