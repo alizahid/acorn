@@ -52,7 +52,7 @@ export function Header({ back, navigation, options }: Props) {
       ) : null}
 
       {options.title || options.headerTitle ? (
-        <Component style={[styles.item, styles.title]}>
+        <Component isInteractive style={[styles.item, styles.title]}>
           {options.headerTitle ? (
             typeof options.headerTitle === 'string' ? (
               <Text weight="bold">{options.headerTitle}</Text>
