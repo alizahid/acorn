@@ -5,6 +5,7 @@
 - added: liquid glass navigation
 - fixed: default feeds and sorting
 - fixed: minimize tab bar
+- fixed: press tab to scroll to top in a post list
 - fixed: video playing
 
 ## Build 83

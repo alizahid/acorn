@@ -18,6 +18,7 @@ export function useListProps(flash = false) {
       right: 1,
       top: 1,
     },
+    scrollToOverflowEnabled: true,
   } satisfies Omit<FlashListProps<unknown>, 'data' | 'renderItem'>
 
   if (flash) {
