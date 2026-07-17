@@ -79,8 +79,8 @@ export function PostGalleryCard({
             </Galeria.Image>
           ))}
 
-          {nsfw || spoiler ? (
-            <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+          {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
+            <GalleryBlur compact label={t(spoiler ? 'spoiler' : 'nsfw')} />
           ) : null}
         </View>
       </Galeria>
@@ -91,11 +91,11 @@ export function PostGalleryCard({
     <View style={styles.main}>
       <ImageGrid
         images={images}
-        nsfw={Boolean(nsfw && blurNsfw)}
+        nsfw={nsfw}
         onDismiss={onDismiss}
         onLongPress={onLongPress}
         recyclingKey={recyclingKey}
-        spoiler={Boolean(spoiler && blurSpoiler)}
+        spoiler={spoiler}
       />
     </View>
   )

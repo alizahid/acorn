@@ -67,7 +67,7 @@ export function VideoPlaceholder({
       ) : (
         <View style={styles.video(video.width / video.height)}>
           {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
-            <GalleryBlur />
+            <GalleryBlur compact={compact} />
           ) : null}
         </View>
       )}

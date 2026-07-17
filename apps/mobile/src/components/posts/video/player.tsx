@@ -147,7 +147,7 @@ export function VideoPlayer({
           <Icon name="play-fill" />
 
           {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
-            <GalleryBlur />
+            <GalleryBlur compact />
           ) : null}
         </View>
       ) : (nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (

@@ -5,9 +5,11 @@ import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Text } from '~/components/common/text'
 import { iPad } from '~/lib/common'
+import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from './blur'
@@ -34,6 +36,13 @@ export function ImageGrid({
   styles.useVariants({
     iPad,
   })
+
+  const { blurNsfw, blurSpoiler } = usePreferences(
+    useShallow((state) => ({
+      blurNsfw: state.blurNsfw,
+      blurSpoiler: state.blurSpoiler,
+    })),
+  )
 
   const data = useMemo(() => {
     const sizes = images.map((image) => ({
@@ -68,7 +77,7 @@ export function ImageGrid({
             />
           </Galeria.Image>
 
-          {nsfw || spoiler ? (
+          {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
             <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
           ) : null}
 
@@ -128,7 +137,7 @@ export function ImageGrid({
         </Text>
       </View>
 
-      {nsfw || spoiler ? (
+      {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
         <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
       ) : null}
     </>

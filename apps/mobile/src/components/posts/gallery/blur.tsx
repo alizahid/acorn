@@ -5,10 +5,11 @@ import { Text } from '~/components/common/text'
 import { BlurView } from '~/components/native/blur-view'
 
 type Props = {
+  compact?: boolean
   label?: string
 }
 
-export function GalleryBlur({ label }: Props) {
+export function GalleryBlur({ compact, label }: Props) {
   return (
     <BlurView
       intensity={100}
@@ -24,7 +25,7 @@ export function GalleryBlur({ label }: Props) {
         })}
       />
 
-      {label ? (
+      {compact ? null : label ? (
         <Text size="1" weight="medium">
           {label}
         </Text>
