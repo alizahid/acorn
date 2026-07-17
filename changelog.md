@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: liquid glass navigation
+- fixed: minimize tab bar
 - fixed: video playing
 
 ## Build 83

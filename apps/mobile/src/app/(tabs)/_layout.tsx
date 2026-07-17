@@ -15,6 +15,7 @@ import { useUnread } from '~/hooks/queries/user/unread'
 import { mitter } from '~/lib/mitt'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
+import { usePreferences } from '~/stores/preferences'
 
 export default function Layout() {
   const router = useRouter()
@@ -25,6 +26,12 @@ export default function Layout() {
   const { accountId } = useAuth(
     useShallow((state) => ({
       accountId: state.accountId,
+    })),
+  )
+
+  const { minimizeTabBar } = usePreferences(
+    useShallow((state) => ({
+      minimizeTabBar: state.minimizeTabBar,
     })),
   )
 
@@ -59,7 +66,11 @@ export default function Layout() {
   }, [])
 
   return (
-    <Tabs labeled={false} translucent>
+    <Tabs
+      labeled={false}
+      minimizeBehavior={minimizeTabBar ? 'onScrollDown' : undefined}
+      translucent
+    >
       <Tabs.Screen
         name="(home)"
         options={{
