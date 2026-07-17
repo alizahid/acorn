@@ -1,16 +1,23 @@
 import { useCallback, useState } from 'react'
-import { KeyboardStickyView } from 'react-native-keyboard-controller'
+import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
+import { useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
+import Animated, {
+  interpolate,
+  useAnimatedStyle,
+} from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { useKeyboard } from '~/hooks/keyboard'
 import { useReply } from '~/hooks/mutations/messages/reply'
-import { heights, iPad } from '~/lib/common'
+import { glass } from '~/lib/common'
+import { space } from '~/styles/tokens'
 
 import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
 import { Spinner } from '../common/spinner'
 import { TextBox } from '../common/text-box'
+import { BlurView } from '../native/blur-view'
+import { GlassView } from '../native/glass-view'
 
 type Props = {
   threadId: string
@@ -18,12 +25,14 @@ type Props = {
 }
 
 export function ReplyCard({ threadId, user }: Props) {
+  const tabBarHeight = useBottomTabBarHeight()
+
   const t = useTranslations('component.messages.reply')
   const a11y = useTranslations('a11y')
 
   const { createReply, isPending } = useReply()
 
-  const open = useKeyboard()
+  const { progress } = useReanimatedKeyboardAnimation()
 
   const [value, setValue] = useState('')
 
@@ -43,48 +52,65 @@ export function ReplyCard({ threadId, user }: Props) {
     setValue('')
   }, [createReply, value, threadId, user])
 
-  return (
-    <KeyboardStickyView style={styles.main(open)}>
-      <TextBox
-        onChangeText={setValue}
-        onSubmitEditing={() => {
-          onSubmit()
-        }}
-        placeholder={t('placeholder')}
-        returnKeyType="send"
-        style={styles.input}
-        value={value}
-      />
+  const style = useAnimatedStyle(() => ({
+    marginBottom: interpolate(
+      progress.get(),
+      [0, 1],
+      [tabBarHeight + (glass ? space[4] : 0), glass ? space[4] : 0],
+    ),
+  }))
 
-      <IconButton
-        disabled={isPending}
-        label={a11y('createReply')}
-        onPress={() => {
-          onSubmit()
-        }}
-        style={styles.submit}
-      >
-        {isPending ? <Spinner /> : <Icon name="paper-plane-tilt" />}
-      </IconButton>
-    </KeyboardStickyView>
+  const Component = glass ? GlassView : BlurView
+
+  return (
+    <Animated.View style={[styles.main, style]}>
+      <Component style={styles.content}>
+        <TextBox
+          onChangeText={setValue}
+          onSubmitEditing={() => {
+            onSubmit()
+          }}
+          placeholder={t('placeholder')}
+          returnKeyType="send"
+          style={styles.textBox}
+          styleInput={styles.input}
+          value={value}
+        />
+
+        <IconButton
+          disabled={isPending}
+          label={a11y('createReply')}
+          onPress={() => {
+            onSubmit()
+          }}
+        >
+          {isPending ? (
+            <Spinner />
+          ) : (
+            <Icon name="paper-plane-tilt-fill" size={20} />
+          )}
+        </IconButton>
+      </Component>
+    </Animated.View>
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
+  content: {
+    borderCurve: 'continuous',
+    borderRadius: theme.space[7],
+    flexDirection: 'row',
+  },
   input: {
+    paddingHorizontal: theme.space[4],
+  },
+  main: {
+    margin: glass ? theme.space[4] : undefined,
+  },
+  textBox: {
     backgroundColor: 'transparent',
     borderRadius: 0,
     borderWidth: 0,
     flex: 1,
-  },
-  main: (open: boolean) => ({
-    backgroundColor: theme.colors.gray.ui,
-    flexDirection: 'row',
-    marginBottom: open
-      ? 0
-      : (iPad ? 0 : theme.space[4] + heights.tabBar) + runtime.insets.bottom,
-  }),
-  submit: {
-    alignSelf: 'flex-end',
   },
 }))

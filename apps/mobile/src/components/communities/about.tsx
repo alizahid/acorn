@@ -14,7 +14,6 @@ import { useListProps } from '~/hooks/list'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
-import { space } from '~/styles/tokens'
 
 import { Icon } from '../common/icon'
 import { Markdown } from '../markdown'
@@ -34,11 +33,7 @@ export function CommunityAbout({ name }: Props) {
 
   const placeholder = useImagePlaceholder()
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-    flash: false,
-  })
+  const listProps = useListProps()
 
   if (!community) {
     return <Loading />
@@ -60,13 +55,8 @@ export function CommunityAbout({ name }: Props) {
   return (
     <ScrollView
       {...listProps}
-      contentContainerStyle={[listProps.contentContainerStyle, styles.content]}
-      refreshControl={
-        <RefreshControl
-          offset={listProps.contentContainerStyle.paddingTop}
-          onRefresh={refetch}
-        />
-      }
+      contentContainerStyle={styles.content}
+      refreshControl={<RefreshControl onRefresh={refetch} />}
     >
       {community.banner ? (
         <Image

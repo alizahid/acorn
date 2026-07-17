@@ -1,9 +1,5 @@
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-} from 'expo-router'
-import { useCallback, useState } from 'react'
+import { Stack, useLocalSearchParams } from 'expo-router'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
@@ -14,9 +10,8 @@ import { SearchBox } from '~/components/common/search'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
-import { iPad } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
-import { space } from '~/styles/tokens'
 import { UserFeedType } from '~/types/user'
 
 const schema = z.object({
@@ -27,7 +22,6 @@ const schema = z.object({
 export type UserPostsParams = z.infer<typeof schema>
 
 export default function Screen() {
-  const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
 
   const { intervalUserPosts, sortUserPosts } = usePreferences(
@@ -47,10 +41,12 @@ export default function Screen() {
 
   const [debounced] = useDebounce(query, 500)
 
-  useFocusEffect(
-    useCallback(() => {
-      navigation.setOptions({
-        headerRight: () => (
+  const listProps = useListProps()
+
+  return (
+    <>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.View>
           <SortIntervalMenu
             interval={interval}
             onChange={(next) => {
@@ -61,33 +57,27 @@ export default function Screen() {
               }
             }}
             sort={sort}
+            style={styles.sort}
             type="user"
           />
-        ),
-      })
-    }, [interval, sort, navigation]),
-  )
+        </Stack.Toolbar.View>
+      </Stack.Toolbar>
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-  })
-
-  return (
-    <PostList
-      header={
-        <View style={styles.header}>
-          <SearchBox onChange={setQuery} value={query} />
-        </View>
-      }
-      interval={interval}
-      listProps={listProps}
-      query={debounced}
-      sort={sort}
-      style={styles.list}
-      user={params.name}
-      userType={params.type}
-    />
+      <PostList
+        header={
+          <View style={styles.header}>
+            <SearchBox onChange={setQuery} value={query} />
+          </View>
+        }
+        interval={interval}
+        listProps={listProps}
+        query={debounced}
+        sort={sort}
+        style={styles.list}
+        user={params.name}
+        userType={params.type}
+      />
+    </>
   )
 }
 
@@ -112,5 +102,9 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
     },
+  },
+  sort: {
+    gap: theme.space[1],
+    paddingHorizontal: glass ? theme.space[1] : 0,
   },
 }))

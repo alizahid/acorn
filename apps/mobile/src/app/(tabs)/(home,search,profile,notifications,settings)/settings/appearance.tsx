@@ -11,7 +11,7 @@ import { Themes } from '~/components/settings/themes'
 import { useListProps } from '~/hooks/list'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
-import { space, type TypographyToken, typography } from '~/styles/tokens'
+import { type TypographyToken, typography } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.appearance')
@@ -52,11 +52,7 @@ export default function Screen() {
     fontSizeTitle,
   }
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-    flash: false,
-  })
+  const listProps = useListProps()
 
   return (
     <ScrollView {...listProps}>

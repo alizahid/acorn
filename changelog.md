@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- added: liquid glass navigation
+
 ## Build 83
 
 - added: long press to switch account

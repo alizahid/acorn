@@ -9,7 +9,6 @@ import { Menu } from '~/components/common/menu'
 import { type MenuItemOption } from '~/components/common/menu/item/options'
 import { useListProps } from '~/hooks/list'
 import { useGestures } from '~/stores/gestures'
-import { space } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.gestures')
@@ -149,11 +148,7 @@ export default function Screen() {
     },
   ]
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-    flash: false,
-  })
+  const listProps = useListProps()
 
   return (
     <ScrollView {...listProps}>

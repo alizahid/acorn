@@ -1,10 +1,15 @@
 import { focusManager } from '@tanstack/react-query'
-import { Tabs, useRouter } from 'expo-router'
+import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { AppState } from 'react-native'
 import { useShallow } from 'zustand/react/shallow'
 
-import { TabBar } from '~/components/navigation/tab-bar'
+import icon_notifications from '~/assets/icons/navigation/bell.svg'
+import icon_settings from '~/assets/icons/navigation/gear-six.svg'
+import icon_home from '~/assets/icons/navigation/house.svg'
+import icon_search from '~/assets/icons/navigation/magnifying-glass.svg'
+import icon_profile from '~/assets/icons/navigation/user-circle.svg'
+import { Tabs } from '~/components/navigation/tabs'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
 import { mitter } from '~/lib/mitt'
@@ -54,16 +59,20 @@ export default function Layout() {
   }, [])
 
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        lazy: true,
-      }}
-      tabBar={(props) => <TabBar {...props} />}
-    >
-      <Tabs.Screen name="(home)" />
+    <Tabs labeled={false} translucent>
+      <Tabs.Screen
+        name="(home)"
+        options={{
+          tabBarIcon: () => icon_home,
+        }}
+      />
 
-      <Tabs.Screen name="(search)" />
+      <Tabs.Screen
+        name="(search)"
+        options={{
+          tabBarIcon: () => icon_search,
+        }}
+      />
 
       <Tabs.Screen
         listeners={{
@@ -72,16 +81,25 @@ export default function Layout() {
           },
         }}
         name="(profile)"
+        options={{
+          tabBarIcon: () => icon_profile,
+        }}
       />
 
       <Tabs.Screen
         name="(notifications)"
         options={{
           tabBarBadge: unread,
+          tabBarIcon: () => icon_notifications,
         }}
       />
 
-      <Tabs.Screen name="(settings)" />
+      <Tabs.Screen
+        name="(settings)"
+        options={{
+          tabBarIcon: () => icon_settings,
+        }}
+      />
     </Tabs>
   )
 }

@@ -81,11 +81,7 @@ export function SearchList({
   return (
     <FlashList
       {...listProps}
-      contentContainerStyle={[
-        listProps?.contentContainerStyle,
-        styles.content,
-        style,
-      ]}
+      contentContainerStyle={[styles.content, style]}
       data={results}
       getItemType={(item) => (type === 'post' ? (item as Post).type : type)}
       ItemSeparatorComponent={() =>
@@ -109,12 +105,7 @@ export function SearchList({
       onScrollBeginDrag={() => {
         history.save(query)
       }}
-      refreshControl={
-        <RefreshControl
-          offset={listProps?.contentContainerStyle.paddingTop}
-          onRefresh={refetch}
-        />
-      }
+      refreshControl={<RefreshControl onRefresh={refetch} />}
       renderItem={renderItem}
     />
   )

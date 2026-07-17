@@ -1,4 +1,5 @@
-import { useLocalSearchParams } from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useState } from 'react'
 import { View } from 'react-native'
 import { TabView } from 'react-native-tab-view'
@@ -7,6 +8,8 @@ import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 import { useShallow } from 'zustand/react/shallow'
 
+import { Icon } from '~/components/common/icon'
+import { IconButton } from '~/components/common/icon/button'
 import { Loading } from '~/components/common/loading'
 import { SearchBox } from '~/components/common/search'
 import { SegmentedControl } from '~/components/common/segmented-control'
@@ -18,7 +21,6 @@ import {
 import { useListProps } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
-import { space } from '~/styles/tokens'
 import { UserTab } from '~/types/user'
 
 const schema = z.object({
@@ -33,7 +35,9 @@ const routes = UserTab.map((key) => ({
 }))
 
 export default function Screen() {
+  const router = useRouter()
   const params = schema.parse(useLocalSearchParams())
+  const headerHeight = useHeaderHeight()
 
   const {
     intervalUserComments,
@@ -50,6 +54,7 @@ export default function Screen() {
   )
 
   const t = useTranslations('screen.users.user')
+  const a11y = useTranslations('a11y')
 
   styles.useVariants({
     iPad,
@@ -67,24 +72,68 @@ export default function Screen() {
     sort: sortUserComments,
   })
 
-  const { contentContainerStyle } = useListProps({})
-  const listProps = useListProps({
-    extraBottom: space[4],
-    header: false,
-    top: false,
-  })
+  const listProps = useListProps(true)
 
   return (
-    <TabView
-      lazy
-      navigationState={{
-        index,
-        routes,
-      }}
-      onIndexChange={setIndex}
-      renderLazyPlaceholder={() => <Loading />}
-      renderScene={({ route }) => {
-        if (route.key === 'posts') {
+    <>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.View>
+          <IconButton
+            header
+            label={a11y('aboutCommunity', {
+              community: params.name,
+            })}
+            onPress={() => {
+              router.navigate({
+                params: {
+                  name: params.name,
+                },
+                pathname: '/users/[name]/about',
+              })
+            }}
+          >
+            <Icon name="info" />
+          </IconButton>
+        </Stack.Toolbar.View>
+      </Stack.Toolbar>
+
+      <TabView
+        lazy
+        navigationState={{
+          index,
+          routes,
+        }}
+        onIndexChange={setIndex}
+        renderLazyPlaceholder={() => <Loading />}
+        renderScene={({ route }) => {
+          if (route.key === 'posts') {
+            return (
+              <PostList
+                header={
+                  <View style={styles.header}>
+                    <SearchBox onChange={setQuery} value={query} />
+
+                    <SortIntervalMenu
+                      interval={posts.interval}
+                      onChange={(next) => {
+                        setPosts(next)
+                      }}
+                      sort={posts.sort}
+                      type="user"
+                    />
+                  </View>
+                }
+                interval={posts.interval}
+                listProps={listProps}
+                query={query}
+                sort={posts.sort}
+                style={styles.list}
+                user={params.name}
+                userType="submitted"
+              />
+            )
+          }
+
           return (
             <PostList
               header={
@@ -92,67 +141,41 @@ export default function Screen() {
                   <SearchBox onChange={setQuery} value={query} />
 
                   <SortIntervalMenu
-                    interval={posts.interval}
+                    interval={comments.interval}
                     onChange={(next) => {
-                      setPosts(next)
+                      setComments(next)
                     }}
-                    sort={posts.sort}
-                    type="user"
+                    sort={comments.sort}
+                    type="comment"
                   />
                 </View>
               }
-              interval={posts.interval}
+              interval={comments.interval}
               listProps={listProps}
               query={query}
-              sort={posts.sort}
+              sort={comments.sort}
               style={styles.list}
               user={params.name}
-              userType="submitted"
+              userType="comments"
             />
           )
-        }
-
-        return (
-          <PostList
-            header={
-              <View style={styles.header}>
-                <SearchBox onChange={setQuery} value={query} />
-
-                <SortIntervalMenu
-                  interval={comments.interval}
-                  onChange={(next) => {
-                    setComments(next)
-                  }}
-                  sort={comments.sort}
-                  type="comment"
-                />
-              </View>
-            }
-            interval={comments.interval}
-            listProps={listProps}
-            query={query}
-            sort={comments.sort}
-            style={styles.list}
-            user={params.name}
-            userType="comments"
-          />
-        )
-      }}
-      renderTabBar={({ jumpTo, navigationState }) => (
-        <View style={styles.tabBar(contentContainerStyle.paddingTop)}>
-          <SegmentedControl
-            items={routes.map(({ key }) => ({
-              key,
-              label: t(`tabs.${key}`),
-            }))}
-            onChange={(next) => {
-              jumpTo(next)
-            }}
-            value={navigationState.routes[navigationState.index]?.key}
-          />
-        </View>
-      )}
-    />
+        }}
+        renderTabBar={({ jumpTo, navigationState }) => (
+          <View style={styles.tabBar(headerHeight)}>
+            <SegmentedControl
+              items={routes.map(({ key }) => ({
+                key,
+                label: t(`tabs.${key}`),
+              }))}
+              onChange={(next) => {
+                jumpTo(next)
+              }}
+              value={navigationState.routes[navigationState.index]?.key}
+            />
+          </View>
+        )}
+      />
+    </>
   )
 }
 
@@ -179,8 +202,17 @@ const styles = StyleSheet.create((theme) => ({
       },
     },
   },
-  tabBar: (marginTop: number) => ({
+  tabBar: (headerHeight: number) => ({
     margin: theme.space[4],
-    marginTop: marginTop + theme.space[4],
+    variants: {
+      iPad: {
+        false: {
+          marginTop: headerHeight + theme.space[4],
+        },
+        true: {
+          marginTop: headerHeight,
+        },
+      },
+    },
   }),
 }))

@@ -14,7 +14,7 @@ import { useProfile } from '~/hooks/queries/user/profile'
 import { heights } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
-import { type ColorToken, space } from '~/styles/tokens'
+import { type ColorToken } from '~/styles/tokens'
 import { UserFeedType } from '~/types/user'
 
 export default function Screen() {
@@ -31,22 +31,14 @@ export default function Screen() {
 
   const { profile, refetch } = useProfile(accountId)
 
-  const listProps = useListProps({
-    extraBottom: heights.floatingButton,
-    extraTop: space[4],
-    flash: false,
-  })
+  const listProps = useListProps()
 
   return (
     <>
       <ScrollView
         {...listProps}
-        refreshControl={
-          <RefreshControl
-            offset={listProps.contentContainerStyle.paddingTop}
-            onRefresh={refetch}
-          />
-        }
+        contentContainerStyle={styles.content}
+        refreshControl={<RefreshControl onRefresh={refetch} />}
       >
         <Menu.Root style={styles.main}>
           <ProfileCard profile={profile} />
@@ -102,6 +94,9 @@ export default function Screen() {
 }
 
 const styles = StyleSheet.create({
+  content: {
+    paddingBottom: heights.floatingButton,
+  },
   main: {
     paddingVertical: 0,
   },

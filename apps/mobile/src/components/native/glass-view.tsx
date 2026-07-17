@@ -1,6 +1,4 @@
 import { GlassView as Component } from 'expo-glass-effect'
 import { withUnistyles } from 'react-native-unistyles'
 
-export const GlassView = withUnistyles(Component, (theme) => ({
-  tintColor: theme.colors.ui.bg,
-}))
+export const GlassView = withUnistyles(Component)

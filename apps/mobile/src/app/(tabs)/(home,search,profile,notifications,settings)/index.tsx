@@ -1,10 +1,6 @@
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-} from 'expo-router'
-import { useCallback, useMemo } from 'react'
-import { View } from 'react-native'
+import { Stack, useLocalSearchParams } from 'expo-router'
+import { useMemo } from 'react'
+import { PlatformColor } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -13,15 +9,15 @@ import { useShallow } from 'zustand/react/shallow'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Text } from '~/components/common/text'
+import { GlassView } from '~/components/native/glass-view'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
 import { type SortingType, useSorting } from '~/hooks/sorting'
-import { iPad } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
-import { space } from '~/styles/tokens'
 import { FeedType } from '~/types/sort'
 
 const schema = z.object({
@@ -33,7 +29,6 @@ const schema = z.object({
 export type HomeParams = z.infer<typeof schema>
 
 export default function Screen() {
-  const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
 
   const t = useTranslations('screen.home')
@@ -93,10 +88,31 @@ export default function Screen() {
 
   const { sorting, update } = useSorting(type, name)
 
-  useFocusEffect(
-    useCallback(() => {
-      navigation.setOptions({
-        headerLeft: () => (
+  const listProps = useListProps(true)
+
+  return (
+    <>
+      {name === 'home' || name === 'all' || name === 'popular' ? (
+        <Stack.Title asChild>
+          <GlassView style={styles.header}>
+            <Icon
+              name={FeedTypeIcons[name]}
+              uniProps={(theme) => ({
+                color: theme.colors[FeedTypeColors[name]].accent,
+              })}
+            />
+
+            <Text style={styles.title} weight="bold">
+              {tType(name)}
+            </Text>
+          </GlassView>
+        </Stack.Title>
+      ) : (
+        <Stack.Title>{community ?? feed ?? t('title')}</Stack.Title>
+      )}
+
+      <Stack.Toolbar placement="left">
+        <Stack.Toolbar.View>
           <SortIntervalMenu
             interval={sorting.interval}
             onChange={(next) => {
@@ -106,9 +122,13 @@ export default function Screen() {
             style={styles.sort}
             type={type}
           />
-        ),
-        headerRight: () => (
+        </Stack.Toolbar.View>
+      </Stack.Toolbar>
+
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.View>
           <IconButton
+            header
             label={a11y('toggleSidebar')}
             onPress={() => {
               mitter.emit('drawer-toggle')
@@ -116,60 +136,30 @@ export default function Screen() {
           >
             <Icon name="sidebar" />
           </IconButton>
-        ),
-        headerTitle:
-          name === 'home' || name === 'all' || name === 'popular'
-            ? () => (
-                <View style={styles.header}>
-                  <Icon
-                    name={FeedTypeIcons[name]}
-                    uniProps={(theme) => ({
-                      color: theme.colors[FeedTypeColors[name]].accent,
-                    })}
-                  />
+        </Stack.Toolbar.View>
+      </Stack.Toolbar>
 
-                  <Text weight="bold">{tType(name)}</Text>
-                </View>
-              )
-            : null,
-        title: community ?? feed ?? t('title'),
-      })
-    }, [
-      a11y,
-      sorting,
-      tType,
-      type,
-      update,
-      navigation,
-      t,
-      community,
-      feed,
-      name,
-    ]),
-  )
-
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-  })
-
-  return (
-    <PostList
-      community={community}
-      feed={feed}
-      interval={sorting.interval}
-      listProps={listProps}
-      sort={sorting.sort}
-      style={styles.list}
-    />
+      <PostList
+        community={community}
+        feed={feed}
+        interval={sorting.interval}
+        listProps={listProps}
+        sort={sorting.sort}
+        style={styles.list}
+      />
+    </>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
   header: {
     alignItems: 'center',
+    borderCurve: 'continuous',
+    borderRadius: theme.space[8],
     flexDirection: 'row',
     gap: theme.space[2],
+    height: theme.space[8],
+    paddingHorizontal: theme.space[4],
   },
   list: {
     variants: {
@@ -181,6 +171,10 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   sort: {
-    paddingHorizontal: theme.space[3],
+    gap: theme.space[1],
+    paddingHorizontal: glass ? theme.space[1] : 0,
+  },
+  title: {
+    color: PlatformColor('labelColor'),
   },
 }))

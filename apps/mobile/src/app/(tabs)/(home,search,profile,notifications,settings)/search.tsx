@@ -1,5 +1,7 @@
+import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
+import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
 import { type SearchBarCommands } from 'react-native-screens'
 import { TabView } from 'react-native-tab-view'
 import { StyleSheet } from 'react-native-unistyles'
@@ -14,10 +16,9 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useListProps } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
-import { glass } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
-import { space } from '~/styles/tokens'
 
 const routes = useDefaults
   .getState()
@@ -28,10 +29,14 @@ const routes = useDefaults
   }))
 
 export default function Screen() {
+  const headerHeight = useHeaderHeight()
+  const tabBarHeight = useBottomTabBarHeight()
+
   const t = useTranslations('screen.search')
 
   styles.useVariants({
     glass,
+    iPad,
   })
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences(
@@ -61,21 +66,13 @@ export default function Screen() {
     setQuery(next)
   }, [])
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    header: false,
-    top: false,
-  })
+  const listProps = useListProps(true)
 
   const props = {
     listProps,
     onChangeQuery,
     query: debounced,
   } as const
-
-  const { contentContainerStyle } = useListProps({
-    header: false,
-  })
 
   return (
     <TabView
@@ -119,7 +116,7 @@ export default function Screen() {
         return <SearchList {...props} type="user" />
       }}
       renderTabBar={({ jumpTo, navigationState }) => (
-        <View style={styles.tabBar(contentContainerStyle.paddingTop)}>
+        <View style={styles.tabBar(headerHeight, tabBarHeight)}>
           <SearchBox
             glass
             onChange={setQuery}
@@ -144,7 +141,7 @@ export default function Screen() {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   clear: {
     height: theme.space[7],
     width: theme.space[7],
@@ -164,9 +161,18 @@ const styles = StyleSheet.create((theme) => ({
       },
     },
   },
-  tabBar: (marginTop: number) => ({
+  tabBar: (headerHeight: number, tabBarHeight: number) => ({
     gap: theme.space[4],
     margin: theme.space[4],
-    marginTop,
+    variants: {
+      iPad: {
+        false: {
+          marginTop: headerHeight + runtime.insets.top,
+        },
+        true: {
+          marginTop: headerHeight + tabBarHeight + runtime.insets.top,
+        },
+      },
+    },
   }),
 }))

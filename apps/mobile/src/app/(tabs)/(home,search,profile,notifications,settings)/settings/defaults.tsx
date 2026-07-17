@@ -19,7 +19,6 @@ import { DraggableItem } from '~/components/defaults/draggable-item'
 import { useListProps } from '~/hooks/list'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
-import { space } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.defaults')
@@ -38,20 +37,13 @@ export default function Screen() {
 
   const sheet = useRef<Sheet>(null)
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-    flash: false,
-  })
+  const listProps = useListProps()
 
   return (
     <>
       <ScrollViewContainer
         {...listProps}
-        contentContainerStyle={[
-          listProps.contentContainerStyle,
-          styles.content,
-        ]}
+        contentContainerStyle={styles.content}
       >
         <View>
           <Text mb="2" size="2" weight="medium">
@@ -211,7 +203,7 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme) => ({
   content: {
-    paddingHorizontal: theme.space[4],
+    padding: theme.space[4],
   },
   item: {
     alignItems: 'center',

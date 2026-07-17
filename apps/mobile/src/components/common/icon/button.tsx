@@ -9,6 +9,7 @@ import { Pressable } from '../pressable'
 type Props = {
   children: ReactNode
   disabled?: boolean
+  header?: boolean
   hitSlop?: number | Insets
   label: string
   onLongPress?: () => void
@@ -20,6 +21,7 @@ type Props = {
 export function IconButton({
   children,
   disabled,
+  header,
   hitSlop,
   label,
   onLongPress,
@@ -31,10 +33,10 @@ export function IconButton({
     <Pressable
       accessibilityLabel={label}
       disabled={disabled}
-      hitSlop={hitSlop}
+      hitSlop={header ? 16 : hitSlop}
       onLongPress={onLongPress}
       onPress={onPress}
-      style={[styles.main(size), style]}
+      style={[styles.main(header ? '5' : size), style]}
     >
       {children}
     </Pressable>

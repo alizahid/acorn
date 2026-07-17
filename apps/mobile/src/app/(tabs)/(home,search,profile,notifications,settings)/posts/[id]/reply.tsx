@@ -1,10 +1,6 @@
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from 'expo-router'
-import { useCallback, useRef, useState } from 'react'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { useHeaderHeight } from 'expo-router/react-navigation'
+import { useRef, useState } from 'react'
 import { View } from 'react-native'
 import {
   type EnrichedMarkdownTextInputInstance,
@@ -21,7 +17,6 @@ import { Spinner } from '~/components/common/spinner'
 import { MarkdownEditor } from '~/components/markdown/editor'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
-import { heights } from '~/lib/common'
 
 const schema = z.object({
   body: z.string().optional(),
@@ -33,7 +28,7 @@ const schema = z.object({
 
 export default function Screen() {
   const router = useRouter()
-  const navigation = useNavigation()
+  const headerHeight = useHeaderHeight()
 
   const params = schema.parse(useLocalSearchParams())
 
@@ -48,12 +43,23 @@ export default function Screen() {
   const [state, setState] = useState<StyleState>()
   const [text, setText] = useState(params.body)
 
-  useFocusEffect(
-    useCallback(() => {
-      navigation.setOptions({
-        headerRight: () => (
+  return (
+    <>
+      <Stack.Title>
+        {params.user
+          ? t('user', {
+              user: params.user,
+            })
+          : params.commentId
+            ? t('editing')
+            : t('title')}
+      </Stack.Title>
+
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.View>
           <IconButton
             disabled={reply.isPending || edit.isPending}
+            header
             label={a11y('createComment')}
             onPress={async () => {
               if (!text) {
@@ -89,47 +95,35 @@ export default function Screen() {
               <Icon name="paper-plane-tilt-fill" />
             )}
           </IconButton>
-        ),
-        title: params.user
-          ? t('user', {
-              user: params.user,
-            })
-          : params.commentId
-            ? t('editing')
-            : t('title'),
-      })
-    }, [a11y, edit, navigation, params, reply, router, text, t]),
-  )
+        </Stack.Toolbar.View>
+      </Stack.Toolbar>
 
-  return (
-    <KeyboardAvoidingView
-      behavior="translate-with-padding"
-      keyboardVerticalOffset={heights.header}
-      style={styles.main}
-    >
-      <MarkdownEditor.ToolBar
-        editor={editor}
-        state={state}
-        style={styles.toolBar}
-      />
-
-      <View style={styles.editor}>
-        <MarkdownEditor.Root
-          onChange={setText}
-          onChangeState={setState}
-          placeholder={t('placeholder')}
-          ref={editor}
-          value={text}
+      <KeyboardAvoidingView
+        behavior="translate-with-padding"
+        keyboardVerticalOffset={headerHeight}
+        style={styles.main}
+      >
+        <MarkdownEditor.ToolBar
+          editor={editor}
+          state={state}
+          style={styles.toolBar}
         />
-      </View>
-    </KeyboardAvoidingView>
+
+        <View style={styles.main}>
+          <MarkdownEditor.Root
+            onChange={setText}
+            onChangeState={setState}
+            placeholder={t('placeholder')}
+            ref={editor}
+            value={text}
+          />
+        </View>
+      </KeyboardAvoidingView>
+    </>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  editor: {
-    flex: 1,
-  },
   main: {
     flex: 1,
   },

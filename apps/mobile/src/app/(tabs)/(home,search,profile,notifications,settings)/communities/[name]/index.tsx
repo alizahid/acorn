@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -6,13 +6,13 @@ import { z } from 'zod'
 
 import { FloatingButton } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
+import { IconButton } from '~/components/common/icon/button'
 import { SearchBox } from '~/components/common/search'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { heights, iPad } from '~/lib/common'
-import { space } from '~/styles/tokens'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -32,13 +32,31 @@ export default function Screen() {
 
   const { sorting, update } = useSorting('community', params.name)
 
-  const listProps = useListProps({
-    extraBottom: heights.floatingButton,
-    extraTop: space[4],
-  })
+  const listProps = useListProps(true)
 
   return (
     <>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.View>
+          <IconButton
+            header
+            label={a11y('aboutCommunity', {
+              community: params.name,
+            })}
+            onPress={() => {
+              router.navigate({
+                params: {
+                  name: params.name,
+                },
+                pathname: '/communities/[name]/about',
+              })
+            }}
+          >
+            <Icon name="info" />
+          </IconButton>
+        </Stack.Toolbar.View>
+      </Stack.Toolbar>
+
       <PostList
         community={params.name}
         header={
@@ -111,6 +129,7 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   list: {
+    paddingBottom: heights.floatingButton,
     variants: {
       iPad: {
         true: {

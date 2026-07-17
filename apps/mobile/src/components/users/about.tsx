@@ -8,7 +8,6 @@ import { useImagePlaceholder } from '~/hooks/image'
 import { useListProps } from '~/hooks/list'
 import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
-import { space } from '~/styles/tokens'
 
 import { Button } from '../common/button'
 import { Icon } from '../common/icon'
@@ -30,11 +29,7 @@ export function UserAbout({ name }: Props) {
 
   const placeholder = useImagePlaceholder()
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-    flash: false,
-  })
+  const listProps = useListProps()
 
   if (!profile) {
     return <Loading />
@@ -43,13 +38,8 @@ export function UserAbout({ name }: Props) {
   return (
     <ScrollView
       {...listProps}
-      contentContainerStyle={[listProps.contentContainerStyle, styles.content]}
-      refreshControl={
-        <RefreshControl
-          offset={listProps.contentContainerStyle.paddingTop}
-          onRefresh={refetch}
-        />
-      }
+      contentContainerStyle={styles.content}
+      refreshControl={<RefreshControl onRefresh={refetch} />}
     >
       {profile.banner ? (
         <Image

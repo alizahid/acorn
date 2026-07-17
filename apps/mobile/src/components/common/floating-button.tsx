@@ -1,8 +1,9 @@
 import { type ReactNode } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
+import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { glass, heights } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { space } from '~/styles/tokens'
 
 import { BlurView } from '../native/blur-view'
@@ -30,15 +31,22 @@ export function FloatingButton({
   side = 'right',
   style,
 }: Props) {
+  const tabBarHeight = useBottomTabBarHeight()
+
   styles.useVariants({
     glass,
+    iPad,
     side,
   })
 
   const Component = glass ? GlassView : BlurView
 
   return (
-    <Component intensity={100} isInteractive style={[styles.main, style]}>
+    <Component
+      intensity={100}
+      isInteractive
+      style={[styles.main(tabBarHeight), style]}
+    >
       <IconButton
         hitSlop={space[4]}
         label={label}
@@ -52,15 +60,22 @@ export function FloatingButton({
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  main: {
+  main: (tabBarHeight: number) => ({
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
-    bottom: runtime.insets.bottom + heights.tabBar + theme.space[4],
     position: 'absolute',
     variants: {
       glass: {
         false: {
           overflow: 'hidden',
+        },
+      },
+      iPad: {
+        false: {
+          bottom: tabBarHeight + theme.space[4],
+        },
+        true: {
+          bottom: runtime.insets.bottom + theme.space[4],
         },
       },
       side: {
@@ -78,5 +93,5 @@ const styles = StyleSheet.create((theme, runtime) => ({
         },
       },
     },
-  },
+  }),
 }))

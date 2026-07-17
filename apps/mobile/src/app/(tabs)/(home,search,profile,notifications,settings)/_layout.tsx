@@ -1,4 +1,4 @@
-import { Stack, useRouter } from 'expo-router'
+import { Stack } from 'expo-router'
 import { type PropsWithChildren } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -6,10 +6,9 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
-import { Header } from '~/components/navigation/header'
 import { useHistory } from '~/hooks/history'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
-import { iPad } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 
@@ -77,8 +76,13 @@ export default function Layout({ segment }: Props) {
         <Stack.Screen
           name="profile"
           options={{
-            headerRight: () => (
+            title: accountId,
+          }}
+        >
+          <Stack.Toolbar placement="right">
+            <Stack.Toolbar.View>
               <IconButton
+                header
                 label={a11y('switchAccount')}
                 onPress={() => {
                   mitter.emit('switch-account')
@@ -86,10 +90,9 @@ export default function Layout({ segment }: Props) {
               >
                 <Icon name="user-circle-plus" />
               </IconButton>
-            ),
-            title: accountId,
-          }}
-        />
+            </Stack.Toolbar.View>
+          </Stack.Toolbar>
+        </Stack.Screen>
 
         <Stack.Screen name="index" />
       </StackLayout>
@@ -140,10 +143,7 @@ export default function Layout({ segment }: Props) {
 }
 
 function StackLayout({ children }: PropsWithChildren) {
-  const router = useRouter()
-
   const t = useTranslations('screen')
-  const a11y = useTranslations('a11y')
 
   const { addPost } = useHistory()
 
@@ -153,7 +153,10 @@ function StackLayout({ children }: PropsWithChildren) {
     <Stack
       screenOptions={{
         fullScreenGestureEnabled: true,
-        header: (props) => <Header {...props} />,
+        headerBackButtonDisplayMode: 'minimal',
+        headerBackButtonMenuEnabled: false,
+        headerBlurEffect: glass ? 'none' : 'systemChromeMaterial',
+        headerShadowVisible: !glass,
         headerTransparent: true,
       }}
     >
@@ -162,23 +165,6 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="communities/[name]/index"
         options={({ route }) => ({
-          headerRight: () => (
-            <IconButton
-              label={a11y('aboutCommunity', {
-                community: (route.params as CommunityParams).name,
-              })}
-              onPress={() => {
-                router.navigate({
-                  params: {
-                    name: (route.params as CommunityParams).name,
-                  },
-                  pathname: '/communities/[name]/about',
-                })
-              }}
-            >
-              <Icon name="info" />
-            </IconButton>
-          ),
           title: (route.params as CommunityParams).name,
         })}
       />
@@ -200,23 +186,6 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="users/[name]/index"
         options={({ route }) => ({
-          headerRight: () => (
-            <IconButton
-              label={a11y('aboutCommunity', {
-                community: (route.params as CommunityParams).name,
-              })}
-              onPress={() => {
-                router.navigate({
-                  params: {
-                    name: (route.params as CommunityParams).name,
-                  },
-                  pathname: '/users/[name]/about',
-                })
-              }}
-            >
-              <Icon name="info" />
-            </IconButton>
-          ),
           title: (route.params as CommunityParams).name,
         })}
       />
@@ -269,27 +238,6 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="messages/[id]"
         options={({ route }) => ({
-          headerRight: () => {
-            const { user } = route.params as MessageParams
-
-            if (user) {
-              return (
-                <IconButton
-                  label={user}
-                  onPress={() => {
-                    router.navigate({
-                      params: {
-                        name: user,
-                      },
-                      pathname: '/users/[name]',
-                    })
-                  }}
-                >
-                  <Icon name="info" />
-                </IconButton>
-              )
-            }
-          },
           title: (route.params as MessageParams).user,
         })}
       />
@@ -365,9 +313,9 @@ function StackLayout({ children }: PropsWithChildren) {
   )
 }
 
-const styles = StyleSheet.create(() => ({
+const styles = StyleSheet.create({
   full: {
     height: '100%',
     width: '100%',
   },
-}))
+})

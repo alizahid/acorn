@@ -7,7 +7,6 @@ import { IntervalItem } from '~/components/settings/interval'
 import { SortItem } from '~/components/settings/sort'
 import { useListProps } from '~/hooks/list'
 import { usePreferences } from '~/stores/preferences'
-import { space } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.sort')
@@ -44,11 +43,7 @@ export default function Screen() {
     })),
   )
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-    flash: false,
-  })
+  const listProps = useListProps()
 
   return (
     <ScrollView {...listProps}>

@@ -1,6 +1,5 @@
 import { createId } from '@paralleldrive/cuid2'
-import { useFocusEffect, useNavigation } from 'expo-router'
-import { useCallback } from 'react'
+import { Stack } from 'expo-router'
 import { FormProvider, useFieldArray } from 'react-hook-form'
 import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
@@ -18,7 +17,6 @@ import { FilterCard } from '~/components/filters/card'
 import { useFilters } from '~/hooks/filters'
 import { useListProps } from '~/hooks/list'
 import { heights } from '~/lib/common'
-import { space } from '~/styles/tokens'
 
 const schema = z.object({
   filters: z.array(
@@ -33,30 +31,10 @@ const schema = z.object({
 export type Form = z.infer<typeof schema>
 
 export default function Screen() {
-  const navigation = useNavigation()
-
   const t = useTranslations('screen.settings.filters')
   const a11y = useTranslations('a11y')
 
   const { form, isPending, onSubmit, update } = useFilters()
-
-  useFocusEffect(
-    useCallback(() => {
-      navigation.setOptions({
-        headerRight: () => (
-          <IconButton
-            disabled={isPending}
-            label={a11y('saveFilters')}
-            onPress={() => {
-              onSubmit()
-            }}
-          >
-            {isPending ? <Spinner /> : <Icon name="check-bold" />}
-          </IconButton>
-        ),
-      })
-    }, [a11y, isPending, navigation, onSubmit]),
-  )
 
   const filters = useFieldArray({
     control: form.control,
@@ -64,14 +42,25 @@ export default function Screen() {
     name: 'filters',
   })
 
-  const listProps = useListProps({
-    extraBottom: heights.floatingButton,
-    extraTop: space[4],
-    flash: false,
-  })
+  const listProps = useListProps()
 
   return (
     <FormProvider {...form}>
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.View>
+          <IconButton
+            disabled={isPending}
+            header
+            label={a11y('saveFilters')}
+            onPress={() => {
+              onSubmit()
+            }}
+          >
+            {isPending ? <Spinner /> : <Icon name="check-bold" />}
+          </IconButton>
+        </Stack.Toolbar.View>
+      </Stack.Toolbar>
+
       <KeyboardAvoidingView
         automaticOffset
         behavior="padding"
@@ -80,12 +69,10 @@ export default function Screen() {
       >
         <FlatList
           {...listProps}
-          contentContainerStyle={[
-            listProps.contentContainerStyle,
-            styles.content,
-          ]}
+          contentContainerStyle={styles.content}
           data={filters.fields}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
+          keyboardDismissMode="interactive"
           keyExtractor={(item) => item.key}
           ListHeaderComponent={
             <View style={styles.header}>
@@ -191,7 +178,8 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme) => ({
   content: {
-    paddingHorizontal: theme.space[4],
+    padding: theme.space[4],
+    paddingBottom: heights.floatingButton,
   },
   header: {
     gap: theme.space[2],

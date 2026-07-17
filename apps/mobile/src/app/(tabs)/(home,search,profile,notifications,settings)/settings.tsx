@@ -8,25 +8,16 @@ import { Menu } from '~/components/common/menu'
 import { AboutCard } from '~/components/settings/about'
 import { Updater } from '~/components/settings/updater'
 import { useListProps } from '~/hooks/list'
-import { space } from '~/styles/tokens'
 
 export default function Screen() {
   const router = useRouter()
 
   const t = useTranslations('screen.settings.settings')
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[9],
-    flash: false,
-    header: false,
-  })
+  const listProps = useListProps()
 
   return (
-    <ScrollView
-      {...listProps}
-      contentContainerStyle={[listProps.contentContainerStyle, styles.content]}
-    >
+    <ScrollView {...listProps} contentContainerStyle={styles.content}>
       <AboutCard />
 
       <Menu.Root>
@@ -116,5 +107,7 @@ export default function Screen() {
 const styles = StyleSheet.create((theme) => ({
   content: {
     gap: theme.space[8],
+    paddingBottom: theme.space[4],
+    paddingTop: theme.space[9],
   },
 }))

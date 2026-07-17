@@ -7,16 +7,11 @@ import { Menu } from '~/components/common/menu'
 import { db } from '~/db'
 import { useListProps } from '~/hooks/list'
 import { queryClient } from '~/lib/query'
-import { space } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.cache')
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-    flash: false,
-  })
+  const listProps = useListProps()
 
   return (
     <ScrollView {...listProps}>

@@ -3,12 +3,7 @@ import {
   type FlashListRef,
   type ListRenderItem,
 } from '@shopify/flash-list'
-import {
-  useFocusEffect,
-  useLocalSearchParams,
-  useNavigation,
-  useRouter,
-} from 'expo-router'
+import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
 import { create } from 'mutative'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -24,18 +19,16 @@ import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
 import { FloatingButton } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
-import { Pressable } from '~/components/common/pressable'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { SearchBox } from '~/components/common/search'
 import { Spinner } from '~/components/common/spinner'
-import { Text } from '~/components/common/text'
+import { CommunityHeader } from '~/components/communities/header'
 import { PostCard } from '~/components/posts/card'
 import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
-import { heights, iPad } from '~/lib/common'
-import { removePrefix } from '~/lib/reddit'
+import { glass, heights, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 
@@ -48,7 +41,6 @@ export type PostParams = z.infer<typeof schema>
 
 export default function Screen() {
   const router = useRouter()
-  const navigation = useNavigation()
   const params = schema.parse(useLocalSearchParams())
 
   const a11y = useTranslations('a11y')
@@ -115,55 +107,6 @@ export default function Screen() {
       previous.current = params.id
     }
   }, [params.id])
-
-  useFocusEffect(
-    useCallback(() => {
-      navigation.setOptions({
-        headerRight: () => (
-          <SortIntervalMenu
-            onChange={(next) => {
-              setSort(next.sort)
-            }}
-            sort={sort}
-            style={styles.sort}
-            type="comment"
-          />
-        ),
-        headerTitle: post
-          ? () => (
-              <Pressable
-                accessibilityHint={a11y('viewCommunity')}
-                accessibilityLabel={post.community.name}
-                onPress={() => {
-                  if (post.community.name.startsWith('u/')) {
-                    router.navigate({
-                      params: {
-                        name: removePrefix(post.community.name),
-                      },
-                      pathname: '/users/[name]',
-                    })
-
-                    return
-                  }
-
-                  router.navigate({
-                    params: {
-                      name: removePrefix(post.community.name),
-                    },
-                    pathname: '/communities/[name]',
-                  })
-                }}
-                style={styles.title}
-              >
-                <Text numberOfLines={1} weight="bold">
-                  {post.community.name}
-                </Text>
-              </Pressable>
-            )
-          : null,
-      })
-    }, [a11y, navigation, post, router, sort]),
-  )
 
   const header = useMemo(
     () => (
@@ -251,20 +194,32 @@ export default function Screen() {
     [collapse, collapseThread, collapsibleComments, post, router, sort],
   )
 
-  const listProps = useListProps({
-    extraBottom: heights.floatingButton,
-    header: false,
-    top: false,
-  })
+  const listProps = useListProps(true)
 
   return (
     <>
+      {post ? (
+        <Stack.Title asChild>
+          <CommunityHeader post={post} />
+        </Stack.Title>
+      ) : null}
+
+      <Stack.Toolbar placement="right">
+        <Stack.Toolbar.View>
+          <SortIntervalMenu
+            onChange={(next) => {
+              setSort(next.sort)
+            }}
+            sort={sort}
+            style={styles.sort}
+            type="comment"
+          />
+        </Stack.Toolbar.View>
+      </Stack.Toolbar>
+
       <FlashList
         {...listProps}
-        contentContainerStyle={[
-          listProps.contentContainerStyle,
-          styles.content,
-        ]}
+        contentContainerStyle={styles.content}
         data={comments}
         extraData={{
           commentId: params.commentId,
@@ -287,12 +242,7 @@ export default function Screen() {
         }
         ListHeaderComponent={header}
         ref={list}
-        refreshControl={
-          <RefreshControl
-            offset={listProps.contentContainerStyle.paddingTop}
-            onRefresh={refetch}
-          />
-        }
+        refreshControl={<RefreshControl onRefresh={refetch} />}
         renderItem={renderItem}
       />
 
@@ -381,6 +331,7 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme) => ({
   content: {
+    paddingBottom: heights.floatingButton,
     variants: {
       iPad: {
         true: {
@@ -396,13 +347,10 @@ const styles = StyleSheet.create((theme) => ({
     height: theme.space[2],
   },
   sort: {
-    paddingHorizontal: theme.space[3],
+    gap: theme.space[1],
+    paddingHorizontal: glass ? theme.space[1] : 0,
   },
   spinner: {
     margin: theme.space[4],
-  },
-  title: {
-    height: theme.space[8],
-    justifyContent: 'center',
   },
 }))

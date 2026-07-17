@@ -12,7 +12,6 @@ import { Menu } from '~/components/common/menu'
 import { useListProps } from '~/hooks/list'
 import { iOS26 } from '~/lib/common'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
-import { space } from '~/styles/tokens'
 
 export default function Screen() {
   const t = useTranslations('screen.settings.preferences')
@@ -90,11 +89,7 @@ export default function Screen() {
     })),
   )
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-    flash: false,
-  })
+  const listProps = useListProps()
 
   return (
     <ScrollView {...listProps}>

@@ -15,7 +15,6 @@ import { SearchList } from '~/components/search/list'
 import { useListProps } from '~/hooks/list'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
-import { space } from '~/styles/tokens'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -48,10 +47,7 @@ export default function Screen() {
 
   const [debounced] = useDebounce(query, 500)
 
-  const listProps = useListProps({
-    extraBottom: space[4],
-    extraTop: space[4],
-  })
+  const listProps = useListProps(true)
 
   return (
     <SearchList

@@ -151,11 +151,7 @@ export function PostList({
   return (
     <FlashList
       {...listProps}
-      contentContainerStyle={[
-        listProps?.contentContainerStyle,
-        styles.content,
-        style,
-      ]}
+      contentContainerStyle={[styles.content, style]}
       data={posts}
       getItemType={(item) => item.type}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -198,7 +194,6 @@ export function PostList({
       ref={list}
       refreshControl={
         <RefreshControl
-          offset={listProps?.contentContainerStyle.paddingTop}
           onRefresh={() => {
             onRefresh?.()
 
@@ -218,7 +213,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   more: {
     alignSelf: 'center',
-    marginTop: theme.space[4],
+    marginVertical: theme.space[4],
   },
   separator: {
     alignSelf: 'center',

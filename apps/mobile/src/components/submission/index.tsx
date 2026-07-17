@@ -1,13 +1,14 @@
-import { useFocusEffect, useNavigation, useRouter } from 'expo-router'
-import { useCallback, useState } from 'react'
+import { Stack, useRouter } from 'expo-router'
+import { useHeaderHeight } from 'expo-router/react-navigation'
+import { useState } from 'react'
 import { Controller, FormProvider } from 'react-hook-form'
 import { View } from 'react-native'
-import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
+import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
+import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
-import { IconButton } from '~/components/common/icon/button'
 import { SubmissionCommunityCard } from '~/components/submission/community'
 import { SubmissionFlair } from '~/components/submission/flair'
 import { SubmissionImage } from '~/components/submission/image'
@@ -16,11 +17,11 @@ import { SubmissionMeta } from '~/components/submission/meta'
 import { SubmissionText } from '~/components/submission/text'
 import { SubmissionTitle } from '~/components/submission/title'
 import { useCreatePost } from '~/hooks/mutations/posts/create'
-import { heights } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 import { type Submission } from '~/types/submission'
 
 import { Icon } from '../common/icon'
+import { IconButton } from '../common/icon/button'
 import { Spinner } from '../common/spinner'
 import { SubmissionType } from './type'
 
@@ -30,7 +31,8 @@ type Props = {
 
 export function Submission({ submission }: Props) {
   const router = useRouter()
-  const navigation = useNavigation()
+  const headerHeight = useHeaderHeight()
+  const tabBarHeight = useBottomTabBarHeight()
 
   const a11y = useTranslations('a11y')
 
@@ -71,28 +73,26 @@ export function Submission({ submission }: Props) {
     form.reset()
   })
 
-  useFocusEffect(
-    useCallback(() => {
-      navigation.setOptions({
-        headerRight: () =>
-          uploading ? null : (
+  return (
+    <FormProvider {...form}>
+      {uploading ? null : (
+        <Stack.Toolbar placement="right">
+          <Stack.Toolbar.View>
             <IconButton
               disabled={isPending}
+              header
               label={a11y('createPost')}
               onPress={() => {
                 onSubmit()
               }}
             >
-              {isPending ? <Spinner /> : <Icon name="paper-plane-tilt" />}
+              {isPending ? <Spinner /> : <Icon name="paper-plane-tilt-fill" />}
             </IconButton>
-          ),
-      })
-    }, [a11y, isPending, navigation, onSubmit, uploading]),
-  )
+          </Stack.Toolbar.View>
+        </Stack.Toolbar>
+      )}
 
-  return (
-    <FormProvider {...form}>
-      <View style={styles.header}>
+      <View style={styles.header(headerHeight)}>
         <SubmissionCommunityCard community={submission.community} />
 
         <SubmissionType types={types} />
@@ -100,7 +100,11 @@ export function Submission({ submission }: Props) {
 
       <SubmissionTitle />
 
-      <KeyboardAvoidingView behavior="padding" style={styles.content}>
+      <KeyboardAwareScrollView
+        keyboardDismissMode="interactive"
+        keyboardShouldPersistTaps="handled"
+        style={styles.content}
+      >
         <Controller
           control={form.control}
           name="type"
@@ -117,9 +121,9 @@ export function Submission({ submission }: Props) {
             )
           }
         />
-      </KeyboardAvoidingView>
+      </KeyboardAwareScrollView>
 
-      <View style={styles.footer}>
+      <View style={styles.footer(tabBarHeight)}>
         <SubmissionFlair submission={submission} />
 
         <SubmissionMeta />
@@ -128,24 +132,21 @@ export function Submission({ submission }: Props) {
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   content: {
     flex: 1,
   },
-  footer: {
+  footer: (tabBarHeight: number) => ({
     gap: theme.space[4],
-    paddingBottom: heights.tabBar + runtime.insets.bottom + theme.space[4],
-    paddingHorizontal: theme.space[4],
-    paddingTop: theme.space[4],
-  },
-  header: {
-    alignItems: 'flex-start',
+    padding: theme.space[4],
+    paddingBottom: tabBarHeight + theme.space[4],
+  }),
+  header: (headerHeight: number) => ({
+    alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space[4],
     justifyContent: 'space-between',
-    paddingBottom: theme.space[4],
-    paddingHorizontal: theme.space[4],
-    paddingTop:
-      heights.header + runtime.insets.top + theme.space[4] + theme.space[4],
-  },
+    padding: theme.space[4],
+    paddingTop: headerHeight + theme.space[4],
+  }),
 }))
