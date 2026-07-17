@@ -16,8 +16,4 @@ export const iOS26 = Platform.OS === 'ios' && semver.gte(version, '26.0.0')
 
 export const heights = {
   floatingButton: 80, // 48 + 16 + 16
-  header: 48,
-  notifications: 56,
-  search: 112,
-  tabBar: 48,
 } as const
