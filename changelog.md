@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- fixed: drawer alphabet list
+
 ## Build 84
 
 - added: image / video options
