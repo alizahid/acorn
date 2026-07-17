@@ -68,7 +68,7 @@ export default function Layout() {
   return (
     <Tabs
       labeled={false}
-      minimizeBehavior={minimizeTabBar ? 'onScrollDown' : undefined}
+      minimizeBehavior={minimizeTabBar ? 'onScrollDown' : 'never'}
       translucent
     >
       <Tabs.Screen
