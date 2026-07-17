@@ -108,7 +108,9 @@ export default function Screen() {
           </GlassView>
         </Stack.Title>
       ) : (
-        <Stack.Title>{community ?? feed ?? t('title')}</Stack.Title>
+        <Stack.Title style={styles.title}>
+          {community ?? feed ?? t('title')}
+        </Stack.Title>
       )}
 
       <Stack.Toolbar placement="left">
