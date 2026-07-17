@@ -10,6 +10,7 @@ import {
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
+import { Gallery } from '~/components/common/gallery'
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
@@ -26,7 +27,6 @@ type Props = {
   recyclingKey?: string
   spoiler?: boolean
   video: PostMedia
-  onLongPress?: () => void
 }
 
 export function VideoPlayer({
@@ -35,7 +35,6 @@ export function VideoPlayer({
   recyclingKey,
   spoiler,
   video,
-  onLongPress,
 }: Props) {
   const t = useTranslations('component.posts.video')
   const a11y = useTranslations('a11y')
@@ -104,7 +103,12 @@ export function VideoPlayer({
   return (
     <Pressable
       accessibilityLabel={a11y('viewVideo')}
-      onLongPress={onLongPress}
+      onLongPress={() => {
+        Gallery.call({
+          type: 'video',
+          url: video.url,
+        })
+      }}
       onPress={onPress}
       style={styles.main}
       variant="plain"

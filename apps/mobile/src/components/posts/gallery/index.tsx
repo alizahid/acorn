@@ -2,10 +2,11 @@ import { Galeria } from '@nandorojo/galeria'
 import { Image } from 'expo-image'
 import { useCallback } from 'react'
 import { View } from 'react-native'
-import { StyleSheet } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
+import { Gallery } from '~/components/common/gallery'
 import { useHistory } from '~/hooks/history'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -35,6 +36,8 @@ export function PostGalleryCard({
 }: Props) {
   const t = useTranslations('component.posts.gallery')
 
+  const { theme } = useUnistyles()
+
   const { addPost } = useHistory()
 
   const { blurNsfw, blurSpoiler, seenOnMedia } = usePreferences(
@@ -61,7 +64,11 @@ export function PostGalleryCard({
 
   if (compact) {
     return (
-      <Galeria closeIconName="xmark" urls={images.map((image) => image.url)}>
+      <Galeria
+        closeIconName="xmark"
+        theme={theme.variant}
+        urls={images.map((image) => image.url)}
+      >
         <View style={styles.main}>
           {images.map((image, index) => (
             <Galeria.Image
@@ -69,6 +76,13 @@ export function PostGalleryCard({
               key={image.url}
               onDismiss={onDismiss}
               onLongPress={onLongPress}
+              onPressRightNavItemIcon={() => {
+                Gallery.call({
+                  type: 'image',
+                  url: image.url,
+                })
+              }}
+              rightNavItemIconName="ellipsis"
             >
               <Image
                 accessibilityIgnoresInvertColors

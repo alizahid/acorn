@@ -15,7 +15,6 @@ type Props = {
   compact?: boolean
   large?: boolean
   nsfw?: boolean
-  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
   thumbnail?: string
@@ -27,7 +26,6 @@ export function VideoPlaceholder({
   compact,
   large,
   nsfw,
-  onLongPress,
   recyclingKey,
   spoiler,
   thumbnail,
@@ -59,7 +57,6 @@ export function VideoPlaceholder({
         <VideoPlayer
           compact={compact}
           nsfw={nsfw}
-          onLongPress={onLongPress}
           recyclingKey={recyclingKey}
           spoiler={spoiler}
           video={video}

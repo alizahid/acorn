@@ -3,10 +3,11 @@ import { Image } from 'expo-image'
 import { useMemo } from 'react'
 import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import { StyleSheet } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
+import { Gallery } from '~/components/common/gallery'
 import { Text } from '~/components/common/text'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -44,6 +45,8 @@ export function ImageGrid({
     })),
   )
 
+  const { theme } = useUnistyles()
+
   const data = useMemo(() => {
     const sizes = images.map((image) => ({
       height: styles.carousel.height,
@@ -66,9 +69,19 @@ export function ImageGrid({
     const image = images[0]!
 
     return (
-      <Galeria closeIconName="xmark" urls={[image.url]}>
+      <Galeria closeIconName="xmark" theme={theme.variant} urls={[image.url]}>
         <View style={styles.one(image.width / image.height)}>
-          <Galeria.Image onDismiss={onDismiss} onLongPress={onLongPress}>
+          <Galeria.Image
+            onDismiss={onDismiss}
+            onLongPress={onLongPress}
+            onPressRightNavItemIcon={() => {
+              Gallery.call({
+                type: 'image',
+                url: image.url,
+              })
+            }}
+            rightNavItemIconName="ellipsis"
+          >
             <Image
               accessibilityIgnoresInvertColors
               recyclingKey={recyclingKey}
@@ -108,6 +121,13 @@ export function ImageGrid({
                 index={index}
                 onDismiss={onDismiss}
                 onLongPress={onLongPress}
+                onPressRightNavItemIcon={() => {
+                  Gallery.call({
+                    type: 'image',
+                    url: item.url,
+                  })
+                }}
+                rightNavItemIconName="ellipsis"
               >
                 <Image
                   source={item.thumbnail ?? item.url}

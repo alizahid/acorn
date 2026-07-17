@@ -417,7 +417,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
               {post.media.video ? (
                 <Sheet.Item
                   label={t('downloadVideo')}
-                  left={<Icon name="copy" />}
+                  left={<Icon name="download" />}
                   onPress={() => {
                     ref.current?.dismiss()
 

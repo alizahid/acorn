@@ -11,7 +11,6 @@ type Props = {
   compact?: boolean
   large?: boolean
   nsfw?: boolean
-  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
   thumbnail?: string
@@ -23,7 +22,6 @@ export function RedGifsVideo({
   compact,
   large,
   nsfw,
-  onLongPress,
   recyclingKey,
   spoiler,
   thumbnail,
@@ -43,7 +41,6 @@ export function RedGifsVideo({
         compact={compact}
         large={large}
         nsfw={nsfw}
-        onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         spoiler={spoiler}
         thumbnail={thumbnail}

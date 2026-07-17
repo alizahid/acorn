@@ -5,14 +5,13 @@ import { File, Paths } from 'expo-file-system'
 import { type ImageProps } from 'expo-image'
 import { Album, Asset, requestPermissionsAsync } from 'expo-media-library'
 import { compact } from 'lodash'
-import { useCallback, useRef } from 'react'
+import { useRef } from 'react'
 import { Share } from 'react-native'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
-import { Gallery, type GalleryImage } from '@/gallery'
 import placeholderDark from '~/assets/images/placeholder-dark.png'
 import placeholderLight from '~/assets/images/placeholder-light.png'
 import { usePreferences } from '~/stores/preferences'
@@ -263,39 +262,6 @@ export function useShareImage() {
     isPending,
     isSuccess,
     share: mutate,
-  }
-}
-
-export function useImagePreview() {
-  const { theme } = useUnistyles()
-
-  const preview = useCallback(
-    (images: Array<GalleryImage>, index?: number) => {
-      Gallery.open({
-        actions: [
-          {
-            icon: 'square.and.arrow.up',
-            id: 'share',
-          },
-          {
-            icon: 'square.on.square',
-            id: 'copy',
-          },
-          {
-            icon: 'square.and.arrow.down',
-            id: 'download',
-          },
-        ],
-        images,
-        index,
-        theme: theme.variant,
-      })
-    },
-    [theme.variant],
-  )
-
-  return {
-    preview,
   }
 }
 

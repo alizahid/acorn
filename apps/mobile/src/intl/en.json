@@ -114,6 +114,18 @@
       "empty": {
         "message": "Nothing here"
       },
+      "gallery": {
+        "image": {
+          "copy": "Copy image",
+          "download": "Download image",
+          "share": "Share image",
+          "title": "Image"
+        },
+        "video": {
+          "download": "Download video",
+          "title": "Video"
+        }
+      },
       "interval": {
         "all": "All time",
         "day": "Today",

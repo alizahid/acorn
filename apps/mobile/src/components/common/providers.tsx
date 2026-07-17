@@ -11,8 +11,8 @@ import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
 import { persistOptions, queryClient } from '~/lib/query'
 
-import { ImageProvider } from '../providers/image'
 import { ThemeProvider } from '../providers/theme'
+import { Gallery } from './gallery'
 import { Toast } from './toast'
 
 type Props = {
@@ -30,10 +30,9 @@ export function Providers({ children }: Props) {
               persistOptions={persistOptions}
             >
               <FocusProvider>
-                <ImageProvider>
-                  <PortalProvider>{children}</PortalProvider>
-                </ImageProvider>
+                <PortalProvider>{children}</PortalProvider>
 
+                <Gallery />
                 <AccountSwitcher />
                 <Toast />
               </FocusProvider>

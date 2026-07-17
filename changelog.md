@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: image / video options
 - added: liquid glass navigation
 - fixed: default feeds and sorting
 - fixed: minimize tab bar

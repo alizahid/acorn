@@ -35,7 +35,6 @@ export function PostVideoCard({
         compact={compact}
         large={large}
         nsfw={nsfw}
-        onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         spoiler={spoiler}
         thumbnail={thumbnail}
@@ -51,7 +50,6 @@ export function PostVideoCard({
         compact={compact}
         large={large}
         nsfw={nsfw}
-        onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         spoiler={spoiler}
         thumbnail={thumbnail}
