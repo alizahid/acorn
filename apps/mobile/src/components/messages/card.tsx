@@ -2,7 +2,6 @@ import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
 
-import { iPad } from '~/lib/common'
 import { type Message } from '~/types/message'
 
 import { Text } from '../common/text'
@@ -17,36 +16,41 @@ type Props = {
 export function MessageCard({ message, style, userId }: Props) {
   const f = useFormatter()
 
-  const self = message.from === userId
+  const mine = message.from === userId
 
   return (
-    <View style={[styles.main(self), style]}>
-      <View style={styles.content(self)}>
-        <Markdown>{message.body}</Markdown>
+    <View style={[styles.main(mine), style]}>
+      <View style={styles.header}>
+        <Text
+          color={mine ? 'accent' : undefined}
+          highContrast={false}
+          size="2"
+          weight="medium"
+        >
+          {message.from}
+        </Text>
+
+        <Text highContrast={false} size="1" tabular>
+          {f.dateTime(message.createdAt, {
+            timeStyle: 'short',
+          })}
+        </Text>
       </View>
 
-      <Text highContrast={false} size="1" tabular>
-        {f.dateTime(message.createdAt, {
-          timeStyle: 'short',
-        })}
-      </Text>
+      <Markdown>{message.body}</Markdown>
     </View>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  content: (self: boolean) => ({
-    backgroundColor: self ? theme.colors.accent.ui : theme.colors.gray.ui,
-    borderCurve: 'continuous',
-    borderRadius: theme.space[3],
-    maxWidth: iPad ? 600 : 300,
-    paddingHorizontal: theme.space[3],
-    paddingVertical: theme.space[2],
-    width: '80%',
-  }),
-  main: (self: boolean) => ({
-    alignItems: self ? 'flex-end' : 'flex-start',
-    alignSelf: self ? 'flex-end' : 'flex-start',
-    gap: theme.space[1],
+  header: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[2],
+  },
+  main: (mine: boolean) => ({
+    backgroundColor: mine ? theme.colors.accent.bgAlt : undefined,
+    gap: theme.space[2],
+    padding: theme.space[3],
   }),
 }))

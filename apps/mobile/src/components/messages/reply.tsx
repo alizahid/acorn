@@ -9,7 +9,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useReply } from '~/hooks/mutations/messages/reply'
-import { glass } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { space } from '~/styles/tokens'
 
 import { Icon } from '../common/icon'
@@ -56,7 +56,10 @@ export function ReplyCard({ threadId, user }: Props) {
     marginBottom: interpolate(
       progress.get(),
       [0, 1],
-      [tabBarHeight + (glass ? space[4] : 0), glass ? space[4] : 0],
+      [
+        (iPad ? 0 : tabBarHeight) + (glass ? space[4] : 0),
+        glass ? space[4] : 0,
+      ],
     ),
   }))
 

@@ -2,8 +2,8 @@ import { FlashList } from '@shopify/flash-list'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
+import { useListProps } from '~/hooks/list'
 import { useMessages } from '~/hooks/queries/user/messages'
-import { heights } from '~/lib/common'
 
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
@@ -21,8 +21,11 @@ export function MessagesList() {
     refetch,
   } = useMessages()
 
+  const listProps = useListProps(true)
+
   return (
     <FlashList
+      {...listProps}
       contentContainerStyle={styles.content}
       data={messages}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
@@ -42,10 +45,9 @@ export function MessagesList() {
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   content: {
     flexGrow: 1,
-    paddingBottom: heights.tabBar + runtime.insets.bottom,
   },
   separator: {
     backgroundColor: theme.colors.gray.border,

@@ -22,7 +22,6 @@ import { Text } from '~/components/common/text'
 import { MessageCard } from '~/components/messages/card'
 import { ReplyCard } from '~/components/messages/reply'
 import { useThread } from '~/hooks/queries/user/thread'
-import { glass } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 
 const schema = z.object({
@@ -79,7 +78,6 @@ export default function Screen() {
         contentContainerStyle={styles.content(headerHeight)}
         contentInsetEndAdjustment={contentInsetEndAdjustment}
         data={messages}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
         initialScrollAtEnd
         keyboardDismissMode="interactive"
         keyExtractor={(item) => (isDate(item) ? formatISO(item) : item.id)}
@@ -123,9 +121,7 @@ const styles = StyleSheet.create((theme) => ({
     right: 0,
   },
   content: (headerHeight: number) => ({
-    paddingBottom: glass ? undefined : theme.space[4],
-    paddingHorizontal: theme.space[4],
-    paddingTop: headerHeight + theme.space[4],
+    paddingTop: headerHeight,
   }),
   header: {
     alignSelf: 'center',
@@ -134,8 +130,5 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.radius[6],
     paddingHorizontal: theme.space[2],
     paddingVertical: theme.space[1],
-  },
-  separator: {
-    height: theme.space[4],
   },
 }))
