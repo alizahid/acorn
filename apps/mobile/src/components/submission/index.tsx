@@ -79,9 +79,9 @@ export function Submission({ submission }: Props) {
         <Stack.Toolbar placement="right">
           <Stack.Toolbar.View>
             <IconButton
+              accessibilityLabel={a11y('createPost')}
               disabled={isPending}
               header
-              label={a11y('createPost')}
               onPress={() => {
                 onSubmit()
               }}

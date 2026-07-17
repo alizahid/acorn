@@ -91,7 +91,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
         >
           <View style={styles.palette}>
             <IconButton
-              label={t(post.liked ? 'removeUpvote' : 'upvote')}
+              accessibilityLabel={t(post.liked ? 'removeUpvote' : 'upvote')}
               onPress={() => {
                 ref.current?.dismiss()
 
@@ -110,7 +110,9 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             </IconButton>
 
             <IconButton
-              label={t(post.liked === false ? 'removeDownvote' : 'downvote')}
+              accessibilityLabel={t(
+                post.liked === false ? 'removeDownvote' : 'downvote',
+              )}
               onPress={() => {
                 ref.current?.dismiss()
 
@@ -133,7 +135,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             </IconButton>
 
             <IconButton
-              label={t(post.saved ? 'unsave' : 'save')}
+              accessibilityLabel={t(post.saved ? 'unsave' : 'save')}
               onPress={() => {
                 ref.current?.dismiss()
 
@@ -152,7 +154,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             </IconButton>
 
             <IconButton
-              label={t('reply')}
+              accessibilityLabel={t('reply')}
               onPress={() => {
                 ref.current?.dismiss()
 

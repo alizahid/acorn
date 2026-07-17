@@ -58,9 +58,9 @@ export default function Screen() {
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.View>
           <IconButton
+            accessibilityLabel={a11y('createComment')}
             disabled={reply.isPending || edit.isPending}
             header
-            label={a11y('createComment')}
             onPress={async () => {
               if (!text) {
                 return

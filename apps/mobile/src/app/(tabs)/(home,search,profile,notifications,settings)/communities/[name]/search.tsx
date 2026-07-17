@@ -64,7 +64,7 @@ export default function Screen() {
             right={
               query.length > 0 ? (
                 <IconButton
-                  label={a11y('clearQuery')}
+                  accessibilityLabel={a11y('clearQuery')}
                   onPress={() => {
                     setQuery('')
                   }}

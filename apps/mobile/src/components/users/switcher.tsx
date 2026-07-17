@@ -47,7 +47,7 @@ export function AccountSwitcher() {
       <Sheet.Header
         right={
           <IconButton
-            label={a11y('addAccount')}
+            accessibilityLabel={a11y('addAccount')}
             onPress={async () => {
               await sheet.current?.dismiss()
 

@@ -39,10 +39,10 @@ export default function Screen() {
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.View>
           <IconButton
-            header
-            label={a11y('aboutCommunity', {
+            accessibilityLabel={a11y('aboutCommunity', {
               community: params.name,
             })}
+            header
             onPress={() => {
               router.navigate({
                 params: {

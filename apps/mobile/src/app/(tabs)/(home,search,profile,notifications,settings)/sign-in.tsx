@@ -91,8 +91,8 @@ export default function Screen() {
           />
 
           <IconButton
+            accessibilityLabel={t('cancel')}
             disabled={isPending}
-            label={t('cancel')}
             onPress={() => {
               setOpen(false)
             }}

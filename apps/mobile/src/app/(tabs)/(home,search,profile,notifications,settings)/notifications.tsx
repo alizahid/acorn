@@ -36,9 +36,9 @@ export default function Screen() {
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.View>
           <IconButton
+            accessibilityLabel={a11y('clearNotifications')}
             disabled={isPending}
             header
-            label={a11y('clearNotifications')}
             onPress={() => {
               markAll()
             }}

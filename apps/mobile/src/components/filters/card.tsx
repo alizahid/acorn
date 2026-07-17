@@ -36,7 +36,7 @@ export function FilterCard({ index, onRemove }: Props) {
         render={({ field }) => (
           <>
             <IconButton
-              label={a11y('aboutCommunity')}
+              accessibilityLabel={a11y('aboutCommunity')}
               onPress={() => {
                 sheet.current?.present()
               }}
@@ -88,7 +88,7 @@ export function FilterCard({ index, onRemove }: Props) {
       />
 
       <IconButton
-        label={a11y('removeFilter')}
+        accessibilityLabel={a11y('removeFilter')}
         onPress={() => {
           onRemove(index)
         }}

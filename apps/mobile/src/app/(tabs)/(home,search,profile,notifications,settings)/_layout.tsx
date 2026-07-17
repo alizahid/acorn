@@ -82,8 +82,8 @@ export default function Layout({ segment }: Props) {
           <Stack.Toolbar placement="right">
             <Stack.Toolbar.View>
               <IconButton
+                accessibilityLabel={a11y('switchAccount')}
                 header
-                label={a11y('switchAccount')}
                 onPress={() => {
                   mitter.emit('switch-account')
                 }}

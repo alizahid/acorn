@@ -53,7 +53,7 @@ export function SearchBox({
       right={
         value?.length ? (
           <IconButton
-            label={a11y('clearQuery')}
+            accessibilityLabel={a11y('clearQuery')}
             onPress={() => {
               onChange?.('')
             }}

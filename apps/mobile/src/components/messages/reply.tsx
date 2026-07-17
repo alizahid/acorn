@@ -78,8 +78,8 @@ export function ReplyCard({ threadId, user }: Props) {
         />
 
         <IconButton
+          accessibilityLabel={a11y('createReply')}
           disabled={isPending}
-          label={a11y('createReply')}
           onPress={() => {
             onSubmit()
           }}

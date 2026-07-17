@@ -28,7 +28,7 @@ export function SubmissionType({ types }: Props) {
       render={({ field }) => (
         <>
           <IconButton
-            label={a11y('changePostType')}
+            accessibilityLabel={a11y('changePostType')}
             onPress={() => {
               sheet.current?.present()
             }}

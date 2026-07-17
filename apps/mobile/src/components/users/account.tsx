@@ -32,7 +32,7 @@ export function AccountCard({
       key={account.id}
       renderLeftActions={() => (
         <IconButton
-          label={a11y('removeAccount', {
+          accessibilityLabel={a11y('removeAccount', {
             account: account.id,
           })}
           onPress={() => {

@@ -48,8 +48,8 @@ export function FloatingButton({
       style={[styles.main(tabBarHeight), style]}
     >
       <IconButton
+        accessibilityLabel={label}
         hitSlop={space[4]}
-        label={label}
         onLongPress={onLongPress}
         onPress={onPress}
       >

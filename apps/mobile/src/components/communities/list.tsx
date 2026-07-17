@@ -339,7 +339,7 @@ export function CommunitiesList({
                   right={
                     drawer ? (
                       <IconButton
-                        label={a11y(
+                        accessibilityLabel={a11y(
                           open.has(item.key) ? 'collapseFeed' : 'expandFeed',
                         )}
                         onPress={() => {
@@ -500,14 +500,14 @@ export function CommunitiesList({
                   drawer ? (
                     section.collapsible ? (
                       <IconButton
-                        hitSlop={{
-                          left: 300,
-                        }}
-                        label={a11y(
+                        accessibilityLabel={a11y(
                           collapsed.get(section.key)
                             ? 'collapseSection'
                             : 'expandSection',
                         )}
+                        hitSlop={{
+                          left: 300,
+                        }}
                         onPress={() => {
                           setCollapsed((previous) => {
                             const next = new Map(previous)

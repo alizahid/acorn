@@ -47,7 +47,7 @@ export function Confirm({ label, labelStyle, left, onPress, style }: Props) {
             right={
               <View style={styles.confirm}>
                 <IconButton
-                  label={t('no')}
+                  accessibilityLabel={t('no')}
                   onPress={() => {
                     setOpen(false)
                   }}
@@ -60,7 +60,7 @@ export function Confirm({ label, labelStyle, left, onPress, style }: Props) {
                   />
                 </IconButton>
 
-                <IconButton label={t('yes')} onPress={onPress}>
+                <IconButton accessibilityLabel={t('yes')} onPress={onPress}>
                   <Icon
                     name="check-circle-fill"
                     uniProps={(theme) => ({

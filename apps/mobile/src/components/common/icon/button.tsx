@@ -7,11 +7,11 @@ import { type SpaceToken } from '~/styles/tokens'
 import { Pressable } from '../pressable'
 
 type Props = {
+  accessibilityLabel: string
   children: ReactNode
   disabled?: boolean
   header?: boolean
   hitSlop?: number | Insets
-  label: string
   onLongPress?: () => void
   onPress?: () => void
   size?: SpaceToken
@@ -19,11 +19,11 @@ type Props = {
 }
 
 export function IconButton({
+  accessibilityLabel,
   children,
   disabled,
   header,
   hitSlop,
-  label,
   onLongPress,
   onPress,
   size = '8',
@@ -31,7 +31,8 @@ export function IconButton({
 }: Props) {
   return (
     <Pressable
-      accessibilityLabel={label}
+      accessibilityLabel={accessibilityLabel}
+      accessibilityRole="button"
       disabled={disabled}
       hitSlop={header ? 16 : hitSlop}
       onLongPress={onLongPress}

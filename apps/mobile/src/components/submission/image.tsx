@@ -129,7 +129,7 @@ export function SubmissionImage({ onStatusChange, type = 'image' }: Props) {
               ) : null}
 
               <IconButton
-                label={a11y('removeImage')}
+                accessibilityLabel={a11y('removeImage')}
                 onPress={() => {
                   setAsset(undefined)
                 }}

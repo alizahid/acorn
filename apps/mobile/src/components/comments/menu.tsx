@@ -100,7 +100,7 @@ export function CommentMenu({
         >
           <View style={styles.palette}>
             <IconButton
-              label={t(comment.liked ? 'removeUpvote' : 'upvote')}
+              accessibilityLabel={t(comment.liked ? 'removeUpvote' : 'upvote')}
               onPress={() => {
                 ref.current?.dismiss()
 
@@ -120,7 +120,9 @@ export function CommentMenu({
             </IconButton>
 
             <IconButton
-              label={t(comment.liked === false ? 'removeDownvote' : 'downvote')}
+              accessibilityLabel={t(
+                comment.liked === false ? 'removeDownvote' : 'downvote',
+              )}
               onPress={() => {
                 ref.current?.dismiss()
 
@@ -144,7 +146,7 @@ export function CommentMenu({
             </IconButton>
 
             <IconButton
-              label={t(comment.saved ? 'unsave' : 'save')}
+              accessibilityLabel={t(comment.saved ? 'unsave' : 'save')}
               onPress={() => {
                 ref.current?.dismiss()
 
@@ -166,7 +168,7 @@ export function CommentMenu({
             </IconButton>
 
             <IconButton
-              label={t('reply')}
+              accessibilityLabel={t('reply')}
               onPress={() => {
                 ref.current?.dismiss()
 

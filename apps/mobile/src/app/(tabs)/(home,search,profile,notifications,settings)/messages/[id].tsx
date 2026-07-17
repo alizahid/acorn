@@ -58,8 +58,8 @@ export default function Screen() {
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.View>
           <IconButton
+            accessibilityLabel={params.user}
             header
-            label={params.user}
             onPress={() => {
               router.navigate({
                 params: {

@@ -128,8 +128,8 @@ export default function Screen() {
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.View>
           <IconButton
+            accessibilityLabel={a11y('toggleSidebar')}
             header
-            label={a11y('toggleSidebar')}
             onPress={() => {
               mitter.emit('drawer-toggle')
             }}
