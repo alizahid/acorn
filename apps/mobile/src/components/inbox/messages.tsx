@@ -26,7 +26,6 @@ export function MessagesList() {
   return (
     <FlashList
       {...listProps}
-      contentContainerStyle={styles.content}
       data={messages}
       ItemSeparatorComponent={() => <View style={styles.separator} />}
       keyExtractor={(item) => item.id}
@@ -46,9 +45,6 @@ export function MessagesList() {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  content: {
-    flexGrow: 1,
-  },
   separator: {
     backgroundColor: theme.colors.gray.border,
     height: 1,
