@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: liquid glass navigation
+- fixed: default feeds and sorting
 - fixed: minimize tab bar
 - fixed: video playing
 

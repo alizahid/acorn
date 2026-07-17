@@ -1,22 +1,10 @@
-import { Stack, useLocalSearchParams } from 'expo-router'
-import { useMemo } from 'react'
-import { PlatformColor } from 'react-native'
-import { StyleSheet } from 'react-native-unistyles'
-import { useTranslations } from 'use-intl'
+import { useLocalSearchParams } from 'expo-router'
 import { z } from 'zod'
 import { useShallow } from 'zustand/react/shallow'
 
-import { Icon } from '~/components/common/icon'
-import { IconButton } from '~/components/common/icon/button'
-import { Text } from '~/components/common/text'
-import { GlassView } from '~/components/native/glass-view'
-import { PostList } from '~/components/posts/list'
-import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useListProps } from '~/hooks/list'
-import { type SortingType, useSorting } from '~/hooks/sorting'
-import { glass, iPad } from '~/lib/common'
-import { mitter } from '~/lib/mitt'
-import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
+import { CommunityFeed } from '~/components/feeds/community'
+import { CustomFeed } from '~/components/feeds/custom'
+import { DefaultFeed } from '~/components/feeds/default'
 import { useDefaults } from '~/stores/defaults'
 import { FeedType } from '~/types/sort'
 
@@ -31,10 +19,6 @@ export type HomeParams = z.infer<typeof schema>
 export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
-  const t = useTranslations('screen.home')
-  const a11y = useTranslations('a11y')
-  const tType = useTranslations('component.common.type.type')
-
   const defaults = useDefaults(
     useShallow((state) => ({
       community: state.community,
@@ -43,140 +27,29 @@ export default function Screen() {
     })),
   )
 
-  styles.useVariants({
-    iPad,
-  })
+  if (params.feed) {
+    return <CustomFeed name={params.feed} />
+  }
 
-  const { community, feed, type } = useMemo(() => {
-    const data = {
-      community: params.community ?? defaults.community,
-      feed: params.feed ?? defaults.feed,
-      type: params.type ?? defaults.feedType,
-    } as const
+  if (params.community) {
+    return <CommunityFeed name={params.community} />
+  }
 
-    const $type: SortingType = data.community
-      ? 'community'
-      : data.feed
-        ? 'feed'
-        : data.type === 'home'
-          ? 'feed'
-          : 'community'
+  if (params.type) {
+    return <DefaultFeed type={params.type} />
+  }
 
-    const $feed = data.community ? undefined : data.feed ? data.feed : undefined
+  if (defaults.feed) {
+    return <CustomFeed name={defaults.feed} />
+  }
 
-    const $community = data.community
-      ? data.community
-      : data.type === 'home'
-        ? undefined
-        : data.type
+  if (defaults.community) {
+    return <CommunityFeed name={defaults.community} />
+  }
 
-    return {
-      community: $community,
-      feed: $feed,
-      type: $type,
-    }
-  }, [
-    defaults.community,
-    defaults.feed,
-    defaults.feedType,
-    params.community,
-    params.feed,
-    params.type,
-  ])
+  if (defaults.feedType) {
+    return <DefaultFeed type={defaults.feedType} />
+  }
 
-  const name = community ?? feed ?? 'home'
-
-  const { sorting, update } = useSorting(type, name)
-
-  const listProps = useListProps(true)
-
-  return (
-    <>
-      {name === 'home' || name === 'all' || name === 'popular' ? (
-        <Stack.Title asChild>
-          <GlassView style={styles.header}>
-            <Icon
-              name={FeedTypeIcons[name]}
-              uniProps={(theme) => ({
-                color: theme.colors[FeedTypeColors[name]].accent,
-              })}
-            />
-
-            <Text style={styles.title} weight="bold">
-              {tType(name)}
-            </Text>
-          </GlassView>
-        </Stack.Title>
-      ) : (
-        <Stack.Title style={styles.title}>
-          {community ?? feed ?? t('title')}
-        </Stack.Title>
-      )}
-
-      <Stack.Toolbar placement="left">
-        <Stack.Toolbar.View>
-          <SortIntervalMenu
-            interval={sorting.interval}
-            onChange={(next) => {
-              update(next)
-            }}
-            sort={sorting.sort}
-            style={styles.sort}
-            type={type}
-          />
-        </Stack.Toolbar.View>
-      </Stack.Toolbar>
-
-      <Stack.Toolbar placement="right">
-        <Stack.Toolbar.View>
-          <IconButton
-            accessibilityLabel={a11y('toggleSidebar')}
-            header
-            onPress={() => {
-              mitter.emit('drawer-toggle')
-            }}
-          >
-            <Icon name="sidebar" />
-          </IconButton>
-        </Stack.Toolbar.View>
-      </Stack.Toolbar>
-
-      <PostList
-        community={community}
-        feed={feed}
-        interval={sorting.interval}
-        listProps={listProps}
-        sort={sorting.sort}
-        style={styles.list}
-      />
-    </>
-  )
+  return <DefaultFeed type="home" />
 }
-
-const styles = StyleSheet.create((theme) => ({
-  header: {
-    alignItems: 'center',
-    borderCurve: 'continuous',
-    borderRadius: theme.space[8],
-    flexDirection: 'row',
-    gap: theme.space[2],
-    height: theme.space[8],
-    paddingHorizontal: theme.space[4],
-  },
-  list: {
-    variants: {
-      iPad: {
-        true: {
-          paddingHorizontal: theme.space[4],
-        },
-      },
-    },
-  },
-  sort: {
-    gap: theme.space[1],
-    paddingHorizontal: glass ? theme.space[1] : 0,
-  },
-  title: {
-    color: PlatformColor('labelColor'),
-  },
-}))

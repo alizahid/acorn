@@ -13,7 +13,7 @@ import {
   type TopInterval,
 } from '~/types/sort'
 
-export type SortingType = 'feed' | 'community'
+export type SortingType = 'feed' | 'community' | 'user'
 
 export type SortingQueryData<Type extends SortType> = {
   interval?: TopInterval

@@ -388,9 +388,9 @@ export function CommunitiesList({
                             if (drawer) {
                               router.navigate({
                                 params: {
-                                  name: community,
+                                  community,
                                 },
-                                pathname: '/communities/[name]',
+                                pathname: '/',
                               })
                             }
                           }}
@@ -424,9 +424,9 @@ export function CommunitiesList({
                 if (item.type === 'community') {
                   router.navigate({
                     params: {
-                      name: item.data.name,
+                      community: item.data.name,
                     },
-                    pathname: '/communities/[name]',
+                    pathname: '/',
                   })
 
                   return
