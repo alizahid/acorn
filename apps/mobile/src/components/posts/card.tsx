@@ -17,6 +17,7 @@ import { type Post } from '~/types/post'
 
 import { Banner } from '../common/banner'
 import { type GestureAction, Gestures } from '../common/gestures'
+import { InView } from '../common/in-view'
 import { Pressable } from '../common/pressable'
 import { type Sheet } from '../common/sheet'
 import { Text } from '../common/text'
@@ -85,6 +86,7 @@ export function PostCard({ expanded, post }: Props) {
   const menu = useRef<Sheet>(null)
 
   const [capturing, setCapturing] = useState(false)
+  const [viewing, setViewing] = useState(false)
 
   const dimmed = !expanded && dimSeen && post.seen
 
@@ -251,79 +253,83 @@ export function PostCard({ expanded, post }: Props) {
           onLongPress={onLongPress}
           onPress={onPress}
         >
-          <View collapsable={false} ref={card} style={styles.main}>
-            <View style={[styles.header, styles.dimmed]}>
-              {communityOnTop ? <PostCommunity post={post} /> : null}
+          <InView onChange={setViewing}>
+            <View collapsable={false} ref={card} style={styles.main}>
+              <View style={[styles.header, styles.dimmed]}>
+                {communityOnTop ? <PostCommunity post={post} /> : null}
 
-              <Text
-                size={fontSizeTitle}
-                weight={boldTitle ? 'bold' : undefined}
-              >
-                {post.title}
-              </Text>
+                <Text
+                  size={fontSizeTitle}
+                  weight={boldTitle ? 'bold' : undefined}
+                >
+                  {post.title}
+                </Text>
 
-              <FlairCard
-                flair={post.flair}
-                nsfw={post.nsfw}
-                spoiler={post.spoiler}
+                <FlairCard
+                  flair={post.flair}
+                  nsfw={post.nsfw}
+                  spoiler={post.spoiler}
+                />
+              </View>
+
+              {post.type === 'crosspost' && post.crossPost ? (
+                <CrossPostCard
+                  onLongPress={onLongPress}
+                  post={post.crossPost}
+                  recyclingKey={post.id}
+                  viewing={viewing}
+                />
+              ) : null}
+
+              {post.type === 'video' && post.media.video ? (
+                <PostVideoCard
+                  nsfw={post.nsfw}
+                  onLongPress={onLongPress}
+                  recyclingKey={post.id}
+                  spoiler={post.spoiler}
+                  thumbnail={post.media.images?.[0]?.url}
+                  video={post.media.video}
+                  viewing={viewing}
+                />
+              ) : null}
+
+              {post.type === 'image' && post.media.images ? (
+                <PostGalleryCard
+                  images={post.media.images}
+                  nsfw={post.nsfw}
+                  onLongPress={onLongPress}
+                  recyclingKey={post.id}
+                  spoiler={post.spoiler}
+                />
+              ) : null}
+
+              {post.type === 'link' && post.url ? (
+                <PostLinkCard
+                  media={post.media.images?.[0]}
+                  onLongPress={onLongPress}
+                  recyclingKey={post.id}
+                  url={post.url}
+                />
+              ) : null}
+
+              {expanded && post.body ? (
+                <Markdown meta={post.media.meta}>{post.body}</Markdown>
+              ) : null}
+
+              <PostFooter
+                community={!communityOnTop}
+                post={post}
+                privacy={privacy}
+                style={styles.dimmed}
               />
+
+              {capturing ? <Banner style={styles.banner} /> : null}
+
+              {!privacy && post.saved ? (
+                <View pointerEvents="none" style={styles.saved} />
+              ) : null}
             </View>
-
-            {post.type === 'crosspost' && post.crossPost ? (
-              <CrossPostCard
-                onLongPress={onLongPress}
-                post={post.crossPost}
-                recyclingKey={post.id}
-              />
-            ) : null}
-
-            {post.type === 'video' && post.media.video ? (
-              <PostVideoCard
-                nsfw={post.nsfw}
-                onLongPress={onLongPress}
-                recyclingKey={post.id}
-                spoiler={post.spoiler}
-                thumbnail={post.media.images?.[0]?.url}
-                video={post.media.video}
-              />
-            ) : null}
-
-            {post.type === 'image' && post.media.images ? (
-              <PostGalleryCard
-                images={post.media.images}
-                nsfw={post.nsfw}
-                onLongPress={onLongPress}
-                recyclingKey={post.id}
-                spoiler={post.spoiler}
-              />
-            ) : null}
-
-            {post.type === 'link' && post.url ? (
-              <PostLinkCard
-                media={post.media.images?.[0]}
-                onLongPress={onLongPress}
-                recyclingKey={post.id}
-                url={post.url}
-              />
-            ) : null}
-
-            {expanded && post.body ? (
-              <Markdown meta={post.media.meta}>{post.body}</Markdown>
-            ) : null}
-
-            <PostFooter
-              community={!communityOnTop}
-              post={post}
-              privacy={privacy}
-              style={styles.dimmed}
-            />
-
-            {capturing ? <Banner style={styles.banner} /> : null}
-
-            {!privacy && post.saved ? (
-              <View pointerEvents="none" style={styles.saved} />
-            ) : null}
-          </View>
+          </InView>
         </Pressable>
       </PostMenu>
     </Gestures>

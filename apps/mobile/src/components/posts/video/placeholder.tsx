@@ -1,10 +1,8 @@
 import { ImageBackground } from 'expo-image'
-import { useState } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
 
-import { InView } from '~/components/common/in-view'
 import { useFocused } from '~/hooks/focus'
 import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
@@ -17,22 +15,24 @@ type Props = {
   compact?: boolean
   large?: boolean
   nsfw?: boolean
+  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
   thumbnail?: string
   video: PostMedia
-  onLongPress?: () => void
+  viewing: boolean
 }
 
 export function VideoPlaceholder({
   compact,
   large,
   nsfw,
+  onLongPress,
   recyclingKey,
   spoiler,
   thumbnail,
   video,
-  onLongPress,
+  viewing,
 }: Props) {
   const { blurNsfw, blurSpoiler } = usePreferences(
     useShallow((state) => ({
@@ -49,33 +49,29 @@ export function VideoPlaceholder({
     large,
   })
 
-  const [visible, setVisible] = useState(false)
-
   return (
-    <InView onChange={setVisible}>
-      <ImageBackground
-        accessibilityIgnoresInvertColors
-        source={thumbnail ?? video.thumbnail}
-        style={styles.main}
-      >
-        {focused && visible ? (
-          <VideoPlayer
-            compact={compact}
-            nsfw={nsfw}
-            onLongPress={onLongPress}
-            recyclingKey={recyclingKey}
-            spoiler={spoiler}
-            video={video}
-          />
-        ) : (
-          <View style={styles.video(video.width / video.height)}>
-            {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
-              <GalleryBlur />
-            ) : null}
-          </View>
-        )}
-      </ImageBackground>
-    </InView>
+    <ImageBackground
+      accessibilityIgnoresInvertColors
+      source={thumbnail ?? video.thumbnail}
+      style={styles.main}
+    >
+      {focused && viewing ? (
+        <VideoPlayer
+          compact={compact}
+          nsfw={nsfw}
+          onLongPress={onLongPress}
+          recyclingKey={recyclingKey}
+          spoiler={spoiler}
+          video={video}
+        />
+      ) : (
+        <View style={styles.video(video.width / video.height)}>
+          {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
+            <GalleryBlur />
+          ) : null}
+        </View>
+      )}
+    </ImageBackground>
   )
 }
 

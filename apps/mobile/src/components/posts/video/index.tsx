@@ -9,11 +9,12 @@ type Props = {
   crossPost?: boolean
   large?: boolean
   nsfw?: boolean
+  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
   thumbnail?: string
   video: PostMedia
-  onLongPress?: () => void
+  viewing: boolean
 }
 
 export function PostVideoCard({
@@ -21,11 +22,12 @@ export function PostVideoCard({
   crossPost,
   large,
   nsfw,
+  onLongPress,
   recyclingKey,
   spoiler,
   thumbnail,
   video,
-  onLongPress,
+  viewing,
 }: Props) {
   if (video.provider === 'red-gifs') {
     return (
@@ -38,6 +40,7 @@ export function PostVideoCard({
         spoiler={spoiler}
         thumbnail={thumbnail}
         video={video}
+        viewing={viewing}
       />
     )
   }
@@ -53,6 +56,7 @@ export function PostVideoCard({
         spoiler={spoiler}
         thumbnail={thumbnail}
         video={video}
+        viewing={viewing}
       />
     )
   }

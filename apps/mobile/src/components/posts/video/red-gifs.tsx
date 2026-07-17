@@ -11,22 +11,24 @@ type Props = {
   compact?: boolean
   large?: boolean
   nsfw?: boolean
+  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
   thumbnail?: string
   video: PostMedia
-  onLongPress?: () => void
+  viewing: boolean
 }
 
 export function RedGifsVideo({
   compact,
   large,
   nsfw,
+  onLongPress,
   recyclingKey,
   spoiler,
   thumbnail,
   video,
-  onLongPress,
+  viewing,
 }: Props) {
   styles.useVariants({
     compact,
@@ -49,6 +51,7 @@ export function RedGifsVideo({
           ...video,
           url: gif.url,
         }}
+        viewing={viewing}
       />
     )
   }

@@ -18,17 +18,19 @@ import { PostVideoCard } from './video'
 type Props = {
   compact?: boolean
   large?: boolean
+  onLongPress?: () => void
   post: Post
   recyclingKey?: string
-  onLongPress?: () => void
+  viewing: boolean
 }
 
 export function CrossPostCard({
   compact,
   large,
+  onLongPress,
   post,
   recyclingKey,
-  onLongPress,
+  viewing,
 }: Props) {
   const router = useRouter()
 
@@ -93,6 +95,7 @@ export function CrossPostCard({
           spoiler={post.spoiler}
           thumbnail={post.media.images?.[0]?.url}
           video={post.media.video}
+          viewing={viewing}
         />
       ) : null}
 

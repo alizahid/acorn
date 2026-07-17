@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: liquid glass navigation
+- fixed: video playing
 
 ## Build 83
 
