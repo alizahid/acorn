@@ -480,7 +480,7 @@ export function CommunitiesList({
                   onScroll={(itemIndex) => {
                     list.current?.scrollToLocation({
                       animated: false,
-                      itemIndex: itemIndex === 0 ? -1 : itemIndex,
+                      itemIndex: itemIndex + 1,
                       sectionIndex,
                       viewOffset: space[8],
                     })
@@ -537,7 +537,6 @@ export function CommunitiesList({
           )
         }}
         sections={sections}
-        stickySectionHeadersEnabled={false}
       />
     </View>
   )
@@ -561,6 +560,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   header: {
     alignItems: 'flex-start',
+    backgroundColor: theme.colors.ui.bg,
     paddingLeft: theme.space[3],
   },
   headerTitle: {

@@ -152,6 +152,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   main: {
     alignItems: 'center',
+    backgroundColor: theme.colors.ui.bg,
     marginTop: theme.space[8],
     position: 'absolute',
     right: 0,

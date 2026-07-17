@@ -66,6 +66,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
     marginTop: runtime.insets.top,
   },
   drawer: {
-    backgroundColor: theme.colors.gray.bg,
+    backgroundColor: theme.colors.ui.bg,
   },
 }))
