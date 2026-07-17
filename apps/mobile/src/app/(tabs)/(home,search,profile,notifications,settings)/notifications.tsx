@@ -85,6 +85,6 @@ export default function Screen() {
 const styles = StyleSheet.create((theme) => ({
   tabBar: (headerHeight: number) => ({
     margin: theme.space[4],
-    marginTop: headerHeight + theme.space[4],
+    marginTop: headerHeight,
   }),
 }))
