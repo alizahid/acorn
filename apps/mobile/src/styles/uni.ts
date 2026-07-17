@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { themes } from './themes'
 import { breakpoints } from './tokens'
 
-export const settings = {
+const settings = {
   adaptiveThemes: true,
 }
 

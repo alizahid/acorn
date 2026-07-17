@@ -1,7 +1,7 @@
 import { createPalette } from './colors'
 import { radius, space, typography } from './tokens'
 
-export const lightTheme = {
+const lightTheme = {
   colors: createPalette('orange'),
   name: 'acorn-light',
   radius,
@@ -10,7 +10,7 @@ export const lightTheme = {
   variant: 'light',
 } as const
 
-export const darkTheme = {
+const darkTheme = {
   colors: createPalette('orange', true),
   name: 'acorn-dark',
   radius,
@@ -19,7 +19,7 @@ export const darkTheme = {
   variant: 'dark',
 } as const
 
-export const rubyLight = {
+const rubyLight = {
   colors: createPalette('ruby'),
   name: 'ruby-light',
   radius,
@@ -28,7 +28,7 @@ export const rubyLight = {
   variant: 'light',
 } as const
 
-export const rubyDark = {
+const rubyDark = {
   colors: createPalette('ruby', true),
   name: 'ruby-dark',
   radius,
@@ -37,7 +37,7 @@ export const rubyDark = {
   variant: 'dark',
 } as const
 
-export const plumLight = {
+const plumLight = {
   colors: createPalette('plum'),
   name: 'plum-light',
   radius,
@@ -46,7 +46,7 @@ export const plumLight = {
   variant: 'light',
 } as const
 
-export const plumDark = {
+const plumDark = {
   colors: createPalette('plum', true),
   name: 'plum-dark',
   radius,
@@ -55,7 +55,7 @@ export const plumDark = {
   variant: 'dark',
 } as const
 
-export const indigoLight = {
+const indigoLight = {
   colors: createPalette('indigo'),
   name: 'indigo-light',
   radius,
@@ -64,7 +64,7 @@ export const indigoLight = {
   variant: 'light',
 } as const
 
-export const indigoDark = {
+const indigoDark = {
   colors: createPalette('indigo', true),
   name: 'indigo-dark',
   radius,
@@ -73,7 +73,7 @@ export const indigoDark = {
   variant: 'dark',
 } as const
 
-export const jadeLight = {
+const jadeLight = {
   colors: createPalette('jade'),
   name: 'jade-light',
   radius,
@@ -82,7 +82,7 @@ export const jadeLight = {
   variant: 'light',
 } as const
 
-export const jadeDark = {
+const jadeDark = {
   colors: createPalette('jade', true),
   name: 'jade-dark',
   radius,

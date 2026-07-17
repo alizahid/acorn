@@ -18,7 +18,6 @@
   "dependencies": {
     "@bacons/apple-targets": "^4.0.7",
     "@bottom-tabs/react-navigation": "^1.4.0",
-    "@date-fns/tz": "^1.5.0",
     "@expo/ui": "~57.0.6",
     "@formatjs/intl-getcanonicallocales": "^3.2.11",
     "@formatjs/intl-locale": "^5.3.10",
@@ -84,7 +83,6 @@
     "react-native-drawer-layout": "^4.2.7",
     "react-native-enriched-markdown": "^0.7.4",
     "react-native-fast-markdown": "^0.2.0-beta.5",
-    "react-native-flexible-grid": "^0.2.5",
     "react-native-gesture-handler": "~2.32.0",
     "react-native-keyboard-controller": "1.21.9",
     "react-native-mmkv": "^4.3.2",
@@ -121,7 +119,6 @@
     "babel-plugin-inline-import": "^3.0.0",
     "babel-preset-expo": "^57.0.3",
     "drizzle-kit": "^0.31.10",
-    "env-cmd": "^11.0.0",
     "typescript": "~6.0.3"
   },
   "expo": {

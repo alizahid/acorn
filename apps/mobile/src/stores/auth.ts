@@ -5,7 +5,7 @@ import { persist } from 'zustand/middleware'
 import { queryClient } from '~/lib/query'
 import { Store } from '~/lib/store'
 
-export const AUTH_KEY = 'auth'
+const AUTH_KEY = 'auth'
 
 export type Account = {
   cookie: string

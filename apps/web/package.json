@@ -14,8 +14,7 @@
     "next-intl": "^4.13.2",
     "react": "19.2.7",
     "react-dom": "19.2.7",
-    "tailwind-merge": "^3.6.0",
-    "zod": "^4.4.3"
+    "tailwind-merge": "^3.6.0"
   },
   "devDependencies": {
     "@radix-ui/colors": "^3.0.0",

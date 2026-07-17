@@ -24,7 +24,7 @@ export function triggerFeedback(type: keyof Feedback) {
   triggerHaptic(type)
 }
 
-export function triggerSound(type: keyof Feedback) {
+function triggerSound(type: keyof Feedback) {
   const { feedbackSounds } = usePreferences.getState()
 
   if (feedbackSounds) {
@@ -32,7 +32,7 @@ export function triggerSound(type: keyof Feedback) {
   }
 }
 
-export function triggerHaptic(type: keyof Feedback) {
+function triggerHaptic(type: keyof Feedback) {
   const { feedbackHaptics, hapticsLoud } = usePreferences.getState()
 
   if (feedbackHaptics) {

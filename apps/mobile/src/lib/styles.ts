@@ -9,12 +9,11 @@ import {
   type TypographyToken,
   typography,
 } from '~/styles/tokens'
-import { type ViewStyleProps } from '~/styles/view'
 
 import { type Font, fonts } from './fonts'
 
 export function stripProps<Type extends object>(
-  props: Type | TextStyleProps | ViewStyleProps | MarginProps | PaddingProps,
+  props: Type | TextStyleProps | MarginProps | PaddingProps,
 ): Type {
   return omit(props, [
     'align',

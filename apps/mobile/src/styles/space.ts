@@ -70,50 +70,7 @@ export type PaddingProps = {
   py?: PaddingToken
 }
 
-export function getPadding({ p, pb, pl, pr, pt, px, py }: PaddingProps) {
-  const style: Pick<
-    ViewStyle,
-    | 'padding'
-    | 'paddingBottom'
-    | 'paddingLeft'
-    | 'paddingRight'
-    | 'paddingTop'
-    | 'paddingHorizontal'
-    | 'paddingVertical'
-  > = {}
-
-  if (p) {
-    style.padding = getSpace(p)
-  }
-
-  if (pb) {
-    style.paddingBottom = getSpace(pb)
-  }
-
-  if (pl) {
-    style.paddingLeft = getSpace(pl)
-  }
-
-  if (pr) {
-    style.paddingRight = getSpace(pr)
-  }
-
-  if (pt) {
-    style.paddingTop = getSpace(pt)
-  }
-
-  if (px) {
-    style.paddingHorizontal = getSpace(px)
-  }
-
-  if (py) {
-    style.paddingVertical = getSpace(py)
-  }
-
-  return style
-}
-
-export function getSpace(key: MarginToken | PaddingToken) {
+function getSpace(key: MarginToken | PaddingToken) {
   if (typeof key === 'number') {
     return key
   }

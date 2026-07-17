@@ -6,9 +6,9 @@ import glyphMap from '~/assets/icons/phosphor/phosphor.glyphmap.json'
 
 const Nano = createNanoIconSet(glyphMap)
 
-export type IconProps = ComponentProps<typeof Nano>
+type Props = ComponentProps<typeof Nano>
 
-export type IconName = IconProps['name']
+export type IconName = Props['name']
 
 export const Icon = withUnistyles(Nano, (theme) => ({
   allowFontScaling: false,

@@ -8,7 +8,7 @@ import { type ColorToken } from './tokens'
 
 type RadixColor = keyof typeof colors
 
-export type ColorScale =
+type ColorScale =
   | 'bg'
   | 'bgAlt'
   | 'ui'
@@ -22,8 +22,8 @@ export type ColorScale =
   | 'textLow'
   | 'text'
 
-export type ColorScaleAlpha = `${ColorScale}Alpha`
-export type ColorScaleExtras = 'contrast'
+type ColorScaleAlpha = `${ColorScale}Alpha`
+type ColorScaleExtras = 'contrast'
 
 export type BlackAndWhite = ColorScaleAlpha
 export type Colors = ColorScale | ColorScaleAlpha | ColorScaleExtras
@@ -91,7 +91,7 @@ function getGray(color: PaletteColor) {
   return 'gray'
 }
 
-export function getColors<Palette extends Colors>(...names: Array<RadixColor>) {
+function getColors<Palette extends Colors>(...names: Array<RadixColor>) {
   const palette: Array<[string, string]> = []
 
   for (const name of names) {

@@ -5,9 +5,9 @@ import { Store } from '~/lib/store'
 import { type DrawerSections, type SearchTabs } from '~/types/defaults'
 import { type FeedType } from '~/types/sort'
 
-export const DEFAULTS_KEY = 'defaults'
+const DEFAULTS_KEY = 'defaults'
 
-export type DefaultsPayload = {
+type DefaultsPayload = {
   community?: string
   drawerSections: DrawerSections
   feed?: string
