@@ -84,7 +84,7 @@
         "react-native-bottom-tabs": "^1.4.0",
         "react-native-drawer-layout": "^4.2.7",
         "react-native-enriched-markdown": "^0.7.4",
-        "react-native-fast-markdown": "^0.2.0-beta.4",
+        "react-native-fast-markdown": "^0.2.0-beta.5",
         "react-native-flexible-grid": "^0.2.5",
         "react-native-gesture-handler": "~2.32.0",
         "react-native-keyboard-controller": "1.21.9",
@@ -1735,7 +1735,7 @@
 
     "react-native-enriched-markdown": ["react-native-enriched-markdown@0.7.4", "", { "peerDependencies": { "@expo/config-plugins": ">=50.0.0", "katex": ">=0.16.0", "react": "*", "react-native": "*" }, "optionalPeers": ["@expo/config-plugins", "katex"] }, "sha512-NXkqZL4d5vM6wOBwYwx0r1Xyw2h+E8SyobrS8nKnbpjYOyKZj6zIdOq1KJFrlenJNu/tXpbJ8jtQagaA4Wj4cg=="],
 
-    "react-native-fast-markdown": ["react-native-fast-markdown@0.2.0-beta.4", "", { "peerDependencies": { "react": ">=19.0.0", "react-native": ">=0.86.0" } }, "sha512-Bm9L5yVB7HaEwFdPbrj4wtszfWZ+oXOYGnLahgh+baU2vCOHnjJaAKbX/ojpkxtGoJQo8jVtRjOQK6idFnHvCA=="],
+    "react-native-fast-markdown": ["react-native-fast-markdown@0.2.0-beta.5", "", { "peerDependencies": { "react": ">=19.0.0", "react-native": ">=0.86.0" } }, "sha512-juF2+gMHjwUUOmowsNWmnFW2qZCApn2xMnUEYciY+JxL/ZeoBLI9IZcI7NOz0YpOeszRunYyuvD4Rz19oZeFfA=="],
 
     "react-native-flexible-grid": ["react-native-flexible-grid@0.2.5", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-Qn2MH2Dm61jKGnXHDxllo/dqypqfwAo5wXSoPMD+2E8gLt+UX2PWKDRmafsbhIQfNjJVKNwvWzZS8H78OuNVnw=="],
 
