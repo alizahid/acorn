@@ -180,6 +180,60 @@ export function PostCard({ expanded, post }: Props) {
 
   if (feedCompact && !expanded) {
     return (
+      <InView onChange={setViewing}>
+        <Gestures
+          data={{
+            hidden: post.hidden,
+            liked: post.liked,
+            saved: post.saved,
+          }}
+          left={{
+            enabled: postLeft,
+            long: postLeftLong,
+            short: postLeftShort,
+          }}
+          onAction={(action) => {
+            onAction(post, action)
+          }}
+          right={{
+            enabled: postRight,
+            long: postRightLong,
+            short: postRightShort,
+          }}
+          style={styles.container}
+        >
+          <PostMenu
+            card={card}
+            onCapturing={setCapturing}
+            post={post}
+            ref={menu}
+          >
+            <Pressable
+              accessibilityHint={a11y('viewPost')}
+              accessibilityLabel={post.title}
+              onLongPress={onLongPress}
+              onPress={onPress}
+            >
+              <View collapsable={false} ref={card} style={styles.compact}>
+                <PostCompactCard
+                  post={post}
+                  privacy={privacy}
+                  side={mediaOnRight ? 'right' : 'left'}
+                  style={styles.dimmed}
+                  viewing={viewing}
+                />
+
+                {capturing ? <Banner style={styles.banner} /> : null}
+              </View>
+            </Pressable>
+          </PostMenu>
+        </Gestures>
+      </InView>
+    )
+  }
+
+  return (
+    <InView onChange={setViewing}>
       <Gestures
         data={{
           hidden: post.hidden,
@@ -208,52 +262,6 @@ export function PostCard({ expanded, post }: Props) {
             onLongPress={onLongPress}
             onPress={onPress}
           >
-            <View collapsable={false} ref={card} style={styles.compact}>
-              <PostCompactCard
-                post={post}
-                privacy={privacy}
-                side={mediaOnRight ? 'right' : 'left'}
-                style={styles.dimmed}
-              />
-
-              {capturing ? <Banner style={styles.banner} /> : null}
-            </View>
-          </Pressable>
-        </PostMenu>
-      </Gestures>
-    )
-  }
-
-  return (
-    <Gestures
-      data={{
-        hidden: post.hidden,
-        liked: post.liked,
-        saved: post.saved,
-      }}
-      left={{
-        enabled: postLeft,
-        long: postLeftLong,
-        short: postLeftShort,
-      }}
-      onAction={(action) => {
-        onAction(post, action)
-      }}
-      right={{
-        enabled: postRight,
-        long: postRightLong,
-        short: postRightShort,
-      }}
-      style={styles.container}
-    >
-      <PostMenu card={card} onCapturing={setCapturing} post={post} ref={menu}>
-        <Pressable
-          accessibilityHint={a11y('viewPost')}
-          accessibilityLabel={post.title}
-          onLongPress={onLongPress}
-          onPress={onPress}
-        >
-          <InView onChange={setViewing}>
             <View collapsable={false} ref={card} style={styles.main}>
               <View style={[styles.header, styles.dimmed]}>
                 {communityOnTop ? <PostCommunity post={post} /> : null}
@@ -329,10 +337,10 @@ export function PostCard({ expanded, post }: Props) {
                 <View pointerEvents="none" style={styles.saved} />
               ) : null}
             </View>
-          </InView>
-        </Pressable>
-      </PostMenu>
-    </Gestures>
+          </Pressable>
+        </PostMenu>
+      </Gestures>
+    </InView>
   )
 }
 

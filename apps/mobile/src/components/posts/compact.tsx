@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
@@ -8,7 +7,6 @@ import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
-import { InView } from '../common/in-view'
 import { Text } from '../common/text'
 import { CrossPostCard } from './crosspost'
 import { PostCommunity } from './footer/community'
@@ -22,6 +20,7 @@ type Props = {
   side?: 'left' | 'right'
   privacy?: boolean
   style?: StyleProp<ViewStyle>
+  viewing: boolean
 }
 
 export function PostCompactCard({
@@ -29,6 +28,7 @@ export function PostCompactCard({
   side = 'left',
   privacy,
   style,
+  viewing,
 }: Props) {
   const { boldTitle, communityOnTop, fontSizeTitle, largeThumbnails } =
     usePreferences(
@@ -44,13 +44,8 @@ export function PostCompactCard({
     large: largeThumbnails,
   })
 
-  const [viewing, setViewing] = useState(false)
-
   return (
-    <InView
-      onChange={setViewing}
-      style={[styles.main(side === 'right'), style]}
-    >
+    <View style={[styles.main(side === 'right'), style]}>
       <View>
         {post.type === 'crosspost' && post.crossPost ? (
           <CrossPostCard
@@ -117,7 +112,7 @@ export function PostCompactCard({
       {!privacy && post.saved ? (
         <View pointerEvents="none" style={styles.saved} />
       ) : null}
-    </InView>
+    </View>
   )
 }
 
