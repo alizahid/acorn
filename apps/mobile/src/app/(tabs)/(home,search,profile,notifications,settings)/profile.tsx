@@ -4,14 +4,16 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
-import { FloatingButton } from '~/components/common/floating-button'
+import {
+  FloatingButton,
+  FloatingButtonSize,
+} from '~/components/common/floating-button'
 import { Icon, type IconName } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { ProfileCard } from '~/components/users/profile'
 import { useListProps } from '~/hooks/list'
 import { useProfile } from '~/hooks/queries/user/profile'
-import { heights } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 import { type ColorToken } from '~/styles/tokens'
@@ -95,7 +97,7 @@ export default function Screen() {
 
 const styles = StyleSheet.create({
   content: {
-    paddingBottom: heights.floatingButton,
+    paddingBottom: FloatingButtonSize,
   },
   main: {
     paddingVertical: 0,

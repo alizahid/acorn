@@ -4,7 +4,10 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { FloatingButton } from '~/components/common/floating-button'
+import {
+  FloatingButton,
+  FloatingButtonSize,
+} from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { SearchBox } from '~/components/common/search'
@@ -12,7 +15,7 @@ import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
-import { heights, iPad } from '~/lib/common'
+import { iPad } from '~/lib/common'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -129,7 +132,7 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   list: {
-    paddingBottom: heights.floatingButton,
+    paddingBottom: FloatingButtonSize,
     variants: {
       iPad: {
         true: {

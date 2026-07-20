@@ -8,7 +8,10 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
-import { FloatingButton } from '~/components/common/floating-button'
+import {
+  FloatingButton,
+  FloatingButtonSize,
+} from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Spinner } from '~/components/common/spinner'
@@ -16,7 +19,6 @@ import { Text } from '~/components/common/text'
 import { FilterCard } from '~/components/filters/card'
 import { useFilters } from '~/hooks/filters'
 import { useListProps } from '~/hooks/list'
-import { heights } from '~/lib/common'
 
 const schema = z.object({
   filters: z.array(
@@ -179,7 +181,7 @@ export default function Screen() {
 const styles = StyleSheet.create((theme) => ({
   content: {
     padding: theme.space[4],
-    paddingBottom: heights.floatingButton,
+    paddingBottom: FloatingButtonSize,
   },
   header: {
     gap: theme.space[2],

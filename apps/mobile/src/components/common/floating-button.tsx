@@ -10,6 +10,8 @@ import { BlurView } from '../native/blur-view'
 import { GlassView } from '../native/glass-view'
 import { IconButton } from './icon/button'
 
+export const FloatingButtonSize = 80 // 48 + 16 + 16
+
 export const FloatingButtonSide = ['left', 'center', 'right', 'hide'] as const
 
 export type FloatingButtonSide = (typeof FloatingButtonSide)[number]

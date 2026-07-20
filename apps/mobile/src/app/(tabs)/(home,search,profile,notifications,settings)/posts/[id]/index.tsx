@@ -17,7 +17,10 @@ import { useShallow } from 'zustand/react/shallow'
 import { CommentCard } from '~/components/comments/card'
 import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
-import { FloatingButton } from '~/components/common/floating-button'
+import {
+  FloatingButton,
+  FloatingButtonSize,
+} from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { RefreshControl } from '~/components/common/refresh-control'
 import { SearchBox } from '~/components/common/search'
@@ -28,7 +31,7 @@ import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
-import { glass, heights, iPad } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 
@@ -331,7 +334,7 @@ export default function Screen() {
 
 const styles = StyleSheet.create((theme) => ({
   content: {
-    paddingBottom: heights.floatingButton,
+    paddingBottom: FloatingButtonSize,
     variants: {
       iPad: {
         true: {
