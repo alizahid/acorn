@@ -135,6 +135,10 @@ export function ImageGrid({
                 />
               </Galeria.Image>
 
+              {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
+                <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+              ) : null}
+
               {item.type === 'gif' ? (
                 <View pointerEvents="none" style={[styles.label, styles.gif]}>
                   <Text contrast size="1" weight="medium">
@@ -156,10 +160,6 @@ export function ImageGrid({
           })}
         </Text>
       </View>
-
-      {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
-        <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
-      ) : null}
     </>
   )
 }
