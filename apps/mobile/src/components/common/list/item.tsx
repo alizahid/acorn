@@ -80,6 +80,6 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
     height: theme.space[7],
     justifyContent: 'center',
-    width: theme.space[7],
+    width: theme.space[8],
   },
 }))

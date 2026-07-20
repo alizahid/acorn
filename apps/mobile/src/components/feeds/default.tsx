@@ -64,19 +64,21 @@ export function DefaultFeed({ type }: Props) {
         </Stack.Toolbar.View>
       </Stack.Toolbar>
 
-      <Stack.Toolbar placement="right">
-        <Stack.Toolbar.View>
-          <IconButton
-            accessibilityLabel={a11y('toggleSidebar')}
-            header
-            onPress={() => {
-              mitter.emit('drawer-toggle')
-            }}
-          >
-            <Icon name="sidebar" />
-          </IconButton>
-        </Stack.Toolbar.View>
-      </Stack.Toolbar>
+      {iPad ? null : (
+        <Stack.Toolbar placement="right">
+          <Stack.Toolbar.View>
+            <IconButton
+              accessibilityLabel={a11y('toggleSidebar')}
+              header
+              onPress={() => {
+                mitter.emit('drawer-toggle')
+              }}
+            >
+              <Icon name="sidebar" />
+            </IconButton>
+          </Stack.Toolbar.View>
+        </Stack.Toolbar>
+      )}
 
       <PostList
         community={type === 'home' ? undefined : type}

@@ -2,6 +2,7 @@ import { type ReactNode, useEffect, useState } from 'react'
 import { Drawer as DrawerLayout } from 'react-native-drawer-layout'
 import { StyleSheet } from 'react-native-unistyles'
 
+import { iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 
 import { CommunitiesList } from '../communities/list'
@@ -11,6 +12,10 @@ type Props = {
 }
 
 export function Drawer({ children }: Props) {
+  styles.useVariants({
+    iPad,
+  })
+
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
@@ -35,9 +40,9 @@ export function Drawer({ children }: Props) {
 
   return (
     <DrawerLayout
-      drawerPosition="right"
+      drawerPosition={iPad ? 'left' : 'right'}
       drawerStyle={styles.drawer}
-      drawerType="slide"
+      drawerType={iPad ? 'permanent' : 'slide'}
       onClose={() => {
         setOpen(false)
       }}
@@ -47,11 +52,12 @@ export function Drawer({ children }: Props) {
       open={open}
       renderDrawerContent={() => (
         <CommunitiesList
+          contentContainerStyle={styles.content}
           drawer
           onPress={() => {
             setOpen(false)
           }}
-          style={styles.content}
+          style={styles.main}
         />
       )}
     >
@@ -62,10 +68,20 @@ export function Drawer({ children }: Props) {
 
 const styles = StyleSheet.create((theme, runtime) => ({
   content: {
-    flex: 1,
-    marginTop: runtime.insets.top,
+    flexGrow: 1,
   },
   drawer: {
-    backgroundColor: theme.colors.ui.bg,
+    backgroundColor: theme.colors.gray.bg,
+    variants: {
+      iPad: {
+        true: {
+          width: 300,
+        },
+      },
+    },
+  },
+  main: {
+    flex: 1,
+    marginTop: runtime.insets.top,
   },
 }))

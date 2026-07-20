@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: sticky drawer on iPad
 - changed: softer background colors
 - fixed: communities list rebuilt
 - fixed: drawer alphabet list

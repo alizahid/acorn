@@ -287,7 +287,7 @@ export function CommunitiesList({
 
   const listProps = useListProps(true)
 
-  const alphabet = communities.length > 10
+  const alphabet = communities.length > 20
 
   return (
     <View style={style}>
