@@ -1,35 +1,28 @@
 import { type ReactNode } from 'react'
-import { type StyleProp, type TextStyle, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
-import { type TypographyToken } from '~/styles/tokens'
 
 type Props = {
-  icon?: ReactNode
   label: string
-  labelStyle?: StyleProp<TextStyle>
   left?: ReactNode
   navigate?: boolean
   onPress?: () => void
   right?: ReactNode
   selected?: boolean
-  size?: TypographyToken
   style?: StyleProp<ViewStyle>
 }
 
 export function ListItem({
-  icon,
   label,
-  labelStyle,
   left,
   navigate,
   onPress,
   right,
   selected,
-  size,
   style,
 }: Props) {
   styles.useVariants({
@@ -43,28 +36,25 @@ export function ListItem({
       onPress={onPress}
       style={[styles.main, style]}
     >
-      {icon ?? left}
+      {left ? <View style={styles.side}>{left}</View> : null}
 
-      <Text
-        numberOfLines={1}
-        size={size}
-        style={[styles.label, labelStyle]}
-        weight="medium"
-      >
+      <Text numberOfLines={1} size="2" style={styles.label}>
         {label}
       </Text>
 
+      {right ? <View style={styles.side}>{right}</View> : null}
+
       {navigate ? (
-        <Icon
-          name="caret-right"
-          uniProps={(theme) => ({
-            color: theme.colors.gray.textLow,
-            size: theme.space[3],
-          })}
-        />
-      ) : (
-        right
-      )}
+        <View style={styles.side}>
+          <Icon
+            name="caret-right"
+            uniProps={(theme) => ({
+              color: theme.colors.gray.textLow,
+              size: theme.space[4],
+            })}
+          />
+        </View>
+      ) : null}
     </Pressable>
   )
 }
@@ -76,15 +66,20 @@ const styles = StyleSheet.create((theme) => ({
   main: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: theme.space[3],
-    height: theme.space[8],
-    paddingHorizontal: theme.space[3],
+    height: theme.space[7],
     variants: {
       selected: {
         true: {
-          backgroundColor: theme.colors.accent.uiActive,
+          backgroundColor: theme.colors.accent.bg,
         },
       },
     },
+  },
+  side: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: theme.space[7],
+    justifyContent: 'center',
+    width: theme.space[7],
   },
 }))

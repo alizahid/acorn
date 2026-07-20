@@ -11,7 +11,7 @@ import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
-import { ListItem } from '~/components/common/list/item'
+import { List } from '~/components/common/list'
 import { Sheet } from '~/components/common/sheet'
 import { Text } from '~/components/common/text'
 import { CommunitiesList } from '~/components/communities/list'
@@ -50,8 +50,9 @@ export default function Screen() {
             {t('feedType.title')}
           </Text>
 
-          <ListItem
-            icon={
+          <List.Item
+            label={community ?? feed ?? t(`feedType.${feedType}`)}
+            left={
               <Icon
                 name={
                   community
@@ -62,14 +63,15 @@ export default function Screen() {
                 }
                 uniProps={(theme) => ({
                   color: community
-                    ? undefined
+                    ? theme.colors.accent.accent
                     : feed
-                      ? undefined
+                      ? theme.colors.accent.accent
                       : theme.colors[FeedTypeColors[feedType]].accent,
+                  height: 20,
+                  width: 20,
                 })}
               />
             }
-            label={community ?? feed ?? t(`feedType.${feedType}`)}
             onPress={() => {
               sheet.current?.present()
             }}
@@ -167,12 +169,13 @@ export default function Screen() {
         <Sheet.Header style={styles.title} title={t('feed.title')} />
 
         <CommunitiesList
+          contentContainerStyle={styles.listContent}
           onPress={(item) => {
             sheet.current?.dismiss()
 
             if (item.type === 'community') {
               update({
-                community: item.data.name,
+                community: item.community.name,
                 feed: undefined,
                 feedType: undefined,
               })
@@ -181,7 +184,15 @@ export default function Screen() {
             if (item.type === 'feed') {
               update({
                 community: undefined,
-                feed: item.data.name,
+                feed: item.feed.name,
+                feedType: undefined,
+              })
+            }
+
+            if (item.type === 'feed-community') {
+              update({
+                community: item.name,
+                feed: undefined,
                 feedType: undefined,
               })
             }
@@ -190,18 +201,19 @@ export default function Screen() {
               update({
                 community: undefined,
                 feed: undefined,
-                feedType: item.data,
+                feedType: item.name,
               })
             }
           }}
           show={['type', 'community', 'feed']}
+          style={styles.list}
         />
       </Sheet.Root>
     </>
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   content: {
     padding: theme.space[4],
   },
@@ -212,6 +224,12 @@ const styles = StyleSheet.create((theme) => ({
     height: theme.space[8],
     paddingLeft: 0,
     paddingRight: theme.space[1],
+  },
+  list: {
+    flex: 1,
+  },
+  listContent: {
+    paddingBottom: runtime.insets.bottom,
   },
   section: {
     marginTop: theme.space[6],

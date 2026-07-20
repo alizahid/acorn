@@ -3,6 +3,7 @@
 ## Upcoming
 
 - changed: softer background colors
+- fixed: communities list rebuilt
 - fixed: drawer alphabet list
 
 ## Build 84

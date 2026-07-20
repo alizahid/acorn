@@ -9,7 +9,6 @@ import { useDefaults } from '~/stores/defaults'
 import { FeedType } from '~/types/sort'
 
 const schema = z.object({
-  community: z.string().optional(),
   feed: z.string().optional(),
   type: z.enum(FeedType).optional(),
 })
@@ -31,10 +30,6 @@ export default function Screen() {
     return <CustomFeed name={params.feed} />
   }
 
-  if (params.community) {
-    return <CommunityFeed name={params.community} />
-  }
-
   if (params.type) {
     return <DefaultFeed type={params.type} />
   }
@@ -47,9 +42,5 @@ export default function Screen() {
     return <CommunityFeed name={defaults.community} />
   }
 
-  if (defaults.feedType) {
-    return <DefaultFeed type={defaults.feedType} />
-  }
-
-  return <DefaultFeed type="home" />
+  return <DefaultFeed type={defaults.feedType} />
 }

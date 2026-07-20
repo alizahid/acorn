@@ -1,21 +1,15 @@
+import { FlashList, type FlashListRef } from '@shopify/flash-list'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import fuzzysort from 'fuzzysort'
-import { compact } from 'lodash'
+import { compact, orderBy, sortBy } from 'lodash'
 import { useMemo, useRef, useState } from 'react'
-import {
-  SectionList,
-  type SectionListData,
-  type StyleProp,
-  View,
-  type ViewStyle,
-} from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
-import { Icon } from '~/components/common/icon'
-import { renderScrollComponent } from '~/hooks/list'
+import { useListProps } from '~/hooks/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/communities/feeds'
 import { removePrefix } from '~/lib/reddit'
@@ -26,53 +20,62 @@ import { type Community } from '~/types/community'
 import { type Feed } from '~/types/feed'
 import { FeedType } from '~/types/sort'
 
-import { Empty } from '../common/empty'
+import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
-import { ListHeader } from '../common/list/header'
-import { ListItem } from '../common/list/item'
+import { List } from '../common/list'
 import { RefreshControl } from '../common/refresh-control'
 import { SearchBox } from '../common/search'
 import { Spinner } from '../common/spinner'
-import { type AlphabetItem, AlphabetList } from './alphabet'
-
-type Section = {
-  collapsed?: boolean
-  collapsible: boolean
-  key: string
-  loading: boolean
-  title?: string
-}
+import { AlphabetList } from './alphabet'
 
 type Item =
   | {
-      data: FeedType
+      collapsed?: boolean
       key: string
+      title: string
+      type: 'title'
+    }
+  | {
+      key: string
+      name: FeedType
       type: 'type'
     }
   | {
-      data: Feed
+      feed: Feed
       key: string
+      open?: boolean
       type: 'feed'
     }
   | {
-      data: Community
+      community?: Community
+      key: string
+      name: string
+      type: 'feed-community'
+    }
+  | {
+      community: Community
       key: string
       type: 'community'
     }
   | {
-      data: Community
       key: string
-      type: 'user'
+      type: 'loading'
+    }
+  | {
+      key: string
+      type: 'separator'
     }
 
 type Props = {
+  contentContainerStyle?: StyleProp<ViewStyle>
   drawer?: boolean
   onPress?: (item: Item) => void
-  show?: Array<Item['type']>
+  show?: Array<'community' | 'feed' | 'type' | 'user'>
   style?: StyleProp<ViewStyle>
 }
 
 export function CommunitiesList({
+  contentContainerStyle,
   drawer,
   onPress,
   show = ['community', 'feed', 'type', 'user'],
@@ -80,8 +83,8 @@ export function CommunitiesList({
 }: Props) {
   const router = useRouter()
 
-  const t = useTranslations('component.common.type')
   const a11y = useTranslations('a11y')
+  const t = useTranslations('component.common.type')
 
   const { drawerSections } = useDefaults(
     useShallow((state) => ({
@@ -89,105 +92,101 @@ export function CommunitiesList({
     })),
   )
 
-  const { feeds, isLoading: loadingFeeds, refetch: refetchFeeds } = useFeeds()
   const { communities, isLoading, users, refetch } = useCommunities()
+  const { feeds, isLoading: loadingFeeds, refetch: refetchFeeds } = useFeeds()
 
-  const list = useRef<SectionList<Item, Section>>(null)
+  const list = useRef<FlashListRef<Item>>(null)
 
   const [query, setQuery] = useState('')
 
   const [collapsed, setCollapsed] = useState(new Map<string, boolean>())
   const [open, setOpen] = useState(new Map<string, boolean>())
 
-  const sections: Array<SectionListData<Item, Section>> = useMemo(() => {
-    const dataType: Array<Item> = show.includes('type')
-      ? FeedType.map((item) => ({
-          data: item,
+  const data: Array<Item> = useMemo(() => {
+    const dataType = show.includes('type')
+      ? FeedType.map<Item>((item) => ({
           key: item,
+          name: item,
           type: 'type',
         }))
       : []
 
-    const dataCommunities: Array<Item> = show.includes('community')
-      ? communities.map((item) => ({
-          data: item,
-          key: item.id,
-          type: 'community',
-        }))
-      : []
+    const dataCommunities = orderBy(
+      sortBy(
+        [
+          ...(show.includes('community')
+            ? communities.map(
+                (item) =>
+                  ({
+                    community: item,
+                    key: item.id,
+                    type: 'community',
+                  }) satisfies Item,
+              )
+            : []),
+          ...(show.includes('user')
+            ? users.map(
+                (item) =>
+                  ({
+                    community: item,
+                    key: item.id,
+                    type: 'community',
+                  }) satisfies Item,
+              )
+            : []),
+        ],
+        (item) =>
+          item.community.user
+            ? item.community.name.slice(2)
+            : item.community.name,
+      ),
+      (item) => item.community.favorite,
+      'desc',
+    )
 
-    const dataFeeds: Array<Item> = show.includes('feed')
-      ? feeds.map((item) => ({
-          data: item,
-          key: item.id,
-          type: 'feed',
-        }))
-      : []
-
-    const dataUsers: Array<Item> = show.includes('user')
-      ? users.map((item) => ({
-          data: item,
-          key: item.id,
-          type: 'user',
-        }))
+    const dataFeeds = show.includes('feed')
+      ? feeds.map(
+          (item) =>
+            ({
+              feed: item,
+              key: item.id,
+              open: open.get(item.id),
+              type: 'feed',
+            }) satisfies Item,
+        )
       : []
 
     if (query.length > 0) {
-      const resultsCommunities = fuzzysort.go(query, dataCommunities, {
-        key: 'data.name',
-      })
-
       const resultsFeeds = fuzzysort.go(query, dataFeeds, {
-        key: 'data.name',
+        key: 'community.name',
       })
 
-      const resultsUsers = fuzzysort.go(query, dataUsers, {
-        key: 'data.name',
+      const resultsCommunities = fuzzysort.go(query, dataCommunities, {
+        key: 'community.name',
       })
 
       return [
-        {
-          collapsed: false,
-          collapsible: false,
-          data: resultsFeeds.map((result) => result.obj),
-          key: 'feeds',
-          loading: false,
-          type: 'feed',
-        },
-        {
-          collapsed: false,
-          collapsible: false,
-          data: resultsCommunities.map((result) => result.obj),
-          key: 'communities',
-          loading: false,
-          type: 'community',
-        },
-        {
-          collapsed: false,
-          collapsible: false,
-          data: resultsUsers.map((result) => result.obj),
-          key: 'users',
-          loading: false,
-          type: 'user',
-        },
+        ...resultsFeeds.map((item) => item.obj),
+        ...resultsCommunities.map((item) => item.obj),
       ]
     }
 
-    return compact(
+    const sections = compact(
       drawerSections.map((section) => {
         if (
           show.includes('type') &&
           section.key === 'feed' &&
           !section.disabled
         ) {
-          return {
-            collapsed: collapsed.get('type'),
-            collapsible: true,
-            data: dataType,
-            key: 'type',
-            loading: false,
-            title: t('type.title'),
-          }
+          return [
+            {
+              collapsed: collapsed.get('type'),
+              key: 'type',
+              title: t('type.title'),
+              type: 'title',
+            } satisfies Item,
+            ...(collapsed.get('type') ? [] : dataType),
+          ]
         }
 
         if (
@@ -196,14 +195,42 @@ export function CommunitiesList({
           !section.disabled &&
           dataFeeds.length > 0
         ) {
-          return {
-            collapsed: collapsed.get('feeds'),
-            collapsible: true,
-            data: dataFeeds,
-            key: 'feeds',
-            loading: loadingFeeds,
-            title: t('feeds.title'),
-          }
+          return compact([
+            {
+              collapsed: collapsed.get('feeds'),
+              key: 'feeds',
+              title: t('feeds.title'),
+              type: 'title',
+            } satisfies Item,
+            ...(collapsed.get('feeds')
+              ? []
+              : dataFeeds.flatMap((item) => {
+                  if (open.get(item.feed.id)) {
+                    return [
+                      item,
+                      ...item.feed.communities.map(
+                        (name) =>
+                          ({
+                            community: communities.find(
+                              (community) => community.name === name,
+                            ),
+                            key: `${item.feed.id}-${name}`,
+                            name,
+                            type: 'feed-community',
+                          }) satisfies Item,
+                      ),
+                    ]
+                  }
+
+                  return [item]
+                })),
+            loadingFeeds
+              ? ({
+                  key: 'feeds-loading',
+                  type: 'loading',
+                } satisfies Item)
+              : null,
+          ])
         }
 
         if (
@@ -212,34 +239,37 @@ export function CommunitiesList({
           !section.disabled &&
           dataCommunities.length > 0
         ) {
-          return {
-            collapsed: collapsed.get('communities'),
-            collapsible: true,
-            data: dataCommunities,
-            key: 'communities',
-            loading: isLoading,
-            title: t('communities.title'),
-          }
-        }
-
-        if (
-          show.includes('user') &&
-          section.key === 'users' &&
-          !section.disabled &&
-          dataUsers.length > 0
-        ) {
-          return {
-            collapsed: collapsed.get('users'),
-            collapsible: true,
-            data: dataUsers,
-            key: 'users',
-            loading: isLoading,
-            title: t('users.title'),
-          }
+          return compact([
+            {
+              collapsed: collapsed.get('communities'),
+              key: 'communities',
+              title: t('communities.title'),
+              type: 'title',
+            } satisfies Item,
+            ...(collapsed.get('communities') ? [] : dataCommunities),
+            isLoading
+              ? ({
+                  key: 'communities-loading',
+                  type: 'loading',
+                } satisfies Item)
+              : null,
+          ])
         }
 
         return null
       }),
+    )
+
+    return sections.flatMap((items, index) =>
+      compact([
+        index > 0
+          ? ({
+              key: `separator-${index}`,
+              type: 'separator',
+            } satisfies Item)
+          : null,
+        ...items,
+      ]),
     )
   }, [
     collapsed,
@@ -251,8 +281,13 @@ export function CommunitiesList({
     query,
     t,
     users,
-    show.includes,
+    show,
+    open,
   ])
+
+  const listProps = useListProps(true)
+
+  const alphabet = communities.length > 10
 
   return (
     <View style={style}>
@@ -260,49 +295,50 @@ export function CommunitiesList({
         <SearchBox onChange={setQuery} value={query} />
       </View>
 
-      <SectionList
-        contentContainerStyle={styles.content}
+      <FlashList
+        {...listProps}
+        contentContainerStyle={[
+          styles.content(alphabet),
+          contentContainerStyle,
+        ]}
+        data={data}
         extraData={{
           collapsed,
           open,
+          query,
         }}
-        getItemLayout={(_data, index) => ({
-          index,
-          length: space[8],
-          offset: space[8] * index,
-        })}
+        getItemType={(item) => item.type}
         keyExtractor={(item) => item.key}
-        ListEmptyComponent={() => <Empty />}
+        maintainVisibleContentPosition={{
+          disabled: true,
+        }}
         ref={list}
         refreshControl={
           <RefreshControl
             onRefresh={() => Promise.all([refetch(), refetchFeeds()])}
           />
         }
-        renderItem={({ item, section }) => {
-          if (section.collapsed) {
-            return null
-          }
-
+        renderItem={({ item }) => {
           if (item.type === 'type') {
             return (
-              <ListItem
-                icon={
+              <List.Item
+                label={t(`type.${item.name}`)}
+                left={
                   <Icon
-                    name={FeedTypeIcons[item.data]}
+                    name={FeedTypeIcons[item.name]}
                     uniProps={(theme) => ({
-                      color: theme.colors[FeedTypeColors[item.data]].accent,
+                      color: theme.colors[FeedTypeColors[item.name]].accent,
+                      size: 20,
                     })}
                   />
                 }
-                label={t(`type.${item.data}`)}
                 onPress={() => {
                   onPress?.(item)
 
                   if (drawer) {
                     router.navigate({
                       params: {
-                        type: item.data,
+                        type: item.name,
                       },
                       pathname: '/',
                     })
@@ -312,277 +348,218 @@ export function CommunitiesList({
             )
           }
 
-          if (item.type === 'feed') {
+          if (item.type === 'community') {
             return (
-              <View style={styles.feed(open.get(item.key))}>
-                <ListItem
-                  label={item.data.name}
-                  left={
-                    <Image
-                      accessibilityIgnoresInvertColors
-                      source={item.data.image}
-                      style={styles.image}
-                    />
+              <List.Item
+                label={item.community.name}
+                left={
+                  <Image
+                    recyclingKey={item.key}
+                    source={item.community.image}
+                    style={styles.icon}
+                  />
+                }
+                navigate
+                onPress={() => {
+                  onPress?.(item)
+
+                  if (!drawer) {
+                    return
                   }
-                  onPress={() => {
-                    onPress?.(item)
 
-                    if (drawer) {
-                      router.navigate({
-                        params: {
-                          feed: item.data.id,
-                        },
-                        pathname: '/',
-                      })
-                    }
-                  }}
-                  right={
-                    drawer ? (
-                      <IconButton
-                        accessibilityLabel={a11y(
-                          open.has(item.key) ? 'collapseFeed' : 'expandFeed',
-                        )}
-                        onPress={() => {
-                          setOpen((previous) => {
-                            const next = new Map(previous)
-
-                            next.set(item.key, !next.get(item.key))
-
-                            return next
-                          })
-                        }}
-                        style={styles.right}
-                      >
-                        <Icon
-                          name={
-                            open.get(item.key)
-                              ? 'caret-circle-down-fill'
-                              : 'caret-circle-up-fill'
-                          }
-                        />
-                      </IconButton>
-                    ) : null
-                  }
-                />
-
-                {drawer && open.get(item.key)
-                  ? item.data.communities.map((community) => {
-                      const exists = communities.find(
-                        ({ name }) => name === community,
-                      )
-
-                      return (
-                        <ListItem
-                          key={community}
-                          label={community}
-                          left={
-                            <Image
-                              accessibilityIgnoresInvertColors
-                              source={exists?.image}
-                              style={[styles.image, styles.feedCommunityImage]}
-                            />
-                          }
-                          onPress={() => {
-                            onPress?.(item)
-
-                            if (drawer) {
-                              router.navigate({
-                                params: {
-                                  community,
-                                },
-                                pathname: '/',
-                              })
-                            }
-                          }}
-                          size="2"
-                          style={styles.feedCommunity}
-                        />
-                      )
+                  if (item.community.user) {
+                    router.navigate({
+                      params: {
+                        name: removePrefix(item.community.name),
+                      },
+                      pathname: '/users/[name]',
                     })
-                  : null}
-              </View>
+
+                    return
+                  }
+
+                  router.navigate({
+                    params: {
+                      name: item.community.name,
+                    },
+                    pathname: '/communities/[name]',
+                  })
+                }}
+                right={
+                  item.community.favorite ? (
+                    <Icon
+                      name="star-fill"
+                      uniProps={(theme) => ({
+                        color: theme.colors.amber.accent,
+                      })}
+                    />
+                  ) : null
+                }
+              />
             )
           }
 
-          return (
-            <ListItem
-              label={item.data.name}
-              left={
-                <Image
-                  accessibilityIgnoresInvertColors
-                  source={item.data.image}
-                  style={styles.image}
-                />
-              }
-              onPress={() => {
-                onPress?.(item)
-
-                if (!drawer) {
-                  return
-                }
-
-                if (item.type === 'community') {
-                  router.navigate({
-                    params: {
-                      community: item.data.name,
-                    },
-                    pathname: '/',
-                  })
-
-                  return
-                }
-
-                router.navigate({
-                  params: {
-                    name: removePrefix(item.data.name),
-                  },
-                  pathname: '/users/[name]',
-                })
-              }}
-              right={
-                'favorite' in item.data && item.data.favorite ? (
-                  <Icon
-                    name="star-fill"
-                    uniProps={(theme) => ({
-                      color: theme.colors.amber.accent,
-                    })}
+          if (item.type === 'feed') {
+            return (
+              <List.Item
+                label={item.feed.name}
+                left={
+                  <Image
+                    recyclingKey={item.key}
+                    source={item.feed.image}
+                    style={styles.icon}
                   />
-                ) : null
+                }
+                onPress={() => {
+                  onPress?.(item)
+
+                  if (drawer) {
+                    router.navigate({
+                      params: {
+                        feed: item.feed.name,
+                      },
+                      pathname: '/',
+                    })
+                  }
+                }}
+                right={
+                  <IconButton
+                    accessibilityLabel={a11y(
+                      item.open ? 'collapseSection' : 'expandSection',
+                    )}
+                    onPress={() => {
+                      setOpen((previous) => {
+                        const next = new Map(previous)
+
+                        next.set(item.key, !next.get(item.key))
+
+                        return next
+                      })
+                    }}
+                    size="7"
+                  >
+                    <Icon
+                      name={
+                        item.open
+                          ? 'caret-circle-down-fill'
+                          : 'caret-circle-up-fill'
+                      }
+                      size={space[4]}
+                    />
+                  </IconButton>
+                }
+              />
+            )
+          }
+
+          if (item.type === 'feed-community') {
+            return (
+              <List.Item
+                label={item.community?.name ?? item.name}
+                left={
+                  <Image
+                    recyclingKey={item.key}
+                    source={item.community?.image}
+                    style={styles.icon}
+                  />
+                }
+                navigate
+                onPress={() => {
+                  onPress?.(item)
+
+                  if (drawer) {
+                    router.navigate({
+                      params: {
+                        name: item.name,
+                      },
+                      pathname: '/communities/[name]',
+                    })
+                  }
+                }}
+              />
+            )
+          }
+
+          if (item.type === 'loading') {
+            return <Spinner style={styles.spinner} />
+          }
+
+          if (item.type === 'separator') {
+            return <View style={styles.separator} />
+          }
+
+          return (
+            <List.Header
+              right={
+                <IconButton
+                  accessibilityLabel={a11y(
+                    item.collapsed ? 'expandSection' : 'collapseSection',
+                  )}
+                  onPress={() => {
+                    setCollapsed((previous) => {
+                      const next = new Map(previous)
+
+                      next.set(item.key, !next.get(item.key))
+
+                      return next
+                    })
+                  }}
+                  size="7"
+                >
+                  <Icon name={item.collapsed ? 'caret-up' : 'caret-down'} />
+                </IconButton>
               }
-              style={
-                !section.collapsed &&
-                section.data.length > 10 &&
-                ['communities', 'users'].includes(section.key)
-                  ? styles.item
-                  : undefined
-              }
+              title={item.title}
             />
           )
         }}
-        renderScrollComponent={renderScrollComponent}
-        renderSectionHeader={({ section }) => {
-          if (!section.title) {
-            return null
-          }
-
-          const sectionIndex = sections.findIndex(
-            (item) => item.key === section.key,
-          )
-
-          return (
-            <>
-              {drawer &&
-              !section.collapsed &&
-              section.data.length > 10 &&
-              ['communities', 'users'].includes(section.key) ? (
-                <AlphabetList
-                  data={section.data as Array<AlphabetItem>}
-                  onScroll={(itemIndex) => {
-                    list.current?.scrollToLocation({
-                      animated: false,
-                      itemIndex: itemIndex + 1,
-                      sectionIndex,
-                      viewOffset: space[8],
-                    })
-                  }}
-                />
-              ) : undefined}
-
-              <ListHeader
-                left={
-                  section.loading ? (
-                    <View style={styles.loading}>
-                      <Spinner />
-                    </View>
-                  ) : null
-                }
-                right={
-                  drawer ? (
-                    section.collapsible ? (
-                      <IconButton
-                        accessibilityLabel={a11y(
-                          collapsed.get(section.key)
-                            ? 'collapseSection'
-                            : 'expandSection',
-                        )}
-                        hitSlop={{
-                          left: 300,
-                        }}
-                        onPress={() => {
-                          setCollapsed((previous) => {
-                            const next = new Map(previous)
-
-                            next.set(section.key, !next.get(section.key))
-
-                            return next
-                          })
-                        }}
-                      >
-                        <Icon
-                          name={
-                            collapsed.get(section.key)
-                              ? 'caret-up'
-                              : 'caret-down'
-                          }
-                        />
-                      </IconButton>
-                    ) : null
-                  ) : null
-                }
-                style={styles.header}
-                title={section.title}
-                titleStyle={styles.headerTitle}
-              />
-            </>
-          )
-        }}
-        sections={sections}
+        showsVerticalScrollIndicator={false}
       />
+
+      {alphabet ? (
+        <AlphabetList
+          data={compact(
+            data.map((item, index) =>
+              item.type === 'community'
+                ? {
+                    community: item.community,
+                    index,
+                    key: item.key,
+                  }
+                : null,
+            ),
+          )}
+          onScroll={(index) => {
+            console.log('onScroll', index)
+
+            list.current?.scrollToIndex({
+              animated: false,
+              index,
+            })
+          }}
+        />
+      ) : null}
     </View>
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
-  content: {
-    flexGrow: 1,
-    paddingBottom: theme.space[4] + runtime.insets.bottom,
-  },
-  feed: (open?: boolean) => ({
-    backgroundColor: open ? theme.colors.accent.bgAltAlpha : undefined,
+const styles = StyleSheet.create((theme) => ({
+  content: (alphabet: boolean) => ({
+    paddingRight: alphabet ? theme.space[5] : undefined,
   }),
-  feedCommunity: {
-    height: theme.space[7],
-    paddingLeft: theme.space[4],
-  },
-  feedCommunityImage: {
-    height: theme.typography[2].lineHeight,
-    width: theme.typography[2].lineHeight,
-  },
-  header: {
-    alignItems: 'flex-start',
-    backgroundColor: theme.colors.ui.bg,
-    paddingLeft: theme.space[3],
-  },
-  headerTitle: {
-    color: theme.colors.accent.textLow,
-  },
-  image: {
+  icon: {
     backgroundColor: theme.colors.gray.ui,
-    borderCurve: 'continuous',
-    borderRadius: theme.typography[3].lineHeight,
-    height: theme.typography[3].lineHeight,
-    width: theme.typography[3].lineHeight,
+    borderRadius: 20,
+    height: 20,
+    width: 20,
   },
   item: {
-    marginRight: theme.space[5],
+    height: theme.space[7],
   },
-  loading: {
-    alignItems: 'center',
-    height: theme.space[8],
-    justifyContent: 'center',
-    width: theme.space[8],
+  separator: {
+    height: theme.space[4],
   },
-  right: {
-    marginRight: -theme.space[3],
+  spinner: {
+    margin: theme.space[4],
   },
 }))
