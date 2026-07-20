@@ -111,7 +111,7 @@ export default function Screen() {
   const header = useMemo(
     () => (
       <View style={styles.header}>
-        <SearchBox onChange={setQuery} value={query} />
+        <SearchBox onChange={setQuery} style={styles.search} value={query} />
 
         {post ? <PostCard expanded post={post} /> : null}
 
@@ -342,6 +342,18 @@ const styles = StyleSheet.create((theme) => ({
   },
   header: {
     marginBottom: theme.space[2],
+  },
+  search: {
+    borderBottomColor: theme.colors.gray.border,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    variants: {
+      iPad: {
+        true: {
+          marginBottom: theme.space[4],
+          marginHorizontal: -theme.space[4],
+        },
+      },
+    },
   },
   separator: {
     height: theme.space[2],
