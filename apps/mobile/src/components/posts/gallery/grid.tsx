@@ -3,7 +3,7 @@ import { Image } from 'expo-image'
 import { useMemo } from 'react'
 import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
-import { StyleSheet, useUnistyles } from 'react-native-unistyles'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -45,8 +45,6 @@ export function ImageGrid({
     })),
   )
 
-  const { theme } = useUnistyles()
-
   const data = useMemo(() => {
     const sizes = images.map((image) => ({
       height: styles.carousel.height,
@@ -69,7 +67,7 @@ export function ImageGrid({
     const image = images[0]!
 
     return (
-      <Galeria closeIconName="xmark" theme={theme.variant} urls={[image.url]}>
+      <Galeria closeIconName="xmark" urls={[image.url]}>
         <View style={styles.one(image.width / image.height)}>
           <Galeria.Image
             onDismiss={onDismiss}
