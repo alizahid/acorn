@@ -60,9 +60,9 @@ export function createPalette(color: PaletteColor, dark?: boolean) {
     violet: getColors<Colors>(`violet${suffix}`, `violet${suffix}A`),
 
     ui: {
-      bg: dark ? '#000' : '#fff',
-      bgAlpha: dark ? 'rgba(0, 0, 0, 0.9)' : 'rgba(255, 255, 255, 0.9)',
-      overlay: dark ? 'rgba(255, 255, 255, 0.1)' : 'rgba(0, 0, 0, 0.1)',
+      bg: dark ? 'rgb(10, 10, 10)' : 'rgb(245, 245, 245)',
+      bgAlpha: dark ? 'rgba(10, 10, 10, 0.9)' : 'rgba(245, 245, 245, 0.9)',
+      overlay: dark ? 'rgba(245, 245, 245, 0.1)' : 'rgba(10, 10, 10, 0.1)',
     },
   }
 }

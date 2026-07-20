@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- changed: softer background colors
 - fixed: drawer alphabet list
 
 ## Build 84
