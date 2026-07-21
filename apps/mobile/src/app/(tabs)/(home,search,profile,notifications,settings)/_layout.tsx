@@ -221,6 +221,7 @@ function StackLayout({ children }: PropsWithChildren) {
         })}
         name="posts/[id]/index"
         options={{
+          headerStyle: styles.header,
           headerTransparent: false,
           title: t('posts.post.title'),
         }}
@@ -313,9 +314,12 @@ function StackLayout({ children }: PropsWithChildren) {
   )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
   full: {
     height: '100%',
     width: '100%',
   },
-})
+  header: {
+    backgroundColor: theme.colors.ui.bg,
+  },
+}))
