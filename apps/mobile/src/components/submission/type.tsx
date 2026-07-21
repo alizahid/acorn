@@ -29,15 +29,16 @@ export function SubmissionType({ types }: Props) {
         <>
           <IconButton
             accessibilityLabel={a11y('changePostType')}
+            hitSlop={16}
             onPress={() => {
               sheet.current?.present()
             }}
-            size="6"
+            size="5"
           >
             <Icon
               name={icons[field.value]}
               uniProps={(theme) => ({
-                size: theme.space[6],
+                size: theme.space[5],
               })}
             />
           </IconButton>
