@@ -46,8 +46,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   main: (headerHeight: number, tabBarHeight: number) => ({
     alignItems: 'center',
     gap: theme.space[4],
-    height:
-      runtime.screen.height - headerHeight - tabBarHeight - theme.space[9],
+    height: runtime.screen.height - headerHeight - tabBarHeight - 256,
     justifyContent: 'center',
     padding: theme.space[4],
   }),

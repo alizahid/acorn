@@ -20,11 +20,10 @@ export function Loading({ style }: Props) {
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((_theme, runtime) => ({
   main: (headerHeight: number, tabBarHeight: number) => ({
     alignItems: 'center',
-    height:
-      runtime.screen.height - headerHeight - tabBarHeight - theme.space[9],
+    height: runtime.screen.height - headerHeight - tabBarHeight - 256,
     justifyContent: 'center',
   }),
 }))
