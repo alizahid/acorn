@@ -744,7 +744,6 @@
           "autoPlay": "Auto play videos",
           "blurNsfw": "Blur NSFW",
           "blurSpoiler": "Blur spoiler",
-          "feedMuted": "Mute feed",
           "pictureInPicture": "Allow picture in picture",
           "saveToAlbum": {
             "description": "Requires full photo library access",

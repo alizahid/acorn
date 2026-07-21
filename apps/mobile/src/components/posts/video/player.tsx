@@ -43,7 +43,6 @@ export function VideoPlayer({
     autoPlay,
     blurNsfw,
     blurSpoiler,
-    feedMuted,
     pictureInPicture,
     seenOnMedia,
     unmuteFullscreen,
@@ -52,7 +51,6 @@ export function VideoPlayer({
       autoPlay: state.autoPlay,
       blurNsfw: state.blurNsfw,
       blurSpoiler: state.blurSpoiler,
-      feedMuted: state.feedMuted,
       pictureInPicture: state.pictureInPicture,
       seenOnMedia: state.seenOnMedia,
       unmuteFullscreen: state.unmuteFullscreen,
@@ -67,16 +65,13 @@ export function VideoPlayer({
 
   const ref = useRef<VideoViewRef>(null)
 
-  const defaultMuted =
-    feedMuted || (blurNsfw && !!nsfw) || (blurSpoiler && !!spoiler)
-
   const player = useVideoPlayer(video.url, (instance) => {
     instance.mixAudioMode = 'mixWithOthers'
-    instance.muted = defaultMuted
+    instance.muted = true
     instance.loop = true
   })
 
-  const [muted, setMuted] = useState(defaultMuted)
+  const [muted, setMuted] = useState(true)
 
   useEffect(() => {
     if (!compact && autoPlay) {
@@ -136,9 +131,7 @@ export function VideoPlayer({
             player.pause()
           }
 
-          if (defaultMuted && !muted) {
-            player.muted = true
-          }
+          player.muted = true
         }}
       />
 

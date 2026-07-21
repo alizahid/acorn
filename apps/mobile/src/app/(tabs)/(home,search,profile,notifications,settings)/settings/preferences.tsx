@@ -28,7 +28,6 @@ export default function Screen() {
     dimSeen,
     feedbackHaptics,
     feedbackSounds,
-    feedMuted,
     hapticsLoud,
     hidePostActions,
     hideSeen,
@@ -63,7 +62,6 @@ export default function Screen() {
       dimSeen: state.dimSeen,
       feedbackHaptics: state.feedbackHaptics,
       feedbackSounds: state.feedbackSounds,
-      feedMuted: state.feedMuted,
       hapticsLoud: state.hapticsLoud,
       hidePostActions: state.hidePostActions,
       hideSeen: state.hideSeen,
@@ -495,17 +493,6 @@ export default function Screen() {
             })
           }}
           value={autoPlay}
-        />
-
-        <Menu.Switch
-          icon={<Icon name="speaker-x" />}
-          label={t('media.feedMuted')}
-          onChange={(next) => {
-            update({
-              feedMuted: next,
-            })
-          }}
-          value={feedMuted}
         />
 
         <Menu.Switch

@@ -9,6 +9,7 @@
 - changed: softer background colors
 - fixed: communities list rebuilt
 - fixed: drawer alphabet list
+- removed: mute feed option
 
 ## Build 84
 
