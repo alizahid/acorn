@@ -531,8 +531,6 @@ export function CommunitiesList({
             ),
           )}
           onScroll={(index) => {
-            console.log('onScroll', index)
-
             list.current?.scrollToIndex({
               animated: false,
               index,

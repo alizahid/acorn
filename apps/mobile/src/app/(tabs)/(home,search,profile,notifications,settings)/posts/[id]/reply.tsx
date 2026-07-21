@@ -1,5 +1,4 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
-import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useRef, useState } from 'react'
 import {
   type EnrichedMarkdownTextInputInstance,
@@ -27,7 +26,6 @@ const schema = z.object({
 
 export default function Screen() {
   const router = useRouter()
-  const headerHeight = useHeaderHeight()
 
   const params = schema.parse(useLocalSearchParams())
 
@@ -41,8 +39,6 @@ export default function Screen() {
 
   const [state, setState] = useState<StyleState>()
   const [text, setText] = useState(params.body)
-
-  console.log('headerHeight', headerHeight)
 
   return (
     <>
