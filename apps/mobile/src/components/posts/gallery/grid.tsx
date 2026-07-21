@@ -156,7 +156,7 @@ export function ImageGrid({
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   carousel: {
     gap: 16,
     variants: {
@@ -180,6 +180,7 @@ const styles = StyleSheet.create((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     height: '100%',
+    maxHeight: runtime.screen.height * 0.6,
     width: '100%',
   },
   label: {
