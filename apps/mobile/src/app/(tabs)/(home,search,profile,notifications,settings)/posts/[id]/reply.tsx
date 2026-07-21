@@ -1,7 +1,6 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useRef, useState } from 'react'
-import { View } from 'react-native'
 import {
   type EnrichedMarkdownTextInputInstance,
   type StyleState,
@@ -42,6 +41,8 @@ export default function Screen() {
 
   const [state, setState] = useState<StyleState>()
   const [text, setText] = useState(params.body)
+
+  console.log('headerHeight', headerHeight)
 
   return (
     <>
@@ -98,26 +99,24 @@ export default function Screen() {
         </Stack.Toolbar.View>
       </Stack.Toolbar>
 
+      <MarkdownEditor.ToolBar
+        editor={editor}
+        state={state}
+        style={styles.toolBar}
+      />
+
       <KeyboardAvoidingView
-        behavior="translate-with-padding"
-        keyboardVerticalOffset={headerHeight}
+        automaticOffset
+        behavior="padding"
         style={styles.main}
       >
-        <MarkdownEditor.ToolBar
-          editor={editor}
-          state={state}
-          style={styles.toolBar}
+        <MarkdownEditor.Root
+          onChange={setText}
+          onChangeState={setState}
+          placeholder={t('placeholder')}
+          ref={editor}
+          value={text}
         />
-
-        <View style={styles.main}>
-          <MarkdownEditor.Root
-            onChange={setText}
-            onChangeState={setState}
-            placeholder={t('placeholder')}
-            ref={editor}
-            value={text}
-          />
-        </View>
       </KeyboardAvoidingView>
     </>
   )

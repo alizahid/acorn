@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- fixed: keyboard handling
+
 ## Build 85
 
 - added: full width posts / comments on iPad

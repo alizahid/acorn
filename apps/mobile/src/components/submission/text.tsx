@@ -5,6 +5,7 @@ import {
   type EnrichedMarkdownTextInputInstance,
   type StyleState,
 } from 'react-native-enriched-markdown'
+import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -41,7 +42,11 @@ export function SubmissionText() {
               </Text>
             ) : null}
 
-            <View style={styles.editor}>
+            <KeyboardAvoidingView
+              automaticOffset
+              behavior="padding"
+              style={styles.editor}
+            >
               <MarkdownEditor.Root
                 onChange={(markdown) => {
                   field.onChange(markdown)
@@ -50,7 +55,7 @@ export function SubmissionText() {
                 placeholder={t('placeholder')}
                 ref={editor}
               />
-            </View>
+            </KeyboardAvoidingView>
           </View>
         )}
       />

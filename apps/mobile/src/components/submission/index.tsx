@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { Controller, FormProvider } from 'react-hook-form'
 import { View } from 'react-native'
 import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
-import { KeyboardAwareScrollView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
@@ -100,28 +99,19 @@ export function Submission({ submission }: Props) {
 
       <SubmissionTitle />
 
-      <KeyboardAwareScrollView
-        keyboardDismissMode="interactive"
-        keyboardShouldPersistTaps="handled"
-        style={styles.content}
-      >
-        <Controller
-          control={form.control}
-          name="type"
-          render={({ field }) =>
-            field.value === 'image' || field.value === 'video' ? (
-              <SubmissionImage
-                onStatusChange={setUploading}
-                type={field.value}
-              />
-            ) : field.value === 'link' ? (
-              <SubmissionLink />
-            ) : (
-              <SubmissionText />
-            )
-          }
-        />
-      </KeyboardAwareScrollView>
+      <Controller
+        control={form.control}
+        name="type"
+        render={({ field }) =>
+          field.value === 'image' || field.value === 'video' ? (
+            <SubmissionImage onStatusChange={setUploading} type={field.value} />
+          ) : field.value === 'link' ? (
+            <SubmissionLink />
+          ) : (
+            <SubmissionText />
+          )
+        }
+      />
 
       <View style={styles.footer(tabBarHeight)}>
         <SubmissionFlair submission={submission} />
@@ -133,9 +123,6 @@ export function Submission({ submission }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  content: {
-    flex: 1,
-  },
   footer: (tabBarHeight: number) => ({
     gap: theme.space[4],
     padding: theme.space[4],

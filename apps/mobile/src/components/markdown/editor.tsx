@@ -9,6 +9,10 @@ import {
   type EnrichedMarkdownTextInputInstance,
   type StyleState,
 } from 'react-native-enriched-markdown'
+import {
+  KeyboardController,
+  useKeyboardState,
+} from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
@@ -17,7 +21,7 @@ import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 import { Icon } from '../common/icon'
-import { Pressable } from '../common/pressable'
+import { IconButton } from '../common/icon/button'
 import { MarkdownInput } from '../native/markdown'
 
 type RootProps = {
@@ -71,14 +75,15 @@ type ToolBarProps = {
 function ToolBar({ editor, state, style }: ToolBarProps) {
   const a11y = useTranslations('a11y')
 
+  const visible = useKeyboardState(({ isVisible }) => isVisible)
+
   return (
     <View style={[styles.toolBar, style]}>
-      <Pressable
+      <IconButton
         accessibilityLabel={a11y('toggleBold')}
         onPress={() => {
           editor?.current?.toggleBold()
         }}
-        style={styles.tool}
       >
         <Icon
           name={state?.bold.isActive ? 'text-b-bold' : 'text-b'}
@@ -88,14 +93,13 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
               : theme.colors.gray.textLow,
           })}
         />
-      </Pressable>
+      </IconButton>
 
-      <Pressable
+      <IconButton
         accessibilityLabel={a11y('toggleItalic')}
         onPress={() => {
           editor?.current?.toggleItalic()
         }}
-        style={styles.tool}
       >
         <Icon
           name={state?.italic.isActive ? 'text-italic-bold' : 'text-italic'}
@@ -105,14 +109,13 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
               : theme.colors.gray.textLow,
           })}
         />
-      </Pressable>
+      </IconButton>
 
-      <Pressable
+      <IconButton
         accessibilityLabel={a11y('toggleStrikethrough')}
         onPress={() => {
           editor?.current?.toggleStrikethrough()
         }}
-        style={styles.tool}
       >
         <Icon
           name={
@@ -126,14 +129,13 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
               : theme.colors.gray.textLow,
           })}
         />
-      </Pressable>
+      </IconButton>
 
-      <Pressable
+      <IconButton
         accessibilityLabel={a11y('toggleSpoiler')}
         onPress={() => {
           editor?.current?.toggleSpoiler()
         }}
-        style={styles.tool}
       >
         <Icon
           name={state?.spoiler.isActive ? 'eye-closed-bold' : 'eye-closed'}
@@ -143,12 +145,32 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
               : theme.colors.gray.textLow,
           })}
         />
-      </Pressable>
+      </IconButton>
+
+      {visible ? (
+        <IconButton
+          accessibilityLabel={a11y('dismissKeyboard')}
+          onPress={() => {
+            KeyboardController.dismiss()
+          }}
+          style={styles.dismiss}
+        >
+          <Icon
+            name="caret-down"
+            uniProps={(theme) => ({
+              color: theme.colors.gray.textLow,
+            })}
+          />
+        </IconButton>
+      ) : null}
     </View>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
+  dismiss: {
+    marginLeft: 'auto',
+  },
   main: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
     fontFamily: fonts[font],
@@ -156,12 +178,6 @@ const styles = StyleSheet.create((theme) => ({
     lineHeight: theme.typography[3].lineHeight * scaling,
     padding: theme.space[4],
   }),
-  tool: {
-    alignItems: 'center',
-    height: theme.space[8],
-    justifyContent: 'center',
-    width: theme.space[8],
-  },
   toolBar: {
     flexDirection: 'row',
   },
