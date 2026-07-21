@@ -35,10 +35,6 @@ export const useDefaults = create<State>()(
           disabled: false,
           key: 'communities',
         },
-        {
-          disabled: false,
-          key: 'users',
-        },
       ],
       feedType: 'home',
       searchTabs: [
