@@ -90,16 +90,6 @@ export function VideoPlayer({
     setMuted(event.muted)
   })
 
-  function onPress() {
-    ref.current?.enterFullscreen()
-
-    if (recyclingKey && seenOnMedia) {
-      addPost({
-        id: recyclingKey,
-      })
-    }
-  }
-
   return (
     <Pressable
       accessibilityLabel={a11y('viewVideo')}
@@ -109,7 +99,15 @@ export function VideoPlayer({
           url: video.url,
         })
       }}
-      onPress={onPress}
+      onPress={() => {
+        ref.current?.enterFullscreen()
+
+        if (recyclingKey && seenOnMedia) {
+          addPost({
+            id: recyclingKey,
+          })
+        }
+      }}
       style={styles.main}
       variant="plain"
     >

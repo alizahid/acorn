@@ -90,7 +90,6 @@ export function CrossPostCard({
         <PostVideoCard
           crossPost
           nsfw={post.nsfw}
-          onLongPress={onLongPress}
           recyclingKey={recyclingKey}
           spoiler={post.spoiler}
           thumbnail={post.media.images?.[0]?.url}

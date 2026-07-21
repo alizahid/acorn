@@ -290,7 +290,6 @@ export function PostCard({ expanded, post }: Props) {
               {post.type === 'video' && post.media.video ? (
                 <PostVideoCard
                   nsfw={post.nsfw}
-                  onLongPress={onLongPress}
                   recyclingKey={post.id}
                   spoiler={post.spoiler}
                   thumbnail={post.media.images?.[0]?.url}

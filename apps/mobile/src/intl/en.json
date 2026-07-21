@@ -121,6 +121,13 @@
           "share": "Share image",
           "title": "Image"
         },
+        "link": {
+          "copy": "Copy link",
+          "openApp": "Open in app",
+          "openBrowser": "Open in browser",
+          "share": "Share link",
+          "title": "Link"
+        },
         "video": {
           "download": "Download video",
           "title": "Video"

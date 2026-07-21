@@ -1,3 +1,4 @@
+import { Gallery } from '~/components/common/gallery'
 import { type PostMedia } from '~/types/post'
 
 import { PostLinkCard } from '../link'
@@ -9,7 +10,6 @@ type Props = {
   crossPost?: boolean
   large?: boolean
   nsfw?: boolean
-  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
   thumbnail?: string
@@ -22,7 +22,6 @@ export function PostVideoCard({
   crossPost,
   large,
   nsfw,
-  onLongPress,
   recyclingKey,
   spoiler,
   thumbnail,
@@ -72,7 +71,12 @@ export function PostVideoCard({
       crossPost={crossPost}
       large={large}
       media={media}
-      onLongPress={onLongPress}
+      onLongPress={() => {
+        Gallery.call({
+          type: 'link',
+          url: video.url,
+        })
+      }}
       recyclingKey={recyclingKey}
       url={video.url}
     />
