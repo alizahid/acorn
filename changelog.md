@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: full width posts / comments on iPad
 - added: sticky drawer on iPad
 - changed: softer background colors
 - fixed: communities list rebuilt
