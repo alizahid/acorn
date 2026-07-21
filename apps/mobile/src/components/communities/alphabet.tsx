@@ -16,7 +16,7 @@ import { type Community } from '~/types/community'
 import { Icon } from '../common/icon'
 import { Text } from '../common/text'
 
-export type AlphabetItem = {
+type AlphabetItem = {
   community: Community
   index: number
   key: string

@@ -39,6 +39,6 @@ export function useListProps(flash = false) {
   return scrollProps
 }
 
-export function renderScrollComponent({ children, ...props }: ScrollViewProps) {
+function renderScrollComponent({ children, ...props }: ScrollViewProps) {
   return createElement(ScrollView, props, children)
 }
