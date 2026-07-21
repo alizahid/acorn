@@ -5,31 +5,38 @@ import { ScrollView } from 'react-native-gesture-handler'
 
 const { height } = Dimensions.get('window')
 
-export type ListProps = ReturnType<typeof useListProps>
+const scrollProps = {
+  automaticallyAdjustContentInsets: true,
+  contentInsetAdjustmentBehavior: 'automatic',
+  keyboardDismissMode: 'on-drag',
+  keyboardShouldPersistTaps: 'handled',
+  scrollIndicatorInsets: {
+    bottom: 1,
+    right: 1,
+    top: 1,
+  },
+  scrollToOverflowEnabled: true,
+} satisfies ScrollViewProps
 
+const flashProps = {
+  ...scrollProps,
+  drawDistance: height / 2,
+  maintainVisibleContentPosition: {
+    disabled: true,
+  },
+  renderScrollComponent,
+} satisfies Omit<FlashListProps<unknown>, 'data' | 'renderItem'>
+
+export type ListProps = typeof flashProps
+
+export function useListProps(flash: true): typeof flashProps
+export function useListProps(flash?: false): typeof scrollProps
 export function useListProps(flash = false) {
-  const props = {
-    automaticallyAdjustContentInsets: true,
-    contentInsetAdjustmentBehavior: 'automatic',
-    keyboardDismissMode: 'on-drag',
-    keyboardShouldPersistTaps: 'handled',
-    scrollIndicatorInsets: {
-      bottom: 1,
-      right: 1,
-      top: 1,
-    },
-    scrollToOverflowEnabled: true,
-  } satisfies Omit<FlashListProps<unknown>, 'data' | 'renderItem'>
-
   if (flash) {
-    return {
-      ...props,
-      drawDistance: height / 2,
-      renderScrollComponent,
-    }
+    return flashProps
   }
 
-  return props
+  return scrollProps
 }
 
 export function renderScrollComponent({ children, ...props }: ScrollViewProps) {

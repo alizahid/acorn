@@ -23,7 +23,6 @@ import { PostCard } from '~/components/posts/card'
 import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
-import { cardMaxWidth, iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 import { type Post } from '~/types/post'
@@ -85,10 +84,6 @@ export function PostList({
       seenOnScroll: state.seenOnScroll,
     })),
   )
-
-  styles.useVariants({
-    iPad,
-  })
 
   const {
     fetchNextPage,
@@ -225,16 +220,7 @@ const styles = StyleSheet.create((theme) => ({
     marginVertical: theme.space[4],
   },
   separator: {
-    alignSelf: 'center',
     backgroundColor: theme.colors.gray.border,
     height: 1,
-    variants: {
-      iPad: {
-        true: {
-          maxWidth: cardMaxWidth,
-        },
-      },
-    },
-    width: '100%',
   },
 }))

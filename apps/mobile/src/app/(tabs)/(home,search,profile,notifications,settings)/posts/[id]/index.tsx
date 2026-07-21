@@ -31,7 +31,7 @@ import { PostHeader } from '~/components/posts/header'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
-import { glass, iPad } from '~/lib/common'
+import { glass } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Comment } from '~/types/comment'
 
@@ -57,10 +57,6 @@ export default function Screen() {
         sortPostComments: state.sortPostComments,
       })),
     )
-
-  styles.useVariants({
-    iPad,
-  })
 
   const list = useRef<FlashListRef<Comment>>(null)
 
@@ -335,13 +331,6 @@ export default function Screen() {
 const styles = StyleSheet.create((theme) => ({
   content: {
     paddingBottom: FloatingButtonSize,
-    variants: {
-      iPad: {
-        true: {
-          paddingHorizontal: theme.space[4],
-        },
-      },
-    },
   },
   header: {
     marginBottom: theme.space[2],
@@ -349,14 +338,6 @@ const styles = StyleSheet.create((theme) => ({
   search: {
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    variants: {
-      iPad: {
-        true: {
-          marginBottom: theme.space[4],
-          marginHorizontal: -theme.space[4],
-        },
-      },
-    },
   },
   separator: {
     height: theme.space[2],

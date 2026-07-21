@@ -13,7 +13,6 @@ import { TextBox } from '~/components/common/text-box'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useListProps } from '~/hooks/list'
-import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 
 const schema = z.object({
@@ -35,10 +34,6 @@ export default function Screen() {
       sortSearchPosts: state.sortSearchPosts,
     })),
   )
-
-  styles.useVariants({
-    iPad,
-  })
 
   const [sort, setSort] = useState(sortSearchPosts)
   const [interval, setInterval] = useState(intervalSearchPosts)
@@ -102,7 +97,6 @@ export default function Screen() {
       onChangeQuery={setQuery}
       query={debounced}
       sort={sort}
-      style={styles.list}
       type="post"
     />
   )
@@ -113,23 +107,6 @@ const styles = StyleSheet.create((theme) => ({
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
-    variants: {
-      iPad: {
-        true: {
-          marginBottom: theme.space[4],
-          marginHorizontal: -theme.space[4],
-        },
-      },
-    },
-  },
-  list: {
-    variants: {
-      iPad: {
-        true: {
-          paddingHorizontal: theme.space[4],
-        },
-      },
-    },
   },
   query: {
     backgroundColor: 'transparent',

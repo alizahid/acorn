@@ -3,7 +3,11 @@ import { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
 import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
 import { type SearchBarCommands } from 'react-native-screens'
-import { TabView } from 'react-native-tab-view'
+import {
+  type NavigationState,
+  type SceneRendererProps,
+  TabView,
+} from 'react-native-tab-view'
 import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
@@ -19,6 +23,7 @@ import { useTabPress } from '~/hooks/tabs'
 import { glass, iPad } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
+import { type SearchTab } from '~/types/defaults'
 
 const routes = useDefaults
   .getState()
@@ -74,6 +79,83 @@ export default function Screen() {
     query: debounced,
   } as const
 
+  const renderScene = useCallback(
+    ({
+      route,
+    }: SceneRendererProps & {
+      route: {
+        key: SearchTab
+        title: SearchTab
+      }
+    }) => {
+      if (route.key === 'post') {
+        return (
+          <SearchList
+            {...props}
+            header={
+              <SortIntervalMenu
+                interval={interval}
+                onChange={(next) => {
+                  setSort(next.sort)
+
+                  if (next.interval) {
+                    setInterval(next.interval)
+                  }
+                }}
+                sort={sort}
+                type="search"
+              />
+            }
+            interval={interval}
+            sort={sort}
+            type="post"
+          />
+        )
+      }
+
+      if (route.key === 'community') {
+        return <SearchList {...props} type="community" />
+      }
+
+      return <SearchList {...props} type="user" />
+    },
+    [interval, props, sort],
+  )
+
+  const renderTabBar = useCallback(
+    ({
+      jumpTo,
+      navigationState,
+    }: SceneRendererProps & {
+      navigationState: NavigationState<{
+        key: SearchTab
+        title: SearchTab
+      }>
+    }) => (
+      <View style={styles.tabBar(headerHeight, tabBarHeight)}>
+        <SearchBox
+          glass
+          onChange={setQuery}
+          placeholder="search"
+          style={styles.search}
+          value={query}
+        />
+
+        <SegmentedControl
+          items={routes.map(({ key }) => ({
+            key,
+            label: t(`tabs.${key}`),
+          }))}
+          onChange={(next) => {
+            jumpTo(next)
+          }}
+          value={navigationState.routes[navigationState.index]?.key}
+        />
+      </View>
+    ),
+    [headerHeight, query, t, tabBarHeight],
+  )
+
   return (
     <TabView
       lazy
@@ -83,60 +165,8 @@ export default function Screen() {
       }}
       onIndexChange={setIndex}
       renderLazyPlaceholder={() => <Loading />}
-      renderScene={({ route }) => {
-        if (route.key === 'post') {
-          return (
-            <SearchList
-              {...props}
-              header={
-                <SortIntervalMenu
-                  interval={interval}
-                  onChange={(next) => {
-                    setSort(next.sort)
-
-                    if (next.interval) {
-                      setInterval(next.interval)
-                    }
-                  }}
-                  sort={sort}
-                  type="search"
-                />
-              }
-              interval={interval}
-              sort={sort}
-              type="post"
-            />
-          )
-        }
-
-        if (route.key === 'community') {
-          return <SearchList {...props} type="community" />
-        }
-
-        return <SearchList {...props} type="user" />
-      }}
-      renderTabBar={({ jumpTo, navigationState }) => (
-        <View style={styles.tabBar(headerHeight, tabBarHeight)}>
-          <SearchBox
-            glass
-            onChange={setQuery}
-            placeholder="search"
-            style={styles.search}
-            value={query}
-          />
-
-          <SegmentedControl
-            items={routes.map(({ key }) => ({
-              key,
-              label: t(`tabs.${key}`),
-            }))}
-            onChange={(next) => {
-              jumpTo(next)
-            }}
-            value={navigationState.routes[navigationState.index]?.key}
-          />
-        </View>
-      )}
+      renderScene={renderScene}
+      renderTabBar={renderTabBar}
     />
   )
 }

@@ -31,6 +31,7 @@ type Props = {
 }
 
 export function Actions({ children, data, gestures, onAction, style }: Props) {
+  const width = useSharedValue(0)
   const translate = useSharedValue(0)
   const height = useSharedValue(0)
 
@@ -42,8 +43,6 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
   const scale = useSharedValue(1)
 
   const [icon, setIcon] = useState<IconName>('question-mark')
-
-  const width = style?.maxWidth ? Number(style.maxWidth) : 0
 
   const active: number | [number, number] =
     gestures.left.enabled && gestures.right.enabled
@@ -72,7 +71,7 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
 
       const translationX = Math.abs(event.translationX)
 
-      if (translationX >= width) {
+      if (translationX >= width.get()) {
         return
       }
 
@@ -80,9 +79,9 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
 
       const side = event.translationX > 0 ? 'left' : 'right'
       const swipe =
-        translationX >= width * 0.4
+        translationX >= width.get() * 0.4
           ? 'long'
-          : translationX >= width * 0.2
+          : translationX >= width.get() * 0.2
             ? 'short'
             : null
 
@@ -168,7 +167,7 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
       backgroundColor: color.get(),
       display: 'flex',
       height: height.get(),
-      left: width + x,
+      left: width.get() + x,
       opacity: 1,
       transform: [
         {
@@ -193,7 +192,12 @@ export function Actions({ children, data, gestures, onAction, style }: Props) {
 
   return (
     <GestureDetector gesture={gesture}>
-      <Animated.View style={style}>
+      <Animated.View
+        onLayout={(event) => {
+          width.set(event.nativeEvent.layout.width)
+        }}
+        style={style}
+      >
         <Animated.View pointerEvents="none" style={[styles.action, left]}>
           <AnimatedIcon color="#fff" name={icon} size={32} style={iconStyle} />
         </Animated.View>

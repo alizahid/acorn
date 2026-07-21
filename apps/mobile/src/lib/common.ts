@@ -3,8 +3,6 @@ import { isLiquidGlassAvailable } from 'expo-glass-effect'
 import { Platform } from 'react-native'
 import semver from 'semver'
 
-export const cardMaxWidth = 700
-
 const version = semver.coerce(osVersion) ?? '0'
 
 export const iPad =

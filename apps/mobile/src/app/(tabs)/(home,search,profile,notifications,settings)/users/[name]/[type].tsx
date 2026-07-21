@@ -10,7 +10,7 @@ import { SearchBox } from '~/components/common/search'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
-import { glass, iPad } from '~/lib/common'
+import { glass } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { UserFeedType } from '~/types/user'
 
@@ -31,17 +31,13 @@ export default function Screen() {
     })),
   )
 
-  styles.useVariants({
-    iPad,
-  })
-
   const [sort, setSort] = useState(sortUserPosts)
   const [interval, setInterval] = useState(intervalUserPosts)
   const [query, setQuery] = useState('')
 
   const [debounced] = useDebounce(query, 500)
 
-  const listProps = useListProps()
+  const listProps = useListProps(true)
 
   return (
     <>
@@ -73,7 +69,6 @@ export default function Screen() {
         listProps={listProps}
         query={debounced}
         sort={sort}
-        style={styles.list}
         user={params.name}
         userType={params.type}
       />
@@ -85,23 +80,6 @@ const styles = StyleSheet.create((theme) => ({
   header: {
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
-    variants: {
-      iPad: {
-        true: {
-          marginBottom: theme.space[4],
-          marginHorizontal: -theme.space[4],
-        },
-      },
-    },
-  },
-  list: {
-    variants: {
-      iPad: {
-        true: {
-          paddingHorizontal: theme.space[4],
-        },
-      },
-    },
   },
   sort: {
     gap: theme.space[1],

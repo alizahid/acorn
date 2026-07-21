@@ -2,7 +2,6 @@ import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
 
-import { cardMaxWidth } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type Post } from '~/types/post'
 
@@ -122,10 +121,8 @@ const styles = StyleSheet.create((theme) => ({
     gap: theme.space[2],
   },
   main: (right: boolean) => ({
-    alignSelf: 'center',
     flexDirection: right ? 'row-reverse' : 'row',
     gap: theme.space[3],
-    maxWidth: cardMaxWidth,
     overflow: 'hidden',
     padding: theme.space[3],
   }),

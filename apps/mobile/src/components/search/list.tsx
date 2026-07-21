@@ -12,7 +12,6 @@ import { PostCard } from '~/components/posts/card'
 import { type ListProps } from '~/hooks/list'
 import { useSearch } from '~/hooks/queries/search/search'
 import { useSearchHistory } from '~/hooks/search'
-import { cardMaxWidth, iPad } from '~/lib/common'
 import { type Community } from '~/types/community'
 import { type SearchTab } from '~/types/defaults'
 import { type Post } from '~/types/post'
@@ -48,10 +47,6 @@ export function SearchList({
   type,
 }: Props) {
   const t = useTranslations('component.search.list')
-
-  styles.useVariants({
-    iPad,
-  })
 
   const history = useSearchHistory(community)
 
@@ -113,16 +108,7 @@ export function SearchList({
 
 const styles = StyleSheet.create((theme) => ({
   separator: {
-    alignSelf: 'center',
     backgroundColor: theme.colors.gray.border,
     height: 1,
-    variants: {
-      iPad: {
-        true: {
-          maxWidth: cardMaxWidth,
-        },
-      },
-    },
-    width: '100%',
   },
 }))

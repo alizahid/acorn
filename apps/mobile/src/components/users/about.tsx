@@ -101,8 +101,8 @@ export function UserAbout({ name }: Props) {
 
 const styles = StyleSheet.create((theme) => ({
   banner: {
-    aspectRatio: 1280 / 384,
     backgroundColor: theme.colors.gray.ui,
+    height: theme.space[9],
     marginBottom: -theme.space[4],
   },
   button: {

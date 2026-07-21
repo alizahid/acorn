@@ -5,7 +5,7 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { getDepthColor } from '~/lib/colors'
-import { cardMaxWidth, iPad } from '~/lib/common'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
@@ -85,20 +85,18 @@ export function CommentMoreCard({
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   main: (depth: number) => {
     const color = getDepthColor(depth)
-    const marginLeft = theme.space[2] * depth
 
     return {
-      alignItems: 'center',
       backgroundColor: theme.colors.ui.bg,
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
       flexDirection: 'row',
       gap: theme.space[4],
       justifyContent: 'center',
-      marginLeft,
+      marginLeft: theme.space[3] * depth,
       overflow: 'hidden',
       paddingVertical: theme.space[2],
       variants: {
@@ -111,17 +109,13 @@ const styles = StyleSheet.create((theme, runtime) => ({
           false: {
             borderBottomLeftRadius: depth > 0 ? theme.radius[3] : undefined,
             borderTopLeftRadius: depth > 0 ? theme.radius[3] : undefined,
-            maxWidth: runtime.screen.width - marginLeft,
           },
           true: {
-            alignSelf: 'center',
             borderCurve: 'continuous',
             borderRadius: theme.radius[3],
-            maxWidth: cardMaxWidth - marginLeft,
           },
         },
       },
-      width: '100%',
     }
   },
 }))

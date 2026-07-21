@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect, useState } from 'react'
+import { type ReactNode, useCallback, useEffect, useState } from 'react'
 import { Drawer as DrawerLayout } from 'react-native-drawer-layout'
 import { StyleSheet } from 'react-native-unistyles'
 
@@ -38,6 +38,20 @@ export function Drawer({ children }: Props) {
     }
   }, [])
 
+  const renderDrawerContent = useCallback(
+    () => (
+      <CommunitiesList
+        contentContainerStyle={styles.content}
+        drawer
+        onPress={() => {
+          setOpen(false)
+        }}
+        style={styles.main}
+      />
+    ),
+    [],
+  )
+
   return (
     <DrawerLayout
       drawerPosition={iPad ? 'left' : 'right'}
@@ -50,16 +64,7 @@ export function Drawer({ children }: Props) {
         setOpen(true)
       }}
       open={open}
-      renderDrawerContent={() => (
-        <CommunitiesList
-          contentContainerStyle={styles.content}
-          drawer
-          onPress={() => {
-            setOpen(false)
-          }}
-          style={styles.main}
-        />
-      )}
+      renderDrawerContent={renderDrawerContent}
     >
       {children}
     </DrawerLayout>
@@ -75,6 +80,8 @@ const styles = StyleSheet.create((theme, runtime) => ({
     variants: {
       iPad: {
         true: {
+          borderRightColor: theme.colors.gray.border,
+          borderRightWidth: 1,
           width: 300,
         },
       },

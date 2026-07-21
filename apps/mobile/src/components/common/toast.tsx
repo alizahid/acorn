@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { Toaster } from 'sonner-native'
 import { useShallow } from 'zustand/react/shallow'
 
-import { cardMaxWidth, iPad } from '~/lib/common'
+import { iPad } from '~/lib/common'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 import { weights } from '~/styles/text'
@@ -84,7 +84,7 @@ const styles = StyleSheet.create((theme) => ({
     variants: {
       iPad: {
         true: {
-          maxWidth: cardMaxWidth,
+          maxWidth: 400,
         },
       },
     },

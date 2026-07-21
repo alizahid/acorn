@@ -1,8 +1,12 @@
 import { Stack } from 'expo-router'
 import { useHeaderHeight } from 'expo-router/react-navigation'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { TabView } from 'react-native-tab-view'
+import {
+  type NavigationState,
+  type SceneRendererProps,
+  TabView,
+} from 'react-native-tab-view'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -31,6 +35,50 @@ export default function Screen() {
 
   const [index, setIndex] = useState(0)
 
+  const renderScene = useCallback(
+    ({
+      route,
+    }: SceneRendererProps & {
+      route: {
+        key: 'notifications' | 'messages'
+        title: 'notifications' | 'messages'
+      }
+    }) => {
+      if (route.key === 'notifications') {
+        return <NotificationsList />
+      }
+
+      return <MessagesList />
+    },
+    [],
+  )
+
+  const renderTabBar = useCallback(
+    ({
+      jumpTo,
+      navigationState,
+    }: SceneRendererProps & {
+      navigationState: NavigationState<{
+        key: 'notifications' | 'messages'
+        title: 'notifications' | 'messages'
+      }>
+    }) => (
+      <View style={styles.tabBar(headerHeight)}>
+        <SegmentedControl
+          items={routes.map(({ key }) => ({
+            key,
+            label: t(`tabs.${key}`),
+          }))}
+          onChange={(next) => {
+            jumpTo(next)
+          }}
+          value={navigationState.routes[navigationState.index]?.key}
+        />
+      </View>
+    ),
+    [headerHeight, t],
+  )
+
   return (
     <>
       <Stack.Toolbar placement="right">
@@ -56,27 +104,8 @@ export default function Screen() {
         }}
         onIndexChange={setIndex}
         renderLazyPlaceholder={() => <Loading />}
-        renderScene={({ route }) => {
-          if (route.key === 'notifications') {
-            return <NotificationsList />
-          }
-
-          return <MessagesList />
-        }}
-        renderTabBar={({ jumpTo, navigationState }) => (
-          <View style={styles.tabBar(headerHeight)}>
-            <SegmentedControl
-              items={routes.map(({ key }) => ({
-                key,
-                label: t(`tabs.${key}`),
-              }))}
-              onChange={(next) => {
-                jumpTo(next)
-              }}
-              value={navigationState.routes[navigationState.index]?.key}
-            />
-          </View>
-        )}
+        renderScene={renderScene}
+        renderTabBar={renderTabBar}
       />
     </>
   )

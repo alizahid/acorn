@@ -19,10 +19,6 @@ type Props = {
 export function CustomFeed({ name }: Props) {
   const a11y = useTranslations('a11y')
 
-  styles.useVariants({
-    iPad,
-  })
-
   const { sorting, update } = useSorting('feed', name)
 
   const listProps = useListProps(true)
@@ -66,22 +62,12 @@ export function CustomFeed({ name }: Props) {
         interval={sorting.interval}
         listProps={listProps}
         sort={sorting.sort}
-        style={styles.list}
       />
     </>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  list: {
-    variants: {
-      iPad: {
-        true: {
-          paddingHorizontal: theme.space[4],
-        },
-      },
-    },
-  },
   sort: {
     gap: theme.space[1],
     paddingHorizontal: glass ? theme.space[1] : 0,

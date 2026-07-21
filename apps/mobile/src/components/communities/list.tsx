@@ -309,9 +309,6 @@ export function CommunitiesList({
         }}
         getItemType={(item) => item.type}
         keyExtractor={(item) => item.key}
-        maintainVisibleContentPosition={{
-          disabled: true,
-        }}
         ref={list}
         refreshControl={
           <RefreshControl
@@ -353,11 +350,25 @@ export function CommunitiesList({
               <List.Item
                 label={item.community.name}
                 left={
-                  <Image
-                    recyclingKey={item.key}
-                    source={item.community.image}
-                    style={styles.icon}
-                  />
+                  <>
+                    <Image
+                      recyclingKey={item.key}
+                      source={item.community.image}
+                      style={styles.icon}
+                    />
+
+                    {item.community.favorite ? (
+                      <View style={styles.favorite}>
+                        <Icon
+                          name="star-fill"
+                          uniProps={(theme) => ({
+                            color: theme.colors.amber.contrast,
+                            size: theme.space[2],
+                          })}
+                        />
+                      </View>
+                    ) : null}
+                  </>
                 }
                 navigate
                 onPress={() => {
@@ -385,16 +396,6 @@ export function CommunitiesList({
                     pathname: '/communities/[name]',
                   })
                 }}
-                right={
-                  item.community.favorite ? (
-                    <Icon
-                      name="star-fill"
-                      uniProps={(theme) => ({
-                        color: theme.colors.amber.accent,
-                      })}
-                    />
-                  ) : null
-                }
               />
             )
           }
@@ -547,8 +548,19 @@ const styles = StyleSheet.create((theme) => ({
   content: (alphabet: boolean) => ({
     paddingRight: alphabet ? theme.space[5] : undefined,
   }),
+  favorite: {
+    alignItems: 'center',
+    backgroundColor: theme.colors.amber.accent,
+    borderCurve: 'continuous',
+    borderRadius: theme.space[3],
+    bottom: theme.space[2],
+    height: theme.space[3],
+    justifyContent: 'center',
+    position: 'absolute',
+    right: theme.space[2],
+    width: theme.space[3],
+  },
   icon: {
-    backgroundColor: theme.colors.gray.ui,
     borderRadius: 20,
     height: 20,
     width: 20,

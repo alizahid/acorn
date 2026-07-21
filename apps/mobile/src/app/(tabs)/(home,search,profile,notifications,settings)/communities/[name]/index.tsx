@@ -15,7 +15,6 @@ import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
-import { iPad } from '~/lib/common'
 
 const schema = z.object({
   name: z.string().catch('acornblue'),
@@ -28,10 +27,6 @@ export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
   const a11y = useTranslations('a11y')
-
-  styles.useVariants({
-    iPad,
-  })
 
   const { sorting, update } = useSorting('community', params.name)
 
@@ -122,23 +117,8 @@ const styles = StyleSheet.create((theme) => ({
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
-    variants: {
-      iPad: {
-        true: {
-          marginBottom: theme.space[4],
-          marginHorizontal: -theme.space[4],
-        },
-      },
-    },
   },
   list: {
     paddingBottom: FloatingButtonSize,
-    variants: {
-      iPad: {
-        true: {
-          paddingHorizontal: theme.space[4],
-        },
-      },
-    },
   },
 }))

@@ -8,7 +8,6 @@ import { useShallow } from 'zustand/react/shallow'
 import { useHide } from '~/hooks/moderation/hide'
 import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
-import { cardMaxWidth, iPad } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useGestures } from '~/stores/gestures'
@@ -93,7 +92,6 @@ export function PostCard({ expanded, post }: Props) {
   styles.useVariants({
     compact: feedCompact && !expanded,
     dimmed,
-    iPad,
     sticky: post.sticky,
   })
 
@@ -344,7 +342,7 @@ export function PostCard({ expanded, post }: Props) {
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   banner: {
     variants: {
       compact: {
@@ -360,21 +358,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     backgroundColor: theme.colors.ui.bg,
   },
   container: {
-    alignSelf: 'center',
     overflow: 'hidden',
-    variants: {
-      iPad: {
-        false: {
-          maxWidth: runtime.screen.width,
-        },
-        true: {
-          borderCurve: 'continuous',
-          borderRadius: theme.radius[4],
-          maxWidth: cardMaxWidth,
-        },
-      },
-    },
-    width: '100%',
   },
   dimmed: {
     variants: {

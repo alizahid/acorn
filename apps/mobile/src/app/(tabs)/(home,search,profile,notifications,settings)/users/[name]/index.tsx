@@ -1,8 +1,12 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useHeaderHeight } from 'expo-router/react-navigation'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
-import { TabView } from 'react-native-tab-view'
+import {
+  type NavigationState,
+  type SceneRendererProps,
+  TabView,
+} from 'react-native-tab-view'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
@@ -74,6 +78,104 @@ export default function Screen() {
 
   const listProps = useListProps(true)
 
+  const renderScene = useCallback(
+    ({
+      route,
+    }: SceneRendererProps & {
+      route: {
+        key: 'posts' | 'comments'
+        title: 'posts' | 'comments'
+      }
+    }) => {
+      if (route.key === 'posts') {
+        return (
+          <PostList
+            header={
+              <View style={styles.header}>
+                <SearchBox onChange={setQuery} value={query} />
+
+                <SortIntervalMenu
+                  interval={posts.interval}
+                  onChange={(next) => {
+                    setPosts(next)
+                  }}
+                  sort={posts.sort}
+                  type="user"
+                />
+              </View>
+            }
+            interval={posts.interval}
+            listProps={listProps}
+            query={query}
+            sort={posts.sort}
+            user={params.name}
+            userType="submitted"
+          />
+        )
+      }
+
+      return (
+        <PostList
+          header={
+            <View style={styles.header}>
+              <SearchBox onChange={setQuery} value={query} />
+
+              <SortIntervalMenu
+                interval={comments.interval}
+                onChange={(next) => {
+                  setComments(next)
+                }}
+                sort={comments.sort}
+                type="comment"
+              />
+            </View>
+          }
+          interval={comments.interval}
+          listProps={listProps}
+          query={query}
+          sort={comments.sort}
+          user={params.name}
+          userType="comments"
+        />
+      )
+    },
+    [
+      comments.interval,
+      comments.sort,
+      listProps,
+      params.name,
+      posts.interval,
+      posts.sort,
+      query,
+    ],
+  )
+
+  const renderTabBar = useCallback(
+    ({
+      jumpTo,
+      navigationState,
+    }: SceneRendererProps & {
+      navigationState: NavigationState<{
+        key: 'posts' | 'comments'
+        title: 'posts' | 'comments'
+      }>
+    }) => (
+      <View style={styles.tabBar(headerHeight)}>
+        <SegmentedControl
+          items={routes.map(({ key }) => ({
+            key,
+            label: t(`tabs.${key}`),
+          }))}
+          onChange={(next) => {
+            jumpTo(next)
+          }}
+          value={navigationState.routes[navigationState.index]?.key}
+        />
+      </View>
+    ),
+    [headerHeight, t],
+  )
+
   return (
     <>
       <Stack.Toolbar placement="right">
@@ -105,75 +207,8 @@ export default function Screen() {
         }}
         onIndexChange={setIndex}
         renderLazyPlaceholder={() => <Loading />}
-        renderScene={({ route }) => {
-          if (route.key === 'posts') {
-            return (
-              <PostList
-                header={
-                  <View style={styles.header}>
-                    <SearchBox onChange={setQuery} value={query} />
-
-                    <SortIntervalMenu
-                      interval={posts.interval}
-                      onChange={(next) => {
-                        setPosts(next)
-                      }}
-                      sort={posts.sort}
-                      type="user"
-                    />
-                  </View>
-                }
-                interval={posts.interval}
-                listProps={listProps}
-                query={query}
-                sort={posts.sort}
-                style={styles.list}
-                user={params.name}
-                userType="submitted"
-              />
-            )
-          }
-
-          return (
-            <PostList
-              header={
-                <View style={styles.header}>
-                  <SearchBox onChange={setQuery} value={query} />
-
-                  <SortIntervalMenu
-                    interval={comments.interval}
-                    onChange={(next) => {
-                      setComments(next)
-                    }}
-                    sort={comments.sort}
-                    type="comment"
-                  />
-                </View>
-              }
-              interval={comments.interval}
-              listProps={listProps}
-              query={query}
-              sort={comments.sort}
-              style={styles.list}
-              user={params.name}
-              userType="comments"
-            />
-          )
-        }}
-        renderTabBar={({ jumpTo, navigationState }) => (
-          <View style={styles.tabBar(headerHeight)}>
-            <SegmentedControl
-              items={routes.map(({ key }) => ({
-                key,
-                label: t(`tabs.${key}`),
-              }))}
-              onChange={(next) => {
-                jumpTo(next)
-              }}
-              value={navigationState.routes[navigationState.index]?.key}
-            />
-          </View>
-        )}
+        renderScene={renderScene}
+        renderTabBar={renderTabBar}
       />
     </>
   )
@@ -184,23 +219,6 @@ const styles = StyleSheet.create((theme) => ({
     borderBottomColor: theme.colors.gray.border,
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
-    variants: {
-      iPad: {
-        true: {
-          marginBottom: theme.space[4],
-          marginHorizontal: -theme.space[4],
-        },
-      },
-    },
-  },
-  list: {
-    variants: {
-      iPad: {
-        true: {
-          paddingHorizontal: theme.space[4],
-        },
-      },
-    },
   },
   tabBar: (headerHeight: number) => ({
     margin: theme.space[4],

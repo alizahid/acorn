@@ -141,7 +141,9 @@ export function CommunityAbout({ name }: Props) {
             <Icon
               name={community.favorite ? 'star-fill' : 'star'}
               uniProps={(theme) => ({
-                color: theme.colors.accent.contrast,
+                color: community.favorite
+                  ? theme.colors.amber.contrast
+                  : theme.colors.gray.contrast,
               })}
             />
           }
@@ -161,8 +163,8 @@ export function CommunityAbout({ name }: Props) {
 
 const styles = StyleSheet.create((theme) => ({
   banner: {
-    aspectRatio: 1280 / 384,
     backgroundColor: theme.colors.gray.ui,
+    height: theme.space[9],
     marginBottom: -theme.space[4],
   },
   button: {

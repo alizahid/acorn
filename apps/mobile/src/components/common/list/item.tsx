@@ -38,7 +38,7 @@ export function ListItem({
     >
       {left ? <View style={styles.side}>{left}</View> : null}
 
-      <Text numberOfLines={1} size="2" style={styles.label}>
+      <Text numberOfLines={1} size="2" style={styles.label} weight="medium">
         {label}
       </Text>
 

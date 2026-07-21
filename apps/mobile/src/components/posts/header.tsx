@@ -2,8 +2,6 @@ import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { cardMaxWidth, iPad } from '~/lib/common'
-
 import { Button } from '../common/button'
 import { Icon } from '../common/icon'
 
@@ -14,10 +12,6 @@ type Props = {
 
 export function PostHeader({ onPress, parentId }: Props) {
   const a11y = useTranslations('a11y')
-
-  styles.useVariants({
-    iPad,
-  })
 
   return (
     <View style={styles.main}>
@@ -62,21 +56,8 @@ const styles = StyleSheet.create((theme) => ({
   },
   main: {
     flexDirection: 'row',
-    gap: theme.space[3],
-    marginTop: theme.space[2],
-    variants: {
-      iPad: {
-        false: {
-          padding: theme.space[3],
-        },
-        true: {
-          alignSelf: 'center',
-          borderCurve: 'continuous',
-          borderRadius: theme.radius[3],
-          maxWidth: cardMaxWidth,
-          width: '100%',
-        },
-      },
-    },
+    gap: theme.space[2],
+    marginBottom: -theme.space[2],
+    padding: theme.space[2],
   },
 }))
