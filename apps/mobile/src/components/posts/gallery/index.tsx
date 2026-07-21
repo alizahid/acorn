@@ -8,7 +8,6 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { Gallery } from '~/components/common/gallery'
 import { useHistory } from '~/hooks/history'
-import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -20,7 +19,6 @@ type Props = {
   images: Array<PostMedia>
   large?: boolean
   nsfw?: boolean
-  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
 }
@@ -30,7 +28,6 @@ export function PostGalleryCard({
   images,
   large,
   nsfw,
-  onLongPress,
   recyclingKey,
   spoiler,
 }: Props) {
@@ -50,7 +47,6 @@ export function PostGalleryCard({
 
   styles.useVariants({
     compact,
-    iPad,
     large,
   })
 
@@ -75,14 +71,12 @@ export function PostGalleryCard({
               index={index}
               key={image.url}
               onDismiss={onDismiss}
-              onLongPress={onLongPress}
-              onPressRightNavItemIcon={() => {
+              onLongPress={() => {
                 Gallery.call({
                   type: 'image',
                   url: image.url,
                 })
               }}
-              rightNavItemIconName="ellipsis"
             >
               <Image
                 accessibilityIgnoresInvertColors
@@ -107,7 +101,6 @@ export function PostGalleryCard({
         images={images}
         nsfw={nsfw}
         onDismiss={onDismiss}
-        onLongPress={onLongPress}
         recyclingKey={recyclingKey}
         spoiler={spoiler}
       />
@@ -121,6 +114,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
     width: '100%',
   },
   main: {
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
+    marginHorizontal: -theme.space[3],
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
     variants: {
@@ -130,12 +126,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
         },
         true: {
           backgroundColor: theme.colors.gray.uiActive,
-        },
-      },
-      iPad: {
-        true: {
-          borderCurve: 'continuous',
-          borderRadius: theme.radius[4],
         },
       },
       large: {

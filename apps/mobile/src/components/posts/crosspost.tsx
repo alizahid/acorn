@@ -102,7 +102,6 @@ export function CrossPostCard({
         <PostGalleryCard
           images={post.media.images}
           nsfw={post.nsfw}
-          onLongPress={onLongPress}
           recyclingKey={recyclingKey}
           spoiler={post.spoiler}
         />

@@ -19,7 +19,6 @@ type Props = {
   images: Array<PostMedia>
   nsfw?: boolean
   onDismiss?: () => void
-  onLongPress?: () => void
   recyclingKey?: string
   spoiler?: boolean
 }
@@ -28,7 +27,6 @@ export function ImageGrid({
   images,
   nsfw = false,
   onDismiss,
-  onLongPress,
   recyclingKey,
   spoiler = false,
 }: Props) {
@@ -71,14 +69,12 @@ export function ImageGrid({
         <View style={styles.one(image.width / image.height)}>
           <Galeria.Image
             onDismiss={onDismiss}
-            onLongPress={onLongPress}
-            onPressRightNavItemIcon={() => {
+            onLongPress={() => {
               Gallery.call({
                 type: 'image',
                 url: image.url,
               })
             }}
-            rightNavItemIconName="ellipsis"
           >
             <Image
               accessibilityIgnoresInvertColors
@@ -118,14 +114,12 @@ export function ImageGrid({
               <Galeria.Image
                 index={index}
                 onDismiss={onDismiss}
-                onLongPress={onLongPress}
-                onPressRightNavItemIcon={() => {
+                onLongPress={() => {
                   Gallery.call({
                     type: 'image',
                     url: item.url,
                   })
                 }}
-                rightNavItemIconName="ellipsis"
               >
                 <Image
                   source={item.thumbnail ?? item.url}

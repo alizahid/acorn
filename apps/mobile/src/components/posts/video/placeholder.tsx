@@ -4,7 +4,6 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
 
 import { useFocused } from '~/hooks/focus'
-import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -43,7 +42,6 @@ export function VideoPlaceholder({
 
   styles.useVariants({
     compact,
-    iPad,
     large,
   })
 
@@ -77,15 +75,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     justifyContent: 'center',
+    marginHorizontal: -theme.space[3],
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
     variants: {
-      iPad: {
-        true: {
-          borderCurve: 'continuous',
-          borderRadius: theme.radius[4],
-        },
-      },
       large: {
         false: {
           borderRadius: theme.space[1],

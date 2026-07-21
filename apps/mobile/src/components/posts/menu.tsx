@@ -330,19 +330,19 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             </>
           ) : null}
 
-          {post.type === 'image' ? (
+          {post.type === 'image' && post.media.images ? (
             <>
               <Sheet.Separator />
 
               <Sheet.Subtitle
                 title={t(
-                  post.media.images?.length
+                  post.media.images.length > 1
                     ? 'section.gallery'
                     : 'section.image',
                 )}
               />
 
-              {post.media.images?.length === 1 ? (
+              {post.media.images.length === 1 ? (
                 <Sheet.Item
                   label={t('copyImage')}
                   left={<Icon name="copy" />}
@@ -358,7 +358,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 />
               ) : null}
 
-              {post.media.images?.length === 1 ? (
+              {post.media.images.length === 1 ? (
                 <Sheet.Item
                   label={t('shareImage')}
                   left={<Icon name="export" />}
@@ -374,7 +374,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 />
               ) : null}
 
-              {post.media.images?.length === 1 ? (
+              {post.media.images.length === 1 ? (
                 <Sheet.Item
                   label={t('downloadImage')}
                   left={<Icon name="download" />}
@@ -390,14 +390,14 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 />
               ) : null}
 
-              {post.media.images?.length ? (
+              {post.media.images.length > 1 ? (
                 <Sheet.Item
                   label={t('downloadGallery')}
                   left={<Icon name="download" />}
                   onPress={() => {
                     ref.current?.dismiss()
 
-                    if (post.media.images?.length) {
+                    if (post.media.images) {
                       downloadImages({
                         urls: post.media.images.map((image) => image.url),
                       })

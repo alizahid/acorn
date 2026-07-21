@@ -302,7 +302,6 @@ export function PostCard({ expanded, post }: Props) {
                 <PostGalleryCard
                   images={post.media.images}
                   nsfw={post.nsfw}
-                  onLongPress={onLongPress}
                   recyclingKey={post.id}
                   spoiler={post.spoiler}
                 />

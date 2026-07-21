@@ -3,8 +3,9 @@
 ## Upcoming
 
 - added: full width posts / comments on iPad
-- added: link menu
+- added: image / video / link menu on long press
 - added: sticky drawer on iPad
+- changed: media styles
 - changed: softer background colors
 - fixed: communities list rebuilt
 - fixed: drawer alphabet list
