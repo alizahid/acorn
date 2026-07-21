@@ -75,10 +75,14 @@ const styles = StyleSheet.create((theme, runtime) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     justifyContent: 'center',
-    marginHorizontal: -theme.space[3],
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
     variants: {
+      compact: {
+        false: {
+          marginHorizontal: -theme.space[3],
+        },
+      },
       large: {
         false: {
           borderRadius: theme.space[1],

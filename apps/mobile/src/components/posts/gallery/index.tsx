@@ -116,13 +116,13 @@ const styles = StyleSheet.create((theme, runtime) => ({
   main: {
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    marginHorizontal: -theme.space[3],
     maxHeight: runtime.screen.height * 0.6,
     overflow: 'hidden',
     variants: {
       compact: {
         false: {
           justifyContent: 'center',
+          marginHorizontal: -theme.space[3],
         },
         true: {
           backgroundColor: theme.colors.gray.uiActive,

@@ -38,8 +38,6 @@ const styles = StyleSheet.create((theme) => ({
   main: {
     ...StyleSheet.absoluteFill,
     alignItems: 'center',
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
     gap: theme.space[4],
     justifyContent: 'center',
     overflow: 'hidden',
