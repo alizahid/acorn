@@ -5,7 +5,6 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { getDepthColor } from '~/lib/colors'
-import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type CommentMore } from '~/types/comment'
 import { type Post } from '~/types/post'
@@ -40,7 +39,6 @@ export function CommentMoreCard({
 
   styles.useVariants({
     colorful: colorfulComments,
-    iPad,
   })
 
   const { isPending, loadMore } = useLoadMoreComments()
@@ -91,8 +89,11 @@ const styles = StyleSheet.create((theme) => ({
 
     return {
       backgroundColor: theme.colors.ui.bg,
+      borderBottomLeftRadius: depth > 0 ? theme.radius[3] : undefined,
+      borderCurve: 'continuous',
       borderLeftColor: depth > 0 ? theme.colors[color].border : undefined,
       borderLeftWidth: depth > 0 ? theme.space[1] : undefined,
+      borderTopLeftRadius: depth > 0 ? theme.radius[3] : undefined,
       flexDirection: 'row',
       gap: theme.space[4],
       justifyContent: 'center',
@@ -103,16 +104,6 @@ const styles = StyleSheet.create((theme) => ({
         colorful: {
           true: {
             backgroundColor: theme.colors[color].bgAlt,
-          },
-        },
-        iPad: {
-          false: {
-            borderBottomLeftRadius: depth > 0 ? theme.radius[3] : undefined,
-            borderTopLeftRadius: depth > 0 ? theme.radius[3] : undefined,
-          },
-          true: {
-            borderCurve: 'continuous',
-            borderRadius: theme.radius[3],
           },
         },
       },

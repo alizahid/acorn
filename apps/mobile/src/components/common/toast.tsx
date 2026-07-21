@@ -84,6 +84,7 @@ const styles = StyleSheet.create((theme) => ({
     variants: {
       iPad: {
         true: {
+          alignSelf: 'center',
           maxWidth: 400,
         },
       },
@@ -103,8 +104,10 @@ const styles = StyleSheet.create((theme) => ({
   }),
   main: {
     backgroundColor: theme.colors.gray.bgAlt,
+    borderColor: theme.colors.gray.border,
     borderCurve: 'continuous',
     borderRadius: theme.radius[5],
+    borderWidth: StyleSheet.hairlineWidth,
     marginHorizontal: theme.space[4],
     marginVertical: theme.space[2],
   },
