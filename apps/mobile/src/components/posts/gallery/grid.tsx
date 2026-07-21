@@ -122,6 +122,8 @@ export function ImageGrid({
                 }}
               >
                 <Image
+                  accessibilityIgnoresInvertColors
+                  recyclingKey={recyclingKey}
                   source={item.url}
                   style={[styles.slide, data.sizes[index]]}
                 />
