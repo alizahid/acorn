@@ -32,6 +32,7 @@ export function PostVideoCard({
     return (
       <RedGifsVideo
         compact={compact}
+        crossPost={crossPost}
         large={large}
         nsfw={nsfw}
         recyclingKey={recyclingKey}
@@ -47,6 +48,7 @@ export function PostVideoCard({
     return (
       <VideoPlaceholder
         compact={compact}
+        crossPost={crossPost}
         large={large}
         nsfw={nsfw}
         recyclingKey={recyclingKey}

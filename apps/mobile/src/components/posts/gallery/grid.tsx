@@ -9,7 +9,6 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { Gallery } from '~/components/common/gallery'
 import { Text } from '~/components/common/text'
-import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -31,10 +30,6 @@ export function ImageGrid({
   spoiler = false,
 }: Props) {
   const t = useTranslations('component.posts.gallery')
-
-  styles.useVariants({
-    iPad,
-  })
 
   const { blurNsfw, blurSpoiler } = usePreferences(
     useShallow((state) => ({
@@ -158,19 +153,10 @@ export function ImageGrid({
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   carousel: {
-    gap: 16,
-    variants: {
-      iPad: {
-        false: {
-          height: 300,
-        },
-        true: {
-          height: 400,
-        },
-      },
-    },
+    gap: theme.space[3],
+    height: 400,
   },
   count: {
     right: theme.space[2],
@@ -182,7 +168,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     height: '100%',
-    maxHeight: runtime.screen.height * 0.6,
+    maxHeight: 400,
     width: '100%',
   },
   label: {

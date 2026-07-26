@@ -63,7 +63,7 @@ export function VideoPlayer({
 
   const player = useVideoPlayer(null, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
-    instance.timeUpdateEventInterval = 500
+    instance.timeUpdateEventInterval = 0.5
     instance.muted = true
     instance.loop = true
 
@@ -164,7 +164,7 @@ export function VideoPlayer({
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   compact: {
     ...StyleSheet.absoluteFill,
     alignItems: 'center',
@@ -173,13 +173,13 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   main: {
     justifyContent: 'center',
-    maxHeight: runtime.screen.height * 0.6,
+    maxHeight: 400,
     overflow: 'hidden',
   },
   video: (aspectRatio: number) => ({
     variants: {
       compact: {
-        default: {
+        false: {
           aspectRatio,
         },
         true: {

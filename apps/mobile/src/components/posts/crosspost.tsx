@@ -25,7 +25,7 @@ type Props = {
 }
 
 export function CrossPostCard({
-  compact,
+  compact = false,
   large,
   onLongPress,
   post,
@@ -37,6 +37,7 @@ export function CrossPostCard({
   const a11y = useTranslations('a11y')
 
   styles.useVariants({
+    compact,
     large,
   })
 
@@ -100,6 +101,7 @@ export function CrossPostCard({
 
       {post.type === 'image' && post.media.images ? (
         <PostGalleryCard
+          crossPost
           images={post.media.images}
           nsfw={post.nsfw}
           recyclingKey={recyclingKey}
@@ -148,6 +150,11 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.radius[4],
     overflow: 'hidden',
     variants: {
+      compact: {
+        false: {
+          marginHorizontal: -theme.space[3],
+        },
+      },
       large: {
         false: {
           borderRadius: theme.space[1],

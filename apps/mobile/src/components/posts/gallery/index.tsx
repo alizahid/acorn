@@ -16,6 +16,7 @@ import { ImageGrid } from './grid'
 
 type Props = {
   compact?: boolean
+  crossPost?: boolean
   images: Array<PostMedia>
   large?: boolean
   nsfw?: boolean
@@ -24,7 +25,8 @@ type Props = {
 }
 
 export function PostGalleryCard({
-  compact,
+  compact = false,
+  crossPost = false,
   images,
   large,
   nsfw,
@@ -45,6 +47,7 @@ export function PostGalleryCard({
 
   styles.useVariants({
     compact,
+    crossPost,
     large,
   })
 
@@ -102,7 +105,7 @@ export function PostGalleryCard({
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   image: {
     height: '100%',
     width: '100%',
@@ -110,29 +113,46 @@ const styles = StyleSheet.create((theme, runtime) => ({
   main: {
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    maxHeight: runtime.screen.height * 0.6,
-    overflow: 'hidden',
-    variants: {
-      compact: {
-        false: {
-          justifyContent: 'center',
+    compoundVariants: [
+      {
+        compact: false,
+        crossPost: false,
+        styles: {
           marginHorizontal: -theme.space[3],
         },
-        true: {
-          backgroundColor: theme.colors.gray.uiActive,
+      },
+      {
+        compact: true,
+        large: true,
+        styles: {
+          borderRadius: theme.space[1] * 2,
+          height: theme.space[8] * 2,
+          width: theme.space[8] * 2,
         },
       },
-      large: {
-        false: {
+      {
+        compact: true,
+        large: false,
+        styles: {
           borderRadius: theme.space[1],
           height: theme.space[8],
           width: theme.space[8],
         },
+      },
+    ],
+    maxHeight: 400,
+    overflow: 'hidden',
+    variants: {
+      compact: {
         true: {
-          borderRadius: theme.space[2],
-          height: theme.space[8] * 2,
-          width: theme.space[8] * 2,
+          backgroundColor: theme.colors.gray.uiActive,
         },
+      },
+      crossPost: {
+        true: {},
+      },
+      large: {
+        true: {},
       },
     },
   },

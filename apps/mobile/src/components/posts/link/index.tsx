@@ -24,9 +24,9 @@ type Props = {
 }
 
 export function PostLinkCard({
-  compact,
-  crossPost,
-  large,
+  compact = false,
+  crossPost = false,
+  large = false,
   media,
   recyclingKey,
   url,
@@ -130,9 +130,11 @@ const styles = StyleSheet.create((theme) => ({
     justifyContent: 'center',
   },
   image: {
-    aspectRatio: 2,
     variants: {
       compact: {
+        false: {
+          aspectRatio: 16 / 9,
+        },
         true: {
           flex: 1,
         },
@@ -149,6 +151,33 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: theme.colors.gray.bgAlt,
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
+    compoundVariants: [
+      {
+        compact: false,
+        crossPost: false,
+        styles: {
+          marginHorizontal: -theme.space[3],
+        },
+      },
+      {
+        compact: true,
+        large: true,
+        styles: {
+          borderRadius: theme.space[1] * 2,
+          height: theme.space[8] * 2,
+          width: theme.space[8] * 2,
+        },
+      },
+      {
+        compact: true,
+        large: false,
+        styles: {
+          borderRadius: theme.space[1],
+          height: theme.space[8],
+          width: theme.space[8],
+        },
+      },
+    ],
     overflow: 'hidden',
     variants: {
       crossPost: {
@@ -157,16 +186,7 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
       large: {
-        false: {
-          borderRadius: theme.space[1],
-          height: theme.space[8],
-          width: theme.space[8],
-        },
-        true: {
-          borderRadius: theme.space[2],
-          height: theme.space[8] * 2,
-          width: theme.space[8] * 2,
-        },
+        true: {},
       },
     },
   },

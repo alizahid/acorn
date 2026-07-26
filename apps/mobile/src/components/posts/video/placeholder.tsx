@@ -12,6 +12,7 @@ import { VideoPlayer } from './player'
 
 type Props = {
   compact?: boolean
+  crossPost?: boolean
   large?: boolean
   nsfw?: boolean
   recyclingKey?: string
@@ -22,8 +23,9 @@ type Props = {
 }
 
 export function VideoPlaceholder({
-  compact,
-  large,
+  compact = false,
+  crossPost = false,
+  large = false,
   nsfw,
   recyclingKey,
   spoiler,
@@ -42,6 +44,7 @@ export function VideoPlaceholder({
 
   styles.useVariants({
     compact,
+    crossPost,
     large,
   })
 
@@ -70,30 +73,49 @@ export function VideoPlaceholder({
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   main: {
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
-    justifyContent: 'center',
-    maxHeight: runtime.screen.height * 0.6,
-    overflow: 'hidden',
-    variants: {
-      compact: {
-        false: {
+    compoundVariants: [
+      {
+        compact: false,
+        crossPost: false,
+        styles: {
           marginHorizontal: -theme.space[3],
         },
       },
-      large: {
-        false: {
-          borderRadius: theme.space[1],
-          height: theme.space[8],
-          width: theme.space[8],
-        },
-        true: {
+      {
+        compact: true,
+        large: true,
+        styles: {
           borderRadius: theme.space[1] * 2,
           height: theme.space[8] * 2,
           width: theme.space[8] * 2,
         },
+      },
+      {
+        compact: true,
+        large: false,
+        styles: {
+          borderRadius: theme.space[1],
+          height: theme.space[8],
+          width: theme.space[8],
+        },
+      },
+    ],
+    justifyContent: 'center',
+    maxHeight: 400,
+    overflow: 'hidden',
+    variants: {
+      compact: {
+        true: {},
+      },
+      crossPost: {
+        true: {},
+      },
+      large: {
+        true: {},
       },
     },
   },
