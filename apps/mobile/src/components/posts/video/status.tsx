@@ -1,3 +1,5 @@
+import { useEventListener } from 'expo'
+import { type VideoPlayer } from 'expo-video'
 import { View } from 'react-native'
 import Animated, {
   cancelAnimation,
@@ -7,7 +9,6 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
-import { useEvent, type VideoPlayer } from 'react-native-video'
 
 type Props = {
   player: VideoPlayer
@@ -17,7 +18,7 @@ export function VideoStatus({ player }: Props) {
   const current = useSharedValue(0)
   const buffered = useSharedValue(0)
 
-  useEvent(player, 'onProgress', (event) => {
+  useEventListener(player, 'timeUpdate', (event) => {
     const duration = 500
 
     const nextCurrent = (event.currentTime / player.duration) * 100
@@ -33,7 +34,7 @@ export function VideoStatus({ player }: Props) {
       )
     }
 
-    const nextBuffered = (event.bufferDuration / player.duration) * 100
+    const nextBuffered = (event.bufferedPosition / player.duration) * 100
 
     if (buffered.get() !== nextBuffered) {
       cancelAnimation(buffered)

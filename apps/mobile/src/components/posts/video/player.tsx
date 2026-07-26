@@ -1,12 +1,8 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEvent } from 'expo'
+import { useVideoPlayer, VideoView } from 'expo-video'
+import { useEffect, useRef } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import {
-  useEvent,
-  useVideoPlayer,
-  VideoView,
-  type VideoViewRef,
-} from 'react-native-video'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -63,26 +59,27 @@ export function VideoPlayer({
     compact,
   })
 
-  const ref = useRef<VideoViewRef>(null)
+  const ref = useRef<VideoView>(null)
 
-  const player = useVideoPlayer(video.url, (instance) => {
-    instance.mixAudioMode = 'mixWithOthers'
+  const player = useVideoPlayer(null, (instance) => {
+    instance.audioMixingMode = 'mixWithOthers'
+    instance.timeUpdateEventInterval = 500
     instance.muted = true
     instance.loop = true
+
+    if (!compact && autoPlay) {
+      instance.play()
+    } else {
+      instance.pause()
+    }
   })
 
-  const [muted, setMuted] = useState(true)
-
   useEffect(() => {
-    if (!compact && autoPlay) {
-      player.play()
-    } else {
-      player.pause()
-    }
-  }, [autoPlay, player, compact])
+    player.replaceAsync(video.url)
+  }, [player, video.url])
 
-  useEvent(player, 'onVolumeChange', (event) => {
-    setMuted(event.muted)
+  const { muted } = useEvent(player, 'mutedChange', {
+    muted: true,
   })
 
   return (
@@ -108,31 +105,29 @@ export function VideoPlayer({
     >
       <VideoView
         accessibilityIgnoresInvertColors
-        controls
-        onFullscreenChange={(fullscreen) => {
-          if (!(compact || fullscreen) && autoPlay) {
-            player.play()
-          }
+        allowsPictureInPicture={pictureInPicture}
+        fullscreenOptions={{
+          enable: true,
         }}
-        pictureInPicture={pictureInPicture}
-        player={player}
-        pointerEvents="none"
-        ref={ref}
-        style={styles.video(video.width / video.height)}
-        willEnterFullscreen={() => {
+        nativeControls
+        onFullscreenEnter={() => {
           player.play()
 
           if (unmuteFullscreen && muted) {
             player.muted = false
           }
         }}
-        willExitFullscreen={() => {
+        onFullscreenExit={() => {
           if (compact || !autoPlay) {
             player.pause()
           }
 
           player.muted = true
         }}
+        player={player}
+        pointerEvents="none"
+        ref={ref}
+        style={styles.video(video.width / video.height)}
       />
 
       {compact ? null : <VideoStatus player={player} />}
