@@ -67,6 +67,7 @@ export default function Layout() {
 
   return (
     <Tabs
+      experimental_bakedTintColors
       labeled={false}
       minimizeBehavior={minimizeTabBar ? 'onScrollDown' : 'never'}
       translucent
