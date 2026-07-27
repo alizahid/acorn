@@ -61,7 +61,7 @@ const styles = StyleSheet.create((theme) => ({
     alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space[1],
-    height: theme.space[8],
+    height: 44,
     paddingHorizontal: theme.space[4],
   },
   image: {
@@ -70,7 +70,6 @@ const styles = StyleSheet.create((theme) => ({
     height: theme.typography[3].lineHeight,
     width: theme.typography[3].lineHeight,
   },
-
   main: {
     borderCurve: 'continuous',
     borderRadius: theme.space[8],

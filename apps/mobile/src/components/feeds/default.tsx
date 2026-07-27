@@ -118,7 +118,7 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.space[8],
     flexDirection: 'row',
     gap: theme.space[2],
-    height: theme.space[8],
+    height: 44,
     paddingHorizontal: theme.space[4],
   },
   sort: {
