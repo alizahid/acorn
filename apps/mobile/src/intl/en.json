@@ -575,6 +575,7 @@
           "apercu": "Apercu",
           "basis": "Basis",
           "fold": "Fold",
+          "fontBold": "Bold text",
           "fontSizeCommentBody": "Comment text size",
           "fontSizePostBody": "Post text size",
           "fontSizeTitle": "Title text size",

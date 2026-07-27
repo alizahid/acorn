@@ -35,6 +35,7 @@ export type PreferencesPayload = {
   feedCompact: boolean
   feedType: FeedType
   font: Font
+  fontBold: boolean
   fontScaling: number
   fontSizeCommentBody: TypographyToken
   fontSizePostBody: TypographyToken
@@ -101,6 +102,7 @@ export const usePreferences = create<State>()(
       feedCompact: false,
       feedType: 'home',
       font: 'basis',
+      fontBold: false,
       fontScaling: 1,
       fontSizeCommentBody: '2',
       fontSizePostBody: '3',

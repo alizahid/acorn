@@ -20,6 +20,7 @@ export default function Screen() {
     colorfulComments,
     feedCompact,
     font,
+    fontBold,
     fontScaling,
     fontSizeCommentBody,
     fontSizePostBody,
@@ -34,6 +35,7 @@ export default function Screen() {
       colorfulComments: state.colorfulComments,
       feedCompact: state.feedCompact,
       font: state.font,
+      fontBold: state.fontBold,
       fontScaling: state.fontScaling,
       fontSizeCommentBody: state.fontSizeCommentBody,
       fontSizePostBody: state.fontSizePostBody,
@@ -156,6 +158,16 @@ export default function Screen() {
             value={fontScaling}
           />
         )}
+
+        <Menu.Switch
+          label={t('fonts.fontBold')}
+          onChange={(next) => {
+            update({
+              fontBold: next,
+            })
+          }}
+          value={fontBold}
+        />
 
         {(
           ['fontSizeTitle', 'fontSizePostBody', 'fontSizeCommentBody'] as const

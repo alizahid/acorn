@@ -22,6 +22,7 @@ type Props = {
 export function Markdown({ children, meta, type = 'post' }: Props) {
   const {
     font,
+    fontBold,
     fontScaling,
     fontSizePostBody,
     fontSizeCommentBody,
@@ -29,6 +30,7 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
   } = usePreferences(
     useShallow((state) => ({
       font: state.font,
+      fontBold: state.fontBold,
       fontScaling: state.fontScaling,
       fontSizeCommentBody: state.fontSizeCommentBody,
       fontSizePostBody: state.fontSizePostBody,
@@ -58,7 +60,7 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
       onLinkPress={(event) => {
         handleLink(event.url)
       }}
-      style={styles.main(font, systemScaling ? 1 : fontScaling, size)}
+      style={styles.main(font, systemScaling ? 1 : fontScaling, fontBold, size)}
       uniProps={(theme) => ({
         styles: {
           blockQuote: {
@@ -137,10 +139,16 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  main: (font: Font, scaling: number, size: TypographyToken) => ({
+  main: (
+    font: Font,
+    scaling: number,
+    bold: boolean,
+    size: TypographyToken,
+  ) => ({
     color: theme.colors.gray.text,
     fontFamily: fonts[font],
     fontSize: theme.typography[size].fontSize * scaling,
+    fontWeight: bold ? 'bold' : undefined,
     gap: theme.space[3],
     lineHeight: theme.typography[size].lineHeight * scaling,
   }),

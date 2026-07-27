@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: bold text option
 - added: drawer left option
 - added: drawer sticky option for iPad
 - added: image menu added
