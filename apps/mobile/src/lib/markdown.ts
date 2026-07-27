@@ -3,6 +3,7 @@ import { decode } from 'entities'
 import { type PostMediaMeta } from '~/types/post'
 
 const redditLinkRegex = /(?<!\S)\/?[ru]\/[A-Za-z0-9_-]+/g
+const urlRegex = /https?:\/\/\S+/g
 
 const enrichedSpoilerRegex = /\|\|(.*?)\|\|/g
 const giphyRegex = /!\[gif\]\(giphy\|([a-zA-Z0-9]+)(?:\|([a-zA-Z0-9]+))?\)/g
@@ -13,6 +14,7 @@ export function transformMarkdown(markdown: string | null) {
   }
 
   return decode(markdown)
+    .replace(urlRegex, (url) => url.replace(/\\(?=[!-/:-@[-`{-~])/g, ''))
     .replace(
       redditLinkRegex,
       (name) =>
