@@ -1,5 +1,4 @@
 import { Pressable } from 'react-native-gesture-handler'
-import Swipeable from 'react-native-gesture-handler/ReanimatedSwipeable'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -7,6 +6,7 @@ import { type Account } from '~/stores/auth'
 
 import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
+import { Swipeable } from '../common/swipeable'
 import { Text } from '../common/text'
 
 type Props = {
@@ -28,9 +28,7 @@ export function AccountCard({
 
   return (
     <Swipeable
-      containerStyle={styles.delete}
-      key={account.id}
-      renderLeftActions={() => (
+      left={
         <IconButton
           accessibilityLabel={a11y('removeAccount', {
             account: account.id,
@@ -42,12 +40,11 @@ export function AccountCard({
           <Icon
             name="trash"
             uniProps={(theme) => ({
-              color: theme.colors.accent.contrast,
+              color: theme.colors.red.accent,
             })}
           />
         </IconButton>
-      )}
-      renderRightActions={() => null}
+      }
     >
       <Pressable
         accessibilityHint={a11y('swipeAccount')}
@@ -71,12 +68,8 @@ export function AccountCard({
 }
 
 const styles = StyleSheet.create((theme) => ({
-  delete: {
-    backgroundColor: theme.colors.red.accent,
-  },
   main: {
     alignItems: 'center',
-    backgroundColor: theme.colors.gray.bg,
     flexDirection: 'row',
     gap: theme.space[3],
     height: theme.space[8],
@@ -84,5 +77,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   selected: {
     backgroundColor: theme.colors.accent.uiActive,
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
   },
 }))
