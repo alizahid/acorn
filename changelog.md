@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 86
 
 - added: bold text option
 - added: drawer left option
