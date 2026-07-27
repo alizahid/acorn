@@ -86,7 +86,7 @@
         "react-native-bottom-tabs": "^1.4.0",
         "react-native-drawer-layout": "^4.2.9",
         "react-native-enriched-markdown": "^0.7.4",
-        "react-native-fast-markdown": "^0.2.0-beta.5",
+        "react-native-fast-markdown": "^0.2.0-beta.6",
         "react-native-gesture-handler": "~2.32.0",
         "react-native-keyboard-controller": "1.21.9",
         "react-native-mmkv": "^4.3.2",
@@ -1760,7 +1760,7 @@
 
     "react-native-enriched-markdown": ["react-native-enriched-markdown@0.7.4", "", { "peerDependencies": { "@expo/config-plugins": ">=50.0.0", "katex": ">=0.16.0", "react": "*", "react-native": "*" }, "optionalPeers": ["@expo/config-plugins", "katex"] }, "sha512-NXkqZL4d5vM6wOBwYwx0r1Xyw2h+E8SyobrS8nKnbpjYOyKZj6zIdOq1KJFrlenJNu/tXpbJ8jtQagaA4Wj4cg=="],
 
-    "react-native-fast-markdown": ["react-native-fast-markdown@0.2.0-beta.5", "", { "peerDependencies": { "react": ">=19.0.0", "react-native": ">=0.86.0" } }, "sha512-juF2+gMHjwUUOmowsNWmnFW2qZCApn2xMnUEYciY+JxL/ZeoBLI9IZcI7NOz0YpOeszRunYyuvD4Rz19oZeFfA=="],
+    "react-native-fast-markdown": ["react-native-fast-markdown@0.2.0-beta.6", "", { "peerDependencies": { "react": ">=19.0.0", "react-native": ">=0.86.0" } }, "sha512-yvzsi/bbHcc8Xee8PyZxbXW8bSwmLRxK7GpOdYgm6PuoJ6PFBXj84Y0IxXqswUT2Q3iMYv+qWKG5xp3qfy+eJQ=="],
 
     "react-native-gesture-handler": ["react-native-gesture-handler@2.32.0", "", { "dependencies": { "@egjs/hammerjs": "^2.0.17", "@types/react-test-renderer": "^19.1.0", "hoist-non-react-statics": "^3.3.0", "invariant": "^2.2.4" }, "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-uYIMOKlKENORq2SABE+jIjbPU+h5I/sQKcq2v16zRq848nwEp1fWRVwML4QWqijc8UcXJC25o54S8GQd4Mf2OA=="],
 
