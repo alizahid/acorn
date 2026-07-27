@@ -1,5 +1,7 @@
+import { type Ref } from 'react'
 import {
   type StyleProp,
+  type TextInput,
   type TextInputProps,
   type ViewStyle,
 } from 'react-native'
@@ -16,6 +18,7 @@ type Props = {
   onChange?: (value: string) => void
   onSubmitEditing?: TextInputProps['onSubmitEditing']
   placeholder?: 'search' | 'filter'
+  ref?: Ref<TextInput>
   style?: StyleProp<ViewStyle>
   value?: string
 }
@@ -25,6 +28,7 @@ export function SearchBox({
   onChange,
   onSubmitEditing,
   placeholder = 'filter',
+  ref,
   style,
   value,
 }: Props) {
@@ -49,6 +53,7 @@ export function SearchBox({
       onChangeText={onChange}
       onSubmitEditing={onSubmitEditing}
       placeholder={t(placeholder)}
+      ref={ref}
       returnKeyType="search"
       right={
         value?.length ? (

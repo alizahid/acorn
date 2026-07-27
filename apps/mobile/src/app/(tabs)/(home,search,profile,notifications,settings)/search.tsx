@@ -1,8 +1,7 @@
 import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useRef, useState } from 'react'
-import { View } from 'react-native'
+import { type TextInput, View } from 'react-native'
 import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
-import { type SearchBarCommands } from 'react-native-screens'
 import {
   type NavigationState,
   type SceneRendererProps,
@@ -51,7 +50,7 @@ export default function Screen() {
     })),
   )
 
-  const search = useRef<SearchBarCommands>(null)
+  const search = useRef<TextInput>(null)
 
   const [sort, setSort] = useState(sortSearchPosts)
   const [interval, setInterval] = useState(intervalSearchPosts)
@@ -65,17 +64,11 @@ export default function Screen() {
     search.current?.focus()
   })
 
-  const onChangeQuery = useCallback((next: string) => {
-    search.current?.setText(next)
-
-    setQuery(next)
-  }, [])
-
   const listProps = useListProps(true)
 
   const props = {
     listProps,
-    onChangeQuery,
+    onChangeQuery: setQuery,
     query: debounced,
   } as const
 
@@ -137,6 +130,7 @@ export default function Screen() {
           glass
           onChange={setQuery}
           placeholder="search"
+          ref={search}
           style={styles.search}
           value={query}
         />
