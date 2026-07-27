@@ -694,6 +694,8 @@
       },
       "preferences": {
         "browsing": {
+          "drawerLeft": "Drawer on left",
+          "drawerSticky": "Sticky drawer",
           "infiniteScrolling": "Infinite scrolling",
           "minimizeTabBar": "Minimize tab bar",
           "oldReddit": "Use old Reddit links",

@@ -2,7 +2,10 @@
 
 ## Upcoming
 
+- added: drawer left option
+- added: drawer sticky option for iPad
 - fixed: keyboard handling
+- fixed: video crashes
 
 ## Build 85
 

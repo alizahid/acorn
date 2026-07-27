@@ -2,6 +2,7 @@ import { Stack } from 'expo-router'
 import { PlatformColor } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
@@ -11,6 +12,7 @@ import { useListProps } from '~/hooks/list'
 import { useSorting } from '~/hooks/sorting'
 import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
+import { usePreferences } from '~/stores/preferences'
 
 type Props = {
   name: string
@@ -18,6 +20,13 @@ type Props = {
 
 export function CommunityFeed({ name }: Props) {
   const a11y = useTranslations('a11y')
+
+  const { drawerLeft, drawerSticky } = usePreferences(
+    useShallow((state) => ({
+      drawerLeft: state.drawerLeft,
+      drawerSticky: state.drawerSticky,
+    })),
+  )
 
   const { sorting, update } = useSorting('community', name)
 
@@ -27,7 +36,7 @@ export function CommunityFeed({ name }: Props) {
     <>
       <Stack.Title style={styles.title}>{name}</Stack.Title>
 
-      <Stack.Toolbar placement="left">
+      <Stack.Toolbar placement={iPad ? 'right' : drawerLeft ? 'right' : 'left'}>
         <Stack.Toolbar.View>
           <SortIntervalMenu
             interval={sorting.interval}
@@ -41,8 +50,24 @@ export function CommunityFeed({ name }: Props) {
         </Stack.Toolbar.View>
       </Stack.Toolbar>
 
-      {iPad ? null : (
-        <Stack.Toolbar placement="right">
+      {iPad ? (
+        drawerSticky ? null : (
+          <Stack.Toolbar placement="left">
+            <Stack.Toolbar.View>
+              <IconButton
+                accessibilityLabel={a11y('toggleSidebar')}
+                header
+                onPress={() => {
+                  mitter.emit('drawer-toggle')
+                }}
+              >
+                <Icon name="sidebar" />
+              </IconButton>
+            </Stack.Toolbar.View>
+          </Stack.Toolbar>
+        )
+      ) : (
+        <Stack.Toolbar placement={drawerLeft ? 'left' : 'right'}>
           <Stack.Toolbar.View>
             <IconButton
               accessibilityLabel={a11y('toggleSidebar')}

@@ -28,6 +28,8 @@ export type PreferencesPayload = {
   colorfulComments: boolean
   communityOnTop: boolean
   dimSeen: boolean
+  drawerLeft: boolean
+  drawerSticky: boolean
   feedbackHaptics: boolean
   feedbackSounds: boolean
   feedCompact: boolean
@@ -92,6 +94,8 @@ export const usePreferences = create<State>()(
       colorfulComments: true,
       communityOnTop: false,
       dimSeen: false,
+      drawerLeft: false,
+      drawerSticky: true,
       feedbackHaptics: false,
       feedbackSounds: false,
       feedCompact: false,

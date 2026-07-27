@@ -10,7 +10,7 @@ import { SFSymbol } from '~/components/common/icon/symbol'
 import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
 import { useListProps } from '~/hooks/list'
-import { iOS26 } from '~/lib/common'
+import { iOS26, iPad } from '~/lib/common'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
 
 export default function Screen() {
@@ -26,6 +26,8 @@ export default function Screen() {
     collapsibleComments,
     communityOnTop,
     dimSeen,
+    drawerLeft,
+    drawerSticky,
     feedbackHaptics,
     feedbackSounds,
     hapticsLoud,
@@ -60,6 +62,8 @@ export default function Screen() {
       collapsibleComments: state.collapsibleComments,
       communityOnTop: state.communityOnTop,
       dimSeen: state.dimSeen,
+      drawerLeft: state.drawerLeft,
+      drawerSticky: state.drawerSticky,
       feedbackHaptics: state.feedbackHaptics,
       feedbackSounds: state.feedbackSounds,
       hapticsLoud: state.hapticsLoud,
@@ -195,6 +199,30 @@ export default function Screen() {
           }}
           value={privateScreenshots}
         />
+
+        {iPad ? (
+          <Menu.Switch
+            icon={<Icon name="sidebar" />}
+            label={t('browsing.drawerSticky')}
+            onChange={(next) => {
+              update({
+                drawerSticky: next,
+              })
+            }}
+            value={drawerSticky}
+          />
+        ) : (
+          <Menu.Switch
+            icon={<Icon name="sidebar" />}
+            label={t('browsing.drawerLeft')}
+            onChange={(next) => {
+              update({
+                drawerLeft: next,
+              })
+            }}
+            value={drawerLeft}
+          />
+        )}
 
         <Menu.Separator />
 

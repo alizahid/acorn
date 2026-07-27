@@ -1,9 +1,11 @@
 import { type ReactNode, useCallback, useEffect, useState } from 'react'
 import { Drawer as DrawerLayout } from 'react-native-drawer-layout'
 import { StyleSheet } from 'react-native-unistyles'
+import { useShallow } from 'zustand/react/shallow'
 
 import { iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
+import { usePreferences } from '~/stores/preferences'
 
 import { CommunitiesList } from '../communities/list'
 
@@ -12,6 +14,13 @@ type Props = {
 }
 
 export function Drawer({ children }: Props) {
+  const { drawerLeft, drawerSticky } = usePreferences(
+    useShallow((state) => ({
+      drawerLeft: state.drawerLeft,
+      drawerSticky: state.drawerSticky,
+    })),
+  )
+
   styles.useVariants({
     iPad,
   })
@@ -54,9 +63,9 @@ export function Drawer({ children }: Props) {
 
   return (
     <DrawerLayout
-      drawerPosition={iPad ? 'left' : 'right'}
+      drawerPosition={iPad ? 'left' : drawerLeft ? 'left' : 'right'}
       drawerStyle={styles.drawer}
-      drawerType={iPad ? 'permanent' : 'slide'}
+      drawerType={iPad ? (drawerSticky ? 'permanent' : 'front') : 'slide'}
       onClose={() => {
         setOpen(false)
       }}
