@@ -78,6 +78,12 @@ export default function Screen() {
 
   const listProps = useListProps(true)
 
+  const props = {
+    listProps,
+    query,
+    user: params.name,
+  } as const
+
   const renderScene = useCallback(
     ({
       route,
@@ -90,6 +96,7 @@ export default function Screen() {
       if (route.key === 'posts') {
         return (
           <PostList
+            {...props}
             header={
               <View style={styles.header}>
                 <SearchBox onChange={setQuery} value={query} />
@@ -105,10 +112,7 @@ export default function Screen() {
               </View>
             }
             interval={posts.interval}
-            listProps={listProps}
-            query={query}
             sort={posts.sort}
-            user={params.name}
             userType="submitted"
           />
         )
@@ -116,6 +120,7 @@ export default function Screen() {
 
       return (
         <PostList
+          {...props}
           header={
             <View style={styles.header}>
               <SearchBox onChange={setQuery} value={query} />
@@ -131,10 +136,7 @@ export default function Screen() {
             </View>
           }
           interval={comments.interval}
-          listProps={listProps}
-          query={query}
           sort={comments.sort}
-          user={params.name}
           userType="comments"
         />
       )
@@ -142,11 +144,10 @@ export default function Screen() {
     [
       comments.interval,
       comments.sort,
-      listProps,
-      params.name,
       posts.interval,
       posts.sort,
       query,
+      props,
     ],
   )
 
