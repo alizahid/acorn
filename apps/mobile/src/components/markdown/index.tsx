@@ -105,6 +105,7 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
           },
           listMarker: {
             color: theme.colors.gray.textLow,
+            width: theme.space[4],
           },
           spoiler: {
             backgroundColor: theme.colors.accent.accent,
