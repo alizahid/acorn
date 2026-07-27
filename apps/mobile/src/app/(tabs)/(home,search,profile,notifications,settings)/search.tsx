@@ -1,6 +1,6 @@
 import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useRef, useState } from 'react'
-import { type TextInput, View } from 'react-native'
+import { View } from 'react-native'
 import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
 import {
   type NavigationState,
@@ -15,6 +15,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { Loading } from '~/components/common/loading'
 import { SearchBox } from '~/components/common/search'
 import { SegmentedControl } from '~/components/common/segmented-control'
+import { type TextInput } from '~/components/native/text-input'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useListProps } from '~/hooks/list'
