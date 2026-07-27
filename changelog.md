@@ -4,6 +4,7 @@
 
 - added: drawer left option
 - added: drawer sticky option for iPad
+- fixed: community list sorting
 - fixed: keyboard handling
 - fixed: video crashes
 

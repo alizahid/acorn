@@ -136,9 +136,10 @@ export function CommunitiesList({
             : []),
         ],
         (item) =>
-          item.community.user
+          (item.community.user
             ? item.community.name.slice(2)
-            : item.community.name,
+            : item.community.name
+          ).toLowerCase(),
       ),
       (item) => item.community.favorite,
       'desc',
