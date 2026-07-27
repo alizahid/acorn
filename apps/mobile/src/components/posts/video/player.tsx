@@ -1,6 +1,6 @@
 import { useEvent } from 'expo'
 import { useVideoPlayer, VideoView } from 'expo-video'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -62,7 +62,7 @@ export function VideoPlayer({
 
   const ref = useRef<VideoView>(null)
 
-  const player = useVideoPlayer(null, (instance) => {
+  const player = useVideoPlayer(video.url, (instance) => {
     instance.audioMixingMode = 'mixWithOthers'
     instance.timeUpdateEventInterval = 0.5
     instance.muted = true
@@ -74,10 +74,6 @@ export function VideoPlayer({
       instance.pause()
     }
   })
-
-  useEffect(() => {
-    player.replaceAsync(video.url)
-  }, [player, video.url])
 
   const { muted } = useEvent(player, 'mutedChange', {
     muted: true,
