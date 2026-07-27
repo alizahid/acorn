@@ -300,7 +300,7 @@ const styles = StyleSheet.create((theme) => ({
     borderBottomLeftRadius: depth > 0 ? theme.radius[3] : undefined,
     borderCurve: 'continuous',
     borderTopLeftRadius: depth > 0 ? theme.radius[3] : undefined,
-    marginLeft: theme.space[3] * depth,
+    marginLeft: theme.space[2] * depth,
     overflow: 'hidden',
   }),
   flair: {

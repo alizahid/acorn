@@ -97,7 +97,7 @@ const styles = StyleSheet.create((theme) => ({
       flexDirection: 'row',
       gap: theme.space[4],
       justifyContent: 'center',
-      marginLeft: theme.space[3] * depth,
+      marginLeft: theme.space[2] * depth,
       overflow: 'hidden',
       paddingVertical: theme.space[2],
       variants: {
