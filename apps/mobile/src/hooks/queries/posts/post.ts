@@ -174,16 +174,21 @@ export function usePost({ commentId, id, sort }: Props) {
 
   const collapseThread = useCallback(
     (variables: CollapseVariables) => {
-      const parentIds = getParentCommentIds(
-        query.data?.comments ?? [],
-        variables.commentId,
-      )
+      const comments = query.data?.comments ?? []
+
+      const parentIds = getParentCommentIds(comments, variables.commentId)
 
       const $commentId = parentIds.at(-1) ?? variables.commentId
 
       collapse({
         commentId: $commentId,
       })
+
+      const index = comments
+        .filter((item) => !isHidden(comments, item.data.id))
+        .findIndex((item) => item.data.id === $commentId)
+
+      return index + 1
     },
     [collapse, query.data?.comments],
   )

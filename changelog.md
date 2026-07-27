@@ -6,6 +6,7 @@
 - added: drawer left option
 - added: drawer sticky option for iPad
 - added: image menu added
+- added: thread collapsing scrolls to next comment
 - fixed: community list sorting
 - fixed: keyboard handling
 - fixed: video crashes

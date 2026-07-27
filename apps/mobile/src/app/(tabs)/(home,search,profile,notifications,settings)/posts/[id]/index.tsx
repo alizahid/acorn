@@ -174,8 +174,14 @@ export default function Screen() {
               return
             }
 
-            collapseThread({
+            const index = collapseThread({
               commentId: item.data.id,
+            })
+
+            requestAnimationFrame(() => {
+              list.current?.scrollToIndex({
+                index,
+              })
             })
           }}
           onPress={() => {
