@@ -9,6 +9,7 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { Gallery } from '~/components/common/gallery'
 import { Text } from '~/components/common/text'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -190,7 +191,7 @@ const styles = StyleSheet.create((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     height: '100%',
-    maxHeight: 400,
+    maxHeight: iPad ? 600 : 400,
     width: '100%',
   },
   label: {

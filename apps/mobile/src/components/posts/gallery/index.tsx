@@ -8,6 +8,7 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { Gallery } from '~/components/common/gallery'
 import { useHistory } from '~/hooks/history'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -151,7 +152,7 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
     ],
-    maxHeight: 400,
+    maxHeight: iPad ? 600 : 400,
     overflow: 'hidden',
     variants: {
       compact: {

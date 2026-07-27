@@ -10,6 +10,7 @@ import { Gallery } from '~/components/common/gallery'
 import { Icon } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { useHistory } from '~/hooks/history'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
 import { type PostMedia } from '~/types/post'
@@ -173,7 +174,7 @@ const styles = StyleSheet.create((theme) => ({
   },
   main: {
     justifyContent: 'center',
-    maxHeight: 400,
+    maxHeight: iPad ? 600 : 400,
     overflow: 'hidden',
   },
   video: (aspectRatio: number) => ({

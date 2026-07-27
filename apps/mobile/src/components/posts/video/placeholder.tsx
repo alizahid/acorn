@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
 
 import { useFocused } from '~/hooks/focus'
+import { iPad } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -105,7 +106,7 @@ const styles = StyleSheet.create((theme) => ({
       },
     ],
     justifyContent: 'center',
-    maxHeight: 400,
+    maxHeight: iPad ? 600 : 400,
     overflow: 'hidden',
     variants: {
       compact: {
