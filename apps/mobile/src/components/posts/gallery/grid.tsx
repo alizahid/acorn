@@ -70,6 +70,17 @@ export function ImageGrid({
                 url: image.url,
               })
             }}
+            onPressRightNavItemIcon={(event) => {
+              const item = images[event.nativeEvent.index]
+
+              if (item) {
+                Gallery.call({
+                  type: 'image',
+                  url: item.url,
+                })
+              }
+            }}
+            rightNavItemIconName="ellipsis"
           >
             <Image
               accessibilityIgnoresInvertColors
@@ -115,6 +126,17 @@ export function ImageGrid({
                     url: item.url,
                   })
                 }}
+                onPressRightNavItemIcon={(event) => {
+                  const image = images[event.nativeEvent.index]
+
+                  if (image) {
+                    Gallery.call({
+                      type: 'image',
+                      url: image.url,
+                    })
+                  }
+                }}
+                rightNavItemIconName="ellipsis"
               >
                 <Image
                   accessibilityIgnoresInvertColors

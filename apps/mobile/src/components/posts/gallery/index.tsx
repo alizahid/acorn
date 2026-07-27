@@ -74,6 +74,17 @@ export function PostGalleryCard({
                   url: image.url,
                 })
               }}
+              onPressRightNavItemIcon={(event) => {
+                const item = images[event.nativeEvent.index]
+
+                if (item) {
+                  Gallery.call({
+                    type: 'image',
+                    url: item.url,
+                  })
+                }
+              }}
+              rightNavItemIconName="ellipsis"
             >
               <Image
                 accessibilityIgnoresInvertColors
