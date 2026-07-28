@@ -78,7 +78,8 @@
       "suspicious": {
         "noLeakedRender": "off",
         "noRedeclare": "off",
-        "noUnknownAtRules": "off"
+        "noUnknownAtRules": "off",
+        "noUnnecessaryConditions": "off"
       }
     }
   }

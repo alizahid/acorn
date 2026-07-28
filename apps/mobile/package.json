@@ -49,7 +49,7 @@
     "expo-font": "~57.0.1",
     "expo-glass-effect": "~57.0.1",
     "expo-haptics": "~57.0.1",
-    "expo-iap": "^4.7.1",
+    "expo-iap": "^4.7.2",
     "expo-icloud-storage": "^0.1.1",
     "expo-image": "~57.0.1",
     "expo-image-picker": "~57.0.6",
@@ -88,7 +88,7 @@
     "react-native-mmkv": "^4.3.2",
     "react-native-nano-icons": "^0.2.1",
     "react-native-nitro-cookies": "^1.2.0",
-    "react-native-nitro-modules": "0.36.1",
+    "react-native-nitro-modules": "0.36.3",
     "react-native-pager-view": "8.0.2",
     "react-native-reanimated": "4.5.3",
     "react-native-reorderable-list": "^0.18.1",
@@ -113,7 +113,7 @@
     "@babel/core": "^7.29.0",
     "@sentry/cli": "3.6.2",
     "@types/lodash": "^4.17.24",
-    "@types/node": "^26.1.1",
+    "@types/node": "^26.1.2",
     "@types/react": "~19.2.17",
     "@types/semver": "^7.7.1",
     "babel-plugin-inline-import": "^3.0.0",
@@ -125,9 +125,7 @@
     "install": {
       "exclude": [
         "@shopify/flash-list@2.0.2",
-        "react-native-keyboard-controller@1.21.6",
-        "react-native-reanimated@4.5.0",
-        "react-native-view-shot@4.0.3"
+        "react-native-reanimated@4.5.0"
       ]
     }
   }
