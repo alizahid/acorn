@@ -10,6 +10,7 @@ import expoSecureStore from 'expo-secure-store/plugin'
 import expoSplashScreen from 'expo-splash-screen/plugin'
 import expoSqlite from 'expo-sqlite/plugin'
 import expoWebBrowser from 'expo-web-browser/plugin'
+import { withJetVideo } from 'react-native-jet-video/expo-plugin'
 
 export default function getConfig(context: ConfigContext): ExpoConfig {
   const name = 'Acorn'
@@ -58,13 +59,10 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     expoScreenOrientation({
       initialOrientation: 'PORTRAIT_UP',
     }),
-    [
-      'react-native-jet-video',
-      {
-        supportsBackgroundPlayback: true,
-        supportsPictureInPicture: true,
-      },
-    ],
+    withJetVideo({
+      supportsBackgroundPlayback: true,
+      supportsPictureInPicture: true,
+    }),
     [
       'react-native-nano-icons',
       {
