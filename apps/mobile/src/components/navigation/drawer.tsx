@@ -89,8 +89,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
     variants: {
       iPad: {
         true: {
-          borderRightColor: theme.colors.gray.border,
-          borderRightWidth: 1,
           width: 300,
         },
       },
