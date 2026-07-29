@@ -21,7 +21,6 @@ type Props = {
   onLongPress?: () => void
   post: Post
   recyclingKey?: string
-  viewing: boolean
 }
 
 export function CrossPostCard({
@@ -30,7 +29,6 @@ export function CrossPostCard({
   onLongPress,
   post,
   recyclingKey,
-  viewing,
 }: Props) {
   const router = useRouter()
 
@@ -95,7 +93,6 @@ export function CrossPostCard({
           spoiler={post.spoiler}
           thumbnail={post.media.images?.[0]?.url}
           video={post.media.video}
-          viewing={viewing}
         />
       ) : null}
 

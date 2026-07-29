@@ -18,7 +18,7 @@ type Props = {
   url: string
 }
 
-export const Gallery = createCallable<Props>(({ call, type, url }) => {
+export const MediaMenu = createCallable<Props>(({ call, type, url }) => {
   const t = useTranslations('component.common.gallery')
 
   const sheet = useRef<Sheet>(null)

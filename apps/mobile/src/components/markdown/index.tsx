@@ -1,16 +1,17 @@
 import { useMemo } from 'react'
+import { Gallery } from 'react-native-jet-gallery'
 import { StyleSheet } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
 
+import { useImageActions } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { type Font, fonts } from '~/lib/fonts'
 import { mergeMetaMarkdown } from '~/lib/markdown'
 import { usePreferences } from '~/stores/preferences'
 import { addTextSize } from '~/styles/text'
-import { type TypographyToken } from '~/styles/tokens'
+import { radius, type TypographyToken } from '~/styles/tokens'
 import { type PostMediaMeta } from '~/types/post'
 
-import { Gallery } from '../common/gallery'
 import { MarkdownViewer } from '../native/markdown'
 
 type Props = {
@@ -38,8 +39,6 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
     })),
   )
 
-  const size = type === 'post' ? fontSizePostBody : fontSizeCommentBody
-
   const markdown = useMemo(
     () => mergeMetaMarkdown(children, meta),
     [children, meta],
@@ -47,14 +46,22 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
 
   const { handleLink } = useLink()
 
+  const { actions } = useImageActions()
+
+  const size = type === 'post' ? fontSizePostBody : fontSizeCommentBody
+
   return (
     <MarkdownViewer
       allowFontScaling={systemScaling}
       markdown={markdown}
       onImagePress={(image) => {
-        Gallery.call({
-          type: 'image',
-          url: image.url,
+        Gallery.open({
+          actions,
+          origin: {
+            ...image,
+            borderRadius: radius[4],
+          },
+          urls: [image.url],
         })
       }}
       onLinkPress={(event) => {

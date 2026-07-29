@@ -1,15 +1,15 @@
-import { Galeria } from '@nandorojo/galeria'
 import { Image } from 'expo-image'
 import { useMemo } from 'react'
 import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
+import { Gallery } from 'react-native-jet-gallery'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
-import { Gallery } from '~/components/common/gallery'
+import { MediaMenu } from '~/components/common/media-menu'
 import { Text } from '~/components/common/text'
-import { iPad } from '~/lib/common'
+import { useImageActions } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -39,6 +39,8 @@ export function ImageGrid({
     })),
   )
 
+  const { actions } = useImageActions()
+
   const data = useMemo(() => {
     const sizes = images.map((image) => ({
       height: styles.carousel.height,
@@ -61,55 +63,49 @@ export function ImageGrid({
     const image = images[0]!
 
     return (
-      <Galeria closeIconName="xmark" urls={[image.url]}>
-        <View style={styles.one(image.width / image.height)}>
-          <Galeria.Image
-            onDismiss={onDismiss}
-            onLongPress={() => {
-              Gallery.call({
-                type: 'image',
-                url: image.url,
-              })
-            }}
-            onPressRightNavItemIcon={(event) => {
-              const item = images[event.nativeEvent.index]
+      <Gallery actions={actions} onDismiss={onDismiss} urls={[image.url]}>
+        <Gallery.Image
+          index={0}
+          onLongPress={(event) => {
+            console.log('foo')
 
-              if (item) {
-                Gallery.call({
-                  type: 'image',
-                  url: item.url,
-                })
-              }
-            }}
-            rightNavItemIconName="ellipsis"
-          >
-            <Image
-              accessibilityIgnoresInvertColors
-              recyclingKey={recyclingKey}
-              source={image.url}
-              style={styles.image}
-            />
-          </Galeria.Image>
+            MediaMenu.call({
+              type: 'image',
+              url: event.url,
+            })
+          }}
+          style={styles.one(image.width / image.height)}
+        >
+          <Image
+            accessibilityIgnoresInvertColors
+            recyclingKey={recyclingKey}
+            source={image.url}
+            style={styles.image}
+          />
+        </Gallery.Image>
 
-          {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
-            <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
-          ) : null}
+        {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
+          <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+        ) : null}
 
-          {image.type === 'gif' ? (
-            <View pointerEvents="none" style={[styles.label, styles.gif]}>
-              <Text contrast size="1" weight="medium">
-                {t('gif')}
-              </Text>
-            </View>
-          ) : null}
-        </View>
-      </Galeria>
+        {image.type === 'gif' ? (
+          <View pointerEvents="none" style={[styles.label, styles.gif]}>
+            <Text contrast size="1" weight="medium">
+              {t('gif')}
+            </Text>
+          </View>
+        ) : null}
+      </Gallery>
     )
   }
 
   return (
     <>
-      <Galeria closeIconName="xmark" urls={images.map((image) => image.url)}>
+      <Gallery
+        actions={actions}
+        onDismiss={onDismiss}
+        urls={images.map((image) => image.url)}
+      >
         <FlatList
           contentContainerStyle={styles.carousel}
           data={images}
@@ -117,27 +113,17 @@ export function ImageGrid({
           horizontal
           keyExtractor={(item) => item.url}
           renderItem={({ index, item }) => (
-            <View>
-              <Galeria.Image
+            <>
+              <Gallery.Image
                 index={index}
-                onDismiss={onDismiss}
-                onLongPress={() => {
-                  Gallery.call({
+                onLongPress={(event) => {
+                  console.log('foo')
+
+                  MediaMenu.call({
                     type: 'image',
-                    url: item.url,
+                    url: event.url,
                   })
                 }}
-                onPressRightNavItemIcon={(event) => {
-                  const image = images[event.nativeEvent.index]
-
-                  if (image) {
-                    Gallery.call({
-                      type: 'image',
-                      url: image.url,
-                    })
-                  }
-                }}
-                rightNavItemIconName="ellipsis"
               >
                 <Image
                   accessibilityIgnoresInvertColors
@@ -145,7 +131,7 @@ export function ImageGrid({
                   source={item.url}
                   style={[styles.slide, data.sizes[index]]}
                 />
-              </Galeria.Image>
+              </Gallery.Image>
 
               {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
                 <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
@@ -158,12 +144,12 @@ export function ImageGrid({
                   </Text>
                 </View>
               ) : null}
-            </View>
+            </>
           )}
           showsHorizontalScrollIndicator={false}
           snapToOffsets={data.offsets}
         />
-      </Galeria>
+      </Gallery>
 
       <View pointerEvents="none" style={[styles.label, styles.count]}>
         <Text contrast size="1" weight="medium">
@@ -191,7 +177,6 @@ const styles = StyleSheet.create((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
     height: '100%',
-    maxHeight: iPad ? 600 : 400,
     width: '100%',
   },
   label: {

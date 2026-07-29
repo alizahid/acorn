@@ -1,8 +1,8 @@
 import { EnrichedMarkdownTextInput } from 'react-native-enriched-markdown'
-import { FastMarkdownView } from 'react-native-fast-markdown'
+import { JetMarkdownView } from 'react-native-jet-markdown'
 import { withUnistyles } from 'react-native-unistyles'
 
-export const MarkdownViewer = withUnistyles(FastMarkdownView)
+export const MarkdownViewer = withUnistyles(JetMarkdownView)
 
 export const MarkdownInput = withUnistyles(
   EnrichedMarkdownTextInput,

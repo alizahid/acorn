@@ -1,5 +1,11 @@
 # Changelog
 
+## Upcoming
+
+- added: mute feed option
+- added: new gallery library
+- added: new video library
+
 ## Build 86
 
 - added: bold text option

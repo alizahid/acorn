@@ -11,7 +11,7 @@ import en from '~/intl/en.json'
 import { persistOptions, queryClient } from '~/lib/query'
 
 import { ThemeProvider } from '../providers/theme'
-import { Gallery } from './gallery'
+import { MediaMenu } from './media-menu'
 import { Toast } from './toast'
 
 type Props = {
@@ -31,7 +31,7 @@ export function Providers({ children }: Props) {
               <FocusProvider>
                 {children}
 
-                <Gallery />
+                <MediaMenu />
                 <AccountSwitcher />
                 <Toast />
               </FocusProvider>

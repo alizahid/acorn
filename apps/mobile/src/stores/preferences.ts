@@ -33,6 +33,7 @@ export type PreferencesPayload = {
   feedbackHaptics: boolean
   feedbackSounds: boolean
   feedCompact: boolean
+  feedMuted: boolean
   feedType: FeedType
   font: Font
   fontBold: boolean
@@ -100,6 +101,7 @@ export const usePreferences = create<State>()(
       feedbackHaptics: false,
       feedbackSounds: false,
       feedCompact: false,
+      feedMuted: true,
       feedType: 'home',
       font: 'basis',
       fontBold: false,

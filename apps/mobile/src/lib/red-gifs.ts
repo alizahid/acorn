@@ -1,7 +1,7 @@
 import { addHours, fromUnixTime } from 'date-fns'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as SecureStore from 'expo-secure-store'
-import { type VideoSource } from 'expo-video'
+import { type VideoSource } from 'react-native-jet-video'
 import { z } from 'zod'
 
 import { getUserAgent } from './user-agent'
@@ -11,6 +11,7 @@ const GifSchema = z.object({
     id: z.string(),
     urls: z.object({
       hd: z.string(),
+      poster: z.string().optional(),
     }),
   }),
 })
@@ -19,6 +20,7 @@ type GifPayload = z.infer<typeof GifSchema>
 
 export type Gif = {
   expiresAt: Date
+  poster?: string
   source: VideoSource
   url: string
 }
@@ -53,6 +55,7 @@ export async function getGif(id: string): Promise<Gif> {
 
   return {
     expiresAt: fromUnixTime(expires - 1000 * 60),
+    poster: gif.urls.poster,
     source: {
       headers: {
         authorization: `Bearer ${token}`,

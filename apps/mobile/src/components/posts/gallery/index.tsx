@@ -1,14 +1,15 @@
-import { Galeria } from '@nandorojo/galeria'
 import { Image } from 'expo-image'
 import { useCallback } from 'react'
 import { View } from 'react-native'
+import { Gallery } from 'react-native-jet-gallery'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
-import { Gallery } from '~/components/common/gallery'
+import { MediaMenu } from '~/components/common/media-menu'
+// import { Gallery } from '~/components/common/gallery'
 import { useHistory } from '~/hooks/history'
-import { iPad } from '~/lib/common'
+import { useImageActions } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -52,6 +53,8 @@ export function PostGalleryCard({
     large,
   })
 
+  const { actions } = useImageActions()
+
   const onDismiss = useCallback(() => {
     if (recyclingKey && seenOnMedia) {
       addPost({
@@ -62,30 +65,22 @@ export function PostGalleryCard({
 
   if (compact) {
     return (
-      <Galeria closeIconName="xmark" urls={images.map((image) => image.url)}>
-        <View style={styles.main}>
+      <View style={styles.main}>
+        <Gallery
+          actions={actions}
+          onDismiss={onDismiss}
+          urls={images.map((image) => image.url)}
+        >
           {images.map((image, index) => (
-            <Galeria.Image
+            <Gallery.Image
               index={index}
               key={image.url}
-              onDismiss={onDismiss}
-              onLongPress={() => {
-                Gallery.call({
+              onLongPress={(event) => {
+                MediaMenu.call({
                   type: 'image',
-                  url: image.url,
+                  url: event.url,
                 })
               }}
-              onPressRightNavItemIcon={(event) => {
-                const item = images[event.nativeEvent.index]
-
-                if (item) {
-                  Gallery.call({
-                    type: 'image',
-                    url: item.url,
-                  })
-                }
-              }}
-              rightNavItemIconName="ellipsis"
             >
               <Image
                 accessibilityIgnoresInvertColors
@@ -93,14 +88,14 @@ export function PostGalleryCard({
                 source={image.thumbnail}
                 style={styles.image}
               />
-            </Galeria.Image>
+            </Gallery.Image>
           ))}
 
           {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
             <GalleryBlur compact label={t(spoiler ? 'spoiler' : 'nsfw')} />
           ) : null}
-        </View>
-      </Galeria>
+        </Gallery>
+      </View>
     )
   }
 
@@ -117,7 +112,7 @@ export function PostGalleryCard({
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   image: {
     height: '100%',
     width: '100%',
@@ -152,7 +147,7 @@ const styles = StyleSheet.create((theme) => ({
         },
       },
     ],
-    maxHeight: iPad ? 600 : 400,
+    maxHeight: runtime.screen.height * 0.8,
     overflow: 'hidden',
     variants: {
       compact: {

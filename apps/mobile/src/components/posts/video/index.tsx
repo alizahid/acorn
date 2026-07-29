@@ -1,8 +1,8 @@
-import { Gallery } from '~/components/common/gallery'
+import { MediaMenu } from '~/components/common/media-menu'
 import { type PostMedia } from '~/types/post'
 
 import { PostLinkCard } from '../link'
-import { VideoPlaceholder } from './placeholder'
+import { VideoPlayer } from './player'
 import { RedGifsVideo } from './red-gifs'
 
 type Props = {
@@ -14,7 +14,6 @@ type Props = {
   spoiler?: boolean
   thumbnail?: string
   video: PostMedia
-  viewing: boolean
 }
 
 export function PostVideoCard({
@@ -26,7 +25,6 @@ export function PostVideoCard({
   spoiler,
   thumbnail,
   video,
-  viewing,
 }: Props) {
   if (video.provider === 'red-gifs') {
     return (
@@ -39,23 +37,21 @@ export function PostVideoCard({
         spoiler={spoiler}
         thumbnail={thumbnail}
         video={video}
-        viewing={viewing}
       />
     )
   }
 
   if (video.provider === 'reddit') {
     return (
-      <VideoPlaceholder
+      <VideoPlayer
         compact={compact}
         crossPost={crossPost}
         large={large}
         nsfw={nsfw}
+        poster={thumbnail ?? video.thumbnail}
         recyclingKey={recyclingKey}
         spoiler={spoiler}
-        thumbnail={thumbnail}
         video={video}
-        viewing={viewing}
       />
     )
   }
@@ -74,7 +70,7 @@ export function PostVideoCard({
       large={large}
       media={media}
       onLongPress={() => {
-        Gallery.call({
+        MediaMenu.call({
           type: 'link',
           url: video.url,
         })

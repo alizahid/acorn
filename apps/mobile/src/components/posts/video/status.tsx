@@ -1,59 +1,42 @@
-import { useEventListener } from 'expo'
-import { type VideoPlayer } from 'expo-video'
 import { View } from 'react-native'
 import Animated, {
-  cancelAnimation,
   Easing,
+  type SharedValue,
   useAnimatedStyle,
-  useSharedValue,
   withTiming,
 } from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
 
 type Props = {
-  player: VideoPlayer
+  buffered: SharedValue<number>
+  current: SharedValue<number>
+  duration: SharedValue<number>
+  interval?: number
 }
 
-export function VideoStatus({ player }: Props) {
-  const current = useSharedValue(0)
-  const buffered = useSharedValue(0)
-
-  useEventListener(player, 'timeUpdate', (event) => {
-    const duration = 500
-
-    const nextCurrent = (event.currentTime / player.duration) * 100
-
-    if (current.get() !== nextCurrent) {
-      cancelAnimation(current)
-
-      current.set(() =>
-        withTiming((event.currentTime / player.duration) * 100, {
-          duration,
-          easing: Easing.linear,
-        }),
-      )
-    }
-
-    const nextBuffered = (event.bufferedPosition / player.duration) * 100
-
-    if (buffered.get() !== nextBuffered) {
-      cancelAnimation(buffered)
-
-      buffered.set(() =>
-        withTiming(nextBuffered, {
-          duration,
-          easing: Easing.linear,
-        }),
-      )
-    }
-  })
+export function VideoStatus({
+  buffered,
+  current,
+  duration,
+  interval = 500,
+}: Props) {
+  const config = {
+    duration: interval,
+    easing: Easing.linear,
+  } as const
 
   const currentStyle = useAnimatedStyle(() => ({
-    width: `${current.get()}%`,
+    width: withTiming(
+      `${(current.get() / duration.get()) * 100 || 0}%`,
+      config,
+    ),
   }))
 
   const bufferedStyle = useAnimatedStyle(() => ({
-    width: `${buffered.get()}%`,
+    width: withTiming(
+      `${(buffered.get() / duration.get()) * 100 || 0}%`,
+      config,
+    ),
   }))
 
   return (

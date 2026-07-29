@@ -5,8 +5,9 @@ import { File, Paths } from 'expo-file-system'
 import { type ImageProps } from 'expo-image'
 import { Album, Asset, requestPermissionsAsync } from 'expo-media-library'
 import { compact } from 'lodash'
-import { useRef } from 'react'
+import { useMemo, useRef } from 'react'
 import { Share } from 'react-native'
+import { type GalleryAction } from 'react-native-jet-gallery'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
@@ -23,6 +24,43 @@ export function useImagePlaceholder() {
     placeholder: theme.variant === 'dark' ? placeholderDark : placeholderLight,
     placeholderContentFit: 'contain',
   } satisfies ImageProps
+}
+
+export function useImageActions() {
+  const { copy } = useCopyImage()
+  const { share } = useShareImage()
+  const { download } = useDownloadImage()
+
+  const actions = useMemo<Array<GalleryAction>>(
+    () => [
+      {
+        icon: 'square.and.arrow.up',
+        id: 'share',
+        onPress(payload) {
+          share(payload)
+        },
+      },
+      {
+        icon: 'square.on.square',
+        id: 'copy',
+        onPress(payload) {
+          copy(payload)
+        },
+      },
+      {
+        icon: 'square.and.arrow.down',
+        id: 'download',
+        onPress(payload) {
+          download(payload)
+        },
+      },
+    ],
+    [copy, download, share],
+  )
+
+  return {
+    actions,
+  }
 }
 
 type DownloadImageVariables = {
