@@ -18,6 +18,7 @@ import { Spinner } from '~/components/common/spinner'
 import { MessagesList } from '~/components/inbox/messages'
 import { NotificationsList } from '~/components/inbox/notifications'
 import { useMarkAllAsRead } from '~/hooks/mutations/users/notifications'
+import { iOS26 } from '~/lib/common'
 import { InboxTab } from '~/types/inbox'
 
 const routes = InboxTab.map((key) => ({
@@ -114,6 +115,6 @@ export default function Screen() {
 const styles = StyleSheet.create((theme) => ({
   tabBar: (headerHeight: number) => ({
     margin: theme.space[4],
-    marginTop: headerHeight,
+    marginTop: headerHeight + (iOS26 ? 0 : theme.space[4]),
   }),
 }))

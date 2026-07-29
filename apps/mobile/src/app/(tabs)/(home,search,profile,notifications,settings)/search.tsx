@@ -20,7 +20,7 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useListProps } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
-import { glass, iPad } from '~/lib/common'
+import { glass, iOS26, iPad } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 import { type SearchTab } from '~/types/defaults'
@@ -177,7 +177,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   search: {
     borderCurve: 'continuous',
-    borderRadius: theme.space[8],
+    borderRadius: iOS26 ? theme.space[8] : theme.space[2],
     variants: {
       glass: {
         false: {

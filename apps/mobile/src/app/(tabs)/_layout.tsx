@@ -12,6 +12,7 @@ import icon_profile from '~/assets/icons/navigation/user-circle.svg'
 import { Tabs } from '~/components/navigation/tabs'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
+import { iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
@@ -67,7 +68,7 @@ export default function Layout() {
 
   return (
     <Tabs
-      experimental_bakedTintColors
+      experimental_bakedTintColors={iPad}
       labeled={false}
       minimizeBehavior={minimizeTabBar ? 'onScrollDown' : 'never'}
       translucent
