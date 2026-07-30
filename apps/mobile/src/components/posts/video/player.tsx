@@ -78,7 +78,6 @@ export function VideoPlayer({
   const buffered = useSharedValue(0)
 
   const [muted, setMuted] = useRecyclingState(feedMuted, [recyclingKey])
-  const [fullscreen, setFullscreen] = useRecyclingState(false, [recyclingKey])
   const [loaded, setLoaded] = useRecyclingState(false, [recyclingKey])
 
   return (
@@ -105,12 +104,9 @@ export function VideoPlayer({
       <VideoView
         allowsPictureInPicture={pictureInPicture}
         autoplay={!compact && autoPlay ? 'whenVisible' : false}
-        controls={fullscreen}
         loop
         muted={muted}
         onFullscreenChange={(next) => {
-          setFullscreen(next)
-
           if (next) {
             player.current?.play()
 
@@ -140,6 +136,7 @@ export function VideoPlayer({
         ref={player}
         source={video.url}
         style={styles.video(video.width / video.height)}
+        visibilityAxis="vertical"
       />
 
       {compact ? null : (

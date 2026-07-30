@@ -57,11 +57,15 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
       onImagePress={(image) => {
         Gallery.open({
           actions,
+          images: [
+            {
+              url: image.url,
+            },
+          ],
           origin: {
             ...image,
             borderRadius: radius[4],
           },
-          urls: [image.url],
         })
       }}
       onLinkPress={(event) => {

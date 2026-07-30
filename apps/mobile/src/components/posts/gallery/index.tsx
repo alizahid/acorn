@@ -66,11 +66,7 @@ export function PostGalleryCard({
   if (compact) {
     return (
       <View style={styles.main}>
-        <Gallery
-          actions={actions}
-          onDismiss={onDismiss}
-          urls={images.map((image) => image.url)}
-        >
+        <Gallery actions={actions} images={images} onDismiss={onDismiss}>
           {images.map((image, index) => (
             <Gallery.Image
               index={index}

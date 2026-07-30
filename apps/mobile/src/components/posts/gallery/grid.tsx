@@ -63,7 +63,7 @@ export function ImageGrid({
     const image = images[0]!
 
     return (
-      <Gallery actions={actions} onDismiss={onDismiss} urls={[image.url]}>
+      <Gallery actions={actions} images={[image]} onDismiss={onDismiss}>
         <Gallery.Image
           index={0}
           onLongPress={(event) => {
@@ -101,11 +101,7 @@ export function ImageGrid({
 
   return (
     <>
-      <Gallery
-        actions={actions}
-        onDismiss={onDismiss}
-        urls={images.map((image) => image.url)}
-      >
+      <Gallery actions={actions} images={images} onDismiss={onDismiss}>
         <FlatList
           contentContainerStyle={styles.carousel}
           data={images}
