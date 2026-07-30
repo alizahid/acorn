@@ -82,7 +82,7 @@
     "react-native-enriched-markdown": "^0.7.4",
     "react-native-gesture-handler": "~2.32.0",
     "react-native-jet-gallery": "^0.1.0-beta.3",
-    "react-native-jet-markdown": "^0.2.0",
+    "react-native-jet-markdown": "^0.2.1",
     "react-native-jet-video": "^0.1.0-beta.7",
     "react-native-keyboard-controller": "1.21.9",
     "react-native-mmkv": "^4.3.2",
