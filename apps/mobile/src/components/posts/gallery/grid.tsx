@@ -1,5 +1,5 @@
 import { Image } from 'expo-image'
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { Gallery } from 'react-native-jet-gallery'
@@ -44,12 +44,14 @@ export function ImageGrid({
 
   const { actions } = useImageActions()
 
+  const [width, setWidth] = useState(rt.screen.width)
+
   const data = useMemo(() => {
     const ratios = images.map((image) => image.width / image.height)
 
     const height = Math.min(
       rt.screen.height * 0.4,
-      Math.round(rt.screen.width / Math.max(...ratios)),
+      Math.round(width / Math.max(...ratios)),
     )
 
     const sizes = ratios.map((ratio) => ({
@@ -68,7 +70,7 @@ export function ImageGrid({
       offsets,
       sizes,
     }
-  }, [images, rt.screen.height, rt.screen.width])
+  }, [images, rt.screen.height, width])
 
   if (images.length === 1) {
     const image = images[0]!
@@ -119,6 +121,9 @@ export function ImageGrid({
           decelerationRate="fast"
           horizontal
           keyExtractor={(item) => item.url}
+          onLayout={(event) => {
+            setWidth(event.nativeEvent.layout.width)
+          }}
           renderItem={({ index, item }) => (
             <>
               <Gallery.Image
