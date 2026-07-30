@@ -143,7 +143,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
         },
       },
     ],
-    maxHeight: runtime.screen.height * 0.8,
+    maxHeight: runtime.screen.height * 0.4,
     overflow: 'hidden',
     variants: {
       compact: {

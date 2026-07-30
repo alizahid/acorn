@@ -3,7 +3,7 @@ import { useMemo } from 'react'
 import { View } from 'react-native'
 import { FlatList } from 'react-native-gesture-handler'
 import { Gallery } from 'react-native-jet-gallery'
-import { StyleSheet } from 'react-native-unistyles'
+import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -11,6 +11,7 @@ import { MediaMenu } from '~/components/common/media-menu'
 import { Text } from '~/components/common/text'
 import { useImageActions } from '~/hooks/image'
 import { usePreferences } from '~/stores/preferences'
+import { space } from '~/styles/tokens'
 import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from './blur'
@@ -32,6 +33,8 @@ export function ImageGrid({
 }: Props) {
   const t = useTranslations('component.posts.gallery')
 
+  const { rt } = useUnistyles()
+
   const { blurNsfw, blurSpoiler } = usePreferences(
     useShallow((state) => ({
       blurNsfw: state.blurNsfw,
@@ -42,22 +45,30 @@ export function ImageGrid({
   const { actions } = useImageActions()
 
   const data = useMemo(() => {
-    const sizes = images.map((image) => ({
-      height: styles.carousel.height,
-      width: Math.round((image.width / image.height) * styles.carousel.height),
+    const ratios = images.map((image) => image.width / image.height)
+
+    const height = Math.min(
+      rt.screen.height * 0.4,
+      Math.round(rt.screen.width / Math.max(...ratios)),
+    )
+
+    const sizes = ratios.map((ratio) => ({
+      height,
+      width: Math.round(ratio * height),
     }))
 
     const offsets = sizes.map((_, index) =>
       sizes
         .slice(0, index)
-        .reduce((total, size) => total + size.width + styles.carousel.gap, 0),
+        .reduce((total, size) => total + size.width + space[3], 0),
     )
 
     return {
+      height,
       offsets,
       sizes,
     }
-  }, [images])
+  }, [images, rt.screen.height, rt.screen.width])
 
   if (images.length === 1) {
     const image = images[0]!
@@ -103,7 +114,7 @@ export function ImageGrid({
     <>
       <Gallery actions={actions} images={images} onDismiss={onDismiss}>
         <FlatList
-          contentContainerStyle={styles.carousel}
+          contentContainerStyle={styles.carousel(data.height)}
           data={images}
           decelerationRate="fast"
           horizontal
@@ -159,10 +170,10 @@ export function ImageGrid({
 }
 
 const styles = StyleSheet.create((theme) => ({
-  carousel: {
+  carousel: (height: number) => ({
     gap: theme.space[3],
-    height: 400,
-  },
+    height,
+  }),
   count: {
     right: theme.space[2],
   },
