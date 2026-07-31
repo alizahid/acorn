@@ -8,6 +8,7 @@ import { useImagePlaceholder } from '~/hooks/image'
 import { useListProps } from '~/hooks/list'
 import { useFollow } from '~/hooks/mutations/users/follow'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { iPad } from '~/lib/common'
 
 import { Button } from '../common/button'
 import { Icon } from '../common/icon'
@@ -102,7 +103,7 @@ export function UserAbout({ name }: Props) {
 const styles = StyleSheet.create((theme) => ({
   banner: {
     backgroundColor: theme.colors.gray.ui,
-    height: theme.space[9],
+    height: theme.space[9] * (iPad ? 3 : 1),
     marginBottom: -theme.space[4],
   },
   button: {

@@ -14,6 +14,7 @@ import { useListProps } from '~/hooks/list'
 import { useFavorite } from '~/hooks/mutations/communities/favorite'
 import { useJoin } from '~/hooks/mutations/communities/join'
 import { useCommunity } from '~/hooks/queries/communities/community'
+import { iPad } from '~/lib/common'
 
 import { Icon } from '../common/icon'
 import { Markdown } from '../markdown'
@@ -164,7 +165,7 @@ export function CommunityAbout({ name }: Props) {
 const styles = StyleSheet.create((theme) => ({
   banner: {
     backgroundColor: theme.colors.gray.ui,
-    height: theme.space[9],
+    height: theme.space[9] * (iPad ? 4 : 1),
     marginBottom: -theme.space[4],
   },
   button: {
