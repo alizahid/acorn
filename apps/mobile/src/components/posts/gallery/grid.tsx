@@ -106,12 +106,13 @@ export function ImageGrid({
                     url: event.url,
                   })
                 }}
+                style={styles.image}
               >
                 <Image
                   accessibilityIgnoresInvertColors
                   recyclingKey={recyclingKey}
                   source={item.url}
-                  style={[styles.image, data.sizes[index]]}
+                  style={data.sizes[index]}
                 />
               </Gallery.Image>
 
@@ -161,6 +162,7 @@ const styles = StyleSheet.create((theme) => ({
   image: {
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
+    overflow: 'hidden',
   },
   label: {
     backgroundColor: theme.colors.black.accentAlpha,
