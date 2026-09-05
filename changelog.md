@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: new video library
 - changed: image gallery design
 
 ## Build 87

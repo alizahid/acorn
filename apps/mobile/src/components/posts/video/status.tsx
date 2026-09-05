@@ -1,39 +1,24 @@
 import { View } from 'react-native'
 import Animated, {
-  Easing,
+  type SharedValue,
   useAnimatedStyle,
-  useSharedValue,
-  withTiming,
 } from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
-import { useEvent, type VideoPlayer } from 'react-native-video'
-
-const config = {
-  duration: 500,
-  easing: Easing.linear,
-} as const
 
 type Props = {
-  duration: number
-  player: VideoPlayer
+  duration: SharedValue<number>
+  buffered: SharedValue<number>
+  current: SharedValue<number>
 }
 
-export function VideoStatus({ duration, player }: Props) {
-  const current = useSharedValue(0)
-  const buffered = useSharedValue(0)
-
+export function VideoStatus({ duration, buffered, current }: Props) {
   const currentStyle = useAnimatedStyle(() => ({
-    width: `${(current.get() / duration) * 100}%`,
+    width: `${(current.get() / duration.get()) * 100}%`,
   }))
 
   const bufferedStyle = useAnimatedStyle(() => ({
-    width: `${(buffered.get() / duration) * 100}%`,
+    width: `${(buffered.get() / duration.get()) * 100}%`,
   }))
-
-  useEvent(player, 'onProgress', (event) => {
-    current.set(withTiming(event.currentTime, config))
-    buffered.set(withTiming(event.bufferDuration, config))
-  })
 
   return (
     <View style={styles.main}>

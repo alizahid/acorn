@@ -1,4 +1,5 @@
 {
+  "format_on_save": "on",
   "languages": {
     "CSS": {
       "code_actions_on_format": {
@@ -70,7 +71,6 @@
   "lsp": {
     "biome": {
       "settings": {
-        "config_path": "<path>/biome.json",
         "require_config_file": true
       }
     }

@@ -19,7 +19,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     '@bacons/apple-targets',
     'expo-iap',
     'react-native-bottom-tabs',
-    'react-native-video',
     router(),
     localization(),
     secureStore(),

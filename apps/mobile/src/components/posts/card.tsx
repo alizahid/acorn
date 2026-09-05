@@ -1,7 +1,6 @@
 import { useRouter } from 'expo-router'
 import { useCallback, useRef, useState } from 'react'
 import { Share, View } from 'react-native'
-import { type SharedValue } from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
@@ -34,10 +33,9 @@ import { PostVideoCard } from './video'
 type Props = {
   expanded?: boolean
   post: Post
-  viewing?: SharedValue<string | null>
 }
 
-export function PostCard({ expanded, post, viewing }: Props) {
+export function PostCard({ expanded, post }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -284,7 +282,6 @@ export function PostCard({ expanded, post, viewing }: Props) {
                 spoiler={post.spoiler}
                 thumbnail={post.media.images?.[0]?.url}
                 video={post.media.video}
-                viewing={viewing}
               />
             ) : null}
 

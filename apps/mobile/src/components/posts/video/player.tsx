@@ -1,15 +1,13 @@
 import { useRecyclingState } from '@shopify/flash-list'
-import { useEffect, useRef } from 'react'
+import { useRef } from 'react'
 import { View } from 'react-native'
-import { type SharedValue, useAnimatedReaction } from 'react-native-reanimated'
-import { StyleSheet } from 'react-native-unistyles'
 import {
-  useEvent,
-  useVideoPlayer,
+  type PlaybackStatus,
   VideoView,
   type VideoViewRef,
-} from 'react-native-video'
-import { scheduleOnRN } from 'react-native-worklets'
+} from 'react-native-jet-video'
+import { Easing, useSharedValue, withTiming } from 'react-native-reanimated'
+import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -25,6 +23,11 @@ import { type PostMedia } from '~/types/post'
 import { GalleryBlur } from '../gallery/blur'
 import { VideoStatus } from './status'
 
+const progressConfig = {
+  duration: 500,
+  easing: Easing.linear,
+} as const
+
 type Props = {
   compact?: boolean
   crossPost?: boolean
@@ -33,7 +36,6 @@ type Props = {
   recyclingKey: string
   spoiler?: boolean
   video: PostMedia
-  viewing?: SharedValue<string | null>
 }
 
 export function VideoPlayer({
@@ -44,7 +46,6 @@ export function VideoPlayer({
   recyclingKey,
   spoiler,
   video,
-  viewing,
 }: Props) {
   const t = useTranslations('component.posts.video')
   const a11y = useTranslations('a11y')
@@ -77,43 +78,17 @@ export function VideoPlayer({
     large,
   })
 
-  const view = useRef<VideoViewRef>(null)
+  const player = useRef<VideoViewRef>(null)
 
-  const player = useVideoPlayer(video.url, (instance) => {
-    instance.mixAudioMode = 'mixWithOthers'
-    instance.loop = true
-    instance.muted = feedMuted
-  })
-
-  const [inView, setInView] = useRecyclingState(false, [recyclingKey])
-  const [loaded, setLoaded] = useRecyclingState(false, [recyclingKey])
-  const [duration, setDuration] = useRecyclingState(0, [recyclingKey])
+  const [status, setStatus] = useRecyclingState<PlaybackStatus>('loading', [
+    recyclingKey,
+  ])
   const [muted, setMuted] = useRecyclingState(feedMuted, [recyclingKey])
   const [fullscreen, setFullscreen] = useRecyclingState(false, [recyclingKey])
 
-  useEvent(player, 'onLoad', (event) => {
-    setLoaded(true)
-    setDuration(event.duration)
-  })
-
-  useEvent(player, 'onVolumeChange', (event) => {
-    setMuted(event.muted)
-  })
-
-  useAnimatedReaction(
-    () => viewing?.get(),
-    (prepared) => {
-      scheduleOnRN(setInView, prepared === recyclingKey)
-    },
-  )
-
-  useEffect(() => {
-    if (!compact && inView && autoPlay) {
-      player.play()
-    } else {
-      player.pause()
-    }
-  }, [autoPlay, compact, player, inView])
+  const duration = useSharedValue(0)
+  const buffered = useSharedValue(0)
+  const current = useSharedValue(0)
 
   return (
     <Pressable
@@ -125,7 +100,7 @@ export function VideoPlayer({
         })
       }}
       onPress={() => {
-        view.current?.enterFullscreen()
+        player.current?.enterFullscreen()
 
         if (recyclingKey && seenOnMedia) {
           addPost({
@@ -137,45 +112,68 @@ export function VideoPlayer({
       variant="plain"
     >
       <VideoView
-        autoEnterPictureInPicture={pictureInPicture}
+        allowsPictureInPicture={pictureInPicture}
+        audioMixMode="mixWithOthers"
+        autoplay={!compact && autoPlay ? 'whenVisible' : false}
         controls={fullscreen}
+        loop
+        muted={muted}
         onFullscreenChange={(next) => {
           setFullscreen(next)
 
-          if (!(next || compact) && autoPlay) {
-            player.play()
+          if (next) {
+            player.current?.play()
+
+            if (unmuteFullscreen && muted) {
+              setMuted(false)
+            }
+          } else {
+            if (compact || !autoPlay) {
+              player.current?.pause()
+            }
+
+            if (feedMuted) {
+              setMuted(true)
+            }
           }
         }}
-        pictureInPicture={pictureInPicture}
-        player={player}
-        pointerEvents="none"
-        ref={view}
+        onLoad={(event) => {
+          duration.set(event.duration)
+        }}
+        onMutedChange={setMuted}
+        onPlaybackStateChange={(event) => {
+          setStatus(event.status)
+        }}
+        onProgress={(event) => {
+          buffered.set(withTiming(event.bufferedPosition, progressConfig))
+          current.set(withTiming(event.currentTime, progressConfig))
+        }}
+        playerKey={recyclingKey}
+        ref={player}
+        source={video.url}
         style={styles.video(video.width / video.height)}
-        willEnterFullscreen={() => {
-          player.play()
-
-          if (unmuteFullscreen && muted) {
-            player.muted = false
-          }
-        }}
-        willExitFullscreen={() => {
-          if (compact || !inView || !autoPlay) {
-            player.pause()
-          }
-
-          if (feedMuted) {
-            player.muted = true
-          }
-        }}
+        visibilityAxis="vertical"
       />
 
-      {compact ? null : <VideoStatus duration={duration} player={player} />}
+      {compact ? null : (
+        <VideoStatus
+          buffered={buffered}
+          current={current}
+          duration={duration}
+        />
+      )}
 
-      {loaded ? null : (
+      {status === 'loading' ? (
         <View style={styles.loading}>
           <Spinner />
         </View>
-      )}
+      ) : null}
+
+      {status === 'error' ? (
+        <View style={styles.loading}>
+          <Icon name="warning-fill" />
+        </View>
+      ) : null}
 
       {compact ? (
         <View style={styles.compact}>
@@ -192,7 +190,7 @@ export function VideoPlayer({
           accessibilityLabel={a11y(muted ? 'unmute' : 'mute')}
           hitSlop={space[3]}
           onPress={() => {
-            player.muted = !player.muted
+            setMuted((previous) => !previous)
           }}
           style={styles.volume}
         >
@@ -252,7 +250,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
       },
     ],
     justifyContent: 'center',
-    maxHeight: runtime.screen.height * 0.4,
+    maxHeight: runtime.screen.height * 0.5,
     overflow: 'hidden',
     variants: {
       compact: {
