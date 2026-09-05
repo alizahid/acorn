@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- changed: image gallery design
+
 ## Build 87
 
 - added: mute feed option
