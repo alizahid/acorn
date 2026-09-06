@@ -24,6 +24,7 @@ import { useScreenshot } from '~/hooks/screenshot'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
+import { useTemp } from '~/stores/temp'
 import { type CommentReply } from '~/types/comment'
 
 type Props = {
@@ -67,6 +68,7 @@ export function CommentMenu({
     onCapturing,
   })
 
+  const { setComment } = useTemp()
   const { vote } = useCommentVote()
   const { save } = useCommentSave()
   const { remove } = useCommentRemove()
@@ -171,6 +173,8 @@ export function CommentMenu({
               accessibilityLabel={t('reply')}
               onPress={() => {
                 ref.current?.dismiss()
+
+                setComment(comment)
 
                 router.navigate({
                   params: {
@@ -403,6 +407,8 @@ export function CommentMenu({
                 left={<Icon name="pencil" />}
                 onPress={() => {
                   ref.current?.dismiss()
+
+                  setComment(comment)
 
                   router.navigate({
                     params: {

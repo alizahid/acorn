@@ -11,6 +11,7 @@ import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
+import { useTemp } from '~/stores/temp'
 
 import { type CommunityParams } from './communities/[name]'
 import { type MessageParams } from './messages/[id]'
@@ -145,9 +146,11 @@ export default function Layout({ segment }: Props) {
 function StackLayout({ children }: PropsWithChildren) {
   const t = useTranslations('screen')
 
-  const { addPost } = useHistory()
-
   const { subscribed } = useSubscribed()
+
+  const { setComment } = useTemp()
+
+  const { addPost } = useHistory()
 
   return (
     <Stack
@@ -226,6 +229,11 @@ function StackLayout({ children }: PropsWithChildren) {
       />
 
       <Stack.Screen
+        listeners={{
+          beforeRemove() {
+            setComment(null)
+          },
+        }}
         name="posts/[id]/reply"
         options={{
           headerStyle: styles.header,
@@ -319,6 +327,6 @@ const styles = StyleSheet.create((theme) => ({
     width: '100%',
   },
   header: {
-    backgroundColor: theme.colors.ui.bg,
+    backgroundColor: theme.colors.gray.ui,
   },
 }))

@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- added: show the comment you're replying to
+
 ## Build 88
 
 - added: new video library

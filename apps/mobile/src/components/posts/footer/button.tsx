@@ -41,8 +41,7 @@ export function FooterButton({
             ? theme.colors.white.textAlpha
             : color
               ? theme.colors[color].accent
-              : theme.colors[theme.variant === 'dark' ? 'white' : 'black']
-                  .textAlpha,
+              : theme.colors.gray.text,
           size: compact ? theme.typography[1].fontSize : theme.space[5],
         })}
       />

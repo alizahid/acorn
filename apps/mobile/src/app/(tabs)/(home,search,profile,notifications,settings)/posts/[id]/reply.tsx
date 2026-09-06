@@ -9,12 +9,14 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
+import { CommentChip } from '~/components/comments/chip'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Spinner } from '~/components/common/spinner'
 import { MarkdownEditor } from '~/components/markdown/editor'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { usePostReply } from '~/hooks/mutations/posts/reply'
+import { useTemp } from '~/stores/temp'
 
 const schema = z.object({
   body: z.string().optional(),
@@ -31,6 +33,8 @@ export default function Screen() {
 
   const t = useTranslations('screen.posts.reply')
   const a11y = useTranslations('a11y')
+
+  const { comment } = useTemp()
 
   const reply = usePostReply()
   const edit = useCommentEdit()
@@ -113,6 +117,8 @@ export default function Screen() {
           ref={editor}
           value={text}
         />
+
+        {comment ? <CommentChip comment={comment} /> : null}
       </KeyboardAvoidingView>
     </>
   )
@@ -123,6 +129,6 @@ const styles = StyleSheet.create((theme) => ({
     flex: 1,
   },
   toolBar: {
-    backgroundColor: theme.colors.gray.uiAlpha,
+    backgroundColor: theme.colors.gray.ui,
   },
 }))

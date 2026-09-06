@@ -12,6 +12,7 @@ import { getDepthColor } from '~/lib/colors'
 import { REDDIT_URI } from '~/reddit/api'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
+import { useTemp } from '~/stores/temp'
 import { type Undefined } from '~/types'
 import { type CommentReply } from '~/types/comment'
 
@@ -85,6 +86,7 @@ export function CommentCard({
     dull,
   })
 
+  const { setComment } = useTemp()
   const { vote } = useCommentVote()
   const { save } = useCommentSave()
   const { hide } = useHide()
@@ -141,6 +143,8 @@ export function CommentCard({
         }
 
         if (action === 'reply') {
+          setComment(comment)
+
           router.navigate({
             params: {
               commentId: comment.id,
