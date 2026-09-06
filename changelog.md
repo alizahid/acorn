@@ -4,6 +4,7 @@
 
 - added: new video library
 - changed: image gallery design
+- fixed: custom feeds with spaces
 
 ## Build 87
 

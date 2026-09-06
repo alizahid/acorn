@@ -1,6 +1,6 @@
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import fuzzysort from 'fuzzysort'
-import { uniqBy } from 'lodash'
+import { snakeCase, uniqBy } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
@@ -88,7 +88,7 @@ export function usePosts({
         : community
           ? `/r/${community}/${sort}`
           : feed
-            ? `/user/${accountId}/m/${feed}/${sort}`
+            ? `/user/${accountId}/m/${snakeCase(feed)}/${sort}`
             : `/${sort}`
 
       const url = new URL(path, REDDIT_URI)
