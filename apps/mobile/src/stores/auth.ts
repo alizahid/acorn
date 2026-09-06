@@ -13,7 +13,7 @@ export type Account = {
   modHash: string
 }
 
-type AuthPayload = {
+export type AuthPayload = {
   accountId?: string
   accounts: Array<Account>
 }

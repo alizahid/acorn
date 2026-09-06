@@ -6,7 +6,7 @@ import { Store } from '~/lib/store'
 
 const GESTURES_KEY = 'gestures'
 
-type GesturesPayload = {
+export type GesturesPayload = {
   commentLeft: boolean
   commentLeftLong: GestureAction
   commentLeftShort: GestureAction

@@ -7,7 +7,7 @@ import { type FeedType } from '~/types/sort'
 
 const DEFAULTS_KEY = 'defaults'
 
-type DefaultsPayload = {
+export type DefaultsPayload = {
   community?: string
   drawerSections: DrawerSections
   feed?: string
