@@ -6,6 +6,7 @@
 - added: transparent header for post screen
 - changed: image gallery design
 - fixed: custom feeds with spaces
+- fixed: music pausing when opening Acorn
 
 ## Build 87
 
