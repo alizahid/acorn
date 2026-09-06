@@ -87,7 +87,7 @@
         "react-native-gesture-handler": "~2.32.0",
         "react-native-jet-gallery": "^0.1.0-beta.4",
         "react-native-jet-markdown": "^0.2.1",
-        "react-native-jet-video": "^0.1.0-beta.10",
+        "react-native-jet-video": "^0.1.0-beta.11",
         "react-native-keyboard-controller": "1.21.9",
         "react-native-mmkv": "^4.3.2",
         "react-native-nano-icons": "^0.2.1",
@@ -1692,7 +1692,7 @@
 
     "react-native-jet-markdown": ["react-native-jet-markdown@0.2.1", "", { "peerDependencies": { "react": ">=19.0.0", "react-native": ">=0.86.0" } }, "sha512-G1OaNJBj1w+REbQkfgGG2ce8eVW3PUXVJEfvTBIAz8nTJJd/smxTm/BCDfhgJAW77tQvn+0ko+ZDsCq966CQBQ=="],
 
-    "react-native-jet-video": ["react-native-jet-video@0.1.0-beta.10", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": "*" } }, "sha512-lb17FvHUpzGmGBKg0J5JlbyFwiyuHVPR9NttnC/lnepo0GslhGnL2Qp3c6RO1dwM80a/jHmAbzjEEzbnwsK5kQ=="],
+    "react-native-jet-video": ["react-native-jet-video@0.1.0-beta.11", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": "*" } }, "sha512-94o8pbRUId1AuG6bxZwo+2HFWyr7BLq8c/VJPsmFBGgsFIP3t+xhfz04PN31ETq8upqmTUjXvF12ZmAe+qb7Ng=="],
 
     "react-native-keyboard-controller": ["react-native-keyboard-controller@1.21.9", "", { "dependencies": { "react-native-is-edge-to-edge": "^1.2.1" }, "peerDependencies": { "react": "*", "react-native": "*", "react-native-reanimated": ">=3.0.0" } }, "sha512-+TkkFldht4+AXBQeDy1hLE7iqiW8/NkY/ekhcFsKIiRdI9qC5JDzx0TfAg1iYZB2IeOXppmURIy2jFCUjOcV1w=="],
 
