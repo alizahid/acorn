@@ -133,7 +133,9 @@ export function getVideo(data: PostDataSchema): Undefined<PostMedia> {
     return {
       height: data.media.reddit_video.height,
       provider: 'reddit',
-      thumbnail: data.thumbnail ? decode(data.thumbnail) : undefined,
+      thumbnail: data.thumbnail?.startsWith('http')
+        ? decode(data.thumbnail)
+        : undefined,
       type: 'video',
       url: url.toString(),
       width: data.media.reddit_video.width,
@@ -144,7 +146,9 @@ export function getVideo(data: PostDataSchema): Undefined<PostMedia> {
     return {
       height: data.preview.reddit_video_preview.height,
       provider: 'reddit',
-      thumbnail: data.thumbnail ? decode(data.thumbnail) : undefined,
+      thumbnail: data.thumbnail?.startsWith('http')
+        ? decode(data.thumbnail)
+        : undefined,
       type: 'video',
       url: decode(data.preview.reddit_video_preview.hls_url),
       width: data.preview.reddit_video_preview.width,

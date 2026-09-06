@@ -23,6 +23,7 @@ export function PostVideoCard({
   nsfw,
   recyclingKey,
   spoiler,
+  thumbnail,
   video,
 }: Props) {
   if (video.provider === 'red-gifs') {
@@ -34,6 +35,7 @@ export function PostVideoCard({
         nsfw={nsfw}
         recyclingKey={recyclingKey}
         spoiler={spoiler}
+        thumbnail={thumbnail}
         video={video}
       />
     )
@@ -48,6 +50,7 @@ export function PostVideoCard({
         nsfw={nsfw}
         recyclingKey={recyclingKey}
         spoiler={spoiler}
+        thumbnail={thumbnail}
         video={video}
       />
     )

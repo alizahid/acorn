@@ -14,6 +14,7 @@ type Props = {
   nsfw?: boolean
   recyclingKey: string
   spoiler?: boolean
+  thumbnail?: string
   video: PostMedia
 }
 
@@ -24,6 +25,7 @@ export function RedGifsVideo({
   nsfw,
   recyclingKey,
   spoiler,
+  thumbnail,
   video,
 }: Props) {
   styles.useVariants({
@@ -43,6 +45,7 @@ export function RedGifsVideo({
         nsfw={nsfw}
         recyclingKey={recyclingKey}
         spoiler={spoiler}
+        thumbnail={thumbnail}
         video={{
           ...video,
           url: gif.url,

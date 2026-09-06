@@ -35,6 +35,7 @@ type Props = {
   nsfw?: boolean
   recyclingKey: string
   spoiler?: boolean
+  thumbnail?: string
   video: PostMedia
 }
 
@@ -45,6 +46,7 @@ export function VideoPlayer({
   nsfw,
   recyclingKey,
   spoiler,
+  thumbnail,
   video,
 }: Props) {
   const t = useTranslations('component.posts.video')
@@ -149,6 +151,7 @@ export function VideoPlayer({
           current.set(withTiming(event.currentTime, progressConfig))
         }}
         playerKey={recyclingKey}
+        poster={video.thumbnail ?? thumbnail}
         ref={player}
         source={video.url}
         style={styles.video(video.width / video.height)}
