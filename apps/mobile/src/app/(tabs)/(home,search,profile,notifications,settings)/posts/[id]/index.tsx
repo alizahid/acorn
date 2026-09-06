@@ -4,6 +4,7 @@ import {
   type ListRenderItem,
 } from '@shopify/flash-list'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
+import { useHeaderHeight } from 'expo-router/react-navigation'
 import fuzzysort from 'fuzzysort'
 import { create } from 'mutative'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -45,6 +46,8 @@ export type PostParams = z.infer<typeof schema>
 export default function Screen() {
   const router = useRouter()
   const params = schema.parse(useLocalSearchParams())
+
+  const headerHeight = useHeaderHeight()
 
   const a11y = useTranslations('a11y')
 
@@ -96,6 +99,62 @@ export default function Screen() {
       )
   }, [data, queryText])
 
+  const scrollToComment = useCallback(
+    (direction: 'up' | 'down') => {
+      // FlashList's viewport ignores the transparent header inset, so its
+      // first visible index is the item hidden under the header. Find the
+      // item straddling the header's bottom edge instead (-1 = list header).
+      const headerBottom =
+        (list.current?.getAbsoluteLastScrollOffset() ?? 0) +
+        headerHeight -
+        (list.current?.getFirstItemOffset() ?? 0)
+
+      let current = list.current?.getFirstVisibleIndex() ?? 0
+
+      for (;;) {
+        const layout = list.current?.getLayout(current)
+
+        if (!layout) {
+          break
+        }
+
+        if (layout.y > headerBottom) {
+          current -= 1
+
+          break
+        }
+
+        if (layout.y + layout.height > headerBottom) {
+          break
+        }
+
+        current += 1
+      }
+
+      const isTarget = (item: Comment, index: number) =>
+        (direction === 'down' ? index > current : index < current) &&
+        item.data.depth === 0 &&
+        item.type === 'reply' &&
+        !item.data.collapsed
+
+      const next =
+        direction === 'down'
+          ? comments.findIndex(isTarget)
+          : comments.findLastIndex(isTarget)
+
+      if (next < 0) {
+        return
+      }
+
+      list.current?.scrollToIndex({
+        animated: true,
+        index: next,
+        viewOffset: -headerHeight + 1,
+      })
+    },
+    [comments, headerHeight],
+  )
+
   useEffect(() => {
     if (previous.current !== params.id) {
       list.current?.scrollToOffset({
@@ -120,6 +179,7 @@ export default function Screen() {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 1,
+                viewOffset: -headerHeight,
               })
 
               router.setParams({
@@ -131,7 +191,7 @@ export default function Screen() {
         ) : null}
       </View>
     ),
-    [comments, params.commentId, post, router, query],
+    [comments, headerHeight, params.commentId, post, router, query],
   )
 
   const renderItem: ListRenderItem<Comment> = useCallback(
@@ -144,6 +204,7 @@ export default function Screen() {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 1,
+                viewOffset: -headerHeight,
               })
 
               router.setParams({
@@ -181,6 +242,7 @@ export default function Screen() {
             requestAnimationFrame(() => {
               list.current?.scrollToIndex({
                 index,
+                viewOffset: -headerHeight,
               })
             })
           }}
@@ -196,7 +258,15 @@ export default function Screen() {
         />
       )
     },
-    [collapse, collapseThread, collapsibleComments, post, router, sort],
+    [
+      collapse,
+      collapseThread,
+      collapsibleComments,
+      headerHeight,
+      post,
+      router,
+      sort,
+    ],
   )
 
   const listProps = useListProps(true)
@@ -277,53 +347,10 @@ export default function Screen() {
         <FloatingButton
           label={a11y('skipComment')}
           onLongPress={() => {
-            const current = list.current?.getFirstVisibleIndex() ?? 0
-
-            const next = comments.findLastIndex(
-              (item, index) =>
-                index < current &&
-                item.data.depth === 0 &&
-                item.type === 'reply' &&
-                !item.data.collapsed,
-            )
-
-            if (next < 0) {
-              return
-            }
-
-            list.current?.scrollToIndex({
-              animated: true,
-              index: next,
-            })
+            scrollToComment('up')
           }}
           onPress={() => {
-            const offset = list.current?.getAbsoluteLastScrollOffset() ?? 0
-            const first = list.current?.getFirstItemOffset() ?? 100
-
-            if (Math.round(offset) < Math.round(first)) {
-              list.current?.scrollToIndex({
-                animated: true,
-                index: 0,
-              })
-
-              return
-            }
-
-            const current = list.current?.getFirstVisibleIndex() ?? 0
-
-            const next = comments.findIndex(
-              (item, index) =>
-                index > current &&
-                item.data.depth === 0 &&
-                item.type === 'reply' &&
-                !item.data.collapsed,
-            )
-
-            list.current?.scrollToIndex({
-              animated: true,
-              index: next,
-              viewOffset: 1,
-            })
+            scrollToComment('down')
           }}
           side={skipComment}
         >

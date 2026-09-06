@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: new video library
+- added: transparent header for post screen
 - changed: image gallery design
 - fixed: custom feeds with spaces
 

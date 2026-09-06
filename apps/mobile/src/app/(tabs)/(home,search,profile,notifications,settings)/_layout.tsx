@@ -221,8 +221,6 @@ function StackLayout({ children }: PropsWithChildren) {
         })}
         name="posts/[id]/index"
         options={{
-          headerStyle: styles.header,
-          headerTransparent: false,
           title: t('posts.post.title'),
         }}
       />
@@ -230,6 +228,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="posts/[id]/reply"
         options={{
+          headerStyle: styles.header,
           headerTransparent: false,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
