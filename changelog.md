@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: show the comment you're replying to
+- changed: center tall images
 
 ## Build 88
 

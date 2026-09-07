@@ -87,7 +87,7 @@ export function ImageGrid({
     <>
       <Gallery actions={actions} images={images} onDismiss={onDismiss}>
         <FlatList
-          contentContainerStyle={styles.carousel(data.height)}
+          contentContainerStyle={styles.carousel(data.height, images.length)}
           data={images}
           decelerationRate="fast"
           horizontal
@@ -149,9 +149,11 @@ export function ImageGrid({
 }
 
 const styles = StyleSheet.create((theme) => ({
-  carousel: (height: number) => ({
+  carousel: (height: number, count: number) => ({
+    flexGrow: 1,
     gap: theme.space[3],
     height,
+    justifyContent: count === 1 ? 'center' : undefined,
   }),
   count: {
     right: theme.space[2],
