@@ -13,6 +13,7 @@ import { MenuItemContent } from './content'
 type Props = {
   arrow?: boolean
   description?: string
+  disabled?: boolean
   icon?: ReactNode
   label: string
   labelStyle?: StyleProp<TextStyle>
@@ -24,6 +25,7 @@ type Props = {
 export function MenuItemSwitch({
   arrow,
   description,
+  disabled,
   icon,
   label,
   labelStyle,
@@ -39,7 +41,14 @@ export function MenuItemSwitch({
         label={label}
         labelStyle={labelStyle}
         left={icon}
-        right={<Switch label={label} onChange={onChange} value={value} />}
+        right={
+          <Switch
+            disabled={disabled}
+            label={label}
+            onChange={onChange}
+            value={value}
+          />
+        }
       />
     </View>
   )

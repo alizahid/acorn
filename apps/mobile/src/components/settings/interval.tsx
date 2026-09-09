@@ -8,16 +8,18 @@ import { SFSymbol } from '../common/icon/symbol'
 import { Menu } from '../common/menu'
 
 type Props = {
+  disabled?: boolean
   label: string
   onChange: (value: TopInterval) => void
   value: TopInterval
 }
 
-export function IntervalItem({ label, onChange, value }: Props) {
+export function IntervalItem({ disabled, label, onChange, value }: Props) {
   const t = useTranslations('component.common')
 
   return (
     <Menu.Options
+      disabled={disabled}
       icon={<Icon name="clock" />}
       label={label}
       onChange={onChange}

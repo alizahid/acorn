@@ -10,6 +10,7 @@ import { MenuItemContent } from './content'
 type Props = {
   arrow?: boolean
   description?: string
+  disabled?: boolean
   icon?: ReactNode
   label: string
   labelStyle?: StyleProp<TextStyle>
@@ -20,6 +21,7 @@ type Props = {
 export function MenuItemButton({
   arrow,
   description,
+  disabled,
   icon,
   label,
   labelStyle,
@@ -35,6 +37,7 @@ export function MenuItemButton({
   return (
     <Pressable
       accessibilityLabel={label}
+      disabled={disabled}
       onPress={() => {
         mutate()
       }}

@@ -24,6 +24,7 @@ export type MenuItemOption<Type extends string | number> = {
 type Props<Type extends string | number> = {
   arrow?: boolean
   description?: string
+  disabled?: boolean
   hideSelected?: boolean
   icon?: ReactNode
   label: string
@@ -38,6 +39,7 @@ type Props<Type extends string | number> = {
 export function MenuItemOptions<Type extends string | number>({
   arrow,
   description,
+  disabled,
   hideSelected,
   icon,
   label,
@@ -62,6 +64,7 @@ export function MenuItemOptions<Type extends string | number>({
     <>
       <Pressable
         accessibilityLabel={label}
+        disabled={disabled}
         onPress={() => {
           sheet.current?.present()
         }}

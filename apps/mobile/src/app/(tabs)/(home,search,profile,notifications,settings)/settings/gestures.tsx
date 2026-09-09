@@ -7,6 +7,7 @@ import { GestureColors } from '~/components/common/gestures/actions'
 import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { type MenuItemOption } from '~/components/common/menu/item/options'
+import { Paywall } from '~/components/common/paywall'
 import { useListProps } from '~/hooks/list'
 import { useGestures } from '~/stores/gestures'
 
@@ -155,76 +156,106 @@ export default function Screen() {
       <Menu.Root>
         <Menu.Label>{t('menu.posts')}</Menu.Label>
 
-        <Menu.Switch
-          icon={<Icon name="hand-swipe-left" />}
-          label={t('menu.left')}
-          onChange={(next) => {
-            update({
-              postLeft: next,
-            })
-          }}
-          value={postLeft}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="hand-swipe-left" />}
+              label={t('menu.left')}
+              onChange={(next) => {
+                update({
+                  postLeft: next,
+                })
+              }}
+              value={postLeft}
+            />
+          )}
         />
 
         {postLeft ? (
           <>
-            <Menu.Options
-              label={t('menu.short')}
-              onChange={(next) => {
-                update({
-                  postLeftShort: next as GestureAction,
-                })
-              }}
-              options={postOptions}
-              value={postLeftShort}
+            <Paywall
+              render={(disabled) => (
+                <Menu.Options
+                  disabled={disabled}
+                  label={t('menu.short')}
+                  onChange={(next) => {
+                    update({
+                      postLeftShort: next as GestureAction,
+                    })
+                  }}
+                  options={postOptions}
+                  value={postLeftShort}
+                />
+              )}
             />
 
-            <Menu.Options
-              label={t('menu.long')}
-              onChange={(next) => {
-                update({
-                  postLeftLong: next as GestureAction,
-                })
-              }}
-              options={postOptions}
-              value={postLeftLong}
+            <Paywall
+              render={(disabled) => (
+                <Menu.Options
+                  disabled={disabled}
+                  label={t('menu.long')}
+                  onChange={(next) => {
+                    update({
+                      postLeftLong: next as GestureAction,
+                    })
+                  }}
+                  options={postOptions}
+                  value={postLeftLong}
+                />
+              )}
             />
           </>
         ) : null}
 
-        <Menu.Switch
-          icon={<Icon name="hand-swipe-right" />}
-          label={t('menu.right')}
-          onChange={(next) => {
-            update({
-              postRight: next,
-            })
-          }}
-          value={postRight}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="hand-swipe-right" />}
+              label={t('menu.right')}
+              onChange={(next) => {
+                update({
+                  postRight: next,
+                })
+              }}
+              value={postRight}
+            />
+          )}
         />
 
         {postRight ? (
           <>
-            <Menu.Options
-              label={t('menu.short')}
-              onChange={(next) => {
-                update({
-                  postRightShort: next as GestureAction,
-                })
-              }}
-              options={postOptions}
-              value={postRightShort}
+            <Paywall
+              render={(disabled) => (
+                <Menu.Options
+                  disabled={disabled}
+                  label={t('menu.short')}
+                  onChange={(next) => {
+                    update({
+                      postRightShort: next as GestureAction,
+                    })
+                  }}
+                  options={postOptions}
+                  value={postRightShort}
+                />
+              )}
             />
 
-            <Menu.Options
-              label={t('menu.long')}
-              onChange={(next) => {
-                update({
-                  postRightLong: next as GestureAction,
-                })
-              }}
-              options={postOptions}
-              value={postRightLong}
+            <Paywall
+              render={(disabled) => (
+                <Menu.Options
+                  disabled={disabled}
+                  label={t('menu.long')}
+                  onChange={(next) => {
+                    update({
+                      postRightLong: next as GestureAction,
+                    })
+                  }}
+                  options={postOptions}
+                  value={postRightLong}
+                />
+              )}
             />
           </>
         ) : null}
@@ -233,76 +264,106 @@ export default function Screen() {
 
         <Menu.Label>{t('menu.comments')}</Menu.Label>
 
-        <Menu.Switch
-          icon={<Icon name="hand-swipe-left" />}
-          label={t('menu.left')}
-          onChange={(next) => {
-            update({
-              commentLeft: next,
-            })
-          }}
-          value={commentLeft}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="hand-swipe-left" />}
+              label={t('menu.left')}
+              onChange={(next) => {
+                update({
+                  commentLeft: next,
+                })
+              }}
+              value={commentLeft}
+            />
+          )}
         />
 
         {commentLeft ? (
           <>
-            <Menu.Options
-              label={t('menu.short')}
-              onChange={(next) => {
-                update({
-                  commentLeftShort: next as GestureAction,
-                })
-              }}
-              options={commentOptions}
-              value={commentLeftShort}
+            <Paywall
+              render={(disabled) => (
+                <Menu.Options
+                  disabled={disabled}
+                  label={t('menu.short')}
+                  onChange={(next) => {
+                    update({
+                      commentLeftShort: next as GestureAction,
+                    })
+                  }}
+                  options={commentOptions}
+                  value={commentLeftShort}
+                />
+              )}
             />
 
-            <Menu.Options
-              label={t('menu.long')}
-              onChange={(next) => {
-                update({
-                  commentLeftLong: next as GestureAction,
-                })
-              }}
-              options={commentOptions}
-              value={commentLeftLong}
+            <Paywall
+              render={(disabled) => (
+                <Menu.Options
+                  disabled={disabled}
+                  label={t('menu.long')}
+                  onChange={(next) => {
+                    update({
+                      commentLeftLong: next as GestureAction,
+                    })
+                  }}
+                  options={commentOptions}
+                  value={commentLeftLong}
+                />
+              )}
             />
           </>
         ) : null}
 
-        <Menu.Switch
-          icon={<Icon name="hand-swipe-right" />}
-          label={t('menu.right')}
-          onChange={(next) => {
-            update({
-              commentRight: next,
-            })
-          }}
-          value={commentRight}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="hand-swipe-right" />}
+              label={t('menu.right')}
+              onChange={(next) => {
+                update({
+                  commentRight: next,
+                })
+              }}
+              value={commentRight}
+            />
+          )}
         />
 
         {commentRight ? (
           <>
-            <Menu.Options
-              label={t('menu.short')}
-              onChange={(next) => {
-                update({
-                  commentRightShort: next as GestureAction,
-                })
-              }}
-              options={commentOptions}
-              value={commentRightShort}
+            <Paywall
+              render={(disabled) => (
+                <Menu.Options
+                  disabled={disabled}
+                  label={t('menu.short')}
+                  onChange={(next) => {
+                    update({
+                      commentRightShort: next as GestureAction,
+                    })
+                  }}
+                  options={commentOptions}
+                  value={commentRightShort}
+                />
+              )}
             />
 
-            <Menu.Options
-              label={t('menu.long')}
-              onChange={(next) => {
-                update({
-                  commentRightLong: next as GestureAction,
-                })
-              }}
-              options={commentOptions}
-              value={commentRightLong}
+            <Paywall
+              render={(disabled) => (
+                <Menu.Options
+                  disabled={disabled}
+                  label={t('menu.long')}
+                  onChange={(next) => {
+                    update({
+                      commentRightLong: next as GestureAction,
+                    })
+                  }}
+                  options={commentOptions}
+                  value={commentRightLong}
+                />
+              )}
             />
           </>
         ) : null}

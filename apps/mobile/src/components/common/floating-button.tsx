@@ -18,6 +18,7 @@ export type FloatingButtonSide = (typeof FloatingButtonSide)[number]
 
 type Props = {
   children: ReactNode
+  disabled?: boolean
   label: string
   onLongPress?: () => void
   onPress?: () => void
@@ -27,6 +28,7 @@ type Props = {
 
 export function FloatingButton({
   children,
+  disabled,
   label,
   onLongPress,
   onPress,
@@ -51,6 +53,7 @@ export function FloatingButton({
     >
       <IconButton
         accessibilityLabel={label}
+        disabled={disabled}
         hitSlop={space[4]}
         onLongPress={onLongPress}
         onPress={onPress}

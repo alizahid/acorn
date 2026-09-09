@@ -7,6 +7,7 @@ import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 
 type Props = {
+  disabled?: boolean
   label: string
   left?: ReactNode
   navigate?: boolean
@@ -14,9 +15,11 @@ type Props = {
   right?: ReactNode
   selected?: boolean
   style?: StyleProp<ViewStyle>
+  styleSide?: StyleProp<ViewStyle>
 }
 
 export function ListItem({
+  disabled,
   label,
   left,
   navigate,
@@ -24,6 +27,7 @@ export function ListItem({
   right,
   selected,
   style,
+  styleSide,
 }: Props) {
   styles.useVariants({
     selected,
@@ -32,20 +36,20 @@ export function ListItem({
   return (
     <Pressable
       accessibilityLabel={label}
-      disabled={!onPress}
+      disabled={disabled || !onPress}
       onPress={onPress}
       style={[styles.main, style]}
     >
-      {left ? <View style={styles.side}>{left}</View> : null}
+      {left ? <View style={[styles.side, styleSide]}>{left}</View> : null}
 
       <Text numberOfLines={1} size="2" style={styles.label} weight="medium">
         {label}
       </Text>
 
-      {right ? <View style={styles.side}>{right}</View> : null}
+      {right ? <View style={[styles.side, styleSide]}>{right}</View> : null}
 
       {navigate ? (
-        <View style={styles.side}>
+        <View style={[styles.side, styleSide]}>
           <Icon
             name="caret-right"
             uniProps={(theme) => ({

@@ -10,7 +10,6 @@ import icon_home from '~/assets/icons/navigation/house.svg'
 import icon_search from '~/assets/icons/navigation/magnifying-glass.svg'
 import icon_profile from '~/assets/icons/navigation/user-circle.svg'
 import { Tabs } from '~/components/navigation/tabs'
-import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { useUnread } from '~/hooks/queries/user/unread'
 import { iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
@@ -22,7 +21,6 @@ export default function Layout() {
   const router = useRouter()
 
   const { unread } = useUnread()
-  const { subscribed } = useSubscribed()
 
   const { accountId } = useAuth(
     useShallow((state) => ({
@@ -49,12 +47,6 @@ export default function Layout() {
 
     router.navigate('/sign-in')
   }, [accountId, router])
-
-  useEffect(() => {
-    if (subscribed === false) {
-      router.navigate('/subscribe')
-    }
-  }, [subscribed, router])
 
   useEffect(() => {
     const subscription = AppState.addEventListener('change', (status) => {

@@ -7,7 +7,6 @@ import { useShallow } from 'zustand/react/shallow'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { useHistory } from '~/hooks/history'
-import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
@@ -145,8 +144,6 @@ export default function Layout({ segment }: Props) {
 
 function StackLayout({ children }: PropsWithChildren) {
   const t = useTranslations('screen')
-
-  const { subscribed } = useSubscribed()
 
   const { setComment } = useTemp()
 
@@ -312,7 +309,6 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="subscribe"
         options={{
-          gestureEnabled: subscribed,
           headerShown: false,
           presentation: iPad ? 'formSheet' : 'modal',
         }}

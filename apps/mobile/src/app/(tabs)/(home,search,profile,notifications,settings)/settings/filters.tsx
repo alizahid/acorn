@@ -14,6 +14,7 @@ import {
 } from '~/components/common/floating-button'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
+import { Paywall } from '~/components/common/paywall'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { FilterCard } from '~/components/filters/card'
@@ -50,16 +51,20 @@ export default function Screen() {
     <FormProvider {...form}>
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.View>
-          <IconButton
-            accessibilityLabel={a11y('saveFilters')}
-            disabled={isPending}
-            header
-            onPress={() => {
-              onSubmit()
-            }}
-          >
-            {isPending ? <Spinner /> : <Icon name="check-bold" />}
-          </IconButton>
+          <Paywall
+            render={(disabled) => (
+              <IconButton
+                accessibilityLabel={a11y('saveFilters')}
+                disabled={disabled || isPending}
+                header
+                onPress={() => {
+                  onSubmit()
+                }}
+              >
+                {isPending ? <Spinner /> : <Icon name="check-bold" />}
+              </IconButton>
+            )}
+          />
         </Stack.Toolbar.View>
       </Stack.Toolbar>
 
@@ -137,43 +142,53 @@ export default function Screen() {
         />
       </KeyboardAvoidingView>
 
-      <FloatingButton
-        label={a11y('clearFilters')}
-        onPress={() => {
-          form.setValue('filters', [])
+      <Paywall
+        render={(disabled) => (
+          <FloatingButton
+            disabled={disabled}
+            label={a11y('clearFilters')}
+            onPress={() => {
+              form.setValue('filters', [])
 
-          update({
-            filters: [],
-          })
-        }}
-        side="left"
-      >
-        <Icon
-          name="x-bold"
-          uniProps={(theme) => ({
-            color: theme.colors.red.accent,
-          })}
-        />
-      </FloatingButton>
+              update({
+                filters: [],
+              })
+            }}
+            side="left"
+          >
+            <Icon
+              name="x-bold"
+              uniProps={(theme) => ({
+                color: theme.colors.red.accent,
+              })}
+            />
+          </FloatingButton>
+        )}
+      />
 
-      <FloatingButton
-        label={a11y('addFilter')}
-        onPress={() => {
-          filters.append({
-            id: createId(),
-            type: 'keyword',
-            value: '',
-          })
-        }}
-        side="right"
-      >
-        <Icon
-          name="plus-bold"
-          uniProps={(theme) => ({
-            color: theme.colors.green.accent,
-          })}
-        />
-      </FloatingButton>
+      <Paywall
+        render={(disabled) => (
+          <FloatingButton
+            disabled={disabled}
+            label={a11y('addFilter')}
+            onPress={() => {
+              filters.append({
+                id: createId(),
+                type: 'keyword',
+                value: '',
+              })
+            }}
+            side="right"
+          >
+            <Icon
+              name="plus-bold"
+              uniProps={(theme) => ({
+                color: theme.colors.green.accent,
+              })}
+            />
+          </FloatingButton>
+        )}
+      />
     </FormProvider>
   )
 }

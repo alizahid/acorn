@@ -6,6 +6,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { Icon } from '~/components/common/icon'
 import { SFSymbol } from '~/components/common/icon/symbol'
 import { Menu } from '~/components/common/menu'
+import { Paywall } from '~/components/common/paywall'
 import { Slider } from '~/components/common/slider'
 import { Themes } from '~/components/settings/themes'
 import { useListProps } from '~/hooks/list'
@@ -87,51 +88,66 @@ export default function Screen() {
           value={feedCompact}
         />
 
-        <Menu.Switch
-          icon={<Icon name="image-square" />}
-          label={t('compact.largeThumbnails')}
-          onChange={(next) => {
-            update({
-              largeThumbnails: next,
-            })
-          }}
-          value={largeThumbnails}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="image-square" />}
+              label={t('compact.largeThumbnails')}
+              onChange={(next) => {
+                update({
+                  largeThumbnails: next,
+                })
+              }}
+              value={largeThumbnails}
+            />
+          )}
         />
 
-        <Menu.Switch
-          icon={<Icon name="arrow-square-right" />}
-          label={t('compact.mediaOnRight')}
-          onChange={(next) => {
-            update({
-              mediaOnRight: next,
-            })
-          }}
-          value={mediaOnRight}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="arrow-square-right" />}
+              label={t('compact.mediaOnRight')}
+              onChange={(next) => {
+                update({
+                  mediaOnRight: next,
+                })
+              }}
+              value={mediaOnRight}
+            />
+          )}
         />
 
         <Menu.Separator />
 
         <Menu.Label>{t('fonts.title')}</Menu.Label>
 
-        <Menu.Options
-          hideSelected
-          label={t(`fonts.${font}`)}
-          onChange={(next) => {
-            update({
-              font: next as Font,
-            })
-          }}
-          options={(
-            ['apercu', 'basis', 'fold', 'inter', 'system'] as const
-          ).map((item) => ({
-            label: t(`fonts.${item}`),
-            labelStyle: {
-              fontFamily: fonts[item],
-            },
-            value: item,
-          }))}
-          title={t('fonts.title')}
-          value={font}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Options
+              disabled={disabled}
+              hideSelected
+              label={t(`fonts.${font}`)}
+              onChange={(next) => {
+                update({
+                  font: next as Font,
+                })
+              }}
+              options={(
+                ['apercu', 'basis', 'fold', 'inter', 'system'] as const
+              ).map((item) => ({
+                label: t(`fonts.${item}`),
+                labelStyle: {
+                  fontFamily: fonts[item],
+                },
+                value: item,
+              }))}
+              title={t('fonts.title')}
+              value={font}
+            />
+          )}
         />
 
         <Menu.Switch
@@ -159,36 +175,48 @@ export default function Screen() {
           />
         )}
 
-        <Menu.Switch
-          label={t('fonts.fontBold')}
-          onChange={(next) => {
-            update({
-              fontBold: next,
-            })
-          }}
-          value={fontBold}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              label={t('fonts.fontBold')}
+              onChange={(next) => {
+                update({
+                  fontBold: next,
+                })
+              }}
+              value={fontBold}
+            />
+          )}
         />
 
         {(
           ['fontSizeTitle', 'fontSizePostBody', 'fontSizeCommentBody'] as const
         ).map((item) => (
-          <Menu.Options
+          <Paywall
             key={item}
-            label={t(`fonts.${item}`)}
-            onChange={(next) => {
-              update({
-                [item]: next as TypographyToken,
-              })
-            }}
-            options={Object.keys(typography).map((token) => ({
-              hideRight: true,
-              label: token,
-              right: (
-                <SFSymbol name={`${token as TypographyToken}.circle.fill`} />
-              ),
-              value: token,
-            }))}
-            value={sizes[item]}
+            render={(disabled) => (
+              <Menu.Options
+                disabled={disabled}
+                label={t(`fonts.${item}`)}
+                onChange={(next) => {
+                  update({
+                    [item]: next as TypographyToken,
+                  })
+                }}
+                options={Object.keys(typography).map((token) => ({
+                  hideRight: true,
+                  label: token,
+                  right: (
+                    <SFSymbol
+                      name={`${token as TypographyToken}.circle.fill`}
+                    />
+                  ),
+                  value: token,
+                }))}
+                value={sizes[item]}
+              />
+            )}
           />
         ))}
 

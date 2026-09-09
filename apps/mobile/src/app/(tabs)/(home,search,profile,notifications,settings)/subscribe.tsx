@@ -10,6 +10,7 @@ import { Logo } from '~/components/common/logo'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { usePlan } from '~/hooks/purchases/plan'
+import { useRedeem } from '~/hooks/purchases/redeem'
 import { useRestore } from '~/hooks/purchases/restore'
 import { useSubscribe } from '~/hooks/purchases/subscribe'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
@@ -26,6 +27,7 @@ export default function Screen() {
 
   const { restore, isPending: restoring } = useRestore()
   const { subscribe, isPending: subscribing } = useSubscribe()
+  const { redeem, isPending: redeeming } = useRedeem()
 
   useEffect(() => {
     if (subscribed) {
@@ -60,7 +62,7 @@ export default function Screen() {
       </View>
 
       <View style={styles.features}>
-        {([1, 2, 3, 4, 5, 6] as const).map((key) => (
+        {([1, 2, 3, 4, 5, 6, 7] as const).map((key) => (
           <View key={key} style={styles.feature}>
             <Icon
               name={icons[key]}
@@ -92,25 +94,41 @@ export default function Screen() {
             }
 
             subscribe({
-              plan,
+              planId: plan.id,
             })
           }}
         />
 
-        <Button
-          color="blue"
-          label={t('footer.restore')}
-          loading={restoring}
-          onPress={() => {
-            restore()
-          }}
-        />
+        <View style={styles.feature}>
+          <Button
+            color="blue"
+            label={t('footer.restore')}
+            loading={restoring}
+            onPress={() => {
+              restore()
+            }}
+            style={styles.button}
+          />
+
+          <Button
+            color="plum"
+            label={t('footer.redeem')}
+            loading={redeeming}
+            onPress={() => {
+              redeem()
+            }}
+            style={styles.button}
+          />
+        </View>
       </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
+  button: {
+    flex: 1,
+  },
   feature: {
     flexDirection: 'row',
     gap: theme.space[4],
@@ -155,9 +173,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
 
 const icons = {
   1: 'infinity',
-  2: 'palette',
-  3: 'broadcast',
-  4: 'lock',
-  5: 'person-simple-run',
-  6: 'github-logo',
+  2: 'list-checks',
+  3: 'palette',
+  4: 'broadcast',
+  5: 'lock',
+  6: 'person-simple-run',
+  7: 'github-logo',
 } as const satisfies Record<number, IconName>

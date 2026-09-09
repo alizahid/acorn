@@ -12,6 +12,7 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { List } from '~/components/common/list'
+import { Paywall } from '~/components/common/paywall'
 import { Sheet } from '~/components/common/sheet'
 import { Text } from '~/components/common/text'
 import { CommunitiesList } from '~/components/communities/list'
@@ -45,81 +46,88 @@ export default function Screen() {
         {...listProps}
         contentContainerStyle={styles.content}
       >
-        <View>
-          <Text mb="2" size="2" weight="medium">
-            {t('feedType.title')}
-          </Text>
+        <Text mb="2" size="2" weight="medium">
+          {t('feedType.title')}
+        </Text>
 
-          <List.Item
-            label={community ?? feed ?? t(`feedType.${feedType}`)}
-            left={
-              <Icon
-                name={
-                  community
-                    ? 'users-four'
-                    : feed
-                      ? 'newspaper'
-                      : FeedTypeIcons[feedType]
-                }
-                uniProps={(theme) => ({
-                  color: community
-                    ? theme.colors.accent.accent
-                    : feed
+        <Paywall
+          render={(disabled) => (
+            <List.Item
+              disabled={disabled}
+              label={community ?? feed ?? t(`feedType.${feedType}`)}
+              left={
+                <Icon
+                  name={
+                    community
+                      ? 'users-four'
+                      : feed
+                        ? 'newspaper'
+                        : FeedTypeIcons[feedType]
+                  }
+                  uniProps={(theme) => ({
+                    color: community
                       ? theme.colors.accent.accent
-                      : theme.colors[FeedTypeColors[feedType]].accent,
-                  height: 20,
-                  width: 20,
-                })}
-              />
-            }
-            onPress={() => {
-              sheet.current?.present()
-            }}
-            style={styles.item}
-          />
-        </View>
+                      : feed
+                        ? theme.colors.accent.accent
+                        : theme.colors[FeedTypeColors[feedType]].accent,
+                  })}
+                />
+              }
+              onPress={() => {
+                sheet.current?.present()
+              }}
+              style={styles.item}
+              styleSide={styles.side}
+            />
+          )}
+        />
 
         <View style={styles.section}>
           <Text mb="2" size="2" weight="medium">
             {t('searchTabs.title')}
           </Text>
 
-          <NestedReorderableList
-            data={searchTabs}
-            keyExtractor={(item) => item.key}
-            onReorder={(event) => {
-              const next = reorderItems(searchTabs, event.from, event.to)
-
-              update({
-                searchTabs: next,
-              })
-            }}
-            renderItem={({ index, item }) => (
-              <DraggableItem
-                label={t(`searchTabs.${item.key}`)}
-                onChange={(value) => {
-                  if (
-                    !value &&
-                    searchTabs.filter((tab) => tab.disabled).length >= 1
-                  ) {
-                    return
-                  }
-
-                  const next = create(searchTabs, (draft) => {
-                    if (draft[index]) {
-                      draft[index].disabled = !value
-                    }
-                  })
+          <Paywall
+            render={(disabled) => (
+              <NestedReorderableList
+                data={searchTabs}
+                keyExtractor={(item) => item.key}
+                onReorder={(event) => {
+                  const next = reorderItems(searchTabs, event.from, event.to)
 
                   update({
                     searchTabs: next,
                   })
                 }}
-                style={styles.item}
-                value={!item.disabled}
+                renderItem={({ index, item }) => (
+                  <DraggableItem
+                    disabled={disabled}
+                    label={t(`searchTabs.${item.key}`)}
+                    onChange={(value) => {
+                      if (
+                        !value &&
+                        searchTabs.filter((tab) => tab.disabled).length >= 1
+                      ) {
+                        return
+                      }
+
+                      const next = create(searchTabs, (draft) => {
+                        if (draft[index]) {
+                          draft[index].disabled = !value
+                        }
+                      })
+
+                      update({
+                        searchTabs: next,
+                      })
+                    }}
+                    style={styles.item}
+                    value={!item.disabled}
+                  />
+                )}
+                scrollEnabled={false}
               />
             )}
-            scrollEnabled={false}
           />
 
           <Text highContrast={false} mt="2" size="1">
@@ -132,35 +140,44 @@ export default function Screen() {
             {t('drawerSections.title')}
           </Text>
 
-          <NestedReorderableList
-            data={drawerSections}
-            keyExtractor={(item) => item.key}
-            onReorder={(event) => {
-              const next = reorderItems(drawerSections, event.from, event.to)
-
-              update({
-                drawerSections: next,
-              })
-            }}
-            renderItem={({ index, item }) => (
-              <DraggableItem
-                label={t(`drawerSections.${item.key}`)}
-                onChange={(value) => {
-                  const next = create(drawerSections, (draft) => {
-                    if (draft[index]) {
-                      draft[index].disabled = !value
-                    }
-                  })
+          <Paywall
+            render={(disabled) => (
+              <NestedReorderableList
+                data={drawerSections}
+                keyExtractor={(item) => item.key}
+                onReorder={(event) => {
+                  const next = reorderItems(
+                    drawerSections,
+                    event.from,
+                    event.to,
+                  )
 
                   update({
                     drawerSections: next,
                   })
                 }}
-                style={styles.item}
-                value={!item.disabled}
+                renderItem={({ index, item }) => (
+                  <DraggableItem
+                    disabled={disabled}
+                    label={t(`drawerSections.${item.key}`)}
+                    onChange={(value) => {
+                      const next = create(drawerSections, (draft) => {
+                        if (draft[index]) {
+                          draft[index].disabled = !value
+                        }
+                      })
+
+                      update({
+                        drawerSections: next,
+                      })
+                    }}
+                    style={styles.item}
+                    value={!item.disabled}
+                  />
+                )}
+                scrollEnabled={false}
               />
             )}
-            scrollEnabled={false}
           />
         </View>
       </ScrollViewContainer>
@@ -233,6 +250,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   section: {
     marginTop: theme.space[6],
+  },
+  side: {
+    width: theme.space[7],
   },
   title: {
     marginTop: theme.space[2],

@@ -1,4 +1,4 @@
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { useReorderableDrag } from 'react-native-reorderable-list'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -31,19 +31,22 @@ export function DraggableItem({
     <Pressable
       accessibilityHint={a11y('drag')}
       accessibilityLabel={label}
+      disabled={disabled}
       onLongPress={drag}
       style={style}
       variant="plain"
     >
-      <Icon
-        name="dots-six-vertical-bold"
-        uniProps={(theme) => ({
-          color: theme.colors.gray.accent,
-          size: theme.space[4],
-        })}
-      />
+      <View style={styles.side}>
+        <Icon
+          name="dots-six-vertical-bold"
+          uniProps={(theme) => ({
+            color: theme.colors.gray.accent,
+            size: theme.space[4],
+          })}
+        />
+      </View>
 
-      <Text style={styles.label} weight="medium">
+      <Text numberOfLines={1} size="2" style={styles.label} weight="medium">
         {label}
       </Text>
 
@@ -61,8 +64,15 @@ export function DraggableItem({
   )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((theme) => ({
   label: {
     flex: 1,
   },
-})
+  side: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    height: theme.space[7],
+    justifyContent: 'center',
+    width: theme.space[7],
+  },
+}))

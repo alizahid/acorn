@@ -1,4 +1,3 @@
-import { isTestFlight } from 'expo-testflight'
 import { useState } from 'react'
 import { View } from 'react-native'
 import cookies from 'react-native-nitro-cookies'
@@ -15,7 +14,6 @@ import { IconButton } from '~/components/common/icon/button'
 import { Logo } from '~/components/common/logo'
 import { Text } from '~/components/common/text'
 import { useSignIn } from '~/hooks/mutations/auth/sign-in'
-import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { REDDIT_URI } from '~/reddit/api'
 
 const schema = z.object({
@@ -28,7 +26,6 @@ export default function Screen() {
   const t = useTranslations('screen.auth.signIn')
 
   const { signIn, isPending } = useSignIn()
-  const { subscribed, isLoading } = useSubscribed()
 
   const [open, setOpen] = useState(false)
 
@@ -48,9 +45,8 @@ export default function Screen() {
         </View>
 
         <Button
-          disabled={!(isTestFlight || subscribed)}
           label={t('signIn')}
-          loading={isPending || isLoading}
+          loading={isPending}
           onPress={async () => {
             await Promise.all([cookies.clearAll(), cookies.clearAll(true)])
 

@@ -9,6 +9,7 @@ import { Icon } from '~/components/common/icon'
 import { SFSymbol } from '~/components/common/icon/symbol'
 import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
+import { Paywall } from '~/components/common/paywall'
 import { useListProps } from '~/hooks/list'
 import { iOS26, iPad } from '~/lib/common'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
@@ -100,15 +101,20 @@ export default function Screen() {
       <Menu.Root>
         <Menu.Label>{t('browsing.title')}</Menu.Label>
 
-        <Menu.Switch
-          icon={<Icon name="infinity" />}
-          label={t('browsing.infiniteScrolling')}
-          onChange={(next) => {
-            update({
-              infiniteScrolling: next,
-            })
-          }}
-          value={infiniteScrolling}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="infinity" />}
+              label={t('browsing.infiniteScrolling')}
+              onChange={(next) => {
+                update({
+                  infiniteScrolling: next,
+                })
+              }}
+              value={infiniteScrolling}
+            />
+          )}
         />
 
         <Menu.Options
@@ -173,27 +179,37 @@ export default function Screen() {
           value={refreshInterval}
         />
 
-        <Menu.Switch
-          icon={<Icon name="link" />}
-          label={t('browsing.oldReddit')}
-          onChange={(next) => {
-            update({
-              oldReddit: next,
-            })
-          }}
-          value={oldReddit}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="link" />}
+              label={t('browsing.oldReddit')}
+              onChange={(next) => {
+                update({
+                  oldReddit: next,
+                })
+              }}
+              value={oldReddit}
+            />
+          )}
         />
 
         {iOS26 ? (
-          <Menu.Switch
-            icon={<Icon name="eye-closed" />}
-            label={t('browsing.minimizeTabBar')}
-            onChange={(next) => {
-              update({
-                minimizeTabBar: next,
-              })
-            }}
-            value={minimizeTabBar}
+          <Paywall
+            render={(disabled) => (
+              <Menu.Switch
+                disabled={disabled}
+                icon={<Icon name="eye-closed" />}
+                label={t('browsing.minimizeTabBar')}
+                onChange={(next) => {
+                  update({
+                    minimizeTabBar: next,
+                  })
+                }}
+                value={minimizeTabBar}
+              />
+            )}
           />
         ) : null}
 
@@ -209,26 +225,36 @@ export default function Screen() {
         />
 
         {iPad ? (
-          <Menu.Switch
-            icon={<Icon name="sidebar" />}
-            label={t('browsing.drawerSticky')}
-            onChange={(next) => {
-              update({
-                drawerSticky: next,
-              })
-            }}
-            value={drawerSticky}
+          <Paywall
+            render={(disabled) => (
+              <Menu.Switch
+                disabled={disabled}
+                icon={<Icon name="sidebar" />}
+                label={t('browsing.drawerSticky')}
+                onChange={(next) => {
+                  update({
+                    drawerSticky: next,
+                  })
+                }}
+                value={drawerSticky}
+              />
+            )}
           />
         ) : (
-          <Menu.Switch
-            icon={<Icon name="sidebar" />}
-            label={t('browsing.drawerLeft')}
-            onChange={(next) => {
-              update({
-                drawerLeft: next,
-              })
-            }}
-            value={drawerLeft}
+          <Paywall
+            render={(disabled) => (
+              <Menu.Switch
+                disabled={disabled}
+                icon={<Icon name="sidebar" />}
+                label={t('browsing.drawerLeft')}
+                onChange={(next) => {
+                  update({
+                    drawerLeft: next,
+                  })
+                }}
+                value={drawerLeft}
+              />
+            )}
           />
         )}
 
@@ -247,37 +273,52 @@ export default function Screen() {
           value={showFlair}
         />
 
-        <Menu.Switch
-          icon={<Icon name="caret-up" />}
-          label={t('posts.communityOnTop')}
-          onChange={(next) => {
-            update({
-              communityOnTop: next,
-            })
-          }}
-          value={communityOnTop}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="caret-up" />}
+              label={t('posts.communityOnTop')}
+              onChange={(next) => {
+                update({
+                  communityOnTop: next,
+                })
+              }}
+              value={communityOnTop}
+            />
+          )}
         />
 
-        <Menu.Switch
-          icon={<Icon name="text-b-bold" />}
-          label={t('posts.boldTitle')}
-          onChange={(next) => {
-            update({
-              boldTitle: next,
-            })
-          }}
-          value={boldTitle}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="text-b-bold" />}
+              label={t('posts.boldTitle')}
+              onChange={(next) => {
+                update({
+                  boldTitle: next,
+                })
+              }}
+              value={boldTitle}
+            />
+          )}
         />
 
-        <Menu.Switch
-          icon={<Icon name="bookmark-simple" />}
-          label={t('posts.hidePostActions')}
-          onChange={(next) => {
-            update({
-              hidePostActions: next,
-            })
-          }}
-          value={hidePostActions}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="bookmark-simple" />}
+              label={t('posts.hidePostActions')}
+              onChange={(next) => {
+                update({
+                  hidePostActions: next,
+                })
+              }}
+              value={hidePostActions}
+            />
+          )}
         />
 
         <Menu.Switch
@@ -317,211 +358,256 @@ export default function Screen() {
           value={collapsibleComments}
         />
 
-        <Menu.Switch
-          icon={<Icon name="caret-up" />}
-          label={t('comments.userOnTop')}
-          onChange={(next) => {
-            update({
-              userOnTop: next,
-            })
-          }}
-          value={userOnTop}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="caret-up" />}
+              label={t('comments.userOnTop')}
+              onChange={(next) => {
+                update({
+                  userOnTop: next,
+                })
+              }}
+              value={userOnTop}
+            />
+          )}
         />
 
-        <Menu.Options
-          icon={<Icon name="arrow-down" />}
-          label={t('comments.skipComment')}
-          onChange={(next) => {
-            const payload: Partial<PreferencesPayload> = {
-              skipComment: next,
-            }
-
-            if (next !== 'hide' && next === replyPost) {
-              payload.replyPost = next === 'left' ? 'right' : 'left'
-            }
-
-            update(payload)
-          }}
-          options={FloatingButtonSide.map((item) => ({
-            hideRight: true,
-            label: t(`side.${item}`),
-            right: (
-              <Icon
-                name={
-                  item === 'left'
-                    ? 'caret-left'
-                    : item === 'center'
-                      ? 'caret-down'
-                      : item === 'right'
-                        ? 'caret-right'
-                        : 'eye-slash'
+        <Paywall
+          render={(disabled) => (
+            <Menu.Options
+              disabled={disabled}
+              icon={<Icon name="arrow-down" />}
+              label={t('comments.skipComment')}
+              onChange={(next) => {
+                const payload: Partial<PreferencesPayload> = {
+                  skipComment: next,
                 }
-              />
-            ),
-            value: item,
-          }))}
-          value={skipComment}
+
+                if (next !== 'hide' && next === replyPost) {
+                  payload.replyPost = next === 'left' ? 'right' : 'left'
+                }
+
+                update(payload)
+              }}
+              options={FloatingButtonSide.map((item) => ({
+                hideRight: true,
+                label: t(`side.${item}`),
+                right: (
+                  <Icon
+                    name={
+                      item === 'left'
+                        ? 'caret-left'
+                        : item === 'center'
+                          ? 'caret-down'
+                          : item === 'right'
+                            ? 'caret-right'
+                            : 'eye-slash'
+                    }
+                  />
+                ),
+                value: item,
+              }))}
+              value={skipComment}
+            />
+          )}
         />
 
-        <Menu.Options
-          icon={<Icon name="arrow-bend-up-left-bold" />}
-          label={t('comments.replyPost')}
-          onChange={(next) => {
-            const payload: Partial<PreferencesPayload> = {
-              replyPost: next,
-            }
-
-            if (next !== 'hide' && next === skipComment) {
-              payload.skipComment = next === 'left' ? 'right' : 'left'
-            }
-
-            update(payload)
-          }}
-          options={FloatingButtonSide.map((item) => ({
-            hideRight: true,
-            label: t(`side.${item}`),
-            right: (
-              <Icon
-                name={
-                  item === 'left'
-                    ? 'caret-left'
-                    : item === 'center'
-                      ? 'caret-down'
-                      : item === 'right'
-                        ? 'caret-right'
-                        : 'eye-slash'
+        <Paywall
+          render={(disabled) => (
+            <Menu.Options
+              disabled={disabled}
+              icon={<Icon name="arrow-bend-up-left-bold" />}
+              label={t('comments.replyPost')}
+              onChange={(next) => {
+                const payload: Partial<PreferencesPayload> = {
+                  replyPost: next,
                 }
-              />
-            ),
-            value: item,
-          }))}
-          value={replyPost}
+
+                if (next !== 'hide' && next === skipComment) {
+                  payload.skipComment = next === 'left' ? 'right' : 'left'
+                }
+
+                update(payload)
+              }}
+              options={FloatingButtonSide.map((item) => ({
+                hideRight: true,
+                label: t(`side.${item}`),
+                right: (
+                  <Icon
+                    name={
+                      item === 'left'
+                        ? 'caret-left'
+                        : item === 'center'
+                          ? 'caret-down'
+                          : item === 'right'
+                            ? 'caret-right'
+                            : 'eye-slash'
+                    }
+                  />
+                ),
+                value: item,
+              }))}
+              value={replyPost}
+            />
+          )}
         />
 
         <Menu.Separator />
 
         <Menu.Label>{t('history.title')}</Menu.Label>
 
-        <Menu.Switch
-          icon={<Icon name="arrow-fat-up" />}
-          label={t('history.seenOnVote')}
-          onChange={(next) => {
-            update({
-              seenOnVote: next,
-            })
-          }}
-          value={seenOnVote}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="arrow-fat-up" />}
+              label={t('history.seenOnVote')}
+              onChange={(next) => {
+                update({
+                  seenOnVote: next,
+                })
+              }}
+              value={seenOnVote}
+            />
+          )}
         />
 
-        <Menu.Switch
-          icon={<Icon name="image" />}
-          label={t('history.seenOnMedia')}
-          onChange={(next) => {
-            update({
-              seenOnMedia: next,
-            })
-          }}
-          value={seenOnMedia}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="image" />}
+              label={t('history.seenOnMedia')}
+              onChange={(next) => {
+                update({
+                  seenOnMedia: next,
+                })
+              }}
+              value={seenOnMedia}
+            />
+          )}
         />
 
-        <Menu.Switch
-          description={t('history.seenOnScroll.description')}
-          icon={<Icon name="mouse-scroll" />}
-          label={t('history.seenOnScroll.label')}
-          onChange={(next) => {
-            update({
-              seenOnScroll: next,
-            })
-          }}
-          value={seenOnScroll}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              description={t('history.seenOnScroll.description')}
+              disabled={disabled}
+              icon={<Icon name="mouse-scroll" />}
+              label={t('history.seenOnScroll.label')}
+              onChange={(next) => {
+                update({
+                  seenOnScroll: next,
+                })
+              }}
+              value={seenOnScroll}
+            />
+          )}
         />
 
-        <Menu.Options
-          description={t('history.seenOnScrollDelay.description')}
-          icon={<Icon name="clock" />}
-          label={t('history.seenOnScrollDelay.label')}
-          onChange={(next) => {
-            update({
-              seenOnScrollDelay: next,
-            })
-          }}
-          options={[
-            {
-              hideRight: true,
-              label: t('browsing.refreshInterval.instant'),
-              right: <SFSymbol name="0.circle.fill" />,
-              value: 0,
-            },
-            {
-              hideRight: true,
-              label: f.number(1, {
-                style: 'unit',
-                unit: 'second',
-              }),
-              right: <SFSymbol name="1.circle.fill" />,
-              value: 1,
-            },
-            {
-              hideRight: true,
-              label: f.number(2, {
-                style: 'unit',
-                unit: 'second',
-              }),
-              right: <SFSymbol name="2.circle.fill" />,
-              value: 2,
-            },
-            {
-              hideRight: true,
-              label: f.number(3, {
-                style: 'unit',
-                unit: 'second',
-              }),
-              right: <SFSymbol name="3.circle.fill" />,
-              value: 3,
-            },
-            {
-              hideRight: true,
-              label: f.number(5, {
-                style: 'unit',
-                unit: 'second',
-              }),
-              right: <SFSymbol name="5.circle.fill" />,
-              value: 5,
-            },
-            {
-              hideRight: true,
-              label: f.number(10, {
-                style: 'unit',
-                unit: 'second',
-              }),
-              right: <SFSymbol name="10.circle.fill" />,
-              value: 10,
-            },
-          ]}
-          value={seenOnScrollDelay}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Options
+              description={t('history.seenOnScrollDelay.description')}
+              disabled={disabled}
+              icon={<Icon name="clock" />}
+              label={t('history.seenOnScrollDelay.label')}
+              onChange={(next) => {
+                update({
+                  seenOnScrollDelay: next,
+                })
+              }}
+              options={[
+                {
+                  hideRight: true,
+                  label: t('browsing.refreshInterval.instant'),
+                  right: <SFSymbol name="0.circle.fill" />,
+                  value: 0,
+                },
+                {
+                  hideRight: true,
+                  label: f.number(1, {
+                    style: 'unit',
+                    unit: 'second',
+                  }),
+                  right: <SFSymbol name="1.circle.fill" />,
+                  value: 1,
+                },
+                {
+                  hideRight: true,
+                  label: f.number(2, {
+                    style: 'unit',
+                    unit: 'second',
+                  }),
+                  right: <SFSymbol name="2.circle.fill" />,
+                  value: 2,
+                },
+                {
+                  hideRight: true,
+                  label: f.number(3, {
+                    style: 'unit',
+                    unit: 'second',
+                  }),
+                  right: <SFSymbol name="3.circle.fill" />,
+                  value: 3,
+                },
+                {
+                  hideRight: true,
+                  label: f.number(5, {
+                    style: 'unit',
+                    unit: 'second',
+                  }),
+                  right: <SFSymbol name="5.circle.fill" />,
+                  value: 5,
+                },
+                {
+                  hideRight: true,
+                  label: f.number(10, {
+                    style: 'unit',
+                    unit: 'second',
+                  }),
+                  right: <SFSymbol name="10.circle.fill" />,
+                  value: 10,
+                },
+              ]}
+              value={seenOnScrollDelay}
+            />
+          )}
         />
 
-        <Menu.Switch
-          icon={<Icon name="sun-dim" />}
-          label={t('history.dimSeen')}
-          onChange={(next) => {
-            update({
-              dimSeen: next,
-            })
-          }}
-          value={dimSeen}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="sun-dim" />}
+              label={t('history.dimSeen')}
+              onChange={(next) => {
+                update({
+                  dimSeen: next,
+                })
+              }}
+              value={dimSeen}
+            />
+          )}
         />
 
-        <Menu.Switch
-          description={t('history.hideSeen.description')}
-          icon={<Icon name="eye-slash" />}
-          label={t('history.hideSeen.label')}
-          onChange={(next) => {
-            update({
-              hideSeen: next,
-            })
-          }}
-          value={hideSeen}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              description={t('history.hideSeen.description')}
+              disabled={disabled}
+              icon={<Icon name="eye-slash" />}
+              label={t('history.hideSeen.label')}
+              onChange={(next) => {
+                update({
+                  hideSeen: next,
+                })
+              }}
+              value={hideSeen}
+            />
+          )}
         />
 
         <Menu.Separator />
@@ -539,15 +625,20 @@ export default function Screen() {
           value={autoPlay}
         />
 
-        <Menu.Switch
-          icon={<Icon name="speaker-x" />}
-          label={t('media.feedMuted')}
-          onChange={(next) => {
-            update({
-              feedMuted: next,
-            })
-          }}
-          value={feedMuted}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="speaker-x" />}
+              label={t('media.feedMuted')}
+              onChange={(next) => {
+                update({
+                  feedMuted: next,
+                })
+              }}
+              value={feedMuted}
+            />
+          )}
         />
 
         <Menu.Switch
@@ -561,15 +652,20 @@ export default function Screen() {
           value={unmuteFullscreen}
         />
 
-        <Menu.Switch
-          icon={<Icon name="picture-in-picture" />}
-          label={t('media.pictureInPicture')}
-          onChange={(next) => {
-            update({
-              pictureInPicture: next,
-            })
-          }}
-          value={pictureInPicture}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="picture-in-picture" />}
+              label={t('media.pictureInPicture')}
+              onChange={(next) => {
+                update({
+                  pictureInPicture: next,
+                })
+              }}
+              value={pictureInPicture}
+            />
+          )}
         />
 
         <Menu.Switch
@@ -631,37 +727,52 @@ export default function Screen() {
 
         <Menu.Label>{t('feedback.title')}</Menu.Label>
 
-        <Menu.Switch
-          icon={<Icon name="hand-tap" />}
-          label={t('feedback.feedbackHaptics')}
-          onChange={(next) => {
-            update({
-              feedbackHaptics: next,
-            })
-          }}
-          value={feedbackHaptics}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="hand-tap" />}
+              label={t('feedback.feedbackHaptics')}
+              onChange={(next) => {
+                update({
+                  feedbackHaptics: next,
+                })
+              }}
+              value={feedbackHaptics}
+            />
+          )}
         />
 
-        <Menu.Switch
-          icon={<Icon name="megaphone" />}
-          label={t('feedback.hapticsLoud')}
-          onChange={(next) => {
-            update({
-              hapticsLoud: next,
-            })
-          }}
-          value={hapticsLoud}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="megaphone" />}
+              label={t('feedback.hapticsLoud')}
+              onChange={(next) => {
+                update({
+                  hapticsLoud: next,
+                })
+              }}
+              value={hapticsLoud}
+            />
+          )}
         />
 
-        <Menu.Switch
-          icon={<Icon name="speaker-high" />}
-          label={t('feedback.feedbackSounds')}
-          onChange={(next) => {
-            update({
-              feedbackSounds: next,
-            })
-          }}
-          value={feedbackSounds}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="speaker-high" />}
+              label={t('feedback.feedbackSounds')}
+              onChange={(next) => {
+                update({
+                  feedbackSounds: next,
+                })
+              }}
+              value={feedbackSounds}
+            />
+          )}
         />
       </Menu.Root>
     </ScrollView>

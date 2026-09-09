@@ -1,14 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
-import {
-  finishTransaction,
-  type ProductSubscriptionIOS,
-  requestPurchase,
-} from 'expo-iap'
+import { finishTransaction, requestPurchase } from 'expo-iap'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
 type Variables = {
-  plan: ProductSubscriptionIOS
+  planId: string
 }
 
 export function useSubscribe() {
@@ -19,7 +15,7 @@ export function useSubscribe() {
       const purchases = await requestPurchase({
         request: {
           apple: {
-            sku: variables.plan.id,
+            sku: variables.planId,
           },
         },
         type: 'subs',

@@ -13,6 +13,7 @@ import { type ColorToken } from '~/styles/tokens'
 
 import { Icon } from '../common/icon'
 import { Menu } from '../common/menu'
+import { Paywall } from '../common/paywall'
 
 type Props = {
   onChange: (value: Theme) => void
@@ -26,22 +27,27 @@ export function Themes({ onChange, value }: Props) {
 
   return (
     <>
-      <Menu.Button
-        icon={
-          <Icon
-            name={
-              value.endsWith('-dark')
-                ? 'moon'
-                : value.endsWith('-light')
-                  ? 'sun'
-                  : 'device-mobile-camera'
+      <Paywall
+        render={(disabled) => (
+          <Menu.Button
+            disabled={disabled}
+            icon={
+              <Icon
+                name={
+                  value.endsWith('-dark')
+                    ? 'moon'
+                    : value.endsWith('-light')
+                      ? 'sun'
+                      : 'device-mobile-camera'
+                }
+              />
             }
+            label={t(`themes.${getThemeName(value)}`)}
+            onPress={() => {
+              modal.current?.present()
+            }}
           />
-        }
-        label={t(`themes.${getThemeName(value)}`)}
-        onPress={() => {
-          modal.current?.present()
-        }}
+        )}
       />
 
       <Sheet.Root ref={modal}>

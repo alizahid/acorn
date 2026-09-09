@@ -15,6 +15,7 @@ import { Icon } from '../common/icon'
 import { Menu } from '../common/menu'
 
 type Props<Type extends PostSort> = {
+  disabled?: boolean
   label: string
   onChange: (value: Type) => void
   value: Type
@@ -22,6 +23,7 @@ type Props<Type extends PostSort> = {
 }
 
 export function SortItem<Type extends PostSort>({
+  disabled,
   label,
   onChange,
   type,
@@ -42,6 +44,7 @@ export function SortItem<Type extends PostSort>({
 
   return (
     <Menu.Options<Type>
+      disabled={disabled}
       icon={<Icon name="arrows-down-up" />}
       label={label}
       onChange={onChange}
