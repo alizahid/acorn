@@ -15,6 +15,7 @@ import {
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Paywall } from '~/components/common/paywall'
+import { PaywallCard } from '~/components/common/paywall/card'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 import { FilterCard } from '~/components/filters/card'
@@ -83,6 +84,8 @@ export default function Screen() {
           keyExtractor={(item) => item.key}
           ListHeaderComponent={
             <View style={styles.header}>
+              <PaywallCard style={styles.paywall} />
+
               {[
                 {
                   label: t('rules.yes.1'),
@@ -209,6 +212,11 @@ const styles = StyleSheet.create((theme) => ({
   },
   main: {
     flex: 1,
+  },
+  paywall: {
+    marginBottom: theme.space[4],
+    marginHorizontal: -theme.space[4],
+    marginTop: -theme.space[4],
   },
   rule: {
     flex: 1,

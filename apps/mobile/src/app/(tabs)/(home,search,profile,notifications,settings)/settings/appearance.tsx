@@ -7,6 +7,7 @@ import { Icon } from '~/components/common/icon'
 import { SFSymbol } from '~/components/common/icon/symbol'
 import { Menu } from '~/components/common/menu'
 import { Paywall } from '~/components/common/paywall'
+import { PaywallCard } from '~/components/common/paywall/card'
 import { Slider } from '~/components/common/slider'
 import { Themes } from '~/components/settings/themes'
 import { useListProps } from '~/hooks/list'
@@ -59,6 +60,8 @@ export default function Screen() {
 
   return (
     <ScrollView {...listProps}>
+      <PaywallCard />
+
       <Menu.Root>
         <Menu.Label>{t('preferences.title')}</Menu.Label>
 

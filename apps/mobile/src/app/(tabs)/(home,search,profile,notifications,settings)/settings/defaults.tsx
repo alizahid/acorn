@@ -13,6 +13,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { Icon } from '~/components/common/icon'
 import { List } from '~/components/common/list'
 import { Paywall } from '~/components/common/paywall'
+import { PaywallCard } from '~/components/common/paywall/card'
 import { Sheet } from '~/components/common/sheet'
 import { Text } from '~/components/common/text'
 import { CommunitiesList } from '~/components/communities/list'
@@ -46,6 +47,8 @@ export default function Screen() {
         {...listProps}
         contentContainerStyle={styles.content}
       >
+        <PaywallCard style={styles.paywall} />
+
         <Text mb="2" size="2" weight="medium">
           {t('feedType.title')}
         </Text>
@@ -247,6 +250,11 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   listContent: {
     paddingBottom: runtime.insets.bottom,
+  },
+  paywall: {
+    marginBottom: theme.space[4],
+    marginHorizontal: -theme.space[4],
+    marginTop: -theme.space[4],
   },
   section: {
     marginTop: theme.space[6],

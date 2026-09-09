@@ -143,6 +143,11 @@
         "week": "This week",
         "year": "This year"
       },
+      "paywall": {
+        "card": {
+          "title": "Subscribe to Acorn Pro to unlock these features"
+        }
+      },
       "search": {
         "filter": "Filter",
         "search": "Search"

@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native-unistyles'
 
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 
-import { Pressable } from './pressable'
+import { Pressable } from '../pressable'
 
 type Props = {
   render: (disabled: boolean) => ReactNode

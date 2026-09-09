@@ -10,6 +10,7 @@ import { SFSymbol } from '~/components/common/icon/symbol'
 import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
 import { Paywall } from '~/components/common/paywall'
+import { PaywallCard } from '~/components/common/paywall/card'
 import { useListProps } from '~/hooks/list'
 import { iOS26, iPad } from '~/lib/common'
 import { type PreferencesPayload, usePreferences } from '~/stores/preferences'
@@ -98,6 +99,8 @@ export default function Screen() {
 
   return (
     <ScrollView {...listProps}>
+      <PaywallCard />
+
       <Menu.Root>
         <Menu.Label>{t('browsing.title')}</Menu.Label>
 

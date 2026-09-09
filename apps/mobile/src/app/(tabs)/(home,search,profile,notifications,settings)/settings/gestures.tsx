@@ -8,6 +8,7 @@ import { Icon } from '~/components/common/icon'
 import { Menu } from '~/components/common/menu'
 import { type MenuItemOption } from '~/components/common/menu/item/options'
 import { Paywall } from '~/components/common/paywall'
+import { PaywallCard } from '~/components/common/paywall/card'
 import { useListProps } from '~/hooks/list'
 import { useGestures } from '~/stores/gestures'
 
@@ -153,6 +154,8 @@ export default function Screen() {
 
   return (
     <ScrollView {...listProps}>
+      <PaywallCard />
+
       <Menu.Root>
         <Menu.Label>{t('menu.posts')}</Menu.Label>
 

@@ -4,6 +4,7 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { Menu } from '~/components/common/menu'
 import { Paywall } from '~/components/common/paywall'
+import { PaywallCard } from '~/components/common/paywall/card'
 import { IntervalItem } from '~/components/settings/interval'
 import { SortItem } from '~/components/settings/sort'
 import { useListProps } from '~/hooks/list'
@@ -48,6 +49,8 @@ export default function Screen() {
 
   return (
     <ScrollView {...listProps}>
+      <PaywallCard />
+
       <Menu.Root>
         <Paywall
           render={(disabled) => (
