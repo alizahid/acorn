@@ -21,9 +21,6 @@ const scrollProps = {
 const flashProps = {
   ...scrollProps,
   drawDistance: height / 2,
-  maintainVisibleContentPosition: {
-    disabled: true,
-  },
   renderScrollComponent,
 } satisfies Omit<FlashListProps<unknown>, 'data' | 'renderItem'>
 
