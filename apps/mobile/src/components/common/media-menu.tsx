@@ -11,6 +11,7 @@ import { useDownloadVideo } from '~/hooks/video'
 
 import { Icon } from './icon'
 import { Logo } from './logo'
+import { Paywall } from './paywall'
 import { Sheet } from './sheet'
 
 type Props = {
@@ -93,16 +94,21 @@ export const MediaMenu = createCallable<Props>(({ call, type, url }) => {
       ) : null}
 
       {type === 'video' ? (
-        <Sheet.Item
-          label={t('video.download')}
-          left={<Icon name="download" />}
-          onPress={() => {
-            call.end()
+        <Paywall
+          render={(disabled) => (
+            <Sheet.Item
+              disabled={disabled}
+              label={t('video.download')}
+              left={<Icon name="download" />}
+              onPress={() => {
+                call.end()
 
-            downloadVideo({
-              url,
-            })
-          }}
+                downloadVideo({
+                  url,
+                })
+              }}
+            />
+          )}
         />
       ) : null}
 

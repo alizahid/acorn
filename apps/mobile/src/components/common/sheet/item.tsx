@@ -6,6 +6,7 @@ import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 
 type Props = {
+  disabled?: boolean
   label: string
   labelStyle?: StyleProp<TextStyle>
   left?: ReactNode
@@ -16,6 +17,7 @@ type Props = {
 }
 
 export function Item({
+  disabled,
   label,
   labelStyle,
   left,
@@ -31,7 +33,7 @@ export function Item({
   return (
     <Pressable
       accessibilityLabel={label}
-      disabled={!onPress}
+      disabled={disabled || !onPress}
       onPress={onPress}
       style={[styles.main, style]}
     >
