@@ -92,6 +92,10 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
             fontFamily: fonts.mono,
             padding: theme.space[3],
           },
+          divider: {
+            color: theme.colors.gray.border,
+            height: StyleSheet.hairlineWidth,
+          },
           headings: {
             h1: {
               ...theme.typography[addTextSize(size, 3)],
@@ -137,11 +141,6 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
             borderColor: theme.colors.gray.border,
             borderWidth: StyleSheet.hairlineWidth,
             padding: theme.space[2],
-          },
-          thematicBreak: {
-            backgroundColor: theme.colors.gray.border,
-            height: StyleSheet.hairlineWidth,
-            marginVertical: theme.space[3],
           },
         },
       })}
