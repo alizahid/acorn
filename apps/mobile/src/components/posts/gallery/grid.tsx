@@ -12,11 +12,13 @@ import { useShallow } from 'zustand/react/shallow'
 import { MediaMenu } from '~/components/common/media-menu'
 import { Text } from '~/components/common/text'
 import { useImageActions } from '~/hooks/image'
+import { unlockOrientation } from '~/lib/orientation'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
 import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from './blur'
+import { More } from './more'
 
 type Props = {
   images: Array<PostMedia>
@@ -83,11 +85,73 @@ export function ImageGrid({
     }
   }, [images, frame.height, width])
 
+  if (images.length === 1) {
+    const [image] = images
+
+    if (!image) {
+      return null
+    }
+
+    const height = Math.round(width / (image.width / image.height))
+
+    const more = height > frame.height * 0.5
+
+    return (
+      <Gallery
+        actions={actions}
+        images={[image]}
+        onDismiss={onDismiss}
+        onShow={() => {
+          unlockOrientation()
+        }}
+      >
+        <Gallery.Image
+          index={0}
+          onLongPress={(event) => {
+            MediaMenu.call({
+              type: 'image',
+              url: event.url,
+            })
+          }}
+          style={[styles.image, styles.one(image.width / image.height)]}
+        >
+          <Image
+            accessibilityIgnoresInvertColors
+            recyclingKey={recyclingKey}
+            source={image.url}
+            style={styles.single}
+          />
+        </Gallery.Image>
+
+        {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
+          <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+        ) : null}
+
+        {image.type === 'gif' ? (
+          <View pointerEvents="none" style={[styles.label, styles.gif]}>
+            <Text contrast size="1" weight="medium">
+              {t('gif')}
+            </Text>
+          </View>
+        ) : null}
+
+        {more ? <More /> : null}
+      </Gallery>
+    )
+  }
+
   return (
     <>
-      <Gallery actions={actions} images={images} onDismiss={onDismiss}>
+      <Gallery
+        actions={actions}
+        images={images}
+        onDismiss={onDismiss}
+        onShow={() => {
+          unlockOrientation()
+        }}
+      >
         <FlatList
-          contentContainerStyle={styles.carousel(data.height, images.length)}
+          contentContainerStyle={styles.carousel(data.height)}
           data={images}
           decelerationRate="fast"
           horizontal
@@ -135,25 +199,22 @@ export function ImageGrid({
         />
       </Gallery>
 
-      {images.length > 1 ? (
-        <View pointerEvents="none" style={[styles.label, styles.count]}>
-          <Text contrast size="1" weight="medium">
-            {t('items', {
-              count: images.length,
-            })}
-          </Text>
-        </View>
-      ) : null}
+      <View pointerEvents="none" style={[styles.label, styles.count]}>
+        <Text contrast size="1" weight="medium">
+          {t('items', {
+            count: images.length,
+          })}
+        </Text>
+      </View>
     </>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  carousel: (height: number, count: number) => ({
+  carousel: (height: number) => ({
     flexGrow: 1,
     gap: theme.space[3],
     height,
-    justifyContent: count === 1 ? 'center' : undefined,
   }),
   count: {
     right: theme.space[2],
@@ -174,5 +235,11 @@ const styles = StyleSheet.create((theme) => ({
     paddingHorizontal: theme.space[1],
     paddingVertical: theme.space[1] / 2,
     position: 'absolute',
+  },
+  one: (aspectRatio: number) => ({
+    aspectRatio,
+  }),
+  single: {
+    flex: 1,
   },
 }))

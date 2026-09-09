@@ -9,6 +9,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { MediaMenu } from '~/components/common/media-menu'
 import { useHistory } from '~/hooks/history'
 import { useImageActions } from '~/hooks/image'
+import { lockOrientation, unlockOrientation } from '~/lib/orientation'
 import { usePreferences } from '~/stores/preferences'
 import { type PostMedia } from '~/types/post'
 
@@ -55,6 +56,8 @@ export function PostGalleryCard({
   const { actions } = useImageActions()
 
   const onDismiss = useCallback(() => {
+    lockOrientation()
+
     if (recyclingKey && seenOnMedia) {
       addPost({
         id: recyclingKey,
@@ -65,7 +68,14 @@ export function PostGalleryCard({
   if (compact) {
     return (
       <View style={styles.main}>
-        <Gallery actions={actions} images={images} onDismiss={onDismiss}>
+        <Gallery
+          actions={actions}
+          images={images}
+          onDismiss={onDismiss}
+          onShow={() => {
+            unlockOrientation()
+          }}
+        >
           {images.map((image, index) => (
             <Gallery.Image
               index={index}

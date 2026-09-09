@@ -3,7 +3,8 @@
 ## Upcoming
 
 - added: show the comment you're replying to
-- changed: center tall images
+- fixed: video fullscreen enter / exit jitter
+- reverted: image gallery design
 
 ## Build 88
 
