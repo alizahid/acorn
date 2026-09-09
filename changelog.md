@@ -4,6 +4,7 @@
 
 - added: clear video cache
 - added: show the comment you're replying to
+- added: unlock orientation for image gallery
 - fixed: video fullscreen enter / exit jitter
 - reverted: image gallery design
 
