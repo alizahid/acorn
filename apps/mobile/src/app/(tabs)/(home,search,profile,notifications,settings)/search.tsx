@@ -138,8 +138,8 @@ export default function Screen() {
 
         <SegmentedControl
           items={routes.map(({ key }) => ({
-            key,
             label: t(`tabs.${key}`),
+            value: key,
           }))}
           onChange={(next) => {
             jumpTo(next)

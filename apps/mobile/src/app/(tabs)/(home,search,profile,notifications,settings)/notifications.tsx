@@ -67,8 +67,8 @@ export default function Screen() {
       <View style={styles.tabBar(headerHeight)}>
         <SegmentedControl
           items={routes.map(({ key }) => ({
-            key,
             label: t(`tabs.${key}`),
+            value: key,
           }))}
           onChange={(next) => {
             jumpTo(next)

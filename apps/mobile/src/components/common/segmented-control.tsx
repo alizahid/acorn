@@ -1,16 +1,11 @@
-import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { StyleSheet } from 'react-native-unistyles'
-
-import { glass } from '~/lib/common'
-
-import { GlassView } from '../native/glass-view'
-import { Pressable } from './pressable'
-import { Text } from './text'
+import Component from '@expo/ui/community/segmented-control'
+import { type StyleProp, type ViewStyle } from 'react-native'
+import { useUnistyles } from 'react-native-unistyles'
 
 type Props = {
   items: Array<{
-    key: string
     label: string
+    value: string
   }>
   onChange: (key: string) => void
   style?: StyleProp<ViewStyle>
@@ -18,49 +13,24 @@ type Props = {
 }
 
 export function SegmentedControl({ items, onChange, style, value }: Props) {
-  const Component = glass ? GlassView : View
+  const { theme } = useUnistyles()
+
+  const selected = items.findIndex((item) => item.value === value)
 
   return (
-    <Component isInteractive style={[styles.main, style]}>
-      {items.map((item) => (
-        <Pressable
-          accessibilityLabel={item.label}
-          key={item.key}
-          onPress={() => {
-            onChange(item.key)
-          }}
-          style={styles.item(item.key === value)}
-        >
-          <Text
-            contrast={value === item.key}
-            key={item.key}
-            size="2"
-            weight="medium"
-          >
-            {item.label}
-          </Text>
-        </Pressable>
-      ))}
-    </Component>
+    <Component
+      appearance={theme.variant}
+      onValueChange={(label) => {
+        const next = items.find((item) => item.label === label)
+
+        if (next) {
+          onChange(next.value)
+        }
+      }}
+      selectedIndex={selected}
+      style={style}
+      tintColor={theme.colors.accent.accent}
+      values={items.map((item) => item.label)}
+    />
   )
 }
-
-const styles = StyleSheet.create((theme) => ({
-  item: (selected: boolean) => ({
-    alignItems: 'center',
-    backgroundColor: selected ? theme.colors.accent.accent : undefined,
-    borderCurve: 'continuous',
-    borderRadius: theme.space[7],
-    flex: 1,
-    height: theme.space[6],
-    justifyContent: 'center',
-  }),
-  main: {
-    backgroundColor: glass ? undefined : theme.colors.gray.uiActive,
-    borderCurve: 'continuous',
-    borderRadius: theme.space[7],
-    flexDirection: 'row',
-    overflow: 'hidden',
-    padding: theme.space[1],
-  },
-}))
