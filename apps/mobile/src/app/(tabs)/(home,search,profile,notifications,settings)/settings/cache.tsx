@@ -1,5 +1,6 @@
 import { Image } from 'expo-image'
 import { ScrollView } from 'react-native-gesture-handler'
+import { clearCache } from 'react-native-jet-video'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
@@ -53,6 +54,21 @@ export default function Screen() {
               Image.clearDiskCache(),
               Image.clearMemoryCache(),
             ])
+          }}
+        />
+
+        <Menu.Button
+          icon={
+            <Icon
+              name="video"
+              uniProps={(theme) => ({
+                color: theme.colors.red.accent,
+              })}
+            />
+          }
+          label={t('media.video')}
+          onPress={async () => {
+            await clearCache()
           }}
         />
 

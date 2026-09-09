@@ -622,7 +622,8 @@
         },
         "media": {
           "image": "Clear image cache",
-          "title": "Media"
+          "title": "Media",
+          "video": "Clear video cache"
         },
         "title": "Cache"
       },

@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: clear video cache
 - added: show the comment you're replying to
 - fixed: video fullscreen enter / exit jitter
 - reverted: image gallery design
