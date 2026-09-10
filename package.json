@@ -34,6 +34,7 @@
   },
   "packageManager": "bun@1.3.14",
   "patchedDependencies": {
-    "ffmpeg-kit-react-native@6.0.2": "patches/ffmpeg-kit-react-native@6.0.2.patch"
+    "ffmpeg-kit-react-native@6.0.2": "patches/ffmpeg-kit-react-native@6.0.2.patch",
+    "react-native-bottom-tabs@1.4.0": "patches/react-native-bottom-tabs@1.4.0.patch"
   }
 }

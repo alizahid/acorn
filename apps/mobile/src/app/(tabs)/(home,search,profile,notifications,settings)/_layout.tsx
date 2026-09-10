@@ -156,7 +156,7 @@ function StackLayout({ children }: PropsWithChildren) {
         headerBackButtonDisplayMode: 'minimal',
         headerBackButtonMenuEnabled: false,
         headerBlurEffect: glass ? 'none' : 'systemChromeMaterial',
-        headerShadowVisible: iPad ? false : !glass,
+        headerShadowVisible: false,
         headerTransparent: true,
       }}
     >

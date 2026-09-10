@@ -1,0 +1,13 @@
+diff --git a/ios/TabViewImpl.swift b/ios/TabViewImpl.swift
+index 68053e1f17cbdd489f1712aac82f58e24ff4d892..1a52fd5b3c861d08b446b161e8c1723c5aed765b 100644
+--- a/ios/TabViewImpl.swift
++++ b/ios/TabViewImpl.swift
+@@ -183,6 +183,8 @@ struct TabViewImpl: View {
+       appearance.configureWithOpaqueBackground()
+     }
+ 
++    appearance.shadowColor = .clear
++
+     if props.barTintColor != nil {
+       appearance.backgroundColor = props.barTintColor
+     }
