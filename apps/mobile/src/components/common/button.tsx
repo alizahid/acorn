@@ -1,10 +1,12 @@
 import { type ReactNode } from 'react'
-import { type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
+import { glass } from '~/lib/common'
 import { mapColors } from '~/lib/styles'
 import { type ColorToken } from '~/styles/tokens'
 
+import { GlassView } from '../native/glass-view'
 import { Pressable } from './pressable'
 import { Spinner } from './spinner'
 import { Text } from './text'
@@ -32,45 +34,57 @@ export function Button({
     color,
   })
 
+  const Component = glass ? GlassView : View
+
   return (
-    <Pressable
-      accessibilityLabel={label}
-      disabled={disabled || loading}
-      onPress={onPress}
+    <Component
+      isInteractive={!disabled}
       style={[styles.main, style]}
+      uniProps={(theme) => ({
+        tintColor: theme.colors[color].accent,
+      })}
     >
-      {left}
+      <Pressable
+        accessibilityLabel={label}
+        disabled={disabled || loading}
+        onPress={onPress}
+        style={styles.content}
+      >
+        {left}
 
-      <Text color={color} contrast weight="medium">
-        {label}
-      </Text>
+        <Text color={color} contrast weight="medium">
+          {label}
+        </Text>
 
-      {loading ? (
-        <Spinner
-          color={color}
-          contrast
-          uniProps={(theme) => ({
-            size: theme.space[5],
-          })}
-        />
-      ) : null}
-    </Pressable>
+        {loading ? (
+          <Spinner
+            color={color}
+            contrast
+            uniProps={(theme) => ({
+              size: theme.space[5],
+            })}
+          />
+        ) : null}
+      </Pressable>
+    </Component>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  main: {
+  content: {
     alignItems: 'center',
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[4],
     flexDirection: 'row',
     gap: theme.space[2],
     height: theme.space[7],
     justifyContent: 'center',
     paddingHorizontal: theme.space[4],
+  },
+  main: {
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
     variants: {
       color: mapColors((token) => ({
-        backgroundColor: theme.colors[token].accent,
+        backgroundColor: glass ? undefined : theme.colors[token].accent,
       })),
     },
   },
