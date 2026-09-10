@@ -7,25 +7,26 @@ export function More() {
 
   const { theme } = useUnistyles()
 
-  const size = frame.width / 32
+  const size = frame.width / 16
+  const depth = size / 3
 
   return (
-    <Svg height={size} pointerEvents="none" style={styles.main} width="100%">
+    <Svg height={depth} pointerEvents="none" style={styles.main} width="100%">
       <Defs>
         <Pattern
-          height={size}
-          id="zigzag"
+          height={depth}
+          id="scallop"
           patternUnits="userSpaceOnUse"
-          width={size * 2}
+          width={size}
         >
           <Path
-            d={`M0 ${size} L${size} 0 L${size * 2} ${size} Z`}
+            d={`M0 0 H${size / 4} A${size / 4} ${size / 4} 0 0 0 ${(size / 4) * 3} 0 H${size} V${depth} H0 Z`}
             fill={theme.colors.ui.bg}
           />
         </Pattern>
       </Defs>
 
-      <Rect fill="url(#zigzag)" height={size} width="100%" />
+      <Rect fill="url(#scallop)" height={depth} width="100%" />
     </Svg>
   )
 }
