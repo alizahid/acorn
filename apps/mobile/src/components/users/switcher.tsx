@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
+import { useSubscribed } from '~/hooks/purchases/subscribed'
 import { glass, iOS26 } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
@@ -20,6 +21,8 @@ export function AccountSwitcher() {
 
   const t = useTranslations('component.users.switcher')
   const a11y = useTranslations('a11y')
+
+  const { subscribed } = useSubscribed()
 
   const { accountId, accounts, remove, set } = useAuth(
     useShallow((state) => ({
@@ -50,6 +53,12 @@ export function AccountSwitcher() {
             accessibilityLabel={a11y('addAccount')}
             onPress={async () => {
               await sheet.current?.dismiss()
+
+              if (!subscribed && accounts.length >= 2) {
+                router.navigate('/subscribe')
+
+                return
+              }
 
               router.navigate({
                 params: {
