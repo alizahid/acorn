@@ -6,7 +6,7 @@ import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
 import { useSubscribed } from '~/hooks/purchases/subscribed'
-import { glass, iOS26 } from '~/lib/common'
+import { glass } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 
@@ -107,7 +107,7 @@ export function AccountSwitcher() {
         {t('description')}
       </Text>
 
-      {iOS26 ? null : <Sheet.BottomInset />}
+      <Sheet.BottomInset />
     </Sheet.Root>
   )
 }
