@@ -73,18 +73,18 @@ export function useLink() {
 
   const handleLink = useCallback(
     async (href: string) => {
+      const url = new URL(
+        href,
+        href.startsWith('http')
+          ? undefined
+          : oldReddit
+            ? REDDIT_OLD_URI
+            : REDDIT_URI,
+      )
+
+      const uri = url.toString()
+
       try {
-        const url = new URL(
-          href,
-          href.startsWith('http')
-            ? undefined
-            : oldReddit
-              ? REDDIT_OLD_URI
-              : REDDIT_URI,
-        )
-
-        const uri = url.toString()
-
         const parts = parseLink(
           uri.includes('reddit.com') ? uri.replace('/u/', '/user/') : uri,
         )
@@ -151,11 +151,11 @@ export function useLink() {
           return
         }
 
-        handle(href)
+        handle(uri)
       } catch (error) {
         Sentry.captureException(error)
 
-        handle(href)
+        handle(uri)
       }
     },
     [handle, oldReddit, router, t],

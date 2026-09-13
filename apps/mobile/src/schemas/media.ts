@@ -146,9 +146,9 @@ export const PostPreviewSchema = z
     ),
     reddit_video_preview: z
       .object({
-        height: z.number(),
-        hls_url: z.string(),
-        width: z.number(),
+        height: z.number().nullish(),
+        hls_url: z.string().nullish(),
+        width: z.number().nullish(),
       })
       .nullish(),
   })

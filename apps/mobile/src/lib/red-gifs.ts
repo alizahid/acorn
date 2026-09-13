@@ -10,13 +10,12 @@ const GifSchema = z.object({
   gif: z.object({
     id: z.string(),
     urls: z.object({
-      hd: z.string(),
+      hd: z.string().optional(),
       poster: z.string().optional(),
+      sd: z.string().optional(),
     }),
   }),
 })
-
-type GifPayload = z.infer<typeof GifSchema>
 
 export type Gif = {
   expiresAt: Date
@@ -25,7 +24,7 @@ export type Gif = {
   url: string
 }
 
-export async function getGif(id: string): Promise<Gif> {
+export async function getGif(id: string, retry = true): Promise<Gif> {
   const url = new URL(`/v2/gifs/${id}`, 'https://api.redgifs.com')
 
   const token = await getTemporaryToken()
@@ -37,19 +36,27 @@ export async function getGif(id: string): Promise<Gif> {
     },
   })
 
-  if (response.status !== 200) {
-    const json = (await response.json()) as {
-      reason: string
-    }
+  if (response.status === 401 && retry) {
+    await SecureStore.deleteItemAsync(KEY)
 
-    throw new Error(json.reason)
+    return getGif(id, false)
   }
 
-  const json = (await response.json()) as GifPayload
+  if (response.status !== 200) {
+    await throwError(response)
+  }
+
+  const json = await response.json()
 
   const { gif } = GifSchema.parse(json)
 
-  const uri = new URL(gif.urls.hd)
+  const source = gif.urls.hd ?? gif.urls.sd
+
+  if (!source) {
+    throw new Error(`No video url for gif ${id}`)
+  }
+
+  const uri = new URL(source)
 
   const expires = Number(uri.searchParams.get('expires')) || 0
 
@@ -111,6 +118,10 @@ async function generateToken() {
     },
   })
 
+  if (response.status !== 200) {
+    await throwError(response)
+  }
+
   const json = (await response.json()) as TemporaryTokenPayload
 
   const { token } = TemporaryTokenSchema.parse(json)
@@ -124,4 +135,23 @@ async function generateToken() {
   )
 
   return token
+}
+
+async function throwError(response: Response): Promise<never> {
+  try {
+    const json = (await response.json()) as {
+      error?: {
+        description?: string
+      }
+      reason?: string
+    }
+
+    throw new Error(
+      json.error?.description ?? json.reason ?? response.statusText,
+    )
+  } catch (error) {
+    throw new Error(response.statusText, {
+      cause: error,
+    })
+  }
 }

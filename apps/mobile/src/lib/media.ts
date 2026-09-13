@@ -142,16 +142,18 @@ export function getVideo(data: PostDataSchema): Undefined<PostMedia> {
     }
   }
 
-  if (data.preview?.reddit_video_preview) {
+  const preview = data.preview?.reddit_video_preview
+
+  if (preview?.hls_url && preview.height && preview.width) {
     return {
-      height: data.preview.reddit_video_preview.height,
+      height: preview.height,
       provider: 'reddit',
       thumbnail: data.thumbnail?.startsWith('http')
         ? decode(data.thumbnail)
         : undefined,
       type: 'video',
-      url: decode(data.preview.reddit_video_preview.hls_url),
-      width: data.preview.reddit_video_preview.width,
+      url: decode(preview.hls_url),
+      width: preview.width,
     }
   }
 }

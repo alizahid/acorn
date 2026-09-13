@@ -61,16 +61,26 @@ export async function reddit<Response>({ body, method = 'get', url }: Props) {
     return {} as Response
   }
 
-  if (response.status >= 400) {
-    const json = (await response.json()) as {
-      explanation?: string
-      message?: string
-    }
+  const text = await response.text()
 
+  let json: {
+    explanation?: string
+    message?: string
+  }
+
+  try {
+    json = JSON.parse(text)
+  } catch (error) {
+    throw new Error(response.statusText, {
+      cause: error,
+    })
+  }
+
+  if (response.status >= 400) {
     throw new Error(json.explanation ?? json.message ?? response.statusText)
   }
 
-  return (await response.json()) as Response
+  return json as Response
 }
 
 export function getAuth() {
