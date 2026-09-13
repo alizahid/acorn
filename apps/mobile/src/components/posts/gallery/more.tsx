@@ -7,7 +7,7 @@ export function More() {
 
   const { theme } = useUnistyles()
 
-  const size = frame.width / 16
+  const size = frame.width / 12
   const depth = size / 3
 
   return (
