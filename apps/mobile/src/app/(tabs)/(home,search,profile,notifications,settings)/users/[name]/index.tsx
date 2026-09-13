@@ -112,6 +112,7 @@ export default function Screen() {
                 />
               </View>
             }
+            hidden={profile?.noFollow}
             interval={posts.interval}
             sort={posts.sort}
             userType="submitted"
@@ -136,6 +137,7 @@ export default function Screen() {
               />
             </View>
           }
+          hidden={profile?.noFollow}
           interval={comments.interval}
           sort={comments.sort}
           userType="comments"
@@ -149,6 +151,7 @@ export default function Screen() {
       posts.sort,
       query,
       props,
+      profile?.noFollow,
     ],
   )
 

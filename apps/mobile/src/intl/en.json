@@ -261,6 +261,7 @@
         "share": "Share"
       },
       "list": {
+        "hidden": "Private",
         "more": "Load more"
       },
       "menu": {

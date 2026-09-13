@@ -40,6 +40,7 @@ type Item = Post | Comment
 
 type Props = PostsProps & {
   header?: ReactElement
+  hidden?: boolean
   hideCommunity?: boolean
   hideUser?: boolean
   listProps?: ListProps
@@ -51,6 +52,7 @@ export function PostList({
   community,
   feed,
   header,
+  hidden,
   hideCommunity,
   hideUser,
   interval,
@@ -158,7 +160,16 @@ export function PostList({
 
         return item.id
       }}
-      ListEmptyComponent={isLoading ? <Loading /> : <Empty />}
+      ListEmptyComponent={
+        isLoading ? (
+          <Loading />
+        ) : (
+          <Empty
+            icon={hidden ? 'lock' : undefined}
+            message={hidden ? t('hidden') : undefined}
+          />
+        )
+      }
       ListFooterComponent={() =>
         isFetchingNextPage ? (
           <Spinner size="large" style={styles.more} />
