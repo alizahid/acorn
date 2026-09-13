@@ -757,6 +757,7 @@
           "blurNsfw": "Blur NSFW",
           "blurSpoiler": "Blur spoiler",
           "feedMuted": "Mute feed",
+          "gallerySnap": "Snap to scroll images in gallery",
           "pictureInPicture": "Allow picture in picture",
           "saveToAlbum": {
             "description": "Requires full photo library access",

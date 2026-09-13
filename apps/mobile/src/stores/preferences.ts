@@ -41,6 +41,7 @@ export type PreferencesPayload = {
   fontSizeCommentBody: TypographyToken
   fontSizePostBody: TypographyToken
   fontSizeTitle: TypographyToken
+  gallerySnap: boolean
   hapticsLoud: boolean
   hidePostActions: boolean
   hideSeen: boolean
@@ -109,6 +110,7 @@ export const usePreferences = create<State>()(
       fontSizeCommentBody: '2',
       fontSizePostBody: '3',
       fontSizeTitle: '3',
+      gallerySnap: true,
       hapticsLoud: false,
       hidePostActions: false,
       hideSeen: false,

@@ -33,6 +33,7 @@ export default function Screen() {
     feedbackHaptics,
     feedbackSounds,
     feedMuted,
+    gallerySnap,
     hapticsLoud,
     hidePostActions,
     hideSeen,
@@ -70,6 +71,7 @@ export default function Screen() {
       feedbackHaptics: state.feedbackHaptics,
       feedbackSounds: state.feedbackSounds,
       feedMuted: state.feedMuted,
+      gallerySnap: state.gallerySnap,
       hapticsLoud: state.hapticsLoud,
       hidePostActions: state.hidePostActions,
       hideSeen: state.hideSeen,
@@ -616,6 +618,17 @@ export default function Screen() {
         <Menu.Separator />
 
         <Menu.Label>{t('media.title')}</Menu.Label>
+
+        <Menu.Switch
+          icon={<Icon name="square-split-horizontal" />}
+          label={t('media.gallerySnap')}
+          onChange={(next) => {
+            update({
+              gallerySnap: next,
+            })
+          }}
+          value={gallerySnap}
+        />
 
         <Menu.Switch
           icon={<Icon name="play" />}

@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: gallery snap option
 - fixed: custom feeds
 - fixed: video crash
 

@@ -48,10 +48,11 @@ export function ImageGrid({
     })
   })
 
-  const { blurNsfw, blurSpoiler } = usePreferences(
+  const { blurNsfw, blurSpoiler, gallerySnap } = usePreferences(
     useShallow((state) => ({
       blurNsfw: state.blurNsfw,
       blurSpoiler: state.blurSpoiler,
+      gallerySnap: state.gallerySnap,
     })),
   )
 
@@ -195,7 +196,7 @@ export function ImageGrid({
           )}
           scrollEnabled={images.length > 1}
           showsHorizontalScrollIndicator={false}
-          snapToOffsets={data.offsets}
+          snapToOffsets={gallerySnap ? data.offsets : undefined}
         />
       </Gallery>
 

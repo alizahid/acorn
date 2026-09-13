@@ -23,6 +23,11 @@
       }
     }
   },
+  "files": {
+    "includes": [
+      "!apps/mobile/src/assets/icons/phosphor/phosphor.glyphmap.json"
+    ]
+  },
   "extends": [
     "ultracite/biome/core",
     "ultracite/biome/react",
