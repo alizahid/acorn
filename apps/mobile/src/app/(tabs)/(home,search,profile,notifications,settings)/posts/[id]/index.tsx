@@ -301,6 +301,9 @@ export default function Screen() {
         }}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         initialScrollIndex={params.commentId ? 0 : undefined}
+        initialScrollIndexParams={{
+          viewOffset: -headerHeight,
+        }}
         keyExtractor={(item) => {
           if (item.type === 'more') {
             return `${item.type}-${item.data.parentId}`
