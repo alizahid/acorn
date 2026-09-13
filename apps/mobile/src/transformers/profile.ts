@@ -9,6 +9,7 @@ export function transformProfile({ data }: ProfileSchema): Profile {
   return {
     banner: decode(data.subreddit.banner_img) || undefined,
     createdAt: fromUnixTime(data.created_utc),
+    friend: Boolean(data.is_friend),
     id: removePrefix(data.id),
     image:
       decode(data.subreddit.icon_img) || decode(data.icon_img) || undefined,
@@ -18,7 +19,7 @@ export function transformProfile({ data }: ProfileSchema): Profile {
       total: data.total_karma,
     },
     name: data.name,
-    noFollow: Boolean(data.no_follow),
+    noFollow: data.accept_followers === false,
     subreddit: removePrefix(data.subreddit.name),
     subscribed: data.subreddit.user_is_subscriber ?? false,
   }

@@ -7,7 +7,6 @@ import {
   type MessagesQueryData,
   type MessagesQueryKey,
 } from '~/hooks/queries/user/messages'
-import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
@@ -40,8 +39,8 @@ export function useReply() {
         url: '/api/comment',
       })
     },
-    onMutate(variables) {
-      queryClient.setQueryData<MessagesQueryData, MessagesQueryKey>(
+    onMutate(variables, context) {
+      context.client.setQueryData<MessagesQueryData, MessagesQueryKey>(
         [
           'messages',
           {
@@ -80,7 +79,7 @@ export function useReply() {
           }),
       )
 
-      queryClient.invalidateQueries({
+      context.client.invalidateQueries({
         queryKey: [
           'thread',
           {

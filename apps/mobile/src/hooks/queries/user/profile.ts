@@ -1,6 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
+import { create, type Draft } from 'mutative'
 import { useShallow } from 'zustand/react/shallow'
 
+import { queryClient } from '~/lib/query'
 import { reddit } from '~/reddit/api'
 import { ProfileSchema } from '~/schemas/profile'
 import { useAuth } from '~/stores/auth'
@@ -52,5 +54,33 @@ export function useProfile(name?: string) {
     isLoading,
     profile: data,
     refetch,
+  }
+}
+
+export function updateProfile(
+  name: string,
+  updater: (draft: Draft<ProfileQueryData>) => void,
+) {
+  const cache = queryClient.getQueryCache()
+
+  const queries = cache.findAll({
+    queryKey: [
+      'users',
+      {
+        name,
+      },
+    ] satisfies ProfileQueryKey,
+  })
+
+  for (const query of queries) {
+    queryClient.setQueryData<ProfileQueryData>(query.queryKey, (previous) => {
+      if (!previous) {
+        return previous
+      }
+
+      return create(previous, (draft) => {
+        updater(draft)
+      })
+    })
   }
 }

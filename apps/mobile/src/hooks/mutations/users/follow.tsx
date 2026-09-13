@@ -4,8 +4,7 @@ import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
-import { type ProfileQueryKey } from '~/hooks/queries/user/profile'
-import { queryClient } from '~/lib/query'
+import { updateProfile } from '~/hooks/queries/user/profile'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 
@@ -19,7 +18,7 @@ export function useFollow() {
   const t = useTranslations('toasts.users')
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
-    async mutationFn(variables) {
+    async mutationFn(variables, context) {
       const body = new URLSearchParams()
 
       body.append('sr', addPrefix(variables.id, 'subreddit'))
@@ -30,21 +29,17 @@ export function useFollow() {
         method: 'post',
         url: '/api/subscribe',
       })
-    },
-    async onSuccess(_data, variables) {
-      await queryClient.invalidateQueries({
-        queryKey: [
-          'users',
-          {
-            name: variables.name,
-          },
-        ] satisfies ProfileQueryKey,
-      })
 
-      queryClient.invalidateQueries({
+      await context.client.invalidateQueries({
         queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
       })
-
+    },
+    onMutate(variables) {
+      updateProfile(variables.name, (draft) => {
+        draft.subscribed = variables.action === 'follow'
+      })
+    },
+    onSuccess(_data, variables) {
       toast.success(
         t(variables.action === 'follow' ? 'followed' : 'unfollowed', {
           user: variables.name,

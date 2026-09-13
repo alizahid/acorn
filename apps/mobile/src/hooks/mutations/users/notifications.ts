@@ -6,7 +6,6 @@ import { useShallow } from 'zustand/react/shallow'
 import { updateMessage } from '~/hooks/queries/user/messages'
 import { updateNotification } from '~/hooks/queries/user/notifications'
 import { type UnreadQueryKey } from '~/hooks/queries/user/unread'
-import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
@@ -41,7 +40,7 @@ export function useMarkAsRead() {
         url: '/api/read_message',
       })
     },
-    onMutate(variables) {
+    onMutate(variables, context) {
       if (variables.type === 'message') {
         updateMessage(variables.id, (draft) => {
           draft.new = false
@@ -52,7 +51,7 @@ export function useMarkAsRead() {
         })
       }
 
-      queryClient.setQueryData<number, UnreadQueryKey>(
+      context.client.setQueryData<number, UnreadQueryKey>(
         [
           'unread',
           {
@@ -86,8 +85,8 @@ export function useMarkAllAsRead() {
         url: '/api/read_all_messages',
       })
     },
-    onMutate() {
-      queryClient.setQueryData<number, UnreadQueryKey>(
+    onMutate(_variables, context) {
+      context.client.setQueryData<number, UnreadQueryKey>(
         [
           'unread',
           {
@@ -97,12 +96,12 @@ export function useMarkAllAsRead() {
         0,
       )
     },
-    onSuccess() {
-      queryClient.invalidateQueries({
+    onSuccess(_data, _variables, _result, context) {
+      context.client.invalidateQueries({
         queryKey: ['notifications'],
       })
 
-      queryClient.invalidateQueries({
+      context.client.invalidateQueries({
         queryKey: ['messages'],
       })
 

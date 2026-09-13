@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: favorite user
 - added: gallery snap option
 - added: hide community / user option
 - fixed: custom feeds

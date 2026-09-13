@@ -108,7 +108,7 @@ export function updateCommunities(
 
         return create(previous, (draft) => {
           for (const community of draft) {
-            if (community.name === name) {
+            if (community.name === name || community.name === `u/${name}`) {
               updater(community)
 
               break

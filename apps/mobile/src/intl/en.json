@@ -432,7 +432,9 @@
     },
     "users": {
       "about": {
+        "favorite": "Favorite",
         "follow": "Follow",
+        "unfavorite": "Unfavorite",
         "unfollow": "Unfollow"
       },
       "profile": {
@@ -892,7 +894,9 @@
       "unsaved": "Post unsaved"
     },
     "users": {
+      "favorited": "Favorited {community}",
       "followed": "Followed {user}",
+      "unfavorited": "Unfavorited {community}",
       "unfollowed": "Unfollowed {user}"
     },
     "video": {

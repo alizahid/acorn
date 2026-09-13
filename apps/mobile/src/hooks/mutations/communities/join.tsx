@@ -5,7 +5,6 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { updateCommunity } from '~/hooks/queries/communities/community'
-import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { reddit } from '~/reddit/api'
 
@@ -19,7 +18,7 @@ export function useJoin() {
   const t = useTranslations('toasts.communities')
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
-    async mutationFn(variables) {
+    async mutationFn(variables, context) {
       const body = new URLSearchParams()
 
       body.append('sr', addPrefix(variables.id, 'subreddit'))
@@ -30,6 +29,10 @@ export function useJoin() {
         method: 'post',
         url: '/api/subscribe',
       })
+
+      context.client.invalidateQueries({
+        queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
+      })
     },
     onMutate(variables) {
       updateCommunity(variables.name, (draft) => {
@@ -37,10 +40,6 @@ export function useJoin() {
       })
     },
     onSuccess(_data, variables) {
-      queryClient.invalidateQueries({
-        queryKey: ['communities', {}] satisfies CommunitiesQueryKey,
-      })
-
       toast.success(
         t(variables.action === 'join' ? 'joined' : 'left', {
           community: variables.name,

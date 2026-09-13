@@ -4,7 +4,6 @@ import { useState } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 import { db } from '~/db'
-import { queryClient } from '~/lib/query'
 import { usePreferences } from '~/stores/preferences'
 import {
   type CommunityFeedSort,
@@ -103,10 +102,10 @@ export function useSorting<Type extends SortingType>(type: Type, id: string) {
           target: db.schema.sorting.communityId,
         })
     },
-    onMutate(variables) {
+    onMutate(variables, context) {
       setInitial(variables)
 
-      queryClient.setQueryData<SortingQueryData<Type>>(queryKey, variables)
+      context.client.setQueryData<SortingQueryData<Type>>(queryKey, variables)
     },
   })
 
