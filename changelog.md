@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- fixed: video crash
+
 ## Build 89
 
 - added: clear video cache
