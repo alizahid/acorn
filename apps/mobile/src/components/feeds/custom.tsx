@@ -9,16 +9,19 @@ import { IconButton } from '~/components/common/icon/button'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
+import { useFeeds } from '~/hooks/queries/communities/feeds'
 import { useSorting } from '~/hooks/sorting'
 import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { usePreferences } from '~/stores/preferences'
 
+import { CommunityHeader } from '../communities/header'
+
 type Props = {
-  name: string
+  id: string
 }
 
-export function CustomFeed({ name }: Props) {
+export function CustomFeed({ id }: Props) {
   const a11y = useTranslations('a11y')
 
   const { drawerLeft, drawerSticky } = usePreferences(
@@ -28,13 +31,23 @@ export function CustomFeed({ name }: Props) {
     })),
   )
 
-  const { sorting, update } = useSorting('feed', name)
+  const { feeds } = useFeeds()
+
+  const { sorting, update } = useSorting('feed', id)
 
   const listProps = useListProps(true)
 
+  const feed = feeds.find((item) => item.id === id)
+
   return (
     <>
-      <Stack.Title style={styles.title}>{name}</Stack.Title>
+      {feed ? (
+        <Stack.Title asChild>
+          <CommunityHeader image={feed.image} name={feed.name} />
+        </Stack.Title>
+      ) : (
+        <Stack.Title style={styles.title}>{id}</Stack.Title>
+      )}
 
       <Stack.Toolbar placement={iPad ? 'right' : drawerLeft ? 'right' : 'left'}>
         <Stack.Toolbar.View>
@@ -83,7 +96,7 @@ export function CustomFeed({ name }: Props) {
       )}
 
       <PostList
-        feed={name}
+        feed={id}
         interval={sorting.interval}
         listProps={listProps}
         sort={sorting.sort}

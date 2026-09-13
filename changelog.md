@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- fixed: custom feeds
 - fixed: video crash
 
 ## Build 89

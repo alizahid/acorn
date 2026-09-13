@@ -418,7 +418,7 @@ export function CommunitiesList({
                   if (drawer) {
                     router.navigate({
                       params: {
-                        feed: item.feed.name,
+                        feed: item.feed.id,
                       },
                       pathname: '/',
                     })

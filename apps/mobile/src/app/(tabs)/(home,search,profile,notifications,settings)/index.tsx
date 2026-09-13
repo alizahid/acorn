@@ -27,7 +27,7 @@ export default function Screen() {
   )
 
   if (params.feed) {
-    return <CustomFeed name={params.feed} />
+    return <CustomFeed id={params.feed} />
   }
 
   if (params.type) {
@@ -35,7 +35,7 @@ export default function Screen() {
   }
 
   if (defaults.feed) {
-    return <CustomFeed name={defaults.feed} />
+    return <CustomFeed id={defaults.feed} />
   }
 
   if (defaults.community) {

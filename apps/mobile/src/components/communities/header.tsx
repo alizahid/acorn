@@ -4,17 +4,18 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
-import { type Post } from '~/types/post'
 
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { GlassView } from '../native/glass-view'
 
 type Props = {
-  post: Post
+  name: string
+  image?: string
+  type?: 'community' | 'feed'
 }
 
-export function CommunityHeader({ post }: Props) {
+export function CommunityHeader({ name, image, type = 'community' }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -23,12 +24,23 @@ export function CommunityHeader({ post }: Props) {
     <GlassView isInteractive style={styles.main}>
       <Pressable
         accessibilityHint={a11y('viewCommunity')}
-        accessibilityLabel={post.community.name}
+        accessibilityLabel={name}
         onPress={() => {
-          if (post.community.name.startsWith('u/')) {
+          if (type === 'feed') {
             router.navigate({
               params: {
-                name: removePrefix(post.community.name),
+                feed: removePrefix(name),
+              },
+              pathname: '/',
+            })
+
+            return
+          }
+
+          if (name.startsWith('u/')) {
+            router.navigate({
+              params: {
+                name: removePrefix(name),
               },
               pathname: '/users/[name]',
             })
@@ -38,29 +50,28 @@ export function CommunityHeader({ post }: Props) {
 
           router.navigate({
             params: {
-              name: removePrefix(post.community.name),
+              name: removePrefix(name),
             },
             pathname: '/communities/[name]',
           })
         }}
         style={styles.content}
       >
-        {post.community.image ? (
-          <Image source={post.community.image} style={styles.image} />
-        ) : null}
+        {image ? <Image source={image} style={styles.image} /> : null}
 
         <Text numberOfLines={1} style={styles.name} weight="bold">
-          {post.community.name}
+          {name}
         </Text>
       </Pressable>
     </GlassView>
   )
 }
+
 const styles = StyleSheet.create((theme) => ({
   content: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: theme.space[1],
+    gap: theme.space[2],
     height: 44,
     paddingHorizontal: theme.space[4],
   },

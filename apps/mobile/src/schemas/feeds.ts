@@ -5,6 +5,7 @@ export const FeedDataSchema = z.object({
   display_name: z.string(),
   icon_url: z.string().nullish(),
   name: z.string(),
+  path: z.string(),
   subreddits: z.array(
     z.object({
       name: z.string(),

@@ -101,9 +101,6 @@ export default function Screen() {
 
   const scrollToComment = useCallback(
     (direction: 'up' | 'down') => {
-      // FlashList's viewport ignores the transparent header inset, so its
-      // first visible index is the item hidden under the header. Find the
-      // item straddling the header's bottom edge instead (-1 = list header).
       const headerBottom =
         (list.current?.getAbsoluteLastScrollOffset() ?? 0) +
         headerHeight -
@@ -275,7 +272,10 @@ export default function Screen() {
     <>
       {post ? (
         <Stack.Title asChild>
-          <CommunityHeader post={post} />
+          <CommunityHeader
+            image={post.community.image}
+            name={post.community.name}
+          />
         </Stack.Title>
       ) : null}
 
