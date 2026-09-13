@@ -163,7 +163,7 @@ export default function Screen() {
           render={(disabled) => (
             <Menu.Switch
               disabled={disabled}
-              icon={<Icon name="hand-swipe-left" />}
+              icon={<Icon name="hand-swipe-right" />}
               label={t('menu.left')}
               onChange={(next) => {
                 update({
@@ -215,7 +215,7 @@ export default function Screen() {
           render={(disabled) => (
             <Menu.Switch
               disabled={disabled}
-              icon={<Icon name="hand-swipe-right" />}
+              icon={<Icon name="hand-swipe-left" />}
               label={t('menu.right')}
               onChange={(next) => {
                 update({
@@ -271,7 +271,7 @@ export default function Screen() {
           render={(disabled) => (
             <Menu.Switch
               disabled={disabled}
-              icon={<Icon name="hand-swipe-left" />}
+              icon={<Icon name="hand-swipe-right" />}
               label={t('menu.left')}
               onChange={(next) => {
                 update({
@@ -323,7 +323,7 @@ export default function Screen() {
           render={(disabled) => (
             <Menu.Switch
               disabled={disabled}
-              icon={<Icon name="hand-swipe-right" />}
+              icon={<Icon name="hand-swipe-left" />}
               label={t('menu.right')}
               onChange={(next) => {
                 update({
