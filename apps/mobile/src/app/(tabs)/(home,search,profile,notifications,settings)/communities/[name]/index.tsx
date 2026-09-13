@@ -99,6 +99,7 @@ export default function Screen() {
             />
           </View>
         }
+        hideCommunity
         interval={sorting.interval}
         listProps={listProps}
         sort={sorting.sort}

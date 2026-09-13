@@ -35,8 +35,10 @@ export default function Screen() {
     feedMuted,
     gallerySnap,
     hapticsLoud,
+    hideCommunityName,
     hidePostActions,
     hideSeen,
+    hideUserName,
     infiniteScrolling,
     linkBrowser,
     minimizeTabBar,
@@ -73,8 +75,10 @@ export default function Screen() {
       feedMuted: state.feedMuted,
       gallerySnap: state.gallerySnap,
       hapticsLoud: state.hapticsLoud,
+      hideCommunityName: state.hideCommunityName,
       hidePostActions: state.hidePostActions,
       hideSeen: state.hideSeen,
+      hideUserName: state.hideUserName,
       infiniteScrolling: state.infiniteScrolling,
       linkBrowser: state.linkBrowser,
       minimizeTabBar: state.minimizeTabBar,
@@ -290,6 +294,40 @@ export default function Screen() {
                 })
               }}
               value={communityOnTop}
+            />
+          )}
+        />
+
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              description={t('posts.hideCommunityName.description')}
+              disabled={disabled}
+              icon={<Icon name="users-four" />}
+              label={t('posts.hideCommunityName.label')}
+              onChange={(next) => {
+                update({
+                  hideCommunityName: next,
+                })
+              }}
+              value={hideCommunityName}
+            />
+          )}
+        />
+
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              description={t('posts.hideUserName.description')}
+              disabled={disabled}
+              icon={<Icon name="user" />}
+              label={t('posts.hideUserName.label')}
+              onChange={(next) => {
+                update({
+                  hideUserName: next,
+                })
+              }}
+              value={hideUserName}
             />
           )}
         />

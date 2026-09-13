@@ -769,7 +769,15 @@
         "posts": {
           "boldTitle": "Bold titles",
           "communityOnTop": "Show community on top",
+          "hideCommunityName": {
+            "description": "Only when in community feed",
+            "label": "Hide community name"
+          },
           "hidePostActions": "Hide post actions",
+          "hideUserName": {
+            "description": "Only when in user feed",
+            "label": "Hide user name"
+          },
           "showFlair": "Show flair",
           "title": "Posts",
           "upvoteOnSave": "Upvote on save"

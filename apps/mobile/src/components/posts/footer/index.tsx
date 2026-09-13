@@ -13,12 +13,21 @@ import { PostMeta } from './meta'
 
 type Props = {
   community?: boolean
+  hideCommunity?: boolean
+  hideUser?: boolean
   post: Post
   privacy?: boolean
   style?: StyleProp<ViewStyle>
 }
 
-export function PostFooter({ community = true, post, privacy, style }: Props) {
+export function PostFooter({
+  community = true,
+  hideCommunity,
+  hideUser,
+  post,
+  privacy,
+  style,
+}: Props) {
   const a11y = useTranslations('a11y')
 
   const { hidePostActions } = usePreferences(
@@ -32,7 +41,13 @@ export function PostFooter({ community = true, post, privacy, style }: Props) {
   return (
     <View style={[styles.main(community), style]}>
       <View style={styles.header}>
-        {community ? <PostCommunity post={post} /> : null}
+        {community ? (
+          <PostCommunity
+            hideCommunity={hideCommunity}
+            hideUser={hideUser}
+            post={post}
+          />
+        ) : null}
 
         <PostMeta post={post} privacy={privacy} />
       </View>

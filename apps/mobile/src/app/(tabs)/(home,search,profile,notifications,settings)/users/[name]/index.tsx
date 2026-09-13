@@ -79,6 +79,7 @@ export default function Screen() {
   const listProps = useListProps(true)
 
   const props = {
+    hideUser: true,
     listProps,
     query,
     user: params.name,

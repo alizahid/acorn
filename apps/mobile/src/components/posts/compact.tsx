@@ -15,16 +15,20 @@ import { PostLinkCard } from './link'
 import { PostVideoCard } from './video'
 
 type Props = {
+  hideCommunity?: boolean
+  hideUser?: boolean
   post: Post
   side?: 'left' | 'right'
-  privacy?: boolean
   style?: StyleProp<ViewStyle>
+  privacy?: boolean
 }
 
 export function PostCompactCard({
+  hideCommunity,
+  hideUser,
   post,
-  side = 'left',
   privacy,
+  side = 'left',
   style,
 }: Props) {
   const { boldTitle, communityOnTop, fontSizeTitle, largeThumbnails } =
@@ -93,13 +97,25 @@ export function PostCompactCard({
       </View>
 
       <View style={styles.content}>
-        {communityOnTop ? <PostCommunity post={post} /> : null}
+        {communityOnTop ? (
+          <PostCommunity
+            hideCommunity={hideCommunity}
+            hideUser={hideUser}
+            post={post}
+          />
+        ) : null}
 
         <Text size={fontSizeTitle} weight={boldTitle ? 'bold' : undefined}>
           {post.title}
         </Text>
 
-        {communityOnTop ? null : <PostCommunity post={post} />}
+        {communityOnTop ? null : (
+          <PostCommunity
+            hideCommunity={hideCommunity}
+            hideUser={hideUser}
+            post={post}
+          />
+        )}
 
         <PostMeta post={post} privacy={privacy} />
       </View>

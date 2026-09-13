@@ -40,6 +40,8 @@ type Item = Post | Comment
 
 type Props = PostsProps & {
   header?: ReactElement
+  hideCommunity?: boolean
+  hideUser?: boolean
   listProps?: ListProps
   onRefresh?: () => void
   style?: StyleProp<ViewStyle>
@@ -49,6 +51,8 @@ export function PostList({
   community,
   feed,
   header,
+  hideCommunity,
+  hideUser,
   interval,
   listProps,
   onRefresh,
@@ -125,9 +129,15 @@ export function PostList({
         return null
       }
 
-      return <PostCard post={item} />
+      return (
+        <PostCard
+          hideCommunity={hideCommunity}
+          hideUser={hideUser}
+          post={item}
+        />
+      )
     },
-    [router],
+    [router, hideCommunity, hideUser],
   )
 
   return (

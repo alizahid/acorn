@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: gallery snap option
+- added: hide community / user option
 - fixed: custom feeds
 - fixed: video crash
 

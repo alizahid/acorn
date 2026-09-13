@@ -32,10 +32,12 @@ import { PostVideoCard } from './video'
 
 type Props = {
   expanded?: boolean
+  hideCommunity?: boolean
+  hideUser?: boolean
   post: Post
 }
 
-export function PostCard({ expanded, post }: Props) {
+export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
@@ -206,6 +208,8 @@ export function PostCard({ expanded, post }: Props) {
           >
             <View collapsable={false} ref={card} style={styles.compact}>
               <PostCompactCard
+                hideCommunity={hideCommunity}
+                hideUser={hideUser}
                 post={post}
                 privacy={privacy}
                 side={mediaOnRight ? 'right' : 'left'}
@@ -251,7 +255,13 @@ export function PostCard({ expanded, post }: Props) {
         >
           <View collapsable={false} ref={card} style={styles.main}>
             <View style={[styles.header, styles.dimmed]}>
-              {communityOnTop ? <PostCommunity post={post} /> : null}
+              {communityOnTop ? (
+                <PostCommunity
+                  hideCommunity={hideCommunity}
+                  hideUser={hideUser}
+                  post={post}
+                />
+              ) : null}
 
               <Text
                 size={fontSizeTitle}
@@ -309,6 +319,8 @@ export function PostCard({ expanded, post }: Props) {
 
             <PostFooter
               community={!communityOnTop}
+              hideCommunity={hideCommunity}
+              hideUser={hideUser}
               post={post}
               privacy={privacy}
               style={styles.dimmed}
