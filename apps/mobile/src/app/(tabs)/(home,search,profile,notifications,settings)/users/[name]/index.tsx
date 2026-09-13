@@ -17,12 +17,14 @@ import { IconButton } from '~/components/common/icon/button'
 import { Loading } from '~/components/common/loading'
 import { SearchBox } from '~/components/common/search'
 import { SegmentedControl } from '~/components/common/segmented-control'
+import { CommunityHeader } from '~/components/communities/header'
 import { PostList } from '~/components/posts/list'
 import {
   SortIntervalMenu,
   type SortIntervalMenuData,
 } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
+import { useProfile } from '~/hooks/queries/user/profile'
 import { iOS26 } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { UserTab } from '~/types/user'
@@ -59,6 +61,8 @@ export default function Screen() {
 
   const t = useTranslations('screen.users.user')
   const a11y = useTranslations('a11y')
+
+  const { profile } = useProfile(params.name)
 
   const [index, setIndex] = useState(0)
   const [query, setQuery] = useState('')
@@ -175,6 +179,16 @@ export default function Screen() {
 
   return (
     <>
+      {profile ? (
+        <Stack.Title asChild>
+          <CommunityHeader
+            image={profile.image}
+            name={profile.name}
+            type="user"
+          />
+        </Stack.Title>
+      ) : null}
+
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.View>
           <IconButton

@@ -1,4 +1,5 @@
 import { Image } from 'expo-image'
+import { Stack } from 'expo-router'
 import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
@@ -15,6 +16,7 @@ import { Icon } from '../common/icon'
 import { Loading } from '../common/loading'
 import { RefreshControl } from '../common/refresh-control'
 import { Text } from '../common/text'
+import { CommunityHeader } from '../communities/header'
 import { ProfileCard } from './profile'
 
 type Props = {
@@ -42,6 +44,14 @@ export function UserAbout({ name }: Props) {
       contentContainerStyle={styles.content}
       refreshControl={<RefreshControl onRefresh={refetch} />}
     >
+      <Stack.Title asChild>
+        <CommunityHeader
+          image={profile.image}
+          name={profile.name}
+          type="user"
+        />
+      </Stack.Title>
+
       {profile.banner ? (
         <Image
           {...placeholder}

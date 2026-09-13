@@ -11,9 +11,11 @@ import {
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { SearchBox } from '~/components/common/search'
+import { CommunityHeader } from '~/components/communities/header'
 import { PostList } from '~/components/posts/list'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
+import { useCommunity } from '~/hooks/queries/communities/community'
 import { useSorting } from '~/hooks/sorting'
 
 const schema = z.object({
@@ -30,10 +32,18 @@ export default function Screen() {
 
   const { sorting, update } = useSorting('community', params.name)
 
+  const { community } = useCommunity(params.name)
+
   const listProps = useListProps(true)
 
   return (
     <>
+      {community ? (
+        <Stack.Title asChild>
+          <CommunityHeader image={community.image} name={community.name} />
+        </Stack.Title>
+      ) : null}
+
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.View>
           <IconButton

@@ -1,5 +1,4 @@
 import { Stack } from 'expo-router'
-import { PlatformColor } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
@@ -14,8 +13,7 @@ import { type FeedType } from '~/types/sort'
 
 import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
-import { Text } from '../common/text'
-import { GlassView } from '../native/glass-view'
+import { CommunityHeader } from '../communities/header'
 import { PostList } from '../posts/list'
 import { SortIntervalMenu } from '../posts/sort-interval'
 
@@ -41,18 +39,18 @@ export function DefaultFeed({ type }: Props) {
   return (
     <>
       <Stack.Title asChild>
-        <GlassView style={styles.header}>
-          <Icon
-            name={FeedTypeIcons[type]}
-            uniProps={(theme) => ({
-              color: theme.colors[FeedTypeColors[type]].accent,
-            })}
-          />
-
-          <Text style={styles.title} weight="bold">
-            {t(type)}
-          </Text>
-        </GlassView>
+        <CommunityHeader
+          disabled
+          image={
+            <Icon
+              name={FeedTypeIcons[type]}
+              uniProps={(theme) => ({
+                color: theme.colors[FeedTypeColors[type]].accent,
+              })}
+            />
+          }
+          name={t(type)}
+        />
       </Stack.Title>
 
       <Stack.Toolbar placement={iPad ? 'right' : drawerLeft ? 'right' : 'left'}>
@@ -112,20 +110,8 @@ export function DefaultFeed({ type }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  header: {
-    alignItems: 'center',
-    borderCurve: 'continuous',
-    borderRadius: theme.space[8],
-    flexDirection: 'row',
-    gap: theme.space[2],
-    height: 44,
-    paddingHorizontal: theme.space[4],
-  },
   sort: {
     gap: theme.space[1],
     paddingHorizontal: glass ? theme.space[1] : 0,
-  },
-  title: {
-    color: PlatformColor('labelColor'),
   },
 }))

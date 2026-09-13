@@ -1,4 +1,5 @@
 import { Image } from 'expo-image'
+import { Stack } from 'expo-router'
 import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
@@ -18,6 +19,7 @@ import { iPad } from '~/lib/common'
 
 import { Icon } from '../common/icon'
 import { Markdown } from '../markdown'
+import { CommunityHeader } from './header'
 
 type Props = {
   name: string
@@ -59,6 +61,10 @@ export function CommunityAbout({ name }: Props) {
       contentContainerStyle={styles.content}
       refreshControl={<RefreshControl onRefresh={refetch} />}
     >
+      <Stack.Title asChild>
+        <CommunityHeader image={community.image} name={community.name} />
+      </Stack.Title>
+
       {community.banner ? (
         <Image
           {...placeholder}

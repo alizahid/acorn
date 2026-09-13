@@ -1,5 +1,7 @@
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
+import { type ReactNode } from 'react'
+import { PlatformColor } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -10,21 +12,28 @@ import { Text } from '../common/text'
 import { GlassView } from '../native/glass-view'
 
 type Props = {
+  disabled?: boolean
+  image?: ReactNode
   name: string
-  image?: string
-  type?: 'community' | 'feed'
+  type?: 'community' | 'feed' | 'user'
 }
 
-export function CommunityHeader({ name, image, type = 'community' }: Props) {
+export function CommunityHeader({
+  disabled = false,
+  image,
+  name,
+  type = 'community',
+}: Props) {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
 
   return (
-    <GlassView isInteractive style={styles.main}>
+    <GlassView isInteractive={!disabled} style={styles.main}>
       <Pressable
         accessibilityHint={a11y('viewCommunity')}
         accessibilityLabel={name}
+        disabled={disabled}
         onPress={() => {
           if (type === 'feed') {
             router.navigate({
@@ -37,7 +46,7 @@ export function CommunityHeader({ name, image, type = 'community' }: Props) {
             return
           }
 
-          if (name.startsWith('u/')) {
+          if (type === 'user' || name.startsWith('u/')) {
             router.navigate({
               params: {
                 name: removePrefix(name),
@@ -57,7 +66,11 @@ export function CommunityHeader({ name, image, type = 'community' }: Props) {
         }}
         style={styles.content}
       >
-        {image ? <Image source={image} style={styles.image} /> : null}
+        {typeof image === 'string' ? (
+          <Image source={image} style={styles.image} />
+        ) : (
+          image
+        )}
 
         <Text numberOfLines={1} style={styles.name} weight="bold">
           {name}
@@ -86,6 +99,7 @@ const styles = StyleSheet.create((theme) => ({
     borderRadius: theme.space[8],
   },
   name: {
+    color: PlatformColor('labelColor'),
     flexShrink: 1,
   },
 }))
