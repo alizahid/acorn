@@ -86,8 +86,8 @@
         "react-native-enriched-markdown": "^1.0.2",
         "react-native-gesture-handler": "~2.32.0",
         "react-native-jet-gallery": "^1.0.0",
-        "react-native-jet-markdown": "^1.0.0",
-        "react-native-jet-video": "^1.0.0",
+        "react-native-jet-markdown": "^1.1.0",
+        "react-native-jet-video": "^1.1.0",
         "react-native-keyboard-controller": "1.21.9",
         "react-native-mmkv": "^4.3.2",
         "react-native-nano-icons": "^0.2.1",
@@ -1691,9 +1691,9 @@
 
     "react-native-jet-gallery": ["react-native-jet-gallery@1.0.0", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-gesture-handler": "*", "react-native-nitro-modules": "*" } }, "sha512-upXZrrH1TDOB95tDWm7SgVNiwviGwquATUuN7DbbGsNBVtuBMC8f4lvBKRURa4/lPcWeWOEVSLAZJluoM3Biag=="],
 
-    "react-native-jet-markdown": ["react-native-jet-markdown@1.0.0", "", { "peerDependencies": { "react": ">=19.0.0", "react-native": ">=0.86.0" } }, "sha512-77Q8WiIqeRgcIhhnuog5CDDFcRA9GBaI7kixc9XPy6fkSEL18/b6m2PiydskQlcE/S/59FrqNQvwhw94itzmoQ=="],
+    "react-native-jet-markdown": ["react-native-jet-markdown@1.1.0", "", { "peerDependencies": { "react": ">=19.0.0", "react-native": ">=0.86.0" } }, "sha512-4WIjN89+bIIobH+iZflNoQp5UXpLXUa90NrI+XJti+a6FCkq3aBm3x/bHU4x6t5Q18fEGa14UUXd2g6c3gZrbQ=="],
 
-    "react-native-jet-video": ["react-native-jet-video@1.0.0", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": ">=0.36.0" } }, "sha512-/zjyoGCdfyRdmETWKXPOrMfl0+gHYQsvcMYV9hzQucgcdr8s3GdSx7zVp1KVnyzO4hkMV8HeHjX6bjALZ9ZP5g=="],
+    "react-native-jet-video": ["react-native-jet-video@1.1.0", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": ">=0.36.0" } }, "sha512-pZemhN3dhB1bxy0J4vAsm2phQ/zq2SjkBG0nm8SVQPljKQFJZaGKfCzjHoMVyt4/qhZInW247blsOtO84ILbGA=="],
 
     "react-native-keyboard-controller": ["react-native-keyboard-controller@1.21.9", "", { "dependencies": { "react-native-is-edge-to-edge": "^1.2.1" }, "peerDependencies": { "react": "*", "react-native": "*", "react-native-reanimated": ">=3.0.0" } }, "sha512-+TkkFldht4+AXBQeDy1hLE7iqiW8/NkY/ekhcFsKIiRdI9qC5JDzx0TfAg1iYZB2IeOXppmURIy2jFCUjOcV1w=="],
 

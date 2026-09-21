@@ -142,6 +142,10 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
             borderWidth: StyleSheet.hairlineWidth,
             padding: theme.space[2],
           },
+          video: {
+            backgroundColor: theme.colors.gray.ui,
+            borderRadius: theme.radius[4],
+          },
         },
       })}
     />
