@@ -1,3 +1,5 @@
+import { usePreferences } from '~/stores/preferences'
+
 import { createPalette } from './colors'
 import { radius, space, typography } from './tokens'
 
@@ -109,6 +111,18 @@ export const themes = {
   ruby: rubyLight,
   'ruby-dark': rubyDark,
   'ruby-light': rubyLight,
+}
+
+const { highContrastBackground } = usePreferences.getState()
+
+if (highContrastBackground) {
+  for (const theme of Object.values(themes)) {
+    if (theme.variant === 'dark') {
+      theme.colors.ui.bg = '#000'
+    } else {
+      theme.colors.ui.bg = '#fff'
+    }
+  }
 }
 
 export type Theme = keyof typeof themes

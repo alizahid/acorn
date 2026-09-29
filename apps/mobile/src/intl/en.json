@@ -596,6 +596,10 @@
         },
         "preferences": {
           "colorfulComments": "Colorful comments",
+          "highContrastBackground": {
+            "description": "Requires app restart",
+            "label": "High contrast background"
+          },
           "title": "Preferences"
         },
         "themes": {

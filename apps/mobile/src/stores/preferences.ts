@@ -47,6 +47,7 @@ export type PreferencesPayload = {
   hidePostActions: boolean
   hideSeen: boolean
   hideUserName: boolean
+  highContrastBackground: boolean
   infiniteScrolling: boolean
   intervalCommunityPosts: TopInterval
   intervalFeedPosts: TopInterval
@@ -118,6 +119,7 @@ export const usePreferences = create<State>()(
       hidePostActions: false,
       hideSeen: false,
       hideUserName: false,
+      highContrastBackground: false,
       infiniteScrolling: true,
       intervalCommunityPosts: 'hour',
       intervalFeedPosts: 'hour',

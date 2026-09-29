@@ -27,6 +27,7 @@ export default function Screen() {
     fontSizeCommentBody,
     fontSizePostBody,
     fontSizeTitle,
+    highContrastBackground,
     largeThumbnails,
     mediaOnRight,
     systemScaling,
@@ -42,6 +43,7 @@ export default function Screen() {
       fontSizeCommentBody: state.fontSizeCommentBody,
       fontSizePostBody: state.fontSizePostBody,
       fontSizeTitle: state.fontSizeTitle,
+      highContrastBackground: state.highContrastBackground,
       largeThumbnails: state.largeThumbnails,
       mediaOnRight: state.mediaOnRight,
       systemScaling: state.systemScaling,
@@ -64,6 +66,23 @@ export default function Screen() {
 
       <Menu.Root>
         <Menu.Label>{t('preferences.title')}</Menu.Label>
+
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              description={t('preferences.highContrastBackground.description')}
+              disabled={disabled}
+              icon={<Icon name="circle-half" />}
+              label={t('preferences.highContrastBackground.label')}
+              onChange={(next) => {
+                update({
+                  highContrastBackground: next,
+                })
+              }}
+              value={highContrastBackground}
+            />
+          )}
+        />
 
         <Menu.Switch
           icon={<Icon name="palette" />}

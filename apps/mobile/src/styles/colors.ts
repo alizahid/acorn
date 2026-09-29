@@ -35,10 +35,12 @@ export function createPalette(color: PaletteColor, dark?: boolean) {
 
   const suffix = dark ? 'Dark' : ''
 
+  const grays = getColors<Colors>(`${gray}${suffix}`, `${gray}${suffix}A`)
+
   // biome-ignore assist/source/useSortedKeys: go away
   return {
     accent: getColors<Colors>(`${color}${suffix}`, `${color}${suffix}A`),
-    gray: getColors<Colors>(`${gray}${suffix}`, `${gray}${suffix}A`),
+    gray: grays,
 
     black: getColors<BlackAndWhite>('blackA'),
     white: getColors<BlackAndWhite>('whiteA'),
@@ -60,7 +62,7 @@ export function createPalette(color: PaletteColor, dark?: boolean) {
     violet: getColors<Colors>(`violet${suffix}`, `violet${suffix}A`),
 
     ui: {
-      bg: dark ? 'rgb(10, 10, 10)' : 'rgb(245, 245, 245)',
+      bg: grays.bg,
       bgAlpha: dark ? 'rgba(10, 10, 10, 0.9)' : 'rgba(245, 245, 245, 0.9)',
       overlay: dark ? 'rgba(245, 245, 245, 0.1)' : 'rgba(10, 10, 10, 0.1)',
     },
