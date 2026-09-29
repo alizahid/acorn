@@ -73,7 +73,7 @@ export function PostLinkCard({
           <Image
             accessibilityIgnoresInvertColors
             source={media.thumbnail}
-            style={styles.image}
+            style={styles.image(media.width / media.height)}
           />
         ) : null}
 
@@ -102,7 +102,7 @@ export function PostLinkCard({
           accessibilityIgnoresInvertColors
           recyclingKey={recyclingKey}
           source={media.url}
-          style={styles.image}
+          style={styles.image(media.width / media.height)}
         />
       ) : null}
 
@@ -129,18 +129,18 @@ const styles = StyleSheet.create((theme) => ({
     backgroundColor: theme.colors.black.accentAlpha,
     justifyContent: 'center',
   },
-  image: {
+  image: (aspectRatio: number) => ({
     variants: {
       compact: {
         false: {
-          aspectRatio: 16 / 9,
+          aspectRatio,
         },
         true: {
           flex: 1,
         },
       },
     },
-  },
+  }),
   link: {
     alignItems: 'center',
     flexDirection: 'row',
