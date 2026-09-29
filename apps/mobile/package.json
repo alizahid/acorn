@@ -63,7 +63,6 @@
     "expo-status-bar": "~57.0.1",
     "expo-symbols": "~57.0.3",
     "expo-system-ui": "~57.0.4",
-    "expo-testflight": "^0.3.0",
     "expo-translate-text": "^0.3.0",
     "expo-updates": "~57.0.24",
     "expo-web-browser": "~57.0.3",

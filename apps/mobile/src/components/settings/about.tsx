@@ -1,5 +1,3 @@
-import { isTestFlight } from 'expo-testflight'
-import { compact } from 'lodash'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -16,7 +14,7 @@ export function AboutCard() {
 
   const { handleLink } = useLink()
 
-  const links = compact([
+  const links = [
     {
       href: 'https://acorn.blue',
       icon: (
@@ -53,21 +51,7 @@ export function AboutCard() {
       ),
       label: t('links.github'),
     },
-    isTestFlight
-      ? {
-          href: 'https://buymeacoffee.com/acornblue',
-          icon: (
-            <Icon
-              name="coffee-fill"
-              uniProps={(theme) => ({
-                color: theme.colors.accent.contrast,
-              })}
-            />
-          ),
-          label: t('links.coffee'),
-        }
-      : null,
-  ])
+  ]
 
   return (
     <View style={styles.main}>
