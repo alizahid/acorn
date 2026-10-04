@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- removed: paywall for video downloads
+
 ## Build 90
 
 - added: comment videos
