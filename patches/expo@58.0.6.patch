@@ -1,0 +1,55 @@
+diff --git a/node_modules/expo/.bun-tag-cad3c845b35d0804 b/.bun-tag-cad3c845b35d0804
+new file mode 100644
+index 0000000000000000000000000000000000000000..e69de29bb2d1d6434b8b29ae775ad8c2e48c5391
+diff --git a/types/react-native-web.d.ts b/types/react-native-web.d.ts
+index d6159045aa4b1f6864037cfc1c001a68605b416d..76fd9b6dfc5abcb1c64fbdd7c16dd77beea3e7e1 100644
+--- a/types/react-native-web.d.ts
++++ b/types/react-native-web.d.ts
+@@ -47,7 +47,7 @@ declare module 'react-native' {
+     /** @platform web */
+     backgroundSize?: string;
+     /** @platform web */
+-    boxSizing?: string;
++    boxSizing?: 'border-box' | 'content-box';
+     /** @platform web */
+     clip?: string;
+     /** @platform web */
+@@ -101,13 +101,13 @@ declare module 'react-native' {
+     /** @platform web */
+     transitionTimingFunction?: string | Function | (string | Function)[];
+     /** @platform web */
+-    userSelect?: string;
++    userSelect?: 'auto' | 'text' | 'none' | 'contain' | 'all';
+     /** @platform web */
+     visibility?: string;
+     /** @platform web */
+     willChange?: string;
+     /** @platform web */
+-    position?: 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky';
++    position?: 'static' | 'relative' | 'absolute';
+   }
+ 
+   /**
+@@ -160,11 +160,11 @@ declare module 'react-native' {
+     /** @platform web */
+     boxShadow?: string;
+     /** @platform web */
+-    boxSizing?: string;
++    boxSizing?: 'border-box' | 'content-box';
+     /** @platform web */
+     clip?: string;
+     /** @platform web */
+-    cursor?: string;
++    cursor?: RN.CursorValue;
+     /** @platform web */
+     filter?: string;
+     /** @platform web */
+@@ -224,7 +224,7 @@ declare module 'react-native' {
+     /** @platform web */
+     willChange?: string;
+     /** @platform web */
+-    position?: 'static' | 'relative' | 'absolute' | 'fixed' | 'sticky';
++    position?: 'static' | 'relative' | 'absolute';
+     /** @platform web */
+     fontFeatureSettings?: string;
+     /** @platform web */

@@ -1,24 +1,24 @@
 import { focusManager } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
+import { NativeTabs } from 'expo-router/native-tabs'
 import { useEffect } from 'react'
 import { AppState } from 'react-native'
+import { useUnistyles } from 'react-native-unistyles'
+import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
-import icon_notifications from '~/assets/icons/navigation/bell.svg'
-import icon_settings from '~/assets/icons/navigation/gear-six.svg'
-import icon_home from '~/assets/icons/navigation/house.svg'
-import icon_search from '~/assets/icons/navigation/magnifying-glass.svg'
-import icon_profile from '~/assets/icons/navigation/user-circle.svg'
-import { Tabs } from '~/components/navigation/tabs'
 import { useUnread } from '~/hooks/queries/user/unread'
-import { iPad } from '~/lib/common'
-import { mitter } from '~/lib/mitt'
+import { glass } from '~/lib/common'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 
 export default function Layout() {
   const router = useRouter()
+
+  const t = useTranslations('screen')
+
+  const { theme } = useUnistyles()
 
   const { unread } = useUnread()
 
@@ -59,52 +59,61 @@ export default function Layout() {
   }, [])
 
   return (
-    <Tabs
-      experimental_bakedTintColors={iPad}
-      labeled={false}
+    <NativeTabs
+      badgeBackgroundColor={theme.colors.accent.accent}
+      badgeTextColor={theme.colors.accent.contrast}
+      blurEffect={glass ? 'none' : 'systemChromeMaterial'}
+      disableTransparentOnScrollEdge
+      iconColor={{
+        default: theme.colors.accent.contrast,
+        selected: theme.colors.accent.accent,
+      }}
       minimizeBehavior={minimizeTabBar ? 'onScrollDown' : 'never'}
-      translucent
+      shadowColor="transparent"
     >
-      <Tabs.Screen
-        name="(home)"
-        options={{
-          tabBarIcon: () => icon_home,
-        }}
-      />
+      <NativeTabs.Trigger name="(home)">
+        <NativeTabs.Trigger.Icon sf="house" />
 
-      <Tabs.Screen
-        name="(search)"
-        options={{
-          tabBarIcon: () => icon_search,
-        }}
-      />
+        <NativeTabs.Trigger.Label hidden>
+          {t('home.title')}
+        </NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
 
-      <Tabs.Screen
-        listeners={{
-          tabLongPress() {
-            mitter.emit('switch-account')
-          },
-        }}
-        name="(profile)"
-        options={{
-          tabBarIcon: () => icon_profile,
-        }}
-      />
+      <NativeTabs.Trigger name="(search)">
+        <NativeTabs.Trigger.Icon sf="magnifyingglass" />
 
-      <Tabs.Screen
-        name="(notifications)"
-        options={{
-          tabBarBadge: unread,
-          tabBarIcon: () => icon_notifications,
-        }}
-      />
+        <NativeTabs.Trigger.Label hidden>
+          {t('search.title')}
+        </NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
 
-      <Tabs.Screen
-        name="(settings)"
-        options={{
-          tabBarIcon: () => icon_settings,
-        }}
-      />
-    </Tabs>
+      <NativeTabs.Trigger name="(profile)">
+        <NativeTabs.Trigger.Icon sf="person.crop.circle" />
+
+        <NativeTabs.Trigger.Label hidden>
+          {t('profile.title')}
+        </NativeTabs.Trigger.Label>
+
+        {unread ? (
+          <NativeTabs.Trigger.Badge>{unread}</NativeTabs.Trigger.Badge>
+        ) : null}
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="(notifications)">
+        <NativeTabs.Trigger.Icon sf="bell" />
+
+        <NativeTabs.Trigger.Label hidden>
+          {t('notifications.title')}
+        </NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
+
+      <NativeTabs.Trigger name="(settings)">
+        <NativeTabs.Trigger.Icon sf="gearshape" />
+
+        <NativeTabs.Trigger.Label hidden>
+          {t('settings.title')}
+        </NativeTabs.Trigger.Label>
+      </NativeTabs.Trigger>
+    </NativeTabs>
   )
 }

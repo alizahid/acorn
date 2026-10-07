@@ -58,10 +58,12 @@ function Root({
       onChangeState={onChangeState}
       placeholder={placeholder}
       ref={ref}
-      style={StyleSheet.flatten([
-        styles.main(font, systemScaling ? 1 : fontScaling),
-        style,
-      ])}
+      style={
+        StyleSheet.flatten([
+          styles.main(font, systemScaling ? 1 : fontScaling),
+          style,
+        ]) ?? undefined
+      }
     />
   )
 }

@@ -1,6 +1,8 @@
 import { type ViewStyle } from 'react-native'
 import { UnistylesRuntime } from 'react-native-unistyles'
 
+import { type Mutable } from '~/types'
+
 import { type SpaceToken } from './tokens'
 
 export type MarginToken = '0' | 'auto' | SpaceToken | `-${SpaceToken}` | number
@@ -16,15 +18,17 @@ export type MarginProps = {
 }
 
 export function getMargin({ m, mb, ml, mr, mt, mx, my }: MarginProps) {
-  const style: Pick<
-    ViewStyle,
-    | 'margin'
-    | 'marginBottom'
-    | 'marginLeft'
-    | 'marginRight'
-    | 'marginTop'
-    | 'marginHorizontal'
-    | 'marginVertical'
+  const style: Mutable<
+    Pick<
+      ViewStyle,
+      | 'margin'
+      | 'marginBottom'
+      | 'marginLeft'
+      | 'marginRight'
+      | 'marginTop'
+      | 'marginHorizontal'
+      | 'marginVertical'
+    >
   > = {}
 
   if (m) {
@@ -58,19 +62,7 @@ export function getMargin({ m, mb, ml, mr, mt, mx, my }: MarginProps) {
   return style
 }
 
-export type PaddingToken = '0' | SpaceToken | `-${SpaceToken}` | number
-
-export type PaddingProps = {
-  p?: PaddingToken
-  pb?: PaddingToken
-  pl?: PaddingToken
-  pr?: PaddingToken
-  pt?: PaddingToken
-  px?: PaddingToken
-  py?: PaddingToken
-}
-
-function getSpace(key: MarginToken | PaddingToken) {
+function getSpace(key: MarginToken) {
   if (typeof key === 'number') {
     return key
   }

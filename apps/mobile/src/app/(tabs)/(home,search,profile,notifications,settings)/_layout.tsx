@@ -20,18 +20,18 @@ import { type UserParams } from './users/[name]'
 import { type UserPostsParams } from './users/[name]/[type]'
 
 export const unstable_settings = {
-  initialRouteName: 'index',
+  anchor: 'index',
   notifications: {
-    initialRouteName: 'notifications',
+    anchor: 'notifications',
   },
   profile: {
-    initialRouteName: 'profile',
+    anchor: 'profile',
   },
   search: {
-    initialRouteName: 'search',
+    anchor: 'search',
   },
   settings: {
-    initialRouteName: 'settings',
+    anchor: 'settings',
   },
 }
 
@@ -227,7 +227,7 @@ function StackLayout({ children }: PropsWithChildren) {
 
       <Stack.Screen
         listeners={{
-          beforeRemove() {
+          removed() {
             setComment(null)
           },
         }}

@@ -9,8 +9,8 @@ import { type ReactElement, useCallback, useRef } from 'react'
 import {
   type StyleProp,
   View,
-  type ViewabilityConfig,
   type ViewStyle,
+  type VirtualizedListProps,
 } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -31,7 +31,7 @@ import { Button } from '../common/button'
 import { Empty } from '../common/empty'
 import { Loading } from '../common/loading'
 
-const viewabilityConfig: ViewabilityConfig = {
+const viewabilityConfig: VirtualizedListProps['viewabilityConfig'] = {
   minimumViewTime: usePreferences.getState().seenOnScrollDelay * 1000,
   waitForInteraction: false,
 }

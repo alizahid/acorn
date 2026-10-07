@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { type RefObject } from 'react'
-import { PixelRatio, type View } from 'react-native'
+import { PixelRatio, type ViewInstance } from 'react-native'
 import { captureRef } from 'react-native-view-shot'
 
 type Props = {
@@ -11,7 +11,7 @@ export function useScreenshot({ onCapturing }: Props) {
   const { mutateAsync, isPending } = useMutation<
     string,
     Error,
-    RefObject<View | null>
+    RefObject<ViewInstance | null>
   >({
     async mutationFn(ref) {
       onCapturing?.(true)

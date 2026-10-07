@@ -1,9 +1,9 @@
 import { type ReactNode } from 'react'
 import { type StyleProp, type ViewStyle } from 'react-native'
-import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
+import { SafeAreaView } from 'react-native-screens/experimental'
 import { StyleSheet } from 'react-native-unistyles'
 
-import { glass, iPad } from '~/lib/common'
+import { glass } from '~/lib/common'
 import { space } from '~/styles/tokens'
 
 import { BlurView } from '../native/blur-view'
@@ -35,54 +35,51 @@ export function FloatingButton({
   side = 'right',
   style,
 }: Props) {
-  const tabBarHeight = useBottomTabBarHeight()
-
   styles.useVariants({
     glass,
-    iPad,
     side,
   })
 
   const Component = glass ? GlassView : BlurView
 
   return (
-    <Component
-      intensity={100}
-      isInteractive
-      style={[styles.main(tabBarHeight), style]}
+    <SafeAreaView
+      edges={{
+        bottom: true,
+      }}
+      style={[styles.main, style]}
     >
-      <IconButton
-        accessibilityLabel={label}
-        disabled={disabled}
-        hitSlop={space[4]}
-        onLongPress={onLongPress}
-        onPress={onPress}
-      >
-        {children}
-      </IconButton>
-    </Component>
+      <Component intensity={100} isInteractive style={styles.button}>
+        <IconButton
+          accessibilityLabel={label}
+          disabled={disabled}
+          hitSlop={space[4]}
+          onLongPress={onLongPress}
+          onPress={onPress}
+        >
+          {children}
+        </IconButton>
+      </Component>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  main: (tabBarHeight: number) => ({
+  button: {
     borderCurve: 'continuous',
     borderRadius: theme.space[8],
-    position: 'absolute',
     variants: {
       glass: {
         false: {
           overflow: 'hidden',
         },
       },
-      iPad: {
-        false: {
-          bottom: tabBarHeight + theme.space[4],
-        },
-        true: {
-          bottom: runtime.insets.bottom + theme.space[4],
-        },
-      },
+    },
+  },
+  main: {
+    bottom: theme.space[4],
+    position: 'absolute',
+    variants: {
       side: {
         center: {
           left: runtime.screen.width / 2 - theme.space[8] / 2,
@@ -98,5 +95,5 @@ const styles = StyleSheet.create((theme, runtime) => ({
         },
       },
     },
-  }),
+  },
 }))

@@ -112,6 +112,6 @@ export function DefaultFeed({ type }: Props) {
 const styles = StyleSheet.create((theme) => ({
   sort: {
     gap: theme.space[1],
-    paddingHorizontal: glass ? theme.space[1] : 0,
+    paddingHorizontal: glass ? theme.space[2] : 0,
   },
 }))

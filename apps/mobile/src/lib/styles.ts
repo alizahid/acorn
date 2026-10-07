@@ -1,7 +1,7 @@
 import { omit } from 'lodash'
 import { type TextStyle, type ViewStyle } from 'react-native'
 
-import { type MarginProps, type PaddingProps } from '~/styles/space'
+import { type MarginProps } from '~/styles/space'
 import { type FontWeight, type TextStyleProps, weights } from '~/styles/text'
 import {
   type ColorToken,
@@ -13,7 +13,7 @@ import {
 import { type Font, fonts } from './fonts'
 
 export function stripProps<Type extends object>(
-  props: Type | TextStyleProps | MarginProps | PaddingProps,
+  props: Type | TextStyleProps | MarginProps,
 ): Type {
   return omit(props, [
     'align',
@@ -36,13 +36,6 @@ export function stripProps<Type extends object>(
     'mt',
     'mx',
     'my',
-    'p',
-    'pb',
-    'pl',
-    'pr',
-    'pt',
-    'px',
-    'py',
     'self',
     'size',
     'tabular',

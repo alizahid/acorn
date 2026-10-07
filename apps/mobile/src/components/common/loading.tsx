@@ -1,6 +1,4 @@
-import { useHeaderHeight } from 'expo-router/react-navigation'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Spinner } from './spinner'
@@ -10,20 +8,17 @@ type Props = {
 }
 
 export function Loading({ style }: Props) {
-  const headerHeight = useHeaderHeight()
-  const tabBarHeight = useBottomTabBarHeight()
-
   return (
-    <View style={[styles.main(headerHeight, tabBarHeight), style]}>
+    <View style={[styles.main, style]}>
       <Spinner size="large" />
     </View>
   )
 }
 
 const styles = StyleSheet.create((_theme, runtime) => ({
-  main: (headerHeight: number, tabBarHeight: number) => ({
+  main: {
     alignItems: 'center',
-    height: runtime.screen.height - headerHeight - tabBarHeight - 256,
+    height: runtime.screen.height * 0.6,
     justifyContent: 'center',
-  }),
+  },
 }))

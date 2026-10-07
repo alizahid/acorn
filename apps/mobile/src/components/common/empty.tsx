@@ -1,6 +1,4 @@
-import { useHeaderHeight } from 'expo-router/react-navigation'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
-import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
@@ -22,13 +20,10 @@ export function Empty({
   message,
   style,
 }: Props) {
-  const headerHeight = useHeaderHeight()
-  const tabBarHeight = useBottomTabBarHeight()
-
   const t = useTranslations('component.common.empty')
 
   return (
-    <View style={[styles.main(headerHeight, tabBarHeight), style]}>
+    <View style={[styles.main, style]}>
       <Icon
         name={icon}
         uniProps={(theme) => ({
@@ -43,11 +38,11 @@ export function Empty({
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
-  main: (headerHeight: number, tabBarHeight: number) => ({
+  main: {
     alignItems: 'center',
     gap: theme.space[4],
-    height: runtime.screen.height - headerHeight - tabBarHeight - 256,
+    height: runtime.screen.height * 0.6,
     justifyContent: 'center',
     padding: theme.space[4],
-  }),
+  },
 }))

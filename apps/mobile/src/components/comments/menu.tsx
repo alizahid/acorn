@@ -1,7 +1,7 @@
 import { useRouter } from 'expo-router'
 import { onTranslateSheet } from 'expo-translate-text'
 import { type ReactNode, type RefObject, useRef } from 'react'
-import { Share, View } from 'react-native'
+import { Share, View, type ViewInstance } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
@@ -29,7 +29,7 @@ import { type CommentReply } from '~/types/comment'
 
 type Props = {
   ref: RefObject<Sheet | null>
-  card?: RefObject<View | null>
+  card?: RefObject<ViewInstance | null>
   children: ReactNode
   comment: CommentReply
   onCollapse?: () => void

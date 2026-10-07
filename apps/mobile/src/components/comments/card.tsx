@@ -1,6 +1,6 @@
 import { Link, useRouter } from 'expo-router'
 import { useRef, useState } from 'react'
-import { Share, View } from 'react-native'
+import { Share, View, type ViewInstance } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
@@ -76,7 +76,7 @@ export function CommentCard({
     })),
   )
 
-  const card = useRef<View>(null)
+  const card = useRef<ViewInstance>(null)
   const menu = useRef<Sheet>(null)
 
   const [capturing, setCapturing] = useState(false)

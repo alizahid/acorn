@@ -7,7 +7,7 @@ import { formatISO, isDate } from 'date-fns'
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
 import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useRef } from 'react'
-import { View } from 'react-native'
+import { View, type ViewInstance } from 'react-native'
 import { KeyboardStickyView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
@@ -39,7 +39,7 @@ export default function Screen() {
   const f = useFormatter()
 
   const list = useRef<LegendListRef>(null)
-  const composerRef = useRef<View>(null)
+  const composerRef = useRef<ViewInstance>(null)
 
   const { contentInsetEndAdjustment, onComposerLayout } =
     useKeyboardChatComposerInset(list, composerRef)

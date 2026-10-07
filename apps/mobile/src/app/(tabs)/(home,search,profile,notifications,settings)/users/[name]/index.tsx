@@ -1,7 +1,7 @@
 import { Stack, useLocalSearchParams, useRouter } from 'expo-router'
-import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useState } from 'react'
 import { View } from 'react-native'
+import { SafeAreaView } from 'react-native-screens/experimental'
 import {
   type NavigationState,
   type SceneRendererProps,
@@ -25,7 +25,6 @@ import {
 } from '~/components/posts/sort-interval'
 import { useListProps } from '~/hooks/list'
 import { useProfile } from '~/hooks/queries/user/profile'
-import { iOS26 } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
 import { UserTab } from '~/types/user'
 
@@ -43,7 +42,6 @@ const routes = UserTab.map((key) => ({
 export default function Screen() {
   const router = useRouter()
   const params = schema.parse(useLocalSearchParams())
-  const headerHeight = useHeaderHeight()
 
   const {
     intervalUserComments,
@@ -165,7 +163,7 @@ export default function Screen() {
         title: 'posts' | 'comments'
       }>
     }) => (
-      <View style={styles.tabBar(headerHeight)}>
+      <View style={styles.tabBar}>
         <SegmentedControl
           items={routes.map(({ key }) => ({
             label: t(`tabs.${key}`),
@@ -178,7 +176,7 @@ export default function Screen() {
         />
       </View>
     ),
-    [headerHeight, t],
+    [t],
   )
 
   return (
@@ -214,17 +212,23 @@ export default function Screen() {
         </Stack.Toolbar.View>
       </Stack.Toolbar>
 
-      <TabView
-        lazy
-        navigationState={{
-          index,
-          routes,
+      <SafeAreaView
+        edges={{
+          top: true,
         }}
-        onIndexChange={setIndex}
-        renderLazyPlaceholder={() => <Loading />}
-        renderScene={renderScene}
-        renderTabBar={renderTabBar}
-      />
+      >
+        <TabView
+          lazy
+          navigationState={{
+            index,
+            routes,
+          }}
+          onIndexChange={setIndex}
+          renderLazyPlaceholder={() => <Loading />}
+          renderScene={renderScene}
+          renderTabBar={renderTabBar}
+        />
+      </SafeAreaView>
     </>
   )
 }
@@ -235,8 +239,7 @@ const styles = StyleSheet.create((theme) => ({
     borderBottomWidth: StyleSheet.hairlineWidth,
     flexDirection: 'row',
   },
-  tabBar: (headerHeight: number) => ({
+  tabBar: {
     padding: theme.space[4],
-    paddingTop: headerHeight + (iOS26 ? 0 : theme.space[4]),
-  }),
+  },
 }))

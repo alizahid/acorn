@@ -1,16 +1,9 @@
 import { useCallback, useState } from 'react'
-import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
-import { useReanimatedKeyboardAnimation } from 'react-native-keyboard-controller'
-import Animated, {
-  interpolate,
-  useAnimatedStyle,
-} from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { useReply } from '~/hooks/mutations/messages/reply'
-import { glass, iPad } from '~/lib/common'
-import { space } from '~/styles/tokens'
+import { glass } from '~/lib/common'
 
 import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
@@ -25,14 +18,10 @@ type Props = {
 }
 
 export function ReplyCard({ threadId, user }: Props) {
-  const tabBarHeight = useBottomTabBarHeight()
-
   const t = useTranslations('component.messages.reply')
   const a11y = useTranslations('a11y')
 
   const { createReply, isPending } = useReply()
-
-  const { progress } = useReanimatedKeyboardAnimation()
 
   const [value, setValue] = useState('')
 
@@ -52,62 +41,47 @@ export function ReplyCard({ threadId, user }: Props) {
     setValue('')
   }, [createReply, value, threadId, user])
 
-  const style = useAnimatedStyle(() => ({
-    marginBottom: interpolate(
-      progress.get(),
-      [0, 1],
-      [
-        (iPad ? 0 : tabBarHeight) + (glass ? space[4] : 0),
-        glass ? space[4] : 0,
-      ],
-    ),
-  }))
-
   const Component = glass ? GlassView : BlurView
 
   return (
-    <Animated.View style={[styles.main, style]}>
-      <Component style={styles.content}>
-        <TextBox
-          onChangeText={setValue}
-          onSubmitEditing={() => {
-            onSubmit()
-          }}
-          placeholder={t('placeholder')}
-          returnKeyType="send"
-          style={styles.textBox}
-          styleInput={styles.input}
-          value={value}
-        />
+    <Component style={styles.main}>
+      <TextBox
+        onChangeText={setValue}
+        onSubmitEditing={() => {
+          onSubmit()
+        }}
+        placeholder={t('placeholder')}
+        returnKeyType="send"
+        style={styles.textBox}
+        styleInput={styles.input}
+        value={value}
+      />
 
-        <IconButton
-          accessibilityLabel={a11y('createReply')}
-          disabled={isPending}
-          onPress={() => {
-            onSubmit()
-          }}
-        >
-          {isPending ? (
-            <Spinner />
-          ) : (
-            <Icon name="paper-plane-tilt-fill" size={20} />
-          )}
-        </IconButton>
-      </Component>
-    </Animated.View>
+      <IconButton
+        accessibilityLabel={a11y('createReply')}
+        disabled={isPending}
+        onPress={() => {
+          onSubmit()
+        }}
+      >
+        {isPending ? (
+          <Spinner />
+        ) : (
+          <Icon name="paper-plane-tilt-fill" size={20} />
+        )}
+      </IconButton>
+    </Component>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  content: {
-    borderCurve: 'continuous',
-    borderRadius: theme.space[7],
-    flexDirection: 'row',
-  },
   input: {
     paddingHorizontal: theme.space[4],
   },
   main: {
+    borderCurve: 'continuous',
+    borderRadius: theme.space[7],
+    flexDirection: 'row',
     margin: glass ? theme.space[4] : undefined,
   },
   textBox: {

@@ -1,7 +1,6 @@
-import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useRef, useState } from 'react'
 import { View } from 'react-native'
-import { useBottomTabBarHeight } from 'react-native-bottom-tabs'
+import { SafeAreaView } from 'react-native-screens/experimental'
 import {
   type NavigationState,
   type SceneRendererProps,
@@ -20,7 +19,7 @@ import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useListProps } from '~/hooks/list'
 import { useTabPress } from '~/hooks/tabs'
-import { glass, iOS26, iPad } from '~/lib/common'
+import { glass } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
 import { type SearchTab } from '~/types/defaults'
@@ -34,14 +33,10 @@ const routes = useDefaults
   }))
 
 export default function Screen() {
-  const headerHeight = useHeaderHeight()
-  const tabBarHeight = useBottomTabBarHeight()
-
   const t = useTranslations('screen.search')
 
   styles.useVariants({
     glass,
-    iPad,
   })
 
   const { intervalSearchPosts, sortSearchPosts } = usePreferences(
@@ -126,7 +121,7 @@ export default function Screen() {
         title: SearchTab
       }>
     }) => (
-      <View style={styles.tabBar(headerHeight, tabBarHeight)}>
+      <View style={styles.tabBar}>
         <SearchBox
           glass
           onChange={setQuery}
@@ -148,25 +143,31 @@ export default function Screen() {
         />
       </View>
     ),
-    [headerHeight, query, t, tabBarHeight],
+    [query, t],
   )
 
   return (
-    <TabView
-      lazy
-      navigationState={{
-        index,
-        routes,
+    <SafeAreaView
+      edges={{
+        top: true,
       }}
-      onIndexChange={setIndex}
-      renderLazyPlaceholder={() => <Loading />}
-      renderScene={renderScene}
-      renderTabBar={renderTabBar}
-    />
+    >
+      <TabView
+        lazy
+        navigationState={{
+          index,
+          routes,
+        }}
+        onIndexChange={setIndex}
+        renderLazyPlaceholder={() => <Loading />}
+        renderScene={renderScene}
+        renderTabBar={renderTabBar}
+      />
+    </SafeAreaView>
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   clear: {
     height: theme.space[7],
     width: theme.space[7],
@@ -186,23 +187,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
       },
     },
   },
-  tabBar: (headerHeight: number, tabBarHeight: number) => ({
+  tabBar: {
     gap: theme.space[4],
-    padding: theme.space[4],
-    variants: {
-      iPad: {
-        false: {
-          paddingTop:
-            headerHeight + runtime.insets.top + (iOS26 ? 0 : theme.space[4]),
-        },
-        true: {
-          paddingTop:
-            headerHeight +
-            tabBarHeight +
-            runtime.insets.top +
-            (iOS26 ? 0 : theme.space[4]),
-        },
-      },
-    },
-  }),
+    paddingBottom: theme.space[4],
+    paddingHorizontal: theme.space[4],
+  },
 }))

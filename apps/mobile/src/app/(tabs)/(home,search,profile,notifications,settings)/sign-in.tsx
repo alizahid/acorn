@@ -63,7 +63,9 @@ export default function Screen() {
         >
           <WebView
             injectedJavaScript={injected}
-            onMessage={() => null}
+            onMessage={() => {
+              //
+            }}
             onNavigationStateChange={async (event) => {
               if (isPending || event.loading) {
                 return
@@ -106,8 +108,8 @@ const styles = StyleSheet.create((theme) => ({
   cancel: {
     backgroundColor: theme.colors.gray.bg,
     borderRadius: theme.space[8],
+    left: theme.space[4],
     position: 'absolute',
-    right: theme.space[4],
     top: theme.space[4],
   },
   content: {

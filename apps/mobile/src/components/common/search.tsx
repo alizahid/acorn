@@ -1,7 +1,7 @@
 import { type Ref } from 'react'
 import {
   type StyleProp,
-  type TextInput,
+  type TextInputInstance,
   type TextInputProps,
   type ViewStyle,
 } from 'react-native'
@@ -18,7 +18,7 @@ type Props = {
   onChange?: (value: string) => void
   onSubmitEditing?: TextInputProps['onSubmitEditing']
   placeholder?: 'search' | 'filter'
-  ref?: Ref<TextInput>
+  ref?: Ref<TextInputInstance>
   style?: StyleProp<ViewStyle>
   value?: string
 }

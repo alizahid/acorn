@@ -1,7 +1,7 @@
 import { Stack } from 'expo-router'
-import { useHeaderHeight } from 'expo-router/react-navigation'
 import { useCallback, useState } from 'react'
 import { View } from 'react-native'
+import { SafeAreaView } from 'react-native-screens/experimental'
 import {
   type NavigationState,
   type SceneRendererProps,
@@ -18,7 +18,6 @@ import { Spinner } from '~/components/common/spinner'
 import { MessagesList } from '~/components/inbox/messages'
 import { NotificationsList } from '~/components/inbox/notifications'
 import { useMarkAllAsRead } from '~/hooks/mutations/users/notifications'
-import { iOS26 } from '~/lib/common'
 import { InboxTab } from '~/types/inbox'
 
 const routes = InboxTab.map((key) => ({
@@ -27,8 +26,6 @@ const routes = InboxTab.map((key) => ({
 }))
 
 export default function Screen() {
-  const headerHeight = useHeaderHeight()
-
   const t = useTranslations('screen.notifications')
   const a11y = useTranslations('a11y')
 
@@ -64,7 +61,7 @@ export default function Screen() {
         title: 'notifications' | 'messages'
       }>
     }) => (
-      <View style={styles.tabBar(headerHeight)}>
+      <View style={styles.tabBar}>
         <SegmentedControl
           items={routes.map(({ key }) => ({
             label: t(`tabs.${key}`),
@@ -77,7 +74,7 @@ export default function Screen() {
         />
       </View>
     ),
-    [headerHeight, t],
+    [t],
   )
 
   return (
@@ -97,24 +94,29 @@ export default function Screen() {
         </Stack.Toolbar.View>
       </Stack.Toolbar>
 
-      <TabView
-        lazy
-        navigationState={{
-          index,
-          routes,
+      <SafeAreaView
+        edges={{
+          top: true,
         }}
-        onIndexChange={setIndex}
-        renderLazyPlaceholder={() => <Loading />}
-        renderScene={renderScene}
-        renderTabBar={renderTabBar}
-      />
+      >
+        <TabView
+          lazy
+          navigationState={{
+            index,
+            routes,
+          }}
+          onIndexChange={setIndex}
+          renderLazyPlaceholder={() => <Loading />}
+          renderScene={renderScene}
+          renderTabBar={renderTabBar}
+        />
+      </SafeAreaView>
     </>
   )
 }
 
 const styles = StyleSheet.create((theme) => ({
-  tabBar: (headerHeight: number) => ({
+  tabBar: {
     padding: theme.space[4],
-    paddingTop: headerHeight + (iOS26 ? 0 : theme.space[4]),
-  }),
+  },
 }))
