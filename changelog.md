@@ -2,7 +2,9 @@
 
 ## Upcoming
 
+- removed: long press to switch account
 - removed: paywall for video downloads
+- upgraded to beta Expo 58
 
 ## Build 90
 
