@@ -8,7 +8,7 @@ export function More() {
 const styles = StyleSheet.create((theme) => ({
   main: {
     bottom: 0,
-    experimental_backgroundImage: 'linear-gradient(transparent, black)',
+    experimental_backgroundImage: `linear-gradient(transparent, ${theme.colors.ui.bg})`,
     height: theme.space[9],
     left: 0,
     position: 'absolute',
