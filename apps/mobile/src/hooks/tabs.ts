@@ -1,4 +1,4 @@
-import { useNavigation } from 'expo-router/react-navigation'
+import { useNavigation } from 'expo-router'
 import { useEffect } from 'react'
 
 export function useTabPress(name: 'tabPress', callback: () => void) {

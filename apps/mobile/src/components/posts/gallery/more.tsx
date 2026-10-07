@@ -2,7 +2,7 @@ import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 export function More() {
-  return <View style={styles.main} />
+  return <View pointerEvents="none" style={styles.main} />
 }
 
 const styles = StyleSheet.create((theme) => ({

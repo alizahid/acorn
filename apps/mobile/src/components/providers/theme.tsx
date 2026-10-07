@@ -1,4 +1,4 @@
-import { ThemeProvider as Provider } from 'expo-router/react-navigation'
+import { ThemeProvider as Provider } from 'expo-router'
 import { type ReactNode } from 'react'
 import { useUnistyles } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
