@@ -6,6 +6,7 @@
 - added: yearly and lifetime plans added
 - changed: long image cutoff design
 - removed: long press to switch account
+- removed: messages
 - removed: paywall for video downloads
 - upgraded to beta Expo 58
 

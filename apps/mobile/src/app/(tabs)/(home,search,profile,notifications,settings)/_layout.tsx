@@ -13,7 +13,6 @@ import { useAuth } from '~/stores/auth'
 import { useTemp } from '~/stores/temp'
 
 import { type CommunityParams } from './communities/[name]'
-import { type MessageParams } from './messages/[id]'
 import { type PostParams } from './posts/[id]'
 import { type SignInParams } from './sign-in'
 import { type UserParams } from './users/[name]'
@@ -239,13 +238,6 @@ function StackLayout({ children }: PropsWithChildren) {
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
         }}
-      />
-
-      <Stack.Screen
-        name="messages/[id]"
-        options={({ route }) => ({
-          title: (route.params as MessageParams).user,
-        })}
       />
 
       <Stack.Screen

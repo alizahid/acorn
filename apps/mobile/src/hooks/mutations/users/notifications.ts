@@ -3,7 +3,6 @@ import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
-import { updateMessage } from '~/hooks/queries/user/messages'
 import { updateNotification } from '~/hooks/queries/user/notifications'
 import { type UnreadQueryKey } from '~/hooks/queries/user/unread'
 import { addPrefix } from '~/lib/reddit'
@@ -12,7 +11,6 @@ import { useAuth } from '~/stores/auth'
 
 type MarkReadVariables = {
   id: string
-  type: 'notification' | 'message'
 }
 
 export function useMarkAsRead() {
@@ -26,13 +24,7 @@ export function useMarkAsRead() {
     async mutationFn(variables) {
       const body = new URLSearchParams()
 
-      body.append(
-        'id',
-        addPrefix(
-          variables.id,
-          variables.type === 'message' ? 'message' : 'comment',
-        ),
-      )
+      body.append('id', addPrefix(variables.id, 'message'))
 
       await reddit({
         body,
@@ -41,15 +33,9 @@ export function useMarkAsRead() {
       })
     },
     onMutate(variables, context) {
-      if (variables.type === 'message') {
-        updateMessage(variables.id, (draft) => {
-          draft.new = false
-        })
-      } else {
-        updateNotification(variables.id, (draft) => {
-          draft.new = false
-        })
-      }
+      updateNotification(variables.id, (draft) => {
+        draft.new = false
+      })
 
       context.client.setQueryData<number, UnreadQueryKey>(
         [
