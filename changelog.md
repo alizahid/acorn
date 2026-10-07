@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: iPhone Duo support
+- added: yearly and lifetime plans added
 - removed: long press to switch account
 - removed: paywall for video downloads
 - upgraded to beta Expo 58

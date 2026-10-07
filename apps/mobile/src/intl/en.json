@@ -484,6 +484,7 @@
           "7": "Open source"
         },
         "footer": {
+          "buy": "Buy",
           "redeem": "Redeem",
           "restore": "Restore",
           "subscribe": "Subscribe",
@@ -494,12 +495,6 @@
         },
         "price": {
           "description": "per month"
-        },
-        "trial": {
-          "day": "{count, plural, =0 {None} =1 {# day} other {# days}} free trial",
-          "month": "{count, plural, =0 {None} =1 {# month} other {# months}} free trial",
-          "week": "{count, plural, =0 {None} =1 {# week} other {# weeks}} free trial",
-          "year": "{count, plural, =0 {None} =1 {# year} other {# years}} free trial"
         }
       }
     },

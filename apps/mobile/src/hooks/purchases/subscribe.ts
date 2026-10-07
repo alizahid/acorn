@@ -1,5 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { finishTransaction, requestPurchase } from 'expo-iap'
+import { useRouter } from 'expo-router'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
@@ -8,6 +9,8 @@ type Variables = {
 }
 
 export function useSubscribe() {
+  const router = useRouter()
+
   const t = useTranslations('hook.purchases.subscribe')
 
   const { isPending, mutateAsync } = useMutation<unknown, Error, Variables>({
@@ -45,6 +48,9 @@ export function useSubscribe() {
     },
     onError(error) {
       toast.error(error.message)
+    },
+    onSuccess() {
+      router.dismiss()
     },
   })
 

@@ -1,20 +1,27 @@
+import {
+  type Product,
+  type ProductOrSubscription,
+  type ProductSubscription,
+} from 'expo-iap'
 import { useRouter } from 'expo-router'
-import { useEffect } from 'react'
+import { orderBy } from 'lodash'
+import { useEffect, useState } from 'react'
 import { View } from 'react-native'
+import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { Button } from '~/components/common/button'
 import { Icon, type IconName } from '~/components/common/icon'
 import { Logo } from '~/components/common/logo'
+import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
-import { usePlan } from '~/hooks/purchases/plan'
+import { usePlans } from '~/hooks/purchases/plans'
 import { useRedeem } from '~/hooks/purchases/redeem'
 import { useRestore } from '~/hooks/purchases/restore'
 import { useSubscribe } from '~/hooks/purchases/subscribe'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
-import { iPad } from '~/lib/common'
 
 export default function Screen() {
   const router = useRouter()
@@ -23,11 +30,15 @@ export default function Screen() {
   const f = useFormatter()
 
   const { subscribed } = useSubscribed()
-  const { plan } = usePlan()
+  const { plans } = usePlans()
 
   const { restore, isPending: restoring } = useRestore()
   const { subscribe, isPending: subscribing } = useSubscribe()
   const { redeem, isPending: redeeming } = useRedeem()
+
+  const [plan, setPlan] = useState<
+    ProductOrSubscription | Product | ProductSubscription
+  >()
 
   useEffect(() => {
     if (subscribed) {
@@ -36,30 +47,59 @@ export default function Screen() {
   }, [subscribed, router])
 
   return (
-    <View style={styles.main}>
+    <ScrollView contentContainerStyle={styles.content}>
       <View style={styles.header}>
         <Logo />
       </View>
 
-      <View style={styles.price}>
-        {plan ? (
-          <>
-            <Text mt="1" size="7" tabular weight="bold">
-              {f.number(plan.price ?? 0, {
-                currency: plan.currency,
-                currencyDisplay: 'code',
-                style: 'currency',
-              })}
-            </Text>
+      {plans ? (
+        <View>
+          {orderBy(plans, 'price').map((item) => (
+            <Pressable
+              key={item.id}
+              onPress={() => {
+                setPlan(item)
+              }}
+              style={styles.plan(item.id === plan?.id)}
+            >
+              <Icon
+                name={item.id === plan?.id ? 'check-circle-fill' : 'circle'}
+                uniProps={(theme) => ({
+                  color:
+                    item.id === plan?.id
+                      ? theme.colors.accent.contrast
+                      : theme.colors.accent.accent,
+                })}
+              />
 
-            <Text highContrast={false} weight="medium">
-              {t('price.description')}
-            </Text>
-          </>
-        ) : (
-          <Spinner />
-        )}
-      </View>
+              <View style={styles.description}>
+                <Text
+                  contrast={item.id === plan?.id}
+                  size="7"
+                  tabular
+                  weight="bold"
+                >
+                  {f.number(item.price ?? 0, {
+                    currency: item.currency,
+                    currencyDisplay: 'symbol',
+                    style: 'currency',
+                  })}
+                </Text>
+
+                <Text
+                  contrast={item.id === plan?.id}
+                  highContrast={false}
+                  weight="medium"
+                >
+                  {item.title}
+                </Text>
+              </View>
+            </Pressable>
+          ))}
+        </View>
+      ) : (
+        <Spinner />
+      )}
 
       <View style={styles.features}>
         {([1, 2, 3, 4, 5, 6, 7] as const).map((key) => (
@@ -83,9 +123,11 @@ export default function Screen() {
           color="orange"
           disabled={!plan}
           label={t(
-            plan?.subscriptionOffers?.length
-              ? 'footer.trial'
-              : 'footer.subscribe',
+            plan?.id === 'lifetime'
+              ? 'footer.buy'
+              : plan?.subscriptionOffers?.length
+                ? 'footer.trial'
+                : 'footer.subscribe',
           )}
           loading={subscribing}
           onPress={() => {
@@ -121,12 +163,20 @@ export default function Screen() {
           />
         </View>
       </View>
-    </View>
+    </ScrollView>
   )
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
   button: {
+    flex: 1,
+  },
+  content: {
+    gap: theme.space[8],
+    paddingBottom: runtime.insets.bottom + theme.space[4],
+    paddingTop: theme.space[8],
+  },
+  description: {
     flex: 1,
   },
   feature: {
@@ -135,33 +185,28 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   features: {
     gap: theme.space[4],
-    marginHorizontal: theme.space[iPad ? 8 : 4],
+    marginHorizontal: theme.space[4],
   },
   footer: {
     gap: theme.space[4],
-    marginHorizontal: theme.space[iPad ? 8 : 4],
+    marginHorizontal: theme.space[4],
   },
   header: {
     alignItems: 'center',
     gap: theme.space[4],
-    marginHorizontal: theme.space[iPad ? 8 : 4],
+    marginHorizontal: theme.space[4],
   },
   label: {
     flex: 1,
   },
-  main: {
-    flex: 1,
-    gap: theme.space[8],
-    justifyContent: 'center',
-    marginBottom: runtime.insets.bottom,
-    paddingVertical: theme.space[8],
-  },
-  price: {
+  plan: (selected: boolean) => ({
     alignItems: 'center',
-    backgroundColor: theme.colors.orange.ui,
-    height: theme.space[8] * 2,
+    backgroundColor: selected ? theme.colors.accent.accent : undefined,
+    flexDirection: 'row',
+    gap: theme.space[4],
     justifyContent: 'center',
-  },
+    padding: theme.space[4],
+  }),
   section: {
     flex: 1,
     gap: theme.space[4],

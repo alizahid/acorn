@@ -5,25 +5,23 @@ export function useSubscribed() {
   const { isLoading, data } = useQuery({
     async queryFn() {
       if (__DEV__) {
-        return true
+        // return true
       }
 
       const products = await fetchProducts({
-        skus: ['monthly'],
-        type: 'subs',
+        skus: ['monthly', 'yearly', 'lifetime'],
+        type: 'all',
       })
 
-      const product = products?.[0]
-
-      if (!product) {
+      if (!products?.length) {
         return true
       }
 
+      const productIds = products.map((product) => product.id)
+
       const subscriptions = await getActiveSubscriptions()
 
-      return subscriptions.some(
-        (item) => item.productId === product.id && item.isActive,
-      )
+      return subscriptions.some((item) => productIds.includes(item.productId))
     },
     queryKey: ['purchases', 'subscribed'],
   })

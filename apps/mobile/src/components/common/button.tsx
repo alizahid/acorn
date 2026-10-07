@@ -4,7 +4,7 @@ import { StyleSheet } from 'react-native-unistyles'
 
 import { glass } from '~/lib/common'
 import { mapColors } from '~/lib/styles'
-import { type ColorToken } from '~/styles/tokens'
+import { type ColorToken, colors } from '~/styles/tokens'
 
 import { GlassView } from '../native/glass-view'
 import { Pressable } from './pressable'
@@ -32,6 +32,7 @@ export function Button({
 }: Props) {
   styles.useVariants({
     color,
+    disabled,
   })
 
   const Component = glass ? GlassView : View
@@ -41,7 +42,9 @@ export function Button({
       isInteractive={!disabled}
       style={[styles.main, style]}
       uniProps={(theme) => ({
-        tintColor: theme.colors[color].accent,
+        tintColor: disabled
+          ? theme.colors.gray.accent
+          : theme.colors[color].accent,
       })}
     >
       <Pressable
@@ -82,10 +85,20 @@ const styles = StyleSheet.create((theme) => ({
   main: {
     borderCurve: 'continuous',
     borderRadius: theme.radius[4],
+    compoundVariants: colors.map((color) => ({
+      color,
+      disabled: true,
+      styles: {
+        backgroundColor: glass ? undefined : theme.colors.gray.accent,
+      },
+    })),
     variants: {
       color: mapColors((token) => ({
         backgroundColor: glass ? undefined : theme.colors[token].accent,
       })),
+      disabled: {
+        true: {},
+      },
     },
   },
 }))
