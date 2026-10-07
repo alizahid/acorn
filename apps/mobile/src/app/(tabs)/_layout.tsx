@@ -2,7 +2,7 @@ import { focusManager } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import { NativeTabs } from 'expo-router/native-tabs'
 import { useEffect } from 'react'
-import { AppState } from 'react-native'
+import { AppState, PlatformColor } from 'react-native'
 import { useUnistyles } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
@@ -65,7 +65,7 @@ export default function Layout() {
       blurEffect={glass ? 'none' : 'systemChromeMaterial'}
       disableTransparentOnScrollEdge
       iconColor={{
-        default: theme.colors.accent.contrast,
+        default: PlatformColor('labelColor'),
         selected: theme.colors.accent.accent,
       }}
       minimizeBehavior={minimizeTabBar ? 'onScrollDown' : 'never'}

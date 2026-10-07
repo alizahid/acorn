@@ -152,6 +152,7 @@ function StackLayout({ children }: PropsWithChildren) {
   return (
     <Stack
       screenOptions={{
+        contentStyle: styles.content,
         fullScreenGestureEnabled: true,
         headerBackButtonDisplayMode: 'minimal',
         headerBackButtonMenuEnabled: false,
@@ -317,7 +318,11 @@ function StackLayout({ children }: PropsWithChildren) {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
+  content: {
+    paddingLeft: runtime.insets.left,
+    paddingRight: runtime.insets.right,
+  },
   full: {
     height: '100%',
     width: '100%',

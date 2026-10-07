@@ -23,6 +23,7 @@ export function Drawer({ children }: Props) {
 
   styles.useVariants({
     iPad,
+    sticky: drawerSticky,
   })
 
   const [open, setOpen] = useState(false)
@@ -86,11 +87,22 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   drawer: {
     backgroundColor: theme.colors.gray.bg,
-    variants: {
-      iPad: {
-        true: {
+    compoundVariants: [
+      {
+        iPad: true,
+        sticky: true,
+        styles: {
+          backgroundColor: theme.colors.gray.ui,
           width: 300,
         },
+      },
+    ],
+    variants: {
+      iPad: {
+        true: {},
+      },
+      sticky: {
+        true: {},
       },
     },
   },
