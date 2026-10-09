@@ -145,6 +145,10 @@
         "typescript": "^6.0.3",
       },
     },
+    "packages/reddit": {
+      "name": "@acorn/reddit",
+      "version": "0.0.0",
+    },
     "packages/scripts": {
       "name": "scripts",
       "version": "0.0.0",
@@ -159,6 +163,8 @@
   },
   "packages": {
     "2g": ["2g@0.4.4", "", { "peerDependencies": { "typescript": ">=5.8.0" }, "optionalPeers": ["typescript"], "bin": { "2g": "bin/cli.js" } }, "sha512-ZwH02IRQicm+92YzJZMS8imSAJaqTPI+VASb1zMnisotnWcEP4e7nb57Mr8C2dGAA5G8ZmialbMmpkGLWgAY/w=="],
+
+    "@acorn/reddit": ["@acorn/reddit@workspace:packages/reddit"],
 
     "@alloc/quick-lru": ["@alloc/quick-lru@5.3.0", "", {}, "sha512-U4+70Pc5ZS9osnCBCE5Jha/ciHM+Yp+CNMNC/7HvYbNRk1Ldd+f7qO65W5qfhu/TCv+/ozljlXXe9Nj8419DMA=="],
 
