@@ -1,89 +1,16 @@
-import { getUserAgent } from '~/lib/user-agent'
+import { Reddit } from '@acorn/reddit'
+import { isAfter } from 'date-fns'
+// biome-ignore lint/performance/noNamespaceImport: go away
+import * as Crypto from 'expo-crypto'
+
 import { useAuth } from '~/stores/auth'
+
+import { refreshToken } from './token'
 
 export const REDDIT_URI = 'https://www.reddit.com'
 export const REDDIT_OLD_URI = 'https://old.reddit.com'
 
-type Props = {
-  body?: URLSearchParams
-  method?: 'get' | 'post'
-  url: string | URL
-}
-
-export async function reddit<Response>({ body, method = 'get', url }: Props) {
-  const auth = getAuth()
-
-  if (!auth) {
-    return
-  }
-
-  const headers = new Headers()
-
-  headers.set('cookie', `reddit_session=${auth.cookie}`)
-  headers.set('user-agent', getUserAgent())
-
-  if (method === 'post') {
-    headers.set('x-modhash', auth.modHash)
-  }
-
-  const request: RequestInit = {
-    credentials: 'omit',
-    headers,
-    method,
-    redirect: 'follow',
-  }
-
-  if (body) {
-    request.body = body.toString()
-
-    headers.set('content-type', 'application/x-www-form-urlencoded')
-  }
-
-  const uri = new URL(url, REDDIT_URI)
-
-  if (
-    method === 'get' &&
-    !uri.pathname.startsWith('/api/') &&
-    !uri.pathname.endsWith('.json')
-  ) {
-    uri.pathname += '.json'
-  }
-
-  uri.searchParams.set('raw_json', '1')
-
-  if (__DEV__) {
-    console.log('url', uri.toString())
-  }
-
-  const response = await fetch(uri, request)
-
-  if (url === '/api/read_all_messages') {
-    return {} as Response
-  }
-
-  const text = await response.text()
-
-  let json: {
-    explanation?: string
-    message?: string
-  }
-
-  try {
-    json = JSON.parse(text)
-  } catch (error) {
-    throw new Error(response.statusText, {
-      cause: error,
-    })
-  }
-
-  if (response.status >= 400) {
-    throw new Error(json.explanation ?? json.message ?? response.statusText)
-  }
-
-  return json as Response
-}
-
-export function getAuth() {
+export async function createApi() {
   const { accountId, accounts } = useAuth.getState()
 
   if (!accountId) {
@@ -96,8 +23,23 @@ export function getAuth() {
     return
   }
 
-  return {
-    cookie: account.cookie,
-    modHash: account.modHash,
+  if (isAfter(new Date(), account.expiresAt)) {
+    const { expiresAt, token } = await refreshToken(account.cookie)
+
+    useAuth.getState().add({
+      ...account,
+      expiresAt,
+      token,
+    })
+
+    return new Reddit({
+      deviceId: Crypto.randomUUID(),
+      token,
+    })
   }
+
+  return new Reddit({
+    deviceId: Crypto.randomUUID(),
+    token: account.token,
+  })
 }

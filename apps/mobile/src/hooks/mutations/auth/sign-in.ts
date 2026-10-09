@@ -7,11 +7,11 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { getUserAgent } from '~/lib/user-agent'
 import { REDDIT_URI } from '~/reddit/api'
+import { refreshToken } from '~/reddit/token'
 import { useAuth } from '~/stores/auth'
 
 const schema = z.object({
   data: z.object({
-    modhash: z.string(),
     name: z.string(),
   }),
 })
@@ -43,10 +43,13 @@ export function useSignIn() {
 
       const { data } = schema.parse(json)
 
+      const { expiresAt, token } = await refreshToken(cookie)
+
       return {
         cookie,
+        expiresAt,
         id: data.name,
-        modHash: data.modhash,
+        token,
       }
     },
     onError(error) {

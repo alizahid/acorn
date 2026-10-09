@@ -9,8 +9,9 @@ const AUTH_KEY = 'auth'
 
 export type Account = {
   cookie: string
+  expiresAt: Date
   id: string
-  modHash: string
+  token: string
 }
 
 export type AuthPayload = {

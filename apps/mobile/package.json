@@ -16,6 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@acorn/reddit": "workspace:*",
     "@bacons/apple-targets": "^5.0.0",
     "@expo/ui": "~58.0.14",
     "@formatjs/intl-getcanonicallocales": "^3.2.12",
@@ -41,6 +42,7 @@
     "expo-build-properties": "~58.0.10",
     "expo-clipboard": "~58.0.3",
     "expo-constants": "~58.0.10",
+    "expo-crypto": "~58.0.6",
     "expo-dev-client": "~58.0.11",
     "expo-device": "~58.0.5",
     "expo-file-system": "~58.0.7",
