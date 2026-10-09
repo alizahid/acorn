@@ -98,7 +98,7 @@
         "react-native-sound-player": "^0.14.5",
         "react-native-svg": "15.15.5",
         "react-native-tab-view": "4.3.3",
-        "react-native-unistyles": "^3.5.0",
+        "react-native-unistyles": "^3.5.1",
         "react-native-view-shot": "^6.1.0",
         "react-native-webview": "14.0.1",
         "react-native-worklets": "0.13.0",
@@ -156,7 +156,6 @@
   "patchedDependencies": {
     "ffmpeg-kit-react-native@6.0.2": "patches/ffmpeg-kit-react-native@6.0.2.patch",
     "expo@58.0.6": "patches/expo@58.0.6.patch",
-    "react-native-unistyles@3.5.0": "patches/react-native-unistyles@3.5.0.patch",
   },
   "packages": {
     "2g": ["2g@0.4.4", "", { "peerDependencies": { "typescript": ">=5.8.0" }, "optionalPeers": ["typescript"], "bin": { "2g": "bin/cli.js" } }, "sha512-ZwH02IRQicm+92YzJZMS8imSAJaqTPI+VASb1zMnisotnWcEP4e7nb57Mr8C2dGAA5G8ZmialbMmpkGLWgAY/w=="],
@@ -1693,7 +1692,7 @@
 
     "react-native-tab-view": ["react-native-tab-view@4.3.3", "", { "dependencies": { "use-latest-callback": "^0.2.4" }, "peerDependencies": { "react": ">= 18.2.0", "react-native": "*", "react-native-pager-view": ">= 6.0.0" } }, "sha512-K8cxG2r5YGh4bT/YM+3bdHz1KXzLqesIuCC8BoHRINajtyvNWltI415P+i+MOg7iCpmV8B+yLS9oNg5pO/3klw=="],
 
-    "react-native-unistyles": ["react-native-unistyles@3.5.0", "", { "dependencies": { "@babel/types": "7.29.8" }, "peerDependencies": { "@react-native/normalize-colors": "*", "react": "*", "react-native": ">=0.81.0", "react-native-edge-to-edge": "*", "react-native-nitro-modules": "*", "react-native-reanimated": "*" }, "optionalPeers": ["react-native-edge-to-edge", "react-native-reanimated"] }, "sha512-CFbR1UA8NzQBjZK5OB5L/MPJlAFHdCoDdMSzogv00MVqYwduKV/9PLDLY45SqJT1X6oQLWO1nO6F5l4PTH5LQw=="],
+    "react-native-unistyles": ["react-native-unistyles@3.5.1", "", { "dependencies": { "@babel/types": "7.29.8" }, "peerDependencies": { "@react-native/normalize-colors": "*", "react": "*", "react-native": ">=0.81.0", "react-native-edge-to-edge": "*", "react-native-nitro-modules": "*", "react-native-reanimated": "*" }, "optionalPeers": ["react-native-edge-to-edge", "react-native-reanimated"] }, "sha512-6e0zV5F+T1fyYA1wjWmK4m3pK6+BdOf70J9K8ulfvIvGNI4nTM/tQ8SCDwbkb25FOljZX/sTXPNMcmX1DDFEIg=="],
 
     "react-native-view-shot": ["react-native-view-shot@6.1.0", "", { "peerDependencies": { "html2canvas-pro": "^2.0.0", "react": ">=18.0.0", "react-native": ">=0.80.0" }, "optionalPeers": ["html2canvas-pro", "react-native"] }, "sha512-pTmD2zu2IaOwPLVh9dw8rsrAt2LZCChephAL4t+liY4d2WuJWhYhwGNjuTTpg49HL/x2yvCjm8NprZLj+FsN1A=="],
 
