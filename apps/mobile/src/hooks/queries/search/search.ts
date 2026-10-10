@@ -1,6 +1,8 @@
 import { type Community, type Post, type User } from '@acorn/reddit'
-import { useQuery } from '@tanstack/react-query'
+import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import { uniqBy } from 'lodash'
 import { create, type Draft } from 'mutative'
+import { useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 import { filterCommunities, filterPosts, filterUsers } from '~/lib/filtering'
@@ -24,8 +26,22 @@ export type SearchQueryKey = [
   },
 ]
 
-export type SearchQueryData<Type extends SearchTab> = Array<
-  Type extends 'community' ? Community : Type extends 'user' ? User : Post
+type Param = string | undefined | null
+
+type SearchItem<Type extends SearchTab> = Type extends 'community'
+  ? Community
+  : Type extends 'user'
+    ? User
+    : Post
+
+type Page<Type extends SearchTab> = {
+  cursor: Param
+  results: Array<SearchItem<Type>>
+}
+
+export type SearchQueryData<Type extends SearchTab> = InfiniteData<
+  Page<Type>,
+  Param
 >
 
 export type SearchProps<Type extends SearchTab> = {
@@ -49,46 +65,64 @@ export function useSearch<Type extends SearchTab>({
     })),
   )
 
-  const { data, isLoading, refetch } = useQuery<
-    Undefined<SearchQueryData<Type>>,
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    refetch,
+  } = useInfiniteQuery<
+    Page<Type>,
     Error,
     SearchQueryData<Type>,
-    SearchQueryKey
+    SearchQueryKey,
+    Param
   >({
     enabled: Boolean(accountId) && query.length > 2,
-    async queryFn() {
+    getNextPageParam(page) {
+      return page.cursor
+    },
+    initialPageParam: null,
+    async queryFn({ pageParam }) {
       const reddit = await createApi()
 
       const input = {
+        after: pageParam ?? undefined,
         community,
         query,
       }
 
       if (type === 'community') {
-        const { communities } = await reddit.search.communities(input)
+        const { communities, cursor } = await reddit.search.communities(input)
 
-        return (await filterCommunities(
-          communities,
-        )) satisfies Array<Community> as SearchQueryData<Type>
+        return {
+          cursor,
+          results: (await filterCommunities(communities)) as Array<
+            SearchItem<Type>
+          >,
+        }
       }
 
       if (type === 'user') {
-        const { users } = await reddit.search.users(input)
+        const { cursor, users } = await reddit.search.users(input)
 
-        return (await filterUsers(
-          users,
-        )) satisfies Array<User> as SearchQueryData<Type>
+        return {
+          cursor,
+          results: (await filterUsers(users)) as Array<SearchItem<Type>>,
+        }
       }
 
-      const { posts } = await reddit.search.posts({
+      const { cursor, posts } = await reddit.search.posts({
         ...input,
         sort,
         time: interval,
       })
 
-      return (await filterPosts(
-        posts,
-      )) satisfies Array<Post> as SearchQueryData<Type>
+      return {
+        cursor,
+        results: (await filterPosts(posts)) as Array<SearchItem<Type>>,
+      }
     },
     queryKey: [
       'search',
@@ -102,10 +136,22 @@ export function useSearch<Type extends SearchTab>({
     ],
   })
 
+  const results = useMemo(
+    () =>
+      uniqBy(
+        data?.pages.flatMap((page) => page.results) ?? [],
+        (item) => item.id,
+      ),
+    [data?.pages],
+  )
+
   return {
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
     refetch,
-    results: data ?? [],
+    results,
   }
 }
 
@@ -128,18 +174,20 @@ export function getPostFromSearch(id: string): Undefined<PostQueryData> {
       continue
     }
 
-    for (const post of data) {
-      if (post.id === id) {
-        return {
-          comments: [],
-          post,
+    for (const page of data.pages) {
+      for (const post of page.results) {
+        if (post.id === id) {
+          return {
+            comments: [],
+            post,
+          }
         }
-      }
 
-      if (post.crossPost?.id === id) {
-        return {
-          comments: [],
-          post: post.crossPost,
+        if (post.crossPost?.id === id) {
+          return {
+            comments: [],
+            post: post.crossPost,
+          }
         }
       }
     }
@@ -170,11 +218,13 @@ export function updateSearch(
         }
 
         return create(previous, (draft) => {
-          for (const post of draft) {
-            if (post.id === id) {
-              updater(post)
+          loop: for (const page of draft.pages) {
+            for (const post of page.results) {
+              if (post.id === id) {
+                updater(post)
 
-              break
+                break loop
+              }
             }
           }
         })

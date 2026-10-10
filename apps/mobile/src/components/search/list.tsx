@@ -4,15 +4,19 @@ import { type ReactElement, useCallback } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
+import { Button } from '~/components/common/button'
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
 import { RefreshControl } from '~/components/common/refresh-control'
+import { Spinner } from '~/components/common/spinner'
 import { CommunityCard } from '~/components/communities/card'
 import { PostCard } from '~/components/posts/card'
 import { type ListProps } from '~/hooks/list'
 import { useSearch } from '~/hooks/queries/search/search'
 import { useSearchHistory } from '~/hooks/search'
+import { usePreferences } from '~/stores/preferences'
 import { type SearchTab } from '~/types/defaults'
 import { type SearchSort, type TopInterval } from '~/types/sort'
 
@@ -48,7 +52,20 @@ export function SearchList({
 
   const history = useSearchHistory(community)
 
-  const { isLoading, refetch, results } = useSearch({
+  const { infiniteScrolling } = usePreferences(
+    useShallow((state) => ({
+      infiniteScrolling: state.infiniteScrolling,
+    })),
+  )
+
+  const {
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    refetch,
+    results,
+  } = useSearch({
     community,
     interval,
     query,
@@ -94,7 +111,25 @@ export function SearchList({
           <Empty icon="magnifying-glass" message={t(`empty.${type}`)} />
         )
       }
+      ListFooterComponent={() =>
+        isFetchingNextPage ? (
+          <Spinner size="large" style={styles.more} />
+        ) : infiniteScrolling ? null : hasNextPage ? (
+          <Button
+            label={t('more')}
+            onPress={() => {
+              fetchNextPage()
+            }}
+            style={styles.more}
+          />
+        ) : null
+      }
       ListHeaderComponent={header}
+      onEndReached={() => {
+        if (infiniteScrolling && hasNextPage) {
+          fetchNextPage()
+        }
+      }}
       onScrollBeginDrag={() => {
         history.save(query)
       }}
@@ -105,6 +140,10 @@ export function SearchList({
 }
 
 const styles = StyleSheet.create((theme) => ({
+  more: {
+    alignSelf: 'center',
+    marginVertical: theme.space[4],
+  },
   separator: {
     backgroundColor: theme.colors.gray.border,
     height: 1,

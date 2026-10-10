@@ -184,11 +184,7 @@ export function PostList({
       }
       ListHeaderComponent={header}
       onEndReached={() => {
-        if (!infiniteScrolling) {
-          return
-        }
-
-        if (hasNextPage) {
+        if (infiniteScrolling && hasNextPage) {
           fetchNextPage()
         }
       }}

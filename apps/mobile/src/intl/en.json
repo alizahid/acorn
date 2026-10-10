@@ -347,6 +347,7 @@
           "post": "Search for posts",
           "user": "Search for users"
         },
+        "more": "Load more",
         "notFound": "Nothing here"
       }
     },
