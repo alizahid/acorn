@@ -81,6 +81,12 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
             borderRadius: theme.radius[4],
             padding: theme.space[3],
           },
+          caption: {
+            ...theme.typography[addTextSize(size, -2)],
+            color: theme.colors.gray.textLow,
+            marginTop: theme.space[3] / 2,
+            textAlign: 'center',
+          },
           code: {
             backgroundColor: theme.colors.accent.ui,
             fontFamily: fonts.mono,
