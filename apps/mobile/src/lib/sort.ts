@@ -5,38 +5,38 @@ import { type ColorToken } from '~/styles/tokens'
 import { type FeedType, type PostSort, type TopInterval } from '~/types/sort'
 
 export const SortIcons = {
-  best: 'medal',
-  comments: 'chat-centered',
-  confidence: 'medal',
-  controversial: 'star',
-  hot: 'flame',
-  new: 'clock',
-  old: 'package',
-  relevance: 'target',
-  rising: 'trend-up',
-  top: 'ranking',
+  BEST: 'medal',
+  COMMENTS: 'chat-centered',
+  CONFIDENCE: 'medal',
+  CONTROVERSIAL: 'star',
+  HOT: 'flame',
+  NEW: 'clock',
+  OLD: 'package',
+  RELEVANCE: 'target',
+  RISING: 'trend-up',
+  TOP: 'ranking',
 } as const satisfies Record<PostSort, IconName>
 
 export const SortColors = {
-  best: 'green',
-  comments: 'plum',
-  confidence: 'green',
-  controversial: 'violet',
-  hot: 'red',
-  new: 'blue',
-  old: 'gray',
-  relevance: 'green',
-  rising: 'orange',
-  top: 'gold',
+  BEST: 'green',
+  COMMENTS: 'plum',
+  CONFIDENCE: 'green',
+  CONTROVERSIAL: 'violet',
+  HOT: 'red',
+  NEW: 'blue',
+  OLD: 'gray',
+  RELEVANCE: 'green',
+  RISING: 'orange',
+  TOP: 'gold',
 } as const satisfies Record<PostSort, ColorToken>
 
 export const IntervalIcons = {
-  all: 'infinity.circle.fill',
-  day: '24.circle.fill',
-  hour: '1.circle.fill',
-  month: '31.circle.fill',
-  week: '7.circle.fill',
-  year: '12.circle.fill',
+  ALL: 'infinity.circle.fill',
+  DAY: '24.circle.fill',
+  HOUR: '1.circle.fill',
+  MONTH: '31.circle.fill',
+  WEEK: '7.circle.fill',
+  YEAR: '12.circle.fill',
 } as const satisfies Record<TopInterval, SFSymbol>
 
 export const FeedTypeIcons = {

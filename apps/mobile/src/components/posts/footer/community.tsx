@@ -1,3 +1,4 @@
+import { type Post } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { View } from 'react-native'
@@ -10,7 +11,6 @@ import { Text } from '~/components/common/text'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
-import { type Post } from '~/types/post'
 
 type Props = {
   hideCommunity?: boolean

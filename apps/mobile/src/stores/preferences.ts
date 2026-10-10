@@ -13,10 +13,24 @@ import {
   type FeedType,
   type SearchSort,
   type TopInterval,
-  type UserFeedSort,
+  UserFeedSort,
 } from '~/types/sort'
 
 const PREFERENCES_KEY = 'preferences'
+
+const SORT_KEYS = [
+  'intervalCommunityPosts',
+  'intervalFeedPosts',
+  'intervalSearchPosts',
+  'intervalUserComments',
+  'intervalUserPosts',
+  'sortCommunityPosts',
+  'sortFeedPosts',
+  'sortPostComments',
+  'sortSearchPosts',
+  'sortUserComments',
+  'sortUserPosts',
+] as const satisfies ReadonlyArray<keyof PreferencesPayload>
 
 export type PreferencesPayload = {
   autoPlay: boolean
@@ -75,7 +89,7 @@ export type PreferencesPayload = {
   sortFeedPosts: FeedSort
   sortPostComments: CommentSort
   sortSearchPosts: SearchSort
-  sortUserComments: CommentSort
+  sortUserComments: UserFeedSort
   sortUserPosts: UserFeedSort
   systemScaling: boolean
   theme: Theme
@@ -121,11 +135,11 @@ export const usePreferences = create<State>()(
       hideUserName: false,
       highContrastBackground: false,
       infiniteScrolling: true,
-      intervalCommunityPosts: 'hour',
-      intervalFeedPosts: 'hour',
-      intervalSearchPosts: 'all',
-      intervalUserComments: 'all',
-      intervalUserPosts: 'all',
+      intervalCommunityPosts: 'HOUR',
+      intervalFeedPosts: 'HOUR',
+      intervalSearchPosts: 'ALL',
+      intervalUserComments: 'ALL',
+      intervalUserPosts: 'ALL',
       largeThumbnails: false,
       linkBrowser: true,
       mediaOnRight: true,
@@ -143,12 +157,12 @@ export const usePreferences = create<State>()(
       seenOnVote: false,
       showFlair: true,
       skipComment: 'right',
-      sortCommunityPosts: 'hot',
-      sortFeedPosts: 'hot',
-      sortPostComments: 'confidence',
-      sortSearchPosts: 'relevance',
-      sortUserComments: 'new',
-      sortUserPosts: 'new',
+      sortCommunityPosts: 'HOT',
+      sortFeedPosts: 'HOT',
+      sortPostComments: 'CONFIDENCE',
+      sortSearchPosts: 'RELEVANCE',
+      sortUserComments: 'NEW',
+      sortUserPosts: 'NEW',
       systemScaling: false,
       theme: 'acorn',
       unmuteFullscreen: true,
@@ -159,8 +173,33 @@ export const usePreferences = create<State>()(
       userOnTop: false,
     }),
     {
+      migrate(state, version) {
+        // sorts and intervals were stored lowercase before they became Reddit's
+        // own values
+        if (version < 1) {
+          const previous = state as Record<string, unknown>
+
+          for (const key of SORT_KEYS) {
+            const value = previous[key]
+
+            if (typeof value === 'string') {
+              previous[key] = value.toUpperCase()
+            }
+          }
+
+          // a user's comments only sort like their posts
+          if (
+            !UserFeedSort.includes(previous.sortUserComments as UserFeedSort)
+          ) {
+            previous.sortUserComments = 'NEW'
+          }
+        }
+
+        return state as State
+      },
       name: PREFERENCES_KEY,
       storage: new Store(),
+      version: 1,
     },
   ),
 )

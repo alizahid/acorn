@@ -1,3 +1,4 @@
+import { type Community } from '@acorn/reddit'
 import { range, sortBy, uniqBy } from 'lodash'
 import { useCallback, useMemo } from 'react'
 import { View } from 'react-native'
@@ -10,8 +11,6 @@ import {
 } from 'react-native-gesture-handler'
 import { clamp, interpolate } from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
-
-import { type Community } from '~/types/community'
 
 import { Icon } from '../common/icon'
 import { Text } from '../common/text'

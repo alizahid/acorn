@@ -1,3 +1,4 @@
+import { type Comment, type Post, type Reddit } from '@acorn/reddit'
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import fuzzysort from 'fuzzysort'
 import { uniqBy } from 'lodash'
@@ -5,17 +6,22 @@ import { create, type Draft } from 'mutative'
 import { useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
+import {
+  type FeedsQueryData,
+  type FeedsQueryKey,
+} from '~/hooks/queries/communities/feeds'
 import { filterPosts } from '~/lib/filtering'
 import { isComment } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
-import { REDDIT_URI, reddit } from '~/reddit/api'
-import { CommentsSchema } from '~/schemas/comments'
-import { PostsSchema, SavedPostsSchema } from '~/schemas/posts'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
-import { transformComment } from '~/transformers/comment'
-import { type Comment } from '~/types/comment'
-import { type Post } from '~/types/post'
-import { type PostSort, type TopInterval } from '~/types/sort'
+import {
+  type CommunityFeedSort,
+  type FeedSort,
+  type PostSort,
+  type TopInterval,
+  type UserFeedSort,
+} from '~/types/sort'
 import { type UserFeedType } from '~/types/user'
 
 type Param = string | undefined | null
@@ -73,73 +79,85 @@ export function usePosts({
     isLoading,
     refetch,
   } = useInfiniteQuery<Page, Error, PostsQueryData, PostsQueryKey, Param>({
-    enabled: Boolean(accountId),
     getNextPageParam(page) {
       return page.cursor
     },
     initialPageParam: null,
     async queryFn({ pageParam }) {
-      if (!accountId) {
-        throw new Error('accountId not found')
-      }
+      const reddit = await createApi()
 
-      const path = user
-        ? `/user/${user}/${userType ?? 'submitted'}`
-        : community
-          ? `/r/${community}/${sort}`
-          : feed
-            ? `/user/${accountId}/m/${feed}/${sort}`
-            : `/${sort}`
+      const after = pageParam ?? undefined
 
-      const url = new URL(path, REDDIT_URI)
-
-      url.searchParams.set('limit', '50')
-      url.searchParams.set('sr_detail', 'true')
-
-      if (userType === 'comments') {
-        url.searchParams.set('type', 'comments')
-      } else if (!user) {
-        url.searchParams.set('type', 'links')
-      }
+      const time = sort === 'TOP' && interval ? interval : undefined
 
       if (user) {
-        url.searchParams.set('sort', sort)
-      }
+        const input = {
+          after,
+          name: user,
+          sort: sort as UserFeedSort,
+          time,
+        }
 
-      if (sort === 'top' && interval) {
-        url.searchParams.set('t', interval)
-      }
+        if (userType === 'comments') {
+          const { comments, cursor } = await reddit.comments.user(input)
 
-      if (pageParam) {
-        url.searchParams.set('after', pageParam)
-      }
+          return {
+            cursor,
+            posts: comments,
+          }
+        }
 
-      const payload = await reddit({
-        url,
-      })
+        if (userType === 'saved') {
+          return fetchSaved(reddit, pageParam)
+        }
 
-      if (userType === 'comments') {
-        const response = CommentsSchema.parse(payload)
+        const { cursor, posts } = await (userType === 'upvoted'
+          ? reddit.feeds.upvoted({
+              after,
+            })
+          : userType === 'downvoted'
+            ? reddit.feeds.downvoted({
+                after,
+              })
+            : userType === 'hidden'
+              ? reddit.feeds.hidden({
+                  after,
+                })
+              : reddit.feeds.user(input))
 
         return {
-          cursor: response.data.after,
-          posts: response.data.children.map((item) => transformComment(item)),
+          cursor,
+          posts: await filterPosts(posts, false),
         }
       }
 
-      const schema = user ? SavedPostsSchema : PostsSchema
+      const input = {
+        after,
+        sort: sort as FeedSort | CommunityFeedSort,
+        time,
+      }
 
-      const response = schema.parse(payload)
+      const { cursor, posts } = await (community === 'all'
+        ? reddit.feeds.all(input)
+        : community === 'popular'
+          ? reddit.feeds.popular(input)
+          : community
+            ? reddit.feeds.community({
+                ...input,
+                name: community,
+              })
+            : feed
+              ? reddit.feeds.custom({
+                  ...input,
+                  path: getFeedPath(accountId, feed),
+                })
+              : reddit.feeds.home(input))
 
       return {
-        cursor: response.data.after,
+        cursor,
         posts: await filterPosts(
-          response,
-          user || userType
-            ? false
-            : community
-              ? community === 'all' || community === 'popular'
-              : true,
+          posts,
+          community ? community === 'all' || community === 'popular' : true,
         ),
       }
     },
@@ -182,6 +200,57 @@ export function usePosts({
     posts,
     refetch,
   }
+}
+
+// Saved posts and saved comments page separately, so the page cursor holds
+// both. ponytail: each page lists posts then comments, not interleaved by when
+// they were saved (gql-fed doesn't send that)
+async function fetchSaved(reddit: Reddit, param: Param): Promise<Page> {
+  const cursors: Record<'comments' | 'posts', string | null | undefined> = param
+    ? JSON.parse(param)
+    : {}
+
+  const [posts, comments] = await Promise.all([
+    cursors.posts === null
+      ? null
+      : reddit.feeds.saved({
+          after: cursors.posts,
+        }),
+    cursors.comments === null
+      ? null
+      : reddit.comments.saved({
+          after: cursors.comments,
+        }),
+  ])
+
+  const next = {
+    comments: comments?.cursor ?? null,
+    posts: posts?.cursor ?? null,
+  }
+
+  return {
+    cursor: next.comments || next.posts ? JSON.stringify(next) : null,
+    posts: [
+      ...(await filterPosts(posts?.posts ?? [], false)),
+      ...(comments?.comments ?? []),
+    ],
+  }
+}
+
+// Feeds are keyed by id across the app (defaults, sorting, links). The path
+// comes from the user's feed list, since a followed feed belongs to someone
+// else; a feed that isn't in it is assumed to be the user's own.
+function getFeedPath(accountId: string | undefined, id: string) {
+  const feeds = queryClient.getQueryData<FeedsQueryData>([
+    'feeds',
+    {
+      accountId,
+    },
+  ] satisfies FeedsQueryKey)
+
+  return (
+    feeds?.find((item) => item.id === id)?.path ?? `/user/${accountId}/m/${id}/`
+  )
 }
 
 export function updatePosts(

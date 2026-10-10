@@ -1,3 +1,4 @@
+import { type Comment } from '@acorn/reddit'
 import {
   FlashList,
   type FlashListRef,
@@ -34,7 +35,6 @@ import { useListProps } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
 import { glass } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
-import { type Comment } from '~/types/comment'
 
 const schema = z.object({
   commentId: z.string().min(1).optional().catch(undefined),

@@ -1,9 +1,9 @@
+import { type Post } from '@acorn/reddit'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
 
 import { usePreferences } from '~/stores/preferences'
-import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
 import { Text } from '../common/text'

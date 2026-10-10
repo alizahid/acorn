@@ -1,3 +1,4 @@
+import { type CommentReply } from '@acorn/reddit'
 import { Link, useRouter } from 'expo-router'
 import { useRef, useState } from 'react'
 import { Share, View, type ViewInstance } from 'react-native'
@@ -14,7 +15,6 @@ import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { useTemp } from '~/stores/temp'
 import { type Undefined } from '~/types'
-import { type CommentReply } from '~/types/comment'
 
 import { Banner } from '../common/banner'
 import { Gestures } from '../common/gestures'

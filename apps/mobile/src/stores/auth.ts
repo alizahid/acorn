@@ -24,6 +24,7 @@ export type State = AuthPayload & {
   remove: (id: string) => void
   reorder: (accounts: Array<Account>) => void
   set: (id: string) => void
+  update: (id: string, token: Pick<Account, 'expiresAt' | 'token'>) => void
 }
 
 export const useAuth = create<State>()(
@@ -75,6 +76,18 @@ export const useAuth = create<State>()(
           queryClient.clear()
         }
       },
+      update(id, token) {
+        set({
+          accounts: get().accounts.map((item) =>
+            item.id === id
+              ? {
+                  ...item,
+                  ...token,
+                }
+              : item,
+          ),
+        })
+      },
     }),
     {
       migrate(state, version) {
@@ -85,11 +98,22 @@ export const useAuth = create<State>()(
           previous.accounts = []
         }
 
+        // cookie-only accounts: expire them so createApi fetches a token
+        if (version < 2) {
+          const previous = state as State
+
+          previous.accounts = previous.accounts.map((account) => ({
+            ...account,
+            expiresAt: new Date(0),
+            token: '',
+          }))
+        }
+
         return state
       },
       name: AUTH_KEY,
       storage: new Store(),
-      version: 1,
+      version: 2,
     },
   ),
 )

@@ -135,13 +135,13 @@
         }
       },
       "interval": {
-        "all": "All time",
-        "day": "Today",
-        "hour": "Now",
-        "month": "This month",
+        "ALL": "All time",
+        "DAY": "Today",
+        "HOUR": "Now",
+        "MONTH": "This month",
         "title": "Interval",
-        "week": "This week",
-        "year": "This year"
+        "WEEK": "This week",
+        "YEAR": "This year"
       },
       "paywall": {
         "card": {
@@ -160,17 +160,17 @@
         }
       },
       "sort": {
-        "best": "Best",
-        "comments": "Comment count",
-        "confidence": "Best",
-        "controversial": "Controversial",
-        "hot": "Hot",
-        "new": "New",
-        "old": "Old",
-        "relevance": "Relevance",
-        "rising": "Rising",
+        "BEST": "Best",
+        "COMMENTS": "Comment count",
+        "CONFIDENCE": "Best",
+        "CONTROVERSIAL": "Controversial",
+        "HOT": "Hot",
+        "NEW": "New",
+        "OLD": "Old",
+        "RELEVANCE": "Relevance",
+        "RISING": "Rising",
         "title": "Sort",
-        "top": "Top"
+        "TOP": "Top"
       },
       "type": {
         "communities": {
@@ -218,13 +218,6 @@
             "placeholder": "CoolDude123"
           }
         }
-      }
-    },
-    "inbox": {
-      "notification": {
-        "comment_reply": "{user} replied to your comment",
-        "post_reply": "{user} replied to your post",
-        "username_mention": "{user} mentioned you"
       }
     },
     "messages": {
@@ -368,9 +361,6 @@
       }
     },
     "submission": {
-      "account": {
-        "error": "You're not logged in"
-      },
       "flair": {
         "label": "Select flair",
         "required": "Required",
@@ -403,9 +393,11 @@
         "dismiss": "Dismiss",
         "error": {
           "blacklist": "Not allowed: {list}",
+          "forbidden": "This community doesn't allow a body",
           "max": "Max {max, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
           "min": "Min {min, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
-          "required": "Required words: {list}"
+          "pattern": "Doesn't match this community's format",
+          "required": "Needs one of: {list}"
         },
         "placeholder": "Body"
       },
@@ -414,14 +406,14 @@
           "blacklist": "Not allowed: {list}",
           "max": "Max {max, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
           "min": "Min {min, plural, =0 {0 characters} =1 {1 character} other {# characters}}",
-          "required": "Required words: {list}"
+          "pattern": "Doesn't match this community's format",
+          "required": "Needs one of: {list}"
         },
         "placeholder": "Title"
       },
       "toast": {
         "created": "Post created",
-        "error": "Error creating post",
-        "noId": "Post created but we couldn't find it. You might have to refresh the list"
+        "error": "Error creating post"
       },
       "type": {
         "image": "Image",

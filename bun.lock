@@ -1224,7 +1224,7 @@
 
     "expo-modules-core": ["expo-modules-core@58.0.14", "", { "dependencies": { "expo-modules-jsi": "~58.0.9", "expo-modules-macros": "0.15.0", "invariant": "^2.2.4" }, "peerDependencies": { "react": "*", "react-native": "*", "react-native-worklets": "^0.7.4 || ^0.8.0 || ^0.9.0 || ^0.10.0" }, "optionalPeers": ["react-native-worklets"] }, "sha512-5iPIvnq69pOGw8Iuf5ceVxW+CNXUizuu4h91yCcZIB4xhle3jUeqsqP779CI+duPaJjdrWjEyQ83+P1NvLB9wg=="],
 
-    "expo-modules-jsi": ["expo-modules-jsi@58.0.9", "", { "peerDependencies": { "react-native": "*" } }, "sha512-xQkVspk1foHsHaPpTjT0DfahkcPMIPujBXrBCcQOVLI31Bz7yQ7nNv8jm5CNMm7fTZUGAB2JpIADn8xk6ZzvNg=="],
+    "expo-modules-jsi": ["expo-modules-jsi@58.0.10", "", { "peerDependencies": { "react-native": "*" } }, "sha512-kLXq/k5WZK/6eny0ZC/JX1q6mL5+WlYp/I1d9Pcn3d47cPEjX1aP/GqGUYHEpgT1RMvdm6QJj6xahcW/CDiOxw=="],
 
     "expo-modules-macros": ["expo-modules-macros@0.15.0", "", {}, "sha512-SPNpejC1GTb5g519PQXRHnwNjC3NJE/IP8yvuwwKJ9cfel7g7gQk/11qsvlNQBdk/AOnu2uhsmBMpTVit2WMfA=="],
 

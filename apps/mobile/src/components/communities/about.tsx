@@ -158,6 +158,7 @@ export function CommunityAbout({ name }: Props) {
           onPress={() => {
             favorite({
               favorite: !community.favorite,
+              id: community.id,
               name: community.name,
             })
           }}

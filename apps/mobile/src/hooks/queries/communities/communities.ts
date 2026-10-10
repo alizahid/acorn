@@ -1,14 +1,12 @@
+import { type Community } from '@acorn/reddit'
 import { useQuery } from '@tanstack/react-query'
 import { orderBy } from 'lodash'
 import { create, type Draft } from 'mutative'
 import { useShallow } from 'zustand/react/shallow'
 
 import { queryClient } from '~/lib/query'
-import { REDDIT_URI, reddit } from '~/reddit/api'
-import { CommunitiesSchema } from '~/schemas/communities'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
-import { transformCommunity } from '~/transformers/community'
-import { type Community } from '~/types/community'
 
 export type CommunitiesQueryKey = [
   'communities',
@@ -26,25 +24,22 @@ export function useCommunities() {
     })),
   )
 
-  const queryKey: CommunitiesQueryKey = [
-    'communities',
-    {
-      accountId,
-    },
-  ]
-
   const { data, isLoading, refetch } = useQuery<
     CommunitiesQueryData,
     Error,
     CommunitiesQueryData,
     CommunitiesQueryKey
   >({
-    enabled: Boolean(accountId),
     networkMode: 'offlineFirst',
     queryFn() {
       return fetchCommunities()
     },
-    queryKey,
+    queryKey: [
+      'communities',
+      {
+        accountId,
+      },
+    ],
   })
 
   return {
@@ -64,28 +59,17 @@ export function useCommunities() {
 }
 
 async function fetchCommunities(after?: string): Promise<CommunitiesQueryData> {
-  const url = new URL('/subreddits/mine', REDDIT_URI)
+  const reddit = await createApi()
 
-  url.searchParams.set('limit', '100')
-
-  if (after) {
-    url.searchParams.set('after', after)
-  }
-
-  const payload = await reddit({
-    url,
+  const { communities, cursor } = await reddit.communities.mine({
+    after,
   })
 
-  const response = CommunitiesSchema.parse(payload)
-
-  if (response.data.after) {
-    return [
-      ...response.data.children.map((item) => transformCommunity(item.data)),
-      ...(await fetchCommunities(response.data.after)),
-    ]
+  if (cursor) {
+    return [...communities, ...(await fetchCommunities(cursor))]
   }
 
-  return response.data.children.map((item) => transformCommunity(item.data))
+  return communities
 }
 
 export function updateCommunities(

@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { useShallow } from 'zustand/react/shallow'
 
-import { REDDIT_URI, reddit } from '~/reddit/api'
-import { type NotificationsSchema } from '~/schemas/notifications'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 
 export type UnreadQueryKey = [
@@ -24,15 +23,9 @@ export function useUnread() {
     networkMode: 'offlineFirst',
     placeholderData: 0,
     async queryFn() {
-      const url = new URL('/message/unread', REDDIT_URI)
+      const reddit = await createApi()
 
-      url.searchParams.set('max_replies', '300')
-
-      const payload = await reddit<NotificationsSchema>({
-        url,
-      })
-
-      return payload?.data.children.length ?? 0
+      return reddit.inbox.unread()
     },
     queryKey: [
       'unread',

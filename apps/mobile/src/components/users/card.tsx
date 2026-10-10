@@ -1,3 +1,4 @@
+import { type User } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
@@ -5,7 +6,6 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
-import { type User } from '~/types/user'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'

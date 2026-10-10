@@ -1,3 +1,4 @@
+import { type Comment, type Post } from '@acorn/reddit'
 import {
   FlashList,
   type FlashListRef,
@@ -23,8 +24,6 @@ import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { usePreferences } from '~/stores/preferences'
-import { type Comment } from '~/types/comment'
-import { type Post } from '~/types/post'
 
 import { CommentCard } from '../comments/card'
 import { Button } from '../common/button'

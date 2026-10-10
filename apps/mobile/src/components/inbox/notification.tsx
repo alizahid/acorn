@@ -1,12 +1,12 @@
+import { type enums, type Notification } from '@acorn/reddit'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import { useFormatter, useNow, useTranslations } from 'use-intl'
+import { useFormatter, useNow } from 'use-intl'
 
 import { useLink } from '~/hooks/link'
 import { useMarkAsRead } from '~/hooks/mutations/users/notifications'
 import { mapColors } from '~/lib/styles'
 import { type ColorToken, colors } from '~/styles/tokens'
-import { type Notification, type NotificationType } from '~/types/notification'
 
 import { Icon, type IconName } from '../common/icon'
 import { Pressable } from '../common/pressable'
@@ -18,14 +18,15 @@ type Props = {
 }
 
 export function NotificationCard({ notification }: Props) {
-  const t = useTranslations('component.inbox.notification')
   const f = useFormatter()
   const now = useNow({
     updateInterval: 1000 * 60,
   })
 
+  const kind = (notification.type && kinds[notification.type]) ?? 'other'
+
   styles.useVariants({
-    color: tints[notification.type],
+    color: tints[kind],
     unread: notification.new,
   })
 
@@ -33,31 +34,22 @@ export function NotificationCard({ notification }: Props) {
 
   const { handleLink } = useLink()
 
-  const body = t(notification.type, {
-    subreddit: notification.subreddit,
-    user: notification.author,
-  })
-
   return (
     <Pressable
-      accessibilityLabel={body}
+      accessibilityLabel={notification.title}
       onPress={() => {
         handleLink(notification.context)
 
         if (notification.new) {
-          mark({
-            id: notification.id,
-          })
+          mark(notification)
         }
       }}
       style={styles.main}
     >
       <Icon
-        name={icons[notification.type]}
+        name={icons[kind]}
         uniProps={(theme) => ({
-          color:
-            theme.colors[notification.new ? tints[notification.type] : 'gray']
-              .accent,
+          color: theme.colors[notification.new ? tints[kind] : 'gray'].accent,
         })}
       />
 
@@ -66,7 +58,7 @@ export function NotificationCard({ notification }: Props) {
           highContrast={notification.new}
           weight={notification.new ? 'medium' : undefined}
         >
-          {body}
+          {notification.title}
         </Text>
 
         <Markdown>{notification.body}</Markdown>
@@ -115,14 +107,25 @@ const styles = StyleSheet.create((theme) => ({
   },
 }))
 
+type Kind = 'comment_reply' | 'post_reply' | 'username_mention' | 'other'
+
+const kinds: Partial<Record<enums.MailroomMessageType, Kind>> = {
+  COMMENT_REPLY: 'comment_reply',
+  COMMENT_SUBSEQUENT_REPLY: 'comment_reply',
+  POST_REPLY: 'post_reply',
+  USERNAME_MENTION: 'username_mention',
+}
+
 const icons = {
   comment_reply: 'chat-centered',
+  other: 'bell',
   post_reply: 'arrow-bend-up-left-bold',
   username_mention: 'user',
-} as const satisfies Record<NotificationType, IconName>
+} as const satisfies Record<Kind, IconName>
 
 const tints = {
   comment_reply: 'plum',
+  other: 'gray',
   post_reply: 'jade',
   username_mention: 'ruby',
-} as const satisfies Record<NotificationType, ColorToken>
+} as const satisfies Record<Kind, ColorToken>

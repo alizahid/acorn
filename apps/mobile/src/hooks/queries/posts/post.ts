@@ -1,4 +1,5 @@
-import { type Query, useMutation, useQuery } from '@tanstack/react-query'
+import { type Comment, type Post } from '@acorn/reddit'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { eq } from 'drizzle-orm'
 import { create, type Draft } from 'mutative'
 import { useCallback, useMemo } from 'react'
@@ -7,16 +8,10 @@ import { useShallow } from 'zustand/react/shallow'
 import { db } from '~/db'
 import { isComment, isPost } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
-import { removePrefix } from '~/lib/reddit'
-import { REDDIT_URI, reddit } from '~/reddit/api'
-import { PostSchema } from '~/schemas/post'
-import { useAuth } from '~/stores/auth'
+import { addPrefix } from '~/lib/reddit'
+import { createApi } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
-import { transformComment } from '~/transformers/comment'
-import { transformPost } from '~/transformers/post'
 import { type Undefined } from '~/types'
-import { type Comment } from '~/types/comment'
-import { type Post } from '~/types/post'
 import { type CommentSort } from '~/types/sort'
 
 import { getPostFromSearch } from '../search/search'
@@ -47,12 +42,9 @@ type Props = {
   sort?: CommentSort
 }
 
-export function usePost({ commentId, id, sort }: Props) {
-  const { accountId } = useAuth(
-    useShallow((state) => ({
-      accountId: state.accountId,
-    })),
-  )
+export function usePost({ commentId, id: postId, sort }: Props) {
+  // links and routes carry bare ids
+  const id = addPrefix(postId, 'link')
 
   const { collapseAutoModerator } = usePreferences(
     useShallow((state) => ({
@@ -66,7 +58,6 @@ export function usePost({ commentId, id, sort }: Props) {
     PostQueryData,
     PostQueryKey
   >({
-    enabled: Boolean(accountId),
     placeholderData(previous) {
       if (previous) {
         return previous
@@ -75,48 +66,47 @@ export function usePost({ commentId, id, sort }: Props) {
       return getPlaceholderPost(id)
     },
     async queryFn() {
-      const url = new URL(`/comments/${id}`, REDDIT_URI)
+      const reddit = await createApi()
 
-      url.searchParams.set('limit', '50')
-      url.searchParams.set('threaded', 'false')
-      url.searchParams.set('sr_detail', 'true')
-
-      if (commentId) {
-        url.searchParams.set('comment', removePrefix(commentId))
-      }
-
-      if (sort) {
-        url.searchParams.set('sort', sort)
-      }
-
-      const payload = await reddit({
-        url,
-      })
-
-      const response = PostSchema.parse(payload)
-
-      const [post] = response[0].data.children
-      const comments = response[1].data.children
+      const [post, { comments, cursor }, collapsed] = await Promise.all([
+        reddit.posts.get({
+          id,
+        }),
+        reddit.comments.list({
+          commentId: commentId ? addPrefix(commentId, 'comment') : undefined,
+          postId: id,
+          sort,
+        }),
+        db
+          .select({
+            id: db.schema.collapsed.commentId,
+          })
+          .from(db.schema.collapsed)
+          .where(eq(db.schema.collapsed.postId, id)),
+      ])
 
       if (!post) {
         throw new Error('Post not found')
       }
 
-      const collapsed = await db
-        .select({
-          id: db.schema.collapsed.commentId,
-        })
-        .from(db.schema.collapsed)
-        .where(eq(db.schema.collapsed.postId, id))
+      for (const comment of comments) {
+        if (
+          comment.type === 'reply' &&
+          ((collapseAutoModerator &&
+            comment.data.user.name === 'AutoModerator') ||
+            collapsed.some((item) => item.id === comment.data.id))
+        ) {
+          comment.data.collapsed = true
+        }
+      }
+
+      if (cursor) {
+        comments.push(createMore(id, cursor))
+      }
 
       return {
-        comments: comments.map((item) =>
-          transformComment(item, {
-            collapseAutoModerator,
-            collapsed: collapsed.map((comment) => comment.id),
-          }),
-        ),
-        post: transformPost(post.data),
+        comments,
+        post,
       }
     },
     queryKey: [
@@ -263,49 +253,12 @@ function getPlaceholderPost(id: string): Undefined<PostQueryData> {
   return getPostFromSearch(id)
 }
 
-export function getPost(
-  id: string,
-  sort?: CommentSort,
-): Undefined<PostQueryData> {
-  const cache = queryClient.getQueryCache()
-
-  const queries = cache.findAll({
-    queryKey: [
-      'post',
-      {
-        id,
-      },
-    ] satisfies PostQueryKey,
-  })
-
-  for (const query of queries) {
-    const data = query as unknown as Query<
-      Undefined<PostQueryData>,
-      Error,
-      PostQueryData,
-      PostQueryKey
-    >
-
-    if (!data.state.data) {
-      continue
-    }
-
-    if (sort) {
-      if (data.queryKey[1].sort === sort) {
-        return data.state.data
-      }
-
-      continue
-    }
-
-    return data.state.data
-  }
-}
-
 export function updatePost(
-  id: string,
+  postId: string,
   updater: (draft: Draft<PostQueryData>) => void,
 ) {
+  const id = addPrefix(postId, 'link')
+
   const cache = queryClient.getQueryCache()
 
   const queries = cache.findAll({
@@ -362,4 +315,19 @@ function isHidden(comments: Array<Comment>, commentId: string) {
   }
 
   return isHidden(comments, comment.data.parentId)
+}
+
+// a "load more" stub for the next page of top-level comments
+export function createMore(postId: string, cursor: string): Comment {
+  return {
+    data: {
+      count: 0,
+      cursor,
+      depth: 0,
+      id: cursor,
+      parentId: postId,
+      thread: false,
+    },
+    type: 'more',
+  }
 }

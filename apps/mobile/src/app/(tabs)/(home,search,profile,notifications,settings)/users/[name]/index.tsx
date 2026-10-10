@@ -69,7 +69,7 @@ export default function Screen() {
     interval: intervalUserPosts,
     sort: sortUserPosts,
   })
-  const [comments, setComments] = useState<SortIntervalMenuData<'comment'>>({
+  const [comments, setComments] = useState<SortIntervalMenuData<'user'>>({
     interval: intervalUserComments,
     sort: sortUserComments,
   })
@@ -131,7 +131,7 @@ export default function Screen() {
                   setComments(next)
                 }}
                 sort={comments.sort}
-                type="comment"
+                type="user"
               />
             </View>
           }

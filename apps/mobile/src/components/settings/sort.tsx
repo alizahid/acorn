@@ -1,15 +1,7 @@
 import { useTranslations } from 'use-intl'
 
 import { SortColors, SortIcons } from '~/lib/sort'
-import {
-  CommentSort,
-  CommunityFeedSort,
-  FeedSort,
-  type PostSort,
-  SearchSort,
-  type SortType,
-  UserFeedSort,
-} from '~/types/sort'
+import { type PostSort, SortOptions, type SortType } from '~/types/sort'
 
 import { Icon } from '../common/icon'
 import { Menu } from '../common/menu'
@@ -31,16 +23,7 @@ export function SortItem<Type extends PostSort>({
 }: Props<Type>) {
   const t = useTranslations('component.common')
 
-  const items =
-    type === 'comment'
-      ? CommentSort
-      : type === 'community'
-        ? CommunityFeedSort
-        : type === 'search'
-          ? SearchSort
-          : type === 'user'
-            ? UserFeedSort
-            : FeedSort
+  const items = SortOptions[type]
 
   return (
     <Menu.Options<Type>

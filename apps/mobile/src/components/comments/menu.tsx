@@ -1,3 +1,4 @@
+import { type CommentReply } from '@acorn/reddit'
 import { useRouter } from 'expo-router'
 import { onTranslateSheet } from 'expo-translate-text'
 import { type ReactNode, type RefObject, useRef } from 'react'
@@ -25,7 +26,6 @@ import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
 import { useTemp } from '~/stores/temp'
-import { type CommentReply } from '~/types/comment'
 
 type Props = {
   ref: RefObject<Sheet | null>

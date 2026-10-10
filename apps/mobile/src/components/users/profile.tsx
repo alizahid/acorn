@@ -1,9 +1,9 @@
+import { type Profile } from '@acorn/reddit'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { Text } from '~/components/common/text'
-import { type Profile } from '~/types/user'
 
 import { TimeAgo } from '../common/time'
 
@@ -36,7 +36,14 @@ export function ProfileCard({ profile }: Props) {
     },
     {
       key: 'age',
-      value: <TimeAgo date={profile?.createdAt ?? new Date()} />,
+      // gql-fed has no age for profiles it can't read; it comes back as the
+      // epoch
+      value:
+        profile?.createdAt.getTime() === 0 ? (
+          '–'
+        ) : (
+          <TimeAgo date={profile?.createdAt ?? new Date()} />
+        ),
     },
   ] as const
 

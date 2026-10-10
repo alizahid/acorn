@@ -1,3 +1,4 @@
+import { type Post } from '@acorn/reddit'
 import { usePathname, useRouter } from 'expo-router'
 import { onTranslateSheet } from 'expo-translate-text'
 import { type ReactNode, type RefObject, useRef } from 'react'
@@ -27,7 +28,6 @@ import { useDownloadVideo } from '~/hooks/video'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
-import { type Post } from '~/types/post'
 
 import { IconButton } from '../common/icon/button'
 import { Logo } from '../common/logo'

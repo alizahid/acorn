@@ -1,3 +1,4 @@
+import { type Submission } from '@acorn/reddit'
 import { Stack, useRouter } from 'expo-router'
 import { useState } from 'react'
 import { Controller, FormProvider } from 'react-hook-form'
@@ -16,7 +17,6 @@ import { SubmissionText } from '~/components/submission/text'
 import { SubmissionTitle } from '~/components/submission/title'
 import { useCreatePost } from '~/hooks/mutations/posts/create'
 import { useAuth } from '~/stores/auth'
-import { type Submission } from '~/types/submission'
 
 import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'

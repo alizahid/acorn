@@ -2,6 +2,7 @@ import { useMutation } from '@tanstack/react-query'
 
 import { db } from '~/db'
 import { isPost } from '~/lib/guards'
+import { addPrefix } from '~/lib/reddit'
 
 import { updatePost } from './queries/posts/post'
 import { updatePosts } from './queries/posts/posts'
@@ -17,22 +18,25 @@ export function useHistory() {
       await db
         .insert(db.schema.history)
         .values({
-          postId: variables.id,
+          postId: addPrefix(variables.id, 'link'),
         })
         .onConflictDoNothing()
     },
     onMutate(variables) {
-      updatePost(variables.id, (draft) => {
+      // routes carry bare ids
+      const id = addPrefix(variables.id, 'link')
+
+      updatePost(id, (draft) => {
         draft.post.seen = true
       })
 
-      updatePosts(variables.id, (draft) => {
+      updatePosts(id, (draft) => {
         if (isPost(draft)) {
           draft.seen = true
         }
       })
 
-      updateSearch(variables.id, (draft) => {
+      updateSearch(id, (draft) => {
         draft.seen = true
       })
     },

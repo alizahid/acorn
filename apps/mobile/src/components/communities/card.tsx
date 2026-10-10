@@ -1,3 +1,4 @@
+import { type Community } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
@@ -5,7 +6,6 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
-import { type Community } from '~/types/community'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'

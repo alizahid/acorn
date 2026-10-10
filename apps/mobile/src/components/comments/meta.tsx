@@ -1,3 +1,4 @@
+import { type CommentReply } from '@acorn/reddit'
 import { useRouter } from 'expo-router'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -6,7 +7,6 @@ import { useFormatter, useTranslations } from 'use-intl'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { removePrefix } from '~/lib/reddit'
 import { space } from '~/styles/tokens'
-import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'

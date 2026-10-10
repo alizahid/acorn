@@ -1,3 +1,4 @@
+import { type CommentReply } from '@acorn/reddit'
 import { useMutation } from '@tanstack/react-query'
 import { type Draft } from 'mutative'
 
@@ -6,8 +7,7 @@ import { updatePosts } from '~/hooks/queries/posts/posts'
 import { triggerFeedback } from '~/lib/feedback'
 import { isComment } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
-import { type CommentReply } from '~/types/comment'
+import { createApi } from '~/reddit/api'
 
 type Variables = {
   commentId: string
@@ -18,15 +18,10 @@ type Variables = {
 export function useCommentVote() {
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('id', addPrefix(variables.commentId, 'comment'))
-      body.append('dir', String(variables.direction))
-
-      await reddit({
-        body,
-        method: 'post',
-        url: '/api/vote',
+      await reddit.comments[actions[variables.direction]]({
+        id: addPrefix(variables.commentId, 'comment'),
       })
     },
     onMutate(variables) {
@@ -66,6 +61,12 @@ export function useCommentVote() {
     vote: mutate,
   }
 }
+
+const actions = {
+  '-1': 'downvote',
+  0: 'unvote',
+  1: 'upvote',
+} as const
 
 function update(variables: Variables, draft: Draft<CommentReply>) {
   draft.votes =

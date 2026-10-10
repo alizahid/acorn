@@ -1,6 +1,5 @@
+import { type PostMediaMeta } from '@acorn/reddit'
 import { decode } from 'entities'
-
-import { type PostMediaMeta } from '~/types/post'
 
 const redditLinkRegex = /(?<!\S)\/?[ru]\/[A-Za-z0-9_-]+/g
 const urlRegex = /https?:\/\/\S+/g
@@ -69,5 +68,20 @@ export function mergeMetaMarkdown(markdown: string, meta?: PostMediaMeta) {
     }
   }
 
+  // gql-fed bodies point at inline media by id, as in `![img](pvo4s5n3kb3h1)`.
+  // The alt is Reddit's placeholder ("img", "gif"), so it's dropped rather than
+  // shown as a caption; a real caption is the `"title"`, which is kept. After
+  // the loop above, so the urls swapped in here aren't wrapped again
+  for (const [id, media] of Object.entries(meta)) {
+    merged = merged.replace(
+      new RegExp(`!\\[[^\\]]*\\]\\(${escapeRegex(id)}(\\s+"[^"]*")?\\)`, 'g'),
+      `![](${media.url}$1)`,
+    )
+  }
+
   return merged
+}
+
+function escapeRegex(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }

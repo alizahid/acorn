@@ -1,20 +1,15 @@
+import { type Community, type Post, type User } from '@acorn/reddit'
 import { useQuery } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
 import { useShallow } from 'zustand/react/shallow'
 
 import { filterCommunities, filterPosts, filterUsers } from '~/lib/filtering'
 import { queryClient } from '~/lib/query'
-import { REDDIT_URI, reddit } from '~/reddit/api'
-import { CommunitiesSchema } from '~/schemas/communities'
-import { PostsSchema } from '~/schemas/posts'
-import { UsersSchema } from '~/schemas/users'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 import { type Undefined } from '~/types'
-import { type Community } from '~/types/community'
 import { type SearchTab } from '~/types/defaults'
-import { type Post } from '~/types/post'
 import { type SearchSort, type TopInterval } from '~/types/sort'
-import { type User } from '~/types/user'
 
 import { type PostQueryData } from '../posts/post'
 
@@ -62,64 +57,38 @@ export function useSearch<Type extends SearchTab>({
   >({
     enabled: Boolean(accountId) && query.length > 2,
     async queryFn() {
-      const path = community ? `/r/${community}/search` : '/search'
+      const reddit = await createApi()
 
-      const url = new URL(path, REDDIT_URI)
-
-      url.searchParams.set('q', query)
-      url.searchParams.set('limit', '100')
-      url.searchParams.set(
-        'type',
-        type === 'community' ? 'sr' : type === 'user' ? 'user' : 'link',
-      )
-
-      if (community) {
-        url.searchParams.set('restrict_sr', 'true')
+      const input = {
+        community,
+        query,
       }
-
-      if (type === 'post') {
-        url.searchParams.set('sr_detail', 'true')
-
-        if (sort) {
-          url.searchParams.set('sort', sort)
-        }
-
-        if (interval) {
-          url.searchParams.set('t', interval)
-        }
-      }
-
-      const payload = await reddit({
-        url,
-      })
 
       if (type === 'community') {
-        const response = CommunitiesSchema.parse(payload)
+        const { communities } = await reddit.search.communities(input)
 
-        const communities = await filterCommunities(response)
-
-        return communities satisfies Array<User> as SearchQueryData<Type>
+        return (await filterCommunities(
+          communities,
+        )) satisfies Array<Community> as SearchQueryData<Type>
       }
 
       if (type === 'user') {
-        const response = UsersSchema.parse(payload)
+        const { users } = await reddit.search.users(input)
 
-        const users = await filterUsers(response)
-
-        return users satisfies Array<User> as SearchQueryData<Type>
+        return (await filterUsers(
+          users,
+        )) satisfies Array<User> as SearchQueryData<Type>
       }
 
-      if (type === 'post') {
-        const response = PostsSchema.parse(payload)
+      const { posts } = await reddit.search.posts({
+        ...input,
+        sort,
+        time: interval,
+      })
 
-        const posts = await filterPosts(response)
-
-        return posts.filter(
-          (post) => post.type !== 'reply' && post.type !== 'more',
-        ) satisfies Array<Post> as SearchQueryData<Type>
-      }
-
-      return []
+      return (await filterPosts(
+        posts,
+      )) satisfies Array<Post> as SearchQueryData<Type>
     },
     queryKey: [
       'search',

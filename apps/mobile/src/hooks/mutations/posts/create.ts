@@ -1,3 +1,4 @@
+import { type Submission, type SubmissionRequirements } from '@acorn/reddit'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { compact } from 'lodash'
@@ -6,28 +7,16 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
-import { useShallow } from 'zustand/react/shallow'
 
 import { prepareMarkdown } from '~/lib/markdown'
 import { removePrefix } from '~/lib/reddit'
-import { sleep } from '~/lib/sleep'
-import { REDDIT_OLD_URI, REDDIT_URI, reddit } from '~/reddit/api'
-import { type PostsSchema } from '~/schemas/posts'
-import { SubmissionResponseSchema } from '~/schemas/submission'
-import { useAuth } from '~/stores/auth'
-import { type Undefined } from '~/types'
-import { type Submission, type SubmissionType } from '~/types/submission'
+import { createApi } from '~/reddit/api'
+import { type SubmissionType } from '~/types/submission'
 
 export type CreatePostForm = z.infer<ReturnType<typeof generateSchema>>
 
 export function useCreatePost(submission: Submission) {
   const t = useTranslations('component.submission')
-
-  const { accountId } = useAuth(
-    useShallow((state) => ({
-      accountId: state.accountId,
-    })),
-  )
 
   const types: Array<SubmissionType> = compact([
     submission.media.text && 'text',
@@ -36,7 +25,7 @@ export function useCreatePost(submission: Submission) {
     submission.media.link && 'link',
   ] as const)
 
-  const schema = useMemo(() => generateSchema(), [])
+  const schema = useMemo(() => generateSchema(t, submission), [submission, t])
 
   const form = useForm({
     defaultValues: {
@@ -50,77 +39,65 @@ export function useCreatePost(submission: Submission) {
   })
 
   const { isPending, mutateAsync } = useMutation<
-    Undefined<{
+    {
       id: string
-    }>,
+    },
     Error,
     CreatePostForm
   >({
     async mutationFn(variables) {
-      if (!accountId) {
-        throw new Error(t('account.error'))
-      }
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('sr', variables.community)
-      body.append('title', variables.title)
-      body.append('spoiler', String(variables.spoiler))
-      body.append('nsfw', String(variables.nsfw))
-      body.append('kind', variables.type === 'text' ? 'self' : variables.type)
-
-      if (variables.type === 'video') {
-        body.append('video_poster_url', variables.posterUrl)
-      }
-
-      if (variables.type === 'text') {
-        body.append('text', prepareMarkdown(variables.text))
-      } else {
-        body.append('url', variables.url)
-      }
-
-      if (variables.flairId) {
-        body.append('flair_id', variables.flairId)
-      }
-
-      const url = new URL('/api/submit', REDDIT_OLD_URI)
-
-      url.searchParams.append('api_type', 'json')
-
-      const response = await reddit({
-        body,
-        method: 'post',
-        url,
+      // single images and videos are posted by their uploaded url
+      const { id } = await reddit.posts.create({
+        body:
+          variables.type === 'text' && variables.text
+            ? prepareMarkdown(variables.text)
+            : undefined,
+        // leaving it out posts to the signed-in user's profile
+        community: submission.community.user ? undefined : variables.community,
+        flair: variables.flairId
+          ? {
+              id: variables.flairId,
+            }
+          : undefined,
+        images:
+          variables.type === 'image'
+            ? [
+                {
+                  id: '',
+                  url: variables.url,
+                },
+              ]
+            : undefined,
+        nsfw: variables.nsfw,
+        spoiler: variables.spoiler,
+        title: variables.title,
+        url: variables.type === 'link' ? variables.url : undefined,
+        video:
+          variables.type === 'video'
+            ? {
+                id: '',
+                poster: {
+                  id: '',
+                  url: variables.posterUrl,
+                },
+                url: variables.url,
+              }
+            : undefined,
       })
 
-      const { json } = SubmissionResponseSchema.parse(response)
-
-      if ('errors' in json) {
-        throw new Error(
-          json.errors[0]
-            ? `${json.errors[0][1]}: ${json.errors[0][2]}`
-            : undefined,
-        )
+      return {
+        id: removePrefix(id),
       }
-
-      if ('id' in json.data) {
-        return {
-          id: json.data.id,
-        }
-      }
-
-      return handleAsync(accountId, variables.title)
     },
     onError(error) {
       toast.error(t('toast.error'), {
         description: error.message,
       })
     },
-    onSuccess(data) {
-      if (data?.id) {
-        toast.success(t('toast.created'))
-      } else {
-        toast.success(t('toast.noId'))
-      }
+    onSuccess() {
+      toast.success(t('toast.created'))
     },
   })
 
@@ -132,26 +109,97 @@ export function useCreatePost(submission: Submission) {
   }
 }
 
-function generateSchema() {
+type Translate = ReturnType<typeof useTranslations<'component.submission'>>
+
+function generateSchema(t: Translate, submission: Submission) {
+  const { body, flair, link, title } = submission.requirements
+
   const base = z.object({
     community: z.string(),
-    flairId: z.string().optional(),
+    flairId: flair ? z.string() : z.string().optional(),
     nsfw: z.boolean(),
     spoiler: z.boolean(),
-    title: z.string().min(1),
+    title: withContentRules(
+      z
+        .string()
+        .min(
+          title.min ?? 1,
+          t('title.error.min', {
+            min: title.min ?? 1,
+          }),
+        )
+        .max(
+          title.max ?? TITLE_MAX,
+          t('title.error.max', {
+            max: title.max ?? TITLE_MAX,
+          }),
+        ),
+      title,
+      {
+        blacklist: t('title.error.blacklist', {
+          list: title.blacklist.join(', '),
+        }),
+        pattern: t('title.error.pattern'),
+        required: t('title.error.required', {
+          list: title.required.join(', '),
+        }),
+      },
+    ),
   })
+
+  const text = withContentRules(
+    body.policy === 'required'
+      ? z.string().min(
+          1,
+          t('text.error.min', {
+            min: 1,
+          }),
+        )
+      : z.string(),
+    body,
+    {
+      blacklist: t('text.error.blacklist', {
+        list: body.blacklist.join(', '),
+      }),
+      pattern: t('text.error.pattern'),
+      required: t('text.error.required', {
+        list: body.required.join(', '),
+      }),
+    },
+  )
 
   return z.discriminatedUnion('type', [
     z
       .object({
-        text: z.string().min(1),
+        text:
+          body.policy === 'forbidden'
+            ? z.string().max(0, t('text.error.forbidden')).optional()
+            : body.policy === 'optional'
+              ? text.optional()
+              : text,
         type: z.literal('text'),
       })
       .extend(base.shape),
     z
       .object({
         type: z.literal('link'),
-        url: z.url().min(1),
+        url: z
+          .url(t('link.error.url'))
+          .refine(
+            (value) =>
+              link.whitelist.length === 0 ||
+              link.whitelist.some((domain) => isOnDomain(value, domain)),
+            t('link.error.whitelist', {
+              list: link.whitelist.join(', '),
+            }),
+          )
+          .refine(
+            (value) =>
+              !link.blacklist.some((domain) => isOnDomain(value, domain)),
+            t('link.error.blacklist', {
+              list: link.blacklist.join(', '),
+            }),
+          ),
       })
       .extend(base.shape),
     z
@@ -176,30 +224,59 @@ function generateSchema() {
   ])
 }
 
+// Reddit's own cap on a title
+const TITLE_MAX = 300
+
 const imageHostRegex = /reddit-uploaded-media.s3-accelerate.amazonaws.com/
 const videoHostRegex = /reddit-uploaded-video.s3-accelerate.amazonaws.com/
 
-async function handleAsync(accountId: string, title: string, tries = 5) {
-  const url = new URL(`/user/${accountId}/submitted`, REDDIT_URI)
-
-  url.searchParams.set('limit', '5')
-  url.searchParams.set('sort', 'new')
-
-  const posts = await reddit<PostsSchema>({
-    url,
+// A community's word and pattern rules for a title or body. Like Reddit, the
+// text needs at least one of the required words and must match one of the
+// patterns, and words are matched case-insensitively.
+function withContentRules(
+  schema: z.ZodString,
+  rules: SubmissionRequirements['title'],
+  messages: Record<'blacklist' | 'pattern' | 'required', string>,
+) {
+  // patterns are written for Reddit's (Python) regex engine; one JavaScript
+  // can't compile is skipped rather than blocking the post
+  const patterns = rules.patterns.flatMap((pattern) => {
+    try {
+      return [new RegExp(pattern)]
+    } catch {
+      return []
+    }
   })
 
-  for (const post of posts?.data.children ?? []) {
-    if (post.data.title === title) {
-      return {
-        id: removePrefix(post.data.id),
-      }
-    }
-  }
+  return schema
+    .refine(
+      (value) =>
+        rules.required.length === 0 ||
+        rules.required.some((word) => includes(value, word)),
+      messages.required,
+    )
+    .refine(
+      (value) => !rules.blacklist.some((word) => includes(value, word)),
+      messages.blacklist,
+    )
+    .refine(
+      (value) =>
+        patterns.length === 0 ||
+        patterns.some((pattern) => pattern.test(value)),
+      messages.pattern,
+    )
+}
 
-  if (tries > 1) {
-    await sleep(3000)
+function includes(value: string, word: string) {
+  return value.toLowerCase().includes(word.toLowerCase())
+}
 
-    return handleAsync(accountId, title, tries - 1)
+function isOnDomain(link: string, domain: string) {
+  try {
+    const { hostname } = new URL(link)
+
+    return hostname === domain || hostname.endsWith(`.${domain}`)
+  } catch {
+    return false
   }
 }

@@ -6,12 +6,13 @@ import { Icon } from '~/components/common/icon'
 import { updateCommunities } from '~/hooks/queries/communities/communities'
 import { updateProfile } from '~/hooks/queries/user/profile'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
+import { createApi } from '~/reddit/api'
 
 type Variables = {
   favorite: boolean
+  // the profile's id (t5_…)
+  id: string
   name: string
-  userId: string
 }
 
 export function useFavorite() {
@@ -19,38 +20,15 @@ export function useFavorite() {
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      await Promise.all([
-        (async () => {
-          const body = new URLSearchParams()
+      const reddit = await createApi()
 
-          body.append('sr_name', `u_${variables.name}`)
-          body.append('make_favorite', String(variables.favorite))
-
-          await reddit({
-            body,
-            method: 'post',
-            url: '/api/favorite',
-          })
-        })(),
-        (async () => {
-          const body = new URLSearchParams()
-
-          body.append('api_type', 'json')
-          body.append('container', addPrefix(variables.userId, 'account'))
-          body.append('name', variables.name)
-          body.append('type', 'friend')
-
-          await reddit({
-            body,
-            method: 'post',
-            url: variables.favorite ? '/api/friend' : '/api/unfriend',
-          })
-        })(),
-      ])
+      await reddit.users[variables.favorite ? 'favorite' : 'unfavorite']({
+        id: addPrefix(variables.id, 'subreddit'),
+      })
     },
     onMutate(variables) {
       updateProfile(variables.name, (draft) => {
-        draft.friend = variables.favorite
+        draft.favorite = variables.favorite
       })
 
       updateCommunities(variables.name, (draft) => {

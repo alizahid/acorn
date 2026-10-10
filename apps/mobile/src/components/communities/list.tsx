@@ -1,3 +1,4 @@
+import { type Community, type Feed } from '@acorn/reddit'
 import { FlashList, type FlashListRef } from '@shopify/flash-list'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
@@ -16,8 +17,6 @@ import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
 import { space } from '~/styles/tokens'
-import { type Community } from '~/types/community'
-import { type Feed } from '~/types/feed'
 import { FeedType } from '~/types/sort'
 
 import { Icon } from '../common/icon'
