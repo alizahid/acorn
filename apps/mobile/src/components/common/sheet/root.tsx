@@ -50,9 +50,12 @@ export function Root({
   )
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create((_theme, runtime) => ({
   content: {
     flexGrow: 1,
-    paddingHorizontal: glass ? StyleSheet.hairlineWidth : undefined,
+    paddingLeft: glass ? StyleSheet.hairlineWidth : undefined,
+    paddingRight: glass
+      ? StyleSheet.hairlineWidth + runtime.insets.right
+      : undefined,
   },
-})
+}))
