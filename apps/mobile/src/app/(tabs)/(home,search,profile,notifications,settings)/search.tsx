@@ -167,7 +167,7 @@ export default function Screen() {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   clear: {
     height: theme.space[7],
     width: theme.space[7],
@@ -189,7 +189,8 @@ const styles = StyleSheet.create((theme) => ({
   },
   tabBar: {
     gap: theme.space[4],
-    paddingBottom: theme.space[4],
-    paddingHorizontal: theme.space[4],
+    marginBottom: theme.space[4],
+    marginHorizontal: theme.space[4],
+    marginTop: Math.max(0, theme.space[4] - runtime.insets.top),
   },
 }))

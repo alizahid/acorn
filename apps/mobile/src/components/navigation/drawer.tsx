@@ -108,6 +108,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   main: {
     flex: 1,
+    marginRight: runtime.insets.right,
     marginTop: runtime.insets.top,
   },
 }))
