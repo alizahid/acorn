@@ -1,11 +1,6 @@
-import {
-  FlashList,
-  type FlashListRef,
-  type ListRenderItem,
-} from '@shopify/flash-list'
-import { useRouter, useScrollToTop } from 'expo-router'
-import { useHeaderHeight } from 'expo-router/react-navigation'
-import { type ReactElement, useCallback, useRef } from 'react'
+import { FlashList, type ListRenderItem } from '@shopify/flash-list'
+import { useRouter } from 'expo-router'
+import { type ReactElement, useCallback } from 'react'
 import {
   type StyleProp,
   View,
@@ -65,21 +60,8 @@ export function PostList({
   userType,
 }: Props) {
   const router = useRouter()
-  const headerHeight = useHeaderHeight()
 
   const t = useTranslations('component.posts.list')
-
-  const list = useRef<FlashListRef<Item>>(null)
-
-  useScrollToTop(
-    useRef({
-      scrollToTop() {
-        list.current?.scrollToOffset({
-          offset: -headerHeight,
-        })
-      },
-    }),
-  )
 
   const { addPost } = useHistory()
 
@@ -212,7 +194,6 @@ export function PostList({
           })
         }
       }}
-      ref={list}
       refreshControl={
         <RefreshControl
           onRefresh={() => {
