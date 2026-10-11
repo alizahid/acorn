@@ -1,4 +1,5 @@
 import { type CommentReply } from '@acorn/reddit'
+import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -53,24 +54,25 @@ export function CommentMeta({
       <Pressable
         accessibilityHint={a11y('viewUser')}
         accessibilityLabel={comment.user.name}
+        disabled={!comment.user.name}
         hitSlop={space[3]}
         onPress={() => {
           router.navigate({
             params: {
-              name: removePrefix(comment.user.name),
+              name: removePrefix(comment.user.name!),
             },
             pathname: '/users/[name]',
           })
         }}
         style={styles.user}
       >
-        {/* {comment.user.image ? (
+        {comment.user.image ? (
           <Image
             accessibilityIgnoresInvertColors
             source={comment.user.image}
             style={styles.image}
           />
-        ) : null} */}
+        ) : null}
 
         <Text
           color={comment.op ? 'accent' : 'gray'}
@@ -79,7 +81,7 @@ export function CommentMeta({
           size="1"
           weight="medium"
         >
-          {comment.user.name}
+          {comment.user.name ?? '[deleted]'}
         </Text>
 
         {comment.edited ? (

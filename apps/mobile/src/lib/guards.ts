@@ -1,7 +1,9 @@
 import { type Comment, type Post } from '@acorn/reddit'
 
 export function isComment(item: Post | Comment): item is Comment {
-  return item.type === 'reply' || item.type === 'more'
+  return (
+    item.type === 'reply' || item.type === 'more' || item.type === 'deleted'
+  )
 }
 
 export function isPost(item: Post | Comment): item is Post {

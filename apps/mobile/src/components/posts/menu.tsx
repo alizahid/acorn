@@ -487,22 +487,24 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
           <Sheet.Subtitle title={t('section.navigation')} />
 
-          <Sheet.Item
-            label={t('openUser', {
-              user: post.user.name,
-            })}
-            left={<Icon name="user" />}
-            onPress={() => {
-              ref.current?.dismiss()
+          {post.user.name ? (
+            <Sheet.Item
+              label={t('openUser', {
+                user: post.user.name,
+              })}
+              left={<Icon name="user" />}
+              onPress={() => {
+                ref.current?.dismiss()
 
-              router.navigate({
-                params: {
-                  name: post.user.name,
-                },
-                pathname: '/users/[name]',
-              })
-            }}
-          />
+                router.navigate({
+                  params: {
+                    name: post.user.name!,
+                  },
+                  pathname: '/users/[name]',
+                })
+              }}
+            />
+          ) : null}
 
           {post.community.name.startsWith('u/') ? null : (
             <Sheet.Item
@@ -554,31 +556,33 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             }}
           />
 
-          <Sheet.Confirm
-            label={t('hideUser', {
-              user: post.user.name,
-            })}
-            left={
-              <Icon
-                name="user"
-                uniProps={(theme) => ({
-                  color: theme.colors.red.accent,
-                })}
-              />
-            }
-            onPress={() => {
-              ref.current?.dismiss()
-
-              if (post.user.id) {
-                hide({
-                  action: 'hide',
-                  id: post.user.id,
-                  name: post.user.name,
-                  type: 'user',
-                })
+          {post.user.name ? (
+            <Sheet.Confirm
+              label={t('hideUser', {
+                user: post.user.name,
+              })}
+              left={
+                <Icon
+                  name="user"
+                  uniProps={(theme) => ({
+                    color: theme.colors.red.accent,
+                  })}
+                />
               }
-            }}
-          />
+              onPress={() => {
+                ref.current?.dismiss()
+
+                if (post.user.id) {
+                  hide({
+                    action: 'hide',
+                    id: post.user.id,
+                    name: post.user.name!,
+                    type: 'user',
+                  })
+                }
+              }}
+            />
+          ) : null}
 
           {post.community.name.startsWith('u/') ? null : (
             <Sheet.Confirm

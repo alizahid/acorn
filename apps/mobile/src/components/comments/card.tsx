@@ -259,9 +259,11 @@ export function CommentCard({
                       {comment.post.title}
                     </Text>
 
-                    <Text highContrast={false} size="1">
-                      r/{comment.community.name}
-                    </Text>
+                    {comment.post.community ? (
+                      <Text highContrast={false} size="1">
+                        r/{comment.post.community}
+                      </Text>
+                    ) : null}
                   </View>
                 </Pressable>
               </Link>

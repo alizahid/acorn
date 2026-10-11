@@ -88,11 +88,12 @@ export function PostCommunity({
         <Pressable
           accessibilityHint={a11y('viewUser')}
           accessibilityLabel={post.user.name}
+          disabled={!post.user.name}
           hitSlop={space[3]}
           onPress={() => {
             router.navigate({
               params: {
-                name: removePrefix(post.user.name),
+                name: removePrefix(post.user.name!),
               },
               pathname: '/users/[name]',
             })
@@ -100,7 +101,7 @@ export function PostCommunity({
           style={styles.text}
         >
           <Text numberOfLines={1} size="2" weight="medium">
-            {post.user.name}
+            {post.user.name ?? '[deleted]'}
           </Text>
         </Pressable>
       )}

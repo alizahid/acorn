@@ -90,11 +90,15 @@ export function usePost({ commentId, id: postId, sort }: Props) {
       }
 
       for (const comment of comments) {
+        if (comment.type === 'more') {
+          continue
+        }
+
         if (
-          comment.type === 'reply' &&
-          ((collapseAutoModerator &&
+          (collapseAutoModerator &&
+            comment.type === 'reply' &&
             comment.data.user.name === 'AutoModerator') ||
-            collapsed.some((item) => item.id === comment.data.id))
+          collapsed.some((item) => item.id === comment.data.id)
         ) {
           comment.data.collapsed = true
         }
@@ -149,8 +153,9 @@ export function usePost({ commentId, id: postId, sort }: Props) {
 
       updatePost(id, (draft) => {
         for (const comment of draft.comments) {
+          // deleted comments collapse their replies too
           if (
-            comment.type === 'reply' &&
+            comment.type !== 'more' &&
             comment.data.id === variables.commentId
           ) {
             comment.data.collapsed = !comment.data.collapsed
@@ -288,7 +293,7 @@ function getParentCommentIds(
   commentId: string,
 ): Array<string> {
   const comment = comments.find(
-    (item) => item.type === 'reply' && item.data.id === commentId,
+    (item) => item.type !== 'more' && item.data.id === commentId,
   )
 
   if (!comment?.data.parentId) {
@@ -310,7 +315,7 @@ function isHidden(comments: Array<Comment>, commentId: string) {
 
   const parent = comments.find((item) => item.data.id === comment.data.parentId)
 
-  if (parent?.type === 'reply' && parent.data.collapsed) {
+  if (parent && parent.type !== 'more' && parent.data.collapsed) {
     return true
   }
 

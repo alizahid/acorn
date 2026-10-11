@@ -38,7 +38,9 @@ export function NotificationCard({ notification }: Props) {
     <Pressable
       accessibilityLabel={notification.title}
       onPress={() => {
-        handleLink(notification.context)
+        if (notification.context) {
+          handleLink(notification.context)
+        }
 
         if (notification.new) {
           mark(notification)
@@ -61,7 +63,7 @@ export function NotificationCard({ notification }: Props) {
           {notification.title}
         </Text>
 
-        <Markdown>{notification.body}</Markdown>
+        {notification.body ? <Markdown>{notification.body}</Markdown> : null}
 
         <View style={styles.meta}>
           <Text highContrast={false} size="2">
@@ -125,7 +127,7 @@ const icons = {
 
 const tints = {
   comment_reply: 'plum',
-  other: 'gray',
+  other: 'accent',
   post_reply: 'jade',
   username_mention: 'ruby',
 } as const satisfies Record<Kind, ColorToken>

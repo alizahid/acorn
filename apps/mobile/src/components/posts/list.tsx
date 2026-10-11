@@ -108,7 +108,7 @@ export function PostList({
         )
       }
 
-      if (item.type === 'more') {
+      if (item.type === 'more' || item.type === 'deleted') {
         return null
       }
 
@@ -135,8 +135,8 @@ export function PostList({
           return `reply-${item.data.id}`
         }
 
-        if (item.type === 'more') {
-          return `more-${item.data.id}`
+        if (item.type === 'more' || item.type === 'deleted') {
+          return `${item.type}-${item.data.id}`
         }
 
         return item.id

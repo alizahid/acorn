@@ -360,27 +360,29 @@ export function CommentMenu({
 
           <Sheet.Subtitle title={t('section.navigation')} />
 
-          <Sheet.Item
-            label={t('openUser', {
-              user: comment.user.name,
-            })}
-            left={<Icon name="user" />}
-            onPress={() => {
-              ref.current?.dismiss()
+          {comment.user.name ? (
+            <Sheet.Item
+              label={t('openUser', {
+                user: comment.user.name,
+              })}
+              left={<Icon name="user" />}
+              onPress={() => {
+                ref.current?.dismiss()
 
-              router.navigate({
-                params: {
-                  name: comment.user.name,
-                },
-                pathname: '/users/[name]',
-              })
-            }}
-          />
+                router.navigate({
+                  params: {
+                    name: comment.user.name!,
+                  },
+                  pathname: '/users/[name]',
+                })
+              }}
+            />
+          ) : null}
 
-          {comment.community.name.startsWith('u_') ? null : (
+          {comment.post.community ? (
             <Sheet.Item
               label={t('openCommunity', {
-                community: comment.community.name,
+                community: comment.post.community,
               })}
               left={<Icon name="users-four" />}
               onPress={() => {
@@ -388,13 +390,13 @@ export function CommentMenu({
 
                 router.navigate({
                   params: {
-                    name: comment.community.name,
+                    name: comment.post.community!,
                   },
                   pathname: '/communities/[name]',
                 })
               }}
             />
-          )}
+          ) : null}
 
           <Sheet.Separator />
 
@@ -465,31 +467,33 @@ export function CommentMenu({
             }}
           />
 
-          <Sheet.Confirm
-            label={t('hideUser', {
-              user: comment.user.name,
-            })}
-            left={
-              <Icon
-                name="user"
-                uniProps={(theme) => ({
-                  color: theme.colors.red.accent,
-                })}
-              />
-            }
-            onPress={() => {
-              ref.current?.dismiss()
-
-              if (comment.user.id) {
-                hide({
-                  action: 'hide',
-                  id: comment.user.id,
-                  name: comment.user.name,
-                  type: 'user',
-                })
+          {comment.user.name ? (
+            <Sheet.Confirm
+              label={t('hideUser', {
+                user: comment.user.name,
+              })}
+              left={
+                <Icon
+                  name="user"
+                  uniProps={(theme) => ({
+                    color: theme.colors.red.accent,
+                  })}
+                />
               }
-            }}
-          />
+              onPress={() => {
+                ref.current?.dismiss()
+
+                if (comment.user.id) {
+                  hide({
+                    action: 'hide',
+                    id: comment.user.id,
+                    name: comment.user.name!,
+                    type: 'user',
+                  })
+                }
+              }}
+            />
+          ) : null}
 
           <Sheet.Item
             label={t('report.title')}
@@ -529,7 +533,7 @@ export function CommentMenu({
               <Sheet.Confirm
                 key={item}
                 label={t(`report.${item}`, {
-                  community: comment.community.name,
+                  community: comment.post.community ?? '',
                 })}
                 onPress={() => {
                   report({

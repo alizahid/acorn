@@ -107,6 +107,11 @@
       }
     },
     "comments": {
+      "deleted": {
+        "deleted": "Deleted",
+        "moderator": "Removed by moderators",
+        "reddit": "Removed by Reddit"
+      },
       "more": {
         "label": "{count, plural, =0 {More replies} =1 {1 more reply} other {# more replies}}"
       }

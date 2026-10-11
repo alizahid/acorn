@@ -18,6 +18,7 @@ import { z } from 'zod'
 import { useShallow } from 'zustand/react/shallow'
 
 import { CommentCard } from '~/components/comments/card'
+import { CommentDeletedCard } from '~/components/comments/deleted'
 import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
 import {
@@ -214,6 +215,23 @@ export default function Screen() {
             }}
             post={post}
             sort={sort}
+          />
+        )
+      }
+
+      if (item.type === 'deleted') {
+        return (
+          <CommentDeletedCard
+            comment={item.data}
+            onPress={() => {
+              if (!collapsibleComments) {
+                return
+              }
+
+              collapse({
+                commentId: item.data.id,
+              })
+            }}
           />
         )
       }
