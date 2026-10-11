@@ -298,7 +298,7 @@ export default function Screen() {
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         initialScrollIndex={params.commentId ? 0 : undefined}
         initialScrollIndexParams={{
-          viewOffset: -offset,
+          viewOffset: -offset - 48,
         }}
         keyExtractor={(item) => {
           if (item.type === 'more') {
