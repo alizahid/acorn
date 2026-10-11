@@ -10,7 +10,6 @@ type Props = {
 }
 
 export function SubmissionCommunityCard({ community }: Props) {
-  // a profile's name already reads `u/<name>`
   const name = community.user ? community.name : `r/${community.name}`
 
   return (

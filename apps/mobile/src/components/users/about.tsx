@@ -50,8 +50,6 @@ export function UserAbout({ name }: Props) {
     return <Loading />
   }
 
-  const { subreddit } = profile
-
   return (
     <ScrollView
       {...listProps}
@@ -119,8 +117,7 @@ export function UserAbout({ name }: Props) {
             style={styles.button}
           />
 
-          {/* Reddit only lets you favorite users you follow */}
-          {user && subreddit && profile.subscribed ? (
+          {user && profile.subreddit && profile.subscribed ? (
             <Button
               color={profile.favorite ? 'amber' : 'gray'}
               label={t(profile.favorite ? 'unfavorite' : 'favorite')}
@@ -138,7 +135,7 @@ export function UserAbout({ name }: Props) {
               onPress={() => {
                 favorite({
                   favorite: !profile.favorite,
-                  id: subreddit,
+                  id: profile.subreddit!,
                   name: profile.name,
                 })
               }}
