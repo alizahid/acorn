@@ -1,8 +1,7 @@
+import { type CommentReply } from '@acorn/reddit'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
-
-import { type CommentReply } from '~/types/comment'
 
 import { Icon } from '../common/icon'
 import { Text } from '../common/text'

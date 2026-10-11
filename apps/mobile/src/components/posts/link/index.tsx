@@ -1,3 +1,4 @@
+import { type PostMedia } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -11,7 +12,6 @@ import { useHistory } from '~/hooks/history'
 import { useImagePlaceholder } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { usePreferences } from '~/stores/preferences'
-import { type PostMedia } from '~/types/post'
 
 type Props = {
   compact?: boolean

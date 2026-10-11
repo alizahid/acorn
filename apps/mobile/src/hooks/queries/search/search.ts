@@ -1,20 +1,17 @@
-import { useQuery } from '@tanstack/react-query'
+import { type Community, type Post, type User } from '@acorn/reddit'
+import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
+import { uniqBy } from 'lodash'
 import { create, type Draft } from 'mutative'
+import { useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 import { filterCommunities, filterPosts, filterUsers } from '~/lib/filtering'
 import { queryClient } from '~/lib/query'
-import { REDDIT_URI, reddit } from '~/reddit/api'
-import { CommunitiesSchema } from '~/schemas/communities'
-import { PostsSchema } from '~/schemas/posts'
-import { UsersSchema } from '~/schemas/users'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 import { type Undefined } from '~/types'
-import { type Community } from '~/types/community'
 import { type SearchTab } from '~/types/defaults'
-import { type Post } from '~/types/post'
 import { type SearchSort, type TopInterval } from '~/types/sort'
-import { type User } from '~/types/user'
 
 import { type PostQueryData } from '../posts/post'
 
@@ -29,8 +26,22 @@ export type SearchQueryKey = [
   },
 ]
 
-export type SearchQueryData<Type extends SearchTab> = Array<
-  Type extends 'community' ? Community : Type extends 'user' ? User : Post
+type Param = string | undefined | null
+
+type SearchItem<Type extends SearchTab> = Type extends 'community'
+  ? Community
+  : Type extends 'user'
+    ? User
+    : Post
+
+type Page<Type extends SearchTab> = {
+  cursor: Param
+  results: Array<SearchItem<Type>>
+}
+
+export type SearchQueryData<Type extends SearchTab> = InfiniteData<
+  Page<Type>,
+  Param
 >
 
 export type SearchProps<Type extends SearchTab> = {
@@ -54,72 +65,64 @@ export function useSearch<Type extends SearchTab>({
     })),
   )
 
-  const { data, isLoading, refetch } = useQuery<
-    Undefined<SearchQueryData<Type>>,
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    refetch,
+  } = useInfiniteQuery<
+    Page<Type>,
     Error,
     SearchQueryData<Type>,
-    SearchQueryKey
+    SearchQueryKey,
+    Param
   >({
     enabled: Boolean(accountId) && query.length > 2,
-    async queryFn() {
-      const path = community ? `/r/${community}/search` : '/search'
+    getNextPageParam(page) {
+      return page.cursor
+    },
+    initialPageParam: null,
+    async queryFn({ pageParam }) {
+      const reddit = await createApi()
 
-      const url = new URL(path, REDDIT_URI)
-
-      url.searchParams.set('q', query)
-      url.searchParams.set('limit', '100')
-      url.searchParams.set(
-        'type',
-        type === 'community' ? 'sr' : type === 'user' ? 'user' : 'link',
-      )
-
-      if (community) {
-        url.searchParams.set('restrict_sr', 'true')
+      const input = {
+        after: pageParam ?? undefined,
+        community,
+        query,
       }
-
-      if (type === 'post') {
-        url.searchParams.set('sr_detail', 'true')
-
-        if (sort) {
-          url.searchParams.set('sort', sort)
-        }
-
-        if (interval) {
-          url.searchParams.set('t', interval)
-        }
-      }
-
-      const payload = await reddit({
-        url,
-      })
 
       if (type === 'community') {
-        const response = CommunitiesSchema.parse(payload)
+        const { communities, cursor } = await reddit.search.communities(input)
 
-        const communities = await filterCommunities(response)
-
-        return communities satisfies Array<User> as SearchQueryData<Type>
+        return {
+          cursor,
+          results: (await filterCommunities(communities)) as Array<
+            SearchItem<Type>
+          >,
+        }
       }
 
       if (type === 'user') {
-        const response = UsersSchema.parse(payload)
+        const { cursor, users } = await reddit.search.users(input)
 
-        const users = await filterUsers(response)
-
-        return users satisfies Array<User> as SearchQueryData<Type>
+        return {
+          cursor,
+          results: (await filterUsers(users)) as Array<SearchItem<Type>>,
+        }
       }
 
-      if (type === 'post') {
-        const response = PostsSchema.parse(payload)
+      const { cursor, posts } = await reddit.search.posts({
+        ...input,
+        sort,
+        time: interval,
+      })
 
-        const posts = await filterPosts(response)
-
-        return posts.filter(
-          (post) => post.type !== 'reply' && post.type !== 'more',
-        ) satisfies Array<Post> as SearchQueryData<Type>
+      return {
+        cursor,
+        results: (await filterPosts(posts)) as Array<SearchItem<Type>>,
       }
-
-      return []
     },
     queryKey: [
       'search',
@@ -133,10 +136,22 @@ export function useSearch<Type extends SearchTab>({
     ],
   })
 
+  const results = useMemo(
+    () =>
+      uniqBy(
+        data?.pages.flatMap((page) => page.results) ?? [],
+        (item) => item.id,
+      ),
+    [data?.pages],
+  )
+
   return {
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
     isLoading,
     refetch,
-    results: data ?? [],
+    results,
   }
 }
 
@@ -159,18 +174,20 @@ export function getPostFromSearch(id: string): Undefined<PostQueryData> {
       continue
     }
 
-    for (const post of data) {
-      if (post.id === id) {
-        return {
-          comments: [],
-          post,
+    for (const page of data.pages) {
+      for (const post of page.results) {
+        if (post.id === id) {
+          return {
+            comments: [],
+            post,
+          }
         }
-      }
 
-      if (post.crossPost?.id === id) {
-        return {
-          comments: [],
-          post: post.crossPost,
+        if (post.crossPost?.id === id) {
+          return {
+            comments: [],
+            post: post.crossPost,
+          }
         }
       }
     }
@@ -201,11 +218,13 @@ export function updateSearch(
         }
 
         return create(previous, (draft) => {
-          for (const post of draft) {
-            if (post.id === id) {
-              updater(post)
+          loop: for (const page of draft.pages) {
+            for (const post of page.results) {
+              if (post.id === id) {
+                updater(post)
 
-              break
+                break loop
+              }
             }
           }
         })

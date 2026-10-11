@@ -8,7 +8,7 @@ import { updatePosts } from '~/hooks/queries/posts/posts'
 import { triggerFeedback } from '~/lib/feedback'
 import { isComment } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
+import { createApi } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
 
 import { useCommentVote } from './vote'
@@ -32,14 +32,10 @@ export function useCommentSave() {
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('id', addPrefix(variables.commentId, 'comment'))
-
-      await reddit({
-        body,
-        method: 'post',
-        url: `/api/${variables.action}`,
+      await reddit.comments[variables.action]({
+        id: addPrefix(variables.commentId, 'comment'),
       })
     },
     onMutate(variables) {

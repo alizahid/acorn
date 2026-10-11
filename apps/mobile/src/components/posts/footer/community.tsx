@@ -1,3 +1,4 @@
+import { type Post } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { View } from 'react-native'
@@ -10,7 +11,6 @@ import { Text } from '~/components/common/text'
 import { removePrefix } from '~/lib/reddit'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
-import { type Post } from '~/types/post'
 
 type Props = {
   hideCommunity?: boolean
@@ -88,19 +88,28 @@ export function PostCommunity({
         <Pressable
           accessibilityHint={a11y('viewUser')}
           accessibilityLabel={post.user.name}
+          disabled={!post.user.name}
           hitSlop={space[3]}
           onPress={() => {
             router.navigate({
               params: {
-                name: removePrefix(post.user.name),
+                name: removePrefix(post.user.name!),
               },
               pathname: '/users/[name]',
             })
           }}
-          style={styles.text}
+          style={styles.user}
         >
-          <Text numberOfLines={1} size="2" weight="medium">
-            {post.user.name}
+          {post.user.image ? (
+            <Image
+              accessibilityIgnoresInvertColors
+              source={post.user.image}
+              style={styles.image}
+            />
+          ) : null}
+
+          <Text numberOfLines={1} size="2" style={styles.text} weight="medium">
+            {post.user.name ?? '[deleted]'}
           </Text>
         </Pressable>
       )}
@@ -110,8 +119,10 @@ export function PostCommunity({
 
 const styles = StyleSheet.create((theme) => ({
   community: {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space[2],
+    maxWidth: '50%',
   },
   image: {
     backgroundColor: theme.colors.gray.ui,
@@ -127,5 +138,11 @@ const styles = StyleSheet.create((theme) => ({
   },
   text: {
     flexShrink: 1,
+  },
+  user: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexShrink: 1,
+    gap: theme.space[2],
   },
 }))

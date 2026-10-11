@@ -1,20 +1,14 @@
+import { Reddit } from '@acorn/reddit'
 import { useMutation } from '@tanstack/react-query'
+// biome-ignore lint/performance/noNamespaceImport: go away
+import * as Crypto from 'expo-crypto'
 import { useRouter } from 'expo-router'
 import cookies from 'react-native-nitro-cookies'
 import { toast } from 'sonner-native'
-import { z } from 'zod'
 import { useShallow } from 'zustand/react/shallow'
 
-import { getUserAgent } from '~/lib/user-agent'
-import { REDDIT_URI } from '~/reddit/api'
+import { fetchToken } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
-
-const schema = z.object({
-  data: z.object({
-    modhash: z.string(),
-    name: z.string(),
-  }),
-})
 
 export function useSignIn() {
   const router = useRouter()
@@ -29,24 +23,20 @@ export function useSignIn() {
     async mutationFn(cookie: string) {
       await Promise.all([cookies.clearAll(), cookies.clearAll(true)])
 
-      const url = new URL('/api/me.json', REDDIT_URI)
+      const { expiresAt, token } = await fetchToken(cookie)
 
-      const response = await fetch(url, {
-        credentials: 'omit',
-        headers: {
-          cookie: `reddit_session=${cookie}`,
-          'user-agent': getUserAgent(),
-        },
+      const reddit = new Reddit({
+        deviceId: Crypto.randomUUID(),
+        token,
       })
 
-      const json = await response.json()
-
-      const { data } = schema.parse(json)
+      const { name } = await reddit.users.me()
 
       return {
         cookie,
-        id: data.name,
-        modHash: data.modhash,
+        expiresAt,
+        id: name,
+        token,
       }
     },
     onError(error) {

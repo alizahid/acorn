@@ -1,3 +1,4 @@
+import { type Comment } from '@acorn/reddit'
 import {
   FlashList,
   type FlashListRef,
@@ -9,6 +10,7 @@ import fuzzysort from 'fuzzysort'
 import { create } from 'mutative'
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { View } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import { StyleSheet } from 'react-native-unistyles'
 import { useDebounce } from 'use-debounce'
 import { useTranslations } from 'use-intl'
@@ -16,6 +18,7 @@ import { z } from 'zod'
 import { useShallow } from 'zustand/react/shallow'
 
 import { CommentCard } from '~/components/comments/card'
+import { CommentDeletedCard } from '~/components/comments/deleted'
 import { CommentMoreCard } from '~/components/comments/more'
 import { Empty } from '~/components/common/empty'
 import {
@@ -34,7 +37,6 @@ import { useListProps } from '~/hooks/list'
 import { usePost } from '~/hooks/queries/posts/post'
 import { glass } from '~/lib/common'
 import { usePreferences } from '~/stores/preferences'
-import { type Comment } from '~/types/comment'
 
 const schema = z.object({
   commentId: z.string().min(1).optional().catch(undefined),
@@ -44,10 +46,13 @@ const schema = z.object({
 export type PostParams = z.infer<typeof schema>
 
 export default function Screen() {
+  const insets = useSafeAreaInsets()
   const router = useRouter()
   const params = schema.parse(useLocalSearchParams())
 
   const headerHeight = useHeaderHeight()
+
+  const offset = insets.top === 0 ? 0 : headerHeight
 
   const a11y = useTranslations('a11y')
 
@@ -103,7 +108,7 @@ export default function Screen() {
     (direction: 'up' | 'down') => {
       const headerBottom =
         (list.current?.getAbsoluteLastScrollOffset() ?? 0) +
-        headerHeight -
+        offset -
         (list.current?.getFirstItemOffset() ?? 0)
 
       let current = list.current?.getFirstVisibleIndex() ?? 0
@@ -146,10 +151,10 @@ export default function Screen() {
       list.current?.scrollToIndex({
         animated: true,
         index: next,
-        viewOffset: -headerHeight + 1,
+        viewOffset: -offset + 1,
       })
     },
-    [comments, headerHeight],
+    [comments, offset],
   )
 
   useEffect(() => {
@@ -176,7 +181,7 @@ export default function Screen() {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 1,
-                viewOffset: -headerHeight,
+                viewOffset: -offset,
               })
 
               router.setParams({
@@ -188,7 +193,7 @@ export default function Screen() {
         ) : null}
       </View>
     ),
-    [comments, headerHeight, params.commentId, post, router, query],
+    [comments, params.commentId, post, router, query, offset],
   )
 
   const renderItem: ListRenderItem<Comment> = useCallback(
@@ -201,7 +206,7 @@ export default function Screen() {
               list.current?.scrollToIndex({
                 animated: true,
                 index: 1,
-                viewOffset: -headerHeight,
+                viewOffset: -offset,
               })
 
               router.setParams({
@@ -210,6 +215,23 @@ export default function Screen() {
             }}
             post={post}
             sort={sort}
+          />
+        )
+      }
+
+      if (item.type === 'deleted') {
+        return (
+          <CommentDeletedCard
+            comment={item.data}
+            onPress={() => {
+              if (!collapsibleComments) {
+                return
+              }
+
+              collapse({
+                commentId: item.data.id,
+              })
+            }}
           />
         )
       }
@@ -239,7 +261,7 @@ export default function Screen() {
             requestAnimationFrame(() => {
               list.current?.scrollToIndex({
                 index,
-                viewOffset: -headerHeight,
+                viewOffset: -offset,
               })
             })
           }}
@@ -255,15 +277,7 @@ export default function Screen() {
         />
       )
     },
-    [
-      collapse,
-      collapseThread,
-      collapsibleComments,
-      headerHeight,
-      post,
-      router,
-      sort,
-    ],
+    [collapse, collapseThread, collapsibleComments, post, router, sort, offset],
   )
 
   const listProps = useListProps(true)
@@ -302,7 +316,7 @@ export default function Screen() {
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         initialScrollIndex={params.commentId ? 0 : undefined}
         initialScrollIndexParams={{
-          viewOffset: -headerHeight,
+          viewOffset: -offset,
         }}
         keyExtractor={(item) => {
           if (item.type === 'more') {

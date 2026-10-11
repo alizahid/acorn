@@ -1,3 +1,4 @@
+import { type CommentReply, type Post } from '@acorn/reddit'
 import { useMutation } from '@tanstack/react-query'
 import { type Draft } from 'mutative'
 import { useShallow } from 'zustand/react/shallow'
@@ -9,13 +10,11 @@ import { updateSearch } from '~/hooks/queries/search/search'
 import { triggerFeedback } from '~/lib/feedback'
 import { isPost } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
+import { createApi } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
-import { type CommentReply } from '~/types/comment'
-import { type Post } from '~/types/post'
 
 type Variables = {
-  direction: 1 | 0 | -1
+  action: 'downvote' | 'unvote' | 'upvote'
   postId: string
 }
 
@@ -30,22 +29,17 @@ export function usePostVote() {
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('id', addPrefix(variables.postId, 'link'))
-      body.append('dir', String(variables.direction))
-
-      await reddit({
-        body,
-        method: 'post',
-        url: '/api/vote',
+      await reddit.posts[variables.action]({
+        id: addPrefix(variables.postId, 'link'),
       })
     },
     onMutate(variables) {
       triggerFeedback(
-        variables.direction === 1
+        variables.action === 'upvote'
           ? 'up'
-          : variables.direction === -1
+          : variables.action === 'downvote'
             ? 'down'
             : 'undo',
       )
@@ -82,8 +76,16 @@ function update(variables: Variables, draft: Draft<Post | CommentReply>) {
   draft.votes =
     draft.votes -
     (draft.liked ? 1 : draft.liked === null ? 0 : -1) +
-    variables.direction
+    (variables.action === 'upvote'
+      ? 1
+      : variables.action === 'downvote'
+        ? -1
+        : 0)
 
   draft.liked =
-    variables.direction === 1 ? true : variables.direction === 0 ? null : false
+    variables.action === 'upvote'
+      ? true
+      : variables.action === 'downvote'
+        ? false
+        : null
 }

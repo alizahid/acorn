@@ -1,6 +1,5 @@
+import { type CommentReply } from '@acorn/reddit'
 import { create } from 'zustand'
-
-import { type CommentReply } from '~/types/comment'
 
 export type TempPayload = {
   comment: CommentReply | null

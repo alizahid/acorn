@@ -1,11 +1,7 @@
-import {
-  FlashList,
-  type FlashListRef,
-  type ListRenderItem,
-} from '@shopify/flash-list'
-import { useRouter, useScrollToTop } from 'expo-router'
-import { useHeaderHeight } from 'expo-router/react-navigation'
-import { type ReactElement, useCallback, useRef } from 'react'
+import { type Comment, type Post } from '@acorn/reddit'
+import { FlashList, type ListRenderItem } from '@shopify/flash-list'
+import { useRouter } from 'expo-router'
+import { type ReactElement, useCallback } from 'react'
 import {
   type StyleProp,
   View,
@@ -23,8 +19,6 @@ import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { usePreferences } from '~/stores/preferences'
-import { type Comment } from '~/types/comment'
-import { type Post } from '~/types/post'
 
 import { CommentCard } from '../comments/card'
 import { Button } from '../common/button'
@@ -65,21 +59,8 @@ export function PostList({
   userType,
 }: Props) {
   const router = useRouter()
-  const headerHeight = useHeaderHeight()
 
   const t = useTranslations('component.posts.list')
-
-  const list = useRef<FlashListRef<Item>>(null)
-
-  useScrollToTop(
-    useRef({
-      scrollToTop() {
-        list.current?.scrollToOffset({
-          offset: -headerHeight,
-        })
-      },
-    }),
-  )
 
   const { addPost } = useHistory()
 
@@ -127,7 +108,7 @@ export function PostList({
         )
       }
 
-      if (item.type === 'more') {
+      if (item.type === 'more' || item.type === 'deleted') {
         return null
       }
 
@@ -154,8 +135,8 @@ export function PostList({
           return `reply-${item.data.id}`
         }
 
-        if (item.type === 'more') {
-          return `more-${item.data.id}`
+        if (item.type === 'more' || item.type === 'deleted') {
+          return `${item.type}-${item.data.id}`
         }
 
         return item.id
@@ -185,11 +166,7 @@ export function PostList({
       }
       ListHeaderComponent={header}
       onEndReached={() => {
-        if (!infiniteScrolling) {
-          return
-        }
-
-        if (hasNextPage) {
+        if (infiniteScrolling && hasNextPage) {
           fetchNextPage()
         }
       }}
@@ -212,7 +189,6 @@ export function PostList({
           })
         }
       }}
-      ref={list}
       refreshControl={
         <RefreshControl
           onRefresh={() => {

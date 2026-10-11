@@ -1,4 +1,4 @@
-//
+import { type enums } from '@acorn/reddit'
 
 export type SortType = 'feed' | 'community' | 'user' | 'comment' | 'search'
 
@@ -15,63 +15,84 @@ export const FeedType = ['home', 'popular', 'all'] as const
 
 export type FeedType = (typeof FeedType)[number]
 
+// The sorts each screen offers, as Reddit's own values. Reddit accepts more
+// (AWARDED, QA, RANDOM, …); these are the ones Acorn shows.
+
 // home
 
-export const FeedSort = ['new', 'best', 'top', 'rising', 'hot'] as const
+export const FeedSort = [
+  'NEW',
+  'BEST',
+  'TOP',
+  'RISING',
+  'HOT',
+] as const satisfies ReadonlyArray<enums.PostFeedSort>
 
 export type FeedSort = (typeof FeedSort)[number]
 
 // community
 
 export const CommunityFeedSort = [
-  'new',
-  'top',
-  'rising',
-  'hot',
-  'controversial',
-] as const
+  'NEW',
+  'TOP',
+  'RISING',
+  'HOT',
+  'CONTROVERSIAL',
+] as const satisfies ReadonlyArray<enums.PostFeedSort>
 
 export type CommunityFeedSort = (typeof CommunityFeedSort)[number]
 
 // user
 
-export const UserFeedSort = ['new', 'top', 'hot'] as const
+export const UserFeedSort = [
+  'NEW',
+  'TOP',
+  'HOT',
+] as const satisfies ReadonlyArray<enums.ProfileFeedSort>
 
 export type UserFeedSort = (typeof UserFeedSort)[number]
 
 // comment
 
 export const CommentSort = [
-  'confidence',
-  'top',
-  'new',
-  'old',
-  'controversial',
-] as const
+  'CONFIDENCE',
+  'TOP',
+  'NEW',
+  'OLD',
+  'CONTROVERSIAL',
+] as const satisfies ReadonlyArray<enums.CommentSort>
 
 export type CommentSort = (typeof CommentSort)[number]
 
 // search
 
 export const SearchSort = [
-  'relevance',
-  'hot',
-  'top',
-  'new',
-  'comments',
-] as const
+  'RELEVANCE',
+  'HOT',
+  'TOP',
+  'NEW',
+  'COMMENTS',
+] as const satisfies ReadonlyArray<enums.SearchPostSort>
 
 export type SearchSort = (typeof SearchSort)[number]
+
+export const SortOptions = {
+  comment: CommentSort,
+  community: CommunityFeedSort,
+  feed: FeedSort,
+  search: SearchSort,
+  user: UserFeedSort,
+} as const satisfies Record<SortType, ReadonlyArray<PostSort>>
 
 // top
 
 export const TopInterval = [
-  'hour',
-  'day',
-  'week',
-  'month',
-  'year',
-  'all',
-] as const
+  'HOUR',
+  'DAY',
+  'WEEK',
+  'MONTH',
+  'YEAR',
+  'ALL',
+] as const satisfies ReadonlyArray<enums.PostFeedRange>
 
 export type TopInterval = (typeof TopInterval)[number]

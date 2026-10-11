@@ -1,3 +1,4 @@
+import { type enums } from '@acorn/reddit'
 import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
 
@@ -6,7 +7,7 @@ import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { isPost } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
+import { createApi } from '~/reddit/api'
 
 export type ReportReason =
   | 'community'
@@ -37,25 +38,39 @@ type Variables = {
     }
 )
 
+const rules = {
+  CONTRIBUTOR_PROGRAM: 'OTHER',
+  COPYRIGHT: 'COPYRIGHT_OTHER',
+  community: 'SUBREDDIT',
+  HARASSMENT: 'HARASSMENT_AT_SOMEONE_ELSE',
+  HATE_CONTENT: 'HATE_CONTENT',
+  IMPERSONATION: 'IMPERSONATION_OTHER',
+  INVOLUNTARY_PORN: 'INVOLUNTARY_PORN_OTHER',
+  MINOR_ABUSE_OR_SEXUALIZATION: 'MINOR_ABUSE_OR_SEXUALIZATION_ABUSE',
+  PII: 'PII_ABOUT_SOMEONE_ELSE',
+  PROHIBITED_SALES: 'PROHIBITED_SALES',
+  SELF_HARM: 'SELF_HARM',
+  SPAM: 'SPAM_OTHER',
+  TRADEMARK: 'TRADEMARK_OTHER',
+  VIOLENCE: 'VIOLENCE_AT_SOMEONE_ELSE',
+} as const satisfies Record<ReportReason, enums.RuleID>
+
 export function useReport() {
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('api_type', 'json')
-      body.append(
-        'thing_id',
-        addPrefix(
-          variables.id,
-          variables.type === 'comment' ? 'comment' : 'link',
-        ),
-      )
-
-      await reddit({
-        body,
-        method: 'post',
-        url: '/api/report',
-      })
+      if (variables.type === 'comment') {
+        await reddit.comments.report({
+          id: addPrefix(variables.id, 'comment'),
+          siteRule: rules[variables.reason],
+        })
+      } else {
+        await reddit.posts.report({
+          id: addPrefix(variables.id, 'link'),
+          siteRule: rules[variables.reason],
+        })
+      }
     },
     async onMutate(variables) {
       if (variables.type === 'comment') {

@@ -7,8 +7,7 @@ import { updatePosts } from '~/hooks/queries/posts/posts'
 import { isComment } from '~/lib/guards'
 import { prepareMarkdown } from '~/lib/markdown'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
-import { CreateCommentSchema } from '~/schemas/comments'
+import { createApi } from '~/reddit/api'
 
 type Variables = {
   body: string
@@ -19,25 +18,17 @@ type Variables = {
 export function useCommentEdit() {
   const t = useTranslations('toasts.comments')
 
-  const { isPending, mutateAsync } = useMutation<
-    CreateCommentSchema,
-    Error,
-    Variables
-  >({
+  const { isPending, mutateAsync } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('api_type', 'json')
-      body.append('text', prepareMarkdown(variables.body))
-      body.append('thing_id', addPrefix(variables.id, 'comment'))
-
-      const response = await reddit({
-        body,
-        method: 'post',
-        url: '/api/editusertext',
+      await reddit.comments.edit({
+        body: prepareMarkdown(variables.body),
+        id: addPrefix(variables.id, 'comment'),
       })
-
-      return CreateCommentSchema.parse(response)
+    },
+    onError(error) {
+      toast.error(error.message || t('error'))
     },
     onMutate(variables) {
       updatePosts(variables.id, (draft) => {
@@ -58,15 +49,7 @@ export function useCommentEdit() {
         })
       }
     },
-    onSuccess(data) {
-      if (data.json.errors.length > 0) {
-        const error = data.json.errors[0]?.[1] ?? t('error')
-
-        toast.error(error)
-
-        throw new Error(error)
-      }
-
+    onSuccess() {
       toast.success(t('updated'))
     },
   })

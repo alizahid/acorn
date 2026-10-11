@@ -5,10 +5,12 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { updateCommunities } from '~/hooks/queries/communities/communities'
 import { updateCommunity } from '~/hooks/queries/communities/community'
-import { reddit } from '~/reddit/api'
+import { addPrefix } from '~/lib/reddit'
+import { createApi } from '~/reddit/api'
 
 type Variables = {
-  favorite: boolean
+  action: 'favorite' | 'unfavorite'
+  id: string
   name: string
 }
 
@@ -17,39 +19,35 @@ export function useFavorite() {
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('sr_name', variables.name)
-      body.append('make_favorite', String(variables.favorite))
-
-      await reddit({
-        body,
-        method: 'post',
-        url: '/api/favorite',
+      await reddit.communities[variables.action]({
+        id: addPrefix(variables.id, 'subreddit'),
       })
     },
     onMutate(variables) {
       updateCommunity(variables.name, (draft) => {
-        draft.favorite = variables.favorite
+        draft.favorite = variables.action === 'favorite'
       })
 
       updateCommunities(variables.name, (draft) => {
-        draft.favorite = variables.favorite
+        draft.favorite = variables.action === 'favorite'
       })
     },
     onSuccess(_data, variables) {
       toast.success(
-        t(variables.favorite ? 'favorited' : 'unfavorited', {
+        t(variables.action === 'favorite' ? 'favorited' : 'unfavorited', {
           community: variables.name,
         }),
         {
           icon: (
             <Icon
-              name={variables.favorite ? 'star-fill' : 'star'}
+              name={variables.action === 'favorite' ? 'star-fill' : 'star'}
               uniProps={(theme) => ({
-                color: variables.favorite
-                  ? theme.colors.amber.accent
-                  : theme.colors.gray.accent,
+                color:
+                  variables.action === 'favorite'
+                    ? theme.colors.amber.accent
+                    : theme.colors.gray.accent,
               })}
             />
           ),

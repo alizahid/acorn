@@ -82,7 +82,7 @@ export default function Screen() {
           onPress={() => {
             router.navigate({
               params: {
-                name: `u_${profile.name}`,
+                name: `u/${profile.name}`,
               },
               pathname: '/posts/new',
             })

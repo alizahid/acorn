@@ -1,3 +1,4 @@
+import { type PostMediaMeta } from '@acorn/reddit'
 import { useMemo } from 'react'
 import { Gallery } from 'react-native-jet-gallery'
 import { StyleSheet } from 'react-native-unistyles'
@@ -6,11 +7,10 @@ import { useShallow } from 'zustand/react/shallow'
 import { useImageActions } from '~/hooks/image'
 import { useLink } from '~/hooks/link'
 import { type Font, fonts } from '~/lib/fonts'
-import { mergeMetaMarkdown } from '~/lib/markdown'
+import { mergeMetaMarkdown, transformMarkdown } from '~/lib/markdown'
 import { usePreferences } from '~/stores/preferences'
 import { addTextSize } from '~/styles/text'
 import { radius, type TypographyToken } from '~/styles/tokens'
-import { type PostMediaMeta } from '~/types/post'
 
 import { MarkdownViewer } from '../native/markdown'
 
@@ -40,7 +40,7 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
   )
 
   const markdown = useMemo(
-    () => mergeMetaMarkdown(children, meta),
+    () => mergeMetaMarkdown(transformMarkdown(children), meta),
     [children, meta],
   )
 
@@ -80,6 +80,12 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
             borderLeftWidth: theme.space[1],
             borderRadius: theme.radius[4],
             padding: theme.space[3],
+          },
+          caption: {
+            ...theme.typography[addTextSize(size, -2)],
+            color: theme.colors.gray.textLow,
+            marginTop: theme.space[3] / 2,
+            textAlign: 'center',
           },
           code: {
             backgroundColor: theme.colors.accent.ui,

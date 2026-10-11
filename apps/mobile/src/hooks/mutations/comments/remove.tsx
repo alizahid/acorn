@@ -6,7 +6,7 @@ import { Icon } from '~/components/common/icon'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
+import { createApi } from '~/reddit/api'
 
 type Variables = {
   id: string
@@ -18,14 +18,10 @@ export function useCommentRemove() {
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('id', addPrefix(variables.id, 'comment'))
-
-      await reddit({
-        body,
-        method: 'post',
-        url: '/api/del',
+      await reddit.comments.delete({
+        id: addPrefix(variables.id, 'comment'),
       })
     },
     onMutate(variables) {

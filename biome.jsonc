@@ -25,7 +25,8 @@
   },
   "files": {
     "includes": [
-      "!apps/mobile/src/assets/icons/phosphor/phosphor.glyphmap.json"
+      "!apps/mobile/src/assets/icons/phosphor/phosphor.glyphmap.json",
+      "!packages/reddit"
     ]
   },
   "extends": [

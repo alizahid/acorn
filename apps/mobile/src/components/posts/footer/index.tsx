@@ -1,3 +1,4 @@
+import { type Post } from '@acorn/reddit'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -5,7 +6,6 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { usePreferences } from '~/stores/preferences'
-import { type Post } from '~/types/post'
 
 import { FooterButton } from './button'
 import { PostCommunity } from './community'
@@ -61,7 +61,7 @@ export function PostFooter({
             label={a11y(post.liked ? 'removeUpvote' : 'upvote')}
             onPress={() => {
               vote({
-                direction: post.liked ? 0 : 1,
+                action: post.liked ? 'unvote' : 'upvote',
                 postId: post.id,
               })
             }}
@@ -74,7 +74,7 @@ export function PostFooter({
             label={a11y(post.liked === false ? 'removeDownvote' : 'downvote')}
             onPress={() => {
               vote({
-                direction: post.liked === false ? 0 : -1,
+                action: post.liked === false ? 'unvote' : 'downvote',
                 postId: post.id,
               })
             }}

@@ -1,12 +1,10 @@
+import { type Feed } from '@acorn/reddit'
 import { useQuery } from '@tanstack/react-query'
 import { useShallow } from 'zustand/react/shallow'
 
-import { reddit } from '~/reddit/api'
-import { FeedsSchema } from '~/schemas/feeds'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
-import { transformFeed } from '~/transformers/feed'
 import { type Undefined } from '~/types'
-import { type Feed } from '~/types/feed'
 
 export type FeedsQueryKey = [
   'feeds',
@@ -24,31 +22,26 @@ export function useFeeds() {
     })),
   )
 
-  const queryKey: FeedsQueryKey = [
-    'feeds',
-    {
-      accountId,
-    },
-  ]
-
   const { data, isLoading, refetch } = useQuery<
     Undefined<FeedsQueryData>,
     Error,
     FeedsQueryData,
     FeedsQueryKey
   >({
-    enabled: Boolean(accountId),
     networkMode: 'offlineFirst',
     async queryFn() {
-      const payload = await reddit({
-        url: '/api/multi/mine',
-      })
+      const reddit = await createApi()
 
-      const response = FeedsSchema.parse(payload)
+      const { feeds } = await reddit.feeds.mine()
 
-      return response.map((feed) => transformFeed(feed.data))
+      return feeds
     },
-    queryKey,
+    queryKey: [
+      'feeds',
+      {
+        accountId,
+      },
+    ],
   })
 
   return {

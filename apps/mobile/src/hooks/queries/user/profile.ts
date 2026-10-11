@@ -1,14 +1,12 @@
+import { type Profile } from '@acorn/reddit'
 import { useQuery } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
 import { useShallow } from 'zustand/react/shallow'
 
 import { queryClient } from '~/lib/query'
-import { reddit } from '~/reddit/api'
-import { ProfileSchema } from '~/schemas/profile'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
-import { transformProfile } from '~/transformers/profile'
 import { type Undefined } from '~/types'
-import { type Profile } from '~/types/user'
 
 export type ProfileQueryKey = [
   'users',
@@ -34,13 +32,21 @@ export function useProfile(name?: string) {
   >({
     enabled: Boolean(accountId) && Boolean(name),
     async queryFn() {
-      const payload = await reddit({
-        url: `/user/${name!}/about`,
-      })
+      const reddit = await createApi()
 
-      const profile = ProfileSchema.parse(payload)
+      // only GetAccount has the signed-in user's age when their profile is null
+      const profile =
+        name === accountId
+          ? await reddit.users.me()
+          : await reddit.users.get({
+              name: name!,
+            })
 
-      return transformProfile(profile)
+      if (!profile) {
+        throw new Error('User not found')
+      }
+
+      return profile
     },
     queryKey: [
       'users',

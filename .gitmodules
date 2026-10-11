@@ -1,0 +1,4 @@
+[submodule "packages/reddit"]
+	path = packages/reddit
+	url = https://github.com/alizahid/reddit.git
+	branch = package
