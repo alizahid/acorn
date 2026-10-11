@@ -98,9 +98,17 @@ export function PostCommunity({
               pathname: '/users/[name]',
             })
           }}
-          style={styles.text}
+          style={styles.user}
         >
-          <Text numberOfLines={1} size="2" weight="medium">
+          {post.user.image ? (
+            <Image
+              accessibilityIgnoresInvertColors
+              source={post.user.image}
+              style={styles.image}
+            />
+          ) : null}
+
+          <Text numberOfLines={1} size="2" style={styles.text} weight="medium">
             {post.user.name ?? '[deleted]'}
           </Text>
         </Pressable>
@@ -111,8 +119,10 @@ export function PostCommunity({
 
 const styles = StyleSheet.create((theme) => ({
   community: {
+    alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space[2],
+    maxWidth: '50%',
   },
   image: {
     backgroundColor: theme.colors.gray.ui,
@@ -128,5 +138,11 @@ const styles = StyleSheet.create((theme) => ({
   },
   text: {
     flexShrink: 1,
+  },
+  user: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    flexShrink: 1,
+    gap: theme.space[2],
   },
 }))
