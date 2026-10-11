@@ -41,8 +41,8 @@ export function useCommentSave() {
     onMutate(variables) {
       if (upvoteOnSave && variables.action === 'save') {
         vote({
+          action: 'upvote',
           commentId: variables.commentId,
-          direction: 1,
           postId: variables.postId,
         })
       }

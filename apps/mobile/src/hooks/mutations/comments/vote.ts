@@ -10,8 +10,8 @@ import { addPrefix } from '~/lib/reddit'
 import { createApi } from '~/reddit/api'
 
 type Variables = {
+  action: 'downvote' | 'unvote' | 'upvote'
   commentId: string
-  direction: 1 | 0 | -1
   postId?: string
 }
 
@@ -20,15 +20,15 @@ export function useCommentVote() {
     async mutationFn(variables) {
       const reddit = await createApi()
 
-      await reddit.comments[actions[variables.direction]]({
+      await reddit.comments[variables.action]({
         id: addPrefix(variables.commentId, 'comment'),
       })
     },
     onMutate(variables) {
       triggerFeedback(
-        variables.direction === 1
+        variables.action === 'upvote'
           ? 'up'
-          : variables.direction === -1
+          : variables.action === 'downvote'
             ? 'down'
             : 'undo',
       )
@@ -62,18 +62,20 @@ export function useCommentVote() {
   }
 }
 
-const actions = {
-  '-1': 'downvote',
-  0: 'unvote',
-  1: 'upvote',
-} as const
-
 function update(variables: Variables, draft: Draft<CommentReply>) {
   draft.votes =
     draft.votes -
     (draft.liked ? 1 : draft.liked === null ? 0 : -1) +
-    variables.direction
+    (variables.action === 'upvote'
+      ? 1
+      : variables.action === 'downvote'
+        ? -1
+        : 0)
 
   draft.liked =
-    variables.direction === 1 ? true : variables.direction === 0 ? null : false
+    variables.action === 'upvote'
+      ? true
+      : variables.action === 'downvote'
+        ? false
+        : null
 }

@@ -107,8 +107,8 @@ export function CommentMenu({
                 ref.current?.dismiss()
 
                 vote({
+                  action: comment.liked ? 'unvote' : 'upvote',
                   commentId: comment.id,
-                  direction: comment.liked ? 0 : 1,
                   postId: comment.post.id,
                 })
               }}
@@ -129,8 +129,8 @@ export function CommentMenu({
                 ref.current?.dismiss()
 
                 vote({
+                  action: comment.liked === false ? 'unvote' : 'downvote',
                   commentId: comment.id,
-                  direction: comment.liked === false ? 0 : -1,
                   postId: comment.post.id,
                 })
               }}
