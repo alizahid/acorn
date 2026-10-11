@@ -1,4 +1,5 @@
 import { type Profile } from '@acorn/reddit'
+import { compact } from 'lodash'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
@@ -15,37 +16,32 @@ export function ProfileCard({ profile }: Props) {
   const t = useTranslations('component.users.profile')
   const f = useFormatter()
 
-  const items = [
+  const items = compact([
     {
-      key: 'karma',
+      key: 'karma' as const,
       value: f.number(profile?.karma.total ?? 0, {
         notation: 'compact',
       }),
     },
     {
-      key: 'post',
+      key: 'post' as const,
       value: f.number(profile?.karma.post ?? 0, {
         notation: 'compact',
       }),
     },
     {
-      key: 'comment',
+      key: 'comment' as const,
       value: f.number(profile?.karma.comment ?? 0, {
         notation: 'compact',
       }),
     },
-    {
-      key: 'age',
-      // gql-fed has no age for profiles it can't read; it comes back as the
-      // epoch
-      value:
-        profile?.createdAt.getTime() === 0 ? (
-          '–'
-        ) : (
-          <TimeAgo date={profile?.createdAt ?? new Date()} />
-        ),
-    },
-  ] as const
+    profile?.createdAt && profile.createdAt.getTime() !== 0
+      ? {
+          key: 'age' as const,
+          value: <TimeAgo date={profile.createdAt} />,
+        }
+      : null,
+  ])
 
   return (
     <View style={styles.main}>
