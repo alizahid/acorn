@@ -134,7 +134,7 @@ export function UserAbout({ name }: Props) {
               loading={favoriting}
               onPress={() => {
                 favorite({
-                  favorite: !profile.favorite,
+                  action: profile.favorite ? 'unfavorite' : 'favorite',
                   id: profile.subreddit!,
                   name: profile.name,
                 })

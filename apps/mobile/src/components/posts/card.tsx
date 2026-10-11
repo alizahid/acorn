@@ -107,14 +107,14 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
 
       if (action === 'upvote') {
         vote({
-          direction: item.liked ? 0 : 1,
+          action: item.liked ? 'unvote' : 'upvote',
           postId: item.id,
         })
       }
 
       if (action === 'downvote') {
         vote({
-          direction: item.liked === false ? 0 : -1,
+          action: item.liked === false ? 'unvote' : 'downvote',
           postId: item.id,
         })
       }

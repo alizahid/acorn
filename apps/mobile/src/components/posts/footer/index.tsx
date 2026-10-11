@@ -61,7 +61,7 @@ export function PostFooter({
             label={a11y(post.liked ? 'removeUpvote' : 'upvote')}
             onPress={() => {
               vote({
-                direction: post.liked ? 0 : 1,
+                action: post.liked ? 'unvote' : 'upvote',
                 postId: post.id,
               })
             }}
@@ -74,7 +74,7 @@ export function PostFooter({
             label={a11y(post.liked === false ? 'removeDownvote' : 'downvote')}
             onPress={() => {
               vote({
-                direction: post.liked === false ? 0 : -1,
+                action: post.liked === false ? 'unvote' : 'downvote',
                 postId: post.id,
               })
             }}

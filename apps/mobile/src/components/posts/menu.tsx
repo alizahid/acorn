@@ -96,7 +96,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 ref.current?.dismiss()
 
                 vote({
-                  direction: post.liked ? 0 : 1,
+                  action: post.liked ? 'unvote' : 'upvote',
                   postId: post.id,
                 })
               }}
@@ -117,7 +117,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 ref.current?.dismiss()
 
                 vote({
-                  direction: post.liked === false ? 0 : -1,
+                  action: post.liked === false ? 'unvote' : 'downvote',
                   postId: post.id,
                 })
               }}

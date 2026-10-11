@@ -42,7 +42,7 @@ export function usePostSave() {
     onMutate(variables) {
       if (upvoteOnSave && variables.action === 'save') {
         vote({
-          direction: 1,
+          action: 'upvote',
           postId: variables.postId,
         })
       }

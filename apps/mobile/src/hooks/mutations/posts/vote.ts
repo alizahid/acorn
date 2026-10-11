@@ -14,7 +14,7 @@ import { createApi } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
 
 type Variables = {
-  direction: 1 | 0 | -1
+  action: 'downvote' | 'unvote' | 'upvote'
   postId: string
 }
 
@@ -31,15 +31,15 @@ export function usePostVote() {
     async mutationFn(variables) {
       const reddit = await createApi()
 
-      await reddit.posts[actions[variables.direction]]({
+      await reddit.posts[variables.action]({
         id: addPrefix(variables.postId, 'link'),
       })
     },
     onMutate(variables) {
       triggerFeedback(
-        variables.direction === 1
+        variables.action === 'upvote'
           ? 'up'
-          : variables.direction === -1
+          : variables.action === 'downvote'
             ? 'down'
             : 'undo',
       )
@@ -72,18 +72,20 @@ export function usePostVote() {
   }
 }
 
-const actions = {
-  '-1': 'downvote',
-  0: 'unvote',
-  1: 'upvote',
-} as const
-
 function update(variables: Variables, draft: Draft<Post | CommentReply>) {
   draft.votes =
     draft.votes -
     (draft.liked ? 1 : draft.liked === null ? 0 : -1) +
-    variables.direction
+    (variables.action === 'upvote'
+      ? 1
+      : variables.action === 'downvote'
+        ? -1
+        : 0)
 
   draft.liked =
-    variables.direction === 1 ? true : variables.direction === 0 ? null : false
+    variables.action === 'upvote'
+      ? true
+      : variables.action === 'downvote'
+        ? false
+        : null
 }
