@@ -14,11 +14,13 @@ export function SubmissionCommunityCard({ community }: Props) {
 
   return (
     <View style={styles.main}>
-      <Image
-        accessibilityIgnoresInvertColors
-        source={community.image}
-        style={styles.image}
-      />
+      {community.image ? (
+        <Image
+          accessibilityIgnoresInvertColors
+          source={community.image}
+          style={styles.image}
+        />
+      ) : null}
 
       <Text numberOfLines={1} style={styles.name} weight="medium">
         {name}
