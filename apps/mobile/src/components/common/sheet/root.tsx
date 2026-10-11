@@ -53,7 +53,6 @@ export function Root({
 const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
-    paddingLeft: glass ? StyleSheet.hairlineWidth : undefined,
-    paddingRight: glass ? StyleSheet.hairlineWidth : undefined,
+    paddingHorizontal: glass ? StyleSheet.hairlineWidth : undefined,
   },
 })
