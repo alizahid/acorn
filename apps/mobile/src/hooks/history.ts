@@ -23,7 +23,6 @@ export function useHistory() {
         .onConflictDoNothing()
     },
     onMutate(variables) {
-      // routes carry bare ids
       const id = addPrefix(variables.id, 'link')
 
       updatePost(id, (draft) => {
