@@ -13,6 +13,10 @@ import { removePrefix } from '~/lib/reddit'
 import { createApi } from '~/reddit/api'
 import { type SubmissionType } from '~/types/submission'
 
+type Data = {
+  id: string
+}
+
 export type CreatePostForm = z.infer<ReturnType<typeof generateSchema>>
 
 export function useCreatePost(submission: Submission) {
@@ -38,13 +42,7 @@ export function useCreatePost(submission: Submission) {
     resolver: zodResolver(schema),
   })
 
-  const { isPending, mutateAsync } = useMutation<
-    {
-      id: string
-    },
-    Error,
-    CreatePostForm
-  >({
+  const { isPending, mutateAsync } = useMutation<Data, Error, CreatePostForm>({
     async mutationFn(variables) {
       const reddit = await createApi()
 

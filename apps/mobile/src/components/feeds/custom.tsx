@@ -43,7 +43,12 @@ export function CustomFeed({ id }: Props) {
     <>
       {feed ? (
         <Stack.Title asChild>
-          <CommunityHeader image={feed.image} name={feed.name} />
+          <CommunityHeader
+            id={feed.id}
+            image={feed.image}
+            name={feed.name}
+            type="feed"
+          />
         </Stack.Title>
       ) : (
         <Stack.Title style={styles.title}>{id}</Stack.Title>

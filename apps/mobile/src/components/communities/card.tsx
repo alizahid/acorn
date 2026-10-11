@@ -5,8 +5,6 @@ import { type StyleProp, View, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
-import { removePrefix } from '~/lib/reddit'
-
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
@@ -27,20 +25,9 @@ export function CommunityCard({ community, style }: Props) {
       accessibilityHint={a11y('viewCommunity')}
       accessibilityLabel={community.name}
       onPress={() => {
-        if (community.user) {
-          router.navigate({
-            params: {
-              name: removePrefix(community.name),
-            },
-            pathname: '/users/[name]',
-          })
-
-          return
-        }
-
         router.navigate({
           params: {
-            name: removePrefix(community.name),
+            name: community.name,
           },
           pathname: '/communities/[name]',
         })

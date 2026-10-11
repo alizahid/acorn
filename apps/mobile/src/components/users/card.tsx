@@ -5,8 +5,6 @@ import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { removePrefix } from '~/lib/reddit'
-
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
@@ -28,7 +26,7 @@ export function UserCard({ style, user }: Props) {
       onPress={() => {
         router.navigate({
           params: {
-            name: removePrefix(user.name),
+            name: user.name,
           },
           pathname: '/users/[name]',
         })

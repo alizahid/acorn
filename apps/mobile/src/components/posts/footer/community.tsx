@@ -56,7 +56,7 @@ export function PostCommunity({
 
             router.navigate({
               params: {
-                name: removePrefix(post.community.name),
+                name: post.community.name,
               },
               pathname: '/communities/[name]',
             })
@@ -93,7 +93,7 @@ export function PostCommunity({
           onPress={() => {
             router.navigate({
               params: {
-                name: removePrefix(post.user.name!),
+                name: post.user.name!,
               },
               pathname: '/users/[name]',
             })

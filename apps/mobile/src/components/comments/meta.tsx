@@ -6,7 +6,6 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
-import { removePrefix } from '~/lib/reddit'
 import { space } from '~/styles/tokens'
 
 import { Icon } from '../common/icon'
@@ -59,7 +58,7 @@ export function CommentMeta({
         onPress={() => {
           router.navigate({
             params: {
-              name: removePrefix(comment.user.name!),
+              name: comment.user.name!,
             },
             pathname: '/users/[name]',
           })

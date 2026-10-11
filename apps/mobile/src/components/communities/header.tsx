@@ -5,14 +5,13 @@ import { PlatformColor } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { removePrefix } from '~/lib/reddit'
-
 import { Pressable } from '../common/pressable'
 import { Text } from '../common/text'
 import { GlassView } from '../native/glass-view'
 
 type Props = {
   disabled?: boolean
+  id?: string
   image?: ReactNode
   name: string
   type?: 'community' | 'feed' | 'user'
@@ -20,6 +19,7 @@ type Props = {
 
 export function CommunityHeader({
   disabled = false,
+  id,
   image,
   name,
   type = 'community',
@@ -38,7 +38,7 @@ export function CommunityHeader({
           if (type === 'feed') {
             router.navigate({
               params: {
-                feed: removePrefix(name),
+                feed: id ?? name,
               },
               pathname: '/',
             })
@@ -46,10 +46,10 @@ export function CommunityHeader({
             return
           }
 
-          if (type === 'user' || name.startsWith('u/')) {
+          if (type === 'user') {
             router.navigate({
               params: {
-                name: removePrefix(name),
+                name,
               },
               pathname: '/users/[name]',
             })
@@ -59,7 +59,7 @@ export function CommunityHeader({
 
           router.navigate({
             params: {
-              name: removePrefix(name),
+              name,
             },
             pathname: '/communities/[name]',
           })
