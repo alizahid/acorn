@@ -1,10 +1,5 @@
 import { type Ref, type RefObject } from 'react'
-import {
-  type StyleProp,
-  type TextStyle,
-  View,
-  type ViewStyle,
-} from 'react-native'
+import { type StyleProp, View, type ViewStyle } from 'react-native'
 import {
   type EnrichedMarkdownTextInputInstance,
   type StyleState,
@@ -29,18 +24,10 @@ type RootProps = {
   onChangeState?: (state: StyleState) => void
   placeholder?: string
   value?: string
-  style?: ViewStyle | TextStyle
   ref?: Ref<EnrichedMarkdownTextInputInstance>
 }
 
-function Root({
-  onChange,
-  onChangeState,
-  placeholder,
-  style,
-  value,
-  ref,
-}: RootProps) {
+function Root({ onChange, onChangeState, placeholder, value, ref }: RootProps) {
   const { font, fontScaling, systemScaling } = usePreferences(
     useShallow((state) => ({
       font: state.font,
@@ -58,12 +45,7 @@ function Root({
       onChangeState={onChangeState}
       placeholder={placeholder}
       ref={ref}
-      style={
-        StyleSheet.flatten([
-          styles.main(font, systemScaling ? 1 : fontScaling),
-          style,
-        ]) ?? undefined
-      }
+      style={styles.main(font, systemScaling ? 1 : fontScaling)}
     />
   )
 }

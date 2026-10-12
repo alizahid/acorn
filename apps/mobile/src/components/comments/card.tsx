@@ -232,7 +232,7 @@ export function CommentCard({
               </View>
             )}
 
-            {comment.post.title ? (
+            {dull && comment.post.title ? (
               <Link
                 asChild
                 href={{
