@@ -23,6 +23,7 @@ export function Drawer({ children }: Props) {
 
   styles.useVariants({
     iPad,
+    side: drawerLeft ? 'left' : 'right',
     sticky: drawerSticky,
   })
 
@@ -108,7 +109,16 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   main: {
     flex: 1,
-    marginRight: runtime.insets.right,
     marginTop: runtime.insets.top,
+    variants: {
+      side: {
+        left: {
+          marginLeft: runtime.insets.left,
+        },
+        right: {
+          marginRight: runtime.insets.right,
+        },
+      },
+    },
   },
 }))
