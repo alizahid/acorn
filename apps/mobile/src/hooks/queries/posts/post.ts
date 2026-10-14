@@ -11,7 +11,7 @@ import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { createApi } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
-import { type Undefined } from '~/types'
+import { type Nullable, type Undefined } from '~/types'
 import { type CommentSort } from '~/types/sort'
 
 import { getPostFromSearch } from '../search/search'
@@ -53,7 +53,7 @@ export function usePost({ commentId, id: postId, sort }: Props) {
   )
 
   const query = useQuery<
-    Undefined<PostQueryData>,
+    Nullable<PostQueryData>,
     Error,
     PostQueryData,
     PostQueryKey
@@ -86,7 +86,7 @@ export function usePost({ commentId, id: postId, sort }: Props) {
       ])
 
       if (!post) {
-        throw new Error('Post not found')
+        return null
       }
 
       for (const comment of comments) {

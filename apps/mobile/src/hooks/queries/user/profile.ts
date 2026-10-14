@@ -6,7 +6,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { queryClient } from '~/lib/query'
 import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
-import { type Undefined } from '~/types'
+import { type Nullable } from '~/types'
 
 export type ProfileQueryKey = [
   'users',
@@ -25,7 +25,7 @@ export function useProfile(name?: string) {
   )
 
   const { data, isLoading, refetch } = useQuery<
-    Undefined<ProfileQueryData>,
+    Nullable<ProfileQueryData>,
     Error,
     ProfileQueryData,
     ProfileQueryKey
@@ -34,19 +34,13 @@ export function useProfile(name?: string) {
     async queryFn() {
       const reddit = await createApi()
 
-      // only GetAccount has the signed-in user's age when their profile is null
-      const profile =
-        name === accountId
-          ? await reddit.users.me()
-          : await reddit.users.get({
-              name: name!,
-            })
-
-      if (!profile) {
-        throw new Error('User not found')
+      if (name === accountId) {
+        return reddit.users.me()
       }
 
-      return profile
+      return reddit.users.get({
+        name: name!,
+      })
     },
     queryKey: [
       'users',

@@ -6,7 +6,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { queryClient } from '~/lib/query'
 import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
-import { type Undefined } from '~/types'
+import { type Nullable, type Undefined } from '~/types'
 
 import {
   type CommunitiesQueryData,
@@ -31,7 +31,7 @@ export function useCommunity(name: string) {
   )
 
   const { data, isLoading, refetch } = useQuery<
-    Undefined<CommunityQueryData>,
+    Nullable<CommunityQueryData>,
     Error,
     CommunityQueryData,
     CommunityQueryKey
@@ -47,15 +47,9 @@ export function useCommunity(name: string) {
     async queryFn() {
       const reddit = await createApi()
 
-      const community = await reddit.communities.get({
+      return reddit.communities.get({
         name,
       })
-
-      if (!community) {
-        throw new Error('Community not found')
-      }
-
-      return community
     },
     queryKey: [
       'community',

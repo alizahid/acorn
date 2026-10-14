@@ -99,7 +99,7 @@ export async function fetchToken(cookie: string) {
   )
 
   if (!response.ok) {
-    throw new Error(`Token refresh failed (HTTP ${response.status})`)
+    throw new Error('Token refresh failed')
   }
 
   const json = await response.json()
