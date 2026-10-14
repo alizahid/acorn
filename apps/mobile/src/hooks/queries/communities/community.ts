@@ -36,6 +36,7 @@ export function useCommunity(name: string) {
     CommunityQueryData,
     CommunityQueryKey
   >({
+    enabled: Boolean(accountId),
     placeholderData(previous) {
       if (previous) {
         return

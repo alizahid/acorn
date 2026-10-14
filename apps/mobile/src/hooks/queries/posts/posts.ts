@@ -79,6 +79,7 @@ export function usePosts({
     isLoading,
     refetch,
   } = useInfiniteQuery<Page, Error, PostsQueryData, PostsQueryKey, Param>({
+    enabled: Boolean(accountId),
     getNextPageParam(page) {
       return page.cursor
     },

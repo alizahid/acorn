@@ -30,6 +30,7 @@ export function useCommunities() {
     CommunitiesQueryData,
     CommunitiesQueryKey
   >({
+    enabled: Boolean(accountId),
     networkMode: 'offlineFirst',
     queryFn() {
       return fetchCommunities()

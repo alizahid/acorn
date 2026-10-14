@@ -28,6 +28,7 @@ export function useFeeds() {
     FeedsQueryData,
     FeedsQueryKey
   >({
+    enabled: Boolean(accountId),
     networkMode: 'offlineFirst',
     async queryFn() {
       const reddit = await createApi()
