@@ -1,7 +1,6 @@
 import { Reddit, USER_AGENT } from '@acorn/reddit'
 import { addSeconds, isAfter } from 'date-fns'
-// biome-ignore lint/performance/noNamespaceImport: go away
-import * as Crypto from 'expo-crypto'
+import crypto from 'react-native-nitro-crypto'
 import { z } from 'zod'
 
 import { mmkv } from '~/lib/mmkv'
@@ -96,7 +95,7 @@ function getDeviceId() {
     return exists
   }
 
-  const deviceId = Crypto.randomUUID()
+  const deviceId = crypto.randomUUID()
 
   mmkv.set(KEY, deviceId)
 

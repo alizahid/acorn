@@ -1,6 +1,7 @@
 import { type ConfigContext, type ExpoConfig } from 'expo/config'
 import { withBuildProperties } from 'expo-build-properties'
 import font from 'expo-font/plugin'
+import image from 'expo-image/plugin'
 import imagePicker from 'expo-image-picker/plugin'
 import localization from 'expo-localization/plugin'
 import mediaLibrary from 'expo-media-library/plugin'
@@ -20,6 +21,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     'expo-iap',
     router(),
     localization(),
+    image(),
     secureStore(),
     sqlite(),
     webBrowser(),
