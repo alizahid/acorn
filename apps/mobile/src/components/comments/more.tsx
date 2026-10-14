@@ -1,3 +1,4 @@
+import { type CommentMore, type Post } from '@acorn/reddit'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -6,8 +7,6 @@ import { useShallow } from 'zustand/react/shallow'
 import { useLoadMoreComments } from '~/hooks/mutations/comments/more'
 import { getDepthColor } from '~/lib/colors'
 import { usePreferences } from '~/stores/preferences'
-import { type CommentMore } from '~/types/comment'
-import { type Post } from '~/types/post'
 import { type CommentSort } from '~/types/sort'
 
 import { Pressable } from '../common/pressable'
@@ -46,7 +45,7 @@ export function CommentMoreCard({
   const color = getDepthColor(comment.depth)
 
   const label = t('label', {
-    count: comment.children.length,
+    count: comment.count,
   })
 
   return (
@@ -58,13 +57,11 @@ export function CommentMoreCard({
           return
         }
 
-        if (comment.id === '_') {
+        if (comment.thread) {
           onThread(comment.parentId)
         } else {
           loadMore({
-            children: comment.children,
-            depth: comment.depth,
-            id: comment.id,
+            comment,
             postId: post.id,
             sort,
           })

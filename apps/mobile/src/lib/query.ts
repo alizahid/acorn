@@ -7,7 +7,7 @@ import { parse, stringify } from 'superjson'
 import { Sentry } from '~/lib/sentry'
 import { usePreferences } from '~/stores/preferences'
 
-const CACHE_KEY = 'cache-storage-8'
+const CACHE_KEY = 'cache-storage-9'
 
 export const queryClient = new QueryClient({
   defaultOptions: {

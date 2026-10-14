@@ -1,8 +1,7 @@
+import { type Submission } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-
-import { type Submission } from '~/types/submission'
 
 import { Text } from '../common/text'
 
@@ -11,17 +10,17 @@ type Props = {
 }
 
 export function SubmissionCommunityCard({ community }: Props) {
-  const name = community.name.startsWith('u_')
-    ? `u/${community.name.slice(2)}`
-    : `r/${community.name}`
+  const name = community.user ? community.name : `r/${community.name}`
 
   return (
     <View style={styles.main}>
-      <Image
-        accessibilityIgnoresInvertColors
-        source={community.image}
-        style={styles.image}
-      />
+      {community.image ? (
+        <Image
+          accessibilityIgnoresInvertColors
+          source={community.image}
+          style={styles.image}
+        />
+      ) : null}
 
       <Text numberOfLines={1} style={styles.name} weight="medium">
         {name}

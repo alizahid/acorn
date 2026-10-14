@@ -1,3 +1,4 @@
+import { type Post } from '@acorn/reddit'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
@@ -5,7 +6,6 @@ import { useFormatter } from 'use-intl'
 import { Icon, type IconName } from '~/components/common/icon'
 import { Text } from '~/components/common/text'
 import { TimeAgo } from '~/components/common/time'
-import { type Post } from '~/types/post'
 
 type Props = {
   post: Post

@@ -1,3 +1,4 @@
+import { type PostMedia } from '@acorn/reddit'
 import { useRecyclingState } from '@shopify/flash-list'
 import { Image } from 'expo-image'
 import { useMemo, useRef, useState } from 'react'
@@ -15,7 +16,6 @@ import { useImageActions } from '~/hooks/image'
 import { unlockOrientation } from '~/lib/orientation'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
-import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from './blur'
 import { More } from './more'

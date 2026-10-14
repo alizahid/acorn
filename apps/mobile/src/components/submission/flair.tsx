@@ -1,3 +1,4 @@
+import { type Submission } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { useRef } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
@@ -8,7 +9,6 @@ import { useTranslations } from 'use-intl'
 
 import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { space } from '~/styles/tokens'
-import { type Submission } from '~/types/submission'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'

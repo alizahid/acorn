@@ -1,3 +1,4 @@
+import { type PostMedia } from '@acorn/reddit'
 import { useRecyclingState } from '@shopify/flash-list'
 import { useRef } from 'react'
 import { View } from 'react-native'
@@ -18,7 +19,6 @@ import { Spinner } from '~/components/common/spinner'
 import { useHistory } from '~/hooks/history'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
-import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from '../gallery/blur'
 import { VideoStatus } from './status'

@@ -6,7 +6,7 @@ import { Icon } from '~/components/common/icon'
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { updateCommunity } from '~/hooks/queries/communities/community'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
+import { createApi } from '~/reddit/api'
 
 type Variables = {
   action: 'join' | 'leave'
@@ -19,15 +19,10 @@ export function useJoin() {
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables, context) {
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('sr', addPrefix(variables.id, 'subreddit'))
-      body.append('action', variables.action === 'join' ? 'sub' : 'unsub')
-
-      await reddit({
-        body,
-        method: 'post',
-        url: '/api/subscribe',
+      await reddit.communities[variables.action]({
+        id: addPrefix(variables.id, 'subreddit'),
       })
 
       context.client.invalidateQueries({

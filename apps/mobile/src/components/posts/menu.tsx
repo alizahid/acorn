@@ -1,3 +1,4 @@
+import { type Post } from '@acorn/reddit'
 import { usePathname, useRouter } from 'expo-router'
 import { onTranslateSheet } from 'expo-translate-text'
 import { type ReactNode, type RefObject, useRef } from 'react'
@@ -27,7 +28,6 @@ import { useDownloadVideo } from '~/hooks/video'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
-import { type Post } from '~/types/post'
 
 import { IconButton } from '../common/icon/button'
 import { Logo } from '../common/logo'
@@ -96,7 +96,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 ref.current?.dismiss()
 
                 vote({
-                  direction: post.liked ? 0 : 1,
+                  action: post.liked ? 'unvote' : 'upvote',
                   postId: post.id,
                 })
               }}
@@ -117,7 +117,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 ref.current?.dismiss()
 
                 vote({
-                  direction: post.liked === false ? 0 : -1,
+                  action: post.liked === false ? 'unvote' : 'downvote',
                   postId: post.id,
                 })
               }}
@@ -487,22 +487,24 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
           <Sheet.Subtitle title={t('section.navigation')} />
 
-          <Sheet.Item
-            label={t('openUser', {
-              user: post.user.name,
-            })}
-            left={<Icon name="user" />}
-            onPress={() => {
-              ref.current?.dismiss()
+          {post.user.name ? (
+            <Sheet.Item
+              label={t('openUser', {
+                user: post.user.name,
+              })}
+              left={<Icon name="user" />}
+              onPress={() => {
+                ref.current?.dismiss()
 
-              router.navigate({
-                params: {
-                  name: post.user.name,
-                },
-                pathname: '/users/[name]',
-              })
-            }}
-          />
+                router.navigate({
+                  params: {
+                    name: post.user.name!,
+                  },
+                  pathname: '/users/[name]',
+                })
+              }}
+            />
+          ) : null}
 
           {post.community.name.startsWith('u/') ? null : (
             <Sheet.Item
@@ -554,31 +556,33 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             }}
           />
 
-          <Sheet.Confirm
-            label={t('hideUser', {
-              user: post.user.name,
-            })}
-            left={
-              <Icon
-                name="user"
-                uniProps={(theme) => ({
-                  color: theme.colors.red.accent,
-                })}
-              />
-            }
-            onPress={() => {
-              ref.current?.dismiss()
-
-              if (post.user.id) {
-                hide({
-                  action: 'hide',
-                  id: post.user.id,
-                  name: post.user.name,
-                  type: 'user',
-                })
+          {post.user.name ? (
+            <Sheet.Confirm
+              label={t('hideUser', {
+                user: post.user.name,
+              })}
+              left={
+                <Icon
+                  name="user"
+                  uniProps={(theme) => ({
+                    color: theme.colors.red.accent,
+                  })}
+                />
               }
-            }}
-          />
+              onPress={() => {
+                ref.current?.dismiss()
+
+                if (post.user.id) {
+                  hide({
+                    action: 'hide',
+                    id: post.user.id,
+                    name: post.user.name!,
+                    type: 'user',
+                  })
+                }
+              }}
+            />
+          ) : null}
 
           {post.community.name.startsWith('u/') ? null : (
             <Sheet.Confirm

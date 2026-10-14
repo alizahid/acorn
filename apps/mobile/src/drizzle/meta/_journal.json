@@ -15,6 +15,13 @@
       "when": 1741509748917,
       "tag": "0001_nifty_cable",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1791605297888,
+      "tag": "0002_uppercase_sorting",
+      "breakpoints": true
     }
   ]
 }

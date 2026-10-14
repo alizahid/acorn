@@ -1,3 +1,4 @@
+import { type Post } from '@acorn/reddit'
 import { useRouter } from 'expo-router'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
@@ -7,7 +8,6 @@ import { Icon, type IconName } from '~/components/common/icon'
 import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 import { space } from '~/styles/tokens'
-import { type Post } from '~/types/post'
 
 type Props = {
   post: Post

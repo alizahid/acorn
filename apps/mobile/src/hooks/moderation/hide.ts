@@ -6,7 +6,7 @@ import { db } from '~/db'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { isPost } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
+import { createApi } from '~/reddit/api'
 
 import { updatePost } from '../queries/posts/post'
 
@@ -31,14 +31,10 @@ export function useHide() {
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
       if (variables.type === 'post') {
-        const body = new URLSearchParams()
+        const reddit = await createApi()
 
-        body.append('id', addPrefix(variables.id, 'link'))
-
-        await reddit({
-          body,
-          method: 'post',
-          url: `/api/${variables.action}`,
+        await reddit.posts[variables.action]({
+          id: addPrefix(variables.id, 'link'),
         })
       }
     },

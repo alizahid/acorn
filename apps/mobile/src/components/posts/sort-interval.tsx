@@ -5,13 +5,14 @@ import { useTranslations } from 'use-intl'
 
 import { IntervalIcons, SortColors, SortIcons } from '~/lib/sort'
 import {
-  CommentSort,
-  CommunityFeedSort,
-  FeedSort,
-  SearchSort,
+  type CommentSort,
+  type CommunityFeedSort,
+  type FeedSort,
+  type SearchSort,
+  SortOptions,
   type SortType,
   TopInterval,
-  UserFeedSort,
+  type UserFeedSort,
 } from '~/types/sort'
 
 import { Icon } from '../common/icon'
@@ -51,16 +52,7 @@ export function SortIntervalMenu<Type extends SortType>({
   const sheetSort = useRef<Sheet>(null)
   const sheetInterval = useRef<Sheet>(null)
 
-  const items =
-    type === 'comment'
-      ? CommentSort
-      : type === 'community'
-        ? CommunityFeedSort
-        : type === 'search'
-          ? SearchSort
-          : type === 'user'
-            ? UserFeedSort
-            : FeedSort
+  const items = SortOptions[type]
 
   return (
     <>
@@ -79,7 +71,7 @@ export function SortIntervalMenu<Type extends SortType>({
           })}
         />
 
-        {sort === 'top' && interval ? (
+        {sort === 'TOP' && interval ? (
           <SFSymbol
             name={IntervalIcons[interval]}
             size={20}
@@ -114,7 +106,7 @@ export function SortIntervalMenu<Type extends SortType>({
               />
             }
             onPress={() => {
-              if (item === 'top') {
+              if (item === 'TOP') {
                 sheetInterval.current?.present()
 
                 return
@@ -127,7 +119,7 @@ export function SortIntervalMenu<Type extends SortType>({
               sheetSort.current?.dismiss()
             }}
             right={
-              item === 'top' ? (
+              item === 'TOP' ? (
                 <Icon
                   name="caret-right"
                   uniProps={(theme) => ({
@@ -161,13 +153,13 @@ export function SortIntervalMenu<Type extends SortType>({
               onPress={() => {
                 onChange({
                   interval: item,
-                  sort: 'top' as SortIntervalMenuData<Type>['sort'],
+                  sort: 'TOP' as SortIntervalMenuData<Type>['sort'],
                 })
 
                 sheetInterval.current?.dismiss()
                 sheetSort.current?.dismiss()
               }}
-              selected={sort === 'top' && item === interval}
+              selected={sort === 'TOP' && item === interval}
             />
           ))}
 

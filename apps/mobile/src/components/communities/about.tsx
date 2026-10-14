@@ -157,7 +157,8 @@ export function CommunityAbout({ name }: Props) {
           loading={favoriting}
           onPress={() => {
             favorite({
-              favorite: !community.favorite,
+              action: community.favorite ? 'unfavorite' : 'favorite',
+              id: community.id,
               name: community.name,
             })
           }}

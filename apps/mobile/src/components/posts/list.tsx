@@ -1,3 +1,4 @@
+import { type Comment, type Post } from '@acorn/reddit'
 import { FlashList, type ListRenderItem } from '@shopify/flash-list'
 import { useRouter } from 'expo-router'
 import { type ReactElement, useCallback } from 'react'
@@ -18,8 +19,6 @@ import { useHistory } from '~/hooks/history'
 import { type ListProps } from '~/hooks/list'
 import { type PostsProps, usePosts } from '~/hooks/queries/posts/posts'
 import { usePreferences } from '~/stores/preferences'
-import { type Comment } from '~/types/comment'
-import { type Post } from '~/types/post'
 
 import { CommentCard } from '../comments/card'
 import { Button } from '../common/button'
@@ -109,7 +108,7 @@ export function PostList({
         )
       }
 
-      if (item.type === 'more') {
+      if (item.type === 'more' || item.type === 'deleted') {
         return null
       }
 
@@ -136,8 +135,8 @@ export function PostList({
           return `reply-${item.data.id}`
         }
 
-        if (item.type === 'more') {
-          return `more-${item.data.id}`
+        if (item.type === 'more' || item.type === 'deleted') {
+          return `${item.type}-${item.data.id}`
         }
 
         return item.id
@@ -167,11 +166,7 @@ export function PostList({
       }
       ListHeaderComponent={header}
       onEndReached={() => {
-        if (!infiniteScrolling) {
-          return
-        }
-
-        if (hasNextPage) {
+        if (infiniteScrolling && hasNextPage) {
           fetchNextPage()
         }
       }}

@@ -1,3 +1,4 @@
+import { type Notification } from '@acorn/reddit'
 import { useMutation } from '@tanstack/react-query'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
@@ -5,13 +6,10 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { updateNotification } from '~/hooks/queries/user/notifications'
 import { type UnreadQueryKey } from '~/hooks/queries/user/unread'
-import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 
-type MarkReadVariables = {
-  id: string
-}
+type MarkReadVariables = Pick<Notification, 'group' | 'id'>
 
 export function useMarkAsRead() {
   const { accountId } = useAuth(
@@ -22,15 +20,9 @@ export function useMarkAsRead() {
 
   const { isPending, mutate } = useMutation<unknown, Error, MarkReadVariables>({
     async mutationFn(variables) {
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('id', addPrefix(variables.id, 'message'))
-
-      await reddit({
-        body,
-        method: 'post',
-        url: '/api/read_message',
-      })
+      await reddit.inbox.markRead(variables)
     },
     onMutate(variables, context) {
       updateNotification(variables.id, (draft) => {
@@ -66,10 +58,9 @@ export function useMarkAllAsRead() {
 
   const { isPending, mutate } = useMutation({
     async mutationFn() {
-      await reddit({
-        method: 'post',
-        url: '/api/read_all_messages',
-      })
+      const reddit = await createApi()
+
+      await reddit.inbox.markAllRead()
     },
     onMutate(_variables, context) {
       context.client.setQueryData<number, UnreadQueryKey>(
@@ -85,10 +76,6 @@ export function useMarkAllAsRead() {
     onSuccess(_data, _variables, _result, context) {
       context.client.invalidateQueries({
         queryKey: ['notifications'],
-      })
-
-      context.client.invalidateQueries({
-        queryKey: ['messages'],
       })
 
       toast.success(t('markAllAsRead'))

@@ -1,8 +1,9 @@
-import { type Comment } from '~/types/comment'
-import { type Post } from '~/types/post'
+import { type Comment, type Post } from '@acorn/reddit'
 
 export function isComment(item: Post | Comment): item is Comment {
-  return item.type === 'reply' || item.type === 'more'
+  return (
+    item.type === 'reply' || item.type === 'more' || item.type === 'deleted'
+  )
 }
 
 export function isPost(item: Post | Comment): item is Post {

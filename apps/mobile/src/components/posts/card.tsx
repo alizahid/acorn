@@ -1,3 +1,4 @@
+import { type Post } from '@acorn/reddit'
 import { useRouter } from 'expo-router'
 import { useCallback, useRef, useState } from 'react'
 import { Share, View, type ViewInstance } from 'react-native'
@@ -12,7 +13,6 @@ import { removePrefix } from '~/lib/reddit'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
-import { type Post } from '~/types/post'
 
 import { Banner } from '../common/banner'
 import { type GestureAction, Gestures } from '../common/gestures'
@@ -107,14 +107,14 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
 
       if (action === 'upvote') {
         vote({
-          direction: item.liked ? 0 : 1,
+          action: item.liked ? 'unvote' : 'upvote',
           postId: item.id,
         })
       }
 
       if (action === 'downvote') {
         vote({
-          direction: item.liked === false ? 0 : -1,
+          action: item.liked === false ? 'unvote' : 'downvote',
           postId: item.id,
         })
       }

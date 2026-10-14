@@ -75,7 +75,7 @@ export type PreferencesPayload = {
   sortFeedPosts: FeedSort
   sortPostComments: CommentSort
   sortSearchPosts: SearchSort
-  sortUserComments: CommentSort
+  sortUserComments: UserFeedSort
   sortUserPosts: UserFeedSort
   systemScaling: boolean
   theme: Theme
@@ -121,11 +121,11 @@ export const usePreferences = create<State>()(
       hideUserName: false,
       highContrastBackground: false,
       infiniteScrolling: true,
-      intervalCommunityPosts: 'hour',
-      intervalFeedPosts: 'hour',
-      intervalSearchPosts: 'all',
-      intervalUserComments: 'all',
-      intervalUserPosts: 'all',
+      intervalCommunityPosts: 'HOUR',
+      intervalFeedPosts: 'HOUR',
+      intervalSearchPosts: 'ALL',
+      intervalUserComments: 'ALL',
+      intervalUserPosts: 'ALL',
       largeThumbnails: false,
       linkBrowser: true,
       mediaOnRight: true,
@@ -143,12 +143,12 @@ export const usePreferences = create<State>()(
       seenOnVote: false,
       showFlair: true,
       skipComment: 'right',
-      sortCommunityPosts: 'hot',
-      sortFeedPosts: 'hot',
-      sortPostComments: 'confidence',
-      sortSearchPosts: 'relevance',
-      sortUserComments: 'new',
-      sortUserPosts: 'new',
+      sortCommunityPosts: 'HOT',
+      sortFeedPosts: 'HOT',
+      sortPostComments: 'CONFIDENCE',
+      sortSearchPosts: 'RELEVANCE',
+      sortUserComments: 'NEW',
+      sortUserPosts: 'NEW',
       systemScaling: false,
       theme: 'acorn',
       unmuteFullscreen: true,
@@ -159,8 +159,28 @@ export const usePreferences = create<State>()(
       userOnTop: false,
     }),
     {
+      migrate(state, version) {
+        if (version < 1) {
+          const previous = state as State
+
+          previous.intervalCommunityPosts = 'HOUR'
+          previous.intervalFeedPosts = 'HOUR'
+          previous.intervalSearchPosts = 'ALL'
+          previous.intervalUserComments = 'ALL'
+          previous.intervalUserPosts = 'ALL'
+          previous.sortCommunityPosts = 'HOT'
+          previous.sortFeedPosts = 'HOT'
+          previous.sortPostComments = 'CONFIDENCE'
+          previous.sortSearchPosts = 'RELEVANCE'
+          previous.sortUserComments = 'NEW'
+          previous.sortUserPosts = 'NEW'
+        }
+
+        return state as State
+      },
       name: PREFERENCES_KEY,
       storage: new Store(),
+      version: 1,
     },
   ),
 )

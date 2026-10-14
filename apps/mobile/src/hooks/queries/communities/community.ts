@@ -1,14 +1,12 @@
+import { type Community } from '@acorn/reddit'
 import { useQuery } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
 import { useShallow } from 'zustand/react/shallow'
 
 import { queryClient } from '~/lib/query'
-import { reddit } from '~/reddit/api'
-import { CommunitySchema } from '~/schemas/communities'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
-import { transformCommunity } from '~/transformers/community'
-import { type Undefined } from '~/types'
-import { type Community } from '~/types/community'
+import { type Nullable, type Undefined } from '~/types'
 
 import {
   type CommunitiesQueryData,
@@ -33,7 +31,7 @@ export function useCommunity(name: string) {
   )
 
   const { data, isLoading, refetch } = useQuery<
-    Undefined<CommunityQueryData>,
+    Nullable<CommunityQueryData>,
     Error,
     CommunityQueryData,
     CommunityQueryKey
@@ -47,13 +45,11 @@ export function useCommunity(name: string) {
       return getCommunity(name)
     },
     async queryFn() {
-      const payload = await reddit({
-        url: `/r/${name}/about`,
+      const reddit = await createApi()
+
+      return reddit.communities.get({
+        name,
       })
-
-      const response = CommunitySchema.parse(payload)
-
-      return transformCommunity(response.data)
     },
     queryKey: [
       'community',

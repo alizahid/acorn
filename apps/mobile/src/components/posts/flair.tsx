@@ -1,3 +1,4 @@
+import { type Flair } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { isEmpty, trim } from 'lodash'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
@@ -6,7 +7,6 @@ import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
 import { usePreferences } from '~/stores/preferences'
-import { type Flair } from '~/types/flair'
 
 import { Text } from '../common/text'
 

@@ -1,3 +1,4 @@
+import { type CommentReply } from '@acorn/reddit'
 import { Link, useRouter } from 'expo-router'
 import { useRef, useState } from 'react'
 import { Share, View, type ViewInstance } from 'react-native'
@@ -14,7 +15,6 @@ import { useGestures } from '~/stores/gestures'
 import { usePreferences } from '~/stores/preferences'
 import { useTemp } from '~/stores/temp'
 import { type Undefined } from '~/types'
-import { type CommentReply } from '~/types/comment'
 
 import { Banner } from '../common/banner'
 import { Gestures } from '../common/gestures'
@@ -120,16 +120,16 @@ export function CommentCard({
       onAction={(action) => {
         if (action === 'upvote') {
           vote({
+            action: comment.liked ? 'unvote' : 'upvote',
             commentId: comment.id,
-            direction: comment.liked ? 0 : 1,
             postId: comment.post.id,
           })
         }
 
         if (action === 'downvote') {
           vote({
+            action: comment.liked === false ? 'unvote' : 'downvote',
             commentId: comment.id,
-            direction: comment.liked === false ? 0 : -1,
             postId: comment.post.id,
           })
         }
@@ -259,9 +259,11 @@ export function CommentCard({
                       {comment.post.title}
                     </Text>
 
-                    <Text highContrast={false} size="1">
-                      r/{comment.community.name}
-                    </Text>
+                    {comment.post.community ? (
+                      <Text highContrast={false} size="1">
+                        r/{comment.post.community}
+                      </Text>
+                    ) : null}
                   </View>
                 </Pressable>
               </Link>

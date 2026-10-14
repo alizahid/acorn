@@ -5,7 +5,7 @@ import { useTranslations } from 'use-intl'
 import { Icon } from '~/components/common/icon'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { addPrefix } from '~/lib/reddit'
-import { reddit } from '~/reddit/api'
+import { createApi } from '~/reddit/api'
 
 type Variables = {
   id: string
@@ -16,14 +16,10 @@ export function usePostRemove() {
 
   const { isPending, mutate } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables) {
-      const body = new URLSearchParams()
+      const reddit = await createApi()
 
-      body.append('id', addPrefix(variables.id, 'link'))
-
-      await reddit({
-        body,
-        method: 'post',
-        url: '/api/del',
+      await reddit.posts.delete({
+        id: addPrefix(variables.id, 'link'),
       })
     },
     onMutate(variables) {

@@ -1,9 +1,9 @@
+import { type PostMedia } from '@acorn/reddit'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Spinner } from '~/components/common/spinner'
 import { useRedGifs } from '~/hooks/red-gifs'
-import { type PostMedia } from '~/types/post'
 
 import { VideoPlayer } from './player'
 

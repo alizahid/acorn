@@ -14,7 +14,6 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { ProfileCard } from '~/components/users/profile'
 import { useListProps } from '~/hooks/list'
 import { useProfile } from '~/hooks/queries/user/profile'
-import { removePrefix } from '~/lib/reddit'
 import { useAuth } from '~/stores/auth'
 import { type ColorToken } from '~/styles/tokens'
 import { UserFeedType } from '~/types/user'
@@ -65,7 +64,7 @@ export default function Screen() {
 
                 router.navigate({
                   params: {
-                    name: removePrefix(profile.name),
+                    name: profile.name,
                     type,
                   },
                   pathname: '/users/[name]/[type]',
@@ -82,7 +81,7 @@ export default function Screen() {
           onPress={() => {
             router.navigate({
               params: {
-                name: `u_${profile.name}`,
+                name: `u/${profile.name}`,
               },
               pathname: '/posts/new',
             })

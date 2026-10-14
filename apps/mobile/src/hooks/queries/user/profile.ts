@@ -1,18 +1,17 @@
+import { type Profile } from '@acorn/reddit'
 import { useQuery } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
 import { useShallow } from 'zustand/react/shallow'
 
 import { queryClient } from '~/lib/query'
-import { reddit } from '~/reddit/api'
-import { ProfileSchema } from '~/schemas/profile'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
-import { transformProfile } from '~/transformers/profile'
-import { type Undefined } from '~/types'
-import { type Profile } from '~/types/user'
+import { type Nullable } from '~/types'
 
 export type ProfileQueryKey = [
   'users',
   {
+    accountId?: string
     name: string
   },
 ]
@@ -27,24 +26,27 @@ export function useProfile(name?: string) {
   )
 
   const { data, isLoading, refetch } = useQuery<
-    Undefined<ProfileQueryData>,
+    Nullable<ProfileQueryData>,
     Error,
     ProfileQueryData,
     ProfileQueryKey
   >({
     enabled: Boolean(accountId) && Boolean(name),
     async queryFn() {
-      const payload = await reddit({
-        url: `/user/${name!}/about`,
+      const reddit = await createApi()
+
+      if (name === accountId) {
+        return reddit.users.me()
+      }
+
+      return reddit.users.get({
+        name: name!,
       })
-
-      const profile = ProfileSchema.parse(payload)
-
-      return transformProfile(profile)
     },
     queryKey: [
       'users',
       {
+        accountId,
         name: name!,
       },
     ],

@@ -1,19 +1,17 @@
+import { type Notification } from '@acorn/reddit'
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import { create, type Draft } from 'mutative'
 import { useShallow } from 'zustand/react/shallow'
 
 import { queryClient } from '~/lib/query'
-import { REDDIT_URI, reddit } from '~/reddit/api'
-import { NotificationsSchema } from '~/schemas/notifications'
+import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
-import { transformNotification } from '~/transformers/notification'
-import { type Notification } from '~/types/notification'
 
 type Param = string | undefined | null
 
 type Page = {
   cursor: Param
-  items: Array<Notification>
+  notifications: Array<Notification>
 }
 
 export type NotificationsQueryKey = [
@@ -53,23 +51,15 @@ export function useNotifications() {
     initialPageParam: null,
     networkMode: 'offlineFirst',
     async queryFn({ pageParam }) {
-      const url = new URL('/message/inbox', REDDIT_URI)
+      const reddit = await createApi()
 
-      if (pageParam) {
-        url.searchParams.set('after', pageParam)
-      }
-
-      const payload = await reddit({
-        url,
+      const { cursor, notifications } = await reddit.inbox.notifications({
+        after: pageParam ?? undefined,
       })
 
-      const response = NotificationsSchema.parse(payload)
-
       return {
-        cursor: response.data.after,
-        items: response.data.children
-          .filter((item) => item.kind === 't1')
-          .map((item) => transformNotification(item)),
+        cursor,
+        notifications,
       }
     },
     queryKey: [
@@ -85,7 +75,7 @@ export function useNotifications() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    notifications: data?.pages.flatMap((page) => page.items) ?? [],
+    notifications: data?.pages.flatMap((page) => page.notifications) ?? [],
     refetch,
   }
 }
@@ -110,7 +100,7 @@ export function updateNotification(
 
         return create(previous, (draft) => {
           loop: for (const page of draft.pages) {
-            for (const item of page.items) {
+            for (const item of page.notifications) {
               if (item.id === id) {
                 updater(item)
 

@@ -1,3 +1,4 @@
+import { type PostMedia } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { useCallback } from 'react'
 import { View } from 'react-native'
@@ -11,7 +12,6 @@ import { useHistory } from '~/hooks/history'
 import { useImageActions } from '~/hooks/image'
 import { lockOrientation, unlockOrientation } from '~/lib/orientation'
 import { usePreferences } from '~/stores/preferences'
-import { type PostMedia } from '~/types/post'
 
 import { GalleryBlur } from './blur'
 import { ImageGrid } from './grid'

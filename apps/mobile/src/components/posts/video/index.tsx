@@ -1,5 +1,6 @@
+import { type PostMedia } from '@acorn/reddit'
+
 import { MediaMenu } from '~/components/common/media-menu'
-import { type PostMedia } from '~/types/post'
 
 import { PostLinkCard } from '../link'
 import { VideoPlayer } from './player'

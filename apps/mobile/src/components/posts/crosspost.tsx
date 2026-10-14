@@ -1,3 +1,4 @@
+import { type Post } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { useRouter } from 'expo-router'
 import { View } from 'react-native'
@@ -5,7 +6,6 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { removePrefix } from '~/lib/reddit'
-import { type Post } from '~/types/post'
 
 import { Icon } from '../common/icon'
 import { Pressable } from '../common/pressable'
