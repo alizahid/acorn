@@ -9,8 +9,10 @@ const AUTH_KEY = 'auth'
 
 export type Account = {
   cookie: string
+  edgeBucket?: string
   expiresAt: Date
   id: string
+  loid: string
   token: string
 }
 
@@ -24,7 +26,10 @@ export type State = AuthPayload & {
   remove: (id: string) => void
   reorder: (accounts: Array<Account>) => void
   set: (id: string) => void
-  update: (id: string, token: Pick<Account, 'expiresAt' | 'token'>) => void
+  update: (
+    id: string,
+    token: Pick<Account, 'expiresAt' | 'loid' | 'token'>,
+  ) => void
 }
 
 export const useAuth = create<State>()(
@@ -91,22 +96,11 @@ export const useAuth = create<State>()(
     }),
     {
       migrate(state, version) {
-        if (version < 1) {
+        if (version < 2) {
           const previous = state as State
 
           previous.accountId = undefined
           previous.accounts = []
-        }
-
-        // cookie-only accounts: expire them so createApi fetches a token
-        if (version < 2) {
-          const previous = state as State
-
-          previous.accounts = previous.accounts.map((account) => ({
-            ...account,
-            expiresAt: new Date(0),
-            token: '',
-          }))
         }
 
         return state

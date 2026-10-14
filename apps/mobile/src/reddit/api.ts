@@ -4,16 +4,29 @@ import crypto from 'react-native-nitro-crypto'
 import { z } from 'zod'
 
 import { mmkv } from '~/lib/mmkv'
-import { useAuth } from '~/stores/auth'
+import { type Account, useAuth } from '~/stores/auth'
 
 export const REDDIT_URI = 'https://www.reddit.com'
 export const REDDIT_OLD_URI = 'https://old.reddit.com'
 
-// token refreshes in flight, by account: queries that start together after the
-// token expires share one instead of each fetching their own
-const refreshing = new Map<string, Promise<string>>()
+const refreshing = new Map<string, ReturnType<typeof refreshToken>>()
 
-export async function createApi() {
+type CreateProps = {
+  edgeBucket?: string
+  loid: string
+  token: string
+}
+
+export async function createApi(props?: CreateProps) {
+  if (props) {
+    return new Reddit({
+      deviceId: getDeviceId(),
+      edgeBucket: props.edgeBucket,
+      loid: props.loid,
+      token: props.token,
+    })
+  }
+
   const { accountId, accounts } = useAuth.getState()
 
   const account = accounts.find((item) => item.id === accountId)
@@ -26,34 +39,45 @@ export async function createApi() {
     let refresh = refreshing.get(account.id)
 
     if (!refresh) {
-      refresh = fetchToken(account.cookie)
-        .then((next) => {
-          useAuth.getState().update(account.id, next)
-
-          return next.token
-        })
-        .finally(() => {
-          refreshing.delete(account.id)
-        })
+      refresh = refreshToken(account)
 
       refreshing.set(account.id, refresh)
     }
 
+    const { edgeBucket, loid, token } = await refresh
+
     return new Reddit({
       deviceId: getDeviceId(),
-      token: await refresh,
+      edgeBucket,
+      loid,
+      token,
     })
   }
 
   return new Reddit({
     deviceId: getDeviceId(),
+    edgeBucket: account.edgeBucket,
+    loid: account.loid,
     token: account.token,
   })
+}
+
+async function refreshToken(account: Account) {
+  try {
+    const next = await fetchToken(account.cookie)
+
+    useAuth.getState().update(account.id, next)
+
+    return next
+  } finally {
+    refreshing.delete(account.id)
+  }
 }
 
 const TokenSchema = z.object({
   access_token: z.string(),
   expires_in: z.number(),
+  loid: z.string(),
 })
 
 export async function fetchToken(cookie: string) {
@@ -65,7 +89,7 @@ export async function fetchToken(cookie: string) {
       }),
       credentials: 'omit',
       headers: {
-        Authorization: 'Basic TE5EbzlrMW84VUFFVXc6',
+        Authorization: 'Basic b2hYcG9xclpZdWIxa2c6',
         'Content-Type': 'application/json',
         Cookie: `reddit_session=${cookie}`,
         'User-Agent': USER_AGENT,
@@ -78,18 +102,25 @@ export async function fetchToken(cookie: string) {
     throw new Error(`Token refresh failed (HTTP ${response.status})`)
   }
 
-  const { access_token, expires_in } = TokenSchema.parse(await response.json())
+  const json = await response.json()
+
+  const { access_token, expires_in, loid } = TokenSchema.parse({
+    ...json,
+    loid: response.headers.get('x-reddit-loid'),
+  })
 
   return {
+    edgeBucket: getBucket(response),
     expiresAt: addSeconds(new Date(), expires_in - 3600),
+    loid,
     token: access_token,
   }
 }
 
-function getDeviceId() {
-  const KEY = 'device-id'
+const KEY_DEVICE_ID = 'device-id'
 
-  const exists = mmkv.getString(KEY)
+function getDeviceId() {
+  const exists = mmkv.getString(KEY_DEVICE_ID)
 
   if (exists) {
     return exists
@@ -97,7 +128,26 @@ function getDeviceId() {
 
   const deviceId = crypto.randomUUID()
 
-  mmkv.set(KEY, deviceId)
+  mmkv.set(KEY_DEVICE_ID, deviceId)
 
   return deviceId
+}
+
+function getBucket(response: Response) {
+  const cookie = response.headers.get('set-cookie')
+
+  if (!cookie) {
+    return
+  }
+
+  const { edgebucket } = Object.fromEntries(
+    cookie
+      .split(';')
+      .map((item) => item.trim())
+      .map((item) => item.split('=')),
+  )
+
+  if (typeof edgebucket === 'string') {
+    return edgebucket
+  }
 }

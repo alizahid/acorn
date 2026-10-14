@@ -2,6 +2,7 @@
   "compilerOptions": {
     "jsx": "preserve",
     "moduleResolution": "bundler",
+    "moduleSuffixes": [".native", ""],
     "noUncheckedIndexedAccess": true,
     "paths": {
       "~/*": ["./src/*"]

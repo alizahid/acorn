@@ -20,16 +20,22 @@ export function useSignIn() {
     async mutationFn(cookie: string) {
       await Promise.all([cookies.clearAll(), cookies.clearAll(true)])
 
-      const { expiresAt, token } = await fetchToken(cookie)
+      const { edgeBucket, expiresAt, token, loid } = await fetchToken(cookie)
 
-      const reddit = await createApi()
+      const reddit = await createApi({
+        edgeBucket,
+        loid,
+        token,
+      })
 
       const { name } = await reddit.users.me()
 
       return {
         cookie,
+        edgeBucket,
         expiresAt,
         id: name,
+        loid,
         token,
       }
     },
