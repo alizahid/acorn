@@ -20,7 +20,7 @@
       "name": "mobile",
       "version": "0.0.0",
       "dependencies": {
-        "@acorn/reddit": "workspace:*",
+        "@acorn/reddit": "npm:@alizahid/reddit@^0.1.18",
         "@bacons/apple-targets": "^5.0.0",
         "@expo/ui": "~58.0.16",
         "@formatjs/intl-getcanonicallocales": "^3.2.12",
@@ -148,14 +148,6 @@
         "typescript": "^6.0.3",
       },
     },
-    "packages/reddit": {
-      "name": "@acorn/reddit",
-      "version": "0.0.0",
-      "peerDependencies": {
-        "react-native-nitro-buffer": ">=0.0.14",
-        "react-native-nitro-crypto": "^0.3.5",
-      },
-    },
     "packages/scripts": {
       "name": "scripts",
       "version": "0.0.0",
@@ -170,7 +162,7 @@
   "packages": {
     "2g": ["2g@0.4.4", "", { "peerDependencies": { "typescript": ">=5.8.0" }, "optionalPeers": ["typescript"], "bin": { "2g": "bin/cli.js" } }, "sha512-ZwH02IRQicm+92YzJZMS8imSAJaqTPI+VASb1zMnisotnWcEP4e7nb57Mr8C2dGAA5G8ZmialbMmpkGLWgAY/w=="],
 
-    "@acorn/reddit": ["@acorn/reddit@workspace:packages/reddit"],
+    "@acorn/reddit": ["@alizahid/reddit@0.1.18", "https://npm.pkg.github.com/download/@alizahid/reddit/0.1.18/37e1f157f9ef4a936ccda33dfcf128463d1aacca", { "peerDependencies": { "react-native-nitro-buffer": ">=0.0.14", "react-native-nitro-crypto": "^0.3.5" } }, "sha512-KDmLkfB/vDXigli8m28hJmugTAQ/a9nFo6vnRzJWpSenF6itkP9IYZ2/OjtyHElMTjnvqOEGxFoX3pKQRlSDmQ=="],
 
     "@alloc/quick-lru": ["@alloc/quick-lru@5.3.0", "", {}, "sha512-U4+70Pc5ZS9osnCBCE5Jha/ciHM+Yp+CNMNC/7HvYbNRk1Ldd+f7qO65W5qfhu/TCv+/ozljlXXe9Nj8419DMA=="],
 
