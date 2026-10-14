@@ -4,5 +4,11 @@
       "inputDir": "./assets/icons/phosphor",
       "outputDir": "./src/assets/icons/phosphor"
     }
+  ],
+  "symbolSets": [
+    {
+      "inputDir": "./assets/icons/nav",
+      "outputDir": "./src/assets/icons/symbols"
+    }
   ]
 }

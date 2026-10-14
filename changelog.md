@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- changed: tab bar icons
+
 ## Build 91
 
 - added: inline images

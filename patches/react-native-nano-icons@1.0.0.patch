@@ -1,0 +1,13 @@
+diff --git a/lib/commonjs/src/core/symbols/layers.js b/lib/commonjs/src/core/symbols/layers.js
+index e62b27e693163a18dc3d263d76b4f087c9869058..bc83a9454526370303a9298f10d9744f02eb7a9b 100644
+--- a/lib/commonjs/src/core/symbols/layers.js
++++ b/lib/commonjs/src/core/symbols/layers.js
+@@ -159,7 +159,7 @@ function contentBounds(PathKit, ds) {
+         const p = PathKit.FromSVGString(d);
+         if (!p)
+             continue;
+-        const b = p.getBounds();
++        const b = p.computeTightBounds?.() ?? p.getBounds();
+         p.delete?.();
+         if (!Number.isFinite(b.fLeft) ||
+             !Number.isFinite(b.fTop) ||
