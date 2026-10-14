@@ -4,7 +4,6 @@ import { decode } from 'entities'
 const redditLinkRegex = /(?<!\S)\/?[ru]\/[A-Za-z0-9_-]+/g
 const urlRegex = /https?:\/\/\S+/g
 const videoRegex = /\/link\/[^/]+\/video\/([^/]+)/
-
 const mediaRegex = /!\[([^\]]*)\]\(([^\s)]+)(?:\s+"((?:[^"\\]|\\.)*)")?\)/g
 const imageSlotRegex = /\uE000(\d+)\uE000/g
 const enrichedSpoilerRegex = /\|\|(.*?)\|\|/g
