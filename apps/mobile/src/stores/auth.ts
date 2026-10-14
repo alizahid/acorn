@@ -28,7 +28,7 @@ export type State = AuthPayload & {
   set: (id: string) => void
   update: (
     id: string,
-    token: Pick<Account, 'expiresAt' | 'loid' | 'token'>,
+    data: Pick<Account, 'expiresAt' | 'loid' | 'token'>,
   ) => void
 }
 
@@ -81,13 +81,13 @@ export const useAuth = create<State>()(
           queryClient.clear()
         }
       },
-      update(id, token) {
+      update(id, data) {
         set({
           accounts: get().accounts.map((item) =>
             item.id === id
               ? {
                   ...item,
-                  ...token,
+                  ...data,
                 }
               : item,
           ),
