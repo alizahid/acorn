@@ -1,4 +1,4 @@
-import { type Community } from '@acorn/reddit'
+import { type Community, type Reddit } from '@acorn/reddit'
 import { useQuery } from '@tanstack/react-query'
 import { orderBy } from 'lodash'
 import { create, type Draft } from 'mutative'
@@ -32,8 +32,10 @@ export function useCommunities() {
   >({
     enabled: Boolean(accountId),
     networkMode: 'offlineFirst',
-    queryFn() {
-      return fetchCommunities()
+    async queryFn() {
+      const reddit = await createApi()
+
+      return fetchCommunities(reddit)
     },
     queryKey: [
       'communities',
@@ -59,15 +61,16 @@ export function useCommunities() {
   }
 }
 
-async function fetchCommunities(after?: string): Promise<CommunitiesQueryData> {
-  const reddit = await createApi()
-
+async function fetchCommunities(
+  reddit: Reddit,
+  after?: string,
+): Promise<CommunitiesQueryData> {
   const { communities, cursor } = await reddit.communities.mine({
     after,
   })
 
   if (cursor) {
-    return [...communities, ...(await fetchCommunities(cursor))]
+    return [...communities, ...(await fetchCommunities(reddit, cursor))]
   }
 
   return communities

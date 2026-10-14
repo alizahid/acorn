@@ -1,4 +1,4 @@
-import { type Feed } from '@acorn/reddit'
+import { type Feed, type Reddit } from '@acorn/reddit'
 import { useQuery } from '@tanstack/react-query'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -33,9 +33,7 @@ export function useFeeds() {
     async queryFn() {
       const reddit = await createApi()
 
-      const { feeds } = await reddit.feeds.mine()
-
-      return feeds
+      return fetchFeeds(reddit)
     },
     queryKey: [
       'feeds',
@@ -50,4 +48,19 @@ export function useFeeds() {
     isLoading,
     refetch,
   }
+}
+
+async function fetchFeeds(
+  reddit: Reddit,
+  after?: string,
+): Promise<FeedsQueryData> {
+  const { feeds, cursor } = await reddit.feeds.mine({
+    after,
+  })
+
+  if (cursor) {
+    return [...feeds, ...(await fetchFeeds(reddit, cursor))]
+  }
+
+  return feeds
 }
