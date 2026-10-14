@@ -11,6 +11,7 @@ import { type Nullable } from '~/types'
 export type ProfileQueryKey = [
   'users',
   {
+    accountId?: string
     name: string
   },
 ]
@@ -45,6 +46,7 @@ export function useProfile(name?: string) {
     queryKey: [
       'users',
       {
+        accountId,
         name: name!,
       },
     ],
