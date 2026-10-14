@@ -19,7 +19,8 @@
       },
       "footer": {
         "copyright": "© {year, date, ::yyyy} Ali Zahid",
-        "privacy": "Privacy policy"
+        "privacy": "Privacy policy",
+        "terms": "Terms of use"
       },
       "header": {
         "description": "Reddit for mobile",
@@ -27,7 +28,7 @@
       },
       "meta": {
         "description": "Browse Reddit better on your mobile than ever before!",
-        "title": "Acorn: Reddit for mobile"
+        "title": "Acorn × Reddit for mobile"
       },
       "screenshot": {
         "dark": "Dark mode",
@@ -35,17 +36,156 @@
       }
     },
     "privacy": {
-      "app": {
-        "1": "Our app is open source and we don't collect any personally identifiable data like your real name or email address.",
-        "2": "We use Reddit to authenticate you with Acorn and never receive or store your password at any point.",
-        "3": "We collect your Reddit username and send it to Sentry, our error tracking provider. Refer to their <sentryLink>privacy policy</sentryLink>",
-        "title": "App"
-      },
-      "title": "Privacy policy",
-      "website": {
-        "1": "Our website doesn't use any cookies or collect any data",
-        "title": "Website"
-      }
+      "sections": [
+        {
+          "body": [
+            "Acorn is an open source Reddit client. You can read every line of code on <github>GitHub</github>.",
+            "Acorn has no servers, accounts or databases of its own. We don't show ads, we don't use analytics or tracking, and we don't sell or share your data with anyone."
+          ],
+          "title": "Overview"
+        },
+        {
+          "body": [
+            "You sign in on Reddit's own login page. Acorn never sees or stores your password.",
+            "After you sign in, Acorn keeps the session that Reddit issues so it can load your feed and act on your behalf. Everything you do in the app, like browsing, voting, posting, commenting, messaging and uploading media, goes directly from your device to Reddit and is covered by Reddit's <reddit>privacy policy</reddit>."
+          ],
+          "title": "Your Reddit account"
+        },
+        {
+          "body": [
+            "Your signed in accounts, preferences and gestures are stored on your device and synced between your devices through your iCloud account. Your read history, collapsed comments, sort orders and filters are stored only on your device. We have no access to any of this.",
+            "iCloud sync is provided by Apple and covered by Apple's <apple>privacy policy</apple>."
+          ],
+          "title": "Data on your device"
+        },
+        {
+          "body": [
+            "When something goes wrong, Acorn sends an error report to Sentry so we can fix it. Reports include the error, technical details about your device and app version, and your Reddit username. A very small sample of performance data is also collected. Refer to Sentry's <sentry>privacy policy</sentry>."
+          ],
+          "title": "Crash reporting"
+        },
+        {
+          "body": [
+            "Some media, like RedGIFs videos and GIPHY images, is loaded directly from the service that hosts it. Like any website, these services can see your IP address when your device connects to them.",
+            "Subscriptions are processed by Apple. We never see your payment details; the app only checks with the App Store whether you have an active subscription.",
+            "Translation uses Apple's built in translation feature.",
+            "App updates are delivered through Expo, whose servers receive standard request information when the app checks for updates. Refer to Expo's <expo>privacy policy</expo>."
+          ],
+          "title": "Other services"
+        },
+        {
+          "body": [
+            "Acorn only asks for access to your photo library when you choose to save media or attach media to a post. It isn't used for anything else."
+          ],
+          "title": "Permissions"
+        },
+        {
+          "body": [
+            "This website doesn't use cookies, analytics or collect any data."
+          ],
+          "title": "Website"
+        },
+        {
+          "body": [
+            "Acorn isn't meant for children under 13, or the minimum age required by Reddit in your country."
+          ],
+          "title": "Children"
+        },
+        {
+          "body": [
+            "You can remove an account by signing out, and remove all local data by deleting the app. If you'd like crash reports linked to your username deleted, reach out to us."
+          ],
+          "title": "Your choices"
+        },
+        {
+          "body": [
+            "If this policy changes, we'll update it here along with the date at the top. Questions? Reach out on <discord>Discord</discord> or <github>GitHub</github>."
+          ],
+          "title": "Changes and contact"
+        }
+      ],
+      "title": "Privacy policy × Acorn",
+      "updated": "Last updated October 15, 2026"
+    },
+    "terms": {
+      "sections": [
+        {
+          "body": [
+            "By downloading or using Acorn, you agree to these terms. If you don't agree, please don't use the app."
+          ],
+          "title": "Agreement"
+        },
+        {
+          "body": [
+            "Acorn is an independent, third party app. It isn't affiliated with, endorsed, sponsored or approved by Reddit, Inc. Reddit is a trademark of Reddit, Inc."
+          ],
+          "title": "Not affiliated with Reddit"
+        },
+        {
+          "body": [
+            "When you use Reddit through Acorn, you're still using Reddit. You're responsible for following Reddit's <redditTerms>User Agreement</redditTerms>, content policy and community rules, and Reddit's <reddit>privacy policy</reddit> applies to everything you do there.",
+            "Reddit controls how third party apps can access its platform, including through its <redditApi>Data API Terms</redditApi>. Reddit doesn't officially approve every way third party apps connect to it, and may consider using an unofficial app a violation of its terms."
+          ],
+          "title": "Reddit's terms still apply"
+        },
+        {
+          "body": [
+            "Reddit can change, limit or shut off access for third party apps at any time, without notice. If that happens, some or all of Acorn may stop working, and we can't promise we'll be able to fix it.",
+            "Reddit may also restrict, suspend or ban accounts it believes are using unauthorized apps or tools. By using Acorn, you accept this risk, and we aren't responsible for any action Reddit takes against your account."
+          ],
+          "title": "Use at your own risk"
+        },
+        {
+          "body": [
+            "Acorn doesn't host any content. Posts, comments, media and everything else you see belong to their authors and are provided by Reddit and other services. We aren't responsible for that content."
+          ],
+          "title": "Content"
+        },
+        {
+          "body": [
+            "Don't use Acorn to break the law, spam, harass others, scrape data, or get around Reddit's rules or limits."
+          ],
+          "title": "Acceptable use"
+        },
+        {
+          "body": [
+            "Subscriptions are sold and billed by Apple through the App Store and are governed by Apple's <appleEula>terms</appleEula>. You can manage or cancel them in your App Store settings, and refunds are handled by Apple. A subscription supports Acorn's development; it doesn't guarantee that Reddit will keep allowing access."
+          ],
+          "title": "Subscriptions"
+        },
+        {
+          "body": [
+            "Acorn's source code is available under the <license>GNU GPL v3</license>. These terms cover the app we distribute, not your rights under that license."
+          ],
+          "title": "Open source"
+        },
+        {
+          "body": [
+            "Acorn is provided \"as is\" and \"as available\", without warranties of any kind. We don't guarantee the app will be available, accurate, secure or free of bugs."
+          ],
+          "title": "No warranty"
+        },
+        {
+          "body": [
+            "To the fullest extent allowed by law, we aren't liable for any indirect, incidental or consequential damages, or for any loss of data, content or account access, that results from using or being unable to use Acorn."
+          ],
+          "title": "Limitation of liability"
+        },
+        {
+          "body": [
+            "Our <privacy>privacy policy</privacy> explains what data Acorn handles."
+          ],
+          "title": "Privacy"
+        },
+        {
+          "body": [
+            "We may update these terms from time to time. Continuing to use Acorn after changes means you accept them. Questions? Reach out on <discord>Discord</discord> or <github>GitHub</github>."
+          ],
+          "title": "Changes and contact"
+        }
+      ],
+      "title": "Terms of use × Acorn",
+      "updated": "Last updated October 15, 2026"
     }
   }
 }

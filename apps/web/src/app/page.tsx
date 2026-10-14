@@ -75,7 +75,7 @@ export default function Page() {
         />
       </section>
 
-      <footer className="flex flex-col items-center gap-8 text-sm leading-tight lg:flex-row">
+      <footer className="flex flex-col items-center gap-4 text-sm leading-tight lg:flex-row">
         <p className="text-gray-11">
           {t('footer.copyright', {
             year: new Date(),
@@ -83,10 +83,17 @@ export default function Page() {
         </p>
 
         <Link
-          className="rounded-full text-accent-11 outline-offset-4 focus-visible:outline-2 focus-visible:outline-accent-a7"
+          className="rounded-sm text-accent-11 outline-offset-4 focus-visible:outline-2 focus-visible:outline-accent-a7"
           href="/privacy"
         >
           {t('footer.privacy')}
+        </Link>
+
+        <Link
+          className="rounded-sm text-accent-11 outline-offset-4 focus-visible:outline-2 focus-visible:outline-accent-a7"
+          href="/terms"
+        >
+          {t('footer.terms')}
         </Link>
       </footer>
     </main>
