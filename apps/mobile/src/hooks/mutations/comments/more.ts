@@ -42,7 +42,6 @@ export function useLoadMoreComments() {
           ? [...data.comments, createMore(variables.postId, data.cursor)]
           : data.comments
 
-        // place replies under their parent, whatever depth the page reports
         for (const comment of comments) {
           const parent = [...draft.comments, ...comments].find(
             (item) => item.data.id === comment.data.parentId,

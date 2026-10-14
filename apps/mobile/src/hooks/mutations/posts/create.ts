@@ -46,13 +46,11 @@ export function useCreatePost(submission: Submission) {
     async mutationFn(variables) {
       const reddit = await createApi()
 
-      // single images and videos are posted by their uploaded url
       const { id } = await reddit.posts.create({
         body:
           variables.type === 'text' && variables.text
             ? prepareMarkdown(variables.text)
             : undefined,
-        // leaving it out posts to the signed-in user's profile
         community: submission.community.user ? undefined : variables.community,
         flair: variables.flairId
           ? {
@@ -222,22 +220,16 @@ function generateSchema(t: Translate, submission: Submission) {
   ])
 }
 
-// Reddit's own cap on a title
 const TITLE_MAX = 300
 
 const imageHostRegex = /reddit-uploaded-media.s3-accelerate.amazonaws.com/
 const videoHostRegex = /reddit-uploaded-video.s3-accelerate.amazonaws.com/
 
-// A community's word and pattern rules for a title or body. Like Reddit, the
-// text needs at least one of the required words and must match one of the
-// patterns, and words are matched case-insensitively.
 function withContentRules(
   schema: z.ZodString,
   rules: SubmissionRequirements['title'],
   messages: Record<'blacklist' | 'pattern' | 'required', string>,
 ) {
-  // patterns are written for Reddit's (Python) regex engine; one JavaScript
-  // can't compile is skipped rather than blocking the post
   const patterns = rules.patterns.flatMap((pattern) => {
     try {
       return [new RegExp(pattern)]

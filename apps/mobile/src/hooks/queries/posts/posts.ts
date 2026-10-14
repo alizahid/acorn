@@ -203,9 +203,6 @@ export function usePosts({
   }
 }
 
-// Saved posts and saved comments page separately, so the page cursor holds
-// both. ponytail: each page lists posts then comments, not interleaved by when
-// they were saved (gql-fed doesn't send that)
 async function fetchSaved(reddit: Reddit, param: Param): Promise<Page> {
   const cursors: Record<'comments' | 'posts', string | null | undefined> = param
     ? JSON.parse(param)
@@ -238,9 +235,6 @@ async function fetchSaved(reddit: Reddit, param: Param): Promise<Page> {
   }
 }
 
-// Feeds are keyed by id across the app (defaults, sorting, links). The path
-// comes from the user's feed list, since a followed feed belongs to someone
-// else; a feed that isn't in it is assumed to be the user's own.
 function getFeedPath(accountId: string | undefined, id: string) {
   const feeds = queryClient.getQueryData<FeedsQueryData>([
     'feeds',

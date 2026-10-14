@@ -5,31 +5,26 @@ const redditLinkRegex = /(?<!\S)\/?[ru]\/[A-Za-z0-9_-]+/g
 const urlRegex = /https?:\/\/\S+/g
 const videoRegex = /\/link\/[^/]+\/video\/([^/]+)/
 
-// Reddit's inline media: `![img](id "caption")`. The alt is a placeholder and
-// the caption is the title, so it becomes Markdown's `![caption](id)`
 const mediaRegex = /!\[([^\]]*)\]\(([^\s)]+)(?:\s+"((?:[^"\\]|\\.)*)")?\)/g
 const imageSlotRegex = /\uE000(\d+)\uE000/g
-const placeholderAlts = new Set(['gif', 'img', 'video'])
-
 const enrichedSpoilerRegex = /\|\|(.*?)\|\|/g
-// any alt: transformMarkdown has already swapped the `gif` placeholder for the
-// caption
 const giphyRegex =
   /!\[((?:[^\]\\]|\\.)*)\]\(giphy\|([a-zA-Z0-9]+)(?:\|([a-zA-Z0-9]+))?\)/g
+
+const placeholderAlts = ['gif', 'img', 'video']
 
 export function transformMarkdown(markdown: string | null) {
   if (!markdown) {
     return ''
   }
 
-  // set images aside so the link rules below leave their captions alone
   const images: Array<string> = []
 
   return decode(markdown)
     .replace(mediaRegex, (_, alt: string, target: string, caption?: string) => {
       const text =
         caption === undefined
-          ? placeholderAlts.has(alt)
+          ? placeholderAlts.includes(alt)
             ? ''
             : alt
           : escapeAlt(caption)
@@ -93,9 +88,6 @@ export function mergeMetaMarkdown(markdown: string, meta?: PostMediaMeta) {
     }
   }
 
-  // gql-fed bodies point at inline media by id, as in `![caption](pvo4s5n3kb3h1)`
-  // (transformMarkdown has already moved the caption into the alt). After the
-  // loop above, so the urls swapped in here aren't wrapped again
   for (const [id, media] of Object.entries(meta)) {
     merged = merged.replace(
       new RegExp(
@@ -109,7 +101,6 @@ export function mergeMetaMarkdown(markdown: string, meta?: PostMediaMeta) {
   return merged
 }
 
-// a caption as Markdown alt text: unescape its quotes, escape brackets
 function escapeAlt(caption: string) {
   return caption.replace(/\\"/g, '"').replace(/[[\]\\]/g, '\\$&')
 }

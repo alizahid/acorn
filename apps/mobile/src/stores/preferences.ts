@@ -13,24 +13,10 @@ import {
   type FeedType,
   type SearchSort,
   type TopInterval,
-  UserFeedSort,
+  type UserFeedSort,
 } from '~/types/sort'
 
 const PREFERENCES_KEY = 'preferences'
-
-const SORT_KEYS = [
-  'intervalCommunityPosts',
-  'intervalFeedPosts',
-  'intervalSearchPosts',
-  'intervalUserComments',
-  'intervalUserPosts',
-  'sortCommunityPosts',
-  'sortFeedPosts',
-  'sortPostComments',
-  'sortSearchPosts',
-  'sortUserComments',
-  'sortUserPosts',
-] as const satisfies ReadonlyArray<keyof PreferencesPayload>
 
 export type PreferencesPayload = {
   autoPlay: boolean
@@ -174,25 +160,20 @@ export const usePreferences = create<State>()(
     }),
     {
       migrate(state, version) {
-        // sorts and intervals were stored lowercase before they became Reddit's
-        // own values
         if (version < 1) {
-          const previous = state as Record<string, unknown>
+          const previous = state as State
 
-          for (const key of SORT_KEYS) {
-            const value = previous[key]
-
-            if (typeof value === 'string') {
-              previous[key] = value.toUpperCase()
-            }
-          }
-
-          // a user's comments only sort like their posts
-          if (
-            !UserFeedSort.includes(previous.sortUserComments as UserFeedSort)
-          ) {
-            previous.sortUserComments = 'NEW'
-          }
+          previous.intervalCommunityPosts = 'HOUR'
+          previous.intervalFeedPosts = 'HOUR'
+          previous.intervalSearchPosts = 'ALL'
+          previous.intervalUserComments = 'ALL'
+          previous.intervalUserPosts = 'ALL'
+          previous.sortCommunityPosts = 'HOT'
+          previous.sortFeedPosts = 'HOT'
+          previous.sortPostComments = 'CONFIDENCE'
+          previous.sortSearchPosts = 'RELEVANCE'
+          previous.sortUserComments = 'NEW'
+          previous.sortUserPosts = 'NEW'
         }
 
         return state as State

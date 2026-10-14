@@ -15,9 +15,6 @@ export const FeedType = ['home', 'popular', 'all'] as const
 
 export type FeedType = (typeof FeedType)[number]
 
-// The sorts each screen offers, as Reddit's own values. Reddit accepts more
-// (AWARDED, QA, RANDOM, …); these are the ones Acorn shows.
-
 // home
 
 export const FeedSort = [

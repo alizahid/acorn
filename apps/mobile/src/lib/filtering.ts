@@ -11,7 +11,6 @@ export async function filterPosts(
 ): Promise<Array<Post>> {
   const { hideSeen } = usePreferences.getState()
 
-  // history from before gql-fed holds bare ids
   const seen = await db
     .select()
     .from(db.schema.history)

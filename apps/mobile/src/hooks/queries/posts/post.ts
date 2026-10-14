@@ -43,7 +43,6 @@ type Props = {
 }
 
 export function usePost({ commentId, id: postId, sort }: Props) {
-  // links and routes carry bare ids
   const id = addPrefix(postId, 'link')
 
   const { collapseAutoModerator } = usePreferences(
@@ -153,7 +152,6 @@ export function usePost({ commentId, id: postId, sort }: Props) {
 
       updatePost(id, (draft) => {
         for (const comment of draft.comments) {
-          // deleted comments collapse their replies too
           if (
             comment.type !== 'more' &&
             comment.data.id === variables.commentId
@@ -322,7 +320,6 @@ function isHidden(comments: Array<Comment>, commentId: string) {
   return isHidden(comments, comment.data.parentId)
 }
 
-// a "load more" stub for the next page of top-level comments
 export function createMore(postId: string, cursor: string): Comment {
   return {
     data: {
