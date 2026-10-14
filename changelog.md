@@ -1,10 +1,13 @@
 # Changelog
 
-## Upcoming
+## Build 91
 
+- added: inline images
 - added: iPhone Duo support
+- added: new API
 - added: yearly and lifetime plans added
 - changed: long image cutoff design
+- changed: notifications tab is now useless (thanks to new API)
 - removed: long press to switch account
 - removed: messages
 - removed: paywall for video downloads
