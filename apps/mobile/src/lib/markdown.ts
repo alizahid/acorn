@@ -9,6 +9,10 @@ const imageSlotRegex = /\uE000(\d+)\uE000/g
 const enrichedSpoilerRegex = /\|\|(.*?)\|\|/g
 const giphyRegex =
   /!\[((?:[^\]\\]|\\.)*)\]\(giphy\|([a-zA-Z0-9]+)(?:\|([a-zA-Z0-9]+))?\)/g
+const escapedPunctuationRegex = /\\(?=[!-/:-@[-`{-~])/g
+const escapedQuoteRegex = /\\"/g
+const altSpecialCharsRegex = /[[\]\\]/g
+const regexSpecialCharsRegex = /[.*+?^${}()|[\]\\]/g
 
 const placeholderAlts = ['gif', 'img', 'video']
 
@@ -43,7 +47,7 @@ export function transformMarkdown(markdown: string | null) {
         }
       }
 
-      return url.replace(/\\(?=[!-/:-@[-`{-~])/g, '')
+      return url.replace(escapedPunctuationRegex, '')
     })
     .replace(
       redditLinkRegex,
@@ -101,9 +105,11 @@ export function mergeMetaMarkdown(markdown: string, meta?: PostMediaMeta) {
 }
 
 function escapeAlt(caption: string) {
-  return caption.replace(/\\"/g, '"').replace(/[[\]\\]/g, '\\$&')
+  return caption
+    .replace(escapedQuoteRegex, '"')
+    .replace(altSpecialCharsRegex, '\\$&')
 }
 
 function escapeRegex(value: string) {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return value.replace(regexSpecialCharsRegex, '\\$&')
 }
