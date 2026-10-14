@@ -11,7 +11,7 @@ type Param = string | undefined | null
 
 type Page = {
   cursor: Param
-  items: Array<Notification>
+  notifications: Array<Notification>
 }
 
 export type NotificationsQueryKey = [
@@ -59,7 +59,7 @@ export function useNotifications() {
 
       return {
         cursor,
-        items: notifications,
+        notifications,
       }
     },
     queryKey: [
@@ -75,7 +75,7 @@ export function useNotifications() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-    notifications: data?.pages.flatMap((page) => page.items) ?? [],
+    notifications: data?.pages.flatMap((page) => page.notifications) ?? [],
     refetch,
   }
 }
@@ -100,7 +100,7 @@ export function updateNotification(
 
         return create(previous, (draft) => {
           loop: for (const page of draft.pages) {
-            for (const item of page.items) {
+            for (const item of page.notifications) {
               if (item.id === id) {
                 updater(item)
 
