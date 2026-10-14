@@ -23,17 +23,17 @@
       }
     }
   },
+  "extends": [
+    "ultracite/biome/core",
+    "ultracite/biome/react",
+    "ultracite/biome/next"
+  ],
   "files": {
     "includes": [
       "!apps/mobile/src/assets/icons/phosphor/phosphor.glyphmap.json",
       "!packages/reddit"
     ]
   },
-  "extends": [
-    "ultracite/biome/core",
-    "ultracite/biome/react",
-    "ultracite/biome/next"
-  ],
   "javascript": {
     "formatter": {
       "quoteStyle": "single",
