@@ -250,6 +250,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   listContent: {
     paddingBottom: runtime.insets.bottom,
+    paddingRight: runtime.insets.right,
   },
   paywall: {
     marginBottom: theme.space[4],
