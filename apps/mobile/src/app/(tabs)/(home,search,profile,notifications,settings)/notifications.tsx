@@ -24,7 +24,7 @@ export default function Screen() {
               markAll()
             }}
           >
-            {isPending ? <Spinner /> : <Icon name="checks-bold" />}
+            {isPending ? <Spinner /> : <Icon name="check-bold" />}
           </IconButton>
         </Stack.Toolbar.View>
       </Stack.Toolbar>

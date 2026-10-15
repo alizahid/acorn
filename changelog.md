@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: notifications tab
 - changed: tab bar icons
 - fixed: video progress bar
 
@@ -12,7 +13,6 @@
 - added: new API
 - added: yearly and lifetime plans added
 - changed: long image cutoff design
-- changed: notifications tab is now useless (thanks to new API)
 - removed: long press to switch account
 - removed: messages
 - removed: paywall for video downloads

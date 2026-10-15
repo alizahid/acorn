@@ -20,7 +20,7 @@
       "name": "mobile",
       "version": "0.0.0",
       "dependencies": {
-        "@acorn/reddit": "npm:@alizahid/reddit@^0.1.19",
+        "@acorn/reddit": "npm:@alizahid/reddit@^0.1.20",
         "@bacons/apple-targets": "^5.0.0",
         "@expo/ui": "~58.0.17",
         "@formatjs/intl-getcanonicallocales": "^3.2.12",
@@ -163,7 +163,7 @@
   "packages": {
     "2g": ["2g@1.0.1", "", { "peerDependencies": { "typescript": ">=5.8.0" }, "optionalPeers": ["typescript"], "bin": { "2g": "bin/cli.js" } }, "sha512-+uViadKOS/wwR4pFu5g8TPn3QHpKqoX19JHCnp8k/3cLpImdcXozwvZA6Q/5PeW3AcU8neL8faaMidBcv7o8CA=="],
 
-    "@acorn/reddit": ["@alizahid/reddit@0.1.19", "https://npm.pkg.github.com/download/@alizahid/reddit/0.1.19/15fa351f8852044e904d14df5895433cd9092952", { "peerDependencies": { "react-native-nitro-buffer": ">=0.0.14", "react-native-nitro-crypto": "^0.3.5" } }, "sha512-PJP9DwVwN1+J/arisxuxb9SBAAX1kctVLUbidDe+32OEqyAFimkJMcg1zA3tjJhcQPlm2zyW+G05bqqyhkzlaw=="],
+    "@acorn/reddit": ["@alizahid/reddit@0.1.20", "https://npm.pkg.github.com/download/@alizahid/reddit/0.1.20/f076a7d7b103b3fca5772a19686ab9cef3a0827b", { "peerDependencies": { "react-native-nitro-buffer": ">=0.0.14", "react-native-nitro-crypto": "^0.3.5" } }, "sha512-P3B1EOX6sIA5YF7TQcC4OzfSdraL4dU00W77blrTBL/mMweaeLrCLKKwZptDkOoBqnNGDtwmnP01A7KwARCbzA=="],
 
     "@alloc/quick-lru": ["@alloc/quick-lru@5.3.0", "", {}, "sha512-U4+70Pc5ZS9osnCBCE5Jha/ciHM+Yp+CNMNC/7HvYbNRk1Ldd+f7qO65W5qfhu/TCv+/ozljlXXe9Nj8419DMA=="],
 

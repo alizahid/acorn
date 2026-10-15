@@ -53,7 +53,7 @@ export function useNotifications() {
     async queryFn({ pageParam }) {
       const reddit = await createApi()
 
-      const { cursor, notifications } = await reddit.inbox.notifications({
+      const { cursor, notifications } = await reddit.inbox.list({
         after: pageParam ?? undefined,
       })
 
