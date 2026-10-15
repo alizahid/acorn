@@ -92,6 +92,12 @@ export function VideoPlayer({
   const buffered = useSharedValue(0)
   const current = useSharedValue(0)
 
+  useRecyclingState(undefined, [recyclingKey], () => {
+    duration.set(0)
+    buffered.set(0)
+    current.set(0)
+  })
+
   return (
     <Pressable
       accessibilityLabel={a11y('viewVideo')}

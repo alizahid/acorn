@@ -3,6 +3,7 @@
 ## Upcoming
 
 - changed: tab bar icons
+- fixed: video progress bar
 
 ## Build 91
 

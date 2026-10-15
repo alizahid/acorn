@@ -11,13 +11,19 @@ type Props = {
   current: SharedValue<number>
 }
 
+function progress(value: number, duration: number) {
+  'worklet'
+
+  return duration > 0 ? Math.min(Math.max(value / duration, 0), 1) : 0
+}
+
 export function VideoStatus({ duration, buffered, current }: Props) {
   const currentStyle = useAnimatedStyle(() => ({
-    width: `${(current.get() / duration.get()) * 100}%`,
+    transform: [{ scaleX: progress(current.get(), duration.get()) }],
   }))
 
   const bufferedStyle = useAnimatedStyle(() => ({
-    width: `${(buffered.get() / duration.get()) * 100}%`,
+    transform: [{ scaleX: progress(buffered.get(), duration.get()) }],
   }))
 
   return (
@@ -38,6 +44,7 @@ const styles = StyleSheet.create((theme) => ({
     left: 0,
     position: 'absolute',
     right: 0,
+    transformOrigin: 'left',
   },
   buffered: {
     backgroundColor: theme.colors.accent.uiAlpha,
