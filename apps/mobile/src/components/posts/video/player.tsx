@@ -7,7 +7,12 @@ import {
   VideoView,
   type VideoViewRef,
 } from 'react-native-jet-video'
-import { Easing, useSharedValue, withTiming } from 'react-native-reanimated'
+import {
+  Easing,
+  type SharedValue,
+  useSharedValue,
+  withTiming,
+} from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
@@ -23,10 +28,16 @@ import { space } from '~/styles/tokens'
 import { GalleryBlur } from '../gallery/blur'
 import { VideoStatus } from './status'
 
-const progressConfig = {
-  duration: 500,
-  easing: Easing.linear,
-} as const
+function setProgress(value: SharedValue<number>, next: number) {
+  value.set(
+    next < value.get()
+      ? next
+      : withTiming(next, {
+          duration: 500,
+          easing: Easing.linear,
+        }),
+  )
+}
 
 type Props = {
   compact?: boolean
@@ -153,8 +164,8 @@ export function VideoPlayer({
           setStatus(event.status)
         }}
         onProgress={(event) => {
-          buffered.set(withTiming(event.bufferedPosition, progressConfig))
-          current.set(withTiming(event.currentTime, progressConfig))
+          setProgress(buffered, event.bufferedPosition)
+          setProgress(current, event.currentTime)
         }}
         playerKey={recyclingKey}
         poster={video.thumbnail ?? thumbnail}

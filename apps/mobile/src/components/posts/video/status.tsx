@@ -19,11 +19,19 @@ function progress(value: number, duration: number) {
 
 export function VideoStatus({ duration, buffered, current }: Props) {
   const currentStyle = useAnimatedStyle(() => ({
-    transform: [{ scaleX: progress(current.get(), duration.get()) }],
+    transform: [
+      {
+        scaleX: progress(current.get(), duration.get()),
+      },
+    ],
   }))
 
   const bufferedStyle = useAnimatedStyle(() => ({
-    transform: [{ scaleX: progress(buffered.get(), duration.get()) }],
+    transform: [
+      {
+        scaleX: progress(buffered.get(), duration.get()),
+      },
+    ],
   }))
 
   return (
