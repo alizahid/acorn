@@ -155,9 +155,12 @@ function StackLayout({ children }: PropsWithChildren) {
         fullScreenGestureEnabled: true,
         headerBackButtonDisplayMode: 'minimal',
         headerBackButtonMenuEnabled: false,
-        headerBlurEffect: glass ? 'none' : 'systemChromeMaterial',
+        headerBlurEffect: glass ? undefined : 'systemChromeMaterial',
         headerShadowVisible: false,
         headerTransparent: true,
+        scrollEdgeEffects: {
+          top: 'soft',
+        },
       }}
     >
       {children}
