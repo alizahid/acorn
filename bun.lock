@@ -20,7 +20,7 @@
       "name": "mobile",
       "version": "0.0.0",
       "dependencies": {
-        "@acorn/reddit": "npm:@alizahid/reddit@^0.1.18",
+        "@acorn/reddit": "npm:@alizahid/reddit@^0.1.19",
         "@bacons/apple-targets": "^5.0.0",
         "@expo/ui": "~58.0.17",
         "@formatjs/intl-getcanonicallocales": "^3.2.12",
@@ -52,7 +52,7 @@
         "expo-font": "~58.0.8",
         "expo-glass-effect": "~58.0.3",
         "expo-haptics": "~58.0.6",
-        "expo-iap": "^5.8.2",
+        "expo-iap": "^6.0.2",
         "expo-icloud-storage": "^0.1.1",
         "expo-image": "~58.0.14",
         "expo-image-picker": "~58.0.10",
@@ -88,7 +88,7 @@
         "react-native-jet-video": "^1.2.0",
         "react-native-keyboard-controller": "1.22.7",
         "react-native-mmkv": "^4.3.2",
-        "react-native-nano-icons": "^1.0.0",
+        "react-native-nano-icons": "^1.0.1",
         "react-native-nitro-buffer": "^0.3.0",
         "react-native-nitro-cookies": "^1.2.1",
         "react-native-nitro-crypto": "^0.3.5",
@@ -158,12 +158,12 @@
   },
   "patchedDependencies": {
     "ffmpeg-kit-react-native@6.0.2": "patches/ffmpeg-kit-react-native@6.0.2.patch",
-    "react-native-nano-icons@1.0.0": "patches/react-native-nano-icons@1.0.0.patch",
+    "react-native-nano-icons@1.0.1": "patches/react-native-nano-icons@1.0.1.patch",
   },
   "packages": {
     "2g": ["2g@1.0.1", "", { "peerDependencies": { "typescript": ">=5.8.0" }, "optionalPeers": ["typescript"], "bin": { "2g": "bin/cli.js" } }, "sha512-+uViadKOS/wwR4pFu5g8TPn3QHpKqoX19JHCnp8k/3cLpImdcXozwvZA6Q/5PeW3AcU8neL8faaMidBcv7o8CA=="],
 
-    "@acorn/reddit": ["@alizahid/reddit@0.1.18", "https://npm.pkg.github.com/download/@alizahid/reddit/0.1.18/37e1f157f9ef4a936ccda33dfcf128463d1aacca", { "peerDependencies": { "react-native-nitro-buffer": ">=0.0.14", "react-native-nitro-crypto": "^0.3.5" } }, "sha512-KDmLkfB/vDXigli8m28hJmugTAQ/a9nFo6vnRzJWpSenF6itkP9IYZ2/OjtyHElMTjnvqOEGxFoX3pKQRlSDmQ=="],
+    "@acorn/reddit": ["@alizahid/reddit@0.1.19", "https://npm.pkg.github.com/download/@alizahid/reddit/0.1.19/15fa351f8852044e904d14df5895433cd9092952", { "peerDependencies": { "react-native-nitro-buffer": ">=0.0.14", "react-native-nitro-crypto": "^0.3.5" } }, "sha512-PJP9DwVwN1+J/arisxuxb9SBAAX1kctVLUbidDe+32OEqyAFimkJMcg1zA3tjJhcQPlm2zyW+G05bqqyhkzlaw=="],
 
     "@alloc/quick-lru": ["@alloc/quick-lru@5.3.0", "", {}, "sha512-U4+70Pc5ZS9osnCBCE5Jha/ciHM+Yp+CNMNC/7HvYbNRk1Ldd+f7qO65W5qfhu/TCv+/ozljlXXe9Nj8419DMA=="],
 
@@ -1197,7 +1197,7 @@
 
     "expo-haptics": ["expo-haptics@58.0.6", "", { "peerDependencies": { "expo": "*" } }, "sha512-a5B/qbjCCqvBFh25r8qnFKDt0JmBRniTtNTKwhRlZVpEmR/ZxCSQC5EsPw2Cob+G/27rcWgK7Lo8ICMq/megwA=="],
 
-    "expo-iap": ["expo-iap@5.8.3", "", { "peerDependencies": { "@amazon-devices/keplerscript-appstore-iap-lib": "~2.13.0", "@amazon-devices/package-manager-lib": "~1.0.1767254401", "expo": "*", "react": "*", "react-native": "*" }, "optionalPeers": ["@amazon-devices/keplerscript-appstore-iap-lib", "@amazon-devices/package-manager-lib"] }, "sha512-ZMAxuso5qOnS/w7nCA58UbmDl8pkG+g+bBwjzjRS4NFXtRVvm3kbnSbdSZBiam1EVLht/QhX8QnbrjJ+mh2I/w=="],
+    "expo-iap": ["expo-iap@6.0.2", "", { "peerDependencies": { "@amazon-devices/keplerscript-appstore-iap-lib": "~2.13.0", "@amazon-devices/package-manager-lib": "~1.0.1767254401", "expo": "*", "react": "*", "react-native": "*" }, "optionalPeers": ["@amazon-devices/keplerscript-appstore-iap-lib", "@amazon-devices/package-manager-lib"] }, "sha512-bzCFlZTloDvrIzIzgM4+tRkZEXd29W9n5MU8rIE5HTLOfkh3/tR55kEFQDffF4TeEWp2rYpm4RO80285yJWyNA=="],
 
     "expo-icloud-storage": ["expo-icloud-storage@0.1.1", "", { "peerDependencies": { "expo": "*", "react": "*", "react-native": "*" } }, "sha512-yamcz3ane86qKVFZD5xefbw8zFZI/PFY2kQp5ZPiYSVtmWZTuFIoOTTcZDZQodTQfocyjFZWrEz6omrbY74qeg=="],
 
@@ -1677,7 +1677,7 @@
 
     "react-native-mmkv": ["react-native-mmkv@4.3.2", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": "*" } }, "sha512-49OAyfkg0/TMWiWELZN6VuVQPZPhizwL4DTmp8b7B1md3dB/s3LH3mGfC3T+lp9W0y/rqxZMEnotLFTIbOAenQ=="],
 
-    "react-native-nano-icons": ["react-native-nano-icons@1.0.0", "", { "dependencies": { "@expo/config-plugins": ">=9.0.0", "@xmldom/xmldom": "^0.9.10", "chalk": "^5.6.2", "cubic2quad": "^1.2.1", "fonteditor-core": "^2.6.3", "ora": "^9.3.0", "pathkit-wasm": "^1.0.0", "plist": "^3.0.5", "svg2ttf": "^6.0.3", "xcode": "^3.0.1" }, "peerDependencies": { "@expo/config": ">=9.0.0", "expo": "*", "react": "*", "react-native": ">=0.81.0" }, "optionalPeers": ["@expo/config", "expo"], "bin": { "react-native-nano-icons": "lib/commonjs/scripts/cli.js" } }, "sha512-5ez/IFtmHdkjCQiosD287p4okgnmh8hwTghj+MwYyca+lKnbVkMj3/B28YAumBij1FdXh3Gs0pqp4wl8VIYFsw=="],
+    "react-native-nano-icons": ["react-native-nano-icons@1.0.1", "", { "dependencies": { "@expo/config-plugins": ">=9.0.0", "@xmldom/xmldom": "^0.9.10", "chalk": "^5.6.2", "cubic2quad": "^1.2.1", "fonteditor-core": "^2.6.3", "ora": "^9.3.0", "pathkit-wasm": "^1.0.0", "plist": "^3.0.5", "svg2ttf": "^6.0.3", "xcode": "^3.0.1" }, "peerDependencies": { "@expo/config": ">=9.0.0", "expo": "*", "react": "*", "react-native": ">=0.81.0" }, "optionalPeers": ["@expo/config", "expo"], "bin": { "react-native-nano-icons": "lib/commonjs/scripts/cli.js" } }, "sha512-kIqdPtDviuN6++hAyo0Vl34bppmb6EZwgK+rqhpz0eQMWYAeYt120BSTNO43VS+69Vsig2zbC1v3qLMKrpMSSA=="],
 
     "react-native-nitro-buffer": ["react-native-nitro-buffer@0.3.0", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": "0.35.0 - 0.37.1" } }, "sha512-aYy8chegCYiA2ETxStxdDsCgJTui/G4WtmK6y9wbUCySBaqWZkLwQg4lQUrJnIgXQcLC1D88W5COAoDhrd9wsw=="],
 
@@ -2143,8 +2143,6 @@
 
     "react-native/@react-native/normalize-colors": ["@react-native/normalize-colors@0.88.0-rc.4", "", {}, "sha512-MDD2OXJwccKSB7ceVFw+ZFf1lomWrQODbwsKYwAhuf8mTiOArAea1c2fRJ9zpPp9IZmi3O3wSfGRBKqWcBCNDA=="],
 
-    "react-native-nano-icons/@expo/config-plugins": ["@expo/config-plugins@58.0.8", "", { "dependencies": { "@expo/config-types": "^58.0.3", "@expo/json-file": "~11.2.1", "@expo/plist": "^0.10.1", "@expo/require-utils": "^58.0.3", "@expo/sdk-runtime-versions": "^1.0.1", "chalk": "^4.1.2", "debug": "^4.3.5", "getenv": "^2.0.0", "glob": "^13.0.0", "semver": "^7.7.4", "slugify": "^1.6.6", "xcode": "^3.0.1", "xml2js": "0.6.0" } }, "sha512-fEuIoV9q0XPu4HJ2hzJJGJmFAk5YIckYuGSenJ89Of5/CEmm3UlwcSzdXfXdqhONipZ7bJUBmLwDZM7GbXMWMA=="],
-
     "react-native-nano-icons/chalk": ["chalk@5.6.2", "", {}, "sha512-7NzBL0rN6fMUW+f7A6Io4h40qQlG+xGmtMxfbnH/K7TAtt8JQWVQK+6g0UXKMeVJoyV5EkkNsErQ8pVD3bLHbA=="],
 
     "send/debug": ["debug@2.6.9", "", { "dependencies": { "ms": "2.0.0" } }, "sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA=="],
@@ -2339,14 +2337,6 @@
 
     "metro/flow-parser/flow-estree": ["flow-estree@0.331.0", "", {}, "sha512-FVLYkSL/ITb/QXBEQvNWPjPooRGswuUtGOwrH+puSlMDneNkxy640+FZsk/TfKL+b7Wbw/Fg9FTUv2bMQDpj2w=="],
 
-    "react-native-nano-icons/@expo/config-plugins/@expo/config-types": ["@expo/config-types@58.0.3", "", {}, "sha512-wyfrwkTT/hQHzwyqkXkngKxoOa8L6ovsTP4h/UukS1mTmssee5et6HOPoN5RtawdJPnm5JO28f//C/wXlpka8Q=="],
-
-    "react-native-nano-icons/@expo/config-plugins/@expo/json-file": ["@expo/json-file@11.2.1", "", { "dependencies": { "@babel/code-frame": "^7.20.0", "json5": "^2.2.3" } }, "sha512-UPhKoFCj8BcwgLB1rKQ1CuR/REITnZLiqxHEHOeH1tPsdXcHGtUDh0P5bLbr7oU0nKVdtJ5rzyKx8jniMQdESQ=="],
-
-    "react-native-nano-icons/@expo/config-plugins/@expo/require-utils": ["@expo/require-utils@58.0.3", "", { "dependencies": { "@babel/code-frame": "^7.20.0", "@babel/core": "^7.25.2", "@babel/plugin-transform-modules-commonjs": "^7.24.8" }, "peerDependencies": { "typescript": "^5.0.0 || ^5.0.0-0 || ^6.0.0 || ^7.0.0" }, "optionalPeers": ["typescript"] }, "sha512-WsYe9AAB5dtGrA5zbVKDNsbhaTm9x7oPslBTwtdUPuV9TKTICO6IR01KtW2RtkmMU30A27AMr71t0/mHl9iXWg=="],
-
-    "react-native-nano-icons/@expo/config-plugins/chalk": ["chalk@4.1.2", "", { "dependencies": { "ansi-styles": "^4.1.0", "supports-color": "^7.1.0" } }, "sha512-oKnbhFyRIXpUuez8iBMmyEa4nbj4IOQyuhc/wy9kY7/WVPcwIO9VA668Pu8RkO7+0G76SLROeyw9CpQ061i4mA=="],
-
     "send/debug/ms": ["ms@2.0.0", "", {}, "sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A=="],
 
     "terminal-link/ansi-escapes/type-fest": ["type-fest@0.21.3", "", {}, "sha512-t0rzBq87m3fVcduHDUFhKmyyX+9eo6WQjZvf51Ea/M0Q7+T374Jp1aUiyUl0GKxp8M/OETVHSDvmkyPgvX+X2w=="],
@@ -2446,8 +2436,6 @@
     "@expo/prebuild-config/@expo/config-plugins/@expo/plist/@xmldom/xmldom": ["@xmldom/xmldom@0.8.15", "", {}, "sha512-/5NV/vDALVFDXgLmfsy9TRCBlKwO2LNBFzpzvb9iIj+jR+eSc6DLYYvVOdivT/jm7MtU6TebYuRmzEOI7w40UA=="],
 
     "@expo/prebuild-config/@expo/config-plugins/@expo/plist/xmlbuilder": ["xmlbuilder@15.1.1", "", {}, "sha512-yMqGBqtXyeN1e3TGYvgNgDVZ3j84W4cwkOXQswghol6APgZWaff9lnbvN7MHYJOiXsvGPXtjTYJEiC9J2wv9Eg=="],
-
-    "react-native-nano-icons/@expo/config-plugins/chalk/ansi-styles": ["ansi-styles@4.3.0", "", { "dependencies": { "color-convert": "^2.0.1" } }, "sha512-zbB9rCJAT1rbjiVDb2hqKFHNYLxgtk8NURxZ3IZwD3F6NtxbXZQCnnSi1Lkx+IDohdPlFp222wVALIheZJQSEg=="],
 
     "@babel/highlight/chalk/ansi-styles/color-convert/color-name": ["color-name@1.1.3", "", {}, "sha512-72fSenhMw2HZMTVHeCA9KCmpEIbzWiQsjN+BHcBbS9vr1mtt+vJjPdksIBNUmKAW8TFUDPJK5SUU3QhE9NEXDw=="],
 

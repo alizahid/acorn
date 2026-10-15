@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acorn/reddit": "npm:@alizahid/reddit@^0.1.18",
+    "@acorn/reddit": "npm:@alizahid/reddit@^0.1.19",
     "@bacons/apple-targets": "^5.0.0",
     "@expo/ui": "~58.0.17",
     "@formatjs/intl-getcanonicallocales": "^3.2.12",
@@ -48,7 +48,7 @@
     "expo-font": "~58.0.8",
     "expo-glass-effect": "~58.0.3",
     "expo-haptics": "~58.0.6",
-    "expo-iap": "^5.8.2",
+    "expo-iap": "^6.0.2",
     "expo-icloud-storage": "^0.1.1",
     "expo-image": "~58.0.14",
     "expo-image-picker": "~58.0.10",
@@ -84,7 +84,7 @@
     "react-native-jet-video": "^1.2.0",
     "react-native-keyboard-controller": "1.22.7",
     "react-native-mmkv": "^4.3.2",
-    "react-native-nano-icons": "^1.0.0",
+    "react-native-nano-icons": "^1.0.1",
     "react-native-nitro-buffer": "^0.3.0",
     "react-native-nitro-cookies": "^1.2.1",
     "react-native-nitro-crypto": "^0.3.5",
