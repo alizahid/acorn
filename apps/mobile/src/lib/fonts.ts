@@ -3,7 +3,7 @@ export const fonts = {
   basis: 'Basis Grotesque Pro Var',
   fold: 'Fold Grotesque Pro',
   inter: 'Inter Variable',
-  mono: 'SF Mono',
+  mono: 'Paper Mono',
   system: undefined as unknown as string,
 }
 
