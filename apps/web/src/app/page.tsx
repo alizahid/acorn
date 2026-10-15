@@ -83,14 +83,14 @@ export default function Page() {
         </p>
 
         <Link
-          className="rounded-sm text-accent-11 outline-offset-4 focus-visible:outline-2 focus-visible:outline-accent-a7"
+          className="rounded-sm text-accent-11 outline-offset-4 hover:text-accent-12 focus-visible:outline-2 focus-visible:outline-accent-a7"
           href="/privacy"
         >
           {t('footer.privacy')}
         </Link>
 
         <Link
-          className="rounded-sm text-accent-11 outline-offset-4 focus-visible:outline-2 focus-visible:outline-accent-a7"
+          className="rounded-sm text-accent-11 outline-offset-4 hover:text-accent-12 focus-visible:outline-2 focus-visible:outline-accent-a7"
           href="/terms"
         >
           {t('footer.terms')}

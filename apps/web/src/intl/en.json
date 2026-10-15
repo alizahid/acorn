@@ -36,6 +36,7 @@
       }
     },
     "privacy": {
+      "header": "Privacy policy",
       "sections": [
         {
           "body": [
@@ -108,6 +109,7 @@
       "updated": "Last updated October 15, 2026"
     },
     "terms": {
+      "header": "Terms of use",
       "sections": [
         {
           "body": [
@@ -149,9 +151,17 @@
         },
         {
           "body": [
-            "Subscriptions are sold and billed by Apple through the App Store and are governed by Apple's <appleEula>terms</appleEula>. You can manage or cancel them in your App Store settings, and refunds are handled by Apple. A subscription supports Acorn's development; it doesn't guarantee that Reddit will keep allowing access."
+            "Subscriptions are sold and billed by Apple through the App Store and are governed by Apple's <appleEula>terms</appleEula>. You can manage or cancel them in your App Store settings, and refunds are handled by Apple. A subscription supports Acorn's development; it doesn't guarantee that Reddit will keep allowing access.",
+            "Except where required by law, payments are non-refundable, including when features stop working or Acorn stops working entirely because of changes made by Reddit or another third party.",
+            "We may, at our sole discretion, help with a refund or offer another remedy in some cases, for example if we choose to discontinue Acorn for reasons within our control. Any such remedy is a courtesy decided case by case, and doesn't create an obligation to offer the same or any remedy in other situations."
           ],
           "title": "Subscriptions"
+        },
+        {
+          "body": [
+            "We may change, suspend or discontinue Acorn, or any part of it, at any time. If Reddit ends access in a way we can't work around, we'll stop selling new subscriptions and let existing subscribers know as soon as we reasonably can, so they can cancel renewals."
+          ],
+          "title": "Changes to the app"
         },
         {
           "body": [
@@ -167,7 +177,9 @@
         },
         {
           "body": [
-            "To the fullest extent allowed by law, we aren't liable for any indirect, incidental or consequential damages, or for any loss of data, content or account access, that results from using or being unable to use Acorn."
+            "To the fullest extent allowed by law, we aren't liable for any indirect, incidental or consequential damages, or for any loss of data, content or account access, that results from using or being unable to use Acorn.",
+            "To the same extent, our total liability for any claim relating to Acorn is limited to the amount you paid for Acorn in the 12 months before the claim.",
+            "Some places don't allow certain warranties or liabilities to be excluded or limited. If you live in one of them, these terms don't take away any consumer rights you have under the law there."
           ],
           "title": "Limitation of liability"
         },
