@@ -96,12 +96,12 @@ export function PostLinkCard({
       onPress={onPress}
       style={styles.main}
     >
-      {media ? (
+      {media?.thumbnail ? (
         <Image
           {...placeholder}
           accessibilityIgnoresInvertColors
           recyclingKey={recyclingKey}
-          source={media.url}
+          source={media.thumbnail}
           style={styles.image(media.width / media.height)}
         />
       ) : null}

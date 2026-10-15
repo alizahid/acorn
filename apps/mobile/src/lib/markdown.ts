@@ -87,7 +87,10 @@ export function mergeMetaMarkdown(markdown: string, meta?: PostMediaMeta) {
 
   for (const media of Object.values(meta)) {
     if (merged.includes(media.url) && !merged.includes(`[${media.url}]`)) {
-      merged = merged.replaceAll(media.url, `![](${media.url})`)
+      merged = merged.replaceAll(
+        media.url,
+        `![](${media.thumbnail ?? media.url})`,
+      )
     }
   }
 
@@ -97,7 +100,7 @@ export function mergeMetaMarkdown(markdown: string, meta?: PostMediaMeta) {
         `(!\\[(?:[^\\]\\\\]|\\\\.)*\\])\\(${escapeRegex(id)}(\\s+"[^"]*")?\\)`,
         'g',
       ),
-      `$1(${media.url}$2)`,
+      `$1(${media.thumbnail ?? media.url}$2)`,
     )
   }
 

@@ -54,16 +54,20 @@ export function Markdown({ children, meta, type = 'post' }: Props) {
     <MarkdownViewer
       allowFontScaling={systemScaling}
       markdown={markdown}
-      onImagePress={(image) => {
+      onImagePress={(event) => {
+        const image = Object.values(meta ?? {}).find(
+          (item) => item.thumbnail === event.url,
+        )
+
         Gallery.open({
           actions,
           images: [
             {
-              url: image.url,
+              url: image?.url ?? event.url,
             },
           ],
           origin: {
-            ...image,
+            ...event,
             borderRadius: radius[4],
           },
         })

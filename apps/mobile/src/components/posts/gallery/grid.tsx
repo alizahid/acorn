@@ -119,7 +119,7 @@ export function ImageGrid({
           <Image
             accessibilityIgnoresInvertColors
             recyclingKey={recyclingKey}
-            source={image.url}
+            source={image.thumbnail ?? image.url}
             style={styles.single}
           />
         </Gallery.Image>
@@ -176,7 +176,7 @@ export function ImageGrid({
                 <Image
                   accessibilityIgnoresInvertColors
                   recyclingKey={recyclingKey}
-                  source={item.url}
+                  source={item.thumbnail ?? item.url}
                   style={data.sizes[index]}
                 />
               </Gallery.Image>

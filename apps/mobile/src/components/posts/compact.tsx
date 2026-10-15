@@ -63,7 +63,9 @@ export function PostCompactCard({
             large={largeThumbnails}
             nsfw={post.nsfw}
             recyclingKey={post.id}
-            thumbnail={post.media.images?.[0]?.url}
+            thumbnail={
+              post.media.images?.[0]?.thumbnail ?? post.media.images?.[0]?.url
+            }
             video={post.media.video}
           />
         ) : null}
