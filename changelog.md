@@ -1,18 +1,14 @@
 # Changelog
 
-## Upcoming
-
-- added: notifications tab
-- changed: tab bar icons
-- fixed: video progress bar
-
-## Build 91
+## Build 91-92
 
 - added: inline images
 - added: iPhone Duo support
 - added: new API
 - added: yearly and lifetime plans added
 - changed: long image cutoff design
+- changed: tab bar icons
+- fixed: video progress bar
 - removed: long press to switch account
 - removed: messages
 - removed: paywall for video downloads
