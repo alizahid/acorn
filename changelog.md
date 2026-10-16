@@ -3,6 +3,7 @@
 ## Upcoming
 
 - fixed: blank login screen
+- fixed: comments opening in browser
 - fixed: lifetime plan
 
 ## Build 91-92
