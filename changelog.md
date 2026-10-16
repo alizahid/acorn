@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- fixed: blank login screen
+
 ## Build 91-92
 
 - added: inline images

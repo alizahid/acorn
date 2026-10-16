@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { type ComponentRef, useRef, useState } from 'react'
 import { View } from 'react-native'
 import cookies from 'react-native-nitro-cookies'
 import Animated, { SlideInDown, SlideOutDown } from 'react-native-reanimated'
@@ -27,7 +27,18 @@ export default function Screen() {
 
   const { signIn, isPending } = useSignIn()
 
+  const webView = useRef<ComponentRef<typeof WebView>>(null)
+
   const [open, setOpen] = useState(false)
+  const [cleared, setCleared] = useState(false)
+
+  const source = cleared
+    ? {
+        uri: `https://www.reddit.com/login/?dest=${encodeURI('/r/acornblue')}`,
+      }
+    : {
+        html: '',
+      }
 
   return (
     <>
@@ -50,6 +61,7 @@ export default function Screen() {
           onPress={async () => {
             await Promise.all([cookies.clearAll(), cookies.clearAll(true)])
 
+            setCleared(false)
             setOpen(true)
           }}
         />
@@ -63,6 +75,15 @@ export default function Screen() {
         >
           <WebView
             injectedJavaScript={injected}
+            onLoadEnd={() => {
+              if (cleared) {
+                return
+              }
+
+              webView.current?.clearCache(true)
+
+              setCleared(true)
+            }}
             onMessage={() => {
               //
             }}
@@ -81,11 +102,10 @@ export default function Screen() {
 
               setOpen(false)
             }}
+            ref={webView}
             renderLoading={() => <Empty />}
             sharedCookiesEnabled
-            source={{
-              uri: `https://www.reddit.com/login/?dest=${encodeURI('/r/acornblue')}`,
-            }}
+            source={source}
           />
 
           <IconButton
