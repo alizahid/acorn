@@ -6,6 +6,7 @@ import { useTranslations } from 'use-intl'
 
 type Variables = {
   planId: string
+  type: 'in-app' | 'subs'
 }
 
 export function useSubscribe() {
@@ -32,12 +33,14 @@ export function useSubscribe() {
         await Promise.all(
           purchases.map((purchase) =>
             finishTransaction({
+              isConsumable: variables.type === 'in-app',
               purchase,
             }),
           ),
         )
       } else {
         await finishTransaction({
+          isConsumable: variables.type === 'in-app',
           purchase: purchases,
         })
       }

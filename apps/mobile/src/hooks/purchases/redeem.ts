@@ -1,36 +1,29 @@
 import { useMutation } from '@tanstack/react-query'
-import { endConnection, initConnection, openRedeemOfferCode } from 'expo-iap'
+import { finishTransaction, openRedeemOfferCode } from 'expo-iap'
 import { toast } from 'sonner-native'
 
-import { useSubscribe } from './subscribe'
-
 export function useRedeem() {
-  const { subscribe, isPending: subscribing } = useSubscribe()
-
   const { isPending, mutateAsync } = useMutation({
-    async mutationFn() {
-      await initConnection()
-
+    async mutationFn(_variables, context) {
       const purchase = await openRedeemOfferCode()
 
-      if (!purchase) {
-        return
+      if (purchase) {
+        await finishTransaction({
+          purchase,
+        })
       }
 
-      await subscribe({
-        planId: purchase.id,
+      await context.client.invalidateQueries({
+        queryKey: ['purchases', 'subscribed'],
       })
     },
     onError(error) {
       toast.error(error.message)
     },
-    async onSettled() {
-      await endConnection()
-    },
   })
 
   return {
-    isPending: isPending || subscribing,
+    isPending,
     redeem: mutateAsync,
   }
 }

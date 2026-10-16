@@ -137,6 +137,7 @@ export default function Screen() {
 
             subscribe({
               planId: plan.id,
+              type: plan.type,
             })
           }}
         />
