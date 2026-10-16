@@ -4,6 +4,7 @@
 
 - fixed: blank login screen
 - fixed: comments opening in browser
+- fixed: create comment
 - fixed: lifetime plan
 
 ## Build 91-92

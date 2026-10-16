@@ -17,7 +17,7 @@ type Variables = {
   text: string
 }
 
-export function usePostReply() {
+export function useCommentCreate() {
   const t = useTranslations('toasts.comments')
 
   const { isPending, mutateAsync } = useMutation<Comment, Error, Variables>({
@@ -78,7 +78,7 @@ export function usePostReply() {
   })
 
   return {
+    create: mutateAsync,
     isPending,
-    reply: mutateAsync,
   }
 }

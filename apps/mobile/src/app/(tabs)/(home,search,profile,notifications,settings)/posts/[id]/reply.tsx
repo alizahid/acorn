@@ -14,8 +14,8 @@ import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Spinner } from '~/components/common/spinner'
 import { MarkdownEditor } from '~/components/markdown/editor'
+import { useCommentCreate } from '~/hooks/mutations/comments/create'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
-import { usePostReply } from '~/hooks/mutations/posts/reply'
 import { useTemp } from '~/stores/temp'
 
 const schema = z.object({
@@ -36,7 +36,7 @@ export default function Screen() {
 
   const { comment } = useTemp()
 
-  const reply = usePostReply()
+  const create = useCommentCreate()
   const edit = useCommentEdit()
 
   const editor = useRef<EnrichedMarkdownTextInputInstance>(null)
@@ -60,7 +60,7 @@ export default function Screen() {
         <Stack.Toolbar.View>
           <IconButton
             accessibilityLabel={a11y('createComment')}
-            disabled={reply.isPending || edit.isPending}
+            disabled={create.isPending || edit.isPending}
             header
             onPress={async () => {
               if (!text) {
@@ -81,7 +81,7 @@ export default function Screen() {
                 return
               }
 
-              await reply.reply({
+              await create.create({
                 commentId: params.commentId,
                 postId: params.id,
                 text,
@@ -90,7 +90,7 @@ export default function Screen() {
               router.back()
             }}
           >
-            {reply.isPending || edit.isPending ? (
+            {create.isPending || edit.isPending ? (
               <Spinner />
             ) : (
               <Icon name="paper-plane-tilt-fill" />
