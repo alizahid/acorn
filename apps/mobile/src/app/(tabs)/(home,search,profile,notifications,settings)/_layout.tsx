@@ -303,6 +303,16 @@ function StackLayout({ children }: PropsWithChildren) {
       />
 
       <Stack.Screen
+        name="sign-in/reddit"
+        options={{
+          contentStyle: styles.full,
+          headerShown: false,
+          presentation: iPad ? 'formSheet' : 'modal',
+          title: t('auth.signIn.signIn'),
+        }}
+      />
+
+      <Stack.Screen
         name="subscribe"
         options={{
           headerShown: false,
