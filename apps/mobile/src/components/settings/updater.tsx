@@ -1,4 +1,3 @@
-import Constants from 'expo-constants'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as Updates from 'expo-updates'
 import { useRef, useState } from 'react'
@@ -7,6 +6,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Button } from '~/components/common/button'
+import { acornBuild } from '~/lib/common'
 
 import { Text } from '../common/text'
 
@@ -26,9 +26,9 @@ export function Updater() {
           {Updates.runtimeVersion}
         </Text>
 
-        {Constants.expoConfig?.ios?.buildNumber ? (
+        {acornBuild > 0 ? (
           <Text highContrast={false} variant="mono">
-            {Constants.expoConfig.ios.buildNumber}
+            {acornBuild}
           </Text>
         ) : null}
 

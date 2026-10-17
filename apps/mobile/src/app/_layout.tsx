@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { UnistylesRuntime } from 'react-native-unistyles'
 import { useShallow } from 'zustand/react/shallow'
 
+import { Changelog } from '~/components/changelog'
 import { Providers } from '~/components/common/providers'
 import { Drawer } from '~/components/navigation/drawer'
 import { db } from '~/db'
@@ -57,6 +58,8 @@ function Acorn() {
     <Providers>
       <Drawer>
         <Slot />
+
+        <Changelog />
       </Drawer>
     </Providers>
   )

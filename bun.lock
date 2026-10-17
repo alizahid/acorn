@@ -24,6 +24,7 @@
         "@bacons/apple-targets": "^5.0.0",
         "@expo/ui": "~58.0.20",
         "@formatjs/intl-getcanonicallocales": "^3.2.12",
+        "@formatjs/intl-listformat": "^8.3.15",
         "@formatjs/intl-locale": "^5.3.12",
         "@formatjs/intl-numberformat": "^9.4.3",
         "@formatjs/intl-pluralrules": "^6.3.15",
@@ -492,6 +493,8 @@
     "@formatjs/icu-skeleton-parser": ["@formatjs/icu-skeleton-parser@2.1.12", "", {}, "sha512-ca7tZMLpfHX3sUD7hP6gE/qr6Iq89EDd3ZLeRhbsB7r0UD55DGJq+tmFLzrGrnx5StahUevQmQQVtbDRHsfDHA=="],
 
     "@formatjs/intl-getcanonicallocales": ["@formatjs/intl-getcanonicallocales@3.2.12", "", {}, "sha512-THqQLTJUH2z2A7oE1guW8VzpGpsGFxwWZ+l8cI8Bk75xUU8DxtJoLfKl+5a6fYK26GeDWDWE0UbDhE5SwcLoFg=="],
+
+    "@formatjs/intl-listformat": ["@formatjs/intl-listformat@8.3.15", "", { "dependencies": { "@formatjs/intl-localematcher": "0.9.0" } }, "sha512-dZEUYngBoAWLgYXvoBX3P6jIk5cg2rva7p5ZJTTn4lsCx/9abUKoPI2Wf59twxl5jgw1SDQMR1MBzJ7oiHwffw=="],
 
     "@formatjs/intl-locale": ["@formatjs/intl-locale@5.3.12", "", { "dependencies": { "@formatjs/intl-getcanonicallocales": "3.2.12", "@formatjs/intl-supportedvaluesof": "2.3.11" } }, "sha512-bI5CrvuC6A5PMOIiHX+6ETTHXzUofHw1U/fkI59sQJ+BFbkglxIVVncFPxHf4IHmAqAs/Rlp2bdzTEcLaq2tQw=="],
 

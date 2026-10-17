@@ -1,3 +1,4 @@
+import Constants from 'expo-constants'
 import { osVersion } from 'expo-device'
 import { isLiquidGlassAvailable } from 'expo-glass-effect'
 import { Platform } from 'react-native'
@@ -11,3 +12,5 @@ export const iPad =
 export const glass = isLiquidGlassAvailable()
 
 export const iOS26 = Platform.OS === 'ios' && semver.gte(version, '26.0.0')
+
+export const acornBuild = Number(Constants.expoConfig?.ios?.buildNumber ?? 0)

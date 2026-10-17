@@ -106,6 +106,17 @@
         }
       }
     },
+    "changelog": {
+      "added": "New features",
+      "build": "Build {build}",
+      "changed": "Changes",
+      "close": "Close",
+      "fixed": "Bug fixes",
+      "removed": "Removed",
+      "thanks": "Special thanks to {people}",
+      "title": "Changelog",
+      "version": "v{version}"
+    },
     "comments": {
       "deleted": {
         "deleted": "Deleted",
@@ -144,9 +155,9 @@
         "DAY": "Today",
         "HOUR": "Now",
         "MONTH": "This month",
-        "title": "Interval",
         "WEEK": "This week",
-        "YEAR": "This year"
+        "YEAR": "This year",
+        "title": "Interval"
       },
       "paywall": {
         "card": {
@@ -174,8 +185,8 @@
         "OLD": "Old",
         "RELEVANCE": "Relevance",
         "RISING": "Rising",
-        "title": "Sort",
-        "TOP": "Top"
+        "TOP": "Top",
+        "title": "Sort"
       },
       "type": {
         "communities": {

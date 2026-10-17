@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: in app changelog
 - changed: higher resolution thumbnails
 - fixed: blank login screen
 - fixed: comments opening in browser

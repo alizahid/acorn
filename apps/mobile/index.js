@@ -8,6 +8,8 @@ import '@formatjs/intl-numberformat/polyfill-force.js' // 5
 import '@formatjs/intl-numberformat/locale-data/en.js' // 6
 import '@formatjs/intl-relativetimeformat/polyfill-force.js' // 7
 import '@formatjs/intl-relativetimeformat/locale-data/en.js' // 8
+import '@formatjs/intl-listformat/polyfill.js' // 9
+import '@formatjs/intl-listformat/locale-data/en.js' // 10
 
 import '~/styles/uni'
 
