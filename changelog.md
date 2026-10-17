@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- changed: higher resolution thumbnails
 - fixed: blank login screen
 - fixed: comments opening in browser
 - fixed: create comment
