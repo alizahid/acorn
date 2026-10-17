@@ -49,7 +49,7 @@ export function More() {
 const styles = StyleSheet.create((theme, runtime) => ({
   blur: {
     backgroundImage: `linear-gradient(transparent, ${theme.colors.ui.bg})`,
-    height: theme.space[9],
+    height: theme.space[6],
   },
   main: {
     bottom: 0,
