@@ -3,6 +3,8 @@
 ## Upcoming
 
 - added: in app changelog
+- changed: all accounts logged out
+- changed: all settings reset
 - changed: higher resolution thumbnails
 - fixed: blank login screen
 - fixed: comments opening in browser

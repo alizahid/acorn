@@ -16,7 +16,7 @@ import {
   type UserFeedSort,
 } from '~/types/sort'
 
-const PREFERENCES_KEY = 'preferences'
+const PREFERENCES_KEY = 'preferences-0'
 
 export type PreferencesPayload = {
   autoPlay: boolean
@@ -159,28 +159,8 @@ export const usePreferences = create<State>()(
       userOnTop: false,
     }),
     {
-      migrate(state, version) {
-        if (version < 1) {
-          const previous = state as State
-
-          previous.intervalCommunityPosts = 'HOUR'
-          previous.intervalFeedPosts = 'HOUR'
-          previous.intervalSearchPosts = 'ALL'
-          previous.intervalUserComments = 'ALL'
-          previous.intervalUserPosts = 'ALL'
-          previous.sortCommunityPosts = 'HOT'
-          previous.sortFeedPosts = 'HOT'
-          previous.sortPostComments = 'CONFIDENCE'
-          previous.sortSearchPosts = 'RELEVANCE'
-          previous.sortUserComments = 'NEW'
-          previous.sortUserPosts = 'NEW'
-        }
-
-        return state as State
-      },
       name: PREFERENCES_KEY,
       storage: new Store(),
-      version: 1,
     },
   ),
 )

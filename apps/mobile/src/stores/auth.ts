@@ -5,7 +5,7 @@ import { persist } from 'zustand/middleware'
 import { queryClient } from '~/lib/query'
 import { Store } from '~/lib/store'
 
-const AUTH_KEY = 'auth'
+const AUTH_KEY = 'auth-0'
 
 export type Account = {
   cookie: string
@@ -95,19 +95,8 @@ export const useAuth = create<State>()(
       },
     }),
     {
-      migrate(state, version) {
-        if (version < 2) {
-          const previous = state as State
-
-          previous.accountId = undefined
-          previous.accounts = []
-        }
-
-        return state
-      },
       name: AUTH_KEY,
       storage: new Store(),
-      version: 2,
     },
   ),
 )
