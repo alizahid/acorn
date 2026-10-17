@@ -159,20 +159,15 @@ export default function Screen() {
       <Menu.Root>
         <Menu.Label>{t('menu.posts')}</Menu.Label>
 
-        <Paywall
-          render={(disabled) => (
-            <Menu.Switch
-              disabled={disabled}
-              icon={<Icon name="hand-swipe-right" />}
-              label={t('menu.left')}
-              onChange={(next) => {
-                update({
-                  postLeft: next,
-                })
-              }}
-              value={postLeft}
-            />
-          )}
+        <Menu.Switch
+          icon={<Icon name="hand-swipe-right" />}
+          label={t('menu.left')}
+          onChange={(next) => {
+            update({
+              postLeft: next,
+            })
+          }}
+          value={postLeft}
         />
 
         {postLeft ? (
@@ -211,20 +206,15 @@ export default function Screen() {
           </>
         ) : null}
 
-        <Paywall
-          render={(disabled) => (
-            <Menu.Switch
-              disabled={disabled}
-              icon={<Icon name="hand-swipe-left" />}
-              label={t('menu.right')}
-              onChange={(next) => {
-                update({
-                  postRight: next,
-                })
-              }}
-              value={postRight}
-            />
-          )}
+        <Menu.Switch
+          icon={<Icon name="hand-swipe-left" />}
+          label={t('menu.right')}
+          onChange={(next) => {
+            update({
+              postRight: next,
+            })
+          }}
+          value={postRight}
         />
 
         {postRight ? (
@@ -267,20 +257,15 @@ export default function Screen() {
 
         <Menu.Label>{t('menu.comments')}</Menu.Label>
 
-        <Paywall
-          render={(disabled) => (
-            <Menu.Switch
-              disabled={disabled}
-              icon={<Icon name="hand-swipe-right" />}
-              label={t('menu.left')}
-              onChange={(next) => {
-                update({
-                  commentLeft: next,
-                })
-              }}
-              value={commentLeft}
-            />
-          )}
+        <Menu.Switch
+          icon={<Icon name="hand-swipe-right" />}
+          label={t('menu.left')}
+          onChange={(next) => {
+            update({
+              commentLeft: next,
+            })
+          }}
+          value={commentLeft}
         />
 
         {commentLeft ? (
@@ -319,20 +304,15 @@ export default function Screen() {
           </>
         ) : null}
 
-        <Paywall
-          render={(disabled) => (
-            <Menu.Switch
-              disabled={disabled}
-              icon={<Icon name="hand-swipe-left" />}
-              label={t('menu.right')}
-              onChange={(next) => {
-                update({
-                  commentRight: next,
-                })
-              }}
-              value={commentRight}
-            />
-          )}
+        <Menu.Switch
+          icon={<Icon name="hand-swipe-left" />}
+          label={t('menu.right')}
+          onChange={(next) => {
+            update({
+              commentRight: next,
+            })
+          }}
+          value={commentRight}
         />
 
         {commentRight ? (
