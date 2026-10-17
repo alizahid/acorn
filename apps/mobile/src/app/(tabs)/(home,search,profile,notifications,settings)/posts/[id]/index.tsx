@@ -52,7 +52,7 @@ export default function Screen() {
 
   const headerHeight = useHeaderHeight()
 
-  const offset = insets.top === 0 ? 0 : headerHeight
+  const offset = insets.top === 0 ? 0 : headerHeight + 16
 
   const a11y = useTranslations('a11y')
 

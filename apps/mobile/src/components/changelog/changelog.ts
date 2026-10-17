@@ -12,14 +12,16 @@ export type Changelog = Array<
 
 export const changelog: Changelog = [
   {
-    build: 92,
+    build: 93,
     changed: [
       'Thumbnails are now higher resolution; up to 1200px on the longest side',
+      'All settings have been reset',
     ],
     fixed: [
       'Blank login screen',
       'Comments opening in browser instead of Acorn when "Use old Reddit links" is enabled',
       'Creating comments should work now',
+      "Extra offset when scrolling to next comment so it doesn't get blurred",
       'You can now subscribe to the lifetime plan',
     ],
   },

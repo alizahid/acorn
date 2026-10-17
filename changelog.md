@@ -9,6 +9,7 @@
 - fixed: blank login screen
 - fixed: comments opening in browser
 - fixed: create comment
+- fixed: extra offset for scroll to next comment
 - fixed: lifetime plan
 
 ## Build 91-92
