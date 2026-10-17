@@ -59,6 +59,7 @@ export type PreferencesPayload = {
   mediaOnRight: boolean
   minimizeTabBar: boolean
   oldReddit: boolean
+  perforatedCutoff: boolean
   pictureInPicture: boolean
   privateScreenshots: boolean
   refreshInterval: number
@@ -131,6 +132,7 @@ export const usePreferences = create<State>()(
       mediaOnRight: true,
       minimizeTabBar: false,
       oldReddit: false,
+      perforatedCutoff: false,
       pictureInPicture: false,
       privateScreenshots: true,
       refreshInterval: 10,

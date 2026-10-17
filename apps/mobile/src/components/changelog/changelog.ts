@@ -12,6 +12,9 @@ export type Changelog = Array<
 
 export const changelog: Changelog = [
   {
+    added: [
+      'Perforated cutoff option added to replace the blur cutoff for tall images',
+    ],
     build: 93,
     changed: [
       'Thumbnails are now higher resolution; up to 1200px on the longest side',

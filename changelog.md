@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: in app changelog
+- added: perforated cutoff option
 - changed: all accounts logged out
 - changed: all settings reset
 - changed: higher resolution thumbnails

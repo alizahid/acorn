@@ -772,6 +772,7 @@
           "blurSpoiler": "Blur spoiler",
           "feedMuted": "Mute feed",
           "gallerySnap": "Snap to scroll images in gallery",
+          "perforatedCutoff": "Perforated cutoff for tall images",
           "pictureInPicture": "Allow picture in picture",
           "saveToAlbum": {
             "description": "Requires full photo library access",
