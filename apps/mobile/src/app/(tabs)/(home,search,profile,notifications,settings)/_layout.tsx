@@ -7,7 +7,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { useHistory } from '~/hooks/history'
-import { glass, iPad } from '~/lib/common'
+import { glass, iPad, maxWidth } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 import { useTemp } from '~/stores/temp'
@@ -325,8 +325,11 @@ function StackLayout({ children }: PropsWithChildren) {
 
 const styles = StyleSheet.create((theme, runtime) => ({
   content: {
+    alignSelf: 'center',
+    maxWidth,
     paddingLeft: runtime.insets.left,
     paddingRight: runtime.insets.right,
+    width: '100%',
   },
   full: {
     height: '100%',
