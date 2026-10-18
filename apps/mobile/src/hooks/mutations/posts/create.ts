@@ -23,10 +23,9 @@ export function useCreatePost(submission: Submission) {
   const t = useTranslations('component.submission')
 
   const types: Array<SubmissionType> = compact([
-    submission.media.text && 'text',
+    submission.media.link && 'link',
     submission.media.image && 'image',
     submission.media.video && 'video',
-    submission.media.link && 'link',
   ] as const)
 
   const schema = useMemo(() => generateSchema(t, submission), [submission, t])
@@ -36,13 +35,14 @@ export function useCreatePost(submission: Submission) {
       community: submission.community.name,
       nsfw: false,
       spoiler: false,
+      text: '',
       title: '',
-      type: types[0],
+      type: 'text',
     },
     resolver: zodResolver(schema),
   })
 
-  const { isPending, mutateAsync } = useMutation<Data, Error, CreatePostForm>({
+  const { mutateAsync, isPending } = useMutation<Data, Error, CreatePostForm>({
     async mutationFn(variables) {
       const reddit = await createApi()
 
@@ -57,28 +57,20 @@ export function useCreatePost(submission: Submission) {
               id: variables.flairId,
             }
           : undefined,
-        images:
-          variables.type === 'image'
-            ? [
-                {
-                  id: '',
-                  url: variables.url,
-                },
-              ]
-            : undefined,
+        images: variables.type === 'image' ? variables.image : undefined,
         nsfw: variables.nsfw,
         spoiler: variables.spoiler,
         title: variables.title,
-        url: variables.type === 'link' ? variables.url : undefined,
+        url: variables.type === 'link' ? variables.link : undefined,
         video:
-          variables.type === 'video'
+          variables.type === 'video' && variables.video && variables.poster
             ? {
-                id: '',
+                id: variables.video.id,
                 poster: {
-                  id: '',
-                  url: variables.posterUrl,
+                  id: variables.poster.id,
+                  url: variables.poster.url,
                 },
-                url: variables.url,
+                url: variables.video.url,
               }
             : undefined,
       })
@@ -112,7 +104,9 @@ function generateSchema(t: Translate, submission: Submission) {
 
   const base = z.object({
     community: z.string(),
-    flairId: flair ? z.string() : z.string().optional(),
+    flairId: flair
+      ? z.string(t('flair.error')).min(1, t('flair.error'))
+      : z.string().optional(),
     nsfw: z.boolean(),
     spoiler: z.boolean(),
     title: withContentRules(
@@ -164,6 +158,25 @@ function generateSchema(t: Translate, submission: Submission) {
     },
   )
 
+  const { gallery } = submission.requirements
+
+  const imageMin = gallery.min ?? 1
+  const imageMax = gallery.max ?? (submission.media.gallery ? undefined : 1)
+
+  const image = z
+    .array(
+      upload(imageHostRegex, t('image.error.upload')),
+      t('image.error.min', {
+        min: imageMin,
+      }),
+    )
+    .min(
+      imageMin,
+      t('image.error.min', {
+        min: imageMin,
+      }),
+    )
+
   return z.discriminatedUnion('type', [
     z
       .object({
@@ -178,8 +191,7 @@ function generateSchema(t: Translate, submission: Submission) {
       .extend(base.shape),
     z
       .object({
-        type: z.literal('link'),
-        url: z
+        link: z
           .url(t('link.error.url'))
           .refine(
             (value) =>
@@ -196,25 +208,35 @@ function generateSchema(t: Translate, submission: Submission) {
               list: link.blacklist.join(', '),
             }),
           ),
+        type: z.literal('link'),
       })
       .extend(base.shape),
     z
       .object({
+        image: imageMax
+          ? image.max(
+              imageMax,
+              t('image.error.max', {
+                max: imageMax,
+              }),
+            )
+          : image,
         type: z.literal('image'),
-        url: z.url({
-          hostname: imageHostRegex,
-        }),
       })
       .extend(base.shape),
     z
       .object({
-        posterUrl: z.url({
-          hostname: imageHostRegex,
-        }),
+        poster: upload(
+          imageHostRegex,
+          t('video.error.upload'),
+          t('video.error.required'),
+        ),
         type: z.literal('video'),
-        url: z.url({
-          hostname: videoHostRegex,
-        }),
+        video: upload(
+          videoHostRegex,
+          t('video.error.upload'),
+          t('video.error.required'),
+        ),
       })
       .extend(base.shape),
   ])
@@ -224,6 +246,20 @@ const TITLE_MAX = 300
 
 const imageHostRegex = /reddit-uploaded-media.s3-accelerate.amazonaws.com/
 const videoHostRegex = /reddit-uploaded-video.s3-accelerate.amazonaws.com/
+
+function upload(hostname: RegExp, error: string, required?: string) {
+  return z.object(
+    {
+      id: z.string(error),
+      uri: z.string(error),
+      url: z.url({
+        error,
+        hostname,
+      }),
+    },
+    required ?? error,
+  )
+}
 
 function withContentRules(
   schema: z.ZodString,

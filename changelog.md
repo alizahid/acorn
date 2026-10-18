@@ -12,6 +12,7 @@
 - fixed: create comment
 - fixed: extra offset for scroll to next comment
 - fixed: lifetime plan
+- fixed: post creation
 
 ## Build 91-92
 

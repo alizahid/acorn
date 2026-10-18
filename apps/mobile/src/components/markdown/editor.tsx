@@ -20,6 +20,7 @@ import { IconButton } from '../common/icon/button'
 import { MarkdownInput } from '../native/markdown'
 
 type RootProps = {
+  autoFocus?: boolean
   onChange?: (value: string) => void
   onChangeState?: (state: StyleState) => void
   placeholder?: string
@@ -27,7 +28,14 @@ type RootProps = {
   ref?: Ref<EnrichedMarkdownTextInputInstance>
 }
 
-function Root({ onChange, onChangeState, placeholder, value, ref }: RootProps) {
+function Root({
+  autoFocus,
+  onChange,
+  onChangeState,
+  placeholder,
+  value,
+  ref,
+}: RootProps) {
   const { font, fontScaling, systemScaling } = usePreferences(
     useShallow((state) => ({
       font: state.font,
@@ -38,7 +46,7 @@ function Root({ onChange, onChangeState, placeholder, value, ref }: RootProps) {
 
   return (
     <MarkdownInput
-      autoFocus
+      autoFocus={autoFocus}
       defaultValue={value}
       multiline
       onChangeMarkdown={onChange}

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { View } from 'react-native'
 import {
   type EnrichedMarkdownTextInputInstance,
@@ -9,15 +9,14 @@ import { KeyboardAvoidingView } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
-import { type CreatePostForm } from '~/hooks/mutations/posts/create'
-
 import { Text } from '../common/text'
 import { MarkdownEditor } from '../markdown/editor'
+import { useSubmission } from './provider'
 
 export function SubmissionText() {
   const t = useTranslations('component.submission.text')
 
-  const { control } = useFormContext<CreatePostForm>()
+  const { form } = useSubmission()
 
   const editor = useRef<EnrichedMarkdownTextInputInstance>(null)
 
@@ -32,12 +31,12 @@ export function SubmissionText() {
       />
 
       <Controller
-        control={control}
+        control={form.control}
         name="text"
         render={({ field, fieldState }) => (
           <View style={styles.main}>
             {fieldState.error ? (
-              <Text mx="4" size="2" style={styles.error}>
+              <Text accent color="red" mt="2" mx="4" size="2">
                 {fieldState.error.message}
               </Text>
             ) : null}
@@ -66,9 +65,6 @@ export function SubmissionText() {
 const styles = StyleSheet.create((theme) => ({
   editor: {
     flex: 1,
-  },
-  error: {
-    color: theme.colors.red.accent,
   },
   main: {
     flex: 1,

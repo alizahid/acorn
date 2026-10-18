@@ -3,6 +3,7 @@ import { z } from 'zod'
 
 import { Empty } from '~/components/common/empty'
 import { Loading } from '~/components/common/loading'
+import { PostForm } from '~/components/posts/form'
 import { Submission } from '~/components/submission'
 import { useSubmission } from '~/hooks/queries/communities/submission'
 
@@ -23,5 +24,9 @@ export default function Screen() {
     return <Empty message={error?.message} />
   }
 
-  return <Submission submission={submission} />
+  return (
+    <Submission.Root submission={submission}>
+      <PostForm />
+    </Submission.Root>
+  )
 }

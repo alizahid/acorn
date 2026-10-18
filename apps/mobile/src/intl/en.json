@@ -3,11 +3,13 @@
     "aboutCommunity": "About {community}",
     "addAccount": "Add account",
     "addFilter": "Add filter",
+    "addImage": "Add image",
+    "addLink": "Add link",
+    "addText": "Add text",
+    "addVideo": "Add video",
     "changePostType": "Change post type",
     "changeSorting": "Change sorting",
-    "chooseImage": "Choose image",
     "clearFilters": "Clear filters",
-    "clearFlair": "Clear flair",
     "clearNotifications": "Mark all notifications as read",
     "clearQueries": "Clear queries",
     "clearQuery": "Clear \"{query}\"",
@@ -44,14 +46,12 @@
     "removeAccount": "Remove {account}",
     "removeDownvote": "Remove downvote",
     "removeFilter": "Remove filter",
-    "removeImage": "Remove image",
     "removeQuery": "Remove \"{query}\"",
     "removeUpvote": "Remove upvote",
     "revealSpoiler": "Reveal spoiler",
     "rewind": "Rewind",
     "saveFilters": "Save filters",
     "searchQuery": "Search for \"{query}\"",
-    "selectFlair": "Select post flair",
     "share": "Share",
     "shareImage": "Share image",
     "skipComment": "Skip comment",
@@ -379,20 +379,20 @@
     },
     "submission": {
       "flair": {
+        "clear": "Clear flair",
+        "error": "Pick a flair",
         "label": "Select flair",
         "required": "Required",
         "title": "Flair"
       },
       "image": {
         "error": {
-          "url": "Image needs to be uploaded to Reddit"
+          "max": "Max {max, number}",
+          "min": "Min {min, number}",
+          "upload": "Upload failed, try again"
         },
-        "max": "Max {max, number}",
-        "min": "Min {min, number}",
-        "placeholder": {
-          "image": "Select image",
-          "video": "Select video"
-        }
+        "pick": "Pick images",
+        "remove": "Remove image"
       },
       "link": {
         "error": {
@@ -416,7 +416,7 @@
           "pattern": "Doesn't match this community's format",
           "required": "Needs one of: {list}"
         },
-        "placeholder": "Body"
+        "placeholder": "Content"
       },
       "title": {
         "error": {
@@ -438,6 +438,14 @@
         "text": "Text",
         "title": "Post type",
         "video": "Video"
+      },
+      "video": {
+        "error": {
+          "required": "Pick a video",
+          "upload": "Upload failed, try again"
+        },
+        "pick": "Pick video",
+        "remove": "Remove video"
       }
     },
     "users": {

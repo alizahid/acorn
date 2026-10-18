@@ -1,17 +1,19 @@
-import { Controller, useFormContext } from 'react-hook-form'
+import { Controller } from 'react-hook-form'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
-import { type CreatePostForm } from '~/hooks/mutations/posts/create'
 import { type Font, fonts } from '~/lib/fonts'
 import { usePreferences } from '~/stores/preferences'
 
 import { Text } from '../common/text'
 import { TextInput } from '../native/text-input'
+import { useSubmission } from './provider'
 
 export function SubmissionLink() {
+  const t = useTranslations('component.submission.link')
+
   const { font, fontScaling, systemScaling } = usePreferences(
     useShallow((state) => ({
       font: state.font,
@@ -20,16 +22,20 @@ export function SubmissionLink() {
     })),
   )
 
-  const t = useTranslations('component.submission.link')
-
-  const { control } = useFormContext<CreatePostForm>()
+  const { form } = useSubmission()
 
   return (
     <Controller
-      control={control}
-      name="url"
+      control={form.control}
+      name="link"
       render={({ field, fieldState }) => (
-        <View>
+        <View style={styles.main}>
+          {fieldState.error ? (
+            <Text accent color="red" mt="2" mx="4" size="2">
+              {fieldState.error.message}
+            </Text>
+          ) : null}
+
           <TextInput
             {...field}
             allowFontScaling={systemScaling}
@@ -40,12 +46,6 @@ export function SubmissionLink() {
             placeholder={t('placeholder')}
             style={styles.input(font, systemScaling ? 1 : fontScaling)}
           />
-
-          {fieldState.error ? (
-            <Text mx="4" size="2" style={styles.error}>
-              {fieldState.error.message}
-            </Text>
-          ) : null}
         </View>
       )}
     />
@@ -53,13 +53,13 @@ export function SubmissionLink() {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  error: {
-    color: theme.colors.red.accent,
-  },
   input: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
     fontFamily: fonts[font],
     fontSize: theme.typography[4].fontSize * scaling,
     padding: theme.space[4],
   }),
+  main: {
+    backgroundColor: theme.colors.accent.ui,
+  },
 }))

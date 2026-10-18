@@ -1,23 +1,23 @@
-import { type Submission } from '@acorn/reddit'
 import { Image } from 'expo-image'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Text } from '../common/text'
+import { useSubmission } from './provider'
 
-type Props = {
-  community: Submission['community']
-}
+export function SubmissionCommunity() {
+  const { submission } = useSubmission()
 
-export function SubmissionCommunityCard({ community }: Props) {
-  const name = community.user ? community.name : `r/${community.name}`
+  const name = submission.community.user
+    ? submission.community.name
+    : `r/${submission.community.name}`
 
   return (
     <View style={styles.main}>
-      {community.image ? (
+      {submission.community.image ? (
         <Image
           accessibilityIgnoresInvertColors
-          source={community.image}
+          source={submission.community.image}
           style={styles.image}
         />
       ) : null}
@@ -39,9 +39,9 @@ const styles = StyleSheet.create((theme) => ({
   },
   main: {
     alignItems: 'center',
-    flex: 1,
     flexDirection: 'row',
     gap: theme.space[2],
+    padding: theme.space[4],
   },
   name: {
     flex: 1,
