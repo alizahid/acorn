@@ -13,6 +13,7 @@ import { useAuth } from '~/stores/auth'
 import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
 import { Spinner } from '../common/spinner'
+import { CommunityHeader } from '../communities/header'
 import { Submission } from '../submission'
 import { useSubmission } from '../submission/provider'
 
@@ -74,6 +75,13 @@ export function PostForm() {
         top: true,
       }}
     >
+      <Stack.Title asChild>
+        <CommunityHeader
+          image={submission.community.image}
+          name={submission.community.name}
+        />
+      </Stack.Title>
+
       <Stack.Toolbar placement="right">
         <Stack.Toolbar.View>
           <IconButton
@@ -88,8 +96,6 @@ export function PostForm() {
           </IconButton>
         </Stack.Toolbar.View>
       </Stack.Toolbar>
-
-      <Submission.Community />
 
       <Submission.Title />
 
