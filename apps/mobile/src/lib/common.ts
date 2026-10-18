@@ -14,3 +14,5 @@ export const glass = isLiquidGlassAvailable()
 export const iOS26 = Platform.OS === 'ios' && semver.gte(version, '26.0.0')
 
 export const acornBuild = Number(Constants.expoConfig?.ios?.buildNumber ?? 0)
+
+export const maxWidth = 600

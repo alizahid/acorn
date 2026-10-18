@@ -3,7 +3,7 @@ import { type ReactNode, type Ref } from 'react'
 import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 
-import { glass } from '~/lib/common'
+import { glass, maxWidth } from '~/lib/common'
 
 type Props = {
   children: ReactNode
@@ -38,7 +38,7 @@ export function Root({
       dismissible={dismissible}
       grabber={false}
       insetAdjustment="never"
-      maxContentWidth={600}
+      maxContentWidth={maxWidth}
       onWillDismiss={onClose}
       ref={ref}
       scrollable={scrollable}

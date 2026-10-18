@@ -132,7 +132,7 @@ export const usePreferences = create<State>()(
       mediaOnRight: true,
       minimizeTabBar: false,
       oldReddit: false,
-      perforatedCutoff: false,
+      perforatedCutoff: true,
       pictureInPicture: false,
       privateScreenshots: true,
       refreshInterval: 10,
