@@ -26,7 +26,7 @@ export function SubmissionMeta({ types }: Props) {
         control={form.control}
         name="type"
         render={({ field }) => (
-          <View style={styles.item}>
+          <View style={styles.section}>
             {types.map((type) => (
               <IconButton
                 accessibilityLabel={a11y(translations[type])}
@@ -50,7 +50,7 @@ export function SubmissionMeta({ types }: Props) {
         )}
       />
 
-      <View style={styles.item}>
+      <View style={styles.section}>
         <Controller
           control={form.control}
           name="nsfw"
@@ -102,14 +102,14 @@ export function SubmissionMeta({ types }: Props) {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  item: {
-    flexDirection: 'row',
-  },
   main: {
-    backgroundColor: theme.colors.gray.bgAlt,
+    backgroundColor: theme.colors.gray.ui,
     flexDirection: 'row',
     gap: theme.space[4],
     justifyContent: 'space-between',
+  },
+  section: {
+    flexDirection: 'row',
   },
 }))
 

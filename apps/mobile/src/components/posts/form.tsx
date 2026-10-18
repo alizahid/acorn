@@ -7,6 +7,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
+import { glass } from '~/lib/common'
 import { useAuth } from '~/stores/auth'
 
 import { Icon } from '../common/icon'
@@ -19,6 +20,10 @@ export function PostForm() {
   const router = useRouter()
 
   const a11y = useTranslations('a11y')
+
+  styles.useVariants({
+    glass,
+  })
 
   const { accountId } = useAuth(
     useShallow((state) => ({
@@ -111,6 +116,12 @@ export function PostForm() {
 
 const styles = StyleSheet.create((theme) => ({
   footer: {
-    marginBottom: theme.space[4],
+    variants: {
+      glass: {
+        true: {
+          marginBottom: theme.space[4],
+        },
+      },
+    },
   },
 }))
