@@ -24,6 +24,7 @@ export function Toast() {
 
   return (
     <Toaster
+      allowFontScaling={false}
       autoWiggleOnUpdate="always"
       icons={{
         error: (
@@ -73,7 +74,7 @@ export function Toast() {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   close: {
     alignItems: 'center',
     height: theme.typography[3].lineHeight,
@@ -108,7 +109,8 @@ const styles = StyleSheet.create((theme) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[5],
     borderWidth: StyleSheet.hairlineWidth,
-    marginHorizontal: theme.space[4],
+    marginLeft: theme.space[4],
+    marginRight: theme.space[4] + runtime.insets.right,
     marginVertical: theme.space[2],
   },
   title: (font: Font) => ({
