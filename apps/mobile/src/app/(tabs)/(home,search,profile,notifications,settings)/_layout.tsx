@@ -6,6 +6,7 @@ import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
+import { ScreenLayout } from '~/components/navigation/layout'
 import { useHistory } from '~/hooks/history'
 import { glass, iPad, maxWidth } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
@@ -150,6 +151,9 @@ function StackLayout({ children }: PropsWithChildren) {
 
   return (
     <Stack
+      screenLayout={({ children: screen }) => (
+        <ScreenLayout>{screen}</ScreenLayout>
+      )}
       screenOptions={{
         contentStyle: styles.content,
         fullScreenGestureEnabled: true,
@@ -323,12 +327,10 @@ function StackLayout({ children }: PropsWithChildren) {
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
+const styles = StyleSheet.create((theme) => ({
   content: {
     alignSelf: 'center',
     maxWidth,
-    paddingLeft: runtime.insets.left,
-    paddingRight: runtime.insets.right,
     width: '100%',
   },
   full: {
