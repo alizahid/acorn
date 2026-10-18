@@ -317,7 +317,9 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
             ) : null}
 
             {expanded && post.body ? (
-              <Markdown meta={post.media.meta}>{post.body}</Markdown>
+              <Markdown.Viewer meta={post.media.meta}>
+                {post.body}
+              </Markdown.Viewer>
             ) : null}
 
             <PostFooter

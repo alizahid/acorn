@@ -4,7 +4,7 @@ import { withUnistyles } from 'react-native-unistyles'
 
 export const MarkdownViewer = withUnistyles(JetMarkdownView)
 
-export const MarkdownInput = withUnistyles(
+export const MarkdownEditor = withUnistyles(
   EnrichedMarkdownTextInput,
   (theme) => ({
     cursorColor: theme.colors.accent.accent,

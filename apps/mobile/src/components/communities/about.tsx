@@ -112,7 +112,7 @@ export function CommunityAbout({ name }: Props) {
 
       {community.description ? (
         <View style={styles.description}>
-          <Markdown>{community.description}</Markdown>
+          <Markdown.Viewer>{community.description}</Markdown.Viewer>
         </View>
       ) : null}
 

@@ -63,7 +63,9 @@ export function NotificationCard({ notification }: Props) {
           {notification.title}
         </Text>
 
-        {notification.body ? <Markdown>{notification.body}</Markdown> : null}
+        {notification.body ? (
+          <Markdown.Viewer>{notification.body}</Markdown.Viewer>
+        ) : null}
 
         <View style={styles.meta}>
           <Text highContrast={false} size="2">

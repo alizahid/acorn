@@ -10,7 +10,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Text } from '../common/text'
-import { MarkdownEditor } from '../markdown/editor'
+import { Markdown } from '../markdown'
 import { useSubmission } from './provider'
 
 export function SubmissionText() {
@@ -24,7 +24,7 @@ export function SubmissionText() {
 
   return (
     <>
-      <MarkdownEditor.ToolBar
+      <Markdown.Editor.ToolBar
         editor={editor}
         state={state}
         style={styles.toolBar}
@@ -46,7 +46,7 @@ export function SubmissionText() {
               behavior="padding"
               style={styles.editor}
             >
-              <MarkdownEditor.Root
+              <Markdown.Editor.Root
                 onChange={(markdown) => {
                   field.onChange(markdown)
                 }}

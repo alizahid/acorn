@@ -13,7 +13,7 @@ import { CommentChip } from '~/components/comments/chip'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { Spinner } from '~/components/common/spinner'
-import { MarkdownEditor } from '~/components/markdown/editor'
+import { Markdown } from '~/components/markdown'
 import { useCommentCreate } from '~/hooks/mutations/comments/create'
 import { useCommentEdit } from '~/hooks/mutations/comments/edit'
 import { useTemp } from '~/stores/temp'
@@ -99,7 +99,7 @@ export default function Screen() {
         </Stack.Toolbar.View>
       </Stack.Toolbar>
 
-      <MarkdownEditor.ToolBar
+      <Markdown.Editor.ToolBar
         editor={editor}
         state={state}
         style={styles.toolBar}
@@ -110,7 +110,7 @@ export default function Screen() {
         behavior="padding"
         style={styles.main}
       >
-        <MarkdownEditor.Root
+        <Markdown.Editor.Root
           onChange={setText}
           onChangeState={setState}
           placeholder={t('placeholder')}

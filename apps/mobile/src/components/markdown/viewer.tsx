@@ -20,7 +20,7 @@ type Props = {
   type?: 'post' | 'comment'
 }
 
-export function Markdown({ children, meta, type = 'post' }: Props) {
+export function Viewer({ children, meta, type = 'post' }: Props) {
   const {
     font,
     fontBold,

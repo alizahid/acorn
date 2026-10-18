@@ -49,9 +49,9 @@ export function CommentChip({ comment }: Props) {
         </View>
       </View>
 
-      <Markdown meta={comment.media.meta} type="comment">
+      <Markdown.Viewer meta={comment.media.meta} type="comment">
         {comment.body}
-      </Markdown>
+      </Markdown.Viewer>
     </View>
   )
 }

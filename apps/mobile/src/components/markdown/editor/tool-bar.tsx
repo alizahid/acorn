@@ -1,4 +1,4 @@
-import { type Ref, type RefObject } from 'react'
+import { type RefObject } from 'react'
 import { type StyleProp, View, type ViewStyle } from 'react-native'
 import {
   type EnrichedMarkdownTextInputInstance,
@@ -10,67 +10,23 @@ import {
 } from 'react-native-keyboard-controller'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
-import { useShallow } from 'zustand/react/shallow'
 
-import { type Font, fonts } from '~/lib/fonts'
-import { usePreferences } from '~/stores/preferences'
+import { Icon } from '~/components/common/icon'
+import { IconButton } from '~/components/common/icon/button'
 
-import { Icon } from '../common/icon'
-import { IconButton } from '../common/icon/button'
-import { MarkdownInput } from '../native/markdown'
-
-type RootProps = {
-  autoFocus?: boolean
-  onChange?: (value: string) => void
-  onChangeState?: (state: StyleState) => void
-  placeholder?: string
-  value?: string
-  ref?: Ref<EnrichedMarkdownTextInputInstance>
-}
-
-function Root({
-  autoFocus,
-  onChange,
-  onChangeState,
-  placeholder,
-  value,
-  ref,
-}: RootProps) {
-  const { font, fontScaling, systemScaling } = usePreferences(
-    useShallow((state) => ({
-      font: state.font,
-      fontScaling: state.fontScaling,
-      systemScaling: state.systemScaling,
-    })),
-  )
-
-  return (
-    <MarkdownInput
-      autoFocus={autoFocus}
-      defaultValue={value}
-      multiline
-      onChangeMarkdown={onChange}
-      onChangeState={onChangeState}
-      placeholder={placeholder}
-      ref={ref}
-      style={styles.main(font, systemScaling ? 1 : fontScaling)}
-    />
-  )
-}
-
-type ToolBarProps = {
+type Props = {
   editor?: RefObject<EnrichedMarkdownTextInputInstance | null>
   state?: StyleState
   style?: StyleProp<ViewStyle>
 }
 
-function ToolBar({ editor, state, style }: ToolBarProps) {
+export function EditorToolBar({ editor, state, style }: Props) {
   const a11y = useTranslations('a11y')
 
   const visible = useKeyboardState(({ isVisible }) => isVisible)
 
   return (
-    <View style={[styles.toolBar, style]}>
+    <View style={[styles.main, style]}>
       <IconButton
         accessibilityLabel={a11y('toggleBold')}
         onPress={() => {
@@ -159,23 +115,12 @@ function ToolBar({ editor, state, style }: ToolBarProps) {
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create({
   dismiss: {
     marginLeft: 'auto',
   },
-  main: (font: Font, scaling: number) => ({
-    color: theme.colors.gray.text,
-    fontFamily: fonts[font],
-    fontSize: theme.typography[3].fontSize * scaling,
-    lineHeight: theme.typography[3].lineHeight * scaling,
-    padding: theme.space[4],
-  }),
-  toolBar: {
+
+  main: {
     flexDirection: 'row',
   },
-}))
-
-export const MarkdownEditor = {
-  Root,
-  ToolBar,
-}
+})
