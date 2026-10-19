@@ -1,7 +1,6 @@
-import { Reddit, USER_AGENT } from '@acorn/reddit'
-import { addSeconds, isAfter } from 'date-fns'
+import { exchangeSessionCookie, Reddit } from '@acorn/reddit'
+import { isAfter } from 'date-fns'
 import crypto from 'react-native-nitro-crypto'
-import { z } from 'zod'
 
 import { mmkv } from '~/lib/mmkv'
 import { type Account, useAuth } from '~/stores/auth'
@@ -64,56 +63,16 @@ export async function createApi(props?: CreateProps) {
 
 async function refreshToken(account: Account) {
   try {
-    const next = await fetchToken(account.cookie)
+    const next = await exchangeSessionCookie({
+      cookie: account.cookie,
+      loid: account.loid,
+    })
 
     useAuth.getState().update(account.id, next)
 
     return next
   } finally {
     refreshing.delete(account.id)
-  }
-}
-
-const TokenSchema = z.object({
-  access_token: z.string(),
-  expires_in: z.number(),
-  loid: z.string(),
-})
-
-export async function fetchToken(cookie: string) {
-  const response = await fetch(
-    'https://www.reddit.com/auth/v2/oauth/access-token/session',
-    {
-      body: JSON.stringify({
-        scopes: ['*', 'email', 'pii'],
-      }),
-      credentials: 'omit',
-      headers: {
-        Authorization: 'Basic b2hYcG9xclpZdWIxa2c6',
-        'Content-Type': 'application/json',
-        Cookie: `reddit_session=${cookie}`,
-        'User-Agent': USER_AGENT,
-      },
-      method: 'post',
-    },
-  )
-
-  if (!response.ok) {
-    throw new Error('Token refresh failed')
-  }
-
-  const json = await response.json()
-
-  const { access_token, expires_in, loid } = TokenSchema.parse({
-    ...json,
-    loid: response.headers.get('x-reddit-loid'),
-  })
-
-  return {
-    edgeBucket: getBucket(response),
-    expiresAt: addSeconds(new Date(), expires_in - 3600),
-    loid,
-    token: access_token,
   }
 }
 
@@ -131,23 +90,4 @@ function getDeviceId() {
   mmkv.set(KEY_DEVICE_ID, deviceId)
 
   return deviceId
-}
-
-function getBucket(response: Response) {
-  const cookie = response.headers.get('set-cookie')
-
-  if (!cookie) {
-    return
-  }
-
-  const { edgebucket } = Object.fromEntries(
-    cookie
-      .split(';')
-      .map((item) => item.trim())
-      .map((item) => item.split('=')),
-  )
-
-  if (typeof edgebucket === 'string') {
-    return edgebucket
-  }
 }

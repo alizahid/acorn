@@ -23,7 +23,7 @@ export default function Screen() {
   const [cleared, setCleared] = useState(false)
 
   useEffect(() => {
-    Promise.all([cookies.clearAll(), cookies.clearAll(true)]).finally(() => {
+    cookies.clearAll(true).finally(() => {
       setCleared(true)
     })
   }, [])
@@ -51,7 +51,7 @@ export default function Screen() {
           return
         }
 
-        signIn(jar.reddit_session.value)
+        signIn(jar)
 
         router.dismissAll()
       }}

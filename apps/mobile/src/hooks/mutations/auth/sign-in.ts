@@ -1,11 +1,18 @@
+import { exchangeSessionCookie } from '@acorn/reddit'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
-import cookies from 'react-native-nitro-cookies'
+import cookies, { type Cookies } from 'react-native-nitro-cookies'
 import { toast } from 'sonner-native'
+import { z } from 'zod'
 import { useShallow } from 'zustand/react/shallow'
 
-import { createApi, fetchToken } from '~/reddit/api'
-import { useAuth } from '~/stores/auth'
+import { createApi } from '~/reddit/api'
+import { type Account, useAuth } from '~/stores/auth'
+
+const schema = z.object({
+  cookie: z.string(),
+  loid: z.string(),
+})
 
 export function useSignIn() {
   const router = useRouter()
@@ -16,11 +23,24 @@ export function useSignIn() {
     })),
   )
 
-  const { isPending, mutateAsync } = useMutation({
-    async mutationFn(cookie: string) {
-      await Promise.all([cookies.clearAll(), cookies.clearAll(true)])
+  const { isPending, mutateAsync } = useMutation<Account, Error, Cookies>({
+    async mutationFn(variables) {
+      const jar = schema.parse({
+        cookie: variables.reddit_session?.value,
+        loid: variables.loid?.value,
+      })
 
-      const { edgeBucket, expiresAt, token, loid } = await fetchToken(cookie)
+      await cookies.clearAll(true)
+
+      const { edgeBucket, expiresAt, token, loid } =
+        await exchangeSessionCookie({
+          cookie: jar.cookie,
+          loid: jar.loid,
+        })
+
+      if (!loid) {
+        throw new Error('Something went wrong')
+      }
 
       const reddit = await createApi({
         edgeBucket,
@@ -31,7 +51,7 @@ export function useSignIn() {
       const { name } = await reddit.users.me()
 
       return {
-        cookie,
+        cookie: jar.cookie,
         edgeBucket,
         expiresAt,
         id: name,

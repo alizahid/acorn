@@ -1,3 +1,4 @@
+import { type SessionToken } from '@acorn/reddit'
 import { uniqBy } from 'lodash'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
@@ -26,10 +27,7 @@ export type State = AuthPayload & {
   remove: (id: string) => void
   reorder: (accounts: Array<Account>) => void
   set: (id: string) => void
-  update: (
-    id: string,
-    data: Pick<Account, 'expiresAt' | 'loid' | 'token'>,
-  ) => void
+  update: (id: string, data: SessionToken) => void
 }
 
 export const useAuth = create<State>()(
@@ -88,6 +86,7 @@ export const useAuth = create<State>()(
               ? {
                   ...item,
                   ...data,
+                  loid: data.loid ?? item.loid,
                 }
               : item,
           ),
