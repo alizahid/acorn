@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- fixed: blank login screen
 - fixed: lifetime plan
 
 ## Build 93
