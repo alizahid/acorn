@@ -12,6 +12,14 @@ export type Changelog = Array<
 
 export const changelog: Changelog = [
   {
+    build: 94,
+    fixed: [
+      'Blank login screen',
+      'You can now subscribe to the lifetime plan',
+      'Videos will be muted if the post is tagged NSFW or spoiler and you have "Blur NSFW" or "Blur spoiler" enabled, even if "Mute feed" is disabled',
+    ],
+  },
+  {
     added: [
       'Perforated cutoff option added to replace the blur cutoff for tall images',
     ],
