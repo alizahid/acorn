@@ -93,10 +93,12 @@ export function VideoPlayer({
 
   const player = useRef<VideoViewRef>(null)
 
+  const initialMuted = feedMuted || compact || nsfw || spoiler
+
   const [status, setStatus] = useRecyclingState<PlaybackStatus>('loading', [
     recyclingKey,
   ])
-  const [muted, setMuted] = useRecyclingState(feedMuted, [recyclingKey])
+  const [muted, setMuted] = useRecyclingState(initialMuted, [recyclingKey])
   const [fullscreen, setFullscreen] = useRecyclingState(false, [recyclingKey])
 
   const duration = useSharedValue(0)
@@ -151,7 +153,7 @@ export function VideoPlayer({
               player.current?.pause()
             }
 
-            if (feedMuted) {
+            if (initialMuted) {
               setMuted(true)
             }
           }

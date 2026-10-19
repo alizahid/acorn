@@ -4,6 +4,7 @@
 
 - fixed: blank login screen
 - fixed: lifetime plan
+- fixed: mute video if nsfw or spoiler
 
 ## Build 93
 
