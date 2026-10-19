@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- fixed: lifetime plan
+
 ## Build 93
 
 - added: in app changelog

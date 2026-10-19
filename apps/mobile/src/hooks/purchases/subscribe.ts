@@ -1,5 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
-import { finishTransaction, requestPurchase } from 'expo-iap'
+import {
+  finishTransaction,
+  isUserCancelledError,
+  requestPurchase,
+} from 'expo-iap'
 import { useRouter } from 'expo-router'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
@@ -22,7 +26,7 @@ export function useSubscribe() {
             sku: variables.planId,
           },
         },
-        type: 'subs',
+        type: variables.type,
       })
 
       if (!purchases) {
@@ -33,14 +37,12 @@ export function useSubscribe() {
         await Promise.all(
           purchases.map((purchase) =>
             finishTransaction({
-              isConsumable: variables.type === 'in-app',
               purchase,
             }),
           ),
         )
       } else {
         await finishTransaction({
-          isConsumable: variables.type === 'in-app',
           purchase: purchases,
         })
       }
@@ -50,7 +52,9 @@ export function useSubscribe() {
       })
     },
     onError(error) {
-      toast.error(error.message)
+      if (!isUserCancelledError(error)) {
+        toast.error(error.message)
+      }
     },
     onSuccess() {
       router.dismiss()

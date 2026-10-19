@@ -123,7 +123,7 @@ export default function Screen() {
           color="orange"
           disabled={!plan}
           label={t(
-            plan?.id === 'lifetime'
+            plan?.id.includes('lifetime')
               ? 'footer.buy'
               : plan?.subscriptionOffers?.length
                 ? 'footer.trial'

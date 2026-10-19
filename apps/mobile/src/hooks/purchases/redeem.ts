@@ -1,5 +1,9 @@
 import { useMutation } from '@tanstack/react-query'
-import { finishTransaction, openRedeemOfferCode } from 'expo-iap'
+import {
+  finishTransaction,
+  isUserCancelledError,
+  openRedeemOfferCode,
+} from 'expo-iap'
 import { toast } from 'sonner-native'
 
 export function useRedeem() {
@@ -18,7 +22,9 @@ export function useRedeem() {
       })
     },
     onError(error) {
-      toast.error(error.message)
+      if (!isUserCancelledError(error)) {
+        toast.error(error.message)
+      }
     },
   })
 

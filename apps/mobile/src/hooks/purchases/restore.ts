@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query'
-import { restorePurchases } from 'expo-iap'
+import { isUserCancelledError, restorePurchases } from 'expo-iap'
 import { toast } from 'sonner-native'
 
 export function useRestore() {
@@ -12,7 +12,9 @@ export function useRestore() {
       })
     },
     onError(error) {
-      toast.error(error.message)
+      if (!isUserCancelledError(error)) {
+        toast.error(error.message)
+      }
     },
   })
 

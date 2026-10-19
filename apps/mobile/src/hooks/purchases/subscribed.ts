@@ -1,5 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
-import { fetchProducts, getActiveSubscriptions } from 'expo-iap'
+import { fetchProducts, getAvailablePurchases } from 'expo-iap'
+
+import { skus } from '~/lib/purchases'
 
 export function useSubscribed() {
   const { isLoading, data } = useQuery({
@@ -9,7 +11,7 @@ export function useSubscribed() {
       }
 
       const products = await fetchProducts({
-        skus: ['monthly', 'yearly', 'lifetime'],
+        skus,
         type: 'all',
       })
 
@@ -19,9 +21,9 @@ export function useSubscribed() {
 
       const productIds = products.map((product) => product.id)
 
-      const subscriptions = await getActiveSubscriptions()
+      const purchases = await getAvailablePurchases()
 
-      return subscriptions.some((item) => productIds.includes(item.productId))
+      return purchases.some((item) => productIds.includes(item.productId))
     },
     queryKey: ['purchases', 'subscribed'],
   })
