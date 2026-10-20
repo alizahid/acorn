@@ -10,6 +10,7 @@ import { acornBuild } from '~/lib/common'
 import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
 import { Text } from '../common/text'
+import { BlurView } from '../native/blur-view'
 import { changelog } from './changelog'
 import { ChangelogItems } from './items'
 
@@ -33,12 +34,8 @@ export function Changelog() {
   }
 
   return (
-    <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.main}>
-      <View style={styles.wrapper}>
-        <Text size="4" style={styles.title} weight="bold">
-          {t('title')}
-        </Text>
-
+    <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.overlay}>
+      <BlurView intensity={100} style={styles.main}>
         <IconButton
           accessibilityLabel={t('close')}
           onPress={() => {
@@ -55,6 +52,10 @@ export function Changelog() {
         </IconButton>
 
         <ScrollView contentContainerStyle={styles.content}>
+          <Text size="4" weight="bold">
+            {t('title')}
+          </Text>
+
           {items.map((item) => (
             <View key={item.build} style={styles.item}>
               <Text size="6" tabular weight="bold">
@@ -90,7 +91,7 @@ export function Changelog() {
             </View>
           ))}
         </ScrollView>
-      </View>
+      </BlurView>
     </Animated.View>
   )
 }
@@ -109,6 +110,17 @@ const styles = StyleSheet.create((theme, runtime) => ({
     gap: theme.space[4],
   },
   main: {
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[6],
+    flexShrink: 1,
+    maxHeight:
+      runtime.screen.height -
+      theme.space[4] +
+      runtime.insets.top -
+      theme.space[4] +
+      runtime.insets.bottom,
+  },
+  overlay: {
     ...StyleSheet.absoluteFillObject,
     backgroundColor: theme.colors.ui.bgAlpha,
     justifyContent: 'center',
@@ -117,24 +129,5 @@ const styles = StyleSheet.create((theme, runtime) => ({
     paddingRight: theme.space[4] + runtime.insets.right,
     paddingTop: theme.space[4] + runtime.insets.top,
     position: 'absolute',
-  },
-  title: {
-    marginBottom: theme.space[4],
-    marginHorizontal: theme.space[5],
-    marginTop: theme.space[5],
-  },
-  wrapper: {
-    backgroundColor: theme.colors.ui.bg,
-    borderColor: theme.colors.gray.borderAlpha,
-    borderCurve: 'continuous',
-    borderRadius: theme.radius[6],
-    borderWidth: StyleSheet.hairlineWidth,
-    flexShrink: 1,
-    maxHeight:
-      runtime.screen.height -
-      theme.space[4] +
-      runtime.insets.top -
-      theme.space[4] +
-      runtime.insets.bottom,
   },
 }))

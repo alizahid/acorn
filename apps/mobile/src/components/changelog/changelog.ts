@@ -18,7 +18,7 @@ export const changelog: Changelog = [
       "Community name will not shrink in post card if there's more space for it to grow into",
       "Login screen should not go blank anymore. You'll be able to see the Reddit cookie banner properly",
       'You can now subscribe to the lifetime plan',
-      'Videos will be muted if the post is tagged NSFW or spoiler and you have "Blur NSFW" or "Blur spoiler" enabled, even if "Mute feed" is disabled',
+      'Videos will be muted if the post is tagged NSFW or spoiler and you have *Blur NSFW* or *Blur spoiler* enabled, even if *Mute feed* is disabled',
       'Restoring purchases should work now',
     ],
   },
@@ -33,7 +33,7 @@ export const changelog: Changelog = [
     ],
     fixed: [
       'Blank login screen',
-      'Comments opening in browser instead of Acorn when "Use old Reddit links" is enabled',
+      'Comments opening in browser instead of Acorn when *Use old Reddit links* is enabled',
       'Creating comments should work now',
       "Extra offset when scrolling to next comment so it doesn't get blurred",
       'You can now subscribe to the lifetime plan',

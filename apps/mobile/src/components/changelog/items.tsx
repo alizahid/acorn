@@ -7,6 +7,8 @@ import { type ColorToken } from '~/styles/tokens'
 import { Text } from '../common/text'
 import { type ChangelogType } from './changelog'
 
+const boldRegex = /\*(.+?)\*/
+
 type Props = {
   items: Array<string>
   type: ChangelogType
@@ -28,7 +30,16 @@ export function ChangelogItems({ items, type }: Props) {
           </View>
 
           <Text selectable size="2" style={styles.label}>
-            {item}
+            {item.split(boldRegex).map((part, index) =>
+              index % 2 ? (
+                // biome-ignore lint/suspicious/noArrayIndexKey: go away
+                <Text color="accent" key={index} size="2" weight="bold">
+                  {part}
+                </Text>
+              ) : (
+                part
+              ),
+            )}
           </Text>
         </View>
       ))}
