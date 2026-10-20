@@ -1,12 +1,8 @@
-import {
-  type CustomPressableProps,
-  PressableOpacity,
-  PressableWithoutFeedback,
-} from 'pressto'
+import { Touchable, type TouchableProps } from 'react-native-gesture-handler'
 
 type Props = {
   variant?: 'opacity' | 'plain'
-} & CustomPressableProps
+} & TouchableProps
 
 export function Pressable({
   accessibilityRole = 'button',
@@ -15,12 +11,15 @@ export function Pressable({
   variant = 'opacity',
   ...props
 }: Props) {
-  const Component =
-    variant === 'plain' ? PressableWithoutFeedback : PressableOpacity
-
   return (
-    <Component {...props} accessibilityRole={accessibilityRole} style={style}>
+    <Touchable
+      {...props}
+      accessibilityRole={accessibilityRole}
+      activeOpacity={variant === 'opacity' ? 0.5 : props.activeOpacity}
+      animationDuration={variant === 'opacity' ? 150 : props.animationDuration}
+      style={style}
+    >
       {children}
-    </Component>
+    </Touchable>
   )
 }
