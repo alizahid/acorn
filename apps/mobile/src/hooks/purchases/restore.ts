@@ -5,7 +5,19 @@ import { toast } from 'sonner-native'
 export function useRestore() {
   const { isPending, mutateAsync } = useMutation({
     async mutationFn(_variables, context) {
-      await restorePurchases()
+      try {
+        await restorePurchases()
+      } catch (error) {
+        await context.client.invalidateQueries({
+          queryKey: ['purchases', 'subscribed'],
+        })
+
+        if (!context.client.getQueryData(['purchases', 'subscribed'])) {
+          throw error
+        }
+
+        return
+      }
 
       await context.client.invalidateQueries({
         queryKey: ['purchases', 'subscribed'],

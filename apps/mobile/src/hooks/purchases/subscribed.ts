@@ -1,5 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { fetchProducts, getAvailablePurchases } from 'expo-iap'
+import {
+  fetchProducts,
+  getAvailablePurchases,
+  subscriptionStatusIOS,
+} from 'expo-iap'
 
 import { skus } from '~/lib/purchases'
 
@@ -23,7 +27,22 @@ export function useSubscribed() {
 
       const purchases = await getAvailablePurchases()
 
-      return purchases.some((item) => productIds.includes(item.productId))
+      if (purchases.some((item) => productIds.includes(item.productId))) {
+        return true
+      }
+
+      const subscription = products.find((product) => product.type === 'subs')
+
+      if (!subscription) {
+        return false
+      }
+
+      const statuses = await subscriptionStatusIOS(subscription.id)
+
+      return statuses.some(
+        (status) =>
+          status.state === 'subscribed' || status.state === 'inGracePeriod',
+      )
     },
     queryKey: ['purchases', 'subscribed'],
   })

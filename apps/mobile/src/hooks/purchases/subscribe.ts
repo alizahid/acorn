@@ -20,36 +20,38 @@ export function useSubscribe() {
 
   const { isPending, mutateAsync } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables, context) {
-      const purchases = await requestPurchase({
-        request: {
-          apple: {
-            sku: variables.planId,
+      try {
+        const purchases = await requestPurchase({
+          request: {
+            apple: {
+              sku: variables.planId,
+            },
           },
-        },
-        type: variables.type,
-      })
+          type: variables.type,
+        })
 
-      if (!purchases) {
-        throw new Error(t('error'))
-      }
+        if (!purchases) {
+          throw new Error(t('error'))
+        }
 
-      if (Array.isArray(purchases)) {
-        await Promise.all(
-          purchases.map((purchase) =>
-            finishTransaction({
-              purchase,
-            }),
-          ),
-        )
-      } else {
-        await finishTransaction({
-          purchase: purchases,
+        if (Array.isArray(purchases)) {
+          await Promise.all(
+            purchases.map((purchase) =>
+              finishTransaction({
+                purchase,
+              }),
+            ),
+          )
+        } else {
+          await finishTransaction({
+            purchase: purchases,
+          })
+        }
+      } finally {
+        await context.client.invalidateQueries({
+          queryKey: ['purchases', 'subscribed'],
         })
       }
-
-      await context.client.invalidateQueries({
-        queryKey: ['purchases', 'subscribed'],
-      })
     },
     onError(error) {
       if (!isUserCancelledError(error)) {

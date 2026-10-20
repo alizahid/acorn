@@ -18,6 +18,7 @@ export const changelog: Changelog = [
       'Blank login screen',
       'You can now subscribe to the lifetime plan',
       'Videos will be muted if the post is tagged NSFW or spoiler and you have "Blur NSFW" or "Blur spoiler" enabled, even if "Mute feed" is disabled',
+      'Restoring purchases should work now',
     ],
   },
   {
