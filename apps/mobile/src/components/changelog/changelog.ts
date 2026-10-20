@@ -12,6 +12,7 @@ export type Changelog = Array<
 
 export const changelog: Changelog = [
   {
+    added: ['Deleted comments will now show in the comment list'],
     build: 94,
     fixed: [
       'Blank login screen',
