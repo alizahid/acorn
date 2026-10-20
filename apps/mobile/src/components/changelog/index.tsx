@@ -36,21 +36,6 @@ export function Changelog() {
   return (
     <Animated.View entering={FadeIn} exiting={FadeOut} style={styles.overlay}>
       <BlurView intensity={100} style={styles.main}>
-        <IconButton
-          accessibilityLabel={t('close')}
-          onPress={() => {
-            setLastSeen(acornBuild)
-          }}
-          style={styles.close}
-        >
-          <Icon
-            name="x-bold"
-            uniProps={(theme) => ({
-              color: theme.colors.gray.text,
-            })}
-          />
-        </IconButton>
-
         <ScrollView contentContainerStyle={styles.content}>
           <Text size="4" weight="bold">
             {t('title')}
@@ -91,6 +76,21 @@ export function Changelog() {
             </View>
           ))}
         </ScrollView>
+
+        <IconButton
+          accessibilityLabel={t('close')}
+          onPress={() => {
+            setLastSeen(acornBuild)
+          }}
+          style={styles.close}
+        >
+          <Icon
+            name="x-bold"
+            uniProps={(theme) => ({
+              color: theme.colors.gray.text,
+            })}
+          />
+        </IconButton>
       </BlurView>
     </Animated.View>
   )
