@@ -121,8 +121,8 @@ const styles = StyleSheet.create((theme) => ({
   community: {
     alignItems: 'center',
     flexDirection: 'row',
+    flexShrink: 1,
     gap: theme.space[2],
-    maxWidth: '50%',
   },
   image: {
     backgroundColor: theme.colors.gray.ui,

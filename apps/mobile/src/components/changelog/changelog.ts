@@ -15,6 +15,7 @@ export const changelog: Changelog = [
     added: ['Deleted comments will now show in the comment list'],
     build: 94,
     fixed: [
+      "Community name will not shrink in post card if there's more space for it to grow into",
       "Login screen should not go blank anymore. You'll be able to see the Reddit cookie banner properly",
       'You can now subscribe to the lifetime plan',
       'Videos will be muted if the post is tagged NSFW or spoiler and you have "Blur NSFW" or "Blur spoiler" enabled, even if "Mute feed" is disabled',

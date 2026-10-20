@@ -4,6 +4,7 @@
 
 - added: show deleted comments
 - fixed: blank login screen
+- fixed: community name shrinking too eagerly
 - fixed: lifetime plan
 - fixed: mute video if nsfw or spoiler
 - fixed: restore purchases
