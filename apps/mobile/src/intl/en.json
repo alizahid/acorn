@@ -107,11 +107,11 @@
       }
     },
     "changelog": {
-      "added": "New features",
+      "added": "Added",
       "build": "Build {build}",
       "changed": "Changes",
       "close": "Close",
-      "fixed": "Bug fixes",
+      "fixed": "Fixed",
       "removed": "Removed",
       "thanks": "Special thanks to {people}",
       "title": "Changelog",

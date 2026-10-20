@@ -110,7 +110,8 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   main: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: theme.colors.ui.overlay,
+    backgroundColor: theme.colors.ui.bgAlpha,
+    justifyContent: 'center',
     paddingBottom: theme.space[4] + runtime.insets.bottom,
     paddingLeft: theme.space[4] + runtime.insets.left,
     paddingRight: theme.space[4] + runtime.insets.right,
@@ -124,8 +125,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   wrapper: {
     backgroundColor: theme.colors.ui.bg,
+    borderColor: theme.colors.gray.borderAlpha,
     borderCurve: 'continuous',
     borderRadius: theme.radius[6],
+    borderWidth: StyleSheet.hairlineWidth,
     flexShrink: 1,
     maxHeight:
       runtime.screen.height -

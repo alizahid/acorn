@@ -17,7 +17,7 @@ export function ChangelogItems({ items, type }: Props) {
 
   return (
     <View style={styles.main}>
-      <Text color={colors[type]} highContrast size="2" weight="bold">
+      <Text color={colors[type]} size="2" weight="bold">
         {t(type)}
       </Text>
 
@@ -65,6 +65,6 @@ const styles = StyleSheet.create((theme) => ({
 const colors: Record<ChangelogType, ColorToken> = {
   added: 'green',
   changed: 'blue',
-  fixed: 'green',
-  removed: 'orange',
+  fixed: 'orange',
+  removed: 'red',
 }
