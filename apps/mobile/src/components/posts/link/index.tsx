@@ -97,13 +97,15 @@ export function PostLinkCard({
       style={styles.main}
     >
       {media?.thumbnail ? (
-        <Image
-          {...placeholder}
-          accessibilityIgnoresInvertColors
-          recyclingKey={recyclingKey}
-          source={media.thumbnail}
-          style={styles.image(media.width / media.height)}
-        />
+        <View style={styles.preview}>
+          <Image
+            {...placeholder}
+            accessibilityIgnoresInvertColors
+            recyclingKey={recyclingKey}
+            source={media.thumbnail}
+            style={styles.image(media.width / media.height)}
+          />
+        </View>
       ) : null}
 
       <View style={styles.link}>
@@ -122,7 +124,7 @@ export function PostLinkCard({
   )
 }
 
-const styles = StyleSheet.create((theme) => ({
+const styles = StyleSheet.create((theme, runtime) => ({
   icon: {
     ...StyleSheet.absoluteFill,
     alignItems: 'center',
@@ -189,6 +191,10 @@ const styles = StyleSheet.create((theme) => ({
         true: {},
       },
     },
+  },
+  preview: {
+    maxHeight: runtime.screen.height * 0.5,
+    overflow: 'hidden',
   },
   url: {
     flex: 1,
