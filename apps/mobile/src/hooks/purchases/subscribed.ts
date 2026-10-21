@@ -11,7 +11,7 @@ export function useSubscribed() {
   const { isLoading, data } = useQuery({
     async queryFn() {
       if (__DEV__) {
-        return true
+        // return true
       }
 
       const products = await fetchProducts({

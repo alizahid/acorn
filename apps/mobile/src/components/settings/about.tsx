@@ -39,18 +39,6 @@ export function AboutCard() {
       ),
       label: t('links.discord'),
     },
-    {
-      href: 'https://github.com/alizahid/acorn',
-      icon: (
-        <Icon
-          name="github-logo-fill"
-          uniProps={(theme) => ({
-            color: theme.colors.accent.contrast,
-          })}
-        />
-      ),
-      label: t('links.github'),
-    },
   ]
 
   return (

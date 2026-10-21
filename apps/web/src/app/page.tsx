@@ -2,7 +2,6 @@ import {
   CoffeeIcon,
   DiscordLogoIcon,
   FanIcon,
-  GithubLogoIcon,
 } from '@phosphor-icons/react/dist/ssr'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -24,11 +23,6 @@ export default function Page() {
       href: 'https://discord.gg/sWzw5GU5RV',
       icon: <DiscordLogoIcon className="size-6" weight="fill" />,
       key: 'discord',
-    },
-    {
-      href: 'https://github.com/alizahid/acorn',
-      icon: <GithubLogoIcon className="size-6" weight="fill" />,
-      key: 'github',
     },
     {
       href: 'https://buymeacoffee.com/acornblue',

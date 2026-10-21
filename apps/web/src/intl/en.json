@@ -14,7 +14,6 @@
       "action": {
         "coffee": "Buy Me a Coffee",
         "discord": "Discord",
-        "github": "GitHub",
         "testFlight": "TestFlight"
       },
       "footer": {
@@ -40,7 +39,7 @@
       "sections": [
         {
           "body": [
-            "Acorn is an open source Reddit client. You can read every line of code on <github>GitHub</github>.",
+            "Acorn is a Reddit client.",
             "Acorn has no servers, accounts or databases of its own. We don't show ads, we don't use analytics or tracking, and we don't sell or share your data with anyone."
           ],
           "title": "Overview"
@@ -100,13 +99,13 @@
         },
         {
           "body": [
-            "If this policy changes, we'll update it here along with the date at the top. Questions? Reach out on <discord>Discord</discord> or <github>GitHub</github>."
+            "If this policy changes, we'll update it here along with the date at the top. Questions? Reach out on <discord>Discord</discord>."
           ],
           "title": "Changes and contact"
         }
       ],
       "title": "Privacy policy × Acorn",
-      "updated": "Last updated October 15, 2026"
+      "updated": "Last updated October 21, 2026"
     },
     "terms": {
       "header": "Terms of use",
@@ -165,12 +164,6 @@
         },
         {
           "body": [
-            "Acorn's source code is available under the <license>GNU GPL v3</license>. These terms cover the app we distribute, not your rights under that license."
-          ],
-          "title": "Open source"
-        },
-        {
-          "body": [
             "Acorn is provided \"as is\" and \"as available\", without warranties of any kind. We don't guarantee the app will be available, accurate, secure or free of bugs."
           ],
           "title": "No warranty"
@@ -191,13 +184,13 @@
         },
         {
           "body": [
-            "We may update these terms from time to time. Continuing to use Acorn after changes means you accept them. Questions? Reach out on <discord>Discord</discord> or <github>GitHub</github>."
+            "We may update these terms from time to time. Continuing to use Acorn after changes means you accept them. Questions? Reach out on <discord>Discord</discord>."
           ],
           "title": "Changes and contact"
         }
       ],
       "title": "Terms of use × Acorn",
-      "updated": "Last updated October 15, 2026"
+      "updated": "Last updated October 21, 2026"
     }
   }
 }

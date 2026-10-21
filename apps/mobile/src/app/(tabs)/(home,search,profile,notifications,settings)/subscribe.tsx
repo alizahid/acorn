@@ -47,76 +47,81 @@ export default function Screen() {
   }, [subscribed, router])
 
   return (
-    <ScrollView contentContainerStyle={styles.content}>
-      <View style={styles.header}>
-        <Logo />
-      </View>
+    <>
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.header}>
+          <Logo />
+        </View>
 
-      {plans ? (
-        <View>
-          {orderBy(plans, 'price').map((item) => (
-            <Pressable
-              key={item.id}
-              onPress={() => {
-                setPlan(item)
-              }}
-              style={styles.plan(item.id === plan?.id)}
-            >
+        {plans ? (
+          <View>
+            {orderBy(plans, 'price').map((item) => (
+              <Pressable
+                key={item.id}
+                onPress={() => {
+                  setPlan((previous) =>
+                    previous?.id === item.id ? undefined : item,
+                  )
+                }}
+                style={styles.plan(item.id === plan?.id)}
+                variant="plain"
+              >
+                <Icon
+                  name={item.id === plan?.id ? 'check-circle-fill' : 'circle'}
+                  uniProps={(theme) => ({
+                    color:
+                      item.id === plan?.id
+                        ? theme.colors.accent.contrast
+                        : theme.colors.accent.accent,
+                  })}
+                />
+
+                <View style={styles.description}>
+                  <Text
+                    contrast={item.id === plan?.id}
+                    size="7"
+                    tabular
+                    weight="bold"
+                  >
+                    {f.number(item.price ?? 0, {
+                      currency: item.currency,
+                      currencyDisplay: 'symbol',
+                      style: 'currency',
+                    })}
+                  </Text>
+
+                  <Text
+                    contrast={item.id === plan?.id}
+                    highContrast={false}
+                    weight="medium"
+                  >
+                    {item.title}
+                  </Text>
+                </View>
+              </Pressable>
+            ))}
+          </View>
+        ) : (
+          <Spinner />
+        )}
+
+        <View style={styles.features}>
+          {([1, 2, 3, 4, 5, 6] as const).map((key) => (
+            <View key={key} style={styles.feature}>
               <Icon
-                name={item.id === plan?.id ? 'check-circle-fill' : 'circle'}
+                name={icons[key]}
                 uniProps={(theme) => ({
-                  color:
-                    item.id === plan?.id
-                      ? theme.colors.accent.contrast
-                      : theme.colors.accent.accent,
+                  color: theme.colors.orange.accent,
                 })}
               />
 
-              <View style={styles.description}>
-                <Text
-                  contrast={item.id === plan?.id}
-                  size="7"
-                  tabular
-                  weight="bold"
-                >
-                  {f.number(item.price ?? 0, {
-                    currency: item.currency,
-                    currencyDisplay: 'symbol',
-                    style: 'currency',
-                  })}
-                </Text>
-
-                <Text
-                  contrast={item.id === plan?.id}
-                  highContrast={false}
-                  weight="medium"
-                >
-                  {item.title}
-                </Text>
-              </View>
-            </Pressable>
+              <Text style={styles.label} weight="medium">
+                {t(`feature.${key}`)}
+              </Text>
+            </View>
           ))}
         </View>
-      ) : (
-        <Spinner />
-      )}
-
-      <View style={styles.features}>
-        {([1, 2, 3, 4, 5, 6, 7] as const).map((key) => (
-          <View key={key} style={styles.feature}>
-            <Icon
-              name={icons[key]}
-              uniProps={(theme) => ({
-                color: theme.colors.orange.accent,
-              })}
-            />
-
-            <Text style={styles.label} weight="medium">
-              {t(`feature.${key}`)}
-            </Text>
-          </View>
-        ))}
-      </View>
+      </ScrollView>
 
       <View style={styles.footer}>
         <Button
@@ -164,7 +169,7 @@ export default function Screen() {
           />
         </View>
       </View>
-    </ScrollView>
+    </>
   )
 }
 
@@ -174,8 +179,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   content: {
     gap: theme.space[8],
-    paddingBottom: runtime.insets.bottom + theme.space[4],
-    paddingTop: theme.space[8],
+    paddingVertical: theme.space[8],
   },
   description: {
     flex: 1,
@@ -190,7 +194,8 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   footer: {
     gap: theme.space[4],
-    marginHorizontal: theme.space[4],
+    margin: theme.space[4],
+    marginBottom: runtime.insets.bottom + theme.space[4],
   },
   header: {
     alignItems: 'center',
@@ -224,5 +229,4 @@ const icons = {
   4: 'broadcast',
   5: 'lock',
   6: 'person-simple-run',
-  7: 'github-logo',
 } as const satisfies Record<number, IconName>

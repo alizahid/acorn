@@ -10,8 +10,6 @@ const links = {
     'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/',
   discord: 'https://discord.gg/sWzw5GU5RV',
   expo: 'https://expo.dev/privacy',
-  github: 'https://github.com/alizahid/acorn',
-  license: 'https://github.com/alizahid/acorn/blob/main/license',
   privacy: '/privacy',
   reddit: 'https://www.reddit.com/policies/privacy-policy',
   redditApi: 'https://redditinc.com/policies/data-api-terms',
