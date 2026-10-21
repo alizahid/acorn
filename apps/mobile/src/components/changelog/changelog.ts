@@ -14,6 +14,13 @@ export const changelog: Changelog = [
   {
     added: ['Deleted comments will now show in the comment list'],
     build: 94,
+    changed: [
+      'High contrast background option removed from paywall',
+      'Mark as seen on vote option removed from paywall',
+      'Mark as seen when viewing media option removed from paywall',
+      'Mark as seen while scrolling option removed from paywall',
+      'Video downloading added behind paywall',
+    ],
     fixed: [
       'Touchable things like buttons will now show the feedback by lowering the opacity',
       "Community name will not shrink in post card if there's more space for it to grow into",

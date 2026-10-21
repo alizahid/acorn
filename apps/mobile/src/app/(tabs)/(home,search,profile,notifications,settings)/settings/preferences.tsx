@@ -503,53 +503,38 @@ export default function Screen() {
 
         <Menu.Label>{t('history.title')}</Menu.Label>
 
-        <Paywall
-          render={(disabled) => (
-            <Menu.Switch
-              disabled={disabled}
-              icon={<Icon name="arrow-fat-up" />}
-              label={t('history.seenOnVote')}
-              onChange={(next) => {
-                update({
-                  seenOnVote: next,
-                })
-              }}
-              value={seenOnVote}
-            />
-          )}
+        <Menu.Switch
+          icon={<Icon name="arrow-fat-up" />}
+          label={t('history.seenOnVote')}
+          onChange={(next) => {
+            update({
+              seenOnVote: next,
+            })
+          }}
+          value={seenOnVote}
         />
 
-        <Paywall
-          render={(disabled) => (
-            <Menu.Switch
-              disabled={disabled}
-              icon={<Icon name="image" />}
-              label={t('history.seenOnMedia')}
-              onChange={(next) => {
-                update({
-                  seenOnMedia: next,
-                })
-              }}
-              value={seenOnMedia}
-            />
-          )}
+        <Menu.Switch
+          icon={<Icon name="image" />}
+          label={t('history.seenOnMedia')}
+          onChange={(next) => {
+            update({
+              seenOnMedia: next,
+            })
+          }}
+          value={seenOnMedia}
         />
 
-        <Paywall
-          render={(disabled) => (
-            <Menu.Switch
-              description={t('history.seenOnScroll.description')}
-              disabled={disabled}
-              icon={<Icon name="mouse-scroll" />}
-              label={t('history.seenOnScroll.label')}
-              onChange={(next) => {
-                update({
-                  seenOnScroll: next,
-                })
-              }}
-              value={seenOnScroll}
-            />
-          )}
+        <Menu.Switch
+          description={t('history.seenOnScroll.description')}
+          icon={<Icon name="mouse-scroll" />}
+          label={t('history.seenOnScroll.label')}
+          onChange={(next) => {
+            update({
+              seenOnScroll: next,
+            })
+          }}
+          value={seenOnScroll}
         />
 
         <Paywall
@@ -622,20 +607,15 @@ export default function Screen() {
           )}
         />
 
-        <Paywall
-          render={(disabled) => (
-            <Menu.Switch
-              disabled={disabled}
-              icon={<Icon name="sun-dim" />}
-              label={t('history.dimSeen')}
-              onChange={(next) => {
-                update({
-                  dimSeen: next,
-                })
-              }}
-              value={dimSeen}
-            />
-          )}
+        <Menu.Switch
+          icon={<Icon name="sun-dim" />}
+          label={t('history.dimSeen')}
+          onChange={(next) => {
+            update({
+              dimSeen: next,
+            })
+          }}
+          value={dimSeen}
         />
 
         <Paywall
@@ -659,26 +639,36 @@ export default function Screen() {
 
         <Menu.Label>{t('media.title')}</Menu.Label>
 
-        <Menu.Switch
-          icon={<Icon name="ticket" />}
-          label={t('media.perforatedCutoff')}
-          onChange={(next) => {
-            update({
-              perforatedCutoff: next,
-            })
-          }}
-          value={perforatedCutoff}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="ticket" />}
+              label={t('media.perforatedCutoff')}
+              onChange={(next) => {
+                update({
+                  perforatedCutoff: next,
+                })
+              }}
+              value={perforatedCutoff}
+            />
+          )}
         />
 
-        <Menu.Switch
-          icon={<Icon name="square-split-horizontal" />}
-          label={t('media.gallerySnap')}
-          onChange={(next) => {
-            update({
-              gallerySnap: next,
-            })
-          }}
-          value={gallerySnap}
+        <Paywall
+          render={(disabled) => (
+            <Menu.Switch
+              disabled={disabled}
+              icon={<Icon name="square-split-horizontal" />}
+              label={t('media.gallerySnap')}
+              onChange={(next) => {
+                update({
+                  gallerySnap: next,
+                })
+              }}
+              value={gallerySnap}
+            />
+          )}
         />
 
         <Menu.Switch

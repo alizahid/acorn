@@ -1,16 +1,18 @@
 import { useRouter } from 'expo-router'
-import { type ReactNode } from 'react'
+import { type ReactNode, type RefObject } from 'react'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 
 import { Pressable } from '../pressable'
+import { type Sheet } from '../sheet'
 
 type Props = {
+  sheet?: RefObject<Sheet | null>
   render: (disabled: boolean) => ReactNode
 }
 
-export function Paywall({ render }: Props) {
+export function Paywall({ render, sheet }: Props) {
   const router = useRouter()
 
   const { subscribed } = useSubscribed()
@@ -22,7 +24,9 @@ export function Paywall({ render }: Props) {
   return (
     <Pressable
       disabled={subscribed}
-      onPress={() => {
+      onPress={async () => {
+        await sheet?.current?.dismiss()
+
         router.navigate('/subscribe')
       }}
       style={styles.main}

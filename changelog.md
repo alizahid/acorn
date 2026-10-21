@@ -3,6 +3,11 @@
 ## Upcoming
 
 - added: show deleted comments
+- changed: high contrast background option removed from paywall
+- changed: mark as seen on vote option removed from paywall
+- changed: mark as seen when viewing media option removed from paywall
+- changed: mark as seen while scrolling option removed from paywall
+- changed: video downloading added behind paywall
 - fixed: blank login screen
 - fixed: community name shrinking too eagerly
 - fixed: feedback on pressables

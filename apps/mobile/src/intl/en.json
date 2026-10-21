@@ -610,10 +610,7 @@
           "colorfulComments": "Colorful comments",
           "highContrastBackground": {
             "description": "Requires app restart",
-            "label": {
-              "dark": "Jet black background",
-              "light": "Pure white background"
-            }
+            "label": "High contrast background"
           },
           "title": "Preferences"
         },
