@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as WebBrowser from 'expo-web-browser'
 import { useCallback } from 'react'
+import { fetch } from 'react-native-nitro-fetch'
 import { useUnistyles } from 'react-native-unistyles'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'

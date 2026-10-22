@@ -1,6 +1,7 @@
 import { exchangeSessionCookie, Reddit } from '@acorn/reddit'
 import { isAfter } from 'date-fns'
 import crypto from 'react-native-nitro-crypto'
+import { fetch } from 'react-native-nitro-fetch'
 
 import { mmkv } from '~/lib/mmkv'
 import { type Account, useAuth } from '~/stores/auth'
@@ -21,6 +22,7 @@ export async function createApi(props?: CreateProps) {
     return new Reddit({
       deviceId: getDeviceId(),
       edgeBucket: props.edgeBucket,
+      fetch,
       loid: props.loid,
       token: props.token,
     })
@@ -48,6 +50,7 @@ export async function createApi(props?: CreateProps) {
     return new Reddit({
       deviceId: getDeviceId(),
       edgeBucket,
+      fetch,
       loid,
       token,
     })
@@ -56,6 +59,7 @@ export async function createApi(props?: CreateProps) {
   return new Reddit({
     deviceId: getDeviceId(),
     edgeBucket: account.edgeBucket,
+    fetch,
     loid: account.loid,
     token: account.token,
   })

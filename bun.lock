@@ -92,6 +92,7 @@
         "react-native-nitro-buffer": "^0.3.0",
         "react-native-nitro-cookies": "^1.3.1",
         "react-native-nitro-crypto": "^0.3.5",
+        "react-native-nitro-fetch": "^1.9.0",
         "react-native-nitro-modules": "0.37.1",
         "react-native-pager-view": "9.0.7",
         "react-native-reanimated": "4.7.1",
@@ -1692,6 +1693,8 @@
 
     "react-native-nitro-crypto": ["react-native-nitro-crypto@0.3.5", "", { "dependencies": { "react-native-nitro-buffer": ">=0.0.14" }, "peerDependencies": { "react-native-nitro-modules": "0.35.0 - 0.37.1" } }, "sha512-SbDQuNSryyI2On4HQX29NvKCUysrsf+6VbZnIPf29CnbL2jgbn89w0bgnOVdX1RweyGCLtdSX4uxa4ea00yr+A=="],
 
+    "react-native-nitro-fetch": ["react-native-nitro-fetch@1.9.0", "", { "dependencies": { "web-streams-polyfill": "^4.2.0" }, "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": ">=0.37.1", "react-native-worklets": ">=0.8.0" }, "optionalPeers": ["react-native-worklets"] }, "sha512-4rxaPcXKudZW1Ma1Y63rHF8/7hbanOyqr01Gac6ROUYApcCH8/YtS0d02cm0ZEbSzwPvmcvFRzPoT4cHWxhJGA=="],
+
     "react-native-nitro-modules": ["react-native-nitro-modules@0.37.1", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-KpW6EQVQ/bfegpCGxN9Be+ndvsfj56t4IESEvCASu9gWpJa/NDfHpIeIwCOvZQ3eXmLEj6YD4wCLqcC1FJPr2w=="],
 
     "react-native-pager-view": ["react-native-pager-view@9.0.7", "", { "peerDependencies": { "react": "*", "react-native": "*" } }, "sha512-71kLSrjZy8onJTXkoAWF/0UtInkF+xqmqudiV/axZe8PVGG+CK6jVdh8NYFJLKetQ6UQ9ScPNliagpvLBp1xkQ=="],
@@ -1941,6 +1944,8 @@
     "wcwidth": ["wcwidth@1.0.1", "", { "dependencies": { "defaults": "^1.0.3" } }, "sha512-XHPEwS0q6TaxcvG85+8EYkbiCux2XtWG2mkc47Ng2A77BQu9+DqIOJldST4HgPkuea7dvKSj5VgX3P1d4rW8Tg=="],
 
     "web": ["web@workspace:apps/web"],
+
+    "web-streams-polyfill": ["web-streams-polyfill@4.3.0", "", {}, "sha512-/Gnggvj9oSrEvJbDyyPtAnxBt5fGQM2iWOKQNu7ie1OxDgK40iZpyV3TKaRiEzVj1oA1UxKnEy9XPXh6PW3eVw=="],
 
     "webidl-conversions": ["webidl-conversions@3.0.1", "", {}, "sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ=="],
 

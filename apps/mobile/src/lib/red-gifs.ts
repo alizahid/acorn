@@ -2,6 +2,7 @@ import { addHours, fromUnixTime } from 'date-fns'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as SecureStore from 'expo-secure-store'
 import { type VideoSource } from 'react-native-jet-video'
+import { fetch } from 'react-native-nitro-fetch'
 import { z } from 'zod'
 
 import { getUserAgent } from './user-agent'
