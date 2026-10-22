@@ -1,0 +1,34 @@
+diff --git a/cpp/core/Promise.hpp b/cpp/core/Promise.hpp
+index 07eac1180a23d2ac0ccc4a9bc88ac9ea7f7f799d..86d4bb35c20438d4c8b5d58b7216572119456952 100644
+--- a/cpp/core/Promise.hpp
++++ b/cpp/core/Promise.hpp
+@@ -36,7 +36,11 @@ public:
+   ~Promise() {
+     if (isPending()) [[unlikely]] {
+       auto message = std::string("Timeouted: Promise<") + TypeInfo::getFriendlyTypename<TResult>() + "> was destroyed!";
+-      reject(std::make_exception_ptr(std::runtime_error(message)));
++      try {
++        throw std::runtime_error(message);
++      } catch (...) {
++        reject(std::current_exception());
++      }
+     }
+   }
+ 
+diff --git a/ios/utils/RuntimeError.hpp b/ios/utils/RuntimeError.hpp
+index 1b721154a8e095933b94e58cd29c5f663d83f2d9..b6772acc8b5c163d37cc3b15b0f72faa6cdb8f51 100644
+--- a/ios/utils/RuntimeError.hpp
++++ b/ios/utils/RuntimeError.hpp
+@@ -14,7 +14,11 @@
+ namespace margelo::nitro {
+ 
+ static inline std::exception_ptr makeException(const std::string& message) {
+-  return std::make_exception_ptr(std::runtime_error(message));
++  try {
++    throw std::runtime_error(message);
++  } catch (...) {
++    return std::current_exception();
++  }
+ }
+ 
+ static inline std::string getExceptionMessage(const std::exception_ptr& exception) {

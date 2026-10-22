@@ -35,6 +35,7 @@
   "packageManager": "bun@1.4.3",
   "patchedDependencies": {
     "ffmpeg-kit-react-native@6.0.2": "patches/ffmpeg-kit-react-native@6.0.2.patch",
-    "react-native-nano-icons@1.0.1": "patches/react-native-nano-icons@1.0.1.patch"
+    "react-native-nano-icons@1.0.1": "patches/react-native-nano-icons@1.0.1.patch",
+    "react-native-nitro-modules@0.37.1": "patches/react-native-nitro-modules@0.37.1.patch"
   }
 }
