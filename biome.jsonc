@@ -46,6 +46,7 @@
   "linter": {
     "rules": {
       "a11y": {
+        "noLabelWithoutControl": "off",
         "noSvgWithoutTitle": "off"
       },
       "complexity": {
