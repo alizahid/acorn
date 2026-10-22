@@ -33,6 +33,7 @@ export default function Screen() {
     feedbackHaptics,
     feedbackSounds,
     feedMuted,
+    fullWidth,
     gallerySnap,
     hapticsLoud,
     hideCommunityName,
@@ -74,6 +75,7 @@ export default function Screen() {
       feedbackHaptics: state.feedbackHaptics,
       feedbackSounds: state.feedbackSounds,
       feedMuted: state.feedMuted,
+      fullWidth: state.fullWidth,
       gallerySnap: state.gallerySnap,
       hapticsLoud: state.hapticsLoud,
       hideCommunityName: state.hideCommunityName,
@@ -236,21 +238,34 @@ export default function Screen() {
         />
 
         {iPad ? (
-          <Paywall
-            render={(disabled) => (
-              <Menu.Switch
-                disabled={disabled}
-                icon={<Icon name="sidebar" />}
-                label={t('browsing.drawerSticky')}
-                onChange={(next) => {
-                  update({
-                    drawerSticky: next,
-                  })
-                }}
-                value={drawerSticky}
-              />
-            )}
-          />
+          <>
+            <Paywall
+              render={(disabled) => (
+                <Menu.Switch
+                  disabled={disabled}
+                  icon={<Icon name="sidebar" />}
+                  label={t('browsing.drawerSticky')}
+                  onChange={(next) => {
+                    update({
+                      drawerSticky: next,
+                    })
+                  }}
+                  value={drawerSticky}
+                />
+              )}
+            />
+
+            <Menu.Switch
+              icon={<Icon name="frame-corners" />}
+              label={t('browsing.fullWidth')}
+              onChange={(next) => {
+                update({
+                  fullWidth: next,
+                })
+              }}
+              value={fullWidth}
+            />
+          </>
         ) : (
           <Paywall
             render={(disabled) => (

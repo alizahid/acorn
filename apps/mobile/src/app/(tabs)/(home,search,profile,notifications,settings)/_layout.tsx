@@ -11,6 +11,7 @@ import { useHistory } from '~/hooks/history'
 import { glass, iPad, maxWidth } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
+import { usePreferences } from '~/stores/preferences'
 import { useTemp } from '~/stores/temp'
 
 import { type CommunityParams } from './communities/[name]'
@@ -145,8 +146,17 @@ export default function Layout({ segment }: Props) {
 function StackLayout({ children }: PropsWithChildren) {
   const t = useTranslations('screen')
 
-  const { setComment } = useTemp()
+  const { fullWidth } = usePreferences(
+    useShallow((state) => ({
+      fullWidth: state.fullWidth,
+    })),
+  )
 
+  styles.useVariants({
+    fullWidth,
+  })
+
+  const { setComment } = useTemp()
   const { addPost } = useHistory()
 
   return (
@@ -329,9 +339,15 @@ function StackLayout({ children }: PropsWithChildren) {
 
 const styles = StyleSheet.create((theme) => ({
   content: {
-    alignSelf: 'center',
-    maxWidth,
-    width: '100%',
+    variants: {
+      fullWidth: {
+        false: {
+          alignSelf: 'center',
+          maxWidth,
+          width: '100%',
+        },
+      },
+    },
   },
   full: {
     height: '100%',

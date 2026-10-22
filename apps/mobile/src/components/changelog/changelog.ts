@@ -12,7 +12,10 @@ export type Changelog = Array<
 
 export const changelog: Changelog = [
   {
-    added: ['Deleted comments will now show in the comment list'],
+    added: [
+      'Deleted comments will now show in the comment list',
+      '*Full width content* option added for iPad',
+    ],
     build: 94,
     changed: [
       'High contrast background option removed from paywall',

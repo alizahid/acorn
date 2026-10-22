@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: full width content option for iPad
 - added: show deleted comments
 - changed: high contrast background option removed from paywall
 - changed: mark as seen on vote option removed from paywall
