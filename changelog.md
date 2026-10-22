@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 94
 
 - added: full width content option for iPad
 - added: show deleted comments
