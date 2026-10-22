@@ -11,6 +11,7 @@
 - fixed: blank login screen
 - fixed: community name shrinking too eagerly
 - fixed: feedback on pressables
+- fixed: iOS 16 / 17 crash
 - fixed: lifetime plan
 - fixed: mute video if nsfw or spoiler
 - fixed: restore purchases
