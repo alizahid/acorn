@@ -13,6 +13,12 @@ export type Changelog = Array<
 export const changelog: Changelog = [
   {
     added: [
+      'You can now manage your Acorn subscription from the *Settings* tab',
+    ],
+    build: 95,
+  },
+  {
+    added: [
       'Deleted comments will now show in the comment list',
       '*Full width content* option added for iPad',
     ],

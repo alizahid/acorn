@@ -498,10 +498,12 @@
           "4": "No ads, ever",
           "5": "Privacy focused",
           "6": "Actively developed",
-          "7": "Open source"
+          "7": "Designed for iPhone, iPad, and iPhone Duo",
+          "title": "Features"
         },
         "footer": {
           "buy": "Buy",
+          "manage": "Manage",
           "redeem": "Redeem",
           "restore": "Restore",
           "subscribe": "Subscribe",
@@ -512,6 +514,14 @@
         },
         "price": {
           "description": "per month"
+        },
+        "subscribed": {
+          "createdAt": "Subscribed on",
+          "description": "Here are your plan details",
+          "plan": "Plan",
+          "price": "Price",
+          "renewsAt": "Auto renews on",
+          "title": "Thanks for being an Acorn supporter!"
         }
       }
     },
@@ -822,6 +832,7 @@
         "filters": "Filters",
         "gestures": "Gestures",
         "preferences": "Preferences",
+        "pro": "Pro",
         "sort": "Sort",
         "title": "Settings"
       },

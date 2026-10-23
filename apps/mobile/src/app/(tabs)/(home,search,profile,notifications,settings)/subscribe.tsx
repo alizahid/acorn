@@ -1,11 +1,11 @@
 import {
+  deepLinkToSubscriptions,
   type Product,
   type ProductOrSubscription,
   type ProductSubscription,
 } from 'expo-iap'
-import { useRouter } from 'expo-router'
 import { orderBy } from 'lodash'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
@@ -13,6 +13,7 @@ import { useFormatter, useTranslations } from 'use-intl'
 
 import { Button } from '~/components/common/button'
 import { Icon, type IconName } from '~/components/common/icon'
+import { Loading } from '~/components/common/loading'
 import { Logo } from '~/components/common/logo'
 import { Pressable } from '~/components/common/pressable'
 import { Spinner } from '~/components/common/spinner'
@@ -24,12 +25,10 @@ import { useSubscribe } from '~/hooks/purchases/subscribe'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
 
 export default function Screen() {
-  const router = useRouter()
-
   const t = useTranslations('screen.auth.subscribe')
   const f = useFormatter()
 
-  const { subscribed } = useSubscribed()
+  const { subscription, isLoading } = useSubscribed()
   const { plans } = usePlans()
 
   const { restore, isPending: restoring } = useRestore()
@@ -40,11 +39,9 @@ export default function Screen() {
     ProductOrSubscription | Product | ProductSubscription
   >()
 
-  useEffect(() => {
-    if (subscribed) {
-      router.dismiss()
-    }
-  }, [subscribed, router])
+  if (isLoading) {
+    return <Loading />
+  }
 
   return (
     <>
@@ -53,7 +50,95 @@ export default function Screen() {
           <Logo />
         </View>
 
-        {plans ? (
+        {subscription ? (
+          typeof subscription === 'boolean' ? null : (
+            <View style={styles.subscribed}>
+              <Text align="center" color="accent" size="8" weight="bold">
+                {t('subscribed.title')}
+              </Text>
+
+              <Text align="center" highContrast={false} size="2">
+                {t('subscribed.description')}
+              </Text>
+
+              <View style={styles.info}>
+                {subscription.name ? (
+                  <View style={styles.row}>
+                    <Text
+                      align="right"
+                      highContrast={false}
+                      style={styles.column}
+                      weight="medium"
+                    >
+                      {t('subscribed.plan')}
+                    </Text>
+
+                    <Text style={styles.column}>{subscription.name}</Text>
+                  </View>
+                ) : null}
+
+                {subscription.price ? (
+                  <View style={styles.row}>
+                    <Text
+                      align="right"
+                      highContrast={false}
+                      style={styles.column}
+                      weight="medium"
+                    >
+                      {t('subscribed.price')}
+                    </Text>
+
+                    <Text style={styles.column} tabular>
+                      {f.number(subscription.price, {
+                        currency: subscription.currency,
+                        currencyDisplay: 'symbol',
+                        style: 'currency',
+                      })}
+                    </Text>
+                  </View>
+                ) : null}
+
+                {subscription.createdAt ? (
+                  <View style={styles.row}>
+                    <Text
+                      align="right"
+                      highContrast={false}
+                      style={styles.column}
+                      weight="medium"
+                    >
+                      {t('subscribed.createdAt')}
+                    </Text>
+
+                    <Text style={styles.column} tabular>
+                      {f.dateTime(subscription.createdAt, {
+                        dateStyle: 'medium',
+                      })}
+                    </Text>
+                  </View>
+                ) : null}
+
+                {subscription.renewsAt ? (
+                  <View style={styles.row}>
+                    <Text
+                      align="right"
+                      highContrast={false}
+                      style={styles.column}
+                      weight="medium"
+                    >
+                      {t('subscribed.renewsAt')}
+                    </Text>
+
+                    <Text style={styles.column} tabular>
+                      {f.dateTime(subscription.renewsAt, {
+                        dateStyle: 'medium',
+                      })}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
+            </View>
+          )
+        ) : plans ? (
           <View>
             {orderBy(plans, 'price').map((item) => (
               <Pressable
@@ -106,7 +191,11 @@ export default function Screen() {
         )}
 
         <View style={styles.features}>
-          {([1, 2, 3, 4, 5, 6] as const).map((key) => (
+          <Text size="2" weight="bold">
+            {t('feature.title')}
+          </Text>
+
+          {([1, 2, 3, 4, 5, 6, 7] as const).map((key) => (
             <View key={key} style={styles.feature}>
               <Icon
                 name={icons[key]}
@@ -123,58 +212,75 @@ export default function Screen() {
         </View>
       </ScrollView>
 
-      <View style={styles.footer}>
-        <Button
-          color="orange"
-          disabled={!plan}
-          label={t(
-            plan?.id.includes('lifetime')
-              ? 'footer.buy'
-              : plan?.subscriptionOffers?.length
-                ? 'footer.trial'
-                : 'footer.subscribe',
-          )}
-          loading={subscribing}
-          onPress={() => {
-            if (!plan) {
-              return
-            }
-
-            subscribe({
-              planId: plan.id,
-              type: plan.type,
-            })
-          }}
-        />
-
-        <View style={styles.feature}>
+      {subscription ? (
+        typeof subscription === 'boolean' ? null : subscription.type ===
+          'in-app' ? null : (
+          <View style={styles.footer}>
+            <Button
+              label={t('footer.manage')}
+              onPress={() => {
+                deepLinkToSubscriptions()
+              }}
+            />
+          </View>
+        )
+      ) : (
+        <View style={styles.footer}>
           <Button
-            color="blue"
-            label={t('footer.restore')}
-            loading={restoring}
+            color="orange"
+            disabled={!plan}
+            label={t(
+              plan?.id.includes('lifetime')
+                ? 'footer.buy'
+                : plan?.subscriptionOffers?.length
+                  ? 'footer.trial'
+                  : 'footer.subscribe',
+            )}
+            loading={subscribing}
             onPress={() => {
-              restore()
+              if (!plan) {
+                return
+              }
+
+              subscribe({
+                planId: plan.id,
+                type: plan.type,
+              })
             }}
-            style={styles.button}
           />
 
-          <Button
-            color="plum"
-            label={t('footer.redeem')}
-            loading={redeeming}
-            onPress={() => {
-              redeem()
-            }}
-            style={styles.button}
-          />
+          <View style={styles.feature}>
+            <Button
+              color="blue"
+              label={t('footer.restore')}
+              loading={restoring}
+              onPress={() => {
+                restore()
+              }}
+              style={styles.button}
+            />
+
+            <Button
+              color="plum"
+              label={t('footer.redeem')}
+              loading={redeeming}
+              onPress={() => {
+                redeem()
+              }}
+              style={styles.button}
+            />
+          </View>
         </View>
-      </View>
+      )}
     </>
   )
 }
 
 const styles = StyleSheet.create((theme, runtime) => ({
   button: {
+    flex: 1,
+  },
+  column: {
     flex: 1,
   },
   content: {
@@ -202,6 +308,9 @@ const styles = StyleSheet.create((theme, runtime) => ({
     gap: theme.space[4],
     marginHorizontal: theme.space[4],
   },
+  info: {
+    gap: theme.space[2],
+  },
   label: {
     flex: 1,
   },
@@ -213,12 +322,21 @@ const styles = StyleSheet.create((theme, runtime) => ({
     justifyContent: 'center',
     padding: theme.space[4],
   }),
+  row: {
+    flexDirection: 'row',
+    gap: theme.space[4],
+    justifyContent: 'center',
+  },
   section: {
     flex: 1,
     gap: theme.space[4],
   },
   subscribe: {
     alignSelf: 'center',
+  },
+  subscribed: {
+    gap: theme.space[6],
+    padding: theme.space[4],
   },
 }))
 
@@ -229,4 +347,5 @@ const icons = {
   4: 'broadcast',
   5: 'lock',
   6: 'person-simple-run',
+  7: 'devices',
 } as const satisfies Record<number, IconName>

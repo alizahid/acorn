@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
+import { Logo } from '~/components/common/logo'
 import { Menu } from '~/components/common/menu'
 import { AboutCard } from '~/components/settings/about'
 import { Updater } from '~/components/settings/updater'
@@ -21,6 +22,17 @@ export default function Screen() {
       <AboutCard />
 
       <Menu.Root>
+        <Menu.Button
+          arrow
+          icon={<Logo style={styles.logo} />}
+          label={t('pro')}
+          onPress={() => {
+            router.navigate({
+              pathname: '/subscribe',
+            })
+          }}
+        />
+
         <Menu.Button
           arrow
           icon={<Icon name="gear-six" />}
@@ -109,5 +121,9 @@ const styles = StyleSheet.create((theme) => ({
     gap: theme.space[8],
     paddingBottom: theme.space[4],
     paddingTop: theme.space[9],
+  },
+  logo: {
+    height: theme.space[5],
+    width: theme.space[5],
   },
 }))

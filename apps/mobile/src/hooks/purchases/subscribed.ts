@@ -2,7 +2,8 @@ import { useQuery } from '@tanstack/react-query'
 import {
   fetchProducts,
   getAvailablePurchases,
-  subscriptionStatusIOS,
+  type Purchase,
+  type PurchaseIOS,
 } from 'expo-iap'
 
 import { skus } from '~/lib/purchases'
@@ -27,28 +28,38 @@ export function useSubscribed() {
 
       const purchases = await getAvailablePurchases()
 
-      if (purchases.some((item) => productIds.includes(item.productId))) {
-        return true
-      }
-
-      const subscription = products.find((product) => product.type === 'subs')
-
-      if (!subscription) {
-        return false
-      }
-
-      const statuses = await subscriptionStatusIOS(subscription.id)
-
-      return statuses.some(
-        (status) =>
-          status.state === 'subscribed' || status.state === 'inGracePeriod',
+      const purchase = purchases.find((item) =>
+        productIds.includes(item.productId),
       )
+
+      if (purchase) {
+        const product = products.find((item) => item.id === purchase.productId)
+
+        return {
+          createdAt: purchase.transactionDate,
+          currency: product?.currency,
+          id: product?.id,
+          name: product?.title,
+          price: product?.price,
+          renewsAt: isPurchaseIOS(purchase)
+            ? purchase.renewalInfoIOS?.renewalDate
+            : null,
+          type: product?.type,
+        }
+      }
+
+      return false
     },
     queryKey: ['purchases', 'subscribed'],
   })
 
   return {
     isLoading,
-    subscribed: data,
+    subscribed: Boolean(data),
+    subscription: data,
   }
+}
+
+function isPurchaseIOS(purchase: Purchase): purchase is PurchaseIOS {
+  return purchase.store === 'apple'
 }

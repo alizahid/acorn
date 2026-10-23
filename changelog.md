@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- added: subscription management
+
 ## Build 94
 
 - added: full width content option for iPad
