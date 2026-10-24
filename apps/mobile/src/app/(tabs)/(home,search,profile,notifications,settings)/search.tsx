@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useState } from 'react'
 import { View } from 'react-native'
 import { SafeAreaView } from 'react-native-screens/experimental'
 import {
@@ -14,11 +14,9 @@ import { useShallow } from 'zustand/react/shallow'
 import { Loading } from '~/components/common/loading'
 import { SearchBox } from '~/components/common/search'
 import { SegmentedControl } from '~/components/common/segmented-control'
-import { type TextInput } from '~/components/native/text-input'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useListProps } from '~/hooks/list'
-import { useTabPress } from '~/hooks/tabs'
 import { glass } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
@@ -46,8 +44,6 @@ export default function Screen() {
     })),
   )
 
-  const search = useRef<TextInput>(null)
-
   const [sort, setSort] = useState(sortSearchPosts)
   const [interval, setInterval] = useState(intervalSearchPosts)
 
@@ -55,10 +51,6 @@ export default function Screen() {
   const [query, setQuery] = useState('')
 
   const [debounced] = useDebounce(query, 500)
-
-  useTabPress('tabPress', () => {
-    search.current?.focus()
-  })
 
   const listProps = useListProps(true)
 
@@ -126,7 +118,6 @@ export default function Screen() {
           glass
           onChange={setQuery}
           placeholder="search"
-          ref={search}
           style={styles.search}
           value={query}
         />
