@@ -6,6 +6,8 @@ import semver from 'semver'
 
 const version = semver.coerce(osVersion) ?? '0'
 
+export const demo = process.env.EXPO_PUBLIC_DEMO === 'yes'
+
 export const iPad =
   Platform.OS === 'ios' && (Platform.isPad || Platform.isMacCatalyst)
 

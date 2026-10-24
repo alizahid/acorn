@@ -13,6 +13,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { MediaMenu } from '~/components/common/media-menu'
 import { Text } from '~/components/common/text'
 import { useImageActions } from '~/hooks/image'
+import { demo } from '~/lib/common'
 import { unlockOrientation } from '~/lib/orientation'
 import { usePreferences } from '~/stores/preferences'
 import { space } from '~/styles/tokens'
@@ -119,7 +120,7 @@ export function ImageGrid({
           <Image
             accessibilityIgnoresInvertColors
             recyclingKey={recyclingKey}
-            source={image.thumbnail ?? image.url}
+            source={demo ? image.url : (image.thumbnail ?? image.url)}
             style={styles.single}
           />
         </Gallery.Image>

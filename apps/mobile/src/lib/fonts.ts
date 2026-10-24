@@ -8,9 +8,3 @@ export const fonts = {
 }
 
 export type Font = Exclude<keyof typeof fonts, 'mono'>
-
-if (process.env.EXPO_PUBLIC_DEMO === 'yes') {
-  for (const key of Object.keys(fonts)) {
-    fonts[key as Font] = 'Redacted'
-  }
-}

@@ -13,6 +13,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { useListProps } from '~/hooks/list'
 import { useCommunities } from '~/hooks/queries/communities/communities'
 import { useFeeds } from '~/hooks/queries/communities/feeds'
+import { demo } from '~/lib/common'
 import { removePrefix } from '~/lib/reddit'
 import { FeedTypeColors, FeedTypeIcons } from '~/lib/sort'
 import { useDefaults } from '~/stores/defaults'
@@ -346,6 +347,10 @@ export function CommunitiesList({
           }
 
           if (item.type === 'community') {
+            if (demo && item.community.user) {
+              return null
+            }
+
             return (
               <List.Item
                 label={item.community.name}

@@ -10,6 +10,7 @@ import {
   type FeedsQueryData,
   type FeedsQueryKey,
 } from '~/hooks/queries/communities/feeds'
+import { demo } from '~/lib/common'
 import { filterPosts } from '~/lib/filtering'
 import { isComment } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
@@ -188,6 +189,10 @@ export function usePosts({
       })
 
       return results.map((result) => result.obj)
+    }
+
+    if (demo) {
+      return items.slice(1)
     }
 
     return items

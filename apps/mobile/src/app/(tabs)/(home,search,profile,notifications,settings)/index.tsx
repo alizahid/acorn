@@ -5,6 +5,7 @@ import { useShallow } from 'zustand/react/shallow'
 import { CommunityFeed } from '~/components/feeds/community'
 import { CustomFeed } from '~/components/feeds/custom'
 import { DefaultFeed } from '~/components/feeds/default'
+import { demo } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { FeedType } from '~/types/sort'
 
@@ -40,6 +41,10 @@ export default function Screen() {
 
   if (defaults.community) {
     return <CommunityFeed name={defaults.community} />
+  }
+
+  if (demo) {
+    return <CommunityFeed name="aww" />
   }
 
   return <DefaultFeed type={defaults.feedType} />
