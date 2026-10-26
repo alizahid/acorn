@@ -135,10 +135,10 @@ const map: Record<number, ColorScale> = {
   12: 'text',
 }
 
-const blackWhiteRegex = /white|black/
-const lightRegex = /amber|lime|mint|sky|yellow/
-const mauveRegex = /crimson|pink|plum|purple|red|ruby|tomato|violet/
-const slateRegex = /blue|cyan|indigo|iris|sky/
-const sageRegex = /green|jade|mint|teal/
-const oliveRegex = /grass|lime/
-const sandRegex = /amber|brown|orange|yellow/
+const blackWhiteRegex = /white|black/u
+const lightRegex = /amber|lime|mint|sky|yellow/u
+const mauveRegex = /crimson|pink|plum|purple|red|ruby|tomato|violet/u
+const slateRegex = /blue|cyan|indigo|iris|sky/u
+const sageRegex = /green|jade|mint|teal/u
+const oliveRegex = /grass|lime/u
+const sandRegex = /amber|brown|orange|yellow/u

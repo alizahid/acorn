@@ -1,18 +1,19 @@
 import { type PostMediaMeta } from '@acorn/reddit'
 import { decode } from 'entities'
 
-const redditLinkRegex = /(?<!\S)\/?[ru]\/[A-Za-z0-9_-]+/g
-const urlRegex = /https?:\/\/\S+/g
-const videoRegex = /\/link\/[^/]+\/video\/([^/]+)/
-const mediaRegex = /!\[([^\]]*)\]\(([^\s)]+)(?:\s+"((?:[^"\\]|\\.)*)")?\)/g
-const imageSlotRegex = /\uE000(\d+)\uE000/g
-const enrichedSpoilerRegex = /\|\|(.*?)\|\|/g
+const redditLinkRegex = /(?<!\S)\/?[ru]\/[A-Za-z0-9_-]+/gu
+const urlRegex = /https?:\/\/\S+/gu
+const videoRegex = /\/link\/[^/]+\/video\/(?<id>[^/]+)/u
+const mediaRegex =
+  /!\[(?<alt>[^\]]*)\]\((?<target>[^\s)]+)(?:\s+"(?<caption>(?:[^"\\]|\\.)*)")?\)/gu
+const imageSlotRegex = /\uE000(?<index>\d+)\uE000/gu
+const enrichedSpoilerRegex = /\|\|(?<content>.*?)\|\|/gu
 const giphyRegex =
-  /!\[((?:[^\]\\]|\\.)*)\]\(giphy\|([a-zA-Z0-9]+)(?:\|([a-zA-Z0-9]+))?\)/g
-const escapedPunctuationRegex = /\\(?=[!-/:-@[-`{-~])/g
-const escapedQuoteRegex = /\\"/g
-const altSpecialCharsRegex = /[[\]\\]/g
-const regexSpecialCharsRegex = /[.*+?^${}()|[\]\\]/g
+  /!\[(?<alt>(?:[^\]\\]|\\.)*)\]\(giphy\|(?<id>[a-zA-Z0-9]+)(?:\|(?<type>[a-zA-Z0-9]+))?\)/gu
+const escapedPunctuationRegex = /\\(?=[!-/:-@[-`{-~])/gu
+const escapedQuoteRegex = /\\"/gu
+const altSpecialCharsRegex = /[[\]\\]/gu
+const regexSpecialCharsRegex = /[.*+?^${}()|[\]\\]/gu
 
 const placeholderAlts = ['gif', 'img', 'video']
 
@@ -60,7 +61,7 @@ export function transformMarkdown(markdown: string | null) {
 
 export function prepareMarkdown(markdown: string) {
   return markdown
-    .replace(enrichedSpoilerRegex, '>!$1!<')
+    .replace(enrichedSpoilerRegex, '>!$<content>!<')
     .replace(
       redditLinkRegex,
       (name) =>
@@ -97,10 +98,10 @@ export function mergeMetaMarkdown(markdown: string, meta?: PostMediaMeta) {
   for (const [id, media] of Object.entries(meta)) {
     merged = merged.replace(
       new RegExp(
-        `(!\\[(?:[^\\]\\\\]|\\\\.)*\\])\\(${escapeRegex(id)}(\\s+"[^"]*")?\\)`,
-        'g',
+        `(?<alt>!\\[(?:[^\\]\\\\]|\\\\.)*\\])\\(${escapeRegex(id)}(?<caption>\\s+"[^"]*")?\\)`,
+        'gu',
       ),
-      `$1(${media.thumbnail ?? media.url}$2)`,
+      `$<alt>(${media.thumbnail ?? media.url}$<caption>)`,
     )
   }
 

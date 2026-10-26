@@ -4,7 +4,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { queryClient } from '~/lib/query'
-import { Store } from '~/lib/store'
+import { store } from '~/lib/store'
 
 const AUTH_KEY = 'auth-0'
 
@@ -95,7 +95,7 @@ export const useAuth = create<State>()(
     }),
     {
       name: AUTH_KEY,
-      storage: new Store(),
+      storage: store,
     },
   ),
 )

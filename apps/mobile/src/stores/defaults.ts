@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-import { Store } from '~/lib/store'
+import { store } from '~/lib/store'
 import { type DrawerSections, type SearchTabs } from '~/types/defaults'
 import { type FeedType } from '~/types/sort'
 
@@ -57,7 +57,7 @@ export const useDefaults = create<State>()(
     }),
     {
       name: DEFAULTS_KEY,
-      storage: new Store(),
+      storage: store,
     },
   ),
 )

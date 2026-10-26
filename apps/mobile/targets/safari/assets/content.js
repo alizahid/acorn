@@ -41,7 +41,7 @@ function check() {
 }
 
 const linkRegex =
-  /^(?:https?:\/\/)?(?:www\.|amp\.|i\.|old\.)?reddit\.com\/(?:user\/([^/]+)(?:\/m\/([^/]+)|\/comments\/([^/]+)(?:\/comment\/([^/]+))?(?:\/\?context=(\d+))?)?|r\/([^/]+)(?:\/comments\/([^/]+)(?:\/[^/]+(?:\/([^/]+))?(?:\/\?context=(\d+))?)?|\/s\/([^/]+)(?:\?context=(\d+))?|\/wiki\/([^/]+))?|live\/([^/]+)(?:\?context=(\d+))?)/i
+  /^(?:https?:\/\/)?(?:www\.|amp\.|i\.|old\.)?reddit\.com\/(?:user\/(?<user>[^/]+)(?:\/m\/(?<feed>[^/]+)|\/comments\/(?<userPostId>[^/]+)(?:\/comment\/(?<userCommentId>[^/]+))?(?:\/\?context=(?<userContext>\d+))?)?|r\/(?<community>[^/]+)(?:\/comments\/(?<communityPostId>[^/]+)(?:\/[^/]+(?:\/(?<communityCommentId>[^/]+))?(?:\/\?context=(?<communityContext>\d+))?)?|\/s\/(?<shareId>[^/]+)(?:\?context=(?<shareContext>\d+))?|\/wiki\/(?<wiki>[^/]+))?|live\/(?<liveId>[^/]+)(?:\?context=(?<liveContext>\d+))?)/iu
 
 function parseLink(url) {
   const match = url.match(linkRegex)
@@ -50,8 +50,7 @@ function parseLink(url) {
     return null
   }
 
-  const [
-    ,
+  const {
     user,
     feed,
     userPostId,
@@ -66,7 +65,7 @@ function parseLink(url) {
     wiki,
     liveId,
     liveContext,
-  ] = match
+  } = match.groups
 
   return {
     commentId: userCommentId || communityCommentId,

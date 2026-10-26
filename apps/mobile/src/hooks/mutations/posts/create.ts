@@ -244,8 +244,8 @@ function generateSchema(t: Translate, submission: Submission) {
 
 const TITLE_MAX = 300
 
-const imageHostRegex = /reddit-uploaded-media.s3-accelerate.amazonaws.com/
-const videoHostRegex = /reddit-uploaded-video.s3-accelerate.amazonaws.com/
+const imageHostRegex = /reddit-uploaded-media.s3-accelerate.amazonaws.com/u
+const videoHostRegex = /reddit-uploaded-video.s3-accelerate.amazonaws.com/u
 
 function upload(hostname: RegExp, error: string, required?: string) {
   return z.object(
@@ -268,6 +268,7 @@ function withContentRules(
 ) {
   const patterns = rules.patterns.flatMap((pattern) => {
     try {
+      // biome-ignore lint/style/useUnicodeRegex: subreddit patterns from Reddit may be invalid in unicode mode
       return [new RegExp(pattern)]
     } catch {
       return []

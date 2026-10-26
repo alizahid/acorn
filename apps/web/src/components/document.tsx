@@ -27,7 +27,7 @@ const tags = Object.fromEntries(
     key,
     (text: ReactNode) => (
       <Link
-        className="rounded-sm text-accent-11 outline-offset-4 hover:text-accent-12 focus-visible:outline-2 focus-visible:outline-accent-a7"
+        className="text-accent-11 hover:text-accent-12 focus-visible:outline-accent-a7 rounded-sm outline-offset-4 focus-visible:outline-2"
         href={href}
       >
         {text}
@@ -57,7 +57,7 @@ export function Document({ page }: Props) {
           <Logo className="size-24" />
         </Link>
 
-        <h1 className="font-bold text-6xl text-accent-a9">{t('header')}</h1>
+        <h1 className="text-accent-a9 text-6xl font-bold">{t('header')}</h1>
 
         <p className="text-gray-11 text-sm">{t('updated')}</p>
       </header>
@@ -67,7 +67,7 @@ export function Document({ page }: Props) {
           className="flex w-full max-w-xl flex-col gap-4"
           key={section.title}
         >
-          <h2 className="font-medium text-3xl text-accent-11">
+          <h2 className="text-accent-11 text-3xl font-medium">
             {section.title}
           </h2>
 

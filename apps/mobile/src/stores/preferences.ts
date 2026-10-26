@@ -3,7 +3,7 @@ import { persist } from 'zustand/middleware'
 
 import { type FloatingButtonSide } from '~/components/common/floating-button'
 import { type Font } from '~/lib/fonts'
-import { Store } from '~/lib/store'
+import { store } from '~/lib/store'
 import { type Theme } from '~/styles/themes'
 import { type TypographyToken } from '~/styles/tokens'
 import {
@@ -164,7 +164,7 @@ export const usePreferences = create<State>()(
     }),
     {
       name: PREFERENCES_KEY,
-      storage: new Store(),
+      storage: store,
     },
   ),
 )

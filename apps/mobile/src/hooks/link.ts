@@ -182,7 +182,7 @@ export function useLink() {
 // 'https://www.reddit.com/r/acornblue/comments/1gdy1c4/join_us_on_discord/mh8vxwr/', // community:acornblue, postId:1gdy1c4, commentId:mh8vxwr, context:3
 
 const linkRegex =
-  /^(?:https?:\/\/)?(?:www\.|amp\.|i\.|old\.)?reddit\.com\/(?:user\/([^/]+)(?:\/m\/([^/]+)|\/comments\/([^/]+)(?:\/comment\/([^/]+))?(?:\/\?context=(\d+))?)?|r\/([^/]+)(?:\/comments\/([^/]+)(?:\/[^/]+(?:\/([^/]+))?(?:\/\?context=(\d+))?)?|\/s\/([^/]+)(?:\?context=(\d+))?|\/wiki\/([^/]+))?|live\/([^/]+)(?:\?context=(\d+))?)/i
+  /^(?:https?:\/\/)?(?:www\.|amp\.|i\.|old\.)?reddit\.com\/(?:user\/(?<user>[^/]+)(?:\/m\/(?<feed>[^/]+)|\/comments\/(?<userPostId>[^/]+)(?:\/comment\/(?<userCommentId>[^/]+))?(?:\/\?context=(?<userContext>\d+))?)?|r\/(?<community>[^/]+)(?:\/comments\/(?<communityPostId>[^/]+)(?:\/[^/]+(?:\/(?<communityCommentId>[^/]+))?(?:\/\?context=(?<communityContext>\d+))?)?|\/s\/(?<shareId>[^/]+)(?:\?context=(?<shareContext>\d+))?|\/wiki\/(?<wiki>[^/]+))?|live\/(?<liveId>[^/]+)(?:\?context=(?<liveContext>\d+))?)/iu
 
 function parseLink(url: string): Nullable<{
   commentId?: string
@@ -201,8 +201,7 @@ function parseLink(url: string): Nullable<{
     return null
   }
 
-  const [
-    ,
+  const {
     user,
     feed,
     userPostId,
@@ -217,7 +216,7 @@ function parseLink(url: string): Nullable<{
     wiki,
     liveId,
     liveContext,
-  ] = match
+  } = match.groups ?? {}
 
   return {
     commentId: userCommentId ?? communityCommentId,

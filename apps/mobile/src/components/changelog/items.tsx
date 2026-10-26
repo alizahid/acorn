@@ -7,7 +7,7 @@ import { type ColorToken } from '~/styles/tokens'
 import { Text } from '../common/text'
 import { type ChangelogType } from './changelog'
 
-const boldRegex = /\*(.+?)\*/
+const boldRegex = /\*(?<bold>.+?)\*/u
 
 type Props = {
   items: Array<string>

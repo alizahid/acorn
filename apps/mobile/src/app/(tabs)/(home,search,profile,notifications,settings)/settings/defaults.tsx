@@ -107,10 +107,7 @@ export default function Screen() {
                     disabled={disabled}
                     label={t(`searchTabs.${item.key}`)}
                     onChange={(value) => {
-                      if (
-                        !value &&
-                        searchTabs.filter((tab) => tab.disabled).length >= 1
-                      ) {
+                      if (!value && searchTabs.some((tab) => tab.disabled)) {
                         return
                       }
 

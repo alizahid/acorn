@@ -2,7 +2,7 @@ import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
 import { type GestureAction } from '~/components/common/gestures'
-import { Store } from '~/lib/store'
+import { store } from '~/lib/store'
 
 const GESTURES_KEY = 'gestures-0'
 
@@ -46,7 +46,7 @@ export const useGestures = create<State>()(
     }),
     {
       name: GESTURES_KEY,
-      storage: new Store(),
+      storage: store,
     },
   ),
 )

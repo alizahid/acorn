@@ -36,11 +36,11 @@ export default function Page() {
       <header className="flex flex-col items-center gap-2">
         <Logo className="size-24" />
 
-        <h1 className="font-bold text-6xl text-accent-a9">
+        <h1 className="text-accent-a9 text-6xl font-bold">
           {t('header.title')}
         </h1>
 
-        <p className="font-medium text-gray-a11">{t('header.description')}</p>
+        <p className="text-gray-a11 font-medium">{t('header.description')}</p>
       </header>
 
       <section className="flex flex-col gap-6 lg:flex-row">
@@ -77,21 +77,21 @@ export default function Page() {
         </p>
 
         <Link
-          className="rounded-sm text-accent-11 outline-offset-4 hover:text-accent-12 focus-visible:outline-2 focus-visible:outline-accent-a7"
+          className="text-accent-11 hover:text-accent-12 focus-visible:outline-accent-a7 rounded-sm outline-offset-4 focus-visible:outline-2"
           href="/faq"
         >
           {t('footer.faq')}
         </Link>
 
         <Link
-          className="rounded-sm text-accent-11 outline-offset-4 hover:text-accent-12 focus-visible:outline-2 focus-visible:outline-accent-a7"
+          className="text-accent-11 hover:text-accent-12 focus-visible:outline-accent-a7 rounded-sm outline-offset-4 focus-visible:outline-2"
           href="/privacy"
         >
           {t('footer.privacy')}
         </Link>
 
         <Link
-          className="rounded-sm text-accent-11 outline-offset-4 hover:text-accent-12 focus-visible:outline-2 focus-visible:outline-accent-a7"
+          className="text-accent-11 hover:text-accent-12 focus-visible:outline-accent-a7 rounded-sm outline-offset-4 focus-visible:outline-2"
           href="/terms"
         >
           {t('footer.terms')}
