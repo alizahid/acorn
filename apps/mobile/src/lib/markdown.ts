@@ -96,6 +96,18 @@ export function mergeMetaMarkdown(markdown: string, meta?: PostMediaMeta) {
   }
 
   for (const [id, media] of Object.entries(meta)) {
+    if (media.type === 'video') {
+      merged = merged.replace(
+        new RegExp(
+          `!\\[(?:[^\\]\\\\]|\\\\.)*\\]\\(${escapeRegex(id)}(?:\\s+"[^"]*")?\\)`,
+          'gu',
+        ),
+        `<video src="${media.url}" />`,
+      )
+
+      continue
+    }
+
     merged = merged.replace(
       new RegExp(
         `(?<alt>!\\[(?:[^\\]\\\\]|\\\\.)*\\])\\(${escapeRegex(id)}(?<caption>\\s+"[^"]*")?\\)`,

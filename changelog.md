@@ -4,6 +4,7 @@
 
 - added: hiding a comment also hides its replies
 - added: subscription management
+- fixed: inline videos
 
 ## Build 94
 

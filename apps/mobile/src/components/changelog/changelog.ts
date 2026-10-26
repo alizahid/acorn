@@ -17,6 +17,7 @@ export const changelog: Changelog = [
       'Hiding a comment will also hide its replies',
     ],
     build: 95,
+    fixed: ['Inline videos should work again'],
   },
   {
     added: [
