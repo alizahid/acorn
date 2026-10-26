@@ -14,6 +14,7 @@ export const changelog: Changelog = [
   {
     added: [
       'You can now manage your Acorn subscription from the *Settings* tab',
+      'Hiding a comment will also hide its replies',
     ],
     build: 95,
   },

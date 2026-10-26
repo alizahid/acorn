@@ -75,11 +75,24 @@ export function useHide() {
 
       if (variables.type === 'comment') {
         updatePost(variables.postId, (draft) => {
-          const index = draft.comments.findIndex(
+          const start = draft.comments.findIndex(
             (comment) => comment.data.id === variables.id,
           )
 
-          draft.comments.splice(index, 1)
+          const depth = draft.comments[start]?.data.depth
+
+          if (depth === undefined) {
+            return
+          }
+
+          const end = draft.comments.findIndex(
+            (comment, index) => index > start && comment.data.depth <= depth,
+          )
+
+          draft.comments.splice(
+            start,
+            (end < 0 ? draft.comments.length : end) - start,
+          )
         })
       }
 
