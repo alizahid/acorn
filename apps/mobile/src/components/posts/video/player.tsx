@@ -93,7 +93,8 @@ export function VideoPlayer({
 
   const player = useRef<VideoViewRef>(null)
 
-  const initialMuted = feedMuted || compact || nsfw || spoiler
+  const initialMuted =
+    feedMuted || compact || (blurNsfw && nsfw) || (blurSpoiler && spoiler)
 
   const [status, setStatus] = useRecyclingState<PlaybackStatus>('loading', [
     recyclingKey,
