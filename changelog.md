@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 95
 
 - added: headings and lists to post / comment editor
 - added: hiding a comment also hides its replies
