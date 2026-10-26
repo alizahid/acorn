@@ -1,30 +1,27 @@
 import { useQuery } from '@tanstack/react-query'
 import {
-  fetchProducts,
   getAvailablePurchases,
   type Purchase,
   type PurchaseIOS,
 } from 'expo-iap'
 
-import { skus } from '~/lib/purchases'
+import { usePlans } from './plans'
 
 export function useSubscribed() {
+  const { plans } = usePlans()
+
   const { isLoading, data } = useQuery({
+    enabled: Boolean(plans),
     async queryFn() {
       if (__DEV__) {
+        return false
+      }
+
+      if (!plans?.length) {
         return true
       }
 
-      const products = await fetchProducts({
-        skus,
-        type: 'all',
-      })
-
-      if (!products?.length) {
-        return true
-      }
-
-      const productIds = products.map((product) => product.id)
+      const productIds = plans.map((product) => product.id)
 
       const purchases = await getAvailablePurchases()
 
@@ -33,7 +30,7 @@ export function useSubscribed() {
       )
 
       if (purchase) {
-        const product = products.find((item) => item.id === purchase.productId)
+        const product = plans.find((item) => item.id === purchase.productId)
 
         return {
           createdAt: purchase.transactionDate,
