@@ -43,6 +43,7 @@ export default function Screen() {
     infiniteScrolling,
     linkBrowser,
     minimizeTabBar,
+    nsfwSearch,
     oldReddit,
     perforatedCutoff,
     pictureInPicture,
@@ -85,6 +86,7 @@ export default function Screen() {
       infiniteScrolling: state.infiniteScrolling,
       linkBrowser: state.linkBrowser,
       minimizeTabBar: state.minimizeTabBar,
+      nsfwSearch: state.nsfwSearch,
       oldReddit: state.oldReddit,
       perforatedCutoff: state.perforatedCutoff,
       pictureInPicture: state.pictureInPicture,
@@ -283,6 +285,17 @@ export default function Screen() {
             )}
           />
         )}
+
+        <Menu.Switch
+          icon={<Icon name="eye-slash" />}
+          label={t('browsing.nsfwSearch')}
+          onChange={(next) => {
+            update({
+              nsfwSearch: next,
+            })
+          }}
+          value={nsfwSearch}
+        />
 
         <Menu.Separator />
 

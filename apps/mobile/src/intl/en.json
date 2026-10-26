@@ -733,6 +733,7 @@
           "fullWidth": "Full width content",
           "infiniteScrolling": "Infinite scrolling",
           "minimizeTabBar": "Minimize tab bar",
+          "nsfwSearch": "Allow NSFW search results",
           "oldReddit": "Use old Reddit links",
           "privateScreenshots": "Hide interactions for screenshots",
           "refreshInterval": {

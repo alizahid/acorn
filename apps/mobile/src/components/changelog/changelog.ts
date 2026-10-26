@@ -12,6 +12,10 @@ export type Changelog = Array<
 
 export const changelog: Changelog = [
   {
+    added: ['*NSFW search* option added'],
+    build: 96,
+  },
+  {
     added: [
       'You can now manage your Acorn subscription from the *Settings* tab',
       'Hiding a comment will also hide its replies',
@@ -20,8 +24,8 @@ export const changelog: Changelog = [
     ],
     build: 95,
     changed: [
-      'Hide seen posts option removed from paywall',
-      'Sorting options removed from paywall',
+      '*Hide seen posts* option removed from paywall',
+      '*Sorting* options removed from paywall',
     ],
     fixed: [
       'Inline videos should work again',
@@ -35,11 +39,11 @@ export const changelog: Changelog = [
     ],
     build: 94,
     changed: [
-      'High contrast background option removed from paywall',
-      'Mark as seen on vote option removed from paywall',
-      'Mark as seen when viewing media option removed from paywall',
-      'Mark as seen while scrolling option removed from paywall',
-      'Video downloading added behind paywall',
+      '*High contrast background* option removed from paywall',
+      '*Mark as seen on vote* option removed from paywall',
+      '*Mark as seen when viewing media* option removed from paywall',
+      '*Mark as seen while scrolling* option removed from paywall',
+      '*Video downloading* added behind paywall',
     ],
     fixed: [
       'Touchable things like buttons will now show the feedback by lowering the opacity',

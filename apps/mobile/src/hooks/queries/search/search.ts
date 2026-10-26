@@ -1,4 +1,9 @@
-import { type Community, type Post, type User } from '@acorn/reddit'
+import {
+  type Community,
+  type Post,
+  type SearchInput,
+  type User,
+} from '@acorn/reddit'
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import { uniqBy } from 'lodash'
 import { create, type Draft } from 'mutative'
@@ -9,6 +14,7 @@ import { filterCommunities, filterPosts, filterUsers } from '~/lib/filtering'
 import { queryClient } from '~/lib/query'
 import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
+import { usePreferences } from '~/stores/preferences'
 import { type Undefined } from '~/types'
 import { type SearchTab } from '~/types/defaults'
 import { type SearchSort, type TopInterval } from '~/types/sort'
@@ -65,6 +71,12 @@ export function useSearch<Type extends SearchTab>({
     })),
   )
 
+  const { nsfwSearch } = usePreferences(
+    useShallow((state) => ({
+      nsfwSearch: state.nsfwSearch,
+    })),
+  )
+
   const {
     data,
     fetchNextPage,
@@ -87,9 +99,10 @@ export function useSearch<Type extends SearchTab>({
     async queryFn({ pageParam }) {
       const reddit = await createApi()
 
-      const input = {
+      const input: SearchInput = {
         after: pageParam ?? undefined,
         community,
+        nsfw: nsfwSearch,
         query,
       }
 

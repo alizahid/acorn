@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- added: NSFW search results option
+
 ## Build 95
 
 - added: headings and lists to post / comment editor

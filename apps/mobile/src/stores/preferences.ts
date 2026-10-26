@@ -59,6 +59,7 @@ export type PreferencesPayload = {
   linkBrowser: boolean
   mediaOnRight: boolean
   minimizeTabBar: boolean
+  nsfwSearch: boolean
   oldReddit: boolean
   perforatedCutoff: boolean
   pictureInPicture: boolean
@@ -133,6 +134,7 @@ export const usePreferences = create<State>()(
       linkBrowser: true,
       mediaOnRight: true,
       minimizeTabBar: false,
+      nsfwSearch: false,
       oldReddit: false,
       perforatedCutoff: true,
       pictureInPicture: false,
