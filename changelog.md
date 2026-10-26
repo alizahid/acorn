@@ -6,6 +6,7 @@
 - added: hiding a comment also hides its replies
 - added: separate lists for saved posts and comments
 - added: subscription management
+- fixed: eager listification
 - fixed: inline videos
 
 ## Build 94

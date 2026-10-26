@@ -19,7 +19,10 @@ export const changelog: Changelog = [
       'Post and comment editor now have support for headings and lists',
     ],
     build: 95,
-    fixed: ['Inline videos should work again'],
+    fixed: [
+      'Inline videos should work again',
+      'Text that starts with a number will not be eagerly turned into a list',
+    ],
   },
   {
     added: [

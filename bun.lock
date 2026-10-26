@@ -84,7 +84,7 @@
         "react-native-enriched-markdown": "^1.1.1",
         "react-native-gesture-handler": "~3.3.0",
         "react-native-jet-gallery": "^1.1.1",
-        "react-native-jet-markdown": "^1.2.0",
+        "react-native-jet-markdown": "^1.3.0",
         "react-native-jet-video": "^1.2.0",
         "react-native-keyboard-controller": "1.22.7",
         "react-native-mmkv": "^4.3.2",
@@ -1681,7 +1681,7 @@
 
     "react-native-jet-gallery": ["react-native-jet-gallery@1.1.1", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-gesture-handler": "*", "react-native-nitro-modules": "*" } }, "sha512-Qh0OeXQwiotsTVmgE599svMz14AhLNET31c2rIU2VkRmKpgawkSWSgeMn9GecFv0z9a7ibtrmFess+FYZ4DuvA=="],
 
-    "react-native-jet-markdown": ["react-native-jet-markdown@1.2.0", "", { "peerDependencies": { "react": ">=19.0.0", "react-native": ">=0.86.0" } }, "sha512-Mt0MRymi92D624T7G8a+5ZjCjJqAuvsB6ain9PlXX7+QyX63vPlRaUFjNawAweDYcmHPNtDh9ShBpiPAazAMvA=="],
+    "react-native-jet-markdown": ["react-native-jet-markdown@1.3.0", "", { "peerDependencies": { "react": ">=19.0.0", "react-native": ">=0.86.0" } }, "sha512-E/rYwKTLKHZeXf7MoqRQD5hQYY2gs2sv3Dd4VrdI/r0Hxokr5H8AyG8OinNV2d7pEkbgUJLfDnHGO+DROC8Waw=="],
 
     "react-native-jet-video": ["react-native-jet-video@1.2.0", "", { "peerDependencies": { "react": "*", "react-native": "*", "react-native-nitro-modules": ">=0.37.0" } }, "sha512-9hCDdKokj2vytLXat2oE143yxDaIHhILZnQjQVmx2rmTOMhrFY3szETz6fbMSFnXp1QG5ch1xwsXzXKqBjaomQ=="],
 
