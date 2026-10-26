@@ -52,6 +52,7 @@ export function EditorRoot({
 const styles = StyleSheet.create((theme) => ({
   main: (font: Font, scaling: number) => ({
     color: theme.colors.gray.text,
+    flex: 1,
     fontFamily: fonts[font],
     fontSize: theme.typography[3].fontSize * scaling,
     lineHeight: theme.typography[3].lineHeight * scaling,

@@ -1,0 +1,10 @@
+<svg
+  height="32"
+  viewBox="0 0 256 256"
+  width="32"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="m212 56v144a12 12 0 0 1 -24 0v-60h-120v60a12 12 0 0 1 -24 0v-144a12 12 0 0 1 24 0v60h120v-60a12 12 0 0 1 24 0z"
+  />
+</svg>

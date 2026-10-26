@@ -9,12 +9,17 @@ export const MarkdownEditor = withUnistyles(
   (theme) => ({
     cursorColor: theme.colors.accent.accent,
     markdownStyle: {
+      h1: {
+        ...theme.typography[6],
+        color: theme.colors.gray.text,
+        fontWeight: '700',
+      },
       link: {
         color: theme.colors.accent.accent,
       },
       spoiler: {
-        backgroundColor: theme.colors.accent.border,
-        color: theme.colors.accent.text,
+        backgroundColor: theme.colors.red.border,
+        color: theme.colors.red.text,
       },
     },
     placeholderTextColor: theme.colors.gray.accent,

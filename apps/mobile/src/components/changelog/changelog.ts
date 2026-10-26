@@ -16,6 +16,7 @@ export const changelog: Changelog = [
       'You can now manage your Acorn subscription from the *Settings* tab',
       'Hiding a comment will also hide its replies',
       'Separate lists for saved posts and comments',
+      'Post and comment editor now have support for headings and lists',
     ],
     build: 95,
     fixed: ['Inline videos should work again'],

@@ -1,0 +1,10 @@
+<svg
+  height="32"
+  viewBox="0 0 256 256"
+  width="32"
+  xmlns="http://www.w3.org/2000/svg"
+>
+  <path
+    d="m208 56v144a8 8 0 0 1 -16 0v-64h-128v64a8 8 0 0 1 -16 0v-144a8 8 0 0 1 16 0v64h128v-64a8 8 0 0 1 16 0z"
+  />
+</svg>

@@ -2,6 +2,7 @@
 
 ## Upcoming
 
+- added: headings and lists to post / comment editor
 - added: hiding a comment also hides its replies
 - added: separate lists for saved posts and comments
 - added: subscription management

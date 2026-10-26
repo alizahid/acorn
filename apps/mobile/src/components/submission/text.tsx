@@ -34,7 +34,7 @@ export function SubmissionText() {
         control={form.control}
         name="text"
         render={({ field, fieldState }) => (
-          <View style={styles.main}>
+          <View style={styles.editor}>
             {fieldState.error ? (
               <Text accent color="red" mt="2" mx="4" size="2">
                 {fieldState.error.message}
@@ -64,9 +64,6 @@ export function SubmissionText() {
 
 const styles = StyleSheet.create((theme) => ({
   editor: {
-    flex: 1,
-  },
-  main: {
     flex: 1,
   },
   toolBar: {
