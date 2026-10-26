@@ -1,17 +1,8 @@
-import { Stack, useLocalSearchParams } from 'expo-router'
-import { useState } from 'react'
-import { View } from 'react-native'
-import { StyleSheet } from 'react-native-unistyles'
-import { useDebounce } from 'use-debounce'
+import { useLocalSearchParams } from 'expo-router'
 import { z } from 'zod'
-import { useShallow } from 'zustand/react/shallow'
 
-import { SearchBox } from '~/components/common/search'
-import { PostList } from '~/components/posts/list'
-import { SortIntervalMenu } from '~/components/posts/sort-interval'
-import { useListProps } from '~/hooks/list'
-import { glass } from '~/lib/common'
-import { usePreferences } from '~/stores/preferences'
+import { UserPostsList } from '~/components/users/posts'
+import { UserSavedList } from '~/components/users/saved'
 import { UserFeedType } from '~/types/user'
 
 const schema = z.object({
@@ -24,65 +15,9 @@ export type UserPostsParams = z.infer<typeof schema>
 export default function Screen() {
   const params = schema.parse(useLocalSearchParams())
 
-  const { intervalUserPosts, sortUserPosts } = usePreferences(
-    useShallow((state) => ({
-      intervalUserPosts: state.intervalUserPosts,
-      sortUserPosts: state.sortUserPosts,
-    })),
-  )
+  if (params.type === 'saved') {
+    return <UserSavedList name={params.name} />
+  }
 
-  const [sort, setSort] = useState(sortUserPosts)
-  const [interval, setInterval] = useState(intervalUserPosts)
-  const [query, setQuery] = useState('')
-
-  const [debounced] = useDebounce(query, 500)
-
-  const listProps = useListProps(true)
-
-  return (
-    <>
-      <Stack.Toolbar placement="right">
-        <Stack.Toolbar.View>
-          <SortIntervalMenu
-            interval={interval}
-            onChange={(next) => {
-              setSort(next.sort)
-
-              if (next.interval) {
-                setInterval(next.interval)
-              }
-            }}
-            sort={sort}
-            style={styles.sort}
-            type="user"
-          />
-        </Stack.Toolbar.View>
-      </Stack.Toolbar>
-
-      <PostList
-        header={
-          <View style={styles.header}>
-            <SearchBox onChange={setQuery} value={query} />
-          </View>
-        }
-        interval={interval}
-        listProps={listProps}
-        query={debounced}
-        sort={sort}
-        user={params.name}
-        userType={params.type}
-      />
-    </>
-  )
+  return <UserPostsList name={params.name} type={params.type} />
 }
-
-const styles = StyleSheet.create((theme) => ({
-  header: {
-    borderBottomColor: theme.colors.gray.border,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-  },
-  sort: {
-    gap: theme.space[1],
-    paddingHorizontal: glass ? theme.space[1] : 0,
-  },
-}))

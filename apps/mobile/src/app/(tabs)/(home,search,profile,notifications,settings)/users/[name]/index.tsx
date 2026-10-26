@@ -39,6 +39,8 @@ const routes = UserTab.map((key) => ({
   title: key,
 }))
 
+type Route = (typeof routes)[number]
+
 export default function Screen() {
   const router = useRouter()
   const params = schema.parse(useLocalSearchParams())
@@ -87,10 +89,7 @@ export default function Screen() {
     ({
       route,
     }: SceneRendererProps & {
-      route: {
-        key: 'posts' | 'comments'
-        title: 'posts' | 'comments'
-      }
+      route: Route
     }) => {
       if (route.key === 'posts') {
         return (
@@ -158,10 +157,7 @@ export default function Screen() {
       jumpTo,
       navigationState,
     }: SceneRendererProps & {
-      navigationState: NavigationState<{
-        key: 'posts' | 'comments'
-        title: 'posts' | 'comments'
-      }>
+      navigationState: NavigationState<Route>
     }) => (
       <View style={styles.tabBar}>
         <SegmentedControl

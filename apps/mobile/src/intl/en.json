@@ -461,6 +461,10 @@
         "karma": "Karma",
         "post": "Post"
       },
+      "saved": {
+        "comments": "Comments",
+        "posts": "Posts"
+      },
       "search": {
         "placeholder": "Filter"
       },

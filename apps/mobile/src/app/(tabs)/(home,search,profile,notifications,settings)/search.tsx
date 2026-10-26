@@ -20,7 +20,6 @@ import { useListProps } from '~/hooks/list'
 import { glass } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
-import { type SearchTab } from '~/types/defaults'
 
 const routes = useDefaults
   .getState()
@@ -29,6 +28,8 @@ const routes = useDefaults
     key,
     title: key,
   }))
+
+type Route = (typeof routes)[number]
 
 export default function Screen() {
   const t = useTranslations('screen.search')
@@ -64,10 +65,7 @@ export default function Screen() {
     ({
       route,
     }: SceneRendererProps & {
-      route: {
-        key: SearchTab
-        title: SearchTab
-      }
+      route: Route
     }) => {
       if (route.key === 'post') {
         return (
@@ -108,10 +106,7 @@ export default function Screen() {
       jumpTo,
       navigationState,
     }: SceneRendererProps & {
-      navigationState: NavigationState<{
-        key: SearchTab
-        title: SearchTab
-      }>
+      navigationState: NavigationState<Route>
     }) => (
       <View style={styles.tabBar}>
         <SearchBox

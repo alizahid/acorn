@@ -9,6 +9,11 @@ export const UserFeedType = [
 
 export type UserFeedType = (typeof UserFeedType)[number]
 
+export type UserPostsType =
+  | Exclude<UserFeedType, 'saved'>
+  | 'savedPosts'
+  | 'savedComments'
+
 export const UserTab = ['posts', 'comments'] as const
 
 export type UserTab = (typeof UserTab)[number]

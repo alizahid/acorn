@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: hiding a comment also hides its replies
+- added: separate lists for saved posts and comments
 - added: subscription management
 - fixed: inline videos
 

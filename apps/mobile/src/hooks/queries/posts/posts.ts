@@ -1,4 +1,4 @@
-import { type Comment, type Post, type Reddit } from '@acorn/reddit'
+import { type Comment, type Post } from '@acorn/reddit'
 import { type InfiniteData, useInfiniteQuery } from '@tanstack/react-query'
 import fuzzysort from 'fuzzysort'
 import { uniqBy } from 'lodash'
@@ -23,7 +23,7 @@ import {
   type TopInterval,
   type UserFeedSort,
 } from '~/types/sort'
-import { type UserFeedType } from '~/types/user'
+import { type UserPostsType } from '~/types/user'
 
 type Param = string | undefined | null
 
@@ -41,7 +41,7 @@ export type PostsQueryKey = [
     interval?: TopInterval
     sort?: PostSort
     user?: string
-    userType?: UserFeedType
+    userType?: UserPostsType
   },
 ]
 
@@ -54,7 +54,7 @@ export type PostsProps = {
   query?: string
   sort: PostSort
   user?: string
-  userType?: UserFeedType
+  userType?: UserPostsType
 }
 
 export function usePosts({
@@ -100,8 +100,12 @@ export function usePosts({
           time,
         }
 
-        if (userType === 'comments') {
-          const { comments, cursor } = await reddit.comments.user(input)
+        if (userType === 'comments' || userType === 'savedComments') {
+          const { comments, cursor } = await (userType === 'savedComments'
+            ? reddit.comments.saved({
+                after,
+              })
+            : reddit.comments.user(input))
 
           return {
             cursor,
@@ -109,23 +113,23 @@ export function usePosts({
           }
         }
 
-        if (userType === 'saved') {
-          return fetchSaved(reddit, pageParam)
-        }
-
-        const { cursor, posts } = await (userType === 'upvoted'
-          ? reddit.feeds.upvoted({
+        const { cursor, posts } = await (userType === 'savedPosts'
+          ? reddit.feeds.saved({
               after,
             })
-          : userType === 'downvoted'
-            ? reddit.feeds.downvoted({
+          : userType === 'upvoted'
+            ? reddit.feeds.upvoted({
                 after,
               })
-            : userType === 'hidden'
-              ? reddit.feeds.hidden({
+            : userType === 'downvoted'
+              ? reddit.feeds.downvoted({
                   after,
                 })
-              : reddit.feeds.user(input))
+              : userType === 'hidden'
+                ? reddit.feeds.hidden({
+                    after,
+                  })
+                : reddit.feeds.user(input))
 
         return {
           cursor,
@@ -205,38 +209,6 @@ export function usePosts({
     isLoading,
     posts,
     refetch,
-  }
-}
-
-async function fetchSaved(reddit: Reddit, param: Param): Promise<Page> {
-  const cursors: Record<'comments' | 'posts', string | null | undefined> = param
-    ? JSON.parse(param)
-    : {}
-
-  const [posts, comments] = await Promise.all([
-    cursors.posts === null
-      ? null
-      : reddit.feeds.saved({
-          after: cursors.posts,
-        }),
-    cursors.comments === null
-      ? null
-      : reddit.comments.saved({
-          after: cursors.comments,
-        }),
-  ])
-
-  const next = {
-    comments: comments?.cursor ?? null,
-    posts: posts?.cursor ?? null,
-  }
-
-  return {
-    cursor: next.comments || next.posts ? JSON.stringify(next) : null,
-    posts: [
-      ...(await filterPosts(posts?.posts ?? [], false)),
-      ...(comments?.comments ?? []),
-    ],
   }
 }
 
