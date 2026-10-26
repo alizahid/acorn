@@ -6,6 +6,8 @@
 - added: hiding a comment also hides its replies
 - added: separate lists for saved posts and comments
 - added: subscription management
+- changed: hide seen posts option removed from paywall
+- changed: sorting options removed from paywall
 - fixed: eager listification
 - fixed: inline videos
 

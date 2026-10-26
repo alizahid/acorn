@@ -19,6 +19,10 @@ export const changelog: Changelog = [
       'Post and comment editor now have support for headings and lists',
     ],
     build: 95,
+    changed: [
+      'Hide seen posts option removed from paywall',
+      'Sorting options removed from paywall',
+    ],
     fixed: [
       'Inline videos should work again',
       'Text that starts with a number will not be eagerly turned into a list',

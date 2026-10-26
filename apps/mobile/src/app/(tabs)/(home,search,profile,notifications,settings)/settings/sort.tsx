@@ -3,8 +3,6 @@ import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
 import { Menu } from '~/components/common/menu'
-import { Paywall } from '~/components/common/paywall'
-import { PaywallCard } from '~/components/common/paywall/card'
 import { IntervalItem } from '~/components/settings/interval'
 import { SortItem } from '~/components/settings/sort'
 import { useListProps } from '~/hooks/list'
@@ -49,213 +47,151 @@ export default function Screen() {
 
   return (
     <ScrollView {...listProps}>
-      <PaywallCard />
-
       <Menu.Root>
-        <Paywall
-          render={(disabled) => (
-            <Menu.Switch
-              disabled={disabled}
-              label={t('remember')}
-              onChange={(next) => {
-                update({
-                  rememberSorting: next,
-                })
-              }}
-              value={rememberSorting}
-            />
-          )}
+        <Menu.Switch
+          label={t('remember')}
+          onChange={(next) => {
+            update({
+              rememberSorting: next,
+            })
+          }}
+          value={rememberSorting}
         />
 
         <Menu.Separator />
 
         <Menu.Label>{t('feed.title')}</Menu.Label>
 
-        <Paywall
-          render={(disabled) => (
-            <SortItem
-              disabled={disabled}
-              label={t('feed.sort')}
-              onChange={(next) => {
-                update({
-                  sortFeedPosts: next,
-                })
-              }}
-              type="feed"
-              value={sortFeedPosts}
-            />
-          )}
+        <SortItem
+          label={t('feed.sort')}
+          onChange={(next) => {
+            update({
+              sortFeedPosts: next,
+            })
+          }}
+          type="feed"
+          value={sortFeedPosts}
         />
 
-        <Paywall
-          render={(disabled) => (
-            <IntervalItem
-              disabled={disabled}
-              label={t('feed.interval')}
-              onChange={(next) => {
-                update({
-                  intervalFeedPosts: next,
-                })
-              }}
-              value={intervalFeedPosts}
-            />
-          )}
+        <IntervalItem
+          label={t('feed.interval')}
+          onChange={(next) => {
+            update({
+              intervalFeedPosts: next,
+            })
+          }}
+          value={intervalFeedPosts}
         />
 
         <Menu.Separator />
 
         <Menu.Label>{t('search.title')}</Menu.Label>
 
-        <Paywall
-          render={(disabled) => (
-            <SortItem
-              disabled={disabled}
-              label={t('search.sort')}
-              onChange={(next) => {
-                update({
-                  sortSearchPosts: next,
-                })
-              }}
-              type="search"
-              value={sortSearchPosts}
-            />
-          )}
+        <SortItem
+          label={t('search.sort')}
+          onChange={(next) => {
+            update({
+              sortSearchPosts: next,
+            })
+          }}
+          type="search"
+          value={sortSearchPosts}
         />
 
-        <Paywall
-          render={(disabled) => (
-            <IntervalItem
-              disabled={disabled}
-              label={t('search.interval')}
-              onChange={(next) => {
-                update({
-                  intervalSearchPosts: next,
-                })
-              }}
-              value={intervalSearchPosts}
-            />
-          )}
+        <IntervalItem
+          label={t('search.interval')}
+          onChange={(next) => {
+            update({
+              intervalSearchPosts: next,
+            })
+          }}
+          value={intervalSearchPosts}
         />
 
         <Menu.Separator />
 
         <Menu.Label>{t('community.title')}</Menu.Label>
 
-        <Paywall
-          render={(disabled) => (
-            <SortItem
-              disabled={disabled}
-              label={t('community.sort')}
-              onChange={(next) => {
-                update({
-                  sortCommunityPosts: next,
-                })
-              }}
-              type="community"
-              value={sortCommunityPosts}
-            />
-          )}
+        <SortItem
+          label={t('community.sort')}
+          onChange={(next) => {
+            update({
+              sortCommunityPosts: next,
+            })
+          }}
+          type="community"
+          value={sortCommunityPosts}
         />
 
-        <Paywall
-          render={(disabled) => (
-            <IntervalItem
-              disabled={disabled}
-              label={t('community.interval')}
-              onChange={(next) => {
-                update({
-                  intervalCommunityPosts: next,
-                })
-              }}
-              value={intervalCommunityPosts}
-            />
-          )}
+        <IntervalItem
+          label={t('community.interval')}
+          onChange={(next) => {
+            update({
+              intervalCommunityPosts: next,
+            })
+          }}
+          value={intervalCommunityPosts}
         />
 
         <Menu.Separator />
 
         <Menu.Label>{t('post.title')}</Menu.Label>
 
-        <Paywall
-          render={(disabled) => (
-            <SortItem
-              disabled={disabled}
-              label={t('post.sort')}
-              onChange={(next) => {
-                update({
-                  sortPostComments: next,
-                })
-              }}
-              type="comment"
-              value={sortPostComments}
-            />
-          )}
+        <SortItem
+          label={t('post.sort')}
+          onChange={(next) => {
+            update({
+              sortPostComments: next,
+            })
+          }}
+          type="comment"
+          value={sortPostComments}
         />
 
         <Menu.Separator />
 
         <Menu.Label>{t('user.title')}</Menu.Label>
 
-        <Paywall
-          render={(disabled) => (
-            <SortItem
-              disabled={disabled}
-              label={t('user.posts.sort')}
-              onChange={(next) => {
-                update({
-                  sortUserPosts: next,
-                })
-              }}
-              type="user"
-              value={sortUserPosts}
-            />
-          )}
+        <SortItem
+          label={t('user.posts.sort')}
+          onChange={(next) => {
+            update({
+              sortUserPosts: next,
+            })
+          }}
+          type="user"
+          value={sortUserPosts}
         />
 
-        <Paywall
-          render={(disabled) => (
-            <IntervalItem
-              disabled={disabled}
-              label={t('user.posts.interval')}
-              onChange={(next) => {
-                update({
-                  intervalUserPosts: next,
-                })
-              }}
-              value={intervalUserPosts}
-            />
-          )}
+        <IntervalItem
+          label={t('user.posts.interval')}
+          onChange={(next) => {
+            update({
+              intervalUserPosts: next,
+            })
+          }}
+          value={intervalUserPosts}
         />
 
-        <Paywall
-          render={(disabled) => (
-            <SortItem
-              disabled={disabled}
-              label={t('user.comments.sort')}
-              onChange={(next) => {
-                update({
-                  sortUserComments: next,
-                })
-              }}
-              type="user"
-              value={sortUserComments}
-            />
-          )}
+        <SortItem
+          label={t('user.comments.sort')}
+          onChange={(next) => {
+            update({
+              sortUserComments: next,
+            })
+          }}
+          type="user"
+          value={sortUserComments}
         />
 
-        <Paywall
-          render={(disabled) => (
-            <IntervalItem
-              disabled={disabled}
-              label={t('user.comments.interval')}
-              onChange={(next) => {
-                update({
-                  intervalUserComments: next,
-                })
-              }}
-              value={intervalUserComments}
-            />
-          )}
+        <IntervalItem
+          label={t('user.comments.interval')}
+          onChange={(next) => {
+            update({
+              intervalUserComments: next,
+            })
+          }}
+          value={intervalUserComments}
         />
       </Menu.Root>
     </ScrollView>

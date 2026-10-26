@@ -633,21 +633,16 @@ export default function Screen() {
           value={dimSeen}
         />
 
-        <Paywall
-          render={(disabled) => (
-            <Menu.Switch
-              description={t('history.hideSeen.description')}
-              disabled={disabled}
-              icon={<Icon name="eye-slash" />}
-              label={t('history.hideSeen.label')}
-              onChange={(next) => {
-                update({
-                  hideSeen: next,
-                })
-              }}
-              value={hideSeen}
-            />
-          )}
+        <Menu.Switch
+          description={t('history.hideSeen.description')}
+          icon={<Icon name="eye-slash" />}
+          label={t('history.hideSeen.label')}
+          onChange={(next) => {
+            update({
+              hideSeen: next,
+            })
+          }}
+          value={hideSeen}
         />
 
         <Menu.Separator />
