@@ -492,14 +492,13 @@
       },
       "subscribe": {
         "feature": {
-          "1": "Unlimited accounts & usage",
-          "2": "All features unlocked",
-          "3": "Beautifully designed",
-          "4": "No ads, ever",
-          "5": "Privacy focused",
-          "6": "Actively developed",
-          "7": "Designed for iPhone, iPad, and iPhone Duo",
-          "title": "Features"
+          "1": "Themes and fonts",
+          "2": "Custom gestures",
+          "3": "Default sorting, feeds, and filters",
+          "4": "Video downloads",
+          "5": "Unlimited accounts",
+          "6": "Supports Acorn's development",
+          "title": "Make Acorn your own"
         },
         "footer": {
           "buy": "Buy",
@@ -508,12 +507,6 @@
           "restore": "Restore",
           "subscribe": "Subscribe",
           "trial": "Start free trial"
-        },
-        "header": {
-          "description": "Hello. You need to subscribe to use Acorn to use Reddit."
-        },
-        "price": {
-          "description": "per month"
         },
         "subscribed": {
           "createdAt": "Subscribed on",

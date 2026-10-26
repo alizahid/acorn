@@ -78,6 +78,13 @@ export default function Page() {
 
         <Link
           className="rounded-sm text-accent-11 outline-offset-4 hover:text-accent-12 focus-visible:outline-2 focus-visible:outline-accent-a7"
+          href="/faq"
+        >
+          {t('footer.faq')}
+        </Link>
+
+        <Link
+          className="rounded-sm text-accent-11 outline-offset-4 hover:text-accent-12 focus-visible:outline-2 focus-visible:outline-accent-a7"
           href="/privacy"
         >
           {t('footer.privacy')}

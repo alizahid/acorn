@@ -8,13 +8,18 @@ const links = {
   apple: 'https://www.apple.com/legal/privacy/',
   appleEula:
     'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/',
+  appleRefund: 'https://reportaproblem.apple.com',
+  coffee: 'https://buymeacoffee.com/acornblue',
   discord: 'https://discord.gg/sWzw5GU5RV',
   expo: 'https://expo.dev/privacy',
+  github: 'https://github.com/alizahid/acorn',
   privacy: '/privacy',
   reddit: 'https://www.reddit.com/policies/privacy-policy',
   redditApi: 'https://redditinc.com/policies/data-api-terms',
   redditTerms: 'https://redditinc.com/policies/user-agreement',
   sentry: 'https://sentry.io/privacy/',
+  terms: '/terms',
+  testFlight: 'https://testflight.apple.com/join/uKWP3MFB',
 } as const
 
 const tags = Object.fromEntries(
@@ -32,7 +37,7 @@ const tags = Object.fromEntries(
 )
 
 type Props = {
-  page: 'privacy' | 'terms'
+  page: 'faq' | 'privacy' | 'terms'
 }
 
 export function Document({ page }: Props) {

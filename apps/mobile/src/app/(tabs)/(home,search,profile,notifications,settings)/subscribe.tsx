@@ -195,7 +195,7 @@ export default function Screen() {
             {t('feature.title')}
           </Text>
 
-          {([1, 2, 3, 4, 5, 6, 7] as const).map((key) => (
+          {([1, 2, 3, 4, 5, 6] as const).map((key) => (
             <View key={key} style={styles.feature}>
               <Icon
                 name={icons[key]}
@@ -341,11 +341,10 @@ const styles = StyleSheet.create((theme, runtime) => ({
 }))
 
 const icons = {
-  1: 'infinity',
-  2: 'list-checks',
-  3: 'palette',
-  4: 'broadcast',
-  5: 'lock',
+  1: 'palette',
+  2: 'hand-tap',
+  3: 'funnel',
+  4: 'download',
+  5: 'infinity',
   6: 'person-simple-run',
-  7: 'devices',
 } as const satisfies Record<number, IconName>

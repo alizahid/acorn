@@ -10,6 +10,156 @@
     }
   },
   "page": {
+    "faq": {
+      "header": "FAQ",
+      "sections": [
+        {
+          "body": [
+            "Acorn is a Reddit client for iPhone, iPad and iPhone Duo, built by an independent developer. It isn't affiliated with Reddit."
+          ],
+          "title": "What is Acorn?"
+        },
+        {
+          "body": [
+            "No. Pro is only for customizing the app, not for normal use. Signing in, browsing, voting, commenting, posting, saving, searching and everything else you need day to day is free."
+          ],
+          "title": "Do I need Pro to use Acorn?"
+        },
+        {
+          "body": [
+            "Pro lets you make Acorn your own. It unlocks themes, fonts, custom gestures, default sorting, filters, your default feed and search tabs, video downloads, and more than two accounts.",
+            "Options that need Pro are dimmed in settings, and tapping one takes you to the Pro screen."
+          ],
+          "title": "What does Pro unlock?"
+        },
+        {
+          "body": [
+            "There's a monthly plan, a yearly plan and a one time lifetime purchase. Prices are shown in the app in your local currency. If a plan comes with a free trial, the button will say so.",
+            "Have an offer code? Tap Redeem on the Pro screen."
+          ],
+          "title": "What plans are there?"
+        },
+        {
+          "body": [
+            "Pro belongs to your Apple Account, not your Reddit account. It works with every Reddit account you add, and on every iPhone and iPad signed in to the same Apple Account.",
+            "If Pro isn't showing up, open the Pro screen and tap Restore."
+          ],
+          "title": "I bought Pro but it's not showing up"
+        },
+        {
+          "body": [
+            "Subscriptions are billed by Apple, so we can't cancel them for you. Tap Manage on the Pro screen, or go to your subscriptions in the App Store."
+          ],
+          "title": "How do I cancel my subscription?"
+        },
+        {
+          "body": [
+            "Refunds are handled by Apple. You can request one at <appleRefund>reportaproblem.apple.com</appleRefund>. Our <terms>terms of use</terms> have the details."
+          ],
+          "title": "Can I get a refund?"
+        },
+        {
+          "body": [
+            "No. Pro supports Acorn's development, but Reddit controls how third party apps access it and can change or cut off access at any time. If that happens and we can't work around it, we'll stop selling Pro and let subscribers know so they can cancel. See our <terms>terms of use</terms>."
+          ],
+          "title": "Does Pro guarantee Acorn will keep working?"
+        },
+        {
+          "body": [
+            "Acorn talks to Reddit the same way Reddit's own Android app does. So in your Reddit account settings, and in any sign in emails from Reddit, Acorn shows up as an Android app. That's expected, and it's Acorn."
+          ],
+          "title": "Why does Acorn show up as an Android app in my Reddit account?"
+        },
+        {
+          "body": [
+            "No. You sign in on Reddit's own login page, and Acorn never sees or stores your password."
+          ],
+          "title": "Does Acorn see my password?"
+        },
+        {
+          "body": [
+            "Acorn isn't officially approved by Reddit, and Reddit may consider unofficial apps against its terms. That means there's always some risk, and you use Acorn at your own risk. See our <terms>terms of use</terms>."
+          ],
+          "title": "Can my Reddit account get in trouble for using Acorn?"
+        },
+        {
+          "body": [
+            "Yes. You can add two accounts for free, and as many as you like with Pro."
+          ],
+          "title": "Can I use more than one account?"
+        },
+        {
+          "body": ["No. Acorn needs a Reddit account to work."],
+          "title": "Can I browse without signing in?"
+        },
+        {
+          "body": [
+            "Yes. Your accounts, preferences and gestures sync between your devices through iCloud. Your read history and filters stay on the device they were made on."
+          ],
+          "title": "Do my settings sync between devices?"
+        },
+        {
+          "body": [
+            "No. Acorn doesn't show ads, and doesn't use analytics or tracking. Our <privacy>privacy policy</privacy> has the details."
+          ],
+          "title": "Are there ads?"
+        },
+        {
+          "body": [
+            "Saving images is free. Downloading videos is part of Pro. Acorn only asks for access to your photo library when you save something."
+          ],
+          "title": "Can I save images and videos?"
+        },
+        {
+          "body": [
+            "Yes. Acorn uses Apple's built in translation to translate posts and comments."
+          ],
+          "title": "Can I translate posts?"
+        },
+        {
+          "body": [
+            "Not right now. Open the notifications tab to see your inbox."
+          ],
+          "title": "Does Acorn have push notifications?"
+        },
+        {
+          "body": ["Not right now. Reddit chat and messages aren't supported."],
+          "title": "Can I send messages or chat?"
+        },
+        {
+          "body": [
+            "No. Acorn is designed for iPhone, iPad and iPhone Duo only."
+          ],
+          "title": "Is there an Android version?"
+        },
+        {
+          "body": [
+            "Yes. Acorn's source code is on <github>GitHub</github> under the GPL 3.0 license."
+          ],
+          "title": "Is Acorn open source?"
+        },
+        {
+          "body": [
+            "Come say hi on <discord>Discord</discord>. That's the best place for bugs, feature requests and questions."
+          ],
+          "title": "How do I report a bug or request a feature?"
+        },
+        {
+          "body": [
+            "Yes. Join the beta on <testFlight>TestFlight</testFlight> to get new builds before they hit the App Store."
+          ],
+          "title": "Can I try new features early?"
+        },
+        {
+          "body": [
+            "Pro is the best way. You can also <coffee>buy me a coffee</coffee>, or tell a friend about Acorn."
+          ],
+          "title": "How else can I support Acorn?"
+        }
+      ],
+      "title": "FAQ × Acorn",
+      "updated": "Last updated October 26, 2026"
+    },
     "landing": {
       "action": {
         "coffee": "Buy Me a Coffee",
@@ -18,6 +168,7 @@
       },
       "footer": {
         "copyright": "© {year, date, ::yyyy} Ali Zahid",
+        "faq": "FAQ",
         "privacy": "Privacy policy",
         "terms": "Terms of use"
       },
