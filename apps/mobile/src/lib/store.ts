@@ -1,8 +1,8 @@
 import storage from 'expo-icloud-storage'
 import { parse, stringify } from 'superjson'
-import { type StateStorage } from 'zustand/middleware'
+import { type PersistStorage } from 'zustand/middleware'
 
-export const store: StateStorage = {
+export const store = {
   getItem<Type>(key: string) {
     const value = storage.getString(key)
 
@@ -18,4 +18,4 @@ export const store: StateStorage = {
   setItem(key: string, value: unknown) {
     storage.set(key, stringify(value))
   },
-}
+} satisfies PersistStorage<unknown>
