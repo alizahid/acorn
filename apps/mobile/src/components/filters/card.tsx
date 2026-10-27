@@ -121,6 +121,7 @@ const styles = StyleSheet.create((theme) => ({
 }))
 
 const icons = {
+  comment: 'chat-centered',
   community: 'users-four',
   keyword: 'tag',
   post: 'chat-centered',

@@ -37,6 +37,12 @@ export function useHide() {
           id: addPrefix(variables.id, 'link'),
         })
       }
+
+      await db.insert(db.schema.filters).values({
+        id: createId(),
+        type: variables.type,
+        value: 'name' in variables ? variables.name : variables.id,
+      })
     },
     async onMutate(variables) {
       if (variables.action === 'unhide') {
@@ -93,14 +99,6 @@ export function useHide() {
             start,
             (end < 0 ? draft.comments.length : end) - start,
           )
-        })
-      }
-
-      if (variables.type !== 'comment') {
-        await db.insert(db.schema.filters).values({
-          id: createId(),
-          type: variables.type,
-          value: 'name' in variables ? variables.name : variables.id,
         })
       }
     },

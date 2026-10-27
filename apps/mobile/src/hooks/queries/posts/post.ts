@@ -6,6 +6,8 @@ import { useCallback, useMemo } from 'react'
 import { useShallow } from 'zustand/react/shallow'
 
 import { db } from '~/db'
+import { createMore } from '~/hooks/mutations/comments/more'
+import { filterComments } from '~/lib/filtering'
 import { isComment, isPost } from '~/lib/guards'
 import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
@@ -67,7 +69,7 @@ export function usePost({ commentId, id: postId, sort }: Props) {
     async queryFn() {
       const reddit = await createApi()
 
-      const [post, { comments, cursor }, collapsed] = await Promise.all([
+      const [post, list, collapsed] = await Promise.all([
         reddit.posts.get({
           id,
         }),
@@ -88,6 +90,8 @@ export function usePost({ commentId, id: postId, sort }: Props) {
         return null
       }
 
+      const comments = await filterComments(list.comments)
+
       for (const comment of comments) {
         if (comment.type === 'more') {
           continue
@@ -103,8 +107,8 @@ export function usePost({ commentId, id: postId, sort }: Props) {
         }
       }
 
-      if (cursor) {
-        comments.push(createMore(id, cursor))
+      if (list.cursor) {
+        comments.push(createMore(id, list.cursor))
       }
 
       return {
@@ -318,18 +322,4 @@ function isHidden(comments: Array<Comment>, commentId: string) {
   }
 
   return isHidden(comments, comment.data.parentId)
-}
-
-export function createMore(postId: string, cursor: string): Comment {
-  return {
-    data: {
-      count: 0,
-      cursor,
-      depth: 0,
-      id: cursor,
-      parentId: postId,
-      thread: false,
-    },
-    type: 'more',
-  }
 }

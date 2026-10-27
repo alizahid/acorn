@@ -31,7 +31,7 @@ export type Sorting = typeof sorting.$inferSelect
 export const filters = sqliteTable('filters', {
   id: text().notNull().primaryKey(),
   type: text({
-    enum: ['keyword', 'community', 'user', 'post'],
+    enum: ['keyword', 'community', 'user', 'post', 'comment'],
   }).notNull(),
   value: text().notNull(),
 })

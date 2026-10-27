@@ -1,7 +1,8 @@
 import { type Comment, type CommentMore } from '@acorn/reddit'
 import { useMutation } from '@tanstack/react-query'
 
-import { createMore, updatePost } from '~/hooks/queries/posts/post'
+import { updatePost } from '~/hooks/queries/posts/post'
+import { filterComments } from '~/lib/filtering'
 import { createApi } from '~/reddit/api'
 import { type CommentSort } from '~/types/sort'
 
@@ -21,11 +22,16 @@ export function useLoadMoreComments() {
     async mutationFn(variables) {
       const reddit = await createApi()
 
-      return reddit.comments.list({
+      const data = await reddit.comments.list({
         after: variables.comment.cursor,
         postId: variables.postId,
         sort: variables.sort,
       })
+
+      return {
+        ...data,
+        comments: await filterComments(data.comments),
+      }
     },
     onSuccess(data, variables) {
       updatePost(variables.postId, (draft) => {
@@ -58,5 +64,19 @@ export function useLoadMoreComments() {
   return {
     isPending,
     loadMore: mutate,
+  }
+}
+
+export function createMore(postId: string, cursor: string): Comment {
+  return {
+    data: {
+      count: 0,
+      cursor,
+      depth: 0,
+      id: cursor,
+      parentId: postId,
+      thread: false,
+    },
+    type: 'more',
   }
 }

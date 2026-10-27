@@ -12,7 +12,7 @@ const schema = z.object({
   filters: z.array(
     z.object({
       id: z.string(),
-      type: z.enum(['keyword', 'community', 'user', 'post']),
+      type: z.enum(['keyword', 'community', 'user', 'post', 'comment']),
       value: z.string().min(1),
     }),
   ),
@@ -41,7 +41,11 @@ export function useFilters() {
 
   const { isPending, mutate } = useMutation<unknown, Error, FiltersForm>({
     async mutationFn(variables) {
-      await db.delete(db.schema.filters)
+      await db
+        .delete(db.schema.filters)
+        .where(
+          inArray(db.schema.filters.type, ['keyword', 'community', 'user']),
+        )
 
       if (variables.filters.length > 0) {
         await db.insert(db.schema.filters).values(variables.filters)

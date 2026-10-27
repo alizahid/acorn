@@ -1,4 +1,9 @@
-import { type Community, type Post, type User } from '@acorn/reddit'
+import {
+  type Comment,
+  type Community,
+  type Post,
+  type User,
+} from '@acorn/reddit'
 import { eq, inArray } from 'drizzle-orm'
 
 import { db } from '~/db'
@@ -79,4 +84,28 @@ export async function filterUsers(users: Array<User>): Promise<Array<User>> {
         (filter) => filter.value.toLowerCase() === user.name.toLowerCase(),
       ),
   )
+}
+
+export async function filterComments(
+  comments: Array<Comment>,
+): Promise<Array<Comment>> {
+  const filters = await db
+    .select()
+    .from(db.schema.filters)
+    .where(eq(db.schema.filters.type, 'comment'))
+
+  const hidden = filters.map((item) => item.value)
+
+  return comments.filter((comment) => {
+    if (
+      hidden.includes(comment.data.id) ||
+      (comment.data.parentId && hidden.includes(comment.data.parentId))
+    ) {
+      hidden.push(comment.data.id)
+
+      return false
+    }
+
+    return true
+  })
 }
