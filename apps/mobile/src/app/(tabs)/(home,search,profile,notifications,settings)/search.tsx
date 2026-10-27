@@ -139,6 +139,7 @@ export default function Screen() {
       }}
     >
       <TabView
+        keyboardDismissMode="on-drag"
         lazy
         navigationState={{
           index,
