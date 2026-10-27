@@ -10,9 +10,9 @@ import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
 import { persistOptions, queryClient } from '~/lib/query'
 
-import { ThemeProvider } from '../providers/theme'
-import { MediaMenu } from './media-menu'
-import { Toast } from './toast'
+import { MediaMenu } from '../common/media-menu'
+import { Toast } from '../common/toast'
+import { ThemeProvider } from './theme'
 
 type Props = {
   children: ReactNode
