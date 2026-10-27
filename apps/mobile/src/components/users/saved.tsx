@@ -182,6 +182,7 @@ export function UserSavedList({ name }: Props) {
         }}
       >
         <TabView
+          keyboardDismissMode="on-drag"
           lazy
           navigationState={{
             index,
