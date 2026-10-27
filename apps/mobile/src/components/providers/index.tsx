@@ -12,6 +12,7 @@ import { persistOptions, queryClient } from '~/lib/query'
 
 import { MediaMenu } from '../common/media-menu'
 import { Toast } from '../common/toast'
+import { PurchaseProvider } from './purchases'
 import { ThemeProvider } from './theme'
 
 type Props = {
@@ -33,6 +34,7 @@ export function Providers({ children }: Props) {
 
                 <MediaMenu />
                 <AccountSwitcher />
+                <PurchaseProvider />
                 <Toast />
               </FocusProvider>
             </PersistQueryClientProvider>
