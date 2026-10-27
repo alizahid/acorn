@@ -12,7 +12,10 @@ export type Changelog = Array<
 
 export const changelog: Changelog = [
   {
-    added: ['*NSFW search* option added'],
+    added: [
+      '*NSFW search* option added',
+      'Drawer will show your communities and users again',
+    ],
     build: 96,
   },
   {

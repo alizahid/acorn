@@ -3,6 +3,7 @@
 ## Upcoming
 
 - added: NSFW search results option
+- fixed: community list
 
 ## Build 95
 
