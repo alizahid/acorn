@@ -1,23 +1,30 @@
 import { useMutation } from '@tanstack/react-query'
-import { isUserCancelledError, restorePurchases } from 'expo-iap'
+import {
+  finishTransaction,
+  getAvailablePurchases,
+  isUserCancelledError,
+  restorePurchases,
+} from 'expo-iap'
 import { toast } from 'sonner-native'
+
+import { verifyPurchase } from '~/lib/purchases'
 
 export function useRestore() {
   const { isPending, mutateAsync } = useMutation({
     async mutationFn(_variables, context) {
-      try {
-        await restorePurchases()
-      } catch (error) {
-        await context.client.invalidateQueries({
-          queryKey: ['purchases', 'subscribed'],
-        })
+      await restorePurchases()
 
-        if (!context.client.getQueryData(['purchases', 'subscribed'])) {
-          throw error
-        }
+      const purchases = await getAvailablePurchases()
 
-        return
-      }
+      await Promise.all(
+        purchases.map(async (purchase) => {
+          if (await verifyPurchase(purchase)) {
+            await finishTransaction({
+              purchase,
+            })
+          }
+        }),
+      )
 
       await context.client.invalidateQueries({
         queryKey: ['purchases', 'subscribed'],

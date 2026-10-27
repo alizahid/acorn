@@ -2,6 +2,7 @@
 declare namespace NodeJS {
   // biome-ignore lint/style/useConsistentTypeDefinitions: go away
   export interface ProcessEnv {
+    EXPO_PUBLIC_OPENIAP_KEY: string
     EXPO_PUBLIC_SENTRY_DSN: string
     EXPO_PUBLIC_WEB_URL: string
   }

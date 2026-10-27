@@ -7,6 +7,8 @@ import {
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
+import { verifyPurchase } from '~/lib/purchases'
+
 type Variables = {
   planId: string
   type: 'in-app' | 'subs'
@@ -17,38 +19,34 @@ export function useSubscribe() {
 
   const { isPending, mutateAsync } = useMutation<unknown, Error, Variables>({
     async mutationFn(variables, context) {
-      try {
-        const purchases = await requestPurchase({
-          request: {
-            apple: {
-              sku: variables.planId,
-            },
+      const purchases = await requestPurchase({
+        request: {
+          apple: {
+            sku: variables.planId,
           },
-          type: variables.type,
-        })
+        },
+        type: variables.type,
+      })
 
-        if (!purchases) {
-          throw new Error(t('error'))
-        }
-
-        if (Array.isArray(purchases)) {
-          await Promise.all(
-            purchases.map((purchase) =>
-              finishTransaction({
-                purchase,
-              }),
-            ),
-          )
-        } else {
-          await finishTransaction({
-            purchase: purchases,
-          })
-        }
-      } finally {
-        await context.client.invalidateQueries({
-          queryKey: ['purchases', 'subscribed'],
-        })
+      if (!purchases) {
+        throw new Error(t('error'))
       }
+
+      await Promise.all(
+        [purchases].flat().map(async (purchase) => {
+          if (!(await verifyPurchase(purchase))) {
+            throw new Error(t('error'))
+          }
+
+          await finishTransaction({
+            purchase,
+          })
+        }),
+      )
+
+      await context.client.invalidateQueries({
+        queryKey: ['purchases', 'subscribed'],
+      })
     },
     onError(error) {
       if (!isUserCancelledError(error)) {
