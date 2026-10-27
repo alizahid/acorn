@@ -333,6 +333,14 @@ function StackLayout({ children }: PropsWithChildren) {
           presentation: iPad ? 'formSheet' : 'modal',
         }}
       />
+
+      <Stack.Screen
+        name="new"
+        options={{
+          presentation: iPad ? 'formSheet' : 'modal',
+          title: t('new.title'),
+        }}
+      />
     </Stack>
   )
 }

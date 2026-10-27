@@ -35,6 +35,17 @@ export default function Screen() {
 
         <Menu.Button
           arrow
+          icon={<Icon name="newspaper-clipping" />}
+          label={t('new')}
+          onPress={() => {
+            router.navigate({
+              pathname: '/new',
+            })
+          }}
+        />
+
+        <Menu.Button
+          arrow
           icon={<Icon name="gear-six" />}
           label={t('preferences')}
           onPress={() => {
@@ -42,6 +53,7 @@ export default function Screen() {
               pathname: '/settings/preferences',
             })
           }}
+          style={styles.separator}
         />
 
         <Menu.Button
@@ -125,5 +137,8 @@ const styles = StyleSheet.create((theme) => ({
   logo: {
     height: theme.space[5],
     width: theme.space[5],
+  },
+  separator: {
+    marginTop: theme.space[4],
   },
 }))

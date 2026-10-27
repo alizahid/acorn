@@ -19,7 +19,7 @@ export function ChangelogItems({ items, type }: Props) {
 
   return (
     <View style={styles.main}>
-      <Text color={colors[type]} size="2" weight="bold">
+      <Text color={colors[type]} weight="bold">
         {t(type)}
       </Text>
 
@@ -33,7 +33,7 @@ export function ChangelogItems({ items, type }: Props) {
             {item.split(boldRegex).map((part, index) =>
               index % 2 ? (
                 // biome-ignore lint/suspicious/noArrayIndexKey: go away
-                <Text color="accent" key={index} size="2" weight="bold">
+                <Text key={index} size="2" weight="bold">
                   {part}
                 </Text>
               ) : (
@@ -51,8 +51,8 @@ const styles = StyleSheet.create((theme) => ({
   bullet: (color: ColorToken) => ({
     backgroundColor: theme.colors[color].accent,
     borderCurve: 'continuous',
-    borderRadius: 1,
-    height: 6,
+    borderRadius: 2,
+    height: 2,
     width: 6,
   }),
   item: {

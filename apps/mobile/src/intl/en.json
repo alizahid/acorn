@@ -541,6 +541,9 @@
     "home": {
       "title": "Home"
     },
+    "new": {
+      "title": "What's new"
+    },
     "notifications": {
       "tabs": {
         "messages": "Messages",
@@ -829,6 +832,7 @@
         "defaults": "Defaults",
         "filters": "Filters",
         "gestures": "Gestures",
+        "new": "What's new",
         "preferences": "Preferences",
         "pro": "Pro",
         "sort": "Sort",

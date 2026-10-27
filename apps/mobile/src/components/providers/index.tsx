@@ -10,6 +10,7 @@ import { timeZone } from '~/intl'
 import en from '~/intl/en.json'
 import { persistOptions, queryClient } from '~/lib/query'
 
+import { Changelog } from '../changelog'
 import { MediaMenu } from '../common/media-menu'
 import { Toast } from '../common/toast'
 import { PurchaseProvider } from './purchases'
@@ -36,6 +37,8 @@ export function Providers({ children }: Props) {
                 <AccountSwitcher />
                 <PurchaseProvider />
                 <Toast />
+
+                <Changelog />
               </FocusProvider>
             </PersistQueryClientProvider>
           </ThemeProvider>
