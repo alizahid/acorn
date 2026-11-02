@@ -30,7 +30,7 @@ export function Button({
   onPress,
   style,
 }: Props) {
-  styles.useVariants({
+  const variants = styles.useVariants({
     color,
     disabled,
   })
@@ -40,7 +40,7 @@ export function Button({
   return (
     <Component
       isInteractive={!disabled}
-      style={[styles.main, style]}
+      style={[variants.main, style]}
       uniProps={(theme) => ({
         tintColor: disabled
           ? theme.colors.gray.accent
@@ -51,7 +51,7 @@ export function Button({
         accessibilityLabel={label}
         disabled={disabled || loading}
         onPress={onPress}
-        style={styles.content}
+        style={variants.content}
       >
         {left}
 

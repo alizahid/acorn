@@ -28,7 +28,7 @@ import { SearchBox } from '../common/search'
 import { Spinner } from '../common/spinner'
 import { AlphabetList } from './alphabet'
 
-type Item =
+export type Item =
   | {
       collapsed?: boolean
       key: string

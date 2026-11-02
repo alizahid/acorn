@@ -81,7 +81,7 @@ export function CommentCard({
 
   const [capturing, setCapturing] = useState(false)
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     colorful: colorfulComments,
     dull,
   })
@@ -185,7 +185,7 @@ export function CommentCard({
         long: commentRightLong,
         short: commentRightShort,
       }}
-      style={styles.container(comment.depth)}
+      style={variants.container(comment.depth)}
     >
       <CommentMenu
         card={card}
@@ -212,7 +212,7 @@ export function CommentCard({
           <View
             collapsable={false}
             ref={card}
-            style={styles.main(comment.depth, dull)}
+            style={variants.main(comment.depth, dull)}
           >
             {userOnTop ? (
               <CommentMeta
@@ -225,7 +225,7 @@ export function CommentCard({
             ) : null}
 
             {collapsed ? null : (
-              <View style={styles.body}>
+              <View style={variants.body}>
                 <Markdown.Viewer meta={comment.media.meta} type="comment">
                   {comment.body}
                 </Markdown.Viewer>
@@ -245,7 +245,7 @@ export function CommentCard({
                 <Pressable
                   accessibilityHint={a11y('viewPost')}
                   accessibilityLabel={comment.post.title}
-                  style={styles.post}
+                  style={variants.post}
                 >
                   <Icon
                     name="paperclip"
@@ -254,7 +254,7 @@ export function CommentCard({
                     })}
                   />
 
-                  <View style={styles.title}>
+                  <View style={variants.title}>
                     <Text size="1" weight="medium">
                       {comment.post.title}
                     </Text>
@@ -281,7 +281,7 @@ export function CommentCard({
             {!collapsed && (flair === 'both' || flair === 'text') ? (
               <FlairCard
                 flair={comment.flair}
-                style={styles.flair}
+                style={variants.flair}
                 type={flair}
               />
             ) : null}
@@ -289,7 +289,7 @@ export function CommentCard({
             {capturing ? <Banner /> : null}
 
             {!privacy && comment.saved ? (
-              <View pointerEvents="none" style={styles.saved} />
+              <View pointerEvents="none" style={variants.saved} />
             ) : null}
           </View>
         </Pressable>

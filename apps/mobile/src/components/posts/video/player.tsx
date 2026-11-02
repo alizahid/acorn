@@ -85,7 +85,7 @@ export function VideoPlayer({
 
   const { addPost } = useHistory()
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     compact,
     crossPost,
     large,
@@ -130,7 +130,7 @@ export function VideoPlayer({
           })
         }
       }}
-      style={styles.main}
+      style={variants.main}
       variant="plain"
     >
       <VideoView
@@ -174,7 +174,7 @@ export function VideoPlayer({
         poster={video.thumbnail ?? thumbnail}
         ref={player}
         source={video.url}
-        style={styles.video(video.width / video.height)}
+        style={variants.video(video.width / video.height)}
         visibilityAxis="vertical"
       />
 
@@ -187,19 +187,19 @@ export function VideoPlayer({
       )}
 
       {status === 'loading' ? (
-        <View style={styles.loading}>
+        <View style={variants.loading}>
           <Spinner />
         </View>
       ) : null}
 
       {status === 'error' ? (
-        <View style={styles.loading}>
+        <View style={variants.loading}>
           <Icon name="warning-fill" />
         </View>
       ) : null}
 
       {compact ? (
-        <View style={styles.compact}>
+        <View style={variants.compact}>
           <Icon name="play-fill" />
 
           {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
@@ -215,7 +215,7 @@ export function VideoPlayer({
           onPress={() => {
             setMuted((previous) => !previous)
           }}
-          style={styles.volume}
+          style={variants.volume}
         >
           <Icon
             name={muted ? 'speaker-x' : 'speaker-high'}

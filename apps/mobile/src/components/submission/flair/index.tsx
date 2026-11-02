@@ -78,7 +78,7 @@ export function SubmissionFlair() {
               )}
             </Pressable>
 
-            <Sheet.Root ref={sheet} scrollable>
+            <Sheet.Root ref={sheet}>
               <Sheet.Header title={t('title')} />
 
               <ScrollView contentContainerStyle={styles.content}>

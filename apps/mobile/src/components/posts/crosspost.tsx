@@ -34,7 +34,7 @@ export function CrossPostCard({
 
   const a11y = useTranslations('a11y')
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     compact,
     large,
   })
@@ -53,17 +53,17 @@ export function CrossPostCard({
             pathname: '/posts/[id]',
           })
         }}
-        style={styles.main}
+        style={variants.main}
       >
         {post.media.images?.[0] ? (
           <Image
             accessibilityIgnoresInvertColors
             source={post.media.images[0].thumbnail}
-            style={styles.image}
+            style={variants.image}
           />
         ) : null}
 
-        <View style={styles.icon}>
+        <View style={variants.icon}>
           <Icon name="shuffle" />
         </View>
       </Pressable>
@@ -83,7 +83,7 @@ export function CrossPostCard({
           pathname: '/posts/[id]',
         })
       }}
-      style={styles.main}
+      style={variants.main}
     >
       {post.type === 'video' && post.media.video ? (
         <PostVideoCard
@@ -118,7 +118,7 @@ export function CrossPostCard({
         />
       ) : null}
 
-      <View style={styles.footer}>
+      <View style={variants.footer}>
         <Text numberOfLines={2} size="2" weight="medium">
           {post.title}
         </Text>

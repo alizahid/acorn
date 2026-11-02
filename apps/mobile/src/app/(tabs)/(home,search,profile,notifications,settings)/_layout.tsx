@@ -152,7 +152,7 @@ function StackLayout({ children }: PropsWithChildren) {
     })),
   )
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     fullWidth,
   })
 
@@ -165,7 +165,7 @@ function StackLayout({ children }: PropsWithChildren) {
         <ScreenLayout>{screen}</ScreenLayout>
       )}
       screenOptions={{
-        contentStyle: styles.content,
+        contentStyle: variants.content,
         fullScreenGestureEnabled: true,
         headerBackButtonDisplayMode: 'minimal',
         headerBackButtonMenuEnabled: false,
@@ -250,7 +250,7 @@ function StackLayout({ children }: PropsWithChildren) {
         }}
         name="posts/[id]/reply"
         options={{
-          headerStyle: styles.header,
+          headerStyle: variants.header,
           headerTransparent: false,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
@@ -309,7 +309,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="sign-in"
         options={({ route }) => ({
-          contentStyle: styles.full,
+          contentStyle: variants.full,
           gestureEnabled: (route.params as SignInParams).mode === 'dismissible',
           headerShown: false,
           presentation: iPad ? 'formSheet' : 'modal',
@@ -319,7 +319,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="sign-in/reddit"
         options={{
-          contentStyle: styles.full,
+          contentStyle: variants.full,
           headerShown: false,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('auth.signIn.signIn'),

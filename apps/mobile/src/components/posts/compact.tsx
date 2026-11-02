@@ -41,12 +41,12 @@ export function PostCompactCard({
       })),
     )
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     large: largeThumbnails,
   })
 
   return (
-    <View style={[styles.main(side === 'right'), style]}>
+    <View style={[variants.main(side === 'right'), style]}>
       <View>
         {post.type === 'crosspost' && post.crossPost ? (
           <CrossPostCard
@@ -92,13 +92,13 @@ export function PostCompactCard({
         ) : null}
 
         {post.type === 'text' ? (
-          <View style={styles.text}>
+          <View style={variants.text}>
             <Icon name="text-align-left" />
           </View>
         ) : null}
       </View>
 
-      <View style={styles.content}>
+      <View style={variants.content}>
         {communityOnTop ? (
           <PostCommunity
             hideCommunity={hideCommunity}
@@ -123,7 +123,7 @@ export function PostCompactCard({
       </View>
 
       {!privacy && post.saved ? (
-        <View pointerEvents="none" style={styles.saved} />
+        <View pointerEvents="none" style={variants.saved} />
       ) : null}
     </View>
   )

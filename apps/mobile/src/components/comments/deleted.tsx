@@ -23,7 +23,7 @@ export function CommentDeletedCard({ comment, onPress }: Props) {
     })),
   )
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     colorful: colorfulComments,
   })
 
@@ -33,7 +33,7 @@ export function CommentDeletedCard({ comment, onPress }: Props) {
     <Pressable
       accessibilityLabel={label}
       onPress={onPress}
-      style={styles.main(comment.depth)}
+      style={variants.main(comment.depth)}
     >
       <Text highContrast={false} italic size="2">
         {label}

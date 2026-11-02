@@ -29,7 +29,7 @@ export function ListItem({
   style,
   styleSide,
 }: Props) {
-  styles.useVariants({
+  const variants = styles.useVariants({
     selected,
   })
 
@@ -38,18 +38,18 @@ export function ListItem({
       accessibilityLabel={label}
       disabled={disabled || !onPress}
       onPress={onPress}
-      style={[styles.main, style]}
+      style={[variants.main, style]}
     >
-      {left ? <View style={[styles.side, styleSide]}>{left}</View> : null}
+      {left ? <View style={[variants.side, styleSide]}>{left}</View> : null}
 
-      <Text numberOfLines={1} size="2" style={styles.label} weight="medium">
+      <Text numberOfLines={1} size="2" style={variants.label} weight="medium">
         {label}
       </Text>
 
-      {right ? <View style={[styles.side, styleSide]}>{right}</View> : null}
+      {right ? <View style={[variants.side, styleSide]}>{right}</View> : null}
 
       {navigate ? (
-        <View style={[styles.side, styleSide]}>
+        <View style={[variants.side, styleSide]}>
           <Icon
             name="caret-right"
             uniProps={(theme) => ({

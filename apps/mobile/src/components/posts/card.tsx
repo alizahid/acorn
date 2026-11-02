@@ -89,7 +89,7 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
 
   const dimmed = !expanded && dimSeen && post.seen
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     compact: feedCompact && !expanded,
     dimmed,
     sticky: post.sticky,
@@ -197,7 +197,7 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
           long: postRightLong,
           short: postRightShort,
         }}
-        style={styles.container}
+        style={variants.container}
       >
         <PostMenu card={card} onCapturing={setCapturing} post={post} ref={menu}>
           <Pressable
@@ -206,17 +206,17 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
             onLongPress={onLongPress}
             onPress={onPress}
           >
-            <View collapsable={false} ref={card} style={styles.compact}>
+            <View collapsable={false} ref={card} style={variants.compact}>
               <PostCompactCard
                 hideCommunity={hideCommunity}
                 hideUser={hideUser}
                 post={post}
                 privacy={privacy}
                 side={mediaOnRight ? 'right' : 'left'}
-                style={styles.dimmed}
+                style={variants.dimmed}
               />
 
-              {capturing ? <Banner style={styles.banner} /> : null}
+              {capturing ? <Banner style={variants.banner} /> : null}
             </View>
           </Pressable>
         </PostMenu>
@@ -244,7 +244,7 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
         long: postRightLong,
         short: postRightShort,
       }}
-      style={styles.container}
+      style={variants.container}
     >
       <PostMenu card={card} onCapturing={setCapturing} post={post} ref={menu}>
         <Pressable
@@ -253,8 +253,8 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
           onLongPress={onLongPress}
           onPress={onPress}
         >
-          <View collapsable={false} ref={card} style={styles.main}>
-            <View style={[styles.header, styles.dimmed]}>
+          <View collapsable={false} ref={card} style={variants.main}>
+            <View style={[variants.header, variants.dimmed]}>
               {communityOnTop ? (
                 <PostCommunity
                   hideCommunity={hideCommunity}
@@ -328,13 +328,13 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
               hideUser={hideUser}
               post={post}
               privacy={privacy}
-              style={styles.dimmed}
+              style={variants.dimmed}
             />
 
-            {capturing ? <Banner style={styles.banner} /> : null}
+            {capturing ? <Banner style={variants.banner} /> : null}
 
             {!privacy && post.saved ? (
-              <View pointerEvents="none" style={styles.saved} />
+              <View pointerEvents="none" style={variants.saved} />
             ) : null}
           </View>
         </Pressable>

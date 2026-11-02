@@ -26,7 +26,7 @@ export function AccountCard({
 }: Props) {
   const a11y = useTranslations('a11y')
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     selected: account.id === selected,
   })
 
@@ -63,7 +63,7 @@ export function AccountCard({
 
           onClose()
         }}
-        style={styles.main}
+        style={variants.main}
       >
         <Text weight="medium">{account.id}</Text>
       </Pressable>

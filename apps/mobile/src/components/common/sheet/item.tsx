@@ -26,7 +26,7 @@ export function Item({
   selected,
   style,
 }: Props) {
-  styles.useVariants({
+  const variants = styles.useVariants({
     selected,
   })
 
@@ -35,13 +35,13 @@ export function Item({
       accessibilityLabel={label}
       disabled={disabled || !onPress}
       onPress={onPress}
-      style={[styles.main, style]}
+      style={[variants.main, style]}
     >
       {left}
 
       <Text
         numberOfLines={1}
-        style={[styles.label, labelStyle]}
+        style={[variants.label, labelStyle]}
         weight="medium"
       >
         {label}

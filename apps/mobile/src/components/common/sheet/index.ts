@@ -1,4 +1,7 @@
-import { type TrueSheet } from '@lodev09/react-native-true-sheet'
+import {
+  type TrueSheet,
+  type TrueSheetProps,
+} from '@lodev09/react-native-true-sheet'
 
 import { BottomInset } from './bottom-inset'
 import { Confirm } from './confirm'
@@ -9,6 +12,8 @@ import { Separator } from './separator'
 import { Subtitle } from './subtitle'
 
 export type Sheet = TrueSheet
+
+export type ScrollRef = TrueSheetProps['scrollableRef']
 
 export const Sheet = {
   BottomInset,

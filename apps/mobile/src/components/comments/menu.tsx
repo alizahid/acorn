@@ -86,7 +86,7 @@ export function CommentMenu({
     <>
       {children}
 
-      <Sheet.Root ref={ref} scrollable>
+      <Sheet.Root ref={ref}>
         <Sheet.Header
           style={styles.title}
           title={
@@ -522,7 +522,7 @@ export function CommentMenu({
 
         <Sheet.BottomInset />
 
-        <Sheet.Root ref={reportRef} scrollable>
+        <Sheet.Root ref={reportRef}>
           <Sheet.Header style={styles.title} title={t('report.title')} />
 
           <ScrollView

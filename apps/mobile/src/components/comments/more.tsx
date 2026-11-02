@@ -36,7 +36,7 @@ export function CommentMoreCard({
     })),
   )
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     colorful: colorfulComments,
   })
 
@@ -67,7 +67,7 @@ export function CommentMoreCard({
           })
         }
       }}
-      style={[styles.main(comment.depth), style]}
+      style={[variants.main(comment.depth), style]}
     >
       {isPending ? (
         <Spinner color={color} />

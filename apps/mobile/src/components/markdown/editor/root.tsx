@@ -1,4 +1,4 @@
-import { type Ref } from 'react'
+import { type RefObject } from 'react'
 import {
   type EnrichedMarkdownTextInputInstance,
   type StyleState,
@@ -16,7 +16,7 @@ type Props = {
   onChangeState?: (state: StyleState) => void
   placeholder?: string
   value?: string
-  ref?: Ref<EnrichedMarkdownTextInputInstance>
+  ref?: RefObject<EnrichedMarkdownTextInputInstance | null>
 }
 
 export function EditorRoot({

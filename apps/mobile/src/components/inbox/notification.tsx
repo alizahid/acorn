@@ -25,7 +25,7 @@ export function NotificationCard({ notification }: Props) {
 
   const kind = (notification.type && kinds[notification.type]) ?? 'other'
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     color: tints[kind],
     unread: notification.new,
   })
@@ -46,7 +46,7 @@ export function NotificationCard({ notification }: Props) {
           mark(notification)
         }
       }}
-      style={styles.main}
+      style={variants.main}
     >
       <Icon
         name={icons[kind]}
@@ -55,7 +55,7 @@ export function NotificationCard({ notification }: Props) {
         })}
       />
 
-      <View style={styles.content}>
+      <View style={variants.content}>
         <Text
           highContrast={notification.new}
           weight={notification.new ? 'medium' : undefined}
@@ -67,7 +67,7 @@ export function NotificationCard({ notification }: Props) {
           <Markdown.Viewer>{notification.body}</Markdown.Viewer>
         ) : null}
 
-        <View style={styles.meta}>
+        <View style={variants.meta}>
           <Text highContrast={false} size="2">
             {f.relativeTime(notification.createdAt, now)}
           </Text>

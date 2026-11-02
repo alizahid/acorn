@@ -40,7 +40,7 @@ export function Text({
     })),
   )
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     accent,
     align,
     color,
@@ -57,7 +57,7 @@ export function Text({
     <Component
       {...stripProps(props)}
       allowFontScaling={systemScaling}
-      style={[styles.main(props, systemScaling ? 1 : fontScaling), style]}
+      style={[variants.main(props, systemScaling ? 1 : fontScaling), style]}
     >
       {children}
     </Component>

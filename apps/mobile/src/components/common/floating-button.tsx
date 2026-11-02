@@ -35,7 +35,7 @@ export function FloatingButton({
   side = 'right',
   style,
 }: Props) {
-  styles.useVariants({
+  const variants = styles.useVariants({
     glass,
     side,
   })
@@ -47,9 +47,9 @@ export function FloatingButton({
       edges={{
         bottom: true,
       }}
-      style={[styles.main, style]}
+      style={[variants.main, style]}
     >
-      <Component intensity={100} isInteractive style={styles.button}>
+      <Component intensity={100} isInteractive style={variants.button}>
         <IconButton
           accessibilityLabel={label}
           disabled={disabled}

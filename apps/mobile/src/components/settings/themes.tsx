@@ -171,7 +171,7 @@ type ItemProps = {
 function Item({ color, item, name, onPress, value }: ItemProps) {
   const a11y = useTranslations('a11y')
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     color,
   })
 
@@ -184,7 +184,7 @@ function Item({ color, item, name, onPress, value }: ItemProps) {
         selected: item === value,
       }}
       onPress={onPress}
-      style={styles.theme}
+      style={variants.theme}
     >
       {item === value ? (
         <Icon

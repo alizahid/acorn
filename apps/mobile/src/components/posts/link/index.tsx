@@ -43,7 +43,7 @@ export function PostLinkCard({
     })),
   )
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     compact,
     crossPost,
     large,
@@ -67,17 +67,17 @@ export function PostLinkCard({
         accessibilityLabel={a11y('viewLink')}
         onLongPress={onLongPress}
         onPress={onPress}
-        style={styles.main}
+        style={variants.main}
       >
         {media?.thumbnail ? (
           <Image
             accessibilityIgnoresInvertColors
             source={media.thumbnail}
-            style={styles.image(media.width / media.height)}
+            style={variants.image(media.width / media.height)}
           />
         ) : null}
 
-        <View style={styles.icon}>
+        <View style={variants.icon}>
           <Icon
             name="compass"
             uniProps={(theme) => ({
@@ -94,21 +94,21 @@ export function PostLinkCard({
       accessibilityLabel={a11y('viewLink')}
       onLongPress={onLongPress}
       onPress={onPress}
-      style={styles.main}
+      style={variants.main}
     >
       {media?.thumbnail ? (
-        <View style={styles.preview}>
+        <View style={variants.preview}>
           <Image
             {...placeholder}
             accessibilityIgnoresInvertColors
             recyclingKey={recyclingKey}
             source={media.thumbnail}
-            style={styles.image(media.width / media.height)}
+            style={variants.image(media.width / media.height)}
           />
         </View>
       ) : null}
 
-      <View style={styles.link}>
+      <View style={variants.link}>
         <Icon
           name="compass"
           uniProps={(theme) => ({
@@ -116,7 +116,7 @@ export function PostLinkCard({
           })}
         />
 
-        <Text numberOfLines={1} size="2" style={styles.url}>
+        <Text numberOfLines={1} size="2" style={variants.url}>
           {url}
         </Text>
       </View>

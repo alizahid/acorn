@@ -47,7 +47,7 @@ export function PostGalleryCard({
     })),
   )
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     compact,
     crossPost,
     large,
@@ -67,7 +67,7 @@ export function PostGalleryCard({
 
   if (compact) {
     return (
-      <View style={styles.main}>
+      <View style={variants.main}>
         <Gallery
           actions={actions}
           images={images}
@@ -91,7 +91,7 @@ export function PostGalleryCard({
                 accessibilityIgnoresInvertColors
                 recyclingKey={recyclingKey}
                 source={image.thumbnail}
-                style={styles.image}
+                style={variants.image}
               />
             </Gallery.Image>
           ))}
@@ -105,7 +105,7 @@ export function PostGalleryCard({
   }
 
   return (
-    <View style={styles.main}>
+    <View style={variants.main}>
       <ImageGrid
         images={images}
         nsfw={nsfw}

@@ -22,7 +22,7 @@ export function FooterButton({
   label,
   onPress,
 }: Props) {
-  styles.useVariants({
+  const variants = styles.useVariants({
     color,
     fill,
   })
@@ -32,7 +32,7 @@ export function FooterButton({
       accessibilityLabel={label}
       hitSlop={space[2]}
       onPress={onPress}
-      style={styles.main(compact)}
+      style={variants.main(compact)}
     >
       <Icon
         name={icon}

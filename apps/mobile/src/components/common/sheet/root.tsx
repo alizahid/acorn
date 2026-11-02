@@ -11,7 +11,6 @@ type Props = {
   dismissible?: boolean
   onClose?: () => void
   ref?: Ref<TrueSheet>
-  scrollable?: boolean
 }
 
 export function Root({
@@ -20,14 +19,13 @@ export function Root({
   dismissible,
   onClose,
   ref,
-  scrollable,
 }: Props) {
   const { theme } = useUnistyles()
 
   return (
     <TrueSheet
       backgroundBlur={
-        !scrollable && glass
+        glass
           ? undefined
           : theme.variant === 'dark'
             ? 'system-chrome-material-dark'
@@ -41,7 +39,7 @@ export function Root({
       maxContentWidth={maxWidth}
       onWillDismiss={onClose}
       ref={ref}
-      scrollable={scrollable}
+      style={styles.main}
     >
       <GestureHandlerRootView style={styles.content}>
         {children}
@@ -54,5 +52,8 @@ const styles = StyleSheet.create({
   content: {
     flexGrow: 1,
     paddingHorizontal: glass ? StyleSheet.hairlineWidth : undefined,
+  },
+  main: {
+    flex: 1,
   },
 })

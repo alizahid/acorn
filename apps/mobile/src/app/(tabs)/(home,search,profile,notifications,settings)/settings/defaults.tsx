@@ -182,7 +182,7 @@ export default function Screen() {
         </View>
       </ScrollViewContainer>
 
-      <Sheet.Root ref={sheet} scrollable>
+      <Sheet.Root ref={sheet}>
         <Sheet.Header style={styles.title} title={t('feed.title')} />
 
         <CommunitiesList

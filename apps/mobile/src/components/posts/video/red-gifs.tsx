@@ -28,7 +28,7 @@ export function RedGifsVideo({
   thumbnail,
   video,
 }: Props) {
-  styles.useVariants({
+  const variants = styles.useVariants({
     compact,
     crossPost,
     large,
@@ -55,8 +55,8 @@ export function RedGifsVideo({
   }
 
   return (
-    <View style={styles.main}>
-      <View style={styles.video(video.width / video.height)}>
+    <View style={variants.main}>
+      <View style={variants.video(video.width / video.height)}>
         <Spinner />
       </View>
     </View>

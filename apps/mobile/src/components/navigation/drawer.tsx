@@ -21,7 +21,7 @@ export function Drawer({ children }: Props) {
     })),
   )
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     iPad,
     side: drawerLeft ? 'left' : 'right',
     sticky: drawerSticky,
@@ -52,21 +52,21 @@ export function Drawer({ children }: Props) {
   const renderDrawerContent = useCallback(
     () => (
       <CommunitiesList
-        contentContainerStyle={styles.content}
+        contentContainerStyle={variants.content}
         drawer
         onPress={() => {
           setOpen(false)
         }}
-        style={styles.main}
+        style={variants.main}
       />
     ),
-    [],
+    [variants.content, variants.main],
   )
 
   return (
     <DrawerLayout
       drawerPosition={iPad ? 'left' : drawerLeft ? 'left' : 'right'}
-      drawerStyle={styles.drawer}
+      drawerStyle={variants.drawer}
       drawerType={iPad ? (drawerSticky ? 'permanent' : 'front') : 'slide'}
       onClose={() => {
         setOpen(false)

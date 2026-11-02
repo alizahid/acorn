@@ -49,7 +49,7 @@ export function TextBox({
 
   const [focused, setFocused] = useState(false)
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     focused,
     multiline,
     variant,
@@ -58,7 +58,7 @@ export function TextBox({
   const Component = glass ? GlassView : View
 
   return (
-    <Component isInteractive style={[styles.main, style]}>
+    <Component isInteractive style={[variants.main, style]}>
       {left}
 
       <TextInput
@@ -75,7 +75,7 @@ export function TextBox({
           setFocused(true)
         }}
         style={[
-          styles.input(font, systemScaling ? 1 : fontScaling),
+          variants.input(font, systemScaling ? 1 : fontScaling),
           styleInput,
         ]}
         textAlignVertical="center"

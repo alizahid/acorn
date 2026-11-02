@@ -17,7 +17,7 @@ export function Paywall({ render, sheet }: Props) {
 
   const { subscribed } = useSubscribed()
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     disabled: !subscribed,
   })
 
@@ -29,7 +29,7 @@ export function Paywall({ render, sheet }: Props) {
 
         router.navigate('/subscribe')
       }}
-      style={styles.main}
+      style={variants.main}
       variant="plain"
     >
       {render(!subscribed)}

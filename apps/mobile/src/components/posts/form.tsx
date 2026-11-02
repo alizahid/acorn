@@ -22,7 +22,7 @@ export function PostForm() {
 
   const a11y = useTranslations('a11y')
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     glass,
   })
 
@@ -111,7 +111,7 @@ export function PostForm() {
 
       {submission.media.text ? <Submission.Text /> : null}
 
-      <View style={styles.footer}>
+      <View style={variants.footer}>
         <Submission.Flair />
 
         <Submission.Meta types={types} />

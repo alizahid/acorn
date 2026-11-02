@@ -34,7 +34,7 @@ type Route = (typeof routes)[number]
 export default function Screen() {
   const t = useTranslations('screen.search')
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     glass,
   })
 
@@ -108,12 +108,12 @@ export default function Screen() {
     }: SceneRendererProps & {
       navigationState: NavigationState<Route>
     }) => (
-      <View style={styles.tabBar}>
+      <View style={variants.tabBar}>
         <SearchBox
           glass
           onChange={setQuery}
           placeholder="search"
-          style={styles.search}
+          style={variants.search}
           value={query}
         />
 
@@ -129,7 +129,7 @@ export default function Screen() {
         />
       </View>
     ),
-    [query, t],
+    [query, t, variants.search, variants.tabBar],
   )
 
   return (

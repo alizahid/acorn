@@ -18,7 +18,7 @@ export function Toast() {
     })),
   )
 
-  styles.useVariants({
+  const variants = styles.useVariants({
     iPad,
   })
 
@@ -62,12 +62,12 @@ export function Toast() {
         ),
       }}
       toastOptions={{
-        closeButtonStyle: styles.close,
-        descriptionStyle: styles.description(font),
-        style: styles.main,
-        titleStyle: styles.title(font),
-        toastContainerStyle: styles.container,
-        toastContentStyle: styles.content,
+        closeButtonStyle: variants.close,
+        descriptionStyle: variants.description(font),
+        style: variants.main,
+        titleStyle: variants.title(font),
+        toastContainerStyle: variants.container,
+        toastContentStyle: variants.content,
         unstyled: true,
       }}
     />
