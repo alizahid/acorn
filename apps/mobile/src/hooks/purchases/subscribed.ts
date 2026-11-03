@@ -16,7 +16,7 @@ export function useSubscribed() {
     enabled: Boolean(plans),
     async queryFn() {
       if (__DEV__) {
-        return false
+        return true
       }
 
       if (!plans?.length) {
