@@ -91,7 +91,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
           left: theme.space[4],
         },
         right: {
-          right: theme.space[4],
+          right: theme.space[4] + runtime.insets.right,
         },
       },
     },
