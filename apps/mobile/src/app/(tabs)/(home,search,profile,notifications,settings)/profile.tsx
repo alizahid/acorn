@@ -14,6 +14,8 @@ import { RefreshControl } from '~/components/common/refresh-control'
 import { ProfileCard } from '~/components/users/profile'
 import { useListProps } from '~/hooks/list'
 import { useProfile } from '~/hooks/queries/user/profile'
+import { useTabPress } from '~/hooks/tabs'
+import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
 import { type ColorToken } from '~/styles/tokens'
 import { UserFeedType } from '~/types/user'
@@ -33,6 +35,15 @@ export default function Screen() {
   const { profile, refetch } = useProfile(accountId)
 
   const listProps = useListProps()
+
+  useTabPress(
+    () => {
+      mitter.emit('switch-account')
+    },
+    {
+      double: true,
+    },
+  )
 
   return (
     <>

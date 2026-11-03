@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react'
-import { View } from 'react-native'
+import { useCallback, useRef, useState } from 'react'
+import { type TextInputInstance, View } from 'react-native'
 import { SafeAreaView } from 'react-native-screens/experimental'
 import {
   type NavigationState,
@@ -17,6 +17,7 @@ import { SegmentedControl } from '~/components/common/segmented-control'
 import { SortIntervalMenu } from '~/components/posts/sort-interval'
 import { SearchList } from '~/components/search/list'
 import { useListProps } from '~/hooks/list'
+import { useTabPress } from '~/hooks/tabs'
 import { glass } from '~/lib/common'
 import { useDefaults } from '~/stores/defaults'
 import { usePreferences } from '~/stores/preferences'
@@ -43,6 +44,17 @@ export default function Screen() {
       intervalSearchPosts: state.intervalSearchPosts,
       sortSearchPosts: state.sortSearchPosts,
     })),
+  )
+
+  const input = useRef<TextInputInstance>(null)
+
+  useTabPress(
+    () => {
+      input.current?.focus()
+    },
+    {
+      focused: true,
+    },
   )
 
   const [sort, setSort] = useState(sortSearchPosts)
@@ -113,6 +125,7 @@ export default function Screen() {
           glass
           onChange={setQuery}
           placeholder="search"
+          ref={input}
           style={variants.search}
           value={query}
         />
