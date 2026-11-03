@@ -35,7 +35,6 @@ export default function Screen() {
   return (
     <WebView
       cacheEnabled={false}
-      containerStyle={styles.content}
       injectedJavaScript={injected}
       onMessage={() => {
         //
@@ -65,10 +64,7 @@ export default function Screen() {
   )
 }
 
-const styles = StyleSheet.create((theme, runtime) => ({
-  content: {
-    paddingRight: runtime.insets.right,
-  },
+const styles = StyleSheet.create((theme) => ({
   loading: {
     ...StyleSheet.absoluteFillObject,
     height: 'auto',

@@ -38,6 +38,7 @@ export function Root({
       insetAdjustment="never"
       maxContentWidth={maxWidth}
       onWillDismiss={onClose}
+      placement="center"
       ref={ref}
       style={styles.main}
     >
