@@ -17,152 +17,157 @@ import { Sheet } from './sheet'
 type Props = {
   type: 'image' | 'video' | 'link'
   url: string
+  fallback?: string
 }
 
-export const MediaMenu = createCallable<Props>(({ call, type, url }) => {
-  const t = useTranslations('component.common.gallery')
+export const MediaMenu = createCallable<Props>(
+  ({ call, type, url, fallback }) => {
+    const t = useTranslations('component.common.gallery')
 
-  const sheet = useRef<Sheet>(null)
+    const sheet = useRef<Sheet>(null)
 
-  useEffect(() => {
-    if (call.ended) {
-      sheet.current?.dismiss()
+    useEffect(() => {
+      if (call.ended) {
+        sheet.current?.dismiss()
 
-      return
-    }
+        return
+      }
 
-    sheet.current?.present()
-  }, [call.ended])
+      sheet.current?.present()
+    }, [call.ended])
 
-  const { copy: copyLink } = useCopy()
-  const { openInApp, openInBrowser } = useLink()
-  const { copy: copyImage } = useCopyImage()
-  const { share: shareImage } = useShareImage()
-  const { download: downloadImage } = useDownloadImage()
-  const { download: downloadVideo } = useDownloadVideo()
+    const { copy: copyLink } = useCopy()
+    const { openInApp, openInBrowser } = useLink()
+    const { copy: copyImage } = useCopyImage()
+    const { share: shareImage } = useShareImage()
+    const { download: downloadImage } = useDownloadImage()
+    const { download: downloadVideo } = useDownloadVideo()
 
-  return (
-    <Sheet.Root ref={sheet}>
-      <Sheet.Header
-        title={t(
-          type === 'image'
-            ? 'image.title'
-            : type === 'link'
-              ? 'link.title'
-              : 'video.title',
-        )}
-      />
+    return (
+      <Sheet.Root ref={sheet}>
+        <Sheet.Header
+          title={t(
+            type === 'image'
+              ? 'image.title'
+              : type === 'link'
+                ? 'link.title'
+                : 'video.title',
+          )}
+        />
 
-      {type === 'image' ? (
-        <>
-          <Sheet.Item
-            label={t('image.copy')}
-            left={<Icon name="copy" />}
-            onPress={() => {
-              call.end()
-
-              copyImage({
-                url,
-              })
-            }}
-          />
-
-          <Sheet.Item
-            label={t('image.share')}
-            left={<Icon name="export" />}
-            onPress={() => {
-              call.end()
-
-              shareImage({
-                url,
-              })
-            }}
-          />
-
-          <Sheet.Item
-            label={t('image.download')}
-            left={<Icon name="download" />}
-            onPress={() => {
-              call.end()
-
-              downloadImage({
-                url,
-              })
-            }}
-          />
-        </>
-      ) : null}
-
-      {type === 'video' ? (
-        <Paywall
-          render={(disabled) => (
+        {type === 'image' ? (
+          <>
             <Sheet.Item
-              disabled={disabled}
-              label={t('video.download')}
-              left={<Icon name="download" />}
+              label={t('image.copy')}
+              left={<Icon name="copy" />}
               onPress={() => {
                 call.end()
 
-                downloadVideo({
+                copyImage({
                   url,
                 })
               }}
             />
-          )}
-          sheet={sheet}
-        />
-      ) : null}
 
-      {type === 'link' ? (
-        <>
-          <Sheet.Item
-            label={t('link.copy')}
-            left={<Icon name="copy" />}
-            onPress={() => {
-              call.end()
+            <Sheet.Item
+              label={t('image.share')}
+              left={<Icon name="export" />}
+              onPress={() => {
+                call.end()
 
-              copyLink(url)
-            }}
+                shareImage({
+                  url,
+                })
+              }}
+            />
+
+            <Sheet.Item
+              label={t('image.download')}
+              left={<Icon name="download" />}
+              onPress={() => {
+                call.end()
+
+                downloadImage({
+                  url,
+                })
+              }}
+            />
+          </>
+        ) : null}
+
+        {type === 'video' ? (
+          <Paywall
+            render={(disabled) => (
+              <Sheet.Item
+                disabled={disabled}
+                label={t('video.download')}
+                left={<Icon name="download" />}
+                onPress={() => {
+                  call.end()
+
+                  downloadVideo({
+                    fallback,
+                    url,
+                  })
+                }}
+              />
+            )}
+            sheet={sheet}
           />
+        ) : null}
 
-          <Sheet.Item
-            label={t('link.openApp')}
-            left={<Logo style={styles.acorn} />}
-            onPress={async () => {
-              await openInApp(url)
+        {type === 'link' ? (
+          <>
+            <Sheet.Item
+              label={t('link.copy')}
+              left={<Icon name="copy" />}
+              onPress={() => {
+                call.end()
 
-              call.end()
-            }}
-          />
+                copyLink(url)
+              }}
+            />
 
-          <Sheet.Item
-            label={t('link.openBrowser')}
-            left={<Icon name="compass" />}
-            onPress={() => {
-              call.end()
+            <Sheet.Item
+              label={t('link.openApp')}
+              left={<Logo style={styles.acorn} />}
+              onPress={async () => {
+                await openInApp(url)
 
-              openInBrowser(url)
-            }}
-          />
+                call.end()
+              }}
+            />
 
-          <Sheet.Item
-            label={t('link.share')}
-            left={<Icon name="export" />}
-            onPress={async () => {
-              await Share.share({
-                url,
-              })
+            <Sheet.Item
+              label={t('link.openBrowser')}
+              left={<Icon name="compass" />}
+              onPress={() => {
+                call.end()
 
-              call.end()
-            }}
-          />
-        </>
-      ) : null}
+                openInBrowser(url)
+              }}
+            />
 
-      <Sheet.BottomInset />
-    </Sheet.Root>
-  )
-}, 250)
+            <Sheet.Item
+              label={t('link.share')}
+              left={<Icon name="export" />}
+              onPress={async () => {
+                await Share.share({
+                  url,
+                })
+
+                call.end()
+              }}
+            />
+          </>
+        ) : null}
+
+        <Sheet.BottomInset />
+      </Sheet.Root>
+    )
+  },
+  250,
+)
 
 const styles = StyleSheet.create((theme) => ({
   acorn: {

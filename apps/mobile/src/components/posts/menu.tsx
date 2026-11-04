@@ -423,6 +423,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
                     if (post.media.video) {
                       downloadVideo({
+                        fallback: post.media.video?.fallback,
                         provider: post.media.video?.provider,
                         url: post.media.video?.url,
                       })

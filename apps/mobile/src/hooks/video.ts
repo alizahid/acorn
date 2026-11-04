@@ -4,7 +4,7 @@ import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
 import { File, Paths } from 'expo-file-system'
 import { Asset, requestPermissionsAsync } from 'expo-media-library'
-import { FFmpegKit } from 'ffmpeg-kit-react-native'
+import { FFmpegKit, ReturnCode } from 'ffmpeg-kit-react-native'
 import { useRef } from 'react'
 import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
@@ -17,6 +17,7 @@ import { getAlbum } from './image'
 
 type DownloadVideoVariables = {
   url: string
+  fallback?: string
   provider?: 'reddit' | 'red-gifs'
 }
 
@@ -54,7 +55,15 @@ export function useDownloadVideo() {
 
       const file = new File(Paths.cache, `${createId()}.mp4`)
 
-      await FFmpegKit.execute(`-i "${url}" -c:v copy -c:a aac ${file.uri}`)
+      let saved = await save(url, file.uri)
+
+      if (!saved && variables.fallback) {
+        saved = await save(variables.fallback, file.uri)
+      }
+
+      if (!saved) {
+        throw new Error(t('failed'))
+      }
 
       if (saveToAlbum) {
         const album = await getAlbum()
@@ -84,4 +93,19 @@ export function useDownloadVideo() {
     isPending,
     isSuccess,
   }
+}
+
+async function save(input: string, output: string) {
+  const session = await FFmpegKit.executeWithArguments([
+    '-y',
+    '-i',
+    input,
+    '-c:v',
+    'copy',
+    '-c:a',
+    'aac',
+    output,
+  ])
+
+  return ReturnCode.isSuccess(await session.getReturnCode())
 }

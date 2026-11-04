@@ -99,6 +99,10 @@ export function VideoPlayer({
   const [status, setStatus] = useRecyclingState<PlaybackStatus>('loading', [
     recyclingKey,
   ])
+  const [source, setSource] = useRecyclingState(video.url, [
+    recyclingKey,
+    video.url,
+  ])
   const [muted, setMuted] = useRecyclingState(initialMuted, [recyclingKey])
   const [fullscreen, setFullscreen] = useRecyclingState(false, [recyclingKey])
 
@@ -117,6 +121,7 @@ export function VideoPlayer({
       accessibilityLabel={a11y('viewVideo')}
       onLongPress={() => {
         MediaMenu.call({
+          fallback: video.fallback,
           type: 'video',
           url: video.url,
         })
@@ -164,6 +169,17 @@ export function VideoPlayer({
         }}
         onMutedChange={setMuted}
         onPlaybackStateChange={(event) => {
+          if (
+            event.status === 'error' &&
+            video.fallback &&
+            source !== video.fallback
+          ) {
+            setSource(video.fallback)
+            setStatus('loading')
+
+            return
+          }
+
           setStatus(event.status)
         }}
         onProgress={(event) => {
@@ -173,7 +189,7 @@ export function VideoPlayer({
         playerKey={recyclingKey}
         poster={video.thumbnail ?? thumbnail}
         ref={player}
-        source={video.url}
+        source={source}
         style={variants.video(video.width / video.height)}
         visibilityAxis="vertical"
       />

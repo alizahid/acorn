@@ -932,7 +932,8 @@
     },
     "video": {
       "downloaded": "Video downloaded",
-      "downloading": "Downloading video"
+      "downloading": "Downloading video",
+      "failed": "Couldn't download video"
     }
   }
 }
