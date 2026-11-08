@@ -316,6 +316,10 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
               />
             ) : null}
 
+            {!expanded && post.type === 'text' && post.preview ? (
+              <Text size="2">{`${post.preview}${post.preview.length === 300 ? '...' : ''}`}</Text>
+            ) : null}
+
             {expanded && post.body ? (
               <Markdown.Viewer meta={post.media.meta}>
                 {post.body}
