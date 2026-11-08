@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@acorn/reddit": "npm:@alizahid/reddit@^0.1.31",
+    "@acorn/reddit": "npm:@alizahid/reddit@^0.1.32",
     "@bacons/apple-targets": "^5.0.0",
     "@expo/ui": "~58.0.27",
     "@formatjs/intl-getcanonicallocales": "^3.3.0",
