@@ -1,6 +1,6 @@
 # Changelog
 
-## Upcoming
+## Build 96
 
 - added: double tap profile tab to switch account
 - added: NSFW search results option
