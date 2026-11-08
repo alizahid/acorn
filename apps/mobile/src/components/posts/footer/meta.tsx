@@ -72,6 +72,16 @@ export function PostMeta({ post, privacy }: Props) {
         />
       ) : null}
 
+      {post.edited ? (
+        <Icon
+          name="pencil"
+          uniProps={(theme) => ({
+            color: theme.colors.accent.accent,
+            size: theme.typography[1].lineHeight,
+          })}
+        />
+      ) : null}
+
       {post.locked || post.archived ? (
         <Icon
           name="lock"
