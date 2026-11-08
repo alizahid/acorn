@@ -60,7 +60,6 @@ apps/mobile/android
 *.mobileprovision
 *.orig.*
 apps/mobile/targets/*/Assets.xcassets
-apps/mobile/targets/safari/generated.entitlements
 
 # next.js
 #
