@@ -3,6 +3,8 @@ import { getTranslations } from 'next-intl/server'
 
 import { Document } from '~/components/document'
 
+import Content from './content.mdx'
+
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations('page.privacy')
 
@@ -12,5 +14,9 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default function Page() {
-  return <Document page="privacy" />
+  return (
+    <Document page="privacy">
+      <Content />
+    </Document>
+  )
 }

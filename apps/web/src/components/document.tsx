@@ -1,54 +1,23 @@
+import { execFileSync } from 'node:child_process'
+import { join } from 'node:path'
+
 import Link from 'next/link'
-import { useMessages, useTranslations } from 'next-intl'
+import { useTranslations } from 'next-intl'
 import { type ReactNode } from 'react'
 
 import { Logo } from '~/components/logo'
 
-const links = {
-  apple: 'https://www.apple.com/legal/privacy/',
-  appleEula:
-    'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/',
-  appleRefund: 'https://reportaproblem.apple.com',
-  coffee: 'https://buymeacoffee.com/acornblue',
-  discord: 'https://discord.gg/sWzw5GU5RV',
-  expo: 'https://expo.dev/privacy',
-  github: 'https://github.com/alizahid/acorn',
-  privacy: '/privacy',
-  reddit: 'https://www.reddit.com/policies/privacy-policy',
-  redditApi: 'https://redditinc.com/policies/data-api-terms',
-  redditTerms: 'https://redditinc.com/policies/user-agreement',
-  sentry: 'https://sentry.io/privacy/',
-  terms: '/terms',
-  testFlight: 'https://testflight.apple.com/join/uKWP3MFB',
-} as const
-
-const tags = Object.fromEntries(
-  Object.entries(links).map(([key, href]) => [
-    key,
-    (text: ReactNode) => (
-      <Link
-        className="text-accent-11 hover:text-accent-12 focus-visible:outline-accent-a7 rounded-sm outline-offset-4 focus-visible:outline-2"
-        href={href}
-      >
-        {text}
-      </Link>
-    ),
-  ]),
-)
-
 type Props = {
+  children: ReactNode
   page: 'faq' | 'privacy' | 'terms'
 }
 
-export function Document({ page }: Props) {
+export function Document({ children, page }: Props) {
   const t = useTranslations(`page.${page}`)
 
-  const { sections } = useMessages().page[page]
+  const file = join(process.cwd(), 'src/app', page, 'content.mdx')
 
-  const rich = t.rich as unknown as (
-    key: string,
-    values: typeof tags,
-  ) => ReactNode
+  const updated = lastCommit(file)
 
   return (
     <main className="flex min-h-screen flex-col items-center gap-16 px-8 py-32">
@@ -59,25 +28,32 @@ export function Document({ page }: Props) {
 
         <h1 className="text-accent-a9 text-6xl font-bold">{t('header')}</h1>
 
-        <p className="text-gray-11 text-sm">{t('updated')}</p>
+        <p className="text-gray-11 text-sm">
+          {t('updated', {
+            date: updated ?? new Date(),
+          })}
+        </p>
       </header>
 
-      {sections.map((section, index) => (
-        <section
-          className="flex w-full max-w-xl flex-col gap-4"
-          key={section.title}
-        >
-          <h2 className="text-accent-11 text-3xl font-medium">
-            {section.title}
-          </h2>
-
-          {section.body.map((paragraph, item) => (
-            <p className="leading-relaxed" key={paragraph}>
-              {rich(`sections.${index}.body.${item}`, tags)}
-            </p>
-          ))}
-        </section>
-      ))}
+      <article className="flex w-full max-w-xl flex-col gap-4">
+        {children}
+      </article>
     </main>
   )
+}
+
+function lastCommit(file: string) {
+  try {
+    const date = execFileSync(
+      'git',
+      ['log', '-1', '--format=%aI', '--', file],
+      {
+        encoding: 'utf8',
+      },
+    ).trim()
+
+    return date ? new Date(date) : null
+  } catch {
+    return null
+  }
 }
