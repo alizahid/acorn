@@ -84,8 +84,10 @@ export function UserAbout({ name }: Props) {
 
         <View style={styles.name}>
           <Text size="6" weight="bold">
-            u/{profile.name}
+            {profile.name}
           </Text>
+
+          {profile.bio ? <Text size="2">{profile.bio}</Text> : null}
         </View>
       </View>
 

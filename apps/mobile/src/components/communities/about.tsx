@@ -85,7 +85,7 @@ export function CommunityAbout({ name }: Props) {
 
         <View style={styles.name}>
           <Text size="6" weight="bold">
-            r/{community.name}
+            {community.name}
           </Text>
 
           {community.title ? (
