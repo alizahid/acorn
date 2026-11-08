@@ -13,6 +13,7 @@
     "generate:icons": "bunx react-native-nano-icons",
     "ios": "expo run:ios",
     "publish": "eas build --profile production --platform ios --auto-submit",
+    "test": "bun test",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -113,6 +114,7 @@
   "devDependencies": {
     "@babel/core": "^7.29.13",
     "@sentry/cli": "3.8.2",
+    "@types/bun": "^1.4.4",
     "@types/lodash": "^4.17.27",
     "@types/node": "^26.6.6",
     "@types/react": "~19.3.0",
