@@ -347,6 +347,11 @@
         "unsave": "Unsave",
         "upvote": "Upvote"
       },
+      "poll": {
+        "vote": "Vote",
+        "closed": "Poll closed",
+        "closes": "Closes {time}"
+      },
       "video": {
         "nsfw": "Sensitive content - tap to watch",
         "spoiler": "Spoiler - tap to view"

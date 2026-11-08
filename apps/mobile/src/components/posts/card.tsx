@@ -28,6 +28,7 @@ import { PostCommunity } from './footer/community'
 import { PostGalleryCard } from './gallery'
 import { PostLinkCard } from './link'
 import { PostMenu } from './menu'
+import { PostPollCard } from './poll'
 import { PostVideoCard } from './video'
 
 type Props = {
@@ -314,6 +315,10 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
                 recyclingKey={post.id}
                 url={post.url}
               />
+            ) : null}
+
+            {post.type === 'poll' && post.poll ? (
+              <PostPollCard poll={post.poll} postId={post.id} />
             ) : null}
 
             {!expanded && post.type === 'text' && post.preview ? (

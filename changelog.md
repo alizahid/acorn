@@ -4,6 +4,7 @@
 
 - added: double tap profile tab to switch account
 - added: NSFW search results option
+- added: polls
 - added: tap search tab when on search tab to focus search bar
 - added: text post preview
 - fixed: communities tab on search

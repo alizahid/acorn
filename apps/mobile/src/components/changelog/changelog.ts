@@ -18,6 +18,7 @@ export const changelog: Changelog = [
       'You can now double tap the profile tab to switch accounts',
       'You can now tap the search tab while on the search tab to focus the search bar',
       'Text posts will have now show preview text in the feed',
+      'You can now see and vote on polls',
     ],
     build: 96,
     fixed: ['Replying to long comments will not hide the editor again'],

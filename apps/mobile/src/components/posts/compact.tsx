@@ -96,6 +96,12 @@ export function PostCompactCard({
             <Icon name="text-align-left" />
           </View>
         ) : null}
+
+        {post.type === 'poll' ? (
+          <View style={variants.text}>
+            <Icon name="ranking" />
+          </View>
+        ) : null}
       </View>
 
       <View style={variants.content}>
