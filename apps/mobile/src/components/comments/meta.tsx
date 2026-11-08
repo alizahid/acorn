@@ -139,11 +139,13 @@ export function CommentMeta({
           }}
         />
 
-        <Text size="1" tabular>
-          {f.number(comment.votes, {
-            notation: 'compact',
-          })}
-        </Text>
+        {comment.scoreHidden ? null : (
+          <Text size="1" tabular>
+            {f.number(comment.votes, {
+              notation: 'compact',
+            })}
+          </Text>
+        )}
 
         <FooterButton
           color={!privacy && comment.liked === false ? 'violet' : undefined}

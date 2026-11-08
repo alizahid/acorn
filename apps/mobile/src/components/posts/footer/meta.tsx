@@ -1,4 +1,5 @@
 import { type Post } from '@acorn/reddit'
+import { compact } from 'lodash'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter } from 'use-intl'
@@ -6,6 +7,7 @@ import { useFormatter } from 'use-intl'
 import { Icon, type IconName } from '~/components/common/icon'
 import { Text } from '~/components/common/text'
 import { TimeAgo } from '~/components/common/time'
+import { type ColorToken } from '~/styles/tokens'
 
 type Props = {
   post: Post
@@ -15,48 +17,48 @@ type Props = {
 export function PostMeta({ post, privacy }: Props) {
   const f = useFormatter()
 
-  const items = [
-    {
+  const items = compact([
+    !post.scoreHidden && {
       color: privacy
         ? undefined
         : post.liked
-          ? 'orange'
+          ? ('orange' as const satisfies ColorToken)
           : post.liked === false
-            ? 'violet'
+            ? ('violet' as const satisfies ColorToken)
             : undefined,
-      icon: (privacy
-        ? 'arrow-fat-up'
+      icon: privacy
+        ? ('arrow-fat-up' as const satisfies IconName)
         : post.liked
-          ? 'arrow-fat-up-fill'
+          ? ('arrow-fat-up-fill' as const satisfies IconName)
           : post.liked === false
-            ? 'arrow-fat-down-fill'
-            : 'arrow-fat-up') satisfies IconName,
-      key: 'votes',
+            ? ('arrow-fat-down-fill' as const satisfies IconName)
+            : ('arrow-fat-up' as const satisfies IconName),
+      key: 'votes' as const,
       label: f.number(post.votes, {
         notation: 'compact',
       }),
       weight: post.liked === null ? undefined : 'fill',
     },
     {
-      icon: 'smiley' satisfies IconName,
-      key: 'ratio',
+      icon: 'smiley' as const satisfies IconName,
+      key: 'ratio' as const,
       label: f.number(post.ratio, {
         style: 'percent',
       }),
     },
     {
-      icon: 'chat-centered' satisfies IconName,
-      key: 'comments',
+      icon: 'chat-centered' as const satisfies IconName,
+      key: 'comments' as const,
       label: f.number(post.comments, {
         notation: 'compact',
       }),
     },
     {
-      icon: 'clock' satisfies IconName,
-      key: 'created',
+      icon: 'clock' as const satisfies IconName,
+      key: 'created' as const,
       label: <TimeAgo date={post.createdAt} />,
     },
-  ] as const
+  ])
 
   return (
     <View style={styles.main}>
