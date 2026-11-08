@@ -11,6 +11,7 @@
 - fixed: communities tab on search
 - fixed: community list
 - fixed: long comment reply
+- fixed: translating posts / comments
 
 ## Build 95
 

@@ -251,8 +251,8 @@ export function CommentMenu({
           <Sheet.Item
             label={t('translateText')}
             left={<Icon name="translate" />}
-            onPress={() => {
-              ref.current?.dismiss()
+            onPress={async () => {
+              await ref.current?.dismiss()
 
               onTranslateSheet({
                 input: comment.body,

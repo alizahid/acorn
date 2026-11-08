@@ -24,7 +24,10 @@ export const changelog: Changelog = [
     changed: [
       'You will not be able to vote on or reply to locked or archived posts and comments anymore',
     ],
-    fixed: ['Replying to long comments will not hide the editor again'],
+    fixed: [
+      'Replying to long comments will not hide the editor again',
+      'Post and comment translations should work again',
+    ],
   },
   {
     added: [

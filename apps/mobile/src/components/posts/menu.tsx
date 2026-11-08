@@ -218,8 +218,8 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
             <Sheet.Item
               label={t('translateText')}
               left={<Icon name="translate" />}
-              onPress={() => {
-                ref.current?.dismiss()
+              onPress={async () => {
+                await ref.current?.dismiss()
 
                 if (post.body) {
                   onTranslateSheet({
