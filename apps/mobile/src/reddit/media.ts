@@ -8,7 +8,6 @@ import { createApi } from './api'
 export async function uploadFile(asset: ImagePickerAsset) {
   const reddit = await createApi()
 
-  // expo/fetch can't send `{ uri }` parts; a File reads its own bytes
   return reddit.posts.upload({
     file: new File(asset.uri),
   })
