@@ -7,6 +7,7 @@
 - added: polls
 - added: tap search tab when on search tab to focus search bar
 - added: text post preview
+- changed: voting and replying disabled for locked or archived posts / comments
 - fixed: communities tab on search
 - fixed: community list
 - fixed: long comment reply

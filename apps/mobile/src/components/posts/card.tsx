@@ -123,11 +123,16 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
       if (action === 'save') {
         save({
           action: item.saved ? 'unsave' : 'save',
+          locked: post.locked || post.archived,
           postId: item.id,
         })
       }
 
       if (action === 'reply') {
+        if (post.locked || post.archived) {
+          return
+        }
+
         router.navigate({
           params: {
             id: item.id,
@@ -155,7 +160,18 @@ export function PostCard({ expanded, hideCommunity, hideUser, post }: Props) {
         })
       }
     },
-    [hide, oldReddit, post.hidden, post.id, post.permalink, router, save, vote],
+    [
+      hide,
+      oldReddit,
+      post.hidden,
+      post.id,
+      post.permalink,
+      router,
+      save,
+      vote,
+      post.locked,
+      post.archived,
+    ],
   )
 
   function onPress() {

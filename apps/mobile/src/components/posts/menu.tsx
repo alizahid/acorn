@@ -90,49 +90,53 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.palette}>
-            <IconButton
-              accessibilityLabel={t(post.liked ? 'removeUpvote' : 'upvote')}
-              onPress={() => {
-                ref.current?.dismiss()
+            {post.locked || post.archived ? null : (
+              <IconButton
+                accessibilityLabel={t(post.liked ? 'removeUpvote' : 'upvote')}
+                onPress={() => {
+                  ref.current?.dismiss()
 
-                vote({
-                  action: post.liked ? 'unvote' : 'upvote',
-                  postId: post.id,
-                })
-              }}
-            >
-              <Icon
-                name={post.liked ? 'arrow-fat-up-fill' : 'arrow-fat-up'}
-                uniProps={(theme) => ({
-                  color: theme.colors.orange.accent,
-                })}
-              />
-            </IconButton>
+                  vote({
+                    action: post.liked ? 'unvote' : 'upvote',
+                    postId: post.id,
+                  })
+                }}
+              >
+                <Icon
+                  name={post.liked ? 'arrow-fat-up-fill' : 'arrow-fat-up'}
+                  uniProps={(theme) => ({
+                    color: theme.colors.orange.accent,
+                  })}
+                />
+              </IconButton>
+            )}
 
-            <IconButton
-              accessibilityLabel={t(
-                post.liked === false ? 'removeDownvote' : 'downvote',
-              )}
-              onPress={() => {
-                ref.current?.dismiss()
+            {post.locked || post.archived ? null : (
+              <IconButton
+                accessibilityLabel={t(
+                  post.liked === false ? 'removeDownvote' : 'downvote',
+                )}
+                onPress={() => {
+                  ref.current?.dismiss()
 
-                vote({
-                  action: post.liked === false ? 'unvote' : 'downvote',
-                  postId: post.id,
-                })
-              }}
-            >
-              <Icon
-                name={
-                  post.liked === false
-                    ? 'arrow-fat-down-fill'
-                    : 'arrow-fat-down'
-                }
-                uniProps={(theme) => ({
-                  color: theme.colors.violet.accent,
-                })}
-              />
-            </IconButton>
+                  vote({
+                    action: post.liked === false ? 'unvote' : 'downvote',
+                    postId: post.id,
+                  })
+                }}
+              >
+                <Icon
+                  name={
+                    post.liked === false
+                      ? 'arrow-fat-down-fill'
+                      : 'arrow-fat-down'
+                  }
+                  uniProps={(theme) => ({
+                    color: theme.colors.violet.accent,
+                  })}
+                />
+              </IconButton>
+            )}
 
             <IconButton
               accessibilityLabel={t(post.saved ? 'unsave' : 'save')}
@@ -141,6 +145,7 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
 
                 save({
                   action: post.saved ? 'unsave' : 'save',
+                  locked: post.locked || post.archived,
                   postId: post.id,
                 })
               }}
@@ -153,26 +158,28 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
               />
             </IconButton>
 
-            <IconButton
-              accessibilityLabel={t('reply')}
-              onPress={() => {
-                ref.current?.dismiss()
+            {post.locked || post.archived ? null : (
+              <IconButton
+                accessibilityLabel={t('reply')}
+                onPress={() => {
+                  ref.current?.dismiss()
 
-                router.navigate({
-                  params: {
-                    id: post.id,
-                  },
-                  pathname: '/posts/[id]/reply',
-                })
-              }}
-            >
-              <Icon
-                name="arrow-bend-up-left-bold"
-                uniProps={(theme) => ({
-                  color: theme.colors.blue.accent,
-                })}
-              />
-            </IconButton>
+                  router.navigate({
+                    params: {
+                      id: post.id,
+                    },
+                    pathname: '/posts/[id]/reply',
+                  })
+                }}
+              >
+                <Icon
+                  name="arrow-bend-up-left-bold"
+                  uniProps={(theme) => ({
+                    color: theme.colors.blue.accent,
+                  })}
+                />
+              </IconButton>
+            )}
           </View>
 
           <Sheet.Separator />

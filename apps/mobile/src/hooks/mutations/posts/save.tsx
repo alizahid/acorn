@@ -17,6 +17,7 @@ import { usePostVote } from './vote'
 
 type Variables = {
   action: 'save' | 'unsave'
+  locked: boolean
   postId: string
 }
 
@@ -40,7 +41,7 @@ export function usePostSave() {
       })
     },
     onMutate(variables) {
-      if (upvoteOnSave && variables.action === 'save') {
+      if (upvoteOnSave && !variables.locked && variables.action === 'save') {
         vote({
           action: 'upvote',
           postId: variables.postId,

@@ -32,6 +32,7 @@ type Props = {
   comment: CommentReply
   disabled?: boolean
   dull?: boolean
+  locked?: boolean
   onCollapse?: () => void
   onCollapseThread?: () => void
   onPress: () => void
@@ -42,6 +43,7 @@ export function CommentCard({
   comment,
   disabled,
   dull,
+  locked,
   onCollapse,
   onCollapseThread,
   onPress,
@@ -104,6 +106,7 @@ export function CommentCard({
   }, undefined)
 
   const privacy = privateScreenshots && capturing
+  const isLocked = locked || comment.locked || comment.archived
 
   return (
     <Gestures
@@ -138,11 +141,16 @@ export function CommentCard({
           save({
             action: comment.saved ? 'unsave' : 'save',
             commentId: comment.id,
+            locked: isLocked,
             postId: comment.post.id,
           })
         }
 
         if (action === 'reply') {
+          if (isLocked) {
+            return
+          }
+
           setComment(comment)
 
           router.navigate({
@@ -190,6 +198,7 @@ export function CommentCard({
       <CommentMenu
         card={card}
         comment={comment}
+        locked={locked}
         onCapturing={setCapturing}
         onCollapse={onCollapse}
         onCollapseThread={onCollapseThread}

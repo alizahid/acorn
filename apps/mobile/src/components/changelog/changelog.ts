@@ -21,6 +21,9 @@ export const changelog: Changelog = [
       'You can now see and vote on polls',
     ],
     build: 96,
+    changed: [
+      'You will not be able to vote on or reply to locked or archived posts and comments anymore',
+    ],
     fixed: ['Replying to long comments will not hide the editor again'],
   },
   {

@@ -240,6 +240,7 @@ export default function Screen() {
         <CommentCard
           collapsed={item.data.collapsed}
           comment={item.data}
+          locked={post?.locked || post?.archived}
           onCollapse={() => {
             if (!collapsibleComments) {
               return
@@ -338,7 +339,7 @@ export default function Screen() {
         renderItem={renderItem}
       />
 
-      {replyPost && post ? (
+      {!(post?.locked || post?.archived) && replyPost && post ? (
         <FloatingButton
           label={a11y('createComment')}
           onPress={() => {

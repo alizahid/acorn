@@ -16,6 +16,7 @@ import { useCommentVote } from './vote'
 type Variables = {
   action: 'save' | 'unsave'
   commentId: string
+  locked: boolean
   postId?: string
 }
 
@@ -39,7 +40,7 @@ export function useCommentSave() {
       })
     },
     onMutate(variables) {
-      if (upvoteOnSave && variables.action === 'save') {
+      if (upvoteOnSave && !variables.locked && variables.action === 'save') {
         vote({
           action: 'upvote',
           commentId: variables.commentId,

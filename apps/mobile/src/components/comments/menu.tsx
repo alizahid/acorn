@@ -28,23 +28,25 @@ import { usePreferences } from '~/stores/preferences'
 import { useTemp } from '~/stores/temp'
 
 type Props = {
-  ref: RefObject<Sheet | null>
   card?: RefObject<ViewInstance | null>
   children: ReactNode
   comment: CommentReply
+  locked?: boolean
+  onCapturing?: (capturing: boolean) => void
   onCollapse?: () => void
   onCollapseThread?: () => void
-  onCapturing?: (capturing: boolean) => void
+  ref: RefObject<Sheet | null>
 }
 
 export function CommentMenu({
-  ref,
   card,
   children,
   comment,
+  locked,
+  onCapturing,
   onCollapse,
   onCollapseThread,
-  onCapturing,
+  ref,
 }: Props) {
   const router = useRouter()
 
@@ -82,6 +84,8 @@ export function CommentMenu({
   const { share: shareImage } = useShareImage()
   const { download: downloadImage } = useDownloadImage()
 
+  const isLocked = locked || comment.locked || comment.archived
+
   return (
     <>
       {children}
@@ -101,51 +105,57 @@ export function CommentMenu({
           showsVerticalScrollIndicator={false}
         >
           <View style={styles.palette}>
-            <IconButton
-              accessibilityLabel={t(comment.liked ? 'removeUpvote' : 'upvote')}
-              onPress={() => {
-                ref.current?.dismiss()
+            {isLocked ? null : (
+              <IconButton
+                accessibilityLabel={t(
+                  comment.liked ? 'removeUpvote' : 'upvote',
+                )}
+                onPress={() => {
+                  ref.current?.dismiss()
 
-                vote({
-                  action: comment.liked ? 'unvote' : 'upvote',
-                  commentId: comment.id,
-                  postId: comment.post.id,
-                })
-              }}
-            >
-              <Icon
-                name={comment.liked ? 'arrow-fat-up-fill' : 'arrow-fat-up'}
-                uniProps={(theme) => ({
-                  color: theme.colors.orange.accent,
-                })}
-              />
-            </IconButton>
+                  vote({
+                    action: comment.liked ? 'unvote' : 'upvote',
+                    commentId: comment.id,
+                    postId: comment.post.id,
+                  })
+                }}
+              >
+                <Icon
+                  name={comment.liked ? 'arrow-fat-up-fill' : 'arrow-fat-up'}
+                  uniProps={(theme) => ({
+                    color: theme.colors.orange.accent,
+                  })}
+                />
+              </IconButton>
+            )}
 
-            <IconButton
-              accessibilityLabel={t(
-                comment.liked === false ? 'removeDownvote' : 'downvote',
-              )}
-              onPress={() => {
-                ref.current?.dismiss()
+            {isLocked ? null : (
+              <IconButton
+                accessibilityLabel={t(
+                  comment.liked === false ? 'removeDownvote' : 'downvote',
+                )}
+                onPress={() => {
+                  ref.current?.dismiss()
 
-                vote({
-                  action: comment.liked === false ? 'unvote' : 'downvote',
-                  commentId: comment.id,
-                  postId: comment.post.id,
-                })
-              }}
-            >
-              <Icon
-                name={
-                  comment.liked === false
-                    ? 'arrow-fat-down-fill'
-                    : 'arrow-fat-down'
-                }
-                uniProps={(theme) => ({
-                  color: theme.colors.violet.accent,
-                })}
-              />
-            </IconButton>
+                  vote({
+                    action: comment.liked === false ? 'unvote' : 'downvote',
+                    commentId: comment.id,
+                    postId: comment.post.id,
+                  })
+                }}
+              >
+                <Icon
+                  name={
+                    comment.liked === false
+                      ? 'arrow-fat-down-fill'
+                      : 'arrow-fat-down'
+                  }
+                  uniProps={(theme) => ({
+                    color: theme.colors.violet.accent,
+                  })}
+                />
+              </IconButton>
+            )}
 
             <IconButton
               accessibilityLabel={t(comment.saved ? 'unsave' : 'save')}
@@ -155,6 +165,7 @@ export function CommentMenu({
                 save({
                   action: comment.saved ? 'unsave' : 'save',
                   commentId: comment.id,
+                  locked: isLocked,
                   postId: comment.post.id,
                 })
               }}
@@ -169,30 +180,32 @@ export function CommentMenu({
               />
             </IconButton>
 
-            <IconButton
-              accessibilityLabel={t('reply')}
-              onPress={() => {
-                ref.current?.dismiss()
+            {isLocked ? null : (
+              <IconButton
+                accessibilityLabel={t('reply')}
+                onPress={() => {
+                  ref.current?.dismiss()
 
-                setComment(comment)
+                  setComment(comment)
 
-                router.navigate({
-                  params: {
-                    commentId: comment.id,
-                    id: comment.post.id,
-                    user: comment.user.name,
-                  },
-                  pathname: '/posts/[id]/reply',
-                })
-              }}
-            >
-              <Icon
-                name="arrow-bend-up-left-bold"
-                uniProps={(theme) => ({
-                  color: theme.colors.blue.accent,
-                })}
-              />
-            </IconButton>
+                  router.navigate({
+                    params: {
+                      commentId: comment.id,
+                      id: comment.post.id,
+                      user: comment.user.name,
+                    },
+                    pathname: '/posts/[id]/reply',
+                  })
+                }}
+              >
+                <Icon
+                  name="arrow-bend-up-left-bold"
+                  uniProps={(theme) => ({
+                    color: theme.colors.blue.accent,
+                  })}
+                />
+              </IconButton>
+            )}
           </View>
 
           <Sheet.Separator />

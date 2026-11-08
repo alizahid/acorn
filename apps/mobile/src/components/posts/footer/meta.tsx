@@ -65,7 +65,17 @@ export function PostMeta({ post, privacy }: Props) {
           name="push-pin-fill"
           uniProps={(theme) => ({
             color: theme.colors.green.accent,
-            size: theme.typography[1].fontSize,
+            size: theme.typography[1].lineHeight,
+          })}
+        />
+      ) : null}
+
+      {post.locked || post.archived ? (
+        <Icon
+          name="lock"
+          uniProps={(theme) => ({
+            color: theme.colors.red.accent,
+            size: theme.typography[1].lineHeight,
           })}
         />
       ) : null}
@@ -79,7 +89,7 @@ export function PostMeta({ post, privacy }: Props) {
                 'color' in item && item.color
                   ? theme.colors[item.color].accent
                   : theme.colors.gray.text,
-              size: theme.typography[1].fontSize,
+              size: theme.typography[1].lineHeight,
             })}
           />
 
