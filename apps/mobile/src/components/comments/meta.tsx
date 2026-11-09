@@ -50,17 +50,6 @@ export function CommentMeta({
         />
       ) : null}
 
-      {comment.edited ? (
-        <Icon
-          name="pencil"
-          style={styles.sticky}
-          uniProps={(theme) => ({
-            color: theme.colors.red.accent,
-            size: theme.typography[1].lineHeight,
-          })}
-        />
-      ) : null}
-
       {comment.locked || comment.archived ? (
         <Icon
           name="lock-simple"
