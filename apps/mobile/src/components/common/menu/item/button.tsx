@@ -8,7 +8,7 @@ import { Pressable } from '~/components/common/pressable'
 import { MenuItemContent } from './content'
 
 type Props = {
-  arrow?: boolean
+  arrow?: boolean | 'link'
   description?: string
   disabled?: boolean
   icon?: ReactNode

@@ -125,6 +125,7 @@ export default function Screen() {
         />
 
         <Menu.Button
+          arrow="link"
           icon={<Icon name="question" />}
           label={t('faq')}
           onPress={async () => {
@@ -136,6 +137,7 @@ export default function Screen() {
         />
 
         <Menu.Button
+          arrow="link"
           icon={<Icon name="file-text" />}
           label={t('terms')}
           onPress={async () => {
@@ -146,6 +148,7 @@ export default function Screen() {
         />
 
         <Menu.Button
+          arrow="link"
           icon={<Icon name="keyhole" />}
           label={t('privacy')}
           onPress={async () => {

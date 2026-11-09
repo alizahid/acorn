@@ -7,7 +7,7 @@ import { Spinner } from '~/components/common/spinner'
 import { Text } from '~/components/common/text'
 
 type Props = {
-  arrow?: boolean
+  arrow?: boolean | 'link'
   description?: string
   label: string
   labelStyle?: StyleProp<TextStyle>
@@ -54,7 +54,7 @@ export function MenuItemContent({
 
       {arrow ? (
         <Icon
-          name="caret-right"
+          name={arrow === 'link' ? 'arrow-square-out' : 'caret-right'}
           uniProps={(theme) => ({
             color: theme.colors.gray.accent,
             size: theme.space[4],
