@@ -255,6 +255,7 @@ function StackLayout({ children }: PropsWithChildren) {
         }}
         name="posts/[id]/reply"
         options={{
+          contentStyle: variants.full,
           headerStyle: variants.header,
           headerTransparent: false,
           presentation: iPad ? 'formSheet' : 'modal',
@@ -334,6 +335,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="subscribe"
         options={{
+          contentStyle: variants.full,
           headerShown: false,
           presentation: iPad ? 'formSheet' : 'modal',
         }}
@@ -342,6 +344,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="new"
         options={{
+          contentStyle: variants.full,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('new.title'),
         }}

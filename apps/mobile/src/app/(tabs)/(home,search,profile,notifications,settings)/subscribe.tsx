@@ -25,6 +25,7 @@ import { useRedeem } from '~/hooks/purchases/redeem'
 import { useRestore } from '~/hooks/purchases/restore'
 import { useSubscribe } from '~/hooks/purchases/subscribe'
 import { useSubscribed } from '~/hooks/purchases/subscribed'
+import { iPad } from '~/lib/common'
 
 export default function Screen() {
   const t = useTranslations('screen.auth.subscribe')
@@ -47,6 +48,13 @@ export default function Screen() {
 
   return (
     <>
+      {/*
+        On an iPad formSheet, react-native-screens resizes the first
+        ScrollView it finds to the whole sheet, which pushes the bottom of
+        the list under the footer. This empty view stops it finding one.
+      */}
+      <View collapsable={false} />
+
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.header}>
           <Logo />
@@ -280,10 +288,7 @@ export default function Screen() {
 
                 await WebBrowser.openBrowserAsync('https://acorn.blue/terms')
               }}
-              style={styles.link}
             >
-              <Icon name="file-text" />
-
               <Text>{t('link.terms')}</Text>
             </Pressable>
 
@@ -293,10 +298,7 @@ export default function Screen() {
 
                 await WebBrowser.openBrowserAsync('https://acorn.blue/privacy')
               }}
-              style={styles.link}
             >
-              <Icon name="keyhole" />
-
               <Text>{t('link.privacy')}</Text>
             </Pressable>
           </View>
@@ -331,7 +333,7 @@ const styles = StyleSheet.create((theme, runtime) => ({
   footer: {
     gap: theme.space[4],
     margin: theme.space[4],
-    marginBottom: runtime.insets.bottom + theme.space[4],
+    marginBottom: (iPad ? 0 : runtime.insets.bottom) + theme.space[4],
   },
   header: {
     alignItems: 'center',
@@ -343,11 +345,6 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   label: {
     flex: 1,
-  },
-  link: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[2],
   },
   links: {
     flexDirection: 'row',
