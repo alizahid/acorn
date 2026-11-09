@@ -48,11 +48,6 @@ export default function Screen() {
 
   return (
     <>
-      {/*
-        On an iPad formSheet, react-native-screens resizes the first
-        ScrollView it finds to the whole sheet, which pushes the bottom of
-        the list under the footer. This empty view stops it finding one.
-      */}
       <View collapsable={false} />
 
       <ScrollView contentContainerStyle={styles.content}>
