@@ -46,6 +46,8 @@ export default function Screen() {
           }}
         />
 
+        <Menu.Separator />
+
         <Menu.Button
           arrow
           icon={<Icon name="gear-six" />}
@@ -56,8 +58,6 @@ export default function Screen() {
             })
           }}
         />
-
-        <Menu.Separator />
 
         <Menu.Button
           arrow

@@ -124,6 +124,5 @@ const styles = StyleSheet.create((theme) => ({
     alignItems: 'center',
     flexDirection: 'row',
     gap: theme.space[2],
-    marginTop: 'auto',
   },
 }))

@@ -396,7 +396,7 @@ const styles = StyleSheet.create((theme) => ({
     },
   },
   header: {
-    gap: theme.space[1],
+    gap: theme.space[2],
   },
   main: {
     backgroundColor: theme.colors.ui.bg,

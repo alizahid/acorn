@@ -40,7 +40,7 @@ export function PostFooter({
 
   return (
     <View style={[styles.main(community), style]}>
-      <View style={styles.header}>
+      <View style={styles.left}>
         {community ? (
           <PostCommunity
             hideCommunity={hideCommunity}
@@ -53,7 +53,7 @@ export function PostFooter({
       </View>
 
       {hidePostActions ? null : (
-        <View style={styles.footer}>
+        <View style={styles.right}>
           <FooterButton
             color={!privacy && post.liked === true ? 'orange' : undefined}
             fill={!privacy && post.liked === true}
@@ -86,19 +86,19 @@ export function PostFooter({
 }
 
 const styles = StyleSheet.create((theme) => ({
-  footer: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    gap: theme.space[2],
-  },
-  header: {
+  left: {
     flexShrink: 1,
     gap: theme.space[2],
   },
   main: (community: boolean) => ({
-    alignItems: community ? 'center' : 'flex-start',
+    alignItems: community ? 'center' : 'flex-end',
     flexDirection: 'row',
     gap: theme.space[4],
     justifyContent: 'space-between',
   }),
+  right: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[2],
+  },
 }))

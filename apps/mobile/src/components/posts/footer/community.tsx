@@ -134,7 +134,7 @@ const styles = StyleSheet.create((theme) => ({
   main: {
     alignItems: 'center',
     flexDirection: 'row',
-    gap: theme.space[1],
+    gap: theme.space[2],
   },
   text: {
     flexShrink: 1,
