@@ -1,9 +1,11 @@
 import { useRouter } from 'expo-router'
 // biome-ignore lint/performance/noNamespaceImport: go away
 import * as WebBrowser from 'expo-web-browser'
+import { Alert, Linking } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
+import { useShallow } from 'zustand/react/shallow'
 
 import { Icon } from '~/components/common/icon'
 import { Logo } from '~/components/common/logo'
@@ -11,6 +13,8 @@ import { Menu } from '~/components/common/menu'
 import { AboutCard } from '~/components/settings/about'
 import { Updater } from '~/components/settings/updater'
 import { useListProps } from '~/hooks/list'
+import { queryClient } from '~/lib/query'
+import { useAuth } from '~/stores/auth'
 
 export default function Screen() {
   const router = useRouter()
@@ -18,6 +22,13 @@ export default function Screen() {
   const t = useTranslations('screen.settings.settings')
 
   const listProps = useListProps()
+
+  const { accountId, remove } = useAuth(
+    useShallow((state) => ({
+      accountId: state.accountId,
+      remove: state.remove,
+    })),
+  )
 
   return (
     <ScrollView {...listProps} contentContainerStyle={styles.content}>
@@ -159,6 +170,44 @@ export default function Screen() {
             await WebBrowser.openBrowserAsync('https://acorn.blue/privacy')
           }}
         />
+
+        {accountId ? (
+          <>
+            <Menu.Separator />
+
+            <Menu.Button
+              arrow="link"
+              icon={
+                <Icon
+                  name="trash"
+                  uniProps={(theme) => ({
+                    color: theme.colors.red.accent,
+                  })}
+                />
+              }
+              label={t('delete.label')}
+              onPress={() => {
+                Alert.alert(t('delete.title'), t('delete.description'), [
+                  {
+                    style: 'cancel',
+                    text: t('delete.cancel'),
+                  },
+                  {
+                    onPress() {
+                      remove(accountId)
+
+                      queryClient.clear()
+
+                      Linking.openURL('https://www.reddit.com/settings/account')
+                    },
+                    style: 'destructive',
+                    text: t('delete.confirm'),
+                  },
+                ])
+              }}
+            />
+          </>
+        ) : null}
       </Menu.Root>
 
       <Updater />

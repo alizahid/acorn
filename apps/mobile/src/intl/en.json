@@ -494,10 +494,10 @@
   "screen": {
     "auth": {
       "signIn": {
-        "terms": "By signing in, you agree to the <link>terms of use</link>.",
         "cancel": "Cancel",
         "description": "Reddit for mobile",
         "signIn": "Sign in with Reddit",
+        "terms": "By signing in, you agree to the <link>terms of use</link>.",
         "title": "Acorn"
       },
       "subscribe": {
@@ -840,6 +840,13 @@
         "appearance": "Appearance",
         "cache": "Cache",
         "defaults": "Defaults",
+        "delete": {
+          "cancel": "Cancel",
+          "confirm": "Delete",
+          "description": "This signs you out and removes your account from Acorn. Acorn doesn't store your account on any server. To permanently delete your Reddit account, use \"Delete account\" on the Reddit page that opens next.",
+          "label": "Delete account",
+          "title": "Delete account?"
+        },
         "faq": "FAQ",
         "filters": "Filters",
         "gestures": "Gestures",
