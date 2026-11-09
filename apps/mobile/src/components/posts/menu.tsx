@@ -24,6 +24,7 @@ import { usePostSave } from '~/hooks/mutations/posts/save'
 import { usePostVote } from '~/hooks/mutations/posts/vote'
 import { useScreenshot } from '~/hooks/screenshot'
 import { useDownloadVideo } from '~/hooks/video'
+import { speech } from '~/lib/speech'
 import { toast } from '~/lib/toast'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
@@ -225,6 +226,20 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                   onTranslateSheet({
                     input: post.body,
                   })
+                }
+              }}
+            />
+          ) : null}
+
+          {post.body?.length ? (
+            <Sheet.Item
+              label={t('speakText')}
+              left={<Icon name="user-sound" />}
+              onPress={async () => {
+                await ref.current?.dismiss()
+
+                if (post.body) {
+                  speech.speak(post.body)
                 }
               }}
             />

@@ -8,11 +8,13 @@ import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
 import { type NavSymbol } from '~/assets/icons/symbols/nav.symbols'
+import { SpeechPlayer } from '~/components/common/speech'
 import { useUnread } from '~/hooks/queries/user/unread'
 import { glass } from '~/lib/common'
 import { Sentry } from '~/lib/sentry'
 import { useAuth } from '~/stores/auth'
 import { usePreferences } from '~/stores/preferences'
+import { useSpeech } from '~/stores/speech'
 
 export default function Layout() {
   const router = useRouter()
@@ -32,6 +34,12 @@ export default function Layout() {
   const { minimizeTabBar } = usePreferences(
     useShallow((state) => ({
       minimizeTabBar: state.minimizeTabBar,
+    })),
+  )
+
+  const { speakingStatus } = useSpeech(
+    useShallow((state) => ({
+      speakingStatus: state.status,
     })),
   )
 
@@ -69,6 +77,12 @@ export default function Layout() {
       shadowColor="transparent"
       tintColor={theme.colors.accent.accent}
     >
+      {speakingStatus === 'idle' ? null : (
+        <NativeTabs.BottomAccessory>
+          <SpeechPlayer />
+        </NativeTabs.BottomAccessory>
+      )}
+
       <NativeTabs.Trigger name="(home)">
         <NativeTabs.Trigger.Icon xcasset={'nano.house' satisfies NavSymbol} />
 

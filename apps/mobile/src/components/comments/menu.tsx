@@ -21,6 +21,7 @@ import { useCommentRemove } from '~/hooks/mutations/comments/remove'
 import { useCommentSave } from '~/hooks/mutations/comments/save'
 import { useCommentVote } from '~/hooks/mutations/comments/vote'
 import { useScreenshot } from '~/hooks/screenshot'
+import { speech } from '~/lib/speech'
 import { toast } from '~/lib/toast'
 import { REDDIT_OLD_URI, REDDIT_URI } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
@@ -257,6 +258,16 @@ export function CommentMenu({
               onTranslateSheet({
                 input: comment.body,
               })
+            }}
+          />
+
+          <Sheet.Item
+            label={t('speakText')}
+            left={<Icon name="user-sound" />}
+            onPress={() => {
+              ref.current?.dismiss()
+
+              speech.speak(comment.body)
             }}
           />
 

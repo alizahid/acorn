@@ -12,6 +12,12 @@ export type Changelog = Array<
 
 export const changelog: Changelog = [
   {
+    added: [
+      'You can *read aloud* the text contents of posts and comments from the menu',
+    ],
+    build: 98,
+  },
+  {
     added: ['FAQ, terms, and privacy links added'],
     build: 97,
     changed: [

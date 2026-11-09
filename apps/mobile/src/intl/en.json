@@ -188,6 +188,12 @@
         "TOP": "Top",
         "title": "Sort"
       },
+      "speech": {
+        "error": "Error",
+        "pause": "Pause",
+        "resume": "Resume",
+        "stop": "Stop"
+      },
       "type": {
         "communities": {
           "title": "Communities & users"
@@ -335,6 +341,7 @@
         "shareLink": "Share link",
         "sharePermalink": "Share permalink",
         "shareScreenshot": "Share screenshot",
+        "speakText": "Read aloud",
         "title": "Post",
         "toast": {
           "linkCopied": "Link copied",

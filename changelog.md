@@ -1,5 +1,9 @@
 # Changelog
 
+## Upcoming
+
+- added: text to speech
+
 ## Build 97
 
 - added: delete account link
