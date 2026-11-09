@@ -58,7 +58,7 @@ export function CommunityAbout({ name }: Props) {
   return (
     <ScrollView
       {...listProps}
-      contentContainerStyle={styles.content}
+      contentContainerStyle={[listProps.contentContainerStyle, styles.content]}
       refreshControl={<RefreshControl onRefresh={refetch} />}
     >
       <Stack.Title asChild>

@@ -91,7 +91,7 @@ export function SearchList({
   return (
     <FlashList
       {...listProps}
-      contentContainerStyle={style}
+      contentContainerStyle={[listProps?.contentContainerStyle, style]}
       data={results}
       getItemType={(item) => (type === 'post' ? (item as Post).type : type)}
       ItemSeparatorComponent={() =>

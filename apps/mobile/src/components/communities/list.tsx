@@ -299,6 +299,7 @@ export function CommunitiesList({
       <FlashList
         {...listProps}
         contentContainerStyle={[
+          listProps.contentContainerStyle,
           styles.content(alphabet),
           contentContainerStyle,
         ]}

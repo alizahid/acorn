@@ -9,10 +9,9 @@ import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { ScreenLayout } from '~/components/navigation/layout'
 import { useHistory } from '~/hooks/history'
-import { glass, iPad, maxWidth } from '~/lib/common'
+import { glass, iPad } from '~/lib/common'
 import { mitter } from '~/lib/mitt'
 import { useAuth } from '~/stores/auth'
-import { usePreferences } from '~/stores/preferences'
 import { useTemp } from '~/stores/temp'
 
 import { type CommunityParams } from './communities/[name]'
@@ -147,16 +146,6 @@ export default function Layout({ segment }: Props) {
 function StackLayout({ children }: PropsWithChildren) {
   const t = useTranslations('screen')
 
-  const { fullWidth } = usePreferences(
-    useShallow((state) => ({
-      fullWidth: state.fullWidth,
-    })),
-  )
-
-  const variants = styles.useVariants({
-    fullWidth,
-  })
-
   const { setComment } = useTemp()
   const { addPost } = useHistory()
 
@@ -166,7 +155,6 @@ function StackLayout({ children }: PropsWithChildren) {
         <ScreenLayout>{screen}</ScreenLayout>
       )}
       screenOptions={{
-        contentStyle: variants.content,
         fullScreenGestureEnabled: true,
         headerBackButtonDisplayMode: 'minimal',
         headerBackButtonMenuEnabled: false,
@@ -255,8 +243,8 @@ function StackLayout({ children }: PropsWithChildren) {
         }}
         name="posts/[id]/reply"
         options={{
-          contentStyle: variants.full,
-          headerStyle: variants.header,
+          contentStyle: styles.full,
+          headerStyle: styles.header,
           headerTransparent: false,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('posts.reply.title'),
@@ -315,7 +303,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="sign-in"
         options={({ route }) => ({
-          contentStyle: variants.full,
+          contentStyle: styles.full,
           gestureEnabled: (route.params as SignInParams).mode === 'dismissible',
           headerShown: false,
           presentation: iPad ? 'formSheet' : 'modal',
@@ -325,7 +313,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="sign-in/reddit"
         options={{
-          contentStyle: variants.full,
+          contentStyle: styles.full,
           headerShown: false,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('auth.signIn.signIn'),
@@ -335,7 +323,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="subscribe"
         options={{
-          contentStyle: variants.full,
+          contentStyle: styles.full,
           headerShown: false,
           presentation: iPad ? 'formSheet' : 'modal',
         }}
@@ -344,7 +332,7 @@ function StackLayout({ children }: PropsWithChildren) {
       <Stack.Screen
         name="new"
         options={{
-          contentStyle: variants.full,
+          contentStyle: styles.full,
           presentation: iPad ? 'formSheet' : 'modal',
           title: t('new.title'),
         }}
@@ -354,17 +342,6 @@ function StackLayout({ children }: PropsWithChildren) {
 }
 
 const styles = StyleSheet.create((theme) => ({
-  content: {
-    variants: {
-      fullWidth: {
-        false: {
-          alignSelf: 'center',
-          maxWidth,
-          width: '100%',
-        },
-      },
-    },
-  },
   full: {
     height: '100%',
     width: '100%',

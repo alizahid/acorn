@@ -77,7 +77,10 @@ export default function Screen() {
       >
         <FlatList
           {...listProps}
-          contentContainerStyle={styles.content}
+          contentContainerStyle={[
+            listProps.contentContainerStyle,
+            styles.content,
+          ]}
           data={filters.fields}
           ItemSeparatorComponent={() => <View style={styles.separator} />}
           keyboardDismissMode="interactive"

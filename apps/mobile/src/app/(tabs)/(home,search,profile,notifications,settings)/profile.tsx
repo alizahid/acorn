@@ -49,7 +49,10 @@ export default function Screen() {
     <>
       <ScrollView
         {...listProps}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          listProps.contentContainerStyle,
+          styles.content,
+        ]}
         refreshControl={<RefreshControl onRefresh={refetch} />}
       >
         <Menu.Root style={styles.main}>

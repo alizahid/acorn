@@ -45,7 +45,10 @@ export default function Screen() {
     <>
       <ScrollViewContainer
         {...listProps}
-        contentContainerStyle={styles.content}
+        contentContainerStyle={[
+          listProps.contentContainerStyle,
+          styles.content,
+        ]}
       >
         <PaywallCard style={styles.paywall} />
 
