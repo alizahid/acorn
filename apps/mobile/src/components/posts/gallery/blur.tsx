@@ -1,3 +1,4 @@
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 
 import { Icon } from '~/components/common/icon'
@@ -7,14 +8,15 @@ import { BlurView } from '~/components/native/blur-view'
 type Props = {
   compact?: boolean
   label?: string
+  style?: StyleProp<ViewStyle>
 }
 
-export function GalleryBlur({ compact, label }: Props) {
+export function GalleryBlur({ compact, label, style }: Props) {
   return (
     <BlurView
       intensity={100}
       pointerEvents="none"
-      style={styles.main}
+      style={[styles.main, style]}
       tint="systemThickMaterial"
     >
       <Icon

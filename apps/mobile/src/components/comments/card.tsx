@@ -354,7 +354,6 @@ const styles = StyleSheet.create((theme) => ({
     flexDirection: 'row',
     gap: theme.space[2],
     marginBottom: theme.space[3],
-    marginHorizontal: theme.space[3],
     padding: theme.space[2],
   },
   saved: {

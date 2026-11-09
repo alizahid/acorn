@@ -126,7 +126,10 @@ export function ImageGrid({
         </Gallery.Image>
 
         {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
-          <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+          <GalleryBlur
+            label={t(spoiler ? 'spoiler' : 'nsfw')}
+            style={styles.blur}
+          />
         ) : null}
 
         {image.type === 'gif' ? (
@@ -183,7 +186,10 @@ export function ImageGrid({
               </Gallery.Image>
 
               {(nsfw && blurNsfw) || (spoiler && blurSpoiler) ? (
-                <GalleryBlur label={t(spoiler ? 'spoiler' : 'nsfw')} />
+                <GalleryBlur
+                  label={t(spoiler ? 'spoiler' : 'nsfw')}
+                  style={styles.blur}
+                />
               ) : null}
 
               {item.type === 'gif' ? (
@@ -213,6 +219,10 @@ export function ImageGrid({
 }
 
 const styles = StyleSheet.create((theme) => ({
+  blur: {
+    borderCurve: 'continuous',
+    borderRadius: theme.radius[4],
+  },
   carousel: (height: number) => ({
     flexGrow: 1,
     gap: theme.space[3],
