@@ -88,7 +88,7 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
     },
     ios: {
       appleTeamId: process.env.APPLE_TEAM_ID,
-      buildNumber: '96',
+      buildNumber: '97',
       bundleIdentifier: 'blue.acorn',
       config: {
         usesNonExemptEncryption: false,

@@ -1,8 +1,10 @@
 # Changelog
 
-## Upcoming
+## Build 97
 
+- added: delete account link
 - added: legal links
+- added: user blocking
 - changed: deep nested comments navigate to a new screen
 
 ## Build 96
