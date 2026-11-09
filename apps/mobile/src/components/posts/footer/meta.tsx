@@ -84,7 +84,7 @@ export function PostMeta({ post, privacy }: Props) {
 
       {post.locked || post.archived ? (
         <Icon
-          name="lock"
+          name="lock-simple"
           uniProps={(theme) => ({
             color: theme.colors.red.accent,
             size: theme.typography[1].lineHeight,

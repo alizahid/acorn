@@ -1,4 +1,6 @@
 import { useRouter } from 'expo-router'
+// biome-ignore lint/performance/noNamespaceImport: go away
+import * as WebBrowser from 'expo-web-browser'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -119,6 +121,37 @@ export default function Screen() {
             router.navigate({
               pathname: '/settings/cache',
             })
+          }}
+        />
+
+        <Menu.Button
+          icon={<Icon name="question" />}
+          label={t('faq')}
+          onPress={async () => {
+            await WebBrowser.warmUpAsync()
+
+            await WebBrowser.openBrowserAsync('https://acorn.blue/faq')
+          }}
+          style={styles.separator}
+        />
+
+        <Menu.Button
+          icon={<Icon name="file-text" />}
+          label={t('terms')}
+          onPress={async () => {
+            await WebBrowser.warmUpAsync()
+
+            await WebBrowser.openBrowserAsync('https://acorn.blue/terms')
+          }}
+        />
+
+        <Menu.Button
+          icon={<Icon name="keyhole" />}
+          label={t('privacy')}
+          onPress={async () => {
+            await WebBrowser.warmUpAsync()
+
+            await WebBrowser.openBrowserAsync('https://acorn.blue/privacy')
           }}
         />
       </Menu.Root>

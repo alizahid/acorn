@@ -63,7 +63,7 @@ export function CommentMeta({
 
       {comment.locked || comment.archived ? (
         <Icon
-          name="lock"
+          name="lock-simple"
           style={styles.sticky}
           uniProps={(theme) => ({
             color: theme.colors.red.accent,

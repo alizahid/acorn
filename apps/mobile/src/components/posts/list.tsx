@@ -146,7 +146,7 @@ export function PostList({
           <Loading />
         ) : (
           <Empty
-            icon={hidden ? 'lock' : undefined}
+            icon={hidden ? 'lock-simple' : undefined}
             message={hidden ? t('hidden') : undefined}
           />
         )
