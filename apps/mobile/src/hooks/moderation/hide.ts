@@ -38,6 +38,14 @@ export function useHide() {
         })
       }
 
+      if (variables.type === 'user') {
+        const reddit = await createApi()
+
+        await reddit.users[variables.action === 'hide' ? 'block' : 'unblock']({
+          id: variables.id,
+        })
+      }
+
       await db.insert(db.schema.filters).values({
         id: createId(),
         type: variables.type,

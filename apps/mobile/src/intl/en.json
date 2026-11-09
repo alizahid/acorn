@@ -293,7 +293,7 @@
         "hideComment": "Hide comment",
         "hideCommunity": "Hide r/{community}",
         "hidePost": "Hide post",
-        "hideUser": "Hide u/{user}",
+        "hideUser": "Block u/{user}",
         "openApp": "Open in app",
         "openBrowser": "Open in browser",
         "openCommunity": "Go to r/{community}",
