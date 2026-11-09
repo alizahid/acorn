@@ -18,6 +18,9 @@ const components = {
   p: ({ children }: ComponentProps<'p'>) => (
     <p className="leading-relaxed">{children}</p>
   ),
+  ul: ({ children }: ComponentProps<'ul'>) => (
+    <ul className="ml-8 flex list-disc flex-col gap-2">{children}</ul>
+  ),
 }
 
 export function useMDXComponents() {
