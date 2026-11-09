@@ -4,6 +4,8 @@ import {
   type ProductOrSubscription,
   type ProductSubscription,
 } from 'expo-iap'
+// biome-ignore lint/performance/noNamespaceImport: go away
+import * as WebBrowser from 'expo-web-browser'
 import { orderBy } from 'lodash'
 import { useState } from 'react'
 import { View } from 'react-native'
@@ -270,6 +272,34 @@ export default function Screen() {
               style={styles.button}
             />
           </View>
+
+          <View style={styles.links}>
+            <Pressable
+              onPress={async () => {
+                await WebBrowser.warmUpAsync()
+
+                await WebBrowser.openBrowserAsync('https://acorn.blue/terms')
+              }}
+              style={styles.link}
+            >
+              <Icon name="file-text" />
+
+              <Text>{t('link.terms')}</Text>
+            </Pressable>
+
+            <Pressable
+              onPress={async () => {
+                await WebBrowser.warmUpAsync()
+
+                await WebBrowser.openBrowserAsync('https://acorn.blue/privacy')
+              }}
+              style={styles.link}
+            >
+              <Icon name="keyhole" />
+
+              <Text>{t('link.privacy')}</Text>
+            </Pressable>
+          </View>
         </View>
       )}
     </>
@@ -313,6 +343,16 @@ const styles = StyleSheet.create((theme, runtime) => ({
   },
   label: {
     flex: 1,
+  },
+  link: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    gap: theme.space[2],
+  },
+  links: {
+    flexDirection: 'row',
+    gap: theme.space[4],
+    justifyContent: 'center',
   },
   plan: (selected: boolean) => ({
     alignItems: 'center',

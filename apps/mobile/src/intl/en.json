@@ -494,6 +494,7 @@
   "screen": {
     "auth": {
       "signIn": {
+        "terms": "By signing in, you agree to the <link>terms of use</link>.",
         "cancel": "Cancel",
         "description": "Reddit for mobile",
         "signIn": "Sign in with Reddit",
@@ -516,6 +517,10 @@
           "restore": "Restore",
           "subscribe": "Subscribe",
           "trial": "Start free trial"
+        },
+        "link": {
+          "privacy": "Privacy policy",
+          "terms": "Terms of use"
         },
         "subscribed": {
           "createdAt": "Subscribed on",

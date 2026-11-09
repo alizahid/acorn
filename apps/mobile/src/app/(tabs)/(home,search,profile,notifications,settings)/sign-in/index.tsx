@@ -1,4 +1,6 @@
 import { useRouter } from 'expo-router'
+// biome-ignore lint/performance/noNamespaceImport: go away
+import * as WebBrowser from 'expo-web-browser'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -6,6 +8,7 @@ import { z } from 'zod'
 
 import { Button } from '~/components/common/button'
 import { Logo } from '~/components/common/logo'
+import { Pressable } from '~/components/common/pressable'
 import { Text } from '~/components/common/text'
 
 const schema = z.object({
@@ -33,12 +36,32 @@ export default function Screen() {
         </Text>
       </View>
 
-      <Button
-        label={t('signIn')}
-        onPress={() => {
-          router.navigate('/sign-in/reddit')
-        }}
-      />
+      <View style={styles.footer}>
+        <Button
+          label={t('signIn')}
+          onPress={() => {
+            router.navigate('/sign-in/reddit')
+          }}
+        />
+
+        <Pressable
+          onPress={async () => {
+            await WebBrowser.warmUpAsync()
+
+            await WebBrowser.openBrowserAsync('https://acorn.blue/terms')
+          }}
+        >
+          <Text align="center" size="2">
+            {t.rich('terms', {
+              link: (text) => (
+                <Text color="accent" size="2">
+                  {text}
+                </Text>
+              ),
+            })}
+          </Text>
+        </Pressable>
+      </View>
     </View>
   )
 }
@@ -46,6 +69,11 @@ export default function Screen() {
 const styles = StyleSheet.create((theme) => ({
   content: {
     alignItems: 'center',
+  },
+  footer: {
+    alignItems: 'center',
+    gap: theme.space[4],
+    padding: theme.space[4],
   },
   main: {
     alignItems: 'center',
