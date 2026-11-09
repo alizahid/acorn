@@ -1,8 +1,6 @@
 import { type enums } from '@acorn/reddit'
-import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
 
-import { db } from '~/db'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { isPost } from '~/lib/guards'
@@ -72,7 +70,7 @@ export function useReport() {
         })
       }
     },
-    async onMutate(variables) {
+    onMutate(variables) {
       if (variables.type === 'comment') {
         updatePost(variables.postId, (draft) => {
           const index = draft.comments.findIndex(
@@ -93,12 +91,6 @@ export function useReport() {
           },
           true,
         )
-
-        await db.insert(db.schema.filters).values({
-          id: createId(),
-          type: variables.type,
-          value: variables.id,
-        })
       }
     },
   })

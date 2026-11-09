@@ -1,14 +1,16 @@
+import { type Comment, type Post } from '@acorn/reddit'
 import { createId } from '@paralleldrive/cuid2'
 import { useMutation } from '@tanstack/react-query'
-import { and, eq } from 'drizzle-orm'
+import { create, type Draft } from 'mutative'
 
 import { db } from '~/db'
-import { updatePosts } from '~/hooks/queries/posts/posts'
+import { type PostsQueryData, updatePosts } from '~/hooks/queries/posts/posts'
 import { isPost } from '~/lib/guards'
+import { queryClient } from '~/lib/query'
 import { addPrefix } from '~/lib/reddit'
 import { createApi } from '~/reddit/api'
 
-import { updatePost } from '../queries/posts/post'
+import { type PostQueryData, updatePost } from '../queries/posts/post'
 
 type Variables = {
   action: 'hide' | 'unhide'
@@ -46,7 +48,7 @@ export function useHide() {
         })
       }
 
-      if (variables.action === 'unhide') {
+      if (variables.action === 'unhide' || variables.type === 'post') {
         return
       }
 
@@ -56,22 +58,8 @@ export function useHide() {
         value: 'name' in variables ? variables.name : variables.id,
       })
     },
-    async onMutate(variables) {
+    onMutate(variables) {
       if (variables.action === 'unhide') {
-        if (variables.type !== 'comment') {
-          await db
-            .delete(db.schema.filters)
-            .where(
-              and(
-                eq(
-                  db.schema.filters.value,
-                  'name' in variables ? variables.name : variables.id,
-                ),
-                eq(db.schema.filters.type, variables.type),
-              ),
-            )
-        }
-
         return
       }
 
@@ -93,25 +81,60 @@ export function useHide() {
 
       if (variables.type === 'comment') {
         updatePost(variables.postId, (draft) => {
-          const start = draft.comments.findIndex(
-            (comment) => comment.data.id === variables.id,
-          )
-
-          const depth = draft.comments[start]?.data.depth
-
-          if (depth === undefined) {
-            return
-          }
-
-          const end = draft.comments.findIndex(
-            (comment, index) => index > start && comment.data.depth <= depth,
-          )
-
-          draft.comments.splice(
-            start,
-            (end < 0 ? draft.comments.length : end) - start,
-          )
+          removeComment(draft, variables.id)
         })
+      }
+
+      if (variables.type === 'community' || variables.type === 'user') {
+        const { name, type } = variables
+
+        const feedQueries = queryClient.getQueryCache().findAll({
+          queryKey: ['posts'],
+        })
+
+        for (const query of feedQueries) {
+          queryClient.setQueryData<PostsQueryData>(
+            query.queryKey,
+            (previous) => {
+              if (!previous) {
+                return previous
+              }
+
+              return create(previous, (draft) => {
+                for (const page of draft.pages) {
+                  page.posts = page.posts.filter(
+                    (item) => !matches(item, type, name),
+                  )
+                }
+              })
+            },
+          )
+        }
+
+        const userQueries = queryClient.getQueryCache().findAll({
+          queryKey: ['post'],
+        })
+
+        if (type === 'user') {
+          for (const query of userQueries) {
+            queryClient.setQueryData<PostQueryData>(
+              query.queryKey,
+              (previous) => {
+                if (!previous) {
+                  return previous
+                }
+
+                return create(previous, (draft) => {
+                  for (const comment of draft.comments.filter((item) =>
+                    matches(item, type, name),
+                  )) {
+                    removeComment(draft, comment.data.id)
+                  }
+                })
+              },
+            )
+          }
+        }
       }
     },
   })
@@ -120,4 +143,32 @@ export function useHide() {
     hide: mutate,
     isPending,
   }
+}
+
+function matches(
+  item: Post | Comment,
+  type: 'community' | 'user',
+  name: string,
+) {
+  return isPost(item)
+    ? (type === 'user' ? item.user.name : item.community.name) === name
+    : item.type === 'reply' &&
+        (type === 'user' ? item.data.user.name : item.data.post.community) ===
+          name
+}
+
+function removeComment(draft: Draft<PostQueryData>, id: string) {
+  const start = draft.comments.findIndex((comment) => comment.data.id === id)
+
+  const depth = draft.comments[start]?.data.depth
+
+  if (depth === undefined) {
+    return
+  }
+
+  const end = draft.comments.findIndex(
+    (comment, index) => index > start && comment.data.depth <= depth,
+  )
+
+  draft.comments.splice(start, (end < 0 ? draft.comments.length : end) - start)
 }
