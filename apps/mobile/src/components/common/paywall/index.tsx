@@ -21,9 +21,12 @@ export function Paywall({ render, sheet }: Props) {
     disabled: !subscribed,
   })
 
+  if (subscribed) {
+    return render(false)
+  }
+
   return (
     <Pressable
-      disabled={subscribed}
       onPress={async () => {
         await sheet?.current?.dismiss()
 
@@ -32,7 +35,7 @@ export function Paywall({ render, sheet }: Props) {
       style={variants.main}
       variant="plain"
     >
-      {render(!subscribed)}
+      {render(true)}
     </Pressable>
   )
 }
