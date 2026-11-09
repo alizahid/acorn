@@ -533,8 +533,6 @@ export function CommentMenu({
           />
         </ScrollView>
 
-        <Sheet.BottomInset />
-
         <Sheet.Root ref={reportRef}>
           <Sheet.Header style={styles.title} title={t('report.title')} />
 
@@ -562,8 +560,6 @@ export function CommentMenu({
               />
             ))}
           </ScrollView>
-
-          <Sheet.BottomInset />
         </Sheet.Root>
       </Sheet.Root>
     </>

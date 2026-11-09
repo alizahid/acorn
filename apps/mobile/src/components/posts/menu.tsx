@@ -643,8 +643,6 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
           />
         </ScrollView>
 
-        <Sheet.BottomInset />
-
         <Sheet.Root ref={reportRef}>
           <Sheet.Header style={styles.title} title={t('report.title')} />
 
@@ -677,8 +675,6 @@ export function PostMenu({ ref, card, children, post, onCapturing }: Props) {
                 />
               ))}
           </ScrollView>
-
-          <Sheet.BottomInset />
         </Sheet.Root>
       </Sheet.Root>
     </>

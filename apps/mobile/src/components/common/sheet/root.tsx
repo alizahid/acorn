@@ -1,6 +1,5 @@
 import { type SheetDetent, TrueSheet } from '@lodev09/react-native-true-sheet'
 import { type ReactNode, type Ref } from 'react'
-import { GestureHandlerRootView } from 'react-native-gesture-handler'
 import { StyleSheet, useUnistyles } from 'react-native-unistyles'
 
 import { glass, maxWidth } from '~/lib/common'
@@ -42,19 +41,15 @@ export function Root({
       ref={ref}
       style={styles.main}
     >
-      <GestureHandlerRootView style={styles.content}>
-        {children}
-      </GestureHandlerRootView>
+      {children}
     </TrueSheet>
   )
 }
 
 const styles = StyleSheet.create({
-  content: {
-    flexGrow: 1,
-    paddingHorizontal: glass ? StyleSheet.hairlineWidth : undefined,
-  },
   main: {
     flex: 1,
+    flexShrink: 1,
+    paddingHorizontal: glass ? StyleSheet.hairlineWidth : undefined,
   },
 })
