@@ -35,7 +35,7 @@ export function CommentDeletedCard({ comment, onPress }: Props) {
       onPress={onPress}
       style={variants.main(comment.depth)}
     >
-      <Text highContrast={false} italic size="2">
+      <Text highContrast={false} size="1">
         {label}
       </Text>
     </Pressable>

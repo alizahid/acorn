@@ -1,4 +1,5 @@
 import { type CommentMore, type Post } from '@acorn/reddit'
+import { useRouter } from 'expo-router'
 import { type StyleProp, type ViewStyle } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
@@ -15,19 +16,14 @@ import { Text } from '../common/text'
 
 type Props = {
   comment: CommentMore
-  onThread: (id: string) => void
   post?: Post
   sort: CommentSort
   style?: StyleProp<ViewStyle>
 }
 
-export function CommentMoreCard({
-  comment,
-  onThread,
-  post,
-  sort,
-  style,
-}: Props) {
+export function CommentMoreCard({ comment, post, sort, style }: Props) {
+  const router = useRouter()
+
   const t = useTranslations('component.comments.more')
 
   const { colorfulComments } = usePreferences(
@@ -58,7 +54,13 @@ export function CommentMoreCard({
         }
 
         if (comment.thread) {
-          onThread(comment.parentId)
+          router.push({
+            params: {
+              commentId: comment.parentId,
+              id: post.id,
+            },
+            pathname: '/posts/[id]',
+          })
         } else {
           loadMore({
             comment,

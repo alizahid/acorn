@@ -199,24 +199,7 @@ export default function Screen() {
   const renderItem: ListRenderItem<Comment> = useCallback(
     ({ item }) => {
       if (item.type === 'more') {
-        return (
-          <CommentMoreCard
-            comment={item.data}
-            onThread={(id) => {
-              list.current?.scrollToIndex({
-                animated: true,
-                index: 1,
-                viewOffset: -offset,
-              })
-
-              router.setParams({
-                commentId: id,
-              })
-            }}
-            post={post}
-            sort={sort}
-          />
-        )
+        return <CommentMoreCard comment={item.data} post={post} sort={sort} />
       }
 
       if (item.type === 'deleted') {
@@ -278,7 +261,7 @@ export default function Screen() {
         />
       )
     },
-    [collapse, collapseThread, collapsibleComments, post, router, sort, offset],
+    [collapse, collapseThread, collapsibleComments, post, sort, offset],
   )
 
   const listProps = useListProps(true)
