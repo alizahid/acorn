@@ -4,7 +4,6 @@ import { useMutation } from '@tanstack/react-query'
 import { updatePost } from '~/hooks/queries/posts/post'
 import { updatePosts } from '~/hooks/queries/posts/posts'
 import { isPost } from '~/lib/guards'
-import { addPrefix } from '~/lib/reddit'
 import { createApi } from '~/reddit/api'
 
 export type ReportReason =
@@ -60,12 +59,12 @@ export function useReport() {
 
       if (variables.type === 'comment') {
         await reddit.comments.report({
-          id: addPrefix(variables.id, 'comment'),
+          id: variables.id,
           siteRule: rules[variables.reason],
         })
       } else {
         await reddit.posts.report({
-          id: addPrefix(variables.id, 'link'),
+          id: variables.id,
           siteRule: rules[variables.reason],
         })
       }
