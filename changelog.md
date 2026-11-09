@@ -1,5 +1,10 @@
 # Changelog
 
+## Upcoming
+
+- added: legal links
+- changed: deep nested comments navigate to a new screen
+
 ## Build 96
 
 - added: double tap profile tab to switch account

@@ -12,6 +12,13 @@ export type Changelog = Array<
 
 export const changelog: Changelog = [
   {
+    added: ['FAQ, terms, and privacy links added'],
+    build: 97,
+    changed: [
+      'Loading deeply nested replies on a post now navigates you to a new screen so you can swipe back out of a thread',
+    ],
+  },
+  {
     added: [
       '*NSFW search* option added',
       'Drawer will show your communities and users again',
