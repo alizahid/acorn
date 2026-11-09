@@ -5,7 +5,7 @@ import Animated, { FadeIn, FadeOut } from 'react-native-reanimated'
 import { StyleSheet } from 'react-native-unistyles'
 import { useFormatter, useTranslations } from 'use-intl'
 
-import { acornBuild } from '~/lib/common'
+import { acornBuild, maxWidth } from '~/lib/common'
 
 import { Icon } from '../common/icon'
 import { IconButton } from '../common/icon/button'
@@ -92,22 +92,20 @@ export function Changelog({ show = false }: Props) {
       <BlurView intensity={100} style={styles.main}>
         {content}
 
-        {show ? null : (
-          <IconButton
-            accessibilityLabel={t('close')}
-            onPress={() => {
-              setLastSeen(acornBuild)
-            }}
-            style={styles.close}
-          >
-            <Icon
-              name="x-bold"
-              uniProps={(theme) => ({
-                color: theme.colors.gray.text,
-              })}
-            />
-          </IconButton>
-        )}
+        <IconButton
+          accessibilityLabel={t('close')}
+          onPress={() => {
+            setLastSeen(acornBuild)
+          }}
+          style={styles.close}
+        >
+          <Icon
+            name="x-bold"
+            uniProps={(theme) => ({
+              color: theme.colors.gray.text,
+            })}
+          />
+        </IconButton>
       </BlurView>
     </Animated.View>
   )
@@ -130,12 +128,15 @@ const styles = StyleSheet.create((theme, runtime) => ({
     borderCurve: 'continuous',
     borderRadius: theme.radius[6],
     flexShrink: 1,
+    marginHorizontal: 'auto',
     maxHeight:
       runtime.screen.height -
       theme.space[4] +
       runtime.insets.top -
       theme.space[4] +
       runtime.insets.bottom,
+    maxWidth,
+    width: '100%',
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
