@@ -4,10 +4,10 @@ import {
   isUserCancelledError,
   requestPurchase,
 } from 'expo-iap'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
 import { verifyPurchase } from '~/lib/purchases'
+import { toast } from '~/lib/toast'
 
 type Variables = {
   planId: string

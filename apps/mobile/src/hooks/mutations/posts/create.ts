@@ -4,12 +4,12 @@ import { useMutation } from '@tanstack/react-query'
 import { compact } from 'lodash'
 import { useMemo } from 'react'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { prepareMarkdown } from '~/lib/markdown'
 import { removePrefix } from '~/lib/reddit'
+import { toast } from '~/lib/toast'
 import { createApi } from '~/reddit/api'
 import { type SubmissionType } from '~/types/submission'
 

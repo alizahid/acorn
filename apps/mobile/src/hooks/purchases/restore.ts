@@ -5,9 +5,9 @@ import {
   isUserCancelledError,
   restorePurchases,
 } from 'expo-iap'
-import { toast } from 'sonner-native'
 
 import { verifyPurchase } from '~/lib/purchases'
+import { toast } from '~/lib/toast'
 
 export function useRestore() {
   const { isPending, mutateAsync } = useMutation({

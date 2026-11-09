@@ -56,7 +56,7 @@ export function Text({
   return (
     <Component
       {...stripProps(props)}
-      allowFontScaling={systemScaling}
+      allowFontScaling={props.allowFontScaling ?? systemScaling}
       style={[variants.main(props, systemScaling ? 1 : fontScaling), style]}
     >
       {children}

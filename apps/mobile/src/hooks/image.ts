@@ -9,12 +9,12 @@ import { useMemo, useRef } from 'react'
 import { Share } from 'react-native'
 import { type GalleryAction } from 'react-native-jet-gallery'
 import { useUnistyles } from 'react-native-unistyles'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
 import placeholderDark from '~/assets/images/placeholder-dark.png'
 import placeholderLight from '~/assets/images/placeholder-light.png'
+import { toast } from '~/lib/toast'
 import { usePreferences } from '~/stores/preferences'
 
 export function useImagePlaceholder() {

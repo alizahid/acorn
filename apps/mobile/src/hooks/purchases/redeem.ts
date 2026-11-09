@@ -4,9 +4,9 @@ import {
   isUserCancelledError,
   openRedeemOfferCode,
 } from 'expo-iap'
-import { toast } from 'sonner-native'
 
 import { verifyPurchase } from '~/lib/purchases'
+import { toast } from '~/lib/toast'
 
 export function useRedeem() {
   const { isPending, mutateAsync } = useMutation({

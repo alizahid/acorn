@@ -2,11 +2,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import { inArray } from 'drizzle-orm'
 import { useForm } from 'react-hook-form'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { z } from 'zod'
 
 import { db } from '~/db'
+import { toast } from '~/lib/toast'
 
 const schema = z.object({
   filters: z.array(

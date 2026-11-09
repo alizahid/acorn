@@ -1,6 +1,5 @@
 import { type Comment } from '@acorn/reddit'
 import { useMutation } from '@tanstack/react-query'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
 import { updatePost } from '~/hooks/queries/posts/post'
@@ -9,6 +8,7 @@ import { updateSearch } from '~/hooks/queries/search/search'
 import { isPost } from '~/lib/guards'
 import { prepareMarkdown } from '~/lib/markdown'
 import { addPrefix } from '~/lib/reddit'
+import { toast } from '~/lib/toast'
 import { createApi } from '~/reddit/api'
 
 type Variables = {

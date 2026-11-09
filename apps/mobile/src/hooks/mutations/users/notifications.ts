@@ -1,11 +1,11 @@
 import { type Notification } from '@acorn/reddit'
 import { useMutation } from '@tanstack/react-query'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
 import { updateNotification } from '~/hooks/queries/user/notifications'
 import { type UnreadQueryKey } from '~/hooks/queries/user/unread'
+import { toast } from '~/lib/toast'
 import { createApi } from '~/reddit/api'
 import { useAuth } from '~/stores/auth'
 

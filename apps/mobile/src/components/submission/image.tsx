@@ -6,9 +6,9 @@ import { Controller, useFieldArray } from 'react-hook-form'
 import { View } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import { StyleSheet } from 'react-native-unistyles'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
+import { toast } from '~/lib/toast'
 import { uploadFile } from '~/reddit/media'
 
 import { Focusable } from '../common/focusable'

@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
 import { Icon } from '~/components/common/icon'
 import { type CommunitiesQueryKey } from '~/hooks/queries/communities/communities'
 import { updateProfile } from '~/hooks/queries/user/profile'
 import { addPrefix } from '~/lib/reddit'
+import { toast } from '~/lib/toast'
 import { createApi } from '~/reddit/api'
 
 type Variables = {

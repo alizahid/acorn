@@ -2,10 +2,10 @@ import { exchangeSessionCookie } from '@acorn/reddit'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'expo-router'
 import cookies, { type Cookies } from 'react-native-nitro-cookies'
-import { toast } from 'sonner-native'
 import { z } from 'zod'
 import { useShallow } from 'zustand/react/shallow'
 
+import { toast } from '~/lib/toast'
 import { createApi } from '~/reddit/api'
 import { type Account, useAuth } from '~/stores/auth'
 

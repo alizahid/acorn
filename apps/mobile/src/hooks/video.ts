@@ -6,11 +6,11 @@ import { File, Paths } from 'expo-file-system'
 import { Asset, requestPermissionsAsync } from 'expo-media-library'
 import { FFmpegKit, ReturnCode } from 'ffmpeg-kit-react-native'
 import { useRef } from 'react'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
 import { getGif } from '~/lib/red-gifs'
+import { toast } from '~/lib/toast'
 import { usePreferences } from '~/stores/preferences'
 
 import { getAlbum } from './image'

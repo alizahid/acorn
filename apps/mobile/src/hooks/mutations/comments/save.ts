@@ -1,5 +1,4 @@
 import { useMutation } from '@tanstack/react-query'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
@@ -8,6 +7,7 @@ import { updatePosts } from '~/hooks/queries/posts/posts'
 import { triggerFeedback } from '~/lib/feedback'
 import { isComment } from '~/lib/guards'
 import { addPrefix } from '~/lib/reddit'
+import { toast } from '~/lib/toast'
 import { createApi } from '~/reddit/api'
 import { usePreferences } from '~/stores/preferences'
 

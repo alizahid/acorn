@@ -6,9 +6,9 @@ import { useState } from 'react'
 import { Controller } from 'react-hook-form'
 import { View } from 'react-native'
 import { StyleSheet } from 'react-native-unistyles'
-import { toast } from 'sonner-native'
 import { useTranslations } from 'use-intl'
 
+import { toast } from '~/lib/toast'
 import { generateVideoThumbnail, uploadFile } from '~/reddit/media'
 
 import { Focusable } from '../common/focusable'
