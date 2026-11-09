@@ -46,7 +46,6 @@ export default function getConfig(context: ConfigContext): ExpoConfig {
         './assets/fonts/inter-italic.ttf',
         './assets/fonts/inter-upright.ttf',
         './assets/fonts/mono.ttf',
-        './assets/fonts/redacted.ttf',
       ],
     }),
     mediaLibrary({
