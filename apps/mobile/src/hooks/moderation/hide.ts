@@ -46,6 +46,10 @@ export function useHide() {
         })
       }
 
+      if (variables.action === 'unhide') {
+        return
+      }
+
       await db.insert(db.schema.filters).values({
         id: createId(),
         type: variables.type,
@@ -60,7 +64,7 @@ export function useHide() {
             .where(
               and(
                 eq(
-                  db.schema.filters.id,
+                  db.schema.filters.value,
                   'name' in variables ? variables.name : variables.id,
                 ),
                 eq(db.schema.filters.type, variables.type),
