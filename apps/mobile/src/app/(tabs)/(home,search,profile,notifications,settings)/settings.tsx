@@ -55,8 +55,9 @@ export default function Screen() {
               pathname: '/settings/preferences',
             })
           }}
-          style={styles.separator}
         />
+
+        <Menu.Separator />
 
         <Menu.Button
           arrow
@@ -124,6 +125,8 @@ export default function Screen() {
           }}
         />
 
+        <Menu.Separator />
+
         <Menu.Button
           arrow="link"
           icon={<Icon name="question" />}
@@ -133,7 +136,6 @@ export default function Screen() {
 
             await WebBrowser.openBrowserAsync('https://acorn.blue/faq')
           }}
-          style={styles.separator}
         />
 
         <Menu.Button
@@ -173,8 +175,5 @@ const styles = StyleSheet.create((theme) => ({
   logo: {
     height: theme.space[5],
     width: theme.space[5],
-  },
-  separator: {
-    marginTop: theme.space[4],
   },
 }))
