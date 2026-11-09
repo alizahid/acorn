@@ -4,6 +4,7 @@ import { StyleSheet } from 'react-native-unistyles'
 import { useTranslations } from 'use-intl'
 import { useShallow } from 'zustand/react/shallow'
 
+import arrowLeft from '~/assets/images/arrow-left-bold.png'
 import { Icon } from '~/components/common/icon'
 import { IconButton } from '~/components/common/icon/button'
 import { ScreenLayout } from '~/components/navigation/layout'
@@ -169,6 +170,10 @@ function StackLayout({ children }: PropsWithChildren) {
         fullScreenGestureEnabled: true,
         headerBackButtonDisplayMode: 'minimal',
         headerBackButtonMenuEnabled: false,
+        headerBackIcon: {
+          source: arrowLeft,
+          type: 'image',
+        },
         headerBlurEffect: glass ? undefined : 'systemChromeMaterial',
         headerShadowVisible: false,
         headerTransparent: true,
