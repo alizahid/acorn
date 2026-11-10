@@ -85,6 +85,9 @@ export function Viewer({ children, meta, type = 'post' }: Props) {
             borderRadius: theme.radius[4],
             padding: theme.space[3],
           },
+          bulletListMarker: {
+            width: 14,
+          },
           caption: {
             ...theme.typography[addTextSize(size, -2)],
             color: theme.colors.gray.textLow,
@@ -127,12 +130,13 @@ export function Viewer({ children, meta, type = 'post' }: Props) {
           link: {
             color: theme.colors.accent.accent,
           },
-          list: {
-            marginLeft: theme.space[1],
-          },
           listMarker: {
             color: theme.colors.gray.textLow,
-            width: theme.space[4],
+            marginHorizontal: theme.space[2],
+          },
+          orderedListMarker: {
+            fontVariant: ['tabular-nums'],
+            textAlign: 'right',
           },
           spoiler: {
             backgroundColor: theme.colors.accent.accent,
